@@ -13,13 +13,12 @@ spec:
   readiness:
     path: /internal/isAlive
   prometheus:
-    enabled: false
+    enabled: true
+    path: /internal/metrics
   replicas:
     min: 1
     max: 4
   ingresses:
-    - "https://sosialhjelp-innsyn-q.nav.no"
-    - "sosialhjelp-innsyn.nais.oera-q.local"
     - "https://sosialhjelp-innsyn.dev-sbs.nais.io/"
   resources:
     limits:
