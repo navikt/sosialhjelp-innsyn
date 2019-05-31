@@ -52,8 +52,6 @@ workflows:
     jobs:
       - bygg
       - deploy_dev:
-          requires:
-            - release
           filters:
             branches:
               only: master
