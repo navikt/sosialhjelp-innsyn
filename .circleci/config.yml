@@ -26,12 +26,12 @@ jobs:
       - run:
           name: Bygger Docker image
           command:
-            docker build -t "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1" .
+            docker build -t "navikt/sosialhjelp-innsyn:latest" .
       - run:
           name: Pusher Docker image
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
+            docker push "navikt/sosialhjelp-innsyn:latest"
 
 workflows:
   version: 2.1
