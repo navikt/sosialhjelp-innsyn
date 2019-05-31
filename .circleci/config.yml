@@ -26,12 +26,12 @@ jobs:
       - run:
           name: Bygger Docker image
           command:
-            docker build -t "navikt/sosialhjelp-innsyn:latest" .
+            docker build -t "navikt/sosialhjelp-innsyn:${CIRCLE_SHA1}" .
       - run:
           name: Pusher Docker image
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push "navikt/sosialhjelp-innsyn:latest"
+            docker push "navikt/sosialhjelp-innsyn:${CIRCLE_SHA1}"
 
   deploy_dev:
     docker:
@@ -42,7 +42,7 @@ jobs:
       - run: # Brukernavn og passord til Github ligger i miljøvariablene DEPLOYMENT_USERNAME og DEPLOYMENT_PASSWORD. TODO: legge til støtte for deploy til prod
           name: Deploy til default dev-sbs
           command: |
-            deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn-api --team=digisos -r=deploy/nais.yaml --version=${CIRCLE_SHA1} --vars=nais/dev/default.json
+            deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --version=${CIRCLE_SHA1}
 
 
 
