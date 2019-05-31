@@ -10,5 +10,4 @@ ENV FOOTER_TYPE=WITHOUT_ALPHABET
 COPY --from=node-builder /source/build /app
 
 
-EXPOSE 8080
 ENV CONTEXT_PATH=/
