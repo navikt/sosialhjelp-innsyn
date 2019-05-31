@@ -1,37 +1,40 @@
-bygg:
-  docker:
-    - image: circleci/node:10
-  steps:
-    - checkout
-    - restore_cache:
-        keys:
-          # when lock file changes, use increasingly general patterns to restore cache
-          - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          - node-v1-{{ .Branch }}-
-          - node-v1-
-    - run:
-        name: Bygg React app
-        command: |
-          npm ci
-          npm run build
-    - save_cache:
-        paths:
-          - ~/usr/local/lib/node_modules # location depends on npm version
-        key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+version: 2.1
 
-    - setup_remote_docker
-    - run:
-        name: Bygger Docker image
-        command: docker build -t "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1" .
-    - run:
-        name: Pusher Docker image
-        command: |
-          echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
-          docker push "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
-          echo "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
+jobs:
+  bygg:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - node-v1-{{ .Branch }}-
+            - node-v1-
+      - run:
+          name: Bygg React app
+          command: |
+            npm ci
+            npm run build
+      - save_cache:
+          paths:
+            - ~/usr/local/lib/node_modules # location depends on npm version
+          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+      - setup_remote_docker
+      - run:
+          name: Bygger Docker image
+          command: docker build -t "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1" .
+      - run:
+          name: Pusher Docker image
+          command: |
+            echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+            docker push "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
+            echo "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
 
 workflows:
   version: 2.1
-  bygg-og-deploy:
+  bygg-og-publish-image:
     jobs:
       - bygg
