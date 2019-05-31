@@ -13,7 +13,7 @@ spec:
   readiness:
     path: /internal/isAlive
   prometheus:
-    enabled: true
+    enabled: false
     path: /internal/metrics
   replicas:
     min: 1
@@ -28,7 +28,7 @@ spec:
       cpu: 200m
       memory: 256Mi
   vault:
-    enabled: true
+    enabled: false
   env:
     - name: NAV_TRUSTSTORE_KEYSTOREALIAS
       value: na
@@ -36,8 +36,6 @@ spec:
       value: /var/run/secrets/naisd.io/nav_truststore_path
     - name: APPRES_CMS_URL
       value: https://appres-q0.nav.no
-    - name: LOGINSERVICE_URL
-      value: https://loginservice-q.nav.no/login
     - name: APPDYNAMICS_CONTROLLER_HOST_NAME
       value: appdynamics.adeo.no
     - name: APPDYNAMICS_CONTROLLER_PORT
@@ -48,9 +46,3 @@ spec:
       value: NON-PROD
     - name: UNLEASH_API_URL
       value: https://unleashproxy.nais.oera.no/api/
-    - name: LOADBALANCER_SOKNAD_KONTANTSTOTTE_URL
-      value: soknad-kontantstotte-q.nav.no
-    - name: LOADBALANCER_SOKNAD_KONTANTSTOTTE_POOLNAME
-      value: na
-
-
