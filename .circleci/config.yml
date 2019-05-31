@@ -6,21 +6,21 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - node-v1-{{ .Branch }}-
-            - node-v1-
-      - run:
-          name: Bygg React app
-          command: |
-            npm ci
-            npm run build
-      - save_cache:
-          paths:
-            - ~/usr/local/lib/node_modules # location depends on npm version
-          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+#      - restore_cache:
+#          keys:
+#            # when lock file changes, use increasingly general patterns to restore cache
+#            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+#            - node-v1-{{ .Branch }}-
+#            - node-v1-
+#      - run:
+#          name: Bygg React app
+#          command: |
+#            npm ci
+#            npm run build
+#      - save_cache:
+#          paths:
+#            - ~/usr/local/lib/node_modules # location depends on npm version
+#          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
       - setup_remote_docker
       - run:

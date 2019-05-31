@@ -1,9 +1,11 @@
-WORKDIR /
-#RUN npm ci && npm run build
+FROM node as node-builder
+ADD / /source
+WORKDIR /source
+RUN npm ci && npm run build
 
 FROM navikt/pus-decorator
 ENV APPLICATION_NAME=sosialhjelp-innsyn
 
-COPY --from=builder /build /app
+COPY --from=node-builder /source/build /app
 
 ADD decorator.yaml /decorator.yaml
