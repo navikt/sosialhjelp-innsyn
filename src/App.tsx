@@ -4,7 +4,6 @@ import './App.less';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
         <img src="ella_blunk.svg" className="App-logo" alt="logo" />
         <p>
           sosialhjelp-innsyn
@@ -17,7 +16,6 @@ const App: React.FC = () => {
         >
           Learn React
         </a>
-      </header>
     </div>
   );
 }
