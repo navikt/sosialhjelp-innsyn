@@ -1,9 +1,14 @@
 import React from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
-import Lesmerpanel from 'nav-frontend-lesmerpanel';
 import './App.less';
 import AppBanner from "./components/appBanner/AppBanner";
 import BrodsmuleSti from "./components/brodsmuleSti/BrodsmuleSti";
+import { Panel } from "nav-frontend-paneler";
+import { Systemtittel } from "nav-frontend-typografi";
+import LenkepanelBase from "nav-frontend-lenkepanel/lib/Lenkepanel-base";
+import PaperClip from "./components/ikoner/PaperClip";
+import Coins from "./components/ikoner/Coins";
+import Historikk from "./components/historikk/Historikk";
+import SoknadsStatus from "./components/soknadsStatus/SoknadsStatus";
 
 const App: React.FC = () => {
 	return (
@@ -12,24 +17,41 @@ const App: React.FC = () => {
 
 			<div className="blokk-center">
 				<BrodsmuleSti/>
-				<Lenkepanel href="#todo" tittelProps="normaltekst" border>
-					Lenkepanel test
-				</Lenkepanel>
+				<SoknadsStatus />
 
-				<Lesmerpanel intro={<span>Les mer panel med introduksjonstekst her som <a href="todo#">kan være HTML</a></span>} border>
-					<div>
-						<p style={{"marginTop": 0}}>
-							Noe tekst som økonomisk sosialhjelp. Du bestemmer selv om du vil bruke sykmeldingen eller avbryte den. Du kan også jobbe i kombinasjon med sykmelding. Det kommer an på hva sykdommen din tillater og hva det er praktisk mulig å få til på arbeidsplassen.
-						</p>
-						<p>
-							Greit å vite: Arbeidsgiveren har plikt til å legge til rette for at du kan jobbe helt eller delvis selv om du er syk.
-						</p>
-					</div>
-				</Lesmerpanel>
+				{/*Oppgaver*/}
+				<Panel className="panel-luft-over">
+					<Systemtittel>Dine oppgaver</Systemtittel>
+				</Panel>
+				<Panel className="panel-glippe-over">
+					Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
+				</Panel>
 
-				<p style={{textAlign: "center"}}>
-					<img src="ella_blunk.svg" className="App-logo" alt="logo"/>
-				</p>
+				{/*Lenke*/}
+				<div className="panel-luft-over panel-ikon-grupppe">
+					<LenkepanelBase href="#todo" className="panel-ikon">
+
+						<div className="panel-ikon-boks">
+							<PaperClip />
+						</div>
+						<span className="panel-ikon-tekst">
+							Vedlegg (0)
+						</span>
+					</LenkepanelBase>
+
+					<LenkepanelBase href="#todo"  className="panel-uthevet-ikon">
+
+						<div className="panel-ikon-boks">
+							<Coins />
+						</div>
+
+						<span className="panel-ikon-tekst">
+							Utbetalinger (0)
+						</span>
+					</LenkepanelBase>
+				</div>
+
+				<Historikk />
 
 			</div>
 		</div>

@@ -1,13 +1,36 @@
+@import "./components/paneler/paneler.less";
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.blokk-center {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 640px ) {
+  .blokk-center {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 641px ) {
+  .blokk-center {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.maincontent .side-innhold {
+  padding-top: 0;
+}
+
