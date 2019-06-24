@@ -6,7 +6,7 @@ import DokumentSendt from "../ikoner/DokumentSendt";
 const SoknadsStatus: React.FC = () => {
 	return (
 		<Panel className="panel-uthevet">
-			<Innholdstittel>Søknaden er sendt</Innholdstittel>
+			<Innholdstittel>Søknaden er mottatt</Innholdstittel>
 			<DokumentSendt />
 		</Panel>
 	);
