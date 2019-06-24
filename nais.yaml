@@ -1,10 +1,10 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: sosialhjelp-innsyn
+  name: "sosialhjelp-innsyn"
   namespace: "q1"
   labels:
-    team: digisos
+    team: "digisos"
 spec:
   image: "navikt/sosialhjelp-innsyn:latest"
   port: 8080
@@ -18,7 +18,7 @@ spec:
   replicas:
     min: 1
     max: 4
-  ingresses: "https://sosialhjelp-innsyn.dev-sbs.nais.io/soknadsosialhjelp/innsyn"
+  ingresses: ["https://sosialhjelp-innsyn.dev-sbs.nais.io/soknadsosialhjelp/innsyn"]
   resources:
     limits:
       cpu: 500m
