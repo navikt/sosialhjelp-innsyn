@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: "sosialhjelp-innsyn"
+  name: sosialhjelp-innsyn
   namespace: "q1"
   labels:
     team: "digisos"
