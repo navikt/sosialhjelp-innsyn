@@ -1,6 +1,7 @@
 import React from 'react';
 import { Panel } from "nav-frontend-paneler";
 import { Systemtittel } from "nav-frontend-typografi";
+import "./historikk.less";
 
 interface HistorikkElement {
 	tittel: string;
