@@ -4,10 +4,11 @@ import SoknadsStatus, { SoknadsStatusEnum } from "../components/soknadsStatus/So
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
 
-const SendtSoknad: React.FC = () => {
+const MottattSoknad: React.FC = () => {
+
 	return (
 		<>
-			<SoknadsStatus status={SoknadsStatusEnum.SENDT}/>
+			<SoknadsStatus status={SoknadsStatusEnum.MOTTATT}/>
 
 			<Oppgaver>
 				Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
@@ -23,9 +24,8 @@ const SendtSoknad: React.FC = () => {
 					}
 				]}
 			/>
-
 		</>
 	);
 };
 
-export default SendtSoknad;
+export default MottattSoknad;

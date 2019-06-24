@@ -2,15 +2,31 @@ import React from 'react';
 import { Panel } from "nav-frontend-paneler";
 import { Systemtittel } from "nav-frontend-typografi";
 
-const Historikk: React.FC = () => {
+interface HistorikkElement {
+	tittel: string;
+	innhold: React.ReactNode;
+}
+interface Props {
+	historikk: HistorikkElement[];
+}
+
+const Historikk: React.FC<Props> = ({historikk}) => {
 	return (<>
 			<Panel className="panel-luft-over">
 				<Systemtittel>Historikk</Systemtittel>
 			</Panel>
 			<Panel className="panel-glippe-over">
-				<b>19.06.2019 klokken 17:56</b>
-				<br/>
-				Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune
+				<ul>
+				{historikk.map((element: HistorikkElement, index) => {
+					return (
+						<li key={index}>
+							<b>{element.tittel}</b>
+							<br/>
+							{element.innhold}
+						</li>
+					);
+				})}
+				</ul>
 			</Panel>
 		</>
 	);
