@@ -4,21 +4,27 @@ metadata:
   name: sosialhjelp-innsyn
   namespace: "q1"
   labels:
-    team: "digisos"
+    team: digisos
 spec:
-  image: "navikt/sosialhjelp-innsyn:latest"
+  image: "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
   port: 8080
   liveness:
-    path: /internal/isAlive
+    path: /soknadsosialhjelp/innsyn/internal/isAlive
+    initialDelay: 20
+    timeout: 1
+    periodSeconds: 5
+    failureThreshold: 10
   readiness:
-    path: /internal/isAlive
+    path: /soknadsosialhjelp/innsyn/internal/isAlive
+    initialDelay: 20
+    timeout: 1
   prometheus:
-    enabled: false
-    path: /internal/metrics
+    enabled: true
+    path: /actuator/metrics
   replicas:
     min: 1
     max: 4
-  ingresses: ["https://sosialhjelp-innsyn.dev-sbs.nais.io/soknadsosialhjelp/innsyn"]
+  ingresses: ["https://sosialhjelp-innsyn.dev-sbs.nais.io/soknadsosialhjelp/innsyn", "https://www-q1.nav.no/soknadsosialhjelp/innsyn"]
   resources:
     limits:
       cpu: 500m
