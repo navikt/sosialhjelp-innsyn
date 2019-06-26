@@ -6,7 +6,7 @@ metadata:
   labels:
     team: digisos
 spec:
-  image: "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
+  image: "navikt/sosialhjelp-innsyn:{{version}}"
   port: 8080
   liveness:
     path: /soknadsosialhjelp/innsyn/internal/isAlive
@@ -25,6 +25,7 @@ spec:
     min: 1
     max: 4
   ingresses: ["https://sosialhjelp-innsyn.dev-sbs.nais.io/soknadsosialhjelp/innsyn", "https://www-q1.nav.no/soknadsosialhjelp/innsyn"]
+  webproxy: true
   resources:
     limits:
       cpu: 500m
