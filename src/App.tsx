@@ -8,7 +8,6 @@ import SendtSoknad from "./pages/SendtSoknad";
 const App: React.FC = () => {
 	return (
 		<div className="informasjon-side">
-			<div>Test A</div>
 			<AppBanner/>
 
 			<div className="blokk-center">
