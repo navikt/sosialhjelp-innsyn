@@ -26,13 +26,13 @@ jobs:
       - run:
           name: Bygger Docker image
           command:
-            docker build -t "navikt/sosialhjelp-innsyn:latest" .
-#            docker build -t "navikt/sosialhjelp-innsyn:${CIRCLE_SHA1}" .
+#            docker build -t "navikt/sosialhjelp-innsyn:$VERSION" .
+            docker build -t "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1" .
       - run:
           name: Pusher Docker image
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push "navikt/sosialhjelp-innsyn:latest"
+            docker push "navikt/sosialhjelp-innsyn:$CIRCLE_SHA1"
 
   deploy_dev:
     docker:
