@@ -1,7 +1,8 @@
 FROM node as node-builder
 ADD / /source
 WORKDIR /source
-RUN npm ci && npm run build
+ENV CI=true
+RUN npm ci && npm run test && npm run build
 
 FROM navikt/pus-decorator
 ENV APPLICATION_NAME=sosialhjelp-innsyn
