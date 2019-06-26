@@ -52,9 +52,14 @@ workflows:
   bygg-og-publish-image:
     jobs:
       - bygg
+      - hold_for_deploy: # <<< A job that will require manual approval in the CircleCI web application.
+          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+          requires:
+            - bygg
       - deploy_dev:
           requires:
             - bygg
+            - hold_for_deploy
           filters:
             branches:
               only: master
