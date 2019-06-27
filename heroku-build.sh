@@ -47,7 +47,9 @@ function get_heroku_app_name {
 
 
 function build_project {
+    cp ./public/dev_index.html ./public/index.html
     npm run build
+    cp ./public/prod_index.html ./public/index.html
 }
 
 function heroku_login {
