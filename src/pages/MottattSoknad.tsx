@@ -4,10 +4,11 @@ import SoknadsStatus, { SoknadsStatusEnum } from "../components/soknadsStatus/So
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
 
-const SendtSoknad: React.FC = () => {
+const MottattSoknad: React.FC = () => {
+
 	return (
 		<>
-			<SoknadsStatus status={SoknadsStatusEnum.SENDT}/>
+			<SoknadsStatus status={SoknadsStatusEnum.MOTTATT}/>
 
 			<Oppgaver>
 				Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
@@ -20,14 +21,16 @@ const SendtSoknad: React.FC = () => {
 					{
 						tittel: "19.06.2019 klokken 17:56",
 						innhold: <span>Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune</span>
+					},
+					{
+						tittel: "19.06.2019 klokken 20:19",
+						innhold: <span>Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune</span>
 					}
+
 				]}
 			/>
-
 		</>
 	);
 };
 
-export default SendtSoknad;
-
-
+export default MottattSoknad;
