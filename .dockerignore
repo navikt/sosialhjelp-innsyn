@@ -3,6 +3,8 @@
 
 # White list only the required files
 
+!heroku.js
+!build/
 !src/
 !public/
 

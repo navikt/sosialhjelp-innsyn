@@ -23,9 +23,14 @@ const MottattSoknad: React.FC = () => {
 						innhold: <span>Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune</span>
 					},
 					{
-						tittel: "19.06.2019 klokken 20:19",
+						tittel: "20.06.2019 klokken 20:19",
 						innhold: <span>Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune</span>
+					},
+					{
+						tittel: "21.06.2019 klokken 12:02",
+						innhold: <span>Søknaden er mottatt av NAV Vestre Aker, Oslo kommune</span>
 					}
+
 
 				]}
 			/>
