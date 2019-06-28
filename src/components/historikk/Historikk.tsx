@@ -17,7 +17,7 @@ const Historikk: React.FC<Props> = ({historikk}) => {
 				<Systemtittel>Historikk</Systemtittel>
 			</Panel>
 			<Panel className="panel-glippe-over">
-				<ul>
+				<ul className="historikk">
 				{historikk.map((element: HistorikkElement, index) => {
 					return (
 						<li key={index}>
