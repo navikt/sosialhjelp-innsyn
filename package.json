@@ -26,6 +26,8 @@
     "nav-frontend-js-utils": "^1.0.7",
     "nav-frontend-lenkepanel": "^1.0.29",
     "nav-frontend-lenkepanel-style": "^0.3.25",
+    "nav-frontend-lenker": "^1.0.27",
+    "nav-frontend-lenker-style": "^0.2.20",
     "nav-frontend-lesmerpanel": "0.0.29",
     "nav-frontend-lesmerpanel-style": "0.0.25",
     "nav-frontend-paneler": "^1.0.17",

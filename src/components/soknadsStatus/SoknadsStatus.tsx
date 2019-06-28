@@ -1,10 +1,11 @@
 import React from 'react';
 import { Panel } from "nav-frontend-paneler";
-import { Innholdstittel } from "nav-frontend-typografi";
+import {Element, EtikettLiten, Innholdstittel} from "nav-frontend-typografi";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
+import Lenke from "nav-frontend-lenker";
 
 export enum SoknadsStatusEnum {
 	SENDT = "soknadsstatus/sendt",
@@ -49,16 +50,20 @@ const SoknadsStatus: React.FC<Props> = ({status}) => {
 			</div>
 
 			<div className="status_detalj_panel">
-				<b>Nødhjelp</b>
-				<div className="status_detalj_panel__status">innvilget</div>
+				<Element>Nødhjelp</Element>
+				<div className="status_detalj_panel__status">
+					<EtikettLiten>innvilget</EtikettLiten>
+				</div>
 				<div className="status_detalj_panel__kommentarer">
-					<a href="todo" className="extern_lenke">Vedtakstbrev (12.03.2019)</a>
+					<Lenke href="todo">Vedtakstbrev (12.03.2019)</Lenke>
 				</div>
 			</div>
 
 			<div className="status_detalj_panel">
-				<b>Livsopphold og husleie</b>
-				<div className="status_detalj_panel__status">under behandling</div>
+				<Element>Livsopphold og husleie</Element>
+				<div className="status_detalj_panel__status">
+					<EtikettLiten>under behandling</EtikettLiten>
+				</div>
 			</div>
 
 		</Panel>
