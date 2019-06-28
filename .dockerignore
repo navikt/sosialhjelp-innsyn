@@ -12,3 +12,5 @@
 !package-lock.json
 !nais.yaml
 !craco.config.js
+!build
+!heroku.js
