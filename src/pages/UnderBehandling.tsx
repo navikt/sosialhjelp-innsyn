@@ -3,6 +3,7 @@ import Historikk from "../components/historikk/Historikk";
 import SoknadsStatus, { SoknadsStatusEnum } from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
+import Lenke from "nav-frontend-lenker";
 
 const UnderBehandling: React.FC = () => {
 
@@ -10,11 +11,15 @@ const UnderBehandling: React.FC = () => {
 		<>
 			<SoknadsStatus
 				status={SoknadsStatusEnum.UNDER_BEHANDLING}
-				detaljer={[
+				statusdetaljer={[
 					{
-						beskrivelse: "Beskrivelse",
-						detaljer: "Detaljer",
-						status: "INNVILGET"
+						beskrivelse: "Nødhjelp",
+						status: "innvilget",
+						kommentarer: <Lenke href="todo">Vedtakstbrev (12.03.2019)</Lenke>
+					},
+					{
+						beskrivelse: "Livsopphold og husleie",
+						status: "under behandling"
 					}
 				]}
 			/>

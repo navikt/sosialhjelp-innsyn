@@ -5,7 +5,6 @@ import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import Lenke from "nav-frontend-lenker";
 
 export enum SoknadsStatusEnum {
 	SENDT = "soknadsstatus/sendt",
@@ -16,15 +15,15 @@ export enum SoknadsStatusEnum {
 interface StatusDetalj {
 	beskrivelse: string;
 	status: string;
-	detaljer: string;
+	kommentarer?: React.ReactNode|string;
 }
 
 interface Props {
 	status: SoknadsStatusEnum;
-	detaljer?: StatusDetalj[];
+	statusdetaljer?: StatusDetalj[];
 }
 
-const SoknadsStatus: React.FC<Props> = ({status}) => {
+const SoknadsStatus: React.FC<Props> = ({status, statusdetaljer}) => {
 	return (
 		<Panel className="panel-uthevet">
 			<div className="tittel_og_ikon">
@@ -49,22 +48,21 @@ const SoknadsStatus: React.FC<Props> = ({status}) => {
 				)}
 			</div>
 
-			<div className="status_detalj_panel">
-				<Element>Nødhjelp</Element>
-				<div className="status_detalj_panel__status">
-					<EtikettLiten>innvilget</EtikettLiten>
-				</div>
-				<div className="status_detalj_panel__kommentarer">
-					<Lenke href="todo">Vedtakstbrev (12.03.2019)</Lenke>
-				</div>
-			</div>
-
-			<div className="status_detalj_panel">
-				<Element>Livsopphold og husleie</Element>
-				<div className="status_detalj_panel__status">
-					<EtikettLiten>under behandling</EtikettLiten>
-				</div>
-			</div>
+			{statusdetaljer && statusdetaljer.map((statusdetalj: StatusDetalj, index: number) => {
+				return (
+					<div className="status_detalj_panel" key={index}>
+						<Element>{statusdetalj.beskrivelse}</Element>
+						<div className="status_detalj_panel__status">
+							<EtikettLiten>{statusdetalj.status}</EtikettLiten>
+						</div>
+						{statusdetalj.kommentarer && (
+							<div className="status_detalj_panel__kommentarer">
+								{statusdetalj.kommentarer}
+							</div>
+						)}
+					</div>
+				)
+			})}
 
 		</Panel>
 	);

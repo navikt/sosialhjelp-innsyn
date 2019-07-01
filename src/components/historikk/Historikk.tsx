@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel } from "nav-frontend-paneler";
-import { Systemtittel } from "nav-frontend-typografi";
+import {Normaltekst, Systemtittel, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 
 interface HistorikkElement {
@@ -18,15 +18,14 @@ const Historikk: React.FC<Props> = ({historikk}) => {
 			</Panel>
 			<Panel className="panel-glippe-over">
 				<ul className="historikk">
-				{historikk.map((element: HistorikkElement, index) => {
-					return (
-						<li key={index}>
-							<b>{element.tittel}</b>
-							<br/>
-							{element.innhold}
-						</li>
-					);
-				})}
+					{historikk.map((element: HistorikkElement, index) => {
+						return (
+							<li key={index}>
+								<Element>{element.tittel}</Element>
+								<Normaltekst>{element.innhold}</Normaltekst>
+							</li>
+						);
+					})}
 				</ul>
 			</Panel>
 		</>
