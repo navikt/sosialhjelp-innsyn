@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Pusher Docker image
           command: |
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
             docker push "navikt/sosialhjelp-innsyn:${CIRCLE_SHA1}"
 
   deploy_dev:
@@ -51,7 +51,8 @@ workflows:
   version: 2.1
   bygg-og-publish-image:
     jobs:
-      - bygg
+      - bygg:
+          context: NAIS deployment
       - hold_for_deploy: # <<< A job that will require manual approval in the CircleCI web application.
           type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
           requires:
