@@ -13,6 +13,9 @@ import {
     NavTableRow
 } from "../components/navTable/NavTable";
 
+const PaperClipPlaceholderAltid: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
+const PaperClipPlaceholder: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
+
 const DineVedlegg: React.FC = () => {
     return (
         <Panel>
@@ -34,7 +37,7 @@ const DineVedlegg: React.FC = () => {
             <NavTable columnWidths={[2,2,1]}>
                 <NavTableHead>
                     <NavTableHeadCell>
-                        Filnavn
+                        <PaperClipPlaceholderAltid/>Filnavn
                     </NavTableHeadCell>
                     <NavTableHeadCell>
                         Beskrivelse
@@ -51,11 +54,11 @@ const DineVedlegg: React.FC = () => {
                                 <Lenke href={"todo"}>IMG8232.JPG</Lenke> (231 kb)
                             </NavTableCell>
                             <NavTableCell>
-                                <span className="ikon_liten_vedlegg_placeholder" />
+                                <PaperClipPlaceholder/>
                                 Lønnsslipp for mai 2019 {index}
                             </NavTableCell>
                             <NavTableCell align="right">
-                                <span className="ikon_liten_vedlegg_placeholder" />
+                                <PaperClipPlaceholder/>
                                 23.03.2019
                             </NavTableCell>
                         </NavTableRow>
