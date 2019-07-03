@@ -1,7 +1,6 @@
 # NavTable
 
-Tabellkomponent som rendrer til standard html table kode. Kolonnebredder angis i relative enheter. 
-På mobil vises bare en kolonne. CSS er skrevet med flex for å være responsiv.  
+Responsiv og semantisk tabell. Rendrer standard html table. Kolonnebredder kan angis i relative enheter.  
 
 ```jsx harmony
 <NavTable columnWidths={[2,2,1]}>
