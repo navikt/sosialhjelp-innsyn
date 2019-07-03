@@ -12,32 +12,30 @@ import {
     NavTableHeadCell,
     NavTableRow
 } from "../components/navTable/NavTable";
+import {OverskriftBoks, AvsnittBoks} from "../components/paneler/layoutKomponenter";
 
-const PaperClipPlaceholderAltid: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
-const PaperClipPlaceholder: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
+const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
+const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
 
 const DineVedlegg: React.FC = () => {
     return (
         <Panel>
-            <Innholdstittel>Dine vedlegg</Innholdstittel>
+            <OverskriftBoks>
+                <Innholdstittel>Dine vedlegg</Innholdstittel>
+            </OverskriftBoks>
 
-            <br/>
             <Normaltekst>
                 Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.
             </Normaltekst>
 
-            <br/>
-
-            <Hovedknapp>Ettersend vedlegg</Hovedknapp>
-
-            <br/>
-            <br/>
-            <br/>
+            <AvsnittBoks>
+                <Hovedknapp>Ettersend vedlegg</Hovedknapp>
+            </AvsnittBoks>
 
             <NavTable columnWidths={[2,2,1]}>
                 <NavTableHead>
                     <NavTableHeadCell>
-                        <PaperClipPlaceholderAltid/>Filnavn
+                        <IconSizedSpacerAll/>Filnavn
                     </NavTableHeadCell>
                     <NavTableHeadCell>
                         Beskrivelse
@@ -54,11 +52,11 @@ const DineVedlegg: React.FC = () => {
                                 <Lenke href={"todo"}>IMG8232.JPG</Lenke> (231 kb)
                             </NavTableCell>
                             <NavTableCell>
-                                <PaperClipPlaceholder/>
+                                <IconSizedSpacerDesktop/>
                                 Lønnsslipp for mai 2019 {index}
                             </NavTableCell>
                             <NavTableCell align="right">
-                                <PaperClipPlaceholder/>
+                                <IconSizedSpacerDesktop/>
                                 23.03.2019
                             </NavTableCell>
                         </NavTableRow>
