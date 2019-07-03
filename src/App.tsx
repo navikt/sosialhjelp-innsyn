@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import {Route, Switch} from "react-router";
 import MottattSoknad from "./pages/MottattSoknad";
 import UnderBehandling from "./pages/UnderBehandling";
+import DineVedlegg from "./pages/DineVedlegg";
 
 const store = configureStore();
 
@@ -20,6 +21,7 @@ const Meny: React.FC = () => {
 				<li><a href="sendt">Sendt søknad</a></li>
 				<li><a href="mottatt">Mottatt søknad</a></li>
 				<li><a href="behandling">Under behandling</a></li>
+				<li><a href="vedlegg">Vedlegg</a></li>
 			</ul>
 		</>
 	)
@@ -39,6 +41,7 @@ const App: React.FC = () => {
 							<Route exact path="/sendt" component={SendtSoknad} />
 							<Route exact path="/mottatt" component={MottattSoknad} />
 							<Route exact path="/behandling" component={UnderBehandling} />
+							<Route exact path="/vedlegg" component={DineVedlegg} />
 						</Switch>
 
 					</div>
