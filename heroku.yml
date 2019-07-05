@@ -4,3 +4,4 @@ build:
 setup:
   config:
     NAIS_APP_NAME: sosialhjelp-innsyn
+    applicationName: sosialhjelp-innsyn
