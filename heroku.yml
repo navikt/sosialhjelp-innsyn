@@ -1,5 +1,6 @@
 build:
   docker:
     web: Dockerfile
+setup:
   config:
     NAIS_APP_NAME: sosialhjelp-innsyn
