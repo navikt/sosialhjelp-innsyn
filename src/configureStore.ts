@@ -5,7 +5,7 @@ import reducers from './rootReducer';
 import thunkMiddleware from 'redux-thunk'
 
 export const history = createBrowserHistory({
-	basename: "sosialhjelp"
+	basename: "soknadsosialhjelp/innsyn"
 });
 
 export default function configureStore() {
