@@ -2,6 +2,7 @@ import { createBrowserHistory } from 'history'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 import reducers from './rootReducer';
+import thunkMiddleware from 'redux-thunk'
 
 export const history = createBrowserHistory({
 	basename: "sosialhjelp"
@@ -15,7 +16,8 @@ export default function configureStore() {
 		reducers(history),
 		compose(
 			applyMiddleware(
-				routerMiddleware(history)
+				routerMiddleware(history),
+				thunkMiddleware
 			),
 			devtools
 		)
