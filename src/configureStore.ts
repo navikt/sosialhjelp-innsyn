@@ -4,8 +4,10 @@ import { routerMiddleware } from 'connected-react-router'
 import reducers from './rootReducer';
 import thunkMiddleware from 'redux-thunk'
 
+export const BASENAME = "soknadsosialhjelp/innsyn";
+
 export const history = createBrowserHistory({
-	basename: "soknadsosialhjelp/innsyn"
+	basename: BASENAME
 });
 
 export default function configureStore() {

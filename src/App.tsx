@@ -4,7 +4,7 @@ import AppBanner from "./components/appBanner/AppBanner";
 import BrodsmuleSti from "./components/brodsmuleSti/BrodsmuleSti";
 import SendtSoknad from "./pages/SendtSoknad";
 import { ConnectedRouter } from "connected-react-router";
-import configureStore, { history } from "./configureStore";
+import configureStore, {BASENAME, history} from "./configureStore";
 import { Provider } from "react-redux";
 import {Route, Switch} from "react-router";
 import MottattSoknad from "./pages/MottattSoknad";
@@ -15,15 +15,19 @@ import SaksStatus from "./pages/SaksStatus";
 const store = configureStore();
 
 const Meny: React.FC = () => {
+
 	return (
 		<>
-			<h1>Mockede sider</h1>
+			<h1>Dynamiske sider</h1>
 			<ul>
-				<li><a href="sendt">Sendt søknad</a></li>
-				<li><a href="mottatt">Mottatt søknad</a></li>
-				<li><a href="behandling">Under behandling</a></li>
-				<li><a href="vedlegg">Vedlegg</a></li>
-				<li><a href="status">Status på sak</a></li>
+				<li><a href={"/" + BASENAME + "/status"}>Status på sak</a></li>
+			</ul>
+			<h1>Mockede statiske sider</h1>
+			<ul>
+				<li><a href={"/" + BASENAME + "/sendt"}>Sendt søknad</a></li>
+				<li><a href={"/" + BASENAME + "/mottatt"}>Mottatt søknad</a></li>
+				<li><a href={"/" + BASENAME + "/behandling"}>Under behandling</a></li>
+				<li><a href={"/" + BASENAME + "/vedlegg"}>Vedlegg</a></li>
 			</ul>
 		</>
 	)
