@@ -10,9 +10,7 @@ const MottattSoknad: React.FC = () => {
 		<>
 			<SoknadsStatus status={SoknadsStatusEnum.MOTTATT}/>
 
-			<Oppgaver>
-				Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
-			</Oppgaver>
+			<Oppgaver />
 
 			<VedleggUtbetalingerLenker />
 

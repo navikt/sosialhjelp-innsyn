@@ -11,6 +11,7 @@ import MottattSoknad from "./pages/MottattSoknad";
 import UnderBehandling from "./pages/UnderBehandling";
 import DineVedlegg from "./pages/DineVedlegg";
 import SaksStatus from "./pages/SaksStatus";
+import DineOppgaver from "./pages/DineOppgaver";
 
 const store = configureStore();
 
@@ -28,6 +29,7 @@ const Meny: React.FC = () => {
 				<li><a href={"/" + BASENAME + "/mottatt"}>Mottatt søknad</a></li>
 				<li><a href={"/" + BASENAME + "/behandling"}>Under behandling</a></li>
 				<li><a href={"/" + BASENAME + "/vedlegg"}>Vedlegg</a></li>
+				<li><a href={"/" + BASENAME + "/oppgaver"}>Oppgaver</a></li>
 			</ul>
 		</>
 	)
@@ -48,6 +50,7 @@ const App: React.FC = () => {
 							<Route exact path="/mottatt" component={MottattSoknad} />
 							<Route exact path="/behandling" component={UnderBehandling} />
 							<Route exact path="/vedlegg" component={DineVedlegg} />
+							<Route exact path="/oppgaver" component={DineOppgaver} />
 							<Route exact path="/status" component={SaksStatus} />
 						</Switch>
 

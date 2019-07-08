@@ -29,7 +29,9 @@ export enum InnsynsdataActionTypeKeys {
 
 export enum InnsynsdataSti {
     SAKSSTATUS = "saksStatus",
-    OPPGAVER = "oppgaver"
+    OPPGAVER = "oppgaver",
+    SOKNADS_STATUS = "soknadsStatus",
+    HENDELSER = "hendelser"
 }
 
 export interface InnsynssdataActionVerdi {

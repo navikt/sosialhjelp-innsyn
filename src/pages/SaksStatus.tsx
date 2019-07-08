@@ -17,6 +17,8 @@ class SaksStatusView extends React.Component<Props, {}> {
     componentDidMount() {
         this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.SAKSSTATUS));
         this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.OPPGAVER));
+        this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.SOKNADS_STATUS));
+        this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.HENDELSER));
     }
 
     render() {
