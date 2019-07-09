@@ -10,7 +10,7 @@ const MottattSoknad: React.FC = () => {
 		<>
 			<SoknadsStatus status={SoknadsStatusEnum.MOTTATT}/>
 
-			<Oppgaver />
+			<Oppgaver oppgaver={[]}/>
 
 			<VedleggUtbetalingerLenker />
 

@@ -15,10 +15,17 @@ interface SaksStatusState {
     vedtaksfilUrlList: string[];
 }
 
-interface Oppgave {
+export interface Vedlegg {
+    filnavn: string;
+    filstorrelse: string;
+    id: string;
+}
+
+export interface Oppgave {
     innsendelsesfrist: string;
     dokumenttype: string;
     tilleggsinformasjon: string;
+    vedlegg?: Vedlegg[];
 }
 
 export enum InnsynsdataActionTypeKeys {

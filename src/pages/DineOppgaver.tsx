@@ -24,7 +24,31 @@ const DineOppgaver: React.FC = () => {
                 ]}
             />
 
-            <Oppgaver/>
+            <Oppgaver oppgaver={
+                [
+                    {
+                        innsendelsesfrist: "2018-10-20T07:37:00.134",
+                        dokumenttype: "Strømfaktura",
+                        tilleggsinformasjon: "For periode 01.01.2019 til 01.02.2019",
+                        vedlegg: []
+                    },
+                    {
+                        innsendelsesfrist: "2018-10-20T07:37:30",
+                        dokumenttype: "Kopi av depositumskonto",
+                        tilleggsinformasjon: "Signert av både deg og utleier",
+                        vedlegg: [{
+                            id: "12345",
+                            filnavn: "IMG8232.JPG",
+                            filstorrelse: "231 kb"
+                        },
+                        {
+                            id: "1234567",
+                            filnavn: "IMG8782.JPG",
+                            filstorrelse: "431 kb"
+                        }]
+                    }
+                ]
+            }/>
 
             <VedleggUtbetalingerLenker />
 

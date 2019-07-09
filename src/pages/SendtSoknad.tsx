@@ -9,9 +9,7 @@ const SendtSoknad: React.FC = () => {
 		<>
 			<SoknadsStatus status={SoknadsStatusEnum.SENDT}/>
 
-			<Oppgaver>
-				Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
-			</Oppgaver>
+			<Oppgaver oppgaver={[]}/>
 
 			<VedleggUtbetalingerLenker />
 

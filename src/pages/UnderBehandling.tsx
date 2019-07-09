@@ -24,9 +24,7 @@ const UnderBehandling: React.FC = () => {
 				]}
 			/>
 
-			<Oppgaver>
-				Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
-			</Oppgaver>
+			<Oppgaver oppgaver={[]}/>
 
 			<VedleggUtbetalingerLenker />
 
