@@ -14,13 +14,15 @@ const SendtSoknad: React.FC = () => {
 			<VedleggUtbetalingerLenker />
 
 			<Historikk
-				historikk={[
+				hendelser={[
 					{
-						tittel: "19.06.2019 klokken 17:56",
-						innhold: <span>Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune</span>
+						tidspunkt: "19.06.2019 klokken 17:56",
+						beskrivelse: "Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
+						filUrl: null
 					}
 				]}
 			/>
+
 
 		</>
 	);

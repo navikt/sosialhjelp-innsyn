@@ -10,10 +10,13 @@ import OppgaveView from "./OppgaveView";
 import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 
 interface Props {
-    oppgaver: Oppgave[];
+    oppgaver: null|Oppgave[];
 }
 
-function foersteInnsendelsesfrist(oppgaver: Oppgave[]) {
+function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]) {
+    if (oppgaver === null) {
+        return null;
+    }
     let innsendelsesfrist: string = "";
     if (oppgaver.length > 0) {
         const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist)).sort();
@@ -33,13 +36,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver}) => {
             </Panel>
             <Panel className="panel-glippe-over oppgaver_panel">
 
-                {oppgaver.length === 0 && (
+                {oppgaver && oppgaver.length === 0 && (
                     <Normaltekst>
                         Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
                     </Normaltekst>
                 )}
 
-                {oppgaver.length > 0 && (
+                {oppgaver && oppgaver.length > 0 && (
                     <EkspanderbartpanelBase apen={true} heading={(
                         <div className="oppgaver_header">
                             <DokumentBinder/>
@@ -59,7 +62,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver}) => {
                             søknaden behandlet med den informasjonen vi har.
                         </Normaltekst>
 
-                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem">Hjelp til å laste opp?</Lenke>
+                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å laste opp?</Lenke>
 
                         <div className="oppgaver_detaljer">
                             {oppgaver.map((oppgave: Oppgave, index: number) => (
@@ -67,7 +70,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver}) => {
                             ))}
                         </div>
 
-                        <Hovedknapp disabled={true} className="luft_over_2rem luft_under_1rem">
+                        <Hovedknapp className="luft_over_2rem luft_under_1rem">
                             Send til veileder
                         </Hovedknapp>
                     </EkspanderbartpanelBase>

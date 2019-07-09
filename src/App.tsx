@@ -12,6 +12,7 @@ import UnderBehandling from "./pages/UnderBehandling";
 import DineVedlegg from "./pages/DineVedlegg";
 import SaksStatus from "./pages/SaksStatus";
 import DineOppgaver from "./pages/DineOppgaver";
+import DebugSide from "./pages/DebugSide";
 
 const store = configureStore();
 
@@ -22,6 +23,8 @@ const Meny: React.FC = () => {
 			<h1>Dynamiske sider</h1>
 			<ul>
 				<li><a href={"/" + BASENAME + "/status"}>Status på sak</a></li>
+				<li><a href={"/" + BASENAME + "/debug"}>Alle data som JSON</a></li>
+
 			</ul>
 			<h1>Mockede statiske sider</h1>
 			<ul>
@@ -52,6 +55,7 @@ const App: React.FC = () => {
 							<Route exact path="/vedlegg" component={DineVedlegg} />
 							<Route exact path="/oppgaver" component={DineOppgaver} />
 							<Route exact path="/status" component={SaksStatus} />
+							<Route exact path="/debug" component={DebugSide} />
 						</Switch>
 
 					</div>

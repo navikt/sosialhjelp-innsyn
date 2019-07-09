@@ -3,7 +3,7 @@ import Historikk from "../components/historikk/Historikk";
 import SoknadsStatus, { SoknadsStatusEnum } from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
-import Lenke from "nav-frontend-lenker";
+import {Utfall} from "../redux/innsynsdata/innsynsdataReducer";
 
 const UnderBehandling: React.FC = () => {
 
@@ -11,15 +11,16 @@ const UnderBehandling: React.FC = () => {
 		<>
 			<SoknadsStatus
 				status={SoknadsStatusEnum.UNDER_BEHANDLING}
-				statusdetaljer={[
+				saksStatus={[
 					{
-						beskrivelse: "Nødhjelp",
-						status: "innvilget",
-						kommentarer: <Lenke href="todo">Vedtakstbrev (12.03.2019)</Lenke>
+						tittel: "Nødhjelp",
+						status: Utfall.INNVILGET,
+						vedtaksfilUrlList: []
 					},
 					{
-						beskrivelse: "Livsopphold og husleie",
-						status: "under behandling"
+						tittel: "Livsopphold og husleie",
+						status: Utfall.DELVIS_INNVILGET, // "under behandling"
+						vedtaksfilUrlList: []
 					}
 				]}
 			/>
@@ -29,23 +30,25 @@ const UnderBehandling: React.FC = () => {
 			<VedleggUtbetalingerLenker />
 
 			<Historikk
-				historikk={[
+				hendelser={[
 					{
-						tittel: "19.06.2019 klokken 17:56",
-						innhold: <span>Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune</span>
+						tidspunkt: "19.06.2019 klokken 17:56",
+						beskrivelse: "Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
+						filUrl: "filnavn_123"
 					},
 					{
-						tittel: "20.06.2019 klokken 20:19",
-						innhold: <span>Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune</span>
+						tidspunkt: "20.06.2019 klokken 20:19",
+						beskrivelse: "Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune",
+						filUrl: null
 					},
 					{
-						tittel: "21.06.2019 klokken 12:02",
-						innhold: <span>Søknaden er mottatt av NAV Vestre Aker, Oslo kommune</span>
+						tidspunkt: "21.06.2019 klokken 12:02",
+						beskrivelse: "Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
+						filUrl: "filnavn_123"
 					}
-
-
 				]}
 			/>
+
 		</>
 	);
 };

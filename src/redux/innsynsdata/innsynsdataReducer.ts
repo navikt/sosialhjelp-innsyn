@@ -2,14 +2,14 @@ import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
 
-enum Utfall {
+export enum Utfall {
     INNVILGET = "INNVILGET",
     DELVIS_INNVILGET = "DELVIS_INNVILGET",
     AVSLATT = "AVSLATT",
     AVVIST = "AVVIST"
 }
 
-interface SaksStatusState {
+export interface SaksStatusState {
     tittel: string;
     status: Utfall;
     vedtaksfilUrlList: string[];
@@ -52,10 +52,22 @@ export interface InnsynsdataActionType {
     restStatus?: string
 }
 
+export interface Status {
+    status: string|null;
+}
+
+export interface Hendelse {
+    tidspunkt: string;
+    beskrivelse: string;
+    filUrl: null|string;
+}
+
 export interface InnsynsdataType {
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
     restStatus: any;
+    soknadsStatus: Status;
+    hendelser: Hendelse[];
 }
 
 const initialInnsynsdataRestStatus = {
@@ -66,6 +78,10 @@ const initialInnsynsdataRestStatus = {
 const initialState: InnsynsdataType = {
     saksStatus: [],
     oppgaver: [],
+    soknadsStatus: {
+        status: null
+    },
+    hendelser: [],
     restStatus: initialInnsynsdataRestStatus
 };
 

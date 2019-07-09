@@ -1,15 +1,17 @@
 import React from 'react';
 import { Panel } from "nav-frontend-paneler";
 import {Element, EtikettLiten, Innholdstittel} from "nav-frontend-typografi";
+import Lenke from "nav-frontend-lenker";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
+import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 
 export enum SoknadsStatusEnum {
-	SENDT = "soknadsstatus/sendt",
-	MOTTATT = "soknadsstatus/mottattt",
-	UNDER_BEHANDLING = "soknadsstatus/under_behandling",
+	SENDT = "SENDT",
+	MOTTATT = "MOTTATT",
+	UNDER_BEHANDLING = "UNDER_BEHANDLING",
 }
 
 interface StatusDetalj {
@@ -19,11 +21,11 @@ interface StatusDetalj {
 }
 
 interface Props {
-	status: SoknadsStatusEnum;
-	statusdetaljer?: StatusDetalj[];
+	status: string|null|SoknadsStatusEnum;
+	saksStatus?: null|SaksStatusState[];
 }
 
-const SoknadsStatus: React.FC<Props> = ({status, statusdetaljer}) => {
+const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
 	return (
 		<Panel className="panel-uthevet">
 			<div className="tittel_og_ikon">
@@ -48,18 +50,18 @@ const SoknadsStatus: React.FC<Props> = ({status, statusdetaljer}) => {
 				)}
 			</div>
 
-			{statusdetaljer && statusdetaljer.map((statusdetalj: StatusDetalj, index: number) => {
+			{saksStatus && saksStatus.map((statusdetalj: SaksStatusState, index: number) => {
 				return (
 					<div className="status_detalj_panel" key={index}>
-						<Element>{statusdetalj.beskrivelse}</Element>
+						<Element>{statusdetalj.tittel}</Element>
 						<div className="status_detalj_panel__status">
 							<EtikettLiten>{statusdetalj.status}</EtikettLiten>
 						</div>
-						{statusdetalj.kommentarer && (
-							<div className="status_detalj_panel__kommentarer">
-								{statusdetalj.kommentarer}
+						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((filnavn: string, index: number) => (
+							<div className="status_detalj_panel__kommentarer" key={index}>
+								<Lenke href={"todo_url_" + filnavn}>Vedtakstbrev</Lenke>
 							</div>
-						)}
+						))}
 					</div>
 				)
 			})}
