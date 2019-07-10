@@ -1,7 +1,3 @@
 build:
   docker:
-    web: heroku.Dockerfile
-setup:
-  config:
-    NAIS_APP_NAME: sosialhjelp-innsyn
-    applicationName: sosialhjelp-innsyn
+    web: DockerfileHeroku

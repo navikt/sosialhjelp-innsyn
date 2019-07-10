@@ -1,10 +1,14 @@
 FROM node:8
 
-WORKDIR /app
+ADD / /source
+WORKDIR /source
 
-COPY build/ /app/
-COPY heroku.js /app/
-
+RUN npm ci
+RUN npm run build
 RUN npm install express
-
 CMD ["node", "heroku.js"]
+
+
+#COPY build/ /app/
+#COPY heroku.js /app/
+#WORKDIR /app
