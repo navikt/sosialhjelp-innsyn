@@ -25,8 +25,8 @@ const OppgaveView: React.FC<Props> = ({oppgave}) => {
             {oppgave.vedlegg && oppgave.vedlegg.length === 0 && (
                 <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
             )}
-            {oppgave.vedlegg && oppgave.vedlegg.length > 0 && oppgave.vedlegg.map((vedlegg: Vedlegg) =>
-                <VedleggView vedlegg={vedlegg}/>
+            {oppgave.vedlegg && oppgave.vedlegg.length > 0 && oppgave.vedlegg.map((vedlegg: Vedlegg, index: number) =>
+                <VedleggView vedlegg={vedlegg} key={index}/>
             )}
 
             <div className="oppgaver_last_opp_fil">

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Panel } from "nav-frontend-paneler";
 import {Element, EtikettLiten, Innholdstittel} from "nav-frontend-typografi";
-import Lenke from "nav-frontend-lenker";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
 import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
+import EksternLenke from "../eksternLenke/EksternLenke";
 
 export enum SoknadsStatusEnum {
 	SENDT = "SENDT",
@@ -59,7 +59,7 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
 						</div>
 						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((filnavn: string, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
-								<Lenke href={"todo_url_" + filnavn}>Vedtakstbrev</Lenke>
+								<EksternLenke href={"todo_url_" + filnavn}>Vedtakstbrev</EksternLenke>
 							</div>
 						))}
 					</div>
