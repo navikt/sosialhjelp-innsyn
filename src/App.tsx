@@ -13,6 +13,11 @@ import DineVedlegg from "./pages/DineVedlegg";
 import SaksStatus from "./pages/SaksStatus";
 import DineOppgaver from "./pages/DineOppgaver";
 import DebugSide from "./pages/DebugSide";
+import {IntlProvider, addLocaleData} from "react-intl";
+import nbLocaleData from 'react-intl/locale-data/nb';
+import {tekster} from "./tekster/tekster";
+
+addLocaleData(nbLocaleData);
 
 const store = configureStore();
 
@@ -38,29 +43,34 @@ const Meny: React.FC = () => {
 	)
 };
 
+
+
 const App: React.FC = () => {
+	const language = "nb";
 	return (
 		<Provider store={store}>
-			<div className="informasjon-side">
-				<AppBanner/>
-				<ConnectedRouter history={history}>
-					<div className="blokk-center">
-						<BrodsmuleSti/>
+			<IntlProvider defaultLocale={language} locale={language} messages={tekster[language]}>
+				<div className="informasjon-side">
+					<AppBanner/>
+					<ConnectedRouter history={history}>
+						<div className="blokk-center">
+							<BrodsmuleSti/>
 
-						<Switch>
-							<Route exact path="/" component={Meny} />
-							<Route exact path="/sendt" component={SendtSoknad} />
-							<Route exact path="/mottatt" component={MottattSoknad} />
-							<Route exact path="/behandling" component={UnderBehandling} />
-							<Route exact path="/vedlegg" component={DineVedlegg} />
-							<Route exact path="/oppgaver" component={DineOppgaver} />
-							<Route exact path="/status" component={SaksStatus} />
-							<Route exact path="/debug" component={DebugSide} />
-						</Switch>
+							<Switch>
+								<Route exact path="/" component={Meny} />
+								<Route exact path="/sendt" component={SendtSoknad} />
+								<Route exact path="/mottatt" component={MottattSoknad} />
+								<Route exact path="/behandling" component={UnderBehandling} />
+								<Route exact path="/vedlegg" component={DineVedlegg} />
+								<Route exact path="/oppgaver" component={DineOppgaver} />
+								<Route exact path="/status" component={SaksStatus} />
+								<Route exact path="/debug" component={DebugSide} />
+							</Switch>
 
-					</div>
-				</ConnectedRouter>
-			</div>
+						</div>
+					</ConnectedRouter>
+				</div>
+			</IntlProvider>
 		</Provider>
 	);
 };

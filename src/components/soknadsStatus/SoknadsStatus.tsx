@@ -7,6 +7,7 @@ import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
 import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
+import {FormattedMessage} from "react-intl";
 
 export enum SoknadsStatusEnum {
 	SENDT = "SENDT",
@@ -31,19 +32,19 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
 			<div className="tittel_og_ikon">
 				{status === SoknadsStatusEnum.SENDT && (
 					<>
-						<Innholdstittel>Søknaden er sendt</Innholdstittel>
+						<Innholdstittel><FormattedMessage id="status.sendt" /></Innholdstittel>
 						<DokumentSendt />
 					</>
 				)}
 				{status === SoknadsStatusEnum.MOTTATT && (
 					<>
-						<Innholdstittel>Søknaden er mottatt</Innholdstittel>
+						<Innholdstittel><FormattedMessage id="status.mottatt" /></Innholdstittel>
 						<DokumentMottatt />
 					</>
 				)}
 				{status === SoknadsStatusEnum.UNDER_BEHANDLING && (
 					<>
-						<Innholdstittel>Søknaden er under behandling</Innholdstittel>
+						<Innholdstittel><FormattedMessage id="status.under_behandling" /></Innholdstittel>
 						<DokumentElla />
 
 					</>

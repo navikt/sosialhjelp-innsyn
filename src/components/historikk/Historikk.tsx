@@ -4,6 +4,7 @@ import {Normaltekst, Systemtittel, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
 	hendelser: null|Hendelse[];
@@ -15,7 +16,7 @@ const Historikk: React.FC<Props> = ({hendelser}) => {
 	}
 	return (<>
 			<Panel className="panel-luft-over">
-				<Systemtittel>Historikk</Systemtittel>
+				<Systemtittel><FormattedMessage id="historikk.tittel" /></Systemtittel>
 			</Panel>
 			<Panel className="panel-glippe-over">
 				<ul className="historikk">
