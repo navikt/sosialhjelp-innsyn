@@ -4,7 +4,7 @@ import { routerMiddleware } from 'connected-react-router'
 import reducers from './rootReducer';
 import thunkMiddleware from 'redux-thunk'
 
-export const BASENAME = "soknadsosialhjelp/innsyn";
+export const BASENAME = "sosialhjelp/innsyn";
 
 export const history = createBrowserHistory({
 	basename: BASENAME
