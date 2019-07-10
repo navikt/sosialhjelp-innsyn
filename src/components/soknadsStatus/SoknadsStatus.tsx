@@ -59,7 +59,7 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
 						</div>
 						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((filnavn: string, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
-								<EksternLenke href={"todo_url_" + filnavn}>Vedtakstbrev</EksternLenke>
+								<EksternLenke href={"todo_url_" + filnavn}>Vedtaksbrev</EksternLenke>
 							</div>
 						))}
 					</div>
