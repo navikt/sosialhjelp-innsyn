@@ -4,7 +4,7 @@ import {Normaltekst, Systemtittel, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {FormattedMessage} from "react-intl";
+import {FormattedDate, FormattedTime, FormattedMessage} from "react-intl";
 
 interface Props {
 	hendelser: null|Hendelse[];
@@ -24,7 +24,12 @@ const Historikk: React.FC<Props> = ({hendelser}) => {
 						const tidspunkt = new Date(hendelse.tidspunkt).toLocaleDateString();
 						return (
 							<li key={index}>
-								<Element>{tidspunkt}</Element>
+								<Element>
+									<FormattedDate value={new Date(hendelse.tidspunkt)}/>
+									&nbsp;klokken&nbsp;
+									<FormattedTime value={new Date(hendelse.tidspunkt)}/>
+								</Element>
+
 								<Normaltekst>{hendelse.beskrivelse}</Normaltekst>
 								{hendelse.filUrl && (
 									<EksternLenke href={"url_todo_" + hendelse.filUrl}>Se vedtaksbrev</EksternLenke>
