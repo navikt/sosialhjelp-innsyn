@@ -21,7 +21,7 @@ const Historikk: React.FC<Props> = ({hendelser}) => {
 			<Panel className="panel-glippe-over">
 				<ul className="historikk">
 					{hendelser.map((hendelse: Hendelse, index) => {
-						const tidspunkt = new Date(hendelse.tidspunkt).toLocaleDateString();
+						// const tidspunkt = new Date(hendelse.tidspunkt).toLocaleDateString();
 						return (
 							<li key={index}>
 								<Element>
