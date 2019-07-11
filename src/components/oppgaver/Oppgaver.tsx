@@ -6,8 +6,10 @@ import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
-import OppgaveView from "./OppgaveView";
+// import OppgaveView from "./OppgaveView";
 import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import FileSpike from "./FileSpike";
+import OppgaveView from "./OppgaveView";
 
 interface Props {
     oppgaver: null|Oppgave[];
@@ -64,9 +66,14 @@ const Oppgaver: React.FC<Props> = ({oppgaver}) => {
 
                         <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å laste opp?</Lenke>
 
+                        {/*<OppgaveView oppgave={oppgave} key={index} />*/}
+
                         <div className="oppgaver_detaljer">
                             {oppgaver.map((oppgave: Oppgave, index: number) => (
-                                <OppgaveView oppgave={oppgave} key={index} />
+                                <span key={index}>
+                                    <OppgaveView oppgave={oppgave}/>
+                                    <FileSpike oppgave={oppgave} />
+                                </span>
                             ))}
                         </div>
 

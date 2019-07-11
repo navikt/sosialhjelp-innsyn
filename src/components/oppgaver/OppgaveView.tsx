@@ -1,8 +1,6 @@
 import React from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import {Checkbox} from "nav-frontend-skjema";
-import Lenke from "nav-frontend-lenker";
-import UploadFile from "../ikoner/UploadFile";
 import {Oppgave, Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import VedleggView from "./VedleggView";
 
@@ -29,12 +27,12 @@ const OppgaveView: React.FC<Props> = ({oppgave}) => {
                 <VedleggView vedlegg={vedlegg} key={index}/>
             )}
 
-            <div className="oppgaver_last_opp_fil">
-                <UploadFile className="last_opp_fil_ikon" onClick={() => {console.warn("todo upload file")}}/>
-                <Lenke href="/todo">
-                    <Element>Last opp vedlegg</Element>
-                </Lenke>
-            </div>
+            {/*<div className="oppgaver_last_opp_fil">*/}
+            {/*    <UploadFile className="last_opp_fil_ikon" onClick={() => {console.warn("todo upload file")}}/>*/}
+            {/*    <Lenke href="/todo">*/}
+            {/*        <Element>Last opp vedlegg</Element>*/}
+            {/*    </Lenke>*/}
+            {/*</div>*/}
 
         </div>
     )
