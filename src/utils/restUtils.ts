@@ -7,7 +7,7 @@ export function erDev(): boolean {
 
 export function getApiBaseUrl(): string {
     if (erDev()) {
-        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn"; // /1234/saksStatus
+        return "http://localhost:8080/soknadsosialhjelp/innsyn-api/api/v1/innsyn"; // /1234/saksStatus
     } else {
         return "/sosialhjelp/innsyn-api/api/v1/innsyn";
     }
