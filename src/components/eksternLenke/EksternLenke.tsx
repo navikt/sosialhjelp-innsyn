@@ -5,7 +5,7 @@ import "./eksternLenke.less";
 
 const EksternLenke: React.FC<{children: any, href: string}> = ({children, href}) => {
     return (
-        <Lenke href={href}>{children}<ExternalLink className="ekstern_lenke"/></Lenke>
+        <Lenke href={href} className="lenke_uten_ramme">{children}<ExternalLink className="ekstern_lenke"/></Lenke>
     )
 };
 
