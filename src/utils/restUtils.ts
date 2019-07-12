@@ -17,7 +17,7 @@ export function getApiBaseUrlForSwagger(): string {
     if (erDev()) {
         return "http://localhost:8080/soknadsosialhjelp/innsyn-api/swagger-ui.html";
     } else {
-        return "/sosialhjelp/innsyn-api/swagger-ui.html";
+        return "https://sosialhjelp-innsyn-api.herokuapp.com/soknadsosialhjelp/innsyn-api/swagger-ui.html";
     }
 }
 
