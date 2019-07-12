@@ -13,7 +13,7 @@ export interface InnsynsdataContainerProps {
     restStatus?: REST_STATUS;
     match: {
         params: {
-            soknadId: string;
+            soknadId: any;
         }
     };
 }
@@ -23,7 +23,7 @@ type Props = InnsynsdataContainerProps & DispatchProps;
 class SaksStatusView extends React.Component<Props, {}> {
 
     componentDidMount() {
-        const fiksDigisosId : string = this.props.match.params.soknadId == undefined ? "1234" : this.props.match.params.soknadId;
+        const fiksDigisosId : string = this.props.match.params.soknadId === undefined ? "1234" : this.props.match.params.soknadId;
 
         this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
         this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
