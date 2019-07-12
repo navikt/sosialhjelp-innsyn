@@ -16,7 +16,7 @@ const SendtSoknad: React.FC = () => {
 			<Historikk
 				hendelser={[
 					{
-						tidspunkt: "19.06.2019 klokken 17:56",
+						tidspunkt: "2018-10-04T13:42:00.134",
 						beskrivelse: "Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
 						filUrl: null
 					}

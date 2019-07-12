@@ -17,18 +17,33 @@ const MottattSoknad: React.FC = () => {
 			<Historikk
 				hendelser={[
 					{
-						tidspunkt: "19.06.2019 klokken 17:56",
-						beskrivelse: "Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
+						tidspunkt: "2018-10-04T13:42:00.134",
+						beskrivelse: "1. Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
 						filUrl: "filnavn_123"
 					},
 					{
-						tidspunkt: "20.06.2019 klokken 20:19",
-						beskrivelse: "Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune",
+						tidspunkt: "2018-10-11T13:42:00.134",
+						beskrivelse: "2. Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune",
 						filUrl: null
 					},
 					{
-						tidspunkt: "21.06.2019 klokken 12:02",
-						beskrivelse: "Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
+						tidspunkt: "2018-10-12T13:37:00.134",
+						beskrivelse: "3. Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
+						filUrl: "filnavn_123"
+					}
+					,{
+						tidspunkt: "2018-10-12T13:38:00.134",
+						beskrivelse: "4. Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
+						filUrl: "filnavn_123"
+					}
+					,{
+						tidspunkt: "2018-10-12T13:39:00.134",
+						beskrivelse: "5. Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
+						filUrl: "filnavn_123"
+					}
+					,{
+						tidspunkt: "2018-10-12T13:42:00.134",
+						beskrivelse: "6. Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
 						filUrl: "filnavn_123"
 					}
 				]}

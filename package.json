@@ -21,6 +21,7 @@
     "history": "^4.9.0",
     "less-plugin-npm-import": "^2.1.0",
     "lodash.throttle": "^4.1.1",
+    "lodash.template": ">=4.5.0",
     "nav-frontend-alertstriper": "^3.0.3",
     "nav-frontend-alertstriper-style": "^2.0.2",
     "nav-frontend-chevron": "^1.0.9",

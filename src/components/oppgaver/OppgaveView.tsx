@@ -31,7 +31,7 @@ const OppgaveView: React.FC<Props> = ({oppgave}) => {
 
             <div className="oppgaver_last_opp_fil">
                 <UploadFile className="last_opp_fil_ikon" onClick={() => {console.warn("todo upload file")}}/>
-                <Lenke href="/todo">
+                <Lenke href="/todo" className="lenke_uten_ramme">
                     <Element>Last opp vedlegg</Element>
                 </Lenke>
             </div>
