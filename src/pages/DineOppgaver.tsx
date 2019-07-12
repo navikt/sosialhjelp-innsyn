@@ -67,22 +67,25 @@ const DineOppgaver: React.FC = () => {
             <Historikk
                 hendelser={[
                     {
-                        tidspunkt: "19.06.2019 klokken 17:56",
+                        tidspunkt: "2018-10-04T13:42:00.134",
                         beskrivelse: "Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
                         filUrl: "filnavn_123"
                     },
                     {
-                        tidspunkt: "20.06.2019 klokken 20:19",
+                        tidspunkt: "2018-10-11T13:42:00.134",
                         beskrivelse: "Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune",
                         filUrl: null
                     },
                     {
-                        tidspunkt: "21.06.2019 klokken 12:02",
+                        tidspunkt: "2018-10-12T13:37:00.134",
                         beskrivelse: "Søknaden er mottatt av NAV Vestre Aker, Oslo kommune",
                         filUrl: "filnavn_123"
+                    },
+                    {
+                        tidspunkt: "2018-10-04T13:42:00.134",
+                        beskrivelse: "Søknaden med vedlegg er sendt til NAV Sagene, Oslo kommune",
+                        filUrl: "filnavn_123"
                     }
-
-
                 ]}
             />
         </>

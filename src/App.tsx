@@ -16,6 +16,7 @@ import DebugSide from "./pages/DebugSide";
 import {IntlProvider, addLocaleData} from "react-intl";
 import nbLocaleData from 'react-intl/locale-data/nb';
 import {tekster} from "./tekster/tekster";
+import LangHistorikk from "./pages/LangHistorikk";
 
 addLocaleData(nbLocaleData);
 
@@ -38,6 +39,7 @@ const Meny: React.FC = () => {
 				<li><a href={"/" + BASENAME + "/behandling"}>Under behandling</a></li>
 				<li><a href={"/" + BASENAME + "/vedlegg"}>Vedlegg</a></li>
 				<li><a href={"/" + BASENAME + "/oppgaver"}>Oppgaver</a></li>
+				<li><a href={"/" + BASENAME + "/historikk"}>Lang historikk</a></li>
 			</ul>
 		</>
 	)
@@ -58,13 +60,14 @@ const App: React.FC = () => {
 
 							<Switch>
 								<Route exact path="/" component={Meny} />
+								<Route exact path="/status" component={SaksStatus} />
+								<Route exact path="/debug" component={DebugSide} />
 								<Route exact path="/sendt" component={SendtSoknad} />
 								<Route exact path="/mottatt" component={MottattSoknad} />
 								<Route exact path="/behandling" component={UnderBehandling} />
 								<Route exact path="/vedlegg" component={DineVedlegg} />
 								<Route exact path="/oppgaver" component={DineOppgaver} />
-								<Route exact path="/status" component={SaksStatus} />
-								<Route exact path="/debug" component={DebugSide} />
+								<Route exact path="/historikk" component={LangHistorikk} />
 							</Switch>
 
 						</div>
