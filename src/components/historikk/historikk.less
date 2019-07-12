@@ -45,7 +45,9 @@ ul.historikk li:last-of-type:before {
 
 ul.historikk_start_lukket li:last-of-type:before {
   border-left: 2px solid @navGronnLighten80;
+  mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
   -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+
 }
 
 ul.historikk_start li:last-of-type:before {
