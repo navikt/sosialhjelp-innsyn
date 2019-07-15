@@ -17,6 +17,7 @@ import {IntlProvider, addLocaleData} from "react-intl";
 import nbLocaleData from 'react-intl/locale-data/nb';
 import {tekster} from "./tekster/tekster";
 import LangHistorikk from "./pages/LangHistorikk";
+import {getApiBaseUrlForSwagger} from "./utils/restUtils";
 
 addLocaleData(nbLocaleData);
 
@@ -28,10 +29,20 @@ const Meny: React.FC = () => {
 		<>
 			<h1>Dynamiske sider</h1>
 			<ul>
-				<li><a href={"/" + BASENAME + "/status"}>Status på sak</a></li>
+				<li><a href={"/" + BASENAME + "/status"}>Status på sak</a> (henter default-response i mock)</li>
 				<li><a href={"/" + BASENAME + "/debug"}>Alle data som JSON</a></li>
 
 			</ul>
+			<h1>Swagger</h1>
+            <p>Guide til hvordan man kan bruke swagger for å laste opp testdata og vise testdataene i innsynsvisningen</p>
+			<ol>
+				<li>Gå til swagger her: <a href={ getApiBaseUrlForSwagger() }>lenke</a></li>
+				<li>Velg mock-controller og tilhørende POST-kall, og deretter 'Try it out'</li>
+				<li>Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)</li>
+				<li>Velg en 'soknadId' for dine testdata</li>
+				<li>Gå til status-siden her: <a href={"/" + BASENAME + "/soknadId/status"}>lenke</a></li>
+				<li>Endre 'soknadId' i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata</li>
+			</ol>
 			<h1>Mockede statiske sider</h1>
 			<ul>
 				<li><a href={"/" + BASENAME + "/sendt"}>Sendt søknad</a></li>
@@ -61,6 +72,7 @@ const App: React.FC = () => {
 							<Switch>
 								<Route exact path="/" component={Meny} />
 								<Route exact path="/status" component={SaksStatus} />
+								<Route exact path="/:soknadId/status" component={SaksStatus} />
 								<Route exact path="/debug" component={DebugSide} />
 								<Route exact path="/sendt" component={SendtSoknad} />
 								<Route exact path="/mottatt" component={MottattSoknad} />

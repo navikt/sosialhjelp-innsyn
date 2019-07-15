@@ -13,6 +13,14 @@ export function getApiBaseUrl(): string {
     }
 }
 
+export function getApiBaseUrlForSwagger(): string {
+    if (erDev()) {
+        return "http://localhost:8080/soknadsosialhjelp/innsyn-api/swagger-ui.html";
+    } else {
+        return "https://sosialhjelp-innsyn-api.herokuapp.com/soknadsosialhjelp/innsyn-api/swagger-ui.html";
+    }
+}
+
 enum RequestMethod {
     GET = "GET",
     POST = "POST",
