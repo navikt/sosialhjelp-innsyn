@@ -4,7 +4,7 @@ import AppBanner from "./components/appBanner/AppBanner";
 import BrodsmuleSti from "./components/brodsmuleSti/BrodsmuleSti";
 import SendtSoknad from "./pages/SendtSoknad";
 import { ConnectedRouter } from "connected-react-router";
-import configureStore, {BASENAME, history} from "./configureStore";
+import configureStore, {getAbsoluteBasename, history} from "./configureStore";
 import { Provider } from "react-redux";
 import {Route, Switch} from "react-router";
 import MottattSoknad from "./pages/MottattSoknad";
@@ -35,8 +35,8 @@ const Meny: React.FC = () => {
 					Her er det mulig å test innsyn for sosialsøkere.
 				</p>
 				<ul>
-					<li><a href={"/" + BASENAME + "/status"}>Status på sak</a> Dataene er default-response mock data fra bakcend.</li>
-					<li><a href={"/" + BASENAME + "/debug"}>Alle data som JSON</a></li>
+					<li><a href={"/" + getAbsoluteBasename() + "/status"}>Status på sak</a> Dataene er default-response mock data fra bakcend.</li>
+					<li><a href={"/" + getAbsoluteBasename() + "/debug"}>Alle data som JSON</a></li>
 				</ul>
 			</Normaltekst>
 			<Innholdstittel>Swagger grensesnitt</Innholdstittel>
@@ -47,7 +47,7 @@ const Meny: React.FC = () => {
 					<li>Velg <b>mock-controller</b> og tilhørende POST-kall, og deretter <b>'Try it out'</b></li>
 					<li>Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)</li>
 					<li>Velg en 'soknadId' for dine testdata</li>
-					<li>Gå til <a href={"/" + BASENAME + "/soknadId/status"}>status-siden</a></li>
+					<li>Gå til <a href={"/" + getAbsoluteBasename() + "/soknadId/status"}>status-siden</a></li>
 					<li>Endre 'soknadId' i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata</li>
 				</ol>
 			</Normaltekst>
@@ -57,11 +57,11 @@ const Meny: React.FC = () => {
 					Forhåndsvisning av sider under arbeid med statiske mockdata.
 				</p>
 				<ul>
-					<li><a href={"/" + BASENAME + "/sendt"}>Sendt søknad</a></li>
-					<li><a href={"/" + BASENAME + "/mottatt"}>Mottatt søknad</a></li>
-					<li><a href={"/" + BASENAME + "/behandling"}>Under behandling</a></li>
-					<li><a href={"/" + BASENAME + "/vedlegg"}>Vedlegg</a></li>
-					<li><a href={"/" + BASENAME + "/oppgaver"}>Oppgaver</a></li>
+					<li><a href={"/" + getAbsoluteBasename() + "/sendt"}>Sendt søknad</a></li>
+					<li><a href={"/" + getAbsoluteBasename() + "/mottatt"}>Mottatt søknad</a></li>
+					<li><a href={"/" + getAbsoluteBasename() + "/behandling"}>Under behandling</a></li>
+					<li><a href={"/" + getAbsoluteBasename() + "/vedlegg"}>Vedlegg</a></li>
+					<li><a href={"/" + getAbsoluteBasename() + "/oppgaver"}>Oppgaver</a></li>
 				</ul>
 			</Normaltekst>
 		</Panel>
