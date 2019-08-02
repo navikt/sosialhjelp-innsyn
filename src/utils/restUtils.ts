@@ -9,7 +9,7 @@ export function getApiBaseUrl(): string {
     if (erDev()) {
         return "http://localhost:8080/soknadsosialhjelp/innsyn-api/api/v1/innsyn"; // /1234/saksStatus
     } else {
-        return "/sosialhjelp/innsyn-api/api/v1/innsyn";
+        return getAbsoluteApiUrl() + "api/v1/innsyn"
     }
 }
 
@@ -17,8 +17,15 @@ export function getApiBaseUrlForSwagger(): string {
     if (erDev()) {
         return "http://localhost:8080/soknadsosialhjelp/innsyn-api/swagger-ui.html";
     } else {
-        return "https://sosialhjelp-innsyn-api.herokuapp.com/soknadsosialhjelp/innsyn-api/swagger-ui.html";
+        return getAbsoluteApiUrl() + "swagger-ui.html";
     }
+}
+
+/**
+ * Resolves API URL in a pathname independent way
+ */
+function getAbsoluteApiUrl() {
+    return window.location.pathname.replace(/^(\/([^/]+\/)?sosialhjelp\/innsyn).+$/, "$1-api/")
 }
 
 enum RequestMethod {
