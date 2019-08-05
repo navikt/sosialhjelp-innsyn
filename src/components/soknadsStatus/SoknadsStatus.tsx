@@ -52,11 +52,12 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
 			</div>
 
 			{saksStatus && saksStatus.map((statusdetalj: SaksStatusState, index: number) => {
+				const status = statusdetalj.status.replace(/_/,' ');
 				return (
 					<div className="status_detalj_panel" key={index}>
 						<Element>{statusdetalj.tittel}</Element>
 						<div className="status_detalj_panel__status">
-							<EtikettLiten>{statusdetalj.status}</EtikettLiten>
+							<EtikettLiten>{status}</EtikettLiten>
 						</div>
 						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((filnavn: string, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>

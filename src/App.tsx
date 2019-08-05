@@ -54,7 +54,7 @@ const Meny: React.FC = () => {
 			<Innholdstittel>Mockede statiske sider</Innholdstittel>
 			<Normaltekst>
 				<p>
-					Forhåndsvisning av sider under arbeid med statiske mockdata.
+					Sider under utvikling med statiske mockdata.
 				</p>
 				<ul>
 					<li><a href={"/" + BASENAME + "/sendt"}>Sendt søknad</a></li>

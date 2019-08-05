@@ -12,7 +12,7 @@ import {
     NavTableHeadCell,
     NavTableRow
 } from "../components/navTable/NavTable";
-import {OverskriftBoks, AvsnittBoks} from "../components/paneler/layoutKomponenter";
+import {AvsnittBoks} from "../components/paneler/layoutKomponenter";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
@@ -20,9 +20,8 @@ const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedle
 const DineVedlegg: React.FC = () => {
     return (
         <Panel>
-            <OverskriftBoks>
-                <Innholdstittel>Dine vedlegg</Innholdstittel>
-            </OverskriftBoks>
+
+            <Innholdstittel className="layout_overskriftboks">Dine vedlegg</Innholdstittel>
 
             <Normaltekst>
                 Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.
