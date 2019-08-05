@@ -31,39 +31,40 @@ const Meny: React.FC = () => {
 		<Panel>
 			<Sidetittel>Sosialhjelp innsyn</Sidetittel>
 			<Normaltekst>
-				<p>
-					Her er det mulig å test innsyn for sosialsøkere.
-				</p>
-				<ul>
-					<li><a href={"/" + getAbsoluteBasename() + "/status"}>Status på sak</a> Dataene er default-response mock data fra bakcend.</li>
-					<li><a href={"/" + getAbsoluteBasename() + "/debug"}>Alle data som JSON</a></li>
-				</ul>
+				Her er det mulig å test innsyn for sosialsøkere.
 			</Normaltekst>
+			<ul className="typo-normal">
+				<li><a href={"/" + getAbsoluteBasename() + "/status"}>Status på sak</a> Dataene er default-response mock data fra bakcend.</li>
+				<li><a href={"/" + getAbsoluteBasename() + "/debug"}>Alle data som JSON</a></li>
+			</ul>
+			<br />
+
 			<Innholdstittel>Swagger grensesnitt</Innholdstittel>
 			<Normaltekst>
-				<p>Man kan bruke swaggersidene å laste opp testdata og vise testdataene i innsynssidene slik:</p>
-				<ol>
-					<li>Gå til <a href={ getApiBaseUrlForSwagger() }>swagger</a></li>
-					<li>Velg <b>mock-controller</b> og tilhørende POST-kall, og deretter <b>'Try it out'</b></li>
-					<li>Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)</li>
-					<li>Velg en 'soknadId' for dine testdata</li>
-					<li>Gå til <a href={"/" + getAbsoluteBasename() + "/soknadId/status"}>status-siden</a></li>
-					<li>Endre 'soknadId' i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata</li>
-				</ol>
+				Man kan bruke swaggersidene å laste opp testdata og vise testdataene i innsynssidene slik:
 			</Normaltekst>
+			<ol className="typo-normal">
+				<li>Gå til <a href={ getApiBaseUrlForSwagger() }>swagger</a></li>
+				<li>Velg <b>mock-controller</b> og tilhørende POST-kall, og deretter <b>'Try it out'</b></li>
+				<li>Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)</li>
+				<li>Velg en 'soknadId' for dine testdata</li>
+				<li>Gå til <a href={"/" + getAbsoluteBasename() + "/soknadId/status"}>status-siden</a></li>
+				<li>Endre 'soknadId' i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata</li>
+			</ol>
+			<br />
+
 			<Innholdstittel>Mockede statiske sider</Innholdstittel>
 			<Normaltekst>
-				<p>
-					Sider under utvikling med statiske mockdata.
-				</p>
-				<ul>
-					<li><a href={"/" + getAbsoluteBasename() + "/sendt"}>Sendt søknad</a></li>
-					<li><a href={"/" + getAbsoluteBasename() + "/mottatt"}>Mottatt søknad</a></li>
-					<li><a href={"/" + getAbsoluteBasename() + "/behandling"}>Under behandling</a></li>
-					<li><a href={"/" + getAbsoluteBasename() + "/vedlegg"}>Vedlegg</a></li>
-					<li><a href={"/" + getAbsoluteBasename() + "/oppgaver"}>Oppgaver</a></li>
-				</ul>
+				Sider under utvikling med statiske mockdata.
 			</Normaltekst>
+			<ul className="typo-normal">
+				<li><a href={"/" + getAbsoluteBasename() + "/sendt"}>Sendt søknad</a></li>
+				<li><a href={"/" + getAbsoluteBasename() + "/mottatt"}>Mottatt søknad</a></li>
+				<li><a href={"/" + getAbsoluteBasename() + "/behandling"}>Under behandling</a></li>
+				<li><a href={"/" + getAbsoluteBasename() + "/vedlegg"}>Vedlegg</a></li>
+				<li><a href={"/" + getAbsoluteBasename() + "/oppgaver"}>Oppgaver</a></li>
+			</ul>
+			<br />
 		</Panel>
 	)
 };
