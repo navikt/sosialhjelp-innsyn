@@ -17,6 +17,7 @@ Gyldige OPTIONS:
 # Default verdier
 PROJECT_ROOT="$( cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )"
 APP_NAME=""
+APP_JAR=""
 
 # Hent ut argumenter
 for arg in "$@"
@@ -45,26 +46,26 @@ function get_heroku_app_name {
     APP_NAME=$(echo -n $heroku_repo | sed -E 's#^.*/(.*)\.git$#\1#')
 }
 
-
-function build_project {
-    cp ./public/dev_index.html ./public/index.html
-    npm run build
-    cp ./public/prod_index.html ./public/index.html
+function find_app_jar {
+    APP_JAR=$(find build/libs/ -name "sosialhjelp-innsyn-api-*.jar")
 }
 
-function heroku_login {
-    heroku auth:login
-    heroku container:login
+function build_project {
+    ./gradlew clean build -x test
 }
 
 function deploy_to_heroku {
-    heroku container:push --recursive -a $APP_NAME
-    heroku container:release web -a $APP_NAME
+    # Prerequisites:
+    # - heroku plugins:install java
+    heroku deploy:jar "$APP_JAR" -a $APP_NAME
 }
 
 if [ -z "$APP_NAME" ]; then
     get_heroku_app_name
 fi
 
+echo "Build and deploy on $APP_NAME"
+
 build_project
+find_app_jar
 deploy_to_heroku
