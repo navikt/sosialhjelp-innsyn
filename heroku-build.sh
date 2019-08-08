@@ -17,4 +17,5 @@ if [[ ! $(git remote | grep $APP_NAME) ]]; then
     git remote add $APP_NAME https://git.heroku.com/$APP_NAME.git
 fi
 
+heroku stack:set container -a $APP_NAME
 git push $APP_NAME $BRANCH_NAME:master
