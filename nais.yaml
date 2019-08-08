@@ -9,13 +9,13 @@ spec:
   image: "navikt/sosialhjelp-innsyn:{{version}}"
   port: 8080
   liveness:
-    path: /sosialhjelp/innsyn/internal/isAlive
+    path: /sosialhjelp/innsyn/
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sosialhjelp/innsyn/internal/isAlive
+    path: /sosialhjelp/innsyn/
     initialDelay: 20
     timeout: 1
   prometheus:
@@ -25,10 +25,12 @@ spec:
     min: 1
     max: 4
   ingresses: [
-    "https://sosialhjelp-innsyn.dev-sbs.nais.io/sosialhjelp/innsyn",
-    "https://www-q1.nav.no/soknadsosialhjelp/innsyn",
-    "https://www-q0.nav.no/sosialhjelp/innsyn",
-    "https://www-q1.nav.no/sosialhjelp/innsyn",
+    # FIXME: Sett riktig ingress med templates per namespace
+    "https://sosialhjelp-innsyn-q0.dev-sbs.nais.io/sosialhjelp/innsyn",
+    "https://www-q0.nav.no/sosialhjelp/innsyn"
+    #"https://sosialhjelp-innsyn-q1.dev-sbs.nais.io/sosialhjelp/innsyn",
+    #"https://www-q1.nav.no/sosialhjelp/innsyn"
+    #"https://www-q1.nav.no/soknadsosialhjelp/innsyn",
   ]
   webproxy: true
   resources:

@@ -53,10 +53,11 @@ workflows:
     jobs:
       - bygg:
           context: NAIS deployment
-      - hold_for_deploy: # <<< A job that will require manual approval in the CircleCI web application.
-          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
-          requires:
-            - bygg
+# FIXME: Trigger ikke, og holder igjen deploy_dev
+#      - hold_for_deploy: # <<< A job that will require manual approval in the CircleCI web application.
+#          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+#          requires:
+#            - bygg
       - deploy_dev:
           requires:
             - bygg
