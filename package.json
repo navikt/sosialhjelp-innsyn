@@ -2,7 +2,7 @@
   "name": "sosialhjelp-innsyn",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/digisos-1348/soknadsosialhjelp",
   "dependencies": {
     "@craco/craco": "^5.2.4",
     "@types/history": "^4.7.2",
