@@ -56,15 +56,15 @@ const Oppgaver: React.FC<Props> = ({oppgaver}) => {
                             </div>
                         </div>
                     )}>
-                        <Normaltekst className="luft_over_1rem">
+                        <Normaltekst className="zzz_luft_over_1rem">
                             Veilederen trenger mer dokumentasjon for å behandle søknaden din.
                             Hvis du ikke leverer dokumentasjonen innen fristen, blir
                             søknaden behandlet med den informasjonen vi har.
                         </Normaltekst>
-
                         <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å laste opp?</Lenke>
 
                         <div className="oppgaver_detaljer">
+                            <Normaltekst className="luft_under_8px">Frist for innlevering er {innsendelsesfrist}</Normaltekst>
                             {oppgaver.map((oppgave: Oppgave, index: number) => (
                                 <OppgaveView oppgave={oppgave} key={index} />
                             ))}

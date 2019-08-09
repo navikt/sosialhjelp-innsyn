@@ -14,11 +14,27 @@
 
   &_barn {
     display: block;
-    margin-right: 40px;
+    white-space: nowrap;
   }
 
 }
 
 .alertstripe .alertstripe__tekst {
   max-width: none !important;
+}
+
+@media screen and (max-width: 640px ) {
+  .sosialhjelpAlertStripe {
+    &_barn {
+      margin-right: 16px;
+    }
+  }
+}
+
+@media screen and (min-width: 641px ) {
+  .sosialhjelpAlertStripe {
+    &_barn {
+      margin-right: 16px;
+    }
+  }
 }
