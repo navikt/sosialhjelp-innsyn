@@ -11,6 +11,7 @@ const LangHistorikk: React.FC = () => {
         <>
 
             <SoknadsStatus
+                leserData={false}
                 status={SoknadsStatusEnum.UNDER_BEHANDLING}
                 saksStatus={[
                     {
@@ -26,6 +27,7 @@ const LangHistorikk: React.FC = () => {
             <VedleggUtbetalingerLenker />
 
             <Historikk
+                leserData={false}
                 hendelser={[
                     {
                         tidspunkt: "2018-10-04T13:42:00.134",

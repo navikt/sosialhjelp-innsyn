@@ -20,6 +20,7 @@ const DineOppgaver: React.FC = () => {
             </SosialhjelpAlertStripe>
 
             <SoknadsStatus
+                leserData={false}
                 status={SoknadsStatusEnum.UNDER_BEHANDLING}
                 saksStatus={[
                     {
@@ -65,6 +66,7 @@ const DineOppgaver: React.FC = () => {
             <VedleggUtbetalingerLenker />
 
             <Historikk
+                leserData={false}
                 hendelser={[
                     {
                         tidspunkt: "2018-10-04T13:42:00.134",

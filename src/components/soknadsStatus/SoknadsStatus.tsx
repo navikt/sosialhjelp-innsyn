@@ -8,6 +8,7 @@ import "./soknadsStatus.less";
 import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
+import Lastestriper from "../lastestriper/Lasterstriper";
 
 export enum SoknadsStatusEnum {
 	SENDT = "SENDT",
@@ -24,12 +25,16 @@ interface StatusDetalj {
 interface Props {
 	status: string|null|SoknadsStatusEnum;
 	saksStatus?: null|SaksStatusState[];
+	leserData: boolean;
 }
 
-const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
+const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 	return (
 		<Panel className="panel-uthevet">
 			<div className="tittel_og_ikon">
+				{leserData && (
+					<Lastestriper linjer={1}/>
+				)}
 				{status === SoknadsStatusEnum.SENDT && (
 					<>
 						<Innholdstittel><FormattedMessage id="status.sendt" /></Innholdstittel>
@@ -46,7 +51,6 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus}) => {
 					<>
 						<Innholdstittel><FormattedMessage id="status.under_behandling" /></Innholdstittel>
 						<DokumentElla />
-
 					</>
 				)}
 			</div>

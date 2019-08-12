@@ -7,11 +7,13 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
+import Lastestriper from "../lastestriper/Lasterstriper";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
 interface Props {
     hendelser: null | Hendelse[];
+    leserData: boolean;
 }
 
 function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
@@ -22,7 +24,16 @@ function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
     });
 }
 
-const HistorikkListe: React.FC<{hendelser: Hendelse[], className: string}> = ({hendelser, className}) => {
+interface HistorikkListeProps {
+    hendelser: Hendelse[];
+    className: string;
+    leserData: boolean;
+}
+
+const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
+    if (leserData) {
+        return (<Lastestriper linjer={3}/>);
+    }
     return (
         <ul className={className}>
             {hendelser.map((hendelse: Hendelse, index: number) => {
@@ -42,10 +53,10 @@ const HistorikkListe: React.FC<{hendelser: Hendelse[], className: string}> = ({h
     );
 };
 
-const KortHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
+const KortHistorikk: React.FC<{hendelser: Hendelse[], leserData: boolean}> = ({hendelser, leserData}) => {
     return (
         <Panel className="panel-glippe-over">
-            <HistorikkListe hendelser={hendelser} className="historikk"/>
+            <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData}/>
         </Panel>
     );
 };
@@ -66,16 +77,21 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
                     <HistorikkListe
                         hendelser={hendelser.slice(0,MAX_ANTALL_KORT_LISTE)}
                         className={"historikk "  + historikkListeClassname}
+                        leserData={false}
                     />
                 )}
             >
-                <HistorikkListe hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)} className="historikk"/>
+                <HistorikkListe
+                    hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
+                    className="historikk"
+                    leserData={false}
+                />
             </Lesmerpanel>
         </Panel>
     );
 };
 
-const Historikk: React.FC<Props> = ({hendelser}) => {
+const Historikk: React.FC<Props> = ({hendelser, leserData}) => {
     if (hendelser === null) {
         return null;
     }
@@ -83,10 +99,15 @@ const Historikk: React.FC<Props> = ({hendelser}) => {
     return (
         <>
             <Panel className="panel-luft-over">
-                <Systemtittel><FormattedMessage id="historikk.tittel"/></Systemtittel>
+                {leserData && (
+                    <Lastestriper linjer={1}/>
+                )}
+                {!leserData && (
+                    <Systemtittel><FormattedMessage id="historikk.tittel"/></Systemtittel>
+                )}
             </Panel>
             {sorterteHendelser.length < (MAX_ANTALL_KORT_LISTE +1) && (
-                <KortHistorikk hendelser={sorterteHendelser}/>
+                <KortHistorikk hendelser={sorterteHendelser} leserData={leserData}/>
             )}
             {sorterteHendelser.length > MAX_ANTALL_KORT_LISTE && (
                 <LangHistorikk hendelser={sorterteHendelser}/>

@@ -10,6 +10,7 @@ const UnderBehandling: React.FC = () => {
 	return (
 		<>
 			<SoknadsStatus
+				leserData={false}
 				status={SoknadsStatusEnum.UNDER_BEHANDLING}
 				saksStatus={[
 					{
@@ -30,6 +31,7 @@ const UnderBehandling: React.FC = () => {
 			<VedleggUtbetalingerLenker />
 
 			<Historikk
+				leserData={false}
 				hendelser={[
 					{
 						tidspunkt: "2018-10-04T13:42:00.134",

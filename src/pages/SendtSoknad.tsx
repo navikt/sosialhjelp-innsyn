@@ -7,13 +7,17 @@ import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/V
 const SendtSoknad: React.FC = () => {
 	return (
 		<>
-			<SoknadsStatus status={SoknadsStatusEnum.SENDT}/>
+			<SoknadsStatus
+				leserData={false}
+				status={SoknadsStatusEnum.SENDT}
+			/>
 
 			<Oppgaver oppgaver={[]}/>
 
 			<VedleggUtbetalingerLenker />
 
 			<Historikk
+				leserData={false}
 				hendelser={[
 					{
 						tidspunkt: "2018-10-04T13:42:00.134",

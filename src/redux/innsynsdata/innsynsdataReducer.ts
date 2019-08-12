@@ -70,9 +70,11 @@ export interface InnsynsdataType {
     hendelser: Hendelse[];
 }
 
-const initialInnsynsdataRestStatus = {
+export const initialInnsynsdataRestStatus = {
     saksStatus: REST_STATUS.INITIALISERT,
-    oppgaver: REST_STATUS.INITIALISERT
+    oppgaver: REST_STATUS.INITIALISERT,
+    soknadsStatus: REST_STATUS.INITIALISERT,
+    hendelser: REST_STATUS.INITIALISERT
 };
 
 const initialState: InnsynsdataType = {

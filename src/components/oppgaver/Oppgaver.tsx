@@ -8,9 +8,11 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
 import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import Lastestriper from "../lastestriper/Lasterstriper";
 
 interface Props {
     oppgaver: null|Oppgave[];
+    leserData?: boolean;
 }
 
 function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]) {
@@ -25,18 +27,27 @@ function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]) {
     return innsendelsesfrist;
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver}) => {
+const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
     let innsendelsesfrist = foersteInnsendelsesfrist(oppgaver);
 
     return (
         <>
             <Panel className="panel-luft-over">
-                <Systemtittel>Dine oppgaver</Systemtittel>
+                {leserData && (
+                    <Lastestriper linjer={1}/>
+                )}
+                {!leserData && (
+                    <Systemtittel>Dine oppgaver</Systemtittel>
+                )}
             </Panel>
             <Panel className="panel-glippe-over oppgaver_panel">
 
-                {oppgaver && oppgaver.length === 0 && (
+                {leserData && (
+                    <Lastestriper linjer={1}/>
+                )}
+
+                {oppgaver && oppgaver.length === 0 && !leserData && (
                     <Normaltekst>
                         Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
                     </Normaltekst>
