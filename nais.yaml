@@ -9,13 +9,13 @@ spec:
   image: "navikt/sosialhjelp-innsyn:{{version}}"
   port: 8080
   liveness:
-    path: /sosialhjelp/innsyn/
+    path: /sosialhjelp/innsyn/internal/isAlive
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sosialhjelp/innsyn/
+    path: /sosialhjelp/innsyn/internal/isAlive
     initialDelay: 20
     timeout: 1
   prometheus:
@@ -24,7 +24,7 @@ spec:
   replicas:
     min: 1
     max: 4
-  ingresses: {{{ingresses}}}
+  ingresses: {{ingresses}}
   webproxy: true
   resources:
     limits:

@@ -41,7 +41,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: # Brukernavn og passord til Github ligger i miljøvariablene DEPLOYMENT_USERNAME og DEPLOYMENT_PASSWORD. TODO: legge til støtte for deploy til prod og valgt q-miljø
-          name: Deploy til q1 dev-sbs
+          name: Deploy til q0 dev-sbs
           command: |
             deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --version=${CIRCLE_SHA1} --vars=nais/dev/q0.json
 
@@ -61,7 +61,7 @@ workflows:
       - deploy_dev:
           requires:
             - bygg
-            - hold_for_deploy
+#            - hold_for_deploy
           filters:
             branches:
               only: master
