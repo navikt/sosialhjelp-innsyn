@@ -29,8 +29,9 @@ interface Props {
 }
 
 const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
+	const antallSaksStatusElementer: number = saksStatus ? saksStatus.length : 0;
 	return (
-		<Panel className="panel-uthevet">
+		<Panel className={"panel-uthevet " + (antallSaksStatusElementer > 0 ? "panel-uthevet-luft-under" : "")}>
 			<div className="tittel_og_ikon">
 				{leserData && (
 					<Lastestriper linjer={1}/>
