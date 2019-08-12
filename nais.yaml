@@ -2,7 +2,7 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: sosialhjelp-innsyn
-  namespace: "q1"
+  namespace: {{namespace}}
   labels:
     team: digisos
 spec:
@@ -24,12 +24,7 @@ spec:
   replicas:
     min: 1
     max: 4
-  ingresses: [
-    "https://sosialhjelp-innsyn.dev-sbs.nais.io/sosialhjelp/innsyn",
-    "https://www-q1.nav.no/soknadsosialhjelp/innsyn",
-    "https://www-q0.nav.no/sosialhjelp/innsyn",
-    "https://www-q1.nav.no/sosialhjelp/innsyn",
-  ]
+  ingresses: {{ingresses}}
   webproxy: true
   resources:
     limits:
