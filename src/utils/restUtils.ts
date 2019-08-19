@@ -7,7 +7,7 @@ export function erDev(): boolean {
 
 export function getApiBaseUrl(): string {
     if (erDev()) {
-        return "http://localhost:8080/soknadsosialhjelp/innsyn-api/api/v1/innsyn"; // /1234/saksStatus
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn"; // /1234/saksStatus
     } else {
         return getAbsoluteApiUrl() + "api/v1/innsyn"
     }
@@ -15,7 +15,7 @@ export function getApiBaseUrl(): string {
 
 export function getApiBaseUrlForSwagger(): string {
     if (erDev()) {
-        return "http://localhost:8080/soknadsosialhjelp/innsyn-api/swagger-ui.html";
+        return "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html";
     } else {
         return getAbsoluteApiUrl() + "swagger-ui.html";
     }
