@@ -9,10 +9,15 @@ export enum Utfall {
     AVVIST = "AVVIST"
 }
 
+export interface Vedtaksfil {
+    tidspunkt: string;
+    beskrivelse: string;
+    filUrl: null|string;
+}
 export interface SaksStatusState {
     tittel: string;
     status: Utfall;
-    vedtaksfilUrlList: string[];
+    vedtaksfiler: Vedtaksfil[];
 }
 
 export interface Vedlegg {

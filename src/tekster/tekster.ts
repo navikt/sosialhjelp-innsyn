@@ -4,6 +4,7 @@ export const tekster = {
         "status.sendt": "Søknaden er sendt",
         "status.mottatt": "Søknaden er mottatt",
         "status.under_behandling": "Søknaden er under behandling",
+        "status.ferdig_behandlet": "Søknaden er ferdig behandlet",
         "tidspunkt.klokken": "klokken"
     }
 };

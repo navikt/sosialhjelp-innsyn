@@ -5,15 +5,18 @@ import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Hendelse, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
+import DokumentOk from "../ikoner/DokumentOk";
+import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 
 export enum SoknadsStatusEnum {
 	SENDT = "SENDT",
 	MOTTATT = "MOTTATT",
 	UNDER_BEHANDLING = "UNDER_BEHANDLING",
+	FERDIG_BEHANDLET = "FERDIG_BEHANDLET"
 }
 
 interface StatusDetalj {
@@ -54,6 +57,12 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 						<DokumentElla />
 					</>
 				)}
+				{status === SoknadsStatusEnum.FERDIG_BEHANDLET && (
+					<>
+						<Innholdstittel><FormattedMessage id="status.ferdig_behandlet" /></Innholdstittel>
+						<DokumentOk />
+					</>
+				)}
 			</div>
 
 			{saksStatus && saksStatus.map((statusdetalj: SaksStatusState, index: number) => {
@@ -64,9 +73,12 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 						<div className="status_detalj_panel__status">
 							<EtikettLiten>{status}</EtikettLiten>
 						</div>
-						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((filnavn: string, index: number) => (
+						{statusdetalj.vedtaksfiler && statusdetalj.vedtaksfiler.map((hendelse: Hendelse, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
-								<EksternLenke href={"todo_url_" + filnavn}>Vedtaksbrev</EksternLenke>
+								<EksternLenke href={"todo_url_" + hendelse.filUrl}>
+									{hendelse.beskrivelse}&nbsp;
+									(<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.tidspunkt}/>)
+								</EksternLenke>
 							</div>
 						))}
 					</div>

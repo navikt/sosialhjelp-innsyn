@@ -16,12 +16,12 @@ const UnderBehandling: React.FC = () => {
 					{
 						tittel: "Nødhjelp",
 						status: Utfall.INNVILGET,
-						vedtaksfilUrlList: []
+						vedtaksfiler: []
 					},
 					{
 						tittel: "Livsopphold og husleie",
 						status: Utfall.DELVIS_INNVILGET, // "under behandling"
-						vedtaksfilUrlList: []
+						vedtaksfiler: []
 					}
 				]}
 			/>
@@ -39,7 +39,7 @@ const UnderBehandling: React.FC = () => {
 						filUrl: "filnavn_123"
 					},
 					{
-						tidspunkt: "018-10-11T13:42:00.134",
+						tidspunkt: "2018-10-11T13:42:00.134",
 						beskrivelse: "Søknaden med vedlegg er sendt til videre NAV Vestre Aker, Oslo kommune",
 						filUrl: null
 					},

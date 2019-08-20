@@ -17,7 +17,7 @@ const LangHistorikk: React.FC = () => {
                     {
                         tittel: "Livsopphold og husleie",
                         status: Utfall.INNVILGET,
-                        vedtaksfilUrlList: []
+                        vedtaksfiler: []
                     }
                 ]}
             />

@@ -26,13 +26,13 @@ const DineOppgaver: React.FC = () => {
                     {
                         tittel: "Nødhjelp",
                         status: Utfall.INNVILGET, // "innvilget",
-                        vedtaksfilUrlList: []
+                        vedtaksfiler: []
                         // kommentarer: <Lenke href="todo">Vedtakstbrev (12.03.2019)</Lenke>
                     },
                     {
                         tittel: "Livsopphold og husleie",
                         status: Utfall.DELVIS_INNVILGET, // "under behandling"
-                        vedtaksfilUrlList: []
+                        vedtaksfiler: []
                     }
                 ]}
             />
