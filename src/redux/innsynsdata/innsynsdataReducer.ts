@@ -14,6 +14,13 @@ export interface Vedtaksfil {
     beskrivelse: string;
     filUrl: null|string;
 }
+
+export interface Utbetaling {
+    tidspunkt: string;
+    beskrivelse: string;
+    belop: number;
+}
+
 export interface SaksStatusState {
     tittel: string;
     status: Utfall;
@@ -21,9 +28,11 @@ export interface SaksStatusState {
 }
 
 export interface Vedlegg {
+    storrelse: number;
+    url: string;
+    beskrivelse: string;
+    datoLagtTil: string;
     filnavn: string;
-    filstorrelse: string;
-    id: string;
 }
 
 export interface Oppgave {
@@ -43,7 +52,8 @@ export enum InnsynsdataSti {
     SAKSSTATUS = "saksStatus",
     OPPGAVER = "oppgaver",
     SOKNADS_STATUS = "soknadsStatus",
-    HENDELSER = "hendelser"
+    HENDELSER = "hendelser",
+    VEDLEGG = "vedlegg"
 }
 
 export interface InnsynssdataActionVerdi {
@@ -73,13 +83,16 @@ export interface InnsynsdataType {
     restStatus: any;
     soknadsStatus: Status;
     hendelser: Hendelse[];
+    vedlegg: Vedlegg[];
 }
 
 export const initialInnsynsdataRestStatus = {
     saksStatus: REST_STATUS.INITIALISERT,
     oppgaver: REST_STATUS.INITIALISERT,
     soknadsStatus: REST_STATUS.INITIALISERT,
-    hendelser: REST_STATUS.INITIALISERT
+    hendelser: REST_STATUS.INITIALISERT,
+    vedlegg: REST_STATUS.INITIALISERT,
+    utbetalinger: REST_STATUS.INITIALISERT
 };
 
 const initialState: InnsynsdataType = {
@@ -89,6 +102,7 @@ const initialState: InnsynsdataType = {
         status: null
     },
     hendelser: [],
+    vedlegg: [],
     restStatus: initialInnsynsdataRestStatus
 };
 

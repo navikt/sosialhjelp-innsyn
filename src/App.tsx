@@ -21,6 +21,7 @@ import {getApiBaseUrlForSwagger} from "./utils/restUtils";
 import {Panel} from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
 import FerdigBehandlet from "./pages/FerdigBehandlet";
+import VedleggsPage from "./pages/VedleggsPage";
 
 addLocaleData(nbLocaleData);
 
@@ -63,7 +64,7 @@ const Meny: React.FC = () => {
 				<li><a href={"/" + getAbsoluteBasename() + "/mottatt"}>Mottatt søknad</a></li>
 				<li><a href={"/" + getAbsoluteBasename() + "/behandling"}>Under behandling</a></li>
 				<li><a href={"/" + getAbsoluteBasename() + "/behandlet"}>Ferdig behandlet</a></li>
-				<li><a href={"/" + getAbsoluteBasename() + "/vedlegg"}>Vedlegg</a></li>
+				<li><a href={"/" + getAbsoluteBasename() + "/dineVedlegg"}>Vedlegg</a></li>
 				<li><a href={"/" + getAbsoluteBasename() + "/oppgaver"}>Oppgaver</a></li>
 			</ul>
 			<br />
@@ -91,7 +92,8 @@ const App: React.FC = () => {
 								<Route exact path="/mottatt" component={MottattSoknad} />
 								<Route exact path="/behandling" component={UnderBehandling} />
 								<Route exact path="/behandlet" component={FerdigBehandlet} />
-								<Route exact path="/vedlegg" component={DineVedlegg} />
+								<Route exact path="/vedlegg" component={VedleggsPage} />
+								<Route exact path="/dineVedlegg" component={DineVedlegg} />
 								<Route exact path="/oppgaver" component={DineOppgaver} />
 								<Route exact path="/historikk" component={LangHistorikk} />
 							</Switch>

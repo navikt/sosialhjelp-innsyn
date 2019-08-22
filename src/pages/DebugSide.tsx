@@ -15,10 +15,12 @@ type Props = InnsynsdataContainerProps & DispatchProps;
 class DebugSide extends React.Component<Props, {}> {
 
     componentDidMount() {
-        this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.SAKSSTATUS));
-        this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.OPPGAVER));
-        this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.SOKNADS_STATUS));
-        this.props.dispatch(hentInnsynsdata("1234", InnsynsdataSti.HENDELSER));
+        const fiksDigisosId: string = "1234";
+        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
+        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SOKNADS_STATUS));
+        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
     }
 
     render() {

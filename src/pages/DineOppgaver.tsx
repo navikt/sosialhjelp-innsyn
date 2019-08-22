@@ -50,20 +50,26 @@ const DineOppgaver: React.FC = () => {
                         dokumenttype: "Kopi av depositumskonto",
                         tilleggsinformasjon: "Signert av både deg og utleier",
                         vedlegg: [{
-                            id: "12345",
                             filnavn: "IMG8232.JPG",
-                            filstorrelse: "231 kb"
+                            beskrivelse: "beskrivelse",
+                            storrelse: 234,
+                            url: "http://todo/123",
+                            datoLagtTil: "2018-10-20T07:37:30"
                         },
                         {
-                            id: "1234567",
-                            filnavn: "IMG8782.JPG",
-                            filstorrelse: "431 kb"
+                            filnavn: "IMG8232.JPG",
+                            beskrivelse: "beskrivelse",
+                            storrelse: 431,
+                            url: "http://todo/1234",
+                            datoLagtTil: "2018-10-20T07:37:30"
                         }]
                     }
                 ]
             }/>
 
-            <VedleggUtbetalingerLenker />
+            <VedleggUtbetalingerLenker
+                vedlegg={[]}
+            />
 
             <Historikk
                 leserData={false}

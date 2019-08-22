@@ -14,7 +14,9 @@ const SendtSoknad: React.FC = () => {
 
 			<Oppgaver oppgaver={[]}/>
 
-			<VedleggUtbetalingerLenker />
+			<VedleggUtbetalingerLenker
+				vedlegg={[]}
+			/>
 
 			<Historikk
 				leserData={false}

@@ -3,10 +3,16 @@ import {connect} from "react-redux";
 import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
-import {initialInnsynsdataRestStatus, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    initialInnsynsdataRestStatus,
+    InnsynsdataSti,
+    InnsynsdataType,
+    Vedlegg
+} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
+import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
 
 export interface InnsynsdataContainerProps {
     innsynsdata?: InnsynsdataType;
@@ -24,10 +30,16 @@ class SaksStatusView extends React.Component<Props, {}> {
 
     componentDidMount() {
         const fiksDigisosId : string = this.props.match.params.soknadId === undefined ? "1234" : this.props.match.params.soknadId;
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SOKNADS_STATUS));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+        const restDataStier: InnsynsdataSti[] = [
+            InnsynsdataSti.SAKSSTATUS,
+            InnsynsdataSti.OPPGAVER,
+            InnsynsdataSti.SOKNADS_STATUS,
+            InnsynsdataSti.HENDELSER,
+            InnsynsdataSti.VEDLEGG
+        ];
+        restDataStier.map((restDataSti: InnsynsdataSti) =>
+            this.props.dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
+        );
     }
 
     leserData(restStatus: string): boolean {
@@ -40,12 +52,14 @@ class SaksStatusView extends React.Component<Props, {}> {
         let saksStatus = null;
         let oppgaver = null;
         let hendelser = null;
+        let vedlegg: Vedlegg[] = [];
         let restStatus = initialInnsynsdataRestStatus;
         if (innsynsdata && innsynsdata.soknadsStatus) {
             saksStatus = innsynsdata.saksStatus;
             status = innsynsdata.soknadsStatus.status;
             oppgaver = innsynsdata.oppgaver;
             hendelser = innsynsdata.hendelser;
+            vedlegg = innsynsdata.vedlegg;
             restStatus = innsynsdata.restStatus;
         }
 
@@ -60,6 +74,11 @@ class SaksStatusView extends React.Component<Props, {}> {
                 <Oppgaver
                     oppgaver={oppgaver}
                     leserData={this.leserData(restStatus.oppgaver)}
+                />
+
+                <VedleggUtbetalingerLenker
+                    vedlegg={vedlegg}
+                    utbetalinger={[]}
                 />
 
                 <Historikk

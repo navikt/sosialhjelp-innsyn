@@ -5,7 +5,7 @@ import {
     oppdaterInnsynsdataState, settRestStatus
 } from "./innsynsdataReducer";
 
-const innsynssdataUrl = (fiksDigisosId: string, sti: string): string => `/${fiksDigisosId}/${sti}`;
+export const innsynssdataUrl = (fiksDigisosId: string, sti: string): string => `/${fiksDigisosId}/${sti}`;
 
 export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti) {
     return (dispatch: Dispatch) => {

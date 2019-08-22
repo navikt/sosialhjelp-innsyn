@@ -24,7 +24,9 @@ const LangHistorikk: React.FC = () => {
 
             <Oppgaver oppgaver={[]}/>
 
-            <VedleggUtbetalingerLenker />
+            <VedleggUtbetalingerLenker
+                vedlegg={[]}
+            />
 
             <Historikk
                 leserData={false}
