@@ -29,7 +29,8 @@ type Props = InnsynsdataContainerProps & DispatchProps;
 class SaksStatusView extends React.Component<Props, {}> {
 
     componentDidMount() {
-        const fiksDigisosId : string = this.props.match.params.soknadId === undefined ? "1234" : this.props.match.params.soknadId;
+        const soknadId = this.props.match.params.soknadId;
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const restDataStier: InnsynsdataSti[] = [
             InnsynsdataSti.SAKSSTATUS,
             InnsynsdataSti.OPPGAVER,

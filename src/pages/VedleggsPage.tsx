@@ -15,6 +15,7 @@ import {AvsnittBoks} from "../components/paneler/layoutKomponenter";
 import {Hovedknapp} from "nav-frontend-knapper";
 import VedleggView from "../components/vedlegg/VedleggView";
 import {Panel} from "nav-frontend-paneler";
+import {FormattedMessage} from "react-intl";
 
 export interface InnsynsdataContainerProps {
     innsynsdata?: InnsynsdataType;
@@ -31,7 +32,8 @@ type Props = InnsynsdataContainerProps & DispatchProps;
 class VedleggsPage extends React.Component<Props, {}> {
 
     componentDidMount() {
-        const fiksDigisosId : string = this.props.match.params.soknadId === undefined ? "1234" : this.props.match.params.soknadId;
+        const soknadId = this.props.match.params.soknadId;
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG))
     }
 
@@ -47,14 +49,17 @@ class VedleggsPage extends React.Component<Props, {}> {
             vedlegg = innsynsdata.vedlegg;
         }
         const leserData: boolean = this.leserData(restStatus.vedlegg);
+
         return (
             <Panel className="vedlegg_liste_panel">
-                <Innholdstittel className="layout_overskriftboks">Dine vedlegg</Innholdstittel>
+                <Innholdstittel className="layout_overskriftboks">
+                    <FormattedMessage id="vedlegg.tittel" />
+                </Innholdstittel>
                 <Normaltekst>
-                    Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.
+                    <FormattedMessage id="vedlegg.ingress" />
                 </Normaltekst>
                 <AvsnittBoks>
-                    <Hovedknapp>Ettersend vedlegg</Hovedknapp>
+                    <Hovedknapp><FormattedMessage id="vedlegg.ettersend_knapptekst" /></Hovedknapp>
                 </AvsnittBoks>
                 <VedleggView vedlegg={ vedlegg } leserData={leserData}/>
             </Panel>
