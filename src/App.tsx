@@ -13,8 +13,7 @@ import DineVedlegg from "./pages/DineVedlegg";
 import SaksStatus from "./pages/SaksStatus";
 import DineOppgaver from "./pages/DineOppgaver";
 import DebugSide from "./pages/DebugSide";
-import {IntlProvider, addLocaleData} from "react-intl";
-import nbLocaleData from 'react-intl/locale-data/nb';
+import {IntlProvider} from "react-intl";
 import {tekster} from "./tekster/tekster";
 import LangHistorikk from "./pages/LangHistorikk";
 import {getApiBaseUrlForSwagger} from "./utils/restUtils";
@@ -22,8 +21,6 @@ import {Panel} from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
 import FerdigBehandlet from "./pages/FerdigBehandlet";
 import VedleggsPage from "./pages/VedleggsPage";
-
-addLocaleData(nbLocaleData);
 
 const store = configureStore();
 
