@@ -81,7 +81,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                             ))}
                         </div>
 
-                        <Hovedknapp className="luft_over_2rem luft_under_1rem">
+                        <Hovedknapp type="hoved" className="luft_over_2rem luft_under_1rem">
                             Send til veileder
                         </Hovedknapp>
                     </EkspanderbartpanelBase>

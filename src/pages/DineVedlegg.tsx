@@ -38,7 +38,7 @@ const DineVedlegg: React.FC = () => {
                 <FormattedMessage id="vedlegg.ingress" />
             </Normaltekst>
             <AvsnittBoks>
-                <Hovedknapp><FormattedMessage id="vedlegg.ettersend_knapptekst" /></Hovedknapp>
+                <Hovedknapp type="hoved"><FormattedMessage id="vedlegg.ettersend_knapptekst" /></Hovedknapp>
             </AvsnittBoks>
             <VedleggView vedlegg={ mockVedlegg } leserData={false}/>
         </Panel>
