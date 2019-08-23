@@ -21,6 +21,7 @@ import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
 import FerdigBehandlet from "./pages/FerdigBehandlet";
 import VedleggsPage from "./pages/VedleggsPage";
 import './App.less';
+import Feilside from "./pages/Feilside";
 
 const store = configureStore();
 
@@ -84,6 +85,7 @@ const App: React.FC = () => {
 								<Route exact path="/" component={Meny} />
 								<Route exact path="/status" component={SaksStatus} />
 								<Route exact path="/:soknadId/status" component={SaksStatus} />
+								<Route exact path="/feil" component={Feilside} />
 								<Route exact path="/debug" component={DebugSide} />
 								<Route exact path="/sendt" component={SendtSoknad} />
 								<Route exact path="/mottatt" component={MottattSoknad} />

@@ -4,6 +4,7 @@ import {
     InnsynsdataSti,
     oppdaterInnsynsdataState, settRestStatus
 } from "./innsynsdataReducer";
+import {history} from "../../configureStore";
 
 export const innsynssdataUrl = (fiksDigisosId: string, sti: string): string => `/${fiksDigisosId}/${sti}`;
 
@@ -16,8 +17,7 @@ export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti) {
             dispatch(settRestStatus(sti, REST_STATUS.OK));
         }).catch((reason) => {
             dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-            // TODO redirigerTilFeilside()
-            // TODO Logg feil
+            history.push("/feil");
         });
     }
 }

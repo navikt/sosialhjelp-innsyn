@@ -63,7 +63,6 @@ class SaksStatusView extends React.Component<Props, {}> {
             vedlegg = innsynsdata.vedlegg;
             restStatus = innsynsdata.restStatus;
         }
-
         return (
             <>
                 <SoknadsStatus
@@ -87,7 +86,7 @@ class SaksStatusView extends React.Component<Props, {}> {
                     leserData={this.leserData(restStatus.hendelser)}
                 />
             </>
-        )
+        );
     }
 
 }
