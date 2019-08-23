@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.less';
 import AppBanner from "./components/appBanner/AppBanner";
 import BrodsmuleSti from "./components/brodsmuleSti/BrodsmuleSti";
 import SendtSoknad from "./pages/SendtSoknad";
@@ -21,6 +20,7 @@ import {Panel} from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
 import FerdigBehandlet from "./pages/FerdigBehandlet";
 import VedleggsPage from "./pages/VedleggsPage";
+import './App.less';
 
 const store = configureStore();
 

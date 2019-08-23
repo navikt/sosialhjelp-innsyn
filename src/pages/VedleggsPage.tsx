@@ -15,6 +15,7 @@ import {AvsnittBoks} from "../components/paneler/layoutKomponenter";
 import {Hovedknapp} from "nav-frontend-knapper";
 import VedleggView from "../components/vedlegg/VedleggView";
 import {Panel} from "nav-frontend-paneler";
+// @ts-ignore
 import {FormattedMessage} from "react-intl";
 
 export interface InnsynsdataContainerProps {
