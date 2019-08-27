@@ -32,10 +32,6 @@ jobs:
             echo "$DOCKER_PASSWORD_GITHUB" | docker login -u "$DOCKER_USERNAME_GITHUB" --password-stdin docker.pkg.github.com
             echo $DOCKER_TAG
             docker push $DOCKER_TAG
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./VERSION.txt
 
 
   deploy_dev:
