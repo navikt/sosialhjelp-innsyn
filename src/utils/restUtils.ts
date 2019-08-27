@@ -25,7 +25,7 @@ export function getApiBaseUrlForSwagger(): string {
  * Resolves API URL in a pathname independent way
  */
 function getAbsoluteApiUrl() {
-    return window.location.pathname.replace(/^(\/([^/]+\/)?sosialhjelp\/)innsyn.+$/, "$1login-api/")
+    return window.location.pathname.replace(/^(\/([^/]+\/)?sosialhjelp\/)innsyn.+$/, "$1login-api/innsyn-api/")
 }
 
 enum RequestMethod {
