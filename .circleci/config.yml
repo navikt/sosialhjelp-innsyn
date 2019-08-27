@@ -6,21 +6,10 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - setup_remote_docker
-      - run:
-          name: Bygger Docker image
-          command:
-#            docker build -t "navikt/sosialhjelp-innsyn:$VERSION" .
-            docker build -t "navikt/sosialhjelp-innsyn:${CIRCLE_SHA1}" .
-      - run:
-          name: Pusher Docker image
-          command: |
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
-            docker push "navikt/sosialhjelp-innsyn:${CIRCLE_SHA1}"
 
   release:
     docker:
-      - image: "circleci/openjdk:11-jdk"
+      - image: "circleci/node:10"
     steps:
       - checkout
       - setup_remote_docker:
