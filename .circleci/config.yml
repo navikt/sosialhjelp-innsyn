@@ -6,22 +6,6 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-#      - restore_cache:
-#          keys:
-#            # when lock file changes, use increasingly general patterns to restore cache
-#            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-#            - node-v1-{{ .Branch }}-
-#            - node-v1-
-#      - run:
-#          name: Bygg React app
-#          command: |
-#            npm ci
-#            npm run build
-#      - save_cache:
-#          paths:
-#            - ~/usr/local/lib/node_modules # location depends on npm version
-#          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
       - setup_remote_docker
       - run:
           name: Bygger Docker image
@@ -36,32 +20,64 @@ jobs:
 
   deploy_dev:
     docker:
-      - image: navikt/deployment-cli:v0.1.6
+      - image: navikt/deployment-cli:v0.2.0
     steps:
       - checkout
       - setup_remote_docker
-      - run: # Brukernavn og passord til Github ligger i miljøvariablene DEPLOYMENT_USERNAME og DEPLOYMENT_PASSWORD. TODO: legge til støtte for deploy til prod og valgt q-miljø
-          name: Deploy til q0 dev-sbs
+      - run: # Brukernavn og passord til Github ligger i miljøvariablene DEPLOYMENT_USERNAME og DEPLOYMENT_PASSWORD.
+          name: Deploy til default dev-sbs
           command: |
-            deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --version=${CIRCLE_SHA1} --vars=nais/dev/q0.json
+            export GIT_COMMIT_HASH=$(git log -n 1 --pretty=format:'%h')
+            export GIT_COMMIT_DATE=$(git log -1 --pretty='%ad' --date=format:'%Y%m%d.%H%M')
+            export VERSION=1.0_${GIT_COMMIT_DATE}_${GIT_COMMIT_HASH}
 
+            deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/default.json
+
+    deploy_miljo:
+      docker:
+        - image: navikt/deployment-cli:v0.2.0
+      steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Deploy versjon=${VERSION} til miljø=${MILJO} i dev-sbs
+            command: |
+              export GIT_COMMIT_HASH=$(git log -n 1 --pretty=format:'%h')
+              export GIT_COMMIT_DATE=$(git log -1 --pretty='%ad' --date=format:'%Y%m%d.%H%M')
+              export VERSION=1.0_${GIT_COMMIT_DATE}_${GIT_COMMIT_HASH}
+
+              deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+
+    deploy_prod:
+      docker:
+        - image: navikt/deployment-cli:v0.2.0
+      steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Deploy versjon=${VERSION} til prod
+            command: |
+              export GIT_COMMIT_HASH=$(git log -n 1 --pretty=format:'%h')
+              export GIT_COMMIT_DATE=$(git log -1 --pretty='%ad' --date=format:'%Y%m%d.%H%M')
+              export VERSION=1.0_${GIT_COMMIT_DATE}_${GIT_COMMIT_HASH}
+
+              deployment-cli deploy create --cluster=prod-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
 
 
 workflows:
-  version: 2.1
+  version: 2
   bygg-og-publish-image:
     jobs:
-      - bygg:
-          context: NAIS deployment
-# FIXME: Trigger ikke, og holder igjen deploy_dev
-#      - hold_for_deploy: # <<< A job that will require manual approval in the CircleCI web application.
-#          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
-#          requires:
-#            - bygg
-      - deploy_dev:
-          requires:
-            - bygg
-#            - hold_for_deploy
-          filters:
-            branches:
-              only: master
+      - build
+
+        - release:
+            context: NAIS deployment
+            requires:
+              - build
+
+        - deploy_dev:
+            requires:
+              - release
+            filters:
+              branches:
+                only: master
