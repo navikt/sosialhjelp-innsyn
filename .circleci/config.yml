@@ -66,18 +66,18 @@ jobs:
 
 workflows:
   version: 2
-  bygg-og-publish-image:
+  build_and_deploy:
     jobs:
       - build
 
-        - release:
-            context: NAIS deployment
-            requires:
-              - build
+      - release:
+          context: NAIS deployment
+          requires:
+            - build
 
-        - deploy_dev:
-            requires:
-              - release
-            filters:
-              branches:
-                only: master
+      - deploy_dev:
+          requires:
+            - release
+          filters:
+            branches:
+              only: master
