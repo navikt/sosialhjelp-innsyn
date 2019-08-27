@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  bygg:
+  build:
     docker:
       - image: circleci/node:10
     steps:
