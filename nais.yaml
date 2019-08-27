@@ -6,7 +6,7 @@ metadata:
   labels:
     team: digisos
 spec:
-  image: "navikt/sosialhjelp-innsyn:{{version}}"
+  image: docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:{{version}}
   port: 8080
   liveness:
     path: /sosialhjelp/innsyn/internal/isAlive
