@@ -79,7 +79,7 @@ function sjekkStatuskode(response: Response) {
     if (response.status === 401){
         console.warn("Bruker er ikke logget inn.");
         response.json().then(r => {
-            window.location.href = r.loginUrl + "?redirect=/sosialhjelp/";
+            window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
         });
         return response;
     }
