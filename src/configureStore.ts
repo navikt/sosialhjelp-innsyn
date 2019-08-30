@@ -10,7 +10,8 @@ import {erDev} from "./utils/restUtils";
  */
 export function getAbsoluteBasename() {
 	// @ts-ignore
-	return erDev() ? "sosialhjelp/innsyn" : window.location.pathname.replace(/^\/(([^/]+\/)?sosialhjelp\/innsyn).+$/, "$1")
+	// return erDev() ? "sosialhjelp/innsyn" : window.location.pathname.replace(/^\/(([^/]+\/)?sosialhjelp\/innsyn).+$/, "$1");
+	return erDev() ? "sosialhjelp" : window.location.pathname.replace(/^\/(([^/]+\/)?sosialhjelp).+$/, "$1");
 }
 
 export const history = createBrowserHistory({
