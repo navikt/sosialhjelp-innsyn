@@ -19,6 +19,8 @@ const SakPanel: React.FC<{tittel: string, status: string, oppdatert: string, eti
                         </EtikettLiten>
                     </div>
                     <Element >{tittel}</Element>
+                </div>
+                <div className="sakpanel_innhold_etikett">
                     {etikett && (
                         <EtikettFokus>{etikett}</EtikettFokus>
                     )}

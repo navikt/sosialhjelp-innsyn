@@ -13,23 +13,25 @@ const Saksoversikt: React.FC = () => {
     return (
         <>
             <Panel className="panel panel-luft-over dine_soknader_panel">
-                <Systemtittel>Dine søknader</Systemtittel>
-                <Knapp type="standard" >+ Ny søknad</Knapp>
-                <Select label='Vis for' className="periode_velger">
-                    <option value='siste4uker'>Siste 4 uker</option>
-                    <option value='siste3mnd'>Siste 3 måneder</option>
-                    <option value='sisteaar'>Siste år</option>
-                    <option value='alle'>Alle</option>
-                </Select>
+                <div className="tittel_og_knapp_container">
+                    <Systemtittel>Dine søknader</Systemtittel>
+                    <Knapp type="standard" >+ Ny søknad</Knapp>
+                </div>
+                <div className="periodevelger_container">
+                    <Select label='Vis for' className="periode_velger">
+                        <option value='siste4uker'>Siste 4 uker</option>
+                        <option value='siste3mnd'>Siste 3 måneder</option>
+                        <option value='sisteaar'>Siste år</option>
+                        <option value='alle'>Alle</option>
+                    </Select>
+                </div>
             </Panel>
-
             <SakPanel
                 tittel="Økonomisk sosialhjelp"
                 etikett="Du har en oppgave"
                 status="Sendt"
                 oppdatert={"2018-10-04T13:42:00.134"}
             />
-
             <SakPanel
                 tittel="Livsopphold og strøm"
                 status="Ferdig behandlet"
