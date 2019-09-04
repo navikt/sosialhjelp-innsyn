@@ -46,7 +46,7 @@ const Saksoversikt: React.FC = () => {
 
             <InfoPanelContainer>
                 <InfoPanel tittel={"Meld fra om endringer"} href={"todo"}>
-                    Du må melde fra desom din økonomiske situasjon endres.
+                    Du må melde fra dersom din økonomiske situasjon endres.
                 </InfoPanel>
 
                 <InfoPanel tittel={"Klagerettigheter"} href={"todo"}>
