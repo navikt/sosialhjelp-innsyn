@@ -4,18 +4,22 @@ import {ConnectedRouter} from "connected-react-router";
 import {history} from "../configureStore";
 import BrodsmuleSti from "../components/brodsmuleSti/BrodsmuleSti";
 import {Route, Switch} from "react-router";
-import InnsynTestMeny from "./InnsynTestMeny";
-import SaksStatus from "../pages/SaksStatus";
-import Feilside from "../pages/Feilside";
-import DebugSide from "../pages/DebugSide";
-import SendtSoknad from "../pages/SendtSoknad";
-import MottattSoknad from "../pages/MottattSoknad";
-import UnderBehandling from "../pages/UnderBehandling";
-import FerdigBehandlet from "../pages/FerdigBehandlet";
-import VedleggsPage from "../pages/VedleggsPage";
-import DineVedlegg from "../pages/DineVedlegg";
-import DineOppgaver from "../pages/DineOppgaver";
-import LangHistorikk from "../pages/LangHistorikk";
+import InnsynDemoMeny from "./statiskeDemoSider/InnsynDemoMeny";
+import SaksStatus from "./SaksStatus";
+import Feilside from "../components/feilside/Feilside";
+import DebugSide from "./DebugSide";
+import SendtSoknad from "./statiskeDemoSider/SendtSoknad";
+import MottattSoknadDemo from "./statiskeDemoSider/MottattSoknadDemo";
+import UnderBehandling from "./statiskeDemoSider/UnderBehandling";
+import FerdigBehandlet from "./statiskeDemoSider/FerdigBehandlet";
+import VedleggsPage from "./VedleggsSide";
+import DineVedlegg from "./statiskeDemoSider/DineVedlegg";
+import DineOppgaver from "./statiskeDemoSider/DineOppgaver";
+import LangHistorikkDemo from "./statiskeDemoSider/LangHistorikkDemo";
+import Saksoversikt from "../saksoversikt/Saksoversikt";
+import VedtakEtterFerdigBehandlet from "./statiskeDemoSider/VedtakEtterFerdigBehandlet";
+import BlirIkkeRealitetsbehandlet from "./statiskeDemoSider/BlirIkkeRealitetsbehandlet";
+import Kvalifiseringsprogram from "./statiskeDemoSider/Kvalifiseringsprogram";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -25,19 +29,28 @@ const InnsynRouter: React.FC = () => {
                 <div className="blokk-center">
                     <BrodsmuleSti/>
                     <Switch>
-                        <Route exact path="/innsyn/" component={InnsynTestMeny} />
+                        <Route exact path="/innsyn/" component={Saksoversikt} />
+                        <Route exact path="/innsyn/demo" component={InnsynDemoMeny} />
                         <Route exact path="/innsyn/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <Route exact path="/innsyn/feil" component={Feilside} />
+
+                        {/* Demo routes: */}
+                        <Route exact path="/innsyn/demo/sendt" component={SendtSoknad} />
+                        <Route exact path="/innsyn/demo/mottatt" component={MottattSoknadDemo} />
+                        <Route exact path="/innsyn/demo/behandling" component={UnderBehandling} />
+                        <Route exact path="/innsyn/demo/behandlet" component={FerdigBehandlet} />
+                        <Route exact path="/innsyn/demo/vedlegg" component={VedleggsPage} />
+                        <Route exact path="/innsyn/demo/dineVedlegg" component={DineVedlegg} />
+                        <Route exact path="/innsyn/demo/oppgaver" component={DineOppgaver} />
+                        <Route exact path="/innsyn/demo/historikk" component={LangHistorikkDemo} />
+                        <Route exact path="/innsyn/demo/vedtakEtterFerdigBehandlet" component={VedtakEtterFerdigBehandlet} />
+                        <Route exact path="/innsyn/demo/blirIkkeRealitetsbehandlet" component={BlirIkkeRealitetsbehandlet} />
+                        <Route exact path="/innsyn/demo/saksoversikt" component={Saksoversikt} />
+                        <Route exact path="/innsyn/demo/kvalifiseringsprogram" component={Kvalifiseringsprogram} />
+
+                        {/* Debug routes: */}
                         <Route exact path="/innsyn/debug" component={DebugSide} />
-                        <Route exact path="/innsyn/sendt" component={SendtSoknad} />
-                        <Route exact path="/innsyn/mottatt" component={MottattSoknad} />
-                        <Route exact path="/innsyn/behandling" component={UnderBehandling} />
-                        <Route exact path="/innsyn/behandlet" component={FerdigBehandlet} />
-                        <Route exact path="/innsyn/vedlegg" component={VedleggsPage} />
-                        <Route exact path="/innsyn/dineVedlegg" component={DineVedlegg} />
-                        <Route exact path="/innsyn/oppgaver" component={DineOppgaver} />
-                        <Route exact path="/innsyn/historikk" component={LangHistorikk} />
                     </Switch>
                 </div>
             </ConnectedRouter>

@@ -8,6 +8,7 @@ import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
 import './App.less';
 import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
+import VeiviserPlaceholder from "./saksoversikt/statiskeDemoSider/VeiviserPlaceholder";
 
 const store = configureStore();
 
@@ -18,7 +19,7 @@ const App: React.FC = () => {
 			<IntlProvider defaultLocale={language} locale={language} messages={tekster[language]}>
 				<ConnectedRouter history={history}>
 					<Switch>
-						<Route exact path="/" component={SaksoversiktRouter} />
+						<Route exact path="/" component={VeiviserPlaceholder} />
 						<Route path="/saksoversikt" component={SaksoversiktRouter} />
 						<Route path="/innsyn" component={InnsynRouter} />
 					</Switch>

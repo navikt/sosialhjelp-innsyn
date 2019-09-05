@@ -1,11 +1,11 @@
 import React from 'react';
-import Historikk from "../components/historikk/Historikk";
-import SoknadsStatus, {SoknadsStatusEnum} from "../components/soknadsStatus/SoknadsStatus";
-import Oppgaver from "../components/oppgaver/Oppgaver";
-import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
-import {Utfall} from "../redux/innsynsdata/innsynsdataReducer";
-import EksternLenke from "../components/eksternLenke/EksternLenke";
-import SosialhjelpAlertStripe from "../components/alertStripe/SosialhelpAlertStripe";
+import Historikk from "../../components/historikk/Historikk";
+import SoknadsStatus, {SoknadsStatusEnum} from "../../components/soknadsStatus/SoknadsStatus";
+import Oppgaver from "../../components/oppgaver/Oppgaver";
+import VedleggUtbetalingerLenker from "../../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
+import {Utfall} from "../../redux/innsynsdata/innsynsdataReducer";
+import EksternLenke from "../../components/eksternLenke/EksternLenke";
+import SosialhjelpAlertStripe from "../../components/alertStripe/SosialhelpAlertStripe";
 
 const DineOppgaver: React.FC = () => {
 

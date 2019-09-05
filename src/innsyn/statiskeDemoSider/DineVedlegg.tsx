@@ -2,9 +2,9 @@ import React from 'react';
 import {Panel} from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {AvsnittBoks} from "../components/paneler/layoutKomponenter";
-import {Vedlegg} from "../redux/innsynsdata/innsynsdataReducer";
-import VedleggView from "../components/vedlegg/VedleggView";
+import {AvsnittBoks} from "../../components/paneler/layoutKomponenter";
+import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
+import VedleggView from "../../components/vedlegg/VedleggView";
 import {FormattedMessage} from "react-intl";
 
 const DineVedlegg: React.FC = () => {

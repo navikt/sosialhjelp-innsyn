@@ -1,11 +1,11 @@
 import React from 'react';
-import Historikk from "../components/historikk/Historikk";
-import SoknadsStatus, {SoknadsStatusEnum} from "../components/soknadsStatus/SoknadsStatus";
-import Oppgaver from "../components/oppgaver/Oppgaver";
-import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
-import {Utfall} from "../redux/innsynsdata/innsynsdataReducer";
+import Historikk from "../../components/historikk/Historikk";
+import SoknadsStatus, {SoknadsStatusEnum} from "../../components/soknadsStatus/SoknadsStatus";
+import Oppgaver from "../../components/oppgaver/Oppgaver";
+import VedleggUtbetalingerLenker from "../../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
+import {Utfall} from "../../redux/innsynsdata/innsynsdataReducer";
 
-const LangHistorikk: React.FC = () => {
+const LangHistorikkDemo: React.FC = () => {
 
     return (
         <>
@@ -97,4 +97,4 @@ const LangHistorikk: React.FC = () => {
     );
 };
 
-export default LangHistorikk;
+export default LangHistorikkDemo;

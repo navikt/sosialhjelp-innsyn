@@ -30,7 +30,7 @@ export interface InnsynsdataContainerProps {
 
 type Props = InnsynsdataContainerProps & DispatchProps;
 
-class VedleggsPage extends React.Component<Props, {}> {
+class VedleggsSide extends React.Component<Props, {}> {
 
     componentDidMount() {
         const soknadId = this.props.match.params.soknadId;
@@ -82,4 +82,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(VedleggsPage);
+)(VedleggsSide);

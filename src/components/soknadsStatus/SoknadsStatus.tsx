@@ -1,11 +1,11 @@
 import React from 'react';
-import { Panel } from "nav-frontend-paneler";
-import {Element, EtikettLiten, Innholdstittel} from "nav-frontend-typografi";
+import {Panel} from "nav-frontend-paneler";
+import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import {Hendelse, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Hendelse, SaksStatusState, Utfall} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -66,13 +66,17 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 			</div>
 
 			{saksStatus && saksStatus.map((statusdetalj: SaksStatusState, index: number) => {
-				const status = statusdetalj.status.replace(/_/,' ');
+				const status = statusdetalj.status.replace(/_/g,' ');
+				const kanVises: boolean = statusdetalj.status !== Utfall.KAN_IKKE_VISES;
 				return (
 					<div className="status_detalj_panel" key={index}>
 						<Element>{statusdetalj.tittel}</Element>
-						<div className="status_detalj_panel__status">
-							<EtikettLiten>{status}</EtikettLiten>
-						</div>
+						{kanVises && (
+							<div className="status_detalj_panel__status">
+								<EtikettLiten>{status}</EtikettLiten>
+							</div>
+						)}
+
 						{statusdetalj.vedtaksfiler && statusdetalj.vedtaksfiler.map((hendelse: Hendelse, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
 								<EksternLenke href={"todo_url_" + hendelse.filUrl}>
@@ -81,6 +85,13 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 								</EksternLenke>
 							</div>
 						))}
+						{statusdetalj.melding && statusdetalj.melding.length > 0 && (
+							<div className="panel-glippe-over">
+								<Normaltekst>
+									{statusdetalj.melding}
+								</Normaltekst>
+							</div>
+						)}
 					</div>
 				)
 			})}

@@ -28,7 +28,7 @@ class DebugSide extends React.Component<Props, {}> {
             <>
                 <h1>Din status</h1>
                 <p>
-                    Alle innsynsdata i redux store:
+                    Alle innsynsdata som mottas fra backend:
                 </p>
                 <pre>{JSON.stringify(this.props.innsynsdata, null, 4)}</pre>
             </>

@@ -6,7 +6,9 @@ export enum Utfall {
     INNVILGET = "INNVILGET",
     DELVIS_INNVILGET = "DELVIS_INNVILGET",
     AVSLATT = "AVSLATT",
-    AVVIST = "AVVIST"
+    AVVIST = "AVVIST",
+    FERDIG_BEHANDLET = "FERDIG_BEHANDLET",
+    KAN_IKKE_VISES = "KAN_IKKE_VISES"
 }
 
 export interface Vedtaksfil {
@@ -25,6 +27,7 @@ export interface SaksStatusState {
     tittel: string;
     status: Utfall;
     vedtaksfiler: Vedtaksfil[];
+    melding?: string;
 }
 
 export interface Vedlegg {

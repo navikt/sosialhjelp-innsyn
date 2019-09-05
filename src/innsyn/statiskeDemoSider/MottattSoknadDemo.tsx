@@ -1,10 +1,10 @@
 import React from 'react';
-import Historikk from "../components/historikk/Historikk";
-import SoknadsStatus, { SoknadsStatusEnum } from "../components/soknadsStatus/SoknadsStatus";
-import Oppgaver from "../components/oppgaver/Oppgaver";
-import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
+import Historikk from "../../components/historikk/Historikk";
+import SoknadsStatus, { SoknadsStatusEnum } from "../../components/soknadsStatus/SoknadsStatus";
+import Oppgaver from "../../components/oppgaver/Oppgaver";
+import VedleggUtbetalingerLenker from "../../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
 
-const MottattSoknad: React.FC = () => {
+const MottattSoknadDemo: React.FC = () => {
 
 	return (
 		<>
@@ -58,4 +58,4 @@ const MottattSoknad: React.FC = () => {
 	);
 };
 
-export default MottattSoknad;
+export default MottattSoknadDemo;
