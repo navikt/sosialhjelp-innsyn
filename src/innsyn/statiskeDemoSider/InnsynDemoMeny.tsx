@@ -65,10 +65,18 @@ const InnsynDemoMeny: React.FC = () => {
             </ul>
             <br/>
 
+            <Innholdstittel>Utbetalingsoversikt</Innholdstittel>
+            <ul className="typo-normal">
+                <li><Lenke href={"/" + getAbsoluteBasename() + "/innsyn/utbetalinger/demo"}>Dine utbetalinger</Lenke></li>
+            </ul>
+            <br/>
+
             <Innholdstittel>Interne testsider</Innholdstittel>
             <ul className="typo-normal">
                 <li><Lenke href={"/" + getAbsoluteBasename() + "/innsyn/debug"}>Vis alle innsynsdata som JSON</Lenke></li>
             </ul>
+            <br/>
+
         </Panel>
     )
 };

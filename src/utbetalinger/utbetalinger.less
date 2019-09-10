@@ -1,0 +1,105 @@
+// **** sidelayout
+
+.utbetalinger-blokk-center {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 640px ) {
+  .utbetalinger-blokk-center {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 641px ) {
+  .utbetalinger-blokk-center {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+
+.utbetalinger {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+}
+
+.utbetalinger_row {
+  display: flex;
+  flex-direction: row;
+}
+
+.utbetalinger_column {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+}
+
+.utbetalinger_column_1 {
+  display: block;
+  width: 16rem;
+}
+
+.utbetalinger_periodevelger_panel {
+  width: 220px;
+  margin-left: 0;
+  display: block;
+  border-radius: 4px;
+  background-color: white;
+  padding: 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  button {
+    margin-bottom: 1rem;
+  }
+}
+
+.utbetalinger_detaljer {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem !important;
+}
+
+// ****** Selve utbetalingene *****
+.utbetaling_wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .utbetaling_tittel {
+    font-weight: bold;
+
+    .etikett {
+      margin-left: 1rem;
+      padding: 4px 8px 4px 8px;
+    }
+  }
+
+  .utbetaling_belop {
+    font-weight: bold;
+  }
+}
+
+.utbetaling_periode_mottaker {
+  display: flex;
+
+  div {
+    width: 12rem;
+  }
+}
+// ******* periodevelger
+
+.periodevelger_skjemaelement {
+  margin-left: 1rem;
+}

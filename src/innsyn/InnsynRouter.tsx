@@ -20,6 +20,7 @@ import Saksoversikt from "../saksoversikt/Saksoversikt";
 import VedtakEtterFerdigBehandlet from "./statiskeDemoSider/VedtakEtterFerdigBehandlet";
 import BlirIkkeRealitetsbehandlet from "./statiskeDemoSider/BlirIkkeRealitetsbehandlet";
 import Kvalifiseringsprogram from "./statiskeDemoSider/Kvalifiseringsprogram";
+import UtbetalingerDemo from "../utbetalinger/statiskeDemoSider/UtbetalingerDemo";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -48,6 +49,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/demo/blirIkkeRealitetsbehandlet" component={BlirIkkeRealitetsbehandlet} />
                         <Route exact path="/innsyn/demo/saksoversikt" component={Saksoversikt} />
                         <Route exact path="/innsyn/demo/kvalifiseringsprogram" component={Kvalifiseringsprogram} />
+                        <Route exact path="/innsyn/demo/utbetalinger" component={UtbetalingerDemo} />
 
                         {/* Debug routes: */}
                         <Route exact path="/innsyn/debug" component={DebugSide} />
