@@ -41,7 +41,9 @@ const UtbetalingerDemo: React.FC = () => {
                 </div>
 
                     <Panel className="utbetalinger_detaljer">
-                        Du har 3 utbetalinger som ikke er utført
+                        <Normaltekst>
+                            Du har 3 utbetalinger som ikke er utført
+                        </Normaltekst>
 
                         <div className="utbetaling_wrapper">
                             <div className="utbetaling_tittel">
