@@ -17,7 +17,7 @@ const UtbetalingerPanel: React.FC = () => {
                     </Normaltekst>
                     <span>
                         {open && (
-                            <Lenke href="#" onClick={(evt: any) => {setOpen(false);evt.preventDefault();console.warn("open: " + open);}}>
+                            <Lenke href="#" onClick={(evt: any) => {setOpen(false);evt.preventDefault();}}>
                                 Lukk
                                 <OppChevron />
                             </Lenke>
