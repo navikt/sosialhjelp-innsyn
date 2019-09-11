@@ -7,12 +7,12 @@ const MainNav: React.FC = () => (
         <div className="mainNav__wrapper">
             <ul>
                 <li>
-                    <Lenke href="/todo" className="active">
+                    <Lenke href="/todo" className="inactive">
                         Utførte utbetalinger
                     </Lenke>
                 </li>
                 <li>
-                    <Lenke href="/todo2" className="inactive">
+                    <Lenke href="/todo2" className="active">
                         Kommende utbetalinger
                     </Lenke>
                 </li>
