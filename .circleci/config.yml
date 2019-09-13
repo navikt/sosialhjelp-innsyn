@@ -42,6 +42,36 @@ jobs:
             echo $DOCKER_TAG
             docker push $DOCKER_TAG
 
+  release:
+    docker:
+      - image: alpine/git
+    steps:
+      - checkout
+      - run:
+          name: Release on Heroku
+          command: |
+            # HEROKU_USERNAME must be URL encoded, eg. joachim.liepelt%40nav.no
+            git remote add heroku https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$CIRCLE_PROJECT_REPONAME.git
+            git push heroku $CIRCLE_BRANCH:master
+
+  browser-test:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run:
+          name: Run browser tests
+          command: |
+            set -eo pipefail
+            git clone https://github.com/navikt/sosialhjelp-tester.git
+            cd sosialhjelp-tester
+
+            npm install
+            npm run saucelabs-innsyn
+
+      - store_test_results:
+          path: /tmp/test-results
+
+  # FIXME: Trenger vi denne?
   deploy_dev:
     docker:
       - image: navikt/deployment-cli:v0.2.0
@@ -89,6 +119,16 @@ workflows:
   build_and_deploy:
     jobs:
       - build
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - browser-test:
+          requires:
+            - release
+      # FIXME: Trenger vi denne?
       - deploy_dev:
           requires:
             - build
