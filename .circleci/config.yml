@@ -124,7 +124,7 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only: feature/circleci-test
       - browser-test:
           requires:
             - release
