@@ -52,7 +52,7 @@ jobs:
           command: |
             # HEROKU_USERNAME must be URL encoded, eg. joachim.liepelt%40nav.no
             git remote add heroku https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$CIRCLE_PROJECT_REPONAME.git
-            git push heroku $CIRCLE_BRANCH:master
+            git push heroku $CIRCLE_BRANCH:master -f
 
   browser-test:
     docker:
