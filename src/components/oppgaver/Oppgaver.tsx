@@ -67,7 +67,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                             </div>
                         </div>
                     )}>
-                        <Normaltekst className="zzz_luft_over_1rem">
+                        <Normaltekst >
                             Veilederen trenger mer dokumentasjon for å behandle søknaden din.
                             Hvis du ikke leverer dokumentasjonen innen fristen, blir
                             søknaden behandlet med den informasjonen vi har.
