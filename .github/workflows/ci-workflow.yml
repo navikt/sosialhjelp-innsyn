@@ -22,10 +22,28 @@ jobs:
       - name: Generate version number and docker image tags
         run: |
           export PATH=$(cat PATH)
-          VERSION=$(create-artifact-version.sh)
-          echo $VERSION
-          env
-#          echo "docker.pkg.github.com/navikt/$CIRCLE_PROJECT_REPONAME/$CIRCLE_PROJECT_REPONAME:$VERSION" > DOCKER_TAG
+          VERSION="$(create-artifact-version.sh)_0.1"
+          PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
+          echo $PROJECT_NAME > PROJECT_NAME
+          echo "docker.pkg.github.com/$GITHUB_REPOSITORY/PROJECT_NAME:$VERSION" > DOCKER_TAG
+      - name: Create tag and release
+        run: |
+          export PATH=$(cat PATH)
+          echo $DIGISOS_KEY | tr '_' '\n' > digisos.key
+          GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh digisos.key $DIGISOS_APPID`)
+          rm digisos.key
+
+          create-github-release.sh -p $(cat PROJECT_NAME) -t "$(create-artifact-version.sh)_0.1" \
+              -c $GITHUB_SHA -m "$(format-commit-message.sh)" -a $GH_TOKEN
+        env:
+          DIGISOS_APPID: ${{ secrets.DIGISOS_APPID }}
+          DIGISOS_KEY: ${{ secrets.DIGISOS_KEY }}
+      - name: Build docker image
+        run: docker build -t $(cat DOCKER_TAG) .
+      - name: Docker push
+        run: |
+          cat DOCKER_TAG
+          docker push $(cat DOCKER_TAG)
 #      - name: Set environment variable
 #        run: |
 #          echo 42 > THIS_IS_A_TEST
