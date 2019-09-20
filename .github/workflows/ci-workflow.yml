@@ -14,12 +14,22 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Set environment variable
-        run: |
-          echo 42 > THIS_IS_A_TEST
-      - name: Read environment variable
-        run: |
-          cat THIS_IS_A_TEST
+      - name: Checkout CI scripts
+        command: |
+          git clone https://github.com/navikt/github-apps-support.git
+          git clone https://github.com/navikt/sosialhjelp-ci.git
+          echo "`pwd`/github-apps-support/bin:`pwd`/sosialhjelp-ci/bin:$PATH" > PATH
+      - name: Generate version number and docker image tags
+        command: |
+          export PATH=$(cat PATH)
+          VERSION=$(create-artifact-version.sh)
+          echo $VERSION
+#      - name: Set environment variable
+#        run: |
+#          echo 42 > THIS_IS_A_TEST
+#      - name: Read environment variable
+#        run: |
+#          cat THIS_IS_A_TEST
 #      - name: TypeScript action
 #        uses: "navikt/sosialhjelp-innsyn/typescript-action@actions"
 #        with:
