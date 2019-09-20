@@ -19,12 +19,13 @@ jobs:
           git clone https://github.com/navikt/github-apps-support.git
           git clone https://github.com/navikt/sosialhjelp-ci.git
           echo "`pwd`/github-apps-support/bin:`pwd`/sosialhjelp-ci/bin:$PATH" > PATH
-          cat PATH
       - name: Generate version number and docker image tags
         run: |
           export PATH=$(cat PATH)
           VERSION=$(create-artifact-version.sh)
           echo $VERSION
+          env
+#          echo "docker.pkg.github.com/navikt/$CIRCLE_PROJECT_REPONAME/$CIRCLE_PROJECT_REPONAME:$VERSION" > DOCKER_TAG
 #      - name: Set environment variable
 #        run: |
 #          echo 42 > THIS_IS_A_TEST
