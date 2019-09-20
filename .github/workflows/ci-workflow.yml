@@ -15,12 +15,13 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Checkout CI scripts
-        command: |
+        run: |
           git clone https://github.com/navikt/github-apps-support.git
           git clone https://github.com/navikt/sosialhjelp-ci.git
           echo "`pwd`/github-apps-support/bin:`pwd`/sosialhjelp-ci/bin:$PATH" > PATH
+          cat PATH
       - name: Generate version number and docker image tags
-        command: |
+        run: |
           export PATH=$(cat PATH)
           VERSION=$(create-artifact-version.sh)
           echo $VERSION
