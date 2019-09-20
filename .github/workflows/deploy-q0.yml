@@ -2,9 +2,7 @@ name: Deploy project
 
 on:
   repository_dispatch:
-    types:
-      - q0
-      - q1
+    types: q1
 
 jobs:
   deploy:
