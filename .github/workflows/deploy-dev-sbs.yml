@@ -1,15 +1,20 @@
-name: Deploy project
+name: Deploy to dev-sbs
 
 on:
   repository_dispatch:
-    types: q1
+    types: [q0, q1]
+
+# curl -X POST "https://api.github.com/repos/navikt/sosialhjelp-innsyn/dispatches" \
+#   -H "Accept: application/vnd.github.everest-preview+json" \
+#   -H "Authorization: token $AUTH_TOKEN" \
+#   -H "Content-Type: application/json" \
+#   --data '{"event_type": "q0"}'
 
 jobs:
   build:
-    name: Deploy til dev-sbs
+    name: Deploy to dev-sbs
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy til q0 i dev-sbs
         run: |
           git clone https://github.com/navikt/sosialhjelp-ci.git
           VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
