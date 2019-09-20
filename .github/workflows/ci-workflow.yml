@@ -20,6 +20,6 @@ jobs:
       - name: Read environment variable
         run: |
           echo "$THIS_IS_A_TEST"
-      - name: Build docker image
-        run: |
-          docker build -t "docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:test" .
+#      - name: Build docker image
+#        run: |
+#          docker build -t "docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:test" .
