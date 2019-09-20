@@ -25,7 +25,7 @@ jobs:
           VERSION="$(create-artifact-version.sh)_0.1"
           PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
           echo $PROJECT_NAME > PROJECT_NAME
-          echo "docker.pkg.github.com/$GITHUB_REPOSITORY/PROJECT_NAME:$VERSION" > DOCKER_TAG
+          echo "docker.pkg.github.com/$GITHUB_REPOSITORY/$PROJECT_NAME:$VERSION" > DOCKER_TAG
       - name: Create tag and release
         run: |
           export PATH=$(cat PATH)
