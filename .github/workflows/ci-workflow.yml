@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "$THIS_IS_A_TEST"
       - name: TypeScript action
-        uses: "./github/actions/typescript-action.ts"
+        uses: "./github/actions/typescript-action"
         with:
           myInput: "Pølse"
       - name: Bash action
