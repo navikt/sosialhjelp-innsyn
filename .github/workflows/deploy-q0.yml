@@ -5,7 +5,7 @@ on:
     types: q1
 
 jobs:
-  deploy:
+  build:
     name: Deploy til dev-sbs
     runs-on: ubuntu-latest
     steps:
