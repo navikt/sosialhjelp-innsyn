@@ -20,8 +20,12 @@ jobs:
       - name: Read environment variable
         run: |
           echo "$THIS_IS_A_TEST"
-      - name: Build docker image
-        with: "./github/actions/build-docker-image.sh"
+      - name: TypeScript action
+        uses: ./github/actions/typescript-action.ts
+        with:
+          myInput: "Pølse"
+      - name: Bash action
+        uses: ./github/actions/build-docker-image.sh
 #      - name: Build docker image
 #        run: |
 #          docker build -t "docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:test" .
