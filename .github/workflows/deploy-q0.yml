@@ -2,7 +2,9 @@ name: Deploy project
 
 on:
   repository_dispatch
-    types: q0
+  types:
+    - q0
+    - q1
 
 jobs:
   deploy:
@@ -14,6 +16,7 @@ jobs:
           git clone https://github.com/navikt/sosialhjelp-ci.git
           VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
           echo "Deploy versjon $VERSION til q0"
+          echo env
 
 #          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
 
