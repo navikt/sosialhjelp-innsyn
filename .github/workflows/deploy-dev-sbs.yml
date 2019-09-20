@@ -15,7 +15,7 @@ jobs:
     name: Deploy to dev-sbs
     runs-on: ubuntu-latest
     steps:
-        run: |
+      - run: |
           git clone https://github.com/navikt/sosialhjelp-ci.git
           VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
           echo "Deploy versjon $VERSION til q0"
