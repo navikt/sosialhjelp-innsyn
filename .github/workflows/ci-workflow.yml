@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "$THIS_IS_A_TEST"
       - name: Build docker image
-        with: ./gihub/actions/build-docker-image.sh
+        with: ./github/actions/build-docker-image.sh
 #      - name: Build docker image
 #        run: |
 #          docker build -t "docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:test" .
