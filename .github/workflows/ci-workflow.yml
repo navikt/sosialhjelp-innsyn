@@ -21,11 +21,11 @@ jobs:
         run: |
           echo "$THIS_IS_A_TEST"
       - name: TypeScript action
-        uses: "navikt/sosialhjelp-innsyn/.github/actions/typescript-action"
+        uses: "navikt/sosialhjelp-innsyn@typescript-action"
         with:
           myInput: "Pølse"
       - name: Bash action
-        uses: "navikt/sosialhjelp-innsyn/.github/actions/build-docker-image.sh"
+        uses: "navikt/sosialhjelp-innsyn@build-docker-image.sh"
 #      - name: Build docker image
 #        run: |
 #          docker build -t "docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:test" .
