@@ -1,6 +1,6 @@
 name: Build project
 
-on: [hello]
+on: [push]
 
 jobs:
   build:
@@ -22,10 +22,9 @@ jobs:
       - name: Generate version number and docker image tags
         run: |
           export PATH=$(cat PATH)
-          VERSION="$(create-artifact-version.sh)_0.1"
           PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
           echo $PROJECT_NAME > PROJECT_NAME
-          echo "docker.pkg.github.com/$GITHUB_REPOSITORY/$PROJECT_NAME:$VERSION" > DOCKER_TAG
+          echo "docker.pkg.github.com/$GITHUB_REPOSITORY/$PROJECT_NAME:$(create-artifact-version.sh)_0.1" > DOCKER_TAG
       - name: Create tag and release
         run: |
           export PATH=$(cat PATH)
@@ -44,18 +43,3 @@ jobs:
         run: |
           cat DOCKER_TAG
           docker push $(cat DOCKER_TAG)
-#      - name: Set environment variable
-#        run: |
-#          echo 42 > THIS_IS_A_TEST
-#      - name: Read environment variable
-#        run: |
-#          cat THIS_IS_A_TEST
-#      - name: TypeScript action
-#        uses: "navikt/sosialhjelp-innsyn/typescript-action@actions"
-#        with:
-#          myInput: "Pølse"
-#      - name: Bash action
-#        uses: "navikt/sosialhjelp-innsyn@build-docker-image.sh"
-#      - name: Build docker image
-#        run: |
-#          docker build -t "docker.pkg.github.com/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:test" .
