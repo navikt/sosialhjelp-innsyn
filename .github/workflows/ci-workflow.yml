@@ -21,11 +21,12 @@ jobs:
           echo "`pwd`/github-apps-support/bin:`pwd`/sosialhjelp-ci/bin:$PATH" > PATH
       - name: Generate version number and docker image tags
         run: |
-          export PATH=$(cat PATH)
           VERSION="$(create-artifact-version.sh)_0.1"
           PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
           echo $PROJECT_NAME > PROJECT_NAME
           echo "docker.pkg.github.com/$GITHUB_REPOSITORY/$PROJECT_NAME:$VERSION" > DOCKER_TAG
+        env:
+          PATH: cat PATH
       - name: Create tag and release
         run: |
           export PATH=$(cat PATH)
