@@ -2,7 +2,8 @@ name: Deploy to dev-sbs
 
 on:
   repository_dispatch:
-    types: [q0, q1]
+    types: q0
+#    types: [q0, q1]
 
 # curl -X POST "https://api.github.com/repos/navikt/sosialhjelp-innsyn/dispatches" \
 #   -H "Accept: application/vnd.github.everest-preview+json" \
