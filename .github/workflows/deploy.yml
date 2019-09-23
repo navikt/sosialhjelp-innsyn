@@ -1,0 +1,45 @@
+name: Deploy til miljø
+on:
+  repository_dispatch:
+    types: [q0, q1, p]
+
+# curl -X POST "https://api.github.com/repos/navikt/sosialhjelp-innsyn/dispatches" \
+#   -H "Accept: application/vnd.github.everest-preview+json" \
+#   -H "Authorization: token $AUTH_TOKEN" \
+#   -H "Content-Type: application/json" \
+#   --data '{"event_type": "q0"}'
+
+jobs:
+  deploy-q0:
+    name: Deploy til q0
+    runs-on: ubuntu-latest
+    if: github.event.action == 'q0'
+    steps:
+      - run: |
+          git clone https://github.com/navikt/sosialhjelp-ci.git
+# FIXME: Remove "_0.1" suffix when GitHub Actions replaces CircleCI
+          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
+#          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+
+  deploy-q1:
+    name: Deploy til q1
+    runs-on: ubuntu-latest
+    if: github.event.action == 'q1'
+    steps:
+      - run: |
+          git clone https://github.com/navikt/sosialhjelp-ci.git
+# FIXME: Remove "_0.1" suffix when GitHub Actions replaces CircleCI
+          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
+#          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+
+  deploy-p:
+    name: Deploy til prod
+    runs-on: ubuntu-latest
+    if: github.event.action == 'p'
+    steps:
+      - run: |
+          git clone https://github.com/navikt/sosialhjelp-ci.git
+# FIXME: Remove "_0.1" suffix when GitHub Actions replaces CircleCI
+          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
+
+#          deployment-cli deploy create --cluster=prod-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
