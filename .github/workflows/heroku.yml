@@ -13,8 +13,13 @@ jobs:
       - name: Deploy on Heroku
         run: |
           # HEROKU_USERNAME must be URL encoded, eg. joachim.liepelt%40nav.no
-          git remote add heroku https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$CIRCLE_PROJECT_REPONAME.git
-          git push heroku $CIRCLE_BRANCH:master --force
+          PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
+          env
+          git remote add heroku https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$PROJECT_NAME.git
+          git push heroku $GITHUB_BRANCH:master --force
+        env:
+          HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
+          HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
 
   browser-test:
     name: Deploy on Heroku
@@ -29,3 +34,7 @@ jobs:
 
           npm install
           npm run saucelabs-innsyn
+        env:
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+          SAUCE_API_HOST: ${{ secrets.SAUCE_API_HOST }}
+          SAUCE_USERNAME: ${{ secrets. SAUCE_USERNAME }}
