@@ -17,8 +17,8 @@ jobs:
     steps:
       - run: |
           git clone https://github.com/navikt/sosialhjelp-ci.git
-# FIXME: Remove "_0.1" suffix when GitHub Actions replaces CircleCI
-          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
+# FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
+          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh | sed 's/^1.0/1.1/')"
 #          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
 
   deploy-q1:
@@ -28,8 +28,8 @@ jobs:
     steps:
       - run: |
           git clone https://github.com/navikt/sosialhjelp-ci.git
-# FIXME: Remove "_0.1" suffix when GitHub Actions replaces CircleCI
-          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
+# FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
+          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh | sed 's/^1.0/1.1/')"
 #          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
 
   deploy-p:
@@ -39,7 +39,7 @@ jobs:
     steps:
       - run: |
           git clone https://github.com/navikt/sosialhjelp-ci.git
-# FIXME: Remove "_0.1" suffix when GitHub Actions replaces CircleCI
-          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh)_0.1"
+# FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
+          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh | sed 's/^1.0/1.1/')"
 
 #          deployment-cli deploy create --cluster=prod-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
