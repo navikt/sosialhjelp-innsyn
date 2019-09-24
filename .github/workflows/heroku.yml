@@ -14,6 +14,8 @@ jobs:
         run: |
           # HEROKU_USERNAME must be URL encoded, eg. joachim.liepelt%40nav.no
           PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
+          echo $HEROKU_API_KEY
+          export HEROKU_API_KEY=$(echo $HEROKU_API_KEY)
           heroku container:push --recursive -a $PROJECT_NAME
           heroku container:release web -a $PROJECT_NAME
         env:
