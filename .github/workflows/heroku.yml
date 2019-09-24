@@ -15,6 +15,8 @@ jobs:
           # HEROKU_USERNAME must be URL encoded, eg. joachim.liepelt%40nav.no
           PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
           BRANCH_NAME=$(echo $GITHUB_REF | sed 's!^refs/heads/!!')
+          echo "https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$PROJECT_NAME.git"
+          echo "|$PROJECT_NAME|$BRANCH_NAME|"
           git remote add heroku https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$PROJECT_NAME.git
           git push heroku $GITHUB_BRANCH:master --force
         env:
