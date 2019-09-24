@@ -2,7 +2,7 @@ name: Deploy and test on Heroku
 on:
   push:
     branches:
-      - master
+      - feature/github-actions
 
 jobs:
   deploy-heroku:
