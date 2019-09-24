@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+import {connect } from "react-redux";
 import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -54,6 +54,7 @@ class SaksStatusView extends React.Component<Props, {}> {
         let oppgaver = null;
         let hendelser = null;
         let vedlegg: Vedlegg[] = [];
+        const soknadId = this.props.match.params.soknadId;
         let restStatus = initialInnsynsdataRestStatus;
         if (innsynsdata && innsynsdata.soknadsStatus) {
             saksStatus = innsynsdata.saksStatus;
@@ -63,6 +64,7 @@ class SaksStatusView extends React.Component<Props, {}> {
             vedlegg = innsynsdata.vedlegg;
             restStatus = innsynsdata.restStatus;
         }
+
         return (
             <>
                 <SoknadsStatus
@@ -73,6 +75,7 @@ class SaksStatusView extends React.Component<Props, {}> {
 
                 <Oppgaver
                     oppgaver={oppgaver}
+                    soknadId={soknadId}
                     leserData={this.leserData(restStatus.oppgaver)}
                 />
 

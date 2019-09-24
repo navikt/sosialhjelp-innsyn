@@ -38,17 +38,25 @@ export interface Vedlegg {
     filnavn: string;
 }
 
+export interface Fil {
+    filnavn: string;
+    file: File;
+    status?: string;
+}
+
 export interface Oppgave {
     innsendelsesfrist: string;
     dokumenttype: string;
     tilleggsinformasjon: string;
     vedlegg?: Vedlegg[];
+    filer?: Fil[];
 }
 
 export enum InnsynsdataActionTypeKeys {
-    OPPDATER_INNSYNSSDATA = "innsynsdata/OPPDATER",
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
-    SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS"
+    SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
+    LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
+    FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING"
 }
 
 export enum InnsynsdataSti {
@@ -56,7 +64,8 @@ export enum InnsynsdataSti {
     OPPGAVER = "oppgaver",
     SOKNADS_STATUS = "soknadsStatus",
     HENDELSER = "hendelser",
-    VEDLEGG = "vedlegg"
+    VEDLEGG = "vedlegg",
+    SEND_VEDLEGG = "vedlegg/send"
 }
 
 export interface InnsynssdataActionVerdi {
@@ -68,6 +77,12 @@ export interface InnsynsdataActionType {
     verdi?: InnsynssdataActionVerdi,
     sti: InnsynsdataSti,
     restStatus?: string
+}
+
+export interface VedleggActionType {
+    type: InnsynsdataActionTypeKeys,
+    fil: File;
+    oppgave: Oppgave;
 }
 
 export interface Status {
@@ -109,7 +124,7 @@ const initialState: InnsynsdataType = {
     restStatus: initialInnsynsdataRestStatus
 };
 
-const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType> = (state = initialState, action) => {
+const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
     switch (action.type) {
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
@@ -118,6 +133,37 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType> = (sta
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS:
             return {
                 ...setPath(state, "restStatus/" + action.sti, action.restStatus)
+            };
+        case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
+            return  {
+                ...state,
+                oppgaver: state.oppgaver.map((item) => {
+                    if (item.dokumenttype === action.oppgave.dokumenttype) {
+                        return {
+                            ...item,
+                            filer: [...(item.filer ? item.filer : []), action.fil]
+                        }
+                    }
+                    return item;
+                })
+            };
+        case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
+            return  {
+                ...state,
+                oppgaver: state.oppgaver.map((item) => {
+                    if (item.dokumenttype === action.oppgave.dokumenttype) {
+                        return {
+                            ...item,
+                            filer: (item.filer && item.filer.filter((fil: Fil, index: number) => {
+                                if (fil.filnavn === action.fil.name) {
+                                    return false;
+                                }
+                                return true;
+                            }))
+                        }
+                    }
+                    return item;
+                })
             };
         default:
             return state;
@@ -139,6 +185,5 @@ export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): In
         restStatus
     }
 };
-
 
 export default InnsynsdataReducer;
