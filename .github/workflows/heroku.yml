@@ -17,7 +17,7 @@ jobs:
           BRANCH_NAME=$(echo $GITHUB_REF | sed 's!^refs/heads/!!')
           echo "https://$HEROKU_USERNAME:$HEROKU_AUTH_TOKEN@git.heroku.com/$PROJECT_NAME.git"
           echo "|$PROJECT_NAME|$BRANCH_NAME|"
-          git remote add heroku https://$HEROKU_USERNAME@git.heroku.com/$PROJECT_NAME.git
+          git remote add heroku https://eivindkn%40gmail.com:$HEROKU_AUTH_TOKEN@git.heroku.com/$PROJECT_NAME.git
           git remote -v
           git push heroku $GITHUB_BRANCH:master --force
         env:
