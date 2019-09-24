@@ -22,7 +22,7 @@ jobs:
           HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
 
   browser-test:
-    name: Deploy on Heroku
+    name: Test on Heroku
     runs-on: ubuntu-latest
     needs: deploy-heroku
     steps:
