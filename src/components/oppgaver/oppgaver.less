@@ -1,3 +1,5 @@
+@import "../../../node_modules/nav-frontend-core/less/core";
+
 .oppgaver_header {
   display: flex;
   width: 100%;
@@ -8,10 +10,13 @@
   }
 }
 
-
 @media screen and (max-width: 640px ) {
+
+  .oppgaver_panel_bruker_har_oppgaver {
+    padding: 0;
+  }
+
   .oppgaver_panel {
-    // padding: 0;
 
     .oppgaver_innhold {
       border: 1px dotted red;
@@ -56,6 +61,11 @@
   background-color: #e9e7e7;
   border-radius: 2px;
   padding: 0.7rem 1rem 0.1rem 1rem;
+}
+
+.oppgaver_detalj_feil {
+  border: solid 1px #ba3a25 !important;
+  background-color: #f3e4e3 !important;
 }
 
 .oppgaver_last_opp_fil {
@@ -139,4 +149,10 @@
     }
   }
 
+}
+
+.oppgaver_vedlegg_feilmelding {
+  color: @navRod;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }

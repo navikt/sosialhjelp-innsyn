@@ -86,7 +86,6 @@ function sjekkStatuskode(response: Response) {
     throw new Error(response.statusText);
 }
 
-
 export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);
 }

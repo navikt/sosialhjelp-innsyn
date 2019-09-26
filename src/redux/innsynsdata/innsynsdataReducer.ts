@@ -53,10 +53,14 @@ export interface Oppgave {
 }
 
 export enum InnsynsdataActionTypeKeys {
+    // Innsynsdata:
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
+
+    // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
-    FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING"
+    FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING",
+    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL"
 }
 
 export enum InnsynsdataSti {
@@ -81,8 +85,10 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
-    fil: File;
+    fil?: File;
+    filnavn?: string;
     oppgave: Oppgave;
+    status?: string;
 }
 
 export interface Status {
@@ -150,19 +156,37 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
             return  {
                 ...state,
-                oppgaver: state.oppgaver.map((item) => {
-                    if (item.dokumenttype === action.oppgave.dokumenttype) {
+                oppgaver: state.oppgaver.map((oppgave) => {
+                    if (oppgave.dokumenttype === action.oppgave.dokumenttype) {
                         return {
-                            ...item,
-                            filer: (item.filer && item.filer.filter((fil: Fil, index: number) => {
-                                if (fil.filnavn === action.fil.name) {
+                            ...oppgave,
+                            filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
+                                if (action.fil && fil.filnavn === action.fil.name) {
                                     return false;
                                 }
                                 return true;
                             }))
                         }
                     }
-                    return item;
+                    return oppgave;
+                })
+            };
+        case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
+            return  {
+                ...state,
+                oppgaver: state.oppgaver.map((oppgave) => {
+                    return {
+                        ...oppgave,
+                        filer: (oppgave.filer && oppgave.filer.map((fil: Fil) => {
+                            if (fil.filnavn === action.filnavn) {
+                                return {
+                                    ...fil,
+                                    status: action.status
+                                };
+                            }
+                            return fil;
+                        }))
+                    }
                 })
             };
         default:
