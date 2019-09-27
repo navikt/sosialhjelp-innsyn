@@ -7,7 +7,7 @@ export function erDev(): boolean {
 
 export function getApiBaseUrl(): string {
     if (erDev()) {
-        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn"; // /1234/saksStatus
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn";
     } else {
         return getAbsoluteApiUrl() + "api/v1/innsyn"
     }
@@ -85,7 +85,6 @@ function sjekkStatuskode(response: Response) {
     }
     throw new Error(response.statusText);
 }
-
 
 export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);

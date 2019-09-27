@@ -7,17 +7,28 @@ import Lenke from "nav-frontend-lenker";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
-import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
+    Oppgave,
+    settRestStatus
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
+import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {useDispatch} from "react-redux";
+import {getApiBaseUrl, REST_STATUS} from "../../utils/restUtils";
+import TodoList from "../ikoner/TodoList";
 
 interface Props {
     oppgaver: null|Oppgave[];
     leserData?: boolean;
+    soknadId?: any;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]) {
+function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]): string {
     if (oppgaver === null) {
-        return null;
+        return "";
     }
     let innsendelsesfrist: string = "";
     if (oppgaver.length > 0) {
@@ -27,10 +38,100 @@ function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]) {
     return innsendelsesfrist;
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
+function genererMetatadataJson(oppgaver: null|Oppgave[]) {
+    let metadata: any[] = [];
+    oppgaver && oppgaver.map((oppgave: Oppgave) => {
+        let filnavnArr: any[] = [];
+        if (oppgave.filer && oppgave.filer) {
+            filnavnArr = oppgave.filer.map((fil: any) => {
+                return {filnavn: fil.filnavn}
+            });
+            metadata.push({
+                type: oppgave.dokumenttype,
+                tilleggsinfo: oppgave.tilleggsinformasjon,
+                filer: filnavnArr
+            })
+        }
+        return null;
+    });
+    const metadata_json: string = JSON.stringify(metadata, null, 8);
+    return metadata_json;
+}
+
+function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
+    let formData = new FormData();
+    const metadataJson = genererMetatadataJson(oppgaver);
+    const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
+    formData.append("files", metadataBlob, "metadata.json");
+    oppgaver && oppgaver.map((oppgave: Oppgave) => {
+        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
+            return formData.append("files", fil.file, fil.filnavn);
+        });
+    });
+    return formData;
+}
+
+const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
+
+    const dispatch = useDispatch();
+
+    const sendVedlegg = (event: any) => {
+        if (oppgaver === null) {
+            event.preventDefault();
+            return;
+        }
+
+        let formData = opprettFormDataMedVedlegg(oppgaver);
+
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        const url = getApiBaseUrl() + innsynssdataUrl(fiksDigisosId, sti);
+        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: new Headers({
+                "Authorization": "Bearer 1234",
+                "Accept": "*/*"
+            })
+        }).then((response: Response) => {
+            let harFeil: boolean = false;
+
+            response.json().then((json: JSON) => {
+                const filRespons = JSON.parse(JSON.stringify(json));
+                if (Array.isArray(filRespons)) {
+                    for (var index = 0; index < filRespons.length; index++) {
+                        const fileItem = filRespons[index];
+                        if (fileItem.status !== "OK") {
+                            harFeil = true;
+                        }
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                            filnavn: fileItem.filnavn,
+                            status: fileItem.status
+                        });
+                    }
+                }
+            });
+
+            if (!harFeil) {
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+            }
+        });
+        event.preventDefault()
+    };
+
+    // TODO Gi bruker tilbakemelding om at filer holder på å bli lastet opp.
+    // const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus);
+    // console.log("restStatus: " + restStatus);
+    // <pre>REST status: {JSON.stringify(restStatus.oppgaver, null, 8)}</pre>
+
+    const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
 
     let innsendelsesfrist = foersteInnsendelsesfrist(oppgaver);
-
     return (
         <>
             <Panel className="panel-luft-over">
@@ -41,33 +142,41 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     <Systemtittel>Dine oppgaver</Systemtittel>
                 )}
             </Panel>
-            <Panel className="panel-glippe-over oppgaver_panel">
+            <Panel className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
 
                 {leserData && (
                     <Lastestriper linjer={1}/>
                 )}
 
-                {oppgaver && oppgaver.length === 0 && !leserData && (
-                    <Normaltekst>
-                        Du har ingen oppgaver. Du vil få beskjed hvis det er noe du må gjøre.
-                    </Normaltekst>
+                {!brukerHarOppgaver && !leserData && (
+                    <>
+                        <span style={{float: "left", marginTop: "6px"}}>
+                            <TodoList/>
+                        </span>
+                        <div style={{paddingLeft: "38px"}}>
+                            <Element>Du har ingen oppgaver.</Element>
+                            <Normaltekst>
+                                 Du vil få beskjed hvis det er noe du må gjøre.
+                            </Normaltekst>
+                        </div>
+                    </>
                 )}
 
-                {oppgaver && oppgaver.length > 0 && (
+                {brukerHarOppgaver && (
                     <EkspanderbartpanelBase apen={true} heading={(
                         <div className="oppgaver_header">
                             <DokumentBinder/>
                             <div>
                                 <Element>Du må sende dokumentasjon til veileder</Element>
                                 <Normaltekst>
-                                    {oppgaver.length} vedlegg mangler
+                                    {oppgaver !== null && oppgaver.length} vedlegg mangler
                                     <br/>
                                     Neste frist for innlevering er {innsendelsesfrist}
                                 </Normaltekst>
                             </div>
                         </div>
                     )}>
-                        <Normaltekst className="zzz_luft_over_1rem">
+                        <Normaltekst >
                             Veilederen trenger mer dokumentasjon for å behandle søknaden din.
                             Hvis du ikke leverer dokumentasjonen innen fristen, blir
                             søknaden behandlet med den informasjonen vi har.
@@ -76,12 +185,16 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
                         <div className="oppgaver_detaljer">
                             <Normaltekst className="luft_under_8px">Frist for innlevering er {innsendelsesfrist}</Normaltekst>
-                            {oppgaver.map((oppgave: Oppgave, index: number) => (
-                                <OppgaveView oppgave={oppgave} key={index} />
+                            {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
+                                <OppgaveView oppgave={oppgave} key={index} id={index}/>
                             ))}
                         </div>
 
-                        <Hovedknapp type="hoved" className="luft_over_2rem luft_under_1rem">
+                        <Hovedknapp
+                            type="hoved"
+                            className="luft_over_2rem luft_under_1rem"
+                            onClick={(event: any) => sendVedlegg(event)}
+                        >
                             Send til veileder
                         </Hovedknapp>
                     </EkspanderbartpanelBase>
