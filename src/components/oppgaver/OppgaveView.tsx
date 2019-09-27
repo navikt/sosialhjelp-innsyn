@@ -50,7 +50,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                         }
                     })
                 } else {
-                    // TODO setAntallUlovligeFiler fungerer bare på toppnivået i funksjon (hook regel nummer 1)
+                    // TODO hooks fungerer bare på toppnivået i en react stateless komponent.
+                    // derfor fungerer ikke setAntallUlovligeFiler som den skal (hook regel nummer 1)
                     setAntallUlovligeFiler(antallUlovligeFiler + 1);
                 }
             }
