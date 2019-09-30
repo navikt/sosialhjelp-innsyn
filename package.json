@@ -44,6 +44,8 @@
     "nav-frontend-lesmerpanel-style": "0.0.26",
     "nav-frontend-lukknapp": "^1.0.22",
     "nav-frontend-lukknapp-style": "^0.2.20",
+    "nav-frontend-modal": "^1.0.29",
+    "nav-frontend-modal-style": "^0.3.30",
     "nav-frontend-paneler": "^1.0.18",
     "nav-frontend-paneler-style": "^0.3.16",
     "nav-frontend-skjema": "^1.0.70",
@@ -51,11 +53,12 @@
     "nav-frontend-typografi": "^2.0.13",
     "nav-frontend-typografi-style": "^1.0.14",
     "prop-types": "^15.7.2",
-    "react": "^16.9.0",
+    "react": "^16.10.1",
     "react-collapse": "^4.0.3",
     "react-collapsible": "^2.6.0",
     "react-dom": "^16.9.0",
     "react-intl": "^3.2.1",
+    "react-modal": "^3.10.1",
     "react-motion": "^0.5.2",
     "react-redux": "^7.1.1",
     "react-router": "^5.0.1",
@@ -63,8 +66,8 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "typescript": "3.6.2",
-    "whatwg-fetch": "^3.0.0",
-    "webpack": "^4.40.2"
+    "webpack": "^4.40.2",
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "craco start",
