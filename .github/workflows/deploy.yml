@@ -1,38 +1,25 @@
-name: Deploy to environment
-on:
-  repository_dispatch:
-    types: [q0, q1, p]
+name: Deploy
+on: repository_dispatch
 
 jobs:
-  deploy-q0:
-    name: Deploy to q0
+  deploy:
+    name: Deploy to environment
     runs-on: ubuntu-latest
-    if: github.event.action == 'q0'
+    container: navikt/deployment-cli:0.4.0
     steps:
-      - run: |
-          git clone https://github.com/navikt/sosialhjelp-ci.git
-          # FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
-          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh | sed 's/^1.0/1.1/')"
-          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+      - uses: actions/checkout@v1
+      - name: Deploy to environment
+        shell: bash
+        run: |
+          IFS=- read MILJO VERSION <<< $(jq -r '.action' $GITHUB_EVENT_PATH)
 
-  deploy-q1:
-    name: Deploy to q1
-    runs-on: ubuntu-latest
-    if: github.event.action == 'q1'
-    steps:
-      - run: |
-          git clone https://github.com/navikt/sosialhjelp-ci.git
-          # FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
-          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh | sed 's/^1.0/1.1/')"
-          deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+          echo "Checkout version $VERSION"
+          git checkout $VERSION
 
-  deploy-p:
-    name: Deploy to prod
-    runs-on: ubuntu-latest
-    if: github.event.action == 'p'
-    steps:
-      - run: |
-          git clone https://github.com/navikt/sosialhjelp-ci.git
-          # FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
-          VERSION="$(sosialhjelp-ci/bin/create-artifact-version.sh | sed 's/^1.0/1.1/')"
-          deployment-cli deploy create --cluster=prod-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
+          if [[ $MILJO == "q0" || $MILJO == "q1" ]]; then
+            echo "Deploy $VERSION to $MILJO in dev-sbs"
+            deployment-cli deploy create --cluster=dev-sbs --repository=${GITHUB_REPOSITORY} --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+          elif [[ $MILJO == "p" ]]; then
+            echo "Deploy $VERSION to $MILJO in prod-sbs"
+            deployment-cli deploy create --cluster=prod-sbs --repository=${GITHUB_REPOSITORY} --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
+          fi
