@@ -36,10 +36,8 @@ const VedleggsSide: React.FC<Props> = ({match}) => {
     const vedlegg = useSelector((state: InnsynAppState) => state.innsynsdata.vedlegg);
 
     useEffect(() => {
-        if(restStatus === REST_STATUS.INITIALISERT) {
-            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG))
-        }
-    });
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG))
+    }, [dispatch, fiksDigisosId]);
 
     return (
         <Panel className="vedlegg_liste_panel">
