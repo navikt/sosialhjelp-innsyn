@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
 import {Fil, InnsynsdataActionTypeKeys, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
+import Modal from 'nav-frontend-modal';
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -22,11 +23,37 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
         event.preventDefault();
     };
 
+    const [modalVises, setModalVises] = useState(false);
+    const onVisVedlegg = (event: ClickEvent): void => {
+        setModalVises(true);
+        event.preventDefault();
+    };
+
     return (
-        <div className="vedlegg_liste">
+        <div className="vedlegg_liste" id={"app"}>
             <span className="filnavn_lenkeboks">
+                <Modal
+                    isOpen={modalVises}
+                    onRequestClose={() => setModalVises(false)}
+                    closeButton={true}
+                    contentLabel="Min modalrute"
+                    shouldCloseOnOverlayClick={true}
+                >
+                    <div style={{padding:'2rem 2.5rem'}}>
+                        {file.name}:
+                        <br/>
+                        <img src={ URL.createObjectURL(file)} alt={file.name}/>
+                    </div>
+                </Modal>
+
                 <PaperClipSlanted className="filikon"/>
-                <Lenke href="123" className="filnavn lenke_uten_ramme">{file.name}</Lenke>
+                <Lenke
+                    href="#"
+                    className="filnavn lenke_uten_ramme"
+                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
+                >
+                    {file.name}
+                </Lenke>
                 <span className="filstorrelse">({storrelse})</span>
                 {/*<span className="filstorrelse"> '{fil.status}'</span>*/}
             </span>

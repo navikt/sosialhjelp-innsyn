@@ -1,13 +1,11 @@
-import React from "react";
-import {connect} from "react-redux";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {
-    initialInnsynsdataRestStatus,
     InnsynsdataSti,
-    InnsynsdataType,
-    Vedlegg
+    InnsynsdataType
 } from "../redux/innsynsdata/innsynsdataReducer";
 
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
@@ -15,7 +13,6 @@ import {AvsnittBoks} from "../components/paneler/layoutKomponenter";
 import {Hovedknapp} from "nav-frontend-knapper";
 import VedleggView from "../components/vedlegg/VedleggView";
 import {Panel} from "nav-frontend-paneler";
-// @ts-ignore
 import {FormattedMessage} from "react-intl";
 
 export interface InnsynsdataContainerProps {
@@ -30,56 +27,32 @@ export interface InnsynsdataContainerProps {
 
 type Props = InnsynsdataContainerProps & DispatchProps;
 
-class VedleggsSide extends React.Component<Props, {}> {
+const VedleggsSide: React.FC<Props> = ({match}) => {
+    const soknadId = match.params.soknadId;
+    const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const dispatch = useDispatch();
+    const vedlegg = useSelector((state: InnsynAppState) => state.innsynsdata.vedlegg);
 
-    componentDidMount() {
-        const soknadId = this.props.match.params.soknadId;
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG))
-    }
+    useEffect(() => {
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG))
+    }, [dispatch, fiksDigisosId]);
 
-    leserData(restStatus: string): boolean {
-        return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    }
-
-    render() {
-        const {innsynsdata} = this.props;
-        let vedlegg: Vedlegg[] = [];
-        let restStatus = initialInnsynsdataRestStatus;
-        if (innsynsdata && innsynsdata.soknadsStatus) {
-            vedlegg = innsynsdata.vedlegg;
-        }
-        const leserData: boolean = this.leserData(restStatus.vedlegg);
-
-        return (
-            <Panel className="vedlegg_liste_panel">
-                <Innholdstittel className="layout_overskriftboks">
-                    <FormattedMessage id="vedlegg.tittel" />
-                </Innholdstittel>
-                <Normaltekst>
-                    <FormattedMessage id="vedlegg.ingress" />
-                </Normaltekst>
-                <AvsnittBoks>
-                    <Hovedknapp type="hoved"><FormattedMessage id="vedlegg.ettersend_knapptekst" /></Hovedknapp>
-                </AvsnittBoks>
-                <VedleggView vedlegg={ vedlegg } leserData={leserData}/>
-            </Panel>
-        )
-    }
-
-}
-
-const mapStateToProps = (state: InnsynAppState) => ({
-    innsynsdata: state.innsynsdata
-});
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        dispatch
-    }
+    return (
+        <Panel className="vedlegg_liste_panel">
+            <Innholdstittel className="layout_overskriftboks">
+                <FormattedMessage id="vedlegg.tittel" />
+            </Innholdstittel>
+            <Normaltekst>
+                <FormattedMessage id="vedlegg.ingress" />
+            </Normaltekst>
+            <AvsnittBoks>
+                <Hovedknapp type="hoved" ><FormattedMessage id="vedlegg.ettersend_knapptekst" /></Hovedknapp>
+            </AvsnittBoks>
+            <VedleggView vedlegg={ vedlegg } leserData={leserData}/>
+        </Panel>
+    )
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(VedleggsSide);
+export default VedleggsSide;

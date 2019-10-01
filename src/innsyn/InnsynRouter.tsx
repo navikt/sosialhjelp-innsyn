@@ -21,6 +21,7 @@ import VedtakEtterFerdigBehandlet from "./statiskeDemoSider/VedtakEtterFerdigBeh
 import BlirIkkeRealitetsbehandlet from "./statiskeDemoSider/BlirIkkeRealitetsbehandlet";
 import Kvalifiseringsprogram from "./statiskeDemoSider/Kvalifiseringsprogram";
 import UtbetalingerDemo from "../utbetalinger/statiskeDemoSider/UtbetalingerDemo";
+import VedleggsSide from "./VedleggsSide";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -34,6 +35,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny} />
                         <Route exact path="/innsyn/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
+                        <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide} />
                         <Route exact path="/innsyn/feil" component={Feilside} />
 
                         {/* Demo routes: */}
