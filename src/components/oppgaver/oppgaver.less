@@ -136,8 +136,20 @@
 
   .fjern_lenke {
     margin-bottom: 4px;
-    margin-right: 8px;
+
     text-decoration: none;
+  }
+
+  @media screen and (min-width: 641px ) {
+    .fjern_lenke {
+      margin-right: 8px;
+    }
+  }
+
+  @media screen and (max-width: 641px ) {
+    .fjern_lenke {
+      margin-right: 0;
+    }
   }
 
   .klikkbar_soppelboette {
@@ -164,26 +176,37 @@
 
 a.filnavn {
   display: inline-block;
-  max-width: 28vw;
-  border: 1px dotted red;
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: -5px;
+}
+
+@media screen and (max-width: 1230px ) {
+  a.filnavn {
+    max-width: 28vw;
+  }
+}
+
+@media screen and (min-width: 1231px ) {
+  a.filnavn {
+    max-width: 350px;
+  }
 }
 
 .filstorrelse {
   display: inline-block;
-  border: 1px dotted green;
 }
 
 .fjern_lenkeboks {
   display: inline-block;
-  border: 1px dotted purple;
   white-space: nowrap;
 }
 
 .filnavn_lenkeboks {
   display: inline-block;
-  border: 1px dotted yellowgreen;
   white-space: nowrap;
+  margin-bottom: 2px;
 }
+

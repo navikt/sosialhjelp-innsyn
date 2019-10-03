@@ -51,14 +51,16 @@ const DineOppgaver: React.FC = () => {
                         tilleggsinformasjon: "Signert av både deg og utleier",
                         vedlegg: [{
                             filnavn: "IMG8232.JPG",
-                            beskrivelse: "beskrivelse",
+                            type: "beskrivelse",
+                            tilleggsinfo: "tilleggsinfo",
                             storrelse: 234,
                             url: "http://todo/123",
                             datoLagtTil: "2018-10-20T07:37:30"
                         },
                         {
                             filnavn: "IMG8232.JPG",
-                            beskrivelse: "beskrivelse",
+                            type: "beskrivelse",
+                            tilleggsinfo: "tilleggsinfo",
                             storrelse: 431,
                             url: "http://todo/1234",
                             datoLagtTil: "2018-10-20T07:37:30"

@@ -69,7 +69,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData}) => {
                             </NavTableCell>
                             <NavTableCell>
                                 <IconSizedSpacerDesktop/>
-                                {vedlegg.beskrivelse}
+                                {vedlegg.type}
                             </NavTableCell>
                             <NavTableCell align="right">
                                 <IconSizedSpacerDesktop/>

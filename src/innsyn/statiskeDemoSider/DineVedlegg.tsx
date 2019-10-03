@@ -7,27 +7,31 @@ import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import VedleggView from "../../components/vedlegg/VedleggView";
 import {FormattedMessage} from "react-intl";
 
+
 const DineVedlegg: React.FC = () => {
     const mockVedlegg: Vedlegg[] = [
         {
             filnavn: "filnavn 1",
             url: "http://todo1",
             storrelse: 2342,
-            beskrivelse: "Beskrivelse",
+            type: "Beskrivelse",
+            tilleggsinfo: "tilleggsinfo",
             datoLagtTil: "2018-10-11T13:42:00.134"
         },
         {
             filnavn: "filnavn 2",
             url: "http://todo2",
             storrelse: 23422,
-            beskrivelse: "Beskrivelse",
+            type: "Beskrivelse",
+            tilleggsinfo: "tilleggsinfo",
             datoLagtTil: "2018-11-12T13:42:00.134"
         },
         {
             filnavn: "filnavn 3",
             url: "http://todo3",
             storrelse: 232,
-            beskrivelse: "Beskrivelse",
+            type: "Beskrivelse",
+            tilleggsinfo: "tilleggsinfo",
             datoLagtTil: "2018-12-13T13:42:00.134"
         },
     ];

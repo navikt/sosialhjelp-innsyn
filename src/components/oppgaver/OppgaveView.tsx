@@ -36,6 +36,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
     const onChange = (event: ChangeEvent) => {
         const files: FileList | null = event.currentTarget.files;
         if (files) {
+            let ulovligeFilerCount = 0;
             for (var index = 0; index < files.length; index++) {
                 const file: File = files[index];
                 const filename = file.name;
@@ -48,13 +49,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                             status: "INITIALISERT",
                             file: file
                         }
-                    })
+                    });
                 } else {
-                    // TODO hooks fungerer bare på toppnivået i en react stateless komponent.
-                    // derfor fungerer ikke setAntallUlovligeFiler som den skal (hook regel nummer 1)
-                    setAntallUlovligeFiler(antallUlovligeFiler + 1);
+                    ulovligeFilerCount += 1;
                 }
             }
+            setAntallUlovligeFiler(ulovligeFilerCount);
         }
         event.preventDefault();
     };

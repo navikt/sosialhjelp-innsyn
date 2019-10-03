@@ -33,7 +33,8 @@ export interface SaksStatusState {
 export interface Vedlegg {
     storrelse: number;
     url: string;
-    beskrivelse: string;
+    type: string;
+    tilleggsinfo: string;
     datoLagtTil: string;
     filnavn: string;
 }

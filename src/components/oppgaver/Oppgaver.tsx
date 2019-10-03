@@ -71,6 +71,16 @@ function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
     return formData;
 }
 
+function antallVedlegg(oppgaver: Oppgave[]) {
+    let antall = 0;
+    oppgaver && oppgaver.map((oppgave: Oppgave) => {
+        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
+            return antall += 1;
+        });
+    });
+    return antall;
+}
+
 const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
 
     const dispatch = useDispatch();
@@ -130,8 +140,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
     // <pre>REST status: {JSON.stringify(restStatus.oppgaver, null, 8)}</pre>
 
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
-
     let innsendelsesfrist = foersteInnsendelsesfrist(oppgaver);
+    const vedleggKlarForOpplasting = oppgaver !== null && antallVedlegg(oppgaver) > 0;
+
     return (
         <>
             <Panel className="panel-luft-over">
@@ -191,6 +202,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         </div>
 
                         <Hovedknapp
+                            disabled={!vedleggKlarForOpplasting}
                             type="hoved"
                             className="luft_over_2rem luft_under_1rem"
                             onClick={(event: any) => sendVedlegg(event)}

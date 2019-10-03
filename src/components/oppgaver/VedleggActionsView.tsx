@@ -9,7 +9,7 @@ const VedleggActionsView: React.FC<{ vedlegg: Vedlegg }> = ({vedlegg}) => {
         <div className="vedlegg_liste">
             <span className="filnavn_lenkeboks">
                 <PaperClipSlanted className="filikon"/>
-                <Lenke href="123" className="filnavn lenke_uten_ramme">{vedlegg.beskrivelse}</Lenke>
+                <Lenke href="123" className="filnavn lenke_uten_ramme">{vedlegg.type}</Lenke>
                 <span className="filstorrelse">({vedlegg.storrelse})</span>
             </span>
             <span className="fjern_lenkeboks">
