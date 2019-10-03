@@ -23,3 +23,6 @@ jobs:
             echo "Deploy $VERSION to $MILJO in prod-sbs"
             deployment-cli deploy create --cluster=prod-sbs --repository=${GITHUB_REPOSITORY} --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
           fi
+        env:
+          DEPLOYMENT_USERNAME: ${{ secrets.DEPLOYMENT_USERNAME }}
+          DEPLOYMENT_PASSWORD: ${{ secrets.DEPLOYMENT_PASSWORD }}
