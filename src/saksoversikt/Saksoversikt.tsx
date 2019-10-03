@@ -15,7 +15,7 @@ const Saksoversikt: React.FC = () => {
             <Panel className="panel panel-luft-over dine_soknader_panel">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
-                    <Knapp type="standard" >+ Ny søknad</Knapp>
+                    <Knapp type="standard" >Ny søknad</Knapp>
                 </div>
                 <div className="periodevelger_container">
                     <Select label='Vis for' className="periode_velger">

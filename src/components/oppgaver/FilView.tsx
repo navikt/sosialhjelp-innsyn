@@ -5,7 +5,7 @@ import TrashBin from "../ikoner/TrashBin";
 import {Fil, InnsynsdataActionTypeKeys, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
-import Modal from 'nav-frontend-modal';
+import VedleggModal from "./VedleggModal";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -24,28 +24,20 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
     };
 
     const [modalVises, setModalVises] = useState(false);
+
     const onVisVedlegg = (event: ClickEvent): void => {
         setModalVises(true);
         event.preventDefault();
     };
 
     return (
-        <div className="vedlegg_liste" id={"app"}>
+        <div className="vedlegg_liste_element" id={"app"}>
             <span className="filnavn_lenkeboks">
-                <Modal
-                    isOpen={modalVises}
+                <VedleggModal
+                    file={file}
                     onRequestClose={() => setModalVises(false)}
-                    closeButton={true}
-                    contentLabel="Min modalrute"
-                    shouldCloseOnOverlayClick={true}
-                >
-                    <div style={{padding:'2rem 2.5rem'}}>
-                        {file.name}:
-                        <br/>
-                        <img src={ URL.createObjectURL(file)} alt={file.name}/>
-                    </div>
-                </Modal>
-
+                    synlig={modalVises}
+                />
                 <PaperClipSlanted className="filikon"/>
                 <Lenke
                     href="#"
@@ -55,7 +47,6 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
                     {file.name}
                 </Lenke>
                 <span className="filstorrelse">({storrelse})</span>
-                {/*<span className="filstorrelse"> '{fil.status}'</span>*/}
             </span>
             <span className="fjern_lenkeboks">
                 <Lenke
