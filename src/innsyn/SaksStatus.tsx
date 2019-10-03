@@ -12,7 +12,8 @@ import {
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
-import VedleggUtbetalingerLenker from "../components/vedleggUtbetalingerLenker/VedleggUtbetalingerLenker";
+import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
+import VedleggView from "../components/vedlegg/VedleggView";
 
 export interface InnsynsdataContainerProps {
     innsynsdata?: InnsynsdataType;
@@ -79,14 +80,29 @@ class SaksStatusView extends React.Component<Props, {}> {
                     leserData={this.leserData(restStatus.oppgaver)}
                 />
 
-                <VedleggUtbetalingerLenker
-                    vedlegg={vedlegg}
-                    utbetalinger={[]}
-                />
-
-                <Historikk
-                    hendelser={hendelser}
-                    leserData={this.leserData(restStatus.hendelser)}
+                <ArkfanePanel
+                    className="panel-luft-over"
+                    arkfaner={[
+                        {
+                            tittel: "Historikk",
+                            content: (
+                                <Historikk
+                                    hendelser={hendelser}
+                                    leserData={this.leserData(restStatus.hendelser)}
+                                />
+                            )
+                        },
+                        {
+                            tittel: "Dine vedlegg",
+                            content: (
+                                <VedleggView
+                                    vedlegg={ vedlegg }
+                                    leserData={this.leserData(restStatus.saksStatus)}
+                                />
+                            )
+                        }
+                    ]}
+                    defaultArkfane={0}
                 />
             </>
         );

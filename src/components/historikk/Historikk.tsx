@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {Panel} from "nav-frontend-paneler";
-import {Normaltekst, Systemtittel, Element} from "nav-frontend-typografi";
+import {Normaltekst, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {FormattedMessage} from "react-intl";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -66,7 +65,7 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     const antallSkjulteElementer = hendelser.slice(MAX_ANTALL_KORT_LISTE).length;
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
     return (
-        <Panel className="panel-glippe-over">
+        <>
             <Lesmerpanel
                 className="lesMerPanel__historikk"
                 apneTekst={"Vis alle (" + antallSkjulteElementer + ") "}
@@ -87,7 +86,7 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
                     leserData={false}
                 />
             </Lesmerpanel>
-        </Panel>
+        </>
     );
 };
 
@@ -98,14 +97,6 @@ const Historikk: React.FC<Props> = ({hendelser, leserData}) => {
     const sorterteHendelser = sorterHendelserKronologisk(hendelser);
     return (
         <>
-            <Panel className="panel-luft-over">
-                {leserData && (
-                    <Lastestriper linjer={1}/>
-                )}
-                {!leserData && (
-                    <Systemtittel><FormattedMessage id="historikk.tittel"/></Systemtittel>
-                )}
-            </Panel>
             {sorterteHendelser.length < (MAX_ANTALL_KORT_LISTE +1) && (
                 <KortHistorikk hendelser={sorterteHendelser} leserData={leserData}/>
             )}

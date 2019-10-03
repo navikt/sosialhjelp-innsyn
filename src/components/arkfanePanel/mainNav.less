@@ -1,0 +1,75 @@
+@import "../../../node_modules/nav-frontend-core/less/core";
+
+.arkfane {
+  .arkfane_panel {
+    background-color: #FFF;
+    display: block;
+    padding: 1rem 0 0 0;
+    border-radius: 4px;
+
+    .arkfane_mainNav {
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+  }
+}
+
+//@media screen and (min-width: 641px) {
+//  .panel {
+//    padding-left: 80px !important;
+//    padding-right: 80px !important;
+//  }
+//}
+
+.arkfane_mainNav {
+  margin-top: 1rem;
+  border-bottom: 4px solid @navLysGra;
+
+  &__wrapper {
+    display:flex;
+    justify-content: space-between;
+
+    ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+
+      li {
+        a {
+          display:block;
+          // font-size: 1.1rem;
+          color: @navBla;
+          padding: 0.75rem 1.25rem;
+          text-decoration: none;
+          border-bottom: 4px solid @navLysGra; // transparent;
+          position: relative;
+          top: 4px;
+
+          &:hover {
+            background: #f8f8f8;
+            border-bottom: 4px solid @navBla;
+          }
+
+          &:focus {
+            outline:none;
+            box-shadow:0 0 0 3px @fokusFarge;
+            z-index:1;
+          }
+
+          &.active {
+            // background: white;
+            font-weight: bold;
+            border-bottom: 4px solid @navBla;
+            color: @navMorkGra;
+          }
+
+          &.inactive {
+            border-bottom: 4px solid @navLysGra;
+          }
+        }
+      }
+    }
+  }
+
+}
