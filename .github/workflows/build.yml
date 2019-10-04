@@ -11,8 +11,8 @@ jobs:
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin docker.pkg.github.com
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DEPLOYMENT_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DEPLOYMENT_PASSWORD }}
       - name: Checkout CI scripts
         run: |
           git clone https://github.com/navikt/github-apps-support.git
