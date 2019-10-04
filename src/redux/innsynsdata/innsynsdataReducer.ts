@@ -30,6 +30,15 @@ export interface SaksStatusState {
     melding?: string;
 }
 
+export interface Sakstype {
+    fiksDigisosId: string;
+    soknadTittel: string;
+    status: string;
+    sistOppdatert: string;
+    antallNyeOppgaver: number;
+    kilde: string;
+}
+
 export interface Vedlegg {
     storrelse: number;
     url: string;
@@ -65,12 +74,13 @@ export enum InnsynsdataActionTypeKeys {
 }
 
 export enum InnsynsdataSti {
-    SAKSSTATUS = "saksStatus",
-    OPPGAVER = "oppgaver",
-    SOKNADS_STATUS = "soknadsStatus",
-    HENDELSER = "hendelser",
-    VEDLEGG = "vedlegg",
-    SEND_VEDLEGG = "vedlegg/send"
+    SAKSSTATUS = "/innsyn/{fiksDigisosId}/saksStatus",
+    OPPGAVER = "/innsyn/{fiksDigisosId}/oppgaver",
+    SOKNADS_STATUS = "/innsyn/{fiksDigisosId}/soknadsStatus",
+    HENDELSER = "/innsyn/{fiksDigisosId}/hendelser",
+    VEDLEGG = "/innsyn/{fiksDigisosId}/vedlegg",
+    SEND_VEDLEGG = "/innsyn/{fiksDigisosId}/vedlegg/send",
+    SAKER = "/digisosapi/saker"
 }
 
 export interface InnsynssdataActionVerdi {

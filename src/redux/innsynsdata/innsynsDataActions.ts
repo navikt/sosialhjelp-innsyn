@@ -6,9 +6,11 @@ import {
 } from "./innsynsdataReducer";
 import {history} from "../../configureStore";
 
-export const innsynssdataUrl = (fiksDigisosId: string, sti: string): string => `/${fiksDigisosId}/${sti}`;
+export const innsynssdataUrl = (fiksDigisosId: string|null, sti: string): string => {
+    return fiksDigisosId ? sti.replace("{fiksDigisosId}", fiksDigisosId) : sti;
+};
 
-export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti) {
+export function hentInnsynsdata(fiksDigisosId: null|string, sti: InnsynsdataSti) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         const url = innsynssdataUrl(fiksDigisosId, sti);

@@ -7,9 +7,9 @@ export function erDev(): boolean {
 
 export function getApiBaseUrl(): string {
     if (erDev()) {
-        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn";
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     } else {
-        return getAbsoluteApiUrl() + "api/v1/innsyn"
+        return getAbsoluteApiUrl() + "api/v1"
     }
 }
 

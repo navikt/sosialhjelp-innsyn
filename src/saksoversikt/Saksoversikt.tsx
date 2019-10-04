@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
@@ -6,16 +6,42 @@ import Subheader from "../components/subheader/Subheader";
 import {Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
 import {Knapp} from "nav-frontend-knapper";
-import { Select } from 'nav-frontend-skjema';
+import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
+import {InnsynsdataSti, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import {REST_STATUS} from "../utils/restUtils";
+import {DispatchProps} from "../redux/reduxTypes";
+import {useDispatch} from "react-redux";
+import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 
-const Saksoversikt: React.FC = () => {
+export interface SakslisteProps {
+    saker?: Sakstype[];
+    restStatus?: REST_STATUS;
+    match: {
+        params: {
+            fiksDigisosId: any;
+        }
+    };
+}
+
+type Props = SakslisteProps & DispatchProps;
+
+const Saksoversikt: React.FC<Props> = ({match}) => {
+    const fiksDigisosId = match.params.fiksDigisosId || 1234;
+    // const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    // const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(hentInnsynsdata(null, InnsynsdataSti.SAKER))
+    }, [dispatch, fiksDigisosId]);
+
     return (
         <>
             <Panel className="panel panel-luft-over dine_soknader_panel">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
-                    <Knapp type="standard" >Ny søknad</Knapp>
+                    <Knapp type="standard">Ny søknad</Knapp>
                 </div>
                 <div className="periodevelger_container">
                     <Select label='Vis for' className="periode_velger">
@@ -38,7 +64,7 @@ const Saksoversikt: React.FC = () => {
                 oppdatert={"2018-10-04T13:42:00.134"}
             />
 
-            <DineUtbetalingerPanel />
+            <DineUtbetalingerPanel/>
 
             <Subheader className="panel-luft-over">
                 <Undertittel>Relatert informasjon</Undertittel>
