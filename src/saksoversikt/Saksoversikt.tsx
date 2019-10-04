@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
@@ -8,14 +8,26 @@ import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
 import {Knapp} from "nav-frontend-knapper";
 import { Select } from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
+import NySoknadModal from "../components/nySoknadModal/NySoknadModal";
 
 const Saksoversikt: React.FC = () => {
+    const [visNySoknad, setVisNySoknad] = useState(false);
+
     return (
         <>
             <Panel className="panel panel-luft-over dine_soknader_panel">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
-                    <Knapp type="standard" >Ny søknad</Knapp>
+                    <NySoknadModal
+                        synlig={visNySoknad}
+                        onRequestClose={() => setVisNySoknad(false)}
+                    />
+                    <Knapp
+                        type="standard"
+                        onClick={(event: any) => {setVisNySoknad(true);event.preventDefault()}}
+                    >
+                        Ny søknad
+                    </Knapp>
                 </div>
                 <div className="periodevelger_container">
                     <Select label='Vis for' className="periode_velger">
