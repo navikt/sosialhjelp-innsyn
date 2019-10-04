@@ -17,24 +17,19 @@ import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 export interface SakslisteProps {
     saker?: Sakstype[];
     restStatus?: REST_STATUS;
-    match: {
-        params: {
-            fiksDigisosId: any;
-        }
-    };
 }
 
 type Props = SakslisteProps & DispatchProps;
 
-const Saksoversikt: React.FC<Props> = ({match}) => {
-    const fiksDigisosId = match.params.fiksDigisosId || 1234;
+const Saksoversikt: React.FC<Props> = ({saker}) => {
+    console.dir(saker);
     // const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     // const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(hentInnsynsdata(null, InnsynsdataSti.SAKER))
-    }, [dispatch, fiksDigisosId]);
+    }, [dispatch]);
 
     return (
         <>

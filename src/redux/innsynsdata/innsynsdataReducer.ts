@@ -74,13 +74,13 @@ export enum InnsynsdataActionTypeKeys {
 }
 
 export enum InnsynsdataSti {
-    SAKSSTATUS = "/innsyn/{fiksDigisosId}/saksStatus",
-    OPPGAVER = "/innsyn/{fiksDigisosId}/oppgaver",
-    SOKNADS_STATUS = "/innsyn/{fiksDigisosId}/soknadsStatus",
-    HENDELSER = "/innsyn/{fiksDigisosId}/hendelser",
-    VEDLEGG = "/innsyn/{fiksDigisosId}/vedlegg",
-    SEND_VEDLEGG = "/innsyn/{fiksDigisosId}/vedlegg/send",
-    SAKER = "/digisosapi/saker"
+    SAKSSTATUS = "saksStatus",
+    OPPGAVER = "oppgaver",
+    SOKNADS_STATUS = "soknadsStatus",
+    HENDELSER = "hendelser",
+    VEDLEGG = "vedlegg",
+    SEND_VEDLEGG = "vedlegg/send",
+    SAKER = "saker"
 }
 
 export interface InnsynssdataActionVerdi {
