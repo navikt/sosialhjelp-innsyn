@@ -13,6 +13,9 @@ import {REST_STATUS} from "../utils/restUtils";
 import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
+import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
+import DetteKanDuSokeOm from "../components/ikoner/DetteKanDuSokeOm";
+import SlikSokerDu from "../components/ikoner/SlikSokerDu";
 
 export interface SakslisteProps {
     saker?: Sakstype[];
@@ -32,6 +35,30 @@ const Saksoversikt: React.FC<Props> = () => {
 
     return (
         <>
+            {saker.length === 0 &&
+            <div>
+                <Panel className="panel panel-luft-over dine_soknader_panel">
+                    <div className="tittel_og_knapp_container">
+                        <Systemtittel>Vi finner ingen digitale søknader fra deg</Systemtittel>
+                    </div>
+                </Panel>
+                <Panel>
+                    <LenkepanelBase href={"./slik-soker-du"} border>
+                        <div>
+                            <SlikSokerDu/>
+                            Slik søker du
+                        </div>
+                    </LenkepanelBase>
+                    <LenkepanelBase href={"./dette-kan-du-soke-om"} border>
+                        <div>
+                            <DetteKanDuSokeOm />
+                            Dette kan du søke om
+                        </div>
+                    </LenkepanelBase>
+                </Panel>
+            </div>
+            }
+            {saker.length > 0 &&
             <Panel className="panel panel-luft-over dine_soknader_panel">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
@@ -46,9 +73,11 @@ const Saksoversikt: React.FC<Props> = () => {
                     </Select>
                 </div>
             </Panel>
+            }
             {
-                saker.map((sak, index) => {
-                    return <SakPanel fiksDigisosId={sak.fiksDigisosId} tittel={sak.soknadTittel} status={sak.status} oppdatert={sak.sistOppdatert} antalNyeOppgaver={sak.antallNyeOppgaver} />
+                saker.map((sak) => {
+                    return <SakPanel fiksDigisosId={sak.fiksDigisosId} tittel={sak.soknadTittel} status={sak.status}
+                                     oppdatert={sak.sistOppdatert} antalNyeOppgaver={sak.antallNyeOppgaver}/>
                 })
             }
 
