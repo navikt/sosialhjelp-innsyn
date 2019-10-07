@@ -21,7 +21,7 @@ export interface SakslisteProps {
 
 type Props = SakslisteProps & DispatchProps;
 
-const Saksoversikt: React.FC<Props> = ({}) => {
+const Saksoversikt: React.FC<Props> = () => {
     // const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const dispatch = useDispatch();
     const saker = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
@@ -32,8 +32,6 @@ const Saksoversikt: React.FC<Props> = ({}) => {
 
     return (
         <>
-            <pre>Saker: {JSON.stringify(saker, null, 4)}</pre>
-
             <Panel className="panel panel-luft-over dine_soknader_panel">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
@@ -48,17 +46,11 @@ const Saksoversikt: React.FC<Props> = ({}) => {
                     </Select>
                 </div>
             </Panel>
-            <SakPanel
-                tittel="Økonomisk sosialhjelp"
-                etikett="Du har en oppgave"
-                status="Sendt"
-                oppdatert={"2018-10-04T13:42:00.134"}
-            />
-            <SakPanel
-                tittel="Livsopphold og strøm"
-                status="Ferdig behandlet"
-                oppdatert={"2018-10-04T13:42:00.134"}
-            />
+            {
+                saker.map((sak, index) => {
+                    return <SakPanel fiksDigisosId={sak.fiksDigisosId} tittel={sak.soknadTittel} status={sak.status} oppdatert={sak.sistOppdatert} antalNyeOppgaver={sak.antallNyeOppgaver} />
+                })
+            }
 
             <DineUtbetalingerPanel/>
 
