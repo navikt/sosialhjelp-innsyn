@@ -119,6 +119,7 @@ export interface InnsynsdataType {
     soknadsStatus: Status;
     hendelser: Hendelse[];
     vedlegg: Vedlegg[];
+    saker: Sakstype[];
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -138,6 +139,7 @@ const initialState: InnsynsdataType = {
     },
     hendelser: [],
     vedlegg: [],
+    saker: [],
     restStatus: initialInnsynsdataRestStatus
 };
 

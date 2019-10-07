@@ -10,8 +10,8 @@ import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
 import {InnsynsdataSti, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {REST_STATUS} from "../utils/restUtils";
-import {DispatchProps} from "../redux/reduxTypes";
-import {useDispatch} from "react-redux";
+import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
+import {useDispatch, useSelector} from "react-redux";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 
 export interface SakslisteProps {
@@ -21,11 +21,10 @@ export interface SakslisteProps {
 
 type Props = SakslisteProps & DispatchProps;
 
-const Saksoversikt: React.FC<Props> = ({saker}) => {
-    console.dir(saker);
-    // const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+const Saksoversikt: React.FC<Props> = ({}) => {
     // const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const dispatch = useDispatch();
+    const saker = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
 
     useEffect(() => {
         dispatch(hentInnsynsdata(null, InnsynsdataSti.SAKER))
@@ -33,6 +32,8 @@ const Saksoversikt: React.FC<Props> = ({saker}) => {
 
     return (
         <>
+            <pre>Saker: {JSON.stringify(saker, null, 4)}</pre>
+
             <Panel className="panel panel-luft-over dine_soknader_panel">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
