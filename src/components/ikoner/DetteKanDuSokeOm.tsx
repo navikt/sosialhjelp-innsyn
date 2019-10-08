@@ -2,7 +2,12 @@ import React from "react";
 
 const DetteKanDuSokeOm: React.FC<{}> = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" className="hva_kan_du_soke_om" >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="45"
+            height="45"
+            viewBox="0 0 45 45"
+        >
             <g fill="#3E3832" fillRule="nonzero" stroke="none" strokeWidth="1">
                 <path
                     d="M43.803 42.448l-6.106-6.106c1.114-1.405 1.805-3.159 1.805-5.089 0-4.55-3.7-8.253-8.25-8.253S23 26.705 23 31.255c0 4.55 3.703 8.253 8.253 8.253 1.93 0 3.684-.692 5.089-1.807l6.106 6.106a.961.961 0 001.355-.002.961.961 0 000-1.357zM24.918 31.255a6.344 6.344 0 016.336-6.336 6.342 6.342 0 016.335 6.336 6.342 6.342 0 01-6.335 6.337 6.345 6.345 0 01-6.336-6.337z"

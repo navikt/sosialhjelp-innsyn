@@ -3,8 +3,9 @@ import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import Subheader from "../components/subheader/Subheader";
-import {Systemtittel, Undertittel} from "nav-frontend-typografi";
+import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
+import Veilederpanel from 'nav-frontend-veilederpanel';
 import {Knapp} from "nav-frontend-knapper";
 import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
@@ -16,6 +17,7 @@ import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import DetteKanDuSokeOm from "../components/ikoner/DetteKanDuSokeOm";
 import SlikSokerDu from "../components/ikoner/SlikSokerDu";
+import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 export interface SakslisteProps {
     saker?: Sakstype[];
@@ -36,26 +38,26 @@ const Saksoversikt: React.FC<Props> = () => {
     return (
         <>
             {saker.length === 0 &&
-            <div>
-                <Panel className="panel panel-luft-over dine_soknader_panel">
-                    <div className="tittel_og_knapp_container">
-                        <Systemtittel>Vi finner ingen digitale søknader fra deg</Systemtittel>
-                    </div>
-                </Panel>
-                <Panel>
-                    <LenkepanelBase href={"./slik-soker-du"} border>
-                        <div>
+            <div className="soknadsOversiktSide">
+                <Veilederpanel veilederProps={{className: "soknadsOversiktVeilederpanelIkon"}} kompakt type={"plakat"} svg={<IngenSoknaderFunnet/>}>
+                    <Systemtittel>Vi finner ingen digitale søknader fra deg</Systemtittel>
+                    <Normaltekst>Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.</Normaltekst>
+                </Veilederpanel>
+                <div className={"soknadsOversiktLenkePanel"}>
+                    <LenkepanelBase className={"soknadsOversiktLenker"} href={"./slik-soker-du"} border>
                             <SlikSokerDu/>
-                            Slik søker du
-                        </div>
+                            <div>
+                                <Systemtittel>Slik søker du</Systemtittel>
+                            </div>
                     </LenkepanelBase>
-                    <LenkepanelBase href={"./dette-kan-du-soke-om"} border>
+                    <LenkepanelBase className={"soknadsOversiktLenker"} href={"./dette-kan-du-soke-om"} border>
                         <div>
                             <DetteKanDuSokeOm />
-                            Dette kan du søke om
+                        </div><div>
+                            <Systemtittel>Dette kan du søke om</Systemtittel>
                         </div>
                     </LenkepanelBase>
-                </Panel>
+                </div>
             </div>
             }
             {saker.length > 0 &&

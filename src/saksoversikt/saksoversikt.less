@@ -55,3 +55,44 @@
 
   }
 }
+
+.soknadsOversiktSide .nav-veilederpanel {
+  border: none;
+}
+
+.soknadsOversiktVeilederpanelIkon .nav-veileder__frame {
+  background-color: #CDE7D8;
+}
+
+@media screen and (min-width: 721px ) {
+  .soknadsOversiktLenkePanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .soknadsOversiktLenker {
+    margin-top: 1rem;
+    width: 48%;
+    border: #FFFFFF;
+  }
+}
+@media screen and (max-width: 720px ) {
+  .soknadsOversiktLenkePanel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .soknadsOversiktLenker {
+    margin-top: 1rem;
+    width: 100%;
+    border: #FFFFFF;
+  }
+}
+
+.ingenSoknadFunnet {
+  padding-top: 4px;
+  padding-bottom: 2px;
+  margin-left: 16px;
+}
