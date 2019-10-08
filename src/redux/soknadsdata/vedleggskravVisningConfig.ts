@@ -1,6 +1,6 @@
-import {OriginalSoknadVedleggSpc, OriginalSoknadVedleggType} from "./vedleggTypes";
+import {OriginalSoknadVedleggSpec, OriginalSoknadVedleggType} from "./vedleggTypes";
 
-export const originalSoknadVedleggTekstVisning: OriginalSoknadVedleggSpc[] = [
+export const originalSoknadVedleggTekstVisning: OriginalSoknadVedleggSpec[] = [
     { type: OriginalSoknadVedleggType.LONNSLIPP_ARBEID, tittel: "Lønnslipp (siste måned)", tilleggsinfo: ""},
     { type: OriginalSoknadVedleggType.SLUTTOPPGJOR_ARBEID, tittel: "Sluttoppgjør", tilleggsinfo: ""},
     { type: OriginalSoknadVedleggType.STUDENT_VEDTAK, tittel: "Vedtak fra Lånekassen", tilleggsinfo: ""},

@@ -32,7 +32,7 @@ export enum OriginalSoknadVedleggType {
     SKATTEMELDING_SKATTEMELDING = "skattemelding|skattemelding",
     OPPHOLDSTILLATEL_OPPHOLDSTILLATEL= "oppholdstillatel|oppholdstillatel"
 }
-export interface OriginalSoknadVedleggSpc {
+export interface OriginalSoknadVedleggSpec {
     type: OriginalSoknadVedleggType;
     tittel: string;
     tilleggsinfo: string;
