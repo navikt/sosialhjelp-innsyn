@@ -43,12 +43,14 @@ const DineOppgaver: React.FC = () => {
                         innsendelsesfrist: "2018-10-20T07:37:00.134",
                         dokumenttype: "Strømfaktura",
                         tilleggsinformasjon: "For periode 01.01.2019 til 01.02.2019",
+                        erFraInnsyn: true,
                         vedlegg: []
                     },
                     {
                         innsendelsesfrist: "2018-10-20T07:37:30",
                         dokumenttype: "Kopi av depositumskonto",
                         tilleggsinformasjon: "Signert av både deg og utleier",
+                        erFraInnsyn: true,
                         vedlegg: [{
                             filnavn: "IMG8232.JPG",
                             type: "beskrivelse",
