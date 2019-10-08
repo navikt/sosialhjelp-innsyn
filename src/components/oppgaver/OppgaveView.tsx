@@ -66,9 +66,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
     let sammensattType = oppgave.dokumenttype + "|" + oppgave.tilleggsinformasjon;
     let erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
     if (erOriginalSoknadVedleggType) {
-        let soknadVedleggSpc = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
-        typeTekst = soknadVedleggSpc.tittel;
-        tilleggsinfoTekst = soknadVedleggSpc.tilleggsinfo;
+        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
+        typeTekst = soknadVedleggSpec.tittel;
+        tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
     } else {
         typeTekst = oppgave.dokumenttype;
         tilleggsinfoTekst = oppgave.tilleggsinformasjon;
@@ -78,7 +78,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
         <>
             <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
                 <Element>{typeTekst}</Element>
-                {tilleggsinfoTekst != null && (
+                {tilleggsinfoTekst && (
                     <Normaltekst className="luft_over_4px">
                         {tilleggsinfoTekst}
                     </Normaltekst>)}
