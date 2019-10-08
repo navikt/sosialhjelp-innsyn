@@ -32,7 +32,7 @@ function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]): string {
     }
     let innsendelsesfrist: string = "";
     if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist)).sort();
+        const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist!!)).sort();
         innsendelsesfrist = innsendelsesfrister[0].toLocaleDateString();
     }
     return innsendelsesfrist;
@@ -140,7 +140,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
     // <pre>REST status: {JSON.stringify(restStatus.oppgaver, null, 8)}</pre>
 
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
-    let innsendelsesfrist = foersteInnsendelsesfrist(oppgaver);
+    const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].erFraInnsyn;
+    let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     const vedleggKlarForOpplasting = oppgaver !== null && antallVedlegg(oppgaver) > 0;
 
     return (
@@ -178,24 +179,30 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         <div className="oppgaver_header">
                             <DokumentBinder/>
                             <div>
-                                <Element>Du må sende dokumentasjon til veileder</Element>
+                                <Element>{(oppgaverErFraInnsyn ? "Du må sende dokumentasjon til veileder" : "Du må sende inn dokumentasjon")}</Element>
                                 <Normaltekst>
                                     {oppgaver !== null && oppgaver.length} vedlegg mangler
                                     <br/>
-                                    Neste frist for innlevering er {innsendelsesfrist}
+                                    {oppgaverErFraInnsyn && ("Neste frist for innlevering er " + innsendelsesfrist)}
                                 </Normaltekst>
                             </div>
                         </div>
                     )}>
-                        <Normaltekst >
+                        {(oppgaverErFraInnsyn ? <Normaltekst>
                             Veilederen trenger mer dokumentasjon for å behandle søknaden din.
                             Hvis du ikke leverer dokumentasjonen innen fristen, blir
                             søknaden behandlet med den informasjonen vi har.
-                        </Normaltekst>
+                        </Normaltekst> : <Normaltekst>
+                            Last opp vedlegg du ikke lastet opp da du sendte søknaden.
+                            Vi anbefaler at du ettersender vedlegg så snart som mulig og helst innen 14 dager.
+                            Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi har.
+                        </Normaltekst>)}
                         <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å laste opp?</Lenke>
 
                         <div className="oppgaver_detaljer">
-                            <Normaltekst className="luft_under_8px">Frist for innlevering er {innsendelsesfrist}</Normaltekst>
+                            {oppgaverErFraInnsyn && (
+                                <Normaltekst className="luft_under_8px">Frist for innlevering er {innsendelsesfrist}</Normaltekst>
+                            )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
                                 <OppgaveView oppgave={oppgave} key={index} id={index}/>
                             ))}

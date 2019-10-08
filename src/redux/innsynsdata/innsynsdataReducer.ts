@@ -46,9 +46,10 @@ export interface Fil {
 }
 
 export interface Oppgave {
-    innsendelsesfrist: string;
+    innsendelsesfrist?: string;
     dokumenttype: string;
-    tilleggsinformasjon: string;
+    tilleggsinformasjon?: string;
+    erFraInnsyn: boolean;
     vedlegg?: Vedlegg[];
     filer?: Fil[];
 }

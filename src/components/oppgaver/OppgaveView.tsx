@@ -7,6 +7,8 @@ import {Fil, InnsynsdataActionTypeKeys, Oppgave, Vedlegg} from "../../redux/inns
 import VedleggActionsView from "./VedleggActionsView";
 import FilView from "./FilView";
 import {useDispatch} from "react-redux";
+import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
+import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedleggskravVisningConfig";
 
 interface Props {
     oppgave: Oppgave;
@@ -59,18 +61,31 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
         event.preventDefault();
     };
 
+    let typeTekst;
+    let tilleggsinfoTekst;
+    let sammensattType = oppgave.dokumenttype + "|" + oppgave.tilleggsinformasjon;
+    let erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
+    if (erOriginalSoknadVedleggType) {
+        let soknadVedleggSpc = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
+        typeTekst = soknadVedleggSpc.tittel;
+        tilleggsinfoTekst = soknadVedleggSpc.tilleggsinfo;
+    } else {
+        typeTekst = oppgave.dokumenttype;
+        tilleggsinfoTekst = oppgave.tilleggsinformasjon;
+    }
+
     return (
         <>
             <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
-                <Element>{oppgave.dokumenttype}</Element>
-                <Normaltekst className="luft_over_4px">
-                    {oppgave.tilleggsinformasjon}
-                </Normaltekst>
+                <Element>{typeTekst}</Element>
+                {tilleggsinfoTekst != null && (
+                    <Normaltekst className="luft_over_4px">
+                        {tilleggsinfoTekst}
+                    </Normaltekst>)}
 
                 {!oppgave.vedlegg && (
                     <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
                 )}
-
                 {oppgave.vedlegg && oppgave.vedlegg.length === 0 && (
                     <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
                 )}
