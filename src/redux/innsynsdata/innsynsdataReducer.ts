@@ -74,13 +74,13 @@ export enum InnsynsdataSti {
     SEND_VEDLEGG = "vedlegg/send"
 }
 
-export interface InnsynssdataActionVerdi {
-    saksStatus?: SaksStatusState;
-}
+// export interface InnsynssdataActionVerdi {
+//     saksStatus?: SaksStatusState;
+// }
 
 export interface InnsynsdataActionType {
     type: InnsynsdataActionTypeKeys,
-    verdi?: InnsynssdataActionVerdi,
+    verdi?: any,
     sti: InnsynsdataSti,
     restStatus?: string
 }
@@ -196,7 +196,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
     }
 };
 
-export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: InnsynssdataActionVerdi): InnsynsdataActionType => {
+export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): InnsynsdataActionType => {
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
