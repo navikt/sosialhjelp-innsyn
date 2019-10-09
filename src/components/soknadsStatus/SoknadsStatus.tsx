@@ -1,7 +1,6 @@
 import React from 'react';
 import {Panel} from "nav-frontend-paneler";
 import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
-import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
@@ -13,10 +12,10 @@ import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 
 export enum SoknadsStatusEnum {
-	SENDT = "SENDT",
 	MOTTATT = "MOTTATT",
 	UNDER_BEHANDLING = "UNDER_BEHANDLING",
-	FERDIG_BEHANDLET = "FERDIG_BEHANDLET"
+	FERDIGBEHANDLET = "FERDIGBEHANDLET",
+	BEHANDLES_IKKE = "BEHANDLES_IKKE"
 }
 
 interface StatusDetalj {
@@ -39,12 +38,6 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 				{leserData && (
 					<Lastestriper linjer={1}/>
 				)}
-				{status === SoknadsStatusEnum.SENDT && (
-					<>
-						<Innholdstittel><FormattedMessage id="status.sendt" /></Innholdstittel>
-						<DokumentSendt />
-					</>
-				)}
 				{status === SoknadsStatusEnum.MOTTATT && (
 					<>
 						<Innholdstittel><FormattedMessage id="status.mottatt" /></Innholdstittel>
@@ -57,9 +50,15 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 						<DokumentElla />
 					</>
 				)}
-				{status === SoknadsStatusEnum.FERDIG_BEHANDLET && (
+				{status === SoknadsStatusEnum.FERDIGBEHANDLET && (
 					<>
-						<Innholdstittel><FormattedMessage id="status.ferdig_behandlet" /></Innholdstittel>
+						<Innholdstittel><FormattedMessage id="status.ferdigbehandlet" /></Innholdstittel>
+						<DokumentOk />
+					</>
+				)}
+				{status === SoknadsStatusEnum.BEHANDLES_IKKE && (
+					<>
+						<Innholdstittel><FormattedMessage id="status.behandles_ikke" /></Innholdstittel>
 						<DokumentOk />
 					</>
 				)}
