@@ -51,11 +51,6 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
     // TODO Sjekk med data fra REST tjeneste, at søknad er tilgjengelig
     const soknadTilgjengelig: boolean = currentSuggestion !== null && currentSuggestion.key !== "007"; // Ikke Osterøy
 
-    let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
-    if (currentSuggestion) {
-        fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
-    }
-
     const onclick = (event: any) => {
         if (currentSuggestion && soknadTilgjengelig) {
             // TODO Ta bruker til søknadsapplikasjonen.
@@ -66,6 +61,14 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
         }
     };
 
+    const onReset = () => {
+        setCurrentSuggestion(null);
+    };
+
+    let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
+    if (currentSuggestion) {
+        fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
+    }
     const urlDittNavKontor = "https://www.nav.no/" +
         "no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/finn-ditt-nav-kontor--353421";
 
@@ -116,6 +119,7 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                     ariaLabel="Søk etter din kommune"
                     id="kommunesok"
                     onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
+                    onReset={() => onReset()}
                 />
 
                 {visAlertStripe && (

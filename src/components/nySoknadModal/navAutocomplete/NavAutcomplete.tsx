@@ -3,12 +3,13 @@ import "./navAutcomplete.less";
 import AutcompleteSuggestion from "./AutcompleteSuggestion";
 import {searchSuggestions} from "./AutcompleteUtils";
 
-export interface NavAutocompleteProps {
+interface Props {
     placeholder?: string;
     suggestions: Suggestion[];
     id: string;
     ariaLabel: string;
     onSelect: (value: Suggestion) => void;
+    onReset?: () => void;
 }
 
 export interface Suggestion {
@@ -24,8 +25,7 @@ enum KEY {
     ARROW_DOWN = 40
 }
 
-const NavAutocomplete: React.FC<NavAutocompleteProps> = ({placeholder, suggestions, ariaLabel, id, onSelect} ) => {
-    // const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion|undefined>();
+const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, id, onSelect, onReset} ) => {
     const [value, setValue] = useState<string>("");
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
     const [blurDelay, setBlurDelay] = useState<any|undefined>(null);
@@ -40,7 +40,18 @@ const NavAutocomplete: React.FC<NavAutocompleteProps> = ({placeholder, suggestio
      */
     const onKeyDown = (event: React.KeyboardEvent) => {
         const hasSelectedSuggestion = activeSuggestionIndex > -1;
+
+        /**
+         * It’s important to only set aria-activedescendant after the Down arrow key is used to start traversing the
+         * associated Listbox options, and to clear aria-activedescendant by removing the attribute or setting it to “”
+         * every time the Left/Right arrow keys are pressed, as with Home/End, Escape, or when typing characters or
+         * pasting content into the edit field. Otherwise the accessibility tree will report that focus is within the
+         * Listbox and it will be impossible for screen reader users to review the text that has been typed into the
+         * edit field.
+         * https://www.levelaccess.com/differences-aria-1-0-1-1-changes-rolecombobox/
+         */
         setAriaActiveDescendant(event.keyCode === KEY.ARROW_UP || event.keyCode === KEY.ARROW_DOWN);
+
         switch (event.keyCode) {
             case KEY.TAB:
                 if (hasSelectedSuggestion && shouldShowSuggestions) {
@@ -99,7 +110,9 @@ const NavAutocomplete: React.FC<NavAutocompleteProps> = ({placeholder, suggestio
         const { value } = event.target;
         setValue(value);
         setShouldShowSuggestions(true);
-
+        if (value.length === 0 && onReset) {
+            onReset();
+        }
         const filteredSuggestions: Suggestion[] = searchSuggestions(suggestions, value);
         const activeFilteredSuggestion = filteredSuggestions.filter((item: Suggestion) => {
             if (item.key === (suggestions[activeSuggestionIndex] && suggestions[activeSuggestionIndex].key)) {
