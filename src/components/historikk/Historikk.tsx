@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Panel} from "nav-frontend-paneler";
 import {Normaltekst, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -54,9 +53,9 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
 
 const KortHistorikk: React.FC<{hendelser: Hendelse[], leserData: boolean}> = ({hendelser, leserData}) => {
     return (
-        <Panel className="panel-glippe-over">
+        <>
             <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData}/>
-        </Panel>
+        </>
     );
 };
 
