@@ -8,6 +8,11 @@ import {InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataR
 export interface InnsynsdataContainerProps {
     innsynsdata?: InnsynsdataType;
     restStatus?: REST_STATUS;
+    match: {
+        params: {
+            soknadId: any;
+        }
+    };
 }
 
 type Props = InnsynsdataContainerProps & DispatchProps;
@@ -15,7 +20,9 @@ type Props = InnsynsdataContainerProps & DispatchProps;
 class DebugSide extends React.Component<Props, {}> {
 
     componentDidMount() {
-        const fiksDigisosId: string = "1234";
+        const soknadId = this.props.match.params.soknadId;
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+
         this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
         this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
         this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SOKNADS_STATUS));

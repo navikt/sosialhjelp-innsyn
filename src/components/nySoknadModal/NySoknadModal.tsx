@@ -96,7 +96,7 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                             Hvis du ikke har penger til det aller mest nødvendige, som mat,
                             bør du &nbsp;
                             <Lenke href={urlDittNavKontor}>kontakte NAV-kontoret ditt</Lenke>
-                            før du sender inn søknaden.
+                            &nbsp;før du sender inn søknaden.
                         </Normaltekst>
                     )}
                     {currentSuggestion && !soknadTilgjengelig && (

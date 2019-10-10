@@ -8,14 +8,32 @@ import Lenke from "nav-frontend-lenker";
 const InnsynDemoMeny: React.FC = () => {
     return (
         <Panel>
-            <Sidetittel>Sosialhjelp innsyn mock</Sidetittel>
+            <Sidetittel>Sosialhjelp innsyn</Sidetittel>
             <Normaltekst>
                 Innsyn for sosialsøkere. Data som vises er testdata fra backend.
             </Normaltekst>
             <br/>
-            <ul className="typo-normal">
-                <li><Lenke href={"/" + getAbsoluteBasename() + "/innsyn/status"}>Status på sak</Lenke></li>
+
+            <Innholdstittel>Logg inn som testbruker på innsyn</Innholdstittel>
+
+            <ul>
+                <li>
+                    <Normaltekst>
+                        <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/001/status"}>Beckett Brass</Lenke>
+                    </Normaltekst>
+                </li>
+                <li>
+                    <Normaltekst>
+                        <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/002/status"}>Nary Meha</Lenke>
+                    </Normaltekst>
+                </li>
+                <li>
+                    <Normaltekst>
+                        <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/003/status"}>Isareth Awakener</Lenke>
+                    </Normaltekst>
+                </li>
             </ul>
+
             <br />
 
             <Innholdstittel>Endre innsynsdata med swagger</Innholdstittel>
@@ -72,8 +90,25 @@ const InnsynDemoMeny: React.FC = () => {
             <br/>
 
             <Innholdstittel>Interne testsider</Innholdstittel>
+            <Normaltekst>
+                Debugside med alle innsynsdata tilgjengelig fra frontend på JSON format.
+            </Normaltekst>
             <ul className="typo-normal">
-                <li><Lenke href={"/" + getAbsoluteBasename() + "/innsyn/debug"}>Vis alle innsynsdata som JSON</Lenke></li>
+                <li>
+                    <Normaltekst>
+                        <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/001/debug"}>Beckett Brass</Lenke>
+                    </Normaltekst>
+                </li>
+                <li>
+                    <Normaltekst>
+                        <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/002/debug"}>Nary Meha</Lenke>
+                    </Normaltekst>
+                </li>
+                <li>
+                    <Normaltekst>
+                        <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/003/debug"}>Isareth Awakener</Lenke>
+                    </Normaltekst>
+                </li>
             </ul>
             <br/>
 

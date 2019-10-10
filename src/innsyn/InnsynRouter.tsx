@@ -52,6 +52,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/demo/utbetalinger" component={UtbetalingerDemo} />
 
                         {/* Debug routes: */}
+                        <Route exact path="/innsyn/:soknadId/debug" component={DebugSide} />
                         <Route exact path="/innsyn/debug" component={DebugSide} />
                     </Switch>
                 </div>
