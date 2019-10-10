@@ -25,6 +25,8 @@ jobs:
           echo $PROJECT_NAME > PROJECT_NAME
           # FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
           echo "docker.pkg.github.com/$GITHUB_REPOSITORY/$PROJECT_NAME:$(create-artifact-version.sh | sed 's/^1.0/1.1/')" > DOCKER_TAG
+      - name: Build docker image
+        run: docker build -t $(cat DOCKER_TAG) .
       - name: Create tag and release
         run: |
           export PATH=$(cat PATH)
@@ -38,8 +40,6 @@ jobs:
         env:
           DIGISOS_APPID: ${{ secrets.DIGISOS_APPID }}
           DIGISOS_KEY: ${{ secrets.DIGISOS_KEY }}
-      - name: Build docker image
-        run: docker build -t $(cat DOCKER_TAG) .
       - name: Push docker image
         run: |
           cat DOCKER_TAG
