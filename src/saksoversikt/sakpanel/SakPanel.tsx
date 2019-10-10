@@ -9,11 +9,11 @@ import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 
-const SakPanel: React.FC<{fiksDigisosId: string, tittel: string, status: string, oppdatert: string, antalNyeOppgaver?: number}> = ({fiksDigisosId, tittel, status, oppdatert, antalNyeOppgaver}) => {
+const SakPanel: React.FC<{fiksDigisosId: string, tittel: string, status: string, oppdatert: string, key: string, antalNyeOppgaver?: number}> = ({fiksDigisosId, tittel, status, oppdatert, antalNyeOppgaver}) => {
 
     const dispatch = useDispatch();
     return (
-        <LenkepanelBase onClick={(event: any) => {dispatch(push("innsyn/" + fiksDigisosId + "/status"));event.preventDefault()}} className="panel-glippe-over">
+        <LenkepanelBase onClick={(event: any) => {dispatch(push("innsyn/" + fiksDigisosId + "/status"));event.preventDefault()}} className="panel-glippe-over" href="#">
             <div className="sakpanel">
                 <DocumentIcon className="document_icon"/>
                 <div className="sakpanel_innhold">
