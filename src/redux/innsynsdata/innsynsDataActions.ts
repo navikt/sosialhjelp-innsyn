@@ -19,10 +19,10 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
     }
 }
 
-export function hentSaksdata(periode: string|string, sti: InnsynsdataSti) {
+export function hentSaksdata(sti: InnsynsdataSti) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
-        let url = "/digisosapi/" + sti + "?periode=" + periode;
+        let url = "/digisosapi/" + sti;
         fetchToJson(url).then((response: any) => {
             dispatch(oppdaterInnsynsdataState(sti, response));
             dispatch(settRestStatus(sti, REST_STATUS.OK));
