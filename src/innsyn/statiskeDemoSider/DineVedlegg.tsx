@@ -11,23 +11,23 @@ import {FormattedMessage} from "react-intl";
 const DineVedlegg: React.FC = () => {
     const mockVedlegg: Vedlegg[] = [
         {
-            filnavn: "filnavn 1",
+            filnavn: "c filnavn",
             url: "http://todo1",
             storrelse: 2342,
-            type: "Beskrivelse",
+            type: "A Beskrivelse",
             tilleggsinfo: "tilleggsinfo",
             datoLagtTil: "2018-10-11T13:42:00.134"
         },
         {
-            filnavn: "filnavn 2",
+            filnavn: "b filnavn",
             url: "http://todo2",
             storrelse: 23422,
-            type: "Beskrivelse",
+            type: "C Beskrivelse",
             tilleggsinfo: "tilleggsinfo",
             datoLagtTil: "2018-11-12T13:42:00.134"
         },
         {
-            filnavn: "filnavn 3",
+            filnavn: "a filnavn",
             url: "http://todo3",
             storrelse: 232,
             type: "Beskrivelse",
