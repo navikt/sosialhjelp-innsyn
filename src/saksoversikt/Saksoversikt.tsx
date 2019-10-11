@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
@@ -20,27 +20,24 @@ import SlikSokerDu from "../components/ikoner/SlikSokerDu";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 export interface SakslisteProps {
-    periode: string;
     restStatus?: REST_STATUS;
 }
 
 type Props = SakslisteProps & DispatchProps;
 
-const Saksoversikt: React.FC<Props> = ({periode}) => {
-    let sokePeriode: string = periode === undefined ? "siste4uker" : periode;
-    // const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
+    //const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const dispatch = useDispatch();
     const saker = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
 
+    const [periode, setPeriode] = useState<string>("siste4uker");
+
     useEffect(() => {
-        dispatch(hentSaksdata(sokePeriode, InnsynsdataSti.SAKER))
-    }, [dispatch, sokePeriode]);
+        dispatch(hentSaksdata(periode, InnsynsdataSti.SAKER))
+    }, [dispatch, periode]);
 
     const velgPeriode = (value: any) => {
-        sokePeriode = value.target.value;
-        // useEffect(() => {
-        //     dispatch(hentSaksdata(sokePeriode, InnsynsdataSti.SAKER))
-        // }, [dispatch]);
+        setPeriode(value.target.value);
     };
 
     return (
