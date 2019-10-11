@@ -18,6 +18,7 @@ const removeCssHashPlugin = {
             if (options.filename && options.filename.endsWith('.css')) {
                 options.filename = "static/css/[name].css";
                 options.chunkFilename = "static/css/[name].chunk.css";
+                options.publicPath =  '/sosialhjelp/innsyn/';
             }
 
         });
@@ -42,6 +43,7 @@ module.exports = {
                 path: BUILD_PATH,
                 filename: 'static/js/[name].js',
                 chunkFilename: 'static/js/[name].chunk.js',
+                publicPath: '/sosialhjelp/innsyn/'
             },
         }
     }
