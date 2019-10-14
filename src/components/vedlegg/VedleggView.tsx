@@ -2,16 +2,14 @@ import React, {useState} from 'react';
 import Lenke from "nav-frontend-lenker";
 import {Select} from "nav-frontend-skjema";
 import NavFrontendChevron from 'nav-frontend-chevron';
-import ReactPaginate from 'react-paginate';
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import 'nav-frontend-tabell-style';
-import "./paginering.less";
 import "./responsiv_tabell.less";
 import '../lastestriper/lastestriper.less';
-// import ReactPaginate from "./reactPaginate.d";
+import Paginering from "../paginering/Paginering";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
@@ -156,9 +154,10 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
 
-    const handlePageClick = (value: any) => {
-        setCurrentPage(value.selected);
+    const handlePageClick = (page: number) => {
+        setCurrentPage(page);
     };
+
     const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
 
     return (
@@ -274,26 +273,11 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                 </tbody>
             </table>
 
-            <div className="paginering">
-                <ReactPaginate
-                    initialPage={0}
-                    pageCount={lastPage}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={(value: any) => handlePageClick(value)}
-                    previousLabel={'<'}
-                    nextLabel={'>'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    containerClassName={'pagination'}
-                    activeClassName={'active'}
-                    extraAriaContext={"Side"}
-                    // Prop 'ariaLabelBuilder' mangler i d.ts filen:
-                    // Erstatt 'extraAriaContext' med dette når det eventuelt kommer:
-                    // ariaLabelBuilder={(side: any) => {
-                    //     return ("Side " + side)}}
-                />
-            </div>
+            <Paginering
+                initialPage={0}
+                pageCount={lastPage}
+                onPageChange={(page: number) => handlePageClick(page)}
+            />
         </>
     );
 };
