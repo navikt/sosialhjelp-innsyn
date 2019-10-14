@@ -8,7 +8,7 @@ import {history} from "../../configureStore";
 
 export const innsynssdataUrl = (fiksDigisosId: string, sti: string): string => `/${fiksDigisosId}/${sti}`;
 
-export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti) {
+export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti, visFeilSide?: boolean) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         const url = innsynssdataUrl(fiksDigisosId, sti);
@@ -17,7 +17,9 @@ export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti) {
             dispatch(settRestStatus(sti, REST_STATUS.OK));
         }).catch((reason) => {
             dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-            history.push("/feil");
-        });
+            if (visFeilSide !== false) {
+                history.push("feil");
+            }
+       });
     }
 }

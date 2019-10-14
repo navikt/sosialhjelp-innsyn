@@ -36,6 +36,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide} />
                         <Route exact path="/innsyn/feil" component={Feilside} />
+                        <Route exact path="/innsyn/:soknadId/feil" component={Feilside} />
 
                         {/* Demo routes: */}
                         <Route exact path="/innsyn/demo/mottatt" component={MottattSoknadDemo} />
