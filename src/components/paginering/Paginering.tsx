@@ -26,7 +26,7 @@ const Paginering: React.FC<Props> = ({pageCount, initialPage, onPageChange}) => 
             breakClassName={'break-me'}
             containerClassName={'pagination'}
             activeClassName={'active'}
-            extraAriaContext={"Side"}
+            // extraAriaContext={"Side"}
             // Prop 'ariaLabelBuilder' mangler i d.ts filen:
             // Erstatt 'extraAriaContext' med dette når det eventuelt kommer:
             // ariaLabelBuilder={(side: any) => {
