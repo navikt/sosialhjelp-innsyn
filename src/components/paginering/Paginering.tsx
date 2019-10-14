@@ -4,18 +4,18 @@ import "./paginering.less";
 
 interface Props {
     pageCount: number;
-    initialPage: number;
+    initialPage?: number;
     onPageChange: (page: number) => void;
 }
 
-const Paginering: React.FC<Props> = ({pageCount, initialPage, onPageChange}) => {
+const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange}) => {
     const handlePageClick = (value: any) => {
         onPageChange(value.selected);
     };
 
     return (
         <ReactPaginate
-            initialPage={0}
+            initialPage={initialPage}
             pageCount={pageCount}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}

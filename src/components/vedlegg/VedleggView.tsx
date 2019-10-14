@@ -149,10 +149,12 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
             descending[kolonne] ? "tabell__th--sortert-desc" : "tabell__th--sortert-asc") : "");
     };
 
-    // Paginering
+    /* Paginering */
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
+
+    console.log("lastPage" + lastPage + " sorterteVedlegg.length: " + sorterteVedlegg.length);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
@@ -161,7 +163,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
     const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
 
     return (
-        <>
+        <div className="vedleggliste">
             <div className="sortering_listeboks">
                 <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
                     <option
@@ -272,13 +274,15 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                 })}
                 </tbody>
             </table>
+            {sorterteVedlegg.length > itemsPerPage && (
+                <Paginering
+                    initialPage={0}
+                    pageCount={lastPage}
+                    onPageChange={(page: number) => handlePageClick(page)}
+                />
+            ) }
 
-            <Paginering
-                initialPage={0}
-                pageCount={lastPage}
-                onPageChange={(page: number) => handlePageClick(page)}
-            />
-        </>
+        </div>
     );
 };
 
