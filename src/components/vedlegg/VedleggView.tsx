@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import Lenke from "nav-frontend-lenker";
-import PaperClipSlanted from "../ikoner/PaperClipSlanted";
-import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
-import '../lastestriper/lastestriper.less';
-import {formatBytes} from "../../utils/formatting";
-import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {Select} from "nav-frontend-skjema";
 import NavFrontendChevron from 'nav-frontend-chevron';
+import ReactPaginate from 'react-paginate';
+import PaperClipSlanted from "../ikoner/PaperClipSlanted";
+import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
+import {formatBytes} from "../../utils/formatting";
+import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import 'nav-frontend-tabell-style';
+import "./paginering.less";
 import "./responsiv_tabell.less";
+import '../lastestriper/lastestriper.less';
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
@@ -148,6 +150,16 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
             descending[kolonne] ? "tabell__th--sortert-desc" : "tabell__th--sortert-asc") : "");
     };
 
+    // Paginering
+    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
+
+    const handlePageClick = (value: any) => {
+        setCurrentPage(value.selected);
+    };
+    const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
+
     return (
         <>
             <div className="sortering_listeboks">
@@ -232,7 +244,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                 {leserData && leserData === true && (
                     <LastestripeRad/>
                 )}
-                {sorterteVedlegg.map((vedlegg: Vedlegg, index: number) => {
+                {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                     return (
                         <tr key={index}>
                             <td
@@ -260,6 +272,25 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                 })}
                 </tbody>
             </table>
+
+            <div className="paginering">
+                {/* https://github.com/AdeleD/react-paginate*/}
+                <ReactPaginate
+                    initialPage={0}
+                    pageCount={lastPage}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+
+                    onPageChange={(value: any) => handlePageClick(value)}
+
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
+            </div>
         </>
     );
 };
