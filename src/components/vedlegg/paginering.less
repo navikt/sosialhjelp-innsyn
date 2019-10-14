@@ -1,3 +1,5 @@
+@import "../../../node_modules/nav-frontend-core/less/core";
+
 ul.pagination {
 
   float: right;
@@ -14,11 +16,18 @@ ul.pagination {
     font-size: 1rem;
     min-width: 1.2rem;
     line-height: 1.375rem;
-    font-weight: 400;
-    margin-right: 0.4rem;
 
+    font-weight: 600;
+    margin-right: 0.6rem;
+    color: #0067C5;
     text-align: center;
+    text-decoration: underline;
   }
+
+  li:hover {
+    text-decoration: none;
+  }
+
   li:last-child {
     margin-right: 0;
   }
@@ -29,16 +38,27 @@ ul.pagination {
 
   li.previous {
     border: 1px solid white;
+    text-decoration: none;
   }
 
   li.next {
     border: 1px solid white;
+    text-decoration: none;
   }
 
   li.active {
-    background-color: #0099FF;
+    background-color: @navBla;
     color: white;
+    font-weight: 400;
     border: 1px solid #0099FF;
+    text-decoration: none;
+  }
+
+  li:focus a {
+    outline: none;
+    color: white;
+    text-decoration: none;
+    background-color: #254b6d;
   }
 
 }

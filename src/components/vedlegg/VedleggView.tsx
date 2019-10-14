@@ -11,6 +11,7 @@ import 'nav-frontend-tabell-style';
 import "./paginering.less";
 import "./responsiv_tabell.less";
 import '../lastestriper/lastestriper.less';
+// import ReactPaginate from "./reactPaginate.d";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
@@ -274,21 +275,23 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
             </table>
 
             <div className="paginering">
-                {/* https://github.com/AdeleD/react-paginate*/}
                 <ReactPaginate
                     initialPage={0}
                     pageCount={lastPage}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
-
                     onPageChange={(value: any) => handlePageClick(value)}
-
                     previousLabel={'<'}
                     nextLabel={'>'}
                     breakLabel={'...'}
                     breakClassName={'break-me'}
                     containerClassName={'pagination'}
                     activeClassName={'active'}
+                    extraAriaContext={"Side"}
+                    // Prop 'ariaLabelBuilder' mangler i d.ts filen:
+                    // Erstatt 'extraAriaContext' med dette når det eventuelt kommer:
+                    // ariaLabelBuilder={(side: any) => {
+                    //     return ("Side " + side)}}
                 />
             </div>
         </>
