@@ -19,6 +19,7 @@ import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import DetteKanDuSokeOm from "../components/ikoner/DetteKanDuSokeOm";
 import SlikSokerDu from "../components/ikoner/SlikSokerDu";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
+import Paginering from "../components/paginering/Paginering";
 
 export interface SakslisteProps {
     restStatus?: REST_STATUS;
@@ -52,6 +53,16 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
 
     const velgPeriode = (value: any) => {
         setPeriode(value.target.value);
+    };
+
+    /* Paginering */
+    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
+    const paginerteSaker = filtrerteSaker.slice(currentPage * 10, (currentPage * 10) + 10);
+
+    const handlePageClick = (page: number) => {
+        setCurrentPage(page);
     };
 
     return (
@@ -98,12 +109,19 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
                 </Panel>
             }
             {
-                filtrerteSaker.map((sak) => {
+                paginerteSaker.map((sak) => {
                             return <SakPanel fiksDigisosId={sak.fiksDigisosId} tittel={sak.soknadTittel} status={sak.status}
                                              oppdatert={sak.sistOppdatert} key={sak.fiksDigisosId}
                                              antalNyeOppgaver={sak.antallNyeOppgaver}/>
                 })
             }
+            {filtrerteSaker.length > itemsPerPage && (
+                <Paginering
+                    initialPage={0}
+                    pageCount={lastPage}
+                    onPageChange={(page: number) => handlePageClick(page)}
+                />
+            ) }
 
             {harSaker &&
                 <>
