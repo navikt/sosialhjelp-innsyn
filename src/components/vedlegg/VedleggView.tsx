@@ -153,14 +153,11 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
-
-    console.log("lastPage" + lastPage + " sorterteVedlegg.length: " + sorterteVedlegg.length);
+    const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
     };
-
-    const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
 
     return (
         <div className="vedleggliste">
