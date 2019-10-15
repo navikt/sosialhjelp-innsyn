@@ -18,12 +18,12 @@ const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange})
             initialPage={initialPage}
             pageCount={pageCount}
             marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={3}
             onPageChange={(value: any) => handlePageClick(value)}
             previousLabel={'<'}
             nextLabel={'>'}
             breakLabel={'...'}
-            breakClassName={'break-me'}
+            // breakClassName={'break-me'}
             containerClassName={'pagination'}
             activeClassName={'active'}
             // extraAriaContext={"Side"} // Deprecated

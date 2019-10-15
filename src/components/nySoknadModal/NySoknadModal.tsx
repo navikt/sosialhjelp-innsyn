@@ -8,43 +8,16 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import VeilederIkon from "../ikoner/VeilederIkon";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import Lenke from "nav-frontend-lenker";
+import useKommuneNrService from "./service/useKommuneNrService";
 
 const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
 
     const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion|null>(null);
     const [visAlertStripe, setVisAlertstripe] = useState<boolean|undefined>(false);
-
-    // TODO Hent kommunenavn fra REST kall
-    const suggestions: Suggestion[] = [
-        {
-            key: "0312",
-            value: "Os i Hedmark"
-        },
-        {
-            key: "0313",
-            value: "Os i Hordaland"
-        },
-        {
-            key: "0314",
-            value: "Osen"
-        },
-        {
-            key: "031",
-            value: "Oslo"
-        },
-        {
-            key: "007",
-            value: "Osterøy ikke påkoblet"
-        },
-        {
-            key: "008",
-            value: "Fauske - Fuossko"
-        }, {
-            key: "009",
-            value: "Fosnes"
-        }];
+    const service = useKommuneNrService();
 
     const onSelect = (suggestion: Suggestion) => {
+        console.log("selected " + JSON.stringify(suggestion, null, 8));
         setCurrentSuggestion(suggestion);
     };
 
@@ -81,6 +54,24 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
             contentLabel="Vedlegg"
             shouldCloseOnOverlayClick={true}
         >
+
+            {/*Debug kode start*/}
+            <div>
+                {service.status === 'loading' && (
+                    <div className="loader-container">
+                        Leser inn kommuner...
+                    </div>
+                )}
+                {service.status === 'loaded' && (
+                    <div>{service.payload.results.length} kommuner lest inn</div>
+                ) }
+                {service.status === 'error' && (
+                    <div>Beklager. Teknisk feil.</div>
+                )}
+            </div>
+            {/*Slutt debug kode*/}
+
+
             <div className="nySoknadModal">
                 <Systemtittel>Ny søknad</Systemtittel>
 
@@ -113,14 +104,17 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                     )}
                 </Veilederpanel>
 
-                <NavAutocomplete
-                    placeholder="Søk etter din kommune"
-                    suggestions={suggestions}
-                    ariaLabel="Søk etter din kommune"
-                    id="kommunesok"
-                    onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
-                    onReset={() => onReset()}
-                />
+                {service.status === 'loaded' && (
+                    <NavAutocomplete
+                        placeholder="Søk etter din kommune"
+                        suggestions={service.payload.results}
+                        ariaLabel="Søk etter din kommune"
+                        id="kommunesok"
+                        onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
+                        onReset={() => onReset()}
+                    />
+                )}
+
 
                 {visAlertStripe && (
                     <AlertStripeAdvarsel>Du må velge en kommune før du kan gå videre.</AlertStripeAdvarsel>
