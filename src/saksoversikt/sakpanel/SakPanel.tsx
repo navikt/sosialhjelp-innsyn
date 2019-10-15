@@ -32,6 +32,6 @@ const SakPanel: React.FC<{fiksDigisosId: string, tittel: string, status: string,
             </div>
         </LenkepanelBase>
     );
-}
+};
 
 export default SakPanel;

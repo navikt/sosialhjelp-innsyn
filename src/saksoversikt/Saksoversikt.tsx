@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, subMonths} from "date-fns";
-import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
+// import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import Subheader from "../components/subheader/Subheader";
 import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
@@ -53,13 +53,14 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
 
     const velgPeriode = (value: any) => {
         setPeriode(value.target.value);
+        setCurrentPage(0);
     };
 
     /* Paginering */
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
-    const paginerteSaker = filtrerteSaker.slice(currentPage * 10, (currentPage * 10) + 10);
+    const paginerteSaker = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
@@ -101,8 +102,8 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
                         <Select onChange={(value: any) => velgPeriode(value)} label='Vis for' className="periode_velger">
                             <option value='alle'>Alle</option>
                             <option value='12'>Siste år</option>
-                            <option value='6'>Siste 6 måneder</option>
-                            <option value='3'>Siste 3 måneder</option>
+                            <option value='6'>Siste 6 måneder&nbsp;</option>
+                            <option value='3'>Siste 3 måneder&nbsp;</option>
                             <option value='1'>Siste måned</option>
                         </Select>
                     </div>
@@ -117,15 +118,22 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
             }
             {filtrerteSaker.length > itemsPerPage && (
                 <Paginering
-                    initialPage={0}
+                    // initialPage={currentPage}
                     pageCount={lastPage}
+                    forcePage={currentPage}
                     onPageChange={(page: number) => handlePageClick(page)}
                 />
             ) }
+            {harSaker && filtrerteSaker.length === 0 &&
+                <Panel className="panel-glippe-over">
+                    <Normaltekst>Vi finner ingen søknader for denne perioden.</Normaltekst>
+                    <Normaltekst>Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.</Normaltekst>
+                </Panel>
+            }
 
             {harSaker &&
                 <>
-                    <DineUtbetalingerPanel/>
+                    {/*<DineUtbetalingerPanel/>*/}
 
                     <Subheader className="panel-luft-over">
                         <Undertittel>Relatert informasjon</Undertittel>
@@ -136,11 +144,11 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
                             Du må melde fra dersom din økonomiske situasjon endres.
                         </InfoPanel>
 
-                        <InfoPanel tittel={"Klagerettigheter"} href={"todo"}>
+                        <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Klage+ris+og+ros/Klagerettigheter#hvordanklagerdu"}>
                             Har du fått et vedtak fra oss som du mener er feil, kan du klage.
                         </InfoPanel>
 
-                        <InfoPanel tittel={"Mer om sosialhjelp"} href={"todo"}>
+                        <InfoPanel tittel={"Mer om sosialhjelp"} href={"https://www.nav.no/sosialhjelp/"}>
                             Lær mer om økonomisk sosialhjelp på nav.no
                         </InfoPanel>
                     </InfoPanelContainer>
