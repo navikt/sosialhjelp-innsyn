@@ -1,0 +1,44 @@
+.nySoknadModal {
+  height: 33rem;
+
+  .nav-veilederpanel {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .navAutocomplete {
+    margin-bottom: 1rem;
+  }
+
+  .knapp {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (min-width: 641px ) {
+  .nySoknadModal {
+    width: 32rem;
+  }
+}
+
+@media screen and (max-width: 640px ) {
+  .nySoknadModal {
+    width: 100%;
+    height: 93vh;
+
+    .navAutocomplete input {
+      width: 100%;
+    }
+  }
+}
+
+.nav-veileder__frame svg {
+  margin-left: 20px;
+}
+
+.nySoknadModal__veilederpanel {
+  display: block;
+  transition: all 1s ease-in-out;
+}
+

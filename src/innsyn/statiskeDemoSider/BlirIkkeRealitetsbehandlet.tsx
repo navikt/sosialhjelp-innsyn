@@ -10,7 +10,7 @@ const BlirIkkeRealitetsbehandlet: React.FC = () => {
         <>
             <SoknadsStatus
                 leserData={false}
-                status={SoknadsStatusEnum.FERDIG_BEHANDLET}
+                status={SoknadsStatusEnum.FERDIGBEHANDLET}
                 saksStatus={[
                     {
                         tittel: "Livsopphold",

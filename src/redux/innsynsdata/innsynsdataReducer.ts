@@ -55,9 +55,10 @@ export interface Fil {
 }
 
 export interface Oppgave {
-    innsendelsesfrist: string;
+    innsendelsesfrist?: string;
     dokumenttype: string;
-    tilleggsinformasjon: string;
+    tilleggsinformasjon?: string;
+    erFraInnsyn: boolean;
     vedlegg?: Vedlegg[];
     filer?: Fil[];
 }
@@ -83,13 +84,13 @@ export enum InnsynsdataSti {
     SAKER = "saker"
 }
 
-export interface InnsynssdataActionVerdi {
-    saksStatus?: SaksStatusState;
-}
+// export interface InnsynssdataActionVerdi {
+//     saksStatus?: SaksStatusState;
+// }
 
 export interface InnsynsdataActionType {
     type: InnsynsdataActionTypeKeys,
-    verdi?: InnsynssdataActionVerdi,
+    verdi?: any,
     sti: InnsynsdataSti,
     restStatus?: string
 }
@@ -207,7 +208,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
     }
 };
 
-export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: InnsynssdataActionVerdi): InnsynsdataActionType => {
+export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): InnsynsdataActionType => {
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,

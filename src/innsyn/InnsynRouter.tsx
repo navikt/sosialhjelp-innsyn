@@ -8,7 +8,6 @@ import InnsynDemoMeny from "./statiskeDemoSider/InnsynDemoMeny";
 import SaksStatus from "./SaksStatus";
 import Feilside from "../components/feilside/Feilside";
 import DebugSide from "./DebugSide";
-import SendtSoknad from "./statiskeDemoSider/SendtSoknad";
 import MottattSoknadDemo from "./statiskeDemoSider/MottattSoknadDemo";
 import UnderBehandling from "./statiskeDemoSider/UnderBehandling";
 import FerdigBehandlet from "./statiskeDemoSider/FerdigBehandlet";
@@ -37,9 +36,9 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide} />
                         <Route exact path="/innsyn/feil" component={Feilside} />
+                        <Route exact path="/innsyn/:soknadId/feil" component={Feilside} />
 
                         {/* Demo routes: */}
-                        <Route exact path="/innsyn/demo/sendt" component={SendtSoknad} />
                         <Route exact path="/innsyn/demo/mottatt" component={MottattSoknadDemo} />
                         <Route exact path="/innsyn/demo/behandling" component={UnderBehandling} />
                         <Route exact path="/innsyn/demo/behandlet" component={FerdigBehandlet} />
@@ -54,6 +53,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/demo/utbetalinger" component={UtbetalingerDemo} />
 
                         {/* Debug routes: */}
+                        <Route exact path="/innsyn/:soknadId/debug" component={DebugSide} />
                         <Route exact path="/innsyn/debug" component={DebugSide} />
                     </Switch>
                 </div>

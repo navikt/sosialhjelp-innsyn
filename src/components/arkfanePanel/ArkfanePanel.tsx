@@ -45,7 +45,7 @@ const ArkfanePanel: React.FC<Props> = ({arkfaner, defaultArkfane, className }) =
                     </div>
                 </nav>
             </div>
-            <Panel className="zzz_panel-glippe-over">
+            <Panel>
                 {arkfaner[valgtArkfane].content}
             </Panel>
         </div>

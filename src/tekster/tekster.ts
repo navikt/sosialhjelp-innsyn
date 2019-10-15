@@ -1,10 +1,10 @@
 export const tekster = {
     "nb": {
         "historikk.tittel": "Historikk",
-        "status.sendt": "Søknaden er sendt",
         "status.mottatt": "Søknaden er mottatt",
         "status.under_behandling": "Søknaden er under behandling",
-        "status.ferdig_behandlet": "Søknaden er ferdig behandlet",
+        "status.ferdigbehandlet": "Søknaden er ferdig behandlet",
+        "status.behandles_ikke": "Søknaden er ferdig behandlet", // Visningsteksten er lik ferdig behandlet, men statusen er behandles ikke i filformatet, mette endres på senere.
         "tidspunkt.klokken": "klokken",
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",

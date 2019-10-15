@@ -1,53 +1,46 @@
-import React from "react";
-import {connect} from "react-redux";
-import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
-import {REST_STATUS} from "../utils/restUtils";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {InnsynAppState} from "../redux/reduxTypes";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
 
-export interface InnsynsdataContainerProps {
-    innsynsdata?: InnsynsdataType;
-    restStatus?: REST_STATUS;
+interface Props {
+    match: {
+        params: {
+            soknadId: any;
+        }
+    };
 }
 
-type Props = InnsynsdataContainerProps & DispatchProps;
+const DebugSide: React.FC<Props> = ({match}) => {
+    const dispatch = useDispatch();
+    const soknadId = match.params.soknadId;
 
-class DebugSide extends React.Component<Props, {}> {
+    useEffect(() => {
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+        const restDataStier: InnsynsdataSti[] = [
+            InnsynsdataSti.SAKSSTATUS,
+            InnsynsdataSti.OPPGAVER,
+            InnsynsdataSti.SOKNADS_STATUS,
+            InnsynsdataSti.HENDELSER,
+            InnsynsdataSti.VEDLEGG
+        ];
+        restDataStier.map((restDataSti: InnsynsdataSti) =>
+            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti, true))
+        );
+    }, [dispatch, soknadId]);
 
-    componentDidMount() {
-        const fiksDigisosId: string = "1234";
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SOKNADS_STATUS));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-        this.props.dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-    }
+    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
 
-    render() {
-        return (
-            <>
-                <h1>Din status</h1>
-                <p>
-                    Alle innsynsdata som mottas fra backend:
-                </p>
-                <pre>{JSON.stringify(this.props.innsynsdata, null, 4)}</pre>
-            </>
-        )
-    }
-
-}
-
-const mapStateToProps = (state: InnsynAppState) => ({
-    innsynsdata: state.innsynsdata
-});
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        dispatch
-    }
+    return (
+        <>
+            <h1>Innsynsdata</h1>
+            <p>
+                Alle innsynsdata som mottas fra backend:
+            </p>
+            <pre>{JSON.stringify(innsynsdata, null, 4)}</pre>
+        </>
+    )
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DebugSide);
+export default DebugSide;

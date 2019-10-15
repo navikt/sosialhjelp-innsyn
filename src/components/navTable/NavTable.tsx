@@ -1,6 +1,6 @@
 import React from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import "./navTable.less";
+import 'nav-frontend-tabell-style';
 
 interface NavTableContextInterface {
     columnWidths: number[];
@@ -19,7 +19,7 @@ const NavTable: React.FC<NavTableProps> = ({columnWidths, children}) => {
     };
     return (
         <NavTableContext.Provider value={navTableContext}>
-            <table className="nav_table">
+            <table className="tabell">
                 {children}
             </table>
         </NavTableContext.Provider>
@@ -38,7 +38,7 @@ const NavTableHeadCell: React.FC<NavTableCellProps> = ({children, align, width})
     const textAlign = align && align === "right" ? "right" : "left";
     const cellWidth = (width ? width : "40%");
     return (
-        <th className="nav_table_head_cell" style={{width: cellWidth, textAlign: textAlign}}>
+        <th  role="columnheader" aria-sort="none" style={{width: cellWidth, textAlign: textAlign, whiteSpace: "nowrap"}}>
             <Element>
                 {children}
             </Element>
@@ -67,10 +67,10 @@ const NavTableHead: React.FC<{children: React.ReactNode[]}> = ({children}) => {
             { (navTableContext: NavTableContextInterface) => {
                 const widthAdjustedChildren = adjustChildrenWidths(navTableContext, children);
                 return (
-                    <thead className="nav_table_head">
-                    <tr className="nav_table_head_row" >
-                        {widthAdjustedChildren}
-                    </tr>
+                    <thead>
+                        <tr >
+                            {widthAdjustedChildren}
+                        </tr>
                     </thead>
                 );
             } }
@@ -80,7 +80,7 @@ const NavTableHead: React.FC<{children: React.ReactNode[]}> = ({children}) => {
 
 const NavTableBody: React.FC<{children: any}> = ({children}) => {
     return (
-        <tbody className="nav_table_body">
+        <tbody>
         {children}
         </tbody>
     );
@@ -92,7 +92,7 @@ const NavTableRow: React.FC<{children: any}> = ({children}) => {
             { (navTableContext: NavTableContextInterface) => {
                 const widthAdjustedChildren = adjustChildrenWidths(navTableContext, children);
                 return (
-                    <tr className="nav_table_row">
+                    <tr>
                         {widthAdjustedChildren}
                     </tr>
                 );
@@ -105,7 +105,7 @@ const NavTableCell: React.FC<NavTableCellProps> = ({children, align, width}) => 
     const textAlign = align && align === "right" ? "right" : "left";
     const cellWidth = (width ? width : "40%");
     return (
-        <td className="nav_table_cell" style={{width: cellWidth, textAlign: textAlign}}>
+        <td style={{width: cellWidth, textAlign: textAlign}}>
             <Normaltekst>
                 {children}
             </Normaltekst>

@@ -5,7 +5,7 @@ import {history} from "../../configureStore";
 
 export const innsynssdataUrl = (fiksDigisosId: string, sti: string): string => `/${fiksDigisosId}/${sti}`;
 
-export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSti) {
+export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSti, visFeilSide?: boolean) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         let url = "/innsyn" + innsynssdataUrl(fiksDigisosId, sti);
@@ -19,7 +19,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
     }
 }
 
-export function hentSaksdata(sti: InnsynsdataSti) {
+export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         let url = "/digisosapi/" + sti;
@@ -28,7 +28,9 @@ export function hentSaksdata(sti: InnsynsdataSti) {
             dispatch(settRestStatus(sti, REST_STATUS.OK));
         }).catch((reason) => {
             dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-            history.push("/feil");
-        });
+            if (visFeilSide !== false) {
+                history.push("feil");
+            }
+       });
     }
 }
