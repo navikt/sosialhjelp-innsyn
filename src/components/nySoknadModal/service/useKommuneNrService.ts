@@ -10,7 +10,7 @@ const useKommuneNrService = () => {
     const [result, setResult] = useState<Service<KommuneNummere>>({
         status: 'loading'
     });
-    const url = "https://www.nav.no/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    const url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
