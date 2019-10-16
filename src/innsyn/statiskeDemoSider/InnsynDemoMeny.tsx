@@ -44,7 +44,7 @@ const InnsynDemoMeny: React.FC = () => {
             <br/>
             <ol className="typo-normal">
                 <li>Gå til <Lenke href={ getApiBaseUrlForSwagger() }>swagger</Lenke></li>
-                <li>Velg <b>mock-controller</b> og tilhørende POST-kall, og deretter <b>'Try it out'</b></li>
+                <li>Velg <b>digisos-api-controller</b> og tilhørende POST-kall, og deretter <b>'Try it out'</b></li>
                 <li>Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)</li>
                 <li>Velg en 'soknadId' for dine testdata</li>
                 <li>Gå til <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/soknadId/status"}>status-siden</Lenke></li>
@@ -76,7 +76,7 @@ const InnsynDemoMeny: React.FC = () => {
             </ul>
             <br/>
 
-            <Innholdstittel>"Hva skjedde nå?" ekspempler</Innholdstittel>
+            <Innholdstittel>"Hva skjedde nå?" eksempler</Innholdstittel>
             <ul className="typo-normal">
                 <li><InternLenke href={"/innsyn/demo/vedtakEtterFerdigBehandlet"}>Vedtak etter ferdig behandlet</InternLenke></li>
                 <li><InternLenke href={"/innsyn/demo/blirIkkeRealitetsbehandlet"}>Blir ikke realitetsbehandlet</InternLenke></li>
