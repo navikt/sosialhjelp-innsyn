@@ -8,53 +8,46 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import VeilederIkon from "../ikoner/VeilederIkon";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import Lenke from "nav-frontend-lenker";
+import useKommuneNrService from "./service/useKommuneNrService";
+import useTilgjengeligeKommunerService from "./service/useTilgjengeligeKommunerService";
 
-const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
+const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
 
-    const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion|null>(null);
-    const [visAlertStripe, setVisAlertstripe] = useState<boolean|undefined>(false);
-
-    // TODO Hent kommunenavn fra REST kall
-    const suggestions: Suggestion[] = [
-        {
-            key: "0312",
-            value: "Os i Hedmark"
-        },
-        {
-            key: "0313",
-            value: "Os i Hordaland"
-        },
-        {
-            key: "0314",
-            value: "Osen"
-        },
-        {
-            key: "031",
-            value: "Oslo"
-        },
-        {
-            key: "007",
-            value: "Osterøy ikke påkoblet"
-        },
-        {
-            key: "008",
-            value: "Fauske - Fuossko"
-        }, {
-            key: "009",
-            value: "Fosnes"
-        }];
+    const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
+    const [visAlertStripe, setVisAlertstripe] = useState<boolean | undefined>(false);
+    const kommunerService = useKommuneNrService();
+    const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
+        // TODO Slett
+        console.log("selected " + JSON.stringify(suggestion, null, 8));
         setCurrentSuggestion(suggestion);
     };
 
-    // TODO Sjekk med data fra REST tjeneste, at søknad er tilgjengelig
-    const soknadTilgjengelig: boolean = currentSuggestion !== null && currentSuggestion.key !== "007"; // Ikke Osterøy
+    let soknadTilgjengelig: boolean = false;
+        // currentSuggestion !== null &&
+        // tilgjengeligeKommunerService.status === 'loaded' &&
+        // tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
 
-    const onclick = (event: any) => {
+    console.log("currentSuggestion: " + JSON.stringify(currentSuggestion, null, 8));
+    // console.log("tilgjengeligeKommunerService.payload.results: " + JSON.stringify(tilgjengeligeKommunerService.payload, null, 8))
+    // if (currentSuggestion !== null && tilgjengeligeKommunerService.status === 'loaded') {
+    //     console.log("debug: ");
+    //     tilgjengeligeKommunerService.payload.results.map((nummer: string) => {
+    //
+    //         if (nummer === currentSuggestion.key) {
+    //             soknadTilgjengelig = true;
+    //             // return nummer;
+    //         }
+    //         return null;
+    //     })
+    // }
+
+    const onButtonClick = (event: any) => {
         if (currentSuggestion && soknadTilgjengelig) {
             // TODO Ta bruker til søknadsapplikasjonen.
-            console.log("TODO: Ta bruker til søknadsapplikasjonen.")
+            console.log("TODO: Ta bruker til søknadsapplikasjonen.");
+            event.preventDefault();
         } else {
             setVisAlertstripe(true);
             event.preventDefault();
@@ -81,6 +74,27 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
             contentLabel="Vedlegg"
             shouldCloseOnOverlayClick={true}
         >
+
+            {/*Debug kode start*/}
+            <div>
+                {kommunerService.status === 'loading' && (
+                    <div className="loader-container">
+                        Leser inn kommuner...
+                    </div>
+                )}
+                {kommunerService.status === 'loaded' && (
+                    <div>{kommunerService.payload.results.length} kommuner lest inn</div>
+                )}
+                {kommunerService.status === 'error' && (
+                    <div>Beklager. Teknisk feil.</div>
+                )}
+                {tilgjengeligeKommunerService.status === 'loaded' && (
+                    <pre>{JSON.stringify(tilgjengeligeKommunerService.payload.results, null, 8)}</pre>
+                )}
+            </div>
+            {/*Slutt debug kode*/}
+
+
             <div className="nySoknadModal">
                 <Systemtittel>Ny søknad</Systemtittel>
 
@@ -90,6 +104,7 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                     type={"normal"}
                     kompakt={false}
                 >
+
                     {currentSuggestion && soknadTilgjengelig && (
                         <Normaltekst>
                             Du kan søke digitalt i {currentSuggestion.value} kommune.
@@ -101,11 +116,14 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                     )}
                     {currentSuggestion && !soknadTilgjengelig && (
                         <Normaltekst>
-                            Du kan dessverre ikke søke digitalt i {currentSuggestion.value}. Ta kontakt med &nbsp;
+                            Du kan dessverre ikke søke digitalt i {currentSuggestion.value}. Ta kontakt
+                            med &nbsp;
                             <Lenke href={urlDittNavKontor}>NAV-kontoret ditt</Lenke>
                             &nbsp; for å få papirskjema.
                         </Normaltekst>
                     )}
+
+
                     {currentSuggestion === null && (
                         <Normaltekst>
                             Sjekk om du kan søke digitalt i din kommune
@@ -113,14 +131,17 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                     )}
                 </Veilederpanel>
 
-                <NavAutocomplete
-                    placeholder="Søk etter din kommune"
-                    suggestions={suggestions}
-                    ariaLabel="Søk etter din kommune"
-                    id="kommunesok"
-                    onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
-                    onReset={() => onReset()}
-                />
+                {kommunerService.status === 'loaded' && (
+                    <NavAutocomplete
+                        placeholder="Søk etter din kommune"
+                        suggestions={kommunerService.payload.results}
+                        ariaLabel="Søk etter din kommune"
+                        id="kommunesok"
+                        onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
+                        onReset={() => onReset()}
+                    />
+                )}
+
 
                 {visAlertStripe && (
                     <AlertStripeAdvarsel>Du må velge en kommune før du kan gå videre.</AlertStripeAdvarsel>
@@ -128,7 +149,7 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
 
                 <Knapp
                     type="hoved"
-                    onClick={(event: any) => onclick(event)}
+                    onClick={(event: any) => onButtonClick(event)}
                 >
                     Søk digital
                 </Knapp>

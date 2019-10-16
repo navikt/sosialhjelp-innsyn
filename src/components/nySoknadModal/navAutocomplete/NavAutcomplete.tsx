@@ -57,14 +57,12 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                 if (hasSelectedSuggestion && shouldShowSuggestions) {
                     setValue(suggestions[activeSuggestionIndex].value);
                 }
-                break; // TODO Fjerne alle linjer med break; undøvendige...
+                break;
             case KEY.ENTER:
                 if (hasSelectedSuggestion && shouldShowSuggestions) {
                     event.preventDefault(); // Unngå form submit når bruker velger et av forslagene
                     setValue(suggestions[activeSuggestionIndex].value);
-                    // setCurrentSuggestion(suggestions[activeSuggestionIndex]);
                     onClick(suggestions[activeSuggestionIndex]);
-
                 } else {
                     setShouldShowSuggestions(false);
                 }

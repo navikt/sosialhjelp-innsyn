@@ -26,7 +26,7 @@ const DebugSide: React.FC<Props> = ({match}) => {
             InnsynsdataSti.VEDLEGG
         ];
         restDataStier.map((restDataSti: InnsynsdataSti) =>
-            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
+            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti, true))
         );
     }, [dispatch, soknadId]);
 
