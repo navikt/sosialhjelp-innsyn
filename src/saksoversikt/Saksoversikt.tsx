@@ -12,7 +12,7 @@ import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {REST_STATUS} from "../utils/restUtils";
-import {DispatchProps, InnsynAppState} from "../redux/reduxTypes";
+import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
@@ -20,21 +20,17 @@ import DetteKanDuSokeOm from "../components/ikoner/DetteKanDuSokeOm";
 import SlikSokerDu from "../components/ikoner/SlikSokerDu";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 import Paginering from "../components/paginering/Paginering";
+import {push} from "connected-react-router";
 
-export interface SakslisteProps {
-    restStatus?: REST_STATUS;
-}
-
-type Props = SakslisteProps & DispatchProps;
-
-const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
+const Saksoversikt: React.FC<REST_STATUS> = () => {
+// const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
     //const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const dispatch = useDispatch();
     const saker = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
     const harSaker = saker.length > 0;
 
     const [periode, setPeriode] = useState<string>("alle");
-    var filtrerteSaker;
+    let filtrerteSaker;
 
     function tolkPeriode(periode: string) {
         return Number(periode);
@@ -96,7 +92,7 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
                 <Panel className="panel panel-luft-over dine_soknader_panel">
                     <div className="tittel_og_knapp_container">
                         <Systemtittel>Dine søknader</Systemtittel>
-                        <Knapp type="standard">Ny søknad</Knapp>
+                        <Knapp type="standard" onClick={() => dispatch(push("/soknad/informasjon"))}>Ny søknad</Knapp>
                     </div>
                     <div className="periodevelger_container">
                         <Select onChange={(value: any) => velgPeriode(value)} label='Vis for' className="periode_velger">
@@ -118,7 +114,6 @@ const Saksoversikt: React.FC<REST_STATUS> = (restStatus:REST_STATUS) => {
             }
             {filtrerteSaker.length > itemsPerPage && (
                 <Paginering
-                    // initialPage={currentPage}
                     pageCount={lastPage}
                     forcePage={currentPage}
                     onPageChange={(page: number) => handlePageClick(page)}
