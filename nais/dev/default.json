@@ -3,5 +3,6 @@
   "ingresses": [
     "https://sosialhjelp-innsyn.nais.oera-q.local/sosialhjelp/innsyn",
     "https://www-q0.nav.no/sosialhjelp/innsyn"
-  ]
+  ],
+  "appresCmsUrl": "https://appres-default.nav.no"
 }
