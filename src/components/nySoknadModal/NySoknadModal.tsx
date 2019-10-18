@@ -59,10 +59,10 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
         fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
     }
 
-    if (kommunerService.status === 'loaded') {
+    if (kommunerService.status === 'loaded' && kommunerService.payload.results !== undefined) {
         console.log(kommunerService.payload.results.length + " kommuner lest inn");
     }
-    if (tilgjengeligeKommunerService.status === 'loaded') {
+    if (tilgjengeligeKommunerService.status === 'loaded' && tilgjengeligeKommunerService.payload.results !== undefined) {
         console.log(tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
     }
 
