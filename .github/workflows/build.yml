@@ -1,5 +1,10 @@
 name: Build
-on: push
+on:
+  push:
+    branches:
+      - '**' # Build all branches
+    tags-ignore:
+      - '**' # Don't build any tags
 
 jobs:
   build:
