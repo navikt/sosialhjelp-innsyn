@@ -79,7 +79,12 @@ function sjekkStatuskode(response: Response) {
     if (response.status === 401){
         console.warn("Bruker er ikke logget inn.");
         response.json().then(r => {
-            window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
+            //window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
+            if (window.location.search.split("error_id=")[1] !== r.id) {
+                const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
+                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
+            }
+
         });
         return response;
     }
@@ -109,3 +114,13 @@ export function fetchDelete(urlPath: string) {
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
 }
 
+function getRedirectPath(): string {
+    const currentOrigin = window.location.origin;
+    const gotoParameter = "?goto=" + window.location.pathname;
+    const redirectPath = currentOrigin + getRedirectPathname() + gotoParameter;
+    return 'redirect=' + redirectPath;
+}
+
+function getRedirectPathname() {
+    return "sosialhjelp/innsyn";
+}
