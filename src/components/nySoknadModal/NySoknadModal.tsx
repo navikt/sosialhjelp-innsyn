@@ -29,9 +29,11 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     if (currentSuggestion !== null) {
         if (tilgjengeligeKommunerService.status === 'loaded') {
             soknadTilgjengelig = tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
+            // setVisFeilmelding(false);
         } else if (tilgjengeligeKommunerService.status === 'error') {
             // Backupløsning i tilfelle vi får CORS problemer når vi snakker med backend
             soknadTilgjengelig = tilgjengeligeKommunerBackup.includes(currentSuggestion.key)
+            // setVisFeilmelding(false);
         }
     }
 
@@ -118,7 +120,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                             id="kommunesok"
                             onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
                             onReset={() => onReset()}
-                            feil={visFeilmelding ?
+                            feil={(visFeilmelding && currentSuggestion === null )?
                                 "Du må skrive inn navnet på kommunen din før du kan gå videre" : undefined
                             }
                         />

@@ -11,7 +11,7 @@ import SakPanel from "./sakpanel/SakPanel";
 import NySoknadModal from "../components/nySoknadModal/NySoknadModal";
 
 const Saksoversikt: React.FC = () => {
-    const [visNySoknad, setVisNySoknad] = useState(true); // TODO Set til false initiel
+    const [visNySoknad, setVisNySoknad] = useState(false);
     return (
         <>
             <Panel className="panel panel-luft-over dine_soknader_panel">
