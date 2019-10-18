@@ -10,6 +10,7 @@ import mockVedleggMange from "./mockVedlegg_mange";
 
 const DineVedlegg: React.FC = () => {
     return (
+
         <Panel className="vedlegg_liste_panel">
             <Innholdstittel className="layout_overskriftboks"><FormattedMessage id="vedlegg.tittel" /></Innholdstittel>
             <Normaltekst>
@@ -20,6 +21,7 @@ const DineVedlegg: React.FC = () => {
             </AvsnittBoks>
             <VedleggView vedlegg={ mockVedleggMange } leserData={false}/>
         </Panel>
+
     );
 };
 
