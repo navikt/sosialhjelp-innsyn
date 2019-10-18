@@ -2,7 +2,7 @@
   "name": "sosialhjelp-innsyn",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/sosialhjelp/innsyn/",
   "dependencies": {
     "@craco/craco": "^5.5.0",
     "@types/history": "^4.7.3",
