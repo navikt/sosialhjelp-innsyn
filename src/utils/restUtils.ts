@@ -78,6 +78,9 @@ export function toJson<T>(response: Response): Promise<T> {
 function sjekkStatuskode(response: Response) {
     if (response.status === 401){
         console.warn("Bruker er ikke logget inn.");
+        response.json().then(r => {
+            window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
+        });
         return response;
     }
     if (response.status >= 200 && response.status < 300) {
