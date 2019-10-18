@@ -28,12 +28,15 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     let soknadTilgjengelig: boolean = false;
     if (currentSuggestion !== null) {
         if (tilgjengeligeKommunerService.status === 'loaded') {
-            soknadTilgjengelig = tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
-            // setVisFeilmelding(false);
+            soknadTilgjengelig = tilgjengeligeKommunerService.payload.results !== undefined &&
+                tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
+
+            console.log("tilgjengeligeKommuner: " +
+                JSON.stringify(tilgjengeligeKommunerService.payload.results, null, 8))
+
         } else if (tilgjengeligeKommunerService.status === 'error') {
             // Backupløsning i tilfelle vi får CORS problemer når vi snakker med backend
             soknadTilgjengelig = tilgjengeligeKommunerBackup.includes(currentSuggestion.key)
-            // setVisFeilmelding(false);
         }
     }
 
@@ -60,7 +63,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
         console.log(kommunerService.payload.results.length + " kommuner lest inn");
     }
     if (tilgjengeligeKommunerService.status === 'loaded') {
-        console.log(tilgjengeligeKommunerService.payload.results + " tilgjengelige kommunenummer lest inn");
+        console.log(tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
     }
 
     return (
