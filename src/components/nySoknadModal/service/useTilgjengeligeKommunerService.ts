@@ -9,7 +9,8 @@ const useTilgjengeligeKommunerService = () => {
     const [result, setResult] = useState<Service<TilgjengeligeKommuner>>({
         status: 'loading'
     });
-    const url = "/sosialhjelp/soknad-api/informasjon/tilgjengelige_kommuner";
+    const url = "https://www.nav.no/sosialhjelp/soknad-api/informasjon/tilgjengelige_kommuner";
+    // const url = "/sosialhjelp/soknad-api/informasjon/tilgjengelige_kommuner";
     useEffect(() => {
         fetch(url)
             .then(response => response.json())

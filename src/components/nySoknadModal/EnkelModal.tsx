@@ -1,9 +1,15 @@
-import React from 'react';
+import * as React from 'react';
 import classnames from 'classnames';
 import Modal from 'react-modal';
 import { Props } from 'react-modal';
 import Lukknapp from 'nav-frontend-lukknapp';
 import 'nav-frontend-modal-style';
+// const cls = (className: string) => classnames('modal', className);
+
+/**
+ * Modalen bruker `react-modal`, se [github siden](https://github.com/reactjs/react-modal) for mer informasjon.
+ *
+ */
 
 export interface ModalProps extends Props {
     /**
@@ -50,7 +56,12 @@ export interface ModalProps extends Props {
 
 class EnkelModal extends React.Component<ModalProps, {}> {
 
-    closeButtonRef: any;
+    closeButtonRef: any; // Lukknapp | null;
+    // modalRef: Modal | null;
+    //
+    // static setAppElement(element: any) {
+    //     Modal.setAppElement(element);
+    // }
 
     static defaultProps = {
         closeButton: true,
@@ -72,6 +83,11 @@ class EnkelModal extends React.Component<ModalProps, {}> {
         } else if (this.closeButtonRef) {
             this.closeButtonRef.focus();
         }
+        // else {
+        //     if (this.modalRef && (this.modalRef as any).portal && (this.modalRef as any).portal.refs.content) {
+        //         (this.modalRef as any).portal.refs.content.focus();
+        //     }
+        // }
     }
 
     render() {
@@ -90,11 +106,15 @@ class EnkelModal extends React.Component<ModalProps, {}> {
         return (
             <Modal
                 {...props}
+                // className={cls(props.className)}
                 className={props.className}
                 onRequestClose={this.onRequestClose}
                 overlayClassName="modal__overlay"
                 shouldCloseOnOverlayClick
                 appElement={appElement !== null ? appElement : {}}
+                // ref={(modalRef: any) => {
+                //     this.modalRef = modalRef;
+                // }}
             >
                 <section className={contentClass}>{children}</section>
                 {closeButton && (

@@ -10,6 +10,7 @@ interface Props {
     ariaLabel: string;
     onSelect: (value: Suggestion) => void;
     onReset?: () => void;
+    feil?: string;
 }
 
 export interface Suggestion {
@@ -25,7 +26,7 @@ enum KEY {
     ARROW_DOWN = 40
 }
 
-const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, id, onSelect, onReset} ) => {
+const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, id, onSelect, onReset, feil} ) => {
     const [value, setValue] = useState<string>("");
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
     const [blurDelay, setBlurDelay] = useState<any|undefined>(null);
@@ -60,9 +61,10 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                 break;
             case KEY.ENTER:
                 if (hasSelectedSuggestion && shouldShowSuggestions) {
+                    const displayedSuggestions: Suggestion[] = searchSuggestions(suggestions, value);
                     event.preventDefault(); // Unngå form submit når bruker velger et av forslagene
-                    setValue(suggestions[activeSuggestionIndex].value);
-                    onClick(suggestions[activeSuggestionIndex]);
+                    setValue(displayedSuggestions[activeSuggestionIndex].value);
+                    onClick(displayedSuggestions[activeSuggestionIndex]);
                 } else {
                     setShouldShowSuggestions(false);
                 }
@@ -169,11 +171,11 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
         }
     };
 
-    const displaySuggestions: Suggestion[] = searchSuggestions(suggestions, value);
+    const displayedSuggestions: Suggestion[] = searchSuggestions(suggestions, value);
 
     const showSuggestions = hasFocus === true
         && shouldShowSuggestions
-        && displaySuggestions.length > 0;
+        && displayedSuggestions.length > 0;
 
     const activeDescendant = ariaActiveDescendant && activeSuggestionIndex > -1
         ? `${id}-item-${activeSuggestionIndex}` : undefined;
@@ -186,7 +188,7 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
         >
             <input
                 id={id}
-                className="typo-normal"
+                className={"typo-normal " + ((feil && feil.length > 0) ? "navAutocomplete__input--harFeil" : "")}
                 type="search"
                 aria-label={ariaLabel}
                 aria-autocomplete="list"
@@ -207,7 +209,7 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                 role="listbox"
                 className={showSuggestions ? 'navAutocomplete__suggestions' : 'navAutocomplete__suggestions--hidden'}
             >
-                {showSuggestions && displaySuggestions.map((suggestion: Suggestion, index: number) => (
+                {showSuggestions && displayedSuggestions.map((suggestion: Suggestion, index: number) => (
                     <AutcompleteSuggestion
                         key={index}
                         id={id}
@@ -220,6 +222,7 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                     />
                 ) )}
             </ul>
+            <div className="skjemaelement__feilmelding">{feil}</div>
         </div>
     );
 };
