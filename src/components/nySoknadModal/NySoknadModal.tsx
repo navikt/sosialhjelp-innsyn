@@ -1,62 +1,48 @@
 import React, {useState} from "react";
-import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
+import {Normaltekst, Undertittel} from "nav-frontend-typografi";
 import {Knapp} from "nav-frontend-knapper";
-import BildeModal from "../bildeModal/BildeModal";
-import "./nySoknadModal.less"
 import NavAutocomplete, {Suggestion} from "./navAutocomplete/NavAutcomplete";
 import Veilederpanel from 'nav-frontend-veilederpanel';
 import VeilederIkon from "../ikoner/VeilederIkon";
-import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import Lenke from "nav-frontend-lenker";
+import useKommuneNrService from "./service/useKommuneNrService";
+import useTilgjengeligeKommunerService from "./service/useTilgjengeligeKommunerService";
+import {tilgjengeligeKommunerBackup} from "./service/tilgjengeligKommuner";
+import EnkelModal from "./EnkelModal";
+import "./nySoknadModal.less"
 
-const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
+const sokPaaPapirUrl = "https://www.nav.no/no/Person/" +
+    "Flere+tema/Sosiale+tjenester/%C3%B8konomisk-sosialhjelp--87469#chapter-4";
 
-    const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion|null>(null);
-    const [visAlertStripe, setVisAlertstripe] = useState<boolean|undefined>(false);
+const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
 
-    // TODO Hent kommunenavn fra REST kall
-    const suggestions: Suggestion[] = [
-        {
-            key: "0312",
-            value: "Os i Hedmark"
-        },
-        {
-            key: "0313",
-            value: "Os i Hordaland"
-        },
-        {
-            key: "0314",
-            value: "Osen"
-        },
-        {
-            key: "031",
-            value: "Oslo"
-        },
-        {
-            key: "007",
-            value: "Osterøy ikke påkoblet"
-        },
-        {
-            key: "008",
-            value: "Fauske - Fuossko"
-        }, {
-            key: "009",
-            value: "Fosnes"
-        }];
+    const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
+    const [visFeilmelding, setVisFeilmelding] = useState<boolean | undefined>(false);
+    const kommunerService = useKommuneNrService();
+    const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
         setCurrentSuggestion(suggestion);
     };
 
-    // TODO Sjekk med data fra REST tjeneste, at søknad er tilgjengelig
-    const soknadTilgjengelig: boolean = currentSuggestion !== null && currentSuggestion.key !== "007"; // Ikke Osterøy
+    let soknadTilgjengelig: boolean = false;
+    if (currentSuggestion !== null) {
+        if (tilgjengeligeKommunerService.status === 'loaded') {
+            soknadTilgjengelig = tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
+            // setVisFeilmelding(false);
+        } else if (tilgjengeligeKommunerService.status === 'error') {
+            // Backupløsning i tilfelle vi får CORS problemer når vi snakker med backend
+            soknadTilgjengelig = tilgjengeligeKommunerBackup.includes(currentSuggestion.key)
+            // setVisFeilmelding(false);
+        }
+    }
 
-    const onclick = (event: any) => {
+    const onButtonClick = (event: any) => {
         if (currentSuggestion && soknadTilgjengelig) {
-            // TODO Ta bruker til søknadsapplikasjonen.
-            console.log("TODO: Ta bruker til søknadsapplikasjonen.")
+            const soknadUrl = "/sosialhjelp/soknad/informasjon?kommuneId=" + currentSuggestion.key;
+            window.location.href = soknadUrl;
         } else {
-            setVisAlertstripe(true);
+            setVisFeilmelding(true);
             event.preventDefault();
         }
     };
@@ -69,11 +55,16 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
     if (currentSuggestion) {
         fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
     }
-    const urlDittNavKontor = "https://www.nav.no/" +
-        "no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/finn-ditt-nav-kontor--353421";
+
+    if (kommunerService.status === 'loaded') {
+        console.log(kommunerService.payload.results.length + " kommuner lest inn");
+    }
+    if (tilgjengeligeKommunerService.status === 'loaded') {
+        console.log(tilgjengeligeKommunerService.payload.results + " tilgjengelige kommunenummer lest inn");
+    }
 
     return (
-        <BildeModal
+        <EnkelModal
             className="modal vedlegg_bilde_modal"
             isOpen={synlig}
             onRequestClose={() => onRequestClose()}
@@ -82,8 +73,6 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
             shouldCloseOnOverlayClick={true}
         >
             <div className="nySoknadModal">
-                <Systemtittel>Ny søknad</Systemtittel>
-
                 <Veilederpanel
                     fargetema={fargetema}
                     svg={<VeilederIkon/>}
@@ -91,56 +80,69 @@ const NySoknadModal: React.FC<{synlig: boolean, onRequestClose: () => void }> = 
                     kompakt={false}
                 >
                     {currentSuggestion && soknadTilgjengelig && (
-                        <Normaltekst>
-                            Du kan søke digitalt i {currentSuggestion.value} kommune.
-                            Hvis du ikke har penger til det aller mest nødvendige, som mat,
-                            bør du &nbsp;
-                            <Lenke href={urlDittNavKontor}>kontakte NAV-kontoret ditt</Lenke>
-                            &nbsp;før du sender inn søknaden.
-                        </Normaltekst>
+                        <>
+                            <Undertittel className="nySoknadModal__tittel">
+                                Du kan søke digitalt i {currentSuggestion.value} kommune.
+                            </Undertittel>
+                            <Normaltekst className="nySoknadModal__normaltekst">
+                                Din kommune
+                            </Normaltekst>
+                        </>
                     )}
                     {currentSuggestion && !soknadTilgjengelig && (
-                        <Normaltekst>
-                            Du kan dessverre ikke søke digitalt i {currentSuggestion.value}. Ta kontakt med &nbsp;
-                            <Lenke href={urlDittNavKontor}>NAV-kontoret ditt</Lenke>
-                            &nbsp; for å få papirskjema.
-                        </Normaltekst>
+                        <>
+                            <Undertittel className="nySoknadModal__tittel">
+                                {currentSuggestion.value} kommune kan ikke ta i mot digitale søknader ennå.
+                                Du kan søke på papirskjema.
+                            </Undertittel>
+                            <Normaltekst className="nySoknadModal__normaltekst">
+                                Din kommune
+                            </Normaltekst>
+                        </>
                     )}
+
                     {currentSuggestion === null && (
-                        <Normaltekst>
-                            Sjekk om du kan søke digitalt i din kommune
-                        </Normaltekst>
+                        <>
+                            <Undertittel className="nySoknadModal__tittel">
+                                Sjekk om du kan søke digitalt i kommunen din
+                            </Undertittel>
+                            <Normaltekst className="nySoknadModal__normaltekst">
+                                Din kommune
+                            </Normaltekst>
+                        </>
                     )}
+
+                    {kommunerService.status === 'loaded' && (
+                        <NavAutocomplete
+                            placeholder="Skriv kommunenavn"
+                            suggestions={kommunerService.payload.results}
+                            ariaLabel="Søk etter kommunenavn"
+                            id="kommunesok"
+                            onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
+                            onReset={() => onReset()}
+                            feil={(visFeilmelding && currentSuggestion === null )?
+                                "Du må skrive inn navnet på kommunen din før du kan gå videre" : undefined
+                            }
+                        />
+                    )}
+
+                    <div className="knappOgLenke">
+                            <Knapp
+                                type="hoved"
+                                onClick={(event: any) => onButtonClick(event)}
+                            >
+                                Søk digital
+                            </Knapp>
+                            <Normaltekst>
+                                <b><Lenke href={sokPaaPapirUrl}>Søk på papirskjema</Lenke></b>
+                            </Normaltekst>
+
+                    </div>
                 </Veilederpanel>
-
-                <NavAutocomplete
-                    placeholder="Søk etter din kommune"
-                    suggestions={suggestions}
-                    ariaLabel="Søk etter din kommune"
-                    id="kommunesok"
-                    onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
-                    onReset={() => onReset()}
-                />
-
-                {visAlertStripe && (
-                    <AlertStripeAdvarsel>Du må velge en kommune før du kan gå videre.</AlertStripeAdvarsel>
-                )}
-
-                <Knapp
-                    type="hoved"
-                    onClick={(event: any) => onclick(event)}
-                >
-                    Søk digital
-                </Knapp>
-
-                {/*TODO Finn lenke for de som ikke vil søke digitial*/}
-                <Normaltekst>
-                    <Lenke href="todo">Jeg skal ikke søke digitalt</Lenke>
-                </Normaltekst>
 
             </div>
 
-        </BildeModal>
+        </EnkelModal>
     );
 };
 

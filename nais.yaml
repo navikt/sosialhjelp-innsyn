@@ -41,7 +41,7 @@ spec:
     - name: NAV_TRUSTSTORE_PATH
       value: /var/run/secrets/naisd.io/nav_truststore_path
     - name: APPRES_CMS_URL
-      value: https://appres-q0.nav.no
+      value: {{appresCmsUrl}}
     - name: APPDYNAMICS_CONTROLLER_HOST_NAME
       value: appdynamics.adeo.no
     - name: APPDYNAMICS_CONTROLLER_PORT

@@ -1,0 +1,8 @@
+{
+  "namespace": "default",
+  "ingresses": [
+    "https://sosialhjelp-innsyn.nais.oera.no/sosialhjelp/innsyn",
+    "https://www.nav.no/sosialhjelp/innsyn"
+  ],
+  "appresCmsUrl": "https://appres.nav.no"
+}
