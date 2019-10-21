@@ -79,12 +79,7 @@ function sjekkStatuskode(response: Response) {
     if (response.status === 401){
         console.warn("Bruker er ikke logget inn.");
         response.json().then(r => {
-            //window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
-            if (window.location.search.split("error_id=")[1] !== r.id) {
-                const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
-            }
-
+            window.location.href = r.loginUrl + "?redirect=https://www-q0.nav.no/sosialhjelp/innsyn";
         });
         return response;
     }
