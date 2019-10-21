@@ -122,5 +122,5 @@ function getRedirectPath(): string {
 }
 
 function getRedirectPathname() {
-    return "sosialhjelp/innsyn";
+    return "/sosialhjelp/innsyn";
 }
