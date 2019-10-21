@@ -19,4 +19,4 @@ fi
 
 heroku stack:set container -a ${APP_NAME}
 heroku labs:enable runtime-dyno-metadata -a ${APP_NAME}
-git push ${APP_NAME} ${BRANCH_NAME}:master
+git push --force ${APP_NAME} ${BRANCH_NAME}:master
