@@ -8,7 +8,7 @@ import React from "react";
 
 const SaksoversiktIngenSoknader: React.FC = () => {
     return (
-        <div className="soknadsOversiktSide">
+        <div className="soknadsOversiktSide ingenSakerFunnetPanelLuftOver">
             <Veilederpanel
                 veilederProps={{className: "soknadsOversiktVeilederpanelIkon"}}
                 kompakt

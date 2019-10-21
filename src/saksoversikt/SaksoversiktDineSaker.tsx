@@ -47,7 +47,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     return (
         <>
-            <Panel className="panel dine_soknader_panel">
+            <Panel className="panel dine_soknader_panel saksListePanelLuftOver">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
                     <Knapp type="standard" onClick={() => dispatch(push("/soknad/informasjon"))}>

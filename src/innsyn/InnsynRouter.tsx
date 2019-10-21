@@ -30,7 +30,6 @@ const InnsynRouter: React.FC = () => {
                 <div className="blokk-center">
                     <BrodsmuleSti/>
                     <Switch>
-                        <Route exact path="/innsyn/" component={Saksoversikt} />
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny} />
                         <Route exact path="/innsyn/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
