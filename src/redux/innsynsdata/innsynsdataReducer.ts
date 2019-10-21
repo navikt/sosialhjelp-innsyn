@@ -129,7 +129,8 @@ export const initialInnsynsdataRestStatus = {
     soknadsStatus: REST_STATUS.INITIALISERT,
     hendelser: REST_STATUS.INITIALISERT,
     vedlegg: REST_STATUS.INITIALISERT,
-    utbetalinger: REST_STATUS.INITIALISERT
+    utbetalinger: REST_STATUS.INITIALISERT,
+    saker: REST_STATUS.INITIALISERT
 };
 
 const initialState: InnsynsdataType = {
