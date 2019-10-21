@@ -27,6 +27,8 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
 
     let soknadTilgjengelig: boolean = false;
     if (currentSuggestion !== null) {
+        // Bruker har valgt en kommune. Sjekk om det er mulig å søke.
+        debugger;
         if (tilgjengeligeKommunerService.status === 'loaded') {
             soknadTilgjengelig = tilgjengeligeKommunerService.payload.results !== undefined &&
                 tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
