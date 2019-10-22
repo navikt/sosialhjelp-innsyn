@@ -58,6 +58,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     if (kommunerService.status === 'loaded' && kommunerService.payload.results !== undefined) {
         console.log("debug1: " + kommunerService.payload.results.length + " kommuner lest inn");
     }
+    console.log("debug0: tilgjengeligeKommunerService.status " + tilgjengeligeKommunerService.status);
     if (tilgjengeligeKommunerService.status === 'loaded' && tilgjengeligeKommunerService.payload.results !== undefined) {
         console.log("debug2: " + tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
     }

@@ -14,7 +14,7 @@ const useTilgjengeligeKommunerService = () => {
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
-            .then(response => setResult({ status: 'loaded', payload: response }))
+            .then(response => setResult({ status: 'loaded', payload: {results: response} }))
             .catch(error => setResult({ status: 'error', error }));
     }, []);
     return result;
