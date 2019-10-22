@@ -23,13 +23,10 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
-        console.log("debug: bruker har valgt " + JSON.stringify(suggestion, null, 8) + " kommune.");
         if (tilgjengeligeKommunerService.status === 'loaded') {
             setSoknadTilgjengelig(tilgjengeligeKommunerService.payload.results.includes(suggestion.key));
-            console.log("API soknadTilgjengelig: " + (soknadTilgjengelig ? "yes" : "no"));
         } else {
             setSoknadTilgjengelig(tilgjengeligeKommunerBackup.includes(suggestion.key));
-            console.log("Ikke API soknadTilgjengelig: " + (soknadTilgjengelig ? "yes" : "no"));
         }
         setCurrentSuggestion(suggestion);
     };
@@ -52,15 +49,6 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
 
     if (currentSuggestion) {
         fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
-    }
-
-    // Debug info
-    if (kommunerService.status === 'loaded' && kommunerService.payload.results !== undefined) {
-        console.log("debug1: " + kommunerService.payload.results.length + " kommuner lest inn");
-    }
-    console.log("debug0: tilgjengeligeKommunerService.status " + tilgjengeligeKommunerService.status);
-    if (tilgjengeligeKommunerService.status === 'loaded' && tilgjengeligeKommunerService.payload.results !== undefined) {
-        console.log("debug2: " + tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
     }
 
     return (
