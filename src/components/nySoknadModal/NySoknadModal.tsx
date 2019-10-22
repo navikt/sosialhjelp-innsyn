@@ -17,30 +17,22 @@ const sokPaaPapirUrl = "https://www.nav.no/no/Person/" +
 const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
 
     const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
+    const [soknadTilgjengelig, setSoknadTilgjengelig] = useState<boolean>(false)
     const [visFeilmelding, setVisFeilmelding] = useState<boolean | undefined>(false);
     const kommunerService = useKommuneNrService();
     const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
+        console.log("debug: bruker har valgt " + JSON.stringify(suggestion, null, 8) + " kommune.");
+        if (tilgjengeligeKommunerService.status === 'loaded') {
+            setSoknadTilgjengelig(tilgjengeligeKommunerService.payload.results.includes(suggestion.key));
+            console.log("API soknadTilgjengelig: " + (soknadTilgjengelig ? "yes" : "no"));
+        } else {
+            setSoknadTilgjengelig(tilgjengeligeKommunerBackup.includes(suggestion.key));
+            console.log("Ikke API soknadTilgjengelig: " + (soknadTilgjengelig ? "yes" : "no"));
+        }
         setCurrentSuggestion(suggestion);
     };
-
-    let soknadTilgjengelig: boolean = false;
-    if (currentSuggestion !== null) {
-        // Bruker har valgt en kommune. Sjekk om det er mulig å søke.
-        debugger;
-        if (tilgjengeligeKommunerService.status === 'loaded') {
-            soknadTilgjengelig = tilgjengeligeKommunerService.payload.results !== undefined &&
-                tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
-
-            console.log("tilgjengeligeKommuner: " +
-                JSON.stringify(tilgjengeligeKommunerService.payload.results, null, 8))
-
-        } else if (tilgjengeligeKommunerService.status === 'error') {
-            // Backupløsning i tilfelle vi får CORS problemer når vi snakker med backend
-            soknadTilgjengelig = tilgjengeligeKommunerBackup.includes(currentSuggestion.key)
-        }
-    }
 
     const onButtonClick = (event: any) => {
         if (currentSuggestion && soknadTilgjengelig) {
@@ -57,15 +49,17 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     };
 
     let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
+
     if (currentSuggestion) {
         fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
     }
 
+    // Debug info
     if (kommunerService.status === 'loaded' && kommunerService.payload.results !== undefined) {
-        console.log(kommunerService.payload.results.length + " kommuner lest inn");
+        console.log("debug1: " + kommunerService.payload.results.length + " kommuner lest inn");
     }
     if (tilgjengeligeKommunerService.status === 'loaded' && tilgjengeligeKommunerService.payload.results !== undefined) {
-        console.log(tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
+        console.log("debug2: " + tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
     }
 
     return (
