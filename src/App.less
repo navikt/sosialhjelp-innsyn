@@ -17,8 +17,20 @@ a.lenke_uten_ramme:hover {
 .lenke_vedlegg_filnavn {
   overflow: hidden;
   white-space: nowrap;
-  max-width: 11rem;
   display: inline-flex;
+  text-overflow: ellipsis;
+}
+
+@media screen and (min-width: 641px ) {
+  .lenke_vedlegg_filnavn {
+    max-width: 11rem;
+  }
+}
+
+@media screen and (max-width: 640px ) {
+  .lenke_vedlegg_filnavn {
+    max-width: 100%;
+  }
 }
 
 // Overstyr css fra dekoratør:

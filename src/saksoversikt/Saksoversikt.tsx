@@ -10,8 +10,7 @@ import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
-import BrodsmuleSti from "../components/brodsmuleSti/BrodsmuleSti";
-import Head from "../components/ikoner/Head";
+import BigBanner from "../components/banner/BigBanner";
 
 const Saksoversikt: React.FC = () => {
     const dispatch = useDispatch();
@@ -33,14 +32,7 @@ const Saksoversikt: React.FC = () => {
 
     return (
         <div className="informasjon-side">
-            <div className="big_banner">
-                <div className="blokk-center">
-                    <div className="big_banner__brodsmuler"><span className="big_banner__brodsmuler__head"><Head/></span><BrodsmuleSti/></div>
-                    <h1 className="big_banner__tittel">
-                        Økonomisk sosialhjelp
-                    </h1>
-                </div>
-            </div>
+            <BigBanner tittel="Økonomisk sosialhjelp"/>
 
             <div className="blokk-center">
 

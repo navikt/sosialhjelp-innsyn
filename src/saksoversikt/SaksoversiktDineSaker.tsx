@@ -47,7 +47,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     return (
         <>
-            <Panel className="panel dine_soknader_panel saksListePanelLuftOver">
+            <div className="dine_soknader_panel ">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel>Dine søknader</Systemtittel>
                     <Knapp type="standard" onClick={() => dispatch(push("/soknad/informasjon"))}>
@@ -64,7 +64,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         <option value='1'>Siste måned</option>
                     </Select>
                 </div>
-            </Panel>
+            </div>
 
         { paginerteSaker.map((sak) => {
                 return (
