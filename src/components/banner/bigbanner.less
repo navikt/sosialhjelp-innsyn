@@ -10,20 +10,29 @@
   padding-top: 1rem;
 
   @media screen and (min-width: 641px ) {
-
     .big_banner__blokk-center {
       max-width: 750px;
       margin-left: auto;
       margin-right: auto;
     }
-
   }
 
   &__tittel {
-    font-size: 32px;
     margin: 0 0;
     font-weight: bold;
     text-align: left;
+  }
+
+  @media screen and (min-width: 371px ) {
+    &__tittel {
+      font-size: 32px;
+    }
+  }
+
+  @media screen and (max-width: 370px ) {
+    &__tittel {
+      font-size: 26px;
+    }
   }
 
   &__brodsmuler {

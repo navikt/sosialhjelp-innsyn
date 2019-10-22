@@ -15,6 +15,7 @@
   .periodevelger_container {
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
   }
 
   .periode_velger {
@@ -32,9 +33,9 @@
 
 }
 
-@media screen and (min-width: 741px ) {
+@media screen and (min-width: 607px ) {
   .dine_soknader_panel {
-    padding: 1rem 21px 1rem 80px;
+    padding: 1rem 21px 1rem 38px;
     margin-top: 4rem;
 
     .tittel_og_knapp_container {
@@ -45,21 +46,27 @@
   }
 }
 
-@media screen and (max-width: 740px ) {
+@media screen and (max-width: 606px ) {
 
   .dine_soknader_panel {
     flex-direction: column;
     align-items: flex-start;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: .5rem;
     margin-top: 1rem;
 
     .tittel_og_knapp_container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      width: 100%;
+
+      .knapp {
+        margin-left: 1rem;
+      }
     }
 
+    .periodevelger_container {
+      width: 100%;
+    }
   }
 }
 
@@ -124,6 +131,9 @@
   margin-left: 16px;
 }
 
+.lenkepanel {
+  padding: 0.5rem;
+}
 .soknadsOversiktLenkerAlign {
   display: flex;
   align-items: center;

@@ -1,27 +1,35 @@
 .sakpanel {
+  width: 100%;
+}
+@media screen and (min-width: 521px ) {
+  .sakpanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+  }
+}
+
+.sakpanel_text {
   display: flex;
   flex-direction: row;
   justify-content: left;
   width: 100%;
 }
 
-.document_icon {
-  width: 62px;
-}
-
-@media screen and (min-width: 641px ) {
+@media screen and (min-width: 607px ) {
   .document_icon {
+    width: 62px;
     margin-left: 16px;
     margin-right: 19px;
   }
 }
 
-@media screen and (max-width: 640px ) {
+@media screen and (max-width: 606px ) {
   .document_icon {
+    width: 32px;
     margin-left: 0;
     margin-right: 12px;
   }
-
 }
 
 .sakpanel_innhold {
@@ -30,24 +38,30 @@
 }
 
 .sakpanel_innhold_etikett {
-  width: 70%;
+  min-width: 8rem;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
 
 }
 
-@media screen and (min-width: 641px ) {
+@media screen and (min-width: 521px ) {
   .sakpanel_innhold_etikett {
     padding-right: 0;
     margin-right: 1rem;
+    justify-content: flex-end;
   }
 }
 
-@media screen and (max-width: 640px ) {
+@media screen and (max-width: 520px ) {
   .sakpanel_innhold_etikett {
+    margin-left: 2.5rem;
     padding-right: 4px;
+    justify-content: left;
+  }
+
+  .etikett--fokus {
+    padding:  2px 0.5rem 2px 0.5rem;
   }
 }
 

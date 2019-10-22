@@ -15,18 +15,20 @@ const SakPanel: React.FC<{fiksDigisosId: string, tittel: string, status: string,
     return (
         <LenkepanelBase onClick={(event: any) => {dispatch(push("innsyn/" + fiksDigisosId + "/status"));event.preventDefault()}} className="panel-glippe-over" href="#">
             <div className="sakpanel">
-                <DocumentIcon className="document_icon"/>
-                <div className="sakpanel_innhold">
-                    <div className="sakpanel_status">
-                        <EtikettLiten>
-                            {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
-                        </EtikettLiten>
+                <div className="sakpanel_text">
+                    <DocumentIcon className="document_icon"/>
+                    <div className="sakpanel_innhold">
+                        <div className="sakpanel_status">
+                            <EtikettLiten>
+                                {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                            </EtikettLiten>
+                        </div>
+                        <Element >{tittel}</Element>
                     </div>
-                    <Element >{tittel}</Element>
                 </div>
                 <div className="sakpanel_innhold_etikett">
                     {antalNyeOppgaver && (
-                        <EtikettFokus><FormattedMessage id="saker.oppgaver" values={{antall: antalNyeOppgaver}} /></EtikettFokus>
+                        <EtikettFokus><FormattedMessage id="saker.oppgave" values={{antall: antalNyeOppgaver}} /></EtikettFokus>
                     )}
                 </div>
             </div>

@@ -8,7 +8,7 @@ const BrodsmuleSti: React.FC<{}> = () => {
 	return (
 		<div className="brodsmulesti">
 			<Normaltekst>
-				<a href="#todo">Ditt NAV</a>
+				<a href="https://tjenester.nav.no/dittnav">Ditt NAV</a>
 				{brodsmulesti.map((element: any, index: number) => {
 					return (
 						<span key={index}>
