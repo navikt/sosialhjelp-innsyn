@@ -30,6 +30,15 @@ export interface SaksStatusState {
     melding?: string;
 }
 
+export interface Sakstype {
+    fiksDigisosId: string;
+    soknadTittel: string;
+    status: string;
+    sistOppdatert: string;
+    antallNyeOppgaver: number;
+    kilde: string;
+}
+
 export interface Vedlegg {
     storrelse: number;
     url: string;
@@ -71,7 +80,8 @@ export enum InnsynsdataSti {
     SOKNADS_STATUS = "soknadsStatus",
     HENDELSER = "hendelser",
     VEDLEGG = "vedlegg",
-    SEND_VEDLEGG = "vedlegg/send"
+    SEND_VEDLEGG = "vedlegg/send",
+    SAKER = "saker"
 }
 
 // export interface InnsynssdataActionVerdi {
@@ -110,6 +120,7 @@ export interface InnsynsdataType {
     soknadsStatus: Status;
     hendelser: Hendelse[];
     vedlegg: Vedlegg[];
+    saker: Sakstype[];
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -118,7 +129,8 @@ export const initialInnsynsdataRestStatus = {
     soknadsStatus: REST_STATUS.INITIALISERT,
     hendelser: REST_STATUS.INITIALISERT,
     vedlegg: REST_STATUS.INITIALISERT,
-    utbetalinger: REST_STATUS.INITIALISERT
+    utbetalinger: REST_STATUS.INITIALISERT,
+    saker: REST_STATUS.INITIALISERT
 };
 
 const initialState: InnsynsdataType = {
@@ -129,6 +141,7 @@ const initialState: InnsynsdataType = {
     },
     hendelser: [],
     vedlegg: [],
+    saker: [],
     restStatus: initialInnsynsdataRestStatus
 };
 

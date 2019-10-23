@@ -9,6 +9,7 @@ import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
+import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
 
 interface Props {
     match: {
@@ -36,6 +37,13 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
         );
     }, [dispatch, soknadId]);
+
+    useEffect(() => {
+        dispatch(setBrodsmuleSti([
+            {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
+            {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
+        ]))
+    }, [dispatch]);
 
     const leserData = (restStatus: REST_STATUS): boolean => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;

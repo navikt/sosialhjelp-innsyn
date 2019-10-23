@@ -8,6 +8,7 @@ export const tekster = {
         "tidspunkt.klokken": "klokken",
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
-        "vedlegg.ettersend_knapptekst": "Ettersend vedlegg"
+        "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
+        "saker.oppgave": "Du har oppgave"
     }
 };

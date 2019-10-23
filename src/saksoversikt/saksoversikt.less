@@ -3,6 +3,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: #FFF;
+  border-radius: 4px;
 
   .tittel_og_knapp_container {
     display: flex;
@@ -13,6 +15,7 @@
   .periodevelger_container {
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
   }
 
   .periode_velger {
@@ -30,8 +33,11 @@
 
 }
 
-@media screen and (min-width: 741px ) {
+@media screen and (min-width: 607px ) {
   .dine_soknader_panel {
+    padding: 1rem 21px 1rem 38px;
+    margin-top: 4rem;
+
     .tittel_og_knapp_container {
       button {
         margin-left: 1rem;
@@ -40,18 +46,100 @@
   }
 }
 
-@media screen and (max-width: 740px ) {
+@media screen and (max-width: 606px ) {
 
   .dine_soknader_panel {
     flex-direction: column;
     align-items: flex-start;
+    padding: .5rem;
+    margin-top: 1rem;
 
     .tittel_og_knapp_container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      width: 100%;
+
+      .knapp {
+        margin-left: 1rem;
+      }
     }
 
+    .periodevelger_container {
+      width: 100%;
+    }
   }
+}
+
+.soknadsOversiktSide .nav-veilederpanel {
+  border: none;
+}
+
+.ingenSakerFunnetPanelLuftOver {
+  padding-top: 1rem;
+}
+.saksListePanelLuftOver {
+    margin-top: 4rem;
+}
+
+.soknadsOversiktVeilederpanelIkon .nav-veileder__frame {
+  background-color: #CDE7D8;
+}
+
+@media screen and (min-width: 731px ) {
+  .soknadsOversiktLenkePanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .soknadsOversiktLenker {
+    margin-top: 2rem;
+    width: 50%;
+    border: #FFFFFF;
+  }
+
+  .soknadsOversiktLenker:nth-child(1) {
+    margin-right: 1rem;
+  }
+
+  .soknadsOversiktLenker:nth-child(2) {
+    margin-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 730px ) {
+  .soknadsOversiktLenkePanel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .soknadsOversiktLenker {
+    margin-top: 1rem;
+    width: 100%;
+    border: #FFFFFF;
+  }
+}
+
+.ingenSoknadFunnet {
+  padding-top: 4px;
+  padding-bottom: 2px;
+  margin-left: 16px;
+}
+
+.lenkepanelResenter {
+  margin-left: 16px;
+}
+
+.lenkepanel {
+  padding: 0.5rem;
+}
+.soknadsOversiktLenkerAlign {
+  display: flex;
+  align-items: center;
+}
+
+.ingenSoknaderFunnetText {
+  display: flex;
+  justify-content: center;
 }
