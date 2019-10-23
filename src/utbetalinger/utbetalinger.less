@@ -22,6 +22,7 @@
 
 
 .utbetalinger {
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
 
@@ -65,11 +66,16 @@
 
 .utbetalinger_detaljer {
   width: 100%;
-  margin-top: 1rem;
   padding: 1rem;
   background-color: white;
   height: 100%;
   border-radius: 4px;
+
+  hr {
+    height: 2px;
+    background-color: #979797;
+    margin-bottom: 2rem;
+  }
 }
 
 // ****** Selve utbetalingene *****
@@ -98,6 +104,12 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+
+  a {
+    i {
+      margin-left: 0.5rem;
+    }
+  }
 }
 
 .utbetaling_periode_mottaker {
