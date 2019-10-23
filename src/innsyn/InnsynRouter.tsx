@@ -21,6 +21,7 @@ import BlirIkkeRealitetsbehandlet from "./statiskeDemoSider/BlirIkkeRealitetsbeh
 import Kvalifiseringsprogram from "./statiskeDemoSider/Kvalifiseringsprogram";
 import UtbetalingerDemo from "../utbetalinger/statiskeDemoSider/UtbetalingerDemo";
 import VedleggsSide from "./VedleggsSide";
+import SkjemaVeilederDemo from "./statiskeDemoSider/SkjemaVeilederDemo";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -50,6 +51,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/demo/saksoversikt" component={Saksoversikt} />
                         <Route exact path="/innsyn/demo/kvalifiseringsprogram" component={Kvalifiseringsprogram} />
                         <Route exact path="/innsyn/demo/utbetalinger" component={UtbetalingerDemo} />
+                        <Route exact path="/innsyn/demo/skjemaveileder" component={SkjemaVeilederDemo} />
 
                         {/* Debug routes: */}
                         <Route exact path="/innsyn/:soknadId/debug" component={DebugSide} />

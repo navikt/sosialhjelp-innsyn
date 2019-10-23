@@ -10,6 +10,7 @@ import useTilgjengeligeKommunerService from "./service/useTilgjengeligeKommunerS
 import {tilgjengeligeKommunerBackup} from "./service/tilgjengeligKommuner";
 import EnkelModal from "./EnkelModal";
 import "./nySoknadModal.less"
+import AdvarselIkon from "./AdvarselIkon";
 
 const sokPaaPapirUrl = "https://www.nav.no/no/Person/" +
     "Flere+tema/Sosiale+tjenester/%C3%B8konomisk-sosialhjelp--87469#chapter-4";
@@ -48,7 +49,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
 
     if (currentSuggestion) {
-        fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
+        fargetema = soknadTilgjengelig ? "suksess" : "advarsel";
     }
 
     return (
@@ -60,10 +61,12 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
             contentLabel="Vedlegg"
             shouldCloseOnOverlayClick={true}
         >
-            <div className="nySoknadModal">
+            <div className={
+                "nySoknadModal " + (currentSuggestion && !soknadTilgjengelig ? "nySoknadModal--soknadIkkeTilgjengeligAdvarsel" : "")
+            }>
                 <Veilederpanel
                     fargetema={fargetema}
-                    svg={<VeilederIkon/>}
+                    svg={currentSuggestion && !soknadTilgjengelig ? <AdvarselIkon/> : <VeilederIkon/>}
                     type={"normal"}
                     kompakt={false}
                 >
@@ -122,7 +125,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                 Søk digital
                             </Knapp>
                             <Normaltekst>
-                                <b><Lenke href={sokPaaPapirUrl}>Søk på papirskjema</Lenke></b>
+                                <b><Lenke href={sokPaaPapirUrl}>Jeg skal ikke søke digitalt</Lenke></b>
                             </Normaltekst>
 
                     </div>

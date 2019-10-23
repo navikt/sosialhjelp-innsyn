@@ -20,6 +20,8 @@ const InnsynDemoMeny: React.FC = () => {
             <ul>
                 <li>
                     <Normaltekst>
+                        <b>Beckett Brass</b>
+                        <InternLenke href={"/innsyn/001/status"}>Søknadsstatus</InternLenke>
                         <InternLenke href={"/innsyn/001/status"}>Beckett Brass</InternLenke>
                     </Normaltekst>
                 </li>
@@ -87,6 +89,23 @@ const InnsynDemoMeny: React.FC = () => {
             <Innholdstittel>Utbetalingsoversikt</Innholdstittel>
             <ul className="typo-normal">
                 <li><InternLenke href={"/innsyn/utbetalinger/demo"}>Dine utbetalinger</InternLenke></li>
+            </ul>
+            <br/>
+
+            <Innholdstittel>Skjemaveileder</Innholdstittel>
+            <Normaltekst>
+                Ny versjon
+                av <a href="https://www.nav.no/soknader/nb/person/sosiale-tjenester/okonomisk-sosialhjelp">
+                    sosialhjelp på skjemaveileder
+                </a> med kommunesøk.
+            </Normaltekst>
+            <br/>
+            <ul className="typo-normal">
+                <li>
+                    <Normaltekst>
+                        <InternLenke href={"/innsyn/demo/skjemaveileder"}>Ny skjemaveilder</InternLenke>
+                    </Normaltekst>
+                </li>
             </ul>
             <br/>
 
