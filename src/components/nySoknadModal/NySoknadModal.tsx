@@ -12,8 +12,7 @@ import EnkelModal from "./EnkelModal";
 import "./nySoknadModal.less"
 import AdvarselIkon from "./AdvarselIkon";
 
-const sokPaaPapirUrl = "https://www.nav.no/no/Person/" +
-    "Flere+tema/Sosiale+tjenester/%C3%B8konomisk-sosialhjelp--87469#chapter-4";
+const sokPaaPapirUrl = "https://www.nav.no/sosialhjelp/slik-soker-du";
 
 const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
 
