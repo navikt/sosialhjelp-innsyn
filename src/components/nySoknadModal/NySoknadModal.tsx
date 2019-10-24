@@ -31,6 +31,11 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
         setCurrentSuggestion(suggestion);
     };
 
+    const onClose = () => {
+        onReset();
+        onRequestClose();
+    };
+
     const onButtonClick = (event: any) => {
         if (currentSuggestion && soknadTilgjengelig) {
             const soknadUrl = "/sosialhjelp/soknad/informasjon?kommuneId=" + currentSuggestion.key;
@@ -43,6 +48,8 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
 
     const onReset = () => {
         setCurrentSuggestion(null);
+        setVisFeilmelding(false);
+        setSoknadTilgjengelig(false);
     };
 
     let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
@@ -55,7 +62,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
         <EnkelModal
             className="modal vedlegg_bilde_modal"
             isOpen={synlig}
-            onRequestClose={() => onRequestClose()}
+            onRequestClose={() => onClose()}
             closeButton={true}
             contentLabel="Vedlegg"
             shouldCloseOnOverlayClick={true}

@@ -11,7 +11,8 @@ const useKommuneNrService = () => {
         status: 'loading'
     });
 
-    const url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    const url = "https://www.nav.no/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    // const url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
