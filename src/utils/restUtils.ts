@@ -45,12 +45,13 @@ export enum REST_STATUS {
 const getHeaders = () => {
     return new Headers({
         "Content-Type": "application/json",
-        "Authorization": "1234", // TODO: Ikke hardkodet Authorization id
+        "Authorization": "Bearer 1234", // FIXME: Ikke hardkodet Authorization id
+        // "X-XSRF-TOKEN": getCookie("XSRF-TOKEN-SOKNAD-API"),
         "Accept": "application/json, text/plain, */*"
     });
 };
 
-export const serverRequest = (method: string, urlPath: string, body: string|null) => {
+export const serverRequest = (method: string, urlPath: string, body: string|null|FormData) => {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
         method,
@@ -89,6 +90,22 @@ function sjekkStatuskode(response: Response) {
     throw new Error(response.statusText);
 }
 
+export function getCookie(name: string) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) {
+        let partsPopped: string | undefined = parts.pop();
+        if (partsPopped){
+            const partsPoppedSplitAndShift = partsPopped.split(";").shift();
+            return  partsPoppedSplitAndShift ? partsPoppedSplitAndShift : "null"
+        } else {
+            return "null"
+        }
+    } else {
+        return "null";
+    }
+}
+
 export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);
 }
@@ -97,7 +114,7 @@ export function fetchPut(urlPath: string, body: string) {
     return serverRequest(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string) {
+export function fetchPost(urlPath: string, body: string|FormData) {
     return serverRequest(RequestMethod.POST, urlPath, body);
 }
 
