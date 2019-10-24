@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Service} from "./Service";
+import {erDevMiljo, Service} from "./Service";
 import {Suggestion} from "../navAutocomplete/NavAutcomplete";
 
 export interface KommuneNummere {
@@ -11,14 +11,16 @@ const useKommuneNrService = () => {
         status: 'loading'
     });
 
-    const url = "https://www.nav.no/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
-    // const url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    let url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    if (erDevMiljo()) {
+        url = "http://localhost:8080/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    }
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
             .then(response => setResult({ status: 'loaded', payload: ekstraherKommuneNr(response) }))
             .catch(error => setResult({ status: 'error', error }));
-    }, []);
+    }, [url]);
     return result;
 };
 

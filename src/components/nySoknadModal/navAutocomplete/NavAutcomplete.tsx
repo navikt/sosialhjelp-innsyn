@@ -75,7 +75,6 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                         setShouldShowSuggestions(false);
                     }
                 }
-
                 break;
             case KEY.ESC:
                 // Hvis man trykker Esc, og forslagslisten er synlig, så skal listen skjules.
