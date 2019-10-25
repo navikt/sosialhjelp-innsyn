@@ -80,7 +80,14 @@ function sjekkStatuskode(response: Response) {
     if (response.status === 401){
         console.warn("Bruker er ikke logget inn.");
         response.json().then(r => {
-            window.location.href = r.loginUrl + window.location.origin + "/sosialhjelp/innsyn/link?redirect=/sosialhjelp/innsyn";
+            if (window.location.search.split("error_id=")[1] !== r.id) {
+                const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
+                const redirectUrl = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
+                console.warn("Redirect til " + redirectUrl);
+                window.location.href = redirectUrl;
+            } else {
+                console.error("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
+            }
         });
         return response;
     }
@@ -126,3 +133,9 @@ export function fetchDelete(urlPath: string) {
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
 }
 
+export function getRedirectPath(): string {
+    const currentOrigin = window.location.origin;
+    const gotoParameter = "?goto=" + window.location.pathname;
+    const redirectPath = currentOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
+    return 'redirect=' + redirectPath;
+}
