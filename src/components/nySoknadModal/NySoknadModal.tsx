@@ -6,11 +6,15 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import VeilederIkon from "../ikoner/VeilederIkon";
 import Lenke from "nav-frontend-lenker";
 import useKommuneNrService from "./service/useKommuneNrService";
-import useTilgjengeligeKommunerService from "./service/useTilgjengeligeKommunerService";
+import useTilgjengeligeKommunerService, {
+    finnTilgjengeligKommune,
+    KommuneTilgjengelighet
+} from "./service/useTilgjengeligeKommunerService";
 import {tilgjengeligeKommunerBackup} from "./service/tilgjengeligKommuner";
 import EnkelModal from "./EnkelModal";
 import "./nySoknadModal.less"
 import AdvarselIkon from "./AdvarselIkon";
+import {REST_STATUS} from "../../utils/restUtils";
 
 const sokPaaPapirUrl = "https://www.nav.no/sosialhjelp/slik-soker-du";
 
@@ -23,8 +27,9 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
-        if (tilgjengeligeKommunerService.status === 'loaded') {
-            setSoknadTilgjengelig(tilgjengeligeKommunerService.payload.results.includes(suggestion.key));
+        if (tilgjengeligeKommunerService.restStatus === REST_STATUS.OK) {
+            const kommune: KommuneTilgjengelighet|undefined = finnTilgjengeligKommune(tilgjengeligeKommunerService.payload.results, suggestion.key);
+            setSoknadTilgjengelig(kommune !== undefined && kommune.kanMottaSoknader);
         } else {
             setSoknadTilgjengelig(tilgjengeligeKommunerBackup.includes(suggestion.key));
         }
@@ -109,7 +114,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                         </>
                     )}
 
-                    {kommunerService.status === 'loaded' && (
+                    {kommunerService.restStatus === REST_STATUS.OK && (
                         <NavAutocomplete
                             placeholder="Skriv kommunenavn"
                             suggestions={kommunerService.payload.results}

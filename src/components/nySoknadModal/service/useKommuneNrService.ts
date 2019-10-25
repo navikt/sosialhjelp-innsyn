@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {erDevMiljo, Service} from "./Service";
 import {Suggestion} from "../navAutocomplete/NavAutcomplete";
+import {REST_STATUS} from "../../../utils/restUtils";
 
 export interface KommuneNummere {
     results: Suggestion[];
@@ -8,7 +9,7 @@ export interface KommuneNummere {
 
 const useKommuneNrService = () => {
     const [result, setResult] = useState<Service<KommuneNummere>>({
-        status: 'loading'
+        restStatus: REST_STATUS.PENDING
     });
 
     let url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
@@ -18,8 +19,8 @@ const useKommuneNrService = () => {
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
-            .then(response => setResult({ status: 'loaded', payload: ekstraherKommuneNr(response) }))
-            .catch(error => setResult({ status: 'error', error }));
+            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: ekstraherKommuneNr(response) }))
+            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
     }, [url]);
     return result;
 };

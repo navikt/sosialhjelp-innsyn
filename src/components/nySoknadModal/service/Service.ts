@@ -1,18 +1,20 @@
+import {REST_STATUS} from "../../../utils/restUtils";
+
 interface ServiceInit {
-    status: 'init';
+    restStatus: REST_STATUS.INITIALISERT;
 }
 
 interface ServiceLoading {
-    status: 'loading';
+    restStatus: REST_STATUS.PENDING;
 }
 
 interface ServiceLoaded<T> {
-    status: 'loaded';
+    restStatus: REST_STATUS.OK;
     payload: T;
 }
 
 interface ServiceError {
-    status: 'error';
+    restStatus: REST_STATUS.FEILET;
     error: Error;
 }
 
