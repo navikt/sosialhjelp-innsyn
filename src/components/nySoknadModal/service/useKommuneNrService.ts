@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {erDevMiljo, Service} from "./Service";
+import {erDevMiljo, ServiceHookTypes} from "./ServiceHookTypes";
 import {Suggestion} from "../navAutocomplete/NavAutcomplete";
 import {REST_STATUS} from "../../../utils/restUtils";
 
@@ -8,7 +8,7 @@ export interface KommuneNummere {
 }
 
 const useKommuneNrService = () => {
-    const [result, setResult] = useState<Service<KommuneNummere>>({
+    const [result, setResult] = useState<ServiceHookTypes<KommuneNummere>>({
         restStatus: REST_STATUS.PENDING
     });
 

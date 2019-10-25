@@ -18,7 +18,7 @@ interface ServiceError {
     error: Error;
 }
 
-export type Service<T> =
+export type ServiceHookTypes<T> =
     | ServiceInit
     | ServiceLoading
     | ServiceLoaded<T>

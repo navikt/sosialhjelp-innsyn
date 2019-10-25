@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {erDevMiljo, Service} from "./Service";
+import {erDevMiljo, ServiceHookTypes} from "./ServiceHookTypes";
 import {REST_STATUS} from "../../../utils/restUtils";
 
 export interface KommuneTilgjengelighet {
@@ -15,7 +15,7 @@ export interface TilgjengeligeKommuner {
 }
 
 const useTilgjengeligeKommunerService = () => {
-    const [result, setResult] = useState<Service<TilgjengeligeKommuner>>({
+    const [result, setResult] = useState<ServiceHookTypes<TilgjengeligeKommuner>>({
         restStatus: REST_STATUS.PENDING
     });
 
