@@ -82,7 +82,9 @@ function sjekkStatuskode(response: Response) {
         response.json().then(r => {
             if (window.location.search.split("error_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
+                const redirectUrl = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
+                console.warn("Redirect til " + redirectUrl);
+                window.location.href = redirectUrl;
             } else {
                 console.error("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
             }
