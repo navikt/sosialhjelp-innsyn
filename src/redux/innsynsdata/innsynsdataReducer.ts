@@ -20,7 +20,7 @@ export interface Utbetaling {
 export interface SaksStatusState {
     tittel: string;
     status: Utfall;
-    vedtaksfilUrlList: VedtaksHendelse[];
+    vedtaksfilUrlList: VedtakFattet[];
     melding?: string;
 }
 
@@ -107,7 +107,7 @@ export interface Hendelse {
     filUrl: null|string;
 }
 
-export interface VedtaksHendelse {
+export interface VedtakFattet {
     dato: string;
     vedtaksfilUrl: null|string;
 }

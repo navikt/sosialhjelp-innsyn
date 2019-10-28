@@ -4,7 +4,7 @@ import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-t
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import { SaksStatusState, Utfall, VedtaksHendelse} from "../../redux/innsynsdata/innsynsdataReducer";
+import { SaksStatusState, Utfall, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -90,7 +90,7 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 							</div>
 						)}
 
-						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((hendelse: VedtaksHendelse, index: number) => (
+						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
 								<EksternLenke href={"" + hendelse.vedtaksfilUrl}>
 									Vedtaksbrev
