@@ -160,9 +160,11 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                             <TodoList/>
                         </span>
                         <div style={{paddingLeft: "38px"}}>
-                            <Element>Du har ingen oppgaver.</Element>
+                            <Element>
+                                <FormattedMessage id="oppgaver.ingen_oppgaver"/>
+                            </Element>
                             <Normaltekst>
-                                Du vil få beskjed hvis det er noe du må gjøre.
+                                <FormattedMessage id="oppgaver.beskjed"/>
                             </Normaltekst>
                         </div>
                     </>
