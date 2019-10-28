@@ -52,7 +52,8 @@ export enum REST_STATUS {
     OK = "OK",
     FEILET = "FEILET",
     PENDING = "PENDING",
-    INITIALISERT = "INITIALISERT"
+    INITIALISERT = "INITIALISERT",
+    UNAUTHORIZED = "UNAUTHORIZED"
 }
 
 export const getHeaders = () => {
@@ -66,6 +67,10 @@ export const getHeaders = () => {
     }
     return headers;
 };
+
+export enum HttpStatus {
+    UNAUTHORIZED = "unauthorized",
+}
 
 export const serverRequest = (method: string, urlPath: string, body: string|null|FormData) => {
     const OPTIONS: RequestInit = {
@@ -106,12 +111,16 @@ function sjekkStatuskode(response: Response) {
                 console.error("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
             }
         });
-        return response;
+        throw new Error(HttpStatus.UNAUTHORIZED);
     }
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
     throw new Error(response.statusText);
+}
+
+function determineCredentialsParameter() {
+    return window.location.origin.indexOf("nais.oera") || erDev() || "heroku" ? "include" : "same-origin";
 }
 
 export function getCookie(name: string) {
