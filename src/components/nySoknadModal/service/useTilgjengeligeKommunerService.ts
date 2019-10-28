@@ -1,27 +1,41 @@
 import {useEffect, useState} from "react";
-import {erDevMiljo, Service} from "./Service";
+import {erDevMiljo, ServiceHookTypes} from "./ServiceHookTypes";
+import {REST_STATUS} from "../../../utils/restUtils";
+
+export interface KommuneTilgjengelighet {
+    harMidlertidigDeaktivertMottak: boolean;
+    harMidlertidigDeaktivertOppdateringer: boolean;
+    kanMottaSoknader: boolean;
+    kanOppdatereStatus: boolean;
+    kommunenummer: string;
+}
 
 export interface TilgjengeligeKommuner {
-    results: string[];
+    results: KommuneTilgjengelighet[];
 }
 
 const useTilgjengeligeKommunerService = () => {
-    const [result, setResult] = useState<Service<TilgjengeligeKommuner>>({
-        status: 'loading'
+    const [result, setResult] = useState<ServiceHookTypes<TilgjengeligeKommuner>>({
+        restStatus: REST_STATUS.PENDING
     });
 
-    let url = "/sosialhjelp/soknad-api/informasjon/tilgjengelige_kommuner";
+    let url = "/sosialhjelp/innsyn-api/api/v1/innsyn/kommune";
     if (erDevMiljo()) {
-        url = "https://cors-anywhere.herokuapp.com/https://www.nav.no/sosialhjelp/soknad-api/informasjon/tilgjengelige_kommuner";
+        url = "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn/kommune";
     }
 
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
-            .then(response => setResult({ status: 'loaded', payload: {results: response} }))
-            .catch(error => setResult({ status: 'error', error }));
+            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: {results: response} }))
+            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
     }, [url]);
     return result;
 };
 
+const finnTilgjengeligKommune = (kommuneTilgjengelighet: KommuneTilgjengelighet[], kommunenummer: string): KommuneTilgjengelighet|undefined => {
+    return kommuneTilgjengelighet.find((kommune: KommuneTilgjengelighet) =>  kommune.kommunenummer.match(kommunenummer));
+};
+
+export {finnTilgjengeligKommune};
 export default useTilgjengeligeKommunerService;
