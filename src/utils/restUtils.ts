@@ -4,9 +4,21 @@ export function erDev(): boolean {
     const url = window.location.href;
     return (url.indexOf("localhost:3000") > 0);
 }
+export function erHeroku(): boolean {
+    const url = window.location.origin;
+    return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0);
+}
+
+export function erMedLoginApi(): boolean {
+    return true; // Uncomment om testing via login-api
+    // return false
+}
 
 export function getApiBaseUrl(): string {
     if (erDev()) {
+        if (erMedLoginApi) {
+            return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1/innsyn";
+        }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn";
     } else {
         return getAbsoluteApiUrl() + "api/v1/innsyn"
@@ -39,21 +51,32 @@ export enum REST_STATUS {
     OK = "OK",
     FEILET = "FEILET",
     PENDING = "PENDING",
-    INITIALISERT = "INITIALISERT"
+    INITIALISERT = "INITIALISERT",
+    UNAUTHORIZED = "UNAUTHORIZED"
 }
 
-const getHeaders = () => {
-    return new Headers({
+export const getHeaders = () => {
+    let headers = new Headers({
         "Content-Type": "application/json",
-        "Authorization": "1234", // TODO: Ikke hardkodet Authorization id
         "Accept": "application/json, text/plain, */*"
     });
+    if (erHeroku() || (erDev() && !erMedLoginApi())) {
+        headers.append("Authorization", "dummytoken")
+    }
+    console.log("HEADERS: " + headers);
+    console.log("HEADERS: " + headers.values());
+    return headers;
 };
+
+export enum HttpStatus {
+    UNAUTHORIZED = "unauthorized",
+}
 
 export const serverRequest = (method: string, urlPath: string, body: string|null) => {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
-        method,
+        credentials: determineCredentialsParameter(),
+        method: method,
         body: body ? body : undefined
     };
 
@@ -77,16 +100,37 @@ export function toJson<T>(response: Response): Promise<T> {
 
 function sjekkStatuskode(response: Response) {
     if (response.status === 401){
-        console.warn("Bruker er ikke logget inn.");
         response.json().then(r => {
-            window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
+
+            if (window.location.search.split("error_id=")[1] !== r.id) {
+                console.log("loginUrl: " + r.loginUrl);
+                const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
+                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
+            } else {
+                // TODO: må sende log til server (se sosialhjelp-soknad)
+                console.log("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
+            }
         });
-        return response;
+        throw new Error(HttpStatus.UNAUTHORIZED);
     }
     if (response.status >= 200 && response.status < 300) {
-        return response;
+        return;
     }
     throw new Error(response.statusText);
+}
+
+export function getRedirectPath(): string {
+    const currentOrigin = window.location.origin;
+    const gotoParameter = "?goto=" + window.location.pathname;
+    const redirectPath = currentOrigin + getRedirectPathname() + gotoParameter;
+    return 'redirect=' + redirectPath;
+}
+export function getRedirectPathname(): string {
+    return `/sosialhjelp/innsyn/link`;
+}
+
+function determineCredentialsParameter() {
+    return window.location.origin.indexOf("nais.oera") || erDev() || "heroku" ? "include" : "same-origin";
 }
 
 export function fetchToJson(urlPath: string) {
@@ -104,6 +148,7 @@ export function fetchPost(urlPath: string, body: string) {
 export function fetchDelete(urlPath: string) {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
+        credentials: determineCredentialsParameter(),
         method: RequestMethod.DELETE
     };
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);

@@ -17,7 +17,7 @@ import {
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {useDispatch} from "react-redux";
-import {getApiBaseUrl, REST_STATUS} from "../../utils/restUtils";
+import {getApiBaseUrl, getHeaders, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 
 interface Props {
@@ -101,10 +101,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
         fetch(url, {
             method: 'POST',
             body: formData,
-            headers: new Headers({
-                "Authorization": "Bearer 1234",
-                "Accept": "*/*"
-            })
+            headers: getHeaders()
         }).then((response: Response) => {
             let harFeil: boolean = false;
 

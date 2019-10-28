@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {fetchToJson, REST_STATUS} from "../../utils/restUtils";
+import {fetchToJson, HttpStatus, REST_STATUS} from "../../utils/restUtils";
 import {
     InnsynsdataSti,
     oppdaterInnsynsdataState, settRestStatus
@@ -13,12 +13,20 @@ export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti, visF
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         const url = innsynssdataUrl(fiksDigisosId, sti);
         fetchToJson(url).then((response: any) => {
+            debugger;
             dispatch(oppdaterInnsynsdataState(sti, response));
             dispatch(settRestStatus(sti, REST_STATUS.OK));
         }).catch((reason) => {
-            dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-            if (visFeilSide !== false) {
-                history.push("feil");
+            if (reason.message === HttpStatus.UNAUTHORIZED) {
+                debugger;
+                dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+            }
+            else {
+                debugger;
+                dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                if (visFeilSide !== false) {
+                    history.push("feil");
+                }
             }
        });
     }
