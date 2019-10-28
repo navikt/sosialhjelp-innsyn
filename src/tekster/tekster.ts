@@ -9,6 +9,9 @@ export const tekster = {
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
         "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
-        "saker.oppgave": "Du har oppgave"
+        "saker.oppgave": "Du har oppgave",
+        "oppgaver.dine_oppgaver": "Dine oppgaver",
+        "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon til veileder",
+        "oppgaver.maa_sende_dok": "Du må sende inn dokumentasjon"
     }
 };

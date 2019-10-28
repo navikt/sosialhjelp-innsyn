@@ -6,11 +6,7 @@ const SavnerUtbetalingPanel: React.FC = () => {
 
     return (
         <div className="savner_utbetaling_panel">
-            <span style={{
-                display: "block",
-                float: "left",
-                marginLeft: "-2.5rem"
-            }}>
+            <span className="infoIkon">
                 <InfoIkon/>
             </span>
             <Element>Er det en utbetaling du savner?</Element>

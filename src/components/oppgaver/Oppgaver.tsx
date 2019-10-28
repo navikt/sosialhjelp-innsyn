@@ -19,6 +19,7 @@ import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsD
 import {useDispatch} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -141,7 +142,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                     <Lastestriper linjer={1}/>
                 )}
                 {!leserData && (
-                    <Systemtittel>Dine oppgaver</Systemtittel>
+                    <Systemtittel>
+                        <FormattedMessage id="oppgaver.dine_oppgaver" />
+                    </Systemtittel>
                 )}
             </Panel>
             <Panel
@@ -170,7 +173,14 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         <div className="oppgaver_header">
                             <DokumentBinder/>
                             <div>
-                                <Element>{(oppgaverErFraInnsyn ? "Du må sende dokumentasjon til veileder" : "Du må sende inn dokumentasjon")}</Element>
+                                <Element>
+                                    {oppgaverErFraInnsyn &&  (
+                                        <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
+                                    )}
+                                    {!oppgaverErFraInnsyn && (
+                                        <FormattedMessage id="oppgaver.maa_sende_dok" />
+                                    )}
+                                </Element>
                                 <Normaltekst>
                                     {oppgaver !== null && oppgaver.length} vedlegg mangler
                                     <br/>
