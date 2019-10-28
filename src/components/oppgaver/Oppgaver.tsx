@@ -189,7 +189,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                             Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi
                             har.
                         </Normaltekst>)}
-                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å
+                        <Lenke href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/ta-bilde-av-vedleggene-med-mobilen" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å
                             laste opp?</Lenke>
 
                         <div className="oppgaver_detaljer">
