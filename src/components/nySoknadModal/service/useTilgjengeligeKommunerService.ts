@@ -34,9 +34,7 @@ const useTilgjengeligeKommunerService = () => {
 };
 
 const finnTilgjengeligKommune = (kommuneTilgjengelighet: KommuneTilgjengelighet[], kommunenummer: string): KommuneTilgjengelighet|undefined => {
-    return kommuneTilgjengelighet.find((kommune: KommuneTilgjengelighet) => {
-        return kommune.kommunenummer = kommunenummer;
-    });
+    return kommuneTilgjengelighet.find((kommune: KommuneTilgjengelighet) =>  kommune.kommunenummer.match(kommunenummer));
 };
 
 export {finnTilgjengeligKommune};

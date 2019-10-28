@@ -59,6 +59,7 @@
     "nav-frontend-veilederpanel": "^0.1.17",
     "nav-frontend-veilederpanel-style": "0.0.20",
     "prop-types": "^15.7.2",
+    "query-string": "^6.8.3",
     "react": "^16.10.2",
     "react-collapse": "^4.0.3",
     "react-collapsible": "^2.6.0",
