@@ -1,74 +1,59 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
-import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
-import Subheader from "../components/subheader/Subheader";
-import {Systemtittel, Undertittel} from "nav-frontend-typografi";
-import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
-import {Knapp} from "nav-frontend-knapper";
-import { Select } from 'nav-frontend-skjema';
-import SakPanel from "./sakpanel/SakPanel";
-import NySoknadModal from "../components/nySoknadModal/NySoknadModal";
+import {InnsynAppState} from "../redux/reduxTypes";
+import {useDispatch, useSelector} from "react-redux";
+import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
+import {InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
+import {REST_STATUS} from "../utils/restUtils";
+import Lastestriper from "../components/lastestriper/Lasterstriper";
+import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
+import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
+import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
+import BigBanner from "../components/banner/BigBanner";
 
 const Saksoversikt: React.FC = () => {
-    const [visNySoknad, setVisNySoknad] = useState(false);
+    const dispatch = useDispatch();
+    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const restStatus = innsynsdata.restStatus.saker;
+    const leserData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const saker = innsynsdata.saker;
+    const harSaker = saker.length > 0;
+
+    useEffect(() => {
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER))
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(setBrodsmuleSti([
+                {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"}
+            ]))
+    }, [dispatch]);
+
     return (
-        <>
-            <Panel className="panel panel-luft-over dine_soknader_panel">
-                <div className="tittel_og_knapp_container">
-                    <Systemtittel>Dine søknader</Systemtittel>
-                    <NySoknadModal
-                        synlig={visNySoknad}
-                        onRequestClose={() => setVisNySoknad(false)}
-                    />
-                    <Knapp
-                        type="standard"
-                        onClick={(event: any) => {setVisNySoknad(true);event.preventDefault()}}
-                    >
-                        Ny søknad
-                    </Knapp>
-                </div>
-                <div className="periodevelger_container">
-                    <Select label='Vis for' className="periode_velger">
-                        <option value='siste4uker'>Siste 4 uker</option>
-                        <option value='siste3mnd'>Siste 3 måneder</option>
-                        <option value='sisteaar'>Siste år</option>
-                        <option value='alle'>Alle</option>
-                    </Select>
-                </div>
-            </Panel>
-            <SakPanel
-                tittel="Økonomisk sosialhjelp"
-                etikett="Du har en oppgave"
-                status="Sendt"
-                oppdatert={"2018-10-04T13:42:00.134"}
-            />
-            <SakPanel
-                tittel="Livsopphold og strøm"
-                status="Ferdig behandlet"
-                oppdatert={"2018-10-04T13:42:00.134"}
-            />
+        <div className="informasjon-side">
+            <BigBanner tittel="Økonomisk sosialhjelp"/>
 
-            <DineUtbetalingerPanel />
+            <div className="blokk-center">
 
-            <Subheader className="panel-luft-over">
-                <Undertittel>Relatert informasjon</Undertittel>
-            </Subheader>
+                {leserData && (
+                    <Panel style={{paddingTop: "2rem", paddingBottom: "2rem"}}>
+                        <Lastestriper linjer={3}/>
+                    </Panel>
+                )}
 
-            <InfoPanelContainer>
-                <InfoPanel tittel={"Meld fra om endringer"} href={"todo"}>
-                    Du må melde fra dersom din økonomiske situasjon endres.
-                </InfoPanel>
-
-                <InfoPanel tittel={"Klagerettigheter"} href={"todo"}>
-                    Har du fått et vedtak fra oss som du mener er feil, kan du klage.
-                </InfoPanel>
-
-                <InfoPanel tittel={"Mer om sosialhjelp"} href={"todo"}>
-                    Lær mer om økonomisk sosialhjelp på nav.no
-                </InfoPanel>
-            </InfoPanelContainer>
-        </>
+                {!leserData && (
+                    <>
+                        {!harSaker && (
+                            <SaksoversiktIngenSoknader/>
+                        )}
+                        {harSaker && (
+                            <SaksoversiktDineSaker saker={saker} />
+                         )}
+                    </>
+                )}
+            </div>
+        </div>
     )
 };
 

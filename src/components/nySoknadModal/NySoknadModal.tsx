@@ -6,41 +6,44 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import VeilederIkon from "../ikoner/VeilederIkon";
 import Lenke from "nav-frontend-lenker";
 import useKommuneNrService from "./service/useKommuneNrService";
-import useTilgjengeligeKommunerService from "./service/useTilgjengeligeKommunerService";
-import {tilgjengeligeKommunerBackup} from "./service/tilgjengeligKommuner";
+import useTilgjengeligeKommunerService, {
+    finnTilgjengeligKommune,
+    KommuneTilgjengelighet
+} from "./service/useTilgjengeligeKommunerService";
+// import {tilgjengeligeKommunerBackup} from "./service/tilgjengeligKommuner";
 import EnkelModal from "./EnkelModal";
 import "./nySoknadModal.less"
+import AdvarselIkon from "./AdvarselIkon";
+import {REST_STATUS} from "../../utils/restUtils";
+import KryssIkon from "./KryssIkon";
 
-const sokPaaPapirUrl = "https://www.nav.no/no/Person/" +
-    "Flere+tema/Sosiale+tjenester/%C3%B8konomisk-sosialhjelp--87469#chapter-4";
+const sokPaaPapirUrl = "https://www.nav.no/sosialhjelp/slik-soker-du";
 
 const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
 
     const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
+    const [soknadTilgjengelig, setSoknadTilgjengelig] = useState<boolean>(false);
     const [visFeilmelding, setVisFeilmelding] = useState<boolean | undefined>(false);
+    const [midlertidigNede, setMidlertidigNede] = useState<boolean | undefined>(false);
     const kommunerService = useKommuneNrService();
     const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
+        if (tilgjengeligeKommunerService.restStatus === REST_STATUS.OK) {
+            let kommune: KommuneTilgjengelighet | undefined;
+            kommune = finnTilgjengeligKommune(tilgjengeligeKommunerService.payload.results, suggestion.key);
+            if (kommune !== undefined) {
+                setSoknadTilgjengelig(kommune.kanMottaSoknader);
+                setMidlertidigNede(kommune.harMidlertidigDeaktivertMottak);
+            }
+        }
         setCurrentSuggestion(suggestion);
     };
 
-    let soknadTilgjengelig: boolean = false;
-    if (currentSuggestion !== null) {
-        // Bruker har valgt en kommune. Sjekk om det er mulig å søke.
-        debugger;
-        if (tilgjengeligeKommunerService.status === 'loaded') {
-            soknadTilgjengelig = tilgjengeligeKommunerService.payload.results !== undefined &&
-                tilgjengeligeKommunerService.payload.results.includes(currentSuggestion.key);
-
-            console.log("tilgjengeligeKommuner: " +
-                JSON.stringify(tilgjengeligeKommunerService.payload.results, null, 8))
-
-        } else if (tilgjengeligeKommunerService.status === 'error') {
-            // Backupløsning i tilfelle vi får CORS problemer når vi snakker med backend
-            soknadTilgjengelig = tilgjengeligeKommunerBackup.includes(currentSuggestion.key)
-        }
-    }
+    const onClose = () => {
+        onReset();
+        onRequestClose();
+    };
 
     const onButtonClick = (event: any) => {
         if (currentSuggestion && soknadTilgjengelig) {
@@ -54,57 +57,95 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
 
     const onReset = () => {
         setCurrentSuggestion(null);
+        setVisFeilmelding(false);
+        setSoknadTilgjengelig(false);
+        setMidlertidigNede(false);
     };
 
     let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
+
     if (currentSuggestion) {
-        fargetema = soknadTilgjengelig ? "suksess" : "feilmelding";
+        fargetema = soknadTilgjengelig ? "suksess" : "advarsel";
+        if (midlertidigNede) {
+            fargetema = 'feilmelding';
+        }
     }
 
-    if (kommunerService.status === 'loaded' && kommunerService.payload.results !== undefined) {
-        console.log(kommunerService.payload.results.length + " kommuner lest inn");
-    }
-    if (tilgjengeligeKommunerService.status === 'loaded' && tilgjengeligeKommunerService.payload.results !== undefined) {
-        console.log(tilgjengeligeKommunerService.payload.results.length + " tilgjengelige kommunenummer lest inn");
+    let PanelIkon: React.FC = () => <VeilederIkon/>;
+    if (currentSuggestion) {
+        if (!soknadTilgjengelig) {
+            PanelIkon = () => <AdvarselIkon/>;
+        }
+        if (midlertidigNede) {
+            PanelIkon = () => <KryssIkon/>;
+        }
     }
 
     return (
         <EnkelModal
             className="modal vedlegg_bilde_modal"
             isOpen={synlig}
-            onRequestClose={() => onRequestClose()}
+            onRequestClose={() => onClose()}
             closeButton={true}
             contentLabel="Vedlegg"
             shouldCloseOnOverlayClick={true}
         >
-            <div className="nySoknadModal">
+            <div className={
+                "nySoknadModal " +
+                (currentSuggestion && (!soknadTilgjengelig || midlertidigNede) ?
+                        "nySoknadModal--soknadIkkeTilgjengeligAdvarsel" : ""
+                )
+            }>
                 <Veilederpanel
                     fargetema={fargetema}
-                    svg={<VeilederIkon/>}
+                    svg={<PanelIkon/>}
                     type={"normal"}
                     kompakt={false}
                 >
-                    {currentSuggestion && soknadTilgjengelig && (
+                    {currentSuggestion && (
                         <>
-                            <Undertittel className="nySoknadModal__tittel">
-                                Du kan søke digitalt i {currentSuggestion.value} kommune.
-                            </Undertittel>
-                            <Normaltekst className="nySoknadModal__normaltekst">
-                                Din kommune
-                            </Normaltekst>
+                            {midlertidigNede && (
+                                <>
+                                    <Undertittel className="nySoknadModal__tittel">
+                                        {currentSuggestion.value} kommune kan ikke ta i mot digitale søknader
+                                        akkurat nå.
+                                        Prøv igjen senere, eller søk på papirskjema.
+                                    </Undertittel>
+                                    <Normaltekst className="nySoknadModal__normaltekst">
+                                        Din kommune
+                                    </Normaltekst>
+                                </>
+                            )}
+                            {!midlertidigNede && (
+                                <>
+                                    {soknadTilgjengelig && (
+                                        <>
+                                            <Undertittel className="nySoknadModal__tittel">
+                                                Du kan søke digitalt i {currentSuggestion.value} kommune.
+                                            </Undertittel>
+                                            <Normaltekst className="nySoknadModal__normaltekst">
+                                                Din kommune
+                                            </Normaltekst>
+                                        </>
+                                    )}
+                                    {!soknadTilgjengelig && (
+                                        <>
+                                            <Undertittel className="nySoknadModal__tittel">
+                                                {currentSuggestion.value} kommune kan ikke ta i mot digitale søknader
+                                                ennå.
+                                                Du kan søke på papirskjema.
+                                            </Undertittel>
+                                            <Normaltekst className="nySoknadModal__normaltekst">
+                                                Din kommune
+                                            </Normaltekst>
+                                        </>
+                                    )}
+                                </>
+                            )}
+
                         </>
                     )}
-                    {currentSuggestion && !soknadTilgjengelig && (
-                        <>
-                            <Undertittel className="nySoknadModal__tittel">
-                                {currentSuggestion.value} kommune kan ikke ta i mot digitale søknader ennå.
-                                Du kan søke på papirskjema.
-                            </Undertittel>
-                            <Normaltekst className="nySoknadModal__normaltekst">
-                                Din kommune
-                            </Normaltekst>
-                        </>
-                    )}
+
 
                     {currentSuggestion === null && (
                         <>
@@ -117,7 +158,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                         </>
                     )}
 
-                    {kommunerService.status === 'loaded' && (
+                    {kommunerService.restStatus === REST_STATUS.OK && (
                         <NavAutocomplete
                             placeholder="Skriv kommunenavn"
                             suggestions={kommunerService.payload.results}
@@ -125,22 +166,22 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                             id="kommunesok"
                             onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
                             onReset={() => onReset()}
-                            feil={(visFeilmelding && currentSuggestion === null )?
+                            feil={(visFeilmelding && currentSuggestion === null) ?
                                 "Du må skrive inn navnet på kommunen din før du kan gå videre" : undefined
                             }
                         />
                     )}
 
                     <div className="knappOgLenke">
-                            <Knapp
-                                type="hoved"
-                                onClick={(event: any) => onButtonClick(event)}
-                            >
-                                Søk digital
-                            </Knapp>
-                            <Normaltekst>
-                                <b><Lenke href={sokPaaPapirUrl}>Søk på papirskjema</Lenke></b>
-                            </Normaltekst>
+                        <Knapp
+                            type="hoved"
+                            onClick={(event: any) => onButtonClick(event)}
+                        >
+                            Søk digital
+                        </Knapp>
+                        <Normaltekst>
+                            <b><Lenke href={sokPaaPapirUrl}>Jeg skal ikke søke digitalt</Lenke></b>
+                        </Normaltekst>
 
                     </div>
                 </Veilederpanel>

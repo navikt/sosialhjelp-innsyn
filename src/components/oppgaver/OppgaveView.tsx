@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import {Checkbox} from "nav-frontend-skjema";
 import Lenke from "nav-frontend-lenker";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {Fil, InnsynsdataActionTypeKeys, Oppgave, Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -83,12 +82,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                         {tilleggsinfoTekst}
                     </Normaltekst>)}
 
-                {!oppgave.vedlegg && (
-                    <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
-                )}
-                {oppgave.vedlegg && oppgave.vedlegg.length === 0 && (
-                    <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
-                )}
                 {oppgave.vedlegg && oppgave.vedlegg.length > 0 && oppgave.vedlegg.map((vedlegg: Vedlegg, index: number) =>
                     <VedleggActionsView vedlegg={vedlegg} key={index}/>
                 )}

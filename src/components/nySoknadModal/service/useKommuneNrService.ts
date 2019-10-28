@@ -1,24 +1,27 @@
 import {useEffect, useState} from "react";
-import {Service} from "./Service";
+import {erDevMiljo, ServiceHookTypes} from "./ServiceHookTypes";
 import {Suggestion} from "../navAutocomplete/NavAutcomplete";
+import {REST_STATUS} from "../../../utils/restUtils";
 
 export interface KommuneNummere {
     results: Suggestion[];
 }
 
 const useKommuneNrService = () => {
-    const [result, setResult] = useState<Service<KommuneNummere>>({
-        status: 'loading'
+    const [result, setResult] = useState<ServiceHookTypes<KommuneNummere>>({
+        restStatus: REST_STATUS.PENDING
     });
 
-    // const url = "https://www.nav.no/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
-    const url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    let url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    if (erDevMiljo()) {
+        url = "http://localhost:8080/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
+    }
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
-            .then(response => setResult({ status: 'loaded', payload: ekstraherKommuneNr(response) }))
-            .catch(error => setResult({ status: 'error', error }));
-    }, []);
+            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: ekstraherKommuneNr(response) }))
+            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
+    }, [url]);
     return result;
 };
 

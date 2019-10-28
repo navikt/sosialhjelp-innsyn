@@ -5,10 +5,11 @@ import "./paginering.less";
 interface Props {
     pageCount: number;
     initialPage?: number;
+    forcePage?: number;
     onPageChange: (page: number) => void;
 }
 
-const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange}) => {
+const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange, forcePage}) => {
     const handlePageClick = (value: any) => {
         onPageChange(value.selected);
     };
@@ -26,6 +27,7 @@ const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange})
             // breakClassName={'break-me'}
             containerClassName={'pagination'}
             activeClassName={'active'}
+            forcePage={forcePage}
             // extraAriaContext={"Side"} // Deprecated
             // Prop 'ariaLabelBuilder' mangler i d.ts filen:
             // Erstatt 'extraAriaContext' med dette når det eventuelt kommer:

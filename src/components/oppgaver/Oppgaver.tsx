@@ -17,16 +17,16 @@ import {
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {useDispatch} from "react-redux";
-import {getApiBaseUrl, getHeaders, REST_STATUS} from "../../utils/restUtils";
+import {getApiBaseUrl, fetchPost, getHeaders, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 
 interface Props {
-    oppgaver: null|Oppgave[];
+    oppgaver: null | Oppgave[];
     leserData?: boolean;
     soknadId?: any;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]): string {
+function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
     if (oppgaver === null) {
         return "";
     }
@@ -38,7 +38,7 @@ function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]): string {
     return innsendelsesfrist;
 }
 
-function genererMetatadataJson(oppgaver: null|Oppgave[]) {
+function genererMetatadataJson(oppgaver: null | Oppgave[]) {
     let metadata: any[] = [];
     oppgaver && oppgaver.map((oppgave: Oppgave) => {
         let filnavnArr: any[] = [];
@@ -92,42 +92,35 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
         }
 
         let formData = opprettFormDataMedVedlegg(oppgaver);
-
         const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
-        const url = getApiBaseUrl() + innsynssdataUrl(fiksDigisosId, sti);
+        const path = innsynssdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
-        fetch(url, {
-            method: 'POST',
-            body: formData,
-            headers: getHeaders()
-        }).then((response: Response) => {
+        fetchPost(path, formData).then((filRespons: any) => {
             let harFeil: boolean = false;
-
-            response.json().then((json: JSON) => {
-                const filRespons = JSON.parse(JSON.stringify(json));
-                if (Array.isArray(filRespons)) {
-                    for (var index = 0; index < filRespons.length; index++) {
-                        const fileItem = filRespons[index];
-                        if (fileItem.status !== "OK") {
-                            harFeil = true;
-                        }
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                            filnavn: fileItem.filnavn,
-                            status: fileItem.status
-                        });
+            if (Array.isArray(filRespons)) {
+                for (var index = 0; index < filRespons.length; index++) {
+                    const fileItem = filRespons[index];
+                    if (fileItem.status !== "OK") {
+                        harFeil = true;
                     }
+                    dispatch({
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                        filnavn: fileItem.filnavn,
+                        status: fileItem.status
+                    });
                 }
-            });
-
+            }
             if (!harFeil) {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
             }
+        }).catch((reason: any) => {
+            console.log("Feil med opplasting av vedlegg");
         });
+
         event.preventDefault()
     };
 
@@ -151,7 +144,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                     <Systemtittel>Dine oppgaver</Systemtittel>
                 )}
             </Panel>
-            <Panel className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
+            <Panel
+                className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
 
                 {leserData && (
                     <Lastestriper linjer={1}/>
@@ -165,7 +159,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         <div style={{paddingLeft: "38px"}}>
                             <Element>Du har ingen oppgaver.</Element>
                             <Normaltekst>
-                                 Du vil få beskjed hvis det er noe du må gjøre.
+                                Du vil få beskjed hvis det er noe du må gjøre.
                             </Normaltekst>
                         </div>
                     </>
@@ -192,13 +186,16 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         </Normaltekst> : <Normaltekst>
                             Last opp vedlegg du ikke lastet opp da du sendte søknaden.
                             Vi anbefaler at du ettersender vedlegg så snart som mulig og helst innen 14 dager.
-                            Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi har.
+                            Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi
+                            har.
                         </Normaltekst>)}
-                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å laste opp?</Lenke>
+                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å
+                            laste opp?</Lenke>
 
                         <div className="oppgaver_detaljer">
                             {oppgaverErFraInnsyn && (
-                                <Normaltekst className="luft_under_8px">Frist for innlevering er {innsendelsesfrist}</Normaltekst>
+                                <Normaltekst className="luft_under_8px">Frist for innlevering
+                                    er {innsendelsesfrist}</Normaltekst>
                             )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
                                 <OppgaveView oppgave={oppgave} key={index} id={index}/>

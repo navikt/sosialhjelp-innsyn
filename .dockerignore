@@ -14,3 +14,4 @@
 !craco.config.js
 !build
 !heroku.js
+!set-resource-path.sh

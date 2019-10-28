@@ -21,6 +21,8 @@ import BlirIkkeRealitetsbehandlet from "./statiskeDemoSider/BlirIkkeRealitetsbeh
 import Kvalifiseringsprogram from "./statiskeDemoSider/Kvalifiseringsprogram";
 import UtbetalingerDemo from "../utbetalinger/statiskeDemoSider/UtbetalingerDemo";
 import VedleggsSide from "./VedleggsSide";
+import SkjemaVeilederDemo from "./statiskeDemoSider/SkjemaVeilederDemo";
+import Linkside from "../components/linkside/Linkside";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -30,13 +32,13 @@ const InnsynRouter: React.FC = () => {
                 <div className="blokk-center">
                     <BrodsmuleSti/>
                     <Switch>
-                        <Route exact path="/innsyn/" component={Saksoversikt} />
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny} />
                         <Route exact path="/innsyn/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide} />
                         <Route exact path="/innsyn/feil" component={Feilside} />
                         <Route exact path="/innsyn/:soknadId/feil" component={Feilside} />
+                        <Route exact path="/innsyn/link" component={Linkside} />
 
                         {/* Demo routes: */}
                         <Route exact path="/innsyn/demo/mottatt" component={MottattSoknadDemo} />
@@ -51,6 +53,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/demo/saksoversikt" component={Saksoversikt} />
                         <Route exact path="/innsyn/demo/kvalifiseringsprogram" component={Kvalifiseringsprogram} />
                         <Route exact path="/innsyn/demo/utbetalinger" component={UtbetalingerDemo} />
+                        <Route exact path="/innsyn/demo/skjemaveileder" component={SkjemaVeilederDemo} />
 
                         {/* Debug routes: */}
                         <Route exact path="/innsyn/:soknadId/debug" component={DebugSide} />

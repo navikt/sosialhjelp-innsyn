@@ -25,6 +25,8 @@
   .knapp {
     margin-top: 1rem;
     margin-bottom: 2rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
   }
 }
 
@@ -38,6 +40,7 @@
   .nySoknadModal {
     width: 100%;
     height: 93vh;
+    padding-top: 36px;
 
     .navAutocomplete input {
       width: 100%;
@@ -62,4 +65,43 @@
   p {
     margin-left: 2rem;
   }
+}
+
+@media screen and (min-width: 641px ) {
+  .knappOgLenke {
+    flex-direction: row;
+  }
+}
+
+@media screen and (max-width: 640px ) {
+  .knappOgLenke {
+    flex-direction: column;
+
+    p {
+      margin-left: 0;
+    }
+  }
+
+  .nav-veilederpanel {
+    padding: 1rem 1rem 1rem 6rem;
+
+    .nav-veileder {
+      left: 0.5rem;
+    }
+  }
+}
+
+// Veilederikon
+// .nySoknadModal--soknadIkkeTilgjengeligAdvarsel
+.nySoknadModal--soknadIkkeTilgjengeligAdvarsel .nav-veileder__frame--s{
+  width: 3rem;
+  height: 3rem;
+  margin-left: 1rem;
+
+  svg {
+    margin-left: 0;
+    margin-top: 0;
+    height: 100%;
+  }
+
 }

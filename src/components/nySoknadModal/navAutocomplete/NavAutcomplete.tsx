@@ -60,13 +60,20 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                 }
                 break;
             case KEY.ENTER:
-                if (hasSelectedSuggestion && shouldShowSuggestions) {
+                if (displayedSuggestions.length === 1) {
                     const displayedSuggestions: Suggestion[] = searchSuggestions(suggestions, value);
                     event.preventDefault(); // Unngå form submit når bruker velger et av forslagene
-                    setValue(displayedSuggestions[activeSuggestionIndex].value);
-                    onClick(displayedSuggestions[activeSuggestionIndex]);
+                    setValue(displayedSuggestions[0].value);
+                    onClick(displayedSuggestions[0]);
                 } else {
-                    setShouldShowSuggestions(false);
+                    if (hasSelectedSuggestion && shouldShowSuggestions) {
+                        const displayedSuggestions: Suggestion[] = searchSuggestions(suggestions, value);
+                        event.preventDefault(); // Unngå form submit når bruker velger et av forslagene
+                        setValue(displayedSuggestions[activeSuggestionIndex].value);
+                        onClick(displayedSuggestions[activeSuggestionIndex]);
+                    } else {
+                        setShouldShowSuggestions(false);
+                    }
                 }
                 break;
             case KEY.ESC:

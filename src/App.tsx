@@ -10,6 +10,7 @@ import './App.less';
 import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
 import VeiviserPlaceholder from "./saksoversikt/statiskeDemoSider/VeiviserPlaceholder";
 import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
+import Saksoversikt from "./saksoversikt/Saksoversikt";
 import Link from "./link";
 
 const store = configureStore();
@@ -25,7 +26,8 @@ const App: React.FC = () => {
 						<Route path="/saksoversikt" component={SaksoversiktRouter} />
 						<Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
 						<Route path="/innsyn/link"  component={Link} />
-						<Route path="/innsyn" component={InnsynRouter} />
+						<Route path="/innsyn/*" component={InnsynRouter} />
+						<Route path="/innsyn" component={Saksoversikt} />
 					</Switch>
 				</ConnectedRouter>
 			</IntlProvider>

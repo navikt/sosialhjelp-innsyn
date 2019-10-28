@@ -17,11 +17,11 @@ export function erMedLoginApi(): boolean {
 export function getApiBaseUrl(): string {
     if (erDev()) {
         if (erMedLoginApi) {
-            return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1/innsyn";
+            return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/innsyn";
     } else {
-        return getAbsoluteApiUrl() + "api/v1/innsyn"
+        return getAbsoluteApiUrl() + "api/v1"
     }
 }
 
@@ -58,13 +58,12 @@ export enum REST_STATUS {
 export const getHeaders = () => {
     let headers = new Headers({
         "Content-Type": "application/json",
+        // "X-XSRF-TOKEN": getCookie("XSRF-TOKEN-SOKNAD-API"),
         "Accept": "application/json, text/plain, */*"
     });
     if (erHeroku() || (erDev() && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken")
     }
-    console.log("HEADERS: " + headers);
-    console.log("HEADERS: " + headers.values());
     return headers;
 };
 
@@ -72,11 +71,10 @@ export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
 }
 
-export const serverRequest = (method: string, urlPath: string, body: string|null) => {
+export const serverRequest = (method: string, urlPath: string, body: string|null|FormData) => {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
-        credentials: determineCredentialsParameter(),
-        method: method,
+        method,
         body: body ? body : undefined
     };
 
@@ -133,6 +131,22 @@ function determineCredentialsParameter() {
     return window.location.origin.indexOf("nais.oera") || erDev() || "heroku" ? "include" : "same-origin";
 }
 
+export function getCookie(name: string) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) {
+        let partsPopped: string | undefined = parts.pop();
+        if (partsPopped){
+            const partsPoppedSplitAndShift = partsPopped.split(";").shift();
+            return  partsPoppedSplitAndShift ? partsPoppedSplitAndShift : "null"
+        } else {
+            return "null"
+        }
+    } else {
+        return "null";
+    }
+}
+
 export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);
 }
@@ -141,14 +155,13 @@ export function fetchPut(urlPath: string, body: string) {
     return serverRequest(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string) {
+export function fetchPost(urlPath: string, body: string|FormData) {
     return serverRequest(RequestMethod.POST, urlPath, body);
 }
 
 export function fetchDelete(urlPath: string) {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
-        credentials: determineCredentialsParameter(),
         method: RequestMethod.DELETE
     };
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
