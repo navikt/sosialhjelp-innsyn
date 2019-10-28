@@ -29,6 +29,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
     const tilgjengeligeKommunerService = useTilgjengeligeKommunerService();
 
     const onSelect = (suggestion: Suggestion) => {
+        onReset();
         if (tilgjengeligeKommunerService.restStatus === REST_STATUS.OK) {
             let kommune: KommuneTilgjengelighet | undefined;
             kommune = finnTilgjengeligKommune(tilgjengeligeKommunerService.payload.results, suggestion.key);
