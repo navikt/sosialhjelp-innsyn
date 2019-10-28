@@ -9,25 +9,35 @@ import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 
-const SakPanel: React.FC<{fiksDigisosId: string, tittel: string, status: string, oppdatert: string, key: string, antalNyeOppgaver?: number}> = ({fiksDigisosId, tittel, status, oppdatert, antalNyeOppgaver}) => {
+const SakPanel: React.FC<{fiksDigisosId: string, tittel: string, status: string, oppdatert: string, key: string, url: string, antalNyeOppgaver?: number}> = ({fiksDigisosId, tittel, status, oppdatert, url, antalNyeOppgaver}) => {
+
+    const onClick = (event: any) => {
+        if(fiksDigisosId === null) {
+            window.location.href = url;
+        } else {
+            dispatch(push("innsyn/" + fiksDigisosId + "/status"));event.preventDefault();
+        }
+    };
 
     const dispatch = useDispatch();
     return (
-        <LenkepanelBase onClick={(event: any) => {dispatch(push("innsyn/" + fiksDigisosId + "/status"));event.preventDefault()}} className="panel-glippe-over" href="#">
+        <LenkepanelBase onClick={onClick} className="panel-glippe-over" href="#">
             <div className="sakpanel">
                 <div className="sakpanel_text">
                     <DocumentIcon className="document_icon"/>
                     <div className="sakpanel_innhold">
                         <div className="sakpanel_status">
+
                             <EtikettLiten>
-                                {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                {fiksDigisosId !== null && <> {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/></>}
+                                {fiksDigisosId === null && <> SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/></>}
                             </EtikettLiten>
                         </div>
                         <Element >{tittel}</Element>
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">
-                    {antalNyeOppgaver && (
+                    {antalNyeOppgaver !== undefined && antalNyeOppgaver >= 1 && (
                         <EtikettFokus><FormattedMessage id="saker.oppgave" values={{antall: antalNyeOppgaver}} /></EtikettFokus>
                     )}
                 </div>

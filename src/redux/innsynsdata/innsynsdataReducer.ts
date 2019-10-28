@@ -37,6 +37,7 @@ export interface Sakstype {
     sistOppdatert: string;
     antallNyeOppgaver: number;
     kilde: string;
+    url: string;
 }
 
 export interface Vedlegg {
