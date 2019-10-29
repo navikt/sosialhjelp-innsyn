@@ -15,7 +15,7 @@ import {
     settRestStatus
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {useDispatch} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
@@ -95,7 +95,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
         let formData = opprettFormDataMedVedlegg(oppgaver);
         const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
-        const path = innsynssdataUrl(fiksDigisosId, sti);
+        const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
         fetchPost(path, formData).then((filRespons: any) => {
