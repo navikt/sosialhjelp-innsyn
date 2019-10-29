@@ -16,22 +16,20 @@ const FerdigBehandlet: React.FC = () => {
                     {
                         tittel: "Nødhjelp",
                         status: Utfall.INNVILGET,
-                        vedtaksfiler: [
+                        vedtaksfilUrlList: [
                             {
-                                tidspunkt: "2018-10-04T13:42:00.134",
-                                beskrivelse: "Vedtaksbrev",
-                                filUrl: "filnavn_123"
+                                dato: "2018-10-04T13:42:00.134",
+                                vedtaksfilUrl: "filnavn_123"
                             }
                         ]
                     },
                     {
                         tittel: "Livsopphold og husleie",
                         status: Utfall.INNVILGET,
-                        vedtaksfiler: [
+                        vedtaksfilUrlList: [
                             {
-                                tidspunkt: "2018-10-04T13:42:00.134",
-                                beskrivelse: "Vedtaksbrev",
-                                filUrl: "filnavn_123"
+                                dato: "2018-10-04T13:42:00.134",
+                                vedtaksfilUrl: "filnavn_123"
                             }
                         ]
                     }

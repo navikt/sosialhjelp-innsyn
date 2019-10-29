@@ -15,16 +15,14 @@ const VedtakEtterFerdigBehandlet: React.FC = () => {
                     {
                         tittel: "Livsopphold og husleie",
                         status: Utfall.FERDIG_BEHANDLET,
-                        vedtaksfiler: [
+                        vedtaksfilUrlList: [
                             {
-                                tidspunkt: "2018-10-04T13:42:00.134",
-                                beskrivelse: "Vedtaksbrev",
-                                filUrl: "filnavn_123"
+                                dato: "2018-10-04T13:42:00.134",
+                                vedtaksfilUrl: "filnavn_123"
                             },
                             {
-                                tidspunkt: "2018-10-04T13:42:00.134",
-                                beskrivelse: "Vedtaksbrev",
-                                filUrl: "filnavn_123"
+                                dato: "2018-10-04T13:42:00.134",
+                                vedtaksfilUrl: "filnavn_123"
                             }
                         ]
                     }

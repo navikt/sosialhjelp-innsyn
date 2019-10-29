@@ -15,7 +15,7 @@ const BlirIkkeRealitetsbehandlet: React.FC = () => {
                     {
                         tittel: "Livsopphold",
                         status: Utfall.KAN_IKKE_VISES,
-                        vedtaksfiler: [],
+                        vedtaksfilUrlList: [],
                         melding: "Vi kan ikke vise behandlingsstatus på nett." +
                             "Dette kan være fordi søknaden behandles sammen med en annen søknad du " +
                             "har sendt inn. Ta kontakt med ditt NAV-kontor dersom du har spørsmål."

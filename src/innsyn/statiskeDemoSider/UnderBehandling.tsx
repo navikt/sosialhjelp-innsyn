@@ -16,12 +16,12 @@ const UnderBehandling: React.FC = () => {
 					{
 						tittel: "Nødhjelp",
 						status: Utfall.INNVILGET,
-						vedtaksfiler: []
+						vedtaksfilUrlList: []
 					},
 					{
 						tittel: "Livsopphold og husleie",
 						status: Utfall.DELVIS_INNVILGET, // "under behandling"
-						vedtaksfiler: []
+						vedtaksfilUrlList: []
 					}
 				]}
 			/>
