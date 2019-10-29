@@ -11,12 +11,6 @@ export enum Utfall {
     KAN_IKKE_VISES = "KAN_IKKE_VISES"
 }
 
-export interface Vedtaksfil {
-    tidspunkt: string;
-    beskrivelse: string;
-    filUrl: null|string;
-}
-
 export interface Utbetaling {
     tidspunkt: string;
     beskrivelse: string;
@@ -26,7 +20,7 @@ export interface Utbetaling {
 export interface SaksStatusState {
     tittel: string;
     status: Utfall;
-    vedtaksfiler: Vedtaksfil[];
+    vedtaksfilUrlList: VedtakFattet[];
     melding?: string;
 }
 
@@ -37,6 +31,7 @@ export interface Sakstype {
     sistOppdatert: string;
     antallNyeOppgaver: number;
     kilde: string;
+    url: string;
 }
 
 export interface Vedlegg {
@@ -111,6 +106,11 @@ export interface Hendelse {
     tidspunkt: string;
     beskrivelse: string;
     filUrl: null|string;
+}
+
+export interface VedtakFattet {
+    dato: string;
+    vedtaksfilUrl: null|string;
 }
 
 export interface InnsynsdataType {

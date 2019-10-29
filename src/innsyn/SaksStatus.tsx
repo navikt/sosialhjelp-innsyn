@@ -10,6 +10,7 @@ import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
 import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
+import {useIntl} from 'react-intl';
 
 interface Props {
     match: {
@@ -23,6 +24,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const soknadId = match.params.soknadId;
 
     const dispatch = useDispatch();
+    const intl = useIntl();
 
     useEffect(() => {
         const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
@@ -70,7 +72,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 className="panel-luft-over"
                 arkfaner={[
                     {
-                        tittel: "Historikk",
+                        tittel: intl.formatMessage({id:'historikk.tittel'}),
                         content: (
                             <Historikk
                                 hendelser={innsynsdata.hendelser}
@@ -79,7 +81,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         )
                     },
                     {
-                        tittel: "Dine vedlegg",
+                        tittel: intl.formatMessage({id:'vedlegg.tittel'}),
                         content: (
                             <VedleggView
                                 vedlegg={innsynsdata.vedlegg}

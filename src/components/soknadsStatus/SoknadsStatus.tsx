@@ -4,7 +4,7 @@ import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-t
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import {Hendelse, SaksStatusState, Utfall} from "../../redux/innsynsdata/innsynsdataReducer";
+import { SaksStatusState, Utfall, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -71,7 +71,7 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 					<div className="panel-glippe-over">
 						<Normaltekst>
 							Vi kan ikke vise behandlingsstatus på nett. Dette kan være fordi
-							søknaden behandles sammen med en anne søknad du har sendt inn.
+							søknaden behandles sammen med en annen søknad du har sendt inn.
 							Ta kontakt med ditt NAV-kontor dersom du har spørsmål
 						</Normaltekst>
 					</div>
@@ -90,11 +90,11 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 							</div>
 						)}
 
-						{statusdetalj.vedtaksfiler && statusdetalj.vedtaksfiler.map((hendelse: Hendelse, index: number) => (
+						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
-								<EksternLenke href={"todo_url_" + hendelse.filUrl}>
-									{hendelse.beskrivelse}&nbsp;
-									(<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.tidspunkt}/>)
+								<EksternLenke href={"" + hendelse.vedtaksfilUrl}>
+									Vedtaksbrev
+									(<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato}/>)
 								</EksternLenke>
 							</div>
 						))}

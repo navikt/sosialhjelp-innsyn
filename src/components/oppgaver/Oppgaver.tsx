@@ -19,6 +19,7 @@ import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsD
 import {useDispatch} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -141,7 +142,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                     <Lastestriper linjer={1}/>
                 )}
                 {!leserData && (
-                    <Systemtittel>Dine oppgaver</Systemtittel>
+                    <Systemtittel>
+                        <FormattedMessage id="oppgaver.dine_oppgaver"/>
+                    </Systemtittel>
                 )}
             </Panel>
             <Panel
@@ -157,9 +160,11 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                             <TodoList/>
                         </span>
                         <div style={{paddingLeft: "38px"}}>
-                            <Element>Du har ingen oppgaver.</Element>
+                            <Element>
+                                <FormattedMessage id="oppgaver.ingen_oppgaver"/>
+                            </Element>
                             <Normaltekst>
-                                Du vil få beskjed hvis det er noe du må gjøre.
+                                <FormattedMessage id="oppgaver.beskjed"/>
                             </Normaltekst>
                         </div>
                     </>
@@ -170,32 +175,51 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         <div className="oppgaver_header">
                             <DokumentBinder/>
                             <div>
-                                <Element>{(oppgaverErFraInnsyn ? "Du må sende dokumentasjon til veileder" : "Du må sende inn dokumentasjon")}</Element>
+                                <Element>
+                                    {oppgaverErFraInnsyn && (
+                                        <FormattedMessage id="oppgaver.maa_sende_dok_veileder"/>
+                                    )}
+                                    {!oppgaverErFraInnsyn && (
+                                        <FormattedMessage id="oppgaver.maa_sende_dok"/>
+                                    )}
+                                </Element>
                                 <Normaltekst>
-                                    {oppgaver !== null && oppgaver.length} vedlegg mangler
+                                    {oppgaver !== null && oppgaver.length && (
+                                        <FormattedMessage id="oppgaver.vedlegg_mangler"
+                                                          values={{antall: oppgaver.length}}/>
+                                    )}
                                     <br/>
-                                    {oppgaverErFraInnsyn && ("Neste frist for innlevering er " + innsendelsesfrist)}
+                                    {oppgaverErFraInnsyn && (
+                                        <FormattedMessage
+                                            id="oppgaver.innsendelsesfrist"
+                                            values={{innsendelsesfrist: innsendelsesfrist}}
+                                        />
+                                    )}
+
                                 </Normaltekst>
                             </div>
                         </div>
                     )}>
                         {(oppgaverErFraInnsyn ? <Normaltekst>
-                            Veilederen trenger mer dokumentasjon for å behandle søknaden din.
-                            Hvis du ikke leverer dokumentasjonen innen fristen, blir
-                            søknaden behandlet med den informasjonen vi har.
+                            <FormattedMessage id="oppgaver.veileder_trenger_mer"/>
                         </Normaltekst> : <Normaltekst>
-                            Last opp vedlegg du ikke lastet opp da du sendte søknaden.
-                            Vi anbefaler at du ettersender vedlegg så snart som mulig og helst innen 14 dager.
-                            Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi
-                            har.
+                            <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke"/>
                         </Normaltekst>)}
-                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å
-                            laste opp?</Lenke>
+                        <Lenke
+                            href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Teknisk+brukerstotte/hjelp-til-personbruker?kap=398773"
+                            className="luft_over_10px luft_under_1rem lenke_uten_ramme"
+                        >
+                            <FormattedMessage id="oppgaver.hjelp_last_opp"/>
+                        </Lenke>
 
                         <div className="oppgaver_detaljer">
                             {oppgaverErFraInnsyn && (
-                                <Normaltekst className="luft_under_8px">Frist for innlevering
-                                    er {innsendelsesfrist}</Normaltekst>
+                                <Normaltekst className="luft_under_8px">
+                                    <FormattedMessage
+                                        id="oppgaver.neste_frist"
+                                        values={{innsendelsesfrist: innsendelsesfrist}}
+                                    />
+                                </Normaltekst>
                             )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
                                 <OppgaveView oppgave={oppgave} key={index} id={index}/>
@@ -208,7 +232,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                             className="luft_over_2rem luft_under_1rem"
                             onClick={(event: any) => sendVedlegg(event)}
                         >
-                            Send til veileder
+                            <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+
                         </Hovedknapp>
                     </EkspanderbartpanelBase>
 
