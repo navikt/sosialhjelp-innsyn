@@ -76,6 +76,7 @@ export const serverRequest = (method: string, urlPath: string, body: string|null
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
         method: method,
+        credentials: determineCredentialsParameter(),
         body: body ? body : undefined
     };
 
