@@ -6,6 +6,7 @@ import {Fil, InnsynsdataActionTypeKeys, Oppgave} from "../../redux/innsynsdata/i
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
+import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -54,7 +55,7 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
                     className="fjern_lenke lenke_uten_ramme"
                     onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onSlettClick(event)}
                 >
-                    Fjern
+                    <FormattedMessage id="vedlegg.fjern"/>
                 </Lenke>
                 <button
                     className="lenke"

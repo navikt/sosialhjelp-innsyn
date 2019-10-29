@@ -71,7 +71,7 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 					<div className="panel-glippe-over">
 						<Normaltekst>
 							Vi kan ikke vise behandlingsstatus på nett. Dette kan være fordi
-							søknaden behandles sammen med en anne søknad du har sendt inn.
+							søknaden behandles sammen med en annen søknad du har sendt inn.
 							Ta kontakt med ditt NAV-kontor dersom du har spørsmål
 						</Normaltekst>
 					</div>

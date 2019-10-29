@@ -6,6 +6,7 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
+import {FormattedMessage} from "react-intl";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -42,7 +43,9 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         </Element>
                         <Normaltekst>{hendelse.beskrivelse}</Normaltekst>
                         {hendelse.filUrl && (
-                            <EksternLenke href={"url_todo_" + hendelse.filUrl}>Se vedtaksbrev</EksternLenke>
+                            <EksternLenke href={"url_todo_" + hendelse.filUrl}>
+                                <FormattedMessage id="historikk.se_vedtaksbrev"/>
+                            </EksternLenke>
                         )}
                     </li>
                 );

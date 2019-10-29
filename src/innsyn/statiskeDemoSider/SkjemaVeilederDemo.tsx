@@ -7,7 +7,7 @@ import Lenke from "nav-frontend-lenker";
 * */
 const SkjemaVeilederDemo: React.FC = () => {
 
-    const [visKommunesok, setVisKommunesok] = useState<boolean>(true); // TODO sett til false
+    const [visKommunesok, setVisKommunesok] = useState<boolean>(true);
     const onCloseKommunesok = (): void => {
         setVisKommunesok(false);
     };
