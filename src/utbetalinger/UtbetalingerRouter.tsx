@@ -3,8 +3,7 @@ import AppBanner from "../components/appBanner/AppBanner";
 import {ConnectedRouter} from "connected-react-router";
 import {history} from "../configureStore";
 import BrodsmuleSti from "../components/brodsmuleSti/BrodsmuleSti";
-import {Route, Switch} from "react-router";
-import UtbetalingerDemo from "./statiskeDemoSider/UtbetalingerDemo";
+import {Switch} from "react-router";
 
 const UtbetalingerRouter: React.FC = () => {
     return (
@@ -14,7 +13,7 @@ const UtbetalingerRouter: React.FC = () => {
                 <div className="utbetalinger-blokk-center">
                     <BrodsmuleSti/>
                     <Switch>
-                        <Route exact path="/innsyn/utbetalinger/demo" component={UtbetalingerDemo}/>
+
                     </Switch>
                 </div>
             </ConnectedRouter>
