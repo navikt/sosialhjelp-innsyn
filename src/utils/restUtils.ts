@@ -121,7 +121,7 @@ function sjekkStatuskode(response: Response) {
 }
 
 function determineCredentialsParameter() {
-    return window.location.origin.indexOf("nais.oera") || erDev() || "heroku" ? "include" : "same-origin";
+    return window.location.origin.indexOf("nais.oera") || erDev() || erHeroku() ? "include" : "same-origin";
 }
 
 export function getCookie(name: string) {
