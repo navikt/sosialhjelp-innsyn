@@ -110,12 +110,10 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                 {midlertidigNede && (
                                     <>
                                         <Undertittel className="nySoknadModal__tittel">
-                                            {currentSuggestion.value} kommune kan ikke ta i mot digitale søknader
-                                            akkurat nå.
-                                            Prøv igjen senere, eller søk på papirskjema.
+                                            {currentSuggestion.value} <FormattedMessage id={"nySoknadModal.midlertidig_nede"} />
                                         </Undertittel>
                                         <Normaltekst className="nySoknadModal__normaltekst">
-                                            Din kommune
+                                            <FormattedMessage id={"nySoknadModal.din_kommune"}/>
                                         </Normaltekst>
                                     </>
                                 )}
@@ -124,23 +122,22 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                         {soknadTilgjengelig && (
                                             <>
                                                 <Undertittel className="nySoknadModal__tittel">
-                                                    Du kan søke digitalt i {currentSuggestion.value} kommune.
+                                                    <FormattedMessage id={"nySoknadModal.soknad_tilgjengelig.undertittel.part1"} />
+                                                    {currentSuggestion.value}
+                                                    <FormattedMessage id={"nySoknadModal.soknad_tilgjengelig.undertittel.part2"} />
                                                 </Undertittel>
                                                 <Normaltekst className="nySoknadModal__normaltekst">
-                                                    Din kommune
+                                                    <FormattedMessage id={"nySoknadModal.din_kommune"} />
                                                 </Normaltekst>
                                             </>
                                         )}
                                         {!soknadTilgjengelig && (
                                             <>
                                                 <Undertittel className="nySoknadModal__tittel">
-                                                    {currentSuggestion.value} kommune kan ikke ta i mot digitale
-                                                    søknader
-                                                    ennå.
-                                                    Du kan søke på papirskjema.
+                                                    {currentSuggestion.value} <FormattedMessage id={"nySoknadModal.soknad_ikke_tilgjengelig"} />
                                                 </Undertittel>
                                                 <Normaltekst className="nySoknadModal__normaltekst">
-                                                    Din kommune
+                                                    <FormattedMessage id={"nySoknadModal.din_kommune"} />
                                                 </Normaltekst>
                                             </>
                                         )}
@@ -154,10 +151,10 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                         {currentSuggestion === null && (
                             <>
                                 <Undertittel className="nySoknadModal__tittel">
-                                    Sjekk om du kan søke digitalt i kommunen din
+                                    <FormattedMessage id={"nySoknadModal.current_suggestion_null"} />
                                 </Undertittel>
                                 <Normaltekst className="nySoknadModal__normaltekst">
-                                    Din kommune
+                                    <FormattedMessage id={"nySoknadModal.din_kommune"} />
                                 </Normaltekst>
                             </>
                         )}
@@ -171,7 +168,7 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                 onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
                                 onReset={() => onReset()}
                                 feil={(visFeilmelding && currentSuggestion === null) ?
-                                    "Du må skrive inn navnet på kommunen din før du kan gå videre" : undefined
+                                    "nySoknadModal.feil_tom_kommunenavn" : undefined
                                 }
                             />
                         )}
@@ -184,7 +181,11 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                 <FormattedMessage id="nySoknadModal.sok_digitalt"/>
                             </Knapp>
                             <Normaltekst>
-                                <b><Lenke href={sokPaaPapirUrl}>Jeg skal ikke søke digitalt</Lenke></b>
+                                <b>
+                                    <Lenke href={sokPaaPapirUrl}>
+                                        <FormattedMessage id="nySoknadModal.skal_ikke_soke_digitalt"/>
+                                    </Lenke>
+                                </b>
                             </Normaltekst>
 
                         </div>
