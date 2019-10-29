@@ -67,13 +67,18 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
             </div>
 
         { paginerteSaker.map((sak) => {
+                let key = sak.fiksDigisosId;
+                if(sak.fiksDigisosId == null) {
+                    key = sak.soknadTittel
+                }
                 return (
                     <SakPanel
                         fiksDigisosId={sak.fiksDigisosId}
                         tittel={sak.soknadTittel}
                         status={sak.status}
                         oppdatert={sak.sistOppdatert}
-                        key={sak.fiksDigisosId}
+                        key={key}
+                        url={sak.url}
                         antalNyeOppgaver={sak.antallNyeOppgaver}
                     />
                 )
