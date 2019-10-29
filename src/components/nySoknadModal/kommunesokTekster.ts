@@ -1,6 +1,3 @@
-import {Undertittel} from "nav-frontend-typografi";
-import React from "react";
-
 export const kommunesokTekster = {
     "nb": {
         "nySoknadModal.sok_digitalt": "Søk digitalt",
