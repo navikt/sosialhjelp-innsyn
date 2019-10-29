@@ -124,22 +124,6 @@ function determineCredentialsParameter() {
     return window.location.origin.indexOf("nais.oera") || erDev() || erHeroku() ? "include" : "same-origin";
 }
 
-export function getCookie(name: string) {
-    const value = "; " + document.cookie;
-    const parts = value.split("; " + name + "=");
-    if (parts.length === 2) {
-        let partsPopped: string | undefined = parts.pop();
-        if (partsPopped){
-            const partsPoppedSplitAndShift = partsPopped.split(";").shift();
-            return  partsPoppedSplitAndShift ? partsPoppedSplitAndShift : "null"
-        } else {
-            return "null"
-        }
-    } else {
-        return "null";
-    }
-}
-
 export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);
 }
