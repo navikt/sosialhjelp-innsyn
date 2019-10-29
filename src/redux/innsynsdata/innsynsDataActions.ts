@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {fetchToJson, REST_STATUS} from "../../utils/restUtils";
+import {fetchToJson, HttpStatus, REST_STATUS} from "../../utils/restUtils";
 import {InnsynsdataSti, oppdaterInnsynsdataState, settRestStatus} from "./innsynsdataReducer";
 import {history} from "../../configureStore";
 
@@ -13,8 +13,12 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
             dispatch(oppdaterInnsynsdataState(sti, response));
             dispatch(settRestStatus(sti, REST_STATUS.OK));
         }).catch((reason) => {
-            dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-            history.push("/feil");
+            if (reason.message === HttpStatus.UNAUTHORIZED) {
+                dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+            } else {
+                dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                history.push("/feil");
+            }
         });
     }
 }
@@ -27,9 +31,13 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
             dispatch(oppdaterInnsynsdataState(sti, response));
             dispatch(settRestStatus(sti, REST_STATUS.OK));
         }).catch((reason) => {
-            dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-            if (visFeilSide !== false) {
-                history.push("feil");
+            if (reason.message === HttpStatus.UNAUTHORIZED) {
+                dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+            } else {
+                dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                if (visFeilSide !== false) {
+                    history.push("feil");
+                }
             }
        });
     }
