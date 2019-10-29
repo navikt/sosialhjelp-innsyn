@@ -9,7 +9,7 @@ const SaksoversiktBanner: React.FC<{children: React.ReactNode } & {}> = ({childr
             <div className="blokk-center">
                 <p className="saksoversikt-banner__brodsmulesti">
                     <UserIcon />
-                    <Lenke href={"/todo"}>Ditt NAV</Lenke>&nbsp;/ Økonomisk sosialhjelp
+                    <Lenke href={"https://tjenester.nav.no/dittnav/oversikt"}>Ditt NAV</Lenke>&nbsp;/ Økonomisk sosialhjelp
                 </p>
                 <h1 className="saksoversikt-banner__tittel">
                     {children}

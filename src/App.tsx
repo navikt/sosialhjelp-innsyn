@@ -14,11 +14,20 @@ import Saksoversikt from "./saksoversikt/Saksoversikt";
 
 const store = configureStore();
 
+const visSpraakNokler = (tekster: any) => {
+	if (window.location.href.match(/\\?vistekster=true$/)){
+		Object.keys(tekster).map((key: string) => {
+			return tekster[key] = tekster[key] + "[" + key + "]";
+		});
+	}
+	return tekster;
+};
+
 const App: React.FC = () => {
 	const language = "nb";
 	return (
 		<Provider store={store}>
-			<IntlProvider defaultLocale={language} locale={language} messages={tekster[language]}>
+			<IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
 				<ConnectedRouter history={history}>
 					<Switch>
 						<Route exact path="/" component={VeiviserPlaceholder} />

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import {Checkbox} from "nav-frontend-skjema";
 import Lenke from "nav-frontend-lenker";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {Fil, InnsynsdataActionTypeKeys, Oppgave, Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -9,6 +8,7 @@ import FilView from "./FilView";
 import {useDispatch} from "react-redux";
 import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedleggskravVisningConfig";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
     oppgave: Oppgave;
@@ -83,12 +83,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                         {tilleggsinfoTekst}
                     </Normaltekst>)}
 
-                {!oppgave.vedlegg && (
-                    <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
-                )}
-                {oppgave.vedlegg && oppgave.vedlegg.length === 0 && (
-                    <Checkbox label={'Dette har jeg levert'} className="luft_over_1rem"/>
-                )}
                 {oppgave.vedlegg && oppgave.vedlegg.length > 0 && oppgave.vedlegg.map((vedlegg: Vedlegg, index: number) =>
                     <VedleggActionsView vedlegg={vedlegg} key={index}/>
                 )}
@@ -103,11 +97,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                         onClick={(event: any) => {onLinkClicked(event)}}
                     />
                     <Lenke
-                        href="#todo"
+                        href="#"
                         className="lenke_uten_ramme"
                         onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onLinkClicked(event)}}
                     >
-                        <Element>Velg fil</Element>
+                        <Element>
+                            <FormattedMessage id="vedlegg.velg_fil"/>
+                        </Element>
                     </Lenke>
                     <input
                         type="file"
@@ -122,7 +118,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
 
             {antallUlovligeFiler > 0 && (
                 <div className="oppgaver_vedlegg_feilmelding">
-                    En eller flere filer ble ikke lagt til. Du kan bare laste opp filer av typen JPG, PNG, PDF.
+                    <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
                 </div>
             )}
 

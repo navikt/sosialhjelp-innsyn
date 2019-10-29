@@ -15,18 +15,19 @@ import {
     settRestStatus
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {hentInnsynsdata, innsynssdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {useDispatch} from "react-redux";
-import {getApiBaseUrl, REST_STATUS} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
-    oppgaver: null|Oppgave[];
+    oppgaver: null | Oppgave[];
     leserData?: boolean;
     soknadId?: any;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]): string {
+function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
     if (oppgaver === null) {
         return "";
     }
@@ -38,7 +39,7 @@ function foersteInnsendelsesfrist(oppgaver: null|Oppgave[]): string {
     return innsendelsesfrist;
 }
 
-function genererMetatadataJson(oppgaver: null|Oppgave[]) {
+function genererMetatadataJson(oppgaver: null | Oppgave[]) {
     let metadata: any[] = [];
     oppgaver && oppgaver.map((oppgave: Oppgave) => {
         let filnavnArr: any[] = [];
@@ -92,45 +93,35 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
         }
 
         let formData = opprettFormDataMedVedlegg(oppgaver);
-
         const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
-        const url = getApiBaseUrl() + innsynssdataUrl(fiksDigisosId, sti);
+        const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
-        fetch(url, {
-            method: 'POST',
-            body: formData,
-            headers: new Headers({
-                "Authorization": "Bearer 1234",
-                "Accept": "*/*"
-            })
-        }).then((response: Response) => {
+        fetchPost(path, formData).then((filRespons: any) => {
             let harFeil: boolean = false;
-
-            response.json().then((json: JSON) => {
-                const filRespons = JSON.parse(JSON.stringify(json));
-                if (Array.isArray(filRespons)) {
-                    for (var index = 0; index < filRespons.length; index++) {
-                        const fileItem = filRespons[index];
-                        if (fileItem.status !== "OK") {
-                            harFeil = true;
-                        }
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                            filnavn: fileItem.filnavn,
-                            status: fileItem.status
-                        });
+            if (Array.isArray(filRespons)) {
+                for (var index = 0; index < filRespons.length; index++) {
+                    const fileItem = filRespons[index];
+                    if (fileItem.status !== "OK") {
+                        harFeil = true;
                     }
+                    dispatch({
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                        filnavn: fileItem.filnavn,
+                        status: fileItem.status
+                    });
                 }
-            });
-
+            }
             if (!harFeil) {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
             }
+        }).catch((reason: any) => {
+            console.log("Feil med opplasting av vedlegg");
         });
+
         event.preventDefault()
     };
 
@@ -151,10 +142,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                     <Lastestriper linjer={1}/>
                 )}
                 {!leserData && (
-                    <Systemtittel>Dine oppgaver</Systemtittel>
+                    <Systemtittel>
+                        <FormattedMessage id="oppgaver.dine_oppgaver"/>
+                    </Systemtittel>
                 )}
             </Panel>
-            <Panel className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
+            <Panel
+                className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
 
                 {leserData && (
                     <Lastestriper linjer={1}/>
@@ -166,9 +160,11 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                             <TodoList/>
                         </span>
                         <div style={{paddingLeft: "38px"}}>
-                            <Element>Du har ingen oppgaver.</Element>
+                            <Element>
+                                <FormattedMessage id="oppgaver.ingen_oppgaver"/>
+                            </Element>
                             <Normaltekst>
-                                 Du vil få beskjed hvis det er noe du må gjøre.
+                                <FormattedMessage id="oppgaver.beskjed"/>
                             </Normaltekst>
                         </div>
                     </>
@@ -179,29 +175,51 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                         <div className="oppgaver_header">
                             <DokumentBinder/>
                             <div>
-                                <Element>{(oppgaverErFraInnsyn ? "Du må sende dokumentasjon til veileder" : "Du må sende inn dokumentasjon")}</Element>
+                                <Element>
+                                    {oppgaverErFraInnsyn && (
+                                        <FormattedMessage id="oppgaver.maa_sende_dok_veileder"/>
+                                    )}
+                                    {!oppgaverErFraInnsyn && (
+                                        <FormattedMessage id="oppgaver.maa_sende_dok"/>
+                                    )}
+                                </Element>
                                 <Normaltekst>
-                                    {oppgaver !== null && oppgaver.length} vedlegg mangler
+                                    {oppgaver !== null && oppgaver.length && (
+                                        <FormattedMessage id="oppgaver.vedlegg_mangler"
+                                                          values={{antall: oppgaver.length}}/>
+                                    )}
                                     <br/>
-                                    {oppgaverErFraInnsyn && ("Neste frist for innlevering er " + innsendelsesfrist)}
+                                    {oppgaverErFraInnsyn && (
+                                        <FormattedMessage
+                                            id="oppgaver.innsendelsesfrist"
+                                            values={{innsendelsesfrist: innsendelsesfrist}}
+                                        />
+                                    )}
+
                                 </Normaltekst>
                             </div>
                         </div>
                     )}>
                         {(oppgaverErFraInnsyn ? <Normaltekst>
-                            Veilederen trenger mer dokumentasjon for å behandle søknaden din.
-                            Hvis du ikke leverer dokumentasjonen innen fristen, blir
-                            søknaden behandlet med den informasjonen vi har.
+                            <FormattedMessage id="oppgaver.veileder_trenger_mer"/>
                         </Normaltekst> : <Normaltekst>
-                            Last opp vedlegg du ikke lastet opp da du sendte søknaden.
-                            Vi anbefaler at du ettersender vedlegg så snart som mulig og helst innen 14 dager.
-                            Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi har.
+                            <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke"/>
                         </Normaltekst>)}
-                        <Lenke href="./todo" className="luft_over_10px luft_under_1rem lenke_uten_ramme">Hjelp til å laste opp?</Lenke>
+                        <Lenke
+                            href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Teknisk+brukerstotte/hjelp-til-personbruker?kap=398773"
+                            className="luft_over_10px luft_under_1rem lenke_uten_ramme"
+                        >
+                            <FormattedMessage id="oppgaver.hjelp_last_opp"/>
+                        </Lenke>
 
                         <div className="oppgaver_detaljer">
                             {oppgaverErFraInnsyn && (
-                                <Normaltekst className="luft_under_8px">Frist for innlevering er {innsendelsesfrist}</Normaltekst>
+                                <Normaltekst className="luft_under_8px">
+                                    <FormattedMessage
+                                        id="oppgaver.neste_frist"
+                                        values={{innsendelsesfrist: innsendelsesfrist}}
+                                    />
+                                </Normaltekst>
                             )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
                                 <OppgaveView oppgave={oppgave} key={index} id={index}/>
@@ -214,7 +232,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                             className="luft_over_2rem luft_under_1rem"
                             onClick={(event: any) => sendVedlegg(event)}
                         >
-                            Send til veileder
+                            <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+
                         </Hovedknapp>
                     </EkspanderbartpanelBase>
 

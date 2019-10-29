@@ -5,9 +5,22 @@ export function erDev(): boolean {
     return (url.indexOf("localhost:3000") > 0);
 }
 
+export function erHeroku(): boolean {
+    const url = window.location.origin;
+    return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0);
+}
+
+export function erMedLoginApi(): boolean {
+    // return true; // Uncomment om testing via login-api
+    return false
+}
+
 export function getApiBaseUrl(): string {
     if (erDev()) {
-        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
+        if (erMedLoginApi) {
+            return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
+        }
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/";
     } else {
         return getAbsoluteApiUrl() + "api/v1"
     }
@@ -39,21 +52,31 @@ export enum REST_STATUS {
     OK = "OK",
     FEILET = "FEILET",
     PENDING = "PENDING",
-    INITIALISERT = "INITIALISERT"
+    INITIALISERT = "INITIALISERT",
+    UNAUTHORIZED = "UNAUTHORIZED"
 }
 
-const getHeaders = () => {
-    return new Headers({
+export const getHeaders = () => {
+    let headers = new Headers({
         "Content-Type": "application/json",
-        "Authorization": "1234", // TODO: Ikke hardkodet Authorization id
+        // "X-XSRF-TOKEN": getCookie("XSRF-TOKEN-SOKNAD-API"),
         "Accept": "application/json, text/plain, */*"
     });
+    if (erHeroku() || (erDev() && !erMedLoginApi())) {
+        headers.append("Authorization", "dummytoken")
+    }
+    return headers;
 };
 
-export const serverRequest = (method: string, urlPath: string, body: string|null) => {
+export enum HttpStatus {
+    UNAUTHORIZED = "unauthorized",
+}
+
+export const serverRequest = (method: string, urlPath: string, body: string|null|FormData) => {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
-        method,
+        method: method,
+        credentials: determineCredentialsParameter(),
         body: body ? body : undefined
     };
 
@@ -79,14 +102,26 @@ function sjekkStatuskode(response: Response) {
     if (response.status === 401){
         console.warn("Bruker er ikke logget inn.");
         response.json().then(r => {
-            window.location.href = r.loginUrl + "?redirect=/sosialhjelp/innsyn";
+            if (window.location.search.split("error_id=")[1] !== r.id) {
+                const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
+                const redirectUrl = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
+                console.warn("Redirect til " + redirectUrl);
+                window.location.href = redirectUrl;
+            } else {
+                // TODO: må sende log til server (se sosialhjelp-soknad)
+                console.error("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
+            }
         });
-        return response;
+        throw new Error(HttpStatus.UNAUTHORIZED);
     }
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
     throw new Error(response.statusText);
+}
+
+function determineCredentialsParameter() {
+    return window.location.origin.indexOf("nais.oera") || erDev() || erHeroku() ? "include" : "same-origin";
 }
 
 export function fetchToJson(urlPath: string) {
@@ -97,7 +132,7 @@ export function fetchPut(urlPath: string, body: string) {
     return serverRequest(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string) {
+export function fetchPost(urlPath: string, body: string|FormData) {
     return serverRequest(RequestMethod.POST, urlPath, body);
 }
 
@@ -109,3 +144,9 @@ export function fetchDelete(urlPath: string) {
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
 }
 
+export function getRedirectPath(): string {
+    const currentOrigin = window.location.origin;
+    const gotoParameter = "?goto=" + window.location.pathname;
+    const redirectPath = currentOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
+    return 'redirect=' + redirectPath;
+}

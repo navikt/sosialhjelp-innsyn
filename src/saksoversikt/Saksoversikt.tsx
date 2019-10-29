@@ -4,20 +4,30 @@ import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
-import {InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {REST_STATUS} from "../utils/restUtils";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
 import BigBanner from "../components/banner/BigBanner";
+import useSoknadsSakerService, {} from "./sakerFraSoknad/useSoknadsSakerService";
 
 const Saksoversikt: React.FC = () => {
     const dispatch = useDispatch();
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const restStatus = innsynsdata.restStatus.saker;
-    const leserData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const saker = innsynsdata.saker;
+    const sakerFraSoknadResponse = useSoknadsSakerService();
+    const leserSaksData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const leserSoknadSaksData: boolean = sakerFraSoknadResponse.restStatus === REST_STATUS.INITIALISERT || sakerFraSoknadResponse.restStatus === REST_STATUS.PENDING;
+    const leserData: boolean = leserSaksData || leserSoknadSaksData;
+    let alleSaker: Sakstype[] = saker;
+    if(!leserData) {
+        if(sakerFraSoknadResponse.restStatus === REST_STATUS.OK) {
+            alleSaker = saker.concat(sakerFraSoknadResponse.payload.results);
+        }
+    }
     const harSaker = saker.length > 0;
 
     useEffect(() => {
@@ -48,7 +58,7 @@ const Saksoversikt: React.FC = () => {
                             <SaksoversiktIngenSoknader/>
                         )}
                         {harSaker && (
-                            <SaksoversiktDineSaker saker={saker} />
+                            <SaksoversiktDineSaker saker={alleSaker}/>
                          )}
                     </>
                 )}

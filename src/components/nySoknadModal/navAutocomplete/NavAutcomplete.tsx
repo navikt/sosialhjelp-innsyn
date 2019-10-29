@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "./navAutcomplete.less";
 import AutcompleteSuggestion from "./AutcompleteSuggestion";
 import {searchSuggestions} from "./AutcompleteUtils";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
     placeholder?: string;
@@ -75,7 +76,6 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                         setShouldShowSuggestions(false);
                     }
                 }
-
                 break;
             case KEY.ESC:
                 // Hvis man trykker Esc, og forslagslisten er synlig, så skal listen skjules.
@@ -230,7 +230,11 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                     />
                 ) )}
             </ul>
-            <div className="skjemaelement__feilmelding">{feil}</div>
+            {feil &&
+                <div className="skjemaelement__feilmelding">
+                    <FormattedMessage id={feil} />
+                </div>
+            }
         </div>
     );
 };
