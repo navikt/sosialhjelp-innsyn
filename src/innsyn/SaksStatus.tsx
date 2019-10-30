@@ -35,7 +35,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     useEffect(() => {
         const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
-        console.warn("restStatus " + restStatus.saksStatus);
         if (restStatus.saksStatus === REST_STATUS.OK) {
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SOKNADS_STATUS));
