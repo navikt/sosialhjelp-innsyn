@@ -1,0 +1,70 @@
+import * as React from "react";
+import UtropstegnSirkelGraIkon from "./UtropstegnSirkelGraIkon";
+import Knapp from "nav-frontend-knapper";
+import { Innholdstittel } from "nav-frontend-typografi";
+import './feilside.less';
+
+export interface FeilsideProps {
+	tittel?: string;
+	children: React.ReactNode;
+	feilkode?: string;
+	visKnapp?: boolean;
+	knappTekst?: string;
+	onClick?: (event: React.MouseEvent<any>) => void;
+}
+
+/**
+ * Default inneholder denne hardkodete tekster i og
+ * med det er ikke sikkert tekstressurser er tilgjengelig
+ */
+const FeilSide: React.StatelessComponent<FeilsideProps> = ({
+	tittel = "OOPS, NOE GIKK GALT",
+	children,
+	feilkode,
+	visKnapp,
+	knappTekst = "Gå tilbake",
+	onClick
+}) => {
+	return (
+ 		<span>
+			<div className="feilside skjema-content">
+
+				<div className="feilside__ikon">
+					<UtropstegnSirkelGraIkon />
+				</div>
+				<Innholdstittel className="feilside__tittel">{tittel}</Innholdstittel>
+				<div className="feilside__innhold">{children}</div>
+				{feilkode ? (
+					<div className="feilside__feilkode">Feilkode {feilkode}</div>
+				) : null}
+				{visKnapp ? (
+					<Knapp type="hoved" htmlType="button" onClick={onClick}>
+						{knappTekst}
+					</Knapp>
+				) : null}
+				<ul className="feilside__link-liste">
+					<li className="feilside__link">
+						<a href="http://www.nav.no" className="lenke">
+							Gå til forsiden nav.no
+						</a>
+					</li>
+					<li className="feilside__link">
+						<a href="https://www.nav.no/no/Ditt+NAV" className="lenke">
+							Gå til Ditt NAV
+						</a>
+					</li>
+					<li className="feilside__link">
+						<a
+							href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Klage+ris+og+ros/Feil+og+mangler+paa+navno"
+							className="lenke"
+						>
+							Meld fra om feil
+						</a>
+					</li>
+				</ul>
+			</div>
+		</span>
+	);
+};
+
+export default FeilSide;

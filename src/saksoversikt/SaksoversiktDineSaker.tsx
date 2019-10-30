@@ -17,7 +17,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const dispatch = useDispatch();
     const [periode, setPeriode] = useState<string>("alle");
 
-    let filtrerteSaker;
+    let filtrerteSaker:Sakstype[];
 
     const tolkPeriode = (periode: string) =>{
         return Number(periode);
@@ -39,7 +39,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
-    const paginerteSaker = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
+    const paginerteSaker:Sakstype[] = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
@@ -66,7 +66,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 </div>
             </div>
 
-        { paginerteSaker.map((sak) => {
+        { paginerteSaker.map((sak:Sakstype) => {
                 let key = sak.fiksDigisosId;
                 if(sak.fiksDigisosId == null) {
                     key = sak.soknadTittel

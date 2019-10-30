@@ -20,7 +20,7 @@ export function getApiBaseUrl(): string {
         if (erMedLoginApi) {
             return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
         }
-        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1/";
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     } else {
         return getAbsoluteApiUrl() + "api/v1"
     }
