@@ -22,23 +22,27 @@ interface Props {
 
 const SaksStatusView: React.FC<Props> = ({match}) => {
     const soknadId = match.params.soknadId;
-
+    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
+
     const intl = useIntl();
 
     useEffect(() => {
         const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
-        const restDataStier: InnsynsdataSti[] = [
-            InnsynsdataSti.SAKSSTATUS,
-            InnsynsdataSti.OPPGAVER,
-            InnsynsdataSti.SOKNADS_STATUS,
-            InnsynsdataSti.HENDELSER,
-            InnsynsdataSti.VEDLEGG
-        ];
-        restDataStier.map((restDataSti: InnsynsdataSti) =>
-            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
-        );
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
     }, [dispatch, soknadId]);
+
+    useEffect(() => {
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+        console.warn("restStatus " + restStatus.saksStatus);
+        if (restStatus.saksStatus === REST_STATUS.OK) {
+            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SOKNADS_STATUS));
+            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+        }
+    }, [dispatch, soknadId, innsynsdata.restStatus.saksStatus]);
 
     useEffect(() => {
         dispatch(setBrodsmuleSti([
@@ -46,13 +50,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
         ]))
     }, [dispatch]);
-
     const leserData = (restStatus: REST_STATUS): boolean => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
-
-    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const restStatus = innsynsdata.restStatus;
 
     return (
         <>
