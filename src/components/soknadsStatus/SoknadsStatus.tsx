@@ -10,8 +10,10 @@ import {FormattedMessage} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
+import DokumentSendt from "../ikoner/DokumentSendt";
 
 export enum SoknadsStatusEnum {
+	SENDT = "SENDT",
 	MOTTATT = "MOTTATT",
 	UNDER_BEHANDLING = "UNDER_BEHANDLING",
 	FERDIGBEHANDLET = "FERDIGBEHANDLET",
@@ -38,6 +40,12 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 			<div className="tittel_og_ikon">
 				{leserData && (
 					<Lastestriper linjer={1}/>
+				)}
+				{status === SoknadsStatusEnum.SENDT && (
+					<>
+						<Innholdstittel><FormattedMessage id="status.sendt" /></Innholdstittel>
+						<DokumentSendt />
+					</>
 				)}
 				{status === SoknadsStatusEnum.MOTTATT && (
 					<>
