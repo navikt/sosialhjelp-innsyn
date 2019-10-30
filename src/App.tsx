@@ -11,6 +11,7 @@ import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
 import VeiviserPlaceholder from "./saksoversikt/statiskeDemoSider/VeiviserPlaceholder";
 import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
+import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 
 const store = configureStore();
 
@@ -33,9 +34,11 @@ const App: React.FC = () => {
 						<Route exact path="/" component={VeiviserPlaceholder} />
 						<Route path="/saksoversikt" component={SaksoversiktRouter} />
 						<Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
-						<Route path="/innsyn/*" component={InnsynRouter} />
-						<Route path="/innsyn" component={Saksoversikt} />
-					</Switch>
+                        <Route exact path="/innsyn" component={Saksoversikt} />
+                        <Route exact path="/innsyn/" component={Saksoversikt} />
+                        <Route path="/innsyn/*" component={InnsynRouter} />
+                        <Route component={SideIkkeFunnet}/>
+                    </Switch>
 				</ConnectedRouter>
 			</IntlProvider>
 		</Provider>

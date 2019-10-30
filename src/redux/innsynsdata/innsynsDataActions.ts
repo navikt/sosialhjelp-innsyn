@@ -17,7 +17,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
                 dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                history.push("/feil");
+                history.push("/innsyn/feil");
             }
         });
     }
@@ -36,7 +36,7 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                 if (visFeilSide !== false) {
-                    history.push("feil");
+                    history.push("/innsyn/feil");
                 }
             }
        });

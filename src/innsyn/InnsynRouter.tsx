@@ -9,6 +9,7 @@ import SaksStatus from "./SaksStatus";
 import Feilside from "../components/feilside/Feilside";
 import VedleggsSide from "./VedleggsSide";
 import Linkside from "../components/linkside/Linkside";
+import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -25,6 +26,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/feil" component={Feilside}/>
                         <Route exact path="/innsyn/:soknadId/feil" component={Feilside}/>
                         <Route exact path="/innsyn/link" component={Linkside}/>
+                        <Route component={SideIkkeFunnet}/>
                     </Switch>
                 </div>
             </ConnectedRouter>
