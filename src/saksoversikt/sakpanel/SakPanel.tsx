@@ -25,7 +25,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         if(fiksDigisosId === null) {
             window.location.href = url;
         } else {
-            dispatch(push("innsyn/" + fiksDigisosId + "/status"));
+            dispatch(push("/innsyn/" + fiksDigisosId + "/status"));
             event.preventDefault();
         }
     };
