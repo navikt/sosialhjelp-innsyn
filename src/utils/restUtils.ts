@@ -17,7 +17,7 @@ export function erMedLoginApi(): boolean {
 
 export function getApiBaseUrl(): string {
     if (erDev()) {
-        if (erMedLoginApi) {
+        if (erMedLoginApi()) {
             return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
@@ -56,12 +56,18 @@ export enum REST_STATUS {
     UNAUTHORIZED = "UNAUTHORIZED"
 }
 
-export const getHeaders = () => {
+export const getHeaders = (contentType?: string) => {
     let headers = new Headers({
-        "Content-Type": "application/json",
-        // "X-XSRF-TOKEN": getCookie("XSRF-TOKEN-SOKNAD-API"),
+        "Content-Type": (contentType ? contentType : "application/json"),
         "Accept": "application/json, text/plain, */*"
     });
+    // Browser setter content type header automatisk til multipart/form-data: boundary xyz
+    if (contentType && contentType === "multipart/form-data") {
+        headers = new Headers({
+            "Accept": "application/json, text/plain, */*"
+        });
+    }
+
     if (erHeroku() || (erDev() && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken")
     }
@@ -72,9 +78,9 @@ export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
 }
 
-export const serverRequest = (method: string, urlPath: string, body: string|null|FormData) => {
+export const serverRequest = (method: string, urlPath: string, body: string|null|FormData, contentType?: string) => {
     const OPTIONS: RequestInit = {
-        headers: getHeaders(),
+        headers: getHeaders(contentType),
         method: method,
         credentials: determineCredentialsParameter(),
         body: body ? body : undefined
@@ -132,8 +138,8 @@ export function fetchPut(urlPath: string, body: string) {
     return serverRequest(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string|FormData) {
-    return serverRequest(RequestMethod.POST, urlPath, body);
+export function fetchPost(urlPath: string, body: string|FormData, contentType?: string) {
+    return serverRequest(RequestMethod.POST, urlPath, body, contentType);
 }
 
 export function fetchDelete(urlPath: string) {

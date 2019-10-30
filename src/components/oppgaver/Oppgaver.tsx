@@ -98,7 +98,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
-        fetchPost(path, formData).then((filRespons: any) => {
+        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
             if (Array.isArray(filRespons)) {
                 for (var index = 0; index < filRespons.length; index++) {
