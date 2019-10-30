@@ -10,6 +10,7 @@ import Feilside from "../components/feilside/Feilside";
 import VedleggsSide from "./VedleggsSide";
 import Linkside from "../components/linkside/Linkside";
 import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
+import Utbetalinger from "../utbetalinger/Utbetalinger";
 
 const InnsynRouter: React.FC = () => {
     return (
@@ -23,6 +24,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/status" component={SaksStatus}/>
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus}/>
                         <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide}/>
+                        <Route exact path="/innsyn/:soknadId/utbetalinger" component={Utbetalinger}/>
                         <Route exact path="/innsyn/feil" component={Feilside}/>
                         <Route exact path="/innsyn/:soknadId/feil" component={Feilside}/>
                         <Route exact path="/innsyn/link" component={Linkside}/>

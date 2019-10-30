@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {Knapp} from 'nav-frontend-knapper';
 import {Checkbox, Radio} from 'nav-frontend-skjema';
 
-const Periodevelger: React.FC<{className?: string}> = ({className}) => {
+const Periodevelger: React.FC<{ className?: string }> = ({className}) => {
 
     const [periode, setPeriode]: [number, (periode: number) => void] = useState(0);
 
@@ -14,7 +13,7 @@ const Periodevelger: React.FC<{className?: string}> = ({className}) => {
                     <Radio
                         label="Neste 3 måneder"
                         name="minRadioKnapp1"
-                        checked={periode===3}
+                        checked={periode === 3}
                         onChange={(value: any) => setPeriode(3)}
                     />
                 </div>
@@ -22,7 +21,7 @@ const Periodevelger: React.FC<{className?: string}> = ({className}) => {
                     <Radio
                         label="Neste 6 måneder"
                         name="minRadioKnapp2"
-                        checked={periode===6}
+                        checked={periode === 6}
                         onChange={(value: any) => setPeriode(6)}
                     />
                 </div>
@@ -30,11 +29,11 @@ const Periodevelger: React.FC<{className?: string}> = ({className}) => {
                     <Radio
                         label="Neste 12 måneder"
                         name="minRadioKnapp6"
-                        checked={periode===12}
+                        checked={periode === 12}
                         onChange={(value: any) => setPeriode(12)}
                     />
                 </div>
-                <Knapp type="hoved">OPPDATER</Knapp>
+
             </form>
             <div>
                 <h2 className="typo-undertittel">Velg ytelse</h2>
