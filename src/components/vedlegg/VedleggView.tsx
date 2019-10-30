@@ -59,19 +59,19 @@ const strCompare = (a: string, b: string) => {
 const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: Kolonne, descending: boolean) => {
     switch (kolonne) {
         case Kolonne.DATO:
-            return vedlegg.sort((a: Vedlegg, b: Vedlegg) => {
+            return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
                 return descending ?
                     Date.parse(b.datoLagtTil) - Date.parse(a.datoLagtTil) :
                     Date.parse(a.datoLagtTil) - Date.parse(b.datoLagtTil);
             });
         case Kolonne.FILNAVN:
-            return vedlegg.sort((a: Vedlegg, b: Vedlegg) => {
+            return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
                 return descending ?
                     strCompare(a.filnavn, b.filnavn) :
                     strCompare(b.filnavn, a.filnavn);
             });
         case Kolonne.BESKRIVELSE:
-            return vedlegg.sort((a: Vedlegg, b: Vedlegg) => {
+            return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
                 return descending ?
                     strCompare(a.type, b.type) :
                     strCompare(b.type, a.type);
