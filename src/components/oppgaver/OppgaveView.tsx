@@ -35,7 +35,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
         }
     };
 
-    const onChange = (event: ChangeEvent) => {
+    const onChange = (event: any) => {
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             let ulovligeFilerCount = 0;
@@ -58,6 +58,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
             }
             setAntallUlovligeFiler(ulovligeFilerCount);
         }
+        event.target.value = null;
         event.preventDefault();
     };
 
