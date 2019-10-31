@@ -20,7 +20,8 @@ export enum SoknadsStatusEnum {
 	BEHANDLES_IKKE = "BEHANDLES_IKKE"
 }
 export enum SaksStatusEnum {
-	BEHANDLES_IKKE = "BEHANDLES IKKE"
+	BEHANDLES_IKKE = "BEHANDLES IKKE",
+	IKKE_INNSYN = "IKKE INNSYN"
 }
 
 interface StatusDetalj {
@@ -93,7 +94,11 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
 				return (
 					<div className="status_detalj_panel" key={index}>
 						<Element>{statusdetalj.tittel}</Element>
-						{kanVises && saksStatus !== SaksStatusEnum.BEHANDLES_IKKE && status !== SoknadsStatusEnum.BEHANDLES_IKKE &&(
+						{kanVises
+                            && saksStatus !== SaksStatusEnum.IKKE_INNSYN
+                            && saksStatus !== SaksStatusEnum.BEHANDLES_IKKE
+                            && status !== SoknadsStatusEnum.BEHANDLES_IKKE
+                            &&(
 							<div className="status_detalj_panel__status">
 								<EtikettLiten>{saksStatus}</EtikettLiten>
 							</div>
@@ -118,6 +123,13 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
 						<div className="panel-glippe-over">
 							<Normaltekst>
 								<FormattedMessage id="status.behandles_ikke_ingress" />
+							</Normaltekst>
+						</div>
+						)}
+						{saksStatus === SaksStatusEnum.IKKE_INNSYN && (
+						<div className="panel-glippe-over">
+							<Normaltekst>
+								<FormattedMessage id="status.ikke_innsyn_ingress" />
 							</Normaltekst>
 						</div>
 						)}
