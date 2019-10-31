@@ -34,6 +34,8 @@ export const tekster = {
         "oppgaver.send_knapp_tittel": "Send til veileder",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
+        "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
+        "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
 
         "vedlegg.lovlig_filtype_feilmelding" :
             "En eller flere filer ble ikke lagt til. " +

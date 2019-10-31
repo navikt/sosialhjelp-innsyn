@@ -20,6 +20,7 @@ import {useDispatch} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
+import PaperClip from "../ikoner/PaperClip";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -156,16 +157,31 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
 
                 {!brukerHarOppgaver && !leserData && (
                     <>
-                        <span style={{float: "left", marginTop: "6px"}}>
-                            <TodoList/>
-                        </span>
-                        <div style={{paddingLeft: "38px"}}>
-                            <Element>
-                                <FormattedMessage id="oppgaver.ingen_oppgaver"/>
-                            </Element>
-                            <Normaltekst>
-                                <FormattedMessage id="oppgaver.beskjed"/>
-                            </Normaltekst>
+                        <div>
+                            <span style={{float: "left", marginTop: "6px"}}>
+                                <TodoList/>
+                            </span>
+                            <div style={{paddingLeft: "38px"}}>
+                                <Element>
+                                    <FormattedMessage id="oppgaver.ingen_oppgaver"/>
+                                </Element>
+                                <Normaltekst>
+                                    <FormattedMessage id="oppgaver.beskjed"/>
+                                </Normaltekst>
+                            </div>
+                        </div>
+                        <div style={{marginTop: "20px"}}>
+                            <span style={{float: "left", marginTop: "6px"}}>
+                                <PaperClip/>
+                            </span>
+                            <div style={{paddingLeft: "38px"}}>
+                                <Element>
+                                    <FormattedMessage id="oppgaver.andre_dokumenter"/>
+                                </Element>
+                                <Normaltekst>
+                                    <FormattedMessage id="oppgaver.andre_dokumenter_beskjed"/>
+                                </Normaltekst>
+                            </div>
                         </div>
                     </>
                 )}
