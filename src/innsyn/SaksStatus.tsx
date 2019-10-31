@@ -41,7 +41,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
         }
-    }, [dispatch, soknadId, innsynsdata.restStatus.saksStatus]);
+    }, [dispatch, soknadId, innsynsdata.restStatus.saksStatus, restStatus.saksStatus]);
 
     useEffect(() => {
         dispatch(setBrodsmuleSti([

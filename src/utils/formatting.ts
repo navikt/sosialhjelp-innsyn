@@ -9,4 +9,10 @@ function formatBytes(bytes: number, decimals: number = 2): string {
     return result.replace(".", ",");
 }
 
-export { formatBytes };
+// Eksempel: formatCurrency(12345) => 12.345
+function formatCurrency(amount: number, decimals: number = 0): string {
+    return new Intl.NumberFormat('de-DE').format(amount);
+}
+
+export { formatBytes, formatCurrency };
+

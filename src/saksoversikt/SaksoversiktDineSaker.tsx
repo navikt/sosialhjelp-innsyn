@@ -12,6 +12,7 @@ import {useDispatch } from "react-redux";
 import Paginering from "../components/paginering/Paginering";
 import {push} from "connected-react-router";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         )}
 
         <>
-            {/*TODO: <DineUtbetalingerPanel/>*/}
+            <DineUtbetalingerPanel/>
 
             <Subheader className="panel-luft-over">
                 <Undertittel>Relatert informasjon</Undertittel>
