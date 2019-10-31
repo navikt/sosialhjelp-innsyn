@@ -58,7 +58,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         <>
             <SoknadsStatus
                 status={innsynsdata.soknadsStatus.status}
-                saksStatus={innsynsdata.saksStatus}
+                sak={innsynsdata.saksStatus}
                 leserData={leserData(restStatus.saksStatus)}
             />
 

@@ -19,6 +19,9 @@ export enum SoknadsStatusEnum {
 	FERDIGBEHANDLET = "FERDIGBEHANDLET",
 	BEHANDLES_IKKE = "BEHANDLES_IKKE"
 }
+export enum SaksStatusEnum {
+	BEHANDLES_IKKE = "BEHANDLES IKKE"
+}
 
 interface StatusDetalj {
 	beskrivelse: string;
@@ -28,15 +31,15 @@ interface StatusDetalj {
 
 interface Props {
 	status: string|null|SoknadsStatusEnum;
-	saksStatus?: null|SaksStatusState[];
+	sak?: null|SaksStatusState[];
 	leserData: boolean;
 }
 
-const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
-	const antallSaksStatusElementer: number = saksStatus ? saksStatus.length : 0;
+const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
+	const antallSaksElementer: number = sak ? sak.length : 0;
 
 	return (
-		<Panel className={"panel-uthevet " + (antallSaksStatusElementer > 0 ? "panel-uthevet-luft-under" : "")}>
+		<Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
 			<div className="tittel_og_ikon">
 				{leserData && (
 					<Lastestriper linjer={1}/>
@@ -73,28 +76,26 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 				)}
 			</div>
 
-			{status === SoknadsStatusEnum.BEHANDLES_IKKE && (
+			{status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
 				<div className="status_detalj_panel status_detalj_panel_luft_under">
-					<Element>Livshopphold</Element>
+					<Element><FormattedMessage id="saker.default_tittel" /></Element>
 					<div className="panel-glippe-over">
 						<Normaltekst>
-							Vi kan ikke vise behandlingsstatus på nett. Dette kan være fordi
-							søknaden behandles sammen med en annen søknad du har sendt inn.
-							Ta kontakt med ditt NAV-kontor dersom du har spørsmål
+							<FormattedMessage id="status.behandles_ikke_ingress" />
 						</Normaltekst>
 					</div>
 				</div>
 			)}
 
-			{saksStatus && saksStatus.map((statusdetalj: SaksStatusState, index: number) => {
-				const status = statusdetalj.status.replace(/_/g,' ');
+			{sak && sak.map((statusdetalj: SaksStatusState, index: number) => {
+				const saksStatus = statusdetalj.status.replace(/_/g,' ');
 				const kanVises: boolean = statusdetalj.status !== Utfall.KAN_IKKE_VISES;
 				return (
 					<div className="status_detalj_panel" key={index}>
 						<Element>{statusdetalj.tittel}</Element>
-						{kanVises && (
+						{kanVises && saksStatus !== SaksStatusEnum.BEHANDLES_IKKE && status !== SoknadsStatusEnum.BEHANDLES_IKKE &&(
 							<div className="status_detalj_panel__status">
-								<EtikettLiten>{status}</EtikettLiten>
+								<EtikettLiten>{saksStatus}</EtikettLiten>
 							</div>
 						)}
 
@@ -112,6 +113,13 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 									{statusdetalj.melding}
 								</Normaltekst>
 							</div>
+						)}
+						{(saksStatus === SaksStatusEnum.BEHANDLES_IKKE || status === SoknadsStatusEnum.BEHANDLES_IKKE) && (
+						<div className="panel-glippe-over">
+							<Normaltekst>
+								<FormattedMessage id="status.behandles_ikke_ingress" />
+							</Normaltekst>
+						</div>
 						)}
 					</div>
 				)
