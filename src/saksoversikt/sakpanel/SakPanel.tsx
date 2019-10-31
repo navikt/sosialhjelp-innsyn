@@ -8,6 +8,7 @@ import "./sakpanel.less";
 import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
+import Lastestriper from "../../components/lastestriper/Lasterstriper";
 
 interface Props {
     fiksDigisosId: string;
@@ -16,10 +17,11 @@ interface Props {
     oppdatert: string;
     key: string;
     url: string;
+    underLasting: boolean;
     antalNyeOppgaver?: number;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antalNyeOppgaver}) => {
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, underLasting, antalNyeOppgaver}) => {
 
     const onClick = (event: any) => {
         if(fiksDigisosId === null) {
@@ -40,16 +42,34 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
                         <div className="sakpanel_status">
 
                             <EtikettLiten>
-                                {fiksDigisosId !== null && <> {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/></>}
-                                {fiksDigisosId === null && <> SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/></>}
+                                {fiksDigisosId !== null && !underLasting && (
+                                    <>
+                                        {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    </>
+                                )}
+                                {fiksDigisosId !== null && underLasting && (
+                                    <div className="sakspanel_status_laster">
+                                        <Lastestriper linjer={1}/> ● oppdatert
+                                        <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    </div>
+                                )}
+                                {fiksDigisosId === null && (
+                                    <>
+                                        SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    </>
+                                )}
                             </EtikettLiten>
                         </div>
-                        <Element >{tittel}</Element>
+                        {underLasting && <Lastestriper linjer={1}/>}
+                        {!underLasting && <Element >{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">
-                    {antalNyeOppgaver !== undefined && antalNyeOppgaver >= 1 && (
-                        <EtikettFokus><FormattedMessage id="saker.oppgave" values={{antall: antalNyeOppgaver}} /></EtikettFokus>
+                    {underLasting && <Lastestriper linjer={1}/>}
+                    {!underLasting && antalNyeOppgaver !== undefined && antalNyeOppgaver >= 1 && (
+                        <EtikettFokus>
+                            <FormattedMessage id="saker.oppgave" values={{antall: antalNyeOppgaver}} />
+                        </EtikettFokus>
                     )}
                 </div>
             </div>

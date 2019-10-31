@@ -8,10 +8,12 @@ import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
 import {Knapp} from "nav-frontend-knapper";
 import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
-import {useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import Paginering from "../components/paginering/Paginering";
 import {push} from "connected-react-router";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import useSakdDetaljerService from "./saksDetaljer/useSakdDetaljerService";
+import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
@@ -42,6 +44,8 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
     const paginerteSaker:Sakstype[] = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
 
+    const saksDetaljerResponse = useSakdDetaljerService(paginerteSaker.map(it => it.fiksDigisosId));
+
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
     };
@@ -69,18 +73,35 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
         { paginerteSaker.map((sak:Sakstype) => {
                 let key = sak.fiksDigisosId;
+                let tittel = sak.soknadTittel;
+                let status = sak.status;
+                let antallNyeOppgaver = sak.antallNyeOppgaver;
+                let underLasting = true;
+                if(saksDetaljerResponse.restStatus === REST_STATUS.OK) {
+                    let saksDetaljer = saksDetaljerResponse.payload.results.find(it => it.fiksDigisosId === sak.fiksDigisosId);
+                    if(saksDetaljer) {
+                        underLasting = false;
+                        status = saksDetaljer.status;
+                        antallNyeOppgaver = saksDetaljer.antallNyeOppgaver;
+                        if(saksDetaljer.soknadTittel && saksDetaljer.soknadTittel !== "")
+                            tittel = saksDetaljer.soknadTittel;
+                    }
+                }
+
                 if(sak.fiksDigisosId == null) {
-                    key = sak.soknadTittel
+                    key = sak.soknadTittel;
+                    underLasting = false;
                 }
                 return (
                     <SakPanel
                         fiksDigisosId={sak.fiksDigisosId}
-                        tittel={sak.soknadTittel}
-                        status={sak.status}
+                        tittel={tittel}
+                        status={status}
                         oppdatert={sak.sistOppdatert}
                         key={key}
                         url={sak.url}
-                        antalNyeOppgaver={sak.antallNyeOppgaver}
+                        underLasting={underLasting}
+                        antalNyeOppgaver={antallNyeOppgaver}
                     />
                 )
             })
