@@ -6,6 +6,7 @@ import UploadFileIcon from "../ikoner/UploadFile";
 import Lenke from "nav-frontend-lenker";
 import {FormattedMessage} from "react-intl";
 import {legalFileExtension} from "../oppgaver/OppgaveView";
+import {Hovedknapp} from "nav-frontend-knapper";
 
 const AndreVedleggView: React.FC = () => {
 
@@ -52,38 +53,51 @@ const AndreVedleggView: React.FC = () => {
     };
 
     return (
-        <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
-            <Element><FormattedMessage id="andre_vedlegg.type" /></Element>
-                <Normaltekst className="luft_over_4px">
-                    <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                </Normaltekst>
+        <div className="oppgaver_detaljer">
 
-            {andreFiler && andreFiler.length > 0 && andreFiler.map((fil: Fil, index: number) =>
-                <FilView key={index} fil={fil} oppgave={oppgave}/>
-            )}
+            <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
+                <Element><FormattedMessage id="andre_vedlegg.type" /></Element>
+                    <Normaltekst className="luft_over_4px">
+                        <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
+                    </Normaltekst>
 
-            <div className="oppgaver_last_opp_fil">
-                <UploadFileIcon
-                    className="last_opp_fil_ikon"
-                    onClick={(event: any) => {onLinkClicked(event)}}
-                />
-                <Lenke
-                    href="#"
-                    className="lenke_uten_ramme"
-                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onLinkClicked(event)}}
-                >
-                    <Element>
-                        <FormattedMessage id="vedlegg.velg_fil"/>
-                    </Element>
-                </Lenke>
-                <input
-                    type="file"
-                    id={'file_andre'}
-                    multiple={true}
-                    onChange={(event: ChangeEvent) => {onChange(event)}}
-                    style={{display: "none"}}
-                />
+                {andreFiler && andreFiler.length > 0 && andreFiler.map((fil: Fil, index: number) =>
+                    <FilView key={index} fil={fil} oppgave={oppgave}/>
+                )}
+
+                <div className="oppgaver_last_opp_fil">
+                    <UploadFileIcon
+                        className="last_opp_fil_ikon"
+                        onClick={(event: any) => {onLinkClicked(event)}}
+                    />
+                    <Lenke
+                        href="#"
+                        className="lenke_uten_ramme"
+                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onLinkClicked(event)}}
+                    >
+                        <Element>
+                            <FormattedMessage id="vedlegg.velg_fil"/>
+                        </Element>
+                    </Lenke>
+                    <input
+                        type="file"
+                        id={'file_andre'}
+                        multiple={true}
+                        onChange={(event: ChangeEvent) => {onChange(event)}}
+                        style={{display: "none"}}
+                    />
+                </div>
             </div>
+
+            <Hovedknapp
+                disabled={false}
+                type="hoved"
+                className="luft_over_2rem luft_under_1rem"
+                onClick={(event: any) => console.log("send vedlegg")}
+            >
+            <FormattedMessage id="andre_vedlegg.send_knapp_tittel"/>
+
+            </Hovedknapp>
         </div>
     )
 };
