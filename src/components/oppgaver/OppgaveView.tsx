@@ -89,7 +89,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                 )}
 
                 {oppgave.filer && oppgave.filer.length > 0 && oppgave.filer.map((fil: Fil, index: number) =>
-                    <FilView key={index} fil={fil} oppgave={oppgave}/>
+                    <FilView key={index} fil={fil} oppgave={oppgave} index={index}/>
                 )}
 
                 <div className="oppgaver_last_opp_fil">
@@ -99,6 +99,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                     />
                     <Lenke
                         href="#"
+                        id={"oppgave_" + id + "_last_opp_fil_knapp"}
                         className="lenke_uten_ramme"
                         onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onLinkClicked(event)}}
                     >
