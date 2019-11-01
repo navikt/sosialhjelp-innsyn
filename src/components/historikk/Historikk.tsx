@@ -43,7 +43,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         </Element>
                         <Normaltekst>{hendelse.beskrivelse}</Normaltekst>
                         {hendelse.filUrl && (
-                            <EksternLenke href={hendelse.filUrl}>
+                            <EksternLenke href={hendelse.filUrl} target="_blank">
                                 <FormattedMessage id="historikk.se_vedtaksbrev"/>
                             </EksternLenke>
                         )}

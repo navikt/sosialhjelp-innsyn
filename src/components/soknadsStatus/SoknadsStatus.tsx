@@ -100,7 +100,7 @@ const SoknadsStatus: React.FC<Props> = ({status, saksStatus, leserData}) => {
 
 						{statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
 							<div className="status_detalj_panel__kommentarer" key={index}>
-								<EksternLenke href={"" + hendelse.vedtaksfilUrl}>
+								<EksternLenke href={"" + hendelse.vedtaksfilUrl} target="_blank">
 									Vedtaksbrev
 									(<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato}/>)
 								</EksternLenke>

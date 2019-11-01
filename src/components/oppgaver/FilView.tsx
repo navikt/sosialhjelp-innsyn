@@ -10,7 +10,7 @@ import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
+const FilView: React.FC<{ fil: Fil, oppgave: Oppgave, index: number }> = ({fil, oppgave, index}) => {
     const file = fil.file;
     const storrelse: string = formatBytes(file.size);
     const dispatch = useDispatch();
@@ -19,7 +19,8 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
         dispatch({
             type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
             oppgave: oppgave,
-            fil: file
+            fil: file,
+            index: index
         });
         event.preventDefault();
     };
@@ -52,12 +53,14 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
             <span className="fjern_lenkeboks">
                 <Lenke
                     href="#"
+                    id={"fil_" + fil.filnavn + "_fjern_lenke_knapp"}
                     className="fjern_lenke lenke_uten_ramme"
                     onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onSlettClick(event)}
                 >
                     <FormattedMessage id="vedlegg.fjern"/>
                 </Lenke>
                 <button
+                    id={"fil_" + fil.filnavn + "_fjern_symbol_knapp"}
                     className="lenke"
                     style={{borderStyle: "none"}}
                     onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onSlettClick(event)}

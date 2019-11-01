@@ -102,6 +102,7 @@ export interface VedleggActionType {
     status?: string;
     restStatus?: REST_STATUS;
     fiksDigisosId?: string;
+    index?: number;
 }
 
 export interface Status {
@@ -182,7 +183,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         return {
                             ...oppgave,
                             filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
-                                if (action.fil && fil.filnavn === action.fil.name) {
+                                if (action.fil && action.index && fil.filnavn === action.fil.name && index === action.index) {
                                     return false;
                                 }
                                 return true;
