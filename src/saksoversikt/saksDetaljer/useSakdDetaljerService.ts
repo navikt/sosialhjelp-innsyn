@@ -3,16 +3,16 @@ import {ServiceHookTypes} from "../../utils/ServiceHookTypes";
 import {fetchToJson, REST_STATUS} from "../../utils/restUtils";
 import {Sakstype} from "../../redux/innsynsdata/innsynsdataReducer";
 
-export interface Saksliste {
-    results: Sakstype[];
+export interface Saksinfo {
+    results: Sakstype;
 }
 
-const useSakdDetaljerService = (saksListe:string[]) => {
-    const [result, setResult] = useState<ServiceHookTypes<Saksliste>>({
+const useSakdDetaljerService = (saksId:string) => {
+    const [result, setResult] = useState<ServiceHookTypes<Saksinfo>>({
         restStatus: REST_STATUS.PENDING
     });
 
-    let url = "/digisosapi/saksDetaljer?ids=" + saksListe;
+    let url = "/digisosapi/saksDetaljer?id=" + saksId;
 
     useEffect(() => {
         fetchToJson(url).then((response: any) => {

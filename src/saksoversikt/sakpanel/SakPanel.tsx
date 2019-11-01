@@ -9,6 +9,8 @@ import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
+import useSakdDetaljerService from "../saksDetaljer/useSakdDetaljerService";
+import {REST_STATUS} from "../../utils/restUtils";
 
 interface Props {
     fiksDigisosId: string;
@@ -17,11 +19,10 @@ interface Props {
     oppdatert: string;
     key: string;
     url: string;
-    underLasting: boolean;
-    antalNyeOppgaver?: number;
+    antallNyeOppgaver?: number;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, underLasting, antalNyeOppgaver}) => {
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antallNyeOppgaver}) => {
 
     const onClick = (event: any) => {
         if(fiksDigisosId === null) {
@@ -31,6 +32,28 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
             event.preventDefault();
         }
     };
+
+    let underLasting = true;
+    let requestId = fiksDigisosId;
+    if(fiksDigisosId === null) {
+        underLasting = false;
+        requestId = "";
+    }
+
+    const saksDetaljerResponse = useSakdDetaljerService(requestId);
+
+    if(fiksDigisosId !== null) {
+        if (saksDetaljerResponse.restStatus === REST_STATUS.OK) {
+            let saksDetaljer = saksDetaljerResponse.payload.results;
+            if (saksDetaljer && saksDetaljer.fiksDigisosId === fiksDigisosId) {
+                underLasting = false;
+                status = saksDetaljer.status;
+                antallNyeOppgaver = saksDetaljer.antallNyeOppgaver;
+                if (saksDetaljer.soknadTittel && saksDetaljer.soknadTittel !== "")
+                    tittel = saksDetaljer.soknadTittel;
+            }
+        }
+    }
 
     const dispatch = useDispatch();
     return (
@@ -66,9 +89,9 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
                 </div>
                 <div className="sakpanel_innhold_etikett">
                     {underLasting && <Lastestriper linjer={1}/>}
-                    {!underLasting && antalNyeOppgaver !== undefined && antalNyeOppgaver >= 1 && (
+                    {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
                         <EtikettFokus>
-                            <FormattedMessage id="saker.oppgave" values={{antall: antalNyeOppgaver}} />
+                            <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />
                         </EtikettFokus>
                     )}
                 </div>
