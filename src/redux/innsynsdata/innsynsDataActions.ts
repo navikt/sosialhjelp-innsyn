@@ -1,6 +1,12 @@
 import {Dispatch} from "redux";
 import {fetchToJson, HttpStatus, REST_STATUS} from "../../utils/restUtils";
-import {InnsynsdataSti, oppdaterInnsynsdataState, settRestStatus} from "./innsynsdataReducer";
+import {
+    InnsynsdataSti,
+    oppdaterInnsynsdataState,
+    oppdaterSaksdetaljerRestStatus,
+    oppdaterSaksdetaljerState,
+    settRestStatus
+} from "./innsynsdataReducer";
 import {history} from "../../configureStore";
 
 export const innsynsdataUrl = (fiksDigisosId: string, sti: string): string => `/innsyn/${fiksDigisosId}/${sti}`;
@@ -40,5 +46,24 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
                 }
             }
        });
+    }
+}
+
+export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
+    return (dispatch: Dispatch) => {
+        dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.PENDING));
+        let url = "/digisosapi/saksDetaljer?id=" + fiksDigisosId;
+        fetchToJson(url).then((response: any) => {
+            dispatch(oppdaterSaksdetaljerState(fiksDigisosId, response));
+        }).catch((reason) => {
+            if (reason.message === HttpStatus.UNAUTHORIZED) {
+                dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.UNAUTHORIZED));
+            } else {
+                dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
+                if (visFeilSide !== false) {
+                    history.push("/innsyn/feil");
+                }
+            }
+        });
     }
 }

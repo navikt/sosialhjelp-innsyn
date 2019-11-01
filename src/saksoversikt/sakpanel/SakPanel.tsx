@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Element, EtikettLiten} from "nav-frontend-typografi";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import { EtikettFokus } from 'nav-frontend-etiketter';
@@ -9,8 +9,7 @@ import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
-import useSakdDetaljerService from "../saksDetaljer/useSakdDetaljerService";
-import {REST_STATUS} from "../../utils/restUtils";
+import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 
 interface Props {
     fiksDigisosId: string;
@@ -20,9 +19,12 @@ interface Props {
     key: string;
     url: string;
     antallNyeOppgaver?: number;
+    harBlittLastetInn?: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antallNyeOppgaver}) => {
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antallNyeOppgaver, harBlittLastetInn}) => {
+
+    const dispatch = useDispatch();
 
     const onClick = (event: any) => {
         if(fiksDigisosId === null) {
@@ -33,29 +35,17 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         }
     };
 
-    let underLasting = true;
+    let underLasting = !harBlittLastetInn;
     let requestId = fiksDigisosId;
     if(fiksDigisosId === null) {
         underLasting = false;
         requestId = "";
     }
 
-    const saksDetaljerResponse = useSakdDetaljerService(requestId);
+    useEffect(() => {
+        dispatch(hentSaksdetaljer(requestId))
+    }, [dispatch, requestId]);
 
-    if(fiksDigisosId !== null) {
-        if (saksDetaljerResponse.restStatus === REST_STATUS.OK) {
-            let saksDetaljer = saksDetaljerResponse.payload.results;
-            if (saksDetaljer && saksDetaljer.fiksDigisosId === fiksDigisosId) {
-                underLasting = false;
-                status = saksDetaljer.status;
-                antallNyeOppgaver = saksDetaljer.antallNyeOppgaver;
-                if (saksDetaljer.soknadTittel && saksDetaljer.soknadTittel !== "")
-                    tittel = saksDetaljer.soknadTittel;
-            }
-        }
-    }
-
-    const dispatch = useDispatch();
     return (
         <LenkepanelBase onClick={onClick} className="panel-glippe-over" href="#">
             <div className="sakpanel">
@@ -64,31 +54,30 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
                     <div className="sakpanel_innhold">
                         <div className="sakpanel_status">
 
-                            <EtikettLiten>
                                 {fiksDigisosId !== null && !underLasting && (
-                                    <>
+                                    <EtikettLiten>
                                         {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
-                                    </>
+                                    </EtikettLiten>
                                 )}
                                 {fiksDigisosId !== null && underLasting && (
                                     <div className="sakspanel_status_laster">
-                                        <Lastestriper linjer={1}/> ● oppdatert
-                                        <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                        <Lastestriper linjer={1}/>
+                                        <EtikettLiten>
+                                            ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                        </EtikettLiten>
                                     </div>
                                 )}
                                 {fiksDigisosId === null && (
-                                    <>
+                                    <EtikettLiten>
                                         SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
-                                    </>
+                                    </EtikettLiten>
                                 )}
-                            </EtikettLiten>
                         </div>
                         {underLasting && <Lastestriper linjer={1}/>}
                         {!underLasting && <Element >{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">
-                    {underLasting && <Lastestriper linjer={1}/>}
                     {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
                         <EtikettFokus>
                             <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />

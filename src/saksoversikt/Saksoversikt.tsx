@@ -10,14 +10,14 @@ import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
-import useSoknadsSakerService, {} from "./sakerFraSoknad/useSoknadsSakerService";
+import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
 
 const Saksoversikt: React.FC = () => {
     const dispatch = useDispatch();
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const restStatus = innsynsdata.restStatus.saker;
-    const saker = innsynsdata.saker;
+    const saker:Sakstype[] = innsynsdata.saker;
     const sakerFraSoknadResponse = useSoknadsSakerService();
     const leserSaksData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const leserSoknadSaksData: boolean = sakerFraSoknadResponse.restStatus === REST_STATUS.INITIALISERT || sakerFraSoknadResponse.restStatus === REST_STATUS.PENDING;
