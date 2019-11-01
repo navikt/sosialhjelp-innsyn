@@ -66,7 +66,9 @@ export enum InnsynsdataActionTypeKeys {
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
     FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING",
-    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL"
+    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
+    LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING",
+    FJERN_ANNEN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_ANNEN_FIL_FOR_OPPLASTING",
 }
 
 export enum InnsynsdataSti {
@@ -186,6 +188,19 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         }
                     }
                     return oppgave;
+                })
+            };
+        case InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING:
+            return  {
+                ...state,
+                filer: [...(state.filer ? state.filer : []), action.fil]
+            };
+        case InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING:
+            return  {
+                ...state,
+                filer: state.filer.filter((fil: Fil) => {
+                        return !(action.fil && fil.filnavn === action.fil.name);
+
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:

@@ -1,27 +1,20 @@
 import React, {ChangeEvent, useState} from "react"
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import {Fil, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, InnsynsdataActionTypeKeys} from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
 import UploadFileIcon from "../ikoner/UploadFile";
 import Lenke from "nav-frontend-lenker";
 import {FormattedMessage} from "react-intl";
 import {legalFileExtension} from "../oppgaver/OppgaveView";
 import {Hovedknapp} from "nav-frontend-knapper";
+import {useDispatch, useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
 
-const AndreVedleggView: React.FC = () => {
+const DineVedleggView: React.FC = () => {
 
+    const dispatch = useDispatch();
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
-    const [andreFiler, setAndreFiler] = useState<Fil[]>([]);
-
-    // FIXME: Er ikke i redux, så vil ikke virke
-    const oppgave: Oppgave = {
-        innsendelsesfrist: "",
-        dokumenttype: "Annet",
-        tilleggsinformasjon: "",
-        erFraInnsyn: true,
-        vedlegg: [],
-        filer: []
-    };
+    const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         const uploadElement: any = document.getElementById('file_andre');
@@ -39,9 +32,14 @@ const AndreVedleggView: React.FC = () => {
                 const file: File = files[index];
                 const filename = file.name;
                 if (legalFileExtension(filename)) {
-                    setAndreFiler(andreFiler.concat([
-                        {filnavn: filename, file: file, status: ""}
-                    ]));
+                    dispatch({
+                        type: InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING,
+                        fil: {
+                            filnavn: file.name,
+                            status: "INITIALISERT",
+                            file: file
+                        }
+                    });
                 } else {
                     ulovligeFilerCount += 1;
                 }
@@ -62,7 +60,7 @@ const AndreVedleggView: React.FC = () => {
                     </Normaltekst>
 
                 {andreFiler && andreFiler.length > 0 && andreFiler.map((fil: Fil, index: number) =>
-                    <FilView key={index} fil={fil} oppgave={oppgave}/>
+                    <FilView key={index} fil={fil}/>
                 )}
 
                 <div className="oppgaver_last_opp_fil">
@@ -102,4 +100,4 @@ const AndreVedleggView: React.FC = () => {
     )
 };
 
-export default AndreVedleggView;
+export default DineVedleggView;

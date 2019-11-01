@@ -10,14 +10,14 @@ import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
+const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
     const file = fil.file;
     const storrelse: string = formatBytes(file.size);
     const dispatch = useDispatch();
 
     const onSlettClick = (event: ClickEvent): void => {
         dispatch({
-            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
+            type: oppgave ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING : InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING,
             oppgave: oppgave,
             fil: file
         });

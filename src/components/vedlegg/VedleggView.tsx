@@ -10,7 +10,7 @@ import 'nav-frontend-tabell-style';
 import "./responsiv_tabell.less";
 import '../lastestriper/lastestriper.less';
 import Paginering from "../paginering/Paginering";
-import AndreVedleggView from "./AndreVedleggView";
+import DineVedleggView from "./DineVedleggView";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
@@ -162,7 +162,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
 
     return (
         <>
-        <AndreVedleggView/>
+        <DineVedleggView/>
         <div className="vedleggliste">
             <div className="sortering_listeboks">
                 <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
