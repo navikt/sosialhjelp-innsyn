@@ -12,24 +12,57 @@ const UtbetalingerPanel: React.FC<{utbetalinger: UtbetalingSakType[]}> = ({utbet
         <div className="utbetalinger_detaljer">
 
             {utbetalinger && utbetalinger.map((utbetalingSak: UtbetalingSakType, index: number) => {
-                return (
-                    <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
-                        <div className="utbetaling__header">
-                            <Undertittel>{utbetalingSak.utbetalinger[0].tittel}</Undertittel>
-                            <Undertittel>{formatCurrency(utbetalingSak.utbetalinger[0].belop)}</Undertittel>
-                        </div>
-                        <div className="utbetaling__header">
-                            <Element>{utbetalingSak.utbetalinger[0].utbetalinger[0].tittel}</Element>
-                            <Element>{formatCurrency(utbetalingSak.utbetalinger[0].utbetalinger[0].belop)}</Element>
-                        </div>
+                if (utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].tittel) {
 
-                        <UtbetalingEkspanderbart tittel={"Utbetalt " + utbetalingSak.utbetalinger[0].utbetalinger[0].utbetalingsdato}>
-                            <pre>{JSON.stringify(utbetalingSak, null, 2)}</pre>
-                        </UtbetalingEkspanderbart>
-                        <hr/>
-                    </div>
-                )
+                    const isoDato: string = utbetalingSak && utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].utbetalinger[0] && utbetalingSak.utbetalinger[0].utbetalinger[0].utbetalingsdato;
+                    const dato: Date = new Date(isoDato);
+                    const maanederNb = [
+                        "Januar", "Februar", "Mars", "April", "Mai", "Juni",
+                        "Juli", "August", "September", "Oktober", "November", "Desember"
+                    ];
+                    const tittel: string = maanederNb[dato.getMonth()] + " " + dato.getFullYear();
+                    const belop = formatCurrency(utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].belop);
+
+                    const dag: number = dato.getDate();
+                    const maaned = dato.getMonth() + 1;
+                    const formattertDato = (dag > 9 ? (dag) : ("0" + dag)) + "." + (maaned > 9 ? (maaned) : ("0" + maaned)) + "." + dato.getFullYear();
+
+                    return (
+                        <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
+                            <div className="utbetaling__header">
+                                <Undertittel>{tittel} </Undertittel>
+                                <Undertittel>{belop} </Undertittel>
+                            </div>
+                            <UtbetalingEkspanderbart tittel={"Utbetalt " + formattertDato}>
+
+                                {utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].utbetalinger.map((item: any) => (
+                                    <div className="utbetaling__header">
+                                        <Element>{item.tittel} </Element>
+                                        <Element>{formatCurrency(item.belop)} </Element>
+                                        <br/>
+                                    </div>
+                                ))}
+
+                                <br/>
+                                <pre>{JSON.stringify(utbetalingSak, null, 2)}</pre>
+                            </UtbetalingEkspanderbart>
+                            <hr/>
+                        </div>
+                    )
+                } else {
+                    return null;
+                }
+
             })}
+
+            <SavnerUtbetalingPanel/>
+        </div>
+    );
+};
+
+export default UtbetalingerPanel;
+
+/*
 
             <h1>Statisk testinfo</h1>
 
@@ -112,9 +145,4 @@ const UtbetalingerPanel: React.FC<{utbetalinger: UtbetalingSakType[]}> = ({utbet
 
             </div>
 
-            <SavnerUtbetalingPanel/>
-        </div>
-    );
-};
-
-export default UtbetalingerPanel;
+ */
