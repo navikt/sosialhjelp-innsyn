@@ -69,6 +69,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
     LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING",
     FJERN_ANNEN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_ANNEN_FIL_FOR_OPPLASTING",
+    SETT_STATUS_FOR_ANNEN_FIL = "innsynsdata/SETT_STATUS_FOR_ANNEN_FIL"
 }
 
 export enum InnsynsdataSti {
@@ -190,19 +191,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     return oppgave;
                 })
             };
-        case InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING:
-            return  {
-                ...state,
-                filer: [...(state.filer ? state.filer : []), action.fil]
-            };
-        case InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING:
-            return  {
-                ...state,
-                filer: state.filer.filter((fil: Fil) => {
-                        return !(action.fil && fil.filnavn === action.fil.name);
-
-                })
-            };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
             return  {
                 ...state,
@@ -219,6 +207,32 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                             return fil;
                         }))
                     }
+                })
+            };
+        case InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING:
+            return  {
+                ...state,
+                filer: [...(state.filer ? state.filer : []), action.fil]
+            };
+        case InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING:
+            return  {
+                ...state,
+                filer: state.filer.filter((fil: Fil) => {
+                        return !(action.fil && fil.filnavn === action.fil.name);
+
+                })
+            };
+        case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL:
+            return  {
+                ...state,
+                filer: state.filer.map((fil: Fil) => {
+                    if (fil.filnavn === action.filnavn) {
+                        return {
+                            ...fil,
+                            status: action.status
+                        };
+                    }
+                    return fil
                 })
             };
         default:

@@ -96,7 +96,7 @@ const DineVedleggView: React.FC<Props> = ({soknadId}) => {
                         harFeil = true;
                     }
                     dispatch({
-                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL,
                         filnavn: fileItem.filnavn,
                         status: fileItem.status
                     });

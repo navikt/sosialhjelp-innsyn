@@ -17,7 +17,9 @@ const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
 
     const onSlettClick = (event: ClickEvent): void => {
         dispatch({
-            type: oppgave ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING : InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING,
+            type: oppgave
+                ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
+                : InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING,
             oppgave: oppgave,
             fil: file
         });
