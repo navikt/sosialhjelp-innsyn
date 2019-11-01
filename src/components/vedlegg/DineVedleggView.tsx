@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react"
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import {Fil, InnsynsdataActionTypeKeys} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
 import UploadFileIcon from "../ikoner/UploadFile";
 import Lenke from "nav-frontend-lenker";
@@ -9,12 +9,43 @@ import {legalFileExtension} from "../oppgaver/OppgaveView";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
+import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {fetchPost} from "../../utils/restUtils";
 
-const DineVedleggView: React.FC = () => {
+interface Props {
+    soknadId?: any;
+}
+
+function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
+    let formData = new FormData();
+    const metadataJson = genererMetatadataJson(filer);
+    const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
+    formData.append("files", metadataBlob, "metadata.json");
+    filer.map((fil: Fil) => {
+        return formData.append("files", fil.file, fil.filnavn);
+    });
+    return formData;
+}
+
+function genererMetatadataJson(filer: Fil[]) {
+    let metadata: any[] = [];
+    let filnavnArr = filer.map((fil: any) => {
+        return {filnavn: fil.filnavn}
+    });
+    metadata.push({
+        type: "FIXME",
+        tilleggsinfo: "FIXME",
+        filer: filnavnArr
+    });
+    return JSON.stringify(metadata, null, 8);
+}
+
+const DineVedleggView: React.FC<Props> = ({soknadId}) => {
 
     const dispatch = useDispatch();
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
     const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.filer);
+    const vedleggKlarForOpplasting = andreFiler.length > 0;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         const uploadElement: any = document.getElementById('file_andre');
@@ -50,9 +81,38 @@ const DineVedleggView: React.FC = () => {
         event.preventDefault();
     };
 
+    const sendVedlegg = (event: any) => {
+        let formData = opprettFormDataMedVedlegg(andreFiler);
+        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        const path = innsynsdataUrl(fiksDigisosId, sti);
+
+        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
+            let harFeil: boolean = false;
+            if (Array.isArray(filRespons)) {
+                for (let index = 0; index < filRespons.length; index++) {
+                    const fileItem = filRespons[index];
+                    if (fileItem.status !== "OK") {
+                        harFeil = true;
+                    }
+                    dispatch({
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                        filnavn: fileItem.filnavn,
+                        status: fileItem.status
+                    });
+                }
+            }
+            if (!harFeil) {
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+            }
+        }).catch((reason: any) => {
+            console.log("Feil med opplasting av vedlegg");
+        });
+        event.preventDefault()
+    };
+
     return (
         <div className="oppgaver_detaljer">
-
             <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
                 <Element><FormattedMessage id="andre_vedlegg.type" /></Element>
                     <Normaltekst className="luft_over_4px">
@@ -88,10 +148,10 @@ const DineVedleggView: React.FC = () => {
             </div>
 
             <Hovedknapp
-                disabled={false}
+                disabled={!vedleggKlarForOpplasting}
                 type="hoved"
                 className="luft_over_2rem luft_under_1rem"
-                onClick={(event: any) => console.log("send vedlegg")}
+                onClick={(event: any) => sendVedlegg(event)}
             >
             <FormattedMessage id="andre_vedlegg.send_knapp_tittel"/>
 
