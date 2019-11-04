@@ -148,6 +148,12 @@ const DineVedleggView: React.FC = () => {
                 </div>
             </div>
 
+            {antallUlovligeFiler > 0 && (
+                <div className="oppgaver_vedlegg_feilmelding">
+                    <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
+                </div>
+            )}
+
             <Hovedknapp
                 disabled={!vedleggKlarForOpplasting}
                 type="hoved"
