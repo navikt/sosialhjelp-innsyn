@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from "react"
+import React, {ChangeEvent, useState} from "react"
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
@@ -10,7 +10,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {VEDLEGG_FEILKODER, fetchPost} from "../../utils/restUtils";
+import {fetchPost} from "../../utils/restUtils";
 
 function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
     let formData = new FormData();
@@ -45,7 +45,6 @@ const EttersendelseView: React.FC = () => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
-    const [vedleggFeilkode, setVedleggFeilkode] = useState("");
     const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersending.filer);
     const vedleggKlarForOpplasting = andreFiler.length > 0;
 
@@ -100,9 +99,6 @@ const EttersendelseView: React.FC = () => {
                     const fileItem = filRespons[index];
                     if (fileItem.status !== "OK") {
                         harFeil = true;
-                    }
-                    if (fileItem.status in VEDLEGG_FEILKODER) {
-                        setVedleggFeilkode(fileItem.status)
                     }
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
@@ -161,12 +157,6 @@ const EttersendelseView: React.FC = () => {
             {antallUlovligeFiler > 0 && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
-                </div>
-            )}
-
-            {vedleggFeilkode !== "" && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.feilkoder." + vedleggFeilkode} />
                 </div>
             )}
 
