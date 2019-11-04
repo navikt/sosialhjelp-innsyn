@@ -40,7 +40,7 @@ function genererMetatadataJson(filer: Fil[]) {
     return JSON.stringify(metadata, null, 8);
 }
 
-const DineVedleggView: React.FC = () => {
+const EttersendelseView: React.FC = () => {
 
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
@@ -66,7 +66,7 @@ const DineVedleggView: React.FC = () => {
                 const filename = file.name;
                 if (legalFileExtension(filename)) {
                     dispatch({
-                        type: InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING,
+                        type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
                         fil: {
                             filnavn: file.name,
                             status: "INITIALISERT",
@@ -105,7 +105,7 @@ const DineVedleggView: React.FC = () => {
                         setVedleggFeilkode(fileItem.status)
                     }
                     dispatch({
-                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL,
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
                         fil: {filnavn: fileItem.filnavn} as Fil,
                         status: fileItem.status
                     });
@@ -183,4 +183,4 @@ const DineVedleggView: React.FC = () => {
     )
 };
 
-export default DineVedleggView;
+export default EttersendelseView;

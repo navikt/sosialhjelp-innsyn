@@ -19,7 +19,7 @@ const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
         dispatch({
             type: oppgave
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
-                : InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING,
+                : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
             oppgave: oppgave,
             fil: fil
         });

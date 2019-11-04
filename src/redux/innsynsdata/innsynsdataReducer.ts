@@ -68,9 +68,9 @@ export enum InnsynsdataActionTypeKeys {
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
     FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING",
     SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
-    LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING",
-    FJERN_ANNEN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_ANNEN_FIL_FOR_OPPLASTING",
-    SETT_STATUS_FOR_ANNEN_FIL = "innsynsdata/SETT_STATUS_FOR_ANNEN_FIL"
+    LEGG_TIL_FIL_FOR_ETTERSENDELSE = "innsynsdata/LEGG_TIL_FIL_FOR_ETTERSENDELSE",
+    FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
+    SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL"
 }
 
 export enum InnsynsdataSti {
@@ -225,7 +225,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     }
                 })
             };
-        case InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING: {
+        case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE: {
 
             const found: Fil | undefined = state.ettersending.filer.find((fil: Fil) => {
                 return fil.filnavn === action.fil.filnavn;
@@ -249,7 +249,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 }
             };
         }
-        case InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING:
+        case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE:
             return {
                 ...state,
                 ettersending: {
@@ -259,7 +259,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     })
                 }
             };
-        case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL:
+        case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL:
             return {
                 ...state,
                 ettersending: {
