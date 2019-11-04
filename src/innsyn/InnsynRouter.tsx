@@ -14,7 +14,8 @@ import Utbetalinger from "../utbetalinger/Utbetalinger";
 
 const InnsynRouter: React.FC = () => {
 
-    const ekstraSpaltebredde: boolean = window.location.pathname.match(/\/utbetalinger/) !== null;
+    // Utbetalingssiden trenger bredere spaltebredde enn de andre sidene
+    const ekstraSpaltebredde: boolean = window.location.pathname.match(/\/utbetaling/) !== null;
 
     return (
         <div className="informasjon-side">

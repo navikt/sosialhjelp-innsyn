@@ -27,8 +27,7 @@ const Periodevelger: React.FC<Props> = ({className, onChange}) => {
         onChange(antallMaanederTilbake, tilDinKonto, !tilAnnenMottaker);
     };
 
-    const antallMaanederHittilIAar = (new Date()).getMonth() + 1;
-    const forrigeAar = (new Date()).getFullYear() -1;
+
     return (
         <div className={className}>
             <h2 className="typo-undertittel">Velg periode</h2>
@@ -43,28 +42,21 @@ const Periodevelger: React.FC<Props> = ({className, onChange}) => {
                 </div>
                 <div className="periodevelger_skjemaelement">
                     <Radio
-                        label="Hittil i år"
+                        label="Siste 6 måneder"
                         name="minRadioKnapp2"
-                        checked={antallMaanederTilbake === antallMaanederHittilIAar}
-                        onChange={() => onChangePeriode(antallMaanederHittilIAar)}
+                        checked={antallMaanederTilbake === 6}
+                        onChange={() => onChangePeriode(6)}
                     />
                 </div>
                 <div className="periodevelger_skjemaelement">
                     <Radio
-                        label={"I fjor (" + forrigeAar + ")"}
+                        label={"Siste 12 måneder"}
                         name="minRadioKnapp3"
-                        checked={antallMaanederTilbake === antallMaanederHittilIAar + 12}
-                        onChange={() => onChangePeriode(antallMaanederHittilIAar + 12)}
+                        checked={antallMaanederTilbake === 12}
+                        onChange={() => onChangePeriode(12)}
                     />
                 </div>
-                <div className="periodevelger_skjemaelement">
-                    <Radio
-                        label="Siste 3 år"
-                        name="minRadioKnapp4"
-                        checked={antallMaanederTilbake === 36}
-                        onChange={() => onChangePeriode(36)}
-                    />
-                </div>
+
 
             </form>
             <div>
