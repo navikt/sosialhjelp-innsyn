@@ -16,15 +16,15 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
+import {InnsynAppState} from "../../redux/reduxTypes";
 
 interface Props {
     oppgaver: null | Oppgave[];
     leserData?: boolean;
-    soknadId?: any;
 }
 
 function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
@@ -82,18 +82,18 @@ function antallVedlegg(oppgaver: Oppgave[]) {
     return antall;
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
+const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const dispatch = useDispatch();
 
     const sendVedlegg = (event: any) => {
-        if (oppgaver === null) {
+        if (oppgaver === null || !fiksDigisosId) {
             event.preventDefault();
             return;
         }
 
         let formData = opprettFormDataMedVedlegg(oppgaver);
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
@@ -186,7 +186,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                                 <Normaltekst>
                                     {oppgaver !== null && oppgaver.length && (
                                         <FormattedMessage id="oppgaver.vedlegg_mangler"
-                                                          values={{antall: oppgaver.length}}/>
+                                                          values={{antall: oppgaver ? oppgaver.length : 0}}/>
                                     )}
                                     <br/>
                                     {oppgaverErFraInnsyn && (

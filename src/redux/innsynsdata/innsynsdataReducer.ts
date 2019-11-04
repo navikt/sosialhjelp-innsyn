@@ -60,6 +60,7 @@ export interface Oppgave {
 
 export enum InnsynsdataActionTypeKeys {
     // Innsynsdata:
+    SETT_FIKSDIGISOSID = "innsynsdata/SETT_FIKSDIGISOSID",
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
 
@@ -87,6 +88,7 @@ export enum InnsynsdataSti {
 // }
 
 export interface InnsynsdataActionType {
+    fiksDigisosId?: string,
     type: InnsynsdataActionTypeKeys,
     verdi?: any,
     sti: InnsynsdataSti,
@@ -117,6 +119,7 @@ export interface VedtakFattet {
 }
 
 export interface InnsynsdataType {
+    fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
     restStatus: any;
@@ -138,6 +141,7 @@ export const initialInnsynsdataRestStatus = {
 };
 
 const initialState: InnsynsdataType = {
+    fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
     soknadsStatus: {
@@ -152,6 +156,11 @@ const initialState: InnsynsdataType = {
 
 const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
     switch (action.type) {
+        case InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID:
+            return {
+                ...state,
+                fiksDigisosId: action.fiksDigisosId
+            };
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
                 ...setPath(state, action.sti, action.verdi)
@@ -219,20 +228,16 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 filer: state.filer.filter((fil: Fil) => {
                         return !(action.fil && fil.filnavn === action.fil.name);
-
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL:
             return  {
                 ...state,
-                filer: state.filer.map((fil: Fil) => {
-                    if (fil.filnavn === action.filnavn) {
-                        return {
-                            ...fil,
-                            status: action.status
-                        };
+                filer: state.filer.filter((fil: Fil) => {
+                    if (fil.filnavn === action.filnavn && action.status === "OK") {
+                        return false;
                     }
-                    return fil
+                    return true
                 })
             };
         default:

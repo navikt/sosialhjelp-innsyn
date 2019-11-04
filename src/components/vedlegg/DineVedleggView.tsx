@@ -12,10 +12,6 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost} from "../../utils/restUtils";
 
-interface Props {
-    soknadId?: any;
-}
-
 function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
     let formData = new FormData();
     const metadataJson = genererMetatadataJson(filer);
@@ -40,9 +36,10 @@ function genererMetatadataJson(filer: Fil[]) {
     return JSON.stringify(metadata, null, 8);
 }
 
-const DineVedleggView: React.FC<Props> = ({soknadId}) => {
+const DineVedleggView: React.FC = () => {
 
     const dispatch = useDispatch();
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
     const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.filer);
     const vedleggKlarForOpplasting = andreFiler.length > 0;
@@ -82,8 +79,12 @@ const DineVedleggView: React.FC<Props> = ({soknadId}) => {
     };
 
     const sendVedlegg = (event: any) => {
+        if (!fiksDigisosId) {
+            event.preventDefault();
+            return;
+        }
+
         let formData = opprettFormDataMedVedlegg(andreFiler);
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
 

@@ -11,6 +11,8 @@ import "./responsiv_tabell.less";
 import '../lastestriper/lastestriper.less';
 import Paginering from "../paginering/Paginering";
 import DineVedleggView from "./DineVedleggView";
+import {useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
@@ -82,6 +84,7 @@ const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: Kolonne, descending: boolean
 
 const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
 
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const [sortBy, setSortBy] = useState<Kolonne>(Kolonne.DATO);
     const [descending, setDescending] = useState({
         "filnavn": true,

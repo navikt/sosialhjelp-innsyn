@@ -21,7 +21,6 @@ const InnsynRouter: React.FC = () => {
                     <BrodsmuleSti/>
                     <Switch>
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny}/>
-                        <Route exact path="/innsyn/status" component={SaksStatus}/>
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus}/>
                         <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide}/>
                         <Route exact path="/innsyn/:soknadId/utbetalinger" component={Utbetalinger}/>

@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
-import {InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataActionTypeKeys, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
@@ -15,30 +15,31 @@ import {useIntl} from 'react-intl';
 interface Props {
     match: {
         params: {
-            soknadId: any;
+            soknadId: string;
         }
     };
 }
 
 const SaksStatusView: React.FC<Props> = ({match}) => {
-    const soknadId = match.params.soknadId;
-
+    const fiksDigisosId: string = match.params.soknadId;
     const dispatch = useDispatch();
     const intl = useIntl();
 
     useEffect(() => {
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
-        const restDataStier: InnsynsdataSti[] = [
+        dispatch({
+            type:  InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
+            fiksDigisosId: fiksDigisosId
+        });
+        [
             InnsynsdataSti.SAKSSTATUS,
             InnsynsdataSti.OPPGAVER,
             InnsynsdataSti.SOKNADS_STATUS,
             InnsynsdataSti.HENDELSER,
             InnsynsdataSti.VEDLEGG
-        ];
-        restDataStier.map((restDataSti: InnsynsdataSti) =>
+        ].map((restDataSti: InnsynsdataSti) =>
             dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
         );
-    }, [dispatch, soknadId]);
+    }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
         dispatch(setBrodsmuleSti([
@@ -64,7 +65,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             <Oppgaver
                 oppgaver={innsynsdata.oppgaver}
-                soknadId={soknadId}
                 leserData={leserData(restStatus.oppgaver)}
             />
 
