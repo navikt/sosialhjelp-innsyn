@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react"
+import React, {ChangeEvent, useEffect, useState} from "react"
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
@@ -10,16 +10,20 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {fetchPost} from "../../utils/restUtils";
+import {VEDLEGG_FEILKODER, fetchPost} from "../../utils/restUtils";
 
 function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
     let formData = new FormData();
     const metadataJson = genererMetatadataJson(filer);
     const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
     formData.append("files", metadataBlob, "metadata.json");
-    filer.map((fil: Fil) => {
-        return formData.append("files", fil.file, fil.filnavn);
+
+    filer.forEach((fil: Fil) => {
+        if (fil.file){
+            return formData.append("files", fil.file, fil.filnavn);
+        }
     });
+
     return formData;
 }
 
@@ -29,8 +33,8 @@ function genererMetatadataJson(filer: Fil[]) {
         return {filnavn: fil.filnavn}
     });
     metadata.push({
-        type: "FIXME",
-        tilleggsinfo: "FIXME",
+        type: "annet",
+        tilleggsinfo: "annet",
         filer: filnavnArr
     });
     return JSON.stringify(metadata, null, 8);
@@ -41,7 +45,8 @@ const DineVedleggView: React.FC = () => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
-    const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.filer);
+    const [vedleggFeilkode, setVedleggFeilkode] = useState("");
+    const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersending.filer);
     const vedleggKlarForOpplasting = andreFiler.length > 0;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -96,9 +101,12 @@ const DineVedleggView: React.FC = () => {
                     if (fileItem.status !== "OK") {
                         harFeil = true;
                     }
+                    if (fileItem.status in VEDLEGG_FEILKODER) {
+                        setVedleggFeilkode(fileItem.status)
+                    }
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL,
-                        filnavn: fileItem.filnavn,
+                        fil: {filnavn: fileItem.filnavn} as Fil,
                         status: fileItem.status
                     });
                 }
@@ -153,6 +161,12 @@ const DineVedleggView: React.FC = () => {
             {antallUlovligeFiler > 0 && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
+                </div>
+            )}
+
+            {vedleggFeilkode !== "" && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.feilkoder." + vedleggFeilkode} />
                 </div>
             )}
 

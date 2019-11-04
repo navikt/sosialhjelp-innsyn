@@ -45,7 +45,7 @@ export interface Vedlegg {
 
 export interface Fil {
     filnavn: string;
-    file: File;
+    file?: File;
     status?: string;
 }
 
@@ -97,25 +97,24 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
-    fil?: File;
-    filnavn?: string;
+    fil: Fil;
     oppgave: Oppgave;
     status?: string;
 }
 
 export interface Status {
-    status: string|null;
+    status: string | null;
 }
 
 export interface Hendelse {
     tidspunkt: string;
     beskrivelse: string;
-    filUrl: null|string;
+    filUrl: null | string;
 }
 
 export interface VedtakFattet {
     dato: string;
-    vedtaksfilUrl: null|string;
+    vedtaksfilUrl: null | string;
 }
 
 export interface InnsynsdataType {
@@ -126,7 +125,7 @@ export interface InnsynsdataType {
     soknadsStatus: Status;
     hendelser: Hendelse[];
     vedlegg: Vedlegg[];
-    filer: Fil[];
+    ettersending: Ettersending;
     saker: Sakstype[];
 }
 
@@ -150,9 +149,17 @@ const initialState: InnsynsdataType = {
     hendelser: [],
     vedlegg: [],
     saker: [],
-    filer: [],
+    ettersending: {
+        filer: [],
+        feil: undefined
+    },
     restStatus: initialInnsynsdataRestStatus
 };
+
+export interface Ettersending {
+    filer: Fil[];
+    feil: string | undefined;
+}
 
 const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
     switch (action.type) {
@@ -170,7 +177,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...setPath(state, "restStatus/" + action.sti, action.restStatus)
             };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
-            return  {
+            return {
                 ...state,
                 oppgaver: state.oppgaver.map((item) => {
                     if (item.dokumenttype === action.oppgave.dokumenttype) {
@@ -183,14 +190,14 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 })
             };
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
-            return  {
+            return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
                     if (oppgave.dokumenttype === action.oppgave.dokumenttype) {
                         return {
                             ...oppgave,
                             filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
-                                if (action.fil && fil.filnavn === action.fil.name) {
+                                if (action.fil && fil.filnavn === action.fil.filnavn) {
                                     return false;
                                 }
                                 return true;
@@ -201,13 +208,13 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
-            return  {
+            return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
                     return {
                         ...oppgave,
                         filer: (oppgave.filer && oppgave.filer.map((fil: Fil) => {
-                            if (fil.filnavn === action.filnavn) {
+                            if (fil.filnavn === action.fil.filnavn) {
                                 return {
                                     ...fil,
                                     status: action.status
@@ -218,28 +225,51 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     }
                 })
             };
-        case InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING:
-            return  {
+        case InnsynsdataActionTypeKeys.LEGG_TIL_ANNEN_FIL_FOR_OPPLASTING: {
+
+            const found: Fil | undefined = state.ettersending.filer.find((fil: Fil) => {
+                return fil.filnavn === action.fil.filnavn;
+            });
+
+            if (found) {
+                return {
+                    ...state,
+                    ettersending: {
+                        ...state.ettersending,
+                        feil: "Filen eksisterer allerede"
+                    }
+                }
+            }
+
+            return {
                 ...state,
-                filer: [...(state.filer ? state.filer : []), action.fil]
+                ettersending: {
+                    ...state.ettersending,
+                    filer: [...(state.ettersending.filer ? state.ettersending.filer : []), action.fil]
+                }
             };
+        }
         case InnsynsdataActionTypeKeys.FJERN_ANNEN_FIL_FOR_OPPLASTING:
-            return  {
+            return {
                 ...state,
-                filer: state.filer.filter((fil: Fil) => {
-                        return !(action.fil && fil.filnavn === action.fil.name);
-                })
+                ettersending: {
+                    ...state.ettersending,
+                    filer: state.ettersending.filer.filter((fil: Fil) => {
+                        return !(action.fil && fil.filnavn === action.fil.filnavn);
+                    })
+                }
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ANNEN_FIL:
-            return  {
+            return {
                 ...state,
-                filer: state.filer.filter((fil: Fil) => {
-                    if (fil.filnavn === action.filnavn && action.status === "OK") {
-                        return false;
-                    }
-                    return true
-                })
+                ettersending: {
+                    ...state.ettersending,
+                    filer: state.ettersending.filer.filter((fil: Fil) => {
+                        return !(fil.filnavn === action.fil.filnavn && action.status === "OK");
+                    })
+                }
             };
+
         default:
             return state;
     }

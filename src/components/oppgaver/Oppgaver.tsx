@@ -64,9 +64,11 @@ function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
     const metadataJson = genererMetatadataJson(oppgaver);
     const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
     formData.append("files", metadataBlob, "metadata.json");
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
-            return formData.append("files", fil.file, fil.filnavn);
+    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
+            if (fil.file){
+                formData.append("files", fil.file, fil.filnavn);
+            }
         });
     });
     return formData;
@@ -74,9 +76,9 @@ function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
 
 function antallVedlegg(oppgaver: Oppgave[]) {
     let antall = 0;
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
-            return antall += 1;
+    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
+            antall += 1;
         });
     });
     return antall;
@@ -108,8 +110,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     }
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        filnavn: fileItem.filnavn,
-                        status: fileItem.status
+                        fil: {
+                            filnavn: fileItem.filnavn,
+                            status: fileItem.status,
+                        } as Fil,
                     });
                 }
             }
