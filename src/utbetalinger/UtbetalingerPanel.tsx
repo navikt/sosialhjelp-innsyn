@@ -4,6 +4,7 @@ import SavnerUtbetalingPanel from "./SavnerUtbetalingPanel";
 import UtbetalingEkspanderbart from "./UtbetalingEkspanderbart";
 import {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {formatCurrency} from "../utils/formatting";
+import Saksdetaljer from "./Saksdetaljer";
 
 const UtbetalingerPanel: React.FC<{utbetalinger: UtbetalingSakType[]}> = ({utbetalinger}) => {
 
@@ -45,6 +46,8 @@ const UtbetalingerPanel: React.FC<{utbetalinger: UtbetalingSakType[]}> = ({utbet
 
                                 <br/>
                                 <pre>{JSON.stringify(utbetalingSak, null, 2)}</pre>
+                                <br/>
+                                <Saksdetaljer fiksDigisosId={utbetalingSak.fiksDigisosId} key={"detaljer_" + index}/>
                             </UtbetalingEkspanderbart>
                             <hr/>
                         </div>
