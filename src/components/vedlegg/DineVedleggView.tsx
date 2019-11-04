@@ -114,7 +114,9 @@ const DineVedleggView: React.FC = () => {
 
     return (
         <div className="oppgaver_detaljer">
-            <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
+            <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}
+                style={{marginTop: "0px"}}
+            >
                 <Element><FormattedMessage id="andre_vedlegg.type" /></Element>
                     <Normaltekst className="luft_over_4px">
                         <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
@@ -149,7 +151,7 @@ const DineVedleggView: React.FC = () => {
             </div>
 
             {antallUlovligeFiler > 0 && (
-                <div className="oppgaver_vedlegg_feilmelding">
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
                 </div>
             )}
@@ -157,7 +159,7 @@ const DineVedleggView: React.FC = () => {
             <Hovedknapp
                 disabled={!vedleggKlarForOpplasting}
                 type="hoved"
-                className="luft_over_2rem luft_under_1rem"
+                className="luft_over_1rem"
                 onClick={(event: any) => sendVedlegg(event)}
             >
             <FormattedMessage id="andre_vedlegg.send_knapp_tittel"/>
