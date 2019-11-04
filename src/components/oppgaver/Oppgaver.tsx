@@ -16,15 +16,15 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
+import {InnsynAppState} from "../../redux/reduxTypes";
 
 interface Props {
     oppgaver: null | Oppgave[];
     leserData?: boolean;
-    soknadId?: any;
 }
 
 function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
@@ -64,9 +64,11 @@ function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
     const metadataJson = genererMetatadataJson(oppgaver);
     const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
     formData.append("files", metadataBlob, "metadata.json");
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
-            return formData.append("files", fil.file, fil.filnavn);
+    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
+            if (fil.file){
+                formData.append("files", fil.file, fil.filnavn);
+            }
         });
     });
     return formData;
@@ -74,26 +76,26 @@ function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
 
 function antallVedlegg(oppgaver: Oppgave[]) {
     let antall = 0;
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
-            return antall += 1;
+    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
+            antall += 1;
         });
     });
     return antall;
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
+const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const dispatch = useDispatch();
 
     const sendVedlegg = (event: any) => {
-        if (oppgaver === null) {
+        if (oppgaver === null || !fiksDigisosId) {
             event.preventDefault();
             return;
         }
 
         let formData = opprettFormDataMedVedlegg(oppgaver);
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
@@ -108,8 +110,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                     }
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        filnavn: fileItem.filnavn,
-                        status: fileItem.status
+                        fil: {
+                            filnavn: fileItem.filnavn,
+                            status: fileItem.status,
+                        } as Fil,
                     });
                 }
             }
@@ -186,7 +190,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                                 <Normaltekst>
                                     {oppgaver !== null && oppgaver.length && (
                                         <FormattedMessage id="oppgaver.vedlegg_mangler"
-                                                          values={{antall: oppgaver.length}}/>
+                                                          values={{antall: oppgaver ? oppgaver.length : 0}}/>
                                     )}
                                     <br/>
                                     {oppgaverErFraInnsyn && (

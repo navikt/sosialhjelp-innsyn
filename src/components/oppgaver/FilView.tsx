@@ -10,17 +10,17 @@ import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgave: Oppgave, index: number }> = ({fil, oppgave, index}) => {
-    const file = fil.file;
-    const storrelse: string = formatBytes(file.size);
+const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
+    const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
     const onSlettClick = (event: ClickEvent): void => {
         dispatch({
-            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
+            type: oppgave
+                ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
+                : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
             oppgave: oppgave,
-            fil: file,
-            index: index
+            fil: fil
         });
         event.preventDefault();
     };
@@ -35,18 +35,22 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave, index: number }> = ({fil, 
     return (
         <div className="vedlegg_liste_element" id={"app"}>
             <span className="filnavn_lenkeboks">
-                <VedleggModal
-                    file={file}
-                    onRequestClose={() => setModalVises(false)}
-                    synlig={modalVises}
-                />
+                { fil.file &&
+                    <VedleggModal
+                        file={fil.file}
+                        onRequestClose={() => setModalVises(false)}
+                        synlig={modalVises}
+                    />
+
+                }
+
                 <PaperClipSlanted className="filikon"/>
                 <Lenke
                     href="#"
                     className="filnavn lenke_uten_ramme"
                     onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
                 >
-                    {file.name}
+                    {fil.filnavn}
                 </Lenke>
                 <span className="filstorrelse">({storrelse})</span>
             </span>
