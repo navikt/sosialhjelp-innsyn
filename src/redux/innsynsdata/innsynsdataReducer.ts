@@ -177,10 +177,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         return {
                             ...oppgave,
                             filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
-                                if (action.fil && action.index && fil.filnavn === action.fil.name && index === action.index) {
-                                    return false;
-                                }
-                                return true;
+                                return !(action.fil && action.index !== undefined && fil.filnavn === action.fil.name && index === action.index);
                             }))
                         }
                     }
