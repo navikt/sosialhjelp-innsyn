@@ -12,7 +12,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost} from "../../utils/restUtils";
 
-function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
+export function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
     let formData = new FormData();
     const metadataJson = genererMetatadataJson(filer);
     const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
@@ -27,9 +27,9 @@ function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
     return formData;
 }
 
-function genererMetatadataJson(filer: Fil[]) {
+export function genererMetatadataJson(filer: Fil[]): string {
     let metadata: any[] = [];
-    let filnavnArr = filer.map((fil: any) => {
+    let filnavnArr = filer.map((fil: Fil) => {
         return {filnavn: fil.filnavn}
     });
     metadata.push({
