@@ -33,11 +33,14 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             fiksDigisosId: fiksDigisosId
         });
         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
+        dispatch(setBrodsmuleSti([
+            {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
+            {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
+        ]));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
         [
-            InnsynsdataSti.SAKSSTATUS,
             InnsynsdataSti.OPPGAVER,
             InnsynsdataSti.SOKNADS_STATUS,
             InnsynsdataSti.HENDELSER,
@@ -45,14 +48,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         ].map((restDataSti: InnsynsdataSti) =>
             dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
         );
-    }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus, restStatus.saksStatus]);
-
-    useEffect(() => {
-        dispatch(setBrodsmuleSti([
-            {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
-            {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
-        ]))
-    }, [dispatch]);
+    }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
     const leserData = (restStatus: REST_STATUS): boolean => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
