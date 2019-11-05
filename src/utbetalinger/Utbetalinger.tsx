@@ -5,7 +5,7 @@ import "./utbetalinger.less";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
-import {InnsynsdataSti, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -20,6 +20,7 @@ const Utbetalinger: React.FC = () => {
     useBannerTittel("Utbetalingsoversikt for økonomisk sosialhjelp");
 
     const utbetalingerService = useUtbetalingerService();
+
     const oppdaterPeriodeOgMottaker = (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean): void => {
         console.log("TODO: Filtrer på periode: " + antMndTilbake +
             " tilDinKnt " + (tilDinKnt ? "true" : "false") +
@@ -27,19 +28,13 @@ const Utbetalinger: React.FC = () => {
         );
     };
 
-    // Les inn saksdetaljer
     const dispatch = useDispatch();
-    const saker: Sakstype[] = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
+    const restStatus: any = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus);
     useEffect(() => {
-        if (saker.length === 0) {
-            console.log("Leser inn manglende saksdata...");
+        if (restStatus.saker !== REST_STATUS.OK) {
             dispatch(hentSaksdata(InnsynsdataSti.SAKER))
         }
-    }, [dispatch, saker]);
-    console.log("saker lest inn: " + saker.length);
-
-
-    console.log("utbetalinger restStatus: " + utbetalingerService.restStatus);
+    }, [dispatch, restStatus.saker]);
 
     const utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
         utbetalingerService.payload : [];
