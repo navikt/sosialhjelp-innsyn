@@ -45,8 +45,9 @@ const EttersendelseView: React.FC = () => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
-    const andreFiler: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersending.filer);
-    const vedleggKlarForOpplasting = andreFiler.length > 0;
+    const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
+    //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
+    const vedleggKlarForOpplasting = filer.length > 0;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         const uploadElement: any = document.getElementById('file_andre');
@@ -88,7 +89,7 @@ const EttersendelseView: React.FC = () => {
             return;
         }
 
-        let formData = opprettFormDataMedVedlegg(andreFiler);
+        let formData = opprettFormDataMedVedlegg(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
 
@@ -126,7 +127,7 @@ const EttersendelseView: React.FC = () => {
                         <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
                     </Normaltekst>
 
-                {andreFiler && andreFiler.length > 0 && andreFiler.map((fil: Fil, index: number) =>
+                {filer && filer.length > 0 && filer.map((fil: Fil, index: number) =>
                     <FilView key={index} fil={fil}/>
                 )}
 
@@ -159,6 +160,13 @@ const EttersendelseView: React.FC = () => {
                     <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
                 </div>
             )}
+
+            {/* TODO: Ta stilling til om/hvordan dupliserte filer skal håndteres */}
+            {/*{feil !== undefined && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={(feil as Vedleggfeil).feilmeldingId} values={{filnavn: (feil as Vedleggfeil).filnavn}}/>
+                </div>
+            )}*/}
 
             <Hovedknapp
                 disabled={!vedleggKlarForOpplasting}

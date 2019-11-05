@@ -125,7 +125,7 @@ export interface InnsynsdataType {
     soknadsStatus: Status;
     hendelser: Hendelse[];
     vedlegg: Vedlegg[];
-    ettersending: Ettersending;
+    ettersendelse: Ettersendelse;
     saker: Sakstype[];
 }
 
@@ -149,16 +149,21 @@ const initialState: InnsynsdataType = {
     hendelser: [],
     vedlegg: [],
     saker: [],
-    ettersending: {
+    ettersendelse: {
         filer: [],
         feil: undefined
     },
     restStatus: initialInnsynsdataRestStatus
 };
 
-export interface Ettersending {
+export interface Ettersendelse {
     filer: Fil[];
-    feil: string | undefined;
+    feil: Vedleggfeil | undefined;
+}
+
+export interface Vedleggfeil {
+    feilmeldingId: string,
+    filnavn: string
 }
 
 const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
@@ -227,34 +232,38 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE: {
 
-            const found: Fil | undefined = state.ettersending.filer.find((fil: Fil) => {
+            /* TODO: Ta stilling til om/hvordan dupliserte filer skal håndteres */
+            /*const found: Fil | undefined = state.ettersendelse.filer.find((fil: Fil) => {
                 return fil.filnavn === action.fil.filnavn;
             });
 
             if (found) {
                 return {
                     ...state,
-                    ettersending: {
-                        ...state.ettersending,
-                        feil: "Filen eksisterer allerede"
+                    ettersendelse: {
+                        ...state.ettersendelse,
+                        feil: {
+                            feilmeldingId: "vedlegg.validering.duplikat",
+                            filnavn: action.fil.filnavn
+                        } as Vedleggfeil
                     }
                 }
-            }
+            }*/
 
             return {
                 ...state,
-                ettersending: {
-                    ...state.ettersending,
-                    filer: [...(state.ettersending.filer ? state.ettersending.filer : []), action.fil]
+                ettersendelse: {
+                    ...state.ettersendelse,
+                    filer: [...(state.ettersendelse.filer ? state.ettersendelse.filer : []), action.fil]
                 }
             };
         }
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE:
             return {
                 ...state,
-                ettersending: {
-                    ...state.ettersending,
-                    filer: state.ettersending.filer.filter((fil: Fil) => {
+                ettersendelse: {
+                    ...state.ettersendelse,
+                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
                         return !(action.fil && fil.filnavn === action.fil.filnavn);
                     })
                 }
@@ -262,9 +271,9 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL:
             return {
                 ...state,
-                ettersending: {
-                    ...state.ettersending,
-                    filer: state.ettersending.filer.filter((fil: Fil) => {
+                ettersendelse: {
+                    ...state.ettersendelse,
+                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
                         return !(fil.filnavn === action.fil.filnavn && action.status === "OK");
                     })
                 }
