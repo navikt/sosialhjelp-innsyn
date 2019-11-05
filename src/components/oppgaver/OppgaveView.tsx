@@ -89,7 +89,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                 )}
 
                 {oppgave.filer && oppgave.filer.length > 0 && oppgave.filer.map((fil: Fil, index: number) =>
-                    <FilView key={index} fil={fil} oppgave={oppgave} index={index}/>
+                    <FilView key={index} fil={fil} oppgave={oppgave}/>
                 )}
 
                 <div className="oppgaver_last_opp_fil">

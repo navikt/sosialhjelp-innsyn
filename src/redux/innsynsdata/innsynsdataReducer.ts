@@ -45,7 +45,7 @@ export interface Vedlegg {
 
 export interface Fil {
     filnavn: string;
-    file: File;
+    file?: File;
     status?: string;
 }
 
@@ -60,13 +60,17 @@ export interface Oppgave {
 
 export enum InnsynsdataActionTypeKeys {
     // Innsynsdata:
+    SETT_FIKSDIGISOSID = "innsynsdata/SETT_FIKSDIGISOSID",
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
     FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING",
-    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL"
+    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
+    LEGG_TIL_FIL_FOR_ETTERSENDELSE = "innsynsdata/LEGG_TIL_FIL_FOR_ETTERSENDELSE",
+    FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
+    SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL"
 }
 
 export enum InnsynsdataSti {
@@ -84,6 +88,7 @@ export enum InnsynsdataSti {
 // }
 
 export interface InnsynsdataActionType {
+    fiksDigisosId?: string,
     type: InnsynsdataActionTypeKeys,
     verdi?: any,
     sti: InnsynsdataSti,
@@ -92,35 +97,35 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
-    fil?: File;
-    filnavn?: string;
+    fil: Fil;
     oppgave: Oppgave;
     status?: string;
-    index?: number;
 }
 
 export interface Status {
-    status: string|null;
+    status: string | null;
 }
 
 export interface Hendelse {
     tidspunkt: string;
     beskrivelse: string;
-    filUrl: null|string;
+    filUrl: null | string;
 }
 
 export interface VedtakFattet {
     dato: string;
-    vedtaksfilUrl: null|string;
+    vedtaksfilUrl: null | string;
 }
 
 export interface InnsynsdataType {
+    fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
     restStatus: any;
     soknadsStatus: Status;
     hendelser: Hendelse[];
     vedlegg: Vedlegg[];
+    ettersending: Ettersending;
     saker: Sakstype[];
 }
 
@@ -135,6 +140,7 @@ export const initialInnsynsdataRestStatus = {
 };
 
 const initialState: InnsynsdataType = {
+    fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
     soknadsStatus: {
@@ -143,11 +149,25 @@ const initialState: InnsynsdataType = {
     hendelser: [],
     vedlegg: [],
     saker: [],
+    ettersending: {
+        filer: [],
+        feil: undefined
+    },
     restStatus: initialInnsynsdataRestStatus
 };
 
+export interface Ettersending {
+    filer: Fil[];
+    feil: string | undefined;
+}
+
 const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
     switch (action.type) {
+        case InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID:
+            return {
+                ...state,
+                fiksDigisosId: action.fiksDigisosId
+            };
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
                 ...setPath(state, action.sti, action.verdi)
@@ -157,7 +177,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...setPath(state, "restStatus/" + action.sti, action.restStatus)
             };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
-            return  {
+            return {
                 ...state,
                 oppgaver: state.oppgaver.map((item) => {
                     if (item.dokumenttype === action.oppgave.dokumenttype) {
@@ -170,14 +190,17 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 })
             };
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
-            return  {
+            return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
                     if (oppgave.dokumenttype === action.oppgave.dokumenttype) {
                         return {
                             ...oppgave,
                             filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
-                                return !(action.fil && action.index !== undefined && fil.filnavn === action.fil.name && index === action.index);
+                                if (action.fil && fil.filnavn === action.fil.filnavn) {
+                                    return false;
+                                }
+                                return true;
                             }))
                         }
                     }
@@ -185,13 +208,13 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
-            return  {
+            return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
                     return {
                         ...oppgave,
                         filer: (oppgave.filer && oppgave.filer.map((fil: Fil) => {
-                            if (fil.filnavn === action.filnavn) {
+                            if (fil.filnavn === action.fil.filnavn) {
                                 return {
                                     ...fil,
                                     status: action.status
@@ -202,6 +225,51 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     }
                 })
             };
+        case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE: {
+
+            const found: Fil | undefined = state.ettersending.filer.find((fil: Fil) => {
+                return fil.filnavn === action.fil.filnavn;
+            });
+
+            if (found) {
+                return {
+                    ...state,
+                    ettersending: {
+                        ...state.ettersending,
+                        feil: "Filen eksisterer allerede"
+                    }
+                }
+            }
+
+            return {
+                ...state,
+                ettersending: {
+                    ...state.ettersending,
+                    filer: [...(state.ettersending.filer ? state.ettersending.filer : []), action.fil]
+                }
+            };
+        }
+        case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE:
+            return {
+                ...state,
+                ettersending: {
+                    ...state.ettersending,
+                    filer: state.ettersending.filer.filter((fil: Fil) => {
+                        return !(action.fil && fil.filnavn === action.fil.filnavn);
+                    })
+                }
+            };
+        case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL:
+            return {
+                ...state,
+                ettersending: {
+                    ...state.ettersending,
+                    filer: state.ettersending.filer.filter((fil: Fil) => {
+                        return !(fil.filnavn === action.fil.filnavn && action.status === "OK");
+                    })
+                }
+            };
+
         default:
             return state;
     }
