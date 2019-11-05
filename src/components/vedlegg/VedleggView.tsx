@@ -11,6 +11,7 @@ import "./responsiv_tabell.less";
 import '../lastestriper/lastestriper.less';
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
+import {getVisningstekster} from "../oppgaver/OppgaveView";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
@@ -260,7 +261,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                                 className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}
                             >
                                 <IconSizedSpacerDesktop/>
-                                {vedlegg.type}
+                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
                             </td>
                             <td
                                 align="right"
