@@ -7,10 +7,13 @@ export const tekster = {
         "status.mottatt": "Søknaden er mottatt",
         "status.under_behandling": "Søknaden er under behandling",
         "status.ferdigbehandlet": "Søknaden er ferdig behandlet",
-        "status.behandles_ikke": "Søknaden er ferdig behandlet", // Visningsteksten er lik ferdig behandlet, men statusen er behandles ikke i filformatet, mette endres på senere.
+        "status.behandles_ikke": "Søknaden er ferdig behandlet",
+        "status.behandles_ikke_ingress": "Vi kan ikke vise behandlingsstatus på nett. Dette kan være fordi søknaden behandles sammen med en annen søknad du har sendt inn. Ta kontakt med ditt NAV-kontor dersom du har spørsmål",
+        "status.ikke_innsyn_ingress": "Din søknad vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Ta kontakt med ditt NAV-kontor dersom du har spørsmål.",
 
         "tidspunkt.klokken": "klokken",
         "saker.oppgave": "Du har oppgave",
+        "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
         "oppgaver.dine_oppgaver": "Dine oppgaver",
         "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon til veileder",
@@ -31,6 +34,8 @@ export const tekster = {
         "oppgaver.send_knapp_tittel": "Send til veileder",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
+        "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
+        "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
 
         "vedlegg.lovlig_filtype_feilmelding" :
             "En eller flere filer ble ikke lagt til. " +
