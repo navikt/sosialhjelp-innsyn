@@ -2,9 +2,10 @@ import {Reducer} from "redux";
 
 interface NavigasjonsType {
     brodsmulesti: BrodsmuleElement[];
+    bannerTittel: string;
 }
 
-interface BrodsmuleElement {
+export interface BrodsmuleElement {
     sti: string;
     tittel: string;
 }
@@ -15,16 +16,26 @@ const initialState: NavigasjonsType = {
             sti: "/sosialhjelp/innsyn",
             tittel: "Økonomisk sosialhjelp"
         }
-    ]
+    ],
+    bannerTittel: "Økonomisk sosialhjelp"
 };
 
 export enum NavgiasjonActionTypeKey {
-    SETT_BRODSMULESTI = "SETT_BRODSMULESTI"
+    SETT_BRODSMULESTI = "SETT_BRODSMULESTI",
+    SETT_BANNERTITTEL = "SETT_BANNERTITTEL"
 }
+
 const setBrodsmuleSti = (brodsmulesti: BrodsmuleElement[]) => {
     return {
         type: NavgiasjonActionTypeKey.SETT_BRODSMULESTI,
         brodsmulesti
+    }
+};
+
+const setBannerTittel = (bannerTittel: string) => {
+    return {
+        type: NavgiasjonActionTypeKey.SETT_BANNERTITTEL,
+        bannerTittel
     }
 };
 
@@ -36,10 +47,16 @@ const NavigasjonsReducer: Reducer<NavigasjonsType, any> = (state = initialState,
                 brodsmulesti: action.brodsmulesti
             }
         }
+        case NavgiasjonActionTypeKey.SETT_BANNERTITTEL: {
+            return {
+                ...state,
+                bannerTittel: action.bannerTittel
+            }
+        }
     }
     return state;
 };
 
-export {setBrodsmuleSti};
+export {setBrodsmuleSti, setBannerTittel};
 export default NavigasjonsReducer;
 

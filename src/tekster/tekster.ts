@@ -45,6 +45,9 @@ export const tekster = {
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
         "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
-
+        "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
+        "andre_vedlegg.type": "Last opp andre vedlegg",
+        "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å gi oss kan de lastes opp her.",
+        "andre_vedlegg.send_knapp_tittel": "Send vedlegg"
     }
 };

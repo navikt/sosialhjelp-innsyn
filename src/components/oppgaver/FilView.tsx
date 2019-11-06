@@ -10,16 +10,17 @@ import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
-    const file = fil.file;
-    const storrelse: string = formatBytes(file.size);
+const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
+    const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
     const onSlettClick = (event: ClickEvent): void => {
         dispatch({
-            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
+            type: oppgave
+                ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
+                : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
             oppgave: oppgave,
-            fil: file
+            fil: fil
         });
         event.preventDefault();
     };
@@ -34,30 +35,36 @@ const FilView: React.FC<{ fil: Fil, oppgave: Oppgave }> = ({fil, oppgave}) => {
     return (
         <div className="vedlegg_liste_element" id={"app"}>
             <span className="filnavn_lenkeboks">
-                <VedleggModal
-                    file={file}
-                    onRequestClose={() => setModalVises(false)}
-                    synlig={modalVises}
-                />
+                { fil.file &&
+                    <VedleggModal
+                        file={fil.file}
+                        onRequestClose={() => setModalVises(false)}
+                        synlig={modalVises}
+                    />
+
+                }
+
                 <PaperClipSlanted className="filikon"/>
                 <Lenke
                     href="#"
                     className="filnavn lenke_uten_ramme"
                     onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
                 >
-                    {file.name}
+                    {fil.filnavn}
                 </Lenke>
                 <span className="filstorrelse">({storrelse})</span>
             </span>
             <span className="fjern_lenkeboks">
                 <Lenke
                     href="#"
+                    id={"fil_" + fil.filnavn + "_fjern_lenke_knapp"}
                     className="fjern_lenke lenke_uten_ramme"
                     onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onSlettClick(event)}
                 >
                     <FormattedMessage id="vedlegg.fjern"/>
                 </Lenke>
                 <button
+                    id={"fil_" + fil.filnavn + "_fjern_symbol_knapp"}
                     className="lenke"
                     style={{borderStyle: "none"}}
                     onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onSlettClick(event)}

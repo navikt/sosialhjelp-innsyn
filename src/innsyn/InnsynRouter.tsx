@@ -13,18 +13,21 @@ import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
 import Utbetalinger from "../utbetalinger/Utbetalinger";
 
 const InnsynRouter: React.FC = () => {
+
+    // Utbetalingssiden trenger bredere spaltebredde enn de andre sidene
+    const ekstraSpaltebredde: boolean = window.location.pathname.match(/\/utbetaling/) !== null;
+
     return (
         <div className="informasjon-side">
             <AppBanner/>
             <ConnectedRouter history={history}>
-                <div className="blokk-center">
+                <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>
                     <BrodsmuleSti/>
                     <Switch>
+                        <Route exact path="/innsyn/utbetaling" component={Utbetalinger}/>
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny}/>
-                        <Route exact path="/innsyn/status" component={SaksStatus}/>
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus}/>
                         <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide}/>
-                        <Route exact path="/innsyn/:soknadId/utbetalinger" component={Utbetalinger}/>
                         <Route exact path="/innsyn/feil" component={Feilside}/>
                         <Route exact path="/innsyn/:soknadId/feil" component={Feilside}/>
                         <Route exact path="/innsyn/link" component={Linkside}/>

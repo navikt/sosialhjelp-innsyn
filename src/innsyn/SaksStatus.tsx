@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
-import {InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataActionTypeKeys, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
@@ -15,44 +15,44 @@ import {useIntl} from 'react-intl';
 interface Props {
     match: {
         params: {
-            soknadId: any;
+            soknadId: string;
         }
     };
 }
 
 const SaksStatusView: React.FC<Props> = ({match}) => {
-    const soknadId = match.params.soknadId;
-
+    const fiksDigisosId: string = match.params.soknadId;
+    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl = useIntl();
 
     useEffect(() => {
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
-        const restDataStier: InnsynsdataSti[] = [
-            InnsynsdataSti.SAKSSTATUS,
+        dispatch({
+            type:  InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
+            fiksDigisosId: fiksDigisosId
+        });
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
+        dispatch(setBrodsmuleSti([
+            {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
+            {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
+        ]));
+    }, [dispatch, fiksDigisosId]);
+
+    useEffect(() => {
+        [
             InnsynsdataSti.OPPGAVER,
             InnsynsdataSti.SOKNADS_STATUS,
             InnsynsdataSti.HENDELSER,
             InnsynsdataSti.VEDLEGG
-        ];
-        restDataStier.map((restDataSti: InnsynsdataSti) =>
+        ].map((restDataSti: InnsynsdataSti) =>
             dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
         );
-    }, [dispatch, soknadId]);
-
-    useEffect(() => {
-        dispatch(setBrodsmuleSti([
-            {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
-            {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
-        ]))
-    }, [dispatch]);
+    }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
     const leserData = (restStatus: REST_STATUS): boolean => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
-
-    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const restStatus = innsynsdata.restStatus;
 
     return (
         <>
@@ -64,7 +64,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             <Oppgaver
                 oppgaver={innsynsdata.oppgaver}
-                soknadId={soknadId}
                 leserData={leserData(restStatus.oppgaver)}
             />
 

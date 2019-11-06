@@ -6,7 +6,8 @@ export interface UtbetalingType {
     tittel: string;
     belop: number;
     utbetalingsdato: string;
-    vilkar: any[] // TODO Finn testdata så vi får sett vilkår
+    vilkar: any[]; // TODO Finn testdata for vilkår
+    dokumentasjonkrav: any[]; // TODO Finn testdata for dok.krav.
 }
 
 export interface UtbetalingMaaned {

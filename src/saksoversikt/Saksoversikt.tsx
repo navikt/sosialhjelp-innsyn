@@ -9,9 +9,9 @@ import {REST_STATUS} from "../utils/restUtils";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
-import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService, {} from "./sakerFraSoknad/useSoknadsSakerService";
+import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
 
 const Saksoversikt: React.FC = () => {
     const dispatch = useDispatch();
@@ -34,11 +34,11 @@ const Saksoversikt: React.FC = () => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER))
     }, [dispatch]);
 
-    useEffect(() => {
-        dispatch(setBrodsmuleSti([
-                {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"}
-            ]))
-    }, [dispatch]);
+    useBannerTittel("Økonomisk sosialhjelp");
+
+    useBrodsmuleSti([
+        {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"}
+    ]);
 
     return (
         <div className="informasjon-side">
