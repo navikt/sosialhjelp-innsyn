@@ -60,7 +60,7 @@ function genererMetatadataJson(oppgaver: null | Oppgave[]) {
     return metadata_json;
 }
 
-function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
+export function opprettFormDataMedVedlegg(oppgaver: Oppgave[]): FormData {
     let formData = new FormData();
     const metadataJson = genererMetatadataJson(oppgaver);
     const metadataBlob = new Blob([metadataJson], {type: 'application/json'});

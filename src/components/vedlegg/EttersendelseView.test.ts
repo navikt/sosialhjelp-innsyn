@@ -8,7 +8,7 @@ const pdfFile = {filnavn: "test3.pdf", file: new Blob()} as Fil;
 const expectedMetadata = JSON.stringify([
     {
         type: "annet",
-        "tilleggsinfo": "annet",
+        tilleggsinfo: "annet",
         filer: [
             {filnavn: pngFile.filnavn},
             {filnavn: jpgFile.filnavn},
@@ -28,23 +28,21 @@ describe('Ettersendelsetest', () => {
         expect(formDataEntryValues).toBeDefined();
         expect(formDataEntryValues.length).toBe(4);
 
-        const file1 = (formDataEntryValues[0] as File);
-        expect(file1.name).toBeDefined();
-        expect(file1.name).toBe("metadata.json");
+        const metadataFile = (formDataEntryValues[0] as File);
+        expect(metadataFile).toBeDefined();
+        expect(metadataFile.name).toBe("metadata.json");
 
-        const file2 = (formDataEntryValues[1] as File);
-        expect(file2.name).toBeDefined();
-        expect(file2.name).toBe(pngFile.filnavn);
+        [
+            {file: formDataEntryValues[1], filnavn: pngFile.filnavn},
+            {file: formDataEntryValues[2], filnavn: jpgFile.filnavn},
+            {file: formDataEntryValues[3], filnavn: pdfFile.filnavn},
+        ].forEach((value: {file: FormDataEntryValue, filnavn: string}) => {
+            const file = (value.file as File);
+            expect(file).toBeDefined();
+            expect(file.name).toBe(value.filnavn);
+        });
 
-        const file3 = (formDataEntryValues[2] as File);
-        expect(file3.name).toBeDefined();
-        expect(file3.name).toBe(jpgFile.filnavn);
-
-        const file4 = (formDataEntryValues[3] as File);
-        expect(file4.name).toBeDefined();
-        expect(file4.name).toBe(pdfFile.filnavn);
-
-        const actualMetadata = file1["_buffer"].toString();
+        const actualMetadata = metadataFile["_buffer"].toString();
         expect(actualMetadata).toBe(expectedMetadata);
     });
 });
