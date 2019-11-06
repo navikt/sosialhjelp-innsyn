@@ -22,6 +22,7 @@ import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import {InnsynAppState} from "../../redux/reduxTypes";
+import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -38,41 +39,6 @@ function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
         innsendelsesfrist = innsendelsesfrister[0].toLocaleDateString();
     }
     return innsendelsesfrist;
-}
-
-function genererMetatadataJson(oppgaver: null | Oppgave[]) {
-    let metadata: any[] = [];
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        let filnavnArr: any[] = [];
-        if (oppgave.filer && oppgave.filer) {
-            filnavnArr = oppgave.filer.map((fil: any) => {
-                return {filnavn: fil.filnavn}
-            });
-            metadata.push({
-                type: oppgave.dokumenttype,
-                tilleggsinfo: oppgave.tilleggsinformasjon,
-                filer: filnavnArr
-            })
-        }
-        return null;
-    });
-    const metadata_json: string = JSON.stringify(metadata, null, 8);
-    return metadata_json;
-}
-
-export function opprettFormDataMedVedlegg(oppgaver: Oppgave[]): FormData {
-    let formData = new FormData();
-    const metadataJson = genererMetatadataJson(oppgaver);
-    const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
-    formData.append("files", metadataBlob, "metadata.json");
-    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
-        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
-            if (fil.file){
-                formData.append("files", fil.file, fil.filnavn);
-            }
-        });
-    });
-    return formData;
 }
 
 function antallVedlegg(oppgaver: Oppgave[]) {
@@ -96,7 +62,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             return;
         }
 
-        let formData = opprettFormDataMedVedlegg(oppgaver);
+        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
