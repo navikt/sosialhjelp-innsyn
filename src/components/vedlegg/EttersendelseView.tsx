@@ -11,34 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost} from "../../utils/restUtils";
-
-export function opprettFormDataMedVedlegg(filer: Fil[]): FormData {
-    let formData = new FormData();
-    const metadataJson = genererMetatadataJson(filer);
-    const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
-    formData.append("files", metadataBlob, "metadata.json");
-
-    filer.forEach((fil: Fil) => {
-        if (fil.file){
-            return formData.append("files", fil.file, fil.filnavn);
-        }
-    });
-
-    return formData;
-}
-
-function genererMetatadataJson(filer: Fil[]): string {
-    let metadata: any[] = [];
-    let filnavnArr = filer.map((fil: Fil) => {
-        return {filnavn: fil.filnavn}
-    });
-    metadata.push({
-        type: "annet",
-        tilleggsinfo: "annet",
-        filer: filnavnArr
-    });
-    return JSON.stringify(metadata, null, 8);
-}
+import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 
 const EttersendelseView: React.FC = () => {
 
@@ -89,7 +62,7 @@ const EttersendelseView: React.FC = () => {
             return;
         }
 
-        let formData = opprettFormDataMedVedlegg(filer);
+        let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
 
