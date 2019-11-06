@@ -26,14 +26,14 @@ const SaksoversiktIngenSoknader: React.FC = () => {
             </Veilederpanel>
 
             <div className={"soknadsOversiktLenkePanel"}>
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"./slik-soker-du"}>
+                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/slik-soker-du"}>
                     <div className={"soknadsOversiktLenkerAlign"}>
                         <SlikSokerDu/>
                         <Systemtittel className="lenkepanel__heading lenkepanelResenter">Slik søker du</Systemtittel>
                     </div>
                 </LenkepanelBase>
 
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"./dette-kan-du-soke-om"}>
+                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/dette-kan-du-soke-om"}>
                     <div className={"soknadsOversiktLenkerAlign"}>
                         <DetteKanDuSokeOm/>
                         <Systemtittel className="lenkepanel__heading lenkepanelResenter">Dette kan du søke om</Systemtittel>
