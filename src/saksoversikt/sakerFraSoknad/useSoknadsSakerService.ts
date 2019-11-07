@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {ServiceHookTypes} from "./ServiceHookTypes";
+import {ServiceHookTypes} from "../../utils/ServiceHookTypes";
 import {erDev, REST_STATUS} from "../../utils/restUtils";
 import {Sakstype} from "../../redux/innsynsdata/innsynsdataReducer";
 

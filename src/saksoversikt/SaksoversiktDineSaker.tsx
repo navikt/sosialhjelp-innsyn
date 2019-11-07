@@ -8,7 +8,7 @@ import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
 import {Knapp} from "nav-frontend-knapper";
 import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
-import {useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import Paginering from "../components/paginering/Paginering";
 import {push} from "connected-react-router";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
@@ -69,8 +69,9 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
         { paginerteSaker.map((sak:Sakstype) => {
                 let key = sak.fiksDigisosId;
+
                 if(sak.fiksDigisosId == null) {
-                    key = sak.soknadTittel
+                    key = sak.soknadTittel;
                 }
                 return (
                     <SakPanel
@@ -80,7 +81,8 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         oppdatert={sak.sistOppdatert}
                         key={key}
                         url={sak.url}
-                        antalNyeOppgaver={sak.antallNyeOppgaver}
+                        antallNyeOppgaver={sak.antallNyeOppgaver}
+                        harBlittLastetInn={sak.harBlittLastetInn}
                     />
                 )
             })

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Element, EtikettLiten} from "nav-frontend-typografi";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import { EtikettFokus } from 'nav-frontend-etiketter';
@@ -8,6 +8,8 @@ import "./sakpanel.less";
 import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
+import Lastestriper from "../../components/lastestriper/Lasterstriper";
+import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 
 interface Props {
     fiksDigisosId: string;
@@ -16,10 +18,13 @@ interface Props {
     oppdatert: string;
     key: string;
     url: string;
-    antalNyeOppgaver?: number;
+    antallNyeOppgaver?: number;
+    harBlittLastetInn?: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antalNyeOppgaver}) => {
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antallNyeOppgaver, harBlittLastetInn}) => {
+
+    const dispatch = useDispatch();
 
     const onClick = (event: any) => {
         if(fiksDigisosId === null) {
@@ -30,7 +35,17 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         }
     };
 
-    const dispatch = useDispatch();
+    let underLasting = !harBlittLastetInn;
+    let requestId = fiksDigisosId;
+    if(fiksDigisosId === null) {
+        underLasting = false;
+        requestId = "";
+    }
+
+    useEffect(() => {
+        dispatch(hentSaksdetaljer(requestId))
+    }, [dispatch, requestId]);
+
     return (
         <LenkepanelBase onClick={onClick} className="panel-glippe-over" href="#">
             <div className="sakpanel">
@@ -39,17 +54,34 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
                     <div className="sakpanel_innhold">
                         <div className="sakpanel_status">
 
-                            <EtikettLiten>
-                                {fiksDigisosId !== null && <> {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/></>}
-                                {fiksDigisosId === null && <> SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/></>}
-                            </EtikettLiten>
+                                {fiksDigisosId !== null && !underLasting && (
+                                    <EtikettLiten>
+                                        {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    </EtikettLiten>
+                                )}
+                                {fiksDigisosId !== null && underLasting && (
+                                    <div className="sakspanel_status_laster">
+                                        <Lastestriper linjer={1}/>
+                                        <EtikettLiten>
+                                            ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                        </EtikettLiten>
+                                    </div>
+                                )}
+                                {fiksDigisosId === null && (
+                                    <EtikettLiten>
+                                        SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    </EtikettLiten>
+                                )}
                         </div>
-                        <Element >{tittel}</Element>
+                        {underLasting && <Lastestriper linjer={1}/>}
+                        {!underLasting && <Element >{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">
-                    {antalNyeOppgaver !== undefined && antalNyeOppgaver >= 1 && (
-                        <EtikettFokus><FormattedMessage id="saker.oppgave" values={{antall: antalNyeOppgaver}} /></EtikettFokus>
+                    {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
+                        <EtikettFokus>
+                            <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />
+                        </EtikettFokus>
                     )}
                 </div>
             </div>

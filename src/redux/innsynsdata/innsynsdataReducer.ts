@@ -32,6 +32,8 @@ export interface Sakstype {
     antallNyeOppgaver: number;
     kilde: string;
     url: string;
+    restStatus: REST_STATUS;
+    harBlittLastetInn: boolean;
 }
 
 export interface Vedlegg {
@@ -70,7 +72,9 @@ export enum InnsynsdataActionTypeKeys {
     SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
     LEGG_TIL_FIL_FOR_ETTERSENDELSE = "innsynsdata/LEGG_TIL_FIL_FOR_ETTERSENDELSE",
     FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
-    SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL"
+    SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
+    OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
+    SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER"
 }
 
 export enum InnsynsdataSti {
@@ -100,6 +104,8 @@ export interface VedleggActionType {
     fil: Fil;
     oppgave: Oppgave;
     status?: string;
+    restStatus?: REST_STATUS;
+    fiksDigisosId?: string;
 }
 
 export interface Status {
@@ -231,6 +237,43 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     }
                 })
             };
+        case InnsynsdataActionTypeKeys.OPPDATER_SAKSDETALJER:
+            return {
+                ...state,
+                saker: state.saker.map((sak: Sakstype) => {
+                    if(action.verdi && action.verdi.fiksDigisosId) {
+                        if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
+                            var oppdatertSoknadTittel = sak.soknadTittel;
+                            if (action.verdi.soknadTittel !== "") {
+                                oppdatertSoknadTittel = action.verdi.soknadTittel;
+                            }
+                            return {
+                                ...sak,
+                                soknadTittel: oppdatertSoknadTittel,
+                                status: action.verdi.status,
+                                antallNyeOppgaver: action.verdi.antallNyeOppgaver,
+                                restStatus: REST_STATUS.OK,
+                                harBlittLastetInn: true
+                            };
+                        }
+                    }
+                    return sak;
+                })
+            };
+        case InnsynsdataActionTypeKeys.SETT_REST_STATUS_SAKSDETALJER:
+            return {
+                ...state,
+                saker: state.saker.map((sak: Sakstype) => {
+                    if (sak.fiksDigisosId === action.fiksDigisosId) {
+                        return {
+                            ...sak,
+                            restStatus: action.restStatus
+                        };
+                    } else {
+                        return sak;
+                    }
+                })
+            };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE: {
 
             /* TODO: Ta stilling til om/hvordan dupliserte filer skal håndteres */
@@ -290,6 +333,22 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
         verdi
+    }
+};
+
+export const oppdaterSaksdetaljerState = (requestId: string, verdi: Sakstype) => {
+    return {
+        type: InnsynsdataActionTypeKeys.OPPDATER_SAKSDETALJER,
+        requestId,
+        verdi
+    }
+};
+
+export const oppdaterSaksdetaljerRestStatus = (fiksDigisosId: string, restStatus: REST_STATUS) => {
+    return {
+        type: InnsynsdataActionTypeKeys.SETT_REST_STATUS_SAKSDETALJER,
+        fiksDigisosId,
+        restStatus
     }
 };
 
