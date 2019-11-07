@@ -215,22 +215,23 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 saker: state.saker.map((sak: Sakstype) => {
-                    if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
-                        var oppdatertSoknadTittel = sak.soknadTittel;
-                        if(action.verdi.soknadTittel !== "") {
-                            oppdatertSoknadTittel = action.verdi.soknadTittel;
+                    if(action.verdi && action.verdi.fiksDigisosId) {
+                        if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
+                            var oppdatertSoknadTittel = sak.soknadTittel;
+                            if (action.verdi.soknadTittel !== "") {
+                                oppdatertSoknadTittel = action.verdi.soknadTittel;
+                            }
+                            return {
+                                ...sak,
+                                soknadTittel: oppdatertSoknadTittel,
+                                status: action.verdi.status,
+                                antallNyeOppgaver: action.verdi.antallNyeOppgaver,
+                                restStatus: REST_STATUS.OK,
+                                harBlittLastetInn: true
+                            };
                         }
-                        return {
-                            ...sak,
-                            soknadTittel: oppdatertSoknadTittel,
-                            status: action.verdi.status,
-                            antallNyeOppgaver: action.verdi.antallNyeOppgaver,
-                            restStatus: REST_STATUS.OK,
-                            harBlittLastetInn: true
-                        };
-                    } else {
-                        return sak;
                     }
+                    return sak;
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS_SAKSDETALJER:
