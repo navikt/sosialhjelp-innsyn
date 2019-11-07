@@ -27,13 +27,14 @@ const Periodevelger: React.FC<Props> = ({className, onChange}) => {
         onChange(antallMaanederTilbake, tilDinKonto, !tilAnnenMottaker);
     };
 
+
     return (
         <div className={className}>
             <h2 className="typo-undertittel">Velg periode</h2>
             <form className="skjema">
                 <div className="periodevelger_skjemaelement">
                     <Radio
-                        label="Neste 3 måneder"
+                        label="Siste 3 måneder"
                         name="minRadioKnapp1"
                         checked={antallMaanederTilbake === 3}
                         onChange={() => onChangePeriode(3)}
@@ -41,7 +42,7 @@ const Periodevelger: React.FC<Props> = ({className, onChange}) => {
                 </div>
                 <div className="periodevelger_skjemaelement">
                     <Radio
-                        label="Neste 6 måneder"
+                        label="Siste 6 måneder"
                         name="minRadioKnapp2"
                         checked={antallMaanederTilbake === 6}
                         onChange={() => onChangePeriode(6)}
@@ -49,12 +50,13 @@ const Periodevelger: React.FC<Props> = ({className, onChange}) => {
                 </div>
                 <div className="periodevelger_skjemaelement">
                     <Radio
-                        label="Neste 12 måneder"
-                        name="minRadioKnapp6"
+                        label={"Siste 12 måneder"}
+                        name="minRadioKnapp3"
                         checked={antallMaanederTilbake === 12}
                         onChange={() => onChangePeriode(12)}
                     />
                 </div>
+
 
             </form>
             <div>

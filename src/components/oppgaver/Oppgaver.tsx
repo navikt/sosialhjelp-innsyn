@@ -16,15 +16,17 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
+import PaperClip from "../ikoner/PaperClip";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
 
 interface Props {
     oppgaver: null | Oppgave[];
     leserData?: boolean;
-    soknadId?: any;
 }
 
 function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
@@ -39,61 +41,28 @@ function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
     return innsendelsesfrist;
 }
 
-function genererMetatadataJson(oppgaver: null | Oppgave[]) {
-    let metadata: any[] = [];
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        let filnavnArr: any[] = [];
-        if (oppgave.filer && oppgave.filer) {
-            filnavnArr = oppgave.filer.map((fil: any) => {
-                return {filnavn: fil.filnavn}
-            });
-            metadata.push({
-                type: oppgave.dokumenttype,
-                tilleggsinfo: oppgave.tilleggsinformasjon,
-                filer: filnavnArr
-            })
-        }
-        return null;
-    });
-    const metadata_json: string = JSON.stringify(metadata, null, 8);
-    return metadata_json;
-}
-
-function opprettFormDataMedVedlegg(oppgaver: Oppgave[]) {
-    let formData = new FormData();
-    const metadataJson = genererMetatadataJson(oppgaver);
-    const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
-    formData.append("files", metadataBlob, "metadata.json");
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
-            return formData.append("files", fil.file, fil.filnavn);
-        });
-    });
-    return formData;
-}
-
 function antallVedlegg(oppgaver: Oppgave[]) {
     let antall = 0;
-    oppgaver && oppgaver.map((oppgave: Oppgave) => {
-        return oppgave.filer && oppgave.filer.map((fil: Fil) => {
-            return antall += 1;
+    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
+            antall += 1;
         });
     });
     return antall;
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
+const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const dispatch = useDispatch();
 
     const sendVedlegg = (event: any) => {
-        if (oppgaver === null) {
+        if (oppgaver === null || !fiksDigisosId) {
             event.preventDefault();
             return;
         }
 
-        let formData = opprettFormDataMedVedlegg(oppgaver);
-        const fiksDigisosId: string = soknadId === undefined ? "1234" : soknadId;
+        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
@@ -108,8 +77,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                     }
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        filnavn: fileItem.filnavn,
-                        status: fileItem.status
+                        fil: {
+                            filnavn: fileItem.filnavn,
+                            status: fileItem.status,
+                        } as Fil,
                     });
                 }
             }
@@ -156,16 +127,31 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
 
                 {!brukerHarOppgaver && !leserData && (
                     <>
-                        <span style={{float: "left", marginTop: "6px"}}>
-                            <TodoList/>
-                        </span>
-                        <div style={{paddingLeft: "38px"}}>
-                            <Element>
-                                <FormattedMessage id="oppgaver.ingen_oppgaver"/>
-                            </Element>
-                            <Normaltekst>
-                                <FormattedMessage id="oppgaver.beskjed"/>
-                            </Normaltekst>
+                        <div>
+                            <span style={{float: "left", marginTop: "6px"}}>
+                                <TodoList/>
+                            </span>
+                            <div style={{paddingLeft: "38px"}}>
+                                <Element>
+                                    <FormattedMessage id="oppgaver.ingen_oppgaver"/>
+                                </Element>
+                                <Normaltekst>
+                                    <FormattedMessage id="oppgaver.beskjed"/>
+                                </Normaltekst>
+                            </div>
+                        </div>
+                        <div style={{marginTop: "20px"}}>
+                            <span style={{float: "left", marginTop: "6px"}}>
+                                <PaperClip/>
+                            </span>
+                            <div style={{paddingLeft: "38px"}}>
+                                <Element>
+                                    <FormattedMessage id="oppgaver.andre_dokumenter"/>
+                                </Element>
+                                <Normaltekst>
+                                    <FormattedMessage id="oppgaver.andre_dokumenter_beskjed"/>
+                                </Normaltekst>
+                            </div>
                         </div>
                     </>
                 )}
@@ -186,7 +172,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData, soknadId}) => {
                                 <Normaltekst>
                                     {oppgaver !== null && oppgaver.length && (
                                         <FormattedMessage id="oppgaver.vedlegg_mangler"
-                                                          values={{antall: oppgaver.length}}/>
+                                                          values={{antall: oppgaver ? oppgaver.length : 0}}/>
                                     )}
                                     <br/>
                                     {oppgaverErFraInnsyn && (

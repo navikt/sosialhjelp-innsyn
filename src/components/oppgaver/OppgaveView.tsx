@@ -22,6 +22,22 @@ export const legalFileExtension = (filename: string): boolean => {
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
 
+export const getVisningstekster = (type: string, tilleggsinfo: string|undefined) => {
+    let typeTekst;
+    let tilleggsinfoTekst;
+    let sammensattType = type + "|" + tilleggsinfo;
+    let erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
+    if (erOriginalSoknadVedleggType) {
+        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
+        typeTekst = soknadVedleggSpec.tittel;
+        tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
+    } else {
+        typeTekst = type;
+        tilleggsinfoTekst = tilleggsinfo;
+    }
+    return {typeTekst, tilleggsinfoTekst};
+};
+
 const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
 
     const dispatch = useDispatch();
@@ -62,18 +78,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
         event.preventDefault();
     };
 
-    let typeTekst;
-    let tilleggsinfoTekst;
-    let sammensattType = oppgave.dokumenttype + "|" + oppgave.tilleggsinformasjon;
-    let erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
-    if (erOriginalSoknadVedleggType) {
-        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
-        typeTekst = soknadVedleggSpec.tittel;
-        tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
-    } else {
-        typeTekst = oppgave.dokumenttype;
-        tilleggsinfoTekst = oppgave.tilleggsinformasjon;
-    }
+    let {typeTekst, tilleggsinfoTekst} = getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon);
 
     return (
         <>
@@ -89,7 +94,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
                 )}
 
                 {oppgave.filer && oppgave.filer.length > 0 && oppgave.filer.map((fil: Fil, index: number) =>
-                    <FilView key={index} fil={fil} oppgave={oppgave} index={index}/>
+                    <FilView key={index} fil={fil} oppgave={oppgave}/>
                 )}
 
                 <div className="oppgaver_last_opp_fil">
