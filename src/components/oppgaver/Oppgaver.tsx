@@ -36,7 +36,7 @@ function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
     let innsendelsesfrist: string = "";
     if (oppgaver.length > 0) {
         const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist!!)).sort();
-        innsendelsesfrist = innsendelsesfrister[0].toLocaleDateString().replace("/",".");
+        innsendelsesfrist = innsendelsesfrister[0].toLocaleDateString().replace(new RegExp('/', 'g'),".");
     }
     return innsendelsesfrist;
 }
