@@ -21,7 +21,7 @@ export const tekster = {
         "oppgaver.vedlegg_mangler": "{antall} vedlegg mangler",
         "oppgaver.innsendelsesfrist": "Neste frist for innlevering er {innsendelsesfrist}",
         "oppgaver.veileder_trenger_mer":
-            "Veilederen trenger mer dokumentasjon for å behandle søknaden din. " +
+            "Vi trenger mer dokumentasjon for å behandle søknaden din. " +
             "Hvis du ikke leverer dokumentasjonen innen fristen, blir " +
             "søknaden behandlet med den informasjonen vi har.",
         "oppgaver.last_opp_vedlegg_ikke":
