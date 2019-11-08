@@ -30,7 +30,8 @@ export enum OriginalSoknadVedleggType {
     FAKTURA_TANNBEHANDLING = "faktura|tannbehandling",
     FAKTURA_ANNETBARNUTGIFT = "faktura|annetbarnutgift",
     SKATTEMELDING_SKATTEMELDING = "skattemelding|skattemelding",
-    OPPHOLDSTILLATEL_OPPHOLDSTILLATEL= "oppholdstillatel|oppholdstillatel"
+    OPPHOLDSTILLATEL_OPPHOLDSTILLATEL= "oppholdstillatel|oppholdstillatel",
+    ANNET_ANNET= "annet|annet"
 }
 export interface OriginalSoknadVedleggSpec {
     type: OriginalSoknadVedleggType;

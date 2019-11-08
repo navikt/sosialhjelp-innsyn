@@ -32,5 +32,6 @@ export const originalSoknadVedleggTekstVisning: OriginalSoknadVedleggSpec[] = [
     { type: OriginalSoknadVedleggType.FAKTURA_TANNBEHANDLING, tittel: "Utgifter til tannregulering", tilleggsinfo: "Kopi av kvittering eller faktura for tannregulering"},
     { type: OriginalSoknadVedleggType.FAKTURA_ANNETBARNUTGIFT, tittel: "Andre utgifter til barn", tilleggsinfo: "Dokumentasjon på andre utgifter du har til barn"},
     { type: OriginalSoknadVedleggType.SKATTEMELDING_SKATTEMELDING, tittel: "Skattemelding og skatteoppgjør", tilleggsinfo: "Kopi av siste tilgjengelige skattemelding og skatteoppgjør"},
-    { type: OriginalSoknadVedleggType.OPPHOLDSTILLATEL_OPPHOLDSTILLATEL, tittel: "Registreringsbevis eller oppholdstillatelse", tilleggsinfo: "Kopi av ditt registreringsbevis eller din oppholdstillatelse"}
+    { type: OriginalSoknadVedleggType.OPPHOLDSTILLATEL_OPPHOLDSTILLATEL, tittel: "Registreringsbevis eller oppholdstillatelse", tilleggsinfo: "Kopi av ditt registreringsbevis eller din oppholdstillatelse"},
+    { type: OriginalSoknadVedleggType.ANNET_ANNET, tittel: "Annen dokumentasjon", tilleggsinfo: ""}
 ];
