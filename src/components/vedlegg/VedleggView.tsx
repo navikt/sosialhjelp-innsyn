@@ -254,7 +254,12 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                                 className={sortBy === Kolonne.FILNAVN ? "tabell__td--sortert" : ""}
                             >
                                 <PaperClipSlanted className="ikon_liten_vedlegg"/>
-                                <Lenke href={vedlegg.url} className="lenke_vedlegg_filnavn">{vedlegg.filnavn}</Lenke>
+                                <Lenke onClick={() => {
+                                    const x = window.open("data:text/json, _blank");
+                                    x!.document.open();
+                                    x!.document.write('<html><body><pre><embed src=\"' + vedlegg.url + '\"></pre></body></html>');
+                                    x!.document.close();
+                                }} href={vedlegg.url} className="lenke_vedlegg_filnavn">{vedlegg.filnavn}</Lenke>
                                 &nbsp;({formatBytes(vedlegg.storrelse, 2)})
                             </td>
                             <td
