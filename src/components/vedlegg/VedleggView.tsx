@@ -257,7 +257,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                                 <Lenke onClick={() => {
                                     const x = window.open("data:text/json, _blank");
                                     x!.document.open();
-                                    x!.document.write('<html><body><pre><embed src=\"' + vedlegg.url + '\"></pre></body></html>');
+                                    x!.document.write('<html><body><pre><embed src=\"' + vedlegg.url + '\" type=\"application/pdf\"></pre></body></html>');
                                     x!.document.close();
                                 }} href={vedlegg.url} className="lenke_vedlegg_filnavn">{vedlegg.filnavn}</Lenke>
                                 &nbsp;({formatBytes(vedlegg.storrelse, 2)})
