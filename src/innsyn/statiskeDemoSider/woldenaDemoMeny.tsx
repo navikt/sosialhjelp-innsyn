@@ -32,10 +32,10 @@ const WoldenaDemoMeny: React.FC<Props> = (props: Props) => {
             <br/>
             <ol className="typo-normal">
                 <li>Gå til <Lenke href={ getWoldenaAdresse() } target={"_blank"}>{woldenaNavn}</Lenke></li>
-                <li>Lim inn en gyldig digisos id og trykk opprett</li>
+                <li>Lim inn en digisos id og trykk opprett</li>
                 <li>Trykk på den lenken som du opprettett rett ovenfor i Søknadsvelgeren</li>
-                <li>En link vil komme opp i bokesn for <b>Oversikt over Søknader</b>. Trykk på denne for å gå til innsyn-siden.</li>
-                <li>Bruk {woldenaNavn} aktivt for å endre på søknadsstatusen, f eks ved å opprette saker og legge til utbetalinger.</li>
+                <li>En link vil komme opp i boksen for <b>Oversikt over Søknader</b>. Trykk på denne for å gå til innsyn-siden.</li>
+                <li>Bruk {woldenaNavn} aktivt for å endre på søknadsstatusen, for eksempel ved å opprette saker og legge til utbetalinger.</li>
                 <li>Les mer om {woldenaNavn} på <Lenke href={"http://woldena.com"} target={"_blank"}>woldena.com</Lenke></li>
             </ol>
             <br />
