@@ -1,10 +1,7 @@
 import {useEffect, useState} from "react";
-import {erDevMiljo, REST_STATUS, ServiceHookTypes} from "./ServiceHookTypes";
-
-export interface Suggestion {
-    key: string;
-    value: string;
-}
+import {erDevMiljo, ServiceHookTypes} from "./ServiceHookTypes";
+import {Suggestion} from "../navAutocomplete/NavAutcomplete";
+import {REST_STATUS} from "../../../utils/restUtils";
 
 export interface KommuneNummere {
     results: Suggestion[];

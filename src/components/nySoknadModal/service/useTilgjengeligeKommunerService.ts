@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
-import {erDevMiljo, REST_STATUS, ServiceHookTypes} from "./ServiceHookTypes";
+import {erDevMiljo, ServiceHookTypes} from "./ServiceHookTypes";
+import {REST_STATUS} from "../../../utils/restUtils";
 
 export interface KommuneTilgjengelighet {
     harMidlertidigDeaktivertMottak: boolean;
