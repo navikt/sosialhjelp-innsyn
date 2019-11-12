@@ -4,6 +4,7 @@ import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
 import {getAbsoluteBasename} from "../../configureStore";
 import {getApiBaseUrlForSwagger} from "../../utils/restUtils";
 import Lenke from "nav-frontend-lenker";
+import WoldenaDemoMeny from "./woldenaDemoMeny";
 
 const InnsynDemoMeny: React.FC = () => {
     return (
@@ -27,8 +28,8 @@ const InnsynDemoMeny: React.FC = () => {
                 <li>Gå til <Lenke href={"/" + getAbsoluteBasename() + "/innsyn/soknadId/status"}>status-siden</Lenke></li>
                 <li>Endre 'soknadId' i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata</li>
             </ol>
-            <br />
-
+            <br/>
+            <WoldenaDemoMeny />
         </Panel>
     )
 };

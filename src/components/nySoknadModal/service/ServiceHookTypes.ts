@@ -1,4 +1,10 @@
-import {REST_STATUS} from "../../../utils/restUtils";
+export enum REST_STATUS {
+    OK = "OK",
+    FEILET = "FEILET",
+    PENDING = "PENDING",
+    INITIALISERT = "INITIALISERT",
+    UNAUTHORIZED = "UNAUTHORIZED"
+}
 
 interface ServiceInit {
     restStatus: REST_STATUS.INITIALISERT;

@@ -34,6 +34,15 @@ export function getApiBaseUrlForSwagger(): string {
     }
 }
 
+export function getApiBaseUrlForWoldena(): string {
+    if (erDev()) {
+        return "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html";
+    } else {
+        return getAbsoluteApiUrl() + "swagger-ui.html";
+    }
+}
+
+
 /**
  * Resolves API URL in a pathname independent way
  */
