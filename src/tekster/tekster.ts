@@ -16,7 +16,7 @@ export const tekster = {
         "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
         "oppgaver.dine_oppgaver": "Dine oppgaver",
-        "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon til veileder",
+        "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
         "oppgaver.maa_sende_dok": "Du må sende inn dokumentasjon",
         "oppgaver.vedlegg_mangler": "{antall} vedlegg mangler",
         "oppgaver.innsendelsesfrist": "Neste frist for innlevering er {innsendelsesfrist}",
@@ -31,7 +31,7 @@ export const tekster = {
             "har.",
         "oppgaver.hjelp_last_opp": "Hjelp til å laste opp?",
         "oppgaver.neste_frist": "Frist for innlevering er {innsendelsesfrist}",
-        "oppgaver.send_knapp_tittel": "Send til veileder",
+        "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
         "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
@@ -40,7 +40,7 @@ export const tekster = {
         "vedlegg.lovlig_filtype_feilmelding" :
             "En eller flere filer ble ikke lagt til. " +
             "Du kan bare laste opp filer av typen JPG, PNG, PDF.",
-        "vedlegg.velg_fil": "Velg fil",
+        "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",

@@ -170,11 +170,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                     )}
                                 </Element>
                                 <Normaltekst>
-                                    {oppgaver !== null && oppgaver.length && (
-                                        <FormattedMessage id="oppgaver.vedlegg_mangler"
-                                                          values={{antall: oppgaver ? oppgaver.length : 0}}/>
-                                    )}
-                                    <br/>
                                     {oppgaverErFraInnsyn && (
                                         <FormattedMessage
                                             id="oppgaver.innsendelsesfrist"
