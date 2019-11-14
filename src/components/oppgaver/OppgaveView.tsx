@@ -11,6 +11,7 @@ import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedlegg
 import {FormattedMessage} from "react-intl";
 
 interface Props {
+    className?: string;
     oppgave: Oppgave;
     id: any;
 }
@@ -38,7 +39,7 @@ export const getVisningstekster = (type: string, tilleggsinfo: string|undefined)
     return {typeTekst, tilleggsinfoTekst};
 };
 
-const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
+const OppgaveView: React.FC<Props> = ({className, oppgave, id} : Props) => {
 
     const dispatch = useDispatch();
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
@@ -82,7 +83,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, id}) => {
 
     return (
         <>
-            <div className={"oppgaver_detalj " + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
+            <div className={"oppgaver_detalj " + className}>
                 <Element>{typeTekst}</Element>
                 {tilleggsinfoTekst && (
                     <Normaltekst className="luft_over_4px">

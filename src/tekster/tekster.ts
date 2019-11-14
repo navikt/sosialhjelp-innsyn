@@ -31,23 +31,23 @@ export const tekster = {
             "har.",
         "oppgaver.hjelp_last_opp": "Hjelp til å laste opp?",
         "oppgaver.neste_frist": "Frist for innlevering er {innsendelsesfrist}",
-        "oppgaver.send_knapp_tittel": "Send til veileder",
+        "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
         "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
         "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
-
+        "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
         "vedlegg.lovlig_filtype_feilmelding" :
             "En eller flere filer ble ikke lagt til. " +
             "Du kan bare laste opp filer av typen JPG, PNG, PDF.",
-        "vedlegg.velg_fil": "Velg fil",
+        "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
         "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
-        "andre_vedlegg.type": "Last opp andre vedlegg",
-        "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å gi oss kan de lastes opp her.",
+        "andre_vedlegg.type": "Send andre vedlegg",
+        "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg"
     }
 };
