@@ -1,9 +1,7 @@
 import Veilederpanel from "nav-frontend-veilederpanel";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
-import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
+import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
-import SlikSokerDu from "../components/ikoner/SlikSokerDu";
-import DetteKanDuSokeOm from "../components/ikoner/DetteKanDuSokeOm";
 import React from "react";
 
 const SaksoversiktIngenSoknader: React.FC = () => {
@@ -17,26 +15,23 @@ const SaksoversiktIngenSoknader: React.FC = () => {
             >
                 <>
                     <Systemtittel className="ingenSoknaderFunnetText">
-                        Vi finner ingen digitale søknader fra deg
+                        Vi finner ingen digital søknad fra deg
                     </Systemtittel>
                     <Normaltekst className="ingenSoknaderFunnetText">
-                        Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.
+                        Vi kan dessverre ikke vise søknader som er sendt på papir.
                     </Normaltekst>
                 </>
             </Veilederpanel>
 
             <div className={"soknadsOversiktLenkePanel"}>
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/slik-soker-du"}>
+                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"}>
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <SlikSokerDu/>
-                        <Systemtittel className="lenkepanel__heading lenkepanelResenter">Slik søker du</Systemtittel>
+                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">Les mer om økonomisk sosialhjelp</Undertittel>
                     </div>
                 </LenkepanelBase>
-
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/dette-kan-du-soke-om"}>
+                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/slik-soker-du"}>
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <DetteKanDuSokeOm/>
-                        <Systemtittel className="lenkepanel__heading lenkepanelResenter">Dette kan du søke om</Systemtittel>
+                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">Søk om økonomisk sosialhjelp</Undertittel>
                     </div>
                 </LenkepanelBase>
             </div>
