@@ -209,7 +209,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 </Normaltekst>
                             )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
-                                <OppgaveView className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""} oppgave={oppgave} key={index} id={index}/>
+                                <OppgaveView handleOnLinkClicked={(response: boolean) => {setSendVedleggTrykket(response)}} className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""} oppgave={oppgave} key={index} id={index}/>
                             ))}
 
                             <Hovedknapp

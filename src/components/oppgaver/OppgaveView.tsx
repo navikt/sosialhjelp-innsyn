@@ -14,6 +14,7 @@ interface Props {
     className?: string;
     oppgave: Oppgave;
     id: any;
+    handleOnLinkClicked?: (value: boolean) => void;
 }
 
 export const legalFileExtension = (filename: string): boolean => {
@@ -23,7 +24,7 @@ export const legalFileExtension = (filename: string): boolean => {
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
 
-export const getVisningstekster = (type: string, tilleggsinfo: string|undefined) => {
+export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
     let typeTekst;
     let tilleggsinfoTekst;
     let sammensattType = type + "|" + tilleggsinfo;
@@ -39,12 +40,16 @@ export const getVisningstekster = (type: string, tilleggsinfo: string|undefined)
     return {typeTekst, tilleggsinfoTekst};
 };
 
-const OppgaveView: React.FC<Props> = ({className, oppgave, id} : Props) => {
+const OppgaveView: React.FC<Props> = ({className, oppgave, id, handleOnLinkClicked}: Props) => {
 
     const dispatch = useDispatch();
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+
+        if (handleOnLinkClicked) {
+            handleOnLinkClicked(false);
+        }
         const uploadElement: any = document.getElementById('file_' + id);
         uploadElement.click();
         if (event) {
@@ -101,13 +106,17 @@ const OppgaveView: React.FC<Props> = ({className, oppgave, id} : Props) => {
                 <div className="oppgaver_last_opp_fil">
                     <UploadFileIcon
                         className="last_opp_fil_ikon"
-                        onClick={(event: any) => {onLinkClicked(event)}}
+                        onClick={(event: any) => {
+                            onLinkClicked(event)
+                        }}
                     />
                     <Lenke
                         href="#"
                         id={"oppgave_" + id + "_last_opp_fil_knapp"}
                         className="lenke_uten_ramme"
-                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onLinkClicked(event)}}
+                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                            onLinkClicked(event)
+                        }}
                     >
                         <Element>
                             <FormattedMessage id="vedlegg.velg_fil"/>
