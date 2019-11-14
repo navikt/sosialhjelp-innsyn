@@ -1,6 +1,11 @@
 import React, {ChangeEvent, useState} from "react"
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
+    settRestStatus
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
 import UploadFileIcon from "../ikoner/UploadFile";
 import Lenke from "nav-frontend-lenker";
@@ -10,7 +15,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {fetchPost} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 
 const EttersendelseView: React.FC = () => {
@@ -22,6 +27,8 @@ const EttersendelseView: React.FC = () => {
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -67,6 +74,7 @@ const EttersendelseView: React.FC = () => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
+        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
@@ -153,7 +161,8 @@ const EttersendelseView: React.FC = () => {
             )}*/}
 
                 <Hovedknapp
-
+                    disabled={vedleggLastesOpp}
+                    spinner={vedleggLastesOpp}
                     type="hoved"
                     className="luft_over_1rem"
                     onClick={(event: any) => {
