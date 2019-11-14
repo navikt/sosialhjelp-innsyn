@@ -1,6 +1,6 @@
 import {Panel} from "nav-frontend-paneler";
 import {Normaltekst, Systemtittel, Element} from "nav-frontend-typografi";
-import React from "react";
+import React, {useState} from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";
@@ -52,6 +52,7 @@ function antallVedlegg(oppgaver: Oppgave[]) {
 }
 
 const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
+    const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const dispatch = useDispatch();
@@ -170,11 +171,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                     )}
                                 </Element>
                                 <Normaltekst>
-                                    {oppgaver !== null && oppgaver.length && (
-                                        <FormattedMessage id="oppgaver.vedlegg_mangler"
-                                                          values={{antall: oppgaver ? oppgaver.length : 0}}/>
-                                    )}
-                                    <br/>
                                     {oppgaverErFraInnsyn && (
                                         <FormattedMessage
                                             id="oppgaver.innsendelsesfrist"
@@ -198,7 +194,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                             <FormattedMessage id="oppgaver.hjelp_last_opp"/>
                         </Lenke>
 
-                        <div className="oppgaver_detaljer">
+                        <div className={ (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer"}>
                             {oppgaverErFraInnsyn && (
                                 <Normaltekst className="luft_under_8px">
                                     <FormattedMessage
@@ -208,19 +204,29 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 </Normaltekst>
                             )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
-                                <OppgaveView oppgave={oppgave} key={index} id={index}/>
+                                <OppgaveView handleOnLinkClicked={(response: boolean) => {setSendVedleggTrykket(response)}} className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""} oppgave={oppgave} key={index} id={index}/>
                             ))}
+
+                            <Hovedknapp
+                                type="hoved"
+                                className="luft_over_2rem luft_under_1rem"
+                                onClick={(event: any) => {
+                                    if (!vedleggKlarForOpplasting){
+                                        setSendVedleggTrykket( true )
+                                        return;
+                                    }
+                                    sendVedlegg(event)
+                                }}
+                            >
+                                <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+                            </Hovedknapp>
                         </div>
+                        {(!vedleggKlarForOpplasting && sendVedleggTrykket)  &&  (
+                            <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                                <FormattedMessage id="vedlegg.minst_ett_vedlegg"/>
+                            </div>
+                        )}
 
-                        <Hovedknapp
-                            disabled={!vedleggKlarForOpplasting}
-                            type="hoved"
-                            className="luft_over_2rem luft_under_1rem"
-                            onClick={(event: any) => sendVedlegg(event)}
-                        >
-                            <FormattedMessage id="oppgaver.send_knapp_tittel"/>
-
-                        </Hovedknapp>
                     </EkspanderbartpanelBase>
 
                 )}
