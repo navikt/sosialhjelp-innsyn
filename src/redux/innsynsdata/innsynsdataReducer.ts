@@ -53,6 +53,10 @@ export interface Fil {
 
 export interface Oppgave {
     innsendelsesfrist?: string;
+    oppgaveElementer: OppgaveElement[]
+}
+
+export interface OppgaveElement {
     dokumenttype: string;
     tilleggsinformasjon?: string;
     erFraInnsyn: boolean;
@@ -102,7 +106,7 @@ export interface InnsynsdataActionType {
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
     fil: Fil;
-    oppgave: Oppgave;
+    oppgaveElement: OppgaveElement;
     status?: string;
     restStatus?: REST_STATUS;
     fiksDigisosId?: string;
@@ -190,33 +194,43 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((item) => {
-                    if (item.dokumenttype === action.oppgave.dokumenttype &&
-                            item.tilleggsinformasjon === action.oppgave.tilleggsinformasjon) {
-                        return {
-                            ...item,
-                            filer: [...(item.filer ? item.filer : []), action.fil]
-                        }
+                oppgaver: state.oppgaver.map((oppgave) => {
+                    return {
+                        ...oppgave,
+                        oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
+                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
+                                oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
+                                return {
+                                    ...oppgaveElement,
+                                    filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil]
+                                }
+                            }
+                            return oppgaveElement;
+                        })
                     }
-                    return item;
                 })
             };
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
             return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
-                    if (oppgave.dokumenttype === action.oppgave.dokumenttype) {
-                        return {
-                            ...oppgave,
-                            filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
-                                if (action.fil && fil.filnavn === action.fil.filnavn) {
-                                    return false;
+                    return {
+                        ...oppgave,
+                        oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
+                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype) {
+                                return {
+                                    ...oppgaveElement,
+                                    filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, index: number) => {
+                                        if (action.fil && fil.filnavn === action.fil.filnavn) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }))
                                 }
-                                return true;
-                            }))
-                        }
+                            }
+                            return oppgaveElement;
+                        })
                     }
-                    return oppgave;
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
@@ -225,15 +239,20 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 oppgaver: state.oppgaver.map((oppgave) => {
                     return {
                         ...oppgave,
-                        filer: (oppgave.filer && oppgave.filer.map((fil: Fil) => {
-                            if (fil.filnavn === action.fil.filnavn) {
-                                return {
-                                    ...fil,
-                                    status: action.status
-                                };
+                        oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
+                            return {
+                                ...oppgaveElement,
+                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil) => {
+                                    if (fil.filnavn === action.fil.filnavn) {
+                                        return {
+                                            ...fil,
+                                            status: action.status
+                                        };
+                                    }
+                                    return fil;
+                                }))
                             }
-                            return fil;
-                        }))
+                        })
                     }
                 })
             };
@@ -241,7 +260,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 saker: state.saker.map((sak: Sakstype) => {
-                    if(action.verdi && action.verdi.fiksDigisosId) {
+                    if (action.verdi && action.verdi.fiksDigisosId) {
                         if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
                             var oppdatertSoknadTittel = sak.soknadTittel;
                             if (action.verdi.soknadTittel !== "") {
