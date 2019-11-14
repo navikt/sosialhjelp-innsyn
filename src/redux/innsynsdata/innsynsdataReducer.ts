@@ -120,6 +120,7 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
+    index: number,
     fil: Fil;
     oppgaveElement: OppgaveElement;
     status?: string;
@@ -263,10 +264,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                 return {
                                     ...oppgaveElement,
                                     filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, index: number) => {
-                                        if (action.fil && fil.filnavn === action.fil.filnavn) {
-                                            return false;
-                                        }
-                                        return true;
+                                        return !(action.fil && index !== action.index);
                                     }))
                                 }
                             }
@@ -368,8 +366,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
-                        return !(action.fil && fil.filnavn === action.fil.filnavn);
+                    filer: state.ettersendelse.filer.filter((fil: Fil, index: number) => {
+                        return index !== action.index;
                     })
                 }
             };

@@ -10,7 +10,7 @@ import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, oppgaveElement}) => {
+const FilView: React.FC<{ index: number, fil: Fil, oppgaveElement?: OppgaveElement }> = ({index, fil, oppgaveElement}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
@@ -20,7 +20,8 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
                 : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
             oppgaveElement: oppgaveElement,
-            fil: fil
+            fil: fil,
+            index: index
         });
         event.preventDefault();
     };
