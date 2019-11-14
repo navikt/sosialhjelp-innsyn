@@ -121,7 +121,7 @@ const EttersendelseView: React.FC = () => {
                     </Normaltekst>
 
                     {filer && filer.length > 0 && filer.map((fil: Fil, index: number) =>
-                        <FilView key={index} fil={fil}/>
+                        <FilView key={index} fil={fil} index={index}/>
                     )}
 
                     {kanLasteOppVedlegg && (
