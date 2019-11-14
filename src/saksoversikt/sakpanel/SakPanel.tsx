@@ -47,7 +47,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
     }, [dispatch, requestId]);
 
     return (
-        <LenkepanelBase onClick={onClick} className="panel-glippe-over" href="#">
+        <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href="#">
             <div className="sakpanel">
                 <div className="sakpanel_text">
                     <DocumentIcon className="document_icon"/>

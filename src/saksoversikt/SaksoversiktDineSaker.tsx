@@ -50,7 +50,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         <>
             <div className="dine_soknader_panel ">
                 <div className="tittel_og_knapp_container">
-                    <Systemtittel>Dine søknader</Systemtittel>
+                    <Systemtittel className="dine_soknader_panel_overskrift">Dine søknader</Systemtittel>
                     <Knapp type="standard" onClick={() => dispatch(push("/soknad/informasjon"))}>
                         Ny søknad
                     </Knapp>

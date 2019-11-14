@@ -18,17 +18,36 @@
 
 @media screen and (min-width: 607px ) {
   .document_icon {
-    width: 32px;
-    margin-left: 16px;
-    margin-right: 19px;
+    height: 20px;
+    margin-left: 26px;
+    margin-right: 18px;
   }
 }
 
+.lenkepanel {
+  padding: 20px 20px 20px 20px;
+}
+
+.sakspanel_lenkepanel_liste {
+  .lenkepanel__indikator {
+    align-self: flex-start;
+    margin-top: 10px;
+  }
+}
+
+.periodevelger_container {
+  margin-left: 1rem;
+}
 @media screen and (max-width: 606px ) {
   .document_icon {
-    width: 32px;
+    height: 20px;
     margin-left: 2px;
     margin-right: 10px;
+  }
+
+  .periodevelger_container {
+    margin-top: 8px;
+    margin-left: 0;
   }
 }
 
@@ -41,8 +60,7 @@
   min-width: 8rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
-
+  align-items: flex-start;
 }
 
 @media screen and (min-width: 521px ) {
