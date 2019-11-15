@@ -260,7 +260,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     return {
                         ...oppgave,
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
-                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype) {
+                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
+                                oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
                                 return {
                                     ...oppgaveElement,
                                     filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, index: number) => {
