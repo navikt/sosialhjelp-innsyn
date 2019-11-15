@@ -206,7 +206,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
-                    if (oppgave.dokumenttype === action.oppgave.dokumenttype) {
+                    if (oppgave.dokumenttype === action.oppgave.dokumenttype &&
+                        oppgave.tilleggsinformasjon === action.oppgave.tilleggsinformasjon) {
                         return {
                             ...oppgave,
                             filer: (oppgave.filer && oppgave.filer.filter((fil: Fil, index: number) => {
