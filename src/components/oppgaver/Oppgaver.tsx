@@ -1,6 +1,6 @@
 import {Panel} from "nav-frontend-paneler";
 import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
-import React, {useState} from "react";
+import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";

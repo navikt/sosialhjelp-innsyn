@@ -153,7 +153,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         return (
-            <div key={id} className={"oppgaver_detalj" + (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""}>
+            <div key={id} className={"oppgaver_detalj" + ((!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}>
                 <Element>{typeTekst}</Element>
                 {tilleggsinfoTekst && (
                     <Normaltekst className="luft_over_4px">
@@ -201,7 +201,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     }
 
     return (
-        <div className={"luft_over_1rem" + (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detaljer_feil_ramme" : " oppgaver_detaljer"}>
+        <div className={((!vedleggKlarForOpplasting && sendVedleggTrykket) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && (
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
@@ -226,7 +226,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
             <Hovedknapp
                 type="hoved"
-                className="luft_over_2rem luft_under_1rem"
+                className="luft_over_1rem"
                 onClick={(event: any) => {
                     if (!vedleggKlarForOpplasting){
                         setSendVedleggTrykket( true )
