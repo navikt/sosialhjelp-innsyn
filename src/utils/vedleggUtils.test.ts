@@ -5,7 +5,7 @@ const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
 const jpgFile = {filnavn: "test1.jpg", file: new Blob()} as Fil;
 const pdfFile = {filnavn: "test3.pdf", file: new Blob()} as Fil;
 
-const oppgaver = [
+const oppgave =
     {
         innsendelsesfrist: "2019-11-11",
         oppgaveElementer: [
@@ -14,23 +14,13 @@ const oppgaver = [
                 tilleggsinformasjon: "tilleggsinformasjon1",
                 erFraInnsyn: true,
                 filer: [pngFile, jpgFile]
-            } as OppgaveElement
-        ]
-    } as Oppgave,
-    {
-        innsendelsesfrist: "2019-12-01",
-        oppgaveElementer: [
+            } as OppgaveElement,
             {
                 dokumenttype: "dokumenttype2",
                 tilleggsinformasjon: "tilleggsinformasjon2",
                 erFraInnsyn: true,
                 filer: [pdfFile]
-            } as OppgaveElement
-        ]
-    } as Oppgave,
-    {
-        innsendelsesfrist: "2019-12-24",
-        oppgaveElementer: [
+            } as OppgaveElement,
             {
                 dokumenttype: "dokumenttype3",
                 tilleggsinformasjon: "tilleggsinformasjon3",
@@ -39,14 +29,29 @@ const oppgaver = [
             } as OppgaveElement
         ]
     } as Oppgave
-];
+;
 
 const expectedOppgaverMetadata = JSON.stringify([
     {
-        type: oppgaver[0].oppgaveElementer[0].dokumenttype,
-        tilleggsinfo: oppgaver[0].oppgaveElementer[0].tilleggsinformasjon,
+        type: oppgave.oppgaveElementer[0].dokumenttype,
+        tilleggsinfo: oppgave.oppgaveElementer[0].tilleggsinformasjon,
         filer: [
             {filnavn: pngFile.filnavn},
+            {filnavn: jpgFile.filnavn}
+        ]
+    },
+    {
+        type: oppgave.oppgaveElementer[1].dokumenttype,
+        tilleggsinfo: oppgave.oppgaveElementer[1].tilleggsinformasjon,
+        filer: [
+            {filnavn: pdfFile.filnavn}
+        ]
+    },
+    {
+        type: oppgave.oppgaveElementer[2].dokumenttype,
+        tilleggsinfo: oppgave.oppgaveElementer[2].tilleggsinformasjon,
+        filer: [
+            {filnavn: jpgFile.filnavn},
             {filnavn: jpgFile.filnavn}
         ]
     }
@@ -68,17 +73,20 @@ describe('VedleggUtilsTest', () => {
 
     it('should create correct form and meta data for oppgaver', () => {
 
-        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgaver[0]);
+        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
         expect(formDataEntryValues).toBeDefined();
-        expect(formDataEntryValues.length).toBe(3);
+        expect(formDataEntryValues.length).toBe(6);
 
         [
             {file: formDataEntryValues[0], filnavn: "metadata.json"},
             {file: formDataEntryValues[1], filnavn: pngFile.filnavn},
             {file: formDataEntryValues[2], filnavn: jpgFile.filnavn},
+            {file: formDataEntryValues[3], filnavn: pdfFile.filnavn},
+            {file: formDataEntryValues[4], filnavn: jpgFile.filnavn},
+            {file: formDataEntryValues[5], filnavn: jpgFile.filnavn},
         ].forEach((value: { file: FormDataEntryValue, filnavn: string }) => {
             const file = (value.file as File);
             expect(file).toBeDefined();
