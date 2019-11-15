@@ -40,14 +40,16 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
-        [
-            InnsynsdataSti.OPPGAVER,
-            InnsynsdataSti.SOKNADS_STATUS,
-            InnsynsdataSti.HENDELSER,
-            InnsynsdataSti.VEDLEGG
-        ].map((restDataSti: InnsynsdataSti) =>
-            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
-        );
+        if (innsynsdata.restStatus.saksStatus === REST_STATUS.OK) {
+            [
+                InnsynsdataSti.OPPGAVER,
+                InnsynsdataSti.SOKNADS_STATUS,
+                InnsynsdataSti.HENDELSER,
+                InnsynsdataSti.VEDLEGG
+            ].map((restDataSti: InnsynsdataSti) =>
+                dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
+            );
+        }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
     const leserData = (restStatus: REST_STATUS): boolean => {
