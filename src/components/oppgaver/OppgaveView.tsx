@@ -78,7 +78,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         }
     };
 
-    const onChange = (event: any, opp: OppgaveElement) => {
+    const onChange = (event: any, oppgaveElement: OppgaveElement) => {
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             let ulovligeFilerCount = 0;
@@ -88,7 +88,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 if (legalFileExtension(filename)) {
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
-                        oppgaveElement: opp,
+                        oppgaveElement: oppgaveElement,
                         fil: {
                             filnavn: file.name,
                             status: "INITIALISERT",
@@ -147,91 +147,87 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         return (
-            <>
-                <div className={"oppgaver_detalj" + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
-                    <Element>{typeTekst}</Element>
-                    {tilleggsinfoTekst && (
-                        <Normaltekst className="luft_over_4px">
-                            {tilleggsinfoTekst}
-                        </Normaltekst>)}
+            <div key={id} className={"oppgaver_detalj" + (antallUlovligeFiler > 0 ? " oppgaver_detalj_feil" : "")}>
+                <Element>{typeTekst}</Element>
+                {tilleggsinfoTekst && (
+                    <Normaltekst className="luft_over_4px">
+                        {tilleggsinfoTekst}
+                    </Normaltekst>)}
 
-                    {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) =>
-                        <VedleggActionsView vedlegg={vedlegg} key={index}/>
-                    )}
+                {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) =>
+                    <VedleggActionsView vedlegg={vedlegg} key={index}/>
+                )}
 
-                    {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, index: number) =>
-                        <FilView key={index} fil={fil} oppgaveElement={oppgaveElement}/>
-                    )}
+                {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, index: number) =>
+                    <FilView key={index} fil={fil} oppgaveElement={oppgaveElement}/>
+                )}
 
-                    <div className="oppgaver_last_opp_fil">
-                        <UploadFileIcon
-                            className="last_opp_fil_ikon"
-                            onClick={(event: any) => {
-                                onLinkClicked(id, event)
-                            }}
-                        />
-                        <Lenke
-                            href="#"
-                            id={"oppgave_" + id + "_last_opp_fil_knapp"}
-                            className="lenke_uten_ramme"
-                            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onLinkClicked(id, event)
-                            }}
-                        >
-                            <Element>
-                                <FormattedMessage id="vedlegg.velg_fil"/>
-                            </Element>
-                        </Lenke>
-                        <input
-                            type="file"
-                            id={'file_' + oppgaveIndex + '_' + id}
-                            multiple={true}
-                            onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
-                            style={{display: "none"}}
-                        />
-                    </div>
-
+                <div className="oppgaver_last_opp_fil">
+                    <UploadFileIcon
+                        className="last_opp_fil_ikon"
+                        onClick={(event: any) => {
+                            onLinkClicked(id, event)
+                        }}
+                    />
+                    <Lenke
+                        href="#"
+                        id={"oppgave_" + id + "_last_opp_fil_knapp"}
+                        className="lenke_uten_ramme"
+                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                            onLinkClicked(id, event)
+                        }}
+                    >
+                        <Element>
+                            <FormattedMessage id="vedlegg.velg_fil"/>
+                        </Element>
+                    </Lenke>
+                    <input
+                        type="file"
+                        id={'file_' + oppgaveIndex + '_' + id}
+                        multiple={true}
+                        onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
+                        style={{display: "none"}}
+                    />
                 </div>
-            </>
+
+            </div>
         );
     }
 
     return (
-        <>
-            <div className="oppgaver_detaljer luft_over_1rem">
-                {oppgaverErFraInnsyn && (
-                    <Normaltekst className="luft_under_8px">
-                        <FormattedMessage
-                            id="oppgaver.innsendelsesfrist"
-                            values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
-                        />
-                    </Normaltekst>
-                )}
+        <div className="oppgaver_detaljer luft_over_1rem">
+            {oppgaverErFraInnsyn && (
+                <Normaltekst className="luft_under_8px">
+                    <FormattedMessage
+                        id="oppgaver.innsendelsesfrist"
+                        values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
+                    />
+                </Normaltekst>
+            )}
 
-                {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
-                        let {typeTekst, tilleggsinfoTekst} = getVisningstekster(oppgaveElement.dokumenttype, oppgaveElement.tilleggsinformasjon);
+            {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
+                    let {typeTekst, tilleggsinfoTekst} = getVisningstekster(oppgaveElement.dokumenttype, oppgaveElement.tilleggsinformasjon);
 
-                        return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
-                    }
-                )}
+                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
+                }
+            )}
 
-                {antallUlovligeFiler > 0 && (
-                    <div className="oppgaver_vedlegg_feilmelding">
-                        <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
-                    </div>
-                )}
+            {antallUlovligeFiler > 0 && (
+                <div className="oppgaver_vedlegg_feilmelding">
+                    <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
+                </div>
+            )}
 
-                <Hovedknapp
-                    disabled={!vedleggKlarForOpplasting}
-                    type="hoved"
-                    className="luft_over_1rem"
-                    onClick={(event: any) => sendVedlegg(event)}
-                >
-                    <FormattedMessage id="oppgaver.send_knapp_tittel"/>
-                </Hovedknapp>
+            <Hovedknapp
+                disabled={!vedleggKlarForOpplasting}
+                type="hoved"
+                className="luft_over_1rem"
+                onClick={(event: any) => sendVedlegg(event)}
+            >
+                <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+            </Hovedknapp>
 
-            </div>
-        </>
+        </div>
     )
 };
 
