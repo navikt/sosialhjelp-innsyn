@@ -23,7 +23,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
                 dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                history.push("/innsyn/feil");
+                // history.push("/innsyn/feil");
             }
         });
     }
@@ -67,3 +67,4 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
         });
     }
 }
+
