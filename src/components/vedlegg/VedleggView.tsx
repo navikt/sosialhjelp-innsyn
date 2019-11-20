@@ -283,7 +283,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                 />
             ) }
 
-        </div>
+            </div>
         </>
     );
 };

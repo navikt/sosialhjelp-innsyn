@@ -10,7 +10,7 @@ import OppgaveView from "./OppgaveView";
 import {
     Fil,
     InnsynsdataActionTypeKeys,
-    InnsynsdataSti,
+    InnsynsdataSti, KommuneResponse,
     Oppgave,
     settRestStatus
 } from "../../redux/innsynsdata/innsynsdataReducer";
@@ -23,6 +23,8 @@ import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
+import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
+import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -106,6 +108,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     const vedleggKlarForOpplasting = oppgaver !== null && antallVedlegg(oppgaver) > 0;
+
+    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
+    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
     return (
         <>
@@ -194,7 +199,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                             <FormattedMessage id="oppgaver.hjelp_last_opp"/>
                         </Lenke>
 
-                        <div className={ (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer"}>
+                        <DriftsmeldingVedlegg/>
+
+                        <div
+                            className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer"}>
                             {oppgaverErFraInnsyn && (
                                 <Normaltekst className="luft_under_8px">
                                     <FormattedMessage
@@ -204,24 +212,30 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 </Normaltekst>
                             )}
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
-                                <OppgaveView handleOnLinkClicked={(response: boolean) => {setSendVedleggTrykket(response)}} className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""} oppgave={oppgave} key={index} id={index}/>
+                                <OppgaveView handleOnLinkClicked={(response: boolean) => {
+                                    setSendVedleggTrykket(response)
+                                }}
+                                             className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""}
+                                             oppgave={oppgave} key={index} id={index}/>
                             ))}
 
-                            <Hovedknapp
-                                type="hoved"
-                                className="luft_over_2rem luft_under_1rem"
-                                onClick={(event: any) => {
-                                    if (!vedleggKlarForOpplasting){
-                                        setSendVedleggTrykket( true )
-                                        return;
-                                    }
-                                    sendVedlegg(event)
-                                }}
-                            >
-                                <FormattedMessage id="oppgaver.send_knapp_tittel"/>
-                            </Hovedknapp>
+                            {kanLasteOppVedlegg && (
+                                <Hovedknapp
+                                    type="hoved"
+                                    className="luft_over_2rem luft_under_1rem"
+                                    onClick={(event: any) => {
+                                        if (!vedleggKlarForOpplasting) {
+                                            setSendVedleggTrykket(true)
+                                            return;
+                                        }
+                                        sendVedlegg(event)
+                                    }}
+                                >
+                                    <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+                                </Hovedknapp>
+                            )}
                         </div>
-                        {(!vedleggKlarForOpplasting && sendVedleggTrykket)  &&  (
+                        {(!vedleggKlarForOpplasting && sendVedleggTrykket) && (
                             <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                                 <FormattedMessage id="vedlegg.minst_ett_vedlegg"/>
                             </div>

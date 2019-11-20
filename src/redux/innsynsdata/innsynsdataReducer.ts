@@ -84,7 +84,9 @@ export enum InnsynsdataSti {
     HENDELSER = "hendelser",
     VEDLEGG = "vedlegg",
     SEND_VEDLEGG = "vedlegg/send",
-    SAKER = "saker"
+    SAKER = "saker",
+    FORELOPIG_SVAR = "forelopigSvar",
+    KOMMUNE = "kommune"
 }
 
 // export interface InnsynssdataActionVerdi {
@@ -123,6 +125,18 @@ export interface VedtakFattet {
     vedtaksfilUrl: null | string;
 }
 
+export interface ForelopigSvar {
+    harMottattForelopigSvar: boolean;
+    link?: string
+}
+
+export interface KommuneResponse {
+    erInnsynDeaktivert: boolean,
+    erInnsynMidlertidigDeaktivert: boolean,
+    erInnsendingEttersendelseDeaktivert: boolean,
+    erInnsendingEttersendelseMidlertidigDeaktivert: boolean
+}
+
 export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
@@ -133,6 +147,8 @@ export interface InnsynsdataType {
     vedlegg: Vedlegg[];
     ettersendelse: Ettersendelse;
     saker: Sakstype[];
+    forelopigSvar: ForelopigSvar;
+    kommune: undefined | KommuneResponse;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -142,7 +158,9 @@ export const initialInnsynsdataRestStatus = {
     hendelser: REST_STATUS.INITIALISERT,
     vedlegg: REST_STATUS.INITIALISERT,
     utbetalinger: REST_STATUS.INITIALISERT,
-    saker: REST_STATUS.INITIALISERT
+    saker: REST_STATUS.INITIALISERT,
+    forelopigSvar: REST_STATUS.INITIALISERT,
+    kommune: REST_STATUS.INITIALISERT
 };
 
 const initialState: InnsynsdataType = {
@@ -159,6 +177,10 @@ const initialState: InnsynsdataType = {
         filer: [],
         feil: undefined
     },
+    forelopigSvar: {
+        harMottattForelopigSvar: false,
+    },
+    kommune: undefined,
     restStatus: initialInnsynsdataRestStatus
 };
 
@@ -192,7 +214,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 oppgaver: state.oppgaver.map((item) => {
                     if (item.dokumenttype === action.oppgave.dokumenttype &&
-                            item.tilleggsinformasjon === action.oppgave.tilleggsinformasjon) {
+                        item.tilleggsinformasjon === action.oppgave.tilleggsinformasjon) {
                         return {
                             ...item,
                             filer: [...(item.filer ? item.filer : []), action.fil]
@@ -241,7 +263,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 saker: state.saker.map((sak: Sakstype) => {
-                    if(action.verdi && action.verdi.fiksDigisosId) {
+                    if (action.verdi && action.verdi.fiksDigisosId) {
                         if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
                             var oppdatertSoknadTittel = sak.soknadTittel;
                             if (action.verdi.soknadTittel !== "") {
