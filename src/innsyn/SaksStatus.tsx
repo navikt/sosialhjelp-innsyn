@@ -11,6 +11,8 @@ import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
 import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
 import {useIntl} from 'react-intl';
+import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
+import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 
 interface Props {
     match: {
@@ -45,7 +47,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 InnsynsdataSti.OPPGAVER,
                 InnsynsdataSti.SOKNADS_STATUS,
                 InnsynsdataSti.HENDELSER,
-                InnsynsdataSti.VEDLEGG
+                InnsynsdataSti.VEDLEGG,
+                InnsynsdataSti.FORELOPIG_SVAR,
+                InnsynsdataSti.KOMMUNE
             ].map((restDataSti: InnsynsdataSti) =>
                 dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
             );
@@ -58,6 +62,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     return (
         <>
+            <DriftsmeldingAlertstripe />
+            <ForelopigSvarAlertstripe />
+
             <SoknadsStatus
                 status={innsynsdata.soknadsStatus.status}
                 sak={innsynsdata.saksStatus}
