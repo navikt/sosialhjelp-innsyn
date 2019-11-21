@@ -48,6 +48,13 @@ export const tekster = {
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
-        "andre_vedlegg.send_knapp_tittel": "Send vedlegg"
+        "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
+
+        "forelopigSvar": "Du har fått et brev om saksbehandlingstiden for søknaden din ",
+
+        "driftsmelding.innsynDeaktivert": "Vi kan ikke vise deg nyeste status for saken din. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
+        "driftsmelding.ettersendelseDeaktivert": "Vi kan ikke motta filer fra deg. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
+        "driftsmelding.innsynOgEttersendelseDeaktivert": "Vi kan ikke vise deg nyeste status for saken din eller motta filer fra deg. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
+        "driftsmelding.kanIkkeSendeVedlegg": "Vi har problemer med systemet og ber deg levere vedlegg på ditt NAV kontor"
     }
 };

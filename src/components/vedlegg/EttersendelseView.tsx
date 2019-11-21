@@ -1,6 +1,12 @@
 import React, {ChangeEvent, useState} from "react"
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
+    settRestStatus,
+    KommuneResponse
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
 import UploadFileIcon from "../ikoner/UploadFile";
 import Lenke from "nav-frontend-lenker";
@@ -10,8 +16,10 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {fetchPost} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
+import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
+import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
 const EttersendelseView: React.FC = () => {
 
@@ -22,6 +30,8 @@ const EttersendelseView: React.FC = () => {
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -67,6 +77,7 @@ const EttersendelseView: React.FC = () => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
+        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
@@ -92,8 +103,12 @@ const EttersendelseView: React.FC = () => {
         event.preventDefault()
     };
 
+    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
+    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+
     return (
         <div>
+            <DriftsmeldingVedlegg/>
             <div
                 className={"oppgaver_detaljer " + (antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
@@ -109,34 +124,37 @@ const EttersendelseView: React.FC = () => {
                         <FilView key={index} fil={fil}/>
                     )}
 
-                    <div className="oppgaver_last_opp_fil">
-                        <UploadFileIcon
-                            className="last_opp_fil_ikon"
-                            onClick={(event: any) => {
-                                onLinkClicked(event)
-                            }}
-                        />
-                        <Lenke
-                            href="#"
-                            className="lenke_uten_ramme"
-                            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onLinkClicked(event)
-                            }}
-                        >
-                            <Element>
-                                <FormattedMessage id="vedlegg.velg_fil"/>
-                            </Element>
-                        </Lenke>
-                        <input
-                            type="file"
-                            id={'file_andre'}
-                            multiple={true}
-                            onChange={(event: ChangeEvent) => {
-                                onChange(event)
-                            }}
-                            style={{display: "none"}}
-                        />
-                    </div>
+                    {kanLasteOppVedlegg && (
+                        <div className="oppgaver_last_opp_fil">
+                            <UploadFileIcon
+                                className="last_opp_fil_ikon"
+                                onClick={(event: any) => {
+                                    onLinkClicked(event)
+                                }}
+                            />
+                            <Lenke
+                                href="#"
+                                className="lenke_uten_ramme"
+                                onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                    onLinkClicked(event)
+                                }}
+                            >
+                                <Element>
+                                    <FormattedMessage id="vedlegg.velg_fil"/>
+                                </Element>
+                            </Lenke>
+                            <input
+                                type="file"
+                                id={'file_andre'}
+                                multiple={true}
+                                onChange={(event: ChangeEvent) => {
+                                    onChange(event)
+                                }}
+                                style={{display: "none"}}
+                            />
+                        </div>
+                    )}
+
                 </div>
 
                 {antallUlovligeFiler > 0 && (
@@ -153,7 +171,8 @@ const EttersendelseView: React.FC = () => {
             )}*/}
 
                 <Hovedknapp
-
+                    disabled={!kanLasteOppVedlegg || vedleggLastesOpp}
+                    spinner={vedleggLastesOpp}
                     type="hoved"
                     className="luft_over_1rem"
                     onClick={(event: any) => {
@@ -168,7 +187,7 @@ const EttersendelseView: React.FC = () => {
 
                 </Hovedknapp>
             </div>
-            {(!vedleggKlarForOpplasting && sendVedleggTrykket)  &&  (
+            {(!vedleggKlarForOpplasting && sendVedleggTrykket) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id="vedlegg.minst_ett_vedlegg"/>
                 </div>

@@ -5,6 +5,8 @@
   padding: 1rem;
   position: relative;
   margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
 
   @media screen and (min-width: 641px ) {
     &_luft_under {
@@ -13,10 +15,18 @@
   }
 }
 
+.status_detalj_panel__tittel {
+  @media screen and (min-width: 641px ) {
+    width: 70%;
+  }
+  @media screen and (max-width: 640px ) {
+    width: 50%;
+  }
+}
+
 .status_detalj_panel__status {
-  position: absolute;
-  top: 17px;
-  right: 16px;
+  display: flex;
+  align-items: center;
   text-transform: uppercase;
   background-color: white;
 }

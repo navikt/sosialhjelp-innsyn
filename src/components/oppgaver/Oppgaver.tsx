@@ -11,6 +11,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
+import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -126,6 +127,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                         >
                             <FormattedMessage id="oppgaver.hjelp_last_opp"/>
                         </Lenke>
+
+                        <DriftsmeldingVedlegg/>
 
                         <div>
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
