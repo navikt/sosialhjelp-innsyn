@@ -2,13 +2,21 @@ import React, {useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
 import UploadFileIcon from "../ikoner/UploadFile";
-import {Fil, InnsynsdataActionTypeKeys, Oppgave, Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    KommuneResponse,
+    Oppgave,
+    Vedlegg
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import VedleggActionsView from "./VedleggActionsView";
 import FilView from "./FilView";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedleggskravVisningConfig";
 import {FormattedMessage} from "react-intl";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 
 interface Props {
     className?: string;
@@ -86,6 +94,9 @@ const OppgaveView: React.FC<Props> = ({className, oppgave, id, handleOnLinkClick
 
     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon);
 
+    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
+    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+
     return (
         <>
             <div className={"oppgaver_detalj " + className}>
@@ -103,33 +114,36 @@ const OppgaveView: React.FC<Props> = ({className, oppgave, id, handleOnLinkClick
                     <FilView key={index} fil={fil} oppgave={oppgave}/>
                 )}
 
-                <div className="oppgaver_last_opp_fil">
-                    <UploadFileIcon
-                        className="last_opp_fil_ikon"
-                        onClick={(event: any) => {
-                            onLinkClicked(event)
-                        }}
-                    />
-                    <Lenke
-                        href="#"
-                        id={"oppgave_" + id + "_last_opp_fil_knapp"}
-                        className="lenke_uten_ramme"
-                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                            onLinkClicked(event)
-                        }}
-                    >
-                        <Element>
-                            <FormattedMessage id="vedlegg.velg_fil"/>
-                        </Element>
-                    </Lenke>
-                    <input
-                        type="file"
-                        id={'file_' + id}
-                        multiple={true}
-                        onChange={(event: ChangeEvent) => onChange(event)}
-                        style={{display: "none"}}
-                    />
-                </div>
+                { kanLasteOppVedlegg && (
+                    <div className="oppgaver_last_opp_fil">
+                        <UploadFileIcon
+                            className="last_opp_fil_ikon"
+                            onClick={(event: any) => {
+                                onLinkClicked(event)
+                            }}
+                        />
+                        <Lenke
+                            href="#"
+                            id={"oppgave_" + id + "_last_opp_fil_knapp"}
+                            className="lenke_uten_ramme"
+                            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                onLinkClicked(event)
+                            }}
+                        >
+                            <Element>
+                                <FormattedMessage id="vedlegg.velg_fil"/>
+                            </Element>
+                        </Lenke>
+                        <input
+                            type="file"
+                            id={'file_' + id}
+                            multiple={true}
+                            onChange={(event: ChangeEvent) => onChange(event)}
+                            style={{display: "none"}}
+                        />
+                    </div>
+                )}
+
 
             </div>
 

@@ -11,6 +11,8 @@ import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
 import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
 import {useIntl} from 'react-intl';
+import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
+import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 
 interface Props {
     match: {
@@ -40,14 +42,18 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
-        [
-            InnsynsdataSti.OPPGAVER,
-            InnsynsdataSti.SOKNADS_STATUS,
-            InnsynsdataSti.HENDELSER,
-            InnsynsdataSti.VEDLEGG
-        ].map((restDataSti: InnsynsdataSti) =>
-            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
-        );
+        if (innsynsdata.restStatus.saksStatus === REST_STATUS.OK) {
+            [
+                InnsynsdataSti.OPPGAVER,
+                InnsynsdataSti.SOKNADS_STATUS,
+                InnsynsdataSti.HENDELSER,
+                InnsynsdataSti.VEDLEGG,
+                InnsynsdataSti.FORELOPIG_SVAR,
+                InnsynsdataSti.KOMMUNE
+            ].map((restDataSti: InnsynsdataSti) =>
+                dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
+            );
+        }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
     const leserData = (restStatus: REST_STATUS): boolean => {
@@ -56,6 +62,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     return (
         <>
+            <DriftsmeldingAlertstripe />
+            <ForelopigSvarAlertstripe />
+
             <SoknadsStatus
                 status={innsynsdata.soknadsStatus.status}
                 sak={innsynsdata.saksStatus}
