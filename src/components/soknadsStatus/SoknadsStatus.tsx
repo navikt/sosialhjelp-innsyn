@@ -93,7 +93,9 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
 				const kanVises: boolean = statusdetalj.status !== Utfall.KAN_IKKE_VISES;
 				return (
 					<div className="status_detalj_panel" key={index}>
-						<Element>{statusdetalj.tittel}</Element>
+						<div className="status_detalj_panel__tittel">
+							<Element>{statusdetalj.tittel}</Element>
+						</div>
 						{kanVises
                             && saksStatus !== SaksStatusEnum.IKKE_INNSYN
                             && saksStatus !== SaksStatusEnum.BEHANDLES_IKKE
