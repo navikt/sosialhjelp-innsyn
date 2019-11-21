@@ -4,6 +4,7 @@ import {
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
+    settRestStatus,
     KommuneResponse
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
@@ -15,7 +16,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {fetchPost} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -29,6 +30,8 @@ const EttersendelseView: React.FC = () => {
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -74,6 +77,7 @@ const EttersendelseView: React.FC = () => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
+        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
@@ -167,10 +171,10 @@ const EttersendelseView: React.FC = () => {
             )}*/}
 
                 <Hovedknapp
-
+                    disabled={!kanLasteOppVedlegg || vedleggLastesOpp}
+                    spinner={vedleggLastesOpp}
                     type="hoved"
                     className="luft_over_1rem"
-                    disabled={!kanLasteOppVedlegg}
                     onClick={(event: any) => {
                         if (!vedleggKlarForOpplasting) {
                             setSendVedleggTrykket(true)

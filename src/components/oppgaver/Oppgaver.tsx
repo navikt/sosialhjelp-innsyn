@@ -58,6 +58,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const dispatch = useDispatch();
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 
     const sendVedlegg = (event: any) => {
         if (oppgaver === null || !fiksDigisosId) {
@@ -221,6 +223,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
                             {kanLasteOppVedlegg && (
                                 <Hovedknapp
+                                    disabled={vedleggLastesOpp}
+                                    spinner={vedleggLastesOpp}
                                     type="hoved"
                                     className="luft_over_2rem luft_under_1rem"
                                     onClick={(event: any) => {
