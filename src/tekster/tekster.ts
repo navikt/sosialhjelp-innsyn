@@ -19,7 +19,7 @@ export const tekster = {
         "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
         "oppgaver.maa_sende_dok": "Du må sende inn dokumentasjon",
         "oppgaver.vedlegg_mangler": "{antall} vedlegg mangler",
-        "oppgaver.innsendelsesfrist": "Neste frist for innlevering er {innsendelsesfrist}",
+        "oppgaver.innsendelsesfrist": "Frist for innlevering er {innsendelsesfrist}",
         "oppgaver.veileder_trenger_mer":
             "Vi trenger mer dokumentasjon for å behandle søknaden din. " +
             "Hvis du ikke leverer dokumentasjonen innen fristen, blir " +
@@ -30,7 +30,7 @@ export const tekster = {
             "Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi " +
             "har.",
         "oppgaver.hjelp_last_opp": "Hjelp til å laste opp?",
-        "oppgaver.neste_frist": "Frist for innlevering er {innsendelsesfrist}",
+        "oppgaver.neste_frist": "Neste frist for innlevering er {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",

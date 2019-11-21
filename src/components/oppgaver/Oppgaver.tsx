@@ -1,30 +1,17 @@
 import {Panel} from "nav-frontend-paneler";
-import {Normaltekst, Systemtittel, Element} from "nav-frontend-typografi";
-import React, {useState} from "react";
+import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
+import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";
-import {Hovedknapp} from "nav-frontend-knapper";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
-import {
-    Fil,
-    InnsynsdataActionTypeKeys,
-    InnsynsdataSti, KommuneResponse,
-    Oppgave,
-    settRestStatus
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -37,69 +24,13 @@ function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
     }
     let innsendelsesfrist: string = "";
     if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist!!)).sort();
+        const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist!!));
         innsendelsesfrist = innsendelsesfrister[0].toLocaleDateString();
     }
     return innsendelsesfrist;
 }
 
-function antallVedlegg(oppgaver: Oppgave[]) {
-    let antall = 0;
-    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
-        oppgave.filer && oppgave.filer.forEach((fil: Fil) => {
-            antall += 1;
-        });
-    });
-    return antall;
-}
-
 const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
-    const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
-
-    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
-    const dispatch = useDispatch();
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
-    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-
-    const sendVedlegg = (event: any) => {
-        if (oppgaver === null || !fiksDigisosId) {
-            event.preventDefault();
-            return;
-        }
-
-        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
-        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
-        const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
-
-        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
-            let harFeil: boolean = false;
-            if (Array.isArray(filRespons)) {
-                for (var index = 0; index < filRespons.length; index++) {
-                    const fileItem = filRespons[index];
-                    if (fileItem.status !== "OK") {
-                        harFeil = true;
-                    }
-                    dispatch({
-                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        fil: {
-                            filnavn: fileItem.filnavn,
-                            status: fileItem.status,
-                        } as Fil,
-                    });
-                }
-            }
-            if (!harFeil) {
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-            }
-        }).catch((reason: any) => {
-            console.log("Feil med opplasting av vedlegg");
-        });
-
-        event.preventDefault()
-    };
 
     // TODO Gi bruker tilbakemelding om at filer holder på å bli lastet opp.
     // const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus);
@@ -107,12 +38,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     // <pre>REST status: {JSON.stringify(restStatus.oppgaver, null, 8)}</pre>
 
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
-    const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].erFraInnsyn;
+    const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
-    const vedleggKlarForOpplasting = oppgaver !== null && antallVedlegg(oppgaver) > 0;
-
-    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
     return (
         <>
@@ -180,7 +107,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 <Normaltekst>
                                     {oppgaverErFraInnsyn && (
                                         <FormattedMessage
-                                            id="oppgaver.innsendelsesfrist"
+                                            id="oppgaver.neste_frist"
                                             values={{innsendelsesfrist: innsendelsesfrist}}
                                         />
                                     )}
@@ -203,47 +130,12 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
                         <DriftsmeldingVedlegg/>
 
-                        <div
-                            className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer"}>
-                            {oppgaverErFraInnsyn && (
-                                <Normaltekst className="luft_under_8px">
-                                    <FormattedMessage
-                                        id="oppgaver.neste_frist"
-                                        values={{innsendelsesfrist: innsendelsesfrist}}
-                                    />
-                                </Normaltekst>
-                            )}
+                        <div>
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
-                                <OppgaveView handleOnLinkClicked={(response: boolean) => {
-                                    setSendVedleggTrykket(response)
-                                }}
-                                             className={(!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : ""}
-                                             oppgave={oppgave} key={index} id={index}/>
+                                <OppgaveView oppgave={oppgave} key={index} oppgaverErFraInnsyn={oppgaverErFraInnsyn}
+                                             oppgaveIndex={index}/>
                             ))}
-
-                            {kanLasteOppVedlegg && (
-                                <Hovedknapp
-                                    disabled={vedleggLastesOpp}
-                                    spinner={vedleggLastesOpp}
-                                    type="hoved"
-                                    className="luft_over_2rem luft_under_1rem"
-                                    onClick={(event: any) => {
-                                        if (!vedleggKlarForOpplasting) {
-                                            setSendVedleggTrykket(true)
-                                            return;
-                                        }
-                                        sendVedlegg(event)
-                                    }}
-                                >
-                                    <FormattedMessage id="oppgaver.send_knapp_tittel"/>
-                                </Hovedknapp>
-                            )}
                         </div>
-                        {(!vedleggKlarForOpplasting && sendVedleggTrykket) && (
-                            <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                                <FormattedMessage id="vedlegg.minst_ett_vedlegg"/>
-                            </div>
-                        )}
 
                     </EkspanderbartpanelBase>
 

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
-import {Fil, InnsynsdataActionTypeKeys, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, InnsynsdataActionTypeKeys, OppgaveElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
@@ -10,16 +10,16 @@ import {FormattedMessage} from "react-intl";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
+const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, oppgaveElement}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
     const onSlettClick = (event: ClickEvent): void => {
         dispatch({
-            type: oppgave
+            type: oppgaveElement
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
                 : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
-            oppgave: oppgave,
+            oppgaveElement: oppgaveElement,
             fil: fil
         });
         event.preventDefault();
@@ -35,12 +35,12 @@ const FilView: React.FC<{ fil: Fil, oppgave?: Oppgave }> = ({fil, oppgave}) => {
     return (
         <div className="vedlegg_liste_element" id={"app"}>
             <span className="filnavn_lenkeboks">
-                { fil.file &&
-                    <VedleggModal
-                        file={fil.file}
-                        onRequestClose={() => setModalVises(false)}
-                        synlig={modalVises}
-                    />
+                {fil.file &&
+                <VedleggModal
+                    file={fil.file}
+                    onRequestClose={() => setModalVises(false)}
+                    synlig={modalVises}
+                />
 
                 }
 
