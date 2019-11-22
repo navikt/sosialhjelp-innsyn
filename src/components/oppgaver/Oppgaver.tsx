@@ -12,7 +12,6 @@ import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import VilkarView from "../vilkar/VilkarView";
 
 interface Props {
