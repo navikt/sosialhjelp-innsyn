@@ -1,24 +1,24 @@
-import {SaksStatusState, Utfall, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
+import {SaksStatusState, SaksStatus, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseVilkarView} from "./VilkarUtils";
 
 const saksStatus1: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: Utfall.KAN_IKKE_VISES,
+    status: SaksStatus.KAN_IKKE_VISES,
     vedtaksfilUrlList: []
 };
 const saksStatus2: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: Utfall.AVSLATT,
+    status: SaksStatus.AVSLATT,
     vedtaksfilUrlList: []
 };
 const saksStatus3: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: Utfall.DELVIS_INNVILGET,
+    status: SaksStatus.DELVIS_INNVILGET,
     vedtaksfilUrlList: []
 };
 const saksStatus4: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: Utfall.FERDIGBEHANDLET,
+    status: SaksStatus.FERDIGBEHANDLET,
     vedtaksfilUrlList: []
 };
 
