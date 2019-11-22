@@ -25,6 +25,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
+import VilkarView from "../vilkar/VilkarView";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -114,6 +115,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
+
     return (
         <>
             <Panel className="panel-luft-over">
@@ -126,6 +128,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     </Systemtittel>
                 )}
             </Panel>
+
+            <VilkarView/>
+
             <Panel
                 className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
 
