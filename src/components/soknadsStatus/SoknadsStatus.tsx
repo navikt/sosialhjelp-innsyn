@@ -4,7 +4,7 @@ import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-t
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import { SaksStatusState, Utfall, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
+import { SaksStatusState, SaksStatus, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -32,7 +32,7 @@ interface StatusDetalj {
 
 interface Props {
 	status: string|null|SoknadsStatusEnum;
-	sak?: null|SaksStatusState[];
+	sak: null|SaksStatusState[];
 	leserData: boolean;
 }
 
@@ -90,7 +90,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
 
 			{sak && sak.map((statusdetalj: SaksStatusState, index: number) => {
 				const saksStatus = statusdetalj.status.replace(/_/g,' ');
-				const kanVises: boolean = statusdetalj.status !== Utfall.KAN_IKKE_VISES;
+				const kanVises: boolean = statusdetalj.status !== SaksStatus.IKKE_INNSYN;
 				return (
 					<div className="status_detalj_panel" key={index}>
 						<div className="status_detalj_panel__tittel">
