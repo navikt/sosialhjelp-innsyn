@@ -15,6 +15,13 @@ export const tekster = {
         "saker.oppgave": "Du har oppgave",
         "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
+        "oppgaver.vilkar.tittel": "Vedtaket ditt kan inneholde vilkår eller dokumentasjonskrav",
+        "oppgaver.vilkar.tittel.tekst": "Du må følge disse for å sørge for at du får utbetalt riktig beløp til riktig tid.",
+        "oppgaver.vilkar": "Vilkår",
+        "oppgaver.vilkar.beskrivelse": "Les vedtaket ditt for å se om du har vilkår. Dette er aktiviteter du må gjøre som en del av oppfølgingen din fra NAV.",
+        "oppgaver.vilkar.dokumentasjonskrav": "Dokumentasjonskrav",
+        "oppgaver.vilkar.dokumentasjonskrav.beskrivelse": "Les vedtaket ditt for å se om vi trenger mer dokumentasjon fra deg. Dette kan du sende til oss i “Dine vedlegg” fanen under.",
+
         "oppgaver.dine_oppgaver": "Dine oppgaver",
         "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
         "oppgaver.maa_sende_dok": "Du må sende inn dokumentasjon",

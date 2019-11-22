@@ -12,6 +12,8 @@ import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
+import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
+import VilkarView from "../vilkar/VilkarView";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -53,6 +55,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     </Systemtittel>
                 )}
             </Panel>
+
+            <VilkarView/>
+
             <Panel
                 className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}>
 
