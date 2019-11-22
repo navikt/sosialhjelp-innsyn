@@ -2,13 +2,12 @@ import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
 
-export enum Utfall {
-    INNVILGET = "INNVILGET",
-    DELVIS_INNVILGET = "DELVIS_INNVILGET",
-    AVSLATT = "AVSLATT",
-    AVVIST = "AVVIST",
+export enum SaksStatus {
+    UNDER_BEHANDLING = "UNDER_BEHANDLING",
+    IKKE_INNSYN = "IKKE_INNSYN",
     FERDIGBEHANDLET = "FERDIGBEHANDLET",
-    KAN_IKKE_VISES = "KAN_IKKE_VISES"
+    BEHANDLES_IKKE = "BEHANDLES_IKKE",
+    FEILREGISTRERT = "FEILREGISTRERT"
 }
 
 export interface Utbetaling {
@@ -19,7 +18,7 @@ export interface Utbetaling {
 
 export interface SaksStatusState {
     tittel: string;
-    status: Utfall;
+    status: SaksStatus;
     vedtaksfilUrlList: VedtakFattet[];
     melding?: string;
 }
