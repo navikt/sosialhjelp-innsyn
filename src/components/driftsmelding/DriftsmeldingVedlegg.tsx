@@ -7,11 +7,15 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "./DriftsmeldingUtilities";
 
-const DriftsmeldingVedlegg: React.FC<{}> = () => {
+interface Props {
+    leserData: undefined | boolean
+}
+
+const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
-    if (!kanLasteOppVedlegg){
+    if (!kanLasteOppVedlegg && !props.leserData){
         return (
             <div>
                 <div className={"driftsmelding-vedlegg-wrapper"}>

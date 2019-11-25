@@ -154,6 +154,13 @@ export interface KommuneResponse {
     erInnsendingEttersendelseMidlertidigDeaktivert: boolean
 }
 
+const initiellKommuneResponse_antarAltOk: KommuneResponse = {
+    erInnsynDeaktivert: false,
+    erInnsynMidlertidigDeaktivert: false,
+    erInnsendingEttersendelseDeaktivert: false,
+    erInnsendingEttersendelseMidlertidigDeaktivert: false
+};
+
 export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
@@ -197,7 +204,7 @@ const initialState: InnsynsdataType = {
     forelopigSvar: {
         harMottattForelopigSvar: false,
     },
-    kommune: undefined,
+    kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus
 };
 

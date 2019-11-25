@@ -108,7 +108,7 @@ const EttersendelseView: React.FC = () => {
 
     return (
         <div>
-            <DriftsmeldingVedlegg/>
+            <DriftsmeldingVedlegg leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}/>
             <div
                 className={"oppgaver_detaljer " + (antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div

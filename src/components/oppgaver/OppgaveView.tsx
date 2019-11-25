@@ -236,21 +236,24 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </div>
             )}
 
-            <Hovedknapp
-                disabled={vedleggLastesOpp}
-                spinner={vedleggLastesOpp}
-                type="hoved"
-                className="luft_over_1rem"
-                onClick={(event: any) => {
-                    if (!vedleggKlarForOpplasting) {
-                        setSendVedleggTrykket(true);
-                        return;
-                    }
-                    sendVedlegg(event)
-                }}
-            >
-                <FormattedMessage id="oppgaver.send_knapp_tittel"/>
-            </Hovedknapp>
+            { kanLasteOppVedlegg &&
+                <Hovedknapp
+                    disabled={vedleggLastesOpp}
+                    spinner={vedleggLastesOpp}
+                    type="hoved"
+                    className="luft_over_1rem"
+                    onClick={(event: any) => {
+                        if (!vedleggKlarForOpplasting) {
+                            setSendVedleggTrykket(true);
+                            return;
+                        }
+                        sendVedlegg(event)
+                    }}
+                >
+                    <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+                </Hovedknapp>
+            }
+
 
             {(!vedleggKlarForOpplasting && sendVedleggTrykket) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>

@@ -132,7 +132,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                             <FormattedMessage id="oppgaver.hjelp_last_opp"/>
                         </Lenke>
 
-                        <DriftsmeldingVedlegg/>
+                        <DriftsmeldingVedlegg leserData={leserData}/>
 
                         <div>
                             {oppgaver !== null && oppgaver.map((oppgave: Oppgave, index: number) => (
