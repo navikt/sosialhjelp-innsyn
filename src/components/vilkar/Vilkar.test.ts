@@ -10,49 +10,25 @@ import {getSkalViseVilkarView} from "./VilkarUtils";
 const saksStatus1: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.UNDER_BEHANDLING,
-    vedtaksListe: [],
+    skalViseVedtakInfoPanel: false,
     vedtaksfilUrlList: []
 };
 const saksStatus2: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.UNDER_BEHANDLING,
-    vedtaksListe: [],
+    skalViseVedtakInfoPanel: false,
     vedtaksfilUrlList: []
 };
 const saksStatus3: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.FERDIGBEHANDLET,
-    vedtaksListe: [],
+    skalViseVedtakInfoPanel: false,
     vedtaksfilUrlList: []
 };
 const saksStatus4: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.FERDIGBEHANDLET,
-    vedtaksListe: [
-        {
-            utfall: UtfallVedtak.INNVILGET,
-            vedtaksFilUrl: "link til noe",
-        } as Vedtak
-    ],
-    vedtaksfilUrlList: []
-};
-
-const saksStatus5: SaksStatusState = {
-    tittel: "Saksstatus 1",
-    status: SaksStatus.FERDIGBEHANDLET,
-    vedtaksListe: [
-        {
-            utfall: UtfallVedtak.INNVILGET,
-            vedtaksFilUrl: "link til noe",
-        } as Vedtak,
-        {
-            utfall: UtfallVedtak.AVVIST,
-            vedtaksFilUrl: "link til noe",
-        } as Vedtak,
-        {
-            vedtaksFilUrl: "link til noe",
-        } as Vedtak
-    ],
+    skalViseVedtakInfoPanel: true,
     vedtaksfilUrlList: []
 };
 
@@ -69,8 +45,7 @@ const listSaksStatusState_skal_gi_true: SaksStatusState[] = [
     saksStatus4
 ];
 
-it('viser driftsmelding for riktig kommune state', () => {
+it('viser kun vedtak info panel når minimum en sak har delvis innvilget eller innvilget som gjeldende vedtak.', () => {
     expect(getSkalViseVilkarView(listSaksStatusState_skal_gi_false)).toEqual(false);
     expect(getSkalViseVilkarView(listSaksStatusState_skal_gi_true)).toEqual(true);
-    expect(getSkalViseVilkarView([...listSaksStatusState_skal_gi_false, saksStatus5])).toEqual(false);
 });

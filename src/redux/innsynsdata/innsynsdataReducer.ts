@@ -19,7 +19,7 @@ export interface Utbetaling {
 export interface SaksStatusState {
     tittel: string;
     status: SaksStatus;
-    vedtaksListe: Vedtak[]
+    skalViseVedtakInfoPanel: boolean;
     vedtaksfilUrlList: VedtakFattet[];
     melding?: string;
 }
