@@ -19,7 +19,6 @@
   .oppgaver_panel {
 
     .oppgaver_innhold {
-      border: 1px dotted red;
     }
   }
 }
@@ -215,8 +214,21 @@ a.filnavn {
 }
 
 .filnavn_lenkeboks {
-  display: inline-block;
-  white-space: nowrap;
   margin-bottom: 2px;
 }
 
+.tekst-wrapping {
+  word-break: break-all;
+}
+
+@media screen and (max-width: 1230px ) {
+  .oppgave-detalj-overste-linje {
+    max-width: 65%;
+  }
+}
+
+@media screen and (min-width: 1231px ) {
+  .oppgave-detalj-overste-linje {
+    max-width: 65%;
+  }
+}
