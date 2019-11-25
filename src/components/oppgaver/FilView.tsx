@@ -34,7 +34,7 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
 
     return (
         <div className="vedlegg_liste_element" id={"app"}>
-            <span className="filnavn_lenkeboks">
+            <div className="filnavn_lenkeboks">
                 {fil.file &&
                 <VedleggModal
                     file={fil.file}
@@ -53,8 +53,8 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
                     {fil.filnavn}
                 </Lenke>
                 <span className="filstorrelse">({storrelse})</span>
-            </span>
-            <span className="fjern_lenkeboks">
+            </div>
+            <div className="fjern_lenkeboks">
                 <Lenke
                     href="#"
                     id={"fil_" + fil.filnavn + "_fjern_lenke_knapp"}
@@ -71,7 +71,7 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
                 >
                     <TrashBin className="klikkbar_soppelboette"/>
                 </button>
-            </span>
+            </div>
         </div>
     );
 };

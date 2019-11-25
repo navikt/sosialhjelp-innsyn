@@ -81,7 +81,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        let handleOnLinkClicked = (response: boolean) => {setSendVedleggTrykket(response)};
+        let handleOnLinkClicked = (response: boolean) => {
+            setSendVedleggTrykket(response)
+        };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
@@ -163,11 +165,50 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         return (
             <div key={id}
                  className={"oppgaver_detalj" + ((!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}>
-                <Element>{typeTekst}</Element>
-                {tilleggsinfoTekst && (
-                    <Normaltekst className="luft_over_4px">
-                        {tilleggsinfoTekst}
-                    </Normaltekst>)}
+                <div className={"oppgave-detalj-overste-linje"}>
+                    <div className={"tekst-wrapping"}>
+                        <Element>{typeTekst}</Element>
+                    </div>
+                    {tilleggsinfoTekst && (
+                        <div className={"tekst-wrapping"}>
+                            <Normaltekst className="luft_over_4px">
+                                {tilleggsinfoTekst}
+                            </Normaltekst>
+                        </div>
+                    )}
+
+
+                    {kanLasteOppVedlegg && (
+                        <div className="oppgaver_last_opp_fil">
+                            <UploadFileIcon
+                                className="last_opp_fil_ikon"
+                                onClick={(event: any) => {
+                                    onLinkClicked(id, event)
+                                }}
+                            />
+                            <Lenke
+                                href="#"
+                                id={"oppgave_" + id + "_last_opp_fil_knapp"}
+                                className="lenke_uten_ramme"
+                                onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                    onLinkClicked(id, event)
+                                }}
+                            >
+                                <Element>
+                                    <FormattedMessage id="vedlegg.velg_fil"/>
+                                </Element>
+                            </Lenke>
+                            <input
+                                type="file"
+                                id={'file_' + oppgaveIndex + '_' + id}
+                                multiple={true}
+                                onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
+                                style={{display: "none"}}
+                            />
+                        </div>
+                    )}
+                </div>
+
 
                 {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) =>
                     <VedleggActionsView vedlegg={vedlegg} key={index}/>
@@ -175,36 +216,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
                 {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, index: number) =>
                     <FilView key={index} fil={fil} oppgaveElement={oppgaveElement}/>
-                )}
-
-                {kanLasteOppVedlegg && (
-                    <div className="oppgaver_last_opp_fil">
-                        <UploadFileIcon
-                            className="last_opp_fil_ikon"
-                            onClick={(event: any) => {
-                                onLinkClicked(id, event)
-                            }}
-                        />
-                        <Lenke
-                            href="#"
-                            id={"oppgave_" + id + "_last_opp_fil_knapp"}
-                            className="lenke_uten_ramme"
-                            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onLinkClicked(id, event)
-                            }}
-                        >
-                            <Element>
-                                <FormattedMessage id="vedlegg.velg_fil"/>
-                            </Element>
-                        </Lenke>
-                        <input
-                            type="file"
-                            id={'file_' + oppgaveIndex + '_' + id}
-                            multiple={true}
-                            onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
-                            style={{display: "none"}}
-                        />
-                    </div>
                 )}
 
             </div>
