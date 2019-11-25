@@ -40,6 +40,7 @@ const VilkarView: React.FC = () => {
                 <EkspanderbartpanelBase
                     apen={true}
                     heading={heading}
+                    className={"react-collapse-animation"}
                 >
                     <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>
                             <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
