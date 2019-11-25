@@ -89,7 +89,8 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
 			)}
 
 			{sak && sak.map((statusdetalj: SaksStatusState, index: number) => {
-				const saksStatus = statusdetalj.status.replace(/_/g,' ');
+				let saksStatus = statusdetalj.status.replace(/_/g,' ');
+				saksStatus =	saksStatus === "FERDIGBEHANDLET" ? "FERDIG BEHANDLET" : saksStatus;
 				const kanVises: boolean = statusdetalj.status !== SaksStatus.IKKE_INNSYN;
 				return (
 					<div className="status_detalj_panel" key={index}>
