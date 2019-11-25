@@ -1,24 +1,58 @@
-import {SaksStatusState, SaksStatus, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    SaksStatusState,
+    SaksStatus,
+    VedtakFattet,
+    Vedtak,
+    UtfallVedtak
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseVilkarView} from "./VilkarUtils";
 
 const saksStatus1: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: SaksStatus.KAN_IKKE_VISES,
+    status: SaksStatus.UNDER_BEHANDLING,
+    vedtaksListe: [],
     vedtaksfilUrlList: []
 };
 const saksStatus2: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: SaksStatus.AVSLATT,
+    status: SaksStatus.UNDER_BEHANDLING,
+    vedtaksListe: [],
     vedtaksfilUrlList: []
 };
 const saksStatus3: SaksStatusState = {
     tittel: "Saksstatus 1",
-    status: SaksStatus.DELVIS_INNVILGET,
+    status: SaksStatus.FERDIGBEHANDLET,
+    vedtaksListe: [],
     vedtaksfilUrlList: []
 };
 const saksStatus4: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.FERDIGBEHANDLET,
+    vedtaksListe: [
+        {
+            utfall: UtfallVedtak.INNVILGET,
+            vedtaksFilUrl: "link til noe",
+        } as Vedtak
+    ],
+    vedtaksfilUrlList: []
+};
+
+const saksStatus5: SaksStatusState = {
+    tittel: "Saksstatus 1",
+    status: SaksStatus.FERDIGBEHANDLET,
+    vedtaksListe: [
+        {
+            utfall: UtfallVedtak.INNVILGET,
+            vedtaksFilUrl: "link til noe",
+        } as Vedtak,
+        {
+            utfall: UtfallVedtak.AVVIST,
+            vedtaksFilUrl: "link til noe",
+        } as Vedtak,
+        {
+            vedtaksFilUrl: "link til noe",
+        } as Vedtak
+    ],
     vedtaksfilUrlList: []
 };
 
@@ -38,4 +72,5 @@ const listSaksStatusState_skal_gi_true: SaksStatusState[] = [
 it('viser driftsmelding for riktig kommune state', () => {
     expect(getSkalViseVilkarView(listSaksStatusState_skal_gi_false)).toEqual(false);
     expect(getSkalViseVilkarView(listSaksStatusState_skal_gi_true)).toEqual(true);
+    expect(getSkalViseVilkarView([...listSaksStatusState_skal_gi_false, saksStatus5])).toEqual(false);
 });

@@ -19,8 +19,22 @@ export interface Utbetaling {
 export interface SaksStatusState {
     tittel: string;
     status: SaksStatus;
+    vedtaksListe: Vedtak[]
     vedtaksfilUrlList: VedtakFattet[];
     melding?: string;
+}
+
+export interface Vedtak {
+    utfall?: UtfallVedtak,
+    vedtaksFilUrl: string,
+    dato?: string
+}
+
+export enum UtfallVedtak {
+    INNVILGET = "INNVILGET",
+    DELVIS_INNVILGET = "DELVIS_INNVILGET",
+    AVSLATT = "AVSLATT",
+    AVVIST = "AVVIST"
 }
 
 export interface Sakstype {
