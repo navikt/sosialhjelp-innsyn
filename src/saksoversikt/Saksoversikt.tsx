@@ -28,7 +28,7 @@ const Saksoversikt: React.FC = () => {
             alleSaker = saker.concat(sakerFraSoknadResponse.payload.results);
         }
     }
-    const harSaker = saker.length > 0;
+    const harSaker = alleSaker.length > 0;
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER))
