@@ -74,45 +74,60 @@ jobs:
   # FIXME: Trenger vi denne?
   deploy_dev:
     docker:
-      - image: navikt/deployment-cli:v0.2.0
+      - image: navikt/deployment:v1
     steps:
       - checkout
-      - setup_remote_docker
-      - run: # Brukernavn og passord til Github ligger i miljøvariablene DEPLOYMENT_USERNAME og DEPLOYMENT_PASSWORD.
+      - run:
           name: Deploy til default dev-sbs
           command: |
             git clone https://github.com/navikt/sosialhjelp-ci.git
-            VERSION=$(sosialhjelp-ci/bin/create-artifact-version.sh)
+            yq w "nais/dev/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
 
-            deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/default.json
+            /app/deploy \
+                --apikey="$NAIS_DEPLOY_APIKEY" \
+                --cluster="dev-sbs" \
+                --repository="$CIRCLE_PROJECT_REPONAME" \
+                --resource="nais.yaml" \
+                --vars="deployment.yaml" \
+                --wait=true
 
   deploy_miljo:
     docker:
-      - image: navikt/deployment-cli:v0.2.0
+      - image: navikt/deployment:v1
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Deploy versjon=${VERSION} til miljø=${MILJO} i dev-sbs
+          name: Deploy til miljø i dev-sbs
           command: |
             git clone https://github.com/navikt/sosialhjelp-ci.git
-            VERSION=$(sosialhjelp-ci/bin/create-artifact-version.sh)
+            yq w "nais/dev/${MILJO}.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
 
-            deployment-cli deploy create --cluster=dev-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+            /app/deploy \
+                --apikey="$NAIS_DEPLOY_APIKEY" \
+                --cluster="dev-sbs" \
+                --repository="$CIRCLE_PROJECT_REPONAME" \
+                --resource="nais.yaml" \
+                --vars="deployment.yaml" \
+                --wait=true
 
   deploy_prod:
     docker:
-      - image: navikt/deployment-cli:v0.2.0
+      - image: navikt/deployment:v1
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Deploy versjon=${VERSION} til prod
+          name: Deploy til prod
           command: |
             git clone https://github.com/navikt/sosialhjelp-ci.git
-            VERSION=$(sosialhjelp-ci/bin/create-artifact-version.sh)
+            yq w "nais/prod/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
 
-            deployment-cli deploy create --cluster=prod-sbs --repository=navikt/sosialhjelp-innsyn --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
+            /app/deploy \
+                --apikey="$NAIS_DEPLOY_APIKEY" \
+                --cluster="prod-sbs" \
+                --repository="$CIRCLE_PROJECT_REPONAME" \
+                --resource="nais.yaml" \
+                --vars="deployment.yaml" \
+                --wait=true
 
 workflows:
   version: 2
