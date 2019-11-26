@@ -81,14 +81,15 @@ jobs:
           name: Deploy til default dev-sbs
           command: |
             git clone https://github.com/navikt/sosialhjelp-ci.git
-            yq w "nais/dev/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
+            yq w "nais/dev/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" \
+              | yq r -j - > deployment.json
 
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
                 --cluster="dev-sbs" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
                 --resource="nais.yaml" \
-                --vars="deployment.yaml" \
+                --vars="deployment.json" \
                 --wait=true
 
   deploy_miljo:
@@ -100,14 +101,15 @@ jobs:
           name: Deploy til miljø i dev-sbs
           command: |
             git clone https://github.com/navikt/sosialhjelp-ci.git
-            yq w "nais/dev/${MILJO}.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
+            yq w "nais/dev/${MILJO}.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" \
+              | yq r -j - > deployment.json
 
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
                 --cluster="dev-sbs" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
                 --resource="nais.yaml" \
-                --vars="deployment.yaml" \
+                --vars="deployment.json" \
                 --wait=true
 
   deploy_prod:
@@ -119,14 +121,15 @@ jobs:
           name: Deploy til prod
           command: |
             git clone https://github.com/navikt/sosialhjelp-ci.git
-            yq w "nais/prod/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
+            yq w "nais/prod/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" \
+              | yq r -j - > deployment.json
 
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
                 --cluster="prod-sbs" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
                 --resource="nais.yaml" \
-                --vars="deployment.yaml" \
+                --vars="deployment.json" \
                 --wait=true
 
 workflows:
