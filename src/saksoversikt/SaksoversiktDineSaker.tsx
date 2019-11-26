@@ -12,7 +12,6 @@ import {useDispatch} from "react-redux";
 import Paginering from "../components/paginering/Paginering";
 import {push} from "connected-react-router";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
-import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const dispatch = useDispatch();
@@ -107,19 +106,19 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         )}
 
         <>
-            <DineUtbetalingerPanel/>
+            {/*<DineUtbetalingerPanel/>*/}
 
             <Subheader className="panel-luft-over">
                 <Undertittel>Relatert informasjon</Undertittel>
             </Subheader>
 
             <InfoPanelContainer>
-                <InfoPanel tittel={"Meld fra om endringer"} href={"todo"}>
+                <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/artikkel/124876"}>
                     Du må melde fra dersom din økonomiske situasjon endres.
                 </InfoPanel>
 
                 <InfoPanel tittel={"Klagerettigheter"}
-                           href={"https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Klage+ris+og+ros/Klagerettigheter#hvordanklagerdu"}>
+                           href={"https://www.nav.no/sosialhjelp/artikkel/124875"}>
                     Har du fått et vedtak fra oss som du mener er feil, kan du klage.
                 </InfoPanel>
 
