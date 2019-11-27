@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, subMonths} from "date-fns";
@@ -43,6 +43,9 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         }
     }
     const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
+    if(currentPage >= lastPage) {
+        history.push({search: "?side=" + (lastPage)})
+    }
     const paginerteSaker:Sakstype[] = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
 
     const handlePageClick = (page: number) => {
