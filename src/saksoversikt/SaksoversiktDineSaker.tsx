@@ -1,20 +1,18 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
-import {Knapp} from "nav-frontend-knapper";
 import {Select} from 'nav-frontend-skjema';
 import SakPanel from "./sakpanel/SakPanel";
-import {useDispatch} from "react-redux";
 import Paginering from "../components/paginering/Paginering";
-import {push} from "connected-react-router";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import {parse} from "query-string";
+import {history} from "../configureStore";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
-    const dispatch = useDispatch();
     const [periode, setPeriode] = useState<string>("alle");
 
     let filtrerteSaker:Sakstype[];
@@ -25,7 +23,6 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     const velgPeriode = (value: any) => {
         setPeriode(value.target.value);
-        setCurrentPage(0);
     };
 
     if (periode === "alle")
@@ -37,12 +34,19 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     /* Paginering */
     const itemsPerPage = 10;
-    const [currentPage, setCurrentPage] = useState<number>(0);
+    let currentPage = 0;
+    const pageParam = parse(history.location.search)["side"];
+    if(pageParam) {
+        let parsedPageNumber = parseInt(pageParam.toString(), 10);
+        if(!isNaN(parsedPageNumber)) {
+            currentPage = parsedPageNumber - 1;
+        }
+    }
     const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
     const paginerteSaker:Sakstype[] = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
 
     const handlePageClick = (page: number) => {
-        setCurrentPage(page);
+        history.push({search: "?side=" + (page + 1)})
     };
 
     return (
@@ -50,9 +54,9 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
             <div className="dine_soknader_panel ">
                 <div className="tittel_og_knapp_container">
                     <Systemtittel className="dine_soknader_panel_overskrift">Dine søknader</Systemtittel>
-                    <Knapp type="standard" onClick={() => dispatch(push("/soknad/informasjon"))}>
+                    <a href="/sosialhjelp/soknad/informasjon" className="knapp">
                         Ny søknad
-                    </Knapp>
+                    </a>
                 </div>
                 <div className="periodevelger_container">
                     <Select onChange={(value: any) => velgPeriode(value)} label='Vis for'

@@ -26,11 +26,16 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
 
     const dispatch = useDispatch();
 
+    let hrefUrl = "/innsyn/" + fiksDigisosId + "/status";
+    if(fiksDigisosId === null) {
+        hrefUrl = url;
+    }
+
     const onClick = (event: any) => {
         if(fiksDigisosId === null) {
             window.location.href = url;
         } else {
-            dispatch(push("/innsyn/" + fiksDigisosId + "/status"));
+            dispatch(push(hrefUrl));
             event.preventDefault();
         }
     };
@@ -47,7 +52,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
     }, [dispatch, requestId]);
 
     return (
-        <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href="#">
+        <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href={hrefUrl}>
             <div className="sakpanel">
                 <div className="sakpanel_text">
                     <DocumentIcon className="document_icon"/>
