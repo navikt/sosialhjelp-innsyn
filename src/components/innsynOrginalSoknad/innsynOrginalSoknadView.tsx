@@ -19,19 +19,6 @@ const InnsynOrginalSoknadView: React.FC<Props> = (props: Props) => {
 
     const [isVisible, setIsVisible] = useState(false);
 
-    const getSoknadPdfLinkView = () => {
-        if (props.orginalSoknadResponse.soknadPdfLink) {
-            return "Her er linken til pdfen"
-        }
-        return "Jeg vet ikke om noen link."
-    };
-
-    const soknadPdfLinkView = (
-        <div>
-            {getSoknadPdfLinkView()}
-        </div>
-    )
-
     return (
         <div>
             <Hovedknapp onClick={() => setIsVisible(!isVisible)}>Toggle Modal med Orginal Søknad</Hovedknapp>
@@ -41,7 +28,13 @@ const InnsynOrginalSoknadView: React.FC<Props> = (props: Props) => {
                 onRequestClose={() => setIsVisible(false)}
             >
                 <div>
-                    {soknadPdfLinkView}
+                    {
+                        props.orginalSoknadResponse.soknadPdfLink && (
+                            <div>
+                                Link til pdf'en: {props.orginalSoknadResponse.soknadPdfLink}
+                            </div>
+                        )
+                    }
                     <br/>
                     {props.orginalSoknadResponse.soknadJson && (
                         <div>

@@ -21,8 +21,6 @@ const InnsynOrginalSoknad: React.FC<Props> = (props: Props) => {
     const getOrginalSoknad = (fiksDigisosId: string) => {
         const urlPath = `/innsyn/${fiksDigisosId}/orginalSoknad`;
         fetchToJson(urlPath).then((response: any) => {
-            // FIXME: Fix typesikring
-            console.warn("Got orginalsøknad response: " + JSON.stringify(response, null, 4));
             setOrginalSoknadResponse(response);
         }).catch((reason) => {
             // FIXME: Håndter feil

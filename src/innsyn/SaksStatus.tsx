@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
-import {fetchToJson, getApiBaseUrl, REST_STATUS} from "../utils/restUtils";
+import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {InnsynsdataActionTypeKeys, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
@@ -13,7 +13,6 @@ import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
 import {useIntl} from 'react-intl';
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
-import {Hovedknapp} from "nav-frontend-knapper";
 import InnsynOrginalSoknad from "../components/innsynOrginalSoknad/innsynOrginalSoknad";
 
 interface Props {
