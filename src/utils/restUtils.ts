@@ -11,8 +11,8 @@ export function erHeroku(): boolean {
 }
 
 export function erMedLoginApi(): boolean {
-    // return true; // Uncomment om testing via login-api
-    return false
+    return true; // Uncomment om testing via login-api
+    // return false
 }
 
 export function getApiBaseUrl(): string {
