@@ -24,6 +24,7 @@ import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDa
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
+import {antallDagerEtterFrist} from "./Oppgaver";
 
 interface Props {
     oppgave: Oppgave;
@@ -79,6 +80,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+
+    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -225,10 +228,18 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     return (
         <div
             className={((!vedleggKlarForOpplasting && sendVedleggTrykket) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
-            {oppgaverErFraInnsyn && (
+            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
                         id="oppgaver.innsendelsesfrist"
+                        values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
+                    />
+                </Normaltekst>
+            )}
+            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 &&(
+                <Normaltekst className="luft_under_8px">
+                    <FormattedMessage
+                        id="oppgaver.innsendelsesfrist_passert"
                         values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
                     />
                 </Normaltekst>
