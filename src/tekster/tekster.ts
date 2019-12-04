@@ -53,6 +53,7 @@ export const tekster = {
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
         "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
+        "vedlegg.opplasting_feilmelding": "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
