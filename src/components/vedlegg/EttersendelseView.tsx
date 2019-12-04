@@ -32,6 +32,7 @@ const EttersendelseView: React.FC = () => {
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const opplastingFeilet = restStatus as REST_STATUS === REST_STATUS.FEILET;
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -87,14 +88,18 @@ const EttersendelseView: React.FC = () => {
                     if (fileItem.status !== "OK") {
                         harFeil = true;
                     }
+                    // FIXME: Fjern stagede filer hvis alle er OK
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
                         fil: {filnavn: fileItem.filnavn} as Fil,
-                        status: fileItem.status
+                        status: fileItem.status,
+                        index: index
                     });
                 }
             }
-            if (!harFeil) {
+            if (harFeil) {
+                dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+            } else {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
             }
         }).catch((reason: any) => {
@@ -110,9 +115,9 @@ const EttersendelseView: React.FC = () => {
         <div>
             <DriftsmeldingVedlegg leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}/>
             <div
-                className={"oppgaver_detaljer " + (antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
+                className={"oppgaver_detaljer " + (opplastingFeilet || antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
-                    className={"oppgaver_detalj " + (antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
+                    className={"oppgaver_detalj " + (opplastingFeilet || antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
                     style={{marginTop: "0px"}}
                 >
                     <Element><FormattedMessage id="andre_vedlegg.type"/></Element>
@@ -160,6 +165,12 @@ const EttersendelseView: React.FC = () => {
                 {antallUlovligeFiler > 0 && (
                     <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                         <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
+                    </div>
+                )}
+
+                {opplastingFeilet && (
+                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                        <FormattedMessage id="vedlegg.opplasting_feilmelding"/>
                     </div>
                 )}
 

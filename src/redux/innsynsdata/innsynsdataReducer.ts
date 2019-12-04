@@ -377,8 +377,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
-                        return !(fil.filnavn === action.fil.filnavn && action.status === "OK");
+                    filer: state.ettersendelse.filer.map((fil: Fil, index: number) => {
+                        if (action.status !== undefined && index === action.index) {
+                            fil.status = action.status as string;
+                        }
+                        return fil;
                     })
                 }
             };
