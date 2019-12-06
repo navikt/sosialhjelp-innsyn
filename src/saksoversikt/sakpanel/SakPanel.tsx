@@ -26,7 +26,8 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
 
     const dispatch = useDispatch();
 
-    let hrefUrl = "/innsyn/" + fiksDigisosId + "/status";
+    let dispatchUrl = "/innsyn/" + fiksDigisosId + "/status";
+    let hrefUrl = "/sosialhjelp" + dispatchUrl;
     if(fiksDigisosId === null) {
         hrefUrl = url;
     }
@@ -38,7 +39,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         if(fiksDigisosId === null) {
             window.location.href = url;
         } else {
-            dispatch(push(hrefUrl));
+            dispatch(push(dispatchUrl));
             event.preventDefault();
         }
     };
@@ -55,7 +56,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
     }, [dispatch, requestId]);
 
     return (
-        <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href={"/sosialhjelp" + hrefUrl}>
+        <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href={hrefUrl}>
             <div className="sakpanel">
                 <div className="sakpanel_text">
                     <DocumentIcon className="document_icon"/>
