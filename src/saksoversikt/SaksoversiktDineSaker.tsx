@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Panel} from "nav-frontend-paneler";
 import "./saksoversikt.less";
-import {isAfter, subMonths} from "date-fns";
+import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
@@ -31,6 +31,17 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         const periodeLengde = tolkPeriode(periode);
         filtrerteSaker = saker.filter(sak => isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde)));
     }
+
+    function sammenlignSakesTidspunkt(a:Sakstype, b:Sakstype) {
+        if (isAfter(Date.parse(a.sistOppdatert),Date.parse(b.sistOppdatert))) {
+            return -1;
+        }
+        if (isBefore(Date.parse(a.sistOppdatert),Date.parse(b.sistOppdatert))) {
+            return 1;
+        }
+        return 0;
+    }
+    filtrerteSaker.sort(sammenlignSakesTidspunkt);
 
     /* Paginering */
     const itemsPerPage = 10;
