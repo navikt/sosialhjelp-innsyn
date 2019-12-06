@@ -120,6 +120,7 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
+    index: number,
     fil: Fil;
     oppgaveElement: OppgaveElement;
     status?: string;
@@ -259,14 +260,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     return {
                         ...oppgave,
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
-                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype) {
+                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
+                                oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
                                 return {
                                     ...oppgaveElement,
                                     filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, index: number) => {
-                                        if (action.fil && fil.filnavn === action.fil.filnavn) {
-                                            return false;
-                                        }
-                                        return true;
+                                        return index !== action.index;
                                     }))
                                 }
                             }
@@ -368,8 +367,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
-                        return !(action.fil && fil.filnavn === action.fil.filnavn);
+                    filer: state.ettersendelse.filer.filter((fil: Fil, index: number) => {
+                        return index !== action.index;
                     })
                 }
             };

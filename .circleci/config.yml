@@ -71,26 +71,6 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
 
-  # FIXME: Trenger vi denne?
-  deploy_dev:
-    docker:
-      - image: navikt/deployment:v1
-    steps:
-      - checkout
-      - run:
-          name: Deploy til default dev-sbs
-          command: |
-            git clone https://github.com/navikt/sosialhjelp-ci.git
-            yq w "nais/dev/default.json" version "$(sosialhjelp-ci/bin/create-artifact-version.sh)" > deployment.yaml
-
-            /app/deploy \
-                --apikey="$NAIS_DEPLOY_APIKEY" \
-                --cluster="dev-sbs" \
-                --repository="$CIRCLE_PROJECT_REPONAME" \
-                --resource="nais.yaml" \
-                --vars="deployment.yaml" \
-                --wait=true
-
   deploy_miljo:
     docker:
       - image: navikt/deployment:v1
@@ -141,10 +121,3 @@ workflows:
 #      - browser-test:
 #          requires:
 #            - deploy_heroku
-      # FIXME: Trenger vi denne?
-      - deploy_dev:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
