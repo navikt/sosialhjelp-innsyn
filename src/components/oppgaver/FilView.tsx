@@ -76,9 +76,9 @@ const FilView: React.FC<{ index: number, fil: Fil, oppgaveElement?: OppgaveEleme
                 </button>
             </div>
         </div>
-            {fil.status === REST_STATUS.FEILET && ( // FIXME: Funker ikke
+            {fil.status !== REST_STATUS.INITIALISERT && fil.status !== REST_STATUS.PENDING && fil.status !== REST_STATUS.OK && (
                 <div className="oppgaver_vedlegg_feilmelding_rad">
-                    {fil.status}
+                    <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status}/>
                 </div>
             )}
         </div>
