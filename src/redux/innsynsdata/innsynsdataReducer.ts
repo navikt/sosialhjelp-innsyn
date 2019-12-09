@@ -136,7 +136,12 @@ export interface Status {
 export interface Hendelse {
     tidspunkt: string;
     beskrivelse: string;
-    filUrl: null | string;
+    filUrl: null | UrlResponse;
+}
+
+export interface UrlResponse {
+    linkTekst: string,
+    link: string
 }
 
 export interface VedleggsOpplastingFeilActionType {
