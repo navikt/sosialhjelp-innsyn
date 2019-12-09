@@ -91,7 +91,8 @@ export enum InnsynsdataActionTypeKeys {
     FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
     OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
-    SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER"
+    SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
+    OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET"
 }
 
 export enum InnsynsdataSti {
@@ -138,6 +139,10 @@ export interface Hendelse {
     filUrl: null | string;
 }
 
+export interface VedleggsOpplastingFeilActionType {
+    status: boolean
+}
+
 export interface VedtakFattet {
     dato: string;
     vedtaksfilUrl: null | string;
@@ -166,6 +171,7 @@ export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
+    oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
     hendelser: Hendelse[];
@@ -192,6 +198,7 @@ const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
+    oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null
     },
@@ -219,7 +226,7 @@ export interface Vedleggfeil {
     filnavn: string
 }
 
-const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
+const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType & VedleggsOpplastingFeilActionType> = (state = initialState, action) => {
     switch (action.type) {
         case InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID:
             return {
@@ -365,6 +372,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE:
             return {
                 ...state,
+                oppgaveVedlegsOpplastingFeilet: false,
                 ettersendelse: {
                     ...state.ettersendelse,
                     filer: state.ettersendelse.filer.filter((fil: Fil, index: number) => {
@@ -381,6 +389,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         return !(fil.filnavn === action.fil.filnavn && action.status === "OK");
                     })
                 }
+            };
+
+        case InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET:
+            return {
+                ...state,
+                oppgaveVedlegsOpplastingFeilet: action.status
             };
 
         default:

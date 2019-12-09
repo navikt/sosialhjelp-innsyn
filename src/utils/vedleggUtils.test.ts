@@ -1,5 +1,8 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
-import {opprettFormDataMedVedleggFraFiler, opprettFormDataMedVedleggFraOppgaver} from "./vedleggUtils";
+import {
+    opprettFormDataMedVedleggFraFiler,
+    opprettFormDataMedVedleggFraOppgaver
+} from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
 const jpgFile = {filnavn: "test1.jpg", file: new Blob()} as Fil;
@@ -73,7 +76,8 @@ describe('VedleggUtilsTest', () => {
 
     it('should create correct form and meta data for oppgaver', () => {
 
-        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
+        let oppgaver = [oppgave];
+        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");

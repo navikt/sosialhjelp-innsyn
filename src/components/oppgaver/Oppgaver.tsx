@@ -6,12 +6,25 @@ import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
-import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti, KommuneResponse,
+    Oppgave, OppgaveElement,
+    settRestStatus
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import VilkarView from "../vilkar/VilkarView";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
+import {Hovedknapp} from "nav-frontend-knapper";
+import {useDispatch, useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
+import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
+import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -30,16 +43,73 @@ function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): string {
     return innsendelsesfrist;
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
+function harIkkeValgtFiler(oppgaver: Oppgave[] | null) {
+    let antall = 0;
+    oppgaver && oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave && oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+            oppgaveElement.filer && oppgaveElement.filer.forEach(() => {
+                antall += 1;
+            });
+        });
+    });
+    return antall === 0;
+}
 
-    // TODO Gi bruker tilbakemelding om at filer holder på å bli lastet opp.
-    // const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus);
-    // console.log("restStatus: " + restStatus);
-    // <pre>REST status: {JSON.stringify(restStatus.oppgaver, null, 8)}</pre>
+const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
+    const dispatch = useDispatch();
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
+
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+
+    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
+    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+
+    const sendVedlegg = (event: any) => {
+        if (!oppgaver ||!fiksDigisosId) {
+            event.preventDefault();
+            return;
+        }
+
+        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
+        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        const path = innsynsdataUrl(fiksDigisosId, sti);
+        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
+
+        dispatch({type: InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET, status:harIkkeValgtFiler(oppgaver)});
+
+        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
+            let harFeil: boolean = false;
+            if (Array.isArray(filRespons)) {
+                for (var index = 0; index < filRespons.length; index++) {
+                    const fileItem = filRespons[index];
+                    if (fileItem.status !== "OK") {
+                        harFeil = true;
+                    }
+                    dispatch({
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                        fil: {
+                            filnavn: fileItem.filnavn,
+                            status: fileItem.status,
+                        } as Fil,
+                    });
+                }
+            }
+            if (!harFeil) {
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+            }
+        }).catch(() => {
+            console.log("Feil med opplasting av vedlegg");
+        });
+
+        event.preventDefault()
+    };
 
     return (
         <>
@@ -116,6 +186,19 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                              oppgaveIndex={index}/>
                             ))}
                         </div>
+                        { kanLasteOppVedlegg &&
+                            <Hovedknapp
+                                disabled={vedleggLastesOpp}
+                                spinner={vedleggLastesOpp}
+                                type="hoved"
+                                className="luft_over_1rem"
+                                onClick={(event: any) => {
+                                    sendVedlegg(event)
+                                }}
+                            >
+                                <FormattedMessage id="oppgaver.send_knapp_tittel"/>
+                            </Hovedknapp>
+                        }
 
                     </EkspanderbartpanelBase>
                 </Panel>
