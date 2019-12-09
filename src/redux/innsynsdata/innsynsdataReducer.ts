@@ -283,8 +283,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
                             return {
                                 ...oppgaveElement,
-                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil) => {
-                                    if (fil.filnavn === action.fil.filnavn) {
+                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil, index: number) => {
+                                    if (index === action.index) {
                                         return {
                                             ...fil,
                                             status: action.status
@@ -377,12 +377,17 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.map((fil: Fil, index: number) => {
-                        if (action.status !== undefined && index === action.index) {
-                            fil.status = action.status as string;
-                        }
-                        return fil;
-                    })
+                    filer: state.ettersendelse.filer.find((fil: Fil) => fil.status !== REST_STATUS.OK)
+                        ? state.ettersendelse.filer.map((fil: Fil, index: number) => {
+                            if (index === action.index) {
+                                return {
+                                    ...fil,
+                                    status: action.status
+                                };
+                            }
+                            return fil;
+                        })
+                        : []
                 }
             };
 

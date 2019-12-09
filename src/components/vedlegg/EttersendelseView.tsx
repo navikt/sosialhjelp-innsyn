@@ -88,7 +88,6 @@ const EttersendelseView: React.FC = () => {
                     if (fileItem.status !== "OK") {
                         harFeil = true;
                     }
-                    // FIXME: Fjern stagede filer hvis alle er OK
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
                         fil: {filnavn: fileItem.filnavn} as Fil,
