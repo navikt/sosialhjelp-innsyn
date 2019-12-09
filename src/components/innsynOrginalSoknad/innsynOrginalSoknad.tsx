@@ -1,27 +1,60 @@
 import * as React from 'react';
 import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchToJson} from "../../utils/restUtils";
-import InnsynOrginalSoknadView, {OrginalSoknadResponse} from "./innsynOrginalSoknadView";
+import InnsynOrginalSoknadView from "./innsynOrginalSoknadView";
 import {useState} from "react";
+import {
+    isOfTypeOrginalJsonSoknadResponse,
+    isOfTypeOrginalSoknadPdfLinkResponse,
+    isOfTypeSoknadJson, isOfTypeString
+} from "./soknadTypesUtilityFunctions";
+import InnsynOrgnialSoknadPdfLinkView from "./InnsynOrgnialSoknadPdfLinkView";
+import {OrginalJsonSoknadResponse, OrginalSoknadPdfLinkResponse} from "./types";
 
-const initialOrginalSoknadResponse: OrginalSoknadResponse = {
-    soknadJson: null,
-    soknadPdfLink: null
-};
 
 interface Props {
     fiksDigisosId: string
 }
 
+interface State {
+    orginalJsonSoknadResponse: OrginalJsonSoknadResponse | null;
+    orginalSoknadPdfLinkResponse: OrginalSoknadPdfLinkResponse | null;
+}
+
+const initialState: State = {
+    orginalJsonSoknadResponse: null,
+    orginalSoknadPdfLinkResponse: null
+};
+
+
 const InnsynOrginalSoknad: React.FC<Props> = (props: Props) => {
 
-    let [orginalSoknadResponse, setOrginalSoknadResponse] = useState(initialOrginalSoknadResponse as OrginalSoknadResponse);
+    let [state, setState]: [State, (stateUpdated: State) => void] = useState(initialState);
 
 
     const getOrginalSoknad = (fiksDigisosId: string) => {
-        const urlPath = `/innsyn/${fiksDigisosId}/orginalSoknad`;
-        fetchToJson(urlPath).then((response: any) => {
-            setOrginalSoknadResponse(response);
+
+        const urlOrginalJsonSoknad = `/innsyn/${fiksDigisosId}/orginalJsonSoknad`;
+        fetchToJson(urlOrginalJsonSoknad).then((response: any) => {
+            if (
+                isOfTypeOrginalJsonSoknadResponse(response) &&
+                isOfTypeSoknadJson(response.jsonSoknad)
+            ){
+                setState({...state, orginalJsonSoknadResponse: response});
+            }
+        }).catch((reason) => {
+            // FIXME: Håndter feil
+            console.warn("Fail'a med reason: " + reason)
+        });
+
+        const urlOrginalSoknadPdfLink = `/innsyn/${fiksDigisosId}/orginalSoknadPdfLink`;
+        fetchToJson(urlOrginalSoknadPdfLink).then((response: any) => {
+            if (
+                isOfTypeOrginalSoknadPdfLinkResponse(response) &&
+                isOfTypeString(response.orginalSoknadPdfLink)
+            ){
+                setState({...state, orginalSoknadPdfLinkResponse: response});
+            }
         }).catch((reason) => {
             // FIXME: Håndter feil
             console.warn("Fail'a med reason: " + reason)
@@ -31,7 +64,14 @@ const InnsynOrginalSoknad: React.FC<Props> = (props: Props) => {
     return (
         <div>
             <Hovedknapp onClick={() => getOrginalSoknad(props.fiksDigisosId)}>Hent orginalsøknad fra server</Hovedknapp>
-            <InnsynOrginalSoknadView orginalSoknadResponse={orginalSoknadResponse}/>
+
+            <InnsynOrginalSoknadView
+                orginalJsonSoknad={state.orginalJsonSoknadResponse ? state.orginalJsonSoknadResponse.jsonSoknad : undefined}
+            />
+
+            <InnsynOrgnialSoknadPdfLinkView
+                url={ state.orginalSoknadPdfLinkResponse ? state.orginalSoknadPdfLinkResponse.orginalSoknadPdfLink : undefined}
+            />
         </div>
     )
 };

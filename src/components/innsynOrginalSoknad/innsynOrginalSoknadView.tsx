@@ -2,57 +2,38 @@ import * as React from 'react';
 import ModalWrapper from "nav-frontend-modal";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {useState} from "react";
+import {JSONFormatertSoknadOmSosialhjelpOsv} from "./soknadTypesGenerated";
 
-type JsonSoknad = any;
-
-export interface OrginalSoknadResponse {
-    soknadJson: JsonSoknad | null;
-    soknadPdfLink: String | null;
-}
 
 interface Props {
-    orginalSoknadResponse: OrginalSoknadResponse
+    orginalJsonSoknad?: JSONFormatertSoknadOmSosialhjelpOsv
 }
-
 
 const InnsynOrginalSoknadView: React.FC<Props> = (props: Props) => {
 
     const [isVisible, setIsVisible] = useState(false);
+    const {orginalJsonSoknad} = props;
 
-    return (
-        <div>
-            <Hovedknapp onClick={() => setIsVisible(!isVisible)}>Toggle Modal med Orginal Søknad</Hovedknapp>
-            <ModalWrapper
-                isOpen={isVisible}
-                contentLabel={"Innsyn i innsendt søknad"}
-                onRequestClose={() => setIsVisible(false)}
-            >
-                <div>
-                    {
-                        props.orginalSoknadResponse.soknadPdfLink && (
-                            <div>
-                                Link til pdf'en: {props.orginalSoknadResponse.soknadPdfLink}
-                            </div>
-                        )
-                    }
-                    <br/>
-                    {props.orginalSoknadResponse.soknadJson && (
-                        <div>
-                            {JSON.stringify(props.orginalSoknadResponse.soknadJson, null, 4)}
-                        </div>
-                    )}
-                    {
-                        props.orginalSoknadResponse.soknadJson === null &&
-                        props.orginalSoknadResponse.soknadPdfLink === null && (
-                            <div>
-                                Ingen data om orginalsøknaden er tilgjengelig.
-                            </div>
-                        )
-                    }
-                </div>
-            </ModalWrapper>
-        </div>
-    )
+    if (orginalJsonSoknad){
+        const {data} = orginalJsonSoknad;
+
+        return (
+            <div>
+                <Hovedknapp onClick={() => setIsVisible(!isVisible)}>Toggle Modal med Orginal Søknad</Hovedknapp>
+                <ModalWrapper
+                    isOpen={isVisible}
+                    contentLabel={"Innsyn i innsendt søknad"}
+                    onRequestClose={() => setIsVisible(false)}
+                >
+                    <div>
+                        { data.arbeid.forhold }
+                    </div>
+
+                </ModalWrapper>
+            </div>
+        )
+    }
+    return null;
 };
 
 export default InnsynOrginalSoknadView;
