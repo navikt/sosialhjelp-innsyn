@@ -96,14 +96,15 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     }
                     dispatch({
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        fil: {
-                            filnavn: fileItem.filnavn,
-                            status: fileItem.status,
-                        } as Fil,
+                        fil: {filnavn: fileItem.filnavn} as Fil,
+                        status: fileItem.status,
+                        index: index
                     });
                 }
             }
-            if (!harFeil) {
+            if (harFeil) {
+                dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+            } else {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));

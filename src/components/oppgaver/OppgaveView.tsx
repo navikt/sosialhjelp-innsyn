@@ -49,6 +49,18 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
+function harFilermedFeil(oppgaveElementer: OppgaveElement[]) {
+    return oppgaveElementer.find(
+        oppgaveElement => {
+            return !oppgaveElement.filer ? false : oppgaveElement.filer.find(
+                it => {
+                    return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT"
+                }
+            )
+        }
+    );
+}
+
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
 
     const dispatch = useDispatch();
@@ -59,6 +71,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+    const opplastingFeilet = harFilermedFeil(oppgave.oppgaveElementer);
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -105,7 +118,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         return (
             <div key={id}
-                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
+                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
                 <div className={"oppgave-detalj-overste-linje"}>
                     <div className={"tekst-wrapping"}>
                         <Element>{typeTekst}</Element>
@@ -165,7 +178,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     return (
         <div
-            className={((oppgaveVedlegsOpplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
+            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && (
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
@@ -188,9 +201,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </div>
             )}
 
-            {(oppgaveVedlegsOpplastingFeilet) && (
+            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id="vedlegg.minst_ett_vedlegg"/>
+                    <FormattedMessage id={oppgaveVedlegsOpplastingFeilet ? "vedlegg.minst_ett_vedlegg" : "vedlegg.opplasting_feilmelding"}/>
                 </div>
             )}
 
