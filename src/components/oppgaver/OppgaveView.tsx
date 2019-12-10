@@ -60,6 +60,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const opplastingFeilet = restStatus as REST_STATUS === REST_STATUS.FEILET;
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -106,7 +108,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         return (
             <div key={id}
-                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
+                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
                 <div className={"oppgave-detalj-overste-linje"}>
                     <div className={"tekst-wrapping"}>
                         <Element>{typeTekst}</Element>
@@ -166,7 +168,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     return (
         <div
-            className={((oppgaveVedlegsOpplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
+            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && (
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
@@ -189,9 +191,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </div>
             )}
 
-            {(oppgaveVedlegsOpplastingFeilet) && (
+            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id="vedlegg.minst_ett_vedlegg"/>
+                    <FormattedMessage id={oppgaveVedlegsOpplastingFeilet ? "vedlegg.minst_ett_vedlegg" : "vedlegg.opplasting_feilmelding"}/>
                 </div>
             )}
 
