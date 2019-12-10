@@ -18,6 +18,7 @@ import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedlegg
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
+import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
 
 interface Props {
     oppgave: Oppgave;
@@ -61,7 +62,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
-            dispatch({type: InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET, status:response});
+            dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);

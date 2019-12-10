@@ -23,7 +23,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
-import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {
+    hentInnsynsdata,
+    innsynsdataUrl,
+    setOppgaveVedleggopplastingFeilet
+} from "../../redux/innsynsdata/innsynsDataActions";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 
 interface Props {
@@ -80,7 +84,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
-        dispatch({type: InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET, status:harIkkeValgtFiler(oppgaver)});
+        dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
 
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
