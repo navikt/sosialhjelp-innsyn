@@ -98,6 +98,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         oppdatert={sak.sistOppdatert}
                         key={key}
                         url={sak.url}
+                        kilde={sak.kilde}
                         antallNyeOppgaver={sak.antallNyeOppgaver}
                         harBlittLastetInn={sak.harBlittLastetInn}
                     />

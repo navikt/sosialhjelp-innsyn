@@ -26,6 +26,7 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
                 oppdatert={sak.sistOppdatert}
                 key={"sakpanel_ " + sak.fiksDigisosId}
                 url={sak.url}
+                kilde={sak.kilde}
                 antallNyeOppgaver={sak.antallNyeOppgaver}
             />
         )}

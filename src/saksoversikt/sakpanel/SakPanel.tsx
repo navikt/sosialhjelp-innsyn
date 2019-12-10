@@ -18,11 +18,12 @@ interface Props {
     oppdatert: string;
     key: string;
     url: string;
+    kilde: string;
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, antallNyeOppgaver, harBlittLastetInn}) => {
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, kilde, antallNyeOppgaver, harBlittLastetInn}) => {
 
     const dispatch = useDispatch();
 
@@ -52,8 +53,10 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
     }
 
     useEffect(() => {
-        dispatch(hentSaksdetaljer(requestId))
-    }, [dispatch, requestId]);
+        if (kilde === "innsyn-api") {
+            dispatch(hentSaksdetaljer(requestId))
+        }
+    }, [dispatch, requestId, kilde]);
 
     return (
         <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href={hrefUrl}>
