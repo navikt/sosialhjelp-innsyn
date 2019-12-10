@@ -21,6 +21,14 @@ import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
+function harFilermedFeil(filer: Fil[]) {
+    return filer.find(
+        it => {
+            return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT"
+        }
+    )
+}
+
 const EttersendelseView: React.FC = () => {
 
     const dispatch = useDispatch();
@@ -32,7 +40,7 @@ const EttersendelseView: React.FC = () => {
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    const opplastingFeilet = restStatus as REST_STATUS === REST_STATUS.FEILET;
+    const opplastingFeilet = harFilermedFeil(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -101,7 +109,7 @@ const EttersendelseView: React.FC = () => {
             } else {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
             }
-        }).catch((reason: any) => {
+        }).catch(() => {
             console.log("Feil med opplasting av vedlegg");
         });
         event.preventDefault()
@@ -173,13 +181,6 @@ const EttersendelseView: React.FC = () => {
                     </div>
                 )}
 
-                {/* TODO: Ta stilling til om/hvordan dupliserte filer skal håndteres */}
-                {/*{feil !== undefined && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={(feil as Vedleggfeil).feilmeldingId} values={{filnavn: (feil as Vedleggfeil).filnavn}}/>
-                </div>
-            )}*/}
-
                 <Hovedknapp
                     disabled={!kanLasteOppVedlegg || vedleggLastesOpp}
                     spinner={vedleggLastesOpp}
@@ -187,7 +188,7 @@ const EttersendelseView: React.FC = () => {
                     className="luft_over_1rem"
                     onClick={(event: any) => {
                         if (!vedleggKlarForOpplasting) {
-                            setSendVedleggTrykket(true)
+                            setSendVedleggTrykket(true);
                             return;
                         }
                         sendVedlegg(event)

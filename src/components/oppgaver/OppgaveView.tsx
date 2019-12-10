@@ -19,7 +19,6 @@ import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
-import {REST_STATUS} from "../../utils/restUtils";
 
 interface Props {
     oppgave: Oppgave;
@@ -50,6 +49,18 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
+function harFilermedFeil(oppgaveElementer: OppgaveElement[]) {
+    return oppgaveElementer.find(
+        oppgaveElement => {
+            return !oppgaveElement.filer ? false : oppgaveElement.filer.find(
+                it => {
+                    return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT"
+                }
+            )
+        }
+    );
+}
+
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
 
     const dispatch = useDispatch();
@@ -60,8 +71,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
-    const opplastingFeilet = restStatus as REST_STATUS === REST_STATUS.FEILET;
+    const opplastingFeilet = harFilermedFeil(oppgave.oppgaveElementer);
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
