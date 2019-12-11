@@ -37,11 +37,13 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
             return;
         }
-        if(fiksDigisosId === null) {
+        if(kilde === "soknad-api") {
             window.location.href = url;
-        } else {
+        } else if (kilde === "innsyn-api") {
             dispatch(push(dispatchUrl));
             event.preventDefault();
+        } else {
+            console.warn("Dette skulle ikke skjedd - hvor er søknaden _din_ fra?");
         }
     };
 
