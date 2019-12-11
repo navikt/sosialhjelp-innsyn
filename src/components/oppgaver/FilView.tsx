@@ -7,10 +7,11 @@ import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
+import {REST_STATUS} from "../../utils/restUtils";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, oppgaveElement}) => {
+const FilView: React.FC<{ index: number, fil: Fil, oppgaveElement?: OppgaveElement }> = ({index, fil, oppgaveElement}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
@@ -20,7 +21,8 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
                 : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
             oppgaveElement: oppgaveElement,
-            fil: fil
+            fil: fil,
+            index: index
         });
         event.preventDefault();
     };
@@ -34,6 +36,7 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
 
     return (
         <div className="vedlegg_liste_element" id={"app"}>
+            <div className="innhold">
             <div className="filnavn_lenkeboks">
                 {fil.file &&
                 <VedleggModal
@@ -72,6 +75,12 @@ const FilView: React.FC<{ fil: Fil, oppgaveElement?: OppgaveElement }> = ({fil, 
                     <TrashBin className="klikkbar_soppelboette"/>
                 </button>
             </div>
+        </div>
+            {fil.status !== REST_STATUS.INITIALISERT && fil.status !== REST_STATUS.PENDING && fil.status !== REST_STATUS.OK && (
+                <div className="oppgaver_vedlegg_feilmelding_rad">
+                    <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status}/>
+                </div>
+            )}
         </div>
     );
 };

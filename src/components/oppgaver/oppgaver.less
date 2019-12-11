@@ -128,9 +128,13 @@
   height: 38px;
   padding-bottom: 1px;
   border-bottom: 1px solid #c6c2bf;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: inline-table;
+
+  .innhold {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 
   .filnavn {
     margin-right: 8px;
@@ -180,6 +184,12 @@
   margin-bottom: 2rem;
 }
 
+.oppgaver_vedlegg_feilmelding_rad {
+  color: @navRod;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 2rem;
+}
 
 .vedlegg_bilde_modal {
   border: 1px solid @navGronnDarken60;

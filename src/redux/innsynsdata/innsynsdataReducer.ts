@@ -91,7 +91,8 @@ export enum InnsynsdataActionTypeKeys {
     FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
     OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
-    SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER"
+    SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
+    OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET"
 }
 
 export enum InnsynsdataSti {
@@ -120,6 +121,7 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
+    index: number,
     fil: Fil;
     oppgaveElement: OppgaveElement;
     status?: string;
@@ -134,7 +136,16 @@ export interface Status {
 export interface Hendelse {
     tidspunkt: string;
     beskrivelse: string;
-    filUrl: null | string;
+    filUrl: null | UrlResponse;
+}
+
+export interface UrlResponse {
+    linkTekst: string,
+    link: string
+}
+
+export interface VedleggsOpplastingFeilActionType {
+    status: boolean
 }
 
 export interface VedtakFattet {
@@ -165,6 +176,7 @@ export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
+    oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
     hendelser: Hendelse[];
@@ -191,6 +203,7 @@ const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
+    oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null
     },
@@ -218,7 +231,7 @@ export interface Vedleggfeil {
     filnavn: string
 }
 
-const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (state = initialState, action) => {
+const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType & VedleggsOpplastingFeilActionType> = (state = initialState, action) => {
     switch (action.type) {
         case InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID:
             return {
@@ -259,14 +272,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     return {
                         ...oppgave,
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
-                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype) {
+                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
+                                oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
                                 return {
                                     ...oppgaveElement,
                                     filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, index: number) => {
-                                        if (action.fil && fil.filnavn === action.fil.filnavn) {
-                                            return false;
-                                        }
-                                        return true;
+                                        return index !== action.index;
                                     }))
                                 }
                             }
@@ -284,8 +295,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
                             return {
                                 ...oppgaveElement,
-                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil) => {
-                                    if (fil.filnavn === action.fil.filnavn) {
+                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil, index: number) => {
+                                    if (index === action.index) {
                                         return {
                                             ...fil,
                                             status: action.status
@@ -366,10 +377,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE:
             return {
                 ...state,
+                oppgaveVedlegsOpplastingFeilet: false,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
-                        return !(action.fil && fil.filnavn === action.fil.filnavn);
+                    filer: state.ettersendelse.filer.filter((fil: Fil, index: number) => {
+                        return index !== action.index;
                     })
                 }
             };
@@ -378,10 +390,24 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
-                        return !(fil.filnavn === action.fil.filnavn && action.status === "OK");
-                    })
+                    filer: state.ettersendelse.filer.find((fil: Fil) => fil.status !== REST_STATUS.OK)
+                        ? state.ettersendelse.filer.map((fil: Fil, index: number) => {
+                            if (index === action.index) {
+                                return {
+                                    ...fil,
+                                    status: action.status
+                                };
+                            }
+                            return fil;
+                        })
+                        : []
                 }
+            };
+
+        case InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET:
+            return {
+                ...state,
+                oppgaveVedlegsOpplastingFeilet: action.status
             };
 
         default:
