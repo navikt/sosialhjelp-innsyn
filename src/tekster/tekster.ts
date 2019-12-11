@@ -12,7 +12,7 @@ export const tekster = {
         "status.ikke_innsyn_ingress": "Din søknad vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Ta kontakt med ditt NAV-kontor dersom du har spørsmål.",
 
         "tidspunkt.klokken": "klokken",
-        "saker.oppgave": "Du har oppgave",
+        "saker.oppgave": "Du har oppgaver",
         "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
         "oppgaver.vilkar.tittel": "Vedtaket ditt kan inneholde vilkår eller dokumentasjonskrav",
@@ -55,6 +55,12 @@ export const tekster = {
         "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
         "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
+        "vedlegg.opplasting_feilmelding": "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
+        "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT": "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
+        "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
+        "vedlegg.opplasting_feilmelding_PDF_IS_ENCRYPTED": "PDFen er passordbeskyttet og vi kan ikke behandle den",
+        "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG, PDF",
+        "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filer må være under 10 mb",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg",

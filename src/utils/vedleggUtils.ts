@@ -6,13 +6,16 @@ interface Metadata {
     filer: Fil[] // Beholder kun filnavn-feltet ved serialisering
 }
 
-export function opprettFormDataMedVedleggFraOppgaver(oppgave: Oppgave): FormData {
-    const metadata: Metadata[] = oppgave.oppgaveElementer.map((oppgaveElement: OppgaveElement) => {
-        return {
-            type: oppgaveElement.dokumenttype,
-            tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-            filer: oppgaveElement.filer ? oppgaveElement.filer : []
-        }
+export function opprettFormDataMedVedleggFraOppgaver(oppgaver: Oppgave[]): FormData {
+    const metadata: Metadata[] = [];
+    oppgaver.forEach((oppgave: Oppgave) => {
+        oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+            metadata.push({
+                type: oppgaveElement.dokumenttype,
+                tilleggsinfo: oppgaveElement.tilleggsinformasjon,
+                filer: oppgaveElement.filer ? oppgaveElement.filer : []
+            });
+        });
     });
     return opprettFormDataMedVedlegg(metadata);
 }

@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {fetchToJson, HttpStatus, REST_STATUS} from "../../utils/restUtils";
 import {
+    InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     oppdaterInnsynsdataState,
     oppdaterSaksdetaljerRestStatus,
@@ -67,3 +68,8 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
         });
     }
 }
+
+export const setOppgaveVedleggopplastingFeilet = (status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET,
+        status: status
+});
