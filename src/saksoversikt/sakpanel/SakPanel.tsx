@@ -43,7 +43,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
             dispatch(push(dispatchUrl));
             event.preventDefault();
         } else {
-            console.warn("Dette skulle ikke skjedd - hvor er søknaden _din_ fra?");
+            // do nothing?
         }
     };
 
