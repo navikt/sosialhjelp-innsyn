@@ -17,19 +17,40 @@ a.lenke_uten_ramme:hover {
 .lenke_vedlegg_filnavn {
   overflow: hidden;
   white-space: nowrap;
-  display: inline-flex;
+  display: inline-block;
   text-overflow: ellipsis;
 }
 
-@media screen and (min-width: 641px ) {
+@media screen and (min-width: 641px) {
   .lenke_vedlegg_filnavn {
-    max-width: 11rem;
+    max-width: 13rem;
+  }
+  .filnavn_kollonne {
+    min-width: 17rem;
   }
 }
 
-@media screen and (max-width: 640px ) {
+@media screen and (max-width: 640px) and (min-width: 501px) {
   .lenke_vedlegg_filnavn {
-    max-width: 100%;
+    max-width: 80vw;
+  }
+}
+
+@media screen and (max-width: 500px) and (min-width: 401px) {
+  .lenke_vedlegg_filnavn {
+    max-width: 75vw;
+  }
+}
+
+@media screen and (max-width: 400px) and (min-width: 333px) {
+  .lenke_vedlegg_filnavn {
+    max-width: 70vw;
+  }
+}
+
+@media screen and (max-width: 332px) {
+  .lenke_vedlegg_filnavn {
+    max-width: 65vw;
   }
 }
 
