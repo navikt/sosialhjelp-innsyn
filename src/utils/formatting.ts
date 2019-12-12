@@ -14,5 +14,14 @@ function formatCurrency(amount: number, decimals: number = 0): string {
     return new Intl.NumberFormat('de-DE').format(amount);
 }
 
-export { formatBytes, formatCurrency };
+// Eksempel: "2019-08-01" => "01.08.2019"
+function formatDato(isoDate: string) {
+    const dato: Date = new Date(isoDate);
+    const dag: number = dato.getDate();
+    const maaned = dato.getMonth() + 1;
+    const formattertDato = (dag > 9 ? (dag) : ("0" + dag)) + "." + (maaned > 9 ? (maaned) : ("0" + maaned)) + "." + dato.getFullYear();
+    return formattertDato;
+}
+
+export { formatBytes, formatCurrency, formatDato };
 

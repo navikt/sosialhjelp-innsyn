@@ -6,7 +6,6 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {FormattedMessage} from "react-intl";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 

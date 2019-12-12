@@ -32,7 +32,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         filtrerteSaker = saker.filter(sak => isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde)));
     }
 
-    function sammenlignSakesTidspunkt(a:Sakstype, b:Sakstype) {
+    function sammenlignSaksTidspunkt(a:Sakstype, b:Sakstype) {
         if (isAfter(Date.parse(a.sistOppdatert),Date.parse(b.sistOppdatert))) {
             return -1;
         }
@@ -41,7 +41,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         }
         return 0;
     }
-    filtrerteSaker.sort(sammenlignSakesTidspunkt);
+    filtrerteSaker.sort(sammenlignSaksTidspunkt);
 
     /* Paginering */
     const itemsPerPage = 10;

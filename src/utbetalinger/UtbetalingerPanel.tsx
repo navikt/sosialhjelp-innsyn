@@ -1,61 +1,54 @@
 import React from "react";
 import {Element, Undertittel} from "nav-frontend-typografi";
+import {EtikettLiten} from 'nav-frontend-typografi';
 import SavnerUtbetalingPanel from "./SavnerUtbetalingPanel";
 import UtbetalingEkspanderbart from "./UtbetalingEkspanderbart";
-import {UtbetalingSakType} from "./service/useUtbetalingerService";
-import {formatCurrency} from "../utils/formatting";
+import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
+import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 
-const UtbetalingerPanel: React.FC<{utbetalinger: UtbetalingSakType[]}> = ({utbetalinger}) => {
-
+const UtbetalingerPanel: React.FC<{ utbetalinger: UtbetalingSakType[] }> = ({utbetalinger}) => {
 
     return (
         <div className="utbetalinger_detaljer">
-
             {utbetalinger && utbetalinger.map((utbetalingSak: UtbetalingSakType, index: number) => {
-                if (utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].tittel) {
-
-                    const isoDato: string = utbetalingSak && utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].utbetalinger[0] && utbetalingSak.utbetalinger[0].utbetalinger[0].utbetalingsdato;
-                    const dato: Date = new Date(isoDato);
-                    const maanederNb = [
-                        "Januar", "Februar", "Mars", "April", "Mai", "Juni",
-                        "Juli", "August", "September", "Oktober", "November", "Desember"
-                    ];
-                    const tittel: string = maanederNb[dato.getMonth()] + " " + dato.getFullYear();
-                    const belop = formatCurrency(utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].belop);
-
-                    const dag: number = dato.getDate();
-                    const maaned = dato.getMonth() + 1;
-                    const formattertDato = (dag > 9 ? (dag) : ("0" + dag)) + "." + (maaned > 9 ? (maaned) : ("0" + maaned)) + "." + dato.getFullYear();
-
-                    return (
-                        <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
-                            <div className="utbetaling__header">
-                                <Undertittel>{tittel} </Undertittel>
-                                <Undertittel>{belop} </Undertittel>
-                            </div>
-
-                            <UtbetalingEkspanderbart tittel={"Utbetalt " + formattertDato} >
-
-                                {utbetalingSak.utbetalinger[0] && utbetalingSak.utbetalinger[0].utbetalinger.map((item: any, index: number) => (
-                                    <div className="utbetaling__header" key={"utbetaling_detalj_" + index}>
-                                        <Element>{item.tittel} </Element>
-                                        <Element>{formatCurrency(item.belop)} </Element>
-                                    </div>
-                                ))}
-
-                                <br/>
-                                <pre>{JSON.stringify(utbetalingSak, null, 2)}</pre>
-                                <br/>
-                                <Saksdetaljer fiksDigisosId={utbetalingSak.fiksDigisosId} key={"detaljer_" + index}/>
-                            </UtbetalingEkspanderbart>
-                            <hr/>
+                return (
+                    <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
+                        <div className="utbetaling__header">
+                            <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
+                            <Undertittel>{formatCurrency(utbetalingSak.sum)} kr</Undertittel>
                         </div>
-                    )
-                } else {
-                    return null;
-                }
 
+                        <hr/>
+
+                        {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+                            const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
+                            return (
+                                <span key={"utbetaling_" + index}>
+                                    <div className="utbetaling__header">
+                                        <Element>{utbetalingMaaned.tittel} </Element>
+                                        <Element>{formatCurrency(utbetalingMaaned.belop)} kr</Element>
+                                    </div>
+                                    <UtbetalingEkspanderbart
+                                        tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
+                                    >
+                                        <br/>
+                                        <EtikettLiten>{utbetalingMaaned.status}</EtikettLiten>
+                                        <br/>
+
+                                        <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId}/>
+
+                                    </UtbetalingEkspanderbart>
+
+
+                                    {erSisteUtbetaling && (
+                                        <hr/>
+                                    )}
+                                </span>
+                            )
+                        })}
+                    </div>
+                )
             })}
 
             <SavnerUtbetalingPanel/>

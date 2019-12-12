@@ -11,13 +11,17 @@ export interface UtbetalingType {
 }
 
 export interface UtbetalingMaaned {
-   tittel: string,
-   utbetalinger: UtbetalingType[],
-   belop: number;
+    tittel: string,
+    belop: number;
+    utbetalingsdato: string,
+    status: string;
+    fiksDigisosId: string
 }
 
 export interface UtbetalingSakType {
-    fiksDigisosId: string;
+    ar: number,
+    maned: string,
+    sum: number,
     utbetalinger: UtbetalingMaaned[];
 }
 
@@ -31,10 +35,10 @@ const useUtbetalingerService = () => {
     useEffect(() => {
         fetchToJson(url)
             .then((response: any) => {
-                setResult({ restStatus: REST_STATUS.OK, payload: response });
+                setResult({restStatus: REST_STATUS.OK, payload: response});
             })
             .catch((error: any) => {
-                setResult({ restStatus: REST_STATUS.FEILET, error })
+                setResult({restStatus: REST_STATUS.FEILET, error})
             });
     }, [url]);
     return result;
