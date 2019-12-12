@@ -390,17 +390,17 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.find((fil: Fil) => fil.status !== REST_STATUS.OK)
-                        ? state.ettersendelse.filer.map((fil: Fil, index: number) => {
-                            if (index === action.index) {
-                                return {
-                                    ...fil,
-                                    status: action.status
-                                };
-                            }
-                            return fil;
-                        })
-                        : []
+                    filer: state.ettersendelse.filer.map((fil: Fil, index: number) => {
+                        if (index === action.index) {
+                            return {
+                                ...fil,
+                                status: action.status
+                            };
+                        }
+                        return fil;
+                    }).filter((fil: Fil, index: number, files: Fil[]) => {
+                        return files.find((fil: Fil) => fil.status !== REST_STATUS.OK) ? fil : null
+                    })
                 }
             };
 
