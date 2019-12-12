@@ -29,7 +29,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
 
     let dispatchUrl = "/innsyn/" + fiksDigisosId + "/status";
     let hrefUrl = "/sosialhjelp" + dispatchUrl;
-    if(fiksDigisosId === null) {
+    if(fiksDigisosId === null || fiksDigisosId === undefined) {
         hrefUrl = url;
     }
 
