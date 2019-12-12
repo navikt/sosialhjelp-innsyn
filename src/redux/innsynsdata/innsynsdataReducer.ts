@@ -145,7 +145,8 @@ export interface UrlResponse {
 }
 
 export interface VedleggsOpplastingFeilActionType {
-    status: boolean
+    ikkeValgtFilerForOpplasting?: boolean;
+    valgtForStoreFilerForOpplasting?: boolean;
 }
 
 export interface VedtakFattet {
@@ -176,7 +177,8 @@ export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
-    oppgaveVedlegsOpplastingFeilet: boolean;
+    ikkeValgtFilerForOpplasting: boolean;
+    valgtForStoreFilerForOpplasting: boolean;
     restStatus: any;
     soknadsStatus: Status;
     hendelser: Hendelse[];
@@ -203,7 +205,8 @@ const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
-    oppgaveVedlegsOpplastingFeilet: false,
+    ikkeValgtFilerForOpplasting: false,
+    valgtForStoreFilerForOpplasting: false,
     soknadsStatus: {
         status: null
     },
@@ -405,9 +408,16 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             };
 
         case InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET:
+            console.warn("status " + action);
+            console.dir(action);
             return {
                 ...state,
-                oppgaveVedlegsOpplastingFeilet: action.status
+                ikkeValgtFilerForOpplasting: action.ikkeValgtFilerForOpplasting !== undefined
+                    ? action.ikkeValgtFilerForOpplasting
+                    : state.ikkeValgtFilerForOpplasting,
+                valgtForStoreFilerForOpplasting: action.valgtForStoreFilerForOpplasting !== undefined
+                    ? action.valgtForStoreFilerForOpplasting
+                    : state.valgtForStoreFilerForOpplasting
             };
 
         default:

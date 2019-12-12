@@ -17,7 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
+import {MAKS_FILSTORRELSE, opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
@@ -59,11 +59,12 @@ const EttersendelseView: React.FC = () => {
                 const file: File = files[index];
                 const filename = file.name;
                 if (legalFileExtension(filename)) {
+                    const status = file.size > MAKS_FILSTORRELSE ? "FILE_TOO_LARGE" : "INITIALISERT";
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
                         fil: {
                             filnavn: file.name,
-                            status: "INITIALISERT",
+                            status: status,
                             file: file
                         }
                     });

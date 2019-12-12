@@ -1,5 +1,7 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
 
+export const MAKS_FILSTORRELSE = 1024 * 1024 * 10;
+
 interface Metadata {
     type: string,
     tilleggsinfo: string | undefined

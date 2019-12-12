@@ -20,6 +20,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
+import {MAKS_FILSTORRELSE} from "../../utils/vedleggUtils";
 
 interface Props {
     oppgave: Oppgave;
@@ -68,7 +69,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
 
-    const oppgaveVedlegsOpplastingFeilet: boolean = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet);
+    const ikkeValgtFilerForOpplasting: boolean = useSelector((state: InnsynAppState) => state.innsynsdata.ikkeValgtFilerForOpplasting);
 
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
@@ -98,12 +99,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 const file: File = files[index];
                 const filename = file.name;
                 if (legalFileExtension(filename)) {
+                    const status = file.size > MAKS_FILSTORRELSE ? "FILE_TOO_LARGE" : "INITIALISERT";
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                         oppgaveElement: oppgaveElement,
                         fil: {
                             filnavn: file.name,
-                            status: "INITIALISERT",
+                            status: status,
                             file: file
                         }
                     });
@@ -121,7 +123,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         return (
             <div key={id}
-                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
+                 className={"oppgaver_detalj" + ((ikkeValgtFilerForOpplasting || opplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
                 <div className={"oppgave-detalj-overste-linje"}>
                     <div className={"tekst-wrapping"}>
                         <Element>{typeTekst}</Element>
@@ -181,7 +183,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     return (
         <div
-            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
+            className={((ikkeValgtFilerForOpplasting || opplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
@@ -212,9 +214,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </div>
             )}
 
-            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
+            {(ikkeValgtFilerForOpplasting || opplastingFeilet) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={oppgaveVedlegsOpplastingFeilet ? "vedlegg.minst_ett_vedlegg" : "vedlegg.opplasting_feilmelding"}/>
+                    <FormattedMessage id={ikkeValgtFilerForOpplasting ? "vedlegg.minst_ett_vedlegg" : "vedlegg.opplasting_feilmelding"}/>
                 </div>
             )}
 

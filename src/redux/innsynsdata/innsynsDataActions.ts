@@ -69,7 +69,7 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
     }
 }
 
-export const setOppgaveVedleggopplastingFeilet = (status: boolean) => ({
+export const setOppgaveVedleggopplastingFeilet = (ikkeValgtFilerForOpplasting: boolean) => ({
     type: InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET,
-        status: status
+    ikkeValgtFilerForOpplasting: ikkeValgtFilerForOpplasting
 });
