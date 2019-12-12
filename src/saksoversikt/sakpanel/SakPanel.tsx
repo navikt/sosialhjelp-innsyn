@@ -29,7 +29,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
 
     let dispatchUrl = "/innsyn/" + fiksDigisosId + "/status";
     let hrefUrl = "/sosialhjelp" + dispatchUrl;
-    if(fiksDigisosId === null) {
+    if(fiksDigisosId === null || fiksDigisosId === undefined) {
         hrefUrl = url;
     }
 
@@ -37,11 +37,13 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
             return;
         }
-        if(fiksDigisosId === null) {
+        if(kilde === "soknad-api") {
             window.location.href = url;
-        } else {
+        } else if (kilde === "innsyn-api") {
             dispatch(push(dispatchUrl));
             event.preventDefault();
+        } else {
+            // do nothing?
         }
     };
 

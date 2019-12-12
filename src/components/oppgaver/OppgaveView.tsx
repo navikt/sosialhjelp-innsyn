@@ -19,6 +19,7 @@ import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
+import {antallDagerEtterFrist} from "./Oppgaver";
 
 interface Props {
     oppgave: Oppgave;
@@ -72,6 +73,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
     const opplastingFeilet = harFilermedFeil(oppgave.oppgaveElementer);
+
+    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -179,10 +182,18 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     return (
         <div
             className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
-            {oppgaverErFraInnsyn && (
+            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
                         id="oppgaver.innsendelsesfrist"
+                        values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
+                    />
+                </Normaltekst>
+            )}
+            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 &&(
+                <Normaltekst className="luft_under_8px">
+                    <FormattedMessage
+                        id="oppgaver.innsendelsesfrist_passert"
                         values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
                     />
                 </Normaltekst>
