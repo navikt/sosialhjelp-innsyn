@@ -36,7 +36,7 @@ const Utbetalinger: React.FC = () => {
         }
     }, [dispatch, restStatus.saker]);
 
-    const utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
+    let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
         utbetalingerService.payload : [];
 
     return (
@@ -52,7 +52,7 @@ const Utbetalinger: React.FC = () => {
                         />
                     </div>
                 </div>
-                <UtbetalingerPanel utbetalinger={utbetalinger} />
+                <UtbetalingerPanel utbetalinger={utbetalinger}/>
             </div>
         </div>
     );

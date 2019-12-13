@@ -22,6 +22,7 @@ export interface UtbetalingSakType {
     ar: number,
     maned: string,
     sum: number,
+    foersteIManeden : string,
     utbetalinger: UtbetalingMaaned[];
 }
 
