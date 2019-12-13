@@ -11,6 +11,13 @@ const UtbetalingerPanel: React.FC<{ utbetalinger: UtbetalingSakType[] }> = ({utb
 
     return (
         <div className="utbetalinger_detaljer">
+            {(!utbetalinger || utbetalinger.length === 0) && (
+                <div className="utbetalinger_detaljer_panel" key={"utbetaling_0"}>
+                    <div className="utbetaling__header">
+                        <Element>Ingen utbetalinger</Element>
+                    </div>
+                </div>
+            )}
             {utbetalinger && utbetalinger.map((utbetalingSak: UtbetalingSakType, index: number) => {
                 return (
                     <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
@@ -35,11 +42,9 @@ const UtbetalingerPanel: React.FC<{ utbetalinger: UtbetalingSakType[] }> = ({utb
                                         <br/>
                                         <EtikettLiten>{utbetalingMaaned.status}</EtikettLiten>
                                         <br/>
-
+                                        <EtikettLiten>Søknaden din</EtikettLiten>
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId}/>
-
                                     </UtbetalingEkspanderbart>
-
 
                                     {erSisteUtbetaling && (
                                         <hr/>

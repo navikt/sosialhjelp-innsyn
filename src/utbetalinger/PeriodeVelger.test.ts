@@ -1,44 +1,30 @@
-// @ts-ignore
-let utbetalinger: any = [{
-    "ar": 2019,
-    "maned": "august",
-    "sum": 12000.0,
-    "utbetalinger": [
-        {
-            "tittel": "Nødhjelp",
-            "belop": 12000.0,
-            "utbetalingsdato": "2019-08-01",
-            "status": "UTBETALT",
-            "fiksDigisosId": "79373a8a-57d3-4af1-ba88-5f240b576d0f"
-        }
-    ]
-}];
+import {UtbetalingSakType} from "./service/useUtbetalingerService";
 
 // Example: getRandomInt(3) => expected output: 0, 1 or 2
-const getRandomInt = (max: number): number => {
+export const getRandomInt = (max: number): number => {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
-let zzz_utbetalinger = [
+export const mockUtbetalinger: UtbetalingSakType[] = [
     {
         "ar": 2019,
-        "maned": "september",
-        "foersteIManeden": "2019-08-01",
+        "maned": "november",
+        "foersteIManeden": "2019-11-01",
         "sum": 3000.0,
         "utbetalinger": [
             {
                 "tittel": "Reiseutgifter",
                 "belop": 700.0,
-                "utbetalingsdato": "2019-08-01",
+                "utbetalingsdato": "2019-11-01",
                 "status": "UTBETALT",
-                "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+                "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
             },
             {
                 "tittel": "Livshopphold",
                 "belop": 2200.0,
-                "utbetalingsdato": "2019-08-01",
+                "utbetalingsdato": "2019-11-01",
                 "status": "UTBETALT",
-                "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+                "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
             }
         ]
     },
@@ -52,7 +38,7 @@ let zzz_utbetalinger = [
             "belop": 11000.0,
             "utbetalingsdato": "2019-07-01",
             "status": "UTBETALT",
-            "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+            "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
         }]
     },
     {
@@ -65,7 +51,7 @@ let zzz_utbetalinger = [
             "belop": 10000.0,
             "utbetalingsdato": "2019-06-01",
             "status": "UTBETALT",
-            "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+            "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
         }]
     },
     {
@@ -78,7 +64,7 @@ let zzz_utbetalinger = [
             "belop": 11000.0,
             "utbetalingsdato": "2019-05-01",
             "status": "UTBETALT",
-            "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+            "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
         }]
     },
 
@@ -92,7 +78,7 @@ let zzz_utbetalinger = [
             "belop": 9000.0,
             "utbetalingsdato": "2019-04-01",
             "status": "UTBETALT",
-            "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+            "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
         }]
     },
     {
@@ -105,14 +91,9 @@ let zzz_utbetalinger = [
             "belop": 7000.0,
             "utbetalingsdato": "2019-03-01",
             "status": "UTBETALT",
-            "fiksDigisosId": "5eb4608f-5280-4082-a5e1-d7c0a596e921"
+            "fiksDigisosId": "589b9683-2868-4957-9a5e-b2b744a9a905"
         }]
     },
 
 
 ];
-
-// @ts-ignore
-it('burde filtrere utbetalinger på dato', function () {
-    expect(1).toBe(1);
-});

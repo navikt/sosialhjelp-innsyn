@@ -1,16 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {InnsynAppState} from "../redux/reduxTypes";
 import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
-import "./utbetalinger.less";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {InnsynAppState} from "../redux/reduxTypes";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
+import "./utbetalinger.less";
+
+const diffInMonths =(d1: Date, d2: Date) => {
+    var d1Y = d1.getFullYear();
+    var d2Y = d2.getFullYear();
+    var d1M = d1.getMonth();
+    var d2M = d2.getMonth();
+    return (d2M+12*d2Y)-(d1M+12*d1Y);
+};
 
 const Utbetalinger: React.FC = () => {
+
+    const [visAntallMnd, setVisAntallMnd] = useState(3);
 
     useBrodsmuleSti([
         {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
@@ -22,6 +32,7 @@ const Utbetalinger: React.FC = () => {
     const utbetalingerService = useUtbetalingerService();
 
     const oppdaterPeriodeOgMottaker = (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean): void => {
+        setVisAntallMnd(antMndTilbake);
         console.log("TODO: Filtrer på periode: " + antMndTilbake +
             " tilDinKnt " + (tilDinKnt ? "true" : "false") +
             " tilAnnenMottaker " + (tilAnnenMottaker ? "true" : "false")
@@ -38,6 +49,14 @@ const Utbetalinger: React.FC = () => {
 
     let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
         utbetalingerService.payload : [];
+
+    // utbetalinger = mockUtbetalinger;
+
+    const now = new Date();
+    utbetalinger = utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
+        const foersteIManeden: Date = new Date(utbetalingSak.foersteIManeden);
+        return diffInMonths(foersteIManeden, now) < visAntallMnd;
+    });
 
     return (
         <div className="utbetalinger">
