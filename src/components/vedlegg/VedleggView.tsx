@@ -155,7 +155,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
-    const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
+    const paginerteVedlegg: Vedlegg[] = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
@@ -251,11 +251,15 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                     return (
                         <tr key={index}>
                             <td
-                                className={sortBy === Kolonne.FILNAVN ? "tabell__td--sortert" : ""}
+                                className={sortBy === Kolonne.FILNAVN ? "tabell__td--sortert filnavn_kollonne" : "filnavn_kollonne"}
                             >
                                 <PaperClipSlanted className="ikon_liten_vedlegg"/>
-                                <Lenke href={vedlegg.url} className="lenke_vedlegg_filnavn" target="_blank">{vedlegg.filnavn}</Lenke>
-                                &nbsp;({formatBytes(vedlegg.storrelse, 2)})
+                                <Lenke
+                                    href={vedlegg.url}
+                                    className="lenke_vedlegg_filnavn"
+                                    target="_blank"
+                                    title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
+                                >{vedlegg.filnavn}</Lenke>
                             </td>
                             <td
                                 className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}
