@@ -99,9 +99,6 @@ jobs:
           name: Deploy versjon=${VERSION} til miljø=digisos i dev-gcp
           command: |
             yq w nais/dev/digisos.json version "${TAG}" > deployment.yaml
-            echo "${TAG}"
-            cat deployment.yaml
-            env
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
                 --cluster="dev-gcp" \
