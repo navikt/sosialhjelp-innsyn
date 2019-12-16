@@ -96,18 +96,33 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy til miljø i dev-sbs
+          name: Deploy versjon=${VERSION} til miljø=digisos i dev-gcp
           command: |
-            git clone https://github.com/navikt/sosialhjelp-ci.git
-            yq w "nais/dev/${MILJO}.json" version "${TAG}" > deployment.yaml
-
+            yq w nais/dev/digisos.json version "${TAG}" > deployment.yaml
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
-                --cluster="dev-sbs" \
+                --cluster="dev-gcp" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
-                --resource="nais.yaml" \
+                --resource="naiser.yaml" \
                 --vars="deployment.yaml" \
                 --wait=true
+#    docker:
+#      - image: navikt/deployment:v1
+#    steps:
+#      - checkout
+#      - run:
+#          name: Deploy til miljø i dev-sbs
+#          command: |
+#            git clone https://github.com/navikt/sosialhjelp-ci.git
+#            yq w "nais/dev/${MILJO}.json" version "${TAG}" > deployment.yaml
+#
+#            /app/deploy \
+#                --apikey="$NAIS_DEPLOY_APIKEY" \
+#                --cluster="dev-sbs" \
+#                --repository="$CIRCLE_PROJECT_REPONAME" \
+#                --resource="nais.yaml" \
+#                --vars="deployment.yaml" \
+#                --wait=true
 
   deploy_prod:
     docker:
