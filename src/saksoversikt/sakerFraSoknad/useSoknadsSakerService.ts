@@ -20,6 +20,9 @@ const useSoknadsSakerService = () => {
     if(erDev()) {
         url = "http://localhost:8181" + url;
     }
+    if (window.location.origin.indexOf("innsyn.dev-nav.no") >= 0) {
+        url = window.location.origin.replace("innsyn.dev-nav.no", "soknad-api.dev-nav.no") + url;
+    }
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
