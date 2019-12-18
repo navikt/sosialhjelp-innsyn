@@ -2,6 +2,7 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: sosialhjelp-innsyn
+  cluster: {{cluster}}
   namespace: {{namespace}}
   labels:
     team: digisos
@@ -19,7 +20,7 @@ spec:
     initialDelay: 20
     timeout: 1
   prometheus:
-    enabled: true
+    enabled: {{prometheusEnabled}}
     path: /actuator/metrics
   replicas:
     min: 1

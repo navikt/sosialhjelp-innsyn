@@ -1,7 +1,9 @@
 {
+  "cluster": "dev-gcp",
   "namespace": "digisos",
   "ingresses": [
     "https://sosialhjelp-innsyn.dev-nav.no/sosialhjelp/innsyn"
   ],
-  "appresCmsUrl": "https://appres-q0.nav.no"
+  "prometheusEnabled": false,
+  "appresCmsUrl": "https://appres.nav.no"
 }
