@@ -158,6 +158,7 @@ jobs:
             yq w nais/dev/digisos.json version "${TAG}" > deployment.yaml
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
+                --cluster="dev-gcp" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
                 --resource="nais.yaml" \
                 --vars="deployment.yaml" \
