@@ -55,9 +55,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
 
 const KortHistorikk: React.FC<{hendelser: Hendelse[], leserData: boolean}> = ({hendelser, leserData}) => {
     return (
-        <>
-            <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData}/>
-        </>
+        <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData}/>
     );
 };
 
@@ -66,28 +64,26 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     const antallSkjulteElementer = hendelser.slice(MAX_ANTALL_KORT_LISTE).length;
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
     return (
-        <>
-            <Lesmerpanel
-                className="lesMerPanel__historikk"
-                apneTekst={"Vis alle (" + antallSkjulteElementer + ") "}
-                defaultApen={apen}
-                onClose={() => setApen(false)}
-                onOpen={() => setApen(true)}
-                intro={(
-                    <HistorikkListe
-                        hendelser={hendelser.slice(0,MAX_ANTALL_KORT_LISTE)}
-                        className={"historikk "  + historikkListeClassname}
-                        leserData={false}
-                    />
-                )}
-            >
+        <Lesmerpanel
+            className="lesMerPanel__historikk"
+            apneTekst={"Vis alle (" + antallSkjulteElementer + ") "}
+            defaultApen={apen}
+            onClose={() => setApen(false)}
+            onOpen={() => setApen(true)}
+            intro={(
                 <HistorikkListe
-                    hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
-                    className="historikk"
+                    hendelser={hendelser.slice(0,MAX_ANTALL_KORT_LISTE)}
+                    className={"historikk "  + historikkListeClassname}
                     leserData={false}
                 />
-            </Lesmerpanel>
-        </>
+            )}
+        >
+            <HistorikkListe
+                hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
+                className="historikk"
+                leserData={false}
+            />
+        </Lesmerpanel>
     );
 };
 
@@ -96,16 +92,13 @@ const Historikk: React.FC<Props> = ({hendelser, leserData}) => {
         return null;
     }
     const sorterteHendelser = sorterHendelserKronologisk(hendelser);
-    return (
-        <>
-            {sorterteHendelser.length < (MAX_ANTALL_KORT_LISTE +1) && (
-                <KortHistorikk hendelser={sorterteHendelser} leserData={leserData}/>
-            )}
-            {sorterteHendelser.length > MAX_ANTALL_KORT_LISTE && (
-                <LangHistorikk hendelser={sorterteHendelser}/>
-            )}
-        </>
-    );
+    if (sorterteHendelser.length < (MAX_ANTALL_KORT_LISTE +1)) {
+        return <KortHistorikk hendelser={sorterteHendelser} leserData={leserData}/>
+    }
+    if (sorterteHendelser.length > MAX_ANTALL_KORT_LISTE) {
+        return <LangHistorikk hendelser={sorterteHendelser}/>
+    }
+    return <></>
 };
 
 export default Historikk;

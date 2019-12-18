@@ -4,11 +4,12 @@ import {Checkbox, Radio} from 'nav-frontend-skjema';
 interface Props {
     className?: string;
     onChange: (antallMaanederTilbake: number, tilDinKonto: boolean, tilAnnenMottaker: boolean) => void;
+    antMndTilbake: number;
 }
 
-const Periodevelger: React.FC<Props> = ({className, onChange}) => {
+const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) => {
 
-    const [antallMaanederTilbake, setAntallMaanederTilbake]  = useState<number>(3);
+    const [antallMaanederTilbake, setAntallMaanederTilbake]  = useState<number>(antMndTilbake);
     const [tilDinKonto, setTilDinKonto]= useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
 
@@ -60,7 +61,7 @@ const Periodevelger: React.FC<Props> = ({className, onChange}) => {
 
             </form>
             <div>
-                <h2 className="typo-undertittel">Velg ytelse</h2>
+                <h2 className="typo-undertittel">Velg mottaker</h2>
                 <form className="ytelsestypecheckbox">
                     <div className="periodevelger_skjemaelement">
                         <Checkbox

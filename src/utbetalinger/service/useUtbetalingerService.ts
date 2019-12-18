@@ -15,7 +15,11 @@ export interface UtbetalingMaaned {
     belop: number;
     utbetalingsdato: string,
     status: string;
-    fiksDigisosId: string
+    fiksDigisosId: string;
+    fom: string|null;
+    tom: string|null;
+    mottaker: string;
+    kontonummer: string|null;
 }
 
 export interface UtbetalingSakType {

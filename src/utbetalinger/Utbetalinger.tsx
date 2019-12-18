@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
-import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
+import useUtbetalingerService, {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
@@ -18,9 +18,35 @@ const diffInMonths =(d1: Date, d2: Date) => {
     return (d2M+12*d2Y)-(d1M+12*d1Y);
 };
 
-const Utbetalinger: React.FC = () => {
+const filtrerUtbetalingerForTidsinterval = (utbetalinger: UtbetalingSakType[], visAntallMnd: number, now: Date): UtbetalingSakType[] => {
+    return utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
+        const foersteIManeden: Date = new Date(utbetalingSak.foersteIManeden);
+        const innenforTidsintervall: boolean = diffInMonths(foersteIManeden, now) < visAntallMnd;
+        return innenforTidsintervall;
+    });
+};
 
-    const [visAntallMnd, setVisAntallMnd] = useState(3);
+
+const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTilBrukersKonto: boolean, visTilAnnenMottaker: boolean): UtbetalingSakType[] => {
+    return utbetalinger.map((utbetalingSak: UtbetalingSakType) => {
+        return {
+            ...utbetalingSak,
+            utbetalinger: utbetalingSak.utbetalinger.filter((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+                const blirBetaltTilBruker: boolean = utbetalingMaaned.mottaker === "søkers fnr";
+                if (blirBetaltTilBruker) {
+                    return visTilBrukersKonto;
+                } else {
+                    return visTilAnnenMottaker;
+                }
+            })
+        };
+    });
+};
+
+const Utbetalinger: React.FC = () => {
+    const [visAntallMnd, setVisAntallMnd] = useState<number>(3);
+    const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);
+    const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
 
     useBrodsmuleSti([
         {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
@@ -31,12 +57,16 @@ const Utbetalinger: React.FC = () => {
 
     const utbetalingerService = useUtbetalingerService();
 
-    const oppdaterPeriodeOgMottaker = (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean): void => {
-        setVisAntallMnd(antMndTilbake);
-        console.log("TODO: Filtrer på periode: " + antMndTilbake +
-            " tilDinKnt " + (tilDinKnt ? "true" : "false") +
-            " tilAnnenMottaker " + (tilAnnenMottaker ? "true" : "false")
-        );
+    const oppdaterPeriodeOgMottaker = (antMndTilbake: number, tilDinKnt: boolean, tilAnnenKonto: boolean): void => {
+        if (antMndTilbake !== visAntallMnd) {
+            setVisAntallMnd(antMndTilbake);
+        }
+        if (tilBrukersKonto !== tilDinKnt) {
+            setTilBrukersKonto(tilDinKnt);
+        }
+        if (tilAnnenMottaker !== tilAnnenKonto) {
+            setTilAnnenMottaker(tilAnnenKonto);
+        }
     };
 
     const dispatch = useDispatch();
@@ -52,11 +82,11 @@ const Utbetalinger: React.FC = () => {
 
     // utbetalinger = mockUtbetalinger;
 
-    const now = new Date();
-    utbetalinger = utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
-        const foersteIManeden: Date = new Date(utbetalingSak.foersteIManeden);
-        return diffInMonths(foersteIManeden, now) < visAntallMnd;
-    });
+    const now: Date = new Date();
+    utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
+    utbetalinger = filtrerUtbetalingerPaaMottaker(utbetalinger, tilBrukersKonto, tilAnnenMottaker);
+
+    console.log(utbetalingerService.restStatus);
 
     return (
         <div className="utbetalinger">
@@ -65,17 +95,19 @@ const Utbetalinger: React.FC = () => {
                     <div className="utbetalinger_column_1">
                         <Periodevelger
                             className="utbetalinger_periodevelger_panel"
+                            antMndTilbake={visAntallMnd}
                             onChange={
                                 (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
                                     oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)}
                         />
                     </div>
                 </div>
-                <UtbetalingerPanel utbetalinger={utbetalinger}/>
+                <UtbetalingerPanel utbetalinger={utbetalinger} lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}/>
             </div>
         </div>
     );
 
 };
 
+export {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker};
 export default Utbetalinger;
