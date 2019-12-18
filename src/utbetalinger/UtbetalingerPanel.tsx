@@ -33,18 +33,23 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
             )}
             {utbetalinger && utbetalinger.map((utbetalingSak: UtbetalingSakType, index: number) => {
                 return (
-                    <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
-                        <div className="utbetaling__header">
-                            <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
-                            <Undertittel>{formatCurrency(utbetalingSak.sum)} kr</Undertittel>
-                        </div>
-
-                        <hr/>
-
-                        {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
-                            const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
-                            return (
-                                <span key={"utbetaling_" + index}>
+                    <span key={"utbetaling_" + index}>
+                        {index > 0 && utbetalinger[index-1].ar !== utbetalingSak.ar && (
+                            <>
+                                <Undertittel>{utbetalingSak.ar}</Undertittel>
+                                <br/>
+                            </>
+                        )}
+                        <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
+                            <div className="utbetaling__header">
+                                <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
+                                <Undertittel>{formatCurrency(utbetalingSak.sum)} kr</Undertittel>
+                            </div>
+                            <hr/>
+                            {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+                                const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
+                                return (
+                                    <span key={"utbetaling_" + index}>
                                     <div className="utbetaling__header">
                                         <Element>{utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"} </Element>
                                         <Element>{formatCurrency(utbetalingMaaned.belop)} kr</Element>
@@ -84,13 +89,14 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId}/>
                                     </UtbetalingEkspanderbart>
 
-                                    {erSisteUtbetaling && (
-                                        <hr className="tynnere"/>
-                                    )}
+                                        {erSisteUtbetaling && (
+                                            <hr className="tynnere"/>
+                                        )}
                                 </span>
-                            )
-                        })}
-                    </div>
+                                )
+                            })}
+                        </div>
+                    </span>
                 )
             })}
 

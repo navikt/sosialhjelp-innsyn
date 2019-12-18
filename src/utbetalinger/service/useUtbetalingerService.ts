@@ -10,6 +10,14 @@ export interface UtbetalingType {
     dokumentasjonkrav: any[]; // TODO Finn testdata for dok.krav.
 }
 
+export interface UtbetalingSakType {
+    ar: number,
+    maned: string,
+    sum: number,
+    foersteIManeden : string,
+    utbetalinger: UtbetalingMaaned[];
+}
+
 export interface UtbetalingMaaned {
     tittel: string,
     belop: number;
@@ -20,14 +28,6 @@ export interface UtbetalingMaaned {
     tom: string|null;
     mottaker: string;
     kontonummer: string|null;
-}
-
-export interface UtbetalingSakType {
-    ar: number,
-    maned: string,
-    sum: number,
-    foersteIManeden : string,
-    utbetalinger: UtbetalingMaaned[];
 }
 
 const useUtbetalingerService = () => {

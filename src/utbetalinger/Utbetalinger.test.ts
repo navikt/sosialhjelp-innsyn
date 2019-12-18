@@ -1,6 +1,6 @@
 // @ts-ignore
 import {mockUtbetalinger, summerAntallUtbetalinger} from "./Utbetalinger.testdata";
-import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./Utbetalinger";
+import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
 
 it("should filter by time interval", () => {
     const utbetalingerMaaned: UtbetalingSakType[] = mockUtbetalinger;

@@ -58,7 +58,7 @@ const mockUtbetalinger: UtbetalingSakType[] = [
         "kontonummer" : null
     } ]
 }, {
-    "ar" : 2019,
+    "ar" : 2018,
     "maned" : "august",
     "foersteIManeden" : "2019-08-01",
     "sum" : 13234.0,

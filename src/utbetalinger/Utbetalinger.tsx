@@ -3,45 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
-import useUtbetalingerService, {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
+import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import "./utbetalinger.less";
-
-const diffInMonths =(d1: Date, d2: Date) => {
-    var d1Y = d1.getFullYear();
-    var d2Y = d2.getFullYear();
-    var d1M = d1.getMonth();
-    var d2M = d2.getMonth();
-    return (d2M+12*d2Y)-(d1M+12*d1Y);
-};
-
-const filtrerUtbetalingerForTidsinterval = (utbetalinger: UtbetalingSakType[], visAntallMnd: number, now: Date): UtbetalingSakType[] => {
-    return utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
-        const foersteIManeden: Date = new Date(utbetalingSak.foersteIManeden);
-        const innenforTidsintervall: boolean = diffInMonths(foersteIManeden, now) < visAntallMnd;
-        return innenforTidsintervall;
-    });
-};
-
-
-const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTilBrukersKonto: boolean, visTilAnnenMottaker: boolean): UtbetalingSakType[] => {
-    return utbetalinger.map((utbetalingSak: UtbetalingSakType) => {
-        return {
-            ...utbetalingSak,
-            utbetalinger: utbetalingSak.utbetalinger.filter((utbetalingMaaned: UtbetalingMaaned, index: number) => {
-                const blirBetaltTilBruker: boolean = utbetalingMaaned.mottaker === "søkers fnr";
-                if (blirBetaltTilBruker) {
-                    return visTilBrukersKonto;
-                } else {
-                    return visTilAnnenMottaker;
-                }
-            })
-        };
-    });
-};
+import {filtrerUtbetalingerPaaMottaker, filtrerUtbetalingerForTidsinterval} from "./utbetalingerUtils";
 
 const Utbetalinger: React.FC = () => {
     const [visAntallMnd, setVisAntallMnd] = useState<number>(3);
@@ -86,8 +54,6 @@ const Utbetalinger: React.FC = () => {
     utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
     utbetalinger = filtrerUtbetalingerPaaMottaker(utbetalinger, tilBrukersKonto, tilAnnenMottaker);
 
-    console.log(utbetalingerService.restStatus);
-
     return (
         <div className="utbetalinger">
             <div className="utbetalinger_row">
@@ -109,5 +75,4 @@ const Utbetalinger: React.FC = () => {
 
 };
 
-export {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker};
 export default Utbetalinger;
