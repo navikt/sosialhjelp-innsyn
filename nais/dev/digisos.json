@@ -1,5 +1,4 @@
 {
-  "cluster": "dev-gcp",
   "namespace": "digisos",
   "ingresses": [
     "https://sosialhjelp-innsyn.dev-nav.no/sosialhjelp/innsyn"
