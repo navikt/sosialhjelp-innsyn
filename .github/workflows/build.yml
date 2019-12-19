@@ -14,10 +14,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: Login to GitHub package registry
         run: |
-          echo "repo: ${GITHUB_REPOSITORY}"
-          echo "token antall: "
-          echo ${GITHUB_TOKEN} | wc -c
-          echo "login: "
           echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_REPOSITORY} --password-stdin docker.pkg.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
