@@ -7,6 +7,8 @@ import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerServ
 import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
+import {brukerMottarUtbetaling} from "./utbetalingerUtils";
+import {erDevMiljo} from "../utils/ServiceHookTypes";
 
 interface Props {
     utbetalinger: UtbetalingSakType[];
@@ -34,7 +36,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
             {utbetalinger && utbetalinger.map((utbetalingSak: UtbetalingSakType, index: number) => {
                 return (
                     <span key={"utbetaling_" + index}>
-                        {index > 0 && utbetalinger[index-1].ar !== utbetalingSak.ar && (
+                        {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
                             <>
                                 <Undertittel>{utbetalingSak.ar}</Undertittel>
                                 <br/>
@@ -47,6 +49,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                             </div>
                             <hr/>
                             {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+                                const brukerErMottaker: boolean = brukerMottarUtbetaling(utbetalingMaaned.mottaker);
                                 const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
                                 return (
                                     <span key={"utbetaling_" + index}>
@@ -56,10 +59,32 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                     </div>
                                     <UtbetalingEkspanderbart
                                         tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
-                                        // utbdefaultOpen={true}
+                                        defaultOpen={erDevMiljo()}
                                     >
                                         <br/>
 
+                                        <div>
+                                            <EtikettLiten>Mottaker</EtikettLiten>
+                                            {brukerErMottaker && (
+                                                <Element>
+                                                    Din konto (
+                                                    {utbetalingMaaned.utbetalingsmetode && (<>{utbetalingMaaned.utbetalingsmetode} </>)}
+                                                    {utbetalingMaaned.kontonummer})
+                                                </Element>
+                                            )}
+                                            {!brukerErMottaker && (
+                                                <Element style={{textTransform: "capitalize"}}>
+                                                    {utbetalingMaaned.mottaker}
+                                                    {utbetalingMaaned.utbetalingsmetode && (
+                                                        <span style={{textTransform: "lowercase"}}>
+                                                            &nbsp;({utbetalingMaaned.utbetalingsmetode})&nbsp;
+                                                        </span>
+                                                    )}
+                                                </Element>
+                                            )}
+
+                                            <br/>
+                                        </div>
                                         {utbetalingMaaned.fom && utbetalingMaaned.tom && (
                                             <div>
                                                 <EtikettLiten>Periode</EtikettLiten>
@@ -70,37 +95,6 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 <br/>
                                             </div>
                                         )}
-                                        {utbetalingMaaned.mottaker && (
-                                            <div>
-                                                <EtikettLiten>Mottaker</EtikettLiten>
-                                                <Element>
-                                                    {utbetalingMaaned.mottaker}
-                                                </Element>
-                                                <br/>
-                                            </div>
-                                        )}
-
-
-                                        {utbetalingMaaned.utbetalingsmetode && (
-                                            <div>
-                                                <EtikettLiten>Utbetalingsmetode</EtikettLiten>
-                                                <Element style={{textTransform: "capitalize"}}>
-                                                    {utbetalingMaaned.utbetalingsmetode}
-                                                </Element>
-                                                <br/>
-                                            </div>
-                                        )}
-
-                                        {utbetalingMaaned.kontonummer && (
-                                            <div>
-                                                <EtikettLiten>Kontonummer</EtikettLiten>
-                                                <Element>
-                                                    {utbetalingMaaned.kontonummer}
-                                                </Element>
-                                                <br/>
-                                            </div>
-                                        )}
-
                                         {utbetalingMaaned.forfallsdato && (
                                             <div>
                                                 <EtikettLiten>Forfallsdato</EtikettLiten>
@@ -110,16 +104,13 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 <br/>
                                             </div>
                                         )}
-
                                         <br/>
-
                                         <EtikettLiten>Søknaden din</EtikettLiten>
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId}/>
                                     </UtbetalingEkspanderbart>
-
-                                        {erSisteUtbetaling && (
-                                            <hr className="tynnere"/>
-                                        )}
+                                    {erSisteUtbetaling && (
+                                        <hr className="tynnere"/>
+                                    )}
                                 </span>
                                 )
                             })}
