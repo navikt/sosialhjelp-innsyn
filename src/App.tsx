@@ -1,7 +1,7 @@
 import React from 'react';
-import { ConnectedRouter } from "connected-react-router";
-import configureStore, { history} from "./configureStore";
-import { Provider } from "react-redux";
+import {ConnectedRouter} from "connected-react-router";
+import configureStore, {history} from "./configureStore";
+import {Provider} from "react-redux";
 import {Route, Switch} from "react-router";
 import {IntlProvider} from "react-intl";
 import {tekster} from "./tekster/tekster";
@@ -12,6 +12,7 @@ import VeiviserPlaceholder from "./saksoversikt/statiskeDemoSider/VeiviserPlaceh
 import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
+import Feilside from "./components/feilside/Feilside";
 
 const store = configureStore();
 
@@ -29,17 +30,19 @@ const App: React.FC = () => {
 	return (
 		<Provider store={store}>
 			<IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
-				<ConnectedRouter history={history}>
-					<Switch>
-						<Route exact path="/" component={VeiviserPlaceholder} />
-						<Route path="/saksoversikt" component={SaksoversiktRouter} />
-						<Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
-                        <Route exact path="/innsyn" component={Saksoversikt} />
-                        <Route exact path="/innsyn/" component={Saksoversikt} />
-                        <Route path="/innsyn/*" component={InnsynRouter} />
-                        <Route component={SideIkkeFunnet}/>
-                    </Switch>
-				</ConnectedRouter>
+				<Feilside>
+					<ConnectedRouter history={history}>
+						<Switch>
+							<Route exact path="/" component={VeiviserPlaceholder}/>
+							<Route path="/saksoversikt" component={SaksoversiktRouter}/>
+							<Route path="/innsyn/utbetalinger" component={UtbetalingerRouter}/>
+							<Route exact path="/innsyn" component={Saksoversikt}/>
+							<Route exact path="/innsyn/" component={Saksoversikt}/>
+							<Route path="/innsyn/*" component={InnsynRouter}/>
+							<Route component={SideIkkeFunnet}/>
+						</Switch>
+					</ConnectedRouter>
+				</Feilside>
 			</IntlProvider>
 		</Provider>
 	);
