@@ -147,18 +147,18 @@ jobs:
                 --vars="deployment.yaml" \
                 --wait=true
 
-  deploy_dev_gcp:
+  deploy_gcp:
     docker:
       - image: navikt/deployment:v1
     steps:
       - checkout
       - run:
-          name: Deploy til miljø=digisos i dev-gcp
+          name: Deploy til miljø i gcp
           command: |
-            yq w nais/dev/digisos.json version "${TAG}" > deployment.yaml
+            yq w nais/dev/${MILJO}.json version "${TAG}" > deployment.yaml
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
-                --cluster="dev-gcp" \
+                --cluster="${MILJO}" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
                 --resource="nais.yaml" \
                 --vars="deployment.yaml" \

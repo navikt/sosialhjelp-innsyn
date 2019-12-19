@@ -1,0 +1,8 @@
+{
+  "namespace": "digisos",
+  "ingresses": [
+    "https://sosialhjelp-innsyn.labs.nais.io/sosialhjelp/innsyn"
+  ],
+  "prometheusEnabled": false,
+  "appresCmsUrl": "https://appres.nav.no"
+}
