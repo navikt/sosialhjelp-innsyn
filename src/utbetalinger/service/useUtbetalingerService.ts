@@ -28,6 +28,8 @@ export interface UtbetalingMaaned {
     tom: string|null;
     mottaker: string;
     kontonummer: string|null;
+    forfallsdato: string|null;
+    utbetalingsmetode: string|null;
 }
 
 const useUtbetalingerService = () => {

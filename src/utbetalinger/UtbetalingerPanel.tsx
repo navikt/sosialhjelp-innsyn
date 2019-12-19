@@ -56,34 +56,62 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                     </div>
                                     <UtbetalingEkspanderbart
                                         tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
-                                        defaultOpen={true}
+                                        // utbdefaultOpen={true}
                                     >
                                         <br/>
 
-                                        <div>
-                                            {utbetalingMaaned.fom && utbetalingMaaned.tom && (
-                                                <div>
-                                                    <EtikettLiten>Periode</EtikettLiten>
-                                                    <Element>
-                                                        {formatDato(utbetalingMaaned.fom)} -
-                                                        {formatDato(utbetalingMaaned.tom)}
-                                                    </Element>
-                                                    <br/>
-                                                </div>
-                                            )}
-                                            {utbetalingMaaned.mottaker && (
-                                                <div>
-                                                    <EtikettLiten>Mottaker</EtikettLiten>
-                                                    <Element>
-                                                        {utbetalingMaaned.mottaker}
-                                                    </Element>
-                                                    <br/>
-                                                </div>
-                                            )}
-                                        </div>
-                                  <br/>
+                                        {utbetalingMaaned.fom && utbetalingMaaned.tom && (
+                                            <div>
+                                                <EtikettLiten>Periode</EtikettLiten>
+                                                <Element>
+                                                    {formatDato(utbetalingMaaned.fom)} -
+                                                    {formatDato(utbetalingMaaned.tom)}
+                                                </Element>
+                                                <br/>
+                                            </div>
+                                        )}
+                                        {utbetalingMaaned.mottaker && (
+                                            <div>
+                                                <EtikettLiten>Mottaker</EtikettLiten>
+                                                <Element>
+                                                    {utbetalingMaaned.mottaker}
+                                                </Element>
+                                                <br/>
+                                            </div>
+                                        )}
 
 
+                                        {utbetalingMaaned.utbetalingsmetode && (
+                                            <div>
+                                                <EtikettLiten>Utbetalingsmetode</EtikettLiten>
+                                                <Element style={{textTransform: "capitalize"}}>
+                                                    {utbetalingMaaned.utbetalingsmetode}
+                                                </Element>
+                                                <br/>
+                                            </div>
+                                        )}
+
+                                        {utbetalingMaaned.kontonummer && (
+                                            <div>
+                                                <EtikettLiten>Kontonummer</EtikettLiten>
+                                                <Element>
+                                                    {utbetalingMaaned.kontonummer}
+                                                </Element>
+                                                <br/>
+                                            </div>
+                                        )}
+
+                                        {utbetalingMaaned.forfallsdato && (
+                                            <div>
+                                                <EtikettLiten>Forfallsdato</EtikettLiten>
+                                                <Element>
+                                                    {formatDato(utbetalingMaaned.forfallsdato)}
+                                                </Element>
+                                                <br/>
+                                            </div>
+                                        )}
+
+                                        <br/>
 
                                         <EtikettLiten>Søknaden din</EtikettLiten>
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId}/>

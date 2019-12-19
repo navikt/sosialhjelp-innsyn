@@ -10,6 +10,7 @@ import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import "./utbetalinger.less";
 import {filtrerUtbetalingerPaaMottaker, filtrerUtbetalingerForTidsinterval} from "./utbetalingerUtils";
+import {mockUtbetalinger} from "./Utbetalinger.testdata";
 
 const Utbetalinger: React.FC = () => {
     const [visAntallMnd, setVisAntallMnd] = useState<number>(3);
@@ -48,7 +49,7 @@ const Utbetalinger: React.FC = () => {
     let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
         utbetalingerService.payload : [];
 
-    // utbetalinger = mockUtbetalinger;
+    utbetalinger = mockUtbetalinger;
 
     const now: Date = new Date();
     utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
@@ -68,7 +69,10 @@ const Utbetalinger: React.FC = () => {
                         />
                     </div>
                 </div>
-                <UtbetalingerPanel utbetalinger={utbetalinger} lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}/>
+                <UtbetalingerPanel
+                    utbetalinger={utbetalinger}
+                    lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
+                />
             </div>
         </div>
     );

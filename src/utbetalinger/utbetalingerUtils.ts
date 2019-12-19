@@ -19,7 +19,9 @@ const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTi
         return {
             ...utbetalingSak,
             utbetalinger: utbetalingSak.utbetalinger.filter((utbetalingMaaned: UtbetalingMaaned, index: number) => {
-                const blirBetaltTilBruker: boolean = utbetalingMaaned.mottaker === "søkers fnr";
+                const blirBetaltTilBruker: boolean =
+                    (utbetalingMaaned.mottaker === "søkers fnr") ||
+                    (utbetalingMaaned.mottaker.match(/^[0-9]{3,}/) !== null);
                 if (blirBetaltTilBruker) {
                     return visTilBrukersKonto;
                 } else {
