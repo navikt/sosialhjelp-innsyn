@@ -19,6 +19,8 @@ jobs:
           echo ${GITHUB_TOKEN} | wc -c
           echo "login: "
           echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_REPOSITORY} --password-stdin docker.pkg.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout CI scripts
         run: |
           git clone https://github.com/navikt/github-apps-support.git
@@ -43,6 +45,8 @@ jobs:
           # FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
           create-github-release.sh -p $(cat PROJECT_NAME) -t "$(create-artifact-version.sh | sed 's/^1.0/1.1/')" \
               -c $GITHUB_SHA -m "$(format-commit-message.sh)" -a $GITHUB_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Push docker image
         run: |
           cat DOCKER_TAG
