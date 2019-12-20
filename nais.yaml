@@ -55,3 +55,5 @@ spec:
       value: NON-PROD
     - name: UNLEASH_API_URL
       value: https://unleashproxy.nais.oera.no/api/
+    - name: DISABLE_CSP
+      value: "true"
