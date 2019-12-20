@@ -2,6 +2,7 @@ FROM node as node-builder
 ADD / /source
 WORKDIR /source
 
+RUN echo "CI is ${CI}!!"
 ENV CI=true
 
 RUN npm ci && npm run test && npm run build
