@@ -3,9 +3,7 @@ FROM node:12.8.1 as node-builder
 ADD / /source
 WORKDIR /source
 
-#ENV CI=true
-# TODO Sett denne til true før prodsetting:
-ENV CI=false
+ENV CI=true
 
 RUN npm ci && npm run test && npm run build
 
