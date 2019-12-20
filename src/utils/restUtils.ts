@@ -7,7 +7,7 @@ export function erDev(): boolean {
 
 export function erMockServer(): boolean {
     const url = window.location.origin;
-    return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0) || (url.indexOf("dev-nav.no") > 0);
+    return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0) || (url.indexOf("dev-nav.no") > 0) || (url.indexOf("labs.nais.io") > 0);
 }
 
 export function erMedLoginApi(): boolean {
