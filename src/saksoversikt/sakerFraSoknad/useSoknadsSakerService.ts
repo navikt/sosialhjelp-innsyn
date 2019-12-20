@@ -23,6 +23,9 @@ const useSoknadsSakerService = () => {
     if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
         url = "https://sosialhjelp-soknad-api.dev-nav.no" + url;
     }
+    if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
+        url = "https://sosialhjelp-soknad-api.labs.nais.io" + url;
+    }
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
