@@ -82,6 +82,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_FIKSDIGISOSID = "innsynsdata/SETT_FIKSDIGISOSID",
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
+    SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
@@ -116,7 +117,8 @@ export interface InnsynsdataActionType {
     type: InnsynsdataActionTypeKeys,
     verdi?: any,
     sti: InnsynsdataSti,
-    restStatus?: string
+    restStatus?: string,
+    skalVise?: boolean
 }
 
 export interface VedleggActionType {
@@ -185,6 +187,7 @@ export interface InnsynsdataType {
     saker: Sakstype[];
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
+    skalViseFeilside: boolean;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -218,7 +221,8 @@ const initialState: InnsynsdataType = {
         harMottattForelopigSvar: false,
     },
     kommune: initiellKommuneResponse_antarAltOk,
-    restStatus: initialInnsynsdataRestStatus
+    restStatus: initialInnsynsdataRestStatus,
+    skalViseFeilside: false
 };
 
 export interface Ettersendelse {
@@ -410,6 +414,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 oppgaveVedlegsOpplastingFeilet: action.status
             };
 
+        case InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE:
+            return {
+                ...state,
+                skalViseFeilside: action.skalVise
+            };
+
         default:
             return state;
     }
@@ -444,6 +454,14 @@ export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): In
         type: InnsynsdataActionTypeKeys.SETT_REST_STATUS,
         sti,
         restStatus
+    }
+};
+
+
+export const skalViseFeilside = (skalVise: boolean) => {
+    return {
+        type: InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE,
+        skalVise
     }
 };
 

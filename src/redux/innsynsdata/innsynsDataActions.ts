@@ -6,9 +6,9 @@ import {
     oppdaterInnsynsdataState,
     oppdaterSaksdetaljerRestStatus,
     oppdaterSaksdetaljerState,
-    settRestStatus
+    settRestStatus,
+    skalViseFeilside
 } from "./innsynsdataReducer";
-import {history} from "../../configureStore";
 
 export const innsynsdataUrl = (fiksDigisosId: string, sti: string): string => `/innsyn/${fiksDigisosId}/${sti}`;
 
@@ -24,7 +24,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
                 dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                history.push("/innsyn/feil");
+                dispatch(skalViseFeilside(true));
             }
         });
     }
@@ -43,7 +43,7 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                 if (visFeilSide !== false) {
-                    history.push("/innsyn/feil");
+                    dispatch(skalViseFeilside(true));
                 }
             }
        });
@@ -62,7 +62,7 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
             } else {
                 dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
                 if (visFeilSide !== false) {
-                    history.push("/innsyn/feil");
+                    dispatch(skalViseFeilside(true));
                 }
             }
         });

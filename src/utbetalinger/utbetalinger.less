@@ -49,10 +49,14 @@
 
 @media screen and (max-width: 900px ) {
 
+  .utbetalinger {
+    margin-top: 0;
+  }
+
   .utbetalinger_column_1 {
     width: 100%;
 
-    .utbetalinger_periodevelger_panel{
+    .utbetalinger_periodevelger_panel {
       width: 100%;
       margin-bottom: 1rem;
     }
@@ -69,7 +73,7 @@
   display: block;
   border-radius: 4px;
   background-color: white;
-  padding: 1rem;
+  padding: 1rem 1rem 2px 1rem;
 
   h2 {
     margin-bottom: 1rem;
@@ -86,14 +90,20 @@
   border-radius: 4px;
 
   .utbetalinger_detaljer_panel {
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1px 1rem 1rem 1rem;
     background-color: white;
-
+    margin-bottom: 1rem;
+    border-radius: 4px;
 
     hr {
       height: 2px;
       background-color: #979797;
       margin-bottom: 1rem;
+      border: none;
+
+      &.tynnere {
+        height: 1px;
+      }
     }
   }
 
@@ -101,6 +111,7 @@
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }
+
   .utbetalinger_detaljer_panel:last-child {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -152,6 +163,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  margin-bottom: 4px;
 
   a {
     i {
@@ -160,14 +172,11 @@
   }
 }
 
-.utbetaling_periode_mottaker {
-  display: flex;
-
-  div {
-    width: 12rem;
-  }
-}
-// ******* periodevelger
+/*\
+ *
+ * Periodevelger
+ *
+\*/
 
 .periodevelger_skjemaelement {
   margin-left: 1rem;

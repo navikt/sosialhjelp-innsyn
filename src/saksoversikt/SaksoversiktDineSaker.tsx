@@ -11,6 +11,7 @@ import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {parse} from "query-string";
 import {history} from "../configureStore";
+import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
@@ -125,7 +126,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         )}
 
         <>
-            {/*<DineUtbetalingerPanel/>*/}
+            <DineUtbetalingerPanel/>
 
             <Subheader className="panel-luft-over">
                 <Undertittel>Relatert informasjon</Undertittel>
