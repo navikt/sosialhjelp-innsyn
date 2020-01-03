@@ -184,10 +184,15 @@ export interface InnsynsdataType {
     hendelser: Hendelse[];
     vedlegg: Vedlegg[];
     ettersendelse: Ettersendelse;
-    saker: Sakstype[];
+    saker: SaksResponse;
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
     skalViseFeilside: boolean;
+}
+
+export interface SaksResponse {
+    saksListe: Sakstype[];
+    fiksErrorMessage: String;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -212,7 +217,10 @@ const initialState: InnsynsdataType = {
     },
     hendelser: [],
     vedlegg: [],
-    saker: [],
+    saker: {
+        saksListe: [],
+        fiksErrorMessage: ""
+    },
     ettersendelse: {
         filer: [],
         feil: undefined
@@ -316,39 +324,45 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.OPPDATER_SAKSDETALJER:
             return {
                 ...state,
-                saker: state.saker.map((sak: Sakstype) => {
-                    if (action.verdi && action.verdi.fiksDigisosId) {
-                        if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
-                            var oppdatertSoknadTittel = sak.soknadTittel;
-                            if (action.verdi.soknadTittel !== "") {
-                                oppdatertSoknadTittel = action.verdi.soknadTittel;
+                saker: {
+                    saksListe: state.saker.saksListe.map((sak: Sakstype) => {
+                        if (action.verdi && action.verdi.fiksDigisosId) {
+                            if (sak.fiksDigisosId === action.verdi.fiksDigisosId) {
+                                var oppdatertSoknadTittel = sak.soknadTittel;
+                                if (action.verdi.soknadTittel !== "") {
+                                    oppdatertSoknadTittel = action.verdi.soknadTittel;
+                                }
+                                return {
+                                    ...sak,
+                                    soknadTittel: oppdatertSoknadTittel,
+                                    status: action.verdi.status,
+                                    antallNyeOppgaver: action.verdi.antallNyeOppgaver,
+                                    restStatus: REST_STATUS.OK,
+                                    harBlittLastetInn: true
+                                };
                             }
-                            return {
-                                ...sak,
-                                soknadTittel: oppdatertSoknadTittel,
-                                status: action.verdi.status,
-                                antallNyeOppgaver: action.verdi.antallNyeOppgaver,
-                                restStatus: REST_STATUS.OK,
-                                harBlittLastetInn: true
-                            };
                         }
-                    }
-                    return sak;
-                })
+                        return sak;
+                    }),
+                    fiksErrorMessage: state.saker.fiksErrorMessage
+                }
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS_SAKSDETALJER:
             return {
                 ...state,
-                saker: state.saker.map((sak: Sakstype) => {
-                    if (sak.fiksDigisosId === action.fiksDigisosId) {
-                        return {
-                            ...sak,
-                            restStatus: action.restStatus
-                        };
-                    } else {
-                        return sak;
-                    }
-                })
+                saker: {
+                    saksListe: state.saker.saksListe.map((sak: Sakstype) => {
+                        if (sak.fiksDigisosId === action.fiksDigisosId) {
+                            return {
+                                ...sak,
+                                restStatus: action.restStatus
+                            };
+                        } else {
+                            return sak;
+                        }
+                    }),
+                    fiksErrorMessage: state.saker.fiksErrorMessage
+                }
             };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE: {
 
