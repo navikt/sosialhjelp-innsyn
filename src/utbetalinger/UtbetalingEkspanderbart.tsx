@@ -3,8 +3,13 @@ import {Normaltekst} from "nav-frontend-typografi";
 import EkspanderLink from "./EkspanderLink";
 import Collapsible from "react-collapsible";
 
-const UtbetalingEkspanderbart: React.FC<{ tittel: string, children: React.ReactNode }> = ({tittel, children}) => {
-    const [open, setOpen] = useState(false);
+interface Props {
+    tittel: string;
+    children: React.ReactNode;
+    defaultOpen?: boolean;
+}
+const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen}) => {
+    const [open, setOpen] = useState(defaultOpen ? defaultOpen : false);
 
     return (
         <>

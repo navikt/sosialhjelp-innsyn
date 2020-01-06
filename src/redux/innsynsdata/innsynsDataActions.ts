@@ -6,9 +6,9 @@ import {
     oppdaterInnsynsdataState,
     oppdaterSaksdetaljerRestStatus,
     oppdaterSaksdetaljerState,
-    settRestStatus
+    settRestStatus,
+    skalViseFeilside
 } from "./innsynsdataReducer";
-import {history} from "../../configureStore";
 
 export const innsynsdataUrl = (fiksDigisosId: string, sti: string): string => `/innsyn/${fiksDigisosId}/${sti}`;
 
@@ -24,7 +24,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
                 dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                history.push("/innsyn/feil");
+                dispatch(skalViseFeilside(true));
             }
         });
     }
@@ -33,7 +33,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
 export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
-        let url = "/digisosapi/" + sti;
+        let url = "/innsyn/" + sti;
         fetchToJson(url).then((response: any) => {
             dispatch(oppdaterInnsynsdataState(sti, response));
             dispatch(settRestStatus(sti, REST_STATUS.OK));
@@ -43,7 +43,7 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                 if (visFeilSide !== false) {
-                    history.push("/innsyn/feil");
+                    dispatch(skalViseFeilside(true));
                 }
             }
        });
@@ -53,7 +53,7 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
 export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
     return (dispatch: Dispatch) => {
         dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.PENDING));
-        let url = "/digisosapi/saksDetaljer?id=" + fiksDigisosId;
+        let url = "/innsyn/saksDetaljer?id=" + fiksDigisosId;
         fetchToJson(url).then((response: any) => {
             dispatch(oppdaterSaksdetaljerState(fiksDigisosId, response));
         }).catch((reason) => {
@@ -62,7 +62,7 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
             } else {
                 dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
                 if (visFeilSide !== false) {
-                    history.push("/innsyn/feil");
+                    dispatch(skalViseFeilside(true));
                 }
             }
         });

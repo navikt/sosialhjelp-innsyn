@@ -14,10 +14,9 @@ jobs:
       - uses: actions/checkout@v1
       - name: Login to GitHub package registry
         run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin docker.pkg.github.com
+          echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_REPOSITORY} --password-stdin docker.pkg.github.com
         env:
-          DOCKER_USERNAME: ${{ secrets.DEPLOYMENT_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DEPLOYMENT_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout CI scripts
         run: |
           git clone https://github.com/navikt/github-apps-support.git
@@ -41,10 +40,9 @@ jobs:
 
           # FIXME: Remove version number substitution when GitHub Actions replaces CircleCI
           create-github-release.sh -p $(cat PROJECT_NAME) -t "$(create-artifact-version.sh | sed 's/^1.0/1.1/')" \
-              -c $GITHUB_SHA -m "$(format-commit-message.sh)" -a $GH_TOKEN
+              -c $GITHUB_SHA -m "$(format-commit-message.sh)" -a $GITHUB_TOKEN
         env:
-          DIGISOS_APPID: ${{ secrets.DIGISOS_APPID }}
-          DIGISOS_KEY: ${{ secrets.DIGISOS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Push docker image
         run: |
           cat DOCKER_TAG
