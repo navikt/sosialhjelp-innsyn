@@ -2,7 +2,6 @@ import React from "react";
 import AppBanner from "../components/appBanner/AppBanner";
 import {ConnectedRouter} from "connected-react-router";
 import {history} from "../configureStore";
-import BrodsmuleSti from "../components/brodsmuleSti/BrodsmuleSti";
 import {Route, Switch} from "react-router";
 import InnsynDemoMeny from "./statiskeDemoSider/InnsynDemoMeny";
 import SaksStatus from "./SaksStatus";
@@ -21,7 +20,6 @@ const InnsynRouter: React.FC = () => {
             <AppBanner/>
             <ConnectedRouter history={history}>
                 <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>
-                    <BrodsmuleSti/>
                     <Switch>
                         <Route exact path="/innsyn/utbetaling" component={Utbetalinger}/>
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny}/>

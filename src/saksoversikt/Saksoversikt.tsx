@@ -11,7 +11,7 @@ import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
-import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
+import {useBannerTittel } from "../redux/navigasjon/navigasjonUtils";
 
 const Saksoversikt: React.FC = () => {
     const dispatch = useDispatch();
@@ -35,10 +35,6 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useBannerTittel("Økonomisk sosialhjelp");
-
-    useBrodsmuleSti([
-        {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"}
-    ]);
 
     return (
         <div className="informasjon-side">

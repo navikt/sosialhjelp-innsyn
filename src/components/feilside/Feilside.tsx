@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {Panel} from "nav-frontend-paneler";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
-import BrodsmuleSti from "../brodsmuleSti/BrodsmuleSti";
+import Brodsmulesti from "../brodsmuleSti/Brodsmulesti";
 
 export interface FeilsideProps {
     children: React.ReactNode;
@@ -20,7 +20,7 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
             <div className="informasjon-side">
                 <AppBanner/>
                 <div className={"blokk-center"}>
-                <BrodsmuleSti/>
+                    <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}}/>
                     <Panel className="panel-uthevet panel-uthevet-luft-under">
                         <Innholdstittel>Beklager. Tekniske problemer</Innholdstittel>
                         <br/>
