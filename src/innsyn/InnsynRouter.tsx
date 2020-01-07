@@ -5,7 +5,6 @@ import {history} from "../configureStore";
 import {Route, Switch} from "react-router";
 import InnsynDemoMeny from "./statiskeDemoSider/InnsynDemoMeny";
 import SaksStatus from "./SaksStatus";
-import VedleggsSide from "./VedleggsSide";
 import Linkside from "../components/linkside/Linkside";
 import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
 import Utbetalinger from "../utbetalinger/Utbetalinger";
@@ -24,7 +23,6 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/utbetaling" component={Utbetalinger}/>
                         <Route exact path="/innsyn/demo" component={InnsynDemoMeny}/>
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus}/>
-                        <Route exact path="/innsyn/:soknadId/vedlegg" component={VedleggsSide}/>
                         <Route exact path="/innsyn/link" component={Linkside}/>
                         <Route component={SideIkkeFunnet}/>
                     </Switch>

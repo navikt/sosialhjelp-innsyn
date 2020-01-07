@@ -80,8 +80,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const otherVedleggLastesOpp = otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
@@ -95,7 +97,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
+        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
         dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
 
@@ -116,7 +118,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 }
             }
             if (harFeil) {
-                dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+                dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             } else {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
@@ -214,7 +216,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                         </div>
                         { kanLasteOppVedlegg &&
                             <Hovedknapp
-                                disabled={vedleggLastesOpp}
+                                disabled={vedleggLastesOpp || otherVedleggLastesOpp}
                                 spinner={vedleggLastesOpp}
                                 type="hoved"
                                 className="luft_over_1rem"
