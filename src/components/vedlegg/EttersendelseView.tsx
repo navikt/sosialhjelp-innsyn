@@ -40,6 +40,8 @@ const EttersendelseView: React.FC = () => {
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
+    const otherVedleggLastesOpp = otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
     const opplastingFeilet = harFilermedFeil(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -183,7 +185,7 @@ const EttersendelseView: React.FC = () => {
                 )}
 
                 <Hovedknapp
-                    disabled={!kanLasteOppVedlegg || vedleggLastesOpp}
+                    disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
                     spinner={vedleggLastesOpp}
                     type="hoved"
                     className="luft_over_1rem"
