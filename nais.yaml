@@ -19,7 +19,7 @@ spec:
     initialDelay: 20
     timeout: 1
   prometheus:
-    enabled: true
+    enabled: {{prometheusEnabled}}
     path: /actuator/metrics
   replicas:
     min: 1

@@ -4,5 +4,6 @@
     "https://sosialhjelp-innsyn-q0.dev-sbs.nais.io/sosialhjelp/innsyn",
     "https://www-q0.nav.no/sosialhjelp/innsyn"
   ],
+  "prometheusEnabled": true,
   "appresCmsUrl": "https://appres-q0.nav.no"
 }
