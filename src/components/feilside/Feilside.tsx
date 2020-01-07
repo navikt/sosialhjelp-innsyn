@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {Panel} from "nav-frontend-paneler";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
-import Brodsmulesti from "../brodsmuleSti/Brodsmulesti";
+import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 
 export interface FeilsideProps {
     children: React.ReactNode;

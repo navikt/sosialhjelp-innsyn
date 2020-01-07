@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./brodsmulesti.less";
+import "./brodsmuleSti.less";
 import NavFrontendChevron from 'nav-frontend-chevron';
 import {onClickBackLink} from "../../utils/navigasjon";
 import useWindowSize from "../../utils/useWindowSize";

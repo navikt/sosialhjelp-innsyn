@@ -10,7 +10,7 @@ import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import "./utbetalinger.less";
 import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/Brodsmulesti";
+import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 // import {mockUtbetalinger} from "./Utbetalinger.testdata";
 // import {erDevMiljo} from "../utils/ServiceHookTypes";
 

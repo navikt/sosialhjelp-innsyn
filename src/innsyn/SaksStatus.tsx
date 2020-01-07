@@ -12,7 +12,7 @@ import VedleggView from "../components/vedlegg/VedleggView";
 import {IntlShape, useIntl} from 'react-intl';
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/Brodsmulesti";
+import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 
 interface Props {

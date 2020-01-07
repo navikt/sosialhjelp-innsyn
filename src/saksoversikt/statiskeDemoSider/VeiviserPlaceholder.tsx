@@ -3,7 +3,7 @@ import AppBanner from "../../components/appBanner/AppBanner";
 import {Panel} from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
-import Brodsmulesti from "../../components/brodsmuleSti/Brodsmulesti";
+import Brodsmulesti from "../../components/brodsmuleSti/BrodsmuleSti";
 
 const VeiviserPlaceholder: React.FC = () => {
     return (

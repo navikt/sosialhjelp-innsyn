@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./bigbanner.less";
 import Head from "../ikoner/Head";
-import Brodsmulesti, {UrlType} from "../brodsmuleSti/Brodsmulesti";
+import Brodsmulesti, {UrlType} from "../brodsmuleSti/BrodsmuleSti";
 
 const BigBanner: React.FC<{ tittel: string } & {}> = ({tittel}) => {
     return (

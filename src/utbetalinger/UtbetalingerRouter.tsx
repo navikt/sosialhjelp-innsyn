@@ -3,7 +3,7 @@ import AppBanner from "../components/appBanner/AppBanner";
 import {ConnectedRouter} from "connected-react-router";
 import {history} from "../configureStore";
 import {Switch} from "react-router";
-import Brodsmulesti from "../components/brodsmuleSti/Brodsmulesti";
+import Brodsmulesti from "../components/brodsmuleSti/BrodsmuleSti";
 
 const UtbetalingerRouter: React.FC = () => {
     return (
