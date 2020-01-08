@@ -18,10 +18,10 @@ jobs:
 
           if [[ $MILJO == "q0" || $MILJO == "q1" ]]; then
             echo "Deploy $VERSION to $MILJO in dev-sbs"
-            deployment-cli deploy create --cluster=dev-sbs --repository=${GITHUB_REPOSITORY} --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
+            deployment-cli deploy create --cluster=dev-sbs --repository=${GITHUB_REPOSITORY} --team=teamdigisos -r=nais.yaml --var version=${VERSION} --vars=nais/dev/${MILJO}.json
           elif [[ $MILJO == "p" ]]; then
             echo "Deploy $VERSION to $MILJO in prod-sbs"
-            deployment-cli deploy create --cluster=prod-sbs --repository=${GITHUB_REPOSITORY} --team=digisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
+            deployment-cli deploy create --cluster=prod-sbs --repository=${GITHUB_REPOSITORY} --team=teamdigisos -r=nais.yaml --var version=${VERSION} --vars=nais/prod/default.json
           fi
         env:
           DEPLOYMENT_USERNAME: ${{ secrets.DEPLOYMENT_USERNAME }}
