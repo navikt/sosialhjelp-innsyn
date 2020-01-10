@@ -15,10 +15,9 @@ jobs:
               run: |
                   MILJO=$(jq -r '.client_payload.MILJO' $GITHUB_EVENT_PATH)
                   TAG=$(jq -r '.client_payload.TAG' $GITHUB_EVENT_PATH)
-                  REPOSITORY_NAME=$(echo $GITHUB_REPOSITORY | sed s/navikt\\///g)
-                  echo "***   Deploying $TAG to $MILJO ( REPOSITORY_NAME $REPOSITORY_NAME )  ***"
+                  echo "***   Deploying $TAG to $MILJO ( GITHUB_REPOSITORY $GITHUB_REPOSITORY )  ***"
                   git checkout ${TAG}
-                  deployment-cli deploy create --cluster=dev-sbs --repository=${REPOSITORY_NAME} --team=teamdigisos -r=nais.yaml --var version=${TAG} --vars=nais/dev/${MILJO}.json
+                  deployment-cli deploy create --cluster=dev-sbs --repository=${GITHUB_REPOSITORY} --team=teamdigisos -r=nais.yaml --var version=${TAG} --vars=nais/dev/${MILJO}.json
               env:
                   DEPLOYMENT_USERNAME: ${{ secrets.DEPLOYMENT_USERNAME }}
                   DEPLOYMENT_PASSWORD: ${{ secrets.DEPLOYMENT_PASSWORD }}
