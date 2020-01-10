@@ -1,5 +1,5 @@
 {
-  "namespace": "digisos",
+  "namespace": "teamdigisos",
   "ingresses": [
     "https://sosialhjelp-innsyn.labs.nais.io/sosialhjelp/innsyn"
   ],
