@@ -1,5 +1,7 @@
 name: Deploy
 on: repository_dispatch
+  types: [dummy]
+
 
 jobs:
   deploy:
