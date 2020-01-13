@@ -36,10 +36,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             fiksDigisosId: fiksDigisosId
         });
         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
-        // dispatch(setBrodsmuleSti([
-        //     {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
-        //     {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
-        // ]));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
@@ -61,6 +57,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
+    const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
+    document.title = statusTittel;
+
     return (
         <>
             <Brodsmulesti
@@ -69,7 +68,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     path: "/sosialhjelp/innsyn/",
                     urlType: UrlType.HISTORY_BACK
                 }}
-                tittel={soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl)}
+                tittel={statusTittel}
                 tilbakePilUrlType={UrlType.HISTORY_BACK}
                 className="breadcrumbs__luft_rundt"
             />

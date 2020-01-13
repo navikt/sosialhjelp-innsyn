@@ -14,6 +14,8 @@ import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel } from "../redux/navigasjon/navigasjonUtils";
 
 const Saksoversikt: React.FC = () => {
+    document.title = "Økonomisk sosialhjelp";
+
     const dispatch = useDispatch();
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const restStatus = innsynsdata.restStatus.saker;

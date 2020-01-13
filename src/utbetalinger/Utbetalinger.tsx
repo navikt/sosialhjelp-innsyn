@@ -11,15 +11,12 @@ import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import "./utbetalinger.less";
 import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-// import {mockUtbetalinger} from "./Utbetalinger.testdata";
-// import {erDevMiljo} from "../utils/ServiceHookTypes";
+import {Sidetittel} from "nav-frontend-typografi";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
-// if (erDevMiljo()) {
-//     DEFAULT_ANTALL_MND_VIST = 12;
-// }
 
 const Utbetalinger: React.FC = () => {
+    document.title = "Utbetalingsoversikt";
     const [visAntallMnd, setVisAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
@@ -60,7 +57,7 @@ const Utbetalinger: React.FC = () => {
     return (
         <div>
             <Brodsmulesti
-                tittel={"Utbetalinger"}
+                tittel={"Utbetalingsoversikt"}
                 tilbakePilUrlType={UrlType.HISTORY_BACK}
                 foreldreside={
                     {
@@ -72,6 +69,7 @@ const Utbetalinger: React.FC = () => {
             />
 
             <div className="utbetalinger">
+                <Sidetittel className="utbetalinger__overskrift">Utbetalingsoversikt</Sidetittel>
                 <div className="utbetalinger_row">
                     <div className="utbetalinger_column">
                         <div className="utbetalinger_column_1">
