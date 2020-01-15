@@ -3,18 +3,20 @@ import {FormattedDate, FormattedTime, FormattedMessage} from "react-intl";
 
 /*
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
-         => "12.10.2018 klokken 13:37"
+         => "12. Oktober 2018 klokken 13:37"
  */
 const DatoOgKlokkeslett: React.FC<{ tidspunkt: string, bareDato?: boolean }> = ({tidspunkt, bareDato}) => {
     const visKlokkeslett = !(bareDato && bareDato === true) && (new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes()) > 0;
     return (
         <>
-            <FormattedDate
-                value={new Date(tidspunkt)}
-                month="2-digit"
-                day="2-digit"
-                year="numeric"
-            />
+            <span className="dato">
+                <FormattedDate
+                    value={new Date(tidspunkt)}
+                    month="long"
+                    day="numeric"
+                    year="numeric"
+                />
+            </span>
             {visKlokkeslett && (
                 <>
                     &nbsp;<FormattedMessage id="tidspunkt.klokken" />&nbsp;

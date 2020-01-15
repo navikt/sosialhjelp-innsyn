@@ -20,6 +20,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
+import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 
 interface Props {
     oppgave: Oppgave;
@@ -186,7 +187,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
                         id="oppgaver.innsendelsesfrist"
-                        values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
+                        values={{innsendelsesfrist: <DatoOgKlokkeslett tidspunkt={oppgave.innsendelsesfrist!} bareDato={true}/>}}
                     />
                 </Normaltekst>
             )}
@@ -194,7 +195,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
                         id="oppgaver.innsendelsesfrist_passert"
-                        values={{innsendelsesfrist: new Date(oppgave.innsendelsesfrist!!).toLocaleDateString()}}
+                        values={{innsendelsesfrist: <DatoOgKlokkeslett tidspunkt={oppgave.innsendelsesfrist!} bareDato={true}/>}}
                     />
                 </Normaltekst>
             )}
