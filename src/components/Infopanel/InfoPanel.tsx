@@ -19,14 +19,16 @@ type Props = {
 
 const InfoPanel: React.FC<Props> = ({children, tittel, href}) => {
     return (
-        <LenkepanelBase href={href} className="infopanel">
-            <div>
-                <Element className="lenkepanel__heading">{tittel}</Element>
-                <Normaltekst>
-                    {children}
-                </Normaltekst>
-            </div>
-        </LenkepanelBase>
+        <span className="infopanel_wrapper">
+            <LenkepanelBase href={href} className="infopanel">
+                <div>
+                    <Element className="lenkepanel__heading">{tittel}</Element>
+                    <Normaltekst>
+                        {children}
+                    </Normaltekst>
+                </div>
+            </LenkepanelBase>
+        </span>
     );
 };
 
