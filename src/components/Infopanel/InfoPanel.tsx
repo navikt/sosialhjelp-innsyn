@@ -3,11 +3,11 @@ import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import {Normaltekst, Element} from "nav-frontend-typografi";
 import "./infoPanel.less";
 
-const InfoPanelContainer: React.FC<{children: React.ReactNode, className?: string}> = ({children, className}) => {
+const InfoPanelContainer: React.FC<{ children: React.ReactNode, className?: string }> = ({children, className}) => {
     return (
-        <div className={"infopanel_container " + className}>
+        <nav className={"infopanel_container " + className}>
             {children}
-        </div>
+        </nav>
     );
 };
 
