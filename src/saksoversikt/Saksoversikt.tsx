@@ -45,8 +45,10 @@ const Saksoversikt: React.FC = () => {
             <div className="blokk-center">
 
                 {leserData && (
-                    <Panel style={{paddingTop: "2rem", marginTop: "2rem", paddingBottom: "2rem"}}>
+                    <Panel style={{paddingTop: "2rem", marginTop: "4rem", paddingBottom: "2rem"}}>
                         <Lastestriper linjer={3}/>
+                        <br/>
+                        <br/>
                     </Panel>
                 )}
 
