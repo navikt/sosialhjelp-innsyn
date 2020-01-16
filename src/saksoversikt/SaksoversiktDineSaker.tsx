@@ -126,7 +126,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         )}
 
         <>
-            <DineUtbetalingerPanel/>
+            {/*<DineUtbetalingerPanel/> Er ikke klar for prod. */}
 
             <Subheader className="panel-luft-over">
                 <Undertittel>Relatert informasjon</Undertittel>
