@@ -14,7 +14,7 @@ function formatCurrency(amount: number, decimals: number = 0): string {
     return new Intl.NumberFormat('de-DE').format(amount);
 }
 
-// Eksempel: "2019-08-01" => "01.08.2019"
+// Eksempel: "2019-08-01" => "01. august 2019"
 function formatDato(isoDate: string) {
     const dato: Date = new Date(isoDate);
     const formatter =  new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long", year: "numeric"});
