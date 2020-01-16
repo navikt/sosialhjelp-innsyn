@@ -133,7 +133,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
         <>
 
-            {utbetalingerService.restStatus === REST_STATUS.OK && utbetalinger && utbetalinger.length > 0 && (
+            {utbetalinger.length > 0 && (
                 <DineUtbetalingerPanel/>
             )}
 
