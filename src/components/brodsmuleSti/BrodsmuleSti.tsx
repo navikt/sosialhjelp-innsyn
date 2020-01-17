@@ -1,13 +1,13 @@
 import * as React from "react";
 import "./brodsmuleSti.less";
 import NavFrontendChevron from 'nav-frontend-chevron';
-import {onClickBackLink} from "../../utils/navigasjon";
+import {onClickLink} from "../../utils/navigasjon";
 import useWindowSize from "../../utils/useWindowSize";
 
 export enum UrlType {
-    HISTORY_BACK = "HISTORY_BACK",
     ABSOLUTE_URL = "ABSOLUTE_URL",
-    RELATIVE_URL = "RELATIVE_URL"
+    RELATIVE_URL = "RELATIVE_URL",
+    ABSOLUTE_PATH  = "ABSOLUTE_PATH"
 }
 
 export type BrodsmulestiForeldreside = {
@@ -37,16 +37,17 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
           if (tilbakePilUrlType === UrlType.ABSOLUTE_URL) {
               window.location.href = tilbakeUrl;
           }
-          if (tilbakePilUrlType === UrlType.HISTORY_BACK) {
-              onClickBackLink(event);
+          if (tilbakePilUrlType === UrlType.ABSOLUTE_PATH) {
+              onClickLink(event, tilbakeUrl);
           }
         }
     };
 
     const onClickForeldreLink = (event: any): void => {
         if (foreldreside && foreldreside.urlType) {
-            if (foreldreside.urlType === UrlType.HISTORY_BACK) {
-                onClickBackLink(event);
+            if (foreldreside.urlType === UrlType.ABSOLUTE_PATH) {
+                onClickLink(event, foreldreside.path);
+                // onClickBackLink(event);
             }
 
         } else {
@@ -58,7 +59,7 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
 
     let foreldresideUrl = ".";
     if (foreldreside && foreldreside.path) {
-        if (foreldreside.urlType === UrlType.HISTORY_BACK) {
+        if (foreldreside.urlType === UrlType.ABSOLUTE_PATH) {
             foreldresideUrl = foreldreside.path;
         } else {
             foreldresideUrl = "." + foreldreside.path;
