@@ -1,12 +1,11 @@
 import React, {useEffect} from "react";
-import {Panel} from "nav-frontend-paneler";
+import NavFrontendSpinner from "nav-frontend-spinner";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {REST_STATUS} from "../utils/restUtils";
-import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
@@ -45,11 +44,9 @@ const Saksoversikt: React.FC = () => {
             <div className="blokk-center">
 
                 {leserData && (
-                    <Panel style={{paddingTop: "2rem", marginTop: "4rem", paddingBottom: "2rem"}}>
-                        <Lastestriper linjer={3}/>
-                        <br/>
-                        <br/>
-                    </Panel>
+                    <div className="application-spinner">
+                        <NavFrontendSpinner type="XL"/>
+                    </div>
                 )}
 
                 {!leserData && (
