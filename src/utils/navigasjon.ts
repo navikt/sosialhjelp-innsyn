@@ -6,10 +6,4 @@ const onClickLink = (event: any, sti: string) => {
     event.preventDefault();
 };
 
-const onClickBackLink = (event: any) => {
-    // @ts-ignore
-    history.back();
-    event.preventDefault();
-};
-
-export { onClickLink, onClickBackLink }
+export { onClickLink }

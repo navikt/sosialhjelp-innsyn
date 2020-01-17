@@ -66,10 +66,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
                     path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.HISTORY_BACK
+                    urlType: UrlType.ABSOLUTE_PATH
                 }}
                 tittel={statusTittel}
-                tilbakePilUrlType={UrlType.HISTORY_BACK}
+                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
                 className="breadcrumbs__luft_rundt"
             />
 

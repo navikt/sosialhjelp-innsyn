@@ -58,12 +58,12 @@ const Utbetalinger: React.FC = () => {
         <div>
             <Brodsmulesti
                 tittel={"Utbetalingsoversikt"}
-                tilbakePilUrlType={UrlType.HISTORY_BACK}
+                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
                 foreldreside={
                     {
                         tittel: "Økonomisk sosialhjelp",
-                        path: "/",
-                        urlType: UrlType.HISTORY_BACK
+                        path: "/sosialhjelp/innsyn/",
+                        urlType: UrlType.ABSOLUTE_PATH
                     }}
                 className="breadcrumbs__luft_rundt"
             />
