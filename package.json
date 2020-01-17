@@ -52,6 +52,7 @@
     "nav-frontend-paneler-style": "^0.3.17",
     "nav-frontend-skjema": "^1.0.76",
     "nav-frontend-skjema-style": "^1.0.48",
+    "nav-frontend-spinner": "^1.0.20",
     "nav-frontend-spinner-style": "^0.2.5",
     "nav-frontend-tabell-style": "^0.2.18",
     "nav-frontend-typografi": "^2.0.16",
@@ -77,8 +78,7 @@
     "redux-thunk": "^2.3.0",
     "typescript": "3.6.4",
     "webpack": "4.41.0",
-    "whatwg-fetch": "^3.0.0",
-    "nav-frontend-spinner": "latest"
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "craco start",
