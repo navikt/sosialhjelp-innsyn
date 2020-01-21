@@ -5,9 +5,9 @@ export function erDev(): boolean {
     return (url.indexOf("localhost:3000") > 0);
 }
 
-export function erHeroku(): boolean {
+export function erMockServer(): boolean {
     const url = window.location.origin;
-    return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0);
+    return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0) || (url.indexOf("dev-nav.no") > 0) || (url.indexOf("labs.nais.io") > 0);
 }
 
 export function erMedLoginApi(): boolean {
@@ -21,6 +21,13 @@ export function getApiBaseUrl(): string {
             return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
+    } else if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
+        return window.location.origin.replace(".dev-nav.no", "-api.dev-nav.no") + "/sosialhjelp/innsyn-api/api/v1";
+    } else if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
+        if (window.location.origin.indexOf("digisos.labs.nais.io") >= 0) {
+            return getAbsoluteApiUrl() + "api/v1"
+        }
+        return window.location.origin.replace(".labs.nais.io", "-api.labs.nais.io") + "/sosialhjelp/innsyn-api/api/v1";
     } else {
         return getAbsoluteApiUrl() + "api/v1"
     }
@@ -68,7 +75,7 @@ export const getHeaders = (contentType?: string) => {
         });
     }
 
-    if (erHeroku() || (erDev() && !erMedLoginApi())) {
+    if (erMockServer() || (erDev() && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken")
     }
     return headers;
@@ -127,7 +134,7 @@ function sjekkStatuskode(response: Response) {
 }
 
 function determineCredentialsParameter() {
-    return window.location.origin.indexOf("nais.oera") || erDev() || erHeroku() ? "include" : "same-origin";
+    return window.location.origin.indexOf("nais.oera") || erDev() || erMockServer() ? "include" : "same-origin";
 }
 
 export function fetchToJson(urlPath: string) {

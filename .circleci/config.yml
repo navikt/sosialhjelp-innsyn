@@ -6,8 +6,7 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
           name: GitHub package registry login
           command: |
@@ -96,33 +95,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy versjon=${VERSION} til miljø=digisos i dev-gcp
+          name: Deploy til miljø i dev-sbs
           command: |
-            yq w nais/dev/digisos.json version "${TAG}" > deployment.yaml
+            git clone https://github.com/navikt/sosialhjelp-ci.git
+            yq w "nais/dev/${MILJO}.json" version "${TAG}" > deployment.yaml
+
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
-                --cluster="dev-gcp" \
+                --cluster="dev-sbs" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
-                --resource="naiser.yaml" \
+                --resource="nais.yaml" \
                 --vars="deployment.yaml" \
                 --wait=true
-#    docker:
-#      - image: navikt/deployment:v1
-#    steps:
-#      - checkout
-#      - run:
-#          name: Deploy til miljø i dev-sbs
-#          command: |
-#            git clone https://github.com/navikt/sosialhjelp-ci.git
-#            yq w "nais/dev/${MILJO}.json" version "${TAG}" > deployment.yaml
-#
-#            /app/deploy \
-#                --apikey="$NAIS_DEPLOY_APIKEY" \
-#                --cluster="dev-sbs" \
-#                --repository="$CIRCLE_PROJECT_REPONAME" \
-#                --resource="nais.yaml" \
-#                --vars="deployment.yaml" \
-#                --wait=true
 
   deploy_prod:
     docker:
@@ -157,6 +141,23 @@ jobs:
             /app/deploy \
                 --apikey="$NAIS_DEPLOY_APIKEY" \
                 --cluster="prod-sbs" \
+                --repository="$CIRCLE_PROJECT_REPONAME" \
+                --resource="nais.yaml" \
+                --vars="deployment.yaml" \
+                --wait=true
+
+  deploy_gcp:
+    docker:
+      - image: navikt/deployment:v1
+    steps:
+      - checkout
+      - run:
+          name: Deploy til miljø i gcp
+          command: |
+            yq w nais/dev/${MILJO}.json version "${TAG}" > deployment.yaml
+            /app/deploy \
+                --apikey="$NAIS_DEPLOY_APIKEY" \
+                --cluster="${MILJO}" \
                 --repository="$CIRCLE_PROJECT_REPONAME" \
                 --resource="nais.yaml" \
                 --vars="deployment.yaml" \

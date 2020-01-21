@@ -11,10 +11,16 @@ import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {parse} from "query-string";
 import {history} from "../configureStore";
+import useUtbetalingerService, {UtbetalingSakType} from "../utbetalinger/service/useUtbetalingerService";
+import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
+
+    const utbetalingerService = useUtbetalingerService();
+    let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
+        utbetalingerService.payload : [];
 
     let filtrerteSaker:Sakstype[];
 
@@ -126,7 +132,10 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         )}
 
         <>
-            <DineUtbetalingerPanel/>
+
+            {utbetalinger.length > 0 && (
+                <DineUtbetalingerPanel/>
+            )}
 
             <Subheader className="panel-luft-over">
                 <Undertittel>Relatert informasjon</Undertittel>

@@ -5,28 +5,21 @@ import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
-import {useBannerTittel, useBrodsmuleSti} from "../redux/navigasjon/navigasjonUtils";
+import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import "./utbetalinger.less";
-import {filtrerUtbetalingerPaaMottaker, filtrerUtbetalingerForTidsinterval} from "./utbetalingerUtils";
-// import {mockUtbetalinger} from "./Utbetalinger.testdata";
-// import {erDevMiljo} from "../utils/ServiceHookTypes";
+import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
+import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
+import {Sidetittel} from "nav-frontend-typografi";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
-// if (erDevMiljo()) {
-//     DEFAULT_ANTALL_MND_VIST = 12;
-// }
 
 const Utbetalinger: React.FC = () => {
+    document.title = "Utbetalingsoversikt";
     const [visAntallMnd, setVisAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
-
-    useBrodsmuleSti([
-        {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
-        {sti: "/sosialhjelp/innsyn/utbetaling", tittel: "Utbetalingsoversikt"}
-    ]);
 
     useBannerTittel("Utbetalingsoversikt for økonomisk sosialhjelp");
 
@@ -62,23 +55,38 @@ const Utbetalinger: React.FC = () => {
     utbetalinger = filtrerUtbetalingerPaaMottaker(utbetalinger, tilBrukersKonto, tilAnnenMottaker);
 
     return (
-        <div className="utbetalinger">
-            <div className="utbetalinger_row">
-                <div className="utbetalinger_column">
-                    <div className="utbetalinger_column_1">
-                        <Periodevelger
-                            className="utbetalinger_periodevelger_panel"
-                            antMndTilbake={visAntallMnd}
-                            onChange={
-                                (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
-                                    oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)}
-                        />
+        <div>
+            <Brodsmulesti
+                tittel={"Utbetalingsoversikt"}
+                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
+                foreldreside={
+                    {
+                        tittel: "Økonomisk sosialhjelp",
+                        path: "/sosialhjelp/innsyn/",
+                        urlType: UrlType.ABSOLUTE_PATH
+                    }}
+                className="breadcrumbs__luft_rundt"
+            />
+
+            <div className="utbetalinger">
+                <Sidetittel className="utbetalinger__overskrift">Utbetalingsoversikt</Sidetittel>
+                <div className="utbetalinger_row">
+                    <div className="utbetalinger_column">
+                        <div className="utbetalinger_column_1">
+                            <Periodevelger
+                                className="utbetalinger_periodevelger_panel"
+                                antMndTilbake={visAntallMnd}
+                                onChange={
+                                    (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
+                                        oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)}
+                            />
+                        </div>
                     </div>
+                    <UtbetalingerPanel
+                        utbetalinger={utbetalinger}
+                        lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
+                    />
                 </div>
-                <UtbetalingerPanel
-                    utbetalinger={utbetalinger}
-                    lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
-                />
             </div>
         </div>
     );

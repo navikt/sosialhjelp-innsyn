@@ -11,25 +11,8 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import DokumentSendt from "../ikoner/DokumentSendt";
-
-export enum SoknadsStatusEnum {
-    SENDT = "SENDT",
-    MOTTATT = "MOTTATT",
-    UNDER_BEHANDLING = "UNDER_BEHANDLING",
-    FERDIGBEHANDLET = "FERDIGBEHANDLET",
-    BEHANDLES_IKKE = "BEHANDLES_IKKE"
-}
-
-export enum SaksStatusEnum {
-    BEHANDLES_IKKE = "BEHANDLES IKKE",
-    IKKE_INNSYN = "IKKE INNSYN"
-}
-
-interface StatusDetalj {
-    beskrivelse: string;
-    status: string;
-    kommentarer?: React.ReactNode | string;
-}
+import {useIntl, IntlShape} from 'react-intl';
+import {SaksStatusEnum, SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 
 interface Props {
     status: string | null | SoknadsStatusEnum;
@@ -39,6 +22,7 @@ interface Props {
 
 const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
     const antallSaksElementer: number = sak ? sak.length : 0;
+    const intl: IntlShape = useIntl();
 
     return (
         <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
@@ -46,35 +30,21 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                 {leserData && (
                     <Lastestriper linjer={1}/>
                 )}
+                <Innholdstittel>{soknadsStatusTittel(status, intl)}</Innholdstittel>
                 {status === SoknadsStatusEnum.SENDT && (
-                    <>
-                        <Innholdstittel><FormattedMessage id="status.sendt"/></Innholdstittel>
-                        <DokumentSendt/>
-                    </>
+                    <DokumentSendt/>
                 )}
                 {status === SoknadsStatusEnum.MOTTATT && (
-                    <>
-                        <Innholdstittel><FormattedMessage id="status.mottatt"/></Innholdstittel>
-                        <DokumentMottatt/>
-                    </>
+                    <DokumentMottatt/>
                 )}
                 {status === SoknadsStatusEnum.UNDER_BEHANDLING && (
-                    <>
-                        <Innholdstittel><FormattedMessage id="status.under_behandling"/></Innholdstittel>
-                        <DokumentElla/>
-                    </>
+                    <DokumentElla/>
                 )}
                 {status === SoknadsStatusEnum.FERDIGBEHANDLET && (
-                    <>
-                        <Innholdstittel><FormattedMessage id="status.ferdigbehandlet"/></Innholdstittel>
-                        <DokumentOk/>
-                    </>
+                    <DokumentOk/>
                 )}
                 {status === SoknadsStatusEnum.BEHANDLES_IKKE && (
-                    <>
-                        <Innholdstittel><FormattedMessage id="status.behandles_ikke"/></Innholdstittel>
-                        <DokumentOk/>
-                    </>
+                    <DokumentOk/>
                 )}
             </div>
 

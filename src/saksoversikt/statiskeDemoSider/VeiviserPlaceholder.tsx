@@ -1,16 +1,16 @@
 import React from "react";
 import AppBanner from "../../components/appBanner/AppBanner";
-import BrodsmuleSti from "../../components/brodsmuleSti/BrodsmuleSti";
 import {Panel} from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
+import Brodsmulesti from "../../components/brodsmuleSti/BrodsmuleSti";
 
 const VeiviserPlaceholder: React.FC = () => {
     return (
         <div className="informasjon-side">
             <AppBanner/>
             <div className="blokk-center">
-                <BrodsmuleSti/>
+                <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}}/>
                 <Panel>
                     <Innholdstittel>Veiviser</Innholdstittel>
                     <br/>

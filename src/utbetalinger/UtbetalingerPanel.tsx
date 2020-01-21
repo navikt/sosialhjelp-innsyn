@@ -15,8 +15,16 @@ interface Props {
     lasterData: boolean;
 }
 
-const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
+const sumUtbetalinger = (utbetalingSak: UtbetalingSakType): number => {
+    let sum: number = 0;
+    utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned) => {
+        sum = sum + utbetalingMaaned.belop;
+        return sum;
+    });
+    return sum;
+};
 
+const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
     if (lasterData) {
         return (
             <div className="utbetalinger_detaljer">
@@ -45,7 +53,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                         <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
                             <div className="utbetaling__header">
                                 <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
-                                <Undertittel>{formatCurrency(utbetalingSak.sum)} kr</Undertittel>
+                                <Undertittel>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</Undertittel>
                             </div>
                             <hr/>
                             {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {

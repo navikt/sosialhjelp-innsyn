@@ -9,10 +9,11 @@ import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {setBrodsmuleSti} from "../redux/navigasjon/navigasjonsReducer";
-import {useIntl} from 'react-intl';
+import {IntlShape, useIntl} from 'react-intl';
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
+import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
+import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 
 interface Props {
     match: {
@@ -27,7 +28,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
-    const intl = useIntl();
+    const intl: IntlShape = useIntl();
 
     useEffect(() => {
         dispatch({
@@ -35,10 +36,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             fiksDigisosId: fiksDigisosId
         });
         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
-        dispatch(setBrodsmuleSti([
-            {sti: "/sosialhjelp/innsyn", tittel: "Økonomisk sosialhjelp"},
-            {sti: "/sosialhjelp/innsyn/status", tittel: "Status for din søknad"}
-        ]));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
@@ -60,8 +57,22 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
+    const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
+    document.title = statusTittel;
+
     return (
         <>
+            <Brodsmulesti
+                foreldreside={{
+                    tittel: "Økonomisk sosialhjelp",
+                    path: "/sosialhjelp/innsyn/",
+                    urlType: UrlType.ABSOLUTE_PATH
+                }}
+                tittel={statusTittel}
+                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
+                className="breadcrumbs__luft_rundt"
+            />
+
             <DriftsmeldingAlertstripe />
             <ForelopigSvarAlertstripe />
 

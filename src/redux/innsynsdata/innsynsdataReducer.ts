@@ -108,10 +108,6 @@ export enum InnsynsdataSti {
     KOMMUNE = "kommune"
 }
 
-// export interface InnsynssdataActionVerdi {
-//     saksStatus?: SaksStatusState;
-// }
-
 export interface InnsynsdataActionType {
     fiksDigisosId?: string,
     type: InnsynsdataActionTypeKeys,
