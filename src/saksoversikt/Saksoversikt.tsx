@@ -19,7 +19,7 @@ const Saksoversikt: React.FC = () => {
     const dispatch = useDispatch();
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const restStatus = innsynsdata.restStatus.saker;
-    const saker:Sakstype[] = innsynsdata.saker.saksListe;
+    const saker:Sakstype[] = innsynsdata.saker;
     const sakerFraSoknadResponse = useSoknadsSakerService();
     const leserSaksData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const leserSoknadSaksData: boolean = sakerFraSoknadResponse.restStatus === REST_STATUS.INITIALISERT || sakerFraSoknadResponse.restStatus === REST_STATUS.PENDING;
@@ -31,7 +31,7 @@ const Saksoversikt: React.FC = () => {
         if(sakerFraSoknadResponse.restStatus === REST_STATUS.OK) {
             alleSaker = saker.concat(sakerFraSoknadResponse.payload.results);
         }
-        if(innsynsdata.saker.fiksErrorMessage) {
+        if(restStatus === REST_STATUS.SERVICE_UNAVAILABLE) {
             fiksKommunikasjonsProblemer = true;
         }
         if(sakerFraSoknadResponse.restStatus === REST_STATUS.FEILET) {

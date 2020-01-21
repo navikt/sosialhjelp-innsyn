@@ -60,7 +60,8 @@ export enum REST_STATUS {
     FEILET = "FEILET",
     PENDING = "PENDING",
     INITIALISERT = "INITIALISERT",
-    UNAUTHORIZED = "UNAUTHORIZED"
+    UNAUTHORIZED = "UNAUTHORIZED",
+    SERVICE_UNAVAILABLE = "SERVICE_UNAVAILABLE"
 }
 
 export const getHeaders = (contentType?: string) => {
@@ -83,6 +84,7 @@ export const getHeaders = (contentType?: string) => {
 
 export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
+    SERVICE_UNAVAILABLE = "Service Unavailable",
 }
 
 export const serverRequest = (method: string, urlPath: string, body: string|null|FormData, contentType?: string) => {

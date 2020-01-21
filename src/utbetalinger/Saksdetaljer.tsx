@@ -7,7 +7,7 @@ import {REST_STATUS} from "../utils/restUtils";
 
 const Saksdetaljer: React.FC<{ fiksDigisosId: string }> = ({fiksDigisosId}) => {
 
-    const saker: Sakstype[] = useSelector((state: InnsynAppState) => state.innsynsdata.saker.saksListe);
+    const saker: Sakstype[] = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
     const sak: Sakstype | undefined = saker.find((sak: Sakstype) => {
         if (sak.fiksDigisosId === fiksDigisosId) {
             return sak;
