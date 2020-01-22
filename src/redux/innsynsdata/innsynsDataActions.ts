@@ -40,13 +40,15 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
         }).catch((reason) => {
             if (reason.message === HttpStatus.UNAUTHORIZED) {
                 dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+            } else if(reason.message === HttpStatus.SERVICE_UNAVAILABLE) {
+                dispatch(settRestStatus(sti, REST_STATUS.SERVICE_UNAVAILABLE));
             } else {
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                 if (visFeilSide !== false) {
                     dispatch(skalViseFeilside(true));
                 }
             }
-       });
+        });
     }
 }
 
