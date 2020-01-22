@@ -10,7 +10,7 @@ import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
-import {useBannerTittel } from "../redux/navigasjon/navigasjonUtils";
+import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Økonomisk sosialhjelp";
@@ -23,6 +23,7 @@ const Saksoversikt: React.FC = () => {
     const leserSaksData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const leserSoknadSaksData: boolean = sakerFraSoknadResponse.restStatus === REST_STATUS.INITIALISERT || sakerFraSoknadResponse.restStatus === REST_STATUS.PENDING;
     const leserData: boolean = leserSaksData || leserSoknadSaksData;
+    const mustLogin: boolean = restStatus === REST_STATUS.UNAUTHORIZED;
     let alleSaker: Sakstype[] = saker;
     if(!leserData) {
         if(sakerFraSoknadResponse.restStatus === REST_STATUS.OK) {
@@ -43,13 +44,13 @@ const Saksoversikt: React.FC = () => {
 
             <div className="blokk-center">
 
-                {leserData && (
+                {leserData || mustLogin && (
                     <div className="application-spinner">
                         <NavFrontendSpinner type="XL"/>
                     </div>
                 )}
 
-                {!leserData && (
+                {!leserData && !mustLogin && (
                     <>
                         {!harSaker && (
                             <SaksoversiktIngenSoknader/>
