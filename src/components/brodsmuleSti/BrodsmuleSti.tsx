@@ -32,7 +32,6 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
     if (tilbake) {
         tilbakeUrl = tilbake;
     }
-    console.log("BRØD! \ntittel: " + tittel + " \nclassName: " + className + " \nforeldreside.path: " + foreldreside?.path + " \nforeldreside.tittel: " + foreldreside?.tittel + " \ntilbake: " + tilbake+ " \ntilbakePilUrlType: " + tilbakePilUrlType)
 
     const onClickTilbakePil = (event: any): void => {
         if (tilbakePilUrlType) {
