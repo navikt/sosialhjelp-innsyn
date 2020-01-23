@@ -24,6 +24,9 @@ export function getApiBaseUrl(): string {
     } else if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
         return window.location.origin.replace(".dev-nav.no", "-api.dev-nav.no") + "/sosialhjelp/innsyn-api/api/v1";
     } else if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
+        if (window.location.origin.indexOf("digisos.labs.nais.io") >= 0) {
+            return getAbsoluteApiUrl() + "api/v1"
+        }
         return window.location.origin.replace(".labs.nais.io", "-api.labs.nais.io") + "/sosialhjelp/innsyn-api/api/v1";
     } else {
         return getAbsoluteApiUrl() + "api/v1"
@@ -57,7 +60,8 @@ export enum REST_STATUS {
     FEILET = "FEILET",
     PENDING = "PENDING",
     INITIALISERT = "INITIALISERT",
-    UNAUTHORIZED = "UNAUTHORIZED"
+    UNAUTHORIZED = "UNAUTHORIZED",
+    SERVICE_UNAVAILABLE = "SERVICE_UNAVAILABLE"
 }
 
 export const getHeaders = (contentType?: string) => {
@@ -80,6 +84,7 @@ export const getHeaders = (contentType?: string) => {
 
 export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
+    SERVICE_UNAVAILABLE = "Service Unavailable",
 }
 
 export const serverRequest = (method: string, urlPath: string, body: string|null|FormData, contentType?: string) => {
