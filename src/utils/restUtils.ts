@@ -5,6 +5,16 @@ export function erDev(): boolean {
     return (url.indexOf("localhost:3000") > 0);
 }
 
+export function erDevGcp(): boolean {
+    const url = window.location.href;
+    return (url.indexOf(".dev-nav.no") > 0);
+}
+
+export function erLabsGcp(): boolean {
+    const url = window.location.href;
+    return (url.indexOf("..labs.nais.io") > 0);
+}
+
 export function erMockServer(): boolean {
     const url = window.location.origin;
     return (url.indexOf("heroku") > 0) || (url.indexOf("digisos-test") > 0) || (url.indexOf("dev-nav.no") > 0) || (url.indexOf("labs.nais.io") > 0);
@@ -21,15 +31,23 @@ export function getApiBaseUrl(): string {
             return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
-    } else if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
+    } else if (erDevGcp()) {
         return window.location.origin.replace(".dev-nav.no", "-api.dev-nav.no") + "/sosialhjelp/innsyn-api/api/v1";
-    } else if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
+    } else if (erLabsGcp()) {
         if (window.location.origin.indexOf("digisos.labs.nais.io") >= 0) {
             return getAbsoluteApiUrl() + "api/v1"
         }
         return window.location.origin.replace(".labs.nais.io", "-api.labs.nais.io") + "/sosialhjelp/innsyn-api/api/v1";
     } else {
         return getAbsoluteApiUrl() + "api/v1"
+    }
+}
+
+export function getDittNavUrl(): string {
+    if (erDev() || erDevGcp() || erLabsGcp()) {
+        return "https://www-q0.nav.no/person/dittnav/";
+    } else {
+        return window.location.origin + "/person/dittnav/";
     }
 }
 
