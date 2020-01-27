@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {node, string} from 'prop-types';
+import {erDev, erMockServer} from "../../utils/restUtils";
 
 export default class HotjarTrigger extends Component {
     componentDidMount() {
