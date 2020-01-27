@@ -21,12 +21,12 @@ HotjarTrigger.propTypes = {
     children: node.isRequired
 };
 
-export const HarSakerFraInnsynHotjarTrigger = ({children}) => (
-    <HotjarTrigger hotjarTrigger="har_saker_fra_innsyn">
+export const LandingssideMedSakerFraInnsynHotjarTrigger = ({children}) => (
+    <HotjarTrigger hotjarTrigger="landingsside_med_saker_fra_innsyn">
         {children}
     </HotjarTrigger>
 );
 
-HarSakerFraInnsynHotjarTrigger.propTypes = {
+LandingssideMedSakerFraInnsynHotjarTrigger.propTypes = {
     children: node
 };
