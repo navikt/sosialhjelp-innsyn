@@ -4,7 +4,7 @@ import {node, string} from 'prop-types';
 export default class HotjarTrigger extends Component {
     componentDidMount() {
         const {hotjarTrigger} = this.props;
-        if (typeof window.hj === 'function' && windows.location.href.indexOf('.labs.nais.io') === -1
+        if (typeof window.hj === 'function' && window.location.href.indexOf('.labs.nais.io') === -1
         ) {
             window.hj('trigger', hotjarTrigger);
         }
