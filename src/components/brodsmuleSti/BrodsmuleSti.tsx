@@ -3,6 +3,7 @@ import "./brodsmuleSti.less";
 import NavFrontendChevron from 'nav-frontend-chevron';
 import {onClickLink} from "../../utils/navigasjon";
 import useWindowSize from "../../utils/useWindowSize";
+import {getDittNavUrl} from "../../utils/restUtils";
 
 export enum UrlType {
     ABSOLUTE_URL = "ABSOLUTE_URL",
@@ -69,7 +70,7 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
     let crumbs: React.ReactNode = (
         <>
             <div key="tilbake" className="typo-normal breadcrumbs__item">
-                <a href="https://tjenester.nav.no/dittnav"
+                <a href={getDittNavUrl()}
                    title="Gå til Ditt NAV"
                 >
                     Ditt NAV
