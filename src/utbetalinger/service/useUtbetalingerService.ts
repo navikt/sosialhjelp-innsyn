@@ -39,6 +39,7 @@ const useUtbetalingerService = (month: number) => {
 
     useEffect(() => {
         const url = "/innsyn/utbetalinger";
+        setResult({restStatus: REST_STATUS.PENDING});
         fetchToJson(url + "?month=" + month)
             .then((response: any) => {
                 setResult({restStatus: REST_STATUS.OK, payload: response});
