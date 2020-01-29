@@ -11,16 +11,10 @@ import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {parse} from "query-string";
 import {history} from "../configureStore";
-import useUtbetalingerService, {UtbetalingSakType} from "../utbetalinger/service/useUtbetalingerService";
-import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
-
-    const utbetalingerService = useUtbetalingerService();
-    let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
-        utbetalingerService.payload : [];
 
     let filtrerteSaker:Sakstype[];
 
@@ -38,6 +32,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         const periodeLengde = tolkPeriode(periode);
         filtrerteSaker = saker.filter(sak => isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde)));
     }
+    const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
     function sammenlignSaksTidspunkt(a:Sakstype, b:Sakstype) {
         if (isAfter(Date.parse(a.sistOppdatert),Date.parse(b.sistOppdatert))) {
@@ -70,6 +65,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         history.push({search: "?side=" + (page + 1)})
     };
 
+    // noinspection HtmlUnknownTarget
     return (
         <>
             <div className="dine_soknader_panel ">
@@ -133,7 +129,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
         <>
 
-            {utbetalinger.length > 0 && (
+            {harInnsysnssaker && (
                 <DineUtbetalingerPanel/>
             )}
 

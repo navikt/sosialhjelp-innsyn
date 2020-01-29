@@ -60,13 +60,13 @@ const Saksoversikt: React.FC = () => {
 
             <div className="blokk-center">
 
-                {leserData || mustLogin && (
+                {(leserData || mustLogin) && (
                     <div className="application-spinner">
                         <NavFrontendSpinner type="XL"/>
                     </div>
                 )}
 
-                {!leserData && !mustLogin && (
+                {(!leserData && !mustLogin) && (
                     <>
                         {(fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) &&
                             <AlertStripeFeil className="luft_over_2rem">Problemer med å hente søknader fra alle våre kilder.
