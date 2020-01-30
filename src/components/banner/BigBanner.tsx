@@ -2,6 +2,7 @@ import * as React from "react";
 import "./bigbanner.less";
 import Head from "../ikoner/Head";
 import Brodsmulesti, {UrlType} from "../brodsmuleSti/BrodsmuleSti";
+import {getDittNavUrl} from "../../utils/restUtils";
 
 const BigBanner: React.FC<{ tittel: string } & {}> = ({tittel}) => {
     return (
@@ -14,7 +15,7 @@ const BigBanner: React.FC<{ tittel: string } & {}> = ({tittel}) => {
                     <div>
                         <Brodsmulesti
                             tittel="Økonomisk sosialhjelp"
-                            tilbake="https://tjenester.nav.no/dittnav"
+                            tilbake={getDittNavUrl()}
                             tilbakePilUrlType={UrlType.ABSOLUTE_URL}
                         />
                     </div>

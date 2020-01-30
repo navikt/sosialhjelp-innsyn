@@ -14,13 +14,11 @@ function formatCurrency(amount: number, decimals: number = 0): string {
     return new Intl.NumberFormat('de-DE').format(amount);
 }
 
-// Eksempel: "2019-08-01" => "01.08.2019"
+// Eksempel: "2019-08-01" => "01. august 2019"
 function formatDato(isoDate: string) {
     const dato: Date = new Date(isoDate);
-    const dag: number = dato.getDate();
-    const maaned = dato.getMonth() + 1;
-    const formattertDato = (dag > 9 ? (dag) : ("0" + dag)) + "." + (maaned > 9 ? (maaned) : ("0" + maaned)) + "." + dato.getFullYear();
-    return formattertDato;
+    const formatter =  new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long", year: "numeric"});
+    return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 
 export { formatBytes, formatCurrency, formatDato };
