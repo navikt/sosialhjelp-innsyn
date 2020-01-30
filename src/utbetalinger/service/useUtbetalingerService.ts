@@ -32,22 +32,22 @@ export interface UtbetalingMaaned {
     utbetalingsmetode: string|null;
 }
 
-const useUtbetalingerService = () => {
+const useUtbetalingerService = (month: number) => {
     const [result, setResult] = useState<ServiceHookTypes<UtbetalingSakType[]>>({
         restStatus: REST_STATUS.PENDING
     });
 
-    let url = "/innsyn/utbetalinger";
-
     useEffect(() => {
-        fetchToJson(url)
+        const url = "/innsyn/utbetalinger";
+        setResult({restStatus: REST_STATUS.PENDING});
+        fetchToJson(url + "?month=" + month)
             .then((response: any) => {
                 setResult({restStatus: REST_STATUS.OK, payload: response});
             })
             .catch((error: any) => {
                 setResult({restStatus: REST_STATUS.FEILET, error})
             });
-    }, [url]);
+    }, [month]);
     return result;
 };
 
