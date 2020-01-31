@@ -4,14 +4,13 @@ import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-t
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
-import {SaksStatusState, SaksStatus, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
+import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {FormattedMessage} from "react-intl";
+import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import DokumentSendt from "../ikoner/DokumentSendt";
-import {useIntl, IntlShape} from 'react-intl';
 import {SaksStatusEnum, SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 
 interface Props {
@@ -87,20 +86,29 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                                 </Normaltekst>
                             </div>
                         )}
-                        {(saksStatus === SaksStatusEnum.BEHANDLES_IKKE || status === SoknadsStatusEnum.BEHANDLES_IKKE) && (
+                        {((saksStatus === SaksStatusEnum.BEHANDLES_IKKE || status === SoknadsStatusEnum.BEHANDLES_IKKE) && saksStatus !== SaksStatusEnum.IKKE_INNSYN) && (
                             <div className="panel-glippe-over">
                                 <Normaltekst>
                                     <FormattedMessage id="status.behandles_ikke_ingress"/>
                                 </Normaltekst>
                             </div>
                         )}
-                        {saksStatus === SaksStatusEnum.IKKE_INNSYN && (
+                        {(saksStatus === SaksStatusEnum.IKKE_INNSYN && status === SoknadsStatusEnum.BEHANDLES_IKKE) && (
                             <div className="panel-glippe-over">
                                 <Normaltekst>
                                     <FormattedMessage id="status.ikke_innsyn_ingress"/>
                                 </Normaltekst>
                             </div>
                         )}
+                        {(saksStatus === SaksStatusEnum.IKKE_INNSYN && status !== SoknadsStatusEnum.BEHANDLES_IKKE) && (
+                            <div className="panel-glippe-over">
+                                <Normaltekst>
+                                    <FormattedMessage id="status.ikke_innsyn_ingress"/>
+                                </Normaltekst>
+                            </div>
+                        )}
+                        
+
 
                         {statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
                             <div className={"status_detalj_linje"} key={index}>
