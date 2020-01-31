@@ -93,14 +93,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                                 </Normaltekst>
                             </div>
                         )}
-                        {(saksStatus === SaksStatusEnum.IKKE_INNSYN && status === SoknadsStatusEnum.BEHANDLES_IKKE) && (
-                            <div className="panel-glippe-over">
-                                <Normaltekst>
-                                    <FormattedMessage id="status.ikke_innsyn_ingress"/>
-                                </Normaltekst>
-                            </div>
-                        )}
-                        {(saksStatus === SaksStatusEnum.IKKE_INNSYN && status !== SoknadsStatusEnum.BEHANDLES_IKKE) && (
+                        {(saksStatus === SaksStatusEnum.IKKE_INNSYN) && (
                             <div className="panel-glippe-over">
                                 <Normaltekst>
                                     <FormattedMessage id="status.ikke_innsyn_ingress"/>
