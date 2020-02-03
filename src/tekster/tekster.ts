@@ -7,7 +7,7 @@ export const tekster = {
         "status.mottatt": "Søknaden er mottatt",
         "status.under_behandling": "Søknaden er under behandling",
         "status.ferdigbehandlet": "Søknaden er ferdig behandlet",
-        "status.behandles_ikke": "Søknaden behandles ikke",
+        "status.behandles_ikke": "Søknaden er ferdig behandlet",
         "status.behandles_ikke_ingress": "Vi kan ikke vise behandlingsstatus på nett. Dette kan være fordi søknaden behandles sammen med en annen søknad du har sendt inn. Ta kontakt med ditt NAV-kontor dersom du har spørsmål",
         "status.ikke_innsyn_ingress": "Din søknad vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Ta kontakt med ditt NAV-kontor dersom du har spørsmål.",
 
