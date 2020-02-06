@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {fetchToJson, REST_STATUS} from "../../utils/restUtils";
 import {ServiceHookTypes} from "../../utils/ServiceHookTypes";
+import { logErrorMessage } from "../../redux/innsynsdata/innsynsDataActions";
 
 export interface UtbetalingType {
     tittel: string;
@@ -45,6 +46,7 @@ const useUtbetalingerService = (month: number) => {
                 setResult({restStatus: REST_STATUS.OK, payload: response});
             })
             .catch((error: any) => {
+                logErrorMessage(error.message)
                 setResult({restStatus: REST_STATUS.FEILET, error})
             });
     }, [month]);

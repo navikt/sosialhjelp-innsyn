@@ -15,7 +15,7 @@ import {legalFileExtension} from "../oppgaver/OppgaveView";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
@@ -112,8 +112,8 @@ const EttersendelseView: React.FC = () => {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
             }
-        }).catch(() => {
-            console.log("Feil med opplasting av vedlegg");
+        }).catch((e) => {
+            dispatch(logErrorMessage("Feil med opplasting av vedlegg: " + e.message))
         });
         event.preventDefault()
     };
