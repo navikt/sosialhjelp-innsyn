@@ -23,7 +23,7 @@ export function hentInnsynsdata(fiksDigisosId: string|string, sti: InnsynsdataSt
             if (reason.message === HttpStatus.UNAUTHORIZED) {
                 dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
             } else {
-                logErrorMessage(reason.message);
+                logErrorMessage(reason.message)
                 dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                 dispatch(skalViseFeilside(true));
             }
@@ -74,24 +74,20 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
     }
 }
 
+const LOG_URL = "/info/logg"
+
 export function logInfoMessage(message: string) {
-    return () => {
-        const url = "/info/logg"
-        fetchPost(url, JSON.stringify(createLogEntry(message, "INFO"))).then(() => {
-        }).catch(() => {
-            return; // Not important to handle those errors
-        })
-    }
+    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "INFO"))).then(() => {
+    }).catch(() => {
+        return; // Not important to handle those errors
+    });
 }
 
 export function logErrorMessage(message: string) {
-    return () => {
-        const url = "/info/logg"
-        fetchPost(url, JSON.stringify(createLogEntry(message, "ERROR"))).then(() => {
-        }).catch(() => {
-            return; // Not important to handle those errors
-        })
-    }
+    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "ERROR"))).then(() => {
+    }).catch(() => {
+        return; // Not important to handle those errors
+    });
 }
 
 function createLogEntry(message: string, level: LogLevel) {

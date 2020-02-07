@@ -127,7 +127,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
             }
         }).catch((e) => {
-            dispatch(logErrorMessage("Feil med opplasting av vedlegg: " + e.message))
+            logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
         });
 
         event.preventDefault()
