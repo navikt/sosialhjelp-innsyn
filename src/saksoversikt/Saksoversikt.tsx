@@ -11,7 +11,7 @@ import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
-import {AlertStripeInfo} from "nav-frontend-alertstriper";
+import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import {LandingssideMedSakerFraInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 
 const Saksoversikt: React.FC = () => {
@@ -69,9 +69,9 @@ const Saksoversikt: React.FC = () => {
                 {(!leserData && !mustLogin) && (
                     <>
                         {(fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) &&
-                            <AlertStripeInfo className="luft_over_2rem">
-                                Vi har for tiden tekniske problemer og det kan hende du ikke ser alle søknadene dine under.
-                            </AlertStripeInfo>
+                            <AlertStripeAdvarsel className="luft_over_2rem">
+                                Vi har for tiden problemer med å hente alle dine søknader. Hvis søknaden du kom for mangler i listen under, ber vi deg vennligst prøve igjen senere.
+                            </AlertStripeAdvarsel>
                         }
                         {!harSaker && (
                             <SaksoversiktIngenSoknader/>
