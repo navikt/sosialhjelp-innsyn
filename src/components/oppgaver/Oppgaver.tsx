@@ -26,7 +26,8 @@ import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    setOppgaveVedleggopplastingFeilet
+    setOppgaveVedleggopplastingFeilet,
+    logErrorMessage
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {formatDato} from "../../utils/formatting";
@@ -125,8 +126,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                 dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
             }
-        }).catch(() => {
-            console.log("Feil med opplasting av vedlegg");
+        }).catch((e) => {
+            logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
         });
 
         event.preventDefault()
