@@ -18,6 +18,7 @@ import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
 
+    // Denne er idag veldig tung. Serlig for test personer med maange søknader.
     const utbetalingerService = useUtbetalingerService(12);
     let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
         utbetalingerService.payload : [];
@@ -39,6 +40,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         filtrerteSaker = saker.filter(sak => isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde)));
     }
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke fagsystemene utbetalinger ennå.
+    // Vi ønsker å gå over til denne med tanke på ytelse...
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
     function sammenlignSaksTidspunkt(a:Sakstype, b:Sakstype) {
