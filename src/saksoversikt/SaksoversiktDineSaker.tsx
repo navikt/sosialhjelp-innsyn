@@ -138,7 +138,6 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
         <>
 
-            {/*{harInnsysnssaker && (*/}
             {utbetalinger.length > 0 && (
                 <DineUtbetalingerPanel/>
             )}
