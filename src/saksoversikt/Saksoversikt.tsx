@@ -11,7 +11,7 @@ import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
-import {AlertStripeFeil} from "nav-frontend-alertstriper";
+import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import {LandingssideMedSakerFraInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 
 const Saksoversikt: React.FC = () => {
@@ -69,8 +69,9 @@ const Saksoversikt: React.FC = () => {
                 {(!leserData && !mustLogin) && (
                     <>
                         {(fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) &&
-                            <AlertStripeFeil className="luft_over_2rem">Problemer med å hente søknader fra alle våre kilder.
-                                Det kan hende at du har flere søknader enn det som vises her!</AlertStripeFeil>
+                            <AlertStripeAdvarsel className="luft_over_2rem">
+                                Vi har for tiden problemer med å hente alle dine søknader. Hvis søknaden du kom for mangler i listen under, ber vi deg vennligst prøve igjen senere.
+                            </AlertStripeAdvarsel>
                         }
                         {!harSaker && (
                             <SaksoversiktIngenSoknader/>
