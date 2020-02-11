@@ -41,23 +41,6 @@ jobs:
             echo $DOCKER_TAG
             docker push $DOCKER_TAG
 
-  browser-test:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - run:
-          name: Run browser tests
-          command: |
-            set -eo pipefail
-            git clone https://github.com/navikt/sosialhjelp-tester.git
-            cd sosialhjelp-tester
-
-            npm install
-            npm run saucelabs-innsyn
-
-      - store_test_results:
-          path: /tmp/test-results
-
   deploy_miljo:
     docker:
       - image: navikt/deployment:v1
