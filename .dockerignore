@@ -3,7 +3,6 @@
 
 # White list only the required files
 
-!heroku.js
 #!build/
 !src/
 !public/
@@ -13,5 +12,3 @@
 !nais.yaml
 !craco.config.js
 !build
-!heroku.js
-!set-resource-path.sh
