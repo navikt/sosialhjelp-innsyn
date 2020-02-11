@@ -17,7 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
+import {containsUloveligeTegn, opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
@@ -33,7 +33,8 @@ const EttersendelseView: React.FC = () => {
 
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
-    const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
+    const [isUlovligFiltype, setUlovligFiltype] = useState(false);
+    const [isUlovligFilnavn, setUlovligFilnavn] = useState(false);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
@@ -55,12 +56,19 @@ const EttersendelseView: React.FC = () => {
 
     const onChange = (event: any) => {
         const files: FileList | null = event.currentTarget.files;
+        setUlovligFiltype(false);
+        setUlovligFilnavn(false);
+
         if (files) {
-            let ulovligeFilerCount = 0;
             for (let index = 0; index < files.length; index++) {
                 const file: File = files[index];
                 const filename = file.name;
-                if (legalFileExtension(filename)) {
+
+                if (!legalFileExtension(filename)) {
+                    setUlovligFiltype(true);
+                } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                    setUlovligFilnavn(true)
+                } else {
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
                         fil: {
@@ -69,11 +77,8 @@ const EttersendelseView: React.FC = () => {
                             file: file
                         }
                     });
-                } else {
-                    ulovligeFilerCount += 1;
                 }
             }
-            setAntallUlovligeFiler(ulovligeFilerCount);
         }
         event.target.value = null;
         event.preventDefault();
@@ -125,9 +130,9 @@ const EttersendelseView: React.FC = () => {
         <div>
             <DriftsmeldingVedlegg leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}/>
             <div
-                className={"oppgaver_detaljer " + (opplastingFeilet || antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
+                className={"oppgaver_detaljer " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
-                    className={"oppgaver_detalj " + (opplastingFeilet || antallUlovligeFiler > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
+                    className={"oppgaver_detalj " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
                     style={{marginTop: "0px"}}
                 >
                     <Element><FormattedMessage id="andre_vedlegg.type"/></Element>
@@ -170,11 +175,23 @@ const EttersendelseView: React.FC = () => {
                         </div>
                     )}
 
+                    {isUlovligFiltype && (
+                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                            <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
+                        </div>
+                    )}
+
+                    {isUlovligFilnavn && (
+                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                            <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
+                        </div>
+                    )}
+
                 </div>
 
-                {antallUlovligeFiler > 0 && (
+                {(isUlovligFiltype || isUlovligFilnavn) && (
                     <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
+                        <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
                     </div>
                 )}
 
