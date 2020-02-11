@@ -21,6 +21,7 @@ import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilit
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
+import {containsUloveligeTegn} from "../../utils/vedleggUtils";
 
 interface Props {
     oppgave: Oppgave;
@@ -67,7 +68,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const dispatch = useDispatch();
 
-    const [antallUlovligeFiler, setAntallUlovligeFiler] = useState(0);
+    const [ulovligFiltypeOppgaveIndex, setUlovligFiltypeOppgaveIndex] = useState(-1);
+    const [ulovligFilnavnOppgaveIndex, setUlovligeFilnavnOppgaveIndex] = useState(-1);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet);
 
@@ -91,14 +93,21 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         }
     };
 
-    const onChange = (event: any, oppgaveElement: OppgaveElement) => {
+    const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveIndex: number) => {
         const files: FileList | null = event.currentTarget.files;
+        setUlovligFiltypeOppgaveIndex(-1);
+        setUlovligeFilnavnOppgaveIndex(-1);
+
         if (files) {
-            let ulovligeFilerCount = 0;
             for (let index = 0; index < files.length; index++) {
                 const file: File = files[index];
                 const filename = file.name;
-                if (legalFileExtension(filename)) {
+
+                if (!legalFileExtension(filename)) {
+                    setUlovligFiltypeOppgaveIndex(oppgaveIndex);
+                } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                    setUlovligeFilnavnOppgaveIndex(oppgaveIndex);
+                } else {
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                         oppgaveElement: oppgaveElement,
@@ -108,11 +117,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                             file: file
                         }
                     });
-                } else {
-                    ulovligeFilerCount += 1;
                 }
             }
-            setAntallUlovligeFiler(ulovligeFilerCount);
         }
         event.target.value = null;
         event.preventDefault();
@@ -122,7 +128,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         return (
             <div key={id}
-                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? " oppgaver_detalj_feil" : "")}>
+                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex ===  id)
+                     ? " oppgaver_detalj_feil" : "")}>
                 <div className={"oppgave-detalj-overste-linje"}>
                     <div className={"tekst-wrapping"}>
                         <Element>{typeTekst}</Element>
@@ -160,7 +167,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                                 type="file"
                                 id={'file_' + oppgaveIndex + '_' + id}
                                 multiple={true}
-                                onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
+                                onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, id)}
                                 style={{display: "none"}}
                             />
                         </div>
@@ -176,13 +183,26 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     <FilView key={index} fil={fil} oppgaveElement={oppgaveElement} index={index}/>
                 )}
 
+                {(ulovligFiltypeOppgaveIndex === id) && (
+                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                        <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
+                    </div>
+                )}
+
+                {(ulovligFilnavnOppgaveIndex === id) && (
+                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                        <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
+                    </div>
+                )}
+
             </div>
         );
     }
 
     return (
         <div
-            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
+            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFilnavnOppgaveIndex > -1 || ulovligFiltypeOppgaveIndex > -1)
+                ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
@@ -207,9 +227,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 }
             )}
 
-            {antallUlovligeFiler > 0 && (
+            {(ulovligFiltypeOppgaveIndex > -1 || ulovligFilnavnOppgaveIndex > -1) && (
                 <div className="oppgaver_vedlegg_feilmelding">
-                    <FormattedMessage id="vedlegg.lovlig_filtype_feilmelding"/>
+                    <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
                 </div>
             )}
 
