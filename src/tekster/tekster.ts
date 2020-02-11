@@ -47,10 +47,8 @@ export const tekster = {
         "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
         "vedlegg.ulovlig_fil_feilmelding": "En eller flere filer ble ikke lagt til.",
-        "vedlegg.ulovlig_filtype_feilmelding":
-            "Filer må være av typen JPG, PNG eller PDF.",
-        "vedlegg.ulovlig_filnavn_feilmelding":
-            "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\, /.",
+        "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
+        "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\ eller /.",
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
@@ -61,7 +59,8 @@ export const tekster = {
         "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT": "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
         "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
         "vedlegg.opplasting_feilmelding_PDF_IS_ENCRYPTED": "PDFen er passordbeskyttet og vi kan ikke behandle den",
-        "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG, PDF",
+        "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG eller PDF",
+        "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\ eller /.",
         "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filer må være under 10 mb",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
