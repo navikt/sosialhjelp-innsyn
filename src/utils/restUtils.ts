@@ -5,6 +5,11 @@ export function erDev(): boolean {
     return (url.indexOf("localhost:3000") > 0);
 }
 
+export function erQ(): boolean {
+    const url = window.location.href;
+    return url.indexOf("www-q0") >= 0 || url.indexOf("www-q1") >= 0;
+}
+
 export function erDevGcp(): boolean {
     const url = window.location.href;
     return (url.indexOf(".dev-nav.no") > 0);
