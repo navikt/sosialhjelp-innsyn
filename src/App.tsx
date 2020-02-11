@@ -4,6 +4,9 @@ import configureStore, {history} from "./configureStore";
 import {Provider} from "react-redux";
 import {Route, Switch} from "react-router";
 import {IntlProvider} from "react-intl";
+import * as Sentry from "@sentry/browser";
+import {v4 as uuid} from "uuid";
+
 import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
 import './App.less';
@@ -13,6 +16,7 @@ import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
+import { erDev, erQ } from './utils/restUtils';
 
 const store = configureStore();
 
@@ -24,6 +28,13 @@ const visSpraakNokler = (tekster: any) => {
 	}
 	return tekster;
 };
+
+if (erDev() || erQ()) {
+	Sentry.init({
+        dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15",
+    });
+    Sentry.setUser({ip_address: "", id: uuid()});
+}
 
 const App: React.FC = () => {
 	const language = "nb";
