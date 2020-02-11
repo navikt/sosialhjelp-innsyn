@@ -46,9 +46,11 @@ export const tekster = {
         "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
         "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
-        "vedlegg.lovlig_filtype_feilmelding" :
-            "En eller flere filer ble ikke lagt til. " +
-            "Du kan bare laste opp filer av typen JPG, PNG, PDF.",
+        "vedlegg.ulovlig_fil_feilmelding": "En eller flere filer ble ikke lagt til.",
+        "vedlegg.ulovlig_filtype_feilmelding":
+            "Filer må være av typen JPG, PNG eller PDF.",
+        "vedlegg.ulovlig_filnavn_feilmelding":
+            "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\, /.",
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
