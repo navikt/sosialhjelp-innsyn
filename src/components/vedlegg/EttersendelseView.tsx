@@ -35,6 +35,7 @@ const EttersendelseView: React.FC = () => {
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
     const [isUlovligFiltype, setUlovligFiltype] = useState(false);
     const [isUlovligFilnavn, setUlovligFilnavn] = useState(false);
+    const [isUlovligFilstorrelse, setUlovligFilstorrelse] = useState(false);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
@@ -58,6 +59,8 @@ const EttersendelseView: React.FC = () => {
         const files: FileList | null = event.currentTarget.files;
         setUlovligFiltype(false);
         setUlovligFilnavn(false);
+        setUlovligFilstorrelse(false);
+        var filStorrelse = 10*1024*1024;
 
         if (files) {
             for (let index = 0; index < files.length; index++) {
@@ -68,7 +71,10 @@ const EttersendelseView: React.FC = () => {
                     setUlovligFiltype(true);
                 } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
                     setUlovligFilnavn(true)
-                } else {
+                }else if(file.size > filStorrelse){
+                    setUlovligFilstorrelse(true);
+                }
+                else {
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
                         fil: {
@@ -130,9 +136,9 @@ const EttersendelseView: React.FC = () => {
         <div>
             <DriftsmeldingVedlegg leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}/>
             <div
-                className={"oppgaver_detaljer " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
+                className={"oppgaver_detaljer " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
-                    className={"oppgaver_detalj " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
+                    className={"oppgaver_detalj " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
                     style={{marginTop: "0px"}}
                 >
                     <Element><FormattedMessage id="andre_vedlegg.type"/></Element>
@@ -184,6 +190,12 @@ const EttersendelseView: React.FC = () => {
                     {isUlovligFilnavn && (
                         <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                             <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
+                        </div>
+                    )}
+
+                    {isUlovligFilstorrelse && (
+                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                            <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
                         </div>
                     )}
 

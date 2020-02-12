@@ -70,6 +70,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const [ulovligFiltypeOppgaveIndex, setUlovligFiltypeOppgaveIndex] = useState(-1);
     const [ulovligFilnavnOppgaveIndex, setUlovligeFilnavnOppgaveIndex] = useState(-1);
+    const [UlovligFilstorrelseOppgaveIndex, setUlovligFilstorrelseOppgaveIndex] = useState(-1);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet);
 
@@ -97,6 +98,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         const files: FileList | null = event.currentTarget.files;
         setUlovligFiltypeOppgaveIndex(-1);
         setUlovligeFilnavnOppgaveIndex(-1);
+        setUlovligFilstorrelseOppgaveIndex(-1);
+        var filStorrelse = 10*1024*1024;
+
 
         if (files) {
             for (let index = 0; index < files.length; index++) {
@@ -107,7 +111,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     setUlovligFiltypeOppgaveIndex(oppgaveIndex);
                 } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
                     setUlovligeFilnavnOppgaveIndex(oppgaveIndex);
-                } else {
+                } else if(file.size > filStorrelse){
+                    setUlovligFilstorrelseOppgaveIndex(oppgaveIndex);
+                }else {
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                         oppgaveElement: oppgaveElement,
@@ -195,13 +201,19 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     </div>
                 )}
 
+                {(UlovligFilstorrelseOppgaveIndex === id) && (
+                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                        <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
+                    </div>
+                )}
+
             </div>
         );
     }
 
     return (
         <div
-            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFilnavnOppgaveIndex > -1 || ulovligFiltypeOppgaveIndex > -1)
+            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFilnavnOppgaveIndex > -1 || ulovligFiltypeOppgaveIndex > -1 || UlovligFilstorrelseOppgaveIndex > -1)
                 ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">

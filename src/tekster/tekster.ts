@@ -49,6 +49,7 @@ export const tekster = {
         "vedlegg.ulovlig_fil_feilmelding": "En eller flere filer ble ikke lagt til.",
         "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\ eller /.",
+        "vedlegg.ulovlig_filstorrelse_feilmelding": "Filen er for stor. Maksimal filstørrelse er 10 Mb.",
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
