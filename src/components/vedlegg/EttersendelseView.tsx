@@ -227,7 +227,6 @@ const EttersendelseView: React.FC = () => {
                     }}
                 >
                     <FormattedMessage id="andre_vedlegg.send_knapp_tittel"/>
-
                 </Hovedknapp>
             </div>
             {(!vedleggKlarForOpplasting && sendVedleggTrykket) && (

@@ -98,7 +98,8 @@ describe('VedleggUtilsTest', () => {
         });
 
         const metadataFile = (formDataEntryValues[0] as File);
-        const actualMetadata = metadataFile["_buffer"].toString();
+        // @ts-ignore
+        const actualMetadata = metadataFile['_buffer'].toString();
         expect(actualMetadata).toBe(expectedOppgaverMetadata);
     });
 
@@ -123,6 +124,7 @@ describe('VedleggUtilsTest', () => {
         });
 
         const metadataFile = (formDataEntryValues[0] as File);
+        // @ts-ignore
         const actualMetadata = metadataFile["_buffer"].toString();
         expect(actualMetadata).toBe(expectedEttersendelseMetadata);
     });

@@ -37,10 +37,11 @@ export const legalFileExtension = (filename: string): boolean => {
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
 
 export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
-    let typeTekst;
-    let tilleggsinfoTekst;
-    let sammensattType = type + "|" + tilleggsinfo;
-    let erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
+    let typeTekst,
+        tilleggsinfoTekst,
+        sammensattType = type + "|" + tilleggsinfo,
+        erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
+
     if (erOriginalSoknadVedleggType) {
         let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
         typeTekst = soknadVedleggSpec.tittel;
@@ -49,10 +50,11 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
         typeTekst = type;
         tilleggsinfoTekst = tilleggsinfo;
     }
+
     return {typeTekst, tilleggsinfoTekst};
 };
-
-function harFilermedFeil(oppgaveElementer: OppgaveElement[]) {
+//function harFilermedFeil (oppgaveElementer: OppgaveElement[]) {
+const harFilermedFeil = (oppgaveElementer: OppgaveElement[]) => {
     return oppgaveElementer.find(
         oppgaveElement => {
             return !oppgaveElement.filer ? false : oppgaveElement.filer.find(
@@ -64,13 +66,53 @@ function harFilermedFeil(oppgaveElementer: OppgaveElement[]) {
     );
 }
 
+function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgaveIndex: any, ulovligFilstorrelseOppgaveIndex: any, id: number){
+    //console.log("skrivfeilmelding type", ulovligFiltypeOppgaveIndex);
+    //console.log("skrivfeilmelding filnavn", ulovligFilnavnOppgaveIndex);
+    //console.log("skrivfeilmelding størrelse", ulovligFilstorrelseOppgaveIndex);
+    return (
+        <ul>
+            <div className="oppgaver_vedlegg_feilmelding">
+                <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
+            </div>
+            {(ulovligFilstorrelseOppgaveIndex === id) && (
+                <li>
+                    <div className="oppgaver_vedlegg_feilmelding">
+                        <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
+                    </div>
+                </li>
+            )}
+            {(ulovligFiltypeOppgaveIndex === id) && (
+                <li>
+                    <div className="oppgaver_vedlegg_feilmelding">
+                        <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
+                    </div>
+                </li>
+            )}
+            {(ulovligFilnavnOppgaveIndex === id) && (
+                <li>
+                    <div className="oppgaver_vedlegg_feilmelding">
+                        <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
+                    </div>
+                </li>
+            )}
+        </ul>
+    );
+}
+
+//function kanLasteOppvedlegg( oppgaveElement: OppgaveElement, oppgaveIndex: any, id: number, onLinkClicked: any, onChange: any, event: any){
+//    return(
+//        id
+//    );
+//}
+
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
 
     const dispatch = useDispatch();
 
-    const [ulovligFiltypeOppgaveIndex, setUlovligFiltypeOppgaveIndex] = useState(-1);
-    const [ulovligFilnavnOppgaveIndex, setUlovligeFilnavnOppgaveIndex] = useState(-1);
-    const [UlovligFilstorrelseOppgaveIndex, setUlovligFilstorrelseOppgaveIndex] = useState(-1);
+    const [ulovligFiltypeOppgaveIndex, setUlovligFiltypeOppgaveIndex] = useState<number>(-1);
+    const [ulovligFilnavnOppgaveIndex, setUlovligeFilnavnOppgaveIndex] = useState<number>(-1);
+    const [ulovligFilstorrelseOppgaveIndex, setUlovligFilstorrelseOppgaveIndex] = useState<number>(-1);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet);
 
@@ -99,21 +141,61 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         setUlovligFiltypeOppgaveIndex(-1);
         setUlovligeFilnavnOppgaveIndex(-1);
         setUlovligFilstorrelseOppgaveIndex(-1);
-        var filStorrelse = 10*1024*1024;
+        const maxFilStorrelse = 10*1024*1024;
 
+        //console.log("max size", maxFilStorrelse);
+
+        console.log("onChnage type før if ", ulovligFiltypeOppgaveIndex);
+        console.log("onChange filnavn før if ", ulovligFilnavnOppgaveIndex);
+        console.log("onChange størrelse før if ", ulovligFilstorrelseOppgaveIndex);
 
         if (files) {
+
+            //skal bare brukes til å validere hver fil og deretter legge det til en const
+            //deretter sendes dette til neste for
+            //for(let index = 0; index  < files.length; index++){
+            //
+            //}
+
+            //skal brukes til å validere om noen av filene i den insendte const er feil.
+            //om en eller flere av filene er feile så skal ingen av filene lastes opp
+            //også skal feilmeldingen bli skrevet ut
             for (let index = 0; index < files.length; index++) {
                 const file: File = files[index];
                 const filename = file.name;
+                console.log(" ");
+                console.log("filename: ", filename);
+                console.log(" ");
 
                 if (!legalFileExtension(filename)) {
+                    //console.log("legalFileExtension");
                     setUlovligFiltypeOppgaveIndex(oppgaveIndex);
-                } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                    console.log("onChange filnavn innenfor if", ulovligFilnavnOppgaveIndex);
+                }
+                //else if
+                if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                    //console.log("containsUloveligeTegn");
                     setUlovligeFilnavnOppgaveIndex(oppgaveIndex);
-                } else if(file.size > filStorrelse){
+                    console.log("onChange type innenfor if", ulovligFiltypeOppgaveIndex);
+                }
+
+                //console.log("size", file.size);
+                //console.log("oppgaveindex",oppgaveIndex);
+                //else if
+                if(file.size > maxFilStorrelse){
+                    //console.log("file.size");
                     setUlovligFilstorrelseOppgaveIndex(oppgaveIndex);
-                }else {
+                    console.log("onChange størrelse innenfor if", ulovligFilstorrelseOppgaveIndex);
+                }
+                console.log(" ");
+                console.log("onChnage type utenfor if ", ulovligFiltypeOppgaveIndex);
+                console.log("onChange filnavn utenfor if ", ulovligFilnavnOppgaveIndex);
+                console.log("onChange størrelse utenfor if ", ulovligFilstorrelseOppgaveIndex);
+                console.log(" ");
+
+                if(legalFileExtension(filename) && !containsUloveligeTegn(filename,["*", ":", "<", ">", "|", "?", "\\", "/"])  && !(file.size > maxFilStorrelse)){
+                    //else{
+                    console.log("DISPATCH");
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                         oppgaveElement: oppgaveElement,
@@ -130,12 +212,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         event.preventDefault();
     };
 
-
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
+        const visOppgaverDetaljeFeil: boolean = (oppgaveVedlegsOpplastingFeilet === true || opplastingFeilet !== undefined ||
+            ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex ===  id || ulovligFilstorrelseOppgaveIndex === id);
         return (
             <div key={id}
-                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex ===  id)
-                     ? " oppgaver_detalj_feil" : "")}>
+                 className={"oppgaver_detalj" + ((visOppgaverDetaljeFeil) ? " oppgaver_detalj_feil" : "")}>
                 <div className={"oppgave-detalj-overste-linje"}>
                     <div className={"tekst-wrapping"}>
                         <Element>{typeTekst}</Element>
@@ -148,8 +230,11 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         </div>
                     )}
 
-
                     {kanLasteOppVedlegg && (
+                        //kanLasteOppvedlegg(oppgaveIndex,id)
+                        /*
+                        * REFACTOR DETTE TIL EN FUNKSJON
+                        * */
                         <div className="oppgaver_last_opp_fil">
                             <UploadFileIcon
                                 className="last_opp_fil_ikon"
@@ -180,7 +265,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     )}
                 </div>
 
-
                 {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) =>
                     <VedleggActionsView vedlegg={vedlegg} key={index}/>
                 )}
@@ -189,32 +273,18 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     <FilView key={index} fil={fil} oppgaveElement={oppgaveElement} index={index}/>
                 )}
 
-                {(ulovligFiltypeOppgaveIndex === id) && (
-                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
-                    </div>
+                {(ulovligFiltypeOppgaveIndex > -1 || ulovligFilnavnOppgaveIndex > -1 || ulovligFilstorrelseOppgaveIndex > -1) && (
+                    skrivFeilmelding(ulovligFiltypeOppgaveIndex, ulovligFilnavnOppgaveIndex, ulovligFilstorrelseOppgaveIndex, id)
                 )}
-
-                {(ulovligFilnavnOppgaveIndex === id) && (
-                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
-                    </div>
-                )}
-
-                {(UlovligFilstorrelseOppgaveIndex === id) && (
-                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
-                    </div>
-                )}
-
             </div>
         );
     }
 
+    const visOppgaverDetaljeFeil: boolean = (oppgaveVedlegsOpplastingFeilet === true || opplastingFeilet !== undefined ||
+        ulovligFiltypeOppgaveIndex > -1 || ulovligFilnavnOppgaveIndex > -1 || ulovligFilstorrelseOppgaveIndex > -1);
     return (
-        <div
-            className={((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFilnavnOppgaveIndex > -1 || ulovligFiltypeOppgaveIndex > -1 || UlovligFilstorrelseOppgaveIndex > -1)
-                ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
+        <div className={((visOppgaverDetaljeFeil)
+            ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">
                     <FormattedMessage
@@ -234,15 +304,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
             {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(oppgaveElement.dokumenttype, oppgaveElement.tilleggsinformasjon);
-
                     return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
                 }
-            )}
-
-            {(ulovligFiltypeOppgaveIndex > -1 || ulovligFilnavnOppgaveIndex > -1) && (
-                <div className="oppgaver_vedlegg_feilmelding">
-                    <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
-                </div>
             )}
 
             {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
@@ -256,3 +319,4 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 };
 
 export default OppgaveView;
+
