@@ -17,7 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {containsUloveligeTegn, opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
+import {containsUlovligeTegn, opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
@@ -66,7 +66,7 @@ const EttersendelseView: React.FC = () => {
 
                 if (!legalFileExtension(filename)) {
                     setUlovligFiltype(true);
-                } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                } else if (containsUlovligeTegn(filename)) {
                     setUlovligFilnavn(true)
                 } else {
                     dispatch({

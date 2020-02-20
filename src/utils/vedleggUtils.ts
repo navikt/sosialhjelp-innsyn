@@ -47,10 +47,6 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     return formData;
 }
 
-export function containsUloveligeTegn(filnavn: string, uloveligeTegnList: string[]) {
-    for (const uloveligTegn of uloveligeTegnList) {
-        if (filnavn.indexOf(uloveligTegn) !== -1)
-            return true;
-    }
-    return false;
+export function containsUlovligeTegn(filnavn: string) {
+    return filnavn.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 ._-]"));
 }
