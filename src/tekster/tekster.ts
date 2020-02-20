@@ -48,7 +48,7 @@ export const tekster = {
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
         "vedlegg.ulovlig_fil_feilmelding": "En eller flere filer ble ikke lagt til.",
         "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
-        "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\ eller /.",
+        "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ .",
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",

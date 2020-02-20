@@ -22,7 +22,7 @@ spec:
     enabled: {{prometheusEnabled}}
     path: /actuator/metrics
   replicas:
-    min: 1
+    min: 2
     max: 4
   ingresses:
 {{#each ingresses}}
