@@ -60,7 +60,7 @@ export const tekster = {
         "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
         "vedlegg.opplasting_feilmelding_PDF_IS_ENCRYPTED": "PDFen er passordbeskyttet og vi kan ikke behandle den",
         "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG eller PDF",
-        "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan ikke inneholde tegnene *, :, <, >, |, ?, \\ eller /.",
+        "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ .",
         "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filer må være under 10 mb",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
