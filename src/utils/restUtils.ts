@@ -89,7 +89,7 @@ export enum REST_STATUS {
 
 export const getHeaders = (contentType?: string) => {
     let headers = new Headers({
-        "Content-Type": (contentType ? contentType : "application/json"),
+        "Content-Type": (contentType ? contentType : "application/json; charset=utf-8"),
         "Accept": "application/json, text/plain, */*"
     });
     // Browser setter content type header automatisk til multipart/form-data: boundary xyz
