@@ -21,7 +21,7 @@ import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilit
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
-import {containsUloveligeTegn} from "../../utils/vedleggUtils";
+import {containsUlovligeTegn} from "../../utils/vedleggUtils";
 
 interface Props {
     oppgave: Oppgave;
@@ -105,7 +105,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
                 if (!legalFileExtension(filename)) {
                     setUlovligFiltypeOppgaveIndex(oppgaveIndex);
-                } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                } else if (containsUlovligeTegn(filename)) {
                     setUlovligeFilnavnOppgaveIndex(oppgaveIndex);
                 } else {
                     dispatch({
