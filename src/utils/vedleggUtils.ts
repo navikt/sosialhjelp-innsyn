@@ -49,10 +49,10 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
 }
 
 export function containsUlovligeTegn(filnavn: string) {
-    const match = filnavn.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 (),._–-]")); // FIKS takler ikke *, :, <, >, |, ?, \, /. Fonten Helvetica takler færre tegn. Denne brukes til generering av ettersendelse.pdf
-    if (match != null) {
-        logInfoMessage(`Filnavn inneholdt ugyldige tegn. Det første var ${match[0]}`);
-        return true;
-    }
+    // const match = filnavn.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 (),._–-]")); // FIKS takler ikke *, :, <, >, |, ?, \, /. Fonten Helvetica takler færre tegn. Denne brukes til generering av ettersendelse.pdf
+    // if (match != null) {
+    //     logInfoMessage(`Filnavn inneholdt ugyldige tegn. Det første var ${match[0]}`);
+    //     return true;
+    // }
     return false;
 }
