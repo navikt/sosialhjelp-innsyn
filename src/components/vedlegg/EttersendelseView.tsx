@@ -36,6 +36,7 @@ const EttersendelseView: React.FC = () => {
     const [isUlovligFiltype, setUlovligFiltype] = useState(false);
     const [isUlovligFilnavn, setUlovligFilnavn] = useState(false);
     const [isUlovligFilstorrelse, setUlovligFilstorrelse] = useState(false);
+    const [isUlovligStorrelseAvFiler, setUlovligStorrelseAvFiler] = useState(false);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
@@ -60,7 +61,11 @@ const EttersendelseView: React.FC = () => {
         setUlovligFiltype(false);
         setUlovligFilnavn(false);
         setUlovligFilstorrelse(false);
-        var filStorrelse = 10*1024*1024;
+        setUlovligStorrelseAvFiler(false);
+        const maxFilStorrelse = 10*1024*1024;
+        const maxSammensattFilStorrelse = 350*1024*1024;
+        let storrelsePaaAntallFiler = 0;
+        let filerErGyldig = true;
 
         if (files) {
             for (let index = 0; index < files.length; index++) {
@@ -69,12 +74,26 @@ const EttersendelseView: React.FC = () => {
 
                 if (!legalFileExtension(filename)) {
                     setUlovligFiltype(true);
-                } else if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
-                    setUlovligFilnavn(true)
-                }else if(file.size > filStorrelse){
-                    setUlovligFilstorrelse(true);
+                    filerErGyldig = false;
                 }
-                else {
+                if (containsUloveligeTegn(filename, ["*", ":", "<", ">", "|", "?", "\\", "/"])) {
+                    setUlovligFilnavn(true);
+                    filerErGyldig = false;
+                }
+                if(file.size > maxFilStorrelse){
+                    setUlovligFilstorrelse(true);
+                    filerErGyldig = false;
+                }
+                if(storrelsePaaAntallFiler > maxSammensattFilStorrelse){
+                    setUlovligStorrelseAvFiler(true);
+                    filerErGyldig = false;
+                }
+                storrelsePaaAntallFiler += file.size;
+            }
+
+            if(filerErGyldig) {
+                for (let index = 0; index < files.length; index++) {
+                    const file: File = files[index];
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
                         fil: {
@@ -136,9 +155,9 @@ const EttersendelseView: React.FC = () => {
         <div>
             <DriftsmeldingVedlegg leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}/>
             <div
-                className={"oppgaver_detaljer " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
+                className={"oppgaver_detaljer " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || isUlovligStorrelseAvFiler || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
-                    className={"oppgaver_detalj " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
+                    className={"oppgaver_detalj " + (opplastingFeilet || isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || isUlovligStorrelseAvFiler || (!vedleggKlarForOpplasting && sendVedleggTrykket) ? " oppgaver_detalj_feil" : "")}
                     style={{marginTop: "0px"}}
                 >
                     <Element><FormattedMessage id="andre_vedlegg.type"/></Element>
@@ -181,23 +200,38 @@ const EttersendelseView: React.FC = () => {
                         </div>
                     )}
 
+                    <ul>
                     {isUlovligFiltype && (
-                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                            <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
-                        </div>
+                        <li>
+                            <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                                <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
+                            </div>
+                        </li>
                     )}
 
                     {isUlovligFilnavn && (
-                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                            <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
-                        </div>
+                        <li>
+                            <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                                <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
+                            </div>
+                        </li>
                     )}
 
                     {isUlovligFilstorrelse && (
-                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                            <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
-                        </div>
+                        <li>
+                            <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                                <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
+                            </div>
+                        </li>
                     )}
+                    {isUlovligStorrelseAvFiler && (
+                        <li>
+                            <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                                <FormattedMessage id="vedlegg.ulovlig_storrelse_av_alle_valgte_filer"/>
+                            </div>
+                        </li>
+                    )}
+                    </ul>
 
                 </div>
 

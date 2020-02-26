@@ -96,40 +96,59 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             return;
         }
 
-        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
+        const formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
+        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
         dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
 
-        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
-            let harFeil: boolean = false;
-            if (Array.isArray(filRespons)) {
-                for (var index = 0; index < filRespons.length; index++) {
-                    const fileItem = filRespons[index];
-                    if (fileItem.status !== "OK") {
-                        harFeil = true;
-                    }
-                    dispatch({
-                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        fil: {filnavn: fileItem.filnavn} as Fil,
-                        status: fileItem.status,
-                        index: index
-                    });
-                }
-            }
-            if (harFeil) {
-                dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            } else {
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-            }
-        }).catch((e) => {
-            logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-        });
+       let storrelsePaaAntallFiler = 0;
+       const maxSammensattFilStorrelse = 350*1024*1024;
 
+        //denne sjekker total sammensatt fil størrelse
+        // dette funger, men foreløpig vises ikke en feilmelding
+       oppgaver.forEach((oppgave: Oppgave) => {
+           oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+               oppgaveElement.filer?.forEach((file: Fil) => {
+                   if (file.file?.size){
+                       storrelsePaaAntallFiler += file.file.size;
+                   }
+               });
+           });
+       });
+
+        if ((storrelsePaaAntallFiler < maxSammensattFilStorrelse) && (storrelsePaaAntallFiler !== 0)) {
+            fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
+                let harFeil: boolean = false;
+                if (Array.isArray(filRespons)) {
+                    for (var index = 0; index < filRespons.length; index++) {
+                        const fileItem = filRespons[index];
+                        if (fileItem.status !== "OK") {
+                            harFeil = true;
+                        }
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                            fil: {filnavn: fileItem.filnavn} as Fil,
+                            status: fileItem.status,
+                            index: index
+                        });
+                    }
+                }
+                if (harFeil) {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                } else {
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                }
+            }).catch((e) => {
+                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+            });
+        }
+        else{
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+        }
         event.preventDefault()
     };
 
@@ -148,7 +167,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
             <VilkarView/>
 
-
             {leserData && (
                 <Panel
                     className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}
@@ -156,7 +174,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     <Lastestriper linjer={1}/>
                 </Panel>
             )}
-
 
             <IngenOppgaverPanel leserData={leserData}/>
 
@@ -191,7 +208,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                                 innsendelsesfrist: (innsendelsesfrist != null) ? formatDato(innsendelsesfrist!.toISOString()) : ""}}
                                         />
                                     )}
-
                                 </Normaltekst>
                             </div>
                         </div>
@@ -222,19 +238,14 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 spinner={vedleggLastesOpp}
                                 type="hoved"
                                 className="luft_over_1rem"
-                                onClick={(event: any) => {
-                                    sendVedlegg(event)
-                                }}
+                                onClick={(event: any) => {sendVedlegg(event)}}
                             >
                                 <FormattedMessage id="oppgaver.send_knapp_tittel"/>
                             </Hovedknapp>
                         }
-
                     </EkspanderbartpanelBase>
                 </Panel>
-
             )}
-
         </>
     );
 };
