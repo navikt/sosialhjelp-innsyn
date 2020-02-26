@@ -33,3 +33,13 @@ export const LandingssideMedSakerFraInnsynHotjarTrigger = ({children}) => (
 LandingssideMedSakerFraInnsynHotjarTrigger.propTypes = {
     children: node
 };
+
+export const LandingssideUtenSakerFraInnsynHotjarTrigger = ({children}) => (
+    <HotjarTrigger hotjarTrigger="landingsside_uten_saker_fra_innsyn">
+        {children}
+    </HotjarTrigger>
+);
+
+LandingssideUtenSakerFraInnsynHotjarTrigger.propTypes = {
+    children: node
+};
