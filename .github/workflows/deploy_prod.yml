@@ -19,7 +19,7 @@ jobs:
       - name: sjekk om $TAG finnes på master-branch
         run: |
           MASTER_HEAD_COMMIT=$(git rev-parse HEAD)
-          TAG=$(jq -r '.client_payload.TAG' $GITHUB_EVENT_PATH)
+          TAG=${{ github.event.client_payload.TAG }}
 
           git checkout ${TAG}
 
