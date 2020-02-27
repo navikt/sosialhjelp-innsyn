@@ -12,7 +12,10 @@ import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
-import {LandingssideMedSakerFraInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
+import {
+    LandingssideMedSakerFraInnsynHotjarTrigger,
+    LandingssideUtenSakerFraInnsynHotjarTrigger
+} from "../components/hotjarTrigger/HotjarTrigger";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Økonomisk sosialhjelp";
@@ -82,7 +85,9 @@ const Saksoversikt: React.FC = () => {
                             </LandingssideMedSakerFraInnsynHotjarTrigger>
                          )}
                         {(harSaker && !harSakerFraInnsyn) && (
-                            <SaksoversiktDineSaker saker={alleSaker}/>
+                            <LandingssideUtenSakerFraInnsynHotjarTrigger>
+                                <SaksoversiktDineSaker saker={alleSaker}/>
+                            </LandingssideUtenSakerFraInnsynHotjarTrigger>
                         )}
                     </>
                 )}
