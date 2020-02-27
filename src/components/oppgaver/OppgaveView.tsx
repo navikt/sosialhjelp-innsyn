@@ -52,7 +52,7 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     }
     return {typeTekst, tilleggsinfoTekst};
 };
-//function harFilermedFeil (oppgaveElementer: OppgaveElement[]) {
+
 const harFilermedFeil = (oppgaveElementer: OppgaveElement[]) => {
     return oppgaveElementer.find(
         oppgaveElement => {
