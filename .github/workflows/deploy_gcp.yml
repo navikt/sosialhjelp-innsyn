@@ -25,3 +25,4 @@ jobs:
           VARS: nais/dev/${{ github.event.client_payload.MILJO }}.json
           REF: ${{ github.event.client_payload.TAG }}
           PRINT_PAYLOAD: true
+          IMAGE: ${{ env.IMAGE }}

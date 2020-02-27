@@ -40,3 +40,4 @@ jobs:
           VARS: nais/prod/default.json
           REF: ${{ github.event.client_payload.TAG }}
           PRINT_PAYLOAD: true
+          IMAGE: ${{ env.IMAGE }}
