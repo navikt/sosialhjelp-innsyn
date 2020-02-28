@@ -204,6 +204,13 @@ const EttersendelseView: React.FC = () => {
                     )}
 
                     <ul>
+
+                    {(isUlovligFiltype || isUlovligFilnavn || isUlovligFilstorrelse || isUlovligStorrelseAvFiler) && (
+                        <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                            <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
+                        </div>
+                    )}
+
                     {isUlovligFiltype && (
                         <li>
                             <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
@@ -235,14 +242,7 @@ const EttersendelseView: React.FC = () => {
                         </li>
                     )}
                     </ul>
-
                 </div>
-
-                {(isUlovligFiltype || isUlovligFilnavn) && (
-                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
-                    </div>
-                )}
 
                 {opplastingFeilet && (
                     <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
