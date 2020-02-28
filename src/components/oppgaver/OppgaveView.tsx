@@ -21,7 +21,7 @@ import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilit
 import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
-import {containsUlovligeTegn} from "../../utils/vedleggUtils";
+import {containsUlovligeTegn, maxFilStorrelse, maxSammensattFilStorrelse} from "../../utils/vedleggUtils";
 
 interface Props {
     oppgave: Oppgave;
@@ -140,10 +140,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         setUlovligFilstorrelseOppgaveIndex(-1);
         setUlovligStorrelseAvFilerOppgaveIndex(-1);
         setOppgaveBoksIndex(-1);
-        const maxFilStorrelse = 10*1024*1024;
-        const maxSammensattFilStorrelse = 350*1024*1024;
         let filerErGyldig = true;
-        let storrelsePaaAntallFiler = 0;
+        let sammensattFilstorrelse = 0;
 
         if (files) {
             for(let index = 0; index  < files.length; index++){
@@ -165,12 +163,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     setOppgaveBoksIndex(oppgaveIndex);
                     filerErGyldig = false;
                 }
-                if(storrelsePaaAntallFiler > maxSammensattFilStorrelse){
+                if(sammensattFilstorrelse > maxSammensattFilStorrelse){
                     setUlovligStorrelseAvFilerOppgaveIndex(oppgaveIndex);
                     setOppgaveBoksIndex(oppgaveIndex);
                     filerErGyldig = false;
                 }
-                storrelsePaaAntallFiler += file.size;
+                sammensattFilstorrelse += file.size;
             }
 
             if(filerErGyldig){

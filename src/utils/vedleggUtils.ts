@@ -1,6 +1,12 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage} from "../redux/innsynsdata/innsynsDataActions";
 
+
+export const maxSammensattFilStorrelse = 350*1024*1024;
+export const maxFilStorrelse = 10*1024*1024;
+
+
+
 interface Metadata {
     type: string,
     tilleggsinfo: string | undefined

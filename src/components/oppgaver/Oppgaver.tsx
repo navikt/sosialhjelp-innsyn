@@ -22,7 +22,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
+import {maxSammensattFilStorrelse, opprettFormDataMedVedleggFraOppgaver} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
@@ -103,8 +103,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
         dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
 
-       let storrelsePaaAntallFiler = 0;
-       const maxSammensattFilStorrelse = 350*1024*1024;
+       let sammensattFilstorrelse = 0;
 
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
@@ -112,13 +111,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
            oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
                oppgaveElement.filer?.forEach((file: Fil) => {
                    if (file.file?.size){
-                       storrelsePaaAntallFiler += file.file.size;
+                       sammensattFilstorrelse += file.file.size;
                    }
                });
            });
        });
 
-        if ((storrelsePaaAntallFiler < maxSammensattFilStorrelse) && (storrelsePaaAntallFiler !== 0)) {
+        if ((sammensattFilstorrelse < maxSammensattFilStorrelse) && (sammensattFilstorrelse !== 0)) {
             fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
                 let harFeil: boolean = false;
                 if (Array.isArray(filRespons)) {

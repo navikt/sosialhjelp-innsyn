@@ -17,7 +17,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {containsUlovligeTegn, opprettFormDataMedVedleggFraFiler} from "../../utils/vedleggUtils";
+import {
+    containsUlovligeTegn,
+    maxFilStorrelse,
+    maxSammensattFilStorrelse,
+    opprettFormDataMedVedleggFraFiler
+} from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
@@ -62,9 +67,7 @@ const EttersendelseView: React.FC = () => {
         setUlovligFilnavn(false);
         setUlovligFilstorrelse(false);
         setUlovligStorrelseAvFiler(false);
-        const maxFilStorrelse = 10*1024*1024;
-        const maxSammensattFilStorrelse = 350*1024*1024;
-        let storrelsePaaAntallFiler = 0;
+        let sammensattFilstorrelse = 0;
         let filerErGyldig = true;
 
         if (files) {
@@ -84,11 +87,11 @@ const EttersendelseView: React.FC = () => {
                     setUlovligFilstorrelse(true);
                     filerErGyldig = false;
                 }
-                if(storrelsePaaAntallFiler > maxSammensattFilStorrelse){
+                if(sammensattFilstorrelse > maxSammensattFilStorrelse){
                     setUlovligStorrelseAvFiler(true);
                     filerErGyldig = false;
                 }
-                storrelsePaaAntallFiler += file.size;
+                sammensattFilstorrelse += file.size;
             }
 
             if(filerErGyldig) {
