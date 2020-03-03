@@ -3,6 +3,7 @@ import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
+import 'formdata-polyfill';
 import App from './App';
 
 window.onerror = (errorMessage, url, line, column, error) => {

@@ -53,7 +53,7 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
-const harFilermedFeil = (oppgaveElementer: OppgaveElement[]) => {
+const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
     return oppgaveElementer.find(
         oppgaveElement => {
             return !oppgaveElement.filer ? false : oppgaveElement.filer.find(
@@ -65,6 +65,16 @@ const harFilermedFeil = (oppgaveElementer: OppgaveElement[]) => {
     );
 };
 
+const FeilmeldingComponent = (feilId: string) => {
+    return  (
+        <li>
+            <div className="oppgaver_vedlegg_feilmelding">
+                <FormattedMessage id={feilId}/>
+            </div>
+        </li>
+    )
+};
+
 function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgaveIndex: any, ulovligFilstorrelseOppgaveIndex: any, ulovligStorrelseAvFilerOppgaveIndex: any, oppgaveBoksIndex: any, id: number){
     return (
         <ul>
@@ -74,36 +84,22 @@ function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgave
                 </div>
             )}
             {(ulovligFilnavnOppgaveIndex === id) && (
-                <li>
-                    <div className="oppgaver_vedlegg_feilmelding">
-                        <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
-                    </div>
-                </li>
+                FeilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")
             )}
             {(ulovligFiltypeOppgaveIndex === id) && (
-                <li>
-                    <div className="oppgaver_vedlegg_feilmelding">
-                        <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
-                    </div>
-                </li>
+                FeilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")
             )}
             {(ulovligFilstorrelseOppgaveIndex === id) && (
-                <li>
-                    <div className="oppgaver_vedlegg_feilmelding">
-                        <FormattedMessage id="vedlegg.ulovlig_filstorrelse_feilmelding"/>
-                    </div>
-                </li>
+                FeilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")
             )}
             {(ulovligStorrelseAvFilerOppgaveIndex === id) && (
-                <li>
-                    <div className="oppgaver_vedlegg_feilmelding">
-                        <FormattedMessage id="vedlegg.ulovlig_storrelse_av_alle_valgte_filer"/>
-                    </div>
-                </li>
+                FeilmeldingComponent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer")
             )}
         </ul>
     );
 }
+
+
 
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
 
@@ -116,8 +112,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet);
     let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
-    const opplastingFeilet = harFilermedFeil(oppgave.oppgaveElementer);
+    const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
+
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -147,24 +144,26 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             for(let index = 0; index  < files.length; index++){
                 const file: File = files[index];
                 const filename = file.name;
+                let settFilerErIkkeGyldig = false;
 
                 if (!legalFileExtension(filename)) {
                     setUlovligFiltypeOppgaveIndex(oppgaveIndex);
-                    setOppgaveBoksIndex(oppgaveIndex);
-                    filerErGyldig = false;
+                    settFilerErIkkeGyldig = true;
                 }
                 if (containsUlovligeTegn(filename)) {
                     setUlovligeFilnavnOppgaveIndex(oppgaveIndex);
-                    setOppgaveBoksIndex(oppgaveIndex);
-                    filerErGyldig = false;
+                    settFilerErIkkeGyldig = true;
                 }
                 if(file.size > maxFilStorrelse){
                     setUlovligFilstorrelseOppgaveIndex(oppgaveIndex);
-                    setOppgaveBoksIndex(oppgaveIndex);
-                    filerErGyldig = false;
+                    settFilerErIkkeGyldig = true;
                 }
                 if(sammensattFilstorrelse > maxSammensattFilStorrelse){
                     setUlovligStorrelseAvFilerOppgaveIndex(oppgaveIndex);
+                    settFilerErIkkeGyldig = true;
+                }
+
+                if (settFilerErIkkeGyldig) {
                     setOppgaveBoksIndex(oppgaveIndex);
                     filerErGyldig = false;
                 }
@@ -190,6 +189,50 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         event.preventDefault();
     };
 
+    function velgFil(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number){
+       return  <div className={"oppgave-detalj-overste-linje"}>
+            <div className={"tekst-wrapping"}>
+                <Element>{typeTekst}</Element>
+            </div>
+            {tilleggsinfoTekst && (
+                <div className={"tekst-wrapping"}>
+                    <Normaltekst className="luft_over_4px">
+                        {tilleggsinfoTekst}
+                    </Normaltekst>
+                </div>
+            )}
+            {kanLasteOppVedlegg && (
+                <div className="oppgaver_last_opp_fil">
+                    <UploadFileIcon
+                        className="last_opp_fil_ikon"
+                        onClick={(event: any) => {
+                            onLinkClicked(id, event)
+                        }}
+                    />
+                    <Lenke
+                        href="#"
+                        id={"oppgave_" + id + "_last_opp_fil_knapp"}
+                        className="lenke_uten_ramme"
+                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                            onLinkClicked(id, event)
+                        }}
+                    >
+                        <Element>
+                            <FormattedMessage id="vedlegg.velg_fil"/>
+                        </Element>
+                    </Lenke>
+                    <input
+                        type="file"
+                        id={'file_' + oppgaveIndex + '_' + id}
+                        multiple={true}
+                        onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, id)}
+                        style={{display: "none"}}
+                    />
+                </div>
+            )}
+        </div>
+    }
+
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
         const visOppgaverDetaljeFeil: boolean = (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || oppgaveBoksIndex === id
             || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex ===  id
@@ -197,47 +240,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         return (
             <div key={id}
                  className={"oppgaver_detalj" + ((visOppgaverDetaljeFeil) ? " oppgaver_detalj_feil" : "")}>
-                <div className={"oppgave-detalj-overste-linje"}>
-                    <div className={"tekst-wrapping"}>
-                        <Element>{typeTekst}</Element>
-                    </div>
-                    {tilleggsinfoTekst && (
-                        <div className={"tekst-wrapping"}>
-                            <Normaltekst className="luft_over_4px">
-                                {tilleggsinfoTekst}
-                            </Normaltekst>
-                        </div>
-                    )}
-                    {kanLasteOppVedlegg && (
-                        <div className="oppgaver_last_opp_fil">
-                            <UploadFileIcon
-                                className="last_opp_fil_ikon"
-                                onClick={(event: any) => {
-                                    onLinkClicked(id, event)
-                                }}
-                            />
-                            <Lenke
-                                href="#"
-                                id={"oppgave_" + id + "_last_opp_fil_knapp"}
-                                className="lenke_uten_ramme"
-                                onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                    onLinkClicked(id, event)
-                                }}
-                            >
-                                <Element>
-                                    <FormattedMessage id="vedlegg.velg_fil"/>
-                                </Element>
-                            </Lenke>
-                            <input
-                                type="file"
-                                id={'file_' + oppgaveIndex + '_' + id}
-                                multiple={true}
-                                onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, id)}
-                                style={{display: "none"}}
-                            />
-                        </div>
-                    )}
-                </div>
+
+                {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, id)}
 
                 {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) =>
                     <VedleggActionsView vedlegg={vedlegg} key={index}/>
