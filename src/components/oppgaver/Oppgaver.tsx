@@ -31,7 +31,6 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {formatDato} from "../../utils/formatting";
-require('formdata-polyfill');
 
 
 interface Props {

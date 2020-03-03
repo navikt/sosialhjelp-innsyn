@@ -25,7 +25,6 @@ import {
 } from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-require('formdata-polyfill');
 
 
 function harFilermedFeil(filer: Fil[]) {

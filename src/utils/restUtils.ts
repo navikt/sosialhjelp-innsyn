@@ -1,5 +1,4 @@
 import 'whatwg-fetch'
-require('formdata-polyfill');
 
 
 export function erDev(): boolean {
