@@ -1,5 +1,7 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage} from "../redux/innsynsdata/innsynsDataActions";
+require('formdata-polyfill');
+
 
 
 export const maxSammensattFilStorrelse = 350*1024*1024;

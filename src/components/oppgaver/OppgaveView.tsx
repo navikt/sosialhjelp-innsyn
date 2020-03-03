@@ -22,6 +22,8 @@ import {setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsyns
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
 import {containsUlovligeTegn, maxFilStorrelse, maxSammensattFilStorrelse} from "../../utils/vedleggUtils";
+require('formdata-polyfill');
+
 
 interface Props {
     oppgave: Oppgave;
