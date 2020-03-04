@@ -5,7 +5,7 @@
 
 #ENV CI=true
 # TODO Sett denne til true før prodsetting:
-ENV CI=true
+#ENV CI=true
 
 #RUN npm ci && npm run test && npm run build
 
