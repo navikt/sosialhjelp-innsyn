@@ -36,16 +36,16 @@ export type Driftsmelding
 
 export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneResponse | undefined) => {
     if (kommuneResponse) {
-        if ((
-            kommuneResponse.erInnsynDeaktivert || kommuneResponse.erInnsynMidlertidigDeaktivert) &&
-            (kommuneResponse.erInnsendingEttersendelseDeaktivert || kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert)
+        if (kommuneResponse.erInnsynMidlertidigDeaktivert &&
+            (kommuneResponse.erInnsendingEttersendelseDeaktivert
+                || kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert)
         ) {
             return {
                 type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT,
                 textKey: "driftsmelding.innsynOgEttersendelseDeaktivert"
             } as Driftsmelding
         }
-        if (kommuneResponse.erInnsynDeaktivert || kommuneResponse.erInnsynMidlertidigDeaktivert) {
+        if (kommuneResponse.erInnsynMidlertidigDeaktivert) {
             return {
                 type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT,
                 textKey: "driftsmelding.innsynDeaktivert"
