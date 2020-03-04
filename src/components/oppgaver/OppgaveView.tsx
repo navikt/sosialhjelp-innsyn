@@ -69,10 +69,11 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
 const FeilmeldingComponent = (feilId: string) => {
     return  (
         <li>
-            Test 4
+            Test 4 OpgaveView
             <div className="oppgaver_vedlegg_feilmelding">
                 <FormattedMessage id={feilId}/>
             </div>
+            Test 4 OppgaveView
         </li>
     )
 };
@@ -80,7 +81,7 @@ const FeilmeldingComponent = (feilId: string) => {
 function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgaveIndex: any, ulovligFilstorrelseOppgaveIndex: any, ulovligStorrelseAvFilerOppgaveIndex: any, oppgaveBoksIndex: any, id: number){
     return (
         <ul>
-            Test 3
+            Test 3 OpgaveView
             {(oppgaveBoksIndex === id && (ulovligStorrelseAvFilerOppgaveIndex === id || ulovligFilstorrelseOppgaveIndex === id || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex === id)) && (
                 <div className="oppgaver_vedlegg_feilmelding">
                     <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
@@ -98,6 +99,7 @@ function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgave
             {(ulovligStorrelseAvFilerOppgaveIndex === id) && (
                 FeilmeldingComponent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer")
             )}
+            Test 3 OppgaveView
         </ul>
     );
 }
@@ -194,18 +196,22 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     function velgFil(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number){
        return  <div className={"oppgave-detalj-overste-linje"}>
-            <div className={"tekst-wrapping"}>
+           Test 10 OppgaveView
+           <div className={"tekst-wrapping"}>
                 <Element>{typeTekst}</Element>
             </div>
             {tilleggsinfoTekst && (
                 <div className={"tekst-wrapping"}>
                     <Normaltekst className="luft_over_4px">
+                        Test 6 OppgaveView
                         {tilleggsinfoTekst}
+                        Test 6 OppgaveView
                     </Normaltekst>
                 </div>
             )}
             {kanLasteOppVedlegg && (
                 <div className="oppgaver_last_opp_fil">
+                    Test 7 OppgaveView
                     <UploadFileIcon
                         className="last_opp_fil_ikon"
                         onClick={(event: any) => {
@@ -231,8 +237,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, id)}
                         style={{display: "none"}}
                     />
+                    Test 7 OppgaveView
                 </div>
             )}
+            Test 10 OppgaveView
         </div>
     }
 
@@ -243,6 +251,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         return (
             <div key={id}
                  className={"oppgaver_detalj" + ((visOppgaverDetaljeFeil) ? " oppgaver_detalj_feil" : "")}>
+
+                Test 8 OppgaveView
 
                 {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, id)}
 
@@ -257,6 +267,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 {(ulovligFiltypeOppgaveIndex > -1 || ulovligFilnavnOppgaveIndex > -1 || ulovligFilstorrelseOppgaveIndex > -1 || ulovligStorrelseAvFilerOppgaveIndex > -1 || oppgaveBoksIndex > -1) && (
                     skrivFeilmelding(ulovligFiltypeOppgaveIndex, ulovligFilnavnOppgaveIndex, ulovligFilstorrelseOppgaveIndex, ulovligStorrelseAvFilerOppgaveIndex, oppgaveBoksIndex, id)
                 )}
+
+                Test 8 OppgaveView
+
             </div>
         );
     }
@@ -267,22 +280,26 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     return (
         <div className={((visOppgaverDetaljeFeil)
             ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"}>
+
+            Test 9 OppgaveView
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 &&(
                 <Normaltekst className="luft_under_8px">
+                    Test 1 OpgaveView
                     <FormattedMessage
                         id="oppgaver.innsendelsesfrist"
                         values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
                     />
-                    Test 1
+                    Test 1 OpgaveView
                 </Normaltekst>
             )}
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 &&(
                 <Normaltekst className="luft_under_8px">
+                    Test 2 OpgaveView
                     <FormattedMessage
                         id="oppgaver.innsendelsesfrist_passert"
                         values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
                     />
-                    Test 2
+                    Test 2 OpgaveView
                 </Normaltekst>
             )}
             {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
@@ -292,9 +309,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             )}
             {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    Test 5 OpgaveView
                     <FormattedMessage id={oppgaveVedlegsOpplastingFeilet ? "vedlegg.minst_ett_vedlegg" : "vedlegg.opplasting_feilmelding"}/>
+                    Test 5 OpgaveView
                 </div>
             )}
+            Test 9 OppgaveView
         </div>
     )
 };

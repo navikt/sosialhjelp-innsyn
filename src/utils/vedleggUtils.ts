@@ -4,7 +4,7 @@ import {logInfoMessage} from "../redux/innsynsdata/innsynsDataActions";
 
 
 export const maxSammensattFilStorrelse = 350*1024*1024;
-export const maxFilStorrelse = 100*1024*1024;
+export const maxFilStorrelse = 10*1024*1024;
 
 
 
