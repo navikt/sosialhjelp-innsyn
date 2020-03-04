@@ -69,6 +69,7 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
 const FeilmeldingComponent = (feilId: string) => {
     return  (
         <li>
+            Test 4
             <div className="oppgaver_vedlegg_feilmelding">
                 <FormattedMessage id={feilId}/>
             </div>
@@ -79,6 +80,7 @@ const FeilmeldingComponent = (feilId: string) => {
 function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgaveIndex: any, ulovligFilstorrelseOppgaveIndex: any, ulovligStorrelseAvFilerOppgaveIndex: any, oppgaveBoksIndex: any, id: number){
     return (
         <ul>
+            Test 3
             {(oppgaveBoksIndex === id && (ulovligStorrelseAvFilerOppgaveIndex === id || ulovligFilstorrelseOppgaveIndex === id || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex === id)) && (
                 <div className="oppgaver_vedlegg_feilmelding">
                     <FormattedMessage id="vedlegg.ulovlig_fil_feilmelding"/>
@@ -271,6 +273,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         id="oppgaver.innsendelsesfrist"
                         values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
                     />
+                    Test 1
                 </Normaltekst>
             )}
             {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 &&(
@@ -279,6 +282,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         id="oppgaver.innsendelsesfrist_passert"
                         values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
                     />
+                    Test 2
                 </Normaltekst>
             )}
             {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
