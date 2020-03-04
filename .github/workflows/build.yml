@@ -12,10 +12,15 @@ jobs:
     name: Build and push docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: '12.8.1'
+      - uses: actions/checkout@v1
+      - uses: actions/cache@v1.1.2
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+            restore-keys: ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
       - name: Run tests
