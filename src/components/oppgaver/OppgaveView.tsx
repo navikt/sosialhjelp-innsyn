@@ -196,7 +196,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             }
         }
         event.target.value = null;
-        event.preventDefault();
+        //event.preventDefault();
+        event.returnValue = false;
     };
 
     function velgFil(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number){
