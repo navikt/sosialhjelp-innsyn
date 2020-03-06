@@ -67,7 +67,6 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
 };
 
 const FeilmeldingComponent = (feilId: string) => {
-    console.log("inne i FeilmeldingComponent")
     return  (
         <li>
             <div className="oppgaver_vedlegg_feilmelding">
@@ -78,7 +77,6 @@ const FeilmeldingComponent = (feilId: string) => {
 };
 
 function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgaveIndex: any, ulovligFilstorrelseOppgaveIndex: any, ulovligStorrelseAvFilerOppgaveIndex: any, oppgaveBoksIndex: any, id: number){
-    console.log("inne i skrivFeilmelding");
     return (
         <ul>
             {(oppgaveBoksIndex === id && (ulovligStorrelseAvFilerOppgaveIndex === id || ulovligFilstorrelseOppgaveIndex === id || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex === id)) && (
@@ -134,7 +132,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     };
 
     const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveIndex: number) => {
-        console.log("inne i onChange");
         const files: FileList | null = event.currentTarget.files;
         setUlovligFiltypeOppgaveIndex(-1);
         setUlovligeFilnavnOppgaveIndex(-1);
@@ -151,28 +148,23 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 let settFilerErIkkeGyldig = false;
 
                 if (!legalFileExtension(filename)) {
-                    console.log("inne i if legalFileExtension");
                     setUlovligFiltypeOppgaveIndex(oppgaveIndex);
                     settFilerErIkkeGyldig = true;
                 }
                 if (containsUlovligeTegn(filename)) {
-                    console.log("inne i if containsUlovligTegn");
                     setUlovligeFilnavnOppgaveIndex(oppgaveIndex);
                     settFilerErIkkeGyldig = true;
                 }
                 if(file.size > maxFilStorrelse){
-                    console.log("inne i if file.size");
                     setUlovligFilstorrelseOppgaveIndex(oppgaveIndex);
                     settFilerErIkkeGyldig = true;
                 }
                 if(sammensattFilstorrelse > maxSammensattFilStorrelse){
-                    console.log("inne i if sammensattFilstorrelse");
                     setUlovligStorrelseAvFilerOppgaveIndex(oppgaveIndex);
                     settFilerErIkkeGyldig = true;
                 }
 
                 if (settFilerErIkkeGyldig) {
-                    console.log("inne i if settFilerErIkkeGyldig");
                     setOppgaveBoksIndex(oppgaveIndex);
                     filerErGyldig = false;
                 }
@@ -180,7 +172,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             }
 
             if(filerErGyldig){
-                console.log("inne i if filerErGyldig");
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
                     dispatch({
@@ -195,13 +186,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 }
             }
         }
-        event.target.value = null;
-        //event.preventDefault();
-        event.returnValue = false;
+        if(event.target.value === ""){
+            return;
+        }
+        event.preventDefault();
     };
 
     function velgFil(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number){
-        console.log("inne i VelgFil");
         return  <div className={"oppgave-detalj-overste-linje"}>
            <div className={"tekst-wrapping"}>
                 <Element>{typeTekst}</Element>
@@ -246,7 +237,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     }
 
     function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
-        console.log("inne i getOppgaveDetaljer");
         const visOppgaverDetaljeFeil: boolean = (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || oppgaveBoksIndex === id
             || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex ===  id
             || ulovligFilstorrelseOppgaveIndex === id || ulovligStorrelseAvFilerOppgaveIndex === id);
