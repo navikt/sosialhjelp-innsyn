@@ -89,45 +89,47 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
     );
 };
 
-
-const FeilmeldingComponent = (feilId: string, filnavn: string, filArray: any) => {
+const FeilmeldingComponentTittel = (feilId: string, filnavn: string, filArray: any) => {
     if(filArray.length  > 1){
         return  (
-            <li key={feilId+"-"+filnavn}>
                 <div className="oppgaver_vedlegg_feilmelding">
                     <FormattedMessage id={feilId}
                                       values = {{antallFiler: filArray.length}}
-                    />
+                    />a
                 </div>
-            </li>
         )
     }
     else if(filArray.length === 1){
         return  (
-            <li key={feilId+"-"+filnavn}>
                 <div className="oppgaver_vedlegg_feilmelding">
                     <FormattedMessage id={feilId}
                                       values = {{filnavn: filnavn}}
                     />
                 </div>
-            </li>
         )
     }
     else{
         return  (
-            <li key={feilId+"-"+filnavn}>
+                <div className="oppgaver_vedlegg_feilmelding">
+                    <FormattedMessage id={feilId}
+                    />
+                </div>
+        )
+    }
+}
+
+const FeilmeldingComponent = (feilId: string) => {
+        return  (
+            <li>
                 <div className="oppgaver_vedlegg_feilmelding">
                     <FormattedMessage id={feilId}
                     />
                 </div>
             </li>
         )
-    }
 };
 
-//function skrivFeilmelding(ulovligFiltypeOppgaveIndex: any, ulovligFilnavnOppgaveIndex: any, ulovligFilstorrelseOppgaveIndex: any, ulovligStorrelseAvFilerOppgaveIndex: any, oppgaveBoksIndex: any, id: number){
 function skrivFeilmelding(filarray: Array<FilFeil>, id: number){
-    //let antallFiler = 0;
     let filnavn = "";
 
     const flagg = {
@@ -168,30 +170,26 @@ function skrivFeilmelding(filarray: Array<FilFeil>, id: number){
         }
     });
 
-    //const filnavn = filarray.length === 1 ? filarray[0].filename : "";
-
     return (
         <ul>
-
             {(flagg.ulovligFil) && (
-                FeilmeldingComponent("vedlegg.ulovlig_en_fil_feilmelding", filnavn, filarray)
+                FeilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, filarray)
             )}
             {(flagg.ulovligFiler) && (
-                FeilmeldingComponent("vedlegg.ulovlig_flere_fil_feilmelding","", filarray)
+                FeilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding","", filarray)
             )}
             {(flagg.containsUlovligeTegn) && (
-                FeilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding", "", filarray)
+                FeilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")
             )}
             {(flagg.legalFileExtension) && (
-                FeilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding", "", filarray)
+                FeilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")
             )}
             {(flagg.maxFilStorrelse) && (
-                FeilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding", "", filarray)
+                FeilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")
             )}
             {(flagg.maxSammensattFilStorrelse) && (
-                FeilmeldingComponent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", filarray)
+                FeilmeldingComponent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer")
             )}
-
         </ul>
     );
 }
@@ -213,8 +211,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
     const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
-
-    //const [filnavn, setFilnavn] = useState("");
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -269,13 +265,11 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     fileErrorObject.containsUlovligeTegn = true;
                 }
                 if(legalFileSize(file)){
-                //if(file.size > maxFilStorrelse){
                     setUlovligFilstorrelseOppgaveIndex(oppgaveIndex);
                     settFilerErIkkeGyldig = true;
                     fileErrorObject.maxFilStorrelse = true;
                 }
                 if(legalCombinedFilesSize(sammensattFilstorrelse)){
-                //if(sammensattFilstorrelse > maxSammensattFilStorrelse){
                     setUlovligStorrelseAvFilerOppgaveIndex(oppgaveIndex);
                     settFilerErIkkeGyldig = true;
                     fileErrorObject.maxSammensattFilStorrelse = true;
@@ -283,7 +277,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
                 if (settFilerErIkkeGyldig) {
                     setOppgaveBoksIndex(oppgaveIndex);
-                    //setFilnavn(file.name);
                     filerErGyldig = false;
                     filerSomErFeil.push(fileErrorObject);
                 }
