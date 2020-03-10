@@ -47,9 +47,16 @@ export const tekster = {
         "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
         "vedlegg.ulovlig_fil_feilmelding": "Vi kunne ikke legge til filene dine:",
+
+        "vedlegg.ulovlig_en_fil_feilmelding":"{filnavn} ble ikke lagt til:",
+
         "vedlegg.ulovlig_en_filtype_feilmelding": "{filnavn} har ikke rett type og ble ikke lagt til. ",
         "vedlegg.ulovlig_en_filnavn_feilmelding": "{filnavn} inneholder tegner i navnet som den ikke bør ha og ble ikke lagt til.",
         "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og ble ikke lagt til.",
+
+        "vedlegg.ulovlig_flere_fil_feilmelding":"{antallFiler} av dine filer ble ikke lagt til:",
+
+        "vedlegg.ulovlig_alle_fil_feilmelding":"Alle av dine filer ble ikke lagt til:",
         "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
         "vedlegg.ulovlig_filstorrelse_feilmelding": "Filer må være under 10 Mb.",
