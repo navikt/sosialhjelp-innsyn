@@ -179,8 +179,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     <VedleggActionsView vedlegg={vedlegg} key={index}/>
                 )}
 
-                {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, index: number) =>
-                    <FilView key={index} fil={fil} oppgaveElement={oppgaveElement} index={index}/>
+                {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) =>
+                    <FilView key={vedleggIndex} fil={fil} oppgaveElement={oppgaveElement} vedleggIndex={vedleggIndex}/>
                 )}
 
                 {(ulovligFiltypeOppgaveIndex === id) && (

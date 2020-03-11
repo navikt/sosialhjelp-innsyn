@@ -5,6 +5,7 @@ interface Metadata {
     type: string,
     tilleggsinfo: string | undefined
     filer: Fil[] // Beholder kun filnavn-feltet ved serialisering
+    innsendelsesfrist: string | undefined
 }
 
 export function opprettFormDataMedVedleggFraOppgaver(oppgaver: Oppgave[]): FormData {
@@ -14,6 +15,7 @@ export function opprettFormDataMedVedleggFraOppgaver(oppgaver: Oppgave[]): FormD
             metadata.push({
                 type: oppgaveElement.dokumenttype,
                 tilleggsinfo: oppgaveElement.tilleggsinformasjon,
+                innsendelsesfrist: oppgave.innsendelsesfrist,
                 filer: oppgaveElement.filer ? oppgaveElement.filer : []
             });
         });
@@ -26,7 +28,8 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
         {
             type: "annet",
             tilleggsinfo: "annet",
-            filer: filer
+            filer: filer,
+            innsendelsesfrist : undefined
         }
     ];
     return opprettFormDataMedVedlegg(metadata);
@@ -35,7 +38,7 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
 function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     let formData = new FormData();
     // Metadata skal ikke inneholde file-blob fra Fil-typen
-    const metadataJson = JSON.stringify(metadata, ["type", "tilleggsinfo", "filer", "filnavn"], 8);
+    const metadataJson = JSON.stringify(metadata, ["type", "tilleggsinfo", "innsendelsesfrist", "filer", "filnavn"], 8);
     const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
     formData.append("files", metadataBlob, "metadata.json");
     metadata.forEach((filgruppe: Metadata) => {
