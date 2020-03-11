@@ -38,6 +38,7 @@ const expectedOppgaverMetadata = JSON.stringify([
     {
         type: oppgave.oppgaveElementer[0].dokumenttype,
         tilleggsinfo: oppgave.oppgaveElementer[0].tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
         filer: [
             {filnavn: pngFile.filnavn},
             {filnavn: jpgFile.filnavn}
@@ -46,6 +47,7 @@ const expectedOppgaverMetadata = JSON.stringify([
     {
         type: oppgave.oppgaveElementer[1].dokumenttype,
         tilleggsinfo: oppgave.oppgaveElementer[1].tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
         filer: [
             {filnavn: pdfFile.filnavn}
         ]
@@ -53,6 +55,7 @@ const expectedOppgaverMetadata = JSON.stringify([
     {
         type: oppgave.oppgaveElementer[2].dokumenttype,
         tilleggsinfo: oppgave.oppgaveElementer[2].tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
         filer: [
             {filnavn: jpgFile.filnavn},
             {filnavn: jpgFile.filnavn}
