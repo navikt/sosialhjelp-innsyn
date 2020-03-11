@@ -1,17 +1,13 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage} from "../redux/innsynsdata/innsynsDataActions";
 
-
-
-export const maxSammensattFilStorrelse = 350*1024*1024;
-export const maxFilStorrelse = 10*1024*1024;
-
-
+export const maxMengdeStorrelse = 350 * 1024 * 1024;
+export const maxFilStorrelse = 10 * 1024 * 1024;
 
 interface Metadata {
-    type: string,
-    tilleggsinfo: string | undefined
-    filer: Fil[] // Beholder kun filnavn-feltet ved serialisering
+    type: string;
+    tilleggsinfo: string | undefined;
+    filer: Fil[]; // Beholder kun filnavn-feltet ved serialisering
 }
 
 export function opprettFormDataMedVedleggFraOppgaver(oppgaver: Oppgave[]): FormData {
@@ -21,7 +17,7 @@ export function opprettFormDataMedVedleggFraOppgaver(oppgaver: Oppgave[]): FormD
             metadata.push({
                 type: oppgaveElement.dokumenttype,
                 tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-                filer: oppgaveElement.filer ? oppgaveElement.filer : []
+                filer: oppgaveElement.filer ? oppgaveElement.filer : [],
             });
         });
     });
@@ -33,8 +29,8 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
         {
             type: "annet",
             tilleggsinfo: "annet",
-            filer: filer
-        }
+            filer: filer,
+        },
     ];
     return opprettFormDataMedVedlegg(metadata);
 }
@@ -43,7 +39,7 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     let formData = new FormData();
     // Metadata skal ikke inneholde file-blob fra Fil-typen
     const metadataJson = JSON.stringify(metadata, ["type", "tilleggsinfo", "filer", "filnavn"], 8);
-    const metadataBlob = new Blob([metadataJson], {type: 'application/json'});
+    const metadataBlob = new Blob([metadataJson], {type: "application/json"});
     formData.append("files", metadataBlob, "metadata.json");
     metadata.forEach((filgruppe: Metadata) => {
         filgruppe.filer.forEach((fil: Fil) => {
@@ -62,4 +58,26 @@ export function containsUlovligeTegn(filnavn: string) {
         return true;
     }
     return false;
+}
+
+export function legalCombinedFilesSize(sammensattFilStorrelse: number) {
+    return sammensattFilStorrelse > maxMengdeStorrelse ? true : false;
+}
+
+export function legalFileSize(file: File) {
+    return file.size > maxFilStorrelse ? true : false;
+}
+
+export function legalFileExtension(filename: string) {
+    const fileExtension = filename.replace(/^.*\./, "");
+    return fileExtension.match(/jpe?g|png|pdf/i) !== null;
+}
+
+export interface FilFeil {
+    legalFileExtension: boolean;
+    containsUlovligeTegn: boolean;
+    maxFilStorrelse: boolean;
+    arrayIndex: number;
+    oppgaveIndex: number;
+    filename: string;
 }

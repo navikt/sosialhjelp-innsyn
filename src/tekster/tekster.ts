@@ -54,13 +54,15 @@ export const tekster = {
         "vedlegg.ulovlig_en_filnavn_feilmelding": "{filnavn} inneholder tegner i navnet som den ikke bør ha og ble ikke lagt til.",
         "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og ble ikke lagt til.",
 
-        "vedlegg.ulovlig_flere_fil_feilmelding":"{antallFiler} av dine filer ble ikke lagt til:",
+        "vedlegg.ulovlig_flere_fil_feilmelding":"Vi kunne ikke legge til filene dine. {antallFiler} av dem var av en type vi ikke støtter:",
 
         "vedlegg.ulovlig_alle_fil_feilmelding":"Alle av dine filer ble ikke lagt til:",
         "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
         "vedlegg.ulovlig_filstorrelse_feilmelding": "Filer må være under 10 Mb.",
+
         "vedlegg.ulovlig_storrelse_av_alle_valgte_filer": "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 350 Mb.",
+
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
