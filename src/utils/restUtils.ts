@@ -115,7 +115,7 @@ export const serverRequest = (method: string, urlPath: string, body: string|null
         headers: getHeaders(contentType),
         method: method,
         credentials: determineCredentialsParameter(),
-        body: body ? body : null
+        body: body ? body : undefined
     };
 
     return new Promise((resolve, reject) => {
