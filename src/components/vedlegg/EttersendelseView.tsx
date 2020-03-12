@@ -91,15 +91,16 @@ const EttersendelseView: React.FC = () => {
         }
 
         let formData = opprettFormDataMedVedleggFraFiler(filer);
-        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
-            if (Array.isArray(filRespons)) {
-                for (let index = 0; index < filRespons.length; index++) {
-                    const fileItem = filRespons[index];
+            let vedlegg = filRespons[0].filer;
+            if (Array.isArray(vedlegg)) {
+                for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
+                    const fileItem = vedlegg[vedleggIndex];
                     if (fileItem.status !== "OK") {
                         harFeil = true;
                     }
@@ -107,7 +108,7 @@ const EttersendelseView: React.FC = () => {
                         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
                         fil: {filnavn: fileItem.filnavn} as Fil,
                         status: fileItem.status,
-                        index: index
+                        vedleggIndex: vedleggIndex
                     });
                 }
             }
@@ -140,8 +141,8 @@ const EttersendelseView: React.FC = () => {
                         <FormattedMessage id="andre_vedlegg.tilleggsinfo"/>
                     </Normaltekst>
 
-                    {filer && filer.length > 0 && filer.map((fil: Fil, index: number) =>
-                        <FilView key={index} fil={fil} index={index}/>
+                    {filer && filer.length > 0 && filer.map((fil: Fil, vedleggIndex: number) =>
+                        <FilView key={vedleggIndex} fil={fil} vedleggIndex={vedleggIndex}/>
                     )}
 
                     {kanLasteOppVedlegg && (
