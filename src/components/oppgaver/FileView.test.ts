@@ -1,5 +1,4 @@
-import React from 'react';
-import {legalFileExtension} from "./OppgaveView";
+import {legalFileExtension} from "../../utils/vedleggUtils";
 
 describe("FileView", () => {
 

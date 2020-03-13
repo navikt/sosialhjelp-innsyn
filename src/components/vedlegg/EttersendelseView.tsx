@@ -38,22 +38,27 @@ function harFilermedFeil(filer: Fil[]) {
     });
 }
 
-const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
+const feilmeldingComponentTittel = (
+    feilId: string,
+    filnavn: string,
+    listeMedFil: any,
+    maxSammensattFilStorrelse: boolean
+) => {
     if (listeMedFil.length > 1) {
         return (
-            <div className="oppgaver_vedlegg_feilmelding">
+            <div className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
             </div>
         );
     } else if (listeMedFil.length === 1) {
         return (
-            <div className="oppgaver_vedlegg_feilmelding">
+            <div className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
             </div>
         );
     } else {
         return (
-            <div className="oppgaver_vedlegg_feilmelding">
+            <div className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} />
             </div>
         );
@@ -62,11 +67,13 @@ const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil
 
 const feilmeldingComponent = (feilId: string) => {
     return (
-        <li>
-            <div className="oppgaver_vedlegg_feilmelding">
-                <FormattedMessage id={feilId} />
-            </div>
-        </li>
+        <div className="oppgaver_vedlegg_feilmelding">
+            <li>
+                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
+                    <FormattedMessage id={feilId} />
+                </span>
+            </li>
+        </div>
     );
 };
 
@@ -79,10 +86,16 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>) {
         legalFileExtension: false,
         containsUlovligeTegn: false,
         maxFilStorrelse: false,
+        maxSammensattFilStorrelse: false,
     };
 
     listeMedFil.forEach(value => {
-        if (value.containsUlovligeTegn || value.maxFilStorrelse || value.legalFileExtension) {
+        if (
+            value.containsUlovligeTegn ||
+            value.legalFileSize ||
+            value.legalFileExtension ||
+            value.legalCombinedFilesSize
+        ) {
             if (listeMedFil.length === 1) {
                 filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
                 flagg.ulovligFil = true;
@@ -90,7 +103,7 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>) {
                 flagg.ulovligFiler = true;
                 flagg.ulovligFil = false;
             }
-            if (value.maxFilStorrelse) {
+            if (value.legalFileSize) {
                 flagg.maxFilStorrelse = true;
             }
             if (value.containsUlovligeTegn) {
@@ -99,13 +112,40 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>) {
             if (value.legalFileExtension) {
                 flagg.legalFileExtension = true;
             }
+            if (value.legalCombinedFilesSize) {
+                flagg.maxSammensattFilStorrelse = true;
+                flagg.maxFilStorrelse = false;
+                flagg.containsUlovligeTegn = false;
+                flagg.legalFileExtension = false;
+                flagg.ulovligFiler = false;
+                flagg.ulovligFil = false;
+            }
         }
     });
 
     return (
         <ul>
-            {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
+            {flagg.ulovligFil &&
+                feilmeldingComponentTittel(
+                    "vedlegg.ulovlig_en_fil_feilmelding",
+                    filnavn,
+                    listeMedFil,
+                    flagg.maxSammensattFilStorrelse
+                )}
+            {flagg.ulovligFiler &&
+                feilmeldingComponentTittel(
+                    "vedlegg.ulovlig_flere_fil_feilmelding",
+                    "",
+                    listeMedFil,
+                    flagg.maxSammensattFilStorrelse
+                )}
+            {flagg.maxSammensattFilStorrelse &&
+                feilmeldingComponentTittel(
+                    "vedlegg.ulovlig_storrelse_av_alle_valgte_filer",
+                    "",
+                    listeMedFil,
+                    flagg.maxSammensattFilStorrelse
+                )}
             {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
             {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
             {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
@@ -118,7 +158,6 @@ const EttersendelseView: React.FC = () => {
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
-    const [maxMengde, setMaxMengde] = useState<boolean>(false);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
@@ -153,7 +192,8 @@ const EttersendelseView: React.FC = () => {
                 let fileErrorObject: FilFeil = {
                     legalFileExtension: false,
                     containsUlovligeTegn: false,
-                    maxFilStorrelse: false,
+                    legalFileSize: false,
+                    legalCombinedFilesSize: false,
                     arrayIndex: 0,
                     oppgaveIndex: 0,
                     filename: filename,
@@ -166,23 +206,24 @@ const EttersendelseView: React.FC = () => {
                     fileErrorObject.containsUlovligeTegn = true;
                 }
                 if (legalFileSize(file)) {
-                    fileErrorObject.maxFilStorrelse = true;
+                    fileErrorObject.legalFileSize = true;
                 }
                 if (legalCombinedFilesSize(sammensattFilstorrelse)) {
                     sjekkMaxMengde = true;
+                    fileErrorObject.legalCombinedFilesSize = true;
                 }
 
                 if (
                     fileErrorObject.legalFileExtension ||
                     fileErrorObject.containsUlovligeTegn ||
-                    fileErrorObject.maxFilStorrelse
+                    fileErrorObject.legalFileSize ||
+                    fileErrorObject.legalCombinedFilesSize
                 ) {
                     filerMedFeil.push(fileErrorObject);
                 }
                 sammensattFilstorrelse += file.size;
             }
             setListeMedFil(filerMedFeil);
-            setMaxMengde(sjekkMaxMengde);
 
             if (sjekkMaxMengde) {
                 logInfoMessage(
@@ -191,7 +232,7 @@ const EttersendelseView: React.FC = () => {
                 );
             }
 
-            if (filerMedFeil.length === 0 && !sjekkMaxMengde) {
+            if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
                     dispatch({
@@ -328,19 +369,6 @@ const EttersendelseView: React.FC = () => {
                     {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil)}
                 </div>
 
-                {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
-                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage
-                            id={opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg"}
-                        />
-                    </div>
-                )}
-                {maxMengde && (
-                    <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                    </div>
-                )}
-
                 <Hovedknapp
                     disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
                     spinner={vedleggLastesOpp}
@@ -357,6 +385,13 @@ const EttersendelseView: React.FC = () => {
                     <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
                 </Hovedknapp>
             </div>
+            {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage
+                        id={opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg"}
+                    />
+                </div>
+            )}
         </div>
     );
 };

@@ -10,7 +10,6 @@ import {
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
-    KommuneResponse,
     Oppgave,
     OppgaveElement,
     settRestStatus,
@@ -20,7 +19,6 @@ import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import VilkarView from "../vilkar/VilkarView";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
@@ -31,7 +29,6 @@ import {
     setOppgaveVedleggopplastingFeilet,
     logErrorMessage,
 } from "../../redux/innsynsdata/innsynsDataActions";
-import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import {formatDato} from "../../utils/formatting";
 
 interface Props {
@@ -88,17 +85,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
-
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
-    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
-    const otherVedleggLastesOpp =
-        otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
-
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
     const sendVedlegg = (event: any) => {
         if (!oppgaver || !fiksDigisosId) {
@@ -262,22 +248,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                         key={index}
                                         oppgaverErFraInnsyn={oppgaverErFraInnsyn}
                                         oppgaveIndex={index}
+                                        sendVedleggCallback={sendVedlegg}
                                     />
                                 ))}
                         </div>
-                        {kanLasteOppVedlegg && (
-                            <Hovedknapp
-                                disabled={vedleggLastesOpp || otherVedleggLastesOpp}
-                                spinner={vedleggLastesOpp}
-                                type="hoved"
-                                className="luft_over_1rem"
-                                onClick={(event: any) => {
-                                    sendVedlegg(event);
-                                }}
-                            >
-                                <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                            </Hovedknapp>
-                        )}
                     </EkspanderbartpanelBase>
                 </Panel>
             )}

@@ -76,7 +76,8 @@ export function legalFileExtension(filename: string) {
 export interface FilFeil {
     legalFileExtension: boolean;
     containsUlovligeTegn: boolean;
-    maxFilStorrelse: boolean;
+    legalFileSize: boolean;
+    legalCombinedFilesSize: boolean;
     arrayIndex: number;
     oppgaveIndex: number;
     filename: string;

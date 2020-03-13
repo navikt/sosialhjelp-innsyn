@@ -28,11 +28,14 @@ import {
     legalFileExtension,
     FilFeil,
 } from "../../utils/vedleggUtils";
+import {Hovedknapp} from "nav-frontend-knapper";
+import {REST_STATUS} from "../../utils/restUtils";
 
 interface Props {
     oppgave: Oppgave;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
+    sendVedleggCallback: (event: any) => void;
 }
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
@@ -64,22 +67,35 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
     });
 };
 
-const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
-    if (listeMedFil.length > 1) {
-        return (
-            <div className="oppgaver_vedlegg_feilmelding">
-                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </div>
-        );
-    } else if (listeMedFil.length === 1) {
-        return (
-            <div className="oppgaver_vedlegg_feilmelding">
-                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </div>
-        );
+const feilmeldingComponentTittel = (
+    feilId: string,
+    filnavn: string,
+    listeMedFil: any,
+    legalCombinedFilesSize: boolean
+) => {
+    if (!legalCombinedFilesSize) {
+        if (listeMedFil.length > 1 && !legalCombinedFilesSize) {
+            return (
+                <div className="oppgaver_vedlegg_feilmelding_overskrift">
+                    <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
+                </div>
+            );
+        } else if (listeMedFil.length === 1) {
+            return (
+                <div className="oppgaver_vedlegg_feilmelding_overskrift">
+                    <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
+                </div>
+            );
+        } else {
+            return (
+                <div className="oppgaver_vedlegg_feilmelding_overskrift">
+                    <FormattedMessage id={feilId} />
+                </div>
+            );
+        }
     } else {
         return (
-            <div className="oppgaver_vedlegg_feilmelding">
+            <div className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} />
             </div>
         );
@@ -88,11 +104,13 @@ const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil
 
 const feilmeldingComponent = (feilId: string) => {
     return (
-        <li>
-            <div className="oppgaver_vedlegg_feilmelding">
-                <FormattedMessage id={feilId} />
-            </div>
-        </li>
+        <div className="oppgaver_vedlegg_feilmelding">
+            <li>
+                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
+                    <FormattedMessage id={feilId} />
+                </span>
+            </li>
+        </div>
     );
 };
 
@@ -105,11 +123,17 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
         legalFileExtension: false,
         containsUlovligeTegn: false,
         maxFilStorrelse: false,
+        maxSammensattFilStorrelse: false,
     };
 
     listeMedFil.forEach(value => {
         if (value.oppgaveIndex === id) {
-            if (value.containsUlovligeTegn || value.maxFilStorrelse || value.legalFileExtension) {
+            if (
+                value.containsUlovligeTegn ||
+                value.legalFileSize ||
+                value.legalFileExtension ||
+                value.legalCombinedFilesSize
+            ) {
                 if (listeMedFil.length === 1) {
                     filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
                     flagg.ulovligFil = true;
@@ -117,7 +141,7 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
                     flagg.ulovligFiler = true;
                     flagg.ulovligFil = false;
                 }
-                if (value.maxFilStorrelse) {
+                if (value.legalFileSize) {
                     flagg.maxFilStorrelse = true;
                 }
                 if (value.containsUlovligeTegn) {
@@ -126,14 +150,41 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
                 if (value.legalFileExtension) {
                     flagg.legalFileExtension = true;
                 }
+                if (value.legalCombinedFilesSize) {
+                    flagg.maxSammensattFilStorrelse = true;
+                    flagg.maxFilStorrelse = false;
+                    flagg.containsUlovligeTegn = false;
+                    flagg.legalFileExtension = false;
+                    flagg.ulovligFiler = false;
+                    flagg.ulovligFil = false;
+                }
             }
         }
     });
 
     return (
         <ul>
-            {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
+            {flagg.ulovligFil &&
+                feilmeldingComponentTittel(
+                    "vedlegg.ulovlig_en_fil_feilmelding",
+                    filnavn,
+                    listeMedFil,
+                    flagg.maxSammensattFilStorrelse
+                )}
+            {flagg.ulovligFiler &&
+                feilmeldingComponentTittel(
+                    "vedlegg.ulovlig_flere_fil_feilmelding",
+                    "",
+                    listeMedFil,
+                    flagg.maxSammensattFilStorrelse
+                )}
+            {flagg.maxSammensattFilStorrelse &&
+                feilmeldingComponentTittel(
+                    "vedlegg.ulovlig_storrelse_av_alle_valgte_filer",
+                    "",
+                    listeMedFil,
+                    flagg.maxSammensattFilStorrelse
+                )}
             {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
             {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
             {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
@@ -141,10 +192,9 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
     );
 }
 
-const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
+const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex, sendVedleggCallback}) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
-    const [maxMengde, setMaxMengde] = useState<boolean>(false);
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
@@ -154,6 +204,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
     const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
+
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const otherVedleggLastesOpp =
+        otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
     const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
@@ -183,7 +239,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 let fileErrorObject: FilFeil = {
                     legalFileExtension: false,
                     containsUlovligeTegn: false,
-                    maxFilStorrelse: false,
+                    legalFileSize: false,
+                    legalCombinedFilesSize: false,
                     arrayIndex: index,
                     oppgaveIndex: oppgaveIndex,
                     filename: filename,
@@ -196,23 +253,24 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     fileErrorObject.containsUlovligeTegn = true;
                 }
                 if (legalFileSize(file)) {
-                    fileErrorObject.maxFilStorrelse = true;
+                    fileErrorObject.legalFileSize = true;
                 }
                 if (legalCombinedFilesSize(sammensattFilstorrelse)) {
                     sjekkMaxMengde = true;
+                    fileErrorObject.legalCombinedFilesSize = true;
                 }
 
                 if (
                     fileErrorObject.legalFileExtension ||
                     fileErrorObject.containsUlovligeTegn ||
-                    fileErrorObject.maxFilStorrelse
+                    fileErrorObject.legalFileSize ||
+                    fileErrorObject.legalCombinedFilesSize
                 ) {
                     filerMedFeil.push(fileErrorObject);
                 }
                 sammensattFilstorrelse += file.size;
             }
             setListeMedFil(filerMedFeil);
-            setMaxMengde(sjekkMaxMengde);
 
             if (sjekkMaxMengde) {
                 logInfoMessage(
@@ -221,7 +279,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 );
             }
 
-            if (filerMedFeil.length === 0 && !sjekkMaxMengde) {
+            if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
                     dispatch({
@@ -325,34 +383,51 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
     return (
-        <div
-            className={
-                (visOppgaverDetaljeFeil ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"
-            }
-        >
-            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
-                <Normaltekst className="luft_under_8px">
-                    <FormattedMessage
-                        id="oppgaver.innsendelsesfrist"
-                        values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
-                    />
-                </Normaltekst>
-            )}
-            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
-                <Normaltekst className="luft_under_8px">
-                    <FormattedMessage
-                        id="oppgaver.innsendelsesfrist_passert"
-                        values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
-                    />
-                </Normaltekst>
-            )}
-            {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
-                let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
-                    oppgaveElement.dokumenttype,
-                    oppgaveElement.tilleggsinformasjon
-                );
-                return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
-            })}
+        <div>
+            <div
+                className={
+                    (visOppgaverDetaljeFeil ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"
+                }
+            >
+                {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
+                    <Normaltekst className="luft_under_8px">
+                        <FormattedMessage
+                            id="oppgaver.innsendelsesfrist"
+                            values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
+                        />
+                    </Normaltekst>
+                )}
+                {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                    <Normaltekst className="luft_under_8px">
+                        <FormattedMessage
+                            id="oppgaver.innsendelsesfrist_passert"
+                            values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
+                        />
+                    </Normaltekst>
+                )}
+                {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
+                    let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
+                        oppgaveElement.dokumenttype,
+                        oppgaveElement.tilleggsinformasjon
+                    );
+                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
+                })}
+
+                {kanLasteOppVedlegg && (
+                    <Hovedknapp
+                        disabled={vedleggLastesOpp || otherVedleggLastesOpp}
+                        spinner={vedleggLastesOpp}
+                        type="hoved"
+                        className="luft_over_1rem"
+                        onClick={(event: any) => {
+                            sendVedleggCallback(event);
+                        }}
+                    >
+                        <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                    </Hovedknapp>
+                )}
+            </div>
+
             {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
@@ -362,11 +437,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                                 : "vedlegg.opplasting_feilmelding"
                         }
                     />
-                </div>
-            )}
-            {maxMengde && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
                 </div>
             )}
         </div>
