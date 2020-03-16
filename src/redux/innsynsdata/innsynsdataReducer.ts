@@ -164,14 +164,16 @@ export interface KommuneResponse {
     erInnsynDeaktivert: boolean,
     erInnsynMidlertidigDeaktivert: boolean,
     erInnsendingEttersendelseDeaktivert: boolean,
-    erInnsendingEttersendelseMidlertidigDeaktivert: boolean
+    erInnsendingEttersendelseMidlertidigDeaktivert: boolean,
+    tidspunkt: Date | null,
 }
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
     erInnsynDeaktivert: false,
     erInnsynMidlertidigDeaktivert: false,
     erInnsendingEttersendelseDeaktivert: false,
-    erInnsendingEttersendelseMidlertidigDeaktivert: false
+    erInnsendingEttersendelseMidlertidigDeaktivert: false,
+    tidspunkt: null,
 };
 
 export interface InnsynsdataType {
