@@ -29,6 +29,7 @@ import {
     opprettFormDataMedVedleggFraFiler,
     FilFeil,
 } from "../../utils/vedleggUtils";
+import {skrivFeilmelding} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
@@ -36,121 +37,6 @@ function harFilermedFeil(filer: Fil[]) {
     return filer.find(it => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
-}
-
-const feilmeldingComponentTittel = (
-    feilId: string,
-    filnavn: string,
-    listeMedFil: any,
-    maxSammensattFilStorrelse: boolean
-) => {
-    if (listeMedFil.length > 1) {
-        return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </div>
-        );
-    } else if (listeMedFil.length === 1) {
-        return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </div>
-        );
-    } else {
-        return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} />
-            </div>
-        );
-    }
-};
-
-const feilmeldingComponent = (feilId: string) => {
-    return (
-        <div className="oppgaver_vedlegg_feilmelding">
-            <li>
-                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
-                    <FormattedMessage id={feilId} />
-                </span>
-            </li>
-        </div>
-    );
-};
-
-function skrivFeilmelding(listeMedFil: Array<FilFeil>) {
-    let filnavn = "";
-
-    const flagg = {
-        ulovligFil: false,
-        ulovligFiler: false,
-        legalFileExtension: false,
-        containsUlovligeTegn: false,
-        maxFilStorrelse: false,
-        maxSammensattFilStorrelse: false,
-    };
-
-    listeMedFil.forEach(value => {
-        if (
-            value.containsUlovligeTegn ||
-            value.legalFileSize ||
-            value.legalFileExtension ||
-            value.legalCombinedFilesSize
-        ) {
-            if (listeMedFil.length === 1) {
-                filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
-                flagg.ulovligFil = true;
-            } else {
-                flagg.ulovligFiler = true;
-                flagg.ulovligFil = false;
-            }
-            if (value.legalFileSize) {
-                flagg.maxFilStorrelse = true;
-            }
-            if (value.containsUlovligeTegn) {
-                flagg.containsUlovligeTegn = true;
-            }
-            if (value.legalFileExtension) {
-                flagg.legalFileExtension = true;
-            }
-            if (value.legalCombinedFilesSize) {
-                flagg.maxSammensattFilStorrelse = true;
-                flagg.maxFilStorrelse = false;
-                flagg.containsUlovligeTegn = false;
-                flagg.legalFileExtension = false;
-                flagg.ulovligFiler = false;
-                flagg.ulovligFil = false;
-            }
-        }
-    });
-
-    return (
-        <ul>
-            {flagg.ulovligFil &&
-                feilmeldingComponentTittel(
-                    "vedlegg.ulovlig_en_fil_feilmelding",
-                    filnavn,
-                    listeMedFil,
-                    flagg.maxSammensattFilStorrelse
-                )}
-            {flagg.ulovligFiler &&
-                feilmeldingComponentTittel(
-                    "vedlegg.ulovlig_flere_fil_feilmelding",
-                    "",
-                    listeMedFil,
-                    flagg.maxSammensattFilStorrelse
-                )}
-            {flagg.maxSammensattFilStorrelse &&
-                feilmeldingComponentTittel(
-                    "vedlegg.ulovlig_storrelse_av_alle_valgte_filer",
-                    "",
-                    listeMedFil,
-                    flagg.maxSammensattFilStorrelse
-                )}
-            {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
-            {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
-            {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
-        </ul>
-    );
 }
 
 const EttersendelseView: React.FC = () => {
@@ -299,7 +185,7 @@ const EttersendelseView: React.FC = () => {
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
     function validerFilArrayForFeil() {
-        return listeMedFil && listeMedFil.length ? true : false;
+        return !!(listeMedFil && listeMedFil.length);
     }
 
     return (
@@ -365,8 +251,7 @@ const EttersendelseView: React.FC = () => {
                             />
                         </div>
                     )}
-
-                    {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil)}
+                    {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, 0)}
                 </div>
 
                 <Hovedknapp

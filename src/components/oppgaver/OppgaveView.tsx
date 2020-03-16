@@ -67,32 +67,19 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
     });
 };
 
-const feilmeldingComponentTittel = (
-    feilId: string,
-    filnavn: string,
-    listeMedFil: any,
-    legalCombinedFilesSize: boolean
-) => {
-    if (!legalCombinedFilesSize) {
-        if (listeMedFil.length > 1 && !legalCombinedFilesSize) {
-            return (
-                <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                    <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-                </div>
-            );
-        } else if (listeMedFil.length === 1) {
-            return (
-                <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                    <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-                </div>
-            );
-        } else {
-            return (
-                <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                    <FormattedMessage id={feilId} />
-                </div>
-            );
-        }
+const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
+    if (listeMedFil.length > 1) {
+        return (
+            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
+            </div>
+        );
+    } else if (listeMedFil.length === 1) {
+        return (
+            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
+            </div>
+        );
     } else {
         return (
             <div className="oppgaver_vedlegg_feilmelding_overskrift">
@@ -114,7 +101,21 @@ const feilmeldingComponent = (feilId: string) => {
     );
 };
 
-function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
+function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) {
+    return (
+        <ul>
+            {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
+            {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
+            {flagg.maxSammensattFilStorrelse &&
+                feilmeldingComponentTittel("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
+            {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
+            {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
+            {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
+        </ul>
+    );
+}
+
+export function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
     let filnavn = "";
 
     const flagg = {
@@ -162,34 +163,7 @@ function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
         }
     });
 
-    return (
-        <ul>
-            {flagg.ulovligFil &&
-                feilmeldingComponentTittel(
-                    "vedlegg.ulovlig_en_fil_feilmelding",
-                    filnavn,
-                    listeMedFil,
-                    flagg.maxSammensattFilStorrelse
-                )}
-            {flagg.ulovligFiler &&
-                feilmeldingComponentTittel(
-                    "vedlegg.ulovlig_flere_fil_feilmelding",
-                    "",
-                    listeMedFil,
-                    flagg.maxSammensattFilStorrelse
-                )}
-            {flagg.maxSammensattFilStorrelse &&
-                feilmeldingComponentTittel(
-                    "vedlegg.ulovlig_storrelse_av_alle_valgte_filer",
-                    "",
-                    listeMedFil,
-                    flagg.maxSammensattFilStorrelse
-                )}
-            {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
-            {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
-            {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
-        </ul>
-    );
+    return returnFeilmeldingComponent(flagg, filnavn, listeMedFil);
 }
 
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex, sendVedleggCallback}) => {
@@ -377,7 +351,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     }
 
     function validerFilArrayForFeil() {
-        return listeMedFil && listeMedFil.length ? true : false;
+        return !!(listeMedFil && listeMedFil.length);
     }
 
     const visOppgaverDetaljeFeil: boolean =

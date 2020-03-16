@@ -61,11 +61,11 @@ export function containsUlovligeTegn(filnavn: string) {
 }
 
 export function legalCombinedFilesSize(sammensattFilStorrelse: number) {
-    return sammensattFilStorrelse > maxMengdeStorrelse ? true : false;
+    return sammensattFilStorrelse > maxMengdeStorrelse;
 }
 
 export function legalFileSize(file: File) {
-    return file.size > maxFilStorrelse ? true : false;
+    return file.size > maxFilStorrelse;
 }
 
 export function legalFileExtension(filename: string) {
