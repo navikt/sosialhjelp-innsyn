@@ -11,7 +11,7 @@ import {REST_STATUS} from "../../utils/restUtils";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{ index: number, fil: Fil, oppgaveElement?: OppgaveElement }> = ({index, fil, oppgaveElement}) => {
+const FilView: React.FC<{ vedleggIndex: number, oppgaveElementIndex: number,  oppgaveIndex: number, fil: Fil, oppgaveElement?: OppgaveElement }> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
@@ -20,9 +20,11 @@ const FilView: React.FC<{ index: number, fil: Fil, oppgaveElement?: OppgaveEleme
             type: oppgaveElement
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
                 : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
+            vedleggIndex: vedleggIndex,
+            oppgaveElementIndex: oppgaveElementIndex,
             oppgaveElement: oppgaveElement,
+            oppgaveIndex: oppgaveIndex,
             fil: fil,
-            index: index
         });
         event.preventDefault();
     };

@@ -93,14 +93,14 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         }
     };
 
-    const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveIndex: number) => {
+    const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveElementIndex: number, oppgaveIndex: number) => {
         const files: FileList | null = event.currentTarget.files;
         setUlovligFiltypeOppgaveIndex(-1);
         setUlovligeFilnavnOppgaveIndex(-1);
 
         if (files) {
-            for (let index = 0; index < files.length; index++) {
-                const file: File = files[index];
+            for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
+                const file: File = files[vedleggIndex];
                 const filename = file.name;
 
                 if (!legalFileExtension(filename)) {
@@ -111,6 +111,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                         oppgaveElement: oppgaveElement,
+                        oppgaveElementIndex: oppgaveElementIndex,
+                        oppgaveIndex: oppgaveIndex,
                         fil: {
                             filnavn: file.name,
                             status: "INITIALISERT",
@@ -125,10 +127,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     };
 
 
-    function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, id: number): JSX.Element {
+    function getOppgaveDetaljer(typeTekst: string, tilleggsinfoTekst: string | undefined, oppgaveElement: OppgaveElement, oppgaveElementIndex: number): JSX.Element {
         return (
-            <div key={id}
-                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFiltypeOppgaveIndex === id || ulovligFilnavnOppgaveIndex ===  id)
+            <div key={oppgaveElementIndex}
+                 className={"oppgaver_detalj" + ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet || ulovligFiltypeOppgaveIndex === oppgaveElementIndex || ulovligFilnavnOppgaveIndex ===  oppgaveElementIndex)
                      ? " oppgaver_detalj_feil" : "")}>
                 <div className={"oppgave-detalj-overste-linje"}>
                     <div className={"tekst-wrapping"}>
@@ -148,15 +150,15 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                             <UploadFileIcon
                                 className="last_opp_fil_ikon"
                                 onClick={(event: any) => {
-                                    onLinkClicked(id, event)
+                                    onLinkClicked(oppgaveElementIndex, event)
                                 }}
                             />
                             <Lenke
                                 href="#"
-                                id={"oppgave_" + id + "_last_opp_fil_knapp"}
+                                id={"oppgave_" + oppgaveElementIndex + "_last_opp_fil_knapp"}
                                 className="lenke_uten_ramme"
                                 onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                    onLinkClicked(id, event)
+                                    onLinkClicked(oppgaveElementIndex, event)
                                 }}
                             >
                                 <Element>
@@ -165,9 +167,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                             </Lenke>
                             <input
                                 type="file"
-                                id={'file_' + oppgaveIndex + '_' + id}
+                                id={'file_' + oppgaveIndex + '_' + oppgaveElementIndex}
                                 multiple={true}
-                                onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, id)}
+                                onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
                                 style={{display: "none"}}
                             />
                         </div>
@@ -175,21 +177,21 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </div>
 
 
-                {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) =>
-                    <VedleggActionsView vedlegg={vedlegg} key={index}/>
+                {oppgaveElement.vedlegg && oppgaveElement.vedlegg.length > 0 && oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) =>
+                    <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex}/>
                 )}
 
-                {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, index: number) =>
-                    <FilView key={index} fil={fil} oppgaveElement={oppgaveElement} index={index}/>
+                {oppgaveElement.filer && oppgaveElement.filer.length > 0 && oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) =>
+                    <FilView key={vedleggIndex} fil={fil} oppgaveElement={oppgaveElement} vedleggIndex={vedleggIndex} oppgaveElementIndex={oppgaveElementIndex} oppgaveIndex={oppgaveIndex}/>
                 )}
 
-                {(ulovligFiltypeOppgaveIndex === id) && (
+                {(ulovligFiltypeOppgaveIndex === oppgaveElementIndex) && (
                     <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                         <FormattedMessage id="vedlegg.ulovlig_filtype_feilmelding"/>
                     </div>
                 )}
 
-                {(ulovligFilnavnOppgaveIndex === id) && (
+                {(ulovligFilnavnOppgaveIndex === oppgaveElementIndex) && (
                     <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                         <FormattedMessage id="vedlegg.ulovlig_filnavn_feilmelding"/>
                     </div>
@@ -220,10 +222,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </Normaltekst>
             )}
 
-            {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
+            {oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(oppgaveElement.dokumenttype, oppgaveElement.tilleggsinformasjon);
 
-                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
+                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex);
                 }
             )}
 

@@ -102,7 +102,6 @@ export enum InnsynsdataSti {
     SOKNADS_STATUS = "soknadsStatus",
     HENDELSER = "hendelser",
     VEDLEGG = "vedlegg",
-    SEND_VEDLEGG = "vedlegg/send",
     SAKER = "saker",
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune"
@@ -119,12 +118,17 @@ export interface InnsynsdataActionType {
 
 export interface VedleggActionType {
     type: InnsynsdataActionTypeKeys,
-    index: number,
-    fil: Fil;
-    oppgaveElement: OppgaveElement;
-    status?: string;
-    restStatus?: REST_STATUS;
-    fiksDigisosId?: string;
+    innsendelsesfrist?: string,     // For å finne rett oppgave
+    dokumenttype: string,           // For å finne rett oppgaveElement
+    tilleggsinfo?: string,          // For å finne rett oppgaveElement
+    vedleggIndex: number,           // For å finne rett vedlegg i oppgaveElement
+    oppgaveElementIndex: number,
+    oppgaveIndex: number,
+    fil: Fil,
+    oppgaveElement: OppgaveElement,
+    status?: string,
+    restStatus?: REST_STATUS,
+    fiksDigisosId?: string,
 }
 
 export interface Status {
@@ -249,54 +253,68 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((oppgave) => {
-                    return {
-                        ...oppgave,
-                        oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
-                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
-                                oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
-                                return {
-                                    ...oppgaveElement,
-                                    filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil]
+                oppgaver: state.oppgaver.map((oppgave, oppgaveIndex: number) => {
+                    if (oppgaveIndex === action.oppgaveIndex) {
+                        return {
+                            ...oppgave,
+                            oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex: number) => {
+                                if (oppgaveElementIndex === action.oppgaveElementIndex) {
+                                    return {
+                                        ...oppgaveElement,
+                                        filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil]
+                                    }
                                 }
-                            }
-                            return oppgaveElement;
-                        })
+                                return oppgaveElement;
+                            })
+                        };
                     }
+                    return oppgave;
                 })
             };
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((oppgave) => {
-                    return {
-                        ...oppgave,
-                        oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
-                            if (oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
-                                oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
-                                return {
-                                    ...oppgaveElement,
-                                    filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, index: number) => {
-                                        return index !== action.index;
-                                    }))
+                oppgaver: state.oppgaver.map((oppgave, oppgaveIndex) => {
+                    if (oppgaveIndex === action.oppgaveIndex) {
+                        return {
+                            ...oppgave,
+                            oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
+                                if (oppgaveElementIndex === action.oppgaveElementIndex &&
+                                    oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
+                                    oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
+                                    return {
+                                        ...oppgaveElement,
+                                        filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, vedleggIndex: number) => {
+                                            return vedleggIndex !== action.vedleggIndex;
+                                        }))
+                                    }
                                 }
-                            }
-                            return oppgaveElement;
-                        })
+                                return oppgaveElement;
+                            })
+                        }
                     }
+                    return oppgave;
                 })
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
             return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
+                    if (oppgave.innsendelsesfrist !== action.innsendelsesfrist) {
+                        return oppgave;
+                    }
+
                     return {
                         ...oppgave,
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
+                            if (oppgaveElement.dokumenttype !== action.dokumenttype || oppgaveElement.tilleggsinformasjon !== action.tilleggsinfo) {
+                                return oppgaveElement
+                            }
+
                             return {
                                 ...oppgaveElement,
-                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil, index: number) => {
-                                    if (index === action.index) {
+                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => {
+                                    if (vedleggIndex === action.vedleggIndex) {
                                         return {
                                             ...fil,
                                             status: action.status
@@ -380,8 +398,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 oppgaveVedlegsOpplastingFeilet: false,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil, index: number) => {
-                        return index !== action.index;
+                    filer: state.ettersendelse.filer.filter((fil: Fil, vedleggIndex: number) => {
+                        return vedleggIndex !== action.vedleggIndex;
                     })
                 }
             };
@@ -390,8 +408,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.map((fil: Fil, index: number) => {
-                        if (index === action.index) {
+                    filer: state.ettersendelse.filer.map((fil: Fil, vedleggIndex: number) => {
+                        if (vedleggIndex === action.vedleggIndex) {
                             return {
                                 ...fil,
                                 status: action.status

@@ -97,7 +97,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         }
 
         let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
-        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
@@ -106,17 +106,22 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
             if (Array.isArray(filRespons)) {
-                for (var index = 0; index < filRespons.length; index++) {
-                    const fileItem = filRespons[index];
-                    if (fileItem.status !== "OK") {
-                        harFeil = true;
+                for (let oppgaveIndex = 0; oppgaveIndex < filRespons.length; oppgaveIndex++) {
+                    for (let vedleggIndex = 0; vedleggIndex < filRespons[oppgaveIndex].filer.length; vedleggIndex++) {
+                        const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
+                        if (fileItem.status !== "OK") {
+                            harFeil = true;
+                        }
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                            fil: {filnavn: fileItem.filnavn} as Fil,
+                            status: fileItem.status,
+                            innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
+                            dokumenttype: filRespons[oppgaveIndex].type,
+                            tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
+                            vedleggIndex: vedleggIndex,
+                        });
                     }
-                    dispatch({
-                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                        fil: {filnavn: fileItem.filnavn} as Fil,
-                        status: fileItem.status,
-                        index: index
-                    });
                 }
             }
             if (harFeil) {
