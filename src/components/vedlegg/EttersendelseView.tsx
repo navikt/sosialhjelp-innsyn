@@ -94,38 +94,37 @@ const EttersendelseView: React.FC = () => {
         }
 
         let formData = opprettFormDataMedVedleggFraFiler(filer);
-        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
-        fetchPost(path, formData, "multipart/form-data")
-            .then((filRespons: any) => {
-                let harFeil: boolean = false;
-                if (Array.isArray(filRespons)) {
-                    for (let index = 0; index < filRespons.length; index++) {
-                        const fileItem = filRespons[index];
-                        if (fileItem.status !== "OK") {
-                            harFeil = true;
-                        }
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
-                            fil: {filnavn: fileItem.filnavn} as Fil,
-                            status: fileItem.status,
-                            index: index,
-                        });
+        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
+            let harFeil: boolean = false;
+            let vedlegg = filRespons[0].filer;
+            if (Array.isArray(vedlegg)) {
+                for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
+                    const fileItem = vedlegg[vedleggIndex];
+                    if (fileItem.status !== "OK") {
+                        harFeil = true;
                     }
+                    dispatch({
+                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
+                        fil: {filnavn: fileItem.filnavn} as Fil,
+                        status: fileItem.status,
+                        vedleggIndex: vedleggIndex
+                    });
                 }
-                if (harFeil) {
-                    dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                } else {
-                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                }
-            })
-            .catch(e => {
-                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-            });
-        event.preventDefault();
+            }
+            if (harFeil) {
+                dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+            } else {
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+            }
+        }).catch((e) => {
+            logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+        });
+        event.preventDefault()
     };
 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
@@ -166,9 +165,9 @@ const EttersendelseView: React.FC = () => {
                         <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
                     </Normaltekst>
 
-                    {filer &&
-                        filer.length > 0 &&
-                        filer.map((fil: Fil, index: number) => <FilView key={index} fil={fil} index={index} />)}
+                    {filer && filer.length > 0 && filer.map((fil: Fil, vedleggIndex: number) =>
+                        <FilView key={vedleggIndex} fil={fil} vedleggIndex={vedleggIndex} oppgaveElementIndex={0} oppgaveIndex={0}/>
+                    )}
 
                     {kanLasteOppVedlegg && (
                         <div className="oppgaver_last_opp_fil">

@@ -92,12 +92,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             return;
         }
 
-        const formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
-        const sti: InnsynsdataSti = InnsynsdataSti.SEND_VEDLEGG;
+        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
+        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
         dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
+
 
         let sammensattFilstorrelse = 0;
 
@@ -114,12 +115,12 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         });
 
         if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
-            fetchPost(path, formData, "multipart/form-data")
-                .then((filRespons: any) => {
-                    let harFeil: boolean = false;
-                    if (Array.isArray(filRespons)) {
-                        for (var index = 0; index < filRespons.length; index++) {
-                            const fileItem = filRespons[index];
+            fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
+                let harFeil: boolean = false;
+                if (Array.isArray(filRespons)) {
+                    for (let oppgaveIndex = 0; oppgaveIndex < filRespons.length; oppgaveIndex++) {
+                        for (let vedleggIndex = 0; vedleggIndex < filRespons[oppgaveIndex].filer.length; vedleggIndex++) {
+                            const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
                             if (fileItem.status !== "OK") {
                                 harFeil = true;
                             }
@@ -127,25 +128,28 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
                                 fil: {filnavn: fileItem.filnavn} as Fil,
                                 status: fileItem.status,
-                                index: index,
+                                innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
+                                dokumenttype: filRespons[oppgaveIndex].type,
+                                tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
+                                vedleggIndex: vedleggIndex,
                             });
                         }
                     }
-                    if (harFeil) {
-                        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                    }
-                })
-                .catch(e => {
-                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-                });
-        } else {
+                }
+                if (harFeil) {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                } else {
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                }
+            }).catch((e) => {
+                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+            });
+        } else{
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
         }
-        event.preventDefault();
+        event.preventDefault()
     };
 
     return (

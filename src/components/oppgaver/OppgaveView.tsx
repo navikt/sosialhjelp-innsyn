@@ -174,8 +174,8 @@ export function sjekkerFilFeil(
     setListeMedFil: (filerMedFeil: Array<FilFeil>) => void
 ) {
     let sjekkMaxMengde = false;
-    for (let index = 0; index < files.length; index++) {
-        const file: File = files[index];
+    for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
+        const file: File = files[vedleggIndex];
         const filename = file.name;
 
         let fileErrorObject: FilFeil = {
@@ -183,7 +183,7 @@ export function sjekkerFilFeil(
             containsUlovligeTegn: false,
             legalFileSize: false,
             legalCombinedFilesSize: false,
-            arrayIndex: index,
+            arrayIndex: vedleggIndex,
             oppgaveIndex: oppgaveIndex,
             filename: filename,
         };
@@ -254,7 +254,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         }
     };
 
-    const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveIndex: number) => {
+    const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveElementIndex: number, oppgaveIndex: number) => {
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
         let filerMedFeil: Array<FilFeil> = [];
@@ -268,6 +268,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     dispatch({
                         type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                         oppgaveElement: oppgaveElement,
+                        oppgaveElementIndex: oppgaveElementIndex,
+                        oppgaveIndex: oppgaveIndex,
                         fil: {
                             filnavn: file.name,
                             status: "INITIALISERT",
@@ -287,7 +289,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         typeTekst: string,
         tilleggsinfoTekst: string | undefined,
         oppgaveElement: OppgaveElement,
-        id: number
+        oppgaveElementIndex: number,
+        oppgaveIndex: number
     ) {
         return (
             <div className={"oppgave-detalj-overste-linje"}>
@@ -304,15 +307,15 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         <UploadFileIcon
                             className="last_opp_fil_ikon"
                             onClick={(event: any) => {
-                                onLinkClicked(id, event);
+                                onLinkClicked(oppgaveElementIndex, event);
                             }}
                         />
                         <Lenke
                             href="#"
-                            id={"oppgave_" + id + "_last_opp_fil_knapp"}
+                            id={"oppgave_" + oppgaveElementIndex + "_last_opp_fil_knapp"}
                             className="lenke_uten_ramme"
                             onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onLinkClicked(id, event);
+                                onLinkClicked(oppgaveElementIndex, event);
                             }}
                         >
                             <Element>
@@ -321,9 +324,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         </Lenke>
                         <input
                             type="file"
-                            id={"file_" + oppgaveIndex + "_" + id}
+                            id={"file_" + oppgaveIndex + "_" + oppgaveElementIndex}
                             multiple={true}
-                            onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, id)}
+                            onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
                             style={{display: "none"}}
                         />
                     </div>
@@ -336,13 +339,14 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         typeTekst: string,
         tilleggsinfoTekst: string | undefined,
         oppgaveElement: OppgaveElement,
-        id: number
+        oppgaveElementIndex: number,
+        oppgaveIndex: number
     ): JSX.Element {
         const visOppgaverDetaljeFeil: boolean =
             oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
         return (
-            <div key={id} className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-                {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, id)}
+            <div key={oppgaveElementIndex} className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+                {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
                 {oppgaveElement.vedlegg &&
                     oppgaveElement.vedlegg.length > 0 &&
                     oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) => (
@@ -351,10 +355,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
                 {oppgaveElement.filer &&
                     oppgaveElement.filer.length > 0 &&
-                    oppgaveElement.filer.map((fil: Fil, index: number) => (
-                        <FilView key={index} fil={fil} oppgaveElement={oppgaveElement} index={index} />
+                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
+                        <FilView key={vedleggIndex} fil={fil} oppgaveElement={oppgaveElement} vedleggIndex={vedleggIndex} oppgaveElementIndex={oppgaveElementIndex} oppgaveIndex={oppgaveIndex} />
                     ))}
-                {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, id)}
+                {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
             </div>
         );
     }
@@ -388,12 +392,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         />
                     </Normaltekst>
                 )}
-                {oppgave.oppgaveElementer.map((oppgaveElement, index) => {
+                {oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
                     );
-                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, index);
+                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex);
                 })}
 
                 {kanLasteOppVedlegg && (
