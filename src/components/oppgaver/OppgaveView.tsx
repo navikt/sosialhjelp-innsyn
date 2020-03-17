@@ -166,6 +166,61 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
     return returnFeilmeldingComponent(flagg, filnavn, listeMedFil);
 }
 
+export function sjekkerFilFeil(
+    files: FileList,
+    oppgaveIndex: number,
+    sammensattFilstorrelse: number,
+    filerMedFeil: Array<FilFeil>,
+    setListeMedFil: (filerMedFeil: Array<FilFeil>) => void
+) {
+    let sjekkMaxMengde = false;
+    for (let index = 0; index < files.length; index++) {
+        const file: File = files[index];
+        const filename = file.name;
+
+        let fileErrorObject: FilFeil = {
+            legalFileExtension: false,
+            containsUlovligeTegn: false,
+            legalFileSize: false,
+            legalCombinedFilesSize: false,
+            arrayIndex: index,
+            oppgaveIndex: oppgaveIndex,
+            filename: filename,
+        };
+
+        if (!legalFileExtension(filename)) {
+            fileErrorObject.legalFileExtension = true;
+        }
+        if (containsUlovligeTegn(filename)) {
+            fileErrorObject.containsUlovligeTegn = true;
+        }
+        if (legalFileSize(file)) {
+            fileErrorObject.legalFileSize = true;
+        }
+        if (legalCombinedFilesSize(sammensattFilstorrelse)) {
+            sjekkMaxMengde = true;
+            fileErrorObject.legalCombinedFilesSize = true;
+        }
+
+        if (
+            fileErrorObject.legalFileExtension ||
+            fileErrorObject.containsUlovligeTegn ||
+            fileErrorObject.legalFileSize ||
+            fileErrorObject.legalCombinedFilesSize
+        ) {
+            filerMedFeil.push(fileErrorObject);
+        }
+        sammensattFilstorrelse += file.size;
+    }
+    setListeMedFil(filerMedFeil);
+
+    if (sjekkMaxMengde) {
+        logInfoMessage(
+            "Bruker prøvde å laste opp over 350 mb. Størrelse på vedlegg var: " + sammensattFilstorrelse / (1024 * 1024)
+        );
+    }
+}
+
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex, sendVedleggCallback}) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
@@ -202,56 +257,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveIndex: number) => {
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
-        let filerMedFeil = [];
+        let filerMedFeil: Array<FilFeil> = [];
 
         if (files) {
-            let sjekkMaxMengde = false;
-            for (let index = 0; index < files.length; index++) {
-                const file: File = files[index];
-                const filename = file.name;
-
-                let fileErrorObject: FilFeil = {
-                    legalFileExtension: false,
-                    containsUlovligeTegn: false,
-                    legalFileSize: false,
-                    legalCombinedFilesSize: false,
-                    arrayIndex: index,
-                    oppgaveIndex: oppgaveIndex,
-                    filename: filename,
-                };
-
-                if (!legalFileExtension(filename)) {
-                    fileErrorObject.legalFileExtension = true;
-                }
-                if (containsUlovligeTegn(filename)) {
-                    fileErrorObject.containsUlovligeTegn = true;
-                }
-                if (legalFileSize(file)) {
-                    fileErrorObject.legalFileSize = true;
-                }
-                if (legalCombinedFilesSize(sammensattFilstorrelse)) {
-                    sjekkMaxMengde = true;
-                    fileErrorObject.legalCombinedFilesSize = true;
-                }
-
-                if (
-                    fileErrorObject.legalFileExtension ||
-                    fileErrorObject.containsUlovligeTegn ||
-                    fileErrorObject.legalFileSize ||
-                    fileErrorObject.legalCombinedFilesSize
-                ) {
-                    filerMedFeil.push(fileErrorObject);
-                }
-                sammensattFilstorrelse += file.size;
-            }
-            setListeMedFil(filerMedFeil);
-
-            if (sjekkMaxMengde) {
-                logInfoMessage(
-                    "Bruker prøvde å laste opp over 350 mb. Størrelse på vedlegg var: " +
-                        sammensattFilstorrelse / (1024 * 1024)
-                );
-            }
+            sjekkerFilFeil(files, oppgaveIndex, sammensattFilstorrelse, filerMedFeil, setListeMedFil);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {

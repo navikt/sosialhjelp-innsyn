@@ -18,18 +18,13 @@ import {
     hentInnsynsdata,
     innsynsdataUrl,
     logErrorMessage,
-    logInfoMessage,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {
-    containsUlovligeTegn,
-    legalFileExtension,
-    legalFileSize,
-    legalCombinedFilesSize,
     opprettFormDataMedVedleggFraFiler,
     FilFeil,
 } from "../../utils/vedleggUtils";
-import {skrivFeilmelding} from "../oppgaver/OppgaveView";
+import {skrivFeilmelding, sjekkerFilFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
@@ -67,56 +62,10 @@ const EttersendelseView: React.FC = () => {
     const onChange = (event: any) => {
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
-        let filerMedFeil = [];
+        let filerMedFeil: Array<FilFeil> = [];
 
         if (files) {
-            let sjekkMaxMengde = false;
-            for (let index = 0; index < files.length; index++) {
-                const file: File = files[index];
-                const filename = file.name;
-
-                let fileErrorObject: FilFeil = {
-                    legalFileExtension: false,
-                    containsUlovligeTegn: false,
-                    legalFileSize: false,
-                    legalCombinedFilesSize: false,
-                    arrayIndex: 0,
-                    oppgaveIndex: 0,
-                    filename: filename,
-                };
-
-                if (!legalFileExtension(filename)) {
-                    fileErrorObject.legalFileExtension = true;
-                }
-                if (containsUlovligeTegn(filename)) {
-                    fileErrorObject.containsUlovligeTegn = true;
-                }
-                if (legalFileSize(file)) {
-                    fileErrorObject.legalFileSize = true;
-                }
-                if (legalCombinedFilesSize(sammensattFilstorrelse)) {
-                    sjekkMaxMengde = true;
-                    fileErrorObject.legalCombinedFilesSize = true;
-                }
-
-                if (
-                    fileErrorObject.legalFileExtension ||
-                    fileErrorObject.containsUlovligeTegn ||
-                    fileErrorObject.legalFileSize ||
-                    fileErrorObject.legalCombinedFilesSize
-                ) {
-                    filerMedFeil.push(fileErrorObject);
-                }
-                sammensattFilstorrelse += file.size;
-            }
-            setListeMedFil(filerMedFeil);
-
-            if (sjekkMaxMengde) {
-                logInfoMessage(
-                    "Bruker prøvde å laste opp over 350 mb. Størrelse på vedlegg var: " +
-                        sammensattFilstorrelse / (1024 * 1024)
-                );
-            }
+            sjekkerFilFeil(files, 0, sammensattFilstorrelse, filerMedFeil, setListeMedFil);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
