@@ -1,6 +1,6 @@
 import {Panel} from "nav-frontend-paneler";
 import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
-import React from "react";
+import React, {useState} from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";
@@ -86,7 +86,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
-    const sendVedlegg = (event: any) => {
+    const [buttonIndex, setButtonIndex] = useState<number>(-1);
+
+    const sendVedlegg = (event: any, oppgaveIndex: number) => {
         if (!oppgaver || !fiksDigisosId) {
             event.preventDefault();
             return;
@@ -95,12 +97,11 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
+        setButtonIndex(oppgaveIndex);
+        let sammensattFilstorrelse = 0;
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
         dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
-
-
-        let sammensattFilstorrelse = 0;
 
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
@@ -253,6 +254,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                         oppgaverErFraInnsyn={oppgaverErFraInnsyn}
                                         oppgaveIndex={index}
                                         sendVedleggCallback={sendVedlegg}
+                                        buttonIndex={buttonIndex}
                                     />
                                 ))}
                         </div>

@@ -82,6 +82,6 @@ export interface FilFeil {
     legalFileSize: boolean;
     legalCombinedFilesSize: boolean;
     arrayIndex: number;
-    oppgaveIndex: number;
+    oppgaveElemendIndex: number;
     filename: string;
 }

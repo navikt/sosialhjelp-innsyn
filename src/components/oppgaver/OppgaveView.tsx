@@ -35,7 +35,8 @@ interface Props {
     oppgave: Oppgave;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
-    sendVedleggCallback: (event: any) => void;
+    sendVedleggCallback: (event: any, oppgaveIndex: number) => void;
+    buttonIndex: number;
 }
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
@@ -115,7 +116,7 @@ function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) 
     );
 }
 
-export function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
+export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) {
     let filnavn = "";
 
     const flagg = {
@@ -128,7 +129,7 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
     };
 
     listeMedFil.forEach(value => {
-        if (value.oppgaveIndex === id) {
+        if (value.oppgaveElemendIndex === oppgaveElementIndex) {
             if (
                 value.containsUlovligeTegn ||
                 value.legalFileSize ||
@@ -168,10 +169,10 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, id: number) {
 
 export function sjekkerFilFeil(
     files: FileList,
-    oppgaveIndex: number,
+    oppgaveElemendIndex: number,
     sammensattFilstorrelse: number,
     filerMedFeil: Array<FilFeil>,
-    setListeMedFil: (filerMedFeil: Array<FilFeil>) => void
+    setListeMedFil: (filerMedFeil: Array<FilFeil>) => void,
 ) {
     let sjekkMaxMengde = false;
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
@@ -184,7 +185,7 @@ export function sjekkerFilFeil(
             legalFileSize: false,
             legalCombinedFilesSize: false,
             arrayIndex: vedleggIndex,
-            oppgaveIndex: oppgaveIndex,
+            oppgaveElemendIndex: oppgaveElemendIndex,
             filename: filename,
         };
 
@@ -221,9 +222,10 @@ export function sjekkerFilFeil(
     }
 }
 
-const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex, sendVedleggCallback}) => {
+const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex, sendVedleggCallback, buttonIndex}) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
+
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
@@ -240,14 +242,14 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
-    const onLinkClicked = (id: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+    const onLinkClicked = (oppgaveElementIndex: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         let handleOnLinkClicked = (response: boolean) => {
             dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
-        const uploadElement: any = document.getElementById("file_" + oppgaveIndex + "_" + id);
+        const uploadElement: any = document.getElementById("file_" + oppgaveIndex + "_" + oppgaveElementIndex);
         uploadElement.click();
         if (event) {
             event.preventDefault();
@@ -260,7 +262,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         let filerMedFeil: Array<FilFeil> = [];
 
         if (files) {
-            sjekkerFilFeil(files, oppgaveIndex, sammensattFilstorrelse, filerMedFeil, setListeMedFil);
+            sjekkerFilFeil(files, oppgaveElementIndex, sammensattFilstorrelse, filerMedFeil, setListeMedFil);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
@@ -343,10 +345,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         oppgaveIndex: number
     ): JSX.Element {
         const visOppgaverDetaljeFeil: boolean =
-            oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
+            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) && buttonIndex === oppgaveIndex;
         return (
             <div key={oppgaveElementIndex} className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+
                 {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
+
                 {oppgaveElement.vedlegg &&
                     oppgaveElement.vedlegg.length > 0 &&
                     oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) => (
@@ -368,7 +372,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     }
 
     const visOppgaverDetaljeFeil: boolean =
-        oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
+        (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) && buttonIndex === oppgaveIndex ;
     return (
         <div>
             <div
@@ -407,15 +411,14 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            sendVedleggCallback(event);
+                            sendVedleggCallback(event, oppgaveIndex);
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
                     </Hovedknapp>
                 )}
             </div>
-
-            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
+            {((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && buttonIndex === oppgaveIndex) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
