@@ -3,17 +3,24 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
-import {InnsynsdataActionTypeKeys, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
+    InnsynsdataType,
+    KommuneResponse
+} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {IntlShape, useIntl} from 'react-intl';
+import {FormattedMessage, IntlShape, useIntl} from 'react-intl';
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
+import {Panel} from "nav-frontend-paneler";
+import {Systemtittel} from "nav-frontend-typografi";
 
 interface Props {
     match: {
@@ -26,6 +33,7 @@ interface Props {
 const SaksStatusView: React.FC<Props> = ({match}) => {
     const fiksDigisosId: string = match.params.soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
@@ -87,30 +95,47 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 leserData={leserData(restStatus.oppgaver)}
             />
 
-            <ArkfanePanel
-                className="panel-luft-over"
-                arkfaner={[
-                    {
-                        tittel: intl.formatMessage({id:'historikk.tittel'}),
-                        content: (
-                            <Historikk
-                                hendelser={innsynsdata.hendelser}
-                                leserData={leserData(restStatus.hendelser)}
-                            />
-                        )
-                    },
-                    {
-                        tittel: intl.formatMessage({id:'vedlegg.tittel'}),
-                        content: (
-                            <VedleggView
-                                vedlegg={innsynsdata.vedlegg}
-                                leserData={leserData(restStatus.saksStatus)}
-                            />
-                        )
-                    }
-                ]}
-                defaultArkfane={0}
-            />
+            {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
+                <>
+                    <Panel className="panel-luft-over">
+                        <Systemtittel>
+                            <FormattedMessage id="vedlegg.tittel"/>
+                        </Systemtittel>
+                    </Panel>
+                    <Panel className="panel-glippe-over">
+                        <VedleggView
+                            vedlegg={innsynsdata.vedlegg}
+                            leserData={leserData(restStatus.saksStatus)}
+                        />
+                    </Panel>
+                </>
+            )}
+            {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
+                <ArkfanePanel
+                    className="panel-luft-over"
+                    arkfaner={[
+                        {
+                            tittel: intl.formatMessage({id:'historikk.tittel'}),
+                            content: (
+                                <Historikk
+                                    hendelser={innsynsdata.hendelser}
+                                    leserData={leserData(restStatus.hendelser)}
+                                />
+                            )
+                        },
+                        {
+                            tittel: intl.formatMessage({id:'vedlegg.tittel'}),
+                            content: (
+                                <VedleggView
+                                    vedlegg={innsynsdata.vedlegg}
+                                    leserData={leserData(restStatus.saksStatus)}
+                                />
+                            )
+                        }
+                    ]}
+                    defaultArkfane={0}
+                />
+            )}
         </>
     )
 };
