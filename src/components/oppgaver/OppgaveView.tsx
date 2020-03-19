@@ -172,7 +172,7 @@ export function sjekkerFilFeil(
     oppgaveElemendIndex: number,
     sammensattFilstorrelse: number,
     filerMedFeil: Array<FilFeil>,
-    setListeMedFil: (filerMedFeil: Array<FilFeil>) => void,
+    setListeMedFil: (filerMedFeil: Array<FilFeil>) => void
 ) {
     let sjekkMaxMengde = false;
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
@@ -222,7 +222,13 @@ export function sjekkerFilFeil(
     }
 }
 
-const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex, sendVedleggCallback, buttonIndex}) => {
+const OppgaveView: React.FC<Props> = ({
+    oppgave,
+    oppgaverErFraInnsyn,
+    oppgaveIndex,
+    sendVedleggCallback,
+    buttonIndex,
+}) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
 
@@ -242,7 +248,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
-    const onLinkClicked = (oppgaveElementIndex: number, event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+    const onLinkClicked = (
+        oppgaveElementIndex: number,
+        event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    ): void => {
         let handleOnLinkClicked = (response: boolean) => {
             dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
@@ -256,7 +265,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         }
     };
 
-    const onChange = (event: any, oppgaveElement: OppgaveElement, oppgaveElementIndex: number, oppgaveIndex: number) => {
+    const onChange = (
+        event: any,
+        oppgaveElement: OppgaveElement,
+        oppgaveElementIndex: number,
+        oppgaveIndex: number
+    ) => {
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
         let filerMedFeil: Array<FilFeil> = [];
@@ -328,7 +342,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                             type="file"
                             id={"file_" + oppgaveIndex + "_" + oppgaveElementIndex}
                             multiple={true}
-                            onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
+                            onChange={(event: ChangeEvent) =>
+                                onChange(event, oppgaveElement, oppgaveElementIndex, oppgaveIndex)
+                            }
                             style={{display: "none"}}
                         />
                     </div>
@@ -345,10 +361,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         oppgaveIndex: number
     ): JSX.Element {
         const visOppgaverDetaljeFeil: boolean =
-            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) && buttonIndex === oppgaveIndex;
+            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
+            (buttonIndex === oppgaveIndex || oppgaveElementIndex > -1);
         return (
-            <div key={oppgaveElementIndex} className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-
+            <div
+                key={oppgaveElementIndex}
+                className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}
+            >
                 {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
 
                 {oppgaveElement.vedlegg &&
@@ -360,7 +379,14 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 {oppgaveElement.filer &&
                     oppgaveElement.filer.length > 0 &&
                     oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                        <FilView key={vedleggIndex} fil={fil} oppgaveElement={oppgaveElement} vedleggIndex={vedleggIndex} oppgaveElementIndex={oppgaveElementIndex} oppgaveIndex={oppgaveIndex} />
+                        <FilView
+                            key={vedleggIndex}
+                            fil={fil}
+                            oppgaveElement={oppgaveElement}
+                            vedleggIndex={vedleggIndex}
+                            oppgaveElementIndex={oppgaveElementIndex}
+                            oppgaveIndex={oppgaveIndex}
+                        />
                     ))}
                 {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
             </div>
@@ -372,7 +398,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     }
 
     const visOppgaverDetaljeFeil: boolean =
-        (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) && buttonIndex === oppgaveIndex ;
+        (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
+        (buttonIndex === oppgaveIndex || oppgaveIndex > -1);
     return (
         <div>
             <div
@@ -401,7 +428,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
                     );
-                    return getOppgaveDetaljer(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex);
+                    return getOppgaveDetaljer(
+                        typeTekst,
+                        tilleggsinfoTekst,
+                        oppgaveElement,
+                        oppgaveElementIndex,
+                        oppgaveIndex
+                    );
                 })}
 
                 {kanLasteOppVedlegg && (
@@ -418,7 +451,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     </Hovedknapp>
                 )}
             </div>
-            {((oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && buttonIndex === oppgaveIndex) && (
+            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && buttonIndex === oppgaveIndex && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={

@@ -32,7 +32,7 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
             type: "annet",
             tilleggsinfo: "annet",
             filer: filer,
-            innsendelsesfrist : undefined,
+            innsendelsesfrist: undefined,
         },
     ];
     return opprettFormDataMedVedlegg(metadata);
