@@ -100,40 +100,42 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
+        const harIkkeValgtNoenFiler = harIkkeValgtFiler(oppgaver);
+        dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtNoenFiler));
 
-        dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
-
-        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
-            let harFeil: boolean = false;
-            if (Array.isArray(filRespons)) {
-                for (let oppgaveIndex = 0; oppgaveIndex < filRespons.length; oppgaveIndex++) {
-                    for (let vedleggIndex = 0; vedleggIndex < filRespons[oppgaveIndex].filer.length; vedleggIndex++) {
-                        const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
-                        if (fileItem.status !== "OK") {
-                            harFeil = true;
+        if (!harIkkeValgtNoenFiler) {
+            fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
+                let harFeil: boolean = false;
+                if (Array.isArray(filRespons)) {
+                    for (let oppgaveIndex = 0; oppgaveIndex < filRespons.length; oppgaveIndex++) {
+                        for (let vedleggIndex = 0; vedleggIndex < filRespons[oppgaveIndex].filer.length; vedleggIndex++) {
+                            const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
+                            if (fileItem.status !== "OK") {
+                                harFeil = true;
+                            }
+                            dispatch({
+                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                fil: {filnavn: fileItem.filnavn} as Fil,
+                                status: fileItem.status,
+                                innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
+                                dokumenttype: filRespons[oppgaveIndex].type,
+                                tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
+                                vedleggIndex: vedleggIndex,
+                            });
                         }
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                            fil: {filnavn: fileItem.filnavn} as Fil,
-                            status: fileItem.status,
-                            innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
-                            dokumenttype: filRespons[oppgaveIndex].type,
-                            tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
-                            vedleggIndex: vedleggIndex,
-                        });
                     }
                 }
-            }
-            if (harFeil) {
-                dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            } else {
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-            }
-        }).catch((e) => {
-            logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-        });
+                if (harFeil) {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                } else {
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                }
+            }).catch((e) => {
+                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+            });
+        }
 
         event.preventDefault()
     };
