@@ -91,7 +91,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
     const sendVedlegg = (event: any) => {
-        if (!oppgaver ||!fiksDigisosId) {
+        if (!oppgaver || !fiksDigisosId) {
             event.preventDefault();
             return;
         }
@@ -100,9 +100,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
+        const harIkkeValgtNoenFiler = harIkkeValgtFiler(oppgaver);
+        dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtNoenFiler));
 
-        dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
-
+        if (harIkkeValgtNoenFiler) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            return;
+        }
         fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
             let harFeil: boolean = false;
             if (Array.isArray(filRespons)) {
