@@ -62,16 +62,13 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
         : antallDagerSidenFristBlePassert + " dag";
 }
 
-function harIkkeValgtFiler(oppgaver: Oppgave[] | null) {
+function harIkkeValgtFiler(oppgave: Oppgave | null) {
     let antall = 0;
-    oppgaver &&
-        oppgaver.forEach((oppgave: Oppgave) => {
-            oppgave &&
-                oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                    oppgaveElement.filer &&
-                        oppgaveElement.filer.forEach(() => {
-                            antall += 1;
-                        });
+    oppgave &&
+        oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+            oppgaveElement.filer &&
+                oppgaveElement.filer.forEach(() => {
+                    antall += 1;
                 });
         });
     return antall === 0;
@@ -80,47 +77,50 @@ function harIkkeValgtFiler(oppgaver: Oppgave[] | null) {
 const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
-
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
-
-    const [buttonIndex, setButtonIndex] = useState<number>(-1);
+    const [sendVedleggButtonIndex, setSendVedleggButtonIndex] = useState<number>(-1);
 
     const sendVedlegg = (event: any, oppgaveIndex: number) => {
+        setSendVedleggButtonIndex(-1);
         if (!oppgaver || !fiksDigisosId) {
             event.preventDefault();
             return;
         }
 
-        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
+        let formData = opprettFormDataMedVedleggFraOppgaver(oppgaver[oppgaveIndex]);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
-        setButtonIndex(oppgaveIndex);
+        setSendVedleggButtonIndex(oppgaveIndex);
         let sammensattFilstorrelse = 0;
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
-        dispatch(setOppgaveVedleggopplastingFeilet(harIkkeValgtFiler(oppgaver)));
 
-        //denne sjekker total sammensatt fil størrelse
-        // dette funger, men foreløpig vises ikke en feilmelding
-        oppgaver.forEach((oppgave: Oppgave) => {
-            oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                oppgaveElement.filer?.forEach((file: Fil) => {
-                    if (file.file?.size) {
-                        sammensattFilstorrelse += file.file.size;
-                    }
+        const ingenFilerValgt = harIkkeValgtFiler(oppgaver[oppgaveIndex]);
+        dispatch(setOppgaveVedleggopplastingFeilet(ingenFilerValgt));
+
+        if (ingenFilerValgt) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+        } else {
+            //denne sjekker total sammensatt fil størrelse
+            // dette funger, men foreløpig vises ikke en feilmelding
+            oppgaver.forEach((oppgave: Oppgave) => {
+                oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+                    oppgaveElement.filer?.forEach((file: Fil) => {
+                        if (file.file?.size) {
+                            sammensattFilstorrelse += file.file.size;
+                        }
+                    });
                 });
             });
-        });
 
-        if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
-            fetchPost(path, formData, "multipart/form-data")
-                .then((filRespons: any) => {
-                    let harFeil: boolean = false;
-                    if (Array.isArray(filRespons)) {
-                        for (let oppgaveIndex = 0; oppgaveIndex < filRespons.length; oppgaveIndex++) {
+            if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
+                fetchPost(path, formData, "multipart/form-data")
+                    .then((filRespons: any) => {
+                        let harFeil: boolean = false;
+                        if (Array.isArray(filRespons)) {
                             for (
                                 let vedleggIndex = 0;
                                 vedleggIndex < filRespons[oppgaveIndex].filer.length;
@@ -141,24 +141,24 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 });
                             }
                         }
-                    }
-                    if (harFeil) {
+                        if (harFeil) {
+                            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                        } else {
+                            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                        }
+                    })
+                    .catch(e => {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                    }
-                })
-                .catch(e => {
-                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-                });
-        } else {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                        logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                    });
+            } else {
+                dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            }
         }
         event.preventDefault();
     };
-
     return (
         <>
             <Panel className="panel-luft-over">
@@ -253,14 +253,14 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
                         <div>
                             {oppgaver !== null &&
-                                oppgaver.map((oppgave: Oppgave, index: number) => (
+                                oppgaver.map((oppgave: Oppgave, oppgaveIndex: number) => (
                                     <OppgaveView
                                         oppgave={oppgave}
-                                        key={index}
+                                        key={oppgaveIndex}
                                         oppgaverErFraInnsyn={oppgaverErFraInnsyn}
-                                        oppgaveIndex={index}
+                                        oppgaveIndex={oppgaveIndex}
                                         sendVedleggCallback={sendVedlegg}
-                                        buttonIndex={buttonIndex}
+                                        sendVedleggButtonIndex={sendVedleggButtonIndex}
                                     />
                                 ))}
                         </div>

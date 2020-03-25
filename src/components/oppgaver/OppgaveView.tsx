@@ -36,7 +36,7 @@ interface Props {
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
     sendVedleggCallback: (event: any, oppgaveIndex: number) => void;
-    buttonIndex: number;
+    sendVedleggButtonIndex: number;
 }
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
@@ -227,11 +227,10 @@ const OppgaveView: React.FC<Props> = ({
     oppgaverErFraInnsyn,
     oppgaveIndex,
     sendVedleggCallback,
-    buttonIndex,
+    sendVedleggButtonIndex,
 }) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
-
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
@@ -241,12 +240,13 @@ const OppgaveView: React.FC<Props> = ({
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
     const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
-
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
+    const [vedleggButtonIndex, setVedleggButtonIndex] = useState<number>(-1);
+    const [vedleggButtonOppgaveIndex, setVedleggButtonOppgaveIndex] = useState<number>(-1);
 
     const onLinkClicked = (
         oppgaveElementIndex: number,
@@ -323,7 +323,11 @@ const OppgaveView: React.FC<Props> = ({
                         <UploadFileIcon
                             className="last_opp_fil_ikon"
                             onClick={(event: any) => {
+                                setVedleggButtonIndex(-1);
+                                setVedleggButtonOppgaveIndex(-1);
                                 onLinkClicked(oppgaveElementIndex, event);
+                                setVedleggButtonIndex(oppgaveElementIndex);
+                                setVedleggButtonOppgaveIndex(oppgaveIndex);
                             }}
                         />
                         <Lenke
@@ -331,7 +335,11 @@ const OppgaveView: React.FC<Props> = ({
                             id={"oppgave_" + oppgaveElementIndex + "_last_opp_fil_knapp"}
                             className="lenke_uten_ramme"
                             onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                setVedleggButtonIndex(-1);
+                                setVedleggButtonOppgaveIndex(-1);
                                 onLinkClicked(oppgaveElementIndex, event);
+                                setVedleggButtonIndex(oppgaveElementIndex);
+                                setVedleggButtonOppgaveIndex(oppgaveIndex);
                             }}
                         >
                             <Element>
@@ -361,8 +369,10 @@ const OppgaveView: React.FC<Props> = ({
         oppgaveIndex: number
     ): JSX.Element {
         const visOppgaverDetaljeFeil: boolean =
-            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
-            (buttonIndex === oppgaveIndex || oppgaveElementIndex > -1);
+            ((oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
+            vedleggButtonIndex === oppgaveElementIndex) &&
+            (sendVedleggButtonIndex === oppgaveIndex ||
+                (sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex));
         return (
             <div
                 key={oppgaveElementIndex}
@@ -372,8 +382,8 @@ const OppgaveView: React.FC<Props> = ({
 
                 {oppgaveElement.vedlegg &&
                     oppgaveElement.vedlegg.length > 0 &&
-                    oppgaveElement.vedlegg.map((vedlegg: Vedlegg, index: number) => (
-                        <VedleggActionsView vedlegg={vedlegg} key={index} />
+                    oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
+                        <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
                     ))}
 
                 {oppgaveElement.filer &&
@@ -399,7 +409,7 @@ const OppgaveView: React.FC<Props> = ({
 
     const visOppgaverDetaljeFeil: boolean =
         (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
-        (buttonIndex === oppgaveIndex || oppgaveIndex > -1);
+        sendVedleggButtonIndex === oppgaveIndex;
     return (
         <div>
             <div
@@ -451,7 +461,7 @@ const OppgaveView: React.FC<Props> = ({
                     </Hovedknapp>
                 )}
             </div>
-            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && buttonIndex === oppgaveIndex && (
+            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && sendVedleggButtonIndex === oppgaveIndex && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={

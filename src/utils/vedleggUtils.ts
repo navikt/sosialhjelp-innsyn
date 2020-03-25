@@ -11,16 +11,14 @@ interface Metadata {
     innsendelsesfrist: string | undefined;
 }
 
-export function opprettFormDataMedVedleggFraOppgaver(oppgaver: Oppgave[]): FormData {
+export function opprettFormDataMedVedleggFraOppgaver(oppgave: Oppgave) {
     const metadata: Metadata[] = [];
-    oppgaver.forEach((oppgave: Oppgave) => {
-        oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-            metadata.push({
-                type: oppgaveElement.dokumenttype,
-                tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-                innsendelsesfrist: oppgave.innsendelsesfrist,
-                filer: oppgaveElement.filer ? oppgaveElement.filer : [],
-            });
+    oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+        metadata.push({
+            type: oppgaveElement.dokumenttype,
+            tilleggsinfo: oppgaveElement.tilleggsinformasjon,
+            innsendelsesfrist: oppgave.innsendelsesfrist,
+            filer: oppgaveElement.filer ? oppgaveElement.filer : [],
         });
     });
     return opprettFormDataMedVedlegg(metadata);
