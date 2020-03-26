@@ -100,20 +100,23 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         const ingenFilerValgt = harIkkeValgtFiler(oppgaver[oppgaveIndex]);
         dispatch(setOppgaveVedleggopplastingFeilet(ingenFilerValgt));
 
-
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
-        let sammensattFilstorrelse = 0;
-        oppgaver.forEach((oppgave: Oppgave) => {
-            oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                oppgaveElement.filer?.forEach((file: Fil) => {
-                    if (file.file?.size) {
-                        sammensattFilstorrelse += file.file.size;
-                    }
+
+        function test(oppgaver: any) {
+            let sammensattFilstorrelse = 0;
+            oppgaver.forEach((oppgave: Oppgave) => {
+                oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+                    oppgaveElement.filer?.forEach((file: Fil) => {
+                        if (file.file?.size) {
+                            sammensattFilstorrelse += file.file.size;
+                        }
+                    });
                 });
             });
-        });
-        
+            return sammensattFilstorrelse;
+        }
+        const sammensattFilstorrelse = test(oppgaver);
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
