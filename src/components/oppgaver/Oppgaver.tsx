@@ -104,12 +104,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         // dette funger, men foreløpig vises ikke en feilmelding
 
         function test2(filer: Fil[]) {
+            let sammensattFilStorrelse = 0;
             filer.forEach((file: Fil) => {
                 if (file.file?.size) {
-                    return file.file.size;
+                     sammensattFilStorrelse += file.file.size;
                 }
             });
-            return 0;
+            return sammensattFilStorrelse;
         }
 
         function test(oppgaver: any) {
