@@ -112,8 +112,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                         if (file.file?.size) {
                             sammensattFilstorrelse += file.file.size;
                         }
-                    });
-                });
+                    })
+                })
             });
 
             if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
