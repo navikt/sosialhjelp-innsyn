@@ -79,7 +79,7 @@ describe('VedleggUtilsTest', () => {
 
     it('should create correct form and meta data for oppgaver', () => {
 
-        let oppgaver = [oppgave];
+        let oppgaver = oppgave;
         const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
         expect(formData).toBeDefined();
 

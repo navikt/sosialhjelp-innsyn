@@ -103,59 +103,60 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-        } else {
-            //denne sjekker total sammensatt fil størrelse
-            // dette funger, men foreløpig vises ikke en feilmelding
-            oppgaver.forEach((oppgave: Oppgave) => {
-                oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                    oppgaveElement.filer?.forEach((file: Fil) => {
-                        if (file.file?.size) {
-                            sammensattFilstorrelse += file.file.size;
-                        }
-                    })
-                })
+            event.preventDefault();
+            return;
+        }
+        //denne sjekker total sammensatt fil størrelse
+        // dette funger, men foreløpig vises ikke en feilmelding
+        oppgaver.forEach((oppgave: Oppgave) => {
+            oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+                oppgaveElement.filer?.forEach((file: Fil) => {
+                    if (file.file?.size) {
+                        sammensattFilstorrelse += file.file.size;
+                    }
+                });
             });
+        });
 
-            if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
-                fetchPost(path, formData, "multipart/form-data")
-                    .then((filRespons: any) => {
-                        let harFeil: boolean = false;
-                        if (Array.isArray(filRespons)) {
-                            for (
-                                let vedleggIndex = 0;
-                                vedleggIndex < filRespons[oppgaveIndex].filer.length;
-                                vedleggIndex++
-                            ) {
-                                const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
-                                if (fileItem.status !== "OK") {
-                                    harFeil = true;
-                                }
-                                dispatch({
-                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                    fil: {filnavn: fileItem.filnavn} as Fil,
-                                    status: fileItem.status,
-                                    innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
-                                    dokumenttype: filRespons[oppgaveIndex].type,
-                                    tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
-                                    vedleggIndex: vedleggIndex,
-                                });
+        if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
+            fetchPost(path, formData, "multipart/form-data")
+                .then((filRespons: any) => {
+                    let harFeil: boolean = false;
+                    if (Array.isArray(filRespons)) {
+                        for (
+                            let vedleggIndex = 0;
+                            vedleggIndex < filRespons[oppgaveIndex].filer.length;
+                            vedleggIndex++
+                        ) {
+                            const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
+                            if (fileItem.status !== "OK") {
+                                harFeil = true;
                             }
+                            dispatch({
+                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                fil: {filnavn: fileItem.filnavn} as Fil,
+                                status: fileItem.status,
+                                innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
+                                dokumenttype: filRespons[oppgaveIndex].type,
+                                tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
+                                vedleggIndex: vedleggIndex,
+                            });
                         }
-                        if (harFeil) {
-                            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                        } else {
-                            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
-                            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                        }
-                    })
-                    .catch(e => {
+                    }
+                    if (harFeil) {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                        logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-                    });
-            } else {
-                dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            }
+                    } else {
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                    }
+                })
+                .catch(e => {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                });
+        } else {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
         }
         event.preventDefault();
     };
