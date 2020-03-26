@@ -103,8 +103,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
 
-        function test2(oppgaveElement: OppgaveElement) {
-            oppgaveElement.filer?.forEach((file: Fil) => {
+        function test2(filer: Fil[]) {
+            filer.forEach((file: Fil) => {
                 if (file.file?.size) {
                     return file.file.size;
                 }
@@ -116,7 +116,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             let sammensattFilstorrelse = 0;
             oppgaver.forEach((oppgave: Oppgave) => {
                 oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                    sammensattFilstorrelse += test2(oppgaveElement);
+                    if(oppgaveElement.filer){
+                        sammensattFilstorrelse += test2(oppgaveElement.filer);
+                    }
                 });
             });
             return sammensattFilstorrelse;
