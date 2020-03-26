@@ -94,20 +94,16 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         setSendVedleggButtonIndex(oppgaveIndex);
-        let sammensattFilstorrelse = 0;
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
         const ingenFilerValgt = harIkkeValgtFiler(oppgaver[oppgaveIndex]);
         dispatch(setOppgaveVedleggopplastingFeilet(ingenFilerValgt));
 
-        if (ingenFilerValgt) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            event.preventDefault();
-            return;
-        }
+
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
+        let sammensattFilstorrelse = 0;
         oppgaver.forEach((oppgave: Oppgave) => {
             oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
                 oppgaveElement.filer?.forEach((file: Fil) => {
@@ -117,6 +113,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 });
             });
         });
+        
+
+        if (ingenFilerValgt) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            event.preventDefault();
+            return;
+        }
 
         if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
             fetchPost(path, formData, "multipart/form-data")
