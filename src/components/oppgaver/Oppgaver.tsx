@@ -102,7 +102,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
-        
         function test(oppgaver: any) {
             let sammensattFilStorrelse = 0;
             oppgaver.forEach((oppgave: Oppgave) => {
@@ -116,9 +115,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     }
                 });
             });
-            return sammensattFilstorrelse;
+            return sammensattFilStorrelse;
         }
-        const sammensattFilstorrelse: number = test(oppgaver);
+        const sammensattFilStorrelse: number = test(oppgaver);
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -126,7 +125,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             return;
         }
 
-        if (sammensattFilstorrelse < maxMengdeStorrelse && sammensattFilstorrelse !== 0) {
+        if (sammensattFilStorrelse < maxMengdeStorrelse && sammensattFilStorrelse !== 0) {
             fetchPost(path, formData, "multipart/form-data")
                 .then((filRespons: any) => {
                     let harFeil: boolean = false;

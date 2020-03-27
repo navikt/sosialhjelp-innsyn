@@ -79,8 +79,7 @@ describe('VedleggUtilsTest', () => {
 
     it('should create correct form and meta data for oppgaver', () => {
 
-        let oppgaver = oppgave;
-        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
+        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
