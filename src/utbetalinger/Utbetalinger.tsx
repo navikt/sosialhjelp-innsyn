@@ -1,17 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import "./utbetalinger.less";
-import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
+import {
+    filtrerMaanederUtenUtbetalinger,
+    filtrerUtbetalingerForTidsinterval,
+    filtrerUtbetalingerPaaMottaker
+} from "./utbetalingerUtils";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {Sidetittel} from "nav-frontend-typografi";
+import {useDispatch} from "react-redux";
+import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
+import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
 const Utbetalinger: React.FC = () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER))
+    }, [dispatch]);
+
     document.title = "Utbetalingsoversikt";
     const [visAntallMnd, setVisAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [hentetAntallMnd, setHentetAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
@@ -43,6 +56,7 @@ const Utbetalinger: React.FC = () => {
     const now: Date = new Date();
     utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
     utbetalinger = filtrerUtbetalingerPaaMottaker(utbetalinger, tilBrukersKonto, tilAnnenMottaker);
+    utbetalinger = filtrerMaanederUtenUtbetalinger(utbetalinger);
 
     return (
         <div>
