@@ -102,7 +102,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
-        function test(oppgaver: any) {
+        function setterStorrelse(oppgaver: any) {
             let sammensattFilStorrelse = 0;
             oppgaver.forEach((oppgave: Oppgave) => {
                 oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
@@ -117,7 +117,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             });
             return sammensattFilStorrelse;
         }
-        const sammensattFilStorrelse: number = test(oppgaver);
+        const sammensattFilStorrelse: number = setterStorrelse(oppgaver);
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));

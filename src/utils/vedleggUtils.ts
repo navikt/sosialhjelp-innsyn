@@ -83,3 +83,8 @@ export interface FilFeil {
     oppgaveElemendIndex: number;
     filename: string;
 }
+
+
+export function validerFilArrayForFeil(listeMedFil: Array<FilFeil>) {
+    return !!(listeMedFil && listeMedFil.length);
+}

@@ -27,6 +27,7 @@ import {
     legalFileSize,
     legalFileExtension,
     FilFeil,
+    validerFilArrayForFeil,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {REST_STATUS} from "../../utils/restUtils";
@@ -300,6 +301,7 @@ const OppgaveView: React.FC<Props> = ({
         if (event.target.value === "") {
             return;
         }
+        event.target.value = null;
         event.preventDefault();
     };
 
@@ -366,11 +368,13 @@ const OppgaveView: React.FC<Props> = ({
         oppgaveElementIndex: number,
         oppgaveIndex: number
     ): JSX.Element {
-        const visOppgaverDetaljeFeil: boolean =
-            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
-            (velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggButtonIndex === oppgaveIndex) &&
-            ((sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex) ||
-                sendVedleggButtonIndex === oppgaveIndex);
+        const checksErrorUploadingOrErrorList = (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0);
+        const sendVedleggPressed = (sendVedleggButtonIndex === oppgaveIndex);
+        const checksWhichButtonPressed = (velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggPressed);
+        const vedleggButtonPressed = (sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex);
+        const checksCorrectButtonPressed = (vedleggButtonPressed || sendVedleggPressed);
+
+        const visOppgaverDetaljeFeil: boolean = (checksErrorUploadingOrErrorList && checksWhichButtonPressed) && checksCorrectButtonPressed;
         return (
             <div
                 key={oppgaveElementIndex}
@@ -396,13 +400,9 @@ const OppgaveView: React.FC<Props> = ({
                             oppgaveIndex={oppgaveIndex}
                         />
                     ))}
-                {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
+                {validerFilArrayForFeil(listeMedFil) && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
             </div>
         );
-    }
-
-    function validerFilArrayForFeil() {
-        return !!(listeMedFil && listeMedFil.length);
     }
 
     const visOppgaverDetaljeFeil: boolean =

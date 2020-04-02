@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {opprettFormDataMedVedleggFraFiler, FilFeil} from "../../utils/vedleggUtils";
+import {opprettFormDataMedVedleggFraFiler, FilFeil, validerFilArrayForFeil,} from "../../utils/vedleggUtils";
 import {skrivFeilmelding, sjekkerFilFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -77,6 +77,7 @@ const EttersendelseView: React.FC = () => {
         if (event.target.value === "") {
             return;
         }
+        event.target.value = null;
         event.preventDefault();
     };
 
@@ -125,10 +126,6 @@ const EttersendelseView: React.FC = () => {
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
-
-    function validerFilArrayForFeil() {
-        return !!(listeMedFil && listeMedFil.length);
-    }
 
     return (
         <div>
@@ -201,7 +198,7 @@ const EttersendelseView: React.FC = () => {
                             />
                         </div>
                     )}
-                    {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, 0)}
+                    {validerFilArrayForFeil(listeMedFil) && skrivFeilmelding(listeMedFil, 0)}
                 </div>
 
                 <Hovedknapp
