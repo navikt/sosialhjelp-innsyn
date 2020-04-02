@@ -106,7 +106,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             let sammensattFilStorrelse = 0;
             oppgaver.forEach((oppgave: Oppgave) => {
                 oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                    if(oppgaveElement.filer){
+                    if (oppgaveElement.filer) {
                         oppgaveElement.filer.forEach((file: Fil) => {
                             if (file.file?.size) {
                                 sammensattFilStorrelse += file.file.size;
@@ -130,25 +130,22 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 .then((filRespons: any) => {
                     let harFeil: boolean = false;
                     if (Array.isArray(filRespons)) {
-                        for (
-                            let vedleggIndex = 0;
-                            vedleggIndex < filRespons[oppgaveIndex].filer.length;
-                            vedleggIndex++
-                        ) {
-                            const fileItem = filRespons[oppgaveIndex].filer[vedleggIndex];
-                            if (fileItem.status !== "OK") {
-                                harFeil = true;
-                            }
-                            dispatch({
-                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                fil: {filnavn: fileItem.filnavn} as Fil,
-                                status: fileItem.status,
-                                innsendelsesfrist: filRespons[oppgaveIndex].innsendelsesfrist,
-                                dokumenttype: filRespons[oppgaveIndex].type,
-                                tilleggsinfo: filRespons[oppgaveIndex].tilleggsinfo,
-                                vedleggIndex: vedleggIndex,
+                        filRespons.forEach(respons => {
+                            respons.filer.forEach((fil: Fil, index: number) => {
+                                if (fil.status !== "OK") {
+                                    harFeil = true;
+                                }
+                                dispatch({
+                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                    fil: {filnavn: fil.filnavn} as Fil,
+                                    status: fil.status,
+                                    innsendelsesfrist: respons.innsendelsesfrist,
+                                    dokumenttype: respons.type,
+                                    tilleggsinfo: respons.tilleggsinfo,
+                                    vedleggIndex: index,
+                                });
                             });
-                        }
+                        });
                     }
                     if (harFeil) {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -167,6 +164,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
         }
         event.preventDefault();
     };
+
     return (
         <>
             <Panel className="panel-luft-over">

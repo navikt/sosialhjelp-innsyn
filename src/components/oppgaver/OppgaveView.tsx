@@ -359,15 +359,6 @@ const OppgaveView: React.FC<Props> = ({
         );
     }
 
-    function getVisOppgaverDetaljeFeil(oppgaveElementIndex: number, oppgaveIndex: number) {
-        return (
-            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
-            (velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggButtonIndex === oppgaveIndex) &&
-            ((sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex) ||
-                sendVedleggButtonIndex === oppgaveIndex)
-        );
-    }
-
     function getOppgaveDetaljer(
         typeTekst: string,
         tilleggsinfoTekst: string | undefined,
@@ -375,36 +366,36 @@ const OppgaveView: React.FC<Props> = ({
         oppgaveElementIndex: number,
         oppgaveIndex: number
     ): JSX.Element {
-        const visOppgaverDetaljeFeil: boolean = getVisOppgaverDetaljeFeil(oppgaveElementIndex, oppgaveIndex);
-        console.log("O.Element", "oppgaIndex", oppgaveIndex, "oppgaEle", oppgaveElementIndex, "visOppgaDetal", visOppgaverDetaljeFeil
-        );
+        const visOppgaverDetaljeFeil: boolean =
+            (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
+            (velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggButtonIndex === oppgaveIndex) &&
+            ((sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex) ||
+                sendVedleggButtonIndex === oppgaveIndex);
         return (
-            <div>
-                <div
-                    key={oppgaveElementIndex}
-                    className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}
-                >
-                    {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
+            <div
+                key={oppgaveElementIndex}
+                className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}
+            >
+                {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
 
-                    {oppgaveElement.vedlegg &&
-                        oppgaveElement.vedlegg.length > 0 &&
-                        oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
-                            <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
-                        ))}
+                {oppgaveElement.vedlegg &&
+                    oppgaveElement.vedlegg.length > 0 &&
+                    oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
+                        <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
+                    ))}
 
-                    {oppgaveElement.filer &&
-                        oppgaveElement.filer.length > 0 &&
-                        oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                            <FilView
-                                key={vedleggIndex}
-                                fil={fil}
-                                oppgaveElement={oppgaveElement}
-                                vedleggIndex={vedleggIndex}
-                                oppgaveElementIndex={oppgaveElementIndex}
-                                oppgaveIndex={oppgaveIndex}
-                            />
-                        ))}
-                </div>
+                {oppgaveElement.filer &&
+                    oppgaveElement.filer.length > 0 &&
+                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
+                        <FilView
+                            key={vedleggIndex}
+                            fil={fil}
+                            oppgaveElement={oppgaveElement}
+                            vedleggIndex={vedleggIndex}
+                            oppgaveElementIndex={oppgaveElementIndex}
+                            oppgaveIndex={oppgaveIndex}
+                        />
+                    ))}
                 {validerFilArrayForFeil() && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
             </div>
         );
@@ -417,7 +408,6 @@ const OppgaveView: React.FC<Props> = ({
     const visOppgaverDetaljeFeil: boolean =
         (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
         sendVedleggButtonIndex === oppgaveIndex;
-    console.log("OPPGAVE", "oppgaIndex", oppgaveIndex, "visOppgaDetal", visOppgaverDetaljeFeil);
     return (
         <div>
             <div
