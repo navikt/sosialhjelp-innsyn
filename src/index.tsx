@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
 import App from './App';
-import 'formdata-polyfill';
 
 window.onerror = (errorMessage, url, line, column, error) => {
 	// TODO implementere clientlogger, f.eks. slik:
