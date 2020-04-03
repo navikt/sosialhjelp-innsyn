@@ -46,9 +46,23 @@ export const tekster = {
         "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
         "oppgaver.andre_dokumenter_beskjed": "Du kan sende dokumenter under fanen \"Dine vedlegg\" nedenfor.",
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
-        "vedlegg.ulovlig_fil_feilmelding": "En eller flere filer ble ikke lagt til.",
+        "vedlegg.ulovlig_fil_feilmelding": "Vi kunne ikke legge til filene dine:",
+
+        "vedlegg.ulovlig_en_fil_feilmelding":"{filnavn} ble ikke lagt til:",
+
+        "vedlegg.ulovlig_en_filtype_feilmelding": "{filnavn} har ikke rett type og ble ikke lagt til. ",
+        "vedlegg.ulovlig_en_filnavn_feilmelding": "{filnavn} inneholder tegner i navnet som den ikke bør ha og ble ikke lagt til.",
+        "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og ble ikke lagt til.",
+
+        "vedlegg.ulovlig_flere_fil_feilmelding":"Vi kunne ikke legge til filene dine. {antallFiler} av dem var av en type vi ikke støtter:",
+
+        "vedlegg.ulovlig_alle_fil_feilmelding":"Alle av dine filer ble ikke lagt til:",
         "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
+        "vedlegg.ulovlig_filstorrelse_feilmelding": "Filer må være under 10 Mb.",
+
+        "vedlegg.ulovlig_storrelse_av_alle_valgte_filer": "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 350 Mb.",
+
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
@@ -62,6 +76,7 @@ export const tekster = {
         "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG eller PDF",
         "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
         "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filer må være under 10 mb",
+        "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 350 Mb",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
