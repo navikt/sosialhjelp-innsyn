@@ -117,6 +117,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
             });
             return sammensattFilStorrelse;
         }
+
         const sammensattFilStorrelse: number = setterStorrelse(oppgaver);
 
         if (ingenFilerValgt) {
