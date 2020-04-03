@@ -11,7 +11,7 @@ function formatBytes(bytes: number, decimals: number = 2): string {
 
 // Eksempel: formatCurrency(12345) => 12.345
 function formatCurrency(amount: number, decimals: number = 0): string {
-    return new Intl.NumberFormat('de-DE').format(amount);
+    return new Intl.NumberFormat('no-NB').format(amount);
 }
 
 // Eksempel: "2019-08-01" => "01. august 2019"

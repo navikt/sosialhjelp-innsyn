@@ -46,7 +46,7 @@ const useUtbetalingerService = (month: number) => {
                 setResult({restStatus: REST_STATUS.OK, payload: response});
             })
             .catch((error: any) => {
-                logErrorMessage(error.message)
+                logErrorMessage(error.message);
                 setResult({restStatus: REST_STATUS.FEILET, error})
             });
     }, [month]);
