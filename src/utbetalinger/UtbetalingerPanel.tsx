@@ -103,15 +103,6 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 <br/>
                                             </div>
                                         )}
-                                        {utbetalingMaaned.forfallsdato && (
-                                            <div>
-                                                <EtikettLiten>Forfallsdato</EtikettLiten>
-                                                <Element>
-                                                    {formatDato(utbetalingMaaned.forfallsdato)}
-                                                </Element>
-                                                <br/>
-                                            </div>
-                                        )}
                                         <br/>
                                         <EtikettLiten>Søknaden din</EtikettLiten>
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId}/>

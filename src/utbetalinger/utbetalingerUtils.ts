@@ -35,9 +35,17 @@ const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTi
         };
     });
 };
+
+const filtrerMaanederUtenUtbetalinger = (utbetalinger: UtbetalingSakType[]): UtbetalingSakType[] => {
+    return utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
+        return utbetalingSak.utbetalinger.length > 0;
+    });
+};
+
 export {
     filtrerUtbetalingerPaaMottaker,
     filtrerUtbetalingerForTidsinterval,
+    filtrerMaanederUtenUtbetalinger,
     diffInMonths,
     brukerMottarUtbetaling
 };
