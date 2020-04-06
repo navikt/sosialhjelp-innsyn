@@ -2,7 +2,7 @@ import * as React from "react";
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import './Feilside.less';
 import {useSelector} from "react-redux";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
