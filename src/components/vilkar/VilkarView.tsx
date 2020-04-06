@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import DocumentChecklist from "../ikoner/DocumentChecklist";
 import {getSkalViseVilkarView} from "./VilkarUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
-import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import BinderSmall from "../ikoner/BinderSmall";
 import ChecklistSmall from "../ikoner/ChecklistSmall";
@@ -37,9 +37,10 @@ const VilkarView: React.FC = () => {
         return (
             <Panel className={"panel-glippe-over"}>
 
-                <EkspanderbartpanelBase
+                <Ekspanderbartpanel
                     apen={true}
-                    heading={heading}
+                    tittel={heading}
+                    border={false}
                     className={"react-collapse-animation"}
                 >
                     <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>
@@ -70,7 +71,7 @@ const VilkarView: React.FC = () => {
                                 </div>
                             </div>
                     </Panel>
-                </EkspanderbartpanelBase>
+                </Ekspanderbartpanel>
             </Panel>
         )
     } else {

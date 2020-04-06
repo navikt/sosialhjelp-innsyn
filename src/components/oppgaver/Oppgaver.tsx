@@ -1,10 +1,10 @@
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Lenke from "nav-frontend-lenker";
-import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
 import {
     Fil,
@@ -175,7 +175,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 <Panel
                     className={"panel-glippe-over oppgaver_panel " + (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")}
                 >
-                    <EkspanderbartpanelBase apen={true} heading={(
+                    <Ekspanderbartpanel apen={true} border={false} tittel={(
                         <div className="oppgaver_header">
                             <DokumentBinder/>
                             <div>
@@ -241,7 +241,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                             </Hovedknapp>
                         }
 
-                    </EkspanderbartpanelBase>
+                    </Ekspanderbartpanel>
                 </Panel>
 
             )}
