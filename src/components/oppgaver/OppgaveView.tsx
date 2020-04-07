@@ -105,7 +105,7 @@ const feilmeldingComponent = (feilId: string) => {
 
 function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) {
     return (
-        <ul>
+        <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
             {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
             {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
             {flagg.maxSammensattFilStorrelse &&
