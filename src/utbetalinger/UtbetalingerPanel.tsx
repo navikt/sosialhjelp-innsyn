@@ -74,7 +74,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                             <EtikettLiten>Mottaker</EtikettLiten>
                                             {!annenMottaker && (
                                                 <Element>
-                                                    Din konto (
+                                                    Til deg (
                                                     {utbetalingMaaned.utbetalingsmetode && (<>{utbetalingMaaned.utbetalingsmetode} </>)}
                                                     {utbetalingMaaned.kontonummer})
                                                 </Element>
