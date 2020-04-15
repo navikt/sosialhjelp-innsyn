@@ -79,8 +79,7 @@ describe('VedleggUtilsTest', () => {
 
     it('should create correct form and meta data for oppgaver', () => {
 
-        let oppgaver = [oppgave];
-        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgaver);
+        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
@@ -101,7 +100,8 @@ describe('VedleggUtilsTest', () => {
         });
 
         const metadataFile = (formDataEntryValues[0] as File);
-        const actualMetadata = metadataFile["_buffer"].toString();
+        // @ts-ignore
+        const actualMetadata = metadataFile['_buffer'].toString();
         expect(actualMetadata).toBe(expectedOppgaverMetadata);
     });
 
@@ -126,6 +126,7 @@ describe('VedleggUtilsTest', () => {
         });
 
         const metadataFile = (formDataEntryValues[0] as File);
+        // @ts-ignore
         const actualMetadata = metadataFile["_buffer"].toString();
         expect(actualMetadata).toBe(expectedEttersendelseMetadata);
     });

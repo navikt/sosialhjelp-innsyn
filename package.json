@@ -10,6 +10,7 @@
     "core-js": "^3.4.8",
     "craco-less": "^1.15.0",
     "date-fns": "^2.6.0",
+    "formdata-polyfill": "^3.0.19",
     "history": "^4.10.1",
     "less-plugin-npm-import": "^2.1.0",
     "lodash.template": ">=4.5.0",
@@ -105,6 +106,7 @@
     "@types/redux": "^3.6.0",
     "@types/uuid": "^3.4.7",
     "babel-runtime": "^6.26.0",
+    "prettier": "1.19.1",
     "typescript": "^3.7.4"
   }
 }

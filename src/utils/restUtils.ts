@@ -1,5 +1,6 @@
 import 'whatwg-fetch'
 
+
 export function erDev(): boolean {
     const url = window.location.href;
     return (url.indexOf("localhost:3000") > 0);
