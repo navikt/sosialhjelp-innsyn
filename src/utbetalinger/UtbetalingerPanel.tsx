@@ -7,7 +7,6 @@ import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerServ
 import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
-import {brukerMottarUtbetaling} from "./utbetalingerUtils";
 import {erDevMiljo} from "../utils/ServiceHookTypes";
 
 interface Props {
@@ -57,7 +56,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                             </div>
                             <hr/>
                             {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
-                                const brukerErMottaker: boolean = brukerMottarUtbetaling(utbetalingMaaned.mottaker);
+                                const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
                                 const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
                                 return (
                                     <span key={"utbetaling_" + index}>
@@ -73,14 +72,14 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
 
                                         <div>
                                             <EtikettLiten>Mottaker</EtikettLiten>
-                                            {brukerErMottaker && (
+                                            {!annenMottaker && (
                                                 <Element>
-                                                    Din konto (
+                                                    Til deg (
                                                     {utbetalingMaaned.utbetalingsmetode && (<>{utbetalingMaaned.utbetalingsmetode} </>)}
                                                     {utbetalingMaaned.kontonummer})
                                                 </Element>
                                             )}
-                                            {!brukerErMottaker && (
+                                            {annenMottaker && (
                                                 <Element style={{textTransform: "capitalize"}}>
                                                     {utbetalingMaaned.mottaker}
                                                     {utbetalingMaaned.utbetalingsmetode && (

@@ -10,6 +10,6 @@ window.onerror = (errorMessage, url, line, column, error) => {
 	// TODO implementere clientlogger, f.eks. slik:
 	// store.dispatch(loggException(errorMessage.toString(), url, line, column, error));
 	console.warn("TODO: Implementer clientlogger");
-}
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));

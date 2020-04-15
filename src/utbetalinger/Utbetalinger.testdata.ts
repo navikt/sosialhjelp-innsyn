@@ -29,6 +29,7 @@ const mockUtbetalinger: UtbetalingSakType[] = [
             "fom" : "2019-09-01",
             "tom" : "2019-09-30",
             "mottaker" : "søkers fnr",
+            "annenMottaker": true,
             "kontonummer" : "11223344556",
             "forfallsdato": "2019-08-20",
             "utbetalingsmetode" : "bankoverføring"
@@ -41,6 +42,7 @@ const mockUtbetalinger: UtbetalingSakType[] = [
             "fom" : null,
             "tom" : null,
             "mottaker" : "Utleier",
+            "annenMottaker": true,
             "kontonummer" : null,
             "forfallsdato": "2019-08-20",
             "utbetalingsmetode" : "bankoverføring"
@@ -59,6 +61,7 @@ const mockUtbetalinger: UtbetalingSakType[] = [
         "fom" : "2019-09-01",
         "tom" : "2019-10-31",
         "mottaker" : "søkers fnr",
+        "annenMottaker": false,
         "kontonummer" : null,
         "forfallsdato": "2019-08-20",
         "utbetalingsmetode" : "bankoverføring"
@@ -77,6 +80,7 @@ const mockUtbetalinger: UtbetalingSakType[] = [
         "fom" : "2019-09-01",
         "tom" : "2019-09-30",
         "mottaker" : "19066711222",
+        "annenMottaker": false,
         "kontonummer" : "11223344556",
         "forfallsdato": "2019-08-20",
         "utbetalingsmetode" : "bankoverføring"
@@ -89,6 +93,7 @@ const mockUtbetalinger: UtbetalingSakType[] = [
         "fom" : null,
         "tom" : null,
         "mottaker" : "Utleier",
+        "annenMottaker": false,
         "kontonummer" : null,
         "forfallsdato": "2019-08-20",
         "utbetalingsmetode" : "bankoverføring"

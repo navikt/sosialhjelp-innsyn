@@ -15,18 +15,13 @@ const filtrerUtbetalingerForTidsinterval = (utbetalinger: UtbetalingSakType[], v
     });
 };
 
-// Om bruker mottar en utbetaling eller ikke bør returneres som en boolean fra backend:
-const brukerMottarUtbetaling = (mottaker: string): boolean => {
-    return (mottaker === "søkers fnr") || (mottaker !== null && mottaker.length > 0 && mottaker.match(/^[0-9]{3,}/) !== null);
-};
-
 const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTilBrukersKonto: boolean, visTilAnnenMottaker: boolean): UtbetalingSakType[] => {
     return utbetalinger.map((utbetalingSak: UtbetalingSakType) => {
         return {
             ...utbetalingSak,
             utbetalinger: utbetalingSak.utbetalinger.filter((utbetalingMaaned: UtbetalingMaaned, index: number) => {
-                const blirBetaltTilBruker: boolean = brukerMottarUtbetaling(utbetalingMaaned.mottaker);
-                if (blirBetaltTilBruker) {
+                const annenMottaker = utbetalingMaaned.annenMottaker;
+                if (!annenMottaker) {
                     return visTilBrukersKonto;
                 } else {
                     return visTilAnnenMottaker;
@@ -46,6 +41,5 @@ export {
     filtrerUtbetalingerPaaMottaker,
     filtrerUtbetalingerForTidsinterval,
     filtrerMaanederUtenUtbetalinger,
-    diffInMonths,
-    brukerMottarUtbetaling
+    diffInMonths
 };

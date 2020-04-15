@@ -28,6 +28,7 @@ export interface UtbetalingMaaned {
     fom: string|null;
     tom: string|null;
     mottaker: string;
+    annenMottaker: boolean;
     kontonummer: string|null;
     forfallsdato: string|null;
     utbetalingsmetode: string|null;

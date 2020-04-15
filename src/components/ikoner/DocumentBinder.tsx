@@ -14,10 +14,10 @@ const DokumentBinder: React.FC = () => {
                     <g id='Group-11' transform='translate(115 3082)'>
                         <g id='spotlight/-element'>
                             <g id='-80/-Blå'>
-                                <mask id='mask-2' fill='#fff'>
+                                <mask id='innsyn-mask-2' fill='#fff'>
                                     <use xlinkHref='#path-1' />
                                 </mask>
-                                <g id='V⚙️/STYLING/farge/Oransje/--60' mask='url(#mask-2)' fill='#FFD399'>
+                                <g id='V⚙️/STYLING/farge/Oransje/--60' mask='url(#innsyn-mask-2)' fill='#FFD399'>
                                     <polygon id='Fill-7' points='0 100 100 100 100 0 0 0' />
                                 </g>
                             </g>
