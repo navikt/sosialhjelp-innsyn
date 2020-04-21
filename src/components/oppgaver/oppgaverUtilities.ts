@@ -5,7 +5,7 @@ export const getSkalViseIngenOppgaverPanel = (
     oppgaver: undefined | string | Oppgave[],
     innsynSaksStatusListe: undefined | SaksStatusState[]
 ) => {
-    return (brukerHarIngenOppgaver(oppgaver) && vilkarViewVisesIkke(innsynSaksStatusListe))
+    return brukerHarIngenOppgaver(oppgaver) && vilkarViewVisesIkke(innsynSaksStatusListe);
 };
 
 const brukerHarIngenOppgaver = (oppgaver: undefined | string | Oppgave[]): boolean => {
@@ -16,5 +16,5 @@ const brukerHarIngenOppgaver = (oppgaver: undefined | string | Oppgave[]): boole
 };
 
 export const vilkarViewVisesIkke = (innsynSaksStatusListe: undefined | SaksStatusState[]): boolean => {
-    return !getSkalViseVilkarView(innsynSaksStatusListe)
+    return !getSkalViseVilkarView(innsynSaksStatusListe);
 };

@@ -7,14 +7,14 @@ import {
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     InnsynsdataType,
-    KommuneResponse
+    KommuneResponse,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {FormattedMessage, IntlShape, useIntl} from 'react-intl';
+import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
@@ -26,22 +26,24 @@ interface Props {
     match: {
         params: {
             soknadId: string;
-        }
+        };
     };
 }
 
 const SaksStatusView: React.FC<Props> = ({match}) => {
     const fiksDigisosId: string = match.params.soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
+    let kommuneResponse: KommuneResponse | undefined = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.kommune
+    );
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
 
     useEffect(() => {
         dispatch({
-            type:  InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
-            fiksDigisosId: fiksDigisosId
+            type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
+            fiksDigisosId: fiksDigisosId,
         });
         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
     }, [dispatch, fiksDigisosId]);
@@ -54,10 +56,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 InnsynsdataSti.HENDELSER,
                 InnsynsdataSti.VEDLEGG,
                 InnsynsdataSti.FORELOPIG_SVAR,
-                InnsynsdataSti.KOMMUNE
-            ].map((restDataSti: InnsynsdataSti) =>
-                dispatch(hentInnsynsdata(fiksDigisosId, restDataSti))
-            );
+                InnsynsdataSti.KOMMUNE,
+            ].map((restDataSti: InnsynsdataSti) => dispatch(hentInnsynsdata(fiksDigisosId, restDataSti)));
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
@@ -74,7 +74,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
                     path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH
+                    urlType: UrlType.ABSOLUTE_PATH,
                 }}
                 tittel={statusTittel}
                 tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
@@ -90,23 +90,17 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 leserData={leserData(restStatus.saksStatus)}
             />
 
-            <Oppgaver
-                oppgaver={innsynsdata.oppgaver}
-                leserData={leserData(restStatus.oppgaver)}
-            />
+            <Oppgaver oppgaver={innsynsdata.oppgaver} leserData={leserData(restStatus.oppgaver)} />
 
             {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                 <>
                     <Panel className="panel-luft-over">
                         <Systemtittel>
-                            <FormattedMessage id="vedlegg.tittel"/>
+                            <FormattedMessage id="vedlegg.tittel" />
                         </Systemtittel>
                     </Panel>
                     <Panel className="panel-glippe-over">
-                        <VedleggView
-                            vedlegg={innsynsdata.vedlegg}
-                            leserData={leserData(restStatus.saksStatus)}
-                        />
+                        <VedleggView vedlegg={innsynsdata.vedlegg} leserData={leserData(restStatus.saksStatus)} />
                     </Panel>
                 </>
             )}
@@ -115,29 +109,29 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     className="panel-luft-over"
                     arkfaner={[
                         {
-                            tittel: intl.formatMessage({id:'historikk.tittel'}),
+                            tittel: intl.formatMessage({id: "historikk.tittel"}),
                             content: (
                                 <Historikk
                                     hendelser={innsynsdata.hendelser}
                                     leserData={leserData(restStatus.hendelser)}
                                 />
-                            )
+                            ),
                         },
                         {
-                            tittel: intl.formatMessage({id:'vedlegg.tittel'}),
+                            tittel: intl.formatMessage({id: "vedlegg.tittel"}),
                             content: (
                                 <VedleggView
                                     vedlegg={innsynsdata.vedlegg}
                                     leserData={leserData(restStatus.saksStatus)}
                                 />
-                            )
-                        }
+                            ),
+                        },
                     ]}
                     defaultArkfane={0}
                 />
             )}
         </>
-    )
+    );
 };
 
 export default SaksStatusView;

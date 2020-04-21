@@ -1,29 +1,29 @@
-
 // getSkalViseIngenOppgaverPanel
 import {Oppgave, OppgaveElement, SaksStatus, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseIngenOppgaverPanel, vilkarViewVisesIkke} from "./oppgaverUtilities";
 
 describe("IngenOppgaverPanel", () => {
-
     const oppgaverIngen: Oppgave[] = [];
 
-    const oppgaverMerEnnEn = [{
-        oppgaveElementer: [{
-            dokumenttype: "asdf",
-            erFraInnsyn: true,
-        } as OppgaveElement]
-    } as Oppgave];
+    const oppgaverMerEnnEn = [
+        {
+            oppgaveElementer: [
+                {
+                    dokumenttype: "asdf",
+                    erFraInnsyn: true,
+                } as OppgaveElement,
+            ],
+        } as Oppgave,
+    ];
 
     const saksStatusMedSkalViseVedtakInfoPanelTrue: SaksStatusState = {
         tittel: "Saksstatus 1",
         status: SaksStatus.FERDIGBEHANDLET,
         skalViseVedtakInfoPanel: true,
-        vedtaksfilUrlList: []
+        vedtaksfilUrlList: [],
     };
 
-    const listSaksStatusState: SaksStatusState[] = [
-        saksStatusMedSkalViseVedtakInfoPanelTrue
-    ];
+    const listSaksStatusState: SaksStatusState[] = [saksStatusMedSkalViseVedtakInfoPanelTrue];
 
     it("skal vises når bruker ikke har noen oppgaver", () => {
         expect(getSkalViseIngenOppgaverPanel(oppgaverIngen, [])).toEqual(true);

@@ -2,9 +2,11 @@ import {Suggestion} from "./NavAutcomplete";
 
 const filterSuggestions = (alleKommuner: Suggestion[], sokestreng: string): Suggestion[] => {
     return alleKommuner.filter((suggestion: Suggestion) => {
-        return sokestreng && sokestreng.length > 0 && (
-            suggestion.value.match(new RegExp("[ ]*" + sokestreng + ".*", "i"))
-            || suggestion.value.match(new RegExp("[ ]*" + sokestreng + " .*", "i"))
+        return (
+            sokestreng &&
+            sokestreng.length > 0 &&
+            (suggestion.value.match(new RegExp("[ ]*" + sokestreng + ".*", "i")) ||
+                suggestion.value.match(new RegExp("[ ]*" + sokestreng + " .*", "i")))
         );
     });
 };
@@ -18,8 +20,9 @@ const matchesStartOfString = (testString: string, querystring: string): boolean 
 };
 
 const matchesAnywhere = (testString: string, querystring: string): boolean => {
-    let regexpMatch = new RegExp("[ ]*" + querystring + ".*", "i").test(testString)
-        || new RegExp("[ ]*" + querystring + " .*", "i").test(testString);
+    let regexpMatch =
+        new RegExp("[ ]*" + querystring + ".*", "i").test(testString) ||
+        new RegExp("[ ]*" + querystring + " .*", "i").test(testString);
     return regexpMatch;
 };
 
@@ -57,7 +60,7 @@ const sorterSuggestions = (suggestions: Suggestion[], querystring: string): Sugg
     });
 };
 
-const searchSuggestions = (allSuggestions: Suggestion[], queryString: string|undefined): Suggestion[] => {
+const searchSuggestions = (allSuggestions: Suggestion[], queryString: string | undefined): Suggestion[] => {
     if (queryString === undefined) {
         return [];
     }
@@ -65,4 +68,4 @@ const searchSuggestions = (allSuggestions: Suggestion[], queryString: string|und
     return sorterSuggestions(filteredSuggestions, queryString).slice(0, 7);
 };
 
-export {searchSuggestions}
+export {searchSuggestions};

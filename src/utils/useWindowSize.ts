@@ -5,9 +5,9 @@ export const isBrowser = typeof window !== `undefined` ? true : false;
 const getWindowSize = () => {
     return isBrowser
         ? {
-            height: window.innerHeight,
-            width: window.innerWidth
-        }
+              height: window.innerHeight,
+              width: window.innerWidth,
+          }
         : {width: 1000, height: 600};
 };
 
@@ -31,9 +31,9 @@ const useWindowSize = (callback?: (size: WindowSize) => void) => {
     };
 
     useEffect(() => {
-        window.addEventListener('resize', onResize, {passive: true});
+        window.addEventListener("resize", onResize, {passive: true});
         return () => {
-            window.removeEventListener('resize', onResize);
+            window.removeEventListener("resize", onResize);
         };
     });
 

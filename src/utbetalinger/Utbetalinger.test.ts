@@ -13,13 +13,7 @@ it("should filter by time interval", () => {
 it("should filter by receiver of money", () => {
     const utbetalingerMaaned: UtbetalingSakType[] = mockUtbetalinger;
     expect(summerAntallUtbetalinger(utbetalingerMaaned)).toBe(5);
-    expect(summerAntallUtbetalinger(
-        filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, true, false)
-    )).toBe(3);
-    expect(summerAntallUtbetalinger(
-        filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, false)
-    )).toBe(0);
-    expect(summerAntallUtbetalinger(
-        filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, true)
-    )).toBe(2);
+    expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, true, false))).toBe(3);
+    expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, false))).toBe(0);
+    expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, true))).toBe(2);
 });

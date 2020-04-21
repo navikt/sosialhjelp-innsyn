@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {fetchToJson, REST_STATUS} from "../../utils/restUtils";
 import {ServiceHookTypes} from "../../utils/ServiceHookTypes";
-import { logErrorMessage } from "../../redux/innsynsdata/innsynsDataActions";
+import {logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 
 export interface UtbetalingType {
     tittel: string;
@@ -12,31 +12,31 @@ export interface UtbetalingType {
 }
 
 export interface UtbetalingSakType {
-    ar: number,
-    maned: string,
-    sum: number,
-    foersteIManeden : string,
+    ar: number;
+    maned: string;
+    sum: number;
+    foersteIManeden: string;
     utbetalinger: UtbetalingMaaned[];
 }
 
 export interface UtbetalingMaaned {
-    tittel: string,
+    tittel: string;
     belop: number;
-    utbetalingsdato: string,
+    utbetalingsdato: string;
     status: string;
     fiksDigisosId: string;
-    fom: string|null;
-    tom: string|null;
+    fom: string | null;
+    tom: string | null;
     mottaker: string;
     annenMottaker: boolean;
-    kontonummer: string|null;
-    forfallsdato: string|null;
-    utbetalingsmetode: string|null;
+    kontonummer: string | null;
+    forfallsdato: string | null;
+    utbetalingsmetode: string | null;
 }
 
 const useUtbetalingerService = (month: number) => {
     const [result, setResult] = useState<ServiceHookTypes<UtbetalingSakType[]>>({
-        restStatus: REST_STATUS.PENDING
+        restStatus: REST_STATUS.PENDING,
     });
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const useUtbetalingerService = (month: number) => {
             })
             .catch((error: any) => {
                 logErrorMessage(error.message);
-                setResult({restStatus: REST_STATUS.FEILET, error})
+                setResult({restStatus: REST_STATUS.FEILET, error});
             });
     }, [month]);
     return result;

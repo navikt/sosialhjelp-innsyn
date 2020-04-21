@@ -1,107 +1,106 @@
 .nySoknadModal {
-  height: 28rem;
-  display: block;
-  margin-top: -15px;
-  margin-right: 41px;
+    height: 28rem;
+    display: block;
+    margin-top: -15px;
+    margin-right: 41px;
 
-  .nySoknadModal__tittel {
-    font-size: 18px;
-  }
-
-  .nySoknadModal__normaltekst {
-    margin-top: 7px;
-    margin-bottom: 14px;
-  }
-
-  .nav-veilederpanel {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .navAutocomplete {
-    margin-bottom: 1rem;
-  }
-
-  .knapp {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
-}
-
-@media screen and (min-width: 641px ) {
-  .nySoknadModal {
-    width: 32rem;
-  }
-}
-
-@media screen and (max-width: 640px ) {
-  .nySoknadModal {
-    width: 100%;
-    height: 93vh;
-    padding-top: 36px;
-
-    .navAutocomplete input {
-      width: 100%;
+    .nySoknadModal__tittel {
+        font-size: 18px;
     }
-  }
+
+    .nySoknadModal__normaltekst {
+        margin-top: 7px;
+        margin-bottom: 14px;
+    }
+
+    .nav-veilederpanel {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .navAutocomplete {
+        margin-bottom: 1rem;
+    }
+
+    .knapp {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .nySoknadModal {
+        width: 32rem;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .nySoknadModal {
+        width: 100%;
+        height: 93vh;
+        padding-top: 36px;
+
+        .navAutocomplete input {
+            width: 100%;
+        }
+    }
 }
 
 .nav-veileder__frame svg {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 .nySoknadModal__veilederpanel {
-  display: block;
-  transition: all 1s ease-in-out;
+    display: block;
+    transition: all 1s ease-in-out;
 }
 
 .knappOgLenke {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-start;
-
-  p {
-    margin-left: 2rem;
-  }
-}
-
-@media screen and (min-width: 641px ) {
-  .knappOgLenke {
-    flex-direction: row;
-  }
-}
-
-@media screen and (max-width: 640px ) {
-  .knappOgLenke {
-    flex-direction: column;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
 
     p {
-      margin-left: 0;
+        margin-left: 2rem;
     }
-  }
+}
 
-  .nav-veilederpanel {
-    padding: 1rem 1rem 1rem 6rem;
-
-    .nav-veileder {
-      left: 0.5rem;
+@media screen and (min-width: 641px) {
+    .knappOgLenke {
+        flex-direction: row;
     }
-  }
+}
+
+@media screen and (max-width: 640px) {
+    .knappOgLenke {
+        flex-direction: column;
+
+        p {
+            margin-left: 0;
+        }
+    }
+
+    .nav-veilederpanel {
+        padding: 1rem 1rem 1rem 6rem;
+
+        .nav-veileder {
+            left: 0.5rem;
+        }
+    }
 }
 
 // Veilederikon
 // .nySoknadModal--soknadIkkeTilgjengeligAdvarsel
-.nySoknadModal--soknadIkkeTilgjengeligAdvarsel .nav-veileder__frame--s{
-  width: 3rem;
-  height: 3rem;
-  margin-left: 1rem;
+.nySoknadModal--soknadIkkeTilgjengeligAdvarsel .nav-veileder__frame--s {
+    width: 3rem;
+    height: 3rem;
+    margin-left: 1rem;
 
-  svg {
-    margin-left: 0;
-    margin-top: 0;
-    height: 100%;
-  }
-
+    svg {
+        margin-left: 0;
+        margin-top: 0;
+        height: 100%;
+    }
 }

@@ -12,13 +12,13 @@
  *  => {familie: {barn : [{navn: "Doffen"}]
  */
 export const setPath = (obj: any, path: string, value: any): any => {
-    obj = typeof obj === 'object' ? obj : {};
-    const keys = Array.isArray(path) ? path : path.split('/');
+    obj = typeof obj === "object" ? obj : {};
+    const keys = Array.isArray(path) ? path : path.split("/");
     let curStep = obj;
     for (let i = 0; i < keys.length - 1; i++) {
         const key = keys[i];
-        if (!curStep[key] && !Object.prototype.hasOwnProperty.call(curStep, key)){
-            const nextKey = keys[i+1];
+        if (!curStep[key] && !Object.prototype.hasOwnProperty.call(curStep, key)) {
+            const nextKey = keys[i + 1];
             const useArray = /^\+?(0|[1-9]\d*)$/.test(nextKey);
             curStep[key] = useArray ? [] : {};
         }
@@ -28,4 +28,3 @@ export const setPath = (obj: any, path: string, value: any): any => {
     curStep[finalStep] = value;
     return obj;
 };
-

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import Lenke from "nav-frontend-lenker";
-import './mainNav.less';
+import "./mainNav.less";
 
 const MainNav: React.FC = () => (
     <nav className="mainNav">

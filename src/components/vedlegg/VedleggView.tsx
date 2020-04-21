@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import Lenke from "nav-frontend-lenker";
 import {Select} from "nav-frontend-skjema";
-import NavFrontendChevron from 'nav-frontend-chevron';
+import NavFrontendChevron from "nav-frontend-chevron";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import 'nav-frontend-tabell-style';
+import "nav-frontend-tabell-style";
 import "./responsiv_tabell.less";
-import '../lastestriper/lastestriper.less';
+import "../lastestriper/lastestriper.less";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
 import {getVisningstekster} from "../oppgaver/OppgaveView";
 
-const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle"/>;
-const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder"/>;
+const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
+const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
 
 interface Props {
     vedlegg: Vedlegg[];
@@ -26,17 +26,17 @@ const LastestripeRad = () => (
     <tr>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe lastestripe__kort_forsinkelse"/>
+                <span className="lastestripe lastestripe__kort_forsinkelse" />
             </span>
         </td>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe"/>
+                <span className="lastestripe" />
             </span>
         </td>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe lastestripe__lang_forsinkelse"/>
+                <span className="lastestripe lastestripe__lang_forsinkelse" />
             </span>
         </td>
     </tr>
@@ -45,7 +45,7 @@ const LastestripeRad = () => (
 enum Kolonne {
     FILNAVN = "filnavn",
     BESKRIVELSE = "beskrivelse",
-    DATO = "dato"
+    DATO = "dato",
 }
 
 const strCompare = (a: string, b: string) => {
@@ -53,7 +53,7 @@ const strCompare = (a: string, b: string) => {
         return -1;
     }
     if (a.toLocaleUpperCase() > b.toLocaleUpperCase()) {
-        return 1
+        return 1;
     }
     return 0;
 };
@@ -62,45 +62,40 @@ const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: Kolonne, descending: boolean
     switch (kolonne) {
         case Kolonne.DATO:
             return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
-                return descending ?
-                    Date.parse(b.datoLagtTil) - Date.parse(a.datoLagtTil) :
-                    Date.parse(a.datoLagtTil) - Date.parse(b.datoLagtTil);
+                return descending
+                    ? Date.parse(b.datoLagtTil) - Date.parse(a.datoLagtTil)
+                    : Date.parse(a.datoLagtTil) - Date.parse(b.datoLagtTil);
             });
         case Kolonne.FILNAVN:
             return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
-                return descending ?
-                    strCompare(a.filnavn, b.filnavn) :
-                    strCompare(b.filnavn, a.filnavn);
+                return descending ? strCompare(a.filnavn, b.filnavn) : strCompare(b.filnavn, a.filnavn);
             });
         case Kolonne.BESKRIVELSE:
             return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
-                return descending ?
-                    strCompare(a.type, b.type) :
-                    strCompare(b.type, a.type);
+                return descending ? strCompare(a.type, b.type) : strCompare(b.type, a.type);
             });
     }
 };
 
 const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
-
     const [sortBy, setSortBy] = useState<Kolonne>(Kolonne.DATO);
     const [descending, setDescending] = useState({
-        "filnavn": true,
-        "beskrivelse": true,
-        "dato": true
+        filnavn: true,
+        beskrivelse: true,
+        dato: true,
     });
 
     const setSort = (newSortBy: Kolonne, newDescending: boolean, event: any) => {
         setSortBy(newSortBy);
         switch (newSortBy) {
             case Kolonne.FILNAVN:
-                setDescending({...descending, "filnavn": newDescending});
+                setDescending({...descending, filnavn: newDescending});
                 break;
             case Kolonne.BESKRIVELSE:
-                setDescending({...descending, "beskrivelse": newDescending});
+                setDescending({...descending, beskrivelse: newDescending});
                 break;
             default:
-                setDescending({...descending, "dato": newDescending});
+                setDescending({...descending, dato: newDescending});
         }
         event.preventDefault();
     };
@@ -110,13 +105,13 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
         setSortBy(newSortBy);
         switch (newSortBy) {
             case Kolonne.FILNAVN:
-                setDescending({...descending, "filnavn": descending[Kolonne.FILNAVN]});
+                setDescending({...descending, filnavn: descending[Kolonne.FILNAVN]});
                 break;
             case Kolonne.BESKRIVELSE:
-                setDescending({...descending, "beskrivelse": descending[Kolonne.BESKRIVELSE]});
+                setDescending({...descending, beskrivelse: descending[Kolonne.BESKRIVELSE]});
                 break;
             default:
-                setDescending({...descending, "dato": descending[Kolonne.DATO]});
+                setDescending({...descending, dato: descending[Kolonne.DATO]});
         }
         event.preventDefault();
     };
@@ -124,13 +119,13 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
     const setSortOrder = (event: any, newDescending: boolean) => {
         switch (sortBy) {
             case Kolonne.FILNAVN:
-                setDescending({...descending, "filnavn": !descending[Kolonne.FILNAVN]});
+                setDescending({...descending, filnavn: !descending[Kolonne.FILNAVN]});
                 break;
             case Kolonne.BESKRIVELSE:
-                setDescending({...descending, "beskrivelse": !descending[Kolonne.BESKRIVELSE]});
+                setDescending({...descending, beskrivelse: !descending[Kolonne.BESKRIVELSE]});
                 break;
             default:
-                setDescending({...descending, "dato": !descending[Kolonne.DATO]});
+                setDescending({...descending, dato: !descending[Kolonne.DATO]});
         }
         event.preventDefault();
     };
@@ -142,20 +137,18 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
     };
 
     const ariaSort = (kolonne: Kolonne): "descending" | "ascending" | "none" => {
-        return (kolonne === sortBy ? (
-            descending[kolonne] ? "descending" : "ascending") : "none");
+        return kolonne === sortBy ? (descending[kolonne] ? "descending" : "ascending") : "none";
     };
 
     const classNameAriaSort = (kolonne: Kolonne): string => {
-        return (kolonne === sortBy ? (
-            descending[kolonne] ? "tabell__th--sortert-desc" : "tabell__th--sortert-asc") : "");
+        return kolonne === sortBy ? (descending[kolonne] ? "tabell__th--sortert-desc" : "tabell__th--sortert-asc") : "";
     };
 
     /* Paginering */
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
-    const paginerteVedlegg: Vedlegg[] = sorterteVedlegg.slice(currentPage * 10, (currentPage * 10) + 10);
+    const paginerteVedlegg: Vedlegg[] = sorterteVedlegg.slice(currentPage * 10, currentPage * 10 + 10);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
@@ -163,135 +156,115 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
 
     return (
         <>
-        <EttersendelseView/>
-        <div className="vedleggliste">
-            <div className="sortering_listeboks">
-                <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
-                    <option
-                        value={Kolonne.FILNAVN}
-                    >
-                        filnavn
-                    </option>
-                    <option
-                        value={Kolonne.BESKRIVELSE}
-                    >
-                        beskrivelse
-                    </option>
-                    <option
-                        value={Kolonne.DATO}
-                    >
-                        dato
-                    </option>
-                </Select>
-                {!currentSortDescending() && (
-                    <Lenke
-                        href="#"
-                        onClick={(event) => setSortOrder(event, true)}
-                    >
-                        <NavFrontendChevron type={'opp'} />
-                    </Lenke>
-                )}
-                {currentSortDescending() && (
-                    <Lenke
-                        href="#"
-                        onClick={(event) => setSortOrder(event, false)}
-                    >
-                        <NavFrontendChevron type={'ned'} />
-                    </Lenke>
-                )}
-            </div>
-            <table className={"tabell " + (className ? className : "")}>
-                <thead>
-                <tr>
-                    <th
-                        role="columnheader"
-                        aria-sort={ariaSort(Kolonne.FILNAVN)}
-                        className={classNameAriaSort(Kolonne.FILNAVN)}
-                    >
-                        <IconSizedSpacerAll/>
-                        <Lenke
-                            href="#"
-                            onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
-                        >
-                            Filnavn
+            <EttersendelseView />
+            <div className="vedleggliste">
+                <div className="sortering_listeboks">
+                    <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
+                        <option value={Kolonne.FILNAVN}>filnavn</option>
+                        <option value={Kolonne.BESKRIVELSE}>beskrivelse</option>
+                        <option value={Kolonne.DATO}>dato</option>
+                    </Select>
+                    {!currentSortDescending() && (
+                        <Lenke href="#" onClick={(event) => setSortOrder(event, true)}>
+                            <NavFrontendChevron type={"opp"} />
                         </Lenke>
-                    </th>
-                    <th
-                        role="columnheader"
-                        aria-sort={ariaSort(Kolonne.BESKRIVELSE)}
-                        className={classNameAriaSort(Kolonne.BESKRIVELSE)}
-                    >
-                        <Lenke
-                            href="#"
-                            onClick={(event) => setSort(Kolonne.BESKRIVELSE, !descending[Kolonne.BESKRIVELSE], event)}
-                        >
-                            Beskrivelse
+                    )}
+                    {currentSortDescending() && (
+                        <Lenke href="#" onClick={(event) => setSortOrder(event, false)}>
+                            <NavFrontendChevron type={"ned"} />
                         </Lenke>
-                    </th>
-                    <th
-                        role="columnheader"
-                        aria-sort={ariaSort(Kolonne.DATO)}
-                        className={classNameAriaSort(Kolonne.DATO)}
-                        align="right"
-                    >
-                        <Lenke
-                            href="#"
-                            onClick={(event) => setSort(Kolonne.DATO, !descending[Kolonne.DATO], event)}
-                        >
-                            Dato lagt til
-                        </Lenke>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {leserData && leserData === true && (
-                    <LastestripeRad/>
-                )}
-                {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
-                    return (
-                        <tr key={index}>
-                            <td
-                                className={sortBy === Kolonne.FILNAVN ? "tabell__td--sortert filnavn_kollonne" : "filnavn_kollonne"}
+                    )}
+                </div>
+                <table className={"tabell " + (className ? className : "")}>
+                    <thead>
+                        <tr>
+                            <th
+                                role="columnheader"
+                                aria-sort={ariaSort(Kolonne.FILNAVN)}
+                                className={classNameAriaSort(Kolonne.FILNAVN)}
                             >
-                                <PaperClipSlanted className="ikon_liten_vedlegg"/>
+                                <IconSizedSpacerAll />
                                 <Lenke
-                                    href={vedlegg.url}
-                                    className="lenke_vedlegg_filnavn"
-                                    target="_blank"
-                                    title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
-                                >{vedlegg.filnavn}</Lenke>
-                            </td>
-                            <td
-                                className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}
+                                    href="#"
+                                    onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
+                                >
+                                    Filnavn
+                                </Lenke>
+                            </th>
+                            <th
+                                role="columnheader"
+                                aria-sort={ariaSort(Kolonne.BESKRIVELSE)}
+                                className={classNameAriaSort(Kolonne.BESKRIVELSE)}
                             >
-                                <IconSizedSpacerDesktop/>
-                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
-                            </td>
-                            <td
+                                <Lenke
+                                    href="#"
+                                    onClick={(event) =>
+                                        setSort(Kolonne.BESKRIVELSE, !descending[Kolonne.BESKRIVELSE], event)
+                                    }
+                                >
+                                    Beskrivelse
+                                </Lenke>
+                            </th>
+                            <th
+                                role="columnheader"
+                                aria-sort={ariaSort(Kolonne.DATO)}
+                                className={classNameAriaSort(Kolonne.DATO)}
                                 align="right"
-                                className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}
                             >
-                                <IconSizedSpacerDesktop/>
-                                <DatoOgKlokkeslett bareDato={true} tidspunkt={vedlegg.datoLagtTil}/>
-                            </td>
+                                <Lenke
+                                    href="#"
+                                    onClick={(event) => setSort(Kolonne.DATO, !descending[Kolonne.DATO], event)}
+                                >
+                                    Dato lagt til
+                                </Lenke>
+                            </th>
                         </tr>
-                    )
-                })}
-                </tbody>
-            </table>
-            {sorterteVedlegg.length > itemsPerPage && (
-                <Paginering
-                    initialPage={0}
-                    pageCount={lastPage}
-                    onPageChange={(page: number) => handlePageClick(page)}
-                />
-            ) }
-
+                    </thead>
+                    <tbody>
+                        {leserData && leserData === true && <LastestripeRad />}
+                        {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
+                            return (
+                                <tr key={index}>
+                                    <td
+                                        className={
+                                            sortBy === Kolonne.FILNAVN
+                                                ? "tabell__td--sortert filnavn_kollonne"
+                                                : "filnavn_kollonne"
+                                        }
+                                    >
+                                        <PaperClipSlanted className="ikon_liten_vedlegg" />
+                                        <Lenke
+                                            href={vedlegg.url}
+                                            className="lenke_vedlegg_filnavn"
+                                            target="_blank"
+                                            title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
+                                        >
+                                            {vedlegg.filnavn}
+                                        </Lenke>
+                                    </td>
+                                    <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
+                                        <IconSizedSpacerDesktop />
+                                        {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                    </td>
+                                    <td align="right" className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}>
+                                        <IconSizedSpacerDesktop />
+                                        <DatoOgKlokkeslett bareDato={true} tidspunkt={vedlegg.datoLagtTil} />
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+                {sorterteVedlegg.length > itemsPerPage && (
+                    <Paginering
+                        initialPage={0}
+                        pageCount={lastPage}
+                        onPageChange={(page: number) => handlePageClick(page)}
+                    />
+                )}
             </div>
         </>
     );
 };
 
 export default VedleggView;
-
-

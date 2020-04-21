@@ -4,9 +4,8 @@ export enum DriftsmeldingTypeKeys {
     DRIFTSMELDING_INGEN = "DRIFTSMELDING_INGEN",
     DRIFTSMELDING_INNSYN_DEAKTIVERT = "DRIFTSMELDING_INNSYN_DEAKTIVERT",
     DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT = "DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT",
-    DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT = "DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT"
+    DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT = "DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT",
 }
-
 
 export interface DriftsmeldingIngen {
     type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN;
@@ -23,52 +22,55 @@ export interface DriftsmeldingEttersendelseDeaktivert {
 }
 
 export interface DriftsmeldingInnsynOgEttersendelseDeaktivert {
-    type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT,
+    type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT;
     textKey: string;
 }
 
-export type Driftsmelding
-    = DriftsmeldingIngen
+export type Driftsmelding =
+    | DriftsmeldingIngen
     | DriftsmeldingInnsynDeaktivert
     | DriftsmeldingEttersendelseDeaktivert
-    | DriftsmeldingInnsynOgEttersendelseDeaktivert
-
+    | DriftsmeldingInnsynOgEttersendelseDeaktivert;
 
 export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneResponse | undefined) => {
     if (kommuneResponse) {
-        if (kommuneResponse.erInnsynMidlertidigDeaktivert &&
-            (kommuneResponse.erInnsendingEttersendelseDeaktivert
-                || kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert)
+        if (
+            kommuneResponse.erInnsynMidlertidigDeaktivert &&
+            (kommuneResponse.erInnsendingEttersendelseDeaktivert ||
+                kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert)
         ) {
             return {
                 type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT,
-                textKey: "driftsmelding.innsynOgEttersendelseDeaktivert"
-            } as Driftsmelding
+                textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
+            } as Driftsmelding;
         }
         if (kommuneResponse.erInnsynMidlertidigDeaktivert) {
             return {
                 type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT,
-                textKey: "driftsmelding.innsynDeaktivert"
-            } as Driftsmelding
+                textKey: "driftsmelding.innsynDeaktivert",
+            } as Driftsmelding;
         }
-        if (kommuneResponse.erInnsendingEttersendelseDeaktivert || kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert) {
+        if (
+            kommuneResponse.erInnsendingEttersendelseDeaktivert ||
+            kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert
+        ) {
             return {
                 type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT,
-                textKey: "driftsmelding.ettersendelseDeaktivert"
-            } as Driftsmelding
+                textKey: "driftsmelding.ettersendelseDeaktivert",
+            } as Driftsmelding;
         }
     }
     return {
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN
-    } as Driftsmelding
+        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN,
+    } as Driftsmelding;
 };
 
 export const erOpplastingAvVedleggEnabled = (kommuneInfo: KommuneResponse | undefined): boolean => {
-    if (kommuneInfo){
-        if(kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert){
+    if (kommuneInfo) {
+        if (kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert) {
             return false;
         }
-        if(kommuneInfo.erInnsendingEttersendelseDeaktivert){
+        if (kommuneInfo.erInnsendingEttersendelseDeaktivert) {
             return false;
         }
         return true;

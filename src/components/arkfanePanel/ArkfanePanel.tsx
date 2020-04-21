@@ -14,7 +14,7 @@ interface Props {
     className?: string;
 }
 
-const ArkfanePanel: React.FC<Props> = ({arkfaner, defaultArkfane, className }) => {
+const ArkfanePanel: React.FC<Props> = ({arkfaner, defaultArkfane, className}) => {
     const [valgtArkfane, setValgtArkfane] = useState(defaultArkfane ? defaultArkfane : 0);
 
     const velgArkfane = (event: any, index: number) => {
@@ -28,29 +28,27 @@ const ArkfanePanel: React.FC<Props> = ({arkfaner, defaultArkfane, className }) =
                 <nav className="arkfane_mainNav">
                     <div className="arkfane_mainNav__wrapper">
                         <ul>
-                            {arkfaner && arkfaner.map((arkfane: Arkfane, index: number) => {
-                                return (
-                                    <li key={index}>
-                                        <Lenke
-                                            href="#"
-                                            onClick={(event) => velgArkfane(event, index)}
-                                            className={valgtArkfane === index ? "active" : "inactive"}
-                                        >
-                                            {arkfane.tittel}
-                                        </Lenke>
-                                    </li>
-                                )
-                            })}
+                            {arkfaner &&
+                                arkfaner.map((arkfane: Arkfane, index: number) => {
+                                    return (
+                                        <li key={index}>
+                                            <Lenke
+                                                href="#"
+                                                onClick={(event) => velgArkfane(event, index)}
+                                                className={valgtArkfane === index ? "active" : "inactive"}
+                                            >
+                                                {arkfane.tittel}
+                                            </Lenke>
+                                        </li>
+                                    );
+                                })}
                         </ul>
                     </div>
                 </nav>
             </div>
-            <Panel>
-                {arkfaner[valgtArkfane].content}
-            </Panel>
+            <Panel>{arkfaner[valgtArkfane].content}</Panel>
         </div>
-    )
-
+    );
 };
 
 export default ArkfanePanel;
