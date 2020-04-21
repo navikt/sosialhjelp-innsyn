@@ -16,7 +16,7 @@ export interface TilgjengeligeKommuner {
 
 const useTilgjengeligeKommunerService = () => {
     const [result, setResult] = useState<ServiceHookTypes<TilgjengeligeKommuner>>({
-        restStatus: REST_STATUS.PENDING
+        restStatus: REST_STATUS.PENDING,
     });
 
     let url = "/sosialhjelp/innsyn-api/api/v1/innsyn/kommune";
@@ -26,15 +26,18 @@ const useTilgjengeligeKommunerService = () => {
 
     useEffect(() => {
         fetch(url)
-            .then(response => response.json())
-            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: {results: response} }))
-            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
+            .then((response) => response.json())
+            .then((response) => setResult({restStatus: REST_STATUS.OK, payload: {results: response}}))
+            .catch((error) => setResult({restStatus: REST_STATUS.FEILET, error}));
     }, [url]);
     return result;
 };
 
-const finnTilgjengeligKommune = (kommuneTilgjengelighet: KommuneTilgjengelighet[], kommunenummer: string): KommuneTilgjengelighet|undefined => {
-    return kommuneTilgjengelighet.find((kommune: KommuneTilgjengelighet) =>  kommune.kommunenummer.match(kommunenummer));
+const finnTilgjengeligKommune = (
+    kommuneTilgjengelighet: KommuneTilgjengelighet[],
+    kommunenummer: string
+): KommuneTilgjengelighet | undefined => {
+    return kommuneTilgjengelighet.find((kommune: KommuneTilgjengelighet) => kommune.kommunenummer.match(kommunenummer));
 };
 
 export {finnTilgjengeligKommune};

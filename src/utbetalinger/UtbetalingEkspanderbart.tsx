@@ -14,10 +14,8 @@ const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen
     return (
         <>
             <div className="utbetaling_header">
-                <Normaltekst>
-                    {tittel}
-                </Normaltekst>
-                <EkspanderLink open={open} setOpen={setOpen}/>
+                <Normaltekst>{tittel}</Normaltekst>
+                <EkspanderLink open={open} setOpen={setOpen} />
             </div>
 
             <Collapsible trigger="" open={open} easing="ease-in-out">

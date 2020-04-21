@@ -10,9 +10,7 @@ const Linkside: React.FC<{}> = () => {
         redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/innsyn");
     }
 
-    return (
-        <Redirect to={redirectURL} />
-    )
+    return <Redirect to={redirectURL} />;
 };
 
 export default Linkside;

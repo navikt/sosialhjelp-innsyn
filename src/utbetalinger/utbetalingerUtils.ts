@@ -5,9 +5,13 @@ const diffInMonths = (d1: Date, d2: Date) => {
     var d2Y = d2.getFullYear();
     var d1M = d1.getMonth();
     var d2M = d2.getMonth();
-    return (d2M + 12 * d2Y) - (d1M + 12 * d1Y);
+    return d2M + 12 * d2Y - (d1M + 12 * d1Y);
 };
-const filtrerUtbetalingerForTidsinterval = (utbetalinger: UtbetalingSakType[], visAntallMnd: number, now: Date): UtbetalingSakType[] => {
+const filtrerUtbetalingerForTidsinterval = (
+    utbetalinger: UtbetalingSakType[],
+    visAntallMnd: number,
+    now: Date
+): UtbetalingSakType[] => {
     return utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
         const foersteIManeden: Date = new Date(utbetalingSak.foersteIManeden);
         const innenforTidsintervall: boolean = diffInMonths(foersteIManeden, now) < visAntallMnd;
@@ -15,7 +19,11 @@ const filtrerUtbetalingerForTidsinterval = (utbetalinger: UtbetalingSakType[], v
     });
 };
 
-const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTilBrukersKonto: boolean, visTilAnnenMottaker: boolean): UtbetalingSakType[] => {
+const filtrerUtbetalingerPaaMottaker = (
+    utbetalinger: UtbetalingSakType[],
+    visTilBrukersKonto: boolean,
+    visTilAnnenMottaker: boolean
+): UtbetalingSakType[] => {
     return utbetalinger.map((utbetalingSak: UtbetalingSakType) => {
         return {
             ...utbetalingSak,
@@ -26,7 +34,7 @@ const filtrerUtbetalingerPaaMottaker = (utbetalinger: UtbetalingSakType[], visTi
                 } else {
                     return visTilAnnenMottaker;
                 }
-            })
+            }),
         };
     });
 };
@@ -41,5 +49,5 @@ export {
     filtrerUtbetalingerPaaMottaker,
     filtrerUtbetalingerForTidsinterval,
     filtrerMaanederUtenUtbetalinger,
-    diffInMonths
+    diffInMonths,
 };

@@ -46,10 +46,10 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     let typeTekst,
         tilleggsinfoTekst,
         sammensattType = type + "|" + tilleggsinfo,
-        erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(val => val === sammensattType);
+        erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some((val) => val === sammensattType);
 
     if (erOriginalSoknadVedleggType) {
-        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find(spc => spc.type === sammensattType)!!;
+        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!!;
         typeTekst = soknadVedleggSpec.tittel;
         tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
     } else {
@@ -60,10 +60,10 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
 };
 
 const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
-    return oppgaveElementer.find(oppgaveElement => {
+    return oppgaveElementer.find((oppgaveElement) => {
         return !oppgaveElement.filer
             ? false
-            : oppgaveElement.filer.find(it => {
+            : oppgaveElement.filer.find((it) => {
                   return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
               });
     });
@@ -129,7 +129,7 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementInde
         maxSammensattFilStorrelse: false,
     };
 
-    listeMedFil.forEach(value => {
+    listeMedFil.forEach((value) => {
         if (value.oppgaveElemendIndex === oppgaveElementIndex) {
             if (
                 value.containsUlovligeTegn ||
@@ -368,13 +368,15 @@ const OppgaveView: React.FC<Props> = ({
         oppgaveElementIndex: number,
         oppgaveIndex: number
     ): JSX.Element {
-        const checksErrorUploadingOrErrorList = (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0);
-        const sendVedleggPressed = (sendVedleggButtonIndex === oppgaveIndex);
-        const checksWhichButtonPressed = (velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggPressed);
-        const vedleggButtonPressed = (sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex);
-        const checksCorrectButtonPressed = (vedleggButtonPressed || sendVedleggPressed);
+        const checksErrorUploadingOrErrorList =
+            oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
+        const sendVedleggPressed = sendVedleggButtonIndex === oppgaveIndex;
+        const checksWhichButtonPressed = velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggPressed;
+        const vedleggButtonPressed = sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex;
+        const checksCorrectButtonPressed = vedleggButtonPressed || sendVedleggPressed;
 
-        const visOppgaverDetaljeFeil: boolean = (checksErrorUploadingOrErrorList && checksWhichButtonPressed) && checksCorrectButtonPressed;
+        const visOppgaverDetaljeFeil: boolean =
+            checksErrorUploadingOrErrorList && checksWhichButtonPressed && checksCorrectButtonPressed;
         return (
             <div
                 key={oppgaveElementIndex}
