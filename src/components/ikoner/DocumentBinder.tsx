@@ -17,7 +17,7 @@ const DokumentBinder: React.FC = () => {
                                 <mask id='innsyn-mask-2' fill='#fff'>
                                     <use xlinkHref='#path-1' />
                                 </mask>
-                                <g id='V#2699/STYLING/farge/Oransje/--60' mask='url(#innsyn-mask-2)' fill='#FFD399'>
+                                <g id='v\u2699\STYLING/farge/Oransje/--60' mask='url(#innsyn-mask-2)' fill='#FFD399'>
                                     <polygon id='Fill-7' points='0 100 100 100 100 0 0 0' />
                                 </g>
                             </g>
@@ -33,7 +33,7 @@ const DokumentBinder: React.FC = () => {
                                 <use xlinkHref='#path-3' />
                             </mask>
                             <use id='Mask' fill='#3E3832' fillRule='nonzero' xlinkHref='#path-3' />
-                            <g id='#1f308' mask='url(#mask-4)' fill='#3E3832'>
+                            <g id='u1f308' mask='url(#mask-4)' fill='#3E3832'>
                                 <rect width='24' height='24' transform='matrix(1 0 0 -1 0 24)' id='iconfarge-/-nav-grå'
                                 />
                             </g>
