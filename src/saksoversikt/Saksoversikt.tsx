@@ -49,7 +49,7 @@ const Saksoversikt: React.FC = () => {
         }
     }
     const harSaker = alleSaker.length > 0;
-    const harSakerFraInnsyn = saker.length > 0;
+    const harSakerMedStatusFraInnsyn = saker.length > 0 && saker.some(sakstype => sakstype.status !== "");
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER))
@@ -79,12 +79,12 @@ const Saksoversikt: React.FC = () => {
                         {!harSaker && (
                             <SaksoversiktIngenSoknader/>
                         )}
-                        {(harSaker && harSakerFraInnsyn) && (
+                        {(harSaker && harSakerMedStatusFraInnsyn) && (
                             <LandingssideMedSakerFraInnsynHotjarTrigger>
                                 <SaksoversiktDineSaker saker={alleSaker}/>
                             </LandingssideMedSakerFraInnsynHotjarTrigger>
                          )}
-                        {(harSaker && !harSakerFraInnsyn) && (
+                        {(harSaker && !harSakerMedStatusFraInnsyn) && (
                             <LandingssideUtenSakerFraInnsynHotjarTrigger>
                                 <SaksoversiktDineSaker saker={alleSaker}/>
                             </LandingssideUtenSakerFraInnsynHotjarTrigger>
