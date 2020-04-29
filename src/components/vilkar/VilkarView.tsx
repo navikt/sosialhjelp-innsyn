@@ -33,43 +33,46 @@ const VilkarView: React.FC = () => {
         </div>
     );
 
+    const vilkarContent = (
+        <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>
+            <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
+                <div className={"vilkar-bolk-symbol-wrapper svg-width-addition"}>
+                    <ChecklistSmall />
+                </div>
+                <div className={"vilkar-bolk-tekst-wrapper"}>
+                    <Element>
+                        <FormattedMessage id={"oppgaver.vilkar"} />
+                    </Element>
+                    <Normaltekst>
+                        <FormattedMessage id={"oppgaver.vilkar.beskrivelse"}/>
+                    </Normaltekst>
+                </div>
+            </div>
+            <div className={"vilkar-bolk-med-symbol-wrapper"}>
+                <div className={"vilkar-bolk-symbol-wrapper"}>
+                    <BinderSmall />
+                </div>
+                <div className={"vilkar-bolk-tekst-wrapper"}>
+                    <Element>
+                        <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
+                    </Element>
+                    <Normaltekst>
+                        <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"}/>
+                    </Normaltekst>
+                </div>
+            </div>
+        </Panel>
+    );
+
     if (skalViseVilkarView) {
         return (
             <Panel className={"panel-glippe-over"}>
-
                 <EkspanderbartpanelBase
                     apen={true}
                     heading={heading}
                     className={"react-collapse-animation"}
                 >
-                    <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>
-                            <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
-                                <div className={"vilkar-bolk-symbol-wrapper svg-width-addition"}>
-                                    <ChecklistSmall />
-                                </div>
-                                <div className={"vilkar-bolk-tekst-wrapper"}>
-                                    <Element>
-                                        <FormattedMessage id={"oppgaver.vilkar"} />
-                                    </Element>
-                                    <Normaltekst>
-                                        <FormattedMessage id={"oppgaver.vilkar.beskrivelse"}/>
-                                    </Normaltekst>
-                                </div>
-                            </div>
-                            <div className={"vilkar-bolk-med-symbol-wrapper"}>
-                                <div className={"vilkar-bolk-symbol-wrapper"}>
-                                    <BinderSmall />
-                                </div>
-                                <div className={"vilkar-bolk-tekst-wrapper"}>
-                                    <Element>
-                                        <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
-                                    </Element>
-                                    <Normaltekst>
-                                        <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"}/>
-                                    </Normaltekst>
-                                </div>
-                            </div>
-                    </Panel>
+                    {vilkarContent}
                 </EkspanderbartpanelBase>
             </Panel>
         )
