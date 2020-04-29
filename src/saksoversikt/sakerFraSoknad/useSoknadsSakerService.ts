@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {ServiceHookTypes} from "../../utils/ServiceHookTypes";
-import {erDev, REST_STATUS} from "../../utils/restUtils";
+import {fetchToJsonFromSoknadApi, REST_STATUS} from "../../utils/restUtils";
 import {Sakstype} from "../../redux/innsynsdata/innsynsdataReducer";
 
 export interface SakerFraSoknad {
@@ -16,22 +16,12 @@ const useSoknadsSakerService = () => {
         restStatus: REST_STATUS.PENDING
     });
 
-    let url = "/sosialhjelp/soknad-api/soknadoversikt/soknader";
-    if(erDev()) {
-        url = "http://localhost:8181" + url;
-    }
-    if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
-        url = "https://sosialhjelp-soknad-api.dev-nav.no" + url;
-    }
-    if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
-        url = "https://sosialhjelp-soknad-api.labs.nais.io" + url;
-    }
+    const urlPath = "/soknadoversikt/soknader";
     useEffect(() => {
-        fetch(url)
-            .then(response => response.json())
-            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: {results: response} }))
-            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
-    }, [url]);
+    fetchToJsonFromSoknadApi(urlPath)
+        .then((response: any) => setResult({restStatus: REST_STATUS.OK, payload: {results: response}}))
+        .catch(error => setResult({restStatus: REST_STATUS.FEILET, error}));
+    }, [urlPath]);
     return result;
 };
 
