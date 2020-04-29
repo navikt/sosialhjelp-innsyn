@@ -68,7 +68,6 @@ const VilkarView: React.FC = () => {
         return (
             <Panel className={"panel-glippe-over"}>
                 <EkspanderbartpanelBase
-                    apen={true}
                     heading={heading}
                     className={"react-collapse-animation"}
                 >
