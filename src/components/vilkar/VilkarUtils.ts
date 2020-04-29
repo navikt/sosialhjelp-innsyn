@@ -4,6 +4,7 @@ export const getSkalViseVilkarView = (innsynSaksStatusStateListe: SaksStatusStat
     return (
         innsynSaksStatusStateListe !== undefined &&
         Array.isArray(innsynSaksStatusStateListe) &&
-        innsynSaksStatusStateListe.filter((saksStatusState: SaksStatusState) => saksStatusState.skalViseVedtakInfoPanel).length > 0
-    )
+        innsynSaksStatusStateListe.filter((saksStatusState: SaksStatusState) => saksStatusState.skalViseVedtakInfoPanel)
+            .length > 0
+    );
 };

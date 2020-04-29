@@ -3,7 +3,7 @@ import {
     Driftsmelding,
     DriftsmeldingTypeKeys,
     erOpplastingAvVedleggEnabled,
-    getDriftsmeldingByKommuneResponse
+    getDriftsmeldingByKommuneResponse,
 } from "./DriftsmeldingUtilities";
 
 const kommuneResponse_ok: KommuneResponse = {
@@ -46,34 +46,33 @@ const kommuneResponse_litt_diverse: KommuneResponse = {
     tidspunkt: new Date(),
 };
 
-it('viser driftsmelding for riktig kommune state', () => {
+it("viser driftsmelding for riktig kommune state", () => {
     expect(getDriftsmeldingByKommuneResponse(kommuneResponse_ok)).toEqual({
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN
+        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN,
     } as Driftsmelding);
 
     expect(getDriftsmeldingByKommuneResponse(kommuneResponse_innsyn_deaktivert)).toEqual({
         type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT,
-        textKey: "driftsmelding.innsynDeaktivert"
+        textKey: "driftsmelding.innsynDeaktivert",
     } as Driftsmelding);
 
     expect(getDriftsmeldingByKommuneResponse(kommuneResponse_ettersendelse_deaktivert)).toEqual({
         type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT,
-        textKey: "driftsmelding.ettersendelseDeaktivert"
+        textKey: "driftsmelding.ettersendelseDeaktivert",
     } as Driftsmelding);
 
     expect(getDriftsmeldingByKommuneResponse(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual({
         type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT,
-        textKey: "driftsmelding.innsynOgEttersendelseDeaktivert"
+        textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
     } as Driftsmelding);
 
     expect(getDriftsmeldingByKommuneResponse(kommuneResponse_litt_diverse)).toEqual({
         type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT,
-        textKey: "driftsmelding.ettersendelseDeaktivert"
+        textKey: "driftsmelding.ettersendelseDeaktivert",
     } as Driftsmelding);
 });
 
-it('Opplasting av vedlegg er disabled ved riktige caser', () => {
+it("Opplasting av vedlegg er disabled ved riktige caser", () => {
     expect(erOpplastingAvVedleggEnabled(kommuneResponse_innsyn_deaktivert)).toEqual(true);
     expect(erOpplastingAvVedleggEnabled(kommuneResponse_ettersendelse_deaktivert)).toEqual(false);
-
 });

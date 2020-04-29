@@ -1,9 +1,9 @@
-import * as React from 'react';
-import classnames from 'classnames';
-import Modal from 'react-modal';
-import { Props } from 'react-modal';
-import Lukknapp from 'nav-frontend-lukknapp';
-import 'nav-frontend-modal-style';
+import * as React from "react";
+import classnames from "classnames";
+import Modal from "react-modal";
+import {Props} from "react-modal";
+import Lukknapp from "nav-frontend-lukknapp";
+import "nav-frontend-modal-style";
 // const cls = (className: string) => classnames('modal', className);
 
 /**
@@ -55,7 +55,6 @@ export interface ModalProps extends Props {
 }
 
 class BildeModal extends React.Component<ModalProps, {}> {
-
     closeButtonRef: any; // Lukknapp | null;
     // modalRef: Modal | null;
     //
@@ -68,7 +67,7 @@ class BildeModal extends React.Component<ModalProps, {}> {
         shouldCloseOnOverlayClick: true,
         closeTimeoutMS: 0,
         contentClass: undefined,
-        onAfterOpen: undefined
+        onAfterOpen: undefined,
     };
 
     constructor(props: ModalProps) {
@@ -77,8 +76,8 @@ class BildeModal extends React.Component<ModalProps, {}> {
     }
 
     onRequestClose(evt: any): void {
-        const { onRequestClose, shouldCloseOnOverlayClick } = this.props;
-        if (shouldCloseOnOverlayClick || evt.type === 'keydown') {
+        const {onRequestClose, shouldCloseOnOverlayClick} = this.props;
+        if (shouldCloseOnOverlayClick || evt.type === "keydown") {
             onRequestClose();
         } else if (this.closeButtonRef) {
             this.closeButtonRef.focus();
@@ -91,15 +90,9 @@ class BildeModal extends React.Component<ModalProps, {}> {
     }
 
     render() {
-        const {
-            children,
-            closeButton,
-            shouldCloseOnOverlayClick,
-            contentClass,
-            ...props
-        } = this.props;
+        const {children, closeButton, shouldCloseOnOverlayClick, contentClass, ...props} = this.props;
 
-        const lukkModalLabel = 'Lukk modal';
+        const lukkModalLabel = "Lukk modal";
 
         const appElement: HTMLElement | null = document.getElementById("root");
 
@@ -121,7 +114,7 @@ class BildeModal extends React.Component<ModalProps, {}> {
                     <Lukknapp
                         overstHjorne={true}
                         className={classnames({
-                            'modal__lukkknapp--shake': shouldCloseOnOverlayClick
+                            "modal__lukkknapp--shake": shouldCloseOnOverlayClick,
                         })}
                         ariaLabel={lukkModalLabel}
                         onClick={props.onRequestClose}

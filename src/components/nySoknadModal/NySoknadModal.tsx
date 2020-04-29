@@ -2,16 +2,16 @@ import React, {useState} from "react";
 import {Normaltekst, Undertittel} from "nav-frontend-typografi";
 import {Knapp} from "nav-frontend-knapper";
 import NavAutocomplete, {Suggestion} from "./navAutocomplete/NavAutcomplete";
-import Veilederpanel from 'nav-frontend-veilederpanel';
+import Veilederpanel from "nav-frontend-veilederpanel";
 import VeilederIkon from "../ikoner/VeilederIkon";
 import Lenke from "nav-frontend-lenker";
 import useKommuneNrService from "./service/useKommuneNrService";
 import useTilgjengeligeKommunerService, {
     finnTilgjengeligKommune,
-    KommuneTilgjengelighet
+    KommuneTilgjengelighet,
 } from "./service/useTilgjengeligeKommunerService";
 import EnkelModal from "./EnkelModal";
-import "./nySoknadModal.less"
+import "./nySoknadModal.less";
 import AdvarselIkon from "./AdvarselIkon";
 import {REST_STATUS} from "../../utils/restUtils";
 import KryssIkon from "./KryssIkon";
@@ -20,8 +20,7 @@ import NySoknadIntlProvider from "./NySoknadIntlProvider";
 
 const sokPaaPapirUrl = "https://www.nav.no/sosialhjelp/slik-soker-du";
 
-const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> = ({synlig, onRequestClose}) => {
-
+const NySoknadModal: React.FC<{synlig: boolean; onRequestClose: () => void}> = ({synlig, onRequestClose}) => {
     const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
     const [soknadTilgjengelig, setSoknadTilgjengelig] = useState<boolean>(false);
     const [visFeilmelding, setVisFeilmelding] = useState<boolean | undefined>(false);
@@ -64,22 +63,22 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
         setMidlertidigNede(false);
     };
 
-    let fargetema: 'normal' | 'suksess' | 'advarsel' | 'feilmelding' = "normal";
+    let fargetema: "normal" | "suksess" | "advarsel" | "feilmelding" = "normal";
 
     if (currentSuggestion) {
         fargetema = soknadTilgjengelig ? "suksess" : "advarsel";
         if (midlertidigNede) {
-            fargetema = 'feilmelding';
+            fargetema = "feilmelding";
         }
     }
 
-    let PanelIkon: React.FC = () => <VeilederIkon/>;
+    let PanelIkon: React.FC = () => <VeilederIkon />;
     if (currentSuggestion) {
         if (!soknadTilgjengelig) {
-            PanelIkon = () => <AdvarselIkon/>;
+            PanelIkon = () => <AdvarselIkon />;
         }
         if (midlertidigNede) {
-            PanelIkon = () => <KryssIkon/>;
+            PanelIkon = () => <KryssIkon />;
         }
     }
 
@@ -93,27 +92,25 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                 contentLabel="Vedlegg"
                 shouldCloseOnOverlayClick={true}
             >
-                <div className={
-                    "nySoknadModal " +
-                    (currentSuggestion && (!soknadTilgjengelig || midlertidigNede) ?
-                            "nySoknadModal--soknadIkkeTilgjengeligAdvarsel" : ""
-                    )
-                }>
-                    <Veilederpanel
-                        fargetema={fargetema}
-                        svg={<PanelIkon/>}
-                        type={"normal"}
-                        kompakt={false}
-                    >
+                <div
+                    className={
+                        "nySoknadModal " +
+                        (currentSuggestion && (!soknadTilgjengelig || midlertidigNede)
+                            ? "nySoknadModal--soknadIkkeTilgjengeligAdvarsel"
+                            : "")
+                    }
+                >
+                    <Veilederpanel fargetema={fargetema} svg={<PanelIkon />} type={"normal"} kompakt={false}>
                         {currentSuggestion && (
                             <>
                                 {midlertidigNede && (
                                     <>
                                         <Undertittel className="nySoknadModal__tittel">
-                                            {currentSuggestion.value} <FormattedMessage id={"nySoknadModal.midlertidig_nede"} />
+                                            {currentSuggestion.value}{" "}
+                                            <FormattedMessage id={"nySoknadModal.midlertidig_nede"} />
                                         </Undertittel>
                                         <Normaltekst className="nySoknadModal__normaltekst">
-                                            <FormattedMessage id={"nySoknadModal.din_kommune"}/>
+                                            <FormattedMessage id={"nySoknadModal.din_kommune"} />
                                         </Normaltekst>
                                     </>
                                 )}
@@ -122,9 +119,13 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                         {soknadTilgjengelig && (
                                             <>
                                                 <Undertittel className="nySoknadModal__tittel">
-                                                    <FormattedMessage id={"nySoknadModal.soknad_tilgjengelig.undertittel.part1"} />
+                                                    <FormattedMessage
+                                                        id={"nySoknadModal.soknad_tilgjengelig.undertittel.part1"}
+                                                    />
                                                     {currentSuggestion.value}
-                                                    <FormattedMessage id={"nySoknadModal.soknad_tilgjengelig.undertittel.part2"} />
+                                                    <FormattedMessage
+                                                        id={"nySoknadModal.soknad_tilgjengelig.undertittel.part2"}
+                                                    />
                                                 </Undertittel>
                                                 <Normaltekst className="nySoknadModal__normaltekst">
                                                     <FormattedMessage id={"nySoknadModal.din_kommune"} />
@@ -134,7 +135,8 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                         {!soknadTilgjengelig && (
                                             <>
                                                 <Undertittel className="nySoknadModal__tittel">
-                                                    {currentSuggestion.value} <FormattedMessage id={"nySoknadModal.soknad_ikke_tilgjengelig"} />
+                                                    {currentSuggestion.value}{" "}
+                                                    <FormattedMessage id={"nySoknadModal.soknad_ikke_tilgjengelig"} />
                                                 </Undertittel>
                                                 <Normaltekst className="nySoknadModal__normaltekst">
                                                     <FormattedMessage id={"nySoknadModal.din_kommune"} />
@@ -143,10 +145,8 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                         )}
                                     </>
                                 )}
-
                             </>
                         )}
-
 
                         {currentSuggestion === null && (
                             <>
@@ -167,32 +167,28 @@ const NySoknadModal: React.FC<{ synlig: boolean, onRequestClose: () => void }> =
                                 id="kommunesok"
                                 onSelect={(suggestion: Suggestion) => onSelect(suggestion)}
                                 onReset={() => onReset()}
-                                feil={(visFeilmelding && currentSuggestion === null) ?
-                                    "nySoknadModal.feil_tom_kommunenavn" : undefined
+                                feil={
+                                    visFeilmelding && currentSuggestion === null
+                                        ? "nySoknadModal.feil_tom_kommunenavn"
+                                        : undefined
                                 }
                             />
                         )}
 
                         <div className="knappOgLenke">
-                            <Knapp
-                                type="hoved"
-                                onClick={(event: any) => onButtonClick(event)}
-                            >
-                                <FormattedMessage id="nySoknadModal.sok_digitalt"/>
+                            <Knapp type="hoved" onClick={(event: any) => onButtonClick(event)}>
+                                <FormattedMessage id="nySoknadModal.sok_digitalt" />
                             </Knapp>
                             <Normaltekst>
                                 <b>
                                     <Lenke href={sokPaaPapirUrl}>
-                                        <FormattedMessage id="nySoknadModal.skal_ikke_soke_digitalt"/>
+                                        <FormattedMessage id="nySoknadModal.skal_ikke_soke_digitalt" />
                                     </Lenke>
                                 </b>
                             </Normaltekst>
-
                         </div>
                     </Veilederpanel>
-
                 </div>
-
             </EnkelModal>
         </NySoknadIntlProvider>
     );

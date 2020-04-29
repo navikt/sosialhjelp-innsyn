@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
@@ -8,7 +8,7 @@ import "./utbetalinger.less";
 import {
     filtrerMaanederUtenUtbetalinger,
     filtrerUtbetalingerForTidsinterval,
-    filtrerUtbetalingerPaaMottaker
+    filtrerUtbetalingerPaaMottaker,
 } from "./utbetalingerUtils";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {Sidetittel} from "nav-frontend-typografi";
@@ -19,10 +19,9 @@ import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
 const Utbetalinger: React.FC = () => {
-
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER))
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER));
     }, [dispatch]);
 
     document.title = "Utbetalingsoversikt";
@@ -38,7 +37,7 @@ const Utbetalinger: React.FC = () => {
     const oppdaterPeriodeOgMottaker = (antMndTilbake: number, tilDinKnt: boolean, tilAnnenKonto: boolean): void => {
         if (antMndTilbake !== visAntallMnd) {
             setVisAntallMnd(antMndTilbake);
-            if(antMndTilbake > hentetAntallMnd) {
+            if (antMndTilbake > hentetAntallMnd) {
                 setHentetAntallMnd(antMndTilbake);
             }
         }
@@ -50,8 +49,8 @@ const Utbetalinger: React.FC = () => {
         }
     };
 
-    let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
-        utbetalingerService.payload : [];
+    let utbetalinger: UtbetalingSakType[] =
+        utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
 
     const now: Date = new Date();
     utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
@@ -63,12 +62,11 @@ const Utbetalinger: React.FC = () => {
             <Brodsmulesti
                 tittel={"Utbetalingsoversikt"}
                 tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                foreldreside={
-                    {
-                        tittel: "Økonomisk sosialhjelp",
-                        path: "/sosialhjelp/innsyn/",
-                        urlType: UrlType.ABSOLUTE_PATH
-                    }}
+                foreldreside={{
+                    tittel: "Økonomisk sosialhjelp",
+                    path: "/sosialhjelp/innsyn/",
+                    urlType: UrlType.ABSOLUTE_PATH,
+                }}
                 className="breadcrumbs__luft_rundt"
             />
 
@@ -80,9 +78,9 @@ const Utbetalinger: React.FC = () => {
                             <Periodevelger
                                 className="utbetalinger_periodevelger_panel"
                                 antMndTilbake={visAntallMnd}
-                                onChange={
-                                    (antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
-                                        oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)}
+                                onChange={(antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
+                                    oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)
+                                }
                             />
                         </div>
                     </div>
@@ -94,7 +92,6 @@ const Utbetalinger: React.FC = () => {
             </div>
         </div>
     );
-
 };
 
 export default Utbetalinger;

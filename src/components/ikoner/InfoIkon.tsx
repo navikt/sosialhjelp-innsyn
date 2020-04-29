@@ -2,12 +2,7 @@ import React from "react";
 
 const InfoIkon: React.FC = () => {
     return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" fillRule="evenodd">
                 <path
                     fill="#669DB4"
@@ -16,14 +11,11 @@ const InfoIkon: React.FC = () => {
                 ></path>
                 <g fill="#ffffff">
                     <path d="M12.027 19H12a1.499 1.499 0 01-.027-3H12a1.501 1.501 0 01.027 3z"></path>
-                    <path
-                        fillRule="nonzero"
-                        d="M12 5a1 1 0 011 1v7a1 1 0 11-2 0V6a1 1 0 011-1z"
-                    ></path>
+                    <path fillRule="nonzero" d="M12 5a1 1 0 011 1v7a1 1 0 11-2 0V6a1 1 0 011-1z"></path>
                 </g>
             </g>
         </svg>
-    )
+    );
 };
 
 export default InfoIkon;

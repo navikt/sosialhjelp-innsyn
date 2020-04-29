@@ -7,7 +7,6 @@ import {push} from "connected-react-router";
 import {useDispatch} from "react-redux";
 
 const DineUtbetalingerPanel: React.FC<{}> = () => {
-
     const dispatch = useDispatch();
 
     const onClick = (event: any) => {
@@ -16,14 +15,16 @@ const DineUtbetalingerPanel: React.FC<{}> = () => {
     };
 
     return (
-        <LenkepanelBase href="/sosialhjelp/innsyn/utbetaling" onClick={(event: any) => onClick(event)} className="panel-luft-over dine_utbetalinger_panel ">
+        <LenkepanelBase
+            href="/sosialhjelp/innsyn/utbetaling"
+            onClick={(event: any) => onClick(event)}
+            className="panel-luft-over dine_utbetalinger_panel "
+        >
             <div className="dine_utbetalinger_innhold">
                 <HandCoinsIcon />
                 <div>
                     <Systemtittel className="lenkepanel__heading">Dine utbetalinger</Systemtittel>
-                    <Normaltekst>
-                        Gå til oversikt over dine tidligere og kommende utbetalinger fra NAV.
-                    </Normaltekst>
+                    <Normaltekst>Gå til oversikt over dine tidligere og kommende utbetalinger fra NAV.</Normaltekst>
                 </div>
             </div>
         </LenkepanelBase>

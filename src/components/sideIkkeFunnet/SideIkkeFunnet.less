@@ -1,62 +1,61 @@
 @import "../../../node_modules/nav-frontend-core/less/core";
 @import "../../../node_modules/nav-frontend-ekspanderbartpanel-style/src/index";
-@import '../../../node_modules/nav-frontend-chevron-style/src/index';
-@import '../../../node_modules/nav-frontend-chevron-style/src/mixins';
-@import '../../../node_modules/nav-frontend-spinner-style/src/spinner-style';
-@import '../../../node_modules/nav-frontend-alertstriper-style/src/index';
+@import "../../../node_modules/nav-frontend-chevron-style/src/index";
+@import "../../../node_modules/nav-frontend-chevron-style/src/mixins";
+@import "../../../node_modules/nav-frontend-spinner-style/src/spinner-style";
+@import "../../../node_modules/nav-frontend-alertstriper-style/src/index";
 
 // Størrelser:
 
-@fullBredde:              912px; // Maks bredde på et panel
-@skjermbreddeNettbrett:  1024px; // Max bredde liggende på nettbrett skjerm
-@skjermbreddeEnSpalte:    730px; // En spalte visning
+@fullBredde: 912px; // Maks bredde på et panel
+@skjermbreddeNettbrett: 1024px; // Max bredde liggende på nettbrett skjerm
+@skjermbreddeEnSpalte: 730px; // En spalte visning
 @skjermbreddeMindreFlate: 640px; // Minste skjermer vi tar hensyn til
-@spalteMellomrom:          25px; // Standard mellomrom mellom paneler
-@spalteMellomromLite:       2px; // Lite mellomrom mellom paneler
-@marginMindreFlater:       10px; // Sidemarg på mindre flater
-@rammeTykkelse:             4px; // Tykkelse på rammene til paneler
+@spalteMellomrom: 25px; // Standard mellomrom mellom paneler
+@spalteMellomromLite: 2px; // Lite mellomrom mellom paneler
+@marginMindreFlater: 10px; // Sidemarg på mindre flater
+@rammeTykkelse: 4px; // Tykkelse på rammene til paneler
 
-@panelPaddingTop:            1rem; // Avstanden mellom panel-rammen og innholdet i panelet
-@panelPaddingLeft:         1.5rem;
-@panelPaddingRight:        1.5rem;
-@panelPaddingBottom:         3rem;
-
+@panelPaddingTop: 1rem; // Avstanden mellom panel-rammen og innholdet i panelet
+@panelPaddingLeft: 1.5rem;
+@panelPaddingRight: 1.5rem;
+@panelPaddingBottom: 3rem;
 
 .feilside {
-	text-align: center;
+    text-align: center;
 
-	&__ikon {
-		margin-top: 40px;
-	}
+    &__ikon {
+        margin-top: 40px;
+    }
 
-	&__tittel {
-		color: @navGra40;
-		margin-bottom: 2rem;
-		padding-top: 3rem;
-	}
+    &__tittel {
+        color: @navGra40;
+        margin-bottom: 2rem;
+        padding-top: 3rem;
+    }
 
-	&__innhold {
-		margin-bottom: 20px;
-	}
+    &__innhold {
+        margin-bottom: 20px;
+    }
 
-	&__feilkode {
-		margin-bottom: 3rem;
-		margin-top: 1rem;
-	}
+    &__feilkode {
+        margin-bottom: 3rem;
+        margin-top: 1rem;
+    }
 
-	&__link-liste {
-		margin-top: 20px;
-		padding-left: 0;
-	}
+    &__link-liste {
+        margin-top: 20px;
+        padding-left: 0;
+    }
 
-	&__link {
-		display: inline-block;
-		margin-top: 20px;
-		padding-left: 30px;
-		position: relative;
+    &__link {
+        display: inline-block;
+        margin-top: 20px;
+        padding-left: 30px;
+        position: relative;
 
-		&:first-child {
-			padding-left: 0;
-		}
-	}
+        &:first-child {
+            padding-left: 0;
+        }
+    }
 }

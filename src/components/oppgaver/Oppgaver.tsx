@@ -131,7 +131,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 .then((filRespons: any) => {
                     let harFeil: boolean = false;
                     if (Array.isArray(filRespons)) {
-                        filRespons.forEach(respons => {
+                        filRespons.forEach((respons) => {
                             respons.filer.forEach((fil: Fil, index: number) => {
                                 if (fil.status !== "OK") {
                                     harFeil = true;
@@ -156,7 +156,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                     }
                 })
-                .catch(e => {
+                .catch((e) => {
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
                 });

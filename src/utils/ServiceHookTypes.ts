@@ -18,13 +18,9 @@ interface ServiceError {
     error: Error;
 }
 
-export type ServiceHookTypes<T> =
-    | ServiceInit
-    | ServiceLoading
-    | ServiceLoaded<T>
-    | ServiceError;
+export type ServiceHookTypes<T> = ServiceInit | ServiceLoading | ServiceLoaded<T> | ServiceError;
 
 export const erDevMiljo = (): boolean => {
     const url = window.location.href;
-    return (url.indexOf("localhost:3000") > 0);
+    return url.indexOf("localhost:3000") > 0;
 };

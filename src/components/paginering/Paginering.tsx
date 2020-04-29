@@ -15,7 +15,7 @@ const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange, 
     };
 
     const buildHref = (value: any) => {
-      return "?side=" + value;
+        return "?side=" + value;
     };
 
     return (
@@ -26,12 +26,12 @@ const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange, 
             pageRangeDisplayed={3}
             disableInitialCallback={true}
             onPageChange={(value: any) => handlePageClick(value)}
-            previousLabel={'<'}
-            nextLabel={'>'}
-            breakLabel={'...'}
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
             // breakClassName={'break-me'}
-            containerClassName={'pagination'}
-            activeClassName={'active'}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
             forcePage={forcePage}
             hrefBuilder={(value: any) => buildHref(value)}
             // extraAriaContext={"Side"} // Deprecated

@@ -8,10 +8,7 @@ const DokumentOk: React.FC = () => {
                     fill="#E3E3DA"
                     d="M0 12L13 0h37.996a3 3 0 013 3.004l-.08 64a3 3 0 01-3 2.996H3a3 3 0 01-3-3V12z"
                 />
-                <path
-                    fill="#C9C9C9"
-                    d="M13 0v8.357C13 10.37 11.328 12 9.264 12H0L13 0z"
-                />
+                <path fill="#C9C9C9" d="M13 0v8.357C13 10.37 11.328 12 9.264 12H0L13 0z" />
                 <path
                     fill="#8F9395"
                     d="M10 26h34v-3H10zm0 7h34v-3H10zm0 7h34v-3H10zm0 7h34v-3H10zm0 7h34v-3H10zm0-35h34v-3H10z"
@@ -30,6 +27,6 @@ const DokumentOk: React.FC = () => {
             </g>
         </svg>
     );
-}
+};
 
 export default DokumentOk;

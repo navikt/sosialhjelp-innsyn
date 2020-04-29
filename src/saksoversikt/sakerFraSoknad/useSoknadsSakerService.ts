@@ -13,11 +13,11 @@ export interface Saksliste {
 
 const useSoknadsSakerService = () => {
     const [result, setResult] = useState<ServiceHookTypes<Saksliste>>({
-        restStatus: REST_STATUS.PENDING
+        restStatus: REST_STATUS.PENDING,
     });
 
     let url = "/sosialhjelp/soknad-api/soknadoversikt/soknader";
-    if(erDev()) {
+    if (erDev()) {
         url = "http://localhost:8181" + url;
     }
     if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
@@ -28,9 +28,9 @@ const useSoknadsSakerService = () => {
     }
     useEffect(() => {
         fetch(url)
-            .then(response => response.json())
-            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: {results: response} }))
-            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
+            .then((response) => response.json())
+            .then((response) => setResult({restStatus: REST_STATUS.OK, payload: {results: response}}))
+            .catch((error) => setResult({restStatus: REST_STATUS.FEILET, error}));
     }, [url]);
     return result;
 };

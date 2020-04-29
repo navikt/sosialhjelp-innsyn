@@ -5,7 +5,7 @@ import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
-import {Select} from 'nav-frontend-skjema';
+import {Select} from "nav-frontend-skjema";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
@@ -20,12 +20,12 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     // Denne er idag veldig tung. Serlig for test personer med maange søknader.
     const utbetalingerService = useUtbetalingerService(12);
-    let utbetalinger: UtbetalingSakType[] = utbetalingerService.restStatus === REST_STATUS.OK ?
-        utbetalingerService.payload : [];
+    let utbetalinger: UtbetalingSakType[] =
+        utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
 
-    let filtrerteSaker:Sakstype[];
+    let filtrerteSaker: Sakstype[];
 
-    const tolkPeriode = (periode: string) =>{
+    const tolkPeriode = (periode: string) => {
         return Number(periode);
     };
 
@@ -33,21 +33,22 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         setPeriode(value.target.value);
     };
 
-    if (periode === "alle")
-        filtrerteSaker = saker;
+    if (periode === "alle") filtrerteSaker = saker;
     else {
         const periodeLengde = tolkPeriode(periode);
-        filtrerteSaker = saker.filter(sak => isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde)));
+        filtrerteSaker = saker.filter((sak) =>
+            isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde))
+        );
     }
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
-    function sammenlignSaksTidspunkt(a:Sakstype, b:Sakstype) {
-        if (isAfter(Date.parse(a.sistOppdatert),Date.parse(b.sistOppdatert))) {
+    function sammenlignSaksTidspunkt(a: Sakstype, b: Sakstype) {
+        if (isAfter(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
             return -1;
         }
-        if (isBefore(Date.parse(a.sistOppdatert),Date.parse(b.sistOppdatert))) {
+        if (isBefore(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
             return 1;
         }
         return 0;
@@ -58,20 +59,23 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const itemsPerPage = 10;
     let currentPage = 0;
     const pageParam = parse(history.location.search)["side"];
-    if(pageParam) {
+    if (pageParam) {
         let parsedPageNumber = parseInt(pageParam.toString(), 10);
-        if(!isNaN(parsedPageNumber)) {
+        if (!isNaN(parsedPageNumber)) {
             currentPage = parsedPageNumber - 1;
         }
     }
     const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
-    if(currentPage >= lastPage) {
-        history.push({search: "?side=" + (lastPage)})
+    if (currentPage >= lastPage) {
+        history.push({search: "?side=" + lastPage});
     }
-    const paginerteSaker:Sakstype[] = filtrerteSaker.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage) + itemsPerPage);
+    const paginerteSaker: Sakstype[] = filtrerteSaker.slice(
+        currentPage * itemsPerPage,
+        currentPage * itemsPerPage + itemsPerPage
+    );
 
     const handlePageClick = (page: number) => {
-        history.push({search: "?side=" + (page + 1)})
+        history.push({search: "?side=" + (page + 1)});
     };
 
     // noinspection HtmlUnknownTarget
@@ -84,22 +88,25 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         Ny søknad
                     </a>
                     <div className="periodevelger_container">
-                        <Select onChange={(value: any) => velgPeriode(value)} label='Vis for'
-                                className="periode_velger">
-                            <option value='alle'>Alle</option>
-                            <option value='12'>Siste år</option>
-                            <option value='6'>Siste 6 måneder&nbsp;</option>
-                            <option value='3'>Siste 3 måneder&nbsp;</option>
-                            <option value='1'>Siste måned</option>
+                        <Select
+                            onChange={(value: any) => velgPeriode(value)}
+                            label="Vis for"
+                            className="periode_velger"
+                        >
+                            <option value="alle">Alle</option>
+                            <option value="12">Siste år</option>
+                            <option value="6">Siste 6 måneder&nbsp;</option>
+                            <option value="3">Siste 3 måneder&nbsp;</option>
+                            <option value="1">Siste måned</option>
                         </Select>
                     </div>
                 </div>
             </div>
 
-        { paginerteSaker.map((sak:Sakstype) => {
+            {paginerteSaker.map((sak: Sakstype) => {
                 let key = sak.fiksDigisosId;
 
-                if(sak.fiksDigisosId == null) {
+                if (sak.fiksDigisosId == null) {
                     key = sak.soknadTittel;
                 }
                 return (
@@ -114,55 +121,47 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         antallNyeOppgaver={sak.antallNyeOppgaver}
                         harBlittLastetInn={sak.harBlittLastetInn}
                     />
-                )
-            })
-        }
+                );
+            })}
 
-        { filtrerteSaker.length > itemsPerPage && (
-            <Paginering
-                pageCount={lastPage}
-                forcePage={currentPage}
-                onPageChange={(page: number) => handlePageClick(page)}
-            />
-        )}
-
-        {filtrerteSaker.length === 0 && (
-            <Panel className="panel-glippe-over">
-                <Normaltekst>Vi finner ingen søknader for denne perioden.</Normaltekst>
-                <Normaltekst>
-                    Har du søkt på papir, har vi dessverre ikke mulighet til å
-                    vise den her.
-                </Normaltekst>
-            </Panel>
-        )}
-
-        <>
-
-            {utbetalinger.length > 0 && (
-                <DineUtbetalingerPanel/>
+            {filtrerteSaker.length > itemsPerPage && (
+                <Paginering
+                    pageCount={lastPage}
+                    forcePage={currentPage}
+                    onPageChange={(page: number) => handlePageClick(page)}
+                />
             )}
 
-            <Subheader className="panel-luft-over">
-                <Undertittel>Relatert informasjon</Undertittel>
-            </Subheader>
+            {filtrerteSaker.length === 0 && (
+                <Panel className="panel-glippe-over">
+                    <Normaltekst>Vi finner ingen søknader for denne perioden.</Normaltekst>
+                    <Normaltekst>Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.</Normaltekst>
+                </Panel>
+            )}
 
-            <InfoPanelContainer>
-                <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/artikkel/124876"}>
-                    Du må melde fra dersom din økonomiske situasjon endres.
-                </InfoPanel>
+            <>
+                {utbetalinger.length > 0 && <DineUtbetalingerPanel />}
 
-                <InfoPanel tittel={"Klagerettigheter"}
-                           href={"https://www.nav.no/sosialhjelp/artikkel/124875"}>
-                    Har du fått et vedtak fra oss som du mener er feil, kan du klage.
-                </InfoPanel>
+                <Subheader className="panel-luft-over">
+                    <Undertittel>Relatert informasjon</Undertittel>
+                </Subheader>
 
-                <InfoPanel tittel={"Mer om sosialhjelp"} href={"https://www.nav.no/sosialhjelp/"}>
-                    Lær mer om økonomisk sosialhjelp på nav.no
-                </InfoPanel>
-            </InfoPanelContainer>
+                <InfoPanelContainer>
+                    <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/artikkel/124876"}>
+                        Du må melde fra dersom din økonomiske situasjon endres.
+                    </InfoPanel>
+
+                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/sosialhjelp/artikkel/124875"}>
+                        Har du fått et vedtak fra oss som du mener er feil, kan du klage.
+                    </InfoPanel>
+
+                    <InfoPanel tittel={"Mer om sosialhjelp"} href={"https://www.nav.no/sosialhjelp/"}>
+                        Lær mer om økonomisk sosialhjelp på nav.no
+                    </InfoPanel>
+                </InfoPanelContainer>
+            </>
         </>
-    </>
-    )
+    );
 };
 
 export default SaksoversiktDineSaker;

@@ -8,21 +8,23 @@ import Brodsmulesti from "../../components/brodsmuleSti/BrodsmuleSti";
 const VeiviserPlaceholder: React.FC = () => {
     return (
         <div className="informasjon-side">
-            <AppBanner/>
+            <AppBanner />
             <div className="blokk-center">
-                <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}}/>
+                <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                 <Panel>
                     <Innholdstittel>Veiviser</Innholdstittel>
-                    <br/>
-                    <Normaltekst>
-                        På denne plassen skal veiviseren være.
-                    </Normaltekst>
-                    <br/>
+                    <br />
+                    <Normaltekst>På denne plassen skal veiviseren være.</Normaltekst>
+                    <br />
                     <div>
                         Ta en titt på disse sidene:
                         <ul>
-                            <li><Lenke href="/sosialhjelp/innsyn/demo">Demoside for innsyn</Lenke></li>
-                            <li><Lenke href="/sosialhjelp/innsyn/">Saksoversikt</Lenke></li>
+                            <li>
+                                <Lenke href="/sosialhjelp/innsyn/demo">Demoside for innsyn</Lenke>
+                            </li>
+                            <li>
+                                <Lenke href="/sosialhjelp/innsyn/">Saksoversikt</Lenke>
+                            </li>
                         </ul>
                     </div>
                 </Panel>

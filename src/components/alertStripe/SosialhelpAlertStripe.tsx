@@ -19,20 +19,14 @@ interface Props {
 }
 
 const SosialhjelpAlertStripe: React.FC<Props> = ({type, tittel, children}) => {
-
     return (
         <Alertstripe type={type} className="sosialhjelpAlertStripe">
             <span className="sosialhjelpAlertStripe_innhold">
-                <span className="sosialhjelpAlertStripe_tittel">
-                    {tittel}
-                </span>
-                <span className="sosialhjelpAlertStripe_barn">
-                    {children}
-                </span>
+                <span className="sosialhjelpAlertStripe_tittel">{tittel}</span>
+                <span className="sosialhjelpAlertStripe_barn">{children}</span>
             </span>
         </Alertstripe>
     );
-
 };
 
 export default SosialhjelpAlertStripe;
