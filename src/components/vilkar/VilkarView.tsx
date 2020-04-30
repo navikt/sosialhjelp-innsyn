@@ -66,7 +66,7 @@ const VilkarView: React.FC = () => {
 
     if (skalViseVilkarView) {
         return (
-            <Panel className={"panel-glippe-over"}>
+            <Panel className={"panel-glippe-over vilkar_panel"}>
                 <EkspanderbartpanelBase
                     heading={heading}
                     className={"react-collapse-animation"}
