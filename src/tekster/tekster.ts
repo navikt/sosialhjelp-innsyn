@@ -43,6 +43,20 @@ export const tekster = {
             "Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi " +
             "har.",
         "oppgaver.hjelp_last_opp": "Hjelp til å laste opp?",
+        "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å laste opp vedlegg?",
+        "oppgaver.informasjon.modal.bolk1.tittel": "Du vil laste opp dokumentasjon du har på papir",
+        "oppgaver.informasjon.modal.bolk1.avsnitt1":
+            "Har du vedlegg på papir er det best å skanne dokumentene. Dokumenter som er skannet er av bedre kvalitet og lettere for NAV-kontoret å lese.",
+        "oppgaver.informasjon.modal.bolk1.avsnitt2":
+            "Du kan også ta bilde av dokumentasjon du har på papir med mobiltelefonen din. Bildene kan du legge ved når du åpner søknaden på mobilen. Hvis du søker fra datamaskinen din, kan du sende bildene til deg selv på e-post.",
+        "oppgaver.informasjon.modal.bolk1.avsnitt3":
+            "Med en skanne app kan du bruke kamerafunksjonen på mobiltelefonen din til å skanne dokumenter. Du kan samle flere papirsider til ett digitalt dokument, for eksempel husleiekontrakten din.",
+        "oppgaver.informasjon.modal.bolk2.tittel": "Du vil laste opp dokumentasjon du har fra andre nettsider",
+        "oppgaver.informasjon.modal.bolk2.avsnitt1":
+            "Hvis du skal dokumentere noe fra en annen nettside, bør du unngå å ta bilde av PC-skjermen med et kamera. Last heller ned innholdet hvis det er mulig. For eksempel er skattemeldingen, kontoutskrifter og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF.",
+        "oppgaver.informasjon.modal.bolk3.tittel": "Sørg for at dokumentasjonen du sender er lesbar",
+        "oppgaver.informasjon.modal.bolk3.avsnitt1":
+            "Det er viktig at du sjekker at dokumentene du laster opp er fullstendige og lesbare på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende den på nytt.",
         "oppgaver.neste_frist": "Neste frist for innlevering er {innsendelsesfrist}",
         "oppgaver.neste_frist_passert":
             "Neste frist for innlevering var for {antall_dager} siden, den {innsendelsesfrist}",

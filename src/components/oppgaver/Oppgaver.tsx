@@ -3,7 +3,6 @@ import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React, {useState} from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
-import Lenke from "nav-frontend-lenker";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
 import {
@@ -30,6 +29,7 @@ import {
     logErrorMessage,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {formatDato} from "../../utils/formatting";
+import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -249,12 +249,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                 <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
                             </Normaltekst>
                         )}
-                        <Lenke
-                            href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Teknisk+brukerstotte/hjelp-til-personbruker?kap=398773"
-                            className="luft_over_10px luft_under_1rem lenke_uten_ramme"
-                        >
-                            <FormattedMessage id="oppgaver.hjelp_last_opp" />
-                        </Lenke>
+
+                        <OpplastingAvVedleggModal />
 
                         <DriftsmeldingVedlegg leserData={leserData} />
 
