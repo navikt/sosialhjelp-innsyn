@@ -2,28 +2,34 @@ import React from "react";
 import Lenke from "nav-frontend-lenker";
 import {NedChevron, OppChevron} from "nav-frontend-chevron";
 
-const EkspanderLink: React.FC<{ open: boolean, setOpen: (open: boolean) => void }> = ({open, setOpen}) => {
+const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}> = ({open, setOpen}) => {
     return (
         <span>
             {open && (
-                <Lenke href="#" onClick={(evt: any) => {
-                    setOpen(false);
-                    evt.preventDefault();
-                }}>
+                <Lenke
+                    href="#"
+                    onClick={(evt: any) => {
+                        setOpen(false);
+                        evt.preventDefault();
+                    }}
+                >
                     Lukk
-                    <OppChevron/>
+                    <OppChevron />
                 </Lenke>
             )}
             {!open && (
-                <Lenke href="#" onClick={(evt: any) => {
-                    setOpen(true);
-                    evt.preventDefault()
-                }}>
+                <Lenke
+                    href="#"
+                    onClick={(evt: any) => {
+                        setOpen(true);
+                        evt.preventDefault();
+                    }}
+                >
                     Mer informasjon
-                    <NedChevron/>
+                    <NedChevron />
                 </Lenke>
             )}
-                </span>
+        </span>
     );
 };
 

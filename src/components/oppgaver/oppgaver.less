@@ -1,251 +1,246 @@
 @import "../../../node_modules/nav-frontend-core/less/core";
 
 .oppgaver_header {
-  display: flex;
-  width: 100%;
+    display: flex;
+    width: 100%;
 
-  div {
-    padding-left: 1rem;
-    padding-top: 4px;
-  }
+    div {
+        padding-left: 1rem;
+        padding-top: 4px;
+    }
 }
 
-@media screen and (max-width: 640px ) {
-
-  .oppgaver_panel_bruker_har_oppgaver {
-    padding: 0;
-  }
-
-  .oppgaver_panel {
-
-    .oppgaver_innhold {
+@media screen and (max-width: 640px) {
+    .oppgaver_panel_bruker_har_oppgaver {
+        padding: 0;
     }
-  }
+
+    .oppgaver_panel {
+        .oppgaver_innhold {
+        }
+    }
 }
 
 .luft_over_1rem {
-  margin-top: 1rem;
+    margin-top: 1rem;
 }
 
 .luft_over_2rem {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .luft_under_1rem {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .luft_over_10px {
-  display: block;
-  margin-top: 10px;
+    display: block;
+    margin-top: 10px;
 }
 
 .luft_over_4px {
-  margin-top: 4px;
+    margin-top: 4px;
 }
 
 .luft_under_8px {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .oppgaver_detaljer {
-  border: 1px solid #e9e7e7;
-  border-radius: 2px;
-  padding: 1rem;
+    border: 1px solid #e9e7e7;
+    border-radius: 2px;
+    padding: 1rem;
 }
 
 .oppgaver_detaljer_feil_ramme {
-  border: solid 1px #ba3a25 !important;
-  border-radius: 2px;
-  padding: 1rem;
+    border: solid 1px #ba3a25 !important;
+    border-radius: 2px;
+    padding: 1rem;
 }
 
 .oppgaver_detalj {
-  position: relative;
-  margin-top: 16px;
-  background-color: #e9e7e7;
-  border-radius: 2px;
-  padding: 0.7rem 1rem 0.5rem 1rem;
+    position: relative;
+    margin-top: 16px;
+    background-color: #e9e7e7;
+    border-radius: 2px;
+    padding: 0.7rem 1rem 0.5rem 1rem;
 }
 
 .oppgaver_detalj_feil {
-  border: solid 1px #ba3a25 !important;
-  background-color: #f3e4e3 !important;
+    border: solid 1px #ba3a25 !important;
+    background-color: #f3e4e3 !important;
 }
 
 .oppgaver_detalj_feil_ramme {
-  border: solid 1px #ba3a25 !important;
+    border: solid 1px #ba3a25 !important;
 }
 
 .oppgaver_last_opp_fil {
-  display: block;
+    display: block;
 
-  .lenke {
-    display: inline-block;
-  }
+    .lenke {
+        display: inline-block;
+    }
 }
 
 .last_opp_fil_ikon {
-  height: 24px;
-  width: 16px;
-  float: left;
-  margin-right: 0.5rem;
+    height: 24px;
+    width: 16px;
+    float: left;
+    margin-right: 0.5rem;
 
-  path {
-    stroke-width: 2px;
-  }
+    path {
+        stroke-width: 2px;
+    }
 }
 
-@media screen and (max-width: 640px ) {
-  .oppgaver_detaljer {
-    padding: 0.5rem;
-  }
+@media screen and (max-width: 640px) {
+    .oppgaver_detaljer {
+        padding: 0.5rem;
+    }
 
-  .oppgaver_last_opp_fil {
-    margin-bottom: 2rem;
-  }
-
+    .oppgaver_last_opp_fil {
+        margin-bottom: 2rem;
+    }
 }
 
-@media screen and (min-width: 641px ) {
-  .oppgaver_detaljer {
-    padding: 1rem;
-  }
+@media screen and (min-width: 641px) {
+    .oppgaver_detaljer {
+        padding: 1rem;
+    }
 
-  .oppgaver_last_opp_fil {
-    position: absolute;
-    right: 1rem;
-    top: 0.7rem;
-  }
-
+    .oppgaver_last_opp_fil {
+        position: absolute;
+        right: 1rem;
+        top: 0.7rem;
+    }
 }
 
 .vedlegg_liste_element {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  height: 38px;
-  padding-bottom: 1px;
-  border-bottom: 1px solid #c6c2bf;
-  display: inline-table;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    height: 38px;
+    padding-bottom: 1px;
+    border-bottom: 1px solid #c6c2bf;
+    display: inline-table;
 
-  .innhold {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
+    .innhold {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
 
-  .filnavn {
-    margin-right: 8px;
-    text-decoration: none;
-  }
+    .filnavn {
+        margin-right: 8px;
+        text-decoration: none;
+    }
 
-  .filikon {
-    height: 20px;
-    width: 20px;
-    margin-right: 8px;
-    margin-bottom: -2px;
-  }
+    .filikon {
+        height: 20px;
+        width: 20px;
+        margin-right: 8px;
+        margin-bottom: -2px;
+    }
 
-  .fjern_lenke {
-    margin-bottom: 4px;
-
-    text-decoration: none;
-  }
-
-  @media screen and (min-width: 641px ) {
     .fjern_lenke {
-      margin-right: 8px;
+        margin-bottom: 4px;
+
+        text-decoration: none;
     }
-  }
 
-  @media screen and (max-width: 641px ) {
-    .fjern_lenke {
-      margin-right: 0;
+    @media screen and (min-width: 641px) {
+        .fjern_lenke {
+            margin-right: 8px;
+        }
     }
-  }
 
-  .klikkbar_soppelboette {
-    margin-bottom: -4px;
-    height: 20px;
-
-    path {
-      stroke: #0067C5;
-      stroke-width: 1px;
+    @media screen and (max-width: 641px) {
+        .fjern_lenke {
+            margin-right: 0;
+        }
     }
-  }
 
+    .klikkbar_soppelboette {
+        margin-bottom: -4px;
+        height: 20px;
+
+        path {
+            stroke: #0067c5;
+            stroke-width: 1px;
+        }
+    }
 }
 
 .oppgaver_vedlegg_feilmelding_overskrift {
-  color: @navRod;
-  margin-top: 0.5rem;
+    color: @navRod;
+    margin-top: 0.5rem;
 }
 
-.oppgaver_vedlegg_feilmelding_bullet_point{
-  position: relative;
-  left: -7.5px;
+.oppgaver_vedlegg_feilmelding_bullet_point {
+    position: relative;
+    left: -7.5px;
 }
 
 .oppgaver_vedlegg_feilmelding {
-  color: @navRod;
-  margin-top: 0.5rem;
-  margin-left: 1.25rem;
+    color: @navRod;
+    margin-top: 0.5rem;
+    margin-left: 1.25rem;
 }
 
 .oppgaver_vedlegg_feilmelding_ul_plassering {
-  padding: 0;
+    padding: 0;
 }
 
 .oppgaver_vedlegg_feilmelding_rad {
-  color: @navRod;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 2rem;
+    color: @navRod;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 2rem;
 }
 
 .vedlegg_bilde_modal {
-  border: 1px solid @navGronnDarken60;
+    border: 1px solid @navGronnDarken60;
 }
 
 a.filnavn {
-  display: inline-block;
+    display: inline-block;
 
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-bottom: -5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: -5px;
 }
 
-@media screen and (max-width: 1230px ) {
-  a.filnavn {
-    max-width: 28vw;
-  }
+@media screen and (max-width: 1230px) {
+    a.filnavn {
+        max-width: 28vw;
+    }
 }
 
-@media screen and (min-width: 1231px ) {
-  a.filnavn {
-    max-width: 350px;
-  }
+@media screen and (min-width: 1231px) {
+    a.filnavn {
+        max-width: 350px;
+    }
 }
 
 .filstorrelse {
-  display: inline-block;
+    display: inline-block;
 }
 
 .fjern_lenkeboks {
-  display: inline-block;
-  white-space: nowrap;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .filnavn_lenkeboks {
-  margin-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 .tekst-wrapping {
-  word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .oppgave-detalj-overste-linje {
-  max-width: 65%;
+    max-width: 65%;
 }

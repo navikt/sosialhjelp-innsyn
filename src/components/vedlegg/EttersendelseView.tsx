@@ -16,13 +16,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {opprettFormDataMedVedleggFraFiler, FilFeil, validerFilArrayForFeil,} from "../../utils/vedleggUtils";
+import {opprettFormDataMedVedleggFraFiler, FilFeil, validerFilArrayForFeil} from "../../utils/vedleggUtils";
 import {skrivFeilmelding, sjekkerFilFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 
 function harFilermedFeil(filer: Fil[]) {
-    return filer.find(it => {
+    return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
 }
@@ -92,34 +92,36 @@ const EttersendelseView: React.FC = () => {
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
-        fetchPost(path, formData, "multipart/form-data").then((filRespons: any) => {
-            let harFeil: boolean = false;
-            let vedlegg = filRespons[0].filer;
-            if (Array.isArray(vedlegg)) {
-                for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
-                    const fileItem = vedlegg[vedleggIndex];
-                    if (fileItem.status !== "OK") {
-                        harFeil = true;
+        fetchPost(path, formData, "multipart/form-data")
+            .then((filRespons: any) => {
+                let harFeil: boolean = false;
+                let vedlegg = filRespons[0].filer;
+                if (Array.isArray(vedlegg)) {
+                    for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
+                        const fileItem = vedlegg[vedleggIndex];
+                        if (fileItem.status !== "OK") {
+                            harFeil = true;
+                        }
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
+                            fil: {filnavn: fileItem.filnavn} as Fil,
+                            status: fileItem.status,
+                            vedleggIndex: vedleggIndex,
+                        });
                     }
-                    dispatch({
-                        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
-                        fil: {filnavn: fileItem.filnavn} as Fil,
-                        status: fileItem.status,
-                        vedleggIndex: vedleggIndex
-                    });
                 }
-            }
-            if (harFeil) {
+                if (harFeil) {
+                    dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+                } else {
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                }
+            })
+            .catch((e) => {
                 dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-            } else {
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-            }
-        }).catch((e) => {
-            dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-            logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-        });
-        event.preventDefault()
+                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+            });
+        event.preventDefault();
     };
 
     let kommuneResponse: KommuneResponse | undefined = useSelector(

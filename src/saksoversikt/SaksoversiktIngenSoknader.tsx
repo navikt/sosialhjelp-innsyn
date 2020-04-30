@@ -11,7 +11,7 @@ const SaksoversiktIngenSoknader: React.FC = () => {
                 veilederProps={{className: "soknadsOversiktVeilederpanelIkon"}}
                 kompakt
                 type={"plakat"}
-                svg={<IngenSoknaderFunnet/>}
+                svg={<IngenSoknaderFunnet />}
             >
                 <>
                     <Systemtittel className="ingenSoknaderFunnetText">
@@ -26,12 +26,19 @@ const SaksoversiktIngenSoknader: React.FC = () => {
             <div className={"soknadsOversiktLenkePanel"}>
                 <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"}>
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">Les mer om økonomisk sosialhjelp</Undertittel>
+                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">
+                            Les mer om økonomisk sosialhjelp
+                        </Undertittel>
                     </div>
                 </LenkepanelBase>
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/slik-soker-du"}>
+                <LenkepanelBase
+                    className={"soknadsOversiktLenker"}
+                    href={"https://www.nav.no/sosialhjelp/slik-soker-du"}
+                >
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">Søk om økonomisk sosialhjelp</Undertittel>
+                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">
+                            Søk om økonomisk sosialhjelp
+                        </Undertittel>
                     </div>
                 </LenkepanelBase>
             </div>

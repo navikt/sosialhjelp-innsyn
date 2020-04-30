@@ -21,10 +21,7 @@ class IngenSoknaderFunnet extends React.Component {
                         d="M13 0v8.357C13 10.37 11.328 12 9.264 12H0L13 0z"
                         transform="translate(-11 -10) translate(11 10)"
                     />
-                    <g
-                        fill="#8F9395"
-                        transform="translate(-11 -10) translate(11 10) translate(2 10) translate(8 6)"
-                    >
+                    <g fill="#8F9395" transform="translate(-11 -10) translate(11 10) translate(2 10) translate(8 6)">
                         <path d="M0 10L34 10 34 7 0 7z" />
                         <path d="M0 17L34 17 34 14 0 14z" />
                         <path d="M0 24L34 24 34 21 0 21z" />

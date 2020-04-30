@@ -19,7 +19,7 @@ const SaksoversiktRouter: React.FC<{}> = () => {
                 </ConnectedRouter>
             </div>
         </div>
-    )
+    );
 };
 
 export default SaksoversiktRouter;

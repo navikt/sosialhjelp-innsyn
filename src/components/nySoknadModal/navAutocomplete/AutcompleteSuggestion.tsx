@@ -5,16 +5,22 @@ import {Suggestion} from "./NavAutcomplete";
 interface AutcompleteSuggestionProps {
     index: number;
     id: string;
-    suggestion: Suggestion|undefined;
+    suggestion: Suggestion | undefined;
     active: boolean;
     setSuggestionIndex: (index: number) => void;
     avoidBlur: () => void;
-    onClick: (value: Suggestion|undefined) => void;
+    onClick: (value: Suggestion | undefined) => void;
 }
 
-const AutcompleteSuggestion: React.FC<AutcompleteSuggestionProps> = (
-    { index, id, suggestion, active, setSuggestionIndex, avoidBlur, onClick}) => {
-
+const AutcompleteSuggestion: React.FC<AutcompleteSuggestionProps> = ({
+    index,
+    id,
+    suggestion,
+    active,
+    setSuggestionIndex,
+    avoidBlur,
+    onClick,
+}) => {
     const onMouseMove = () => {
         setSuggestionIndex(index);
     };
@@ -31,7 +37,7 @@ const AutcompleteSuggestion: React.FC<AutcompleteSuggestionProps> = (
             onKeyDown={() => avoidBlur()}
             className="AutcompleteSuggestion typo-normal"
         >
-            <span className={`AutcompleteSuggestion__inner ${active && 'AutcompleteSuggestion--active'}`}>
+            <span className={`AutcompleteSuggestion__inner ${active && "AutcompleteSuggestion--active"}`}>
                 {suggestion && suggestion.value}
             </span>
         </li>

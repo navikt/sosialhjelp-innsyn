@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // import InnsynsdataReducer, {
 //     InnsynsdataActionType,
@@ -7,9 +7,8 @@ import React from 'react';
 // } from "./innsynsdataReducer";
 // import {REST_STATUS} from "../../utils/restUtils";
 
-describe('Innsynsdata reducer', () => {
-
-    it('should place files in the redux state tree', () => {
+describe("Innsynsdata reducer", () => {
+    it("should place files in the redux state tree", () => {
         // const reducer = InnsynsdataReducer;
         // const action: InnsynsdataActionType = {
         //     type: InnsynsdataActionTypeKeys.SETT_REST_STATUS,

@@ -9,4 +9,3 @@ const SaksoversiktTestMeny: React.FC<{}> = () => {
 };
 
 export default SaksoversiktTestMeny;
-

@@ -13,14 +13,14 @@ export interface Saksliste {
 
 const useSoknadsSakerService = () => {
     const [result, setResult] = useState<ServiceHookTypes<Saksliste>>({
-        restStatus: REST_STATUS.PENDING
+        restStatus: REST_STATUS.PENDING,
     });
 
     const urlPath = "/soknadoversikt/soknader";
     useEffect(() => {
     fetchToJsonFromSoknadApi(urlPath)
         .then((response: any) => setResult({restStatus: REST_STATUS.OK, payload: {results: response}}))
-        .catch(error => setResult({restStatus: REST_STATUS.FEILET, error}));
+        .catch((error) => setResult({restStatus: REST_STATUS.FEILET, error}));
     }, [urlPath]);
     return result;
 };

@@ -34,7 +34,7 @@ const InternLenke: React.FC<InternLenkeProps> = ({href, children}) => {
         >
             {children}
         </Lenke>
-    )
+    );
 };
 
 export default InternLenke;

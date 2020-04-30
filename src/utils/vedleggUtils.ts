@@ -84,7 +84,6 @@ export interface FilFeil {
     filename: string;
 }
 
-
 export function validerFilArrayForFeil(listeMedFil: Array<FilFeil>) {
     return !!(listeMedFil && listeMedFil.length);
 }
