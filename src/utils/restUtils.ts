@@ -1,4 +1,6 @@
 import "whatwg-fetch";
+import {logErrorMessage} from "../redux/innsynsdata/innsynsDataActions";
+
 
 export function erDev(): boolean {
     const url = window.location.href;
@@ -46,6 +48,20 @@ export function getApiBaseUrl(): string {
     } else {
         return getAbsoluteApiUrl() + "api/v1";
     }
+}
+
+export function getSoknadApiUrl(): string {
+    let url = "/sosialhjelp/soknad-api";
+    if (erDev()) {
+        url = "http://localhost:8181" + url;
+    }
+    if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
+        url = "https://sosialhjelp-soknad-api.dev-nav.no" + url;
+    }
+    if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
+        url = "https://sosialhjelp-soknad-api.labs.nais.io" + url;
+    }
+    return url
 }
 
 export function getDittNavUrl(): string {
@@ -114,7 +130,8 @@ export const serverRequest = (
     method: string,
     urlPath: string,
     body: string | null | FormData,
-    contentType?: string
+    contentType?: string,
+    isSoknadApi?: boolean
 ) => {
     const OPTIONS: RequestInit = {
         headers: getHeaders(contentType),
@@ -123,8 +140,10 @@ export const serverRequest = (
         body: body ? body : undefined,
     };
 
+    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath
+
     return new Promise((resolve, reject) => {
-        fetch(getApiBaseUrl() + urlPath, OPTIONS)
+        fetch(url, OPTIONS)
             .then((response: Response) => {
                 sjekkStatuskode(response);
                 const jsonResponse = toJson(response);
@@ -143,20 +162,12 @@ export function toJson<T>(response: Response): Promise<T> {
 
 function sjekkStatuskode(response: Response) {
     if (response.status === 401) {
-        console.warn("Bruker er ikke logget inn.");
-        response.json().then((r) => {
-            if (window.location.search.split("error_id=")[1] !== r.id) {
+        response.json().then(r => {
+            if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                const redirectUrl = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
-                console.warn("Redirect til " + redirectUrl);
-                window.location.href = redirectUrl;
+                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
-                // TODO: må sende log til server (se sosialhjelp-soknad)
-                console.error(
-                    "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" +
-                        r.id +
-                        "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
-                );
+                logErrorMessage("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
             }
         });
         throw new Error(HttpStatus.UNAUTHORIZED);
@@ -173,6 +184,10 @@ function determineCredentialsParameter() {
 
 export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);
+}
+
+export function fetchToJsonFromSoknadApi(urlPath: string) {
+    return serverRequest(RequestMethod.GET, urlPath, null, undefined, true);
 }
 
 export function fetchPut(urlPath: string, body: string) {
