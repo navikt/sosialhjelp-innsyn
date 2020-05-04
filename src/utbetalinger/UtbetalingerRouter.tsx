@@ -8,12 +8,11 @@ import Brodsmulesti from "../components/brodsmuleSti/BrodsmuleSti";
 const UtbetalingerRouter: React.FC = () => {
     return (
         <div className="informasjon-side">
-            <AppBanner/>
+            <AppBanner />
             <ConnectedRouter history={history}>
                 <div className="utbetalinger-blokk-center">
-                    <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}}/>
-                    <Switch>
-                    </Switch>
+                    <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
+                    <Switch></Switch>
                 </div>
             </ConnectedRouter>
         </div>

@@ -1,159 +1,157 @@
 .dine_soknader_panel {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #FFF;
-  border-radius: 4px;
-
-  .knapp_og_periode_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-
-  .dine_soknader_panel_overskrift {
-    margin-right: 1rem;
-    white-space: nowrap;
-  }
-  .periodevelger_container {
-    height: 2rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding-top: 4px;
-  }
-
-  .periode_velger {
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    .skjemaelement__label {
-      margin-top: 12px;
-      white-space: nowrap;
-      margin-right: 8px;
-    }
-  }
-
-}
-
-@media screen and (min-width: 695px ) {
-  .dine_soknader_panel {
-    padding: 1rem 20px 1rem 80px;
-    margin-top: 4rem;
-    .periode_velger {
-      margin-top: 16px;
-    }
-  }
-}
-
-@media screen and (max-width: 694px ) {
-
-  .dine_soknader_panel {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: .5rem;
-    margin-top: 1rem;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 4px;
 
     .knapp_og_periode_container {
-      padding-top: 1rem;
-      width: 100%;
-      display: flex;
-      align-items: flex-end;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .dine_soknader_panel_overskrift {
+        margin-right: 1rem;
+        white-space: nowrap;
     }
     .periodevelger_container {
-      width: 100%;
-      margin-top: 1rem;
+        height: 2rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        padding-top: 4px;
     }
-  }
+
+    .periode_velger {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .skjemaelement__label {
+            margin-top: 12px;
+            white-space: nowrap;
+            margin-right: 8px;
+        }
+    }
 }
 
-@media screen and (max-width: 424px ) {
-  .dine_soknader_panel {
-    .knapp_og_periode_container {
-      flex-direction: column;
-      align-content: flex-start;
+@media screen and (min-width: 695px) {
+    .dine_soknader_panel {
+        padding: 1rem 20px 1rem 80px;
+        margin-top: 4rem;
+        .periode_velger {
+            margin-top: 16px;
+        }
     }
-  }
+}
+
+@media screen and (max-width: 694px) {
+    .dine_soknader_panel {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem;
+        margin-top: 1rem;
+
+        .knapp_og_periode_container {
+            padding-top: 1rem;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+        .periodevelger_container {
+            width: 100%;
+            margin-top: 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 424px) {
+    .dine_soknader_panel {
+        .knapp_og_periode_container {
+            flex-direction: column;
+            align-content: flex-start;
+        }
+    }
 }
 .soknadsOversiktSide .nav-veilederpanel {
-  border: none;
+    border: none;
 }
 
 .ingenSakerFunnetPanelLuftOver {
-  padding-top: 1rem;
+    padding-top: 1rem;
 }
 .saksListePanelLuftOver {
     margin-top: 4rem;
 }
 
 .soknadsOversiktVeilederpanelIkon .nav-veileder__frame {
-  background-color: #CDE7D8;
+    background-color: #cde7d8;
 }
 
-@media screen and (min-width: 747px ) {
-  .soknadsOversiktLenkePanel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-  }
+@media screen and (min-width: 747px) {
+    .soknadsOversiktLenkePanel {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+    }
 
-  .soknadsOversiktLenker {
-    margin-top: 2rem;
-    width: 50%;
-    border: #FFFFFF;
-  }
+    .soknadsOversiktLenker {
+        margin-top: 2rem;
+        width: 50%;
+        border: #ffffff;
+    }
 
-  .soknadsOversiktLenker:nth-child(1) {
-    margin-right: 1rem;
-  }
+    .soknadsOversiktLenker:nth-child(1) {
+        margin-right: 1rem;
+    }
 
-  .soknadsOversiktLenker:nth-child(2) {
-    margin-left: 1rem;
-  }
+    .soknadsOversiktLenker:nth-child(2) {
+        margin-left: 1rem;
+    }
 }
 
-@media screen and (max-width: 746px ) {
-  .soknadsOversiktLenkePanel {
-    display: flex;
-    flex-direction: column;
-  }
+@media screen and (max-width: 746px) {
+    .soknadsOversiktLenkePanel {
+        display: flex;
+        flex-direction: column;
+    }
 
-  .soknadsOversiktLenker {
-    margin-top: 1rem;
-    width: 100%;
-    border: #FFFFFF;
-  }
+    .soknadsOversiktLenker {
+        margin-top: 1rem;
+        width: 100%;
+        border: #ffffff;
+    }
 }
 
 .ingenSoknadFunnet {
-  padding-top: 4px;
-  padding-bottom: 2px;
-  margin-left: 16px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    margin-left: 16px;
 }
 
 .lenkepanelResenter {
-  margin-left: 16px;
+    margin-left: 16px;
 }
 
 .lenkepanel__heading_ingen_soknader {
-  font-size: 18px;
-  margin-bottom: 0;
+    font-size: 18px;
+    margin-bottom: 0;
 }
 .soknadsOversiktLenkerAlign {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .ingenSoknaderFunnetText {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .application-spinner {
-  width: 100%;
-  text-align: center;
-  padding-top: 100px;
+    width: 100%;
+    text-align: center;
+    padding-top: 100px;
 }

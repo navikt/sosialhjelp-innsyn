@@ -1,72 +1,68 @@
-
-@media screen and (min-width: 521px ) {
-  .infopanel_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  .infopanel:nth-child(1) {
-    margin-right: 1rem;
-  }
-
-  .infopanel:nth-child(2) {
-    margin-right: 1rem;
-  }
-
-  .infopanel {
-    align-items: stretch;
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-    flex-direction: column;
-    background-color: white;
-
-    .lenkepanel__indikator {
-      align-self: center;
+@media screen and (min-width: 521px) {
+    .infopanel_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
     }
 
-    p {
-      display: block;
-      width: 100%;
+    .infopanel:nth-child(1) {
+        margin-right: 1rem;
     }
 
-    .lenkepanel__heading {
-      margin-bottom: 0;
+    .infopanel:nth-child(2) {
+        margin-right: 1rem;
     }
 
-    .lenkepanel__indikator {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-    }
+    .infopanel {
+        align-items: stretch;
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        flex-direction: column;
+        background-color: white;
 
-  }
+        .lenkepanel__indikator {
+            align-self: center;
+        }
+
+        p {
+            display: block;
+            width: 100%;
+        }
+
+        .lenkepanel__heading {
+            margin-bottom: 0;
+        }
+
+        .lenkepanel__indikator {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+    }
 }
 
-@media screen and (max-width: 520px ) {
+@media screen and (max-width: 520px) {
+    .infopanel_container {
+        align-items: stretch;
+        display: flex;
+        flex-direction: column;
+    }
 
-  .infopanel_container {
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-  }
+    .infopanel {
+        width: 100%;
+        flex-shrink: 0;
+        max-width: none;
+        min-height: auto;
+    }
 
-  .infopanel {
-    width: 100%;
-    flex-shrink: 0;
-    max-width: none;
-    min-height: auto;
-  }
+    .infopanel:nth-child(1) {
+        margin-right: 0;
+        margin-bottom: 1rem !important;
+    }
 
-  .infopanel:nth-child(1) {
-    margin-right: 0;
-    margin-bottom: 1rem !important;
-  }
-
-  .infopanel:nth-child(2) {
-    margin-right: 0;
-    margin-bottom: 1rem !important;
-  }
-
+    .infopanel:nth-child(2) {
+        margin-right: 0;
+        margin-bottom: 1rem !important;
+    }
 }

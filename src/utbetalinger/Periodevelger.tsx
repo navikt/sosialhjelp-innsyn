@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Checkbox, Radio} from 'nav-frontend-skjema';
+import React, {useState} from "react";
+import {Checkbox, Radio} from "nav-frontend-skjema";
 
 interface Props {
     className?: string;
@@ -8,9 +8,8 @@ interface Props {
 }
 
 const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) => {
-
-    const [antallMaanederTilbake, setAntallMaanederTilbake]  = useState<number>(antMndTilbake);
-    const [tilDinKonto, setTilDinKonto]= useState<boolean>(true);
+    const [antallMaanederTilbake, setAntallMaanederTilbake] = useState<number>(antMndTilbake);
+    const [tilDinKonto, setTilDinKonto] = useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
 
     const onChangePeriode = (antall: number) => {
@@ -27,7 +26,6 @@ const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) =>
         setTilAnnenMottaker(!tilAnnenMottaker);
         onChange(antallMaanederTilbake, tilDinKonto, !tilAnnenMottaker);
     };
-
 
     return (
         <div className={className}>
@@ -57,20 +55,14 @@ const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) =>
                         onChange={() => onChangePeriode(12)}
                     />
                 </div>
-
-
             </form>
             <div>
                 <h2 className="typo-undertittel">Velg mottaker</h2>
                 <form className="ytelsestypecheckbox">
                     <div className="periodevelger_skjemaelement">
+                        <Checkbox label={"Til deg"} checked={tilDinKonto} onChange={() => onChangeTilDinKonto()} />
                         <Checkbox
-                            label={'Til deg'}
-                            checked={tilDinKonto}
-                            onChange={() => onChangeTilDinKonto()}
-                        />
-                        <Checkbox
-                            label={'Til annen mottaker'}
+                            label={"Til annen mottaker"}
                             checked={tilAnnenMottaker}
                             onChange={() => onChangeTilAnnenMottaker()}
                         />
@@ -82,4 +74,3 @@ const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) =>
 };
 
 export default Periodevelger;
-

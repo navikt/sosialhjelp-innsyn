@@ -1,7 +1,6 @@
 import React from "react";
 import BildeModal from "../bildeModal/BildeModal";
 
-
 /*
  * For å kommentere inn pdf støtte igjen:
  *   npm install --save react-pdf
@@ -12,8 +11,12 @@ import BildeModal from "../bildeModal/BildeModal";
 // import { pdfjs, Document, Page } from "react-pdf";
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const VedleggModal: React.FC<{ file: File, synlig: boolean, onRequestClose: () => void }> = ({file, synlig, onRequestClose}) => {
-    const fileExtension = file.name.replace(/^.*\./, '');
+const VedleggModal: React.FC<{file: File; synlig: boolean; onRequestClose: () => void}> = ({
+    file,
+    synlig,
+    onRequestClose,
+}) => {
+    const fileExtension = file.name.replace(/^.*\./, "");
     const isImage = fileExtension.match(/jpe?g|png/i) !== null;
 
     // const isPDF = fileExtension.match(/pdf/i) !== null;
@@ -38,16 +41,10 @@ const VedleggModal: React.FC<{ file: File, synlig: boolean, onRequestClose: () =
             contentLabel="Vedlegg"
             shouldCloseOnOverlayClick={true}
         >
-            <div style={{padding:'1rem'}}>
+            <div style={{padding: "1rem"}}>
                 Fil: {file.name}:
-                <br/>
-                {isImage && (
-                    <img
-                        style={{width: "100%"}}
-                        src={ URL.createObjectURL(file)}
-                        alt={file.name}
-                    />
-                )}
+                <br />
+                {isImage && <img style={{width: "100%"}} src={URL.createObjectURL(file)} alt={file.name} />}
                 {/*{isPDF && (*/}
                 {/*    <div style={{overflow: "scroll"}}>*/}
                 {/*        <Document*/}
@@ -63,8 +60,7 @@ const VedleggModal: React.FC<{ file: File, synlig: boolean, onRequestClose: () =
                 {/*)}*/}
             </div>
         </BildeModal>
-
-    )
+    );
 };
 
 export default VedleggModal;

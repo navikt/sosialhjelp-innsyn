@@ -3,18 +3,14 @@ import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import {Normaltekst, Element} from "nav-frontend-typografi";
 import "./infoPanel.less";
 
-const InfoPanelContainer: React.FC<{ children: React.ReactNode, className?: string }> = ({children, className}) => {
-    return (
-        <nav className={"infopanel_container " + className}>
-            {children}
-        </nav>
-    );
+const InfoPanelContainer: React.FC<{children: React.ReactNode; className?: string}> = ({children, className}) => {
+    return <nav className={"infopanel_container " + className}>{children}</nav>;
 };
 
 type Props = {
-    children: React.ReactNode,
-    tittel: React.ReactNode,
-    href: string
+    children: React.ReactNode;
+    tittel: React.ReactNode;
+    href: string;
 };
 
 const InfoPanel: React.FC<Props> = ({children, tittel, href}) => {
@@ -22,9 +18,7 @@ const InfoPanel: React.FC<Props> = ({children, tittel, href}) => {
         <LenkepanelBase href={href} className="infopanel">
             <div>
                 <Element className="lenkepanel__heading">{tittel}</Element>
-                <Normaltekst>
-                    {children}
-                </Normaltekst>
+                <Normaltekst>{children}</Normaltekst>
             </div>
         </LenkepanelBase>
     );

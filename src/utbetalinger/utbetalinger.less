@@ -1,179 +1,177 @@
 // **** sidelayout
 
 .utbetalinger-blokk-center {
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-@media screen and (max-width: 640px ) {
-  .utbetalinger-blokk-center {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
+@media screen and (max-width: 640px) {
+    .utbetalinger-blokk-center {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 }
 
-@media screen and (min-width: 641px ) {
-  .utbetalinger-blokk-center {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+@media screen and (min-width: 641px) {
+    .utbetalinger-blokk-center {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 .utbetalinger {
-  margin-top: 4rem;
-  display: flex;
-  flex-direction: column;
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
 
-  h1 {
-    margin-bottom: 2rem;
-  }
+    h1 {
+        margin-bottom: 2rem;
+    }
 
-  .utbetalinger__overskrift {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
+    .utbetalinger__overskrift {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 }
 
 .utbetalinger_row {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .utbetalinger_column {
-  display: flex;
-  flex-direction: column;
-  flex: auto;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
 }
 
 .utbetalinger_column_1 {
-  display: block;
-  width: 16rem;
+    display: block;
+    width: 16rem;
 }
 
-@media screen and (max-width: 900px ) {
-
-  .utbetalinger {
-    margin-top: 0;
-  }
-
-  .utbetalinger_column_1 {
-    width: 100%;
-
-    .utbetalinger_periodevelger_panel {
-      width: 100%;
-      margin-bottom: 1rem;
+@media screen and (max-width: 900px) {
+    .utbetalinger {
+        margin-top: 0;
     }
-  }
 
-  .utbetalinger_row {
-    flex-direction: column;
-  }
+    .utbetalinger_column_1 {
+        width: 100%;
+
+        .utbetalinger_periodevelger_panel {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .utbetalinger_row {
+        flex-direction: column;
+    }
 }
 
 .utbetalinger_periodevelger_panel {
-  width: 220px;
-  margin-left: 0;
-  display: block;
-  border-radius: 4px;
-  background-color: white;
-  padding: 1rem 1rem 2px 1rem;
+    width: 220px;
+    margin-left: 0;
+    display: block;
+    border-radius: 4px;
+    background-color: white;
+    padding: 1rem 1rem 2px 1rem;
 
-  h2 {
-    margin-bottom: 1rem;
-  }
+    h2 {
+        margin-bottom: 1rem;
+    }
 
-  button {
-    margin-bottom: 1rem;
-  }
+    button {
+        margin-bottom: 1rem;
+    }
 }
 
 .utbetalinger_detaljer {
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-
-  .utbetalinger_detaljer_panel {
-    padding: 1px 1rem 1rem 1rem;
-    background-color: white;
-    margin-bottom: 1rem;
+    width: 100%;
+    height: 100%;
     border-radius: 4px;
 
-    hr {
-      height: 2px;
-      background-color: #979797;
-      margin-bottom: 1rem;
-      border: none;
+    .utbetalinger_detaljer_panel {
+        padding: 1px 1rem 1rem 1rem;
+        background-color: white;
+        margin-bottom: 1rem;
+        border-radius: 4px;
 
-      &.tynnere {
-        height: 1px;
-      }
+        hr {
+            height: 2px;
+            background-color: #979797;
+            margin-bottom: 1rem;
+            border: none;
+
+            &.tynnere {
+                height: 1px;
+            }
+        }
     }
-  }
 
-  .utbetalinger_detaljer_panel:nth-child(1) {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-  }
+    .utbetalinger_detaljer_panel:nth-child(1) {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
 
-  .utbetalinger_detaljer_panel:last-child {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
+    .utbetalinger_detaljer_panel:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
 }
 
 .savner_utbetaling_panel {
-  background-color: #FFF;
-  display: block;
-  padding: 1rem 1rem 1rem 3.5rem;
-  border-radius: 4px;
-  margin-top: 2rem;
-
-  .infoIkon {
+    background-color: #fff;
     display: block;
-    float: left;
-    margin-left: -2.5rem;
-  }
+    padding: 1rem 1rem 1rem 3.5rem;
+    border-radius: 4px;
+    margin-top: 2rem;
 
+    .infoIkon {
+        display: block;
+        float: left;
+        margin-left: -2.5rem;
+    }
 }
 
 // ****** Selve utbetalingene *****
 .utbetaling__header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 
-  h2 {
-    text-transform: capitalize;
-  }
-
-  .utbetaling_tittel {
-    font-weight: bold;
-
-    .etikett {
-      margin-left: 1rem;
-      padding: 4px 8px 4px 8px;
+    h2 {
+        text-transform: capitalize;
     }
-  }
 
-  .utbetaling_belop {
-    font-weight: bold;
-  }
+    .utbetaling_tittel {
+        font-weight: bold;
+
+        .etikett {
+            margin-left: 1rem;
+            padding: 4px 8px 4px 8px;
+        }
+    }
+
+    .utbetaling_belop {
+        font-weight: bold;
+    }
 }
 
 .utbetaling_header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-bottom: 4px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 4px;
 
-  a {
-    i {
-      margin-left: 0.5rem;
+    a {
+        i {
+            margin-left: 0.5rem;
+        }
     }
-  }
 }
 
 /*\
@@ -183,23 +181,22 @@
 \*/
 
 .periodevelger_skjemaelement {
-  margin-left: 1rem;
+    margin-left: 1rem;
 }
 
 .utbetalinger__sakpanel {
+    .lenkepanel {
+        border: 1px solid #c6c2bf;
+    }
 
-  .lenkepanel {
-    border: 1px solid #c6c2bf;
-  }
+    .lenkepanel:focus {
+        box-shadow: 0 0 0px 3px #254b6d;
+        outline: none;
+        border: 1px solid #78706a;
+    }
 
-  .lenkepanel:focus {
-    box-shadow: 0 0 0px 3px #254b6d;
-    outline: none;
-    border: 1px solid #78706A;
-  }
-
-  .lenkepanel:hover {
-    box-shadow: #B7B1A9 0 2px 1px 0;
-    border: 1px solid #0067C5;
-  }
+    .lenkepanel:hover {
+        box-shadow: #b7b1a9 0 2px 1px 0;
+        border: 1px solid #0067c5;
+    }
 }

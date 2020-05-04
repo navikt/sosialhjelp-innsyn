@@ -6,4 +6,4 @@ const onClickLink = (event: any, sti: string) => {
     event.preventDefault();
 };
 
-export { onClickLink }
+export {onClickLink};

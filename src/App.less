@@ -1,69 +1,87 @@
+@mobile: ~"only screen and (max-width: 480px) ";
+
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 a.lenke_uten_ramme {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 a.lenke_uten_ramme:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .blokk-center .vedlegg_liste_panel {
-  padding-bottom: 5rem;
+    padding-bottom: 5rem;
 }
 
 .lenke_vedlegg_filnavn {
-  overflow: hidden;
-  white-space: nowrap;
-  display: inline-block;
-  text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 641px) {
-  .lenke_vedlegg_filnavn {
-    max-width: 13rem;
-  }
-  .filnavn_kollonne {
-    min-width: 17rem;
-  }
+    .lenke_vedlegg_filnavn {
+        max-width: 13rem;
+    }
+    .filnavn_kollonne {
+        min-width: 17rem;
+    }
 }
 
 @media screen and (max-width: 640px) and (min-width: 501px) {
-  .lenke_vedlegg_filnavn {
-    max-width: 80vw;
-  }
+    .lenke_vedlegg_filnavn {
+        max-width: 80vw;
+    }
 }
 
 @media screen and (max-width: 500px) and (min-width: 401px) {
-  .lenke_vedlegg_filnavn {
-    max-width: 75vw;
-  }
+    .lenke_vedlegg_filnavn {
+        max-width: 75vw;
+    }
 }
 
 @media screen and (max-width: 400px) and (min-width: 333px) {
-  .lenke_vedlegg_filnavn {
-    max-width: 70vw;
-  }
+    .lenke_vedlegg_filnavn {
+        max-width: 70vw;
+    }
 }
 
 @media screen and (max-width: 332px) {
-  .lenke_vedlegg_filnavn {
-    max-width: 65vw;
-  }
+    .lenke_vedlegg_filnavn {
+        max-width: 65vw;
+    }
 }
 
 // Overstyr css fra dekoratør:
 a.lenke:not(.knapp) {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .informasjon-side {
-  margin-bottom: 4rem;
+    margin-bottom: 4rem;
 
-  .breadcrumbs_wrapper {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
+    .breadcrumbs_wrapper {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.modal-innhold {
+    padding: 3rem 2rem;
+    max-width: 600px;
+
+    @media @mobile {
+        padding-top: 3rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .typo-undertittel {
+        margin-top: 2rem;
+    }
 }

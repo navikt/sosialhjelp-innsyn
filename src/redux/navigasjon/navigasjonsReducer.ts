@@ -5,18 +5,18 @@ interface NavigasjonsType {
 }
 
 const initialState: NavigasjonsType = {
-    bannerTittel: "Økonomisk sosialhjelp"
+    bannerTittel: "Økonomisk sosialhjelp",
 };
 
 export enum NavgiasjonActionTypeKey {
-    SETT_BANNERTITTEL = "SETT_BANNERTITTEL"
+    SETT_BANNERTITTEL = "SETT_BANNERTITTEL",
 }
 
 const setBannerTittel = (bannerTittel: string) => {
     return {
         type: NavgiasjonActionTypeKey.SETT_BANNERTITTEL,
-        bannerTittel
-    }
+        bannerTittel,
+    };
 };
 
 const NavigasjonsReducer: Reducer<NavigasjonsType, any> = (state = initialState, action) => {
@@ -24,8 +24,8 @@ const NavigasjonsReducer: Reducer<NavigasjonsType, any> = (state = initialState,
         case NavgiasjonActionTypeKey.SETT_BANNERTITTEL: {
             return {
                 ...state,
-                bannerTittel: action.bannerTittel
-            }
+                bannerTittel: action.bannerTittel,
+            };
         }
     }
     return state;
@@ -33,4 +33,3 @@ const NavigasjonsReducer: Reducer<NavigasjonsType, any> = (state = initialState,
 
 export {setBannerTittel};
 export default NavigasjonsReducer;
-

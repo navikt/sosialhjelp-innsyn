@@ -24,17 +24,17 @@ enum KEY {
     ENTER = 13,
     ESC = 27,
     ARROW_UP = 38,
-    ARROW_DOWN = 40
+    ARROW_DOWN = 40,
 }
 
-const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, id, onSelect, onReset, feil} ) => {
+const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, id, onSelect, onReset, feil}) => {
     const [value, setValue] = useState<string>("");
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
-    const [blurDelay, setBlurDelay] = useState<any|undefined>(null);
-    const [shouldBlur, setShouldBlur] = useState<boolean|undefined>(true);
-    const [hasFocus, setHasFocus] = useState<boolean|undefined>(false);
-    const [ariaActiveDescendant, setAriaActiveDescendant] = useState<boolean|undefined>(false);
-    const [shouldShowSuggestions, setShouldShowSuggestions] = useState<boolean|undefined>(true);
+    const [blurDelay, setBlurDelay] = useState<any | undefined>(null);
+    const [shouldBlur, setShouldBlur] = useState<boolean | undefined>(true);
+    const [hasFocus, setHasFocus] = useState<boolean | undefined>(false);
+    const [ariaActiveDescendant, setAriaActiveDescendant] = useState<boolean | undefined>(false);
+    const [shouldShowSuggestions, setShouldShowSuggestions] = useState<boolean | undefined>(true);
 
     /**
      * Behandler tastaturnavigasjon i forslagslisten.
@@ -91,7 +91,8 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                     event.preventDefault();
                     // Marker forrige suggestion i listen.
                     // Hvis man er på toppen av listen og trykker pil opp, så skal ingen forslag markeres.
-                    const oppdatertActiveSuggestionIndex = activeSuggestionIndex - 1 === -2 ? -1 : activeSuggestionIndex - 1;
+                    const oppdatertActiveSuggestionIndex =
+                        activeSuggestionIndex - 1 === -2 ? -1 : activeSuggestionIndex - 1;
                     setActiveSuggestionIndex(oppdatertActiveSuggestionIndex);
                 }
                 break;
@@ -99,23 +100,23 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
                 if (shouldShowSuggestions) {
                     event.preventDefault();
                     // Marker neste suggestion i listen, så fremst man ikke er på slutten av listen
-                    const oppdatertActiveSuggestionIndex = activeSuggestionIndex + 1 === suggestions.length
-                        ? suggestions.length - 1
-                        : activeSuggestionIndex + 1;
+                    const oppdatertActiveSuggestionIndex =
+                        activeSuggestionIndex + 1 === suggestions.length
+                            ? suggestions.length - 1
+                            : activeSuggestionIndex + 1;
                     setActiveSuggestionIndex(oppdatertActiveSuggestionIndex);
                 }
                 break;
             default:
                 break;
         }
-
     };
 
     /**
      * Vil skje hver gang man legger til eller fjerner en bokstav fra inputfeltet
      */
     const onChange = (event: any) => {
-        const { value } = event.target;
+        const {value} = event.target;
         setValue(value);
         setShouldShowSuggestions(true);
         if (value.length === 0 && onReset) {
@@ -143,7 +144,7 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
         setShouldBlur(false);
     };
 
-    const clearBlurDelay = (): void  =>{
+    const clearBlurDelay = (): void => {
         if (blurDelay) {
             clearTimeout(blurDelay);
             setBlurDelay(null);
@@ -169,7 +170,7 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
      * Setter valgt forslag, og skjuler forslagslisten.
      * @param suggestionValue
      */
-    const onClick = (suggestion: Suggestion|undefined): void => {
+    const onClick = (suggestion: Suggestion | undefined): void => {
         if (suggestion) {
             setValue(suggestion.value);
             setShouldShowSuggestions(false);
@@ -181,22 +182,16 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
 
     const displayedSuggestions: Suggestion[] = searchSuggestions(suggestions, value);
 
-    const showSuggestions = hasFocus === true
-        && shouldShowSuggestions
-        && displayedSuggestions.length > 0;
+    const showSuggestions = hasFocus === true && shouldShowSuggestions && displayedSuggestions.length > 0;
 
-    const activeDescendant = ariaActiveDescendant && activeSuggestionIndex > -1
-        ? `${id}-item-${activeSuggestionIndex}` : undefined;
+    const activeDescendant =
+        ariaActiveDescendant && activeSuggestionIndex > -1 ? `${id}-item-${activeSuggestionIndex}` : undefined;
 
     return (
-        <div
-            className="navAutocomplete"
-            aria-owns={`${id}-suggestions`}
-            aria-haspopup="listbox"
-        >
+        <div className="navAutocomplete" aria-owns={`${id}-suggestions`} aria-haspopup="listbox">
             <input
                 id={id}
-                className={"typo-normal " + ((feil && feil.length > 0) ? "navAutocomplete__input--harFeil" : "")}
+                className={"typo-normal " + (feil && feil.length > 0 ? "navAutocomplete__input--harFeil" : "")}
                 type="search"
                 aria-label={ariaLabel}
                 aria-autocomplete="list"
@@ -215,26 +210,27 @@ const NavAutocomplete: React.FC<Props> = ({placeholder, suggestions, ariaLabel, 
             <ul
                 id={`${id}-suggestions`}
                 role="listbox"
-                className={showSuggestions ? 'navAutocomplete__suggestions' : 'navAutocomplete__suggestions--hidden'}
+                className={showSuggestions ? "navAutocomplete__suggestions" : "navAutocomplete__suggestions--hidden"}
             >
-                {showSuggestions && displayedSuggestions.map((suggestion: Suggestion, index: number) => (
-                    <AutcompleteSuggestion
-                        key={index}
-                        id={id}
-                        index={index}
-                        suggestion={suggestion}
-                        setSuggestionIndex={(index: number) => setSuggestionIndex(index)}
-                        active={(index === activeSuggestionIndex) ? true : false}
-                        avoidBlur={() => avoidBlur()}
-                        onClick={(value: Suggestion|undefined) => onClick(value)}
-                    />
-                ) )}
+                {showSuggestions &&
+                    displayedSuggestions.map((suggestion: Suggestion, index: number) => (
+                        <AutcompleteSuggestion
+                            key={index}
+                            id={id}
+                            index={index}
+                            suggestion={suggestion}
+                            setSuggestionIndex={(index: number) => setSuggestionIndex(index)}
+                            active={index === activeSuggestionIndex ? true : false}
+                            avoidBlur={() => avoidBlur()}
+                            onClick={(value: Suggestion | undefined) => onClick(value)}
+                        />
+                    ))}
             </ul>
-            {feil &&
+            {feil && (
                 <div className="skjemaelement__feilmelding">
                     <FormattedMessage id={feil} />
                 </div>
-            }
+            )}
         </div>
     );
 };

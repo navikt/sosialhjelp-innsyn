@@ -1,21 +1,23 @@
-import * as React from 'react';
+import * as React from "react";
 import RemoveCircle from "../ikoner/RemoveCircle";
 import {FormattedMessage} from "react-intl";
-import './DriftsmeldingVedlegg.less';
+import "./DriftsmeldingVedlegg.less";
 import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "./DriftsmeldingUtilities";
 
 interface Props {
-    leserData: undefined | boolean
+    leserData: undefined | boolean;
 }
 
 const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
-    let kommuneResponse: KommuneResponse | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.kommune);
+    let kommuneResponse: KommuneResponse | undefined = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.kommune
+    );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
-    if (!kanLasteOppVedlegg && !props.leserData){
+    if (!kanLasteOppVedlegg && !props.leserData) {
         return (
             <div>
                 <div className={"driftsmelding-vedlegg-wrapper"}>
@@ -27,7 +29,7 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
     return null;
 };

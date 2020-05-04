@@ -2,12 +2,7 @@ import React from "react";
 
 const SlikSokerDu: React.FC<{}> = () => {
     return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="45"
-            height="45"
-            viewBox="0 0 45 45"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
             <path
                 fill="#000"
                 fillRule="nonzero"
@@ -19,6 +14,6 @@ const SlikSokerDu: React.FC<{}> = () => {
             />
         </svg>
     );
-}
+};
 
 export default SlikSokerDu;

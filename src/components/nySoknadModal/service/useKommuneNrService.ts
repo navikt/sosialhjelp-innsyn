@@ -9,7 +9,7 @@ export interface KommuneNummere {
 
 const useKommuneNrService = () => {
     const [result, setResult] = useState<ServiceHookTypes<KommuneNummere>>({
-        restStatus: REST_STATUS.PENDING
+        restStatus: REST_STATUS.PENDING,
     });
 
     let url = "/sosialhjelp/innsyn-api/api/veiviser/kommunenummer";
@@ -18,9 +18,9 @@ const useKommuneNrService = () => {
     }
     useEffect(() => {
         fetch(url)
-            .then(response => response.json())
-            .then(response => setResult({ restStatus: REST_STATUS.OK, payload: ekstraherKommuneNr(response) }))
-            .catch(error => setResult({ restStatus: REST_STATUS.FEILET, error }));
+            .then((response) => response.json())
+            .then((response) => setResult({restStatus: REST_STATUS.OK, payload: ekstraherKommuneNr(response)}))
+            .catch((error) => setResult({restStatus: REST_STATUS.FEILET, error}));
     }, [url]);
     return result;
 };
@@ -35,7 +35,7 @@ const ekstraherKommuneNr = (result: any): KommuneNummere => {
     responseData.map((item: any) => {
         return kommuner.push({
             key: item[LABEL],
-            value: item[DESCRIPTION]
+            value: item[DESCRIPTION],
         });
     });
     kommuner.sort((a: Suggestion, b: Suggestion) => {

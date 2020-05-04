@@ -1,9 +1,9 @@
-import 'whatwg-fetch'
-
+import "whatwg-fetch";
+import {logErrorMessage} from "../redux/innsynsdata/innsynsDataActions";
 
 export function erDev(): boolean {
     const url = window.location.href;
-    return (url.indexOf("localhost:3000") > 0);
+    return url.indexOf("localhost:3000") > 0;
 }
 
 export function erQ(): boolean {
@@ -13,22 +13,22 @@ export function erQ(): boolean {
 
 export function erDevGcp(): boolean {
     const url = window.location.href;
-    return (url.indexOf(".dev-nav.no") > 0);
+    return url.indexOf(".dev-nav.no") > 0;
 }
 
 export function erLabsGcp(): boolean {
     const url = window.location.href;
-    return (url.indexOf("..labs.nais.io") > 0);
+    return url.indexOf("..labs.nais.io") > 0;
 }
 
 export function erMockServer(): boolean {
     const url = window.location.origin;
-    return (url.indexOf("digisos-test") > 0) || (url.indexOf("dev-nav.no") > 0) || (url.indexOf("labs.nais.io") > 0);
+    return url.indexOf("digisos-test") > 0 || url.indexOf("dev-nav.no") > 0 || url.indexOf("labs.nais.io") > 0;
 }
 
 export function erMedLoginApi(): boolean {
     // return true; // Uncomment om testing via login-api
-    return false
+    return false;
 }
 
 export function getApiBaseUrl(): string {
@@ -41,12 +41,26 @@ export function getApiBaseUrl(): string {
         return window.location.origin.replace(".dev-nav.no", "-api.dev-nav.no") + "/sosialhjelp/innsyn-api/api/v1";
     } else if (erLabsGcp()) {
         if (window.location.origin.indexOf("digisos.labs.nais.io") >= 0) {
-            return getAbsoluteApiUrl() + "api/v1"
+            return getAbsoluteApiUrl() + "api/v1";
         }
         return window.location.origin.replace(".labs.nais.io", "-api.labs.nais.io") + "/sosialhjelp/innsyn-api/api/v1";
     } else {
-        return getAbsoluteApiUrl() + "api/v1"
+        return getAbsoluteApiUrl() + "api/v1";
     }
+}
+
+export function getSoknadApiUrl(): string {
+    let url = "/sosialhjelp/soknad-api";
+    if (erDev()) {
+        url = "http://localhost:8181" + url;
+    }
+    if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
+        url = "https://sosialhjelp-soknad-api.dev-nav.no" + url;
+    }
+    if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
+        url = "https://sosialhjelp-soknad-api.labs.nais.io" + url;
+    }
+    return url;
 }
 
 export function getDittNavUrl(): string {
@@ -69,14 +83,14 @@ export function getApiBaseUrlForSwagger(): string {
  * Resolves API URL in a pathname independent way
  */
 function getAbsoluteApiUrl() {
-    return window.location.pathname.replace(/^(\/([^/]+\/)?sosialhjelp\/)innsyn.+$/, "$1login-api/innsyn-api/")
+    return window.location.pathname.replace(/^(\/([^/]+\/)?sosialhjelp\/)innsyn.+$/, "$1login-api/innsyn-api/");
 }
 
 enum RequestMethod {
     GET = "GET",
     POST = "POST",
     PUT = "PUT",
-    DELETE = "DELETE"
+    DELETE = "DELETE",
 }
 
 export enum REST_STATUS {
@@ -85,23 +99,23 @@ export enum REST_STATUS {
     PENDING = "PENDING",
     INITIALISERT = "INITIALISERT",
     UNAUTHORIZED = "UNAUTHORIZED",
-    SERVICE_UNAVAILABLE = "SERVICE_UNAVAILABLE"
+    SERVICE_UNAVAILABLE = "SERVICE_UNAVAILABLE",
 }
 
 export const getHeaders = (contentType?: string) => {
     let headers = new Headers({
-        "Content-Type": (contentType ? contentType : "application/json; charset=utf-8"),
-        "Accept": "application/json, text/plain, */*"
+        "Content-Type": contentType ? contentType : "application/json; charset=utf-8",
+        Accept: "application/json, text/plain, */*",
     });
     // Browser setter content type header automatisk til multipart/form-data: boundary xyz
     if (contentType && contentType === "multipart/form-data") {
         headers = new Headers({
-            "Accept": "application/json, text/plain, */*"
+            Accept: "application/json, text/plain, */*",
         });
     }
 
     if (erMockServer() || (erDev() && !erMedLoginApi())) {
-        headers.append("Authorization", "dummytoken")
+        headers.append("Authorization", "dummytoken");
     }
     return headers;
 };
@@ -111,16 +125,24 @@ export enum HttpStatus {
     SERVICE_UNAVAILABLE = "Service Unavailable",
 }
 
-export const serverRequest = (method: string, urlPath: string, body: string|null|FormData, contentType?: string) => {
+export const serverRequest = (
+    method: string,
+    urlPath: string,
+    body: string | null | FormData,
+    contentType?: string,
+    isSoknadApi?: boolean
+) => {
     const OPTIONS: RequestInit = {
         headers: getHeaders(contentType),
         method: method,
         credentials: determineCredentialsParameter(),
-        body: body ? body : undefined
+        body: body ? body : undefined,
     };
 
+    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath;
+
     return new Promise((resolve, reject) => {
-        fetch(getApiBaseUrl() + urlPath, OPTIONS)
+        fetch(url, OPTIONS)
             .then((response: Response) => {
                 sjekkStatuskode(response);
                 const jsonResponse = toJson(response);
@@ -138,17 +160,17 @@ export function toJson<T>(response: Response): Promise<T> {
 }
 
 function sjekkStatuskode(response: Response) {
-    if (response.status === 401){
-        console.warn("Bruker er ikke logget inn.");
-        response.json().then(r => {
-            if (window.location.search.split("error_id=")[1] !== r.id) {
+    if (response.status === 401) {
+        response.json().then((r) => {
+            if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                const redirectUrl = r.loginUrl + queryDivider + getRedirectPath() + "%26error_id=" + r.id;
-                console.warn("Redirect til " + redirectUrl);
-                window.location.href = redirectUrl;
+                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
-                // TODO: må sende log til server (se sosialhjelp-soknad)
-                console.error("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme error_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
+                logErrorMessage(
+                    "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
+                        r.id +
+                        "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
+                );
             }
         });
         throw new Error(HttpStatus.UNAUTHORIZED);
@@ -167,18 +189,22 @@ export function fetchToJson(urlPath: string) {
     return serverRequest(RequestMethod.GET, urlPath, null);
 }
 
+export function fetchToJsonFromSoknadApi(urlPath: string) {
+    return serverRequest(RequestMethod.GET, urlPath, null, undefined, true);
+}
+
 export function fetchPut(urlPath: string, body: string) {
     return serverRequest(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string|FormData, contentType?: string) {
+export function fetchPost(urlPath: string, body: string | FormData, contentType?: string) {
     return serverRequest(RequestMethod.POST, urlPath, body, contentType);
 }
 
 export function fetchDelete(urlPath: string) {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
-        method: RequestMethod.DELETE
+        method: RequestMethod.DELETE,
     };
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
 }
@@ -187,5 +213,5 @@ export function getRedirectPath(): string {
     const currentOrigin = window.location.origin;
     const gotoParameter = "?goto=" + window.location.pathname;
     const redirectPath = currentOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
-    return 'redirect=' + redirectPath;
+    return "redirect=" + redirectPath;
 }
