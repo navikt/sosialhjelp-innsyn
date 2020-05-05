@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Element, EtikettLiten} from "nav-frontend-typografi";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
-import {EtikettFokus} from 'nav-frontend-etiketter';
+import {EtikettFokus} from "nav-frontend-etiketter";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import DocumentIcon from "../../components/ikoner/DocumentIcon";
 import "./sakpanel.less";
@@ -23,8 +23,16 @@ interface Props {
     harBlittLastetInn?: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, url, kilde, antallNyeOppgaver, harBlittLastetInn}) => {
-
+const SakPanel: React.FC<Props> = ({
+    fiksDigisosId,
+    tittel,
+    status,
+    oppdatert,
+    url,
+    kilde,
+    antallNyeOppgaver,
+    harBlittLastetInn,
+}) => {
     const dispatch = useDispatch();
 
     let dispatchUrl = "/innsyn/" + fiksDigisosId + "/status";
@@ -56,7 +64,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
 
     useEffect(() => {
         if (kilde === "innsyn-api") {
-            dispatch(hentSaksdetaljer(requestId))
+            dispatch(hentSaksdetaljer(requestId));
         }
     }, [dispatch, requestId, kilde]);
 
@@ -64,36 +72,36 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, status, oppdatert, ur
         <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href={hrefUrl}>
             <div className="sakpanel">
                 <div className="sakpanel_text">
-                    <DocumentIcon className="document_icon"/>
+                    <DocumentIcon className="document_icon" />
                     <div className="sakpanel_innhold">
                         <div className="sakpanel_status">
                             {fiksDigisosId !== null && !underLasting && (
                                 <EtikettLiten>
-                                    {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                                 </EtikettLiten>
                             )}
                             {fiksDigisosId !== null && underLasting && (
                                 <div className="sakspanel_status_laster">
-                                    <Lastestriper linjer={1}/>
+                                    <Lastestriper linjer={1} />
                                     <EtikettLiten>
-                                        ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                        ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                                     </EtikettLiten>
                                 </div>
                             )}
                             {fiksDigisosId === null && (
                                 <EtikettLiten>
-                                    SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true}/>
+                                    SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                                 </EtikettLiten>
                             )}
                         </div>
-                        {underLasting && <Lastestriper linjer={1}/>}
+                        {underLasting && <Lastestriper linjer={1} />}
                         {!underLasting && <Element>{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">
                     {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
                         <EtikettFokus>
-                            <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}}/>
+                            <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />
                         </EtikettFokus>
                     )}
                 </div>

@@ -7,7 +7,7 @@ export enum SaksStatus {
     IKKE_INNSYN = "IKKE_INNSYN",
     FERDIGBEHANDLET = "FERDIGBEHANDLET",
     BEHANDLES_IKKE = "BEHANDLES_IKKE",
-    FEILREGISTRERT = "FEILREGISTRERT"
+    FEILREGISTRERT = "FEILREGISTRERT",
 }
 
 export interface Utbetaling {
@@ -25,16 +25,16 @@ export interface SaksStatusState {
 }
 
 export interface Vedtak {
-    utfall?: UtfallVedtak,
-    vedtaksFilUrl: string,
-    dato?: string
+    utfall?: UtfallVedtak;
+    vedtaksFilUrl: string;
+    dato?: string;
 }
 
 export enum UtfallVedtak {
     INNVILGET = "INNVILGET",
     DELVIS_INNVILGET = "DELVIS_INNVILGET",
     AVSLATT = "AVSLATT",
-    AVVIST = "AVVIST"
+    AVVIST = "AVVIST",
 }
 
 export interface Sakstype {
@@ -66,7 +66,7 @@ export interface Fil {
 
 export interface Oppgave {
     innsendelsesfrist?: string;
-    oppgaveElementer: OppgaveElement[]
+    oppgaveElementer: OppgaveElement[];
 }
 
 export interface OppgaveElement {
@@ -93,7 +93,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
     OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
     SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
-    OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET"
+    OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET",
 }
 
 export enum InnsynsdataSti {
@@ -104,31 +104,31 @@ export enum InnsynsdataSti {
     VEDLEGG = "vedlegg",
     SAKER = "saker",
     FORELOPIG_SVAR = "forelopigSvar",
-    KOMMUNE = "kommune"
+    KOMMUNE = "kommune",
 }
 
 export interface InnsynsdataActionType {
-    fiksDigisosId?: string,
-    type: InnsynsdataActionTypeKeys,
-    verdi?: any,
-    sti: InnsynsdataSti,
-    restStatus?: string,
-    skalVise?: boolean
+    fiksDigisosId?: string;
+    type: InnsynsdataActionTypeKeys;
+    verdi?: any;
+    sti: InnsynsdataSti;
+    restStatus?: string;
+    skalVise?: boolean;
 }
 
 export interface VedleggActionType {
-    type: InnsynsdataActionTypeKeys,
-    innsendelsesfrist?: string,     // For å finne rett oppgave
-    dokumenttype: string,           // For å finne rett oppgaveElement
-    tilleggsinfo?: string,          // For å finne rett oppgaveElement
-    vedleggIndex: number,           // For å finne rett vedlegg i oppgaveElement
-    oppgaveElementIndex: number,
-    oppgaveIndex: number,
-    fil: Fil,
-    oppgaveElement: OppgaveElement,
-    status?: string,
-    restStatus?: REST_STATUS,
-    fiksDigisosId?: string,
+    type: InnsynsdataActionTypeKeys;
+    innsendelsesfrist?: string; // For å finne rett oppgave
+    dokumenttype: string; // For å finne rett oppgaveElement
+    tilleggsinfo?: string; // For å finne rett oppgaveElement
+    vedleggIndex: number; // For å finne rett vedlegg i oppgaveElement
+    oppgaveElementIndex: number;
+    oppgaveIndex: number;
+    fil: Fil;
+    oppgaveElement: OppgaveElement;
+    status?: string;
+    restStatus?: REST_STATUS;
+    fiksDigisosId?: string;
 }
 
 export interface Status {
@@ -142,12 +142,12 @@ export interface Hendelse {
 }
 
 export interface UrlResponse {
-    linkTekst: string,
-    link: string
+    linkTekst: string;
+    link: string;
 }
 
 export interface VedleggsOpplastingFeilActionType {
-    status: boolean
+    status: boolean;
 }
 
 export interface VedtakFattet {
@@ -157,15 +157,15 @@ export interface VedtakFattet {
 
 export interface ForelopigSvar {
     harMottattForelopigSvar: boolean;
-    link?: string
+    link?: string;
 }
 
 export interface KommuneResponse {
-    erInnsynDeaktivert: boolean,
-    erInnsynMidlertidigDeaktivert: boolean,
-    erInnsendingEttersendelseDeaktivert: boolean,
-    erInnsendingEttersendelseMidlertidigDeaktivert: boolean,
-    tidspunkt: Date | null,
+    erInnsynDeaktivert: boolean;
+    erInnsynMidlertidigDeaktivert: boolean;
+    erInnsendingEttersendelseDeaktivert: boolean;
+    erInnsendingEttersendelseMidlertidigDeaktivert: boolean;
+    tidspunkt: Date | null;
 }
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
@@ -201,7 +201,7 @@ export const initialInnsynsdataRestStatus = {
     utbetalinger: REST_STATUS.INITIALISERT,
     saker: REST_STATUS.INITIALISERT,
     forelopigSvar: REST_STATUS.INITIALISERT,
-    kommune: REST_STATUS.INITIALISERT
+    kommune: REST_STATUS.INITIALISERT,
 };
 
 const initialState: InnsynsdataType = {
@@ -210,21 +210,21 @@ const initialState: InnsynsdataType = {
     oppgaver: [],
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
-        status: null
+        status: null,
     },
     hendelser: [],
     vedlegg: [],
     saker: [],
     ettersendelse: {
         filer: [],
-        feil: undefined
+        feil: undefined,
     },
     forelopigSvar: {
         harMottattForelopigSvar: false,
     },
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
-    skalViseFeilside: false
+    skalViseFeilside: false,
 };
 
 export interface Ettersendelse {
@@ -233,24 +233,27 @@ export interface Ettersendelse {
 }
 
 export interface Vedleggfeil {
-    feilmeldingId: string,
-    filnavn: string
+    feilmeldingId: string;
+    filnavn: string;
 }
 
-const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType & VedleggsOpplastingFeilActionType> = (state = initialState, action) => {
+const InnsynsdataReducer: Reducer<
+    InnsynsdataType,
+    InnsynsdataActionType & VedleggActionType & VedleggsOpplastingFeilActionType
+> = (state = initialState, action) => {
     switch (action.type) {
         case InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID:
             return {
                 ...state,
-                fiksDigisosId: action.fiksDigisosId
+                fiksDigisosId: action.fiksDigisosId,
             };
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
-                ...setPath(state, action.sti, action.verdi)
+                ...setPath(state, action.sti, action.verdi),
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS:
             return {
-                ...setPath(state, "restStatus/" + action.sti, action.restStatus)
+                ...setPath(state, "restStatus/" + action.sti, action.restStatus),
             };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
             return {
@@ -259,19 +262,21 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     if (oppgaveIndex === action.oppgaveIndex) {
                         return {
                             ...oppgave,
-                            oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex: number) => {
-                                if (oppgaveElementIndex === action.oppgaveElementIndex) {
-                                    return {
-                                        ...oppgaveElement,
-                                        filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil]
+                            oppgaveElementer: oppgave.oppgaveElementer.map(
+                                (oppgaveElement, oppgaveElementIndex: number) => {
+                                    if (oppgaveElementIndex === action.oppgaveElementIndex) {
+                                        return {
+                                            ...oppgaveElement,
+                                            filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil],
+                                        };
                                     }
+                                    return oppgaveElement;
                                 }
-                                return oppgaveElement;
-                            })
+                            ),
                         };
                     }
                     return oppgave;
-                })
+                }),
             };
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
             return {
@@ -281,22 +286,26 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         return {
                             ...oppgave,
                             oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
-                                if (oppgaveElementIndex === action.oppgaveElementIndex &&
+                                if (
+                                    oppgaveElementIndex === action.oppgaveElementIndex &&
                                     oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
-                                    oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon) {
+                                    oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon
+                                ) {
                                     return {
                                         ...oppgaveElement,
-                                        filer: (oppgaveElement.filer && oppgaveElement.filer.filter((fil: Fil, vedleggIndex: number) => {
-                                            return vedleggIndex !== action.vedleggIndex;
-                                        }))
-                                    }
+                                        filer:
+                                            oppgaveElement.filer &&
+                                            oppgaveElement.filer.filter((fil: Fil, vedleggIndex: number) => {
+                                                return vedleggIndex !== action.vedleggIndex;
+                                            }),
+                                    };
                                 }
                                 return oppgaveElement;
-                            })
-                        }
+                            }),
+                        };
                     }
                     return oppgave;
-                })
+                }),
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
             return {
@@ -309,25 +318,30 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     return {
                         ...oppgave,
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
-                            if (oppgaveElement.dokumenttype !== action.dokumenttype || oppgaveElement.tilleggsinformasjon !== action.tilleggsinfo) {
-                                return oppgaveElement
+                            if (
+                                oppgaveElement.dokumenttype !== action.dokumenttype ||
+                                oppgaveElement.tilleggsinformasjon !== action.tilleggsinfo
+                            ) {
+                                return oppgaveElement;
                             }
 
                             return {
                                 ...oppgaveElement,
-                                filer: (oppgaveElement.filer && oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => {
-                                    if (vedleggIndex === action.vedleggIndex) {
-                                        return {
-                                            ...fil,
-                                            status: action.status
-                                        };
-                                    }
-                                    return fil;
-                                }))
-                            }
-                        })
-                    }
-                })
+                                filer:
+                                    oppgaveElement.filer &&
+                                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => {
+                                        if (vedleggIndex === action.vedleggIndex) {
+                                            return {
+                                                ...fil,
+                                                status: action.status,
+                                            };
+                                        }
+                                        return fil;
+                                    }),
+                            };
+                        }),
+                    };
+                }),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_SAKSDETALJER:
             return {
@@ -345,12 +359,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                 status: action.verdi.status,
                                 antallNyeOppgaver: action.verdi.antallNyeOppgaver,
                                 restStatus: REST_STATUS.OK,
-                                harBlittLastetInn: true
+                                harBlittLastetInn: true,
                             };
                         }
                     }
                     return sak;
-                })
+                }),
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS_SAKSDETALJER:
             return {
@@ -359,15 +373,14 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     if (sak.fiksDigisosId === action.fiksDigisosId) {
                         return {
                             ...sak,
-                            restStatus: action.restStatus
+                            restStatus: action.restStatus,
                         };
                     } else {
                         return sak;
                     }
-                })
+                }),
             };
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE: {
-
             /* TODO: Ta stilling til om/hvordan dupliserte filer skal håndteres */
             /*const found: Fil | undefined = state.ettersendelse.filer.find((fil: Fil) => {
                 return fil.filnavn === action.fil.filnavn;
@@ -390,8 +403,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: [...(state.ettersendelse.filer ? state.ettersendelse.filer : []), action.fil]
-                }
+                    filer: [...(state.ettersendelse.filer ? state.ettersendelse.filer : []), action.fil],
+                },
             };
         }
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE:
@@ -402,38 +415,40 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     ...state.ettersendelse,
                     filer: state.ettersendelse.filer.filter((fil: Fil, vedleggIndex: number) => {
                         return vedleggIndex !== action.vedleggIndex;
-                    })
-                }
+                    }),
+                },
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL:
             return {
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.map((fil: Fil, vedleggIndex: number) => {
-                        if (vedleggIndex === action.vedleggIndex) {
-                            return {
-                                ...fil,
-                                status: action.status
-                            };
-                        }
-                        return fil;
-                    }).filter((fil: Fil, index: number, files: Fil[]) => {
-                        return files.find((fil: Fil) => fil.status !== REST_STATUS.OK) ? fil : null
-                    })
-                }
+                    filer: state.ettersendelse.filer
+                        .map((fil: Fil, vedleggIndex: number) => {
+                            if (vedleggIndex === action.vedleggIndex) {
+                                return {
+                                    ...fil,
+                                    status: action.status,
+                                };
+                            }
+                            return fil;
+                        })
+                        .filter((fil: Fil, index: number, files: Fil[]) => {
+                            return files.find((fil: Fil) => fil.status !== REST_STATUS.OK) ? fil : null;
+                        }),
+                },
             };
 
         case InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET:
             return {
                 ...state,
-                oppgaveVedlegsOpplastingFeilet: action.status
+                oppgaveVedlegsOpplastingFeilet: action.status,
             };
 
         case InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE:
             return {
                 ...state,
-                skalViseFeilside: action.skalVise
+                skalViseFeilside: action.skalVise,
             };
 
         default:
@@ -445,40 +460,39 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
-        verdi
-    }
+        verdi,
+    };
 };
 
 export const oppdaterSaksdetaljerState = (requestId: string, verdi: Sakstype) => {
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_SAKSDETALJER,
         requestId,
-        verdi
-    }
+        verdi,
+    };
 };
 
 export const oppdaterSaksdetaljerRestStatus = (fiksDigisosId: string, restStatus: REST_STATUS) => {
     return {
         type: InnsynsdataActionTypeKeys.SETT_REST_STATUS_SAKSDETALJER,
         fiksDigisosId,
-        restStatus
-    }
+        restStatus,
+    };
 };
 
 export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): InnsynsdataActionType => {
     return {
         type: InnsynsdataActionTypeKeys.SETT_REST_STATUS,
         sti,
-        restStatus
-    }
+        restStatus,
+    };
 };
-
 
 export const skalViseFeilside = (skalVise: boolean) => {
     return {
         type: InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE,
-        skalVise
-    }
+        skalVise,
+    };
 };
 
 export default InnsynsdataReducer;

@@ -8,7 +8,7 @@ interface Props {
     match: {
         params: {
             soknadId: any;
-        }
+        };
     };
 }
 
@@ -23,11 +23,9 @@ const DebugSide: React.FC<Props> = ({match}) => {
             InnsynsdataSti.OPPGAVER,
             InnsynsdataSti.SOKNADS_STATUS,
             InnsynsdataSti.HENDELSER,
-            InnsynsdataSti.VEDLEGG
+            InnsynsdataSti.VEDLEGG,
         ];
-        restDataStier.map((restDataSti: InnsynsdataSti) =>
-            dispatch(hentInnsynsdata(fiksDigisosId, restDataSti, true))
-        );
+        restDataStier.map((restDataSti: InnsynsdataSti) => dispatch(hentInnsynsdata(fiksDigisosId, restDataSti, true)));
     }, [dispatch, soknadId]);
 
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
@@ -35,12 +33,10 @@ const DebugSide: React.FC<Props> = ({match}) => {
     return (
         <>
             <h1>Innsynsdata</h1>
-            <p>
-                Alle innsynsdata som mottas fra backend:
-            </p>
+            <p>Alle innsynsdata som mottas fra backend:</p>
             <pre>{JSON.stringify(innsynsdata, null, 4)}</pre>
         </>
-    )
+    );
 };
 
 export default DebugSide;

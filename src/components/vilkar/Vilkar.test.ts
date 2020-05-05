@@ -3,7 +3,7 @@ import {
     SaksStatus,
     VedtakFattet,
     Vedtak,
-    UtfallVedtak
+    UtfallVedtak,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseVilkarView} from "./VilkarUtils";
 
@@ -11,41 +11,32 @@ const saksStatus1: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.UNDER_BEHANDLING,
     skalViseVedtakInfoPanel: false,
-    vedtaksfilUrlList: []
+    vedtaksfilUrlList: [],
 };
 const saksStatus2: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.UNDER_BEHANDLING,
     skalViseVedtakInfoPanel: false,
-    vedtaksfilUrlList: []
+    vedtaksfilUrlList: [],
 };
 const saksStatus3: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.FERDIGBEHANDLET,
     skalViseVedtakInfoPanel: false,
-    vedtaksfilUrlList: []
+    vedtaksfilUrlList: [],
 };
 const saksStatus4: SaksStatusState = {
     tittel: "Saksstatus 1",
     status: SaksStatus.FERDIGBEHANDLET,
     skalViseVedtakInfoPanel: true,
-    vedtaksfilUrlList: []
+    vedtaksfilUrlList: [],
 };
 
-const listSaksStatusState_skal_gi_false: SaksStatusState[] = [
-    saksStatus1,
-    saksStatus2,
-    saksStatus3
-];
+const listSaksStatusState_skal_gi_false: SaksStatusState[] = [saksStatus1, saksStatus2, saksStatus3];
 
-const listSaksStatusState_skal_gi_true: SaksStatusState[] = [
-    saksStatus1,
-    saksStatus2,
-    saksStatus3,
-    saksStatus4
-];
+const listSaksStatusState_skal_gi_true: SaksStatusState[] = [saksStatus1, saksStatus2, saksStatus3, saksStatus4];
 
-it('viser kun vedtak info panel når minimum en sak har delvis innvilget eller innvilget som gjeldende vedtak.', () => {
+it("viser kun vedtak info panel når minimum en sak har delvis innvilget eller innvilget som gjeldende vedtak.", () => {
     expect(getSkalViseVilkarView(listSaksStatusState_skal_gi_false)).toEqual(false);
     expect(getSkalViseVilkarView(listSaksStatusState_skal_gi_true)).toEqual(true);
 });

@@ -5,12 +5,12 @@ enum SoknadsStatusEnum {
     MOTTATT = "MOTTATT",
     UNDER_BEHANDLING = "UNDER_BEHANDLING",
     FERDIGBEHANDLET = "FERDIGBEHANDLET",
-    BEHANDLES_IKKE = "BEHANDLES_IKKE"
+    BEHANDLES_IKKE = "BEHANDLES_IKKE",
 }
 
 enum SaksStatusEnum {
     BEHANDLES_IKKE = "BEHANDLES IKKE",
-    IKKE_INNSYN = "IKKE INNSYN"
+    IKKE_INNSYN = "IKKE INNSYN",
 }
 
 const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, intl: IntlShape): string => {
@@ -30,4 +30,3 @@ const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, intl: In
 };
 
 export {SoknadsStatusEnum, SaksStatusEnum, soknadsStatusTittel};
-

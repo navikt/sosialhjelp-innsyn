@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import {Normaltekst, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -30,7 +30,7 @@ interface HistorikkListeProps {
 
 const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
     if (leserData) {
-        return (<Lastestriper linjer={3}/>);
+        return <Lastestriper linjer={3} />;
     }
     return (
         <ul className={className}>
@@ -38,12 +38,12 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 return (
                     <li key={index}>
                         <Element>
-                            <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt}/>
+                            <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Element>
                         <Normaltekst>{hendelse.beskrivelse}</Normaltekst>
                         {hendelse.filUrl && (
                             <EksternLenke href={hendelse.filUrl.link} target="_blank">
-                                { hendelse.filUrl.linkTekst }
+                                {hendelse.filUrl.linkTekst}
                             </EksternLenke>
                         )}
                     </li>
@@ -53,10 +53,8 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
     );
 };
 
-const KortHistorikk: React.FC<{hendelser: Hendelse[], leserData: boolean}> = ({hendelser, leserData}) => {
-    return (
-        <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData}/>
-    );
+const KortHistorikk: React.FC<{hendelser: Hendelse[]; leserData: boolean}> = ({hendelser, leserData}) => {
+    return <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />;
 };
 
 const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
@@ -70,13 +68,13 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
             defaultApen={apen}
             onClose={() => setApen(false)}
             onOpen={() => setApen(true)}
-            intro={(
+            intro={
                 <HistorikkListe
-                    hendelser={hendelser.slice(0,MAX_ANTALL_KORT_LISTE)}
-                    className={"historikk "  + historikkListeClassname}
+                    hendelser={hendelser.slice(0, MAX_ANTALL_KORT_LISTE)}
+                    className={"historikk " + historikkListeClassname}
                     leserData={false}
                 />
-            )}
+            }
         >
             <HistorikkListe
                 hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
@@ -92,13 +90,13 @@ const Historikk: React.FC<Props> = ({hendelser, leserData}) => {
         return null;
     }
     const sorterteHendelser = sorterHendelserKronologisk(hendelser);
-    if (sorterteHendelser.length < (MAX_ANTALL_KORT_LISTE +1)) {
-        return <KortHistorikk hendelser={sorterteHendelser} leserData={leserData}/>
+    if (sorterteHendelser.length < MAX_ANTALL_KORT_LISTE + 1) {
+        return <KortHistorikk hendelser={sorterteHendelser} leserData={leserData} />;
     }
     if (sorterteHendelser.length > MAX_ANTALL_KORT_LISTE) {
-        return <LangHistorikk hendelser={sorterteHendelser}/>
+        return <LangHistorikk hendelser={sorterteHendelser} />;
     }
-    return <></>
+    return <></>;
 };
 
 export default Historikk;
