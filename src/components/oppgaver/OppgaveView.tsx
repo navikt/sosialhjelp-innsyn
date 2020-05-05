@@ -73,19 +73,19 @@ const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil
     if (listeMedFil.length > 1) {
         return (
             <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
+                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}}/>
             </div>
         );
     } else if (listeMedFil.length === 1) {
         return (
             <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
+                <FormattedMessage id={feilId} values={{filnavn: filnavn}}/>
             </div>
         );
     } else {
         return (
             <div className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} />
+                <FormattedMessage id={feilId}/>
             </div>
         );
     }
@@ -96,7 +96,7 @@ const feilmeldingComponent = (feilId: string) => {
         <div className="oppgaver_vedlegg_feilmelding">
             <li>
                 <span className="oppgaver_vedlegg_feilmelding_bullet_point">
-                    <FormattedMessage id={feilId} />
+                    <FormattedMessage id={feilId}/>
                 </span>
             </li>
         </div>
@@ -109,7 +109,7 @@ function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) 
             {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
             {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
             {flagg.maxSammensattFilStorrelse &&
-                feilmeldingComponentTittel("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
+            feilmeldingComponentTittel("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
             {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
             {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
             {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
@@ -224,12 +224,12 @@ export function sjekkerFilFeil(
 }
 
 const OppgaveView: React.FC<Props> = ({
-    oppgave,
-    oppgaverErFraInnsyn,
-    oppgaveIndex,
-    sendVedleggCallback,
-    sendVedleggButtonIndex,
-}) => {
+                                          oppgave,
+                                          oppgaverErFraInnsyn,
+                                          oppgaveIndex,
+                                          sendVedleggCallback,
+                                          sendVedleggButtonIndex,
+                                      }) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
@@ -246,15 +246,11 @@ const OppgaveView: React.FC<Props> = ({
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
-    const [velgVedleggButtonIndex, setVelgVedleggButtonIndex] = useState<number>(-1);
-    const [vedleggButtonOppgaveIndex, setVedleggButtonOppgaveIndex] = useState<number>(-1);
 
     const onLinkClicked = (
         oppgaveElementIndex: number,
         event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
     ): void => {
-        setVelgVedleggButtonIndex(-1);
-        setVedleggButtonOppgaveIndex(-1);
         let handleOnLinkClicked = (response: boolean) => {
             dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
@@ -328,8 +324,6 @@ const OppgaveView: React.FC<Props> = ({
                             className="last_opp_fil_ikon"
                             onClick={(event: any) => {
                                 onLinkClicked(oppgaveElementIndex, event);
-                                setVelgVedleggButtonIndex(oppgaveElementIndex);
-                                setVedleggButtonOppgaveIndex(oppgaveIndex);
                             }}
                         />
                         <Lenke
@@ -338,12 +332,10 @@ const OppgaveView: React.FC<Props> = ({
                             className="lenke_uten_ramme"
                             onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
                                 onLinkClicked(oppgaveElementIndex, event);
-                                setVelgVedleggButtonIndex(oppgaveElementIndex);
-                                setVedleggButtonOppgaveIndex(oppgaveIndex);
                             }}
                         >
                             <Element>
-                                <FormattedMessage id="vedlegg.velg_fil" />
+                                <FormattedMessage id="vedlegg.velg_fil"/>
                             </Element>
                         </Lenke>
                         <input
@@ -368,15 +360,8 @@ const OppgaveView: React.FC<Props> = ({
         oppgaveElementIndex: number,
         oppgaveIndex: number
     ): JSX.Element {
-        const checksErrorUploadingOrErrorList =
-            oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
-        const sendVedleggPressed = sendVedleggButtonIndex === oppgaveIndex;
-        const checksWhichButtonPressed = velgVedleggButtonIndex === oppgaveElementIndex || sendVedleggPressed;
-        const vedleggButtonPressed = sendVedleggButtonIndex === -1 && vedleggButtonOppgaveIndex === oppgaveIndex;
-        const checksCorrectButtonPressed = vedleggButtonPressed || sendVedleggPressed;
-
-        const visOppgaverDetaljeFeil: boolean =
-            checksErrorUploadingOrErrorList && checksWhichButtonPressed && checksCorrectButtonPressed;
+        const listeMedFeilForOppgaveElementIndex = listeMedFil.filter(value => value.oppgaveElemendIndex === oppgaveElementIndex);
+        const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFeilForOppgaveElementIndex.length > 0;
         return (
             <div
                 key={oppgaveElementIndex}
@@ -385,36 +370,37 @@ const OppgaveView: React.FC<Props> = ({
                 {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
 
                 {oppgaveElement.vedlegg &&
-                    oppgaveElement.vedlegg.length > 0 &&
-                    oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
-                        <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
-                    ))}
+                oppgaveElement.vedlegg.length > 0 &&
+                oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
+                    <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex}/>
+                ))}
 
                 {oppgaveElement.filer &&
-                    oppgaveElement.filer.length > 0 &&
-                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                        <FilView
-                            key={vedleggIndex}
-                            fil={fil}
-                            oppgaveElement={oppgaveElement}
-                            vedleggIndex={vedleggIndex}
-                            oppgaveElementIndex={oppgaveElementIndex}
-                            oppgaveIndex={oppgaveIndex}
-                        />
-                    ))}
+                oppgaveElement.filer.length > 0 &&
+                oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
+                    <FilView
+                        key={vedleggIndex}
+                        fil={fil}
+                        oppgaveElement={oppgaveElement}
+                        vedleggIndex={vedleggIndex}
+                        oppgaveElementIndex={oppgaveElementIndex}
+                        oppgaveIndex={oppgaveIndex}
+                    />
+                ))}
                 {validerFilArrayForFeil(listeMedFil) && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
             </div>
         );
     }
 
-    const visOppgaverDetaljeFeil: boolean =
+    const visOppgaverDetaljeFeiler: boolean =
         (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
         sendVedleggButtonIndex === oppgaveIndex;
     return (
         <div>
             <div
                 className={
-                    (visOppgaverDetaljeFeil ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") + " luft_over_1rem"
+                    (visOppgaverDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
+                    " luft_over_1rem"
                 }
             >
                 {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
@@ -457,7 +443,7 @@ const OppgaveView: React.FC<Props> = ({
                             sendVedleggCallback(event, oppgaveIndex);
                         }}
                     >
-                        <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                        <FormattedMessage id="oppgaver.send_knapp_tittel"/>
                     </Hovedknapp>
                 )}
             </div>
