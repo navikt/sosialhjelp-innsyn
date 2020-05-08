@@ -4,10 +4,10 @@ import Lenke from "nav-frontend-lenker";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {
     Fil,
-    InnsynsdataActionTypeKeys,
+    InnsynsdataActionTypeKeys, InnsynsdataSti,
     KommuneResponse,
     Oppgave,
-    OppgaveElement,
+    OppgaveElement, settRestStatus,
     Vedlegg,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import VedleggActionsView from "./VedleggActionsView";
@@ -18,7 +18,12 @@ import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedlegg
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
-import {logInfoMessage, setOppgaveVedleggopplastingFeilet} from "../../redux/innsynsdata/innsynsDataActions";
+import {
+    hentInnsynsdata,
+    innsynsdataUrl, logErrorMessage,
+    logInfoMessage,
+    setOppgaveVedleggopplastingFeilet
+} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
 import {
@@ -27,17 +32,15 @@ import {
     legalFileSize,
     legalFileExtension,
     FilFeil,
-    validerFilArrayForFeil,
+    validerFilArrayForFeil, opprettFormDataMedVedleggFraOppgaver, maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {REST_STATUS} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 
 interface Props {
     oppgave: Oppgave;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
-    sendVedleggCallback: (event: any, oppgaveIndex: number) => void;
-    sendVedleggButtonIndex: number;
 }
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
@@ -223,12 +226,23 @@ export function sjekkerFilFeil(
     }
 }
 
+function harIkkeValgtFiler(oppgave: Oppgave | null) {
+    let antall = 0;
+    oppgave &&
+    oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+        oppgaveElement.filer &&
+        oppgaveElement.filer.forEach(() => {
+            antall += 1;
+        });
+    });
+    return antall === 0;
+}
+
+
 const OppgaveView: React.FC<Props> = ({
                                           oppgave,
                                           oppgaverErFraInnsyn,
                                           oppgaveIndex,
-                                          sendVedleggCallback,
-                                          sendVedleggButtonIndex,
                                       }) => {
     const dispatch = useDispatch();
     const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
@@ -246,6 +260,9 @@ const OppgaveView: React.FC<Props> = ({
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
+
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
+
 
     const onLinkClicked = (
         oppgaveElementIndex: number,
@@ -300,6 +317,88 @@ const OppgaveView: React.FC<Props> = ({
         event.target.value = null;
         event.preventDefault();
     };
+
+
+    const sendVedlegg = (event: any) => {
+        if (!oppgave || !fiksDigisosId) {
+            event.preventDefault();
+            return;
+        }
+
+        let formData = opprettFormDataMedVedleggFraOppgaver(oppgave);
+        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
+        const path = innsynsdataUrl(fiksDigisosId, sti);
+
+        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
+
+        const ingenFilerValgt = harIkkeValgtFiler(oppgave);
+        dispatch(setOppgaveVedleggopplastingFeilet(ingenFilerValgt));
+
+        //denne sjekker total sammensatt fil størrelse
+        // dette funger, men foreløpig vises ikke en feilmelding
+        function setterStorrelse(oppgave: Oppgave) {
+            let sammensattFilStorrelse = 0;
+                oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+                    if (oppgaveElement.filer) {
+                        oppgaveElement.filer.forEach((file: Fil) => {
+                            if (file.file?.size) {
+                                sammensattFilStorrelse += file.file.size;
+                            }
+                        });
+                    }
+                });
+            return sammensattFilStorrelse;
+        }
+
+        const sammensattFilStorrelse: number = setterStorrelse(oppgave);
+
+        if (ingenFilerValgt) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            event.preventDefault();
+            return;
+        }
+
+        if (sammensattFilStorrelse < maxMengdeStorrelse && sammensattFilStorrelse !== 0) {
+            fetchPost(path, formData, "multipart/form-data")
+                .then((filRespons: any) => {
+                    let harFeil: boolean = false;
+                    if (Array.isArray(filRespons)) {
+                        filRespons.forEach((respons) => {
+                            respons.filer.forEach((fil: Fil, index: number) => {
+                                if (fil.status !== "OK") {
+                                    harFeil = true;
+                                }
+                                dispatch({
+                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                    fil: {filnavn: fil.filnavn} as Fil,
+                                    status: fil.status,
+                                    innsendelsesfrist: respons.innsendelsesfrist,
+                                    dokumenttype: respons.type,
+                                    tilleggsinfo: respons.tilleggsinfo,
+                                    vedleggIndex: index,
+                                });
+                            });
+                        });
+                    }
+                    if (harFeil) {
+                        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                    } else {
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                    }
+                })
+                .catch((e) => {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                });
+        } else {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+        }
+        event.preventDefault();
+    };
+
+
 
     function velgFil(
         typeTekst: string,
@@ -393,8 +492,7 @@ const OppgaveView: React.FC<Props> = ({
     }
 
     const visOppgaverDetaljeFeiler: boolean =
-        (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0) &&
-        sendVedleggButtonIndex === oppgaveIndex;
+        (oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0);
     return (
         <div>
             <div
@@ -440,14 +538,14 @@ const OppgaveView: React.FC<Props> = ({
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            sendVedleggCallback(event, oppgaveIndex);
+                            sendVedlegg(event);
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel"/>
                     </Hovedknapp>
                 )}
             </div>
-            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && sendVedleggButtonIndex === oppgaveIndex && (
+            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet)  && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
