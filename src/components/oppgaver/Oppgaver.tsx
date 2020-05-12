@@ -5,9 +5,7 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
-import {
-    Oppgave,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
