@@ -2,11 +2,23 @@
 
 .oppgaver_header {
     display: flex;
-    width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    svg {
+        flex-shrink: 0;
+    }
 
     div {
         padding-left: 1rem;
         padding-top: 4px;
+        flex-shrink: 4;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .oppgaver_header > svg {
+        width: 15vw;
     }
 }
 
@@ -121,6 +133,20 @@
         position: absolute;
         right: 1rem;
         top: 0.7rem;
+    }
+}
+
+@media screen and (min-width: 471px) {
+    svg.stort_ikon {
+        width: 100px !important;
+        height: 100px !important;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    svg.stort_ikon {
+        width: 18vw !important;
+        // height: 100px;
     }
 }
 
