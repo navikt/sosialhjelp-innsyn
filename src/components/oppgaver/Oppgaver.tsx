@@ -85,7 +85,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                     }
                 >
                     <EkspanderbartpanelBase
-                        apen={true}
+                        apen={false}
                         heading={
                             <div className="oppgaver_header">
                                 <DokumentBinder />
