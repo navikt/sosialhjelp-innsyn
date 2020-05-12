@@ -1,7 +1,6 @@
 import "whatwg-fetch";
 import {logErrorMessage} from "../redux/innsynsdata/innsynsDataActions";
 
-
 export function erDev(): boolean {
     const url = window.location.href;
     return url.indexOf("localhost:3000") > 0;
@@ -61,7 +60,7 @@ export function getSoknadApiUrl(): string {
     if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
         url = "https://sosialhjelp-soknad-api.labs.nais.io" + url;
     }
-    return url
+    return url;
 }
 
 export function getDittNavUrl(): string {
@@ -140,7 +139,7 @@ export const serverRequest = (
         body: body ? body : undefined,
     };
 
-    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath
+    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath;
 
     return new Promise((resolve, reject) => {
         fetch(url, OPTIONS)
@@ -162,12 +161,16 @@ export function toJson<T>(response: Response): Promise<T> {
 
 function sjekkStatuskode(response: Response) {
     if (response.status === 401) {
-        response.json().then(r => {
+        response.json().then((r) => {
             if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
                 window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
-                logErrorMessage("Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" + r.id + "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).");
+                logErrorMessage(
+                    "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
+                        r.id +
+                        "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
+                );
             }
         });
         throw new Error(HttpStatus.UNAUTHORIZED);
