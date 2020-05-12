@@ -1,6 +1,5 @@
 import React from "react";
 
-// prefix binders_
 const DokumentBinder: React.FC<{className?: string}> = ({className}) => {
     return (
         <svg
