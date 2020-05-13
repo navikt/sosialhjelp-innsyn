@@ -26,6 +26,7 @@ import {
     logErrorMessage,
     logInfoMessage,
     setOppgaveVedleggopplastingFeilet,
+    hentOppgaveMedId,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
@@ -381,7 +382,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     if (harFeil) {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.OPPGAVER));
+                        dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, oppgave.oppgaveId));
                         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                     }

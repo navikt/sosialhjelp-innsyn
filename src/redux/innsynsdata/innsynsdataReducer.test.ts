@@ -1,49 +1,31 @@
-import React from "react";
-
-// import InnsynsdataReducer, {
-//     InnsynsdataActionType,
-//     InnsynsdataActionTypeKeys,
-//     InnsynsdataSti
-// } from "./innsynsdataReducer";
-// import {REST_STATUS} from "../../utils/restUtils";
+import InnsynsdataReducer, {oppdaterOppgaveState, initialState} from "./innsynsdataReducer";
 
 describe("Innsynsdata reducer", () => {
-    it("should place files in the redux state tree", () => {
-        // const reducer = InnsynsdataReducer;
-        // const action: InnsynsdataActionType = {
-        //     type: InnsynsdataActionTypeKeys.SETT_REST_STATUS,
-        //     sti: InnsynsdataSti.VEDLEGG,
-        //     restStatus: REST_STATUS.OK
-        // };
-        // const defaultState = reducer(undefined, action);
+    it("should handle OPPDATER_OPPGAVE_STATE with empty value", () => {
+        const eksisterendeOppgave = {innsendelsesfrist: "2020-01-01", oppgaveId: "oppgaveId1", oppgaveElementer: []};
+        const action = oppdaterOppgaveState(eksisterendeOppgave.oppgaveId, []);
 
-        expect(1).toBe(1);
-        // const oppgaver = {
-        //     "0": {
-        //         "innsendelsesfrist": "2018-10-20T07:37:00.134",
-        //             "dokumenttype": "Strømfaktura",
-        //             "tilleggsinformasjon": "For periode 01.01.2019 til 01.02.2019"
-        //     },
-        //     "1": {
-        //         "innsendelsesfrist": "2018-10-20T07:37:30",
-        //             "dokumenttype": "Kopi av depositumskonto",
-        //             "tilleggsinformasjon": "Signert av både deg og utleier"
-        //     }
-        // };
-        //
-        // Object.entries(oppgaver).map((entry) => {
-        //     const oppgave: Oppgave = entry[1];
-        //     if (oppgave.dokumenttype === "Strømfaktura") {
-        //         oppgave.filer = [1,2,3];
-        //     }
-        // });
-        //
-        // // spike converting map to array
-        // const oppgaverArray = Object.entries(oppgaver).map((value) => value[1]);
-        //
-        // console.warn(JSON.stringify(oppgaver, null, 8));
-        // expect(oppgaverArray[0].dokumenttype).toBe("Strømfaktura");
+        const initialStateMedOppgaver = {
+            ...initialState,
+            oppgaver: [eksisterendeOppgave],
+        };
+
+        expect(InnsynsdataReducer(initialStateMedOppgaver, action)).toEqual({...initialStateMedOppgaver, oppgaver: []});
     });
 
-    // if('should handle action')
+    it("should handle OPPDATER_OPPGAVE_STATE with new and existing values", () => {
+        const eksisterendeOppgave1 = {innsendelsesfrist: "2020-01-01", oppgaveId: "oppgaveId1", oppgaveElementer: []};
+        const eksisterendeOppgave2 = {innsendelsesfrist: "2020-01-01", oppgaveId: "oppgaveId2", oppgaveElementer: []};
+        const action = oppdaterOppgaveState("oppgaveId1", []);
+
+        const initialStateMedOppgaver = {
+            ...initialState,
+            oppgaver: [eksisterendeOppgave1, eksisterendeOppgave2],
+        };
+
+        expect(InnsynsdataReducer(initialStateMedOppgaver, action)).toEqual({
+            ...initialStateMedOppgaver,
+            oppgaver: [eksisterendeOppgave2],
+        });
+    });
 });
