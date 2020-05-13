@@ -27,6 +27,7 @@ import {
     logInfoMessage,
     setOppgaveVedleggopplastingFeilet,
     hentOppgaveMedId,
+    setOppgaveOpplastingFeilet,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
@@ -180,11 +181,11 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementInde
 export function sjekkerFilFeil(
     files: FileList,
     oppgaveElemendIndex: number,
-    sammensattFilstorrelse: number,
-    filerMedFeil: Array<FilFeil>,
-    setListeMedFil: (filerMedFeil: Array<FilFeil>) => void
-) {
+    sammensattFilstorrelse: number
+): Array<FilFeil> {
     let sjekkMaxMengde = false;
+    const filerMedFeil: Array<FilFeil> = [];
+
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
         const file: File = files[vedleggIndex];
         const filename = file.name;
@@ -223,13 +224,12 @@ export function sjekkerFilFeil(
         }
         sammensattFilstorrelse += file.size;
     }
-    setListeMedFil(filerMedFeil);
-
     if (sjekkMaxMengde) {
         logInfoMessage(
             "Bruker prøvde å laste opp over 350 mb. Størrelse på vedlegg var: " + sammensattFilstorrelse / (1024 * 1024)
         );
     }
+    return filerMedFeil;
 }
 
 function harIkkeValgtFiler(oppgave: Oppgave | null) {
@@ -244,37 +244,86 @@ function harIkkeValgtFiler(oppgave: Oppgave | null) {
     return antall === 0;
 }
 
-const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
-    const dispatch = useDispatch();
-    const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
+const OppgaveElementView = (props: {
+    typeTekst: string;
+    tilleggsinfoTekst: string | undefined;
+    oppgaveElement: OppgaveElement;
+    oppgaveElementIndex: number;
+    oppgaveIndex: number;
+    oppgaveId: string;
+}) => {
+    const [listeMedFilFeil, setListeMedFilFeil] = useState<Array<FilFeil>>([]);
+
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
+    //const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
+
+    const visOppgaverDetaljeFeil: boolean =
+        oppgaveVedlegsOpplastingFeilet /*|| opplastingFeilet !== undefined*/ || listeMedFilFeil.length > 0;
+    console.log("listemedfilfeil", listeMedFilFeil);
+    return (
+        <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+            <VelgFil
+                typeTekst={props.typeTekst}
+                tilleggsinfoTekst={props.tilleggsinfoTekst}
+                oppgaveElement={props.oppgaveElement}
+                oppgaveElementIndex={props.oppgaveElementIndex}
+                oppgaveIndex={props.oppgaveIndex}
+                setListeMedFilFeil={setListeMedFilFeil}
+                oppgaveId={props.oppgaveId}
+            />
+
+            {props.oppgaveElement.vedlegg &&
+                props.oppgaveElement.vedlegg.length > 0 &&
+                props.oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
+                    <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
+                ))}
+
+            {props.oppgaveElement.filer &&
+                props.oppgaveElement.filer.length > 0 &&
+                props.oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
+                    <FilView
+                        key={vedleggIndex}
+                        fil={fil}
+                        oppgaveElement={props.oppgaveElement}
+                        vedleggIndex={vedleggIndex}
+                        oppgaveElementIndex={props.oppgaveElementIndex}
+                        oppgaveIndex={props.oppgaveIndex}
+                    />
+                ))}
+            {validerFilArrayForFeil(listeMedFilFeil) && skrivFeilmelding(listeMedFilFeil, props.oppgaveElementIndex)}
+        </div>
+    );
+};
+
+const VelgFil = (props: {
+    typeTekst: string;
+    tilleggsinfoTekst: string | undefined;
+    oppgaveElement: OppgaveElement;
+    oppgaveElementIndex: number;
+    oppgaveIndex: number;
+    setListeMedFilFeil: (filerMedFeil: Array<FilFeil>) => void;
+    oppgaveId: string;
+}) => {
+    const dispatch = useDispatch();
+
+    const kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
-    const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
-    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
-    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
-    const otherVedleggLastesOpp =
-        otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
-
-    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const onLinkClicked = (
         oppgaveElementIndex: number,
         event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
     ): void => {
-        let handleOnLinkClicked = (response: boolean) => {
+        const handleOnLinkClicked = (response: boolean) => {
             dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
-        const uploadElement: any = document.getElementById("file_" + oppgaveIndex + "_" + oppgaveElementIndex);
+        const uploadElement: any = document.getElementById("file_" + props.oppgaveIndex + "_" + oppgaveElementIndex);
         uploadElement.click();
         if (event) {
             event.preventDefault();
@@ -289,11 +338,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     ) => {
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
-        let filerMedFeil: Array<FilFeil> = [];
 
         if (files) {
-            sjekkerFilFeil(files, oppgaveElementIndex, sammensattFilstorrelse, filerMedFeil, setListeMedFil);
+            dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
 
+            const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, oppgaveElementIndex, sammensattFilstorrelse);
+            console.log("filermedfeil", filerMedFeil);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
@@ -309,6 +359,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         },
                     });
                 }
+            } else {
+                props.setListeMedFilFeil(filerMedFeil);
             }
         }
         if (event.target.value === "") {
@@ -317,6 +369,70 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         event.target.value = null;
         event.preventDefault();
     };
+
+    return (
+        <div className={"oppgave-detalj-overste-linje"}>
+            <div className={"tekst-wrapping"}>
+                <Element>{props.typeTekst}</Element>
+            </div>
+            {props.tilleggsinfoTekst && (
+                <div className={"tekst-wrapping"}>
+                    <Normaltekst className="luft_over_4px">{props.tilleggsinfoTekst}</Normaltekst>
+                </div>
+            )}
+            {kanLasteOppVedlegg && (
+                <div className="oppgaver_last_opp_fil">
+                    <UploadFileIcon
+                        className="last_opp_fil_ikon"
+                        onClick={(event: any) => {
+                            onLinkClicked(props.oppgaveElementIndex, event);
+                        }}
+                    />
+                    <Lenke
+                        href="#"
+                        id={"oppgave_" + props.oppgaveElementIndex + "_last_opp_fil_knapp"}
+                        className="lenke_uten_ramme"
+                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                            onLinkClicked(props.oppgaveElementIndex, event);
+                        }}
+                    >
+                        <Element>
+                            <FormattedMessage id="vedlegg.velg_fil" />
+                        </Element>
+                    </Lenke>
+                    <input
+                        type="file"
+                        id={"file_" + props.oppgaveIndex + "_" + props.oppgaveElementIndex}
+                        multiple={true}
+                        onChange={(event: ChangeEvent) =>
+                            onChange(event, props.oppgaveElement, props.oppgaveElementIndex, props.oppgaveIndex)
+                        }
+                        style={{display: "none"}}
+                    />
+                </div>
+            )}
+        </div>
+    );
+};
+
+const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
+    const dispatch = useDispatch();
+    const oppgaveIdFeilet: string[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveIdFeilet);
+    let kommuneResponse: KommuneResponse | undefined = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.kommune
+    );
+    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
+
+    const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
+
+    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
+    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
+    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
+    const otherVedleggLastesOpp =
+        otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
+
+    const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const sendVedlegg = (event: any) => {
         if (!oppgave || !fiksDigisosId) {
@@ -331,7 +447,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
         const ingenFilerValgt = harIkkeValgtFiler(oppgave);
-        dispatch(setOppgaveVedleggopplastingFeilet(ingenFilerValgt));
+        dispatch(setOppgaveOpplastingFeilet(oppgave.oppgaveId, ingenFilerValgt));
 
         //denne sjekker total sammensatt fil størrelse
         // dette funger, men foreløpig vises ikke en feilmelding
@@ -397,104 +513,17 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         event.preventDefault();
     };
 
-    function velgFil(
-        typeTekst: string,
-        tilleggsinfoTekst: string | undefined,
-        oppgaveElement: OppgaveElement,
-        oppgaveElementIndex: number,
-        oppgaveIndex: number
-    ) {
-        return (
-            <div className={"oppgave-detalj-overste-linje"}>
-                <div className={"tekst-wrapping"}>
-                    <Element>{typeTekst}</Element>
-                </div>
-                {tilleggsinfoTekst && (
-                    <div className={"tekst-wrapping"}>
-                        <Normaltekst className="luft_over_4px">{tilleggsinfoTekst}</Normaltekst>
-                    </div>
-                )}
-                {kanLasteOppVedlegg && (
-                    <div className="oppgaver_last_opp_fil">
-                        <UploadFileIcon
-                            className="last_opp_fil_ikon"
-                            onClick={(event: any) => {
-                                onLinkClicked(oppgaveElementIndex, event);
-                            }}
-                        />
-                        <Lenke
-                            href="#"
-                            id={"oppgave_" + oppgaveElementIndex + "_last_opp_fil_knapp"}
-                            className="lenke_uten_ramme"
-                            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onLinkClicked(oppgaveElementIndex, event);
-                            }}
-                        >
-                            <Element>
-                                <FormattedMessage id="vedlegg.velg_fil" />
-                            </Element>
-                        </Lenke>
-                        <input
-                            type="file"
-                            id={"file_" + oppgaveIndex + "_" + oppgaveElementIndex}
-                            multiple={true}
-                            onChange={(event: ChangeEvent) =>
-                                onChange(event, oppgaveElement, oppgaveElementIndex, oppgaveIndex)
-                            }
-                            style={{display: "none"}}
-                        />
-                    </div>
-                )}
-            </div>
-        );
-    }
-
-    function getOppgaveDetaljer(
-        typeTekst: string,
-        tilleggsinfoTekst: string | undefined,
-        oppgaveElement: OppgaveElement,
-        oppgaveElementIndex: number,
-        oppgaveIndex: number
-    ): JSX.Element {
-        const listeMedFeilForOppgaveElementIndex = listeMedFil.filter(
-            (value) => value.oppgaveElemendIndex === oppgaveElementIndex
-        );
-        const visOppgaverDetaljeFeil: boolean =
-            oppgaveVedlegsOpplastingFeilet ||
-            opplastingFeilet !== undefined ||
-            listeMedFeilForOppgaveElementIndex.length > 0;
-        return (
-            <div
-                key={oppgaveElementIndex}
-                className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}
-            >
-                {velgFil(typeTekst, tilleggsinfoTekst, oppgaveElement, oppgaveElementIndex, oppgaveIndex)}
-
-                {oppgaveElement.vedlegg &&
-                    oppgaveElement.vedlegg.length > 0 &&
-                    oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
-                        <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
-                    ))}
-
-                {oppgaveElement.filer &&
-                    oppgaveElement.filer.length > 0 &&
-                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                        <FilView
-                            key={vedleggIndex}
-                            fil={fil}
-                            oppgaveElement={oppgaveElement}
-                            vedleggIndex={vedleggIndex}
-                            oppgaveElementIndex={oppgaveElementIndex}
-                            oppgaveIndex={oppgaveIndex}
-                        />
-                    ))}
-                {validerFilArrayForFeil(listeMedFil) && skrivFeilmelding(listeMedFil, oppgaveElementIndex)}
-            </div>
-        );
-    }
-
     const visOppgaverDetaljeFeiler: boolean =
-        oppgaveVedlegsOpplastingFeilet || opplastingFeilet !== undefined || listeMedFil.length > 0;
+        oppgaveIdFeilet.includes(oppgave.oppgaveId) || opplastingFeilet !== undefined;
+
+    let sammensattFilStorrelseForOppgaveElement = 0;
+    oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+        oppgaveElement.filer?.forEach((fil: Fil) => {
+            if (fil && fil.file) {
+                sammensattFilStorrelseForOppgaveElement += fil.file.size;
+            }
+        });
+    });
     return (
         <div>
             <div
@@ -524,12 +553,16 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
                     );
-                    return getOppgaveDetaljer(
-                        typeTekst,
-                        tilleggsinfoTekst,
-                        oppgaveElement,
-                        oppgaveElementIndex,
-                        oppgaveIndex
+                    return (
+                        <OppgaveElementView
+                            key={oppgaveElementIndex}
+                            typeTekst={typeTekst}
+                            tilleggsinfoTekst={tilleggsinfoTekst}
+                            oppgaveElement={oppgaveElement}
+                            oppgaveElementIndex={oppgaveElementIndex}
+                            oppgaveIndex={oppgaveIndex}
+                            oppgaveId={oppgave.oppgaveId}
+                        />
                     );
                 })}
 
@@ -547,11 +580,16 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     </Hovedknapp>
                 )}
             </div>
-            {(oppgaveVedlegsOpplastingFeilet || opplastingFeilet) && (
+            {sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
+                </div>
+            )}
+            {(oppgaveIdFeilet.includes(oppgave.oppgaveId) || opplastingFeilet) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
-                            oppgaveVedlegsOpplastingFeilet
+                            oppgaveIdFeilet.includes(oppgave.oppgaveId)
                                 ? "vedlegg.minst_ett_vedlegg"
                                 : "vedlegg.opplasting_feilmelding"
                         }

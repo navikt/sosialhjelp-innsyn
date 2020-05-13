@@ -31,7 +31,7 @@ const EttersendelseView: React.FC = () => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
-    const [listeMedFil, setListeMedFil] = useState<Array<FilFeil>>([]);
+    const [listeMedFilFeil, setListeMedFilFeil] = useState<Array<FilFeil>>([]);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
@@ -55,10 +55,9 @@ const EttersendelseView: React.FC = () => {
     const onChange = (event: any) => {
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
-        let filerMedFeil: Array<FilFeil> = [];
 
         if (files) {
-            sjekkerFilFeil(files, 0, sammensattFilstorrelse, filerMedFeil, setListeMedFil);
+            const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, 0, sammensattFilstorrelse);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
@@ -72,6 +71,8 @@ const EttersendelseView: React.FC = () => {
                         },
                     });
                 }
+            } else {
+                setListeMedFilFeil(filerMedFeil);
             }
         }
         if (event.target.value === "") {
@@ -137,7 +138,7 @@ const EttersendelseView: React.FC = () => {
             <div
                 className={
                     "oppgaver_detaljer " +
-                    (opplastingFeilet || listeMedFil.length > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket)
+                    (opplastingFeilet || listeMedFilFeil.length > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket)
                         ? " oppgaver_detalj_feil_ramme"
                         : "")
                 }
@@ -145,7 +146,9 @@ const EttersendelseView: React.FC = () => {
                 <div
                     className={
                         "oppgaver_detalj " +
-                        (opplastingFeilet || listeMedFil.length > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket)
+                        (opplastingFeilet ||
+                        listeMedFilFeil.length > 0 ||
+                        (!vedleggKlarForOpplasting && sendVedleggTrykket)
                             ? " oppgaver_detalj_feil"
                             : "")
                     }
@@ -200,7 +203,7 @@ const EttersendelseView: React.FC = () => {
                             />
                         </div>
                     )}
-                    {validerFilArrayForFeil(listeMedFil) && skrivFeilmelding(listeMedFil, 0)}
+                    {validerFilArrayForFeil(listeMedFilFeil) && skrivFeilmelding(listeMedFilFeil, 0)}
                 </div>
 
                 <Hovedknapp
