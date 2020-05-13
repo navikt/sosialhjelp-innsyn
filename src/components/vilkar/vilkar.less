@@ -2,7 +2,12 @@
 
 .vilkarview-heading-wrapper {
     display: flex;
-    align-items: normal;
+    width: 100%;
+
+    div {
+        padding-left: 1rem;
+        padding-top: 4px;
+    }
 }
 
 .vilkar-heading-tekst {
@@ -12,6 +17,12 @@
 .vilkar-ekspanderbart-panel-innhold-wrapper {
     padding-left: 1rem !important;
     border: 1px solid @navLysGra;
+}
+
+@media screen and (max-width: 640px) {
+    .vilkar_panel {
+        padding: 0;
+    }
 }
 
 .vilkar-bolk-med-symbol-wrapper {
