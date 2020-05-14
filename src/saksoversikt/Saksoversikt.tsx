@@ -49,7 +49,7 @@ const Saksoversikt: React.FC = () => {
             }
         }
     }
-    const harSaker = alleSaker.length > 0;
+
     const harSakerMedStatusFraInnsyn = saker.length > 0 && saker.some((sakstype) => sakstype.status !== "");
 
     useEffect(() => {
@@ -77,12 +77,12 @@ const Saksoversikt: React.FC = () => {
                                 mangler i listen under, ber vi deg vennligst prøve igjen senere.
                             </AlertStripeAdvarsel>
                         )}
-                        {harSaker && harSakerMedStatusFraInnsyn && (
+                        {harSakerMedStatusFraInnsyn && (
                             <LandingssideMedSakerFraInnsynHotjarTrigger>
                                 <SaksoversiktDineSaker saker={alleSaker} />
                             </LandingssideMedSakerFraInnsynHotjarTrigger>
                         )}
-                        {harSaker && !harSakerMedStatusFraInnsyn && (
+                        {!harSakerMedStatusFraInnsyn && (
                             <LandingssideUtenSakerFraInnsynHotjarTrigger>
                                 <SaksoversiktDineSaker saker={alleSaker} />
                             </LandingssideUtenSakerFraInnsynHotjarTrigger>
