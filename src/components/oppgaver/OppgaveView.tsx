@@ -513,9 +513,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         event.preventDefault();
     };
 
-    const visOppgaverDetaljeFeiler: boolean =
-        oppgaveIdFeilet.includes(oppgave.oppgaveId) || opplastingFeilet !== undefined;
-
     let sammensattFilStorrelseForOppgaveElement = 0;
     oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
         oppgaveElement.filer?.forEach((fil: Fil) => {
@@ -524,6 +521,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             }
         });
     });
+
+    const visOppgaverDetaljeFeiler: boolean =
+        oppgaveIdFeilet.includes(oppgave.oppgaveId) ||
+        opplastingFeilet !== undefined ||
+        sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse;
+
     return (
         <div>
             <div
