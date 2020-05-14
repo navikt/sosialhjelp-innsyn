@@ -15,6 +15,7 @@ import {
     LandingssideMedSakerFraInnsynHotjarTrigger,
     LandingssideUtenSakerFraInnsynHotjarTrigger,
 } from "../components/hotjarTrigger/HotjarTrigger";
+import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Økonomisk sosialhjelp";
@@ -49,7 +50,7 @@ const Saksoversikt: React.FC = () => {
             }
         }
     }
-
+    const harSaker = alleSaker.length > 0;
     const harSakerMedStatusFraInnsyn = saker.length > 0 && saker.some((sakstype) => sakstype.status !== "");
 
     useEffect(() => {
@@ -77,16 +78,17 @@ const Saksoversikt: React.FC = () => {
                                 mangler i listen under, ber vi deg vennligst prøve igjen senere.
                             </AlertStripeAdvarsel>
                         )}
-                        {harSakerMedStatusFraInnsyn && (
+                        {harSaker && harSakerMedStatusFraInnsyn && (
                             <LandingssideMedSakerFraInnsynHotjarTrigger>
                                 <SaksoversiktDineSaker saker={alleSaker} />
                             </LandingssideMedSakerFraInnsynHotjarTrigger>
                         )}
-                        {!harSakerMedStatusFraInnsyn && (
+                        {harSaker && !harSakerMedStatusFraInnsyn && (
                             <LandingssideUtenSakerFraInnsynHotjarTrigger>
                                 <SaksoversiktDineSaker saker={alleSaker} />
                             </LandingssideUtenSakerFraInnsynHotjarTrigger>
                         )}
+                        {!harSaker && <SaksoversiktIngenSoknader />}
                     </>
                 )}
             </div>
