@@ -258,10 +258,8 @@ const OppgaveElementView = (props: {
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
-    //const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
 
-    const visOppgaverDetaljeFeil: boolean =
-        oppgaveVedlegsOpplastingFeilet /*|| opplastingFeilet !== undefined*/ || listeMedFilFeil.length > 0;
+    const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilFeil.length > 0;
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <VelgFil

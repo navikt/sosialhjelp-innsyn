@@ -14,9 +14,19 @@ import {FormattedMessage} from "react-intl";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {hentInnsynsdata, innsynsdataUrl, logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
+import {
+    hentInnsynsdata,
+    innsynsdataUrl,
+    logErrorMessage,
+    setOppgaveOpplastingBackendFeilet,
+} from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
-import {opprettFormDataMedVedleggFraFiler, FilFeil, validerFilArrayForFeil} from "../../utils/vedleggUtils";
+import {
+    opprettFormDataMedVedleggFraFiler,
+    FilFeil,
+    validerFilArrayForFeil,
+    maxMengdeStorrelse,
+} from "../../utils/vedleggUtils";
 import {skrivFeilmelding, sjekkerFilFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggEnabled} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -26,6 +36,8 @@ function harFilermedFeil(filer: Fil[]) {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
 }
+
+const annet = "annet";
 
 const EttersendelseView: React.FC = () => {
     const dispatch = useDispatch();
@@ -41,7 +53,19 @@ const EttersendelseView: React.FC = () => {
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
+
+    const annetBackendFeilet: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.oppgaveIdBackendFeilet
+    );
+
     const opplastingFeilet = harFilermedFeil(filer);
+
+    let totaltSammensattFilStorrelse = 0;
+    filer?.forEach((fil: Fil) => {
+        if (fil && fil.file) {
+            totaltSammensattFilStorrelse += fil.file.size;
+        }
+    });
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -53,6 +77,7 @@ const EttersendelseView: React.FC = () => {
     };
 
     const onChange = (event: any) => {
+        setListeMedFilFeil([]);
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
 
@@ -91,6 +116,8 @@ const EttersendelseView: React.FC = () => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
+        dispatch(setOppgaveOpplastingBackendFeilet(annet, false));
+
         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
         fetchPost(path, formData, "multipart/form-data")
@@ -120,6 +147,7 @@ const EttersendelseView: React.FC = () => {
             })
             .catch((e) => {
                 dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+                dispatch(setOppgaveOpplastingBackendFeilet(annet, true));
                 logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
             });
         event.preventDefault();
@@ -130,19 +158,18 @@ const EttersendelseView: React.FC = () => {
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggEnabled(kommuneResponse);
 
+    const visDetaljeFeiler: boolean =
+        opplastingFeilet !== undefined ||
+        listeMedFilFeil.length > 0 ||
+        (!vedleggKlarForOpplasting && sendVedleggTrykket) ||
+        totaltSammensattFilStorrelse > maxMengdeStorrelse;
+
     return (
         <div>
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
-            <div
-                className={
-                    "oppgaver_detaljer " +
-                    (opplastingFeilet || listeMedFilFeil.length > 0 || (!vedleggKlarForOpplasting && sendVedleggTrykket)
-                        ? " oppgaver_detalj_feil_ramme"
-                        : "")
-                }
-            >
+            <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
                     className={
                         "oppgaver_detalj " +
@@ -222,6 +249,19 @@ const EttersendelseView: React.FC = () => {
                     <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
                 </Hovedknapp>
             </div>
+
+            {annetBackendFeilet.includes(annet) && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                </div>
+            )}
+
+            {totaltSammensattFilStorrelse > maxMengdeStorrelse && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
+                </div>
+            )}
+
             {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
