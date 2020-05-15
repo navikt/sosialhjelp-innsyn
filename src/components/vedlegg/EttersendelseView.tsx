@@ -162,7 +162,8 @@ const EttersendelseView: React.FC = () => {
         opplastingFeilet !== undefined ||
         listeMedFilFeil.length > 0 ||
         (!vedleggKlarForOpplasting && sendVedleggTrykket) ||
-        totaltSammensattFilStorrelse > maxMengdeStorrelse;
+        totaltSammensattFilStorrelse > maxMengdeStorrelse ||
+        annetBackendFeilet.includes(annet);
 
     return (
         <div>
