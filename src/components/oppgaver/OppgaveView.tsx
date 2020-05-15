@@ -262,7 +262,6 @@ const OppgaveElementView = (props: {
 
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet /*|| opplastingFeilet !== undefined*/ || listeMedFilFeil.length > 0;
-    console.log("listemedfilfeil", listeMedFilFeil);
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <VelgFil
@@ -346,7 +345,6 @@ const VelgFil = (props: {
             dispatch(setOppgaveOpplastingBackendFeilet(props.oppgaveId, false));
 
             const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, oppgaveElementIndex, sammensattFilstorrelse);
-            console.log("filermedfeil", filerMedFeil);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];

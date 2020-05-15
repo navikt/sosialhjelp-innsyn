@@ -82,10 +82,8 @@ export const tekster = {
         "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
         "vedlegg.ulovlig_filstorrelse_feilmelding": "Filer må være under 10 Mb.",
-
         "vedlegg.ulovlig_storrelse_av_alle_valgte_filer":
-            "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 350 Mb.",
-
+            "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 150 Mb.",
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
@@ -94,7 +92,8 @@ export const tekster = {
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
         "vedlegg.opplasting_feilmelding":
             "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
-        "vedlegg.opplasting_backend_feilmelding": "Vedleggene blir ikke sendt inn (TEMPORARY tekst)",
+        "vedlegg.opplasting_backend_feilmelding":
+            "Vi klarte dessverre ikke å sende vedleggene. Vennligst førsk igjen senere.",
         "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT":
             "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
         "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
@@ -103,7 +102,7 @@ export const tekster = {
         "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
         "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filer må være under 10 mb",
         "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
-            "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 350 Mb",
+            "Vi kan ikke motta dokumentene dine hvis de tilsammen er over 150 Mb",
         "andre_vedlegg.type": "Send andre vedlegg",
         "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
