@@ -28,6 +28,7 @@ import {
     setOppgaveVedleggopplastingFeilet,
     hentOppgaveMedId,
     setOppgaveOpplastingFeilet,
+    setOppgaveOpplastingBackendFeilet,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
@@ -336,11 +337,13 @@ const VelgFil = (props: {
         oppgaveElementIndex: number,
         oppgaveIndex: number
     ) => {
+        props.setListeMedFilFeil([]);
         const files: FileList | null = event.currentTarget.files;
         let sammensattFilstorrelse = 0;
 
         if (files) {
             dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
+            dispatch(setOppgaveOpplastingBackendFeilet(props.oppgaveId, false));
 
             const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, oppgaveElementIndex, sammensattFilstorrelse);
             console.log("filermedfeil", filerMedFeil);
@@ -418,6 +421,10 @@ const VelgFil = (props: {
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
     const oppgaveIdFeilet: string[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaveIdFeilet);
+    const oppgaveIdBackendFeilet: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.oppgaveIdBackendFeilet
+    );
+
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
@@ -435,6 +442,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const sendVedlegg = (event: any) => {
+        dispatch(setOppgaveOpplastingBackendFeilet(oppgave.oppgaveId, false));
+
         if (!oppgave || !fiksDigisosId) {
             event.preventDefault();
             return;
@@ -505,6 +514,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 })
                 .catch((e) => {
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                    dispatch(setOppgaveOpplastingBackendFeilet(oppgave.oppgaveId, true));
                     logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
                 });
         } else {
@@ -525,7 +535,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const visOppgaverDetaljeFeiler: boolean =
         oppgaveIdFeilet.includes(oppgave.oppgaveId) ||
         opplastingFeilet !== undefined ||
-        sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse;
+        sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse ||
+        oppgaveIdBackendFeilet.includes(oppgave.oppgaveId);
 
     return (
         <div>
@@ -583,6 +594,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     </Hovedknapp>
                 )}
             </div>
+
+            {oppgaveIdBackendFeilet.includes(oppgave.oppgaveId) && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                </div>
+            )}
+
             {sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />

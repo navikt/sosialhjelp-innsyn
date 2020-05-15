@@ -144,3 +144,9 @@ export const setOppgaveOpplastingFeilet = (oppgaveId: string, status: boolean) =
     oppgaveId,
     status,
 });
+
+export const setOppgaveOpplastingBackendFeilet = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET,
+    oppgaveId,
+    status,
+});

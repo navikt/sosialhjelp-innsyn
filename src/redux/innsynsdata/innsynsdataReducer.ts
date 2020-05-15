@@ -97,6 +97,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
     OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET",
     OPPGAVE_OPPLASTING_FEILET = "innsynsdata/OPPGAVE_OPPLASTING_FEILET",
+    OPPGAVE_OPPLASTING_BACKEND_FEILET = "innsynsdata/OPPGAVE_OPPLASTING_BACKEND_FEILET",
 }
 
 export enum InnsynsdataSti {
@@ -186,6 +187,7 @@ export interface InnsynsdataType {
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
     oppgaveIdFeilet: string[];
+    oppgaveIdBackendFeilet: string[];
     oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
@@ -215,6 +217,7 @@ export const initialState: InnsynsdataType = {
     saksStatus: [],
     oppgaver: [],
     oppgaveIdFeilet: [],
+    oppgaveIdBackendFeilet: [],
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null,
@@ -485,6 +488,19 @@ const InnsynsdataReducer: Reducer<
             return {
                 ...state,
                 oppgaveIdFeilet: state.oppgaveIdFeilet.filter((oppgaveId: string) => oppgaveId !== action.oppgaveId),
+            };
+        case InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET:
+            if (action.status) {
+                return {
+                    ...state,
+                    oppgaveIdBackendFeilet: [...state.oppgaveIdBackendFeilet, action.oppgaveId],
+                };
+            }
+            return {
+                ...state,
+                oppgaveIdBackendFeilet: state.oppgaveIdBackendFeilet.filter(
+                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                ),
             };
 
         default:

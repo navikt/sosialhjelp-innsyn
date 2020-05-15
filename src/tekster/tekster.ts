@@ -94,6 +94,7 @@ export const tekster = {
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
         "vedlegg.opplasting_feilmelding":
             "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
+        "vedlegg.opplasting_backend_feilmelding": "Vedleggene blir ikke sendt inn (TEMPORARY tekst)",
         "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT":
             "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
         "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
