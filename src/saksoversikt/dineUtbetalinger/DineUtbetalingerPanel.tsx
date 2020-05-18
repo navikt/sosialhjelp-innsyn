@@ -24,7 +24,7 @@ const DineUtbetalingerPanel: React.FC<{}> = () => {
                 <HandCoinsIcon />
                 <div>
                     <Systemtittel className="lenkepanel__heading">Dine utbetalinger</Systemtittel>
-                    <Normaltekst>Gå til oversikt over dine tidligere og kommende utbetalinger fra NAV.</Normaltekst>
+                    <Normaltekst>Gå til oversikt over dine utførte utbetalinger fra NAV.</Normaltekst>
                 </div>
             </div>
         </LenkepanelBase>
