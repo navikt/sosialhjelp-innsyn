@@ -64,8 +64,16 @@
     padding: 1rem;
 }
 
-.ingen_oppgaver_panel {
-    padding: 1rem !important;
+@media screen and (max-width: 640px) {
+    .ingen_oppgaver_panel {
+        padding: 1rem !important;
+    }
+}
+
+@media screen and (min-width: 640px) {
+    .ingen_oppgaver_panel {
+        padding: 1rem 80px 1rem 80px !important;
+    }
 }
 
 .oppgaver_detaljer_feil_ramme {
