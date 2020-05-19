@@ -454,14 +454,14 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
         setOverMaksStorrelse(false);
 
-        let sammensattFilStorrelseForOppgaveElement = 0;
-        oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-            oppgaveElement.filer?.forEach((fil: Fil) => {
-                if (fil && fil.file) {
-                    sammensattFilStorrelseForOppgaveElement += fil.file.size;
-                }
-            });
-        });
+        const sammensattFilStorrelseForOppgaveElement = oppgave.oppgaveElementer
+            .flatMap((oppgaveElement: OppgaveElement) => {
+                return oppgaveElement.filer ?? [];
+            })
+            .reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
+                0
+            );
 
         setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse);
 

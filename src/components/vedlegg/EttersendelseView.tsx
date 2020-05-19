@@ -113,12 +113,11 @@ const EttersendelseView: React.FC = () => {
         dispatch(setOppgaveOpplastingBackendFeilet(annet, false));
 
         setOverMaksStorrelse(false);
-        let totaltSammensattFilStorrelse = 0;
-        filer?.forEach((fil: Fil) => {
-            if (fil && fil.file) {
-                totaltSammensattFilStorrelse += fil.file.size;
-            }
-        });
+
+        const totaltSammensattFilStorrelse = filer?.reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
 
         setOverMaksStorrelse(totaltSammensattFilStorrelse > maxMengdeStorrelse);
 
