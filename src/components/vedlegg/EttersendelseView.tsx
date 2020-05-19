@@ -119,7 +119,7 @@ const EttersendelseView: React.FC = () => {
             })
             .catch((e) => {
                 dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                logErrorMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
             });
         event.preventDefault();
     };

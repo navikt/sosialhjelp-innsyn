@@ -25,7 +25,7 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
                 if (reason.message === HttpStatus.UNAUTHORIZED) {
                     dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
                 } else {
-                    logErrorMessage(reason.message);
+                    logErrorMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(skalViseFeilside(true));
                 }
@@ -48,7 +48,7 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
                 } else if (reason.message === HttpStatus.SERVICE_UNAVAILABLE) {
                     dispatch(settRestStatus(sti, REST_STATUS.SERVICE_UNAVAILABLE));
                 } else {
-                    logErrorMessage(reason.message);
+                    logErrorMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
                         dispatch(skalViseFeilside(true));
@@ -70,7 +70,7 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
                 if (reason.message === HttpStatus.UNAUTHORIZED) {
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.UNAUTHORIZED));
                 } else {
-                    logErrorMessage(reason.message);
+                    logErrorMessage(reason.message, reason.navCallId);
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
                         dispatch(skalViseFeilside(true));
@@ -82,23 +82,23 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
 
 const LOG_URL = "/info/logg";
 
-export function logInfoMessage(message: string) {
-    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "INFO")))
+export function logInfoMessage(message: string, navCallId?: string) {
+    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "INFO", navCallId)))
         .then(() => {})
         .catch(() => {
             return; // Not important to handle those errors
         });
 }
 
-export function logErrorMessage(message: string) {
-    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "ERROR")))
+export function logErrorMessage(message: string, navCallId?: string) {
+    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "ERROR", navCallId)))
         .then(() => {})
         .catch(() => {
             return; // Not important to handle those errors
         });
 }
 
-function createLogEntry(message: string, level: LogLevel) {
+function createLogEntry(message: string, level: LogLevel, navCallId?: string) {
     return {
         level: level,
         message: message,
@@ -107,6 +107,7 @@ function createLogEntry(message: string, level: LogLevel) {
         columnNumber: "",
         url: window.location.href,
         userAgent: window.navigator.userAgent,
+        navCallId: navCallId,
     };
 }
 

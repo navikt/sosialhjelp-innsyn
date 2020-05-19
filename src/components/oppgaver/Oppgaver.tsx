@@ -158,7 +158,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 })
                 .catch((e) => {
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
                 });
         } else {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
