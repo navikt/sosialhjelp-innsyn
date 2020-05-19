@@ -1,8 +1,9 @@
 import * as React from "react";
 
-const DocumentChecklist: React.FC = () => {
+const DocumentChecklist: React.FC<{className?: string}> = ({className}) => {
     return (
         <svg
+            className={className}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             width="100"
@@ -10,12 +11,12 @@ const DocumentChecklist: React.FC = () => {
             viewBox="0 0 100 100"
         >
             <defs>
-                <circle id="abb" cx="50" cy="50" r="50" />
+                <circle id="checklist_abb" cx="50" cy="50" r="50" />
             </defs>
             <g fill="none" fillRule="evenodd">
                 <g>
                     <mask id="bcc" fill="#fff">
-                        <use xlinkHref="#abb" />
+                        <use xlinkHref="#checklist_abb" />
                     </mask>
                     <g fill="#FFD399" mask="url(#bcc)">
                         <path d="M0 100h100V0H0z" />

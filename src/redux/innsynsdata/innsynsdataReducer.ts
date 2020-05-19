@@ -66,6 +66,7 @@ export interface Fil {
 
 export interface Oppgave {
     innsendelsesfrist?: string;
+    oppgaveId: string;
     oppgaveElementer: OppgaveElement[];
 }
 
@@ -81,6 +82,7 @@ export enum InnsynsdataActionTypeKeys {
     // Innsynsdata:
     SETT_FIKSDIGISOSID = "innsynsdata/SETT_FIKSDIGISOSID",
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
+    OPPDATER_OPPGAVE_STATE = "innsynsdata/OPPDATER_OPPGAVE_STATE",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
     SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
 
@@ -114,6 +116,7 @@ export interface InnsynsdataActionType {
     sti: InnsynsdataSti;
     restStatus?: string;
     skalVise?: boolean;
+    oppgaveId?: string;
 }
 
 export interface VedleggActionType {
@@ -204,7 +207,7 @@ export const initialInnsynsdataRestStatus = {
     kommune: REST_STATUS.INITIALISERT,
 };
 
-const initialState: InnsynsdataType = {
+export const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
@@ -250,6 +253,23 @@ const InnsynsdataReducer: Reducer<
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
                 ...setPath(state, action.sti, action.verdi),
+            };
+        case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
+            const oppgave: Oppgave[] = action.verdi;
+            if (oppgave.length === 0) {
+                return {
+                    ...state,
+                    oppgaver: state.oppgaver.filter((oppgave: Oppgave) => oppgave.oppgaveId !== action.oppgaveId),
+                };
+            }
+            return {
+                ...state,
+                oppgaver: state.oppgaver.map((oppgave) => {
+                    if (oppgave.oppgaveId === action.oppgaveId) {
+                        return action.verdi[0];
+                    }
+                    return oppgave;
+                }),
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS:
             return {
@@ -460,6 +480,15 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
+        verdi,
+    };
+};
+
+export const oppdaterOppgaveState = (oppgaveId: string, verdi: Oppgave[]): any => {
+    return {
+        type: InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE,
+        sti: InnsynsdataSti.OPPGAVER,
+        oppgaveId,
         verdi,
     };
 };

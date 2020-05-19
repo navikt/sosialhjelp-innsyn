@@ -48,7 +48,6 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
         if (foreldreside && foreldreside.urlType) {
             if (foreldreside.urlType === UrlType.ABSOLUTE_PATH) {
                 onClickLink(event, foreldreside.path);
-                // onClickBackLink(event);
             }
         } else {
             if (foreldreside && foreldreside.path) {

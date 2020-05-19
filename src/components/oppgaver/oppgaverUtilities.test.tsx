@@ -1,4 +1,3 @@
-// getSkalViseIngenOppgaverPanel
 import {Oppgave, OppgaveElement, SaksStatus, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseIngenOppgaverPanel, vilkarViewVisesIkke} from "./oppgaverUtilities";
 

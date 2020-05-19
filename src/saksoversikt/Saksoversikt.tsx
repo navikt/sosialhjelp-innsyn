@@ -15,6 +15,7 @@ import {
     LandingssideMedSakerFraInnsynHotjarTrigger,
     LandingssideUtenSakerFraInnsynHotjarTrigger,
 } from "../components/hotjarTrigger/HotjarTrigger";
+import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Økonomisk sosialhjelp";
@@ -87,6 +88,7 @@ const Saksoversikt: React.FC = () => {
                                 <SaksoversiktDineSaker saker={alleSaker} />
                             </LandingssideUtenSakerFraInnsynHotjarTrigger>
                         )}
+                        {!harSaker && <SaksoversiktIngenSoknader />}
                     </>
                 )}
             </div>
