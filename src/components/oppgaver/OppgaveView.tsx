@@ -334,8 +334,6 @@ const VelgFil = (props: {
     ) => {
         props.setListeMedFilFeil([]);
         const files: FileList | null = event.currentTarget.files;
-        let sammensattFilstorrelse = 0;
-
         if (files) {
             dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
             dispatch(setOppgaveOpplastingBackendFeilet(props.oppgaveId, false));
