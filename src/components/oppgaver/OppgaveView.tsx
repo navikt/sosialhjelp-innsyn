@@ -179,13 +179,10 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementInde
     return returnFeilmeldingComponent(flagg, filnavn, listeMedFil);
 }
 
-export function sjekkerFilFeil(
-    files: FileList,
-    oppgaveElemendIndex: number,
-    sammensattFilstorrelse: number
-): Array<FilFeil> {
+export function sjekkerFilFeil(files: FileList, oppgaveElemendIndex: number): Array<FilFeil> {
     let sjekkMaxMengde = false;
     const filerMedFeil: Array<FilFeil> = [];
+    let sammensattFilStorrelse = 0;
 
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
         const file: File = files[vedleggIndex];
@@ -210,7 +207,7 @@ export function sjekkerFilFeil(
         if (legalFileSize(file)) {
             fileErrorObject.legalFileSize = true;
         }
-        if (legalCombinedFilesSize(sammensattFilstorrelse)) {
+        if (legalCombinedFilesSize(sammensattFilStorrelse)) {
             sjekkMaxMengde = true;
             fileErrorObject.legalCombinedFilesSize = true;
         }
@@ -223,11 +220,12 @@ export function sjekkerFilFeil(
         ) {
             filerMedFeil.push(fileErrorObject);
         }
-        sammensattFilstorrelse += file.size;
+        sammensattFilStorrelse += file.size;
     }
+
     if (sjekkMaxMengde) {
         logInfoMessage(
-            "Bruker prøvde å laste opp over 350 mb. Størrelse på vedlegg var: " + sammensattFilstorrelse / (1024 * 1024)
+            "Bruker prøvde å laste opp over 150 mb. Størrelse på vedlegg var: " + sammensattFilStorrelse / (1024 * 1024)
         );
     }
     return filerMedFeil;
@@ -342,7 +340,7 @@ const VelgFil = (props: {
             dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
             dispatch(setOppgaveOpplastingBackendFeilet(props.oppgaveId, false));
 
-            const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, oppgaveElementIndex, sammensattFilstorrelse);
+            const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
@@ -437,6 +435,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
+    const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
+
     const sendVedlegg = (event: any) => {
         dispatch(setOppgaveOpplastingBackendFeilet(oppgave.oppgaveId, false));
 
@@ -454,23 +454,18 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         const ingenFilerValgt = harIkkeValgtFiler(oppgave);
         dispatch(setOppgaveOpplastingFeilet(oppgave.oppgaveId, ingenFilerValgt));
 
-        //denne sjekker total sammensatt fil størrelse
-        // dette funger, men foreløpig vises ikke en feilmelding
-        function setterStorrelse(oppgave: Oppgave) {
-            let sammensattFilStorrelse = 0;
-            oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-                if (oppgaveElement.filer) {
-                    oppgaveElement.filer.forEach((file: Fil) => {
-                        if (file.file?.size) {
-                            sammensattFilStorrelse += file.file.size;
-                        }
-                    });
+        setOverMaksStorrelse(false);
+
+        let sammensattFilStorrelseForOppgaveElement = 0;
+        oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+            oppgaveElement.filer?.forEach((fil: Fil) => {
+                if (fil && fil.file) {
+                    sammensattFilStorrelseForOppgaveElement += fil.file.size;
                 }
             });
-            return sammensattFilStorrelse;
-        }
+        });
 
-        const sammensattFilStorrelse: number = setterStorrelse(oppgave);
+        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse);
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -478,7 +473,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             return;
         }
 
-        if (sammensattFilStorrelse < maxMengdeStorrelse && sammensattFilStorrelse !== 0) {
+        if (
+            sammensattFilStorrelseForOppgaveElement < maxMengdeStorrelse &&
+            sammensattFilStorrelseForOppgaveElement !== 0
+        ) {
             fetchPost(path, formData, "multipart/form-data")
                 .then((filRespons: any) => {
                     let harFeil: boolean = false;
@@ -519,19 +517,10 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         event.preventDefault();
     };
 
-    let sammensattFilStorrelseForOppgaveElement = 0;
-    oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-        oppgaveElement.filer?.forEach((fil: Fil) => {
-            if (fil && fil.file) {
-                sammensattFilStorrelseForOppgaveElement += fil.file.size;
-            }
-        });
-    });
-
     const visOppgaverDetaljeFeiler: boolean =
         oppgaveIdFeilet.includes(oppgave.oppgaveId) ||
         opplastingFeilet !== undefined ||
-        sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse ||
+        overMaksStorrelse ||
         oppgaveIdBackendFeilet.includes(oppgave.oppgaveId);
 
     return (
@@ -597,7 +586,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                 </div>
             )}
 
-            {sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse && (
+            {overMaksStorrelse && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
                 </div>

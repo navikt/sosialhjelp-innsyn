@@ -54,18 +54,13 @@ const EttersendelseView: React.FC = () => {
     const otherVedleggLastesOpp =
         otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
+    const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
+
     const annetBackendFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveIdBackendFeilet
     );
 
     const opplastingFeilet = harFilermedFeil(filer);
-
-    let totaltSammensattFilStorrelse = 0;
-    filer?.forEach((fil: Fil) => {
-        if (fil && fil.file) {
-            totaltSammensattFilStorrelse += fil.file.size;
-        }
-    });
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -79,10 +74,9 @@ const EttersendelseView: React.FC = () => {
     const onChange = (event: any) => {
         setListeMedFilFeil([]);
         const files: FileList | null = event.currentTarget.files;
-        let sammensattFilstorrelse = 0;
 
         if (files) {
-            const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, 0, sammensattFilstorrelse);
+            const filerMedFeil: Array<FilFeil> = sjekkerFilFeil(files, 0);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
@@ -118,38 +112,50 @@ const EttersendelseView: React.FC = () => {
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(setOppgaveOpplastingBackendFeilet(annet, false));
 
-        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
+        setOverMaksStorrelse(false);
+        let totaltSammensattFilStorrelse = 0;
+        filer?.forEach((fil: Fil) => {
+            if (fil && fil.file) {
+                totaltSammensattFilStorrelse += fil.file.size;
+            }
+        });
 
-        fetchPost(path, formData, "multipart/form-data")
-            .then((filRespons: any) => {
-                let harFeil: boolean = false;
-                let vedlegg = filRespons[0].filer;
-                if (Array.isArray(vedlegg)) {
-                    for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
-                        const fileItem = vedlegg[vedleggIndex];
-                        if (fileItem.status !== "OK") {
-                            harFeil = true;
+        setOverMaksStorrelse(totaltSammensattFilStorrelse > maxMengdeStorrelse);
+
+        if (totaltSammensattFilStorrelse < maxMengdeStorrelse && totaltSammensattFilStorrelse !== 0) {
+            dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
+
+            fetchPost(path, formData, "multipart/form-data")
+                .then((filRespons: any) => {
+                    let harFeil: boolean = false;
+                    let vedlegg = filRespons[0].filer;
+                    if (Array.isArray(vedlegg)) {
+                        for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
+                            const fileItem = vedlegg[vedleggIndex];
+                            if (fileItem.status !== "OK") {
+                                harFeil = true;
+                            }
+                            dispatch({
+                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
+                                fil: {filnavn: fileItem.filnavn} as Fil,
+                                status: fileItem.status,
+                                vedleggIndex: vedleggIndex,
+                            });
                         }
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
-                            fil: {filnavn: fileItem.filnavn} as Fil,
-                            status: fileItem.status,
-                            vedleggIndex: vedleggIndex,
-                        });
                     }
-                }
-                if (harFeil) {
+                    if (harFeil) {
+                        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
+                    } else {
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                    }
+                })
+                .catch((e) => {
                     dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                } else {
-                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                }
-            })
-            .catch((e) => {
-                dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                dispatch(setOppgaveOpplastingBackendFeilet(annet, true));
-                logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
-            });
+                    dispatch(setOppgaveOpplastingBackendFeilet(annet, true));
+                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                });
+        }
         event.preventDefault();
     };
 
@@ -162,7 +168,7 @@ const EttersendelseView: React.FC = () => {
         opplastingFeilet !== undefined ||
         listeMedFilFeil.length > 0 ||
         (!vedleggKlarForOpplasting && sendVedleggTrykket) ||
-        totaltSammensattFilStorrelse > maxMengdeStorrelse ||
+        overMaksStorrelse ||
         annetBackendFeilet.includes(annet);
 
     return (
@@ -257,7 +263,7 @@ const EttersendelseView: React.FC = () => {
                 </div>
             )}
 
-            {totaltSammensattFilStorrelse > maxMengdeStorrelse && (
+            {overMaksStorrelse && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
                 </div>
