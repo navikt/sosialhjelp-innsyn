@@ -186,8 +186,8 @@ export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: Oppgave[];
-    oppgaveIdFeilet: string[];
-    oppgaveIdBackendFeilet: string[];
+    listeOverOpggaveIderSomFeilet: string[];
+    listeOverOppgaveIderSomFeiletPaBackend: string[];
     oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
@@ -216,8 +216,8 @@ export const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
-    oppgaveIdFeilet: [],
-    oppgaveIdBackendFeilet: [],
+    listeOverOpggaveIderSomFeilet: [],
+    listeOverOppgaveIderSomFeiletPaBackend: [],
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null,
@@ -482,23 +482,25 @@ const InnsynsdataReducer: Reducer<
             if (action.status) {
                 return {
                     ...state,
-                    oppgaveIdFeilet: [...state.oppgaveIdFeilet, action.oppgaveId],
+                    oppgaveIdFeilet: [...state.listeOverOpggaveIderSomFeilet, action.oppgaveId],
                 };
             }
             return {
                 ...state,
-                oppgaveIdFeilet: state.oppgaveIdFeilet.filter((oppgaveId: string) => oppgaveId !== action.oppgaveId),
+                oppgaveIdFeilet: state.listeOverOpggaveIderSomFeilet.filter(
+                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                ),
             };
         case InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET:
             if (action.status) {
                 return {
                     ...state,
-                    oppgaveIdBackendFeilet: [...state.oppgaveIdBackendFeilet, action.oppgaveId],
+                    oppgaveIdBackendFeilet: [...state.listeOverOppgaveIderSomFeiletPaBackend, action.oppgaveId],
                 };
             }
             return {
                 ...state,
-                oppgaveIdBackendFeilet: state.oppgaveIdBackendFeilet.filter(
+                oppgaveIdBackendFeilet: state.listeOverOppgaveIderSomFeiletPaBackend.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };

@@ -251,6 +251,7 @@ const OppgaveElementView = (props: {
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     oppgaveId: string;
+    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
 
@@ -269,6 +270,7 @@ const OppgaveElementView = (props: {
                 oppgaveIndex={props.oppgaveIndex}
                 setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
                 oppgaveId={props.oppgaveId}
+                setOverMaksStorrelse={props.setOverMaksStorrelse}
             />
 
             {props.oppgaveElement.vedlegg &&
@@ -287,6 +289,7 @@ const OppgaveElementView = (props: {
                         vedleggIndex={vedleggIndex}
                         oppgaveElementIndex={props.oppgaveElementIndex}
                         oppgaveIndex={props.oppgaveIndex}
+                        setOverMaksStorrelse={props.setOverMaksStorrelse}
                     />
                 ))}
             {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
@@ -303,6 +306,7 @@ const VelgFil = (props: {
     oppgaveIndex: number;
     setListeMedFilerSomFeiler: (filerMedFeil: Array<FilFeil>) => void;
     oppgaveId: string;
+    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
 }) => {
     const dispatch = useDispatch();
 
@@ -335,6 +339,7 @@ const VelgFil = (props: {
         oppgaveIndex: number
     ) => {
         props.setListeMedFilerSomFeiler([]);
+        props.setOverMaksStorrelse(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
@@ -415,10 +420,10 @@ const VelgFil = (props: {
 const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
     const listeOverOpggaveIderSomFeilet: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.oppgaveIdFeilet
+        (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
     );
     const listeOverOppgaveIderSomFeiletPaBackend: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.oppgaveIdBackendFeilet
+        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
     );
 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
@@ -563,6 +568,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                             oppgaveElementIndex={oppgaveElementIndex}
                             oppgaveIndex={oppgaveIndex}
                             oppgaveId={oppgave.oppgaveId}
+                            setOverMaksStorrelse={setOverMaksStorrelse}
                         />
                     );
                 })}

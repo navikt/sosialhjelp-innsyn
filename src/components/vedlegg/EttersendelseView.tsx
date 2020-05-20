@@ -203,6 +203,7 @@ const EttersendelseView: React.FC = () => {
                                 vedleggIndex={vedleggIndex}
                                 oppgaveElementIndex={0}
                                 oppgaveIndex={0}
+                                setOverMaksStorrelse={setOverMaksStorrelse}
                             />
                         ))}
 
