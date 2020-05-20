@@ -36,14 +36,18 @@ function harFilermedFeil(filer: Fil[]) {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
 }
-
-const annet = "annet";
+/*
+ * Siden det er ikke noe form for oppgaveId så blir vedleggId
+ * brukt sånnn at man slipper å lage egne actions
+ * og reducere for denne ene komponenten.
+ */
+const vedleggId = "vedleggId";
 
 const EttersendelseView: React.FC = () => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
-    const [listeMedFilerSomFeiler, SetListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
@@ -56,7 +60,7 @@ const EttersendelseView: React.FC = () => {
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
-    const annetBackendFeilet: string[] = useSelector(
+    const listeOverVedleggIderSomFeiletPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
     );
 
@@ -72,7 +76,7 @@ const EttersendelseView: React.FC = () => {
     };
 
     const onChange = (event: any) => {
-        SetListeMedFilerSomFeiler([]);
+        setListeMedFilerSomFeiler([]);
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
@@ -91,7 +95,7 @@ const EttersendelseView: React.FC = () => {
                     });
                 }
             } else {
-                SetListeMedFilerSomFeiler(filerMedFeil);
+                setListeMedFilerSomFeiler(filerMedFeil);
             }
         }
         if (event.target.value === "") {
@@ -110,7 +114,7 @@ const EttersendelseView: React.FC = () => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(setOppgaveOpplastingFeiletPaBackend(annet, false));
+        dispatch(setOppgaveOpplastingFeiletPaBackend(vedleggId, false));
 
         setOverMaksStorrelse(false);
 
@@ -151,7 +155,7 @@ const EttersendelseView: React.FC = () => {
                 })
                 .catch((e) => {
                     dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                    dispatch(setOppgaveOpplastingFeiletPaBackend(annet, true));
+                    dispatch(setOppgaveOpplastingFeiletPaBackend(vedleggId, true));
                     logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
                 });
         }
@@ -168,7 +172,7 @@ const EttersendelseView: React.FC = () => {
         listeMedFilerSomFeiler.length > 0 ||
         (!vedleggKlarForOpplasting && sendVedleggTrykket) ||
         overMaksStorrelse ||
-        annetBackendFeilet.includes(annet);
+        listeOverVedleggIderSomFeiletPaBackend.includes(vedleggId);
 
     return (
         <div>
@@ -257,7 +261,7 @@ const EttersendelseView: React.FC = () => {
                 </Hovedknapp>
             </div>
 
-            {annetBackendFeilet.includes(annet) && (
+            {listeOverVedleggIderSomFeiletPaBackend.includes(vedleggId) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
                 </div>
