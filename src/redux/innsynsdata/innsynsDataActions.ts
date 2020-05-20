@@ -129,7 +129,7 @@ function createLogEntry(message: string, level: LogLevel, navCallId?: string) {
         columnNumber: "",
         url: window.location.href,
         userAgent: window.navigator.userAgent,
-        navCallId: navCallId,
+        loggenGjelderForCallId: navCallId,
     };
 }
 
