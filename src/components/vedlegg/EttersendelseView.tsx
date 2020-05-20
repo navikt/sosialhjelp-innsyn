@@ -37,11 +37,11 @@ function harFilermedFeil(filer: Fil[]) {
     });
 }
 /*
- * Siden det er ikke noe form for oppgaveId så blir vedleggId
+ * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
  * brukt sånnn at man slipper å lage egne actions
  * og reducere for denne ene komponenten.
  */
-const vedleggId = "vedleggId";
+const BACKEND_FEIL_ID = "backendFeilId";
 
 const EttersendelseView: React.FC = () => {
     const dispatch = useDispatch();
@@ -114,7 +114,7 @@ const EttersendelseView: React.FC = () => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(setOppgaveOpplastingFeiletPaBackend(vedleggId, false));
+        dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, false));
 
         setOverMaksStorrelse(false);
 
@@ -155,7 +155,7 @@ const EttersendelseView: React.FC = () => {
                 })
                 .catch((e) => {
                     dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                    dispatch(setOppgaveOpplastingFeiletPaBackend(vedleggId, true));
+                    dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, true));
                     logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
                 });
         }
@@ -172,7 +172,7 @@ const EttersendelseView: React.FC = () => {
         listeMedFilerSomFeiler.length > 0 ||
         (!vedleggKlarForOpplasting && sendVedleggTrykket) ||
         overMaksStorrelse ||
-        listeOverVedleggIderSomFeiletPaBackend.includes(vedleggId);
+        listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID);
 
     return (
         <div>
@@ -261,7 +261,7 @@ const EttersendelseView: React.FC = () => {
                 </Hovedknapp>
             </div>
 
-            {listeOverVedleggIderSomFeiletPaBackend.includes(vedleggId) && (
+            {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
                 </div>
