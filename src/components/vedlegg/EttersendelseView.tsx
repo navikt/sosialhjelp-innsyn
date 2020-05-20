@@ -57,7 +57,7 @@ const EttersendelseView: React.FC = () => {
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
     const annetBackendFeilet: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.oppgaveIdBackendFeilet
+        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
     );
 
     const opplastingFeilet = harFilermedFeil(filer);
