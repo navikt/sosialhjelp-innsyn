@@ -2,7 +2,7 @@ import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
     Driftsmelding,
     DriftsmeldingTypeKeys,
-    erOpplastingAvVedleggEnabled,
+    erOpplastingAvVedleggTillat,
     getDriftsmeldingByKommuneResponse,
 } from "./DriftsmeldingUtilities";
 
@@ -73,6 +73,6 @@ it("viser driftsmelding for riktig kommune state", () => {
 });
 
 it("Opplasting av vedlegg er disabled ved riktige caser", () => {
-    expect(erOpplastingAvVedleggEnabled(kommuneResponse_innsyn_deaktivert)).toEqual(true);
-    expect(erOpplastingAvVedleggEnabled(kommuneResponse_ettersendelse_deaktivert)).toEqual(false);
+    expect(erOpplastingAvVedleggTillat(kommuneResponse_innsyn_deaktivert)).toEqual(true);
+    expect(erOpplastingAvVedleggTillat(kommuneResponse_ettersendelse_deaktivert)).toEqual(false);
 });
