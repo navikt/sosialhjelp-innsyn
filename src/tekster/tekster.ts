@@ -8,10 +8,12 @@ export const tekster = {
         "status.under_behandling": "Søknaden er under behandling",
         "status.ferdigbehandlet": "Søknaden er ferdig behandlet",
         "status.behandles_ikke": "Søknaden er ferdig behandlet",
-        "status.behandles_ikke_ingress":
+        "status.soknad_behandles_ikke_ingress":
             "Vi kan ikke vise behandlingsstatus på nett. Det kan for eksempel være fordi søknaden blir behandlet sammen med en annen søknad eller fordi du har gitt beskjed om at du likevel ikke ønsket å søke. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
+        "status.sak_behandles_ikke_ingress":
+            "Vi kan ikke vise behandlingsstatus på nett. Det kan for eksempel være fordi saken blir behandlet sammen med en annen søknad eller fordi du har gitt beskjed om at du likevel ikke ønsket å søke. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
         "status.ikke_innsyn_ingress":
-            "Søknaden din vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
+            "Saken din vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
 
         "tidspunkt.klokken": "klokken",
         "saker.oppgave": "Du har oppgaver",
