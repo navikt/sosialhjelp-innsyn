@@ -17,11 +17,13 @@ const FilView: React.FC<{
     oppgaveIndex: number;
     fil: Fil;
     oppgaveElement?: OppgaveElement;
-}> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement}) => {
+    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
+}> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
     const onSlettClick = (event: ClickEvent): void => {
+        setOverMaksStorrelse(false);
         dispatch({
             type: oppgaveElement
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING

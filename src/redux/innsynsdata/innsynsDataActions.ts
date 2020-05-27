@@ -139,3 +139,15 @@ export const setOppgaveVedleggopplastingFeilet = (status: boolean) => ({
     type: InnsynsdataActionTypeKeys.OPPGAVE_VEDLEGSOPPLASTING_FEILET,
     status: status,
 });
+
+export const setOppgaveOpplastingFeilet = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_FEILET,
+    oppgaveId,
+    status,
+});
+
+export const setOppgaveOpplastingFeiletPaBackend = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET,
+    oppgaveId,
+    status,
+});
