@@ -363,6 +363,20 @@ const VelgFil = (props: {
                 }
             } else {
                 props.setListeMedFilerSomFeiler(filerMedFeil);
+                filerMedFeil.forEach((fil: FilFeil) => {
+                    if (fil.containsUlovligeTegn) {
+                        logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
+                    }
+                    if (fil.legalCombinedFilesSize) {
+                        logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
+                    }
+                    if (fil.legalFileExtension) {
+                        logInfoMessage("Validering vedlegg feilet: Ulovlig filtype");
+                    }
+                    if (fil.legalFileSize) {
+                        logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
+                    }
+                });
             }
         }
         if (event.target.value === "") {
@@ -476,8 +490,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             event.preventDefault();
             return;
+        }
+
+        if (sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse) {
+            logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
         }
 
         if (
