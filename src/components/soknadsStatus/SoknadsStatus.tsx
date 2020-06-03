@@ -42,7 +42,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                     </Element>
                     <div className="panel-glippe-over">
                         <Normaltekst>
-                            <FormattedMessage id="status.behandles_ikke_ingress" />
+                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                         </Normaltekst>
                     </div>
                 </div>
@@ -53,37 +53,41 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                     let saksStatus = statusdetalj.status.replace(/_/g, " ");
                     saksStatus = saksStatus === "FERDIGBEHANDLET" ? "FERDIG BEHANDLET" : saksStatus;
                     const kanVises: boolean = statusdetalj.status !== SaksStatus.IKKE_INNSYN;
+                    const sakIkkeInnsyn = saksStatus === SaksStatusEnum.IKKE_INNSYN;
+                    const sakBehandlesIkke = saksStatus === SaksStatusEnum.BEHANDLES_IKKE;
+                    const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
                     return (
                         <div className="status_detalj_panel" key={index}>
                             <div className={"status_detalj_linje"}>
                                 <div className="status_detalj_panel__tittel">
                                     <Element>{statusdetalj.tittel}</Element>
                                 </div>
-                                {kanVises &&
-                                    saksStatus !== SaksStatusEnum.IKKE_INNSYN &&
-                                    saksStatus !== SaksStatusEnum.BEHANDLES_IKKE &&
-                                    status !== SoknadsStatusEnum.BEHANDLES_IKKE && (
-                                        <div className="status_detalj_panel__status">
-                                            <EtikettLiten>{saksStatus}</EtikettLiten>
-                                        </div>
-                                    )}
+                                {kanVises && !sakIkkeInnsyn && !sakBehandlesIkke && !soknadBehandlesIkke && (
+                                    <div className="status_detalj_panel__status">
+                                        <EtikettLiten>{saksStatus}</EtikettLiten>
+                                    </div>
+                                )}
                             </div>
-
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (
                                 <div className="panel-glippe-over">
                                     <Normaltekst>{statusdetalj.melding}</Normaltekst>
                                 </div>
                             )}
-                            {(saksStatus === SaksStatusEnum.BEHANDLES_IKKE ||
-                                status === SoknadsStatusEnum.BEHANDLES_IKKE) &&
-                                saksStatus !== SaksStatusEnum.IKKE_INNSYN && (
-                                    <div className="panel-glippe-over">
-                                        <Normaltekst>
-                                            <FormattedMessage id="status.behandles_ikke_ingress" />
-                                        </Normaltekst>
-                                    </div>
-                                )}
-                            {saksStatus === SaksStatusEnum.IKKE_INNSYN && (
+                            {sakIkkeInnsyn && soknadBehandlesIkke && (
+                                <div className="panel-glippe-over">
+                                    <Normaltekst>
+                                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                                    </Normaltekst>
+                                </div>
+                            )}
+                            {(sakBehandlesIkke || soknadBehandlesIkke) && !sakIkkeInnsyn && (
+                                <div className="panel-glippe-over">
+                                    <Normaltekst>
+                                        <FormattedMessage id="status.sak_behandles_ikke_ingress" />
+                                    </Normaltekst>
+                                </div>
+                            )}
+                            {sakIkkeInnsyn && !soknadBehandlesIkke && (
                                 <div className="panel-glippe-over">
                                     <Normaltekst>
                                         <FormattedMessage id="status.ikke_innsyn_ingress" />
