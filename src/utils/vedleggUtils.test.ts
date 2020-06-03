@@ -1,5 +1,9 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
-import {opprettFormDataMedVedleggFraFiler, opprettFormDataMedVedleggFraOppgaver} from "./vedleggUtils";
+import {
+    opprettFormDataMedVedleggFraFiler,
+    opprettFormDataMedVedleggFraOppgaver,
+    containsUlovligeTegn,
+} from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
 const jpgFile = {filnavn: "test1.jpg", file: new Blob()} as Fil;
@@ -116,5 +120,30 @@ describe("VedleggUtilsTest", () => {
         // @ts-ignore
         const actualMetadata = metadataFile["_buffer"].toString();
         expect(actualMetadata).toBe(expectedEttersendelseMetadata);
+    });
+
+    it("should validate filenames", () => {
+        const filename = "gyldigfilnavn.jpg";
+        expect(containsUlovligeTegn(filename)).toBe(false);
+    });
+
+    it("should properly validate norwegian characters in filenames", () => {
+        const filename = "æøå.pdf";
+        expect(containsUlovligeTegn(filename)).toBe(false);
+    });
+
+    it("should reject illegal characters in filenames", () => {
+        const filename = "[abc]&.pdf";
+        expect(containsUlovligeTegn(filename)).toBe(true);
+    });
+
+    it("should properly validate decomposed filename", () => {
+        const filename = "a\u030AA\u030A.pdf";
+        expect(containsUlovligeTegn(filename)).toBe(false);
+    });
+
+    it("should reject ring modifier key", () => {
+        const filename = "\u030A.pdf";
+        expect(containsUlovligeTegn(filename)).toBe(true);
     });
 });
