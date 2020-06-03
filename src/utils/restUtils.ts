@@ -1,5 +1,6 @@
 import "whatwg-fetch";
 import {logErrorMessage} from "../redux/innsynsdata/innsynsDataActions";
+import uuid from "uuid";
 
 export function erDev(): boolean {
     const url = window.location.href;
@@ -106,11 +107,13 @@ export const getHeaders = (contentType?: string) => {
     let headers = new Headers({
         "Content-Type": contentType ? contentType : "application/json; charset=utf-8",
         Accept: "application/json, text/plain, */*",
+        "Nav-Call-Id": generateCallId(),
     });
     // Browser setter content type header automatisk til multipart/form-data: boundary xyz
     if (contentType && contentType === "multipart/form-data") {
         headers = new Headers({
             Accept: "application/json, text/plain, */*",
+            "Nav-Call-Id": generateCallId(),
         });
     }
 
@@ -119,6 +122,13 @@ export const getHeaders = (contentType?: string) => {
     }
     return headers;
 };
+
+function generateCallId(): string {
+    let randomNr = uuid.v4();
+    let systemTime = Date.now();
+
+    return `CallId_${systemTime}_${randomNr}`;
+}
 
 export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
@@ -148,7 +158,11 @@ export const serverRequest = (
                 const jsonResponse = toJson(response);
                 resolve(jsonResponse);
             })
-            .catch((reason: any) => reject(reason));
+            .catch((reason: any) => {
+                // @ts-ignore
+                reason.navCallId = OPTIONS.headers.get("Nav-Call-Id");
+                reject(reason);
+            });
     });
 };
 
