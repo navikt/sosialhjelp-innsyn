@@ -21,6 +21,7 @@ import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 import {Panel} from "nav-frontend-paneler";
 import {Systemtittel} from "nav-frontend-typografi";
+import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 
 interface Props {
     match: {
@@ -82,7 +83,19 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             />
 
             <DriftsmeldingAlertstripe />
-            <ForelopigSvarAlertstripe />
+
+            {kommuneResponse != null && !kommuneResponse.erInnsynDeaktivert && (
+                <SoknadMedInnsynHotjarTrigger>
+                    <ForelopigSvarAlertstripe />
+                </SoknadMedInnsynHotjarTrigger>
+            )}
+
+            {kommuneResponse == null ||
+                (kommuneResponse.erInnsynDeaktivert && (
+                    <SoknadUtenInnsynHotjarTrigger>
+                        <ForelopigSvarAlertstripe />
+                    </SoknadUtenInnsynHotjarTrigger>
+                ))}
 
             <SoknadsStatus
                 status={innsynsdata.soknadsStatus.status}
