@@ -23,8 +23,6 @@ import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtiliti
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    logErrorMessage,
-    logInfoMessage,
     setOppgaveVedleggopplastingFeilet,
     hentOppgaveMedId,
     setOppgaveOpplastingFeilet,
@@ -44,6 +42,7 @@ import {
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
+import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 interface Props {
     oppgave: Oppgave;
