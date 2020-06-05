@@ -172,6 +172,7 @@ export interface KommuneResponse {
     erInnsendingEttersendelseDeaktivert: boolean;
     erInnsendingEttersendelseMidlertidigDeaktivert: boolean;
     tidspunkt: Date | null;
+    kommunenummer: String | null;
 }
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
@@ -180,6 +181,7 @@ const initiellKommuneResponse_antarAltOk: KommuneResponse = {
     erInnsendingEttersendelseDeaktivert: false,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
     tidspunkt: null,
+    kommunenummer: null,
 };
 
 export interface InnsynsdataType {

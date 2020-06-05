@@ -21,18 +21,26 @@ HotjarTrigger.propTypes = {
     children: node.isRequired,
 };
 
-export const LandingssideMedSakerFraInnsynHotjarTrigger = ({children}) => (
-    <HotjarTrigger hotjarTrigger="landingsside_med_saker_fra_innsyn">{children}</HotjarTrigger>
+export const SoknadMedInnsynHotjarTrigger = ({children}) => (
+    <HotjarTrigger hotjarTrigger="digisos_soknad_med_innsyn">{children}</HotjarTrigger>
 );
 
-LandingssideMedSakerFraInnsynHotjarTrigger.propTypes = {
+SoknadMedInnsynHotjarTrigger.propTypes = {
     children: node,
 };
 
-export const LandingssideUtenSakerFraInnsynHotjarTrigger = ({children}) => (
-    <HotjarTrigger hotjarTrigger="landingsside_uten_saker_fra_innsyn">{children}</HotjarTrigger>
+export const SoknadFraBergenHotjarTrigger = ({children}) => (
+    <HotjarTrigger hotjarTrigger="digisos_soknad_fra_bergen">{children}</HotjarTrigger>
 );
 
-LandingssideUtenSakerFraInnsynHotjarTrigger.propTypes = {
+SoknadFraBergenHotjarTrigger.propTypes = {
+    children: node,
+};
+
+export const SoknadUtenInnsynHotjarTrigger = ({children}) => (
+    <HotjarTrigger hotjarTrigger="digisos_soknad_uten_innsyn">{children}</HotjarTrigger>
+);
+
+SoknadUtenInnsynHotjarTrigger.propTypes = {
     children: node,
 };

@@ -11,10 +11,6 @@ import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
-import {
-    LandingssideMedSakerFraInnsynHotjarTrigger,
-    LandingssideUtenSakerFraInnsynHotjarTrigger,
-} from "../components/hotjarTrigger/HotjarTrigger";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 
 const Saksoversikt: React.FC = () => {
@@ -51,7 +47,6 @@ const Saksoversikt: React.FC = () => {
         }
     }
     const harSaker = alleSaker.length > 0;
-    const harSakerMedStatusFraInnsyn = saker.length > 0 && saker.some((sakstype) => sakstype.status !== "");
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER));
@@ -78,16 +73,7 @@ const Saksoversikt: React.FC = () => {
                                 mangler i listen under, ber vi deg vennligst prøve igjen senere.
                             </AlertStripeAdvarsel>
                         )}
-                        {harSaker && harSakerMedStatusFraInnsyn && (
-                            <LandingssideMedSakerFraInnsynHotjarTrigger>
-                                <SaksoversiktDineSaker saker={alleSaker} />
-                            </LandingssideMedSakerFraInnsynHotjarTrigger>
-                        )}
-                        {harSaker && !harSakerMedStatusFraInnsyn && (
-                            <LandingssideUtenSakerFraInnsynHotjarTrigger>
-                                <SaksoversiktDineSaker saker={alleSaker} />
-                            </LandingssideUtenSakerFraInnsynHotjarTrigger>
-                        )}
+                        {harSaker && <SaksoversiktDineSaker saker={alleSaker} />}
                         {!harSaker && <SaksoversiktIngenSoknader />}
                     </>
                 )}
