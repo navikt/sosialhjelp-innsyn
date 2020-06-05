@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {fetchToJson, REST_STATUS} from "../../utils/restUtils";
 import {ServiceHookTypes} from "../../utils/ServiceHookTypes";
-import {logErrorMessage} from "../../redux/innsynsdata/innsynsDataActions";
+import {logErrorMessage} from "../../redux/innsynsdata/loggActions";
 
 export interface UtbetalingType {
     tittel: string;

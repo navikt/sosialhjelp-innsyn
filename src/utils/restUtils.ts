@@ -1,6 +1,6 @@
 import "whatwg-fetch";
-import {logErrorMessage} from "../redux/innsynsdata/innsynsDataActions";
 import uuid from "uuid";
+import {logErrorMessage} from "../redux/innsynsdata/loggActions";
 
 export function erDev(): boolean {
     const url = window.location.href;

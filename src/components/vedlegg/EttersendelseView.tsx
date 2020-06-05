@@ -17,7 +17,6 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    logErrorMessage,
     setOppgaveOpplastingFeiletPaBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, REST_STATUS} from "../../utils/restUtils";
@@ -30,6 +29,7 @@ import {
 import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
+import {logErrorMessage} from "../../redux/innsynsdata/loggActions";
 
 function harFilermedFeil(filer: Fil[]) {
     return filer.find((it) => {

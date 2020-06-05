@@ -1,5 +1,5 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
-import {logInfoMessage} from "../redux/innsynsdata/innsynsDataActions";
+import {logInfoMessage} from "../redux/innsynsdata/loggActions";
 
 export const maxMengdeStorrelse = 150 * 1024 * 1024;
 export const maxFilStorrelse = 10 * 1024 * 1024;
