@@ -47,7 +47,6 @@ const Saksoversikt: React.FC = () => {
         }
     }
     const harSaker = alleSaker.length > 0;
-    const harSakerMedStatusFraInnsyn = saker.length > 0 && saker.some((sakstype) => sakstype.status !== "");
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER));

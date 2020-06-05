@@ -22,23 +22,23 @@ HotjarTrigger.propTypes = {
 };
 
 export const SoknadMedInnsynHotjarTrigger = ({children}) => (
-    <HotjarTrigger hotjarTrigger="soknad_med_innsyn">{children}</HotjarTrigger>
+    <HotjarTrigger hotjarTrigger="digisos_soknad_med_innsyn">{children}</HotjarTrigger>
 );
 
 SoknadMedInnsynHotjarTrigger.propTypes = {
     children: node,
 };
 
-export const SoknadMedInnsynFraBergenHotjarTrigger = ({children}) => (
-    <HotjarTrigger hotjarTrigger="soknad_med_innsyn_fra_bergen">{children}</HotjarTrigger>
+export const SoknadFraBergenHotjarTrigger = ({children}) => (
+    <HotjarTrigger hotjarTrigger="digisos_soknad_fra_bergen">{children}</HotjarTrigger>
 );
 
-SoknadMedInnsynFraBergenHotjarTrigger.propTypes = {
+SoknadFraBergenHotjarTrigger.propTypes = {
     children: node,
 };
 
 export const SoknadUtenInnsynHotjarTrigger = ({children}) => (
-    <HotjarTrigger hotjarTrigger="soknad_uten_innsyn">{children}</HotjarTrigger>
+    <HotjarTrigger hotjarTrigger="digisos_soknad_uten_innsyn">{children}</HotjarTrigger>
 );
 
 SoknadUtenInnsynHotjarTrigger.propTypes = {
