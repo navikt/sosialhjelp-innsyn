@@ -11,11 +11,11 @@ const DokumentElla: React.FC = () => {
         >
             <defs>
                 <path
-                    id="a"
+                    id="document-ella-a"
                     d="M24.453 0c13.454.021 24.342 12.09 24.318 26.96-.02 12.51.025 27.427-23.321 27.844-.174.006-.36.006-.54.01-.184.002-.357.01-.544.01-.243-.001-.424-.01-.615-.012-.171-.005-.35-.005-.516-.011C-.11 54.312-.018 39.396.001 26.883.073 12.016 11-.02 24.453 0z"
                 />
                 <path
-                    id="c"
+                    id="document-ella-c"
                     d="M34.937.412C40.343 2.304 51 10.385 51 17.825v22.349H0V17.825C0 10.28 10.772 2.075 16.06.335c.186 4.575 7.575 17.926 9.44 17.926 1.855 0 9.173-13.205 9.437-17.85z"
                 />
             </defs>
@@ -30,11 +30,11 @@ const DokumentElla: React.FC = () => {
                     d="M10 45h34v-3H10zM10 52h34v-3H10zM10 59h34v-3H10zM10 66h34v-3H10zM10 73h34v-3H10zM10 38h34v-3H10z"
                 />
                 <g transform="translate(37.53 -.073)">
-                    <mask id="b" fill="#fff">
-                        <use xlinkHref="#a" />
+                    <mask id="document-ella-b" fill="#fff">
+                        <use xlinkHref="#document-ella-a" />
                     </mask>
-                    <use fill="#F5B773" xlinkHref="#a" />
-                    <g fill="#3E3832" mask="url(#b)">
+                    <use fill="#F5B773" xlinkHref="#document-ella-a" />
+                    <g fill="#3E3832" mask="url(#document-ella-b)">
                         <path d="M-9.412-11.1h65v73h-65z" />
                     </g>
                 </g>
@@ -43,11 +43,11 @@ const DokumentElla: React.FC = () => {
                     d="M49.688 49.721c.957 1.515 3.646 28.136 11.718 28.136 8.074 0 11.719-27.116 11.719-28.527-12.361-7.007-23.438.391-23.438.391z"
                 />
                 <g transform="translate(36.563 49.055)">
-                    <mask id="d" fill="#fff">
-                        <use xlinkHref="#c" />
+                    <mask id="document-ella-d" fill="#fff">
+                        <use xlinkHref="#document-ella-c" />
                     </mask>
-                    <use fill="#D8A25D" xlinkHref="#c" />
-                    <g mask="url(#d)">
+                    <use fill="#D8A25D" xlinkHref="#document-ella-c" />
+                    <g mask="url(#document-ella-d)">
                         <path fill="#0C5EA8" d="M-34 65.435H85v-91H-34z" />
                     </g>
                 </g>
