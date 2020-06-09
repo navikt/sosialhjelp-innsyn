@@ -11,7 +11,21 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import DokumentSendt from "../ikoner/DokumentSendt";
-import {SaksStatusEnum, SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
+import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
+
+export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
+    switch (saksStatus) {
+        case SaksStatus.UNDER_BEHANDLING:
+            return "saksStatus.under_behandling";
+        case SaksStatus.FERDIGBEHANDLET:
+            return "saksStatus.ferdig_behandlet";
+        case SaksStatus.BEHANDLES_IKKE:
+        case SaksStatus.IKKE_INNSYN:
+            return "saksStatus.kan_ikke_vise_status";
+        default:
+            return "";
+    }
+};
 
 interface Props {
     status: string | null | SoknadsStatusEnum;
@@ -35,6 +49,19 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                 {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
             </div>
 
+            {status === SoknadsStatusEnum.BEHANDLES_IKKE && (
+                <div className="status_detalj_panel status_detalj_panel_luft_under">
+                    <Element>
+                        <FormattedMessage id="saker.default_tittel" />
+                    </Element>
+                    <div className="panel-glippe-over">
+                        <Normaltekst>
+                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                        </Normaltekst>
+                    </div>
+                </div>
+            )}
+
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
                 <div className="status_detalj_panel status_detalj_panel_luft_under">
                     <Element>
@@ -50,11 +77,9 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
 
             {sak &&
                 sak.map((statusdetalj: SaksStatusState, index: number) => {
-                    let saksStatus = statusdetalj.status.replace(/_/g, " ");
-                    saksStatus = saksStatus === "FERDIGBEHANDLET" ? "FERDIG BEHANDLET" : saksStatus;
-                    const kanVises: boolean = statusdetalj.status !== SaksStatus.IKKE_INNSYN;
-                    const sakIkkeInnsyn = saksStatus === SaksStatusEnum.IKKE_INNSYN;
-                    const sakBehandlesIkke = saksStatus === SaksStatusEnum.BEHANDLES_IKKE;
+                    const saksStatus = statusdetalj.status;
+                    const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;
+                    const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
                     const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
                     return (
                         <div className="status_detalj_panel" key={index}>
@@ -62,25 +87,18 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                                 <div className="status_detalj_panel__tittel">
                                     <Element>{statusdetalj.tittel}</Element>
                                 </div>
-                                {kanVises && !sakIkkeInnsyn && !sakBehandlesIkke && !soknadBehandlesIkke && (
-                                    <div className="status_detalj_panel__status">
-                                        <EtikettLiten>{saksStatus}</EtikettLiten>
-                                    </div>
-                                )}
+                                <div className="status_detalj_panel__status">
+                                    <EtikettLiten>
+                                        <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
+                                    </EtikettLiten>
+                                </div>
                             </div>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (
                                 <div className="panel-glippe-over">
                                     <Normaltekst>{statusdetalj.melding}</Normaltekst>
                                 </div>
                             )}
-                            {sakIkkeInnsyn && soknadBehandlesIkke && (
-                                <div className="panel-glippe-over">
-                                    <Normaltekst>
-                                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                                    </Normaltekst>
-                                </div>
-                            )}
-                            {(sakBehandlesIkke || soknadBehandlesIkke) && !sakIkkeInnsyn && (
+                            {sakBehandlesIkke && !soknadBehandlesIkke && (
                                 <div className="panel-glippe-over">
                                     <Normaltekst>
                                         <FormattedMessage id="status.sak_behandles_ikke_ingress" />

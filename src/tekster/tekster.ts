@@ -15,6 +15,10 @@ export const tekster = {
         "status.ikke_innsyn_ingress":
             "Saken din vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
 
+        "saksStatus.under_behandling": "Under behandling",
+        "saksStatus.ferdig_behandlet": "Ferdig behandlet",
+        "saksStatus.kan_ikke_vise_status": "Kan ikke vise status",
+
         "tidspunkt.klokken": "klokken",
         "saker.oppgave": "Du har oppgaver",
         "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
