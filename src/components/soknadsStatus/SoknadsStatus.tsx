@@ -12,6 +12,7 @@ import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
+import {AlertStripeInfo} from "nav-frontend-alertstriper";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -50,15 +51,10 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
             </div>
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && (
-                <div className="status_detalj_panel status_detalj_panel_luft_under">
-                    <Element>
-                        <FormattedMessage id="saker.default_tittel" />
-                    </Element>
-                    <div className="panel-glippe-over">
-                        <Normaltekst>
-                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                        </Normaltekst>
-                    </div>
+                <div className="status_detalj_panel_luft_under">
+                    <AlertStripeInfo>
+                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                    </AlertStripeInfo>
                 </div>
             )}
 
