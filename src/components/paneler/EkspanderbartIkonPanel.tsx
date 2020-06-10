@@ -32,7 +32,7 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, chi
 
     return (
         <Panel className={"panel-glippe-over vilkar_panel"}>
-            <EkspanderbartpanelBase apen={defaultAapen} heading={heading} className={"react-collapse-animation"}>
+            <EkspanderbartpanelBase heading={heading} className={"react-collapse-animation"} apen={defaultAapen}>
                 <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>{children}</Panel>
             </EkspanderbartpanelBase>
         </Panel>

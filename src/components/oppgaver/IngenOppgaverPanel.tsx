@@ -22,7 +22,7 @@ const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
 
     if (skalViseIngenOppgaverPanel && !props.leserData) {
         return (
-            <Panel className={"panel-glippe-over oppgaver_panel "}>
+            <Panel className={"panel-glippe-over oppgaver_panel ingen_oppgaver_panel"}>
                 <div>
                     <span style={{float: "left", marginTop: "6px"}}>
                         <TodoList />
