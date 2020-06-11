@@ -1,5 +1,5 @@
 import React from "react";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";

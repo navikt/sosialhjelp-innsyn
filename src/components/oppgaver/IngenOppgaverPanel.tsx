@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Oppgave, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseIngenOppgaverPanel} from "./oppgaverUtilities";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 
 interface Props {
     leserData: boolean | undefined;

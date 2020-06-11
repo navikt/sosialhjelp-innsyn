@@ -1,6 +1,6 @@
 import React from "react";
-import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
-import {Panel} from "nav-frontend-paneler";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import Panel from "nav-frontend-paneler";
 import DocumentChecklist from "../ikoner/DocumentChecklist";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import DokumentBinder from "../ikoner/DocumentBinder";
@@ -32,9 +32,14 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, chi
 
     return (
         <Panel className={"panel-glippe-over vilkar_panel"}>
-            <EkspanderbartpanelBase apen={defaultAapen} heading={heading} className={"react-collapse-animation"}>
+            <Ekspanderbartpanel
+                apen={defaultAapen}
+                tittel={heading}
+                border={false}
+                className={"react-collapse-animation"}
+            >
                 <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>{children}</Panel>
-            </EkspanderbartpanelBase>
+            </Ekspanderbartpanel>
         </Panel>
     );
 };

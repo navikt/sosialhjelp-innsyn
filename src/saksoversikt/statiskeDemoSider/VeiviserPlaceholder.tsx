@@ -1,6 +1,6 @@
 import React from "react";
 import AppBanner from "../../components/appBanner/AppBanner";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
 import Brodsmulesti from "../../components/brodsmuleSti/BrodsmuleSti";

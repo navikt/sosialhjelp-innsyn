@@ -1,9 +1,9 @@
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
-import {EkspanderbartpanelBase} from "nav-frontend-ekspanderbartpanel";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
 import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -84,9 +84,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                         (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
                     }
                 >
-                    <EkspanderbartpanelBase
+                    <Ekspanderbartpanel
                         apen={false}
-                        heading={
+                        border={false}
+                        tittel={
                             <div className="oppgaver_header">
                                 <DokumentBinder />
                                 <div>
@@ -150,7 +151,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                                     />
                                 ))}
                         </div>
-                    </EkspanderbartpanelBase>
+                    </Ekspanderbartpanel>
                 </Panel>
             )}
         </>
