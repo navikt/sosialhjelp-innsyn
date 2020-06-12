@@ -1,7 +1,7 @@
 import React, {ReactNode, useState} from "react";
 import Lenke from "nav-frontend-lenker";
 import "./mainNav.less";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 
 interface Arkfane {
     tittel: string;

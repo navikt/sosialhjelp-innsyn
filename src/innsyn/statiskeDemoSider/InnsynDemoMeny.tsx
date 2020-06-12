@@ -1,5 +1,5 @@
 import React from "react";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
 import {getAbsoluteBasename} from "../../configureStore";
 import {getApiBaseUrlForSwagger} from "../../utils/restUtils";

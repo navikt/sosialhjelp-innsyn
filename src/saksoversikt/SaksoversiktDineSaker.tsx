@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";

@@ -19,7 +19,7 @@ import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar"
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
-import {Panel} from "nav-frontend-paneler";
+import Panel from "nav-frontend-paneler";
 import {Systemtittel} from "nav-frontend-typografi";
 import {
     SoknadFraBergenHotjarTrigger,
