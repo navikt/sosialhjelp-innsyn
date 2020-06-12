@@ -58,7 +58,7 @@
     "react-collapse": "^5.0.0",
     "react-collapsible": "^2.6.2",
     "react-dom": "^16.12.0",
-    "react-intl": "^3.9.2",
+    "react-intl": "^4.6.9",
     "react-modal": "^3.11.2",
     "react-motion": "^0.5.2",
     "react-paginate": "^6.3.2",
