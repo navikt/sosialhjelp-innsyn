@@ -152,10 +152,6 @@ export interface UrlResponse {
     link: string;
 }
 
-export interface VedleggsOpplastingFeilActionType {
-    status: boolean;
-}
-
 export interface VedtakFattet {
     dato: string;
     vedtaksfilUrl: null | string;
@@ -249,10 +245,10 @@ export interface Vedleggfeil {
     filnavn: string;
 }
 
-const InnsynsdataReducer: Reducer<
-    InnsynsdataType,
-    InnsynsdataActionType & VedleggActionType & VedleggsOpplastingFeilActionType
-> = (state = initialState, action) => {
+const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & VedleggActionType> = (
+    state = initialState,
+    action
+) => {
     switch (action.type) {
         case InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID:
             return {
