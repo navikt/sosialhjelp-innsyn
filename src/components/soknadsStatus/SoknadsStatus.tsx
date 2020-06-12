@@ -51,7 +51,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
             </div>
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && (
-                <div className="status_detalj_panel_luft_under">
+                <div className="status_detalj_panel_info">
                     <AlertStripeInfo>
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </AlertStripeInfo>
