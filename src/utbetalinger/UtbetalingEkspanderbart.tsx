@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import {Normaltekst} from "nav-frontend-typografi";
-import EkspanderLink from "./EkspanderLink";
-import Collapsible from "react-collapsible";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 
 interface Props {
     tittel: string;
@@ -9,19 +8,18 @@ interface Props {
     defaultOpen?: boolean;
 }
 const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen}) => {
-    const [open, setOpen] = useState(defaultOpen ? defaultOpen : false);
-
     return (
-        <>
-            <div className="utbetaling_header">
-                <Normaltekst>{tittel}</Normaltekst>
-                <EkspanderLink open={open} setOpen={setOpen} />
-            </div>
-
-            <Collapsible trigger="" open={open} easing="ease-in-out">
-                {children}
-            </Collapsible>
-        </>
+        <Ekspanderbartpanel
+            apen={defaultOpen}
+            border={false}
+            tittel={
+                <div className="utbetaling_header">
+                    <Normaltekst>{tittel}</Normaltekst>
+                </div>
+            }
+        >
+            {children}
+        </Ekspanderbartpanel>
     );
 };
 
