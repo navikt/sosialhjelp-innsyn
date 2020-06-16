@@ -50,24 +50,19 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
                 {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
             </div>
 
-            {status === SoknadsStatusEnum.BEHANDLES_IKKE && (
-                <div className="status_detalj_panel_info_alert">
+            {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
+                <div className="status_detalj_panel_info_alert_luft_under">
                     <AlertStripeInfo>
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </AlertStripeInfo>
                 </div>
             )}
 
-            {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
-                <div className="status_detalj_panel status_detalj_panel_luft_under">
-                    <Element>
-                        <FormattedMessage id="saker.default_tittel" />
-                    </Element>
-                    <div className="panel-glippe-over">
-                        <Normaltekst>
-                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                        </Normaltekst>
-                    </div>
+            {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
+                <div className="status_detalj_panel_info_alert">
+                    <AlertStripeInfo>
+                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                    </AlertStripeInfo>
                 </div>
             )}
 
