@@ -67,13 +67,16 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.4.0",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "snyk": "^1.346.0"
   },
   "scripts": {
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -120,5 +123,6 @@
   },
   "lint-staged": {
     "*.{ts,tsx,less,css,md}": "prettier --write"
-  }
+  },
+  "snyk": true
 }
