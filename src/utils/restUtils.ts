@@ -4,7 +4,7 @@ import {logErrorMessage} from "../redux/innsynsdata/loggActions";
 
 export function erDev(): boolean {
     const url = window.location.href;
-    return url.indexOf("localhost:3000") > 0;
+    return url.indexOf("localhost:") > 0;
 }
 
 export function erQ(): boolean {

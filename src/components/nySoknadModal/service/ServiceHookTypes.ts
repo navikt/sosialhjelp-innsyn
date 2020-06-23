@@ -22,5 +22,5 @@ export type ServiceHookTypes<T> = ServiceInit | ServiceLoading | ServiceLoaded<T
 
 export const erDevMiljo = (): boolean => {
     const url = window.location.href;
-    return url.indexOf("localhost:3000") > 0;
+    return url.indexOf("localhost:") > 0;
 };

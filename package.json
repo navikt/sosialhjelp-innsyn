@@ -70,7 +70,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "node start.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
