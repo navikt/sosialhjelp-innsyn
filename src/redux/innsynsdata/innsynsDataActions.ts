@@ -29,7 +29,9 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
                 } else {
                     logErrorMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseFeilside(true));
+                    if (visFeilSide !== false) {
+                        dispatch(skalViseFeilside(true));
+                    }
                 }
             });
     };

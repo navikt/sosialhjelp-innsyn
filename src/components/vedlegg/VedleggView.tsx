@@ -12,13 +12,14 @@ import "../lastestriper/lastestriper.less";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
 import {getVisningstekster} from "../oppgaver/OppgaveView";
+import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
 
 interface Props {
     vedlegg: Vedlegg[];
-    leserData: boolean;
+    restStatus: REST_STATUS;
     className?: string;
 }
 
@@ -77,7 +78,7 @@ const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: Kolonne, descending: boolean
     }
 };
 
-const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
+const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
     const [sortBy, setSortBy] = useState<Kolonne>(Kolonne.DATO);
     const [descending, setDescending] = useState({
         filnavn: true,
@@ -156,7 +157,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
 
     return (
         <>
-            <EttersendelseView />
+            <EttersendelseView restStatus={restStatus} />
             <div className="vedleggliste">
                 <div className="sortering_listeboks">
                     <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
@@ -221,7 +222,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, leserData, className}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {leserData && leserData === true && <LastestripeRad />}
+                        {skalViseLastestripe(restStatus) && <LastestripeRad />}
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
                                 <tr key={index}>

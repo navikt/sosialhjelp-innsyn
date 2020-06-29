@@ -58,6 +58,14 @@ const Saksoversikt: React.FC = () => {
         <div className="informasjon-side">
             <BigBanner tittel="Økonomisk sosialhjelp" />
 
+            {(!leserData || !mustLogin) && (fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) && (
+                <AlertStripeAdvarsel>
+                    Vi klarte ikke å hente inn all informasjonen på siden.
+                    <br />
+                    Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                </AlertStripeAdvarsel>
+            )}
+
             <div className="blokk-center">
                 {(leserData || mustLogin) && (
                     <div className="application-spinner">
@@ -67,12 +75,6 @@ const Saksoversikt: React.FC = () => {
 
                 {!leserData && !mustLogin && (
                     <>
-                        {(fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) && (
-                            <AlertStripeAdvarsel className="luft_over_2rem">
-                                Vi har for tiden problemer med å hente alle dine søknader. Hvis søknaden du kom for
-                                mangler i listen under, ber vi deg vennligst prøve igjen senere.
-                            </AlertStripeAdvarsel>
-                        )}
                         {harSaker && <SaksoversiktDineSaker saker={alleSaker} />}
                         {!harSaker && <SaksoversiktIngenSoknader />}
                     </>

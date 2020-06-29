@@ -1,18 +1,19 @@
 import React from "react";
 import Panel from "nav-frontend-paneler";
 import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
-import DokumentMottatt from "../ikoner/DokumentMottatt";
-import DokumentElla from "../ikoner/DocumentElla";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import DokumentOk from "../ikoner/DokumentOk";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import DokumentSendt from "../ikoner/DokumentSendt";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {AlertStripeInfo} from "nav-frontend-alertstriper";
+import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import DokumentSendt from "../ikoner/DokumentSendt";
+import DokumentOk from "../ikoner/DokumentOk";
+import DokumentMottatt from "../ikoner/DokumentMottatt";
+import DokumentElla from "../ikoner/DocumentElla";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -31,23 +32,27 @@ export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
 interface Props {
     status: string | null | SoknadsStatusEnum;
     sak: null | SaksStatusState[];
-    leserData: boolean;
+    restStatus: REST_STATUS;
 }
 
-const SoknadsStatus: React.FC<Props> = ({status, sak, leserData}) => {
+const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     const antallSaksElementer: number = sak ? sak.length : 0;
     const intl: IntlShape = useIntl();
 
     return (
         <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
             <div className="tittel_og_ikon">
-                {leserData && <Lastestriper linjer={1} />}
-                <Innholdstittel>{soknadsStatusTittel(status, intl)}</Innholdstittel>
-                {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}
-                {status === SoknadsStatusEnum.MOTTATT && <DokumentMottatt />}
-                {status === SoknadsStatusEnum.UNDER_BEHANDLING && <DokumentElla />}
-                {status === SoknadsStatusEnum.FERDIGBEHANDLET && <DokumentOk />}
-                {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
+                {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
+                {restStatus !== REST_STATUS.FEILET && (
+                    <>
+                        <Innholdstittel>{soknadsStatusTittel(status, intl)}</Innholdstittel>
+                        {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}
+                        {status === SoknadsStatusEnum.MOTTATT && <DokumentMottatt />}
+                        {status === SoknadsStatusEnum.UNDER_BEHANDLING && <DokumentElla />}
+                        {status === SoknadsStatusEnum.FERDIGBEHANDLET && <DokumentOk />}
+                        {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
+                    </>
+                )}
             </div>
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (

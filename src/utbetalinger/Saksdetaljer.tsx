@@ -27,7 +27,8 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
                     url={sak.url}
                     kilde={sak.kilde}
                     antallNyeOppgaver={sak.antallNyeOppgaver}
-                    harBlittLastetInn={sak.restStatus === REST_STATUS.OK}
+                    harBlittLastetInn={sak.restStatus !== REST_STATUS.PENDING}
+                    harLastetInnFeilet={sak.restStatus === REST_STATUS.FEILET}
                 />
             )}
         </div>

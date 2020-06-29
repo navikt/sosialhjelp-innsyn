@@ -27,6 +27,7 @@ import {
     SoknadUtenInnsynHotjarTrigger,
 } from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneBergen, isKommuneMedInnsynUtenBergen, isKommuneUtenInnsynUtenBergen} from "./saksStatusUtils";
+import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 
 interface Props {
     match: {
@@ -51,11 +52,11 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
             fiksDigisosId: fiksDigisosId,
         });
-        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
-        if (innsynsdata.restStatus.saksStatus === REST_STATUS.OK) {
+        if (innsynsdata.restStatus.saksStatus !== REST_STATUS.PENDING) {
             [
                 InnsynsdataSti.OPPGAVER,
                 InnsynsdataSti.SOKNADS_STATUS,
@@ -63,7 +64,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 InnsynsdataSti.VEDLEGG,
                 InnsynsdataSti.FORELOPIG_SVAR,
                 InnsynsdataSti.KOMMUNE,
-            ].map((restDataSti: InnsynsdataSti) => dispatch(hentInnsynsdata(fiksDigisosId, restDataSti)));
+            ].map((restDataSti: InnsynsdataSti) => dispatch(hentInnsynsdata(fiksDigisosId, restDataSti, false)));
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
@@ -71,11 +72,23 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
+    console.log("reststatus", restStatus);
+    console.log("leserdata", leserData);
+
+    const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
+
     const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
     document.title = statusTittel;
 
     return (
         <>
+            {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
+                <AlertStripeAdvarsel>
+                    Vi klarte ikke å hente inn all informasjonen på siden.
+                    <br />
+                    Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                </AlertStripeAdvarsel>
+            )}
             <Brodsmulesti
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
@@ -110,10 +123,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             <SoknadsStatus
                 status={innsynsdata.soknadsStatus.status}
                 sak={innsynsdata.saksStatus}
-                leserData={leserData(restStatus.saksStatus)}
+                restStatus={restStatus.soknadsStatus}
             />
 
-            <Oppgaver oppgaver={innsynsdata.oppgaver} leserData={leserData(restStatus.oppgaver)} />
+            <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
 
             {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                 <>
@@ -123,7 +136,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         </Systemtittel>
                     </Panel>
                     <Panel className="panel-glippe-over">
-                        <VedleggView vedlegg={innsynsdata.vedlegg} leserData={leserData(restStatus.saksStatus)} />
+                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
                     </Panel>
                 </>
             )}
@@ -133,21 +146,11 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     arkfaner={[
                         {
                             tittel: intl.formatMessage({id: "historikk.tittel"}),
-                            content: (
-                                <Historikk
-                                    hendelser={innsynsdata.hendelser}
-                                    leserData={leserData(restStatus.hendelser)}
-                                />
-                            ),
+                            content: <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />,
                         },
                         {
                             tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                            content: (
-                                <VedleggView
-                                    vedlegg={innsynsdata.vedlegg}
-                                    leserData={leserData(restStatus.saksStatus)}
-                                />
-                            ),
+                            content: <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />,
                         },
                     ]}
                     defaultArkfane={0}

@@ -21,6 +21,7 @@ interface Props {
     kilde: string;
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
+    harLastetInnFeilet?: boolean;
 }
 
 const SakPanel: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const SakPanel: React.FC<Props> = ({
     kilde,
     antallNyeOppgaver,
     harBlittLastetInn,
+    harLastetInnFeilet,
 }) => {
     const dispatch = useDispatch();
 
@@ -55,6 +57,10 @@ const SakPanel: React.FC<Props> = ({
         }
     };
 
+    console.log("tittel", tittel);
+    console.log("status", status);
+    console.log("feilet", harLastetInnFeilet);
+
     let underLasting = !harBlittLastetInn;
     let requestId = fiksDigisosId;
     if (fiksDigisosId === null) {
@@ -64,7 +70,7 @@ const SakPanel: React.FC<Props> = ({
 
     useEffect(() => {
         if (kilde === "innsyn-api") {
-            dispatch(hentSaksdetaljer(requestId));
+            dispatch(hentSaksdetaljer(requestId, false));
         }
     }, [dispatch, requestId, kilde]);
 

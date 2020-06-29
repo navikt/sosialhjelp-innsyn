@@ -6,12 +6,13 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
+import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
 interface Props {
     hendelser: null | Hendelse[];
-    leserData: boolean;
+    restStatus: REST_STATUS;
 }
 
 function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
@@ -85,13 +86,13 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     );
 };
 
-const Historikk: React.FC<Props> = ({hendelser, leserData}) => {
+const Historikk: React.FC<Props> = ({hendelser, restStatus}) => {
     if (hendelser === null) {
         return null;
     }
     const sorterteHendelser = sorterHendelserKronologisk(hendelser);
     if (sorterteHendelser.length < MAX_ANTALL_KORT_LISTE + 1) {
-        return <KortHistorikk hendelser={sorterteHendelser} leserData={leserData} />;
+        return <KortHistorikk hendelser={sorterteHendelser} leserData={skalViseLastestripe(restStatus)} />;
     }
     if (sorterteHendelser.length > MAX_ANTALL_KORT_LISTE) {
         return <LangHistorikk hendelser={sorterteHendelser} />;
