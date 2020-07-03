@@ -57,16 +57,15 @@ const Saksoversikt: React.FC = () => {
     return (
         <div className="informasjon-side">
             <BigBanner tittel="Økonomisk sosialhjelp" />
-
-            {(!leserData || !mustLogin) && (fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) && (
-                <AlertStripeAdvarsel>
-                    Vi klarte ikke å hente inn all informasjonen på siden.
-                    <br />
-                    Du kan forsøke å oppdatere siden, eller prøve igjen senere.
-                </AlertStripeAdvarsel>
-            )}
-
             <div className="blokk-center">
+                {(!leserData || !mustLogin) && (fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) && (
+                    <AlertStripeAdvarsel className="luft_over_16px">
+                        Vi klarte ikke å hente inn all informasjonen på siden.
+                        <br />
+                        Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                    </AlertStripeAdvarsel>
+                )}
+
                 {(leserData || mustLogin) && (
                     <div className="application-spinner">
                         <NavFrontendSpinner type="XL" />

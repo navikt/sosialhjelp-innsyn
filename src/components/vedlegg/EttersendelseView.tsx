@@ -181,13 +181,13 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
     return (
         <div>
-            {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
-
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
 
-            {!skalViseLastestripe(restStatus) && (
+            {skalViseLastestripe(restStatus) ? (
+                <Lastestriper linjer={1} />
+            ) : (
                 <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
                     <div
                         className={

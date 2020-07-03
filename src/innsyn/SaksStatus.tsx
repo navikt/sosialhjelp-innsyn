@@ -72,18 +72,14 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
-    console.log("reststatus", restStatus);
-    console.log("leserdata", leserData);
-
     const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
-
     const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
     document.title = statusTittel;
 
     return (
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
-                <AlertStripeAdvarsel>
+                <AlertStripeAdvarsel className="luft_over_16px">
                     Vi klarte ikke å hente inn all informasjonen på siden.
                     <br />
                     Du kan forsøke å oppdatere siden, eller prøve igjen senere.

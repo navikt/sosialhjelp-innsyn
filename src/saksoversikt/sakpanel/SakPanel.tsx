@@ -21,7 +21,6 @@ interface Props {
     kilde: string;
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
-    harLastetInnFeilet?: boolean;
 }
 
 const SakPanel: React.FC<Props> = ({
@@ -33,7 +32,6 @@ const SakPanel: React.FC<Props> = ({
     kilde,
     antallNyeOppgaver,
     harBlittLastetInn,
-    harLastetInnFeilet,
 }) => {
     const dispatch = useDispatch();
 
@@ -56,10 +54,6 @@ const SakPanel: React.FC<Props> = ({
             // do nothing?
         }
     };
-
-    console.log("tittel", tittel);
-    console.log("status", status);
-    console.log("feilet", harLastetInnFeilet);
 
     let underLasting = !harBlittLastetInn;
     let requestId = fiksDigisosId;

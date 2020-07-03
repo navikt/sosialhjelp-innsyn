@@ -120,7 +120,6 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         kilde={sak.kilde}
                         antallNyeOppgaver={sak.antallNyeOppgaver}
                         harBlittLastetInn={sak.harBlittLastetInn}
-                        harLastetInnFeilet={sak.restStatus === REST_STATUS.FEILET}
                     />
                 );
             })}

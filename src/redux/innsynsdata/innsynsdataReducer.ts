@@ -47,7 +47,6 @@ export interface Sakstype {
     url: string;
     restStatus: REST_STATUS;
     harBlittLastetInn: boolean;
-    harLastetInnFeilet: boolean;
 }
 
 export interface Vedlegg {
@@ -386,7 +385,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                 antallNyeOppgaver: action.verdi.antallNyeOppgaver,
                                 restStatus: REST_STATUS.OK,
                                 harBlittLastetInn: true,
-                                harLastetInnFeilet: false,
                             };
                         }
                     }
