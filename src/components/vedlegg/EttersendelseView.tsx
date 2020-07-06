@@ -57,7 +57,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
-    //const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const otherVedleggLastesOpp =
