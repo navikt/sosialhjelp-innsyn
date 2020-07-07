@@ -19,7 +19,7 @@ import {
     innsynsdataUrl,
     setOppgaveOpplastingFeiletPaBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
-import {fetchPost, REST_STATUS} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
     opprettFormDataMedVedleggFraFiler,
     FilFeil,
@@ -30,6 +30,7 @@ import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logErrorMessage} from "../../redux/innsynsdata/loggActions";
+import Lastestriper from "../lastestriper/Lasterstriper";
 
 function harFilermedFeil(filer: Fil[]) {
     return filer.find((it) => {
@@ -43,7 +44,11 @@ function harFilermedFeil(filer: Fil[]) {
  */
 const BACKEND_FEIL_ID = "backendFeilId";
 
-const EttersendelseView: React.FC = () => {
+interface Props {
+    restStatus: REST_STATUS;
+}
+
+const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
@@ -52,7 +57,6 @@ const EttersendelseView: React.FC = () => {
     //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const otherVedleggLastesOpp =
@@ -149,8 +153,8 @@ const EttersendelseView: React.FC = () => {
                     if (harFeil) {
                         dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
                     } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG, false));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER, false));
                     }
                 })
                 .catch((e) => {
@@ -179,87 +183,92 @@ const EttersendelseView: React.FC = () => {
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
-            <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
-                <div
-                    className={
-                        "oppgaver_detalj " +
-                        (opplastingFeilet ||
-                        listeMedFilerSomFeiler.length > 0 ||
-                        (!vedleggKlarForOpplasting && sendVedleggTrykket)
-                            ? " oppgaver_detalj_feil"
-                            : "")
-                    }
-                    style={{marginTop: "0px"}}
-                >
-                    <Element>
-                        <FormattedMessage id="andre_vedlegg.type" />
-                    </Element>
-                    <Normaltekst className="luft_over_4px">
-                        <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                    </Normaltekst>
 
-                    {filer &&
-                        filer.length > 0 &&
-                        filer.map((fil: Fil, vedleggIndex: number) => (
-                            <FilView
-                                key={vedleggIndex}
-                                fil={fil}
-                                vedleggIndex={vedleggIndex}
-                                oppgaveElementIndex={0}
-                                oppgaveIndex={0}
-                                setOverMaksStorrelse={setOverMaksStorrelse}
-                            />
-                        ))}
-
-                    {kanLasteOppVedlegg && (
-                        <div className="oppgaver_last_opp_fil">
-                            <UploadFileIcon
-                                className="last_opp_fil_ikon"
-                                onClick={(event: any) => {
-                                    onLinkClicked(event);
-                                }}
-                            />
-                            <Lenke
-                                href="#"
-                                className="lenke_uten_ramme"
-                                onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                    onLinkClicked(event);
-                                }}
-                            >
-                                <Element>
-                                    <FormattedMessage id="vedlegg.velg_fil" />
-                                </Element>
-                            </Lenke>
-                            <input
-                                type="file"
-                                id={"file_andre"}
-                                multiple={true}
-                                onChange={(event: ChangeEvent) => {
-                                    onChange(event);
-                                }}
-                                style={{display: "none"}}
-                            />
-                        </div>
-                    )}
-                    {validerFilArrayForFeil(listeMedFilerSomFeiler) && skrivFeilmelding(listeMedFilerSomFeiler, 0)}
-                </div>
-
-                <Hovedknapp
-                    disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
-                    spinner={vedleggLastesOpp}
-                    type="hoved"
-                    className="luft_over_1rem"
-                    onClick={(event: any) => {
-                        if (!vedleggKlarForOpplasting) {
-                            setSendVedleggTrykket(true);
-                            return;
+            {skalViseLastestripe(restStatus) ? (
+                <Lastestriper linjer={1} />
+            ) : (
+                <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
+                    <div
+                        className={
+                            "oppgaver_detalj " +
+                            (opplastingFeilet ||
+                            listeMedFilerSomFeiler.length > 0 ||
+                            (!vedleggKlarForOpplasting && sendVedleggTrykket)
+                                ? " oppgaver_detalj_feil"
+                                : "")
                         }
-                        sendVedlegg(event);
-                    }}
-                >
-                    <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
-                </Hovedknapp>
-            </div>
+                        style={{marginTop: "0px"}}
+                    >
+                        <Element>
+                            <FormattedMessage id="andre_vedlegg.type" />
+                        </Element>
+                        <Normaltekst className="luft_over_4px">
+                            <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
+                        </Normaltekst>
+
+                        {filer &&
+                            filer.length > 0 &&
+                            filer.map((fil: Fil, vedleggIndex: number) => (
+                                <FilView
+                                    key={vedleggIndex}
+                                    fil={fil}
+                                    vedleggIndex={vedleggIndex}
+                                    oppgaveElementIndex={0}
+                                    oppgaveIndex={0}
+                                    setOverMaksStorrelse={setOverMaksStorrelse}
+                                />
+                            ))}
+
+                        {kanLasteOppVedlegg && (
+                            <div className="oppgaver_last_opp_fil">
+                                <UploadFileIcon
+                                    className="last_opp_fil_ikon"
+                                    onClick={(event: any) => {
+                                        onLinkClicked(event);
+                                    }}
+                                />
+                                <Lenke
+                                    href="#"
+                                    className="lenke_uten_ramme"
+                                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                        onLinkClicked(event);
+                                    }}
+                                >
+                                    <Element>
+                                        <FormattedMessage id="vedlegg.velg_fil" />
+                                    </Element>
+                                </Lenke>
+                                <input
+                                    type="file"
+                                    id={"file_andre"}
+                                    multiple={true}
+                                    onChange={(event: ChangeEvent) => {
+                                        onChange(event);
+                                    }}
+                                    style={{display: "none"}}
+                                />
+                            </div>
+                        )}
+                        {validerFilArrayForFeil(listeMedFilerSomFeiler) && skrivFeilmelding(listeMedFilerSomFeiler, 0)}
+                    </div>
+
+                    <Hovedknapp
+                        disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
+                        spinner={vedleggLastesOpp}
+                        type="hoved"
+                        className="luft_over_1rem"
+                        onClick={(event: any) => {
+                            if (!vedleggKlarForOpplasting) {
+                                setSendVedleggTrykket(true);
+                                return;
+                            }
+                            sendVedlegg(event);
+                        }}
+                    >
+                        <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
+                    </Hovedknapp>
+                </div>
+            )}
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>

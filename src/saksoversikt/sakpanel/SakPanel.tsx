@@ -64,7 +64,7 @@ const SakPanel: React.FC<Props> = ({
 
     useEffect(() => {
         if (kilde === "innsyn-api") {
-            dispatch(hentSaksdetaljer(requestId));
+            dispatch(hentSaksdetaljer(requestId, false));
         }
     }, [dispatch, requestId, kilde]);
 
