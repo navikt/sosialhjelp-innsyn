@@ -236,7 +236,6 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                         <PaperClipSlanted className="ikon_liten_vedlegg" />
                                         <Lenke
                                             href={vedlegg.url}
-                                            className="lenke_vedlegg_filnavn"
                                             target="_blank"
                                             title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
                                         >
@@ -249,7 +248,13 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                     </td>
                                     <td align="right" className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}>
                                         <IconSizedSpacerDesktop />
-                                        <DatoOgKlokkeslett bareDato={true} tidspunkt={vedlegg.datoLagtTil} />
+                                        <div className={"dato_lagt_til"}>
+                                            <DatoOgKlokkeslett
+                                                bareDato={true}
+                                                tidspunkt={vedlegg.datoLagtTil}
+                                                brukKortMaanedNavn={true}
+                                            />
+                                        </div>
                                     </td>
                                 </tr>
                             );
