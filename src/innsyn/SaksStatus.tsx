@@ -43,6 +43,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
+    const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
@@ -122,7 +123,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 restStatus={restStatus.soknadsStatus}
             />
 
-            <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
+            {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
+                <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
+            )}
 
             {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                 <>
