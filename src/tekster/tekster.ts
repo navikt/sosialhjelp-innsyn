@@ -100,6 +100,8 @@ export const tekster = {
             "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
         "vedlegg.opplasting_backend_feilmelding":
             "Vi klarte dessverre ikke å sende vedleggene. Vennligst forsøk igjen senere.",
+        "vedlegg.opplasting_backend_virus_feilmelding":
+            "Opplastingen ble stoppet av antivirus-programmet. Du kan prøve på nytt med en annen fil.",
         "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT":
             "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
         "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
