@@ -121,3 +121,9 @@ export const setOppgaveOpplastingFeiletPaBackend = (oppgaveId: string, status: b
     oppgaveId,
     status,
 });
+
+export const setOppgaveOpplastingFeiletVirussjekkPaBackend = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS,
+    oppgaveId,
+    status,
+});

@@ -98,6 +98,7 @@ export enum InnsynsdataActionTypeKeys {
     OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET",
     OPPGAVE_OPPLASTING_FEILET = "innsynsdata/OPPGAVE_OPPLASTING_FEILET",
     OPPGAVE_OPPLASTING_BACKEND_FEILET = "innsynsdata/OPPGAVE_OPPLASTING_BACKEND_FEILET",
+    OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS = "innsynsdata/OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS",
 }
 
 export enum InnsynsdataSti {
@@ -186,6 +187,7 @@ export interface InnsynsdataType {
     oppgaver: Oppgave[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
+    listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
     oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
@@ -216,6 +218,7 @@ export const initialState: InnsynsdataType = {
     oppgaver: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
+    listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null,
@@ -480,12 +483,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             if (action.status) {
                 return {
                     ...state,
-                    oppgaveIdFeilet: [...state.listeOverOpggaveIderSomFeilet, action.oppgaveId],
+                    listeOverOpggaveIderSomFeilet: [...state.listeOverOpggaveIderSomFeilet, action.oppgaveId],
                 };
             }
             return {
                 ...state,
-                oppgaveIdFeilet: state.listeOverOpggaveIderSomFeilet.filter(
+                listeOverOpggaveIderSomFeilet: state.listeOverOpggaveIderSomFeilet.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };
@@ -493,12 +496,31 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             if (action.status) {
                 return {
                     ...state,
-                    oppgaveIdBackendFeilet: [...state.listeOverOppgaveIderSomFeiletPaBackend, action.oppgaveId],
+                    listeOverOppgaveIderSomFeiletPaBackend: [
+                        ...state.listeOverOppgaveIderSomFeiletPaBackend,
+                        action.oppgaveId,
+                    ],
                 };
             }
             return {
                 ...state,
-                oppgaveIdBackendFeilet: state.listeOverOppgaveIderSomFeiletPaBackend.filter(
+                listeOverOppgaveIderSomFeiletPaBackend: state.listeOverOppgaveIderSomFeiletPaBackend.filter(
+                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                ),
+            };
+        case InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS:
+            if (action.status) {
+                return {
+                    ...state,
+                    listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [
+                        ...state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend,
+                        action.oppgaveId,
+                    ],
+                };
+            }
+            return {
+                ...state,
+                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };

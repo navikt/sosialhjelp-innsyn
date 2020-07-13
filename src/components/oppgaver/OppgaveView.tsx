@@ -27,6 +27,7 @@ import {
     hentOppgaveMedId,
     setOppgaveOpplastingFeilet,
     setOppgaveOpplastingFeiletPaBackend,
+    setOppgaveOpplastingFeiletVirussjekkPaBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
@@ -41,7 +42,7 @@ import {
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {fetchPost, REST_STATUS} from "../../utils/restUtils";
+import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 interface Props {
@@ -289,6 +290,7 @@ const OppgaveElementView = (props: {
                         oppgaveElementIndex={props.oppgaveElementIndex}
                         oppgaveIndex={props.oppgaveIndex}
                         setOverMaksStorrelse={props.setOverMaksStorrelse}
+                        oppgaveId={props.oppgaveId}
                     />
                 ))}
             {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
@@ -343,6 +345,7 @@ const VelgFil = (props: {
         if (files) {
             dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
             dispatch(setOppgaveOpplastingFeiletPaBackend(props.oppgaveId, false));
+            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(props.oppgaveId, false));
 
             const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
@@ -438,6 +441,9 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const listeOverOppgaveIderSomFeiletPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
     );
+    const listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
+    );
 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
@@ -459,6 +465,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const sendVedlegg = (event: any) => {
         dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, false));
+        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgave.oppgaveId, false));
 
         if (!oppgave || !fiksDigisosId) {
             event.preventDefault();
@@ -532,6 +539,13 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     }
                 })
                 .catch((e) => {
+                    // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
+                    fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
+                        if (errorResponse.message === "Mulig virus funnet") {
+                            dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, false));
+                            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgave.oppgaveId, true));
+                        }
+                    });
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, true));
                     logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
@@ -546,7 +560,8 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
-        listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId);
+        listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId) ||
+        listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(oppgave.oppgaveId);
 
     return (
         <div>
@@ -609,6 +624,12 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             {listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                </div>
+            )}
+
+            {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(oppgave.oppgaveId) && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
                 </div>
             )}
 

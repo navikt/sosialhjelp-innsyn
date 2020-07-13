@@ -166,6 +166,25 @@ export const serverRequest = (
     });
 };
 
+export const serverRequestGetErrors = (
+    method: string,
+    urlPath: string,
+    body: string | null | FormData,
+    contentType?: string,
+    isSoknadApi?: boolean
+) => {
+    const OPTIONS: RequestInit = {
+        headers: getHeaders(contentType),
+        method: method,
+        credentials: determineCredentialsParameter(),
+        body: body ? body : undefined,
+    };
+
+    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath;
+
+    return fetch(url, OPTIONS).then(toJson);
+};
+
 export function toJson<T>(response: Response): Promise<T> {
     if (response.status === 204) {
         return response.text() as Promise<any>;
@@ -215,6 +234,10 @@ export function fetchPost(urlPath: string, body: string | FormData, contentType?
     return serverRequest(RequestMethod.POST, urlPath, body, contentType);
 }
 
+export function fetchPostGetErrors(urlPath: string, body: string | FormData, contentType?: string) {
+    return serverRequestGetErrors(RequestMethod.POST, urlPath, body, contentType);
+}
+
 export function fetchDelete(urlPath: string) {
     const OPTIONS: RequestInit = {
         headers: getHeaders(),
@@ -230,10 +253,10 @@ export function getRedirectPath(): string {
     return "redirect=" + redirectPath;
 }
 
-export function skalViseLastestripe(restStatus: REST_STATUS): boolean {
+export function skalViseLastestripe(restStatus: REST_STATUS, menIkkeVedFeil?: boolean): boolean {
     return (
         restStatus === REST_STATUS.PENDING ||
         restStatus === REST_STATUS.INITIALISERT ||
-        restStatus === REST_STATUS.FEILET
+        (restStatus === REST_STATUS.FEILET && !menIkkeVedFeil)
     );
 }

@@ -8,6 +8,7 @@ import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
+import {setOppgaveOpplastingFeiletVirussjekkPaBackend} from "../../redux/innsynsdata/innsynsDataActions";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -18,12 +19,14 @@ const FilView: React.FC<{
     fil: Fil;
     oppgaveElement?: OppgaveElement;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-}> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse}) => {
+    oppgaveId: string;
+}> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse, oppgaveId}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
     const onSlettClick = (event: ClickEvent): void => {
         setOverMaksStorrelse(false);
+        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgaveId, false));
         dispatch({
             type: oppgaveElement
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING

@@ -18,8 +18,9 @@ import {
     hentInnsynsdata,
     innsynsdataUrl,
     setOppgaveOpplastingFeiletPaBackend,
+    setOppgaveOpplastingFeiletVirussjekkPaBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
-import {fetchPost, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {fetchPost, fetchPostGetErrors, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
     opprettFormDataMedVedleggFraFiler,
     FilFeil,
@@ -54,7 +55,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
-    //const feil: Vedleggfeil | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.feil);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
@@ -67,7 +67,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const listeOverVedleggIderSomFeiletPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
     );
-
+    const listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
+    );
     const opplastingFeilet = harFilermedFeil(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -119,6 +121,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, false));
+        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(BACKEND_FEIL_ID, false));
 
         setOverMaksStorrelse(false);
 
@@ -158,6 +161,13 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     }
                 })
                 .catch((e) => {
+                    // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
+                    fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
+                        if (errorResponse.message === "Mulig virus funnet") {
+                            dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, false));
+                            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(BACKEND_FEIL_ID, true));
+                        }
+                    });
                     dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
                     dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, true));
                     logErrorMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
@@ -176,7 +186,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeMedFilerSomFeiler.length > 0 ||
         (!vedleggKlarForOpplasting && sendVedleggTrykket) ||
         overMaksStorrelse ||
-        listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID);
+        listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
+        listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
     return (
         <div>
@@ -184,7 +195,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
 
-            {skalViseLastestripe(restStatus) ? (
+            {skalViseLastestripe(restStatus, true) ? (
                 <Lastestriper linjer={1} />
             ) : (
                 <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
@@ -216,6 +227,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                     oppgaveElementIndex={0}
                                     oppgaveIndex={0}
                                     setOverMaksStorrelse={setOverMaksStorrelse}
+                                    oppgaveId={BACKEND_FEIL_ID}
                                 />
                             ))}
 
@@ -273,6 +285,12 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
                 <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                </div>
+            )}
+
+            {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) && (
+                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
                 </div>
             )}
 
