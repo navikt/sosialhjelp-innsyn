@@ -227,6 +227,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                     oppgaveElementIndex={0}
                                     oppgaveIndex={0}
                                     setOverMaksStorrelse={setOverMaksStorrelse}
+                                    oppgaveId={BACKEND_FEIL_ID}
                                 />
                             ))}
 

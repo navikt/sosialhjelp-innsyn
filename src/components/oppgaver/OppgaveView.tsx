@@ -290,6 +290,7 @@ const OppgaveElementView = (props: {
                         oppgaveElementIndex={props.oppgaveElementIndex}
                         oppgaveIndex={props.oppgaveIndex}
                         setOverMaksStorrelse={props.setOverMaksStorrelse}
+                        oppgaveId={props.oppgaveId}
                     />
                 ))}
             {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
@@ -344,6 +345,7 @@ const VelgFil = (props: {
         if (files) {
             dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
             dispatch(setOppgaveOpplastingFeiletPaBackend(props.oppgaveId, false));
+            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(props.oppgaveId, false));
 
             const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
@@ -463,6 +465,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
 
     const sendVedlegg = (event: any) => {
         dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, false));
+        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgave.oppgaveId, false));
 
         if (!oppgave || !fiksDigisosId) {
             event.preventDefault();
