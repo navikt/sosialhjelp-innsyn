@@ -14,7 +14,7 @@ export function erQ(): boolean {
 
 export function erDevGcp(): boolean {
     const url = window.location.href;
-    return url.indexOf(".dev-nav.no") > 0;
+    return url.indexOf(".dev.nav.no") > 0;
 }
 
 export function erLabsGcp(): boolean {
@@ -24,7 +24,7 @@ export function erLabsGcp(): boolean {
 
 export function erMockServer(): boolean {
     const url = window.location.origin;
-    return url.indexOf("digisos-test") > 0 || url.indexOf("dev-nav.no") > 0 || url.indexOf("labs.nais.io") > 0;
+    return url.indexOf("digisos-test") > 0 || url.indexOf("dev.nav.no") > 0 || url.indexOf("labs.nais.io") > 0;
 }
 
 export function erMedLoginApi(): boolean {
@@ -39,7 +39,7 @@ export function getApiBaseUrl(): string {
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     } else if (erDevGcp()) {
-        return window.location.origin.replace(".dev-nav.no", "-api.dev-nav.no") + "/sosialhjelp/innsyn-api/api/v1";
+        return window.location.origin.replace(".dev.nav.no", "-api.dev.nav.no") + "/sosialhjelp/innsyn-api/api/v1";
     } else if (erLabsGcp()) {
         if (window.location.origin.indexOf("digisos.labs.nais.io") >= 0) {
             return getAbsoluteApiUrl() + "api/v1";
@@ -55,8 +55,8 @@ export function getSoknadApiUrl(): string {
     if (erDev()) {
         url = "http://localhost:8181" + url;
     }
-    if (window.location.origin.indexOf(".dev-nav.no") >= 0) {
-        url = "https://sosialhjelp-soknad-api.dev-nav.no" + url;
+    if (window.location.origin.indexOf(".dev.nav.no") >= 0) {
+        url = "https://sosialhjelp-soknad-api.dev.nav.no" + url;
     }
     if (window.location.origin.indexOf(".labs.nais.io") >= 0) {
         url = "https://sosialhjelp-soknad-api.labs.nais.io" + url;

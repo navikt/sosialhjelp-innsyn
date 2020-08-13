@@ -1,7 +1,7 @@
 {
   "namespace": "teamdigisos",
   "ingresses": [
-    "https://sosialhjelp-innsyn.dev-nav.no/sosialhjelp/innsyn"
+    "https://sosialhjelp-innsyn.dev.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": false,
   "appresCmsUrl": "https://appres.nav.no"
