@@ -2,34 +2,34 @@ import "whatwg-fetch";
 import uuid from "uuid";
 import {logErrorMessage} from "../redux/innsynsdata/loggActions";
 
-export function isDev(origin: String) {
+export function isDev(origin: string) {
     return origin.indexOf("localhost") >= 0;
 }
 
-export function isQ(origin: String): boolean {
+export function isQ(origin: string): boolean {
     return (
         origin.indexOf("www-q") >= 0 ||
         (origin.indexOf("sosialhjelp-innsyn-q") >= 0 && origin.indexOf("dev-sbs.nais.io") >= 0)
     );
 }
 
-export function isQ1(origin: String): boolean {
+export function isQ1(origin: string): boolean {
     return isQ(origin) && origin.indexOf("-q1") >= 0;
 }
 
-export function isDevGcp(origin: String): boolean {
+export function isDevGcp(origin: string): boolean {
     return origin.indexOf(".dev.nav.no") > 0;
 }
 
-export function isLabsGcpWithProxy(origin: String): boolean {
+export function isLabsGcpWithProxy(origin: string): boolean {
     return origin.indexOf("digisos.labs.nais.io") >= 0;
 }
 
-export function isLabsGcpWithoutProxy(origin: String): boolean {
+export function isLabsGcpWithoutProxy(origin: string): boolean {
     return origin.indexOf("innsyn.labs.nais.io") > 0;
 }
 
-export function isMockServer(origin: String): boolean {
+export function isMockServer(origin: string): boolean {
     return isLabsGcpWithoutProxy(origin) || isLabsGcpWithProxy(origin) || isDevGcp(origin);
 }
 
@@ -42,7 +42,7 @@ export function getApiBaseUrl(): string {
     return getBaseUrl(window.location.origin);
 }
 
-export function getBaseUrl(origin: String): string {
+export function getBaseUrl(origin: string): string {
     if (isDev(origin)) {
         if (erMedLoginApi()) {
             return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
@@ -62,7 +62,7 @@ export function getSoknadApiUrl(): string {
     return getSoknadBaseUrl(window.location.origin);
 }
 
-export function getSoknadBaseUrl(origin: String): string {
+export function getSoknadBaseUrl(origin: string): string {
     if (isDev(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
@@ -79,7 +79,7 @@ export function getDittNavUrl(): string {
     return getNavUrl(window.location.origin);
 }
 
-export function getNavUrl(origin: String): string {
+export function getNavUrl(origin: string): string {
     if (isQ1(origin)) {
         return "https://www-q1.nav.no/person/dittnav/";
     }
@@ -100,7 +100,7 @@ export function getApiBaseUrlForSwagger(): string {
     return getApiUrlForSwagger(window.location.origin);
 }
 
-export function getApiUrlForSwagger(origin: String): string {
+export function getApiUrlForSwagger(origin: string): string {
     if (isDev(origin)) {
         return "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html";
     }
