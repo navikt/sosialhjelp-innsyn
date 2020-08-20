@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import {node, string} from "prop-types";
-import {erDev, erMockServer} from "../../utils/restUtils";
+import {isDev, isMockServer} from "../../utils/restUtils";
 
 export default class HotjarTrigger extends Component {
     componentDidMount() {
         const {hotjarTrigger} = this.props;
-        if (typeof window.hj === "function" && !erMockServer() && !erDev()) {
+        if (typeof window.hj === "function" && !isMockServer(window.location.origin) && !isDev(window.location.origin)) {
             window.hj("trigger", hotjarTrigger);
         }
     }
