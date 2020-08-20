@@ -18,7 +18,7 @@ export function isQ1(origin: string): boolean {
 }
 
 export function isDevGcp(origin: string): boolean {
-    return origin.indexOf(".dev.nav.no") > 0;
+    return origin.indexOf(".dev.nav.no") >= 0;
 }
 
 export function isLabsGcpWithProxy(origin: string): boolean {
@@ -26,7 +26,7 @@ export function isLabsGcpWithProxy(origin: string): boolean {
 }
 
 export function isLabsGcpWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn.labs.nais.io") > 0;
+    return origin.indexOf("innsyn.labs.nais.io") >= 0;
 }
 
 export function isMockServer(origin: string): boolean {
