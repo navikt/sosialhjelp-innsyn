@@ -95,7 +95,7 @@ describe("getBaseUrl", () => {
         validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
     });
 
-    function validateGetBaseUrl(origins: String[], expected: String) {
+    function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getBaseUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -126,7 +126,7 @@ describe("getSoknadBaseUrl", () => {
         validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
     });
 
-    function validateGetBaseUrl(origins: String[], expected: String) {
+    function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getSoknadBaseUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -154,7 +154,7 @@ describe("getDittNavUrl", () => {
         validateGetBaseUrl(unknownOrigins, "https://www.nav.no/person/dittnav/");
     });
 
-    function validateGetBaseUrl(origins: String[], expected: String) {
+    function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getNavUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -199,7 +199,7 @@ describe("getSwaggerUrl", () => {
         validateGetBaseUrl(unknownOrigins, "");
     });
 
-    function validateGetBaseUrl(origins: String[], expected: String) {
+    function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getApiUrlForSwagger(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -229,7 +229,7 @@ describe("isDev", () => {
         validateIsDev(unknownOrigins, false);
     });
 
-    function validateIsDev(origins: String[], expected: boolean) {
+    function validateIsDev(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
             expect(isDev(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -259,7 +259,7 @@ describe("isQ", () => {
         validateIsQ(unknownOrigins, false);
     });
 
-    function validateIsQ(origins: String[], expected: boolean) {
+    function validateIsQ(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
             expect(isQ(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -290,7 +290,7 @@ describe("isDevGcp", () => {
         validateIsDevGcp(unknownOrigins, false);
     });
 
-    function validateIsDevGcp(origins: String[], expected: boolean) {
+    function validateIsDevGcp(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
             expect(isDevGcp(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -321,7 +321,7 @@ describe("isLabsGcpWithProxy", () => {
         validateIsLabsGcpWithProxy(unknownOrigins, false);
     });
 
-    function validateIsLabsGcpWithProxy(origins: String[], expected: boolean) {
+    function validateIsLabsGcpWithProxy(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
             expect(isLabsGcpWithProxy(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -349,7 +349,7 @@ describe("isLabsGcpWithoutProxy", () => {
         validateIsLabsGcpWithoutProxy(unknownOrigins, false);
     });
 
-    function validateIsLabsGcpWithoutProxy(origins: String[], expected: boolean) {
+    function validateIsLabsGcpWithoutProxy(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
             expect(isLabsGcpWithoutProxy(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
