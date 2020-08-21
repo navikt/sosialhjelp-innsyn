@@ -11,17 +11,16 @@ import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {parse} from "query-string";
 import {history} from "../configureStore";
-import useUtbetalingerService, {UtbetalingSakType} from "../utbetalinger/service/useUtbetalingerService";
 import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
+import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
 
-    // Denne er idag veldig tung. Serlig for test personer med maange søknader.
-    const utbetalingerService = useUtbetalingerService(12);
-    let utbetalinger: UtbetalingSakType[] =
-        utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
+    const utbetalingerExistsService = useUtbetalingerExistsService(12);
+    let utbetalingerExists: boolean =
+        utbetalingerExistsService.restStatus === REST_STATUS.OK ? utbetalingerExistsService.payload : false;
 
     let filtrerteSaker: Sakstype[];
 
@@ -140,7 +139,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
             )}
 
             <>
-                {utbetalinger.length > 0 && <DineUtbetalingerPanel />}
+                {utbetalingerExists && <DineUtbetalingerPanel />}
 
                 <Subheader className="panel-luft-over">
                     <Undertittel>Relatert informasjon</Undertittel>
