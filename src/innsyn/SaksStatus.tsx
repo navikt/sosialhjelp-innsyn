@@ -103,15 +103,17 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             <DriftsmeldingAlertstripe />
 
+            <ForelopigSvarAlertstripe />
+
             {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
                 <SoknadMedInnsynHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
+                    <div />
                 </SoknadMedInnsynHotjarTrigger>
             )}
 
             {shouldShowHotjarTrigger() && isKommuneUtenInnsyn(kommuneResponse) && (
                 <SoknadUtenInnsynHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
+                    <div />
                 </SoknadUtenInnsynHotjarTrigger>
             )}
 
