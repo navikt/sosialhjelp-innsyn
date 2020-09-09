@@ -1,7 +1,7 @@
 import {KommuneResponse} from "../redux/innsynsdata/innsynsdataReducer";
 import {SoknadsStatusEnum} from "../components/soknadsStatus/soknadsStatusUtils";
 
-export function isKommuneMedInnsyn(kommuneResponse: KommuneResponse | undefined, soknadStatus: String | null): boolean {
+export function isKommuneMedInnsyn(kommuneResponse: KommuneResponse | undefined, soknadStatus: string | null): boolean {
     return (
         kommuneResponse != null &&
         !kommuneResponse.erInnsynDeaktivert &&
