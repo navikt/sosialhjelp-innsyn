@@ -21,12 +21,8 @@ import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 import Panel from "nav-frontend-paneler";
 import {Systemtittel} from "nav-frontend-typografi";
-import {
-    SoknadFraBergenHotjarTrigger,
-    SoknadMedInnsynHotjarTrigger,
-    SoknadUtenInnsynHotjarTrigger,
-} from "../components/hotjarTrigger/HotjarTrigger";
-import {isKommuneBergen, isKommuneMedInnsynUtenBergen, isKommuneUtenInnsynUtenBergen} from "./saksStatusUtils";
+import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
+import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 
 interface Props {
@@ -77,6 +73,14 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
     document.title = statusTittel;
 
+    const shouldShowHotjarTrigger = () => {
+        return (
+            restStatus.soknadsStatus === REST_STATUS.OK &&
+            restStatus.kommune === REST_STATUS.OK &&
+            (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60)
+        );
+    };
+
     return (
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
@@ -99,21 +103,17 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             <DriftsmeldingAlertstripe />
 
-            {isKommuneMedInnsynUtenBergen(kommuneResponse, restStatus.kommune) && (
+            <ForelopigSvarAlertstripe />
+
+            {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
                 <SoknadMedInnsynHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
+                    <div />
                 </SoknadMedInnsynHotjarTrigger>
             )}
 
-            {isKommuneBergen(kommuneResponse) && (
-                <SoknadFraBergenHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
-                </SoknadFraBergenHotjarTrigger>
-            )}
-
-            {isKommuneUtenInnsynUtenBergen(kommuneResponse, restStatus.kommune) && (
+            {shouldShowHotjarTrigger() && isKommuneUtenInnsyn(kommuneResponse) && (
                 <SoknadUtenInnsynHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
+                    <div />
                 </SoknadUtenInnsynHotjarTrigger>
             )}
 

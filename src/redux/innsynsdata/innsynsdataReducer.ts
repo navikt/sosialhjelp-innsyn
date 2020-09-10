@@ -140,6 +140,8 @@ export interface VedleggActionType {
 
 export interface Status {
     status: string | null;
+    tidspunktSendt: string | null;
+    soknadsalderIMinutter: number;
 }
 
 export interface Hendelse {
@@ -222,6 +224,8 @@ export const initialState: InnsynsdataType = {
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null,
+        tidspunktSendt: null,
+        soknadsalderIMinutter: -1,
     },
     hendelser: [],
     vedlegg: [],
