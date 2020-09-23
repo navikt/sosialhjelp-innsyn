@@ -302,7 +302,7 @@ function getRedirectOrigin() {
 }
 
 export function getRedirectPath(): string {
-    const redirectOrigin = getRedirectOrigin;
+    const redirectOrigin = getRedirectOrigin();
     const gotoParameter = "?goto=" + window.location.pathname;
     const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
     return "redirect=" + redirectPath;
