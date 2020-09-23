@@ -17,6 +17,12 @@ export function isQ1(origin: string): boolean {
     return isQ(origin) && origin.indexOf("-q1") >= 0;
 }
 
+export function isQGammelVersjon(origin: string): boolean {
+    /* Vi endrer url til www-q*.dev.nav.no. Denne funksjonen returnerer true når den gamle URL-en blir benyttet.
+     * Den gamle URL-en vil bli benyttet en stund av kommuner. */
+    return origin.indexOf("www-q0.nav.no") >= 0 || origin.indexOf("www-q1.nav.no") >= 0;
+}
+
 export function isDevGcp(origin: string): boolean {
     return origin.indexOf(".dev.nav.no") >= 0;
 }
@@ -282,10 +288,23 @@ export function fetchDelete(urlPath: string) {
     return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
 }
 
-export function getRedirectPath(): string {
+function getRedirectOrigin() {
+    /* Vi endrer preprod-url til www-q*.dev.nav.no (pga naisdevice).
+     * Men den gamle URL-en (www-q*.nav.no) vil bli benyttet en stund av kommuner.
+     * Loginservice kan kun sette cookies på apper som kjører på samme domene.
+     * Vi lar derfor loginservice redirecte til den nye ingressen. */
+
     const currentOrigin = window.location.origin;
+    if (isQGammelVersjon(currentOrigin)) {
+        return currentOrigin.replace("nav.no", "dev.nav.no");
+    }
+    return window.location.origin;
+}
+
+export function getRedirectPath(): string {
+    const redirectOrigin = getRedirectOrigin;
     const gotoParameter = "?goto=" + window.location.pathname;
-    const redirectPath = currentOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
+    const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
     return "redirect=" + redirectPath;
 }
 
