@@ -2,6 +2,7 @@
   "namespace": "q0",
   "ingresses": [
     "https://sosialhjelp-innsyn-q0.dev-sbs.nais.io/sosialhjelp/innsyn",
+    "https://www-q0.dev.nav.no/sosialhjelp/innsyn",
     "https://www-q0.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": true,
