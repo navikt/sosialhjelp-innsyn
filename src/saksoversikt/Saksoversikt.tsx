@@ -3,7 +3,7 @@ import NavFrontendSpinner from "nav-frontend-spinner";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynsdataSti, InnsynsdataType, Sakstype, skalViseFeilside} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
@@ -17,39 +17,40 @@ const Saksoversikt: React.FC = () => {
     document.title = "Økonomisk sosialhjelp";
 
     const dispatch = useDispatch();
-    const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const restStatus = innsynsdata.restStatus.saker;
-    const saker: Sakstype[] = innsynsdata.saker;
-    const sakerFraSoknadResponse = useSoknadsSakerService();
-    const leserSaksData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    const leserSoknadSaksData: boolean =
-        sakerFraSoknadResponse.restStatus === REST_STATUS.INITIALISERT ||
-        sakerFraSoknadResponse.restStatus === REST_STATUS.PENDING;
-    const leserData: boolean = leserSaksData || leserSoknadSaksData;
-    const mustLogin: boolean = restStatus === REST_STATUS.UNAUTHORIZED;
-    let fiksKommunikasjonsProblemer = false;
-    let soknadKommunikasjonsProblemer = false;
-    let alleSaker: Sakstype[] = saker;
+    const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const innsynRestStatus = innsynData.restStatus.saker;
+    const leserInnsynData: boolean =
+        innsynRestStatus === REST_STATUS.INITIALISERT || innsynRestStatus === REST_STATUS.PENDING;
+
+    const soknadApiData = useSoknadsSakerService();
+    const leserSoknadApiData: boolean =
+        soknadApiData.restStatus === REST_STATUS.INITIALISERT || soknadApiData.restStatus === REST_STATUS.PENDING;
+
+    const leserData: boolean = leserInnsynData || leserSoknadApiData;
+    const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
+
+    let innsynApiKommunikasjonsProblemer = false;
+    let soknadApiKommunikasjonsProblemer = false;
+
+    let alleSaker: Sakstype[] = [];
     if (!leserData) {
-        if (sakerFraSoknadResponse.restStatus === REST_STATUS.OK) {
-            alleSaker = saker.concat(sakerFraSoknadResponse.payload.results);
+        if (innsynRestStatus === REST_STATUS.OK) {
+            alleSaker = alleSaker.concat(innsynData.saker);
         }
-        if (restStatus === REST_STATUS.SERVICE_UNAVAILABLE) {
-            fiksKommunikasjonsProblemer = true;
+        if (soknadApiData.restStatus === REST_STATUS.OK) {
+            alleSaker = alleSaker.concat(soknadApiData.payload.results);
         }
-        if (sakerFraSoknadResponse.restStatus === REST_STATUS.FEILET) {
-            soknadKommunikasjonsProblemer = true;
-            if (fiksKommunikasjonsProblemer) {
-                if (!innsynsdata.skalViseFeilside) {
-                    dispatch(skalViseFeilside(true));
-                }
-            }
+        if (innsynRestStatus === REST_STATUS.SERVICE_UNAVAILABLE || innsynRestStatus === REST_STATUS.FEILET) {
+            innsynApiKommunikasjonsProblemer = true;
+        }
+        if (soknadApiData.restStatus === REST_STATUS.FEILET) {
+            soknadApiKommunikasjonsProblemer = true;
         }
     }
     const harSaker = alleSaker.length > 0;
 
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER));
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
     }, [dispatch]);
 
     useBannerTittel("Økonomisk sosialhjelp");
@@ -58,7 +59,7 @@ const Saksoversikt: React.FC = () => {
         <div className="informasjon-side">
             <BigBanner tittel="Økonomisk sosialhjelp" />
             <div className="blokk-center">
-                {(!leserData || !mustLogin) && (fiksKommunikasjonsProblemer || soknadKommunikasjonsProblemer) && (
+                {(!leserData || !mustLogin) && (innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
                     <AlertStripeAdvarsel className="luft_over_16px">
                         Vi klarte ikke å hente inn all informasjonen på siden.
                         <br />
