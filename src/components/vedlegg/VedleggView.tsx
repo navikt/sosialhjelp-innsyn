@@ -234,13 +234,18 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                         }
                                     >
                                         <PaperClipSlanted className="ikon_liten_vedlegg" />
-                                        <Lenke
-                                            href={vedlegg.url}
-                                            target="_blank"
-                                            title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
-                                        >
-                                            {vedlegg.filnavn}
-                                        </Lenke>
+                                        {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") > -1 && (
+                                            <Lenke
+                                                href={vedlegg.url}
+                                                target="_blank"
+                                                title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
+                                            >
+                                                {vedlegg.filnavn}
+                                            </Lenke>
+                                        )}
+                                        {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") === -1 && (
+                                            <div>Serverfeil: {vedlegg.filnavn}</div>
+                                        )}
                                     </td>
                                     <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
                                         <IconSizedSpacerDesktop />
