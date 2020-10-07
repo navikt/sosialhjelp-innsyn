@@ -234,7 +234,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                         }
                                     >
                                         <PaperClipSlanted className="ikon_liten_vedlegg" />
-                                        {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") > -1 && (
+                                        {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") < 0 && (
                                             <Lenke
                                                 href={vedlegg.url}
                                                 target="_blank"
@@ -243,7 +243,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                 {vedlegg.filnavn}
                                             </Lenke>
                                         )}
-                                        {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") === -1 && (
+                                        {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1 && (
                                             <div>Serverfeil: {vedlegg.filnavn}</div>
                                         )}
                                     </td>
