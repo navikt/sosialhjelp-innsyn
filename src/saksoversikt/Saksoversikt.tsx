@@ -54,11 +54,6 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useBannerTittel("Økonomisk sosialhjelp");
-    console.log();
-    console.log("leserData", leserData);
-    console.log("mustlogin", mustLogin);
-    console.log("innsynApi", innsynApiKommunikasjonsProblemer);
-    console.log("soknadApi", soknadApiKommunikasjonsProblemer);
 
     return (
         <div className="informasjon-side">
@@ -69,7 +64,6 @@ const Saksoversikt: React.FC = () => {
                         <NavFrontendSpinner type="XL" />
                     </div>
                 )}
-
                 {!leserData && !mustLogin && (
                     <>
                         {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
