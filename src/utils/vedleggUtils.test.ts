@@ -3,7 +3,7 @@ import {
     opprettFormDataMedVedleggFraFiler,
     opprettFormDataMedVedleggFraOppgaver,
     containsUlovligeTegn,
-    hentFiletternavn,
+    hentFileExtension,
 } from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
@@ -145,22 +145,22 @@ describe("VedleggUtilsTest", () => {
 
     it("should find fileetternavn", () => {
         const filename = "jpegfil.jpg";
-        expect(hentFiletternavn(filename)).toBe("jpg");
+        expect(hentFileExtension(filename)).toBe("jpg");
     });
 
     it("should find fileetternavn2", () => {
         const filename = "wordsfil.docx";
-        expect(hentFiletternavn(filename)).toBe("docx");
+        expect(hentFileExtension(filename)).toBe("docx");
     });
 
     it("should not find fileetternavn when no dot", () => {
         const filename = "gyldigfilnavn";
-        expect(hentFiletternavn(filename)).toBe("ukjent");
+        expect(hentFileExtension(filename)).toBe("ukjent");
     });
 
     it("should not find fileetternavn when many and early dots", () => {
         const manydots = "gyldigfilnavn.med.flere.punktummer";
-        expect(hentFiletternavn(manydots)).toBe("ukjent");
+        expect(hentFileExtension(manydots)).toBe("ukjent");
     });
 
     it("should validate filenames", () => {

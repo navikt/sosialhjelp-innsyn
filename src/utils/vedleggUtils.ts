@@ -49,7 +49,7 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
                     formData.append("files", fil.file, fil.filnavn);
                 } else {
                     if (fil.filnavn) {
-                        logErrorMessage("Finner ikke innholdet til en fil av type: " + hentFiletternavn(fil.filnavn));
+                        logErrorMessage("Finner ikke innholdet til en fil av type: " + hentFileExtension(fil.filnavn));
                     }
                     logErrorMessage("Fil uten filnavn og innhold ble forsøkt lagt til i opprettFormDataMedVedlegg()");
                 }
@@ -61,7 +61,7 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     return formData;
 }
 
-export function hentFiletternavn(filnavn: string) {
+export function hentFileExtension(filnavn: string) {
     var filetternavn = "ukjent";
     if (filnavn.length >= 5) {
         var testSteng = filnavn.substr(filnavn.length - 5, 5);

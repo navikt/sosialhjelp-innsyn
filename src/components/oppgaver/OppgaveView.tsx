@@ -482,7 +482,6 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             dispatch(setOppgaveOpplastingFeilet(oppgave.oppgaveId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
             event.preventDefault();
-            console.log("DEBUG pcn: opprettFormDataMedVedleggFraOppgaver threw exception: " + e.message);
             return;
         }
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
