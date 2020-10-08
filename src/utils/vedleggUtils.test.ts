@@ -143,22 +143,22 @@ describe("VedleggUtilsTest", () => {
         });
     });
 
-    it("should find fileetternavn", () => {
+    it("should find file extension", () => {
         const filename = "jpegfil.jpg";
         expect(hentFileExtension(filename)).toBe("jpg");
     });
 
-    it("should find fileetternavn2", () => {
+    it("should find file extension2", () => {
         const filename = "wordsfil.docx";
         expect(hentFileExtension(filename)).toBe("docx");
     });
 
-    it("should not find fileetternavn when no dot", () => {
+    it("should not find file extension when no dot", () => {
         const filename = "gyldigfilnavn";
         expect(hentFileExtension(filename)).toBe("ukjent");
     });
 
-    it("should not find fileetternavn when many and early dots", () => {
+    it("should not find file extension when many and early dots", () => {
         const manydots = "gyldigfilnavn.med.flere.punktummer";
         expect(hentFileExtension(manydots)).toBe("ukjent");
     });
