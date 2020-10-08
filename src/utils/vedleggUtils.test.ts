@@ -3,11 +3,13 @@ import {
     opprettFormDataMedVedleggFraFiler,
     opprettFormDataMedVedleggFraOppgaver,
     containsUlovligeTegn,
+    hentFiletternavn,
 } from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
 const jpgFile = {filnavn: "test1.jpg", file: new Blob()} as Fil;
 const pdfFile = {filnavn: "test3.pdf", file: new Blob()} as Fil;
+const emptyFile = {filnavn: "test3.pdf", file: undefined} as Fil;
 
 const oppgave = {
     innsendelsesfrist: "2019-11-11",
@@ -120,6 +122,50 @@ describe("VedleggUtilsTest", () => {
         // @ts-ignore
         const actualMetadata = metadataFile["_buffer"].toString();
         expect(actualMetadata).toBe(expectedEttersendelseMetadata);
+    });
+
+    it("should log error for empty file file object ettersendelse", () => {
+        const formData: FormData = opprettFormDataMedVedleggFraFiler([pngFile, jpgFile, emptyFile]);
+        expect(formData).toBeDefined();
+
+        const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
+        expect(formDataEntryValues).toBeDefined();
+        expect(formDataEntryValues.length).toBe(3);
+
+        [
+            {file: formDataEntryValues[0], filnavn: "metadata.json"},
+            {file: formDataEntryValues[1], filnavn: pngFile.filnavn},
+            {file: formDataEntryValues[2], filnavn: jpgFile.filnavn},
+        ].forEach((value: {file: FormDataEntryValue; filnavn: string}) => {
+            const file = value.file as File;
+            expect(file).toBeDefined();
+            expect(file.name).toBe(value.filnavn);
+        });
+
+        const metadataFile = formDataEntryValues[0] as File;
+        // @ts-ignore
+        const actualMetadata = metadataFile["_buffer"].toString();
+        expect(actualMetadata).toBe(expectedEttersendelseMetadata);
+    });
+
+    it("should find fileetternavn", () => {
+        const filename = "gyldigfilnavn.jpg";
+        expect(hentFiletternavn(filename)).toBe("jpg");
+    });
+
+    it("should find fileetternavn2", () => {
+        const filename = "gyldigfilnavn.docx";
+        expect(hentFiletternavn(filename)).toBe("docx");
+    });
+
+    it("should not find fileetternavn when no dot", () => {
+        const filename = "gyldigfilnavn";
+        expect(hentFiletternavn(filename)).toBe("ukjent");
+    });
+
+    it("should not find fileetternavn when many and early dots", () => {
+        const filename = "gyldigfilnavn.med.flere.punktummer";
+        expect(hentFiletternavn(filename)).toBe("ukjent");
     });
 
     it("should validate filenames", () => {

@@ -30,7 +30,7 @@ import {
 import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import {logErrorMessage} from "../../redux/innsynsdata/loggActions";
+import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
 
 function harFilermedFeil(filer: Fil[]) {
@@ -91,14 +91,18 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
-                    dispatch({
-                        type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
-                        fil: {
-                            filnavn: file.name,
-                            status: "INITIALISERT",
-                            file: file,
-                        },
-                    });
+                    if (!file) {
+                        logInfoMessage("Tom fil ble forsøkt lagt til i EttersendelseView.onChange()");
+                    } else {
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
+                            fil: {
+                                filnavn: file.name,
+                                status: "INITIALISERT",
+                                file: file,
+                            },
+                        });
+                    }
                 }
             } else {
                 setListeMedFilerSomFeiler(filerMedFeil);

@@ -351,17 +351,21 @@ const VelgFil = (props: {
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
-                    dispatch({
-                        type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
-                        oppgaveElement: oppgaveElement,
-                        oppgaveElementIndex: oppgaveElementIndex,
-                        oppgaveIndex: oppgaveIndex,
-                        fil: {
-                            filnavn: file.name,
-                            status: "INITIALISERT",
-                            file: file,
-                        },
-                    });
+                    if (!file) {
+                        logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
+                    } else {
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
+                            oppgaveElement: oppgaveElement,
+                            oppgaveElementIndex: oppgaveElementIndex,
+                            oppgaveIndex: oppgaveIndex,
+                            fil: {
+                                filnavn: file.name,
+                                status: "INITIALISERT",
+                                file: file,
+                            },
+                        });
+                    }
                 }
             } else {
                 props.setListeMedFilerSomFeiler(filerMedFeil);
@@ -472,7 +476,15 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             return;
         }
 
-        let formData = opprettFormDataMedVedleggFraOppgaver(oppgave);
+        try {
+            var formData = opprettFormDataMedVedleggFraOppgaver(oppgave);
+        } catch (e) {
+            dispatch(setOppgaveOpplastingFeilet(oppgave.oppgaveId, true));
+            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            event.preventDefault();
+            console.log("DEBUG pcn: opprettFormDataMedVedleggFraOppgaver threw exception: " + e.message);
+            return;
+        }
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
 
