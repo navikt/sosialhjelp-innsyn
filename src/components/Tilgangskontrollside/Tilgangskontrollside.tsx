@@ -36,10 +36,11 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
             .catch((reason) => {
                 if (reason.message === HttpStatus.UNAUTHORIZED) {
                     setRestStatus(REST_STATUS.UNAUTHORIZED);
+                } else {
+                    setRestStatus(REST_STATUS.FEILET);
+                    logErrorMessage(reason.message, reason.navCallId);
+                    dispatch(skalViseFeilside(true));
                 }
-                setRestStatus(REST_STATUS.FEILET);
-                logErrorMessage(reason.message, reason.navCallId);
-                dispatch(skalViseFeilside(true));
             });
     }, [dispatch]);
 
