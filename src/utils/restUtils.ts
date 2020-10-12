@@ -55,7 +55,12 @@ export function getBaseUrl(origin: string): string {
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     }
-    if (isQ(origin) || isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+    if (isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+        return (
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+            "/sosialhjelp/innsyn-api/api/v1"
+        );
+    } else if (isQ(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
