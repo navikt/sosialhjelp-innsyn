@@ -74,18 +74,12 @@ describe("getBaseUrl", () => {
             "https://sosialhjelp-login-api-q1.dev-sbs.nais.io/sosialhjelp/login-api/innsyn-api/api/v1"
         );
 
-        validateGetBaseUrl(
-            labsGcpWithProxyOrigins,
-            "https://digisos.labs.nais.io/sosialhjelp/login-api/innsyn-api/api/v1"
-        );
+        validateGetBaseUrl(labsGcpWithProxyOrigins, "https://digisos.labs.nais.io/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
             labsGcpWithoutProxyOrigins,
-            "https://sosialhjelp-login-api.labs.nais.io/sosialhjelp/login-api/innsyn-api/api/v1"
+            "https://sosialhjelp-innsyn-api.labs.nais.io/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(
-            devGcpOrigins,
-            "https://sosialhjelp-login-api.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
-        );
+        validateGetBaseUrl(devGcpOrigins, "https://sosialhjelp-innsyn-api.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
