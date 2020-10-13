@@ -1,6 +1,9 @@
 import "whatwg-fetch";
 import uuid from "uuid";
 import {logErrorMessage} from "../redux/innsynsdata/loggActions";
+import {v4 as uuidv4} from "uuid";
+
+const sessionTraceID = uuidv4().toString().replaceAll("-", "");
 
 export function isDev(origin: string) {
     return origin.indexOf("localhost") >= 0;
@@ -160,8 +163,13 @@ export const getHeaders = (contentType?: string) => {
         });
     }
 
-    if (isMockServer(window.location.origin) || (isDev(window.location.origin) && !erMedLoginApi())) {
+    const origin = window.location.origin;
+    if (isMockServer(origin) || (isDev(origin) && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken");
+    }
+    if (isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+        headers.append("X-B3-TraceId", sessionTraceID.substr(0, 16));
+        headers.append("X-B3-SpanId", sessionTraceID.substr(16, 16));
     }
     return headers;
 };
