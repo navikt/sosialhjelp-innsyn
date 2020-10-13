@@ -3,7 +3,7 @@ import uuid from "uuid";
 import {logErrorMessage} from "../redux/innsynsdata/loggActions";
 import {v4 as uuidv4} from "uuid";
 
-const sessionTraceID = uuidv4().toString().replaceAll("-", "");
+const sessionTraceID = uuidv4().toString().replace(/-/g, "");
 
 export function isDev(origin: string) {
     return origin.indexOf("localhost") >= 0;
