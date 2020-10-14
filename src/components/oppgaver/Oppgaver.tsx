@@ -90,7 +90,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
-            {!leserData && !mustLogin && brukerHarOppgaver && (
+            {leserData && mustLogin && brukerHarOppgaver && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
