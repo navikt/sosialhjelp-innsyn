@@ -175,6 +175,7 @@ function generateCallId(): string {
 
 export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
+    FORBIDDEN = "Forbidden",
     SERVICE_UNAVAILABLE = "Service Unavailable",
 }
 
