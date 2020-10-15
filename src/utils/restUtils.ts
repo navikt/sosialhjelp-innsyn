@@ -154,19 +154,14 @@ export const getHeaders = (contentType?: string) => {
 
 export const getOriginAwareHeaders = (origin: string, contentType?: string): Headers => {
     let headers = new Headers({
-        "Content-Type": contentType ? contentType : "application/json; charset=utf-8",
         Accept: "application/json, text/plain, */*",
         "Nav-Call-Id": generateCallId(),
     });
-    // Browser setter content type header automatisk til multipart/form-data: boundary xyz
-    if (contentType && contentType === "multipart/form-data") {
-        headers = new Headers({
-            Accept: "application/json, text/plain, */*",
-            "Nav-Call-Id": generateCallId(),
-        });
+
+    if (!contentType || contentType !== "multipart/form-data") {
+        headers.append("Content-Type", contentType ? contentType : "application/json; charset=utf-8");
     }
 
-    const origin = window.location.origin;
     if (isMockServer(origin) || (isDev(origin) && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken");
     }
