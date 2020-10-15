@@ -27,7 +27,7 @@ export function isQGammelVersjon(origin: string): boolean {
 }
 
 export function isDevGcp(origin: string): boolean {
-    return origin.indexOf(".dev.nav.no") >= 0;
+    return origin.indexOf("innsyn.dev.nav.no") >= 0;
 }
 
 export function isLabsGcpWithProxy(origin: string): boolean {
@@ -183,6 +183,7 @@ function generateCallId(): string {
 
 export enum HttpStatus {
     UNAUTHORIZED = "unauthorized",
+    FORBIDDEN = "Forbidden",
     SERVICE_UNAVAILABLE = "Service Unavailable",
 }
 

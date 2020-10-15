@@ -85,6 +85,7 @@ export enum InnsynsdataActionTypeKeys {
     OPPDATER_OPPGAVE_STATE = "innsynsdata/OPPDATER_OPPGAVE_STATE",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
     SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
+    SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
@@ -119,6 +120,7 @@ export interface InnsynsdataActionType {
     sti: InnsynsdataSti;
     restStatus?: string;
     skalVise?: boolean;
+    skalViseForbudt?: boolean;
     oppgaveId?: string;
 }
 
@@ -200,6 +202,7 @@ export interface InnsynsdataType {
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
     skalViseFeilside: boolean;
+    skalViseForbudtSide: boolean;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -240,6 +243,7 @@ export const initialState: InnsynsdataType = {
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
     skalViseFeilside: false,
+    skalViseForbudtSide: false,
 };
 
 export interface Ettersendelse {
@@ -483,6 +487,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 skalViseFeilside: action.skalVise,
             };
 
+        case InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE:
+            return {
+                ...state,
+                skalViseForbudtSide: action.skalViseForbudt,
+            };
+
         case InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_FEILET:
             if (action.status) {
                 return {
@@ -579,6 +589,13 @@ export const skalViseFeilside = (skalVise: boolean) => {
     return {
         type: InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE,
         skalVise,
+    };
+};
+
+export const skalViseForbudtside = (skalViseForbudt: boolean) => {
+    return {
+        type: InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE,
+        skalViseForbudt,
     };
 };
 
