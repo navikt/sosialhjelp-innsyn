@@ -9,6 +9,7 @@ import {
     settRestStatus,
     skalViseFeilside,
     oppdaterOppgaveState,
+    skalViseForbudtside,
 } from "./innsynsdataReducer";
 import {logErrorMessage} from "./loggActions";
 
@@ -26,6 +27,10 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
             .catch((reason) => {
                 if (reason.message === HttpStatus.UNAUTHORIZED) {
                     dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+                } else if (reason.message === HttpStatus.FORBIDDEN) {
+                    logErrorMessage(reason.message, reason.navCallId);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(skalViseForbudtside(true));
                 } else {
                     logErrorMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
@@ -49,6 +54,10 @@ export function hentOppgaveMedId(fiksDigisosId: string, sti: InnsynsdataSti, opp
             .catch((reason) => {
                 if (reason.message === HttpStatus.UNAUTHORIZED) {
                     dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+                } else if (reason.message === HttpStatus.FORBIDDEN) {
+                    logErrorMessage(reason.message, reason.navCallId);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(skalViseForbudtside(true));
                 } else {
                     logErrorMessage(reason.message);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
@@ -72,6 +81,10 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
                     dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
                 } else if (reason.message === HttpStatus.SERVICE_UNAVAILABLE) {
                     dispatch(settRestStatus(sti, REST_STATUS.SERVICE_UNAVAILABLE));
+                } else if (reason.message === HttpStatus.FORBIDDEN) {
+                    logErrorMessage(reason.message, reason.navCallId);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(skalViseForbudtside(true));
                 } else {
                     logErrorMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
@@ -94,6 +107,10 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
             .catch((reason) => {
                 if (reason.message === HttpStatus.UNAUTHORIZED) {
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.UNAUTHORIZED));
+                } else if (reason.message === HttpStatus.FORBIDDEN) {
+                    logErrorMessage(reason.message, reason.navCallId);
+                    dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
+                    dispatch(skalViseForbudtside(true));
                 } else {
                     logErrorMessage(reason.message, reason.navCallId);
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));

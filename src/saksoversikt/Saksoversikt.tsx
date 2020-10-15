@@ -59,22 +59,20 @@ const Saksoversikt: React.FC = () => {
         <div className="informasjon-side">
             <BigBanner tittel="Økonomisk sosialhjelp" />
             <div className="blokk-center">
-                {(!leserData || !mustLogin) && (innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
-                    <AlertStripeAdvarsel className="luft_over_16px">
-                        Vi klarte ikke å hente inn all informasjonen på siden.
-                        <br />
-                        Du kan forsøke å oppdatere siden, eller prøve igjen senere.
-                    </AlertStripeAdvarsel>
-                )}
-
                 {(leserData || mustLogin) && (
                     <div className="application-spinner">
                         <NavFrontendSpinner type="XL" />
                     </div>
                 )}
-
                 {!leserData && !mustLogin && (
                     <>
+                        {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
+                            <AlertStripeAdvarsel className="luft_over_16px">
+                                Vi klarte ikke å hente inn all informasjonen på siden.
+                                <br />
+                                Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                            </AlertStripeAdvarsel>
+                        )}
                         {harSaker && <SaksoversiktDineSaker saker={alleSaker} />}
                         {!harSaker && <SaksoversiktIngenSoknader />}
                     </>
