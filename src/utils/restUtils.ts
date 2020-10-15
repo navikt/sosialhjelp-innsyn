@@ -149,6 +149,10 @@ export enum REST_STATUS {
 }
 
 export const getHeaders = (contentType?: string) => {
+    return getOriginAwareHeaders(window.location.origin, contentType);
+};
+
+export const getOriginAwareHeaders = (origin: string, contentType?: string): Headers => {
     let headers = new Headers({
         "Content-Type": contentType ? contentType : "application/json; charset=utf-8",
         Accept: "application/json, text/plain, */*",
