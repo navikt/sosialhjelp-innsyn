@@ -13,6 +13,7 @@ import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
 import {getVisningstekster} from "../oppgaver/OppgaveView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import RemoveCircle from "../ikoner/RemoveCircle";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
@@ -225,43 +226,55 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         {skalViseLastestripe(restStatus) && <LastestripeRad />}
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
-                                <tr key={index}>
-                                    <td
-                                        className={
-                                            sortBy === Kolonne.FILNAVN
-                                                ? "tabell__td--sortert filnavn_kollonne"
-                                                : "filnavn_kollonne"
-                                        }
-                                    >
-                                        <PaperClipSlanted className="ikon_liten_vedlegg" />
-                                        {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") < 0 && (
-                                            <Lenke
-                                                href={vedlegg.url}
-                                                target="_blank"
-                                                title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
+                                <>
+                                    {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1 && (
+                                        <tr key={index}>
+                                            <td colSpan={4}>
+                                                <RemoveCircle /> {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send
+                                                den på nytt
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") < 0 && (
+                                        <tr key={index}>
+                                            <td
+                                                className={
+                                                    sortBy === Kolonne.FILNAVN
+                                                        ? "tabell__td--sortert filnavn_kollonne"
+                                                        : "filnavn_kollonne"
+                                                }
                                             >
-                                                {vedlegg.filnavn}
-                                            </Lenke>
-                                        )}
-                                        {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1 && (
-                                            <div>Serverfeil: {vedlegg.filnavn}</div>
-                                        )}
-                                    </td>
-                                    <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
-                                        <IconSizedSpacerDesktop />
-                                        {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
-                                    </td>
-                                    <td align="right" className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}>
-                                        <IconSizedSpacerDesktop />
-                                        <div className={"dato_lagt_til"}>
-                                            <DatoOgKlokkeslett
-                                                bareDato={true}
-                                                tidspunkt={vedlegg.datoLagtTil}
-                                                brukKortMaanedNavn={true}
-                                            />
-                                        </div>
-                                    </td>
-                                </tr>
+                                                <PaperClipSlanted className="ikon_liten_vedlegg" />
+                                                <Lenke
+                                                    href={vedlegg.url}
+                                                    target="_blank"
+                                                    title={
+                                                        vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"
+                                                    }
+                                                >
+                                                    {vedlegg.filnavn}
+                                                </Lenke>
+                                            </td>
+                                            <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
+                                                <IconSizedSpacerDesktop />
+                                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                            </td>
+                                            <td
+                                                align="right"
+                                                className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}
+                                            >
+                                                <IconSizedSpacerDesktop />
+                                                <div className={"dato_lagt_til"}>
+                                                    <DatoOgKlokkeslett
+                                                        bareDato={true}
+                                                        tidspunkt={vedlegg.datoLagtTil}
+                                                        brukKortMaanedNavn={true}
+                                                    />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </>
                             );
                         })}
                     </tbody>
