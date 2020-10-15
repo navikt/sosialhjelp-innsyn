@@ -16,6 +16,12 @@ describe("RestUtilsTest", () => {
 });
 
 describe("getOriginAwareHeaders", () => {
+    it("should use callId from parameters if set", () => {
+        const callId = "callId";
+        const headers = getOriginAwareHeaders("https://www.nav.no", undefined, callId);
+        expect(headers.get("Nav-Call-Id")).toBe(callId);
+    });
+
     it("should include Content-Type, when not multipart-request", () => {
         const headers = getOriginAwareHeaders("https://www.nav.no");
         expect(headers.has("Content-Type")).toBeTruthy();
