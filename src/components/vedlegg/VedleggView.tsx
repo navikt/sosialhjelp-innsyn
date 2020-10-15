@@ -226,17 +226,19 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         {skalViseLastestripe(restStatus) && <LastestripeRad />}
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
-                                <>
+                                <tr key={index}>
                                     {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1 && (
-                                        <tr key={index}>
-                                            <td colSpan={4}>
-                                                <RemoveCircle /> {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send
-                                                den på nytt
-                                            </td>
-                                        </tr>
+                                        <td colSpan={4}>
+                                            <div className="file_error_celle">
+                                                <div className="file_error_ikon">
+                                                    <RemoveCircle />
+                                                </div>{" "}
+                                                {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
+                                            </div>
+                                        </td>
                                     )}
                                     {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") < 0 && (
-                                        <tr key={index}>
+                                        <>
                                             <td
                                                 className={
                                                     sortBy === Kolonne.FILNAVN
@@ -272,9 +274,9 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                     />
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </>
                                     )}
-                                </>
+                                </tr>
                             );
                         })}
                     </tbody>
