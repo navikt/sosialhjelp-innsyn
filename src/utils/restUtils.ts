@@ -1,5 +1,4 @@
 import "whatwg-fetch";
-import uuid from "uuid";
 import {logErrorMessage} from "../redux/innsynsdata/loggActions";
 import {v4 as uuidv4} from "uuid";
 
@@ -175,7 +174,7 @@ export const getHeaders = (contentType?: string) => {
 };
 
 function generateCallId(): string {
-    let randomNr = uuid.v4();
+    let randomNr = uuidv4();
     let systemTime = Date.now();
 
     return `CallId_${systemTime}_${randomNr}`;
