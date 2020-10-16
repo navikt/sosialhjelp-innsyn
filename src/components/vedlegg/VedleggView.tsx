@@ -13,6 +13,7 @@ import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
 import {getVisningstekster} from "../oppgaver/OppgaveView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import RemoveCircle from "../ikoner/RemoveCircle";
 
 const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
 const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
@@ -155,6 +156,10 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
         setCurrentPage(page);
     };
 
+    function harFeilPaVedleggFraServer(vedlegg: Vedlegg) {
+        return vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1;
+    }
+
     return (
         <>
             <EttersendelseView restStatus={restStatus} />
@@ -226,36 +231,55 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
                                 <tr key={index}>
-                                    <td
-                                        className={
-                                            sortBy === Kolonne.FILNAVN
-                                                ? "tabell__td--sortert filnavn_kollonne"
-                                                : "filnavn_kollonne"
-                                        }
-                                    >
-                                        <PaperClipSlanted className="ikon_liten_vedlegg" />
-                                        <Lenke
-                                            href={vedlegg.url}
-                                            target="_blank"
-                                            title={vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"}
-                                        >
-                                            {vedlegg.filnavn}
-                                        </Lenke>
-                                    </td>
-                                    <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
-                                        <IconSizedSpacerDesktop />
-                                        {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
-                                    </td>
-                                    <td align="right" className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}>
-                                        <IconSizedSpacerDesktop />
-                                        <div className={"dato_lagt_til"}>
-                                            <DatoOgKlokkeslett
-                                                bareDato={true}
-                                                tidspunkt={vedlegg.datoLagtTil}
-                                                brukKortMaanedNavn={true}
-                                            />
-                                        </div>
-                                    </td>
+                                    {harFeilPaVedleggFraServer(vedlegg) && (
+                                        <td colSpan={4}>
+                                            <div className="file_error_celle">
+                                                <div className="file_error_ikon">
+                                                    <RemoveCircle />
+                                                </div>{" "}
+                                                {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
+                                            </div>
+                                        </td>
+                                    )}
+                                    {!harFeilPaVedleggFraServer(vedlegg) && (
+                                        <>
+                                            <td
+                                                className={
+                                                    sortBy === Kolonne.FILNAVN
+                                                        ? "tabell__td--sortert filnavn_kollonne"
+                                                        : "filnavn_kollonne"
+                                                }
+                                            >
+                                                <PaperClipSlanted className="ikon_liten_vedlegg" />
+                                                <Lenke
+                                                    href={vedlegg.url}
+                                                    target="_blank"
+                                                    title={
+                                                        vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"
+                                                    }
+                                                >
+                                                    {vedlegg.filnavn}
+                                                </Lenke>
+                                            </td>
+                                            <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
+                                                <IconSizedSpacerDesktop />
+                                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                            </td>
+                                            <td
+                                                align="right"
+                                                className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}
+                                            >
+                                                <IconSizedSpacerDesktop />
+                                                <div className={"dato_lagt_til"}>
+                                                    <DatoOgKlokkeslett
+                                                        bareDato={true}
+                                                        tidspunkt={vedlegg.datoLagtTil}
+                                                        brukKortMaanedNavn={true}
+                                                    />
+                                                </div>
+                                            </td>
+                                        </>
+                                    )}
                                 </tr>
                             );
                         })}
