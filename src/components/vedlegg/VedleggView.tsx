@@ -156,6 +156,10 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
         setCurrentPage(page);
     };
 
+    function harFeilPaVedleggFraServer(vedlegg: Vedlegg) {
+        return vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1;
+    }
+
     return (
         <>
             <EttersendelseView restStatus={restStatus} />
@@ -227,7 +231,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
                                 <tr key={index}>
-                                    {vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1 && (
+                                    {harFeilPaVedleggFraServer(vedlegg) && (
                                         <td colSpan={4}>
                                             <div className="file_error_celle">
                                                 <div className="file_error_ikon">
@@ -237,7 +241,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                             </div>
                                         </td>
                                     )}
-                                    {vedlegg.storrelse > -1 && vedlegg.url.indexOf("/Error?") < 0 && (
+                                    {!harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
                                             <td
                                                 className={
