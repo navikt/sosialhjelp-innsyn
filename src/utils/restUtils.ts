@@ -148,21 +148,20 @@ export enum REST_STATUS {
     SERVICE_UNAVAILABLE = "SERVICE_UNAVAILABLE",
 }
 
-export const getHeaders = (contentType?: string) => {
+export const getHeaders = (contentType?: string, callId?: string) => {
+    return getOriginAwareHeaders(window.location.origin, contentType, callId);
+};
+
+export const getOriginAwareHeaders = (origin: string, contentType?: string, callId?: string): Headers => {
     let headers = new Headers({
-        "Content-Type": contentType ? contentType : "application/json; charset=utf-8",
         Accept: "application/json, text/plain, */*",
-        "Nav-Call-Id": generateCallId(),
+        "Nav-Call-Id": callId ?? generateCallId(),
     });
-    // Browser setter content type header automatisk til multipart/form-data: boundary xyz
-    if (contentType && contentType === "multipart/form-data") {
-        headers = new Headers({
-            Accept: "application/json, text/plain, */*",
-            "Nav-Call-Id": generateCallId(),
-        });
+
+    if (!contentType || contentType !== "multipart/form-data") {
+        headers.append("Content-Type", contentType ? contentType : "application/json; charset=utf-8");
     }
 
-    const origin = window.location.origin;
     if (isMockServer(origin) || (isDev(origin) && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken");
     }
@@ -191,10 +190,11 @@ export const serverRequest = (
     urlPath: string,
     body: string | null | FormData,
     contentType?: string,
-    isSoknadApi?: boolean
+    isSoknadApi?: boolean,
+    callId?: string
 ) => {
     const OPTIONS: RequestInit = {
-        headers: getHeaders(contentType),
+        headers: getHeaders(contentType, callId),
         method: method,
         credentials: determineCredentialsParameter(),
         body: body ? body : undefined,
@@ -285,8 +285,8 @@ export function fetchPut(urlPath: string, body: string) {
     return serverRequest(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string | FormData, contentType?: string) {
-    return serverRequest(RequestMethod.POST, urlPath, body, contentType);
+export function fetchPost(urlPath: string, body: string | FormData, contentType?: string, callId?: string) {
+    return serverRequest(RequestMethod.POST, urlPath, body, contentType, undefined, callId);
 }
 
 export function fetchPostGetErrors(urlPath: string, body: string | FormData, contentType?: string) {
