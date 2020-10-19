@@ -130,7 +130,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 </div>
             )}
 
-            {!leserData(restStatus.saksStatus) && !mustLogin && (
+            {!mustLogin && (
                 <SoknadsStatus
                     status={innsynsdata.soknadsStatus.status}
                     sak={innsynsdata.saksStatus}
@@ -138,45 +138,38 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 />
             )}
 
-            {!leserData(restStatus.saksStatus) && !mustLogin && (erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
+            {!mustLogin && (erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
                 <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
             )}
 
-            {!leserData(restStatus.saksStatus) &&
-                !mustLogin &&
-                kommuneResponse != null &&
-                kommuneResponse.erInnsynDeaktivert && (
-                    <>
-                        <Panel className="panel-luft-over">
-                            <Systemtittel>
-                                <FormattedMessage id="vedlegg.tittel" />
-                            </Systemtittel>
-                        </Panel>
-                        <Panel className="panel-glippe-over">
-                            <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
-                        </Panel>
-                    </>
-                )}
-            {!leserData(restStatus.saksStatus) &&
-                !mustLogin &&
-                (kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
-                    <ArkfanePanel
-                        className="panel-luft-over"
-                        arkfaner={[
-                            {
-                                tittel: intl.formatMessage({id: "historikk.tittel"}),
-                                content: (
-                                    <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />
-                                ),
-                            },
-                            {
-                                tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                                content: <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />,
-                            },
-                        ]}
-                        defaultArkfane={0}
-                    />
-                )}
+            {!mustLogin && kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
+                <>
+                    <Panel className="panel-luft-over">
+                        <Systemtittel>
+                            <FormattedMessage id="vedlegg.tittel" />
+                        </Systemtittel>
+                    </Panel>
+                    <Panel className="panel-glippe-over">
+                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                    </Panel>
+                </>
+            )}
+            {!mustLogin && (kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
+                <ArkfanePanel
+                    className="panel-luft-over"
+                    arkfaner={[
+                        {
+                            tittel: intl.formatMessage({id: "historikk.tittel"}),
+                            content: <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />,
+                        },
+                        {
+                            tittel: intl.formatMessage({id: "vedlegg.tittel"}),
+                            content: <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />,
+                        },
+                    ]}
+                    defaultArkfane={0}
+                />
+            )}
         </>
     );
 };
