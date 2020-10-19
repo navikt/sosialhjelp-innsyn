@@ -25,6 +25,7 @@ import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../co
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
+import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
 
 interface Props {
     match: {
@@ -70,11 +71,26 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
-    const mustLogin: boolean = innsynsdata.restStatus.saker === REST_STATUS.UNAUTHORIZED;
+    //const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const innsynRestStatus = innsynsdata.restStatus.saker;
+    //const leserInnsynData: boolean =
+    //    innsynRestStatus === REST_STATUS.INITIALISERT || innsynRestStatus === REST_STATUS.PENDING;
+    //
+    //
+    //const soknadApiData = useSoknadsSakerService();
+    //const leserSoknadApiData: boolean =
+    //    soknadApiData.restStatus === REST_STATUS.INITIALISERT || soknadApiData.restStatus === REST_STATUS.PENDING;
+    //
+    //
+    //const leserData: boolean = leserInnsynData || leserSoknadApiData;
+    const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
     const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
     document.title = statusTittel;
+
+    console.log("saksstatus.tsx - leserData", leserData(restStatus.saksStatus));
+    console.log("saksstatus.tsx - mustlogin", mustLogin);
 
     const shouldShowHotjarTrigger = () => {
         return (

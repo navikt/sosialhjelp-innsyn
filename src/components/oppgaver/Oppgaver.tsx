@@ -68,15 +68,18 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const leserData: boolean = leserInnsynData || leserSoknadApiData;
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
+    console.log("Oppgaver.tsx - leserData", leserData);
+    console.log("Oppgaver.tsx - mustlogin", mustLogin);
+
     return (
         <>
-            {(leserData || mustLogin) && (
+            {mustLogin && (
                 <div className="application-spinner">
                     <NavFrontendSpinner type="XL" />
                 </div>
             )}
 
-            {!leserData && !mustLogin && (
+            {!mustLogin && (
                 <Panel className="panel-luft-over">
                     <Systemtittel>
                         <FormattedMessage id="oppgaver.dine_oppgaver" />
@@ -84,9 +87,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 </Panel>
             )}
 
-            {!leserData && !mustLogin && <VilkarView />}
+            {!mustLogin && <VilkarView />}
 
-            {!leserData && !mustLogin && skalViseLastestripe(restStatus) && (
+            {!mustLogin && skalViseLastestripe(restStatus) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
@@ -97,9 +100,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 </Panel>
             )}
 
-            {!leserData && !mustLogin && <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />}
+            {!mustLogin && <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />}
 
-            {!leserData && !mustLogin && brukerHarOppgaver && (
+            {!mustLogin && brukerHarOppgaver && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
