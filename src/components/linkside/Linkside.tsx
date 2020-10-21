@@ -3,14 +3,18 @@ import {parse} from "query-string";
 import {Redirect} from "react-router";
 
 const Linkside: React.FC<{}> = () => {
-    const queryParameters = parse(window.location.search);
-    let redirectURL: string = "status";
+    const redirectUrl = getRedirectUrl(window.location.search);
+    return <Redirect to={redirectUrl} />;
+};
+
+export const getRedirectUrl = (searchParameters: string) => {
+    const queryParameters = parse(searchParameters);
+    let redirectURL: string = "";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
         redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/innsyn");
     }
-
-    return <Redirect to={redirectURL} />;
+    return redirectURL;
 };
 
 export default Linkside;
