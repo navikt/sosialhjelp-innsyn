@@ -9,7 +9,7 @@ const Linkside: React.FC<{}> = () => {
 
 export const getRedirectUrl = (searchParameters: string) => {
     const queryParameters = parse(searchParameters);
-    let redirectURL: string = "";
+    let redirectURL: string = "/innsyn";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
         redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/innsyn");

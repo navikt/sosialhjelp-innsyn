@@ -11,7 +11,6 @@ import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
 import "./App.less";
 import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
-import VeiviserPlaceholder from "./saksoversikt/statiskeDemoSider/VeiviserPlaceholder";
 import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
@@ -46,7 +45,7 @@ const App: React.FC = () => {
                     <Tilgangskontrollside>
                         <ConnectedRouter history={history}>
                             <Switch>
-                                <Route exact path="/" component={VeiviserPlaceholder} />
+                                <Route exact path="/" component={Saksoversikt} />
                                 <Route path="/saksoversikt" component={SaksoversiktRouter} />
                                 <Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
                                 <Route exact path="/innsyn" component={Saksoversikt} />

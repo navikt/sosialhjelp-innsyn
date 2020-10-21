@@ -8,6 +8,6 @@ describe("getRedirectUrl", () => {
     });
 
     it("hentSaksStatusTittel should return correct title key for UNDER_BEHANDLING", () => {
-        expect(getRedirectUrl("")).toEqual("");
+        expect(getRedirectUrl("")).toEqual("/innsyn");
     });
 });
