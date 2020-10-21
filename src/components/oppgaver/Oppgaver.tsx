@@ -5,7 +5,7 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import OppgaveView from "./OppgaveView";
-import {InnsynsdataType, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -14,10 +14,6 @@ import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import useSoknadsSakerService from "../../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
-import NavFrontendSpinner from "nav-frontend-spinner";
 
 interface Props {
     oppgaver: null | Oppgave[];
@@ -56,40 +52,17 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
-    const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const innsynRestStatus = innsynData.restStatus.saker;
-    const leserInnsynData: boolean =
-        innsynRestStatus === REST_STATUS.INITIALISERT || innsynRestStatus === REST_STATUS.PENDING;
-
-    const soknadApiData = useSoknadsSakerService();
-    const leserSoknadApiData: boolean =
-        soknadApiData.restStatus === REST_STATUS.INITIALISERT || soknadApiData.restStatus === REST_STATUS.PENDING;
-
-    const leserData: boolean = leserInnsynData || leserSoknadApiData;
-    const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
-
-    console.log("Oppgaver.tsx - leserData", leserData);
-    console.log("Oppgaver.tsx - mustlogin", mustLogin);
-
     return (
         <>
-            {mustLogin && (
-                <div className="application-spinner">
-                    <NavFrontendSpinner type="XL" />
-                </div>
-            )}
+            <Panel className="panel-luft-over">
+                <Systemtittel>
+                    <FormattedMessage id="oppgaver.dine_oppgaver" />
+                </Systemtittel>
+            </Panel>
 
-            {!mustLogin && (
-                <Panel className="panel-luft-over">
-                    <Systemtittel>
-                        <FormattedMessage id="oppgaver.dine_oppgaver" />
-                    </Systemtittel>
-                </Panel>
-            )}
+            <VilkarView />
 
-            {!mustLogin && <VilkarView />}
-
-            {!mustLogin && skalViseLastestripe(restStatus) && (
+            {skalViseLastestripe(restStatus) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
@@ -100,9 +73,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 </Panel>
             )}
 
-            {!mustLogin && <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />}
+            <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
-            {!mustLogin && brukerHarOppgaver && (
+            {brukerHarOppgaver && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +

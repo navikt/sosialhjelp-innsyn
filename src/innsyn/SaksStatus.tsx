@@ -37,6 +37,8 @@ interface Props {
 const SaksStatusView: React.FC<Props> = ({match}) => {
     const fiksDigisosId: string = match.params.soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const innsynRestStatus = innsynsdata.restStatus.saksStatus;
+
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
@@ -70,15 +72,11 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
-    const innsynRestStatus = innsynsdata.restStatus.saker;
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
     const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
     document.title = statusTittel;
-
-    console.log("saksstatus.tsx - leserData", leserData(restStatus.saksStatus));
-    console.log("saksstatus.tsx - mustlogin", mustLogin);
 
     const shouldShowHotjarTrigger = () => {
         return (
@@ -108,10 +106,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 className="breadcrumbs__luft_rundt"
             />
 
-            <DriftsmeldingAlertstripe />
-
-            <ForelopigSvarAlertstripe />
-
             {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
                 <SoknadMedInnsynHotjarTrigger>
                     <div />
@@ -124,51 +118,64 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 </SoknadUtenInnsynHotjarTrigger>
             )}
 
-            {(leserData(restStatus.saksStatus) || mustLogin) && (
+            {mustLogin && (
                 <div className="application-spinner">
                     <NavFrontendSpinner type="XL" />
                 </div>
             )}
 
             {!mustLogin && (
-                <SoknadsStatus
-                    status={innsynsdata.soknadsStatus.status}
-                    sak={innsynsdata.saksStatus}
-                    restStatus={restStatus.soknadsStatus}
-                />
-            )}
-
-            {!mustLogin && (erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
-                <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
-            )}
-
-            {!mustLogin && kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                 <>
-                    <Panel className="panel-luft-over">
-                        <Systemtittel>
-                            <FormattedMessage id="vedlegg.tittel" />
-                        </Systemtittel>
-                    </Panel>
-                    <Panel className="panel-glippe-over">
-                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
-                    </Panel>
+                    <DriftsmeldingAlertstripe />
+
+                    <ForelopigSvarAlertstripe />
+
+                    <SoknadsStatus
+                        status={innsynsdata.soknadsStatus.status}
+                        sak={innsynsdata.saksStatus}
+                        restStatus={restStatus.soknadsStatus}
+                    />
+
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
+                        <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
+                    )}
+
+                    {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
+                        <>
+                            <Panel className="panel-luft-over">
+                                <Systemtittel>
+                                    <FormattedMessage id="vedlegg.tittel" />
+                                </Systemtittel>
+                            </Panel>
+                            <Panel className="panel-glippe-over">
+                                <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                            </Panel>
+                        </>
+                    )}
+                    {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
+                        <ArkfanePanel
+                            className="panel-luft-over"
+                            arkfaner={[
+                                {
+                                    tittel: intl.formatMessage({id: "historikk.tittel"}),
+                                    content: (
+                                        <Historikk
+                                            hendelser={innsynsdata.hendelser}
+                                            restStatus={restStatus.hendelser}
+                                        />
+                                    ),
+                                },
+                                {
+                                    tittel: intl.formatMessage({id: "vedlegg.tittel"}),
+                                    content: (
+                                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                                    ),
+                                },
+                            ]}
+                            defaultArkfane={0}
+                        />
+                    )}
                 </>
-            )}
-            {!mustLogin && (kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
-                <ArkfanePanel
-                    className="panel-luft-over"
-                    arkfaner={[
-                        {
-                            tittel: intl.formatMessage({id: "historikk.tittel"}),
-                            content: <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />,
-                        },
-                        {
-                            tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                            content: <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />,
-                        },
-                    ]}
-                    defaultArkfane={0}
-                />
             )}
         </>
     );

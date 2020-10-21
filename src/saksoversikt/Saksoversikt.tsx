@@ -29,9 +29,6 @@ const Saksoversikt: React.FC = () => {
     const leserData: boolean = leserInnsynData || leserSoknadApiData;
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
-    console.log("saksoversikt.tsx - leserData", leserData);
-    console.log("saksoversikt.tsx - mustlogin", mustLogin);
-
     let innsynApiKommunikasjonsProblemer = false;
     let soknadApiKommunikasjonsProblemer = false;
 
