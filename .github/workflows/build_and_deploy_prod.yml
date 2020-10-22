@@ -6,6 +6,7 @@ on:
 
 env:
   CI: true
+  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/$PROJECT_NAME:${{ github.sha }}
 
 # FIXME: Legg til docker layer caching, f.eks. https://github.com/marketplace/actions/build-docker-images-using-cache
 jobs:
@@ -33,37 +34,16 @@ jobs:
           echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_REPOSITORY} --password-stdin docker.pkg.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create artifact version
-        id: artifact-version
-        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
-      - name: Create docker image tags
-        run: |
-          PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d/ -f2)
-          echo "docker.pkg.github.com/$GITHUB_REPOSITORY/$PROJECT_NAME:${{ steps.artifact-version.outputs.version }}" > DOCKER_TAG
       - name: Build docker image
-        run: docker build -t $(cat DOCKER_TAG) .
-      - name: Create tag and release
-        # TODO: Bytt ut med upstream når/hvis https://github.com/actions/create-release/pull/32 merges
-        uses: fleskesvor/create-release@feature/support-target-commitish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.artifact-version.outputs.version }}
-          release_name: ${{ steps.artifact-version.outputs.version }}
-          commitish: ${{ github.sha }}
+        run: docker build -t ${{ env.DOCKER_IMAGE }} .
       - name: Push docker image
         run: |
-          docker push $(cat DOCKER_TAG)
+          docker push ${{ env.DOCKER_IMAGE }}
 
   deploy:
     name: Deploy to prod-sbs
     runs-on: ubuntu-latest
     steps:
-      - name: Sett env variabler
-        run: |
-          PROJECT_NAME=$(echo ${{ github.repository }} | cut -d/ -f2)
-          echo "IMAGE=docker.pkg.github.com/${{ github.repository }}/$PROJECT_NAME:${{ github.event.client_payload.TAG }}" >> $GITHUB_ENV
-
       - uses: actions/checkout@v1
       - name: deploy til prod-sbs
         uses: nais/deploy/actions/deploy@v1
@@ -72,6 +52,6 @@ jobs:
           RESOURCE: nais.yaml
           CLUSTER: prod-sbs
           VARS: nais/prod/default.json
-          REF: ${{ github.event.client_payload.TAG }}
+          REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
-          IMAGE: ${{ env.IMAGE }}
+          IMAGE: ${{ env.DOCKER_IMAGE }}
