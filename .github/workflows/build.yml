@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - "**" # Build all branches
+      - '!master'   # excludes master
     tags-ignore:
       - "**" # Don't build any tags
 
