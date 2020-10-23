@@ -7,7 +7,7 @@ import Panel from "nav-frontend-paneler";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
-import {fetchToJson, HttpStatus, REST_STATUS} from "../../utils/restUtils";
+import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import NavFrontendSpinner from "nav-frontend-spinner";
@@ -34,7 +34,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                 setRestStatus(REST_STATUS.OK);
             })
             .catch((reason) => {
-                if (reason.message === HttpStatus.UNAUTHORIZED) {
+                if (reason.message === HttpErrorType.UNAUTHORIZED) {
                     setRestStatus(REST_STATUS.UNAUTHORIZED);
                 } else {
                     setRestStatus(REST_STATUS.FEILET);

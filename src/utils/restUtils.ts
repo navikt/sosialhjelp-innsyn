@@ -179,8 +179,9 @@ function generateCallId(): string {
     return `CallId_${systemTime}_${randomNr}`;
 }
 
-export enum HttpStatus {
+export enum HttpErrorType {
     UNAUTHORIZED = "unauthorized",
+    UNAUTHORIZED_LOOP = "unauthorized_loop",
     FORBIDDEN = "Forbidden",
     SERVICE_UNAVAILABLE = "Service Unavailable",
 }
@@ -205,7 +206,7 @@ export const serverRequest = (
     return new Promise((resolve, reject) => {
         fetch(url, OPTIONS)
             .then((response: Response) => {
-                sjekkStatuskode(response);
+                sjekkStatuskode(response, url);
                 const jsonResponse = toJson(response);
                 resolve(jsonResponse);
             })
@@ -243,7 +244,12 @@ export function toJson<T>(response: Response): Promise<T> {
     return response.json();
 }
 
-function sjekkStatuskode(response: Response) {
+function sjekkStatuskode(response: Response, url: string) {
+    if (loggGotUnauthorizedDuringLoginProcess(url, response.status)) {
+        // 401 ved kall mot /logg under en påloggingsloop kan føre til en uendelig loop. Sender brukeren til feilsiden.
+        throw new Error(HttpErrorType.UNAUTHORIZED_LOOP);
+    }
+
     if (response.status === 401) {
         response.json().then((r) => {
             if (window.location.search.split("login_id=")[1] !== r.id) {
@@ -257,13 +263,20 @@ function sjekkStatuskode(response: Response) {
                 );
             }
         });
-        throw new Error(HttpStatus.UNAUTHORIZED);
+        throw new Error(HttpErrorType.UNAUTHORIZED);
     }
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
     throw new Error(response.statusText);
 }
+
+const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: number) => {
+    const restUrlIsLogg = restUrl.indexOf("logg") > -1;
+    const restStatusIsUnauthorized = restStatus === 401;
+    const loginIsProcessing = window.location.search.indexOf("login_id") > -1;
+    return restUrlIsLogg && restStatusIsUnauthorized && loginIsProcessing;
+};
 
 function determineCredentialsParameter() {
     return window.location.origin.indexOf("nais.oera") ||
@@ -291,14 +304,6 @@ export function fetchPost(urlPath: string, body: string | FormData, contentType?
 
 export function fetchPostGetErrors(urlPath: string, body: string | FormData, contentType?: string) {
     return serverRequestGetErrors(RequestMethod.POST, urlPath, body, contentType);
-}
-
-export function fetchDelete(urlPath: string) {
-    const OPTIONS: RequestInit = {
-        headers: getHeaders(),
-        method: RequestMethod.DELETE,
-    };
-    return fetch(getApiBaseUrl() + urlPath, OPTIONS).then(sjekkStatuskode);
 }
 
 function getRedirectOrigin() {
