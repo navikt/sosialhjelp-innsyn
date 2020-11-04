@@ -1,4 +1,5 @@
 {
+  "applicationName": "sosialhjelp-innsyn",
   "namespace": "teamdigisos",
   "ingresses": [
     "https://sosialhjelp-innsyn.dev.nav.no/sosialhjelp/innsyn"
