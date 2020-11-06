@@ -9,7 +9,7 @@ import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
-import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import BigBanner from "../banner/BigBanner";
 
@@ -38,7 +38,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                     setRestStatus(REST_STATUS.UNAUTHORIZED);
                 } else {
                     setRestStatus(REST_STATUS.FEILET);
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(skalViseFeilside(true));
                 }
             });

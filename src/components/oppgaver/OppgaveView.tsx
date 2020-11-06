@@ -43,7 +43,7 @@ import {
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
-import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 interface Props {
     oppgave: Oppgave;
@@ -559,7 +559,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                     });
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, true));
-                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message);
+                    logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
                 });
         } else {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));

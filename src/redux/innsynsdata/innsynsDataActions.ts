@@ -11,7 +11,7 @@ import {
     oppdaterOppgaveState,
     skalViseForbudtside,
 } from "./innsynsdataReducer";
-import {logErrorMessage} from "./loggActions";
+import {logWarningMessage} from "./loggActions";
 
 export const innsynsdataUrl = (fiksDigisosId: string, sti: string): string => `/innsyn/${fiksDigisosId}/${sti}`;
 
@@ -28,11 +28,11 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
                 if (reason.message === HttpErrorType.UNAUTHORIZED) {
                     dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(skalViseForbudtside(true));
                 } else {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
                         dispatch(skalViseFeilside(true));
@@ -55,11 +55,11 @@ export function hentOppgaveMedId(fiksDigisosId: string, sti: InnsynsdataSti, opp
                 if (reason.message === HttpErrorType.UNAUTHORIZED) {
                     dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(skalViseForbudtside(true));
                 } else {
-                    logErrorMessage(reason.message);
+                    logWarningMessage(reason.message);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(skalViseFeilside(true));
                 }
@@ -82,11 +82,11 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
                 } else if (reason.message === HttpErrorType.SERVICE_UNAVAILABLE) {
                     dispatch(settRestStatus(sti, REST_STATUS.SERVICE_UNAVAILABLE));
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(skalViseForbudtside(true));
                 } else {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
                         dispatch(skalViseFeilside(true));
@@ -108,11 +108,11 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
                 if (reason.message === HttpErrorType.UNAUTHORIZED) {
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.UNAUTHORIZED));
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
                     dispatch(skalViseForbudtside(true));
                 } else {
-                    logErrorMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message, reason.navCallId);
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
                         dispatch(skalViseFeilside(true));

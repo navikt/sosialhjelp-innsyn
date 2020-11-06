@@ -1,5 +1,5 @@
 import "whatwg-fetch";
-import {logErrorMessage} from "../redux/innsynsdata/loggActions";
+import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 import {v4 as uuidv4} from "uuid";
 
 const sessionTraceID = uuidv4().toString().replace(/-/g, "");
@@ -257,7 +257,7 @@ function sjekkStatuskode(response: Response, url: string) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
                 window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
-                logErrorMessage(
+                logWarningMessage(
                     "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
                         r.id +
                         "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
