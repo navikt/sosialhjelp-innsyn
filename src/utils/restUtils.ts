@@ -4,19 +4,20 @@ import {v4 as uuidv4} from "uuid";
 
 const sessionTraceID = uuidv4().toString().replace(/-/g, "");
 
-export function isDev(origin: string) {
+export function isLocalhost(origin: string) {
     return origin.indexOf("localhost") >= 0;
 }
 
-export function isQ(origin: string): boolean {
+export function isDevSbs(origin: string): boolean {
     return (
         origin.indexOf("www-q") >= 0 ||
-        (origin.indexOf("sosialhjelp-innsyn-q") >= 0 && origin.indexOf("dev-sbs.nais.io") >= 0)
+        (origin.indexOf("sosialhjelp-innsyn-q") >= 0 && origin.indexOf("dev-sbs.nais.io") >= 0) || // q0
+        (origin.indexOf("sosialhjelp-innsyn-intern") >= 0 && origin.indexOf("dev.nav.no") >= 0) // -intern i teamdigisos-namespace
     );
 }
 
 export function isQ1(origin: string): boolean {
-    return isQ(origin) && origin.indexOf("-q1") >= 0;
+    return isDevSbs(origin) && (origin.indexOf("-q1") >= 0 || origin.indexOf("-intern") >= 0);
 }
 
 export function isQGammelVersjon(origin: string): boolean {
@@ -51,7 +52,7 @@ export function getApiBaseUrl(): string {
 }
 
 export function getBaseUrl(origin: string): string {
-    if (isDev(origin)) {
+    if (isLocalhost(origin)) {
         if (erMedLoginApi()) {
             return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
         }
@@ -62,7 +63,7 @@ export function getBaseUrl(origin: string): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isQ(origin)) {
+    } else if (isDevSbs(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
@@ -76,10 +77,10 @@ export function getSoknadApiUrl(): string {
 }
 
 export function getSoknadBaseUrl(origin: string): string {
-    if (isDev(origin)) {
+    if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (isQ(origin) || isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+    if (isDevSbs(origin) || isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"
@@ -97,11 +98,11 @@ export function getNavUrl(origin: string): string {
         return "https://www-q1.nav.no/person/dittnav/";
     }
     if (
-        isDev(origin) ||
+        isLocalhost(origin) ||
         isDevGcp(origin) ||
         isLabsGcpWithProxy(origin) ||
         isLabsGcpWithoutProxy(origin) ||
-        isQ(origin)
+        isDevSbs(origin)
     ) {
         return "https://www-q0.nav.no/person/dittnav/";
     } else {
@@ -114,15 +115,15 @@ export function getApiBaseUrlForSwagger(): string {
 }
 
 export function getApiUrlForSwagger(origin: string): string {
-    if (isDev(origin)) {
+    if (isLocalhost(origin)) {
         return "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html";
     }
     if (
-        isDev(origin) ||
+        isLocalhost(origin) ||
         isDevGcp(origin) ||
         isLabsGcpWithProxy(origin) ||
         isLabsGcpWithoutProxy(origin) ||
-        isQ(origin)
+        isDevSbs(origin)
     ) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
@@ -162,7 +163,7 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
         headers.append("Content-Type", contentType ? contentType : "application/json; charset=utf-8");
     }
 
-    if (isMockServer(origin) || (isDev(origin) && !erMedLoginApi())) {
+    if (isMockServer(origin) || (isLocalhost(origin) && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken");
     }
     if (isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
@@ -280,7 +281,7 @@ const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: numb
 
 function determineCredentialsParameter() {
     return window.location.origin.indexOf("nais.oera") ||
-        isDev(window.location.origin) ||
+        isLocalhost(window.location.origin) ||
         isMockServer(window.location.origin)
         ? "include"
         : "same-origin";
