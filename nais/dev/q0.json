@@ -1,4 +1,5 @@
 {
+  "applicationName": "sosialhjelp-innsyn",
   "namespace": "q0",
   "ingresses": [
     "https://sosialhjelp-innsyn-q0.dev-sbs.nais.io/sosialhjelp/innsyn",

@@ -15,7 +15,7 @@ import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
-import {isDev, isQ} from "./utils/restUtils";
+import {isLocalhost, isDevSbs} from "./utils/restUtils";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 
 const store = configureStore();
@@ -29,7 +29,7 @@ const visSpraakNokler = (tekster: any) => {
     return tekster;
 };
 
-if (isDev(window.location.origin) || isQ(window.location.origin)) {
+if (isLocalhost(window.location.origin) || isDevSbs(window.location.origin)) {
     Sentry.init({
         dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15",
     });

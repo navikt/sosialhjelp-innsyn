@@ -1,9 +1,9 @@
-name: Deploy q1
+name: Deploy dev-sbs intern
 on: workflow_dispatch
 
 jobs:
   deploy:
-    name: Deploy to q1
+    name: Deploy to dev-sbs intern
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais.yaml
           CLUSTER: dev-sbs
-          VARS: nais/dev/q1.json
+          VARS: nais/dev/dev-sbs-intern.json
           REF: ${{ steps.get-latest-tag.outputs.tag }}
           PRINT_PAYLOAD: true
           IMAGE: ${{ env.IMAGE }}

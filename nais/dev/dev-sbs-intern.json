@@ -1,7 +1,8 @@
 {
-  "namespace": "q1",
+  "applicationName": "sosialhjelp-innsyn-intern",
+  "namespace": "teamdigisos",
   "ingresses": [
-    "https://sosialhjelp-innsyn-q1.dev-sbs.nais.io/sosialhjelp/innsyn",
+    "https://sosialhjelp-innsyn-intern.dev.nav.no/sosialhjelp/innsyn",
     "https://www-q1.dev.nav.no/sosialhjelp/innsyn",
     "https://www-q1.nav.no/sosialhjelp/innsyn"
   ],

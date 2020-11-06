@@ -1,10 +1,10 @@
 import {
     getBaseUrl,
     isDevGcp,
-    isDev,
+    isLocalhost,
     isLabsGcpWithoutProxy,
     isLabsGcpWithProxy,
-    isQ,
+    isDevSbs,
     getSoknadBaseUrl,
     getNavUrl,
     getApiUrlForSwagger,
@@ -25,16 +25,16 @@ const q0DevSbsOrigins = [
     "https://sosialhjelp-innsyn-q0.dev-sbs.nais.io",
 ];
 
-const q1DevSbsOrigins = [
-    "https://sosialhjelp-innsyn-q1.dev-sbs.nais.io/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn-q1.dev-sbs.nais.io",
+const devSbsIntern_origins = [
+    "https://sosialhjelp-innsyn-intern.dev.nav.no/sosialhjelp/innsyn",
+    "https://sosialhjelp-innsyn-intern.dev.nav.no",
 ];
 
 const q0NavnoOrigins = ["https://www-q0.nav.no/sosialhjelp/innsyn", "https://www-q0.nav.no"];
 
-const q1NavnoOrigins = ["https://www-q1.nav.no/sosialhjelp/innsyn", "https://www-q1.nav.no"];
+const devSbsIntern_navnoOrigins = ["https://www-q1.nav.no/sosialhjelp/innsyn", "https://www-q1.nav.no"];
 
-const q1DevNavnoOrigins = ["https://www-q1.dev.nav.no/sosialhjelp/innsyn", "https://www-q1.dev.nav.no"];
+const devSbsIntern_devNavnoOrigins = ["https://www-q1.dev.nav.no/sosialhjelp/innsyn", "https://www-q1.dev.nav.no"];
 
 const q0DevNavnoOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
 
@@ -73,11 +73,14 @@ describe("getBaseUrl", () => {
             q0DevSbsOrigins,
             "https://sosialhjelp-login-api-q0.dev-sbs.nais.io/sosialhjelp/login-api/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(q1NavnoOrigins, "https://www-q1.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
-        validateGetBaseUrl(q1DevNavnoOrigins, "https://www-q1.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
+        validateGetBaseUrl(devSbsIntern_navnoOrigins, "https://www-q1.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(
-            q1DevSbsOrigins,
-            "https://sosialhjelp-login-api-q1.dev-sbs.nais.io/sosialhjelp/login-api/innsyn-api/api/v1"
+            devSbsIntern_devNavnoOrigins,
+            "https://www-q1.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
+        );
+        validateGetBaseUrl(
+            devSbsIntern_origins,
+            "https://sosialhjelp-login-api-intern.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
         );
 
         validateGetBaseUrl(labsGcpWithProxyOrigins, "https://digisos.labs.nais.io/sosialhjelp/innsyn-api/api/v1");
@@ -109,9 +112,12 @@ describe("getSoknadBaseUrl", () => {
         validateGetBaseUrl(q0DevNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/soknad-api");
         validateGetBaseUrl(q0NavnoOrigins, "https://www-q0.nav.no/sosialhjelp/soknad-api");
         validateGetBaseUrl(q0DevSbsOrigins, "https://sosialhjelp-soknad-api-q0.dev-sbs.nais.io/sosialhjelp/soknad-api");
-        validateGetBaseUrl(q1DevNavnoOrigins, "https://www-q1.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(q1NavnoOrigins, "https://www-q1.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(q1DevSbsOrigins, "https://sosialhjelp-soknad-api-q1.dev-sbs.nais.io/sosialhjelp/soknad-api");
+        validateGetBaseUrl(devSbsIntern_devNavnoOrigins, "https://www-q1.dev.nav.no/sosialhjelp/soknad-api");
+        validateGetBaseUrl(devSbsIntern_navnoOrigins, "https://www-q1.nav.no/sosialhjelp/soknad-api");
+        validateGetBaseUrl(
+            devSbsIntern_origins,
+            "https://sosialhjelp-soknad-api-intern.dev.nav.no/sosialhjelp/soknad-api"
+        );
 
         validateGetBaseUrl(labsGcpWithProxyOrigins, "https://digisos.labs.nais.io/sosialhjelp/soknad-api");
         validateGetBaseUrl(
@@ -142,9 +148,9 @@ describe("getDittNavUrl", () => {
         validateGetBaseUrl(q0DevNavnoOrigins, "https://www-q0.nav.no/person/dittnav/");
         validateGetBaseUrl(q0NavnoOrigins, "https://www-q0.nav.no/person/dittnav/");
         validateGetBaseUrl(q0DevSbsOrigins, "https://www-q0.nav.no/person/dittnav/");
-        validateGetBaseUrl(q1DevNavnoOrigins, "https://www-q1.nav.no/person/dittnav/");
-        validateGetBaseUrl(q1NavnoOrigins, "https://www-q1.nav.no/person/dittnav/");
-        validateGetBaseUrl(q1DevSbsOrigins, "https://www-q1.nav.no/person/dittnav/");
+        validateGetBaseUrl(devSbsIntern_devNavnoOrigins, "https://www-q1.nav.no/person/dittnav/");
+        validateGetBaseUrl(devSbsIntern_navnoOrigins, "https://www-q1.nav.no/person/dittnav/");
+        validateGetBaseUrl(devSbsIntern_origins, "https://www-q1.nav.no/person/dittnav/");
 
         validateGetBaseUrl(labsGcpWithProxyOrigins, "https://www-q0.nav.no/person/dittnav/");
         validateGetBaseUrl(labsGcpWithoutProxyOrigins, "https://www-q0.nav.no/person/dittnav/");
@@ -175,11 +181,14 @@ describe("getSwaggerUrl", () => {
             q0DevSbsOrigins,
             "https://sosialhjelp-innsyn-api-q0.dev-sbs.nais.io/sosialhjelp/innsyn-api/swagger-ui.html"
         );
-        validateGetBaseUrl(q1DevNavnoOrigins, "https://www-q1.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html");
-        validateGetBaseUrl(q1NavnoOrigins, "https://www-q1.nav.no/sosialhjelp/innsyn-api/swagger-ui.html");
         validateGetBaseUrl(
-            q1DevSbsOrigins,
-            "https://sosialhjelp-innsyn-api-q1.dev-sbs.nais.io/sosialhjelp/innsyn-api/swagger-ui.html"
+            devSbsIntern_devNavnoOrigins,
+            "https://www-q1.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
+        );
+        validateGetBaseUrl(devSbsIntern_navnoOrigins, "https://www-q1.nav.no/sosialhjelp/innsyn-api/swagger-ui.html");
+        validateGetBaseUrl(
+            devSbsIntern_origins,
+            "https://sosialhjelp-innsyn-api-intern.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
         );
 
         validateGetBaseUrl(
@@ -226,9 +235,9 @@ describe("isDev", () => {
         validateIsDev(q0DevSbsOrigins, false);
         validateIsDev(q0DevNavnoOrigins, false);
         validateIsDev(q0NavnoOrigins, false);
-        validateIsDev(q1DevSbsOrigins, false);
-        validateIsDev(q1DevNavnoOrigins, false);
-        validateIsDev(q1NavnoOrigins, false);
+        validateIsDev(devSbsIntern_origins, false);
+        validateIsDev(devSbsIntern_devNavnoOrigins, false);
+        validateIsDev(devSbsIntern_navnoOrigins, false);
 
         validateIsDev(labsGcpWithProxyOrigins, false);
         validateIsDev(labsGcpWithoutProxyOrigins, false);
@@ -239,39 +248,39 @@ describe("isDev", () => {
 
     function validateIsDev(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
-            expect(isDev(origin) + " for " + origin).toEqual(expected + " for " + origin);
+            expect(isLocalhost(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });
 
-describe("isQ", () => {
+describe("isDevSbs", () => {
     it("should return true for dev-sbs", () => {
-        validateIsQ(q0DevSbsOrigins, true);
-        validateIsQ(q0DevNavnoOrigins, true);
-        validateIsQ(q0NavnoOrigins, true);
-        validateIsQ(q1DevSbsOrigins, true);
-        validateIsQ(q1DevNavnoOrigins, true);
-        validateIsQ(q1NavnoOrigins, true);
+        validateIsDevSbs(q0DevSbsOrigins, true);
+        validateIsDevSbs(q0DevNavnoOrigins, true);
+        validateIsDevSbs(q0NavnoOrigins, true);
+        validateIsDevSbs(devSbsIntern_origins, true);
+        validateIsDevSbs(devSbsIntern_devNavnoOrigins, true);
+        validateIsDevSbs(devSbsIntern_navnoOrigins, true);
     });
 
     it("should return false for prod", () => {
-        validateIsQ(prodSbsOrigins, false);
-        validateIsQ(prodNavnoOrigins, false);
+        validateIsDevSbs(prodSbsOrigins, false);
+        validateIsDevSbs(prodNavnoOrigins, false);
     });
 
     it("should return false for other", () => {
-        validateIsQ(localhostOrigins, false);
+        validateIsDevSbs(localhostOrigins, false);
 
-        validateIsQ(labsGcpWithProxyOrigins, false);
-        validateIsQ(labsGcpWithoutProxyOrigins, false);
+        validateIsDevSbs(labsGcpWithProxyOrigins, false);
+        validateIsDevSbs(labsGcpWithoutProxyOrigins, false);
 
-        validateIsQ(devGcpOrigins, false);
-        validateIsQ(unknownOrigins, false);
+        validateIsDevSbs(devGcpOrigins, false);
+        validateIsDevSbs(unknownOrigins, false);
     });
 
-    function validateIsQ(origins: string[], expected: boolean) {
+    function validateIsDevSbs(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
-            expect(isQ(origin) + " for " + origin).toEqual(expected + " for " + origin);
+            expect(isDevSbs(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });
@@ -292,9 +301,9 @@ describe("isDevGcp", () => {
         validateIsDevGcp(q0DevSbsOrigins, false);
         validateIsDevGcp(q0NavnoOrigins, false);
         validateIsDevGcp(q0DevNavnoOrigins, false);
-        validateIsDevGcp(q1DevSbsOrigins, false);
-        validateIsDevGcp(q1DevNavnoOrigins, false);
-        validateIsDevGcp(q1NavnoOrigins, false);
+        validateIsDevGcp(devSbsIntern_origins, false);
+        validateIsDevGcp(devSbsIntern_devNavnoOrigins, false);
+        validateIsDevGcp(devSbsIntern_navnoOrigins, false);
 
         validateIsDevGcp(labsGcpWithProxyOrigins, false);
         validateIsDevGcp(labsGcpWithoutProxyOrigins, false);
@@ -325,9 +334,9 @@ describe("isLabsGcpWithProxy", () => {
         validateIsLabsGcpWithProxy(q0DevSbsOrigins, false);
         validateIsLabsGcpWithProxy(q0NavnoOrigins, false);
         validateIsLabsGcpWithProxy(q0DevNavnoOrigins, false);
-        validateIsLabsGcpWithProxy(q1DevSbsOrigins, false);
-        validateIsLabsGcpWithProxy(q1NavnoOrigins, false);
-        validateIsLabsGcpWithProxy(q1DevNavnoOrigins, false);
+        validateIsLabsGcpWithProxy(devSbsIntern_origins, false);
+        validateIsLabsGcpWithProxy(devSbsIntern_navnoOrigins, false);
+        validateIsLabsGcpWithProxy(devSbsIntern_devNavnoOrigins, false);
 
         validateIsLabsGcpWithProxy(devGcpOrigins, false);
         validateIsLabsGcpWithProxy(labsGcpWithoutProxyOrigins, false);
@@ -357,9 +366,9 @@ describe("isLabsGcpWithoutProxy", () => {
         validateIsLabsGcpWithoutProxy(q0DevSbsOrigins, false);
         validateIsLabsGcpWithoutProxy(q0DevNavnoOrigins, false);
         validateIsLabsGcpWithoutProxy(q0NavnoOrigins, false);
-        validateIsLabsGcpWithoutProxy(q1DevSbsOrigins, false);
-        validateIsLabsGcpWithoutProxy(q1DevNavnoOrigins, false);
-        validateIsLabsGcpWithoutProxy(q1NavnoOrigins, false);
+        validateIsLabsGcpWithoutProxy(devSbsIntern_origins, false);
+        validateIsLabsGcpWithoutProxy(devSbsIntern_devNavnoOrigins, false);
+        validateIsLabsGcpWithoutProxy(devSbsIntern_navnoOrigins, false);
         validateIsLabsGcpWithoutProxy(devGcpOrigins, false);
         validateIsLabsGcpWithoutProxy(labsGcpWithProxyOrigins, false);
         validateIsLabsGcpWithoutProxy(unknownOrigins, false);

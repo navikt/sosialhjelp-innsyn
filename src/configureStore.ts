@@ -3,7 +3,7 @@ import {applyMiddleware, compose, createStore} from "redux";
 import {routerMiddleware} from "connected-react-router";
 import reducers from "./rootReducer";
 import thunkMiddleware from "redux-thunk";
-import {isDev} from "./utils/restUtils";
+import {isLocalhost} from "./utils/restUtils";
 
 /**
  * Resolves basename in a pathname independent way
@@ -11,7 +11,7 @@ import {isDev} from "./utils/restUtils";
 export function getAbsoluteBasename() {
     // @ts-ignore
     // return erDev() ? "sosialhjelp/innsyn" : window.location.pathname.replace(/^\/(([^/]+\/)?sosialhjelp\/innsyn).+$/, "$1");
-    return isDev(window.location.origin)
+    return isLocalhost(window.location.origin)
         ? "sosialhjelp"
         : window.location.pathname.replace(/^\/(([^/]+\/)?sosialhjelp).+$/, "$1");
 }
