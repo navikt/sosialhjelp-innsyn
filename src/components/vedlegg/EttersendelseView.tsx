@@ -30,7 +30,7 @@ import {
 import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/OppgaveView";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import {logErrorMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
 
 function harFilermedFeil(filer: Fil[]) {
@@ -174,7 +174,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     });
                     dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
                     dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, true));
-                    logErrorMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
+                    logWarningMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
                 });
         }
         event.preventDefault();

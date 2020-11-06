@@ -10,6 +10,14 @@ export function logInfoMessage(message: string, navCallId?: string) {
         });
 }
 
+export function logWarningMessage(message: string, navCallId?: string) {
+    fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "WARN")), undefined, navCallId)
+        .then(() => {})
+        .catch(() => {
+            return; // Not important to handle those errors
+        });
+}
+
 export function logErrorMessage(message: string, navCallId?: string) {
     fetchPost(LOG_URL, JSON.stringify(createLogEntry(message, "ERROR")), undefined, navCallId)
         .then(() => {})

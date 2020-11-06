@@ -1,5 +1,5 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
-import {logErrorMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
+import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 
 export const maxMengdeStorrelse = 150 * 1024 * 1024;
 export const maxFilStorrelse = 10 * 1024 * 1024;
@@ -49,12 +49,14 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
                     formData.append("files", fil.file, fil.filnavn);
                 } else {
                     if (fil.filnavn) {
-                        logErrorMessage("Finner ikke innholdet til en fil av type: " + hentFileExtension(fil.filnavn));
+                        logWarningMessage(
+                            "Finner ikke innholdet til en fil av type: " + hentFileExtension(fil.filnavn)
+                        );
                     }
-                    logErrorMessage("Fil uten filnavn og innhold ble forsøkt lagt til i opprettFormDataMedVedlegg()");
+                    logWarningMessage("Fil uten filnavn og innhold ble forsøkt lagt til i opprettFormDataMedVedlegg()");
                 }
             } else {
-                logErrorMessage("Udefinert fil ble forsøkt lagt til i opprettFormDataMedVedlegg()");
+                logWarningMessage("Udefinert fil ble forsøkt lagt til i opprettFormDataMedVedlegg()");
             }
         });
     });
