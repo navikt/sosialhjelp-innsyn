@@ -11,8 +11,8 @@ export function isLocalhost(origin: string) {
 export function isDevSbs(origin: string): boolean {
     return (
         origin.indexOf("www-q") >= 0 ||
-        (origin.indexOf("sosialhjelp-innsyn-q") >= 0 && origin.indexOf("dev-sbs.nais.io") >= 0) || // q0
-        (origin.indexOf("sosialhjelp-innsyn-intern") >= 0 && origin.indexOf("dev.nav.no") >= 0) // -intern i teamdigisos-namespace
+        origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0 ||
+        origin.indexOf("sosialhjelp-innsyn-intern.dev.nav.no") >= 0
     );
 }
 
@@ -27,7 +27,7 @@ export function isQGammelVersjon(origin: string): boolean {
 }
 
 export function isDevGcp(origin: string): boolean {
-    return origin.indexOf("innsyn.dev.nav.no") >= 0;
+    return origin.indexOf("innsyn-gcp.dev.nav.no") >= 0;
 }
 
 export function isLabsGcpWithProxy(origin: string): boolean {
