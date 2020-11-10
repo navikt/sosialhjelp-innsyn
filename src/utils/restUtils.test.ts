@@ -55,7 +55,7 @@ describe("getOriginAwareHeaders", () => {
     });
 
     it("labs and dev-gcp should contain Authorization and istio-headers", () => {
-        let headers = getOriginAwareHeaders("https://sosialhjelp-innsyn.dev.nav.no");
+        let headers = getOriginAwareHeaders("https://sosialhjelp-innsyn-gcp.dev.nav.no");
         containsAllHeaders(headers);
 
         headers = getOriginAwareHeaders("https://sosialhjelp-innsyn.labs.nais.io");
