@@ -13,7 +13,9 @@ jobs:
       is_first_run: ${{ steps.check-tag.outputs.first_run }}
       artifact_version: ${{ steps.artifact-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          - fetch-depth: 0
       - name: Create artifact version
         id: artifact-version
         uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
@@ -43,7 +45,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12.8.1"
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/cache@v1.1.2
         with:
           path: ~/.npm
@@ -93,7 +95,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: deploy til prod-sbs
         uses: nais/deploy/actions/deploy@v1
         env:
