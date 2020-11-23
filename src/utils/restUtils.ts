@@ -4,6 +4,10 @@ import {v4 as uuidv4} from "uuid";
 
 const sessionTraceID = uuidv4().toString().replace(/-/g, "");
 
+export function isProd(origin: string) {
+    return origin.indexOf("www.nav.no") >= 0;
+}
+
 export function isLocalhost(origin: string) {
     return origin.indexOf("localhost") >= 0;
 }
