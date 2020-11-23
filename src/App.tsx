@@ -15,7 +15,7 @@ import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
-import {isLocalhost, isDevSbs, isProd} from "./utils/restUtils";
+import {isDevSbs, isProd} from "./utils/restUtils";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 
 const store = configureStore();
