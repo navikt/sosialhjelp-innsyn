@@ -1,0 +1,81 @@
+name: Build for prod
+on:
+  push:
+    branches:
+      - "master"
+
+# FIXME: Legg til docker layer caching, f.eks. https://github.com/marketplace/actions/build-docker-images-using-cache
+jobs:
+  create-tag:
+    name: Get git tag for commit
+    runs-on: ubuntu-latest
+    outputs:
+      is_first_run: ${{ steps.check-tag.outputs.first_run }}
+      artifact_version: ${{ steps.artifact-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Create artifact version
+        id: artifact-version
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
+      - name: Check if tag exists
+        id: check-tag
+        shell: bash
+        run: |
+          TAG_EXISTS_OUTPUT=$(git tag --list ${{ steps.artifact-version.outputs.version }})
+          ARTIFACT=${{ steps.artifact-version.outputs.version }}
+          if [ "$TAG_EXISTS_OUTPUT" == "$ARTIFACT" ] ; then
+              echo "::set-output name=first_run::${{ false }}"
+          else
+              echo "::set-output name=first_run::${{ true }}"
+          fi
+
+  build:
+    name: Build and push docker image
+    needs: create-tag
+    runs-on: ubuntu-latest
+    env:
+      IS_FIRST_RUN: ${{ needs.create-tag.outputs.is_first_run }}
+      ARTIFACT_VERSION: ${{ needs.create-tag.outputs.artifact_version }}
+      DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
+    if: env.IS_FIRST_RUN == 'true'
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.8.1"
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1.1.2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm run test
+      - name: Build application
+        run: npm run build
+      - name: Login to GitHub package registry
+        run: |
+          echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_REPOSITORY} --password-stdin docker.pkg.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create docker image tags
+        run: |
+          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ env.ARTIFACT_VERSION }}" >> $GITHUB_ENV
+      - name: Create tag and release
+        uses: actions/create-release@v1.1.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.ARTIFACT_VERSION }}
+          release_name: ${{ env.ARTIFACT_VERSION }}
+          commitish: ${{ github.sha }}
+      - name: Build docker image
+        run: docker build -t ${{ env.DOCKER_TAG }} .
+      - name: Push docker image
+        run: |
+          docker push ${{ env.DOCKER_TAG }}
+
+
