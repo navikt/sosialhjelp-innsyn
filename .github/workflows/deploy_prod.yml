@@ -1,7 +1,7 @@
 name: Deploy til prod-sbs
 on:
   workflow_run:
-    workflows: ["Build for prod"]    # Venter på at bygget for prod er ferdig
+    workflows: ["Build image"]    # Venter på at bygget for prod er ferdig
     branches: [master]
     types:
       - completed

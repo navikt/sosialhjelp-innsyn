@@ -1,8 +1,9 @@
-name: Build for prod
+name: Build image
 on:
   push:
     branches:
       - "master"
+  workflow_dispatch:
 
 # FIXME: Legg til docker layer caching, f.eks. https://github.com/marketplace/actions/build-docker-images-using-cache
 jobs:
