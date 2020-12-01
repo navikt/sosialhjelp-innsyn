@@ -1,14 +1,15 @@
-name: Deploy dev-sbs intern
+name: Deploy til dev
 on:
-  inputs:
-    environment:
-      description: 'Miljø å deploye til (sånn som argument til deploy-scriptet)'
-      required: true
-      default: 'dev-sbs-intern'
-    cluster:
-      description: 'Cluster å deploye til (dev-sbs, labs-gcp eller dev-gcp)'
-      required: true
-      default: 'dev-sbs'
+  workflow_dispatch:
+    inputs:
+      config-file-name:
+        description: 'Config-fil (uten .json) som skal deployes (eks dev-gcp)'
+        required: true
+        default: 'dev-sbs-intern'
+      cluster:
+        description: 'Cluster å deploye til (dev-sbs, labs-gcp eller dev-gcp)'
+        required: true
+        default: 'dev-sbs'
 
 jobs:
   deploy:
