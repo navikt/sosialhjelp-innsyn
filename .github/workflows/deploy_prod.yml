@@ -22,12 +22,14 @@ jobs:
         run: |
           echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ env.ARTIFACT_VERSION }}" >> $GITHUB_ENV
       - name: deploy til prod-sbs
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          RESOURCE: nais.yaml
-          CLUSTER: prod-sbs
-          VARS: nais/prod/prod-sbs.json
-          REF: ${{ github.sha }}
-          PRINT_PAYLOAD: true
-          IMAGE: ${{ env.DOCKER_TAG }}
+#        uses: nais/deploy/actions/deploy@v1
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          RESOURCE: nais.yaml
+#          CLUSTER: prod-sbs
+#          VARS: nais/prod/prod-sbs.json
+#          REF: ${{ github.sha }}
+#          PRINT_PAYLOAD: true
+#          IMAGE: ${{ env.DOCKER_TAG }}
+        run: |
+          echo "Pretending to deploy ${{ env.DOCKER_TAG }}"
