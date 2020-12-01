@@ -2,7 +2,7 @@ name: Testing deploy
 on:
   workflow_run:
     workflows: ["Build for prod"]    # Venter på at bygget for prod er ferdig
-    branches: [main]
+    branches: [workflow-wait]
     types:
       - completed
       - requested
