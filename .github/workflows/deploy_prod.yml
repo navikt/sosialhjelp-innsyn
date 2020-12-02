@@ -20,7 +20,7 @@ jobs:
         uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
       - name: Create docker image tags
         run: |
-          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ env.ARTIFACT_VERSION }}" >> $GITHUB_ENV
+          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ env.steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
       - name: deploy til prod-sbs
         uses: nais/deploy/actions/deploy@v1
         env:
