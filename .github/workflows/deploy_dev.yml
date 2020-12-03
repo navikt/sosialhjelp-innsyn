@@ -1,14 +1,19 @@
-name: Deploy til prod-sbs
+name: Deploy til dev
 on:
-  workflow_run:
-    workflows: ["Build image"]    # Venter på at bygget for prod er ferdig
-    branches: [master]
-    types:
-      - completed
+  workflow_dispatch:
+    inputs:
+      config-file-name:
+        description: 'Config-fil (uten .json) som skal deployes (eks dev-gcp)'
+        required: true
+        default: 'dev-sbs-intern'
+      cluster:
+        description: 'Cluster å deploye til (dev-sbs, labs-gcp eller dev-gcp)'
+        required: true
+        default: 'dev-sbs'
 
 jobs:
   deploy:
-    name: Deploy to prod-sbs
+    name: Deploy to dev
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
@@ -17,16 +22,16 @@ jobs:
       - name: Create artifact version
         id: artifact-version
         uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
-      - name: Create docker image tags
+      - name: Sett env variabler
         run: |
           echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
-      - name: deploy til prod-sbs
+      - name: Deploy til dev
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais.yaml
-          CLUSTER: prod-sbs
-          VARS: nais/prod/prod-sbs.json
+          CLUSTER: ${{ github.event.inputs.cluster }}
+          VARS: nais/dev/${{ github.event.inputs.config-file-name }}.json
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
           IMAGE: ${{ env.DOCKER_TAG }}
