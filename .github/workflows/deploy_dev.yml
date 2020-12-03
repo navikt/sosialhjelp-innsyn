@@ -33,6 +33,6 @@ jobs:
           RESOURCE: nais.yaml
           CLUSTER: ${{ github.event.inputs.cluster }}
           VARS: nais/dev/${{ github.event.inputs.config-file-name }}.json
-          REF: ${{ steps.artifact-version.outputs.version }}
+          REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
           IMAGE: ${{ env.DOCKER_TAG }}
