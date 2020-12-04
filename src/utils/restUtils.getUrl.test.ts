@@ -1,6 +1,6 @@
 import {
     getBaseUrl,
-    isDevGcp,
+    isDevGcpWithoutProxy,
     isLocalhost,
     isLabsGcpWithoutProxy,
     isLabsGcpWithProxy,
@@ -288,7 +288,7 @@ describe("isDevSbs", () => {
     }
 });
 
-describe("isDevGcp", () => {
+describe("isDevGcpWithProxy", () => {
     it("should return true for dev-sbs", () => {
         validateIsDevGcp(devGcpOrigins, true);
     });
@@ -316,7 +316,7 @@ describe("isDevGcp", () => {
 
     function validateIsDevGcp(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
-            expect(isDevGcp(origin) + " for " + origin).toEqual(expected + " for " + origin);
+            expect(isDevGcpWithoutProxy(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });

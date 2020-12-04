@@ -26,7 +26,11 @@ export function isQGammelVersjon(origin: string): boolean {
     return origin.indexOf("www-q0.nav.no") >= 0 || origin.indexOf("www-q1.nav.no") >= 0;
 }
 
-export function isDevGcp(origin: string): boolean {
+export function isDevGcpWithProxy(origin: string): boolean {
+    return origin.indexOf("digisos-gcp.dev.nav.no") >= 0;
+}
+
+export function isDevGcpWithoutProxy(origin: string): boolean {
     return origin.indexOf("innsyn-gcp.dev.nav.no") >= 0;
 }
 
@@ -39,7 +43,12 @@ export function isLabsGcpWithoutProxy(origin: string): boolean {
 }
 
 export function isMockServer(origin: string): boolean {
-    return isLabsGcpWithoutProxy(origin) || isLabsGcpWithProxy(origin) || isDevGcp(origin);
+    return (
+        isLabsGcpWithoutProxy(origin) ||
+        isLabsGcpWithProxy(origin) ||
+        isDevGcpWithoutProxy(origin) ||
+        isDevGcpWithProxy(origin)
+    );
 }
 
 export function erMedLoginApi(): boolean {
@@ -58,7 +67,12 @@ export function getBaseUrl(origin: string): string {
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     }
-    if (isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+    if (
+        isDevGcpWithoutProxy(origin) ||
+        isDevGcpWithProxy(origin) ||
+        isLabsGcpWithProxy(origin) ||
+        isLabsGcpWithoutProxy(origin)
+    ) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
@@ -80,7 +94,13 @@ export function getSoknadBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (isDevSbs(origin) || isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+    if (
+        isDevSbs(origin) ||
+        isDevGcpWithoutProxy(origin) ||
+        isDevGcpWithProxy(origin) ||
+        isLabsGcpWithProxy(origin) ||
+        isLabsGcpWithoutProxy(origin)
+    ) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"
@@ -99,7 +119,8 @@ export function getNavUrl(origin: string): string {
     }
     if (
         isLocalhost(origin) ||
-        isDevGcp(origin) ||
+        isDevGcpWithProxy(origin) ||
+        isDevGcpWithoutProxy(origin) ||
         isLabsGcpWithProxy(origin) ||
         isLabsGcpWithoutProxy(origin) ||
         isDevSbs(origin)
@@ -120,7 +141,8 @@ export function getApiUrlForSwagger(origin: string): string {
     }
     if (
         isLocalhost(origin) ||
-        isDevGcp(origin) ||
+        isDevGcpWithProxy(origin) ||
+        isDevGcpWithoutProxy(origin) ||
         isLabsGcpWithProxy(origin) ||
         isLabsGcpWithoutProxy(origin) ||
         isDevSbs(origin)
@@ -166,7 +188,12 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
     if (isMockServer(origin) || (isLocalhost(origin) && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken");
     }
-    if (isDevGcp(origin) || isLabsGcpWithProxy(origin) || isLabsGcpWithoutProxy(origin)) {
+    if (
+        isDevGcpWithoutProxy(origin) ||
+        isDevGcpWithProxy(origin) ||
+        isLabsGcpWithProxy(origin) ||
+        isLabsGcpWithoutProxy(origin)
+    ) {
         headers.append("X-B3-TraceId", sessionTraceID.substr(0, 16));
         headers.append("X-B3-SpanId", sessionTraceID.substr(16, 16));
     }
