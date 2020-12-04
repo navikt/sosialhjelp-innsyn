@@ -46,8 +46,8 @@ const labsGcpWithoutProxyOrigins = [
 ];
 
 const devGcpOrigins = [
-    "https://sosialhjelp-innsyn.dev.nav.no/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn.dev.nav.no",
+    "https://sosialhjelp-innsyn-gcp.dev.nav.no/sosialhjelp/innsyn",
+    "https://sosialhjelp-innsyn-gcp.dev.nav.no",
 ];
 
 const prodSbsOrigins = [
@@ -88,7 +88,10 @@ describe("getBaseUrl", () => {
             labsGcpWithoutProxyOrigins,
             "https://sosialhjelp-innsyn-api.labs.nais.io/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(devGcpOrigins, "https://sosialhjelp-innsyn-api.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(
+            devGcpOrigins,
+            "https://sosialhjelp-innsyn-api-gcp.dev.nav.no/sosialhjelp/innsyn-api/api/v1"
+        );
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
@@ -124,7 +127,7 @@ describe("getSoknadBaseUrl", () => {
             labsGcpWithoutProxyOrigins,
             "https://sosialhjelp-soknad-api.labs.nais.io/sosialhjelp/soknad-api"
         );
-        validateGetBaseUrl(devGcpOrigins, "https://sosialhjelp-soknad-api.dev.nav.no/sosialhjelp/soknad-api");
+        validateGetBaseUrl(devGcpOrigins, "https://sosialhjelp-soknad-api-gcp.dev.nav.no/sosialhjelp/soknad-api");
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
@@ -201,7 +204,7 @@ describe("getSwaggerUrl", () => {
         );
         validateGetBaseUrl(
             devGcpOrigins,
-            "https://sosialhjelp-innsyn-api.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
+            "https://sosialhjelp-innsyn-api-gcp.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
         );
     });
 
