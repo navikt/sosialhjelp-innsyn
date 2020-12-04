@@ -15,7 +15,7 @@ import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
-import {isLocalhost, isDevSbs} from "./utils/restUtils";
+import {isDevSbs, isProd} from "./utils/restUtils";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 
 const store = configureStore();
@@ -29,12 +29,13 @@ const visSpraakNokler = (tekster: any) => {
     return tekster;
 };
 
-if (isLocalhost(window.location.origin) || isDevSbs(window.location.origin)) {
-    Sentry.init({
-        dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15",
-    });
-    Sentry.setUser({ip_address: "", id: uuid()});
+const origin = window.location.origin;
+if (isProd(origin)) {
+    Sentry.init({dsn: "https://400c64ba1df14250a6fa41eab8af5ca6@sentry.gc.nav.no/51"});
+} else if (isDevSbs(origin)) {
+    Sentry.init({dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15"});
 }
+Sentry.setUser({ip_address: "", id: uuid()});
 
 const App: React.FC = () => {
     const language = "nb";

@@ -4,6 +4,10 @@ import {v4 as uuidv4} from "uuid";
 
 const sessionTraceID = uuidv4().toString().replace(/-/g, "");
 
+export function isProd(origin: string) {
+    return origin.indexOf("www.nav.no") >= 0;
+}
+
 export function isLocalhost(origin: string) {
     return origin.indexOf("localhost") >= 0;
 }
@@ -11,8 +15,8 @@ export function isLocalhost(origin: string) {
 export function isDevSbs(origin: string): boolean {
     return (
         origin.indexOf("www-q") >= 0 ||
-        (origin.indexOf("sosialhjelp-innsyn-q") >= 0 && origin.indexOf("dev-sbs.nais.io") >= 0) || // q0
-        (origin.indexOf("sosialhjelp-innsyn-intern") >= 0 && origin.indexOf("dev.nav.no") >= 0) // -intern i teamdigisos-namespace
+        origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0 ||
+        origin.indexOf("sosialhjelp-innsyn-intern.dev.nav.no") >= 0
     );
 }
 

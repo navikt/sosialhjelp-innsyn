@@ -118,7 +118,7 @@ export const tekster = {
         forelopigSvar: "Du har fått et brev om saksbehandlingstiden for søknaden din ",
 
         "driftsmelding.innsynDeaktivert":
-            "Vi kan ikke vise deg nyeste status for saken din. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
+            "Vi kan dessverre ikke vise nyeste status for saken din. Du kan fortsatt sende inn dokumentasjon digitalt. Ta kontakt med NAV på telefon hvis du har spørsmål.",
         "driftsmelding.ettersendelseDeaktivert":
             "Vi kan ikke motta filer fra deg. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
         "driftsmelding.innsynOgEttersendelseDeaktivert":
