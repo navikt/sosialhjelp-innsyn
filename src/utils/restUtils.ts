@@ -71,12 +71,7 @@ export function getBaseUrl(origin: string): string {
         }
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     }
-    if (
-        isDevGcpWithoutProxy(origin) ||
-        isDevGcpWithProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isLabsGcpWithoutProxy(origin)
-    ) {
+    if (isMockServer(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
@@ -98,13 +93,7 @@ export function getSoknadBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (
-        isDevSbs(origin) ||
-        isDevGcpWithoutProxy(origin) ||
-        isDevGcpWithProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isLabsGcpWithoutProxy(origin)
-    ) {
+    if (isDevSbs(origin) || isMockServer(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"
@@ -121,14 +110,7 @@ export function getNavUrl(origin: string): string {
     if (isQ1(origin)) {
         return "https://www-q1.nav.no/person/dittnav/";
     }
-    if (
-        isLocalhost(origin) ||
-        isDevGcpWithProxy(origin) ||
-        isDevGcpWithoutProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isLabsGcpWithoutProxy(origin) ||
-        isDevSbs(origin)
-    ) {
+    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin)) {
         return "https://www-q0.nav.no/person/dittnav/";
     } else {
         return "https://www.nav.no/person/dittnav/";
@@ -143,14 +125,7 @@ export function getApiUrlForSwagger(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html";
     }
-    if (
-        isLocalhost(origin) ||
-        isDevGcpWithProxy(origin) ||
-        isDevGcpWithoutProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isLabsGcpWithoutProxy(origin) ||
-        isDevSbs(origin)
-    ) {
+    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/swagger-ui.html"
@@ -192,12 +167,7 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
     if (isMockServer(origin) || (isLocalhost(origin) && !erMedLoginApi())) {
         headers.append("Authorization", "dummytoken");
     }
-    if (
-        isDevGcpWithoutProxy(origin) ||
-        isDevGcpWithProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isLabsGcpWithoutProxy(origin)
-    ) {
+    if (isMockServer(origin)) {
         headers.append("X-B3-TraceId", sessionTraceID.substr(0, 16));
         headers.append("X-B3-SpanId", sessionTraceID.substr(16, 16));
     }

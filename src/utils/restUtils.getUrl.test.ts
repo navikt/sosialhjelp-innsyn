@@ -306,7 +306,7 @@ describe("isDevSbs", () => {
 });
 
 describe("isDevGcpWithProxy", () => {
-    it("should return true for dev-sbs", () => {
+    it("should return true for dev-gcp with proxy", () => {
         validateIsDevGcpWithProxy(devGcpWithProxyOrigins, true);
     });
 
@@ -341,7 +341,7 @@ describe("isDevGcpWithProxy", () => {
 });
 
 describe("isDevGcpWithoutProxy", () => {
-    it("should return true for dev-sbs", () => {
+    it("should return true for dev-gcp without proxy", () => {
         validateIsDevGcpWithoutProxy(devGcpWithoutProxyOrigins, true);
     });
 
