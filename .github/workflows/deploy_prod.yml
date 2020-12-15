@@ -5,6 +5,8 @@ on:
     branches: [master]
     types:
       - completed
+  repository_dispatch:
+    types: [deploy_prod_tag]
 
 jobs:
   deploy:
