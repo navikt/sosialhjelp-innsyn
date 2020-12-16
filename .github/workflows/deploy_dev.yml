@@ -27,13 +27,15 @@ jobs:
       - name: Sett env variabler
         run: |
           echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
+          echo "CLUSTER_NAME=${{ github.event.inputs.cluster }}${{ github.event.client_payload.cluster }}" >> $GITHUB_ENV
+          echo "CONFIG_FILE=${{ github.event.inputs.config-file-name }}${{ github.event.client_payload.config-file-name }}" >> $GITHUB_ENV
       - name: Deploy til dev
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais.yaml
-          CLUSTER: ${{ github.event.inputs.cluster }}
-          VARS: nais/dev/${{ github.event.inputs.config-file-name }}.json
+          CLUSTER: ${{ env.CLUSTER_NAME }}
+          VARS: nais/dev/${{ env.CONFIG_FILE }}.json
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
           IMAGE: ${{ env.DOCKER_TAG }}
