@@ -10,6 +10,8 @@ on:
         description: 'Cluster å deploye til (dev-sbs, labs-gcp eller dev-gcp)'
         required: true
         default: 'dev-sbs'
+  repository_dispatch:
+    types: [deploy_dev_gcp, deploy_miljo_tag]
 
 jobs:
   deploy:
