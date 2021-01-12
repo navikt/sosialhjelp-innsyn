@@ -18,13 +18,13 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 import Panel from "nav-frontend-paneler";
 import {Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
+import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 
 interface Props {
     match: {
@@ -75,8 +75,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
-    const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
-    document.title = statusTittel;
+    const statusTittel = "Søknadsstatus";
+    document.title = `${statusTittel} - Økonomisk sosialhjelp`;
+
+    useBannerTittel(statusTittel);
 
     const shouldShowHotjarTrigger = () => {
         return (
