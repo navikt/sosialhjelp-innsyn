@@ -97,7 +97,7 @@ const SakPanel: React.FC<Props> = ({
                             )}
                         </div>
                         {underLasting && <Lastestriper linjer={1} />}
-                        {!underLasting && <Element>{tittel}</Element>}
+                        {!underLasting && <Element className="lenkepanel__heading">{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">

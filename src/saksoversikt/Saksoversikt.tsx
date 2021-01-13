@@ -14,7 +14,7 @@ import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 
 const Saksoversikt: React.FC = () => {
-    document.title = "Økonomisk sosialhjelp";
+    document.title = "Dine søknader - Økonomisk sosialhjelp";
 
     const dispatch = useDispatch();
     const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);

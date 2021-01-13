@@ -24,13 +24,13 @@ const Utbetalinger: React.FC = () => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER));
     }, [dispatch]);
 
-    document.title = "Utbetalingsoversikt";
+    document.title = "Utbetalingsoversikt - Økonomisk sosialhjelp";
     const [visAntallMnd, setVisAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [hentetAntallMnd, setHentetAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
 
-    useBannerTittel("Utbetalingsoversikt for økonomisk sosialhjelp");
+    useBannerTittel("Utbetalingsoversikt");
 
     const utbetalingerService = useUtbetalingerService(hentetAntallMnd);
 
