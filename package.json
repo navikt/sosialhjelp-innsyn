@@ -9,7 +9,7 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^6.8.0",
     "core-js": "^3.4.8",
-    "date-fns": "^2.6.0",
+    "date-fns": "^2.16.1",
     "formdata-polyfill": "^3.0.19",
     "history": "^4.10.1",
     "less-plugin-npm-import": "^2.1.0",
