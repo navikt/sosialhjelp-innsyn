@@ -18,6 +18,11 @@ interface Props {
 }
 
 const SoknadsStatusUtenInnsyn: React.FC<Props> = ({restStatus, tidspunktSendt, navKontor, filUrl}) => {
+    let formatertDato =
+        tidspunktSendt === null ? null : (
+            <DatoOgKlokkeslett bareDato={true} tidspunkt={tidspunktSendt} brukKortMaanedNavn={true} />
+        );
+
     return (
         <Panel className={"panel-uthevet"}>
             <div className="tittel_og_ikon">
@@ -31,16 +36,12 @@ const SoknadsStatusUtenInnsyn: React.FC<Props> = ({restStatus, tidspunktSendt, n
             </div>
 
             <div className="status_detalj_panel_info_alert_luft_under">
-                {tidspunktSendt && navKontor && filUrl && (
+                {formatertDato && navKontor && filUrl && (
                     <Normaltekst>
-                        Sendt den{" "}
-                        {<DatoOgKlokkeslett bareDato={true} tidspunkt={tidspunktSendt} brukKortMaanedNavn={true} />} til{" "}
-                        {navKontor}{" "}
-                        {
-                            <EksternLenke href={filUrl.link} target="_blank">
-                                {filUrl.linkTekst}
-                            </EksternLenke>
-                        }
+                        Sendt den {formatertDato} til {navKontor}{" "}
+                        <EksternLenke href={filUrl.link} target="_blank">
+                            {filUrl.linkTekst}
+                        </EksternLenke>
                     </Normaltekst>
                 )}
             </div>
