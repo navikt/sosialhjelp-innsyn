@@ -144,6 +144,8 @@ export interface Status {
     status: string | null;
     tidspunktSendt: string | null;
     soknadsalderIMinutter: number;
+    navKontor: string | null;
+    filUrl: null | UrlResponse;
 }
 
 export interface Hendelse {
@@ -229,6 +231,8 @@ export const initialState: InnsynsdataType = {
         status: null,
         tidspunktSendt: null,
         soknadsalderIMinutter: -1,
+        navKontor: null,
+        filUrl: null,
     },
     hendelser: [],
     vedlegg: [],

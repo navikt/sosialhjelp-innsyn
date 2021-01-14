@@ -25,6 +25,7 @@ import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
+import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
 
 interface Props {
     match: {
@@ -132,11 +133,22 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
                     <ForelopigSvarAlertstripe />
 
-                    <SoknadsStatus
-                        status={innsynsdata.soknadsStatus.status}
-                        sak={innsynsdata.saksStatus}
-                        restStatus={restStatus.soknadsStatus}
-                    />
+                    {!erPaInnsyn && (
+                        <SoknadsStatusUtenInnsyn
+                            restStatus={restStatus.soknadsStatus}
+                            tidspunktSendt={innsynsdata.soknadsStatus.tidspunktSendt}
+                            navKontor={innsynsdata.soknadsStatus.navKontor}
+                            filUrl={innsynsdata.soknadsStatus.filUrl}
+                        />
+                    )}
+
+                    {erPaInnsyn && (
+                        <SoknadsStatus
+                            status={innsynsdata.soknadsStatus.status}
+                            sak={innsynsdata.saksStatus}
+                            restStatus={restStatus.soknadsStatus}
+                        />
+                    )}
 
                     {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
                         <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
