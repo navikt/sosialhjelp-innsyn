@@ -2,6 +2,17 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## How-to
+
+For å teste innsynsløsning, kan man laste opp innsynsdata som JSON til API via swaggersidene slik:
+
+-   Gå til swagger i [labs](https://digisos.labs.nais.io/sosialhjelp/innsyn-api/swagger-ui.html)
+-   Velg **digisos-api-controller** og tilhørende POST-kall, og deretter **'Try it out'**
+-   Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)
+-   Velg en **soknadId** for dine testdata
+-   Gå til status-siden i [labs](https://digisos.labs.nais.io/sosialhjelp/innsyn/soknadId/status)
+-   Endre **soknadId** i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata
+
 ## Kodestil
 
 Dette prosjektet bruker formatering av kode med prettier. Det er lagt inn automatisk formatering av kode med en pre-commit hook.
