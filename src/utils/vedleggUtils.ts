@@ -1,5 +1,5 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
-import {logInfoMessage} from "../redux/innsynsdata/loggActions";
+import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 
 export const maxMengdeStorrelse = 150 * 1024 * 1024;
 export const maxFilStorrelse = 10 * 1024 * 1024;
@@ -44,12 +44,35 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     formData.append("files", metadataBlob, "metadata.json");
     metadata.forEach((filgruppe: Metadata) => {
         filgruppe.filer.forEach((fil: Fil) => {
-            if (fil.file) {
-                formData.append("files", fil.file, fil.filnavn);
+            if (fil) {
+                if (fil.file) {
+                    formData.append("files", fil.file, fil.filnavn);
+                } else {
+                    if (fil.filnavn) {
+                        logWarningMessage(
+                            "Finner ikke innholdet til en fil av type: " + hentFileExtension(fil.filnavn)
+                        );
+                    }
+                    logWarningMessage("Fil uten filnavn og innhold ble forsøkt lagt til i opprettFormDataMedVedlegg()");
+                }
+            } else {
+                logWarningMessage("Udefinert fil ble forsøkt lagt til i opprettFormDataMedVedlegg()");
             }
         });
     });
     return formData;
+}
+
+export function hentFileExtension(filnavn: string) {
+    var filetternavn = "ukjent";
+    if (filnavn.length >= 5) {
+        var testSteng = filnavn.substr(filnavn.length - 5, 5);
+        const punktumPosisjon = testSteng.indexOf(".");
+        if (punktumPosisjon > -1) {
+            filetternavn = testSteng.substr(punktumPosisjon + 1, 4 - punktumPosisjon);
+        }
+    }
+    return filetternavn;
 }
 
 export function containsUlovligeTegn(filnavn: string) {

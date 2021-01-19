@@ -56,6 +56,15 @@ code {
     margin-top: 3px;
 }
 
+.file_error_celle {
+    display: flex;
+    align-items: center;
+}
+
+.file_error_ikon {
+    margin-right: 1em;
+}
+
 @media screen and (max-width: 640px) {
     .ikon_liten_vedlegg_placeholder {
         display: block;
@@ -80,4 +89,16 @@ code {
     .ikon_liten_vedlegg_placeholder {
         display: none;
     }
+}
+
+// Hack for å skjule del-skjerm knappen
+.footer-bottom-content__del-skjerm {
+    display: none !important;
+}
+.simple-footer__del-skjerm {
+    display: none !important;
+}
+
+#nav-chatbot {
+    display: none !important;
 }

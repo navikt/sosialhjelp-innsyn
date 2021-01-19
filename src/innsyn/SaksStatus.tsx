@@ -18,15 +18,13 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 import Panel from "nav-frontend-paneler";
 import {Systemtittel} from "nav-frontend-typografi";
-import {
-    SoknadFraBergenHotjarTrigger,
-    SoknadMedInnsynHotjarTrigger,
-    SoknadUtenInnsynHotjarTrigger,
-} from "../components/hotjarTrigger/HotjarTrigger";
-import {isKommuneBergen, isKommuneMedInnsynUtenBergen, isKommuneUtenInnsynUtenBergen} from "./saksStatusUtils";
+import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
+import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
+import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
+import NavFrontendSpinner from "nav-frontend-spinner";
+import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 
 interface Props {
     match: {
@@ -39,9 +37,12 @@ interface Props {
 const SaksStatusView: React.FC<Props> = ({match}) => {
     const fiksDigisosId: string = match.params.soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const innsynRestStatus = innsynsdata.restStatus.saksStatus;
+
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
+    const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
@@ -51,11 +52,11 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
             fiksDigisosId: fiksDigisosId,
         });
-        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS));
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
-        if (innsynsdata.restStatus.saksStatus === REST_STATUS.OK) {
+        if (innsynsdata.restStatus.saksStatus !== REST_STATUS.PENDING) {
             [
                 InnsynsdataSti.OPPGAVER,
                 InnsynsdataSti.SOKNADS_STATUS,
@@ -63,7 +64,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 InnsynsdataSti.VEDLEGG,
                 InnsynsdataSti.FORELOPIG_SVAR,
                 InnsynsdataSti.KOMMUNE,
-            ].map((restDataSti: InnsynsdataSti) => dispatch(hentInnsynsdata(fiksDigisosId, restDataSti)));
+            ].map((restDataSti: InnsynsdataSti) => dispatch(hentInnsynsdata(fiksDigisosId, restDataSti, false)));
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
@@ -71,11 +72,31 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     };
 
-    const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
-    document.title = statusTittel;
+    const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
+
+    const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
+    const statusTittel = "Søknadsstatus";
+    document.title = `${statusTittel} - Økonomisk sosialhjelp`;
+
+    useBannerTittel(statusTittel);
+
+    const shouldShowHotjarTrigger = () => {
+        return (
+            restStatus.soknadsStatus === REST_STATUS.OK &&
+            restStatus.kommune === REST_STATUS.OK &&
+            (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60)
+        );
+    };
 
     return (
         <>
+            {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
+                <AlertStripeAdvarsel className="luft_over_16px">
+                    Vi klarte ikke å hente inn all informasjonen på siden.
+                    <br />
+                    Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                </AlertStripeAdvarsel>
+            )}
             <Brodsmulesti
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
@@ -87,71 +108,76 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 className="breadcrumbs__luft_rundt"
             />
 
-            <DriftsmeldingAlertstripe />
-
-            {isKommuneMedInnsynUtenBergen(kommuneResponse, restStatus.kommune) && (
+            {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
                 <SoknadMedInnsynHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
+                    <div />
                 </SoknadMedInnsynHotjarTrigger>
             )}
 
-            {isKommuneBergen(kommuneResponse) && (
-                <SoknadFraBergenHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
-                </SoknadFraBergenHotjarTrigger>
-            )}
-
-            {isKommuneUtenInnsynUtenBergen(kommuneResponse, restStatus.kommune) && (
+            {shouldShowHotjarTrigger() && isKommuneUtenInnsyn(kommuneResponse) && (
                 <SoknadUtenInnsynHotjarTrigger>
-                    <ForelopigSvarAlertstripe />
+                    <div />
                 </SoknadUtenInnsynHotjarTrigger>
             )}
 
-            <SoknadsStatus
-                status={innsynsdata.soknadsStatus.status}
-                sak={innsynsdata.saksStatus}
-                leserData={leserData(restStatus.saksStatus)}
-            />
-
-            <Oppgaver oppgaver={innsynsdata.oppgaver} leserData={leserData(restStatus.oppgaver)} />
-
-            {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
-                <>
-                    <Panel className="panel-luft-over">
-                        <Systemtittel>
-                            <FormattedMessage id="vedlegg.tittel" />
-                        </Systemtittel>
-                    </Panel>
-                    <Panel className="panel-glippe-over">
-                        <VedleggView vedlegg={innsynsdata.vedlegg} leserData={leserData(restStatus.saksStatus)} />
-                    </Panel>
-                </>
+            {mustLogin && (
+                <div className="application-spinner">
+                    <NavFrontendSpinner type="XL" />
+                </div>
             )}
-            {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
-                <ArkfanePanel
-                    className="panel-luft-over"
-                    arkfaner={[
-                        {
-                            tittel: intl.formatMessage({id: "historikk.tittel"}),
-                            content: (
-                                <Historikk
-                                    hendelser={innsynsdata.hendelser}
-                                    leserData={leserData(restStatus.hendelser)}
-                                />
-                            ),
-                        },
-                        {
-                            tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                            content: (
-                                <VedleggView
-                                    vedlegg={innsynsdata.vedlegg}
-                                    leserData={leserData(restStatus.saksStatus)}
-                                />
-                            ),
-                        },
-                    ]}
-                    defaultArkfane={0}
-                />
+
+            {!mustLogin && (
+                <>
+                    <DriftsmeldingAlertstripe />
+
+                    <ForelopigSvarAlertstripe />
+
+                    <SoknadsStatus
+                        status={innsynsdata.soknadsStatus.status}
+                        sak={innsynsdata.saksStatus}
+                        restStatus={restStatus.soknadsStatus}
+                    />
+
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
+                        <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
+                    )}
+
+                    {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
+                        <>
+                            <Panel className="panel-luft-over">
+                                <Systemtittel>
+                                    <FormattedMessage id="vedlegg.tittel" />
+                                </Systemtittel>
+                            </Panel>
+                            <Panel className="panel-glippe-over">
+                                <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                            </Panel>
+                        </>
+                    )}
+                    {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
+                        <ArkfanePanel
+                            className="panel-luft-over"
+                            arkfaner={[
+                                {
+                                    tittel: intl.formatMessage({id: "historikk.tittel"}),
+                                    content: (
+                                        <Historikk
+                                            hendelser={innsynsdata.hendelser}
+                                            restStatus={restStatus.hendelser}
+                                        />
+                                    ),
+                                },
+                                {
+                                    tittel: intl.formatMessage({id: "vedlegg.tittel"}),
+                                    content: (
+                                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                                    ),
+                                },
+                            ]}
+                            defaultArkfane={0}
+                        />
+                    )}
+                </>
             )}
         </>
     );

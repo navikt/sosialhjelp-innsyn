@@ -5,13 +5,22 @@ import {FormattedDate, FormattedTime, FormattedMessage} from "react-intl";
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
          => "12. oktober 2018 klokken 13:37"
  */
-const DatoOgKlokkeslett: React.FC<{tidspunkt: string; bareDato?: boolean}> = ({tidspunkt, bareDato}) => {
+const DatoOgKlokkeslett: React.FC<{tidspunkt: string; bareDato?: boolean; brukKortMaanedNavn?: boolean}> = ({
+    tidspunkt,
+    bareDato,
+    brukKortMaanedNavn,
+}) => {
     const visKlokkeslett =
         !(bareDato && bareDato === true) && new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes() > 0;
     return (
         <>
             <span className="dato">
-                <FormattedDate value={new Date(tidspunkt)} month="long" day="numeric" year="numeric" />
+                <FormattedDate
+                    value={new Date(tidspunkt)}
+                    month={brukKortMaanedNavn ? "short" : "long"}
+                    day="numeric"
+                    year="numeric"
+                />
             </span>
             {visKlokkeslett && (
                 <>

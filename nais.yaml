@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: sosialhjelp-innsyn
+  name: {{applicationName}}
   namespace: {{namespace}}
   labels:
     team: teamdigisos
@@ -53,5 +53,3 @@ spec:
       value: "true"
     - name: APPDYNAMICS_AGENT_ACCOUNT_NAME
       value: NON-PROD
-    - name: UNLEASH_API_URL
-      value: https://unleashproxy.nais.oera.no/api/

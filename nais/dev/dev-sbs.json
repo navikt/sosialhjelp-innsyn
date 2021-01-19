@@ -1,0 +1,11 @@
+{
+  "applicationName": "sosialhjelp-innsyn",
+  "namespace": "teamdigisos",
+  "ingresses": [
+    "https://sosialhjelp-innsyn.dev.nav.no/sosialhjelp/innsyn",
+    "https://www-q0.dev.nav.no/sosialhjelp/innsyn",
+    "https://www-q0.nav.no/sosialhjelp/innsyn"
+  ],
+  "prometheusEnabled": true,
+  "appresCmsUrl": "https://appres-q0.nav.no"
+}

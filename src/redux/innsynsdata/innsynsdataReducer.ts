@@ -85,6 +85,7 @@ export enum InnsynsdataActionTypeKeys {
     OPPDATER_OPPGAVE_STATE = "innsynsdata/OPPDATER_OPPGAVE_STATE",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
     SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
+    SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
@@ -98,6 +99,7 @@ export enum InnsynsdataActionTypeKeys {
     OPPGAVE_VEDLEGSOPPLASTING_FEILET = "innsynsdata/OPPGAVE_VEDLEGSOPPLASTING_FEILET",
     OPPGAVE_OPPLASTING_FEILET = "innsynsdata/OPPGAVE_OPPLASTING_FEILET",
     OPPGAVE_OPPLASTING_BACKEND_FEILET = "innsynsdata/OPPGAVE_OPPLASTING_BACKEND_FEILET",
+    OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS = "innsynsdata/OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS",
 }
 
 export enum InnsynsdataSti {
@@ -118,6 +120,7 @@ export interface InnsynsdataActionType {
     sti: InnsynsdataSti;
     restStatus?: string;
     skalVise?: boolean;
+    skalViseForbudt?: boolean;
     oppgaveId?: string;
 }
 
@@ -139,6 +142,8 @@ export interface VedleggActionType {
 
 export interface Status {
     status: string | null;
+    tidspunktSendt: string | null;
+    soknadsalderIMinutter: number;
 }
 
 export interface Hendelse {
@@ -186,6 +191,7 @@ export interface InnsynsdataType {
     oppgaver: Oppgave[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
+    listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
     oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
@@ -196,6 +202,7 @@ export interface InnsynsdataType {
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
     skalViseFeilside: boolean;
+    skalViseForbudtSide: boolean;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -216,9 +223,12 @@ export const initialState: InnsynsdataType = {
     oppgaver: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
+    listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null,
+        tidspunktSendt: null,
+        soknadsalderIMinutter: -1,
     },
     hendelser: [],
     vedlegg: [],
@@ -233,6 +243,7 @@ export const initialState: InnsynsdataType = {
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
     skalViseFeilside: false,
+    skalViseForbudtSide: false,
 };
 
 export interface Ettersendelse {
@@ -476,16 +487,22 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 skalViseFeilside: action.skalVise,
             };
 
+        case InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE:
+            return {
+                ...state,
+                skalViseForbudtSide: action.skalViseForbudt,
+            };
+
         case InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_FEILET:
             if (action.status) {
                 return {
                     ...state,
-                    oppgaveIdFeilet: [...state.listeOverOpggaveIderSomFeilet, action.oppgaveId],
+                    listeOverOpggaveIderSomFeilet: [...state.listeOverOpggaveIderSomFeilet, action.oppgaveId],
                 };
             }
             return {
                 ...state,
-                oppgaveIdFeilet: state.listeOverOpggaveIderSomFeilet.filter(
+                listeOverOpggaveIderSomFeilet: state.listeOverOpggaveIderSomFeilet.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };
@@ -493,12 +510,31 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             if (action.status) {
                 return {
                     ...state,
-                    oppgaveIdBackendFeilet: [...state.listeOverOppgaveIderSomFeiletPaBackend, action.oppgaveId],
+                    listeOverOppgaveIderSomFeiletPaBackend: [
+                        ...state.listeOverOppgaveIderSomFeiletPaBackend,
+                        action.oppgaveId,
+                    ],
                 };
             }
             return {
                 ...state,
-                oppgaveIdBackendFeilet: state.listeOverOppgaveIderSomFeiletPaBackend.filter(
+                listeOverOppgaveIderSomFeiletPaBackend: state.listeOverOppgaveIderSomFeiletPaBackend.filter(
+                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                ),
+            };
+        case InnsynsdataActionTypeKeys.OPPGAVE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS:
+            if (action.status) {
+                return {
+                    ...state,
+                    listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [
+                        ...state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend,
+                        action.oppgaveId,
+                    ],
+                };
+            }
+            return {
+                ...state,
+                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };
@@ -553,6 +589,13 @@ export const skalViseFeilside = (skalVise: boolean) => {
     return {
         type: InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE,
         skalVise,
+    };
+};
+
+export const skalViseForbudtside = (skalViseForbudt: boolean) => {
+    return {
+        type: InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE,
+        skalViseForbudt,
     };
 };
 

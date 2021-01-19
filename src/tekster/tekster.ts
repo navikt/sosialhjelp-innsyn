@@ -100,6 +100,8 @@ export const tekster = {
             "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
         "vedlegg.opplasting_backend_feilmelding":
             "Vi klarte dessverre ikke å sende vedleggene. Vennligst forsøk igjen senere.",
+        "vedlegg.opplasting_backend_virus_feilmelding":
+            "Opplastingen ble stoppet av antivirus-programmet. Du kan prøve på nytt med en annen fil.",
         "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT":
             "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
         "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
@@ -116,7 +118,7 @@ export const tekster = {
         forelopigSvar: "Du har fått et brev om saksbehandlingstiden for søknaden din ",
 
         "driftsmelding.innsynDeaktivert":
-            "Vi kan ikke vise deg nyeste status for saken din. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
+            "Vi kan dessverre ikke vise nyeste status for saken din. Du kan fortsatt sende inn dokumentasjon digitalt. Ta kontakt med NAV på telefon hvis du har spørsmål.",
         "driftsmelding.ettersendelseDeaktivert":
             "Vi kan ikke motta filer fra deg. Du kan enten prøve igjen senere, eller dra til NAV kontoret ditt.",
         "driftsmelding.innsynOgEttersendelseDeaktivert":

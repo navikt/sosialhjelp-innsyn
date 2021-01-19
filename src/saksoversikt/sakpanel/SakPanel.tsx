@@ -64,7 +64,7 @@ const SakPanel: React.FC<Props> = ({
 
     useEffect(() => {
         if (kilde === "innsyn-api") {
-            dispatch(hentSaksdetaljer(requestId));
+            dispatch(hentSaksdetaljer(requestId, false));
         }
     }, [dispatch, requestId, kilde]);
 
@@ -95,7 +95,7 @@ const SakPanel: React.FC<Props> = ({
                             )}
                         </div>
                         {underLasting && <Lastestriper linjer={1} />}
-                        {!underLasting && <Element>{tittel}</Element>}
+                        {!underLasting && <Element className="lenkepanel__heading">{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">

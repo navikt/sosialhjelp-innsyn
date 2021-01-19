@@ -11,12 +11,12 @@ import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
 import "./App.less";
 import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
-import VeiviserPlaceholder from "./saksoversikt/statiskeDemoSider/VeiviserPlaceholder";
 import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
-import {erDev, erQ} from "./utils/restUtils";
+import {isDevSbs, isProd} from "./utils/restUtils";
+import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 
 const store = configureStore();
 
@@ -29,12 +29,13 @@ const visSpraakNokler = (tekster: any) => {
     return tekster;
 };
 
-if (erDev() || erQ()) {
-    Sentry.init({
-        dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15",
-    });
-    Sentry.setUser({ip_address: "", id: uuid()});
+const origin = window.location.origin;
+if (isProd(origin)) {
+    Sentry.init({dsn: "https://400c64ba1df14250a6fa41eab8af5ca6@sentry.gc.nav.no/51"});
+} else if (isDevSbs(origin)) {
+    Sentry.init({dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15"});
 }
+Sentry.setUser({ip_address: "", id: uuid()});
 
 const App: React.FC = () => {
     const language = "nb";
@@ -42,17 +43,19 @@ const App: React.FC = () => {
         <Provider store={store}>
             <IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
                 <Feilside>
-                    <ConnectedRouter history={history}>
-                        <Switch>
-                            <Route exact path="/" component={VeiviserPlaceholder} />
-                            <Route path="/saksoversikt" component={SaksoversiktRouter} />
-                            <Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
-                            <Route exact path="/innsyn" component={Saksoversikt} />
-                            <Route exact path="/innsyn/" component={Saksoversikt} />
-                            <Route path="/innsyn/*" component={InnsynRouter} />
-                            <Route component={SideIkkeFunnet} />
-                        </Switch>
-                    </ConnectedRouter>
+                    <Tilgangskontrollside>
+                        <ConnectedRouter history={history}>
+                            <Switch>
+                                <Route exact path="/" component={Saksoversikt} />
+                                <Route path="/saksoversikt" component={SaksoversiktRouter} />
+                                <Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
+                                <Route exact path="/innsyn" component={Saksoversikt} />
+                                <Route exact path="/innsyn/" component={Saksoversikt} />
+                                <Route path="/innsyn/*" component={InnsynRouter} />
+                                <Route component={SideIkkeFunnet} />
+                            </Switch>
+                        </ConnectedRouter>
+                    </Tilgangskontrollside>
                 </Feilside>
             </IntlProvider>
         </Provider>

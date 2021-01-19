@@ -13,6 +13,15 @@ Dersom du i tillegg ønsker å sette opp formatering av kode i IntelliJ slik at 
 -   Trykk ⌥⇧⌘P for å formatere kode
 -   Optional: Sette opp filewatcher og automatisk formatering. Se her `https://prettier.io/docs/en/webstorm.html#running-prettier-on-save-using-file-watcher`
 
+## Manuell deploy
+
+Ved bruk av [cli](https://github.com/navikt/sosialhjelp-ci):
+
+-   `deploy labs-gcp`
+-   `deploy dev-gcp`
+-   `deploy dev-sbs`
+-   `deploy dev-sbs-intern`
+
 ## Available Scripts
 
 In the project directory, you can run:

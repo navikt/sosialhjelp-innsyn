@@ -1,124 +1,51 @@
 import {KommuneResponse} from "../redux/innsynsdata/innsynsdataReducer";
-import {
-    isKommuneBergen,
-    isKommuneInfoFetched,
-    isKommuneMedInnsynUtenBergen,
-    isKommuneUtenInnsynUtenBergen,
-} from "./saksStatusUtils";
-import {REST_STATUS} from "../utils/restUtils";
+import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
+import {SoknadsStatusEnum} from "../components/soknadsStatus/soknadsStatusUtils";
 
 describe("Hotjar-trigger utils", () => {
-    it("before fetching kommuneResponse, all hotjartriggers should be disabled", () => {
-        const initialKommuneResponse: KommuneResponse = {
-            erInnsynDeaktivert: false,
-            erInnsynMidlertidigDeaktivert: false,
-            erInnsendingEttersendelseDeaktivert: false,
-            erInnsendingEttersendelseMidlertidigDeaktivert: false,
-            tidspunkt: null,
-            kommunenummer: null,
-        };
+    const aktivertInnsynKommuneResponse: KommuneResponse = {
+        erInnsynDeaktivert: false,
+        erInnsynMidlertidigDeaktivert: false,
+        erInnsendingEttersendelseDeaktivert: false,
+        erInnsendingEttersendelseMidlertidigDeaktivert: false,
+        tidspunkt: null,
+        kommunenummer: "0001",
+    };
 
-        // INITIALISERT
-        expect(isKommuneBergen(initialKommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.INITIALISERT)).toBe(false);
-        expect(isKommuneMedInnsynUtenBergen(initialKommuneResponse, REST_STATUS.INITIALISERT)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(initialKommuneResponse, REST_STATUS.INITIALISERT)).toBe(false);
+    const deaktivertInnsynKommuneResponse: KommuneResponse = {
+        erInnsynDeaktivert: true,
+        erInnsynMidlertidigDeaktivert: false,
+        erInnsendingEttersendelseDeaktivert: false,
+        erInnsendingEttersendelseMidlertidigDeaktivert: false,
+        tidspunkt: null,
+        kommunenummer: "0001",
+    };
 
-        // PENDING
-        expect(isKommuneBergen(initialKommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.PENDING)).toBe(false);
-        expect(isKommuneMedInnsynUtenBergen(initialKommuneResponse, REST_STATUS.PENDING)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(initialKommuneResponse, REST_STATUS.PENDING)).toBe(false);
+    it("ingen kommunerespons, should not trigger any hotjar", () => {
+        expect(isKommuneUtenInnsyn(undefined)).toBe(false);
+        expect(isKommuneMedInnsyn(undefined, SoknadsStatusEnum.MOTTATT)).toBe(false);
     });
 
-    it("failing kommuneResponse should trigger hotjar utenInnsyn", () => {
-        const initialKommuneResponse: KommuneResponse = {
-            erInnsynDeaktivert: false,
-            erInnsynMidlertidigDeaktivert: false,
-            erInnsendingEttersendelseDeaktivert: false,
-            erInnsendingEttersendelseMidlertidigDeaktivert: false,
-            tidspunkt: null,
-            kommunenummer: null,
-        };
-
-        // FEILET
-        expect(isKommuneBergen(initialKommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.FEILET)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(initialKommuneResponse, REST_STATUS.FEILET)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(initialKommuneResponse, REST_STATUS.FEILET)).toBe(true);
-
-        // UNAUTHORIZED
-        expect(isKommuneBergen(initialKommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.UNAUTHORIZED)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(initialKommuneResponse, REST_STATUS.UNAUTHORIZED)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(initialKommuneResponse, REST_STATUS.UNAUTHORIZED)).toBe(true);
-
-        // SERVICE_UNAVAILABLE
-        expect(isKommuneBergen(initialKommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.SERVICE_UNAVAILABLE)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(initialKommuneResponse, REST_STATUS.SERVICE_UNAVAILABLE)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(initialKommuneResponse, REST_STATUS.SERVICE_UNAVAILABLE)).toBe(true);
+    it("deaktivert innsyn, should trigger hotjar utenInnsyn", () => {
+        expect(isKommuneUtenInnsyn(deaktivertInnsynKommuneResponse)).toBe(true);
     });
 
-    it("kommunenummer 4601 should trigger hotjar for Bergen", () => {
-        const kommuneResponseBergenAktivert: KommuneResponse = {
-            erInnsynDeaktivert: false,
-            erInnsynMidlertidigDeaktivert: false,
-            erInnsendingEttersendelseDeaktivert: false,
-            erInnsendingEttersendelseMidlertidigDeaktivert: false,
-            tidspunkt: null,
-            kommunenummer: "4601",
-        };
-        const kommuneResponseBergenDeaktivert: KommuneResponse = {
-            erInnsynDeaktivert: true,
-            erInnsynMidlertidigDeaktivert: false,
-            erInnsendingEttersendelseDeaktivert: false,
-            erInnsendingEttersendelseMidlertidigDeaktivert: false,
-            tidspunkt: null,
-            kommunenummer: "4601",
-        };
-        const kommuneRestStatus: REST_STATUS = REST_STATUS.OK;
-
-        expect(isKommuneBergen(kommuneResponseBergenAktivert)).toBe(true);
-        expect(isKommuneInfoFetched(kommuneRestStatus)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(kommuneResponseBergenAktivert, kommuneRestStatus)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(kommuneResponseBergenAktivert, kommuneRestStatus)).toBe(false);
-
-        expect(isKommuneBergen(kommuneResponseBergenDeaktivert)).toBe(true);
-        expect(isKommuneInfoFetched(kommuneRestStatus)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(kommuneResponseBergenDeaktivert, kommuneRestStatus)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(kommuneResponseBergenDeaktivert, kommuneRestStatus)).toBe(false);
+    it("deaktivert innsyn, should not trigger hotjar medInnsyn", () => {
+        expect(isKommuneMedInnsyn(deaktivertInnsynKommuneResponse, SoknadsStatusEnum.MOTTATT)).toBe(false);
     });
 
-    it("deaktivert innsyn (and not Bergen), should trigger hotjar utenInnsyn", () => {
-        const kommuneResponse: KommuneResponse = {
-            erInnsynDeaktivert: true,
-            erInnsynMidlertidigDeaktivert: false,
-            erInnsendingEttersendelseDeaktivert: false,
-            erInnsendingEttersendelseMidlertidigDeaktivert: false,
-            tidspunkt: null,
-            kommunenummer: "0001",
-        };
-
-        expect(isKommuneBergen(kommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.OK)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(kommuneResponse, REST_STATUS.OK)).toBe(false);
-        expect(isKommuneUtenInnsynUtenBergen(kommuneResponse, REST_STATUS.OK)).toBe(true);
+    it("aktivert innsyn, should not trigger utenInnsyn", () => {
+        expect(isKommuneUtenInnsyn(aktivertInnsynKommuneResponse)).toBe(false);
     });
 
-    it("aktivert innsyn (and not Bergen), should trigger hotjar medInnsyn", () => {
-        const kommuneResponse: KommuneResponse = {
-            erInnsynDeaktivert: false,
-            erInnsynMidlertidigDeaktivert: false,
-            erInnsendingEttersendelseDeaktivert: false,
-            erInnsendingEttersendelseMidlertidigDeaktivert: false,
-            tidspunkt: null,
-            kommunenummer: "0001",
-        };
+    it("aktivert innsyn med søknad SENDT, should not trigger medInnsyn", () => {
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.SENDT)).toBe(false);
+    });
 
-        expect(isKommuneBergen(kommuneResponse)).toBe(false);
-        expect(isKommuneInfoFetched(REST_STATUS.OK)).toBe(true);
-        expect(isKommuneMedInnsynUtenBergen(kommuneResponse, REST_STATUS.OK)).toBe(true);
-        expect(isKommuneUtenInnsynUtenBergen(kommuneResponse, REST_STATUS.OK)).toBe(false);
+    it("aktivert innsyn med søknad !SENDT, should trigger hotjar medInnsyn", () => {
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.MOTTATT)).toBe(true);
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.UNDER_BEHANDLING)).toBe(true);
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.FERDIGBEHANDLET)).toBe(true);
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.BEHANDLES_IKKE)).toBe(true);
     });
 });

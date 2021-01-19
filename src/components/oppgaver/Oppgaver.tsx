@@ -13,10 +13,11 @@ import VilkarView from "../vilkar/VilkarView";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
+import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 interface Props {
     oppgaver: null | Oppgave[];
-    leserData?: boolean;
+    restStatus: REST_STATUS;
 }
 
 function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): Date | null {
@@ -45,7 +46,7 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
         : antallDagerSidenFristBlePassert + " dag";
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
+const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
@@ -54,17 +55,14 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
     return (
         <>
             <Panel className="panel-luft-over">
-                {leserData && <Lastestriper linjer={1} />}
-                {!leserData && (
-                    <Systemtittel>
-                        <FormattedMessage id="oppgaver.dine_oppgaver" />
-                    </Systemtittel>
-                )}
+                <Systemtittel>
+                    <FormattedMessage id="oppgaver.dine_oppgaver" />
+                </Systemtittel>
             </Panel>
 
             <VilkarView />
 
-            {leserData && (
+            {skalViseLastestripe(restStatus) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
@@ -75,7 +73,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
                 </Panel>
             )}
 
-            <IngenOppgaverPanel leserData={leserData} />
+            <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
             {brukerHarOppgaver && (
                 <Panel
@@ -138,7 +136,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, leserData}) => {
 
                         <OpplastingAvVedleggModal />
 
-                        <DriftsmeldingVedlegg leserData={leserData} />
+                        <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus)} />
 
                         <div>
                             {oppgaver !== null &&
