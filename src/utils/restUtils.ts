@@ -117,23 +117,6 @@ export function getNavUrl(origin: string): string {
     }
 }
 
-export function getApiBaseUrlForSwagger(): string {
-    return getApiUrlForSwagger(window.location.origin);
-}
-
-export function getApiUrlForSwagger(origin: string): string {
-    if (isLocalhost(origin)) {
-        return "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html";
-    }
-    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin)) {
-        return (
-            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
-            "/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-    }
-    return ""; // No swagger in prod
-}
-
 enum RequestMethod {
     GET = "GET",
     POST = "POST",
