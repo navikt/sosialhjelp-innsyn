@@ -3,6 +3,7 @@ import AppBanner from "../components/appBanner/AppBanner";
 import {ConnectedRouter} from "connected-react-router";
 import {history} from "../configureStore";
 import {Route, Switch} from "react-router";
+import InnsynDemoMeny from "./statiskeDemoSider/InnsynDemoMeny";
 import SaksStatus from "./SaksStatus";
 import Linkside from "../components/linkside/Linkside";
 import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
@@ -19,6 +20,7 @@ const InnsynRouter: React.FC = () => {
                 <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>
                     <Switch>
                         <Route exact path="/innsyn/utbetaling" component={Utbetalinger} />
+                        <Route exact path="/innsyn/demo" component={InnsynDemoMeny} />
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <Route exact path="/innsyn/link" component={Linkside} />
                         <Route component={SideIkkeFunnet} />
