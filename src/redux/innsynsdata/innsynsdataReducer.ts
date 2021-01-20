@@ -74,7 +74,6 @@ export interface OppgaveElement {
     dokumenttype: string;
     tilleggsinformasjon?: string;
     erFraInnsyn: boolean;
-    vedlegg?: Vedlegg[];
     filer?: Fil[];
 }
 
