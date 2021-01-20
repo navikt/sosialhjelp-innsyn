@@ -9,9 +9,8 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
 import UploadFileIcon from "../ikoner/UploadFile";
-import Lenke from "nav-frontend-lenker";
 import {FormattedMessage} from "react-intl";
-import {Hovedknapp} from "nav-frontend-knapper";
+import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {
@@ -221,6 +220,31 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
                         </Normaltekst>
 
+                        {kanLasteOppVedlegg && (
+                            <div className="oppgaver_last_opp_fil">
+                                <Flatknapp
+                                    mini
+                                    onClick={(event: any) => {
+                                        onLinkClicked(event);
+                                    }}
+                                >
+                                    <UploadFileIcon className="last_opp_fil_ikon" />
+                                    <Element>
+                                        <FormattedMessage id="vedlegg.velg_fil" />
+                                    </Element>
+                                </Flatknapp>
+                                <input
+                                    type="file"
+                                    id={"file_andre"}
+                                    multiple={true}
+                                    onChange={(event: ChangeEvent) => {
+                                        onChange(event);
+                                    }}
+                                    style={{display: "none"}}
+                                />
+                            </div>
+                        )}
+
                         {filer &&
                             filer.length > 0 &&
                             filer.map((fil: Fil, vedleggIndex: number) => (
@@ -235,36 +259,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 />
                             ))}
 
-                        {kanLasteOppVedlegg && (
-                            <div className="oppgaver_last_opp_fil">
-                                <UploadFileIcon
-                                    className="last_opp_fil_ikon"
-                                    onClick={(event: any) => {
-                                        onLinkClicked(event);
-                                    }}
-                                />
-                                <Lenke
-                                    href="#"
-                                    className="lenke_uten_ramme"
-                                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                        onLinkClicked(event);
-                                    }}
-                                >
-                                    <Element>
-                                        <FormattedMessage id="vedlegg.velg_fil" />
-                                    </Element>
-                                </Lenke>
-                                <input
-                                    type="file"
-                                    id={"file_andre"}
-                                    multiple={true}
-                                    onChange={(event: ChangeEvent) => {
-                                        onChange(event);
-                                    }}
-                                    style={{display: "none"}}
-                                />
-                            </div>
-                        )}
                         {validerFilArrayForFeil(listeMedFilerSomFeiler) && skrivFeilmelding(listeMedFilerSomFeiler, 0)}
                     </div>
 

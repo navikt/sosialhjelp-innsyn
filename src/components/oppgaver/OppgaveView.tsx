@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import Lenke from "nav-frontend-lenker";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {
     Fil,
@@ -41,7 +40,7 @@ import {
     opprettFormDataMedVedleggFraOppgaver,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
-import {Hovedknapp} from "nav-frontend-knapper";
+import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
@@ -316,10 +315,7 @@ const VelgFil = (props: {
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
 
-    const onLinkClicked = (
-        oppgaveElementIndex: number,
-        event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-    ): void => {
+    const onClick = (oppgaveElementIndex: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
             dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
@@ -404,24 +400,18 @@ const VelgFil = (props: {
             )}
             {kanLasteOppVedlegg && (
                 <div className="oppgaver_last_opp_fil">
-                    <UploadFileIcon
-                        className="last_opp_fil_ikon"
-                        onClick={(event: any) => {
-                            onLinkClicked(props.oppgaveElementIndex, event);
-                        }}
-                    />
-                    <Lenke
-                        href="#"
+                    <Flatknapp
+                        mini
                         id={"oppgave_" + props.oppgaveElementIndex + "_last_opp_fil_knapp"}
-                        className="lenke_uten_ramme"
-                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                            onLinkClicked(props.oppgaveElementIndex, event);
+                        onClick={(event) => {
+                            onClick(props.oppgaveElementIndex, event);
                         }}
                     >
+                        <UploadFileIcon className="last_opp_fil_ikon" />
                         <Element>
                             <FormattedMessage id="vedlegg.velg_fil" />
                         </Element>
-                    </Lenke>
+                    </Flatknapp>
                     <input
                         type="file"
                         id={"file_" + props.oppgaveIndex + "_" + props.oppgaveElementIndex}
