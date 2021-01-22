@@ -9,9 +9,7 @@ import {
     Oppgave,
     OppgaveElement,
     settRestStatus,
-    Vedlegg,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import VedleggActionsView from "./VedleggActionsView";
 import FilView from "./FilView";
 import {useDispatch, useSelector} from "react-redux";
 import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
@@ -271,12 +269,6 @@ const OppgaveElementView = (props: {
                 oppgaveId={props.oppgaveId}
                 setOverMaksStorrelse={props.setOverMaksStorrelse}
             />
-
-            {props.oppgaveElement.vedlegg &&
-                props.oppgaveElement.vedlegg.length > 0 &&
-                props.oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
-                    <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
-                ))}
 
             {props.oppgaveElement.filer &&
                 props.oppgaveElement.filer.length > 0 &&
