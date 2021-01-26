@@ -61,6 +61,8 @@ const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) =>
                 <form className="ytelsestypecheckbox">
                     <div className="periodevelger_skjemaelement">
                         <Checkbox label={"Til deg"} checked={tilDinKonto} onChange={() => onChangeTilDinKonto()} />
+                    </div>
+                    <div className="periodevelger_skjemaelement">
                         <Checkbox
                             label={"Til annen mottaker"}
                             checked={tilAnnenMottaker}
