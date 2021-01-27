@@ -45,17 +45,14 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                     return (
                         <span key={"utbetaling_" + index}>
                             {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
-                                <>
-                                    <Undertittel>{utbetalingSak.ar}</Undertittel>
-                                    <br />
-                                </>
+                                <Undertittel className="blokk-xs">{utbetalingSak.ar}</Undertittel>
                             )}
                             <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
                                 <div className="utbetaling__header">
                                     <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
                                     <Undertittel>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</Undertittel>
                                 </div>
-                                <hr />
+                                <span className="utbetaling__separator" />
                                 {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
                                     const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
                                     const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
@@ -71,11 +68,19 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
                                                 defaultOpen={erDevMiljo()}
                                             >
-                                                <br />
-
-                                                <div>
+                                                <div className="mottaker__wrapper">
                                                     <EtikettLiten>Mottaker</EtikettLiten>
-                                                    {!annenMottaker && (
+                                                    {annenMottaker ? (
+                                                        <Element style={{textTransform: "capitalize"}}>
+                                                            annenmottaker
+                                                            {utbetalingMaaned.mottaker}
+                                                            {utbetalingMaaned.utbetalingsmetode && (
+                                                                <span style={{textTransform: "lowercase"}}>
+                                                                    &nbsp;({utbetalingMaaned.utbetalingsmetode})&nbsp;
+                                                                </span>
+                                                            )}
+                                                        </Element>
+                                                    ) : (
                                                         <Element>
                                                             Til deg (
                                                             {utbetalingMaaned.utbetalingsmetode && (
@@ -84,34 +89,20 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                             {utbetalingMaaned.kontonummer})
                                                         </Element>
                                                     )}
-                                                    {annenMottaker && (
-                                                        <Element style={{textTransform: "capitalize"}}>
-                                                            {utbetalingMaaned.mottaker}
-                                                            {utbetalingMaaned.utbetalingsmetode && (
-                                                                <span style={{textTransform: "lowercase"}}>
-                                                                    &nbsp;({utbetalingMaaned.utbetalingsmetode})&nbsp;
-                                                                </span>
-                                                            )}
-                                                        </Element>
-                                                    )}
-
-                                                    <br />
                                                 </div>
                                                 {utbetalingMaaned.fom && utbetalingMaaned.tom && (
-                                                    <div>
+                                                    <>
                                                         <EtikettLiten>Periode</EtikettLiten>
-                                                        <Element>
+                                                        <Element className="blokk-xs">
                                                             {formatDato(utbetalingMaaned.fom)} -
                                                             {formatDato(utbetalingMaaned.tom)}
                                                         </Element>
-                                                        <br />
-                                                    </div>
+                                                    </>
                                                 )}
-                                                <br />
-                                                <EtikettLiten>Søknaden din</EtikettLiten>
+                                                <EtikettLiten className="soknad__header">Søknaden din</EtikettLiten>
                                                 <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} />
                                             </UtbetalingEkspanderbart>
-                                            {erSisteUtbetaling && <hr className="tynnere" />}
+                                            {erSisteUtbetaling && <span className="utbetaling__separator tynnere" />}
                                         </span>
                                     );
                                 })}

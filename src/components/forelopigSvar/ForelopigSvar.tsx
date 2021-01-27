@@ -14,19 +14,16 @@ const ForelopigSvarAlertstripe: React.FC<{}> = () => {
 
     if (forelopigSvar.harMottattForelopigSvar && soknadsStatusState !== "FERDIGBEHANDLET") {
         return (
-            <div>
-                <AlertStripe type="info">
-                    <FormattedMessage id={"forelopigSvar"} />
-                    {forelopigSvar.link && (
-                        <EksternLenke href={forelopigSvar.link} target="_blank">
-                            <b>
-                                <FormattedMessage id="historikk.se_vedtaksbrev" />
-                            </b>
-                        </EksternLenke>
-                    )}
-                </AlertStripe>
-                <br />
-            </div>
+            <AlertStripe className="blokk" type="info">
+                <FormattedMessage id={"forelopigSvar"} />
+                {forelopigSvar.link && (
+                    <EksternLenke href={forelopigSvar.link} target="_blank">
+                        <b>
+                            <FormattedMessage id="historikk.se_vedtaksbrev" />
+                        </b>
+                    </EksternLenke>
+                )}
+            </AlertStripe>
         );
     }
     return null;

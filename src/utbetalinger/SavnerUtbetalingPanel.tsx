@@ -8,8 +8,7 @@ const SavnerUtbetalingPanel: React.FC = () => {
             <span className="infoIkon">
                 <InfoIkon />
             </span>
-            <Element>Savner du en utbetaling på denne siden?</Element>
-            <br />
+            <Element className="blokk-xs">Savner du en utbetaling på denne siden?</Element>
             <Normaltekst>Utbetalingsoversikten er under utvikling og vi kan for øyeblikket bare vise:</Normaltekst>
             <ul>
                 <li>

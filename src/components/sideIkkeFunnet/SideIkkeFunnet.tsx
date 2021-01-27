@@ -5,7 +5,7 @@ import "./SideIkkeFunnet.less";
 
 const SideIkkeFunnet: React.FC<{}> = () => {
     return (
-        <span>
+        <>
             <div className="feilside skjema-content">
                 <div className="feilside__ikon">
                     <UtropstegnSirkelGraIkon />
@@ -34,7 +34,7 @@ const SideIkkeFunnet: React.FC<{}> = () => {
                     </li>
                 </ul>
             </div>
-        </span>
+        </>
     );
 };
 
