@@ -74,7 +74,6 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                     <EtikettLiten>Mottaker</EtikettLiten>
                                                     {annenMottaker ? (
                                                         <Element style={{textTransform: "capitalize"}}>
-                                                            annenmottaker
                                                             {utbetalingMaaned.mottaker}
                                                             {utbetalingMaaned.utbetalingsmetode && (
                                                                 <span style={{textTransform: "lowercase"}}>
