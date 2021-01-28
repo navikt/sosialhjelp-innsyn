@@ -48,16 +48,18 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                 <Undertittel className="blokk-xs">{utbetalingSak.ar}</Undertittel>
                             )}
                             <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
-                                <div className="utbetaling__header">
+                                <div className="utbetaling__header bunnSeparator">
                                     <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
                                     <Undertittel>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</Undertittel>
                                 </div>
-                                <span className="utbetaling__separator" />
                                 {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
                                     const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
                                     const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
                                     return (
-                                        <span key={"utbetaling_" + index}>
+                                        <div
+                                            key={"utbetaling_" + index}
+                                            className={!erSisteUtbetaling ? "bunnSeparator tynnere" : ""}
+                                        >
                                             <div className="utbetaling__header">
                                                 <Element>
                                                     {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}{" "}
@@ -102,8 +104,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 <EtikettLiten className="soknad__header">Søknaden din</EtikettLiten>
                                                 <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} />
                                             </UtbetalingEkspanderbart>
-                                            {erSisteUtbetaling && <span className="utbetaling__separator tynnere" />}
-                                        </span>
+                                        </div>
                                     );
                                 })}
                             </div>
