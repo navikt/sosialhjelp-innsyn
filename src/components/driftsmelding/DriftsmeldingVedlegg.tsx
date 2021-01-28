@@ -6,6 +6,7 @@ import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggTillat} from "./DriftsmeldingUtilities";
+import {Normaltekst} from "nav-frontend-typografi";
 
 interface Props {
     leserData: undefined | boolean;
@@ -19,15 +20,13 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
 
     if (!kanLasteOppVedlegg && !props.leserData) {
         return (
-            <div>
-                <div className={"driftsmelding-vedlegg-wrapper"}>
-                    <div className={"driftsmelding-vedlegg-symbol-wrapper"}>
-                        <RemoveCircle />
-                    </div>
-                    <div className={"driftsmelding-vedlegg-text-wrapper"}>
-                        <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
-                    </div>
+            <div className={"driftsmelding-vedlegg-wrapper"}>
+                <div className={"driftsmelding-vedlegg-symbol-wrapper"}>
+                    <RemoveCircle />
                 </div>
+                <Normaltekst className={"driftsmelding-vedlegg-text-wrapper"}>
+                    <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
+                </Normaltekst>
             </div>
         );
     }

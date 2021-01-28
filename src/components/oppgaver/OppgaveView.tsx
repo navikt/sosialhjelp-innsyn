@@ -41,6 +41,7 @@ import {
 import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 interface Props {
     oppgave: Oppgave;
@@ -80,34 +81,34 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
 const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
     if (listeMedFil.length > 1) {
         return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </div>
+            </SkjemaelementFeilmelding>
         );
     } else if (listeMedFil.length === 1) {
         return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </div>
+            </SkjemaelementFeilmelding>
         );
     } else {
         return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} />
-            </div>
+            </SkjemaelementFeilmelding>
         );
     }
 };
 
 const feilmeldingComponent = (feilId: string) => {
     return (
-        <div className="oppgaver_vedlegg_feilmelding">
+        <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding">
             <li>
                 <span className="oppgaver_vedlegg_feilmelding_bullet_point">
                     <FormattedMessage id={feilId} />
                 </span>
             </li>
-        </div>
+        </SkjemaelementFeilmelding>
     );
 };
 
@@ -615,24 +616,24 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             </div>
 
             {listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(oppgave.oppgaveId) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {overMaksStorrelse && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
             {(listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId) || opplastingFeilet) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
                             listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId)
@@ -640,7 +641,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                                 : "vedlegg.opplasting_feilmelding"
                         }
                     />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
         </div>
     );

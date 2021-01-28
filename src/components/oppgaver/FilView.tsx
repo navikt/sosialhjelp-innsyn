@@ -11,6 +11,7 @@ import {REST_STATUS} from "../../utils/restUtils";
 import {setOppgaveOpplastingFeiletVirussjekkPaBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
+import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -79,9 +80,9 @@ const FilView: React.FC<{
             {fil.status !== REST_STATUS.INITIALISERT &&
                 fil.status !== REST_STATUS.PENDING &&
                 fil.status !== REST_STATUS.OK && (
-                    <div className="oppgaver_vedlegg_feilmelding_rad">
+                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_rad">
                         <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status} />
-                    </div>
+                    </SkjemaelementFeilmelding>
                 )}
         </div>
     );

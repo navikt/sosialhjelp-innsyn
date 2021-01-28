@@ -14,21 +14,21 @@ const DatoOgKlokkeslett: React.FC<{tidspunkt: string; bareDato?: boolean; brukKo
         !(bareDato && bareDato === true) && new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes() > 0;
     return (
         <>
-            <span className="dato">
+            <time className="dato">
                 <FormattedDate
                     value={new Date(tidspunkt)}
                     month={brukKortMaanedNavn ? "short" : "long"}
                     day="numeric"
                     year="numeric"
                 />
-            </span>
+            </time>
             {visKlokkeslett && (
-                <>
+                <time>
                     &nbsp;
                     <FormattedMessage id="tidspunkt.klokken" />
                     &nbsp;
                     <FormattedTime value={new Date(tidspunkt)} hour="2-digit" minute="2-digit" />
-                </>
+                </time>
             )}
         </>
     );

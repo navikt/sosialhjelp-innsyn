@@ -31,6 +31,7 @@ import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtiliti
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
+import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 function harFilermedFeil(filer: Fil[]) {
     return filer.find((it) => {
@@ -193,7 +194,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
     return (
-        <div>
+        <>
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
@@ -281,31 +282,31 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             )}
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {overMaksStorrelse && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg"}
                     />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
-        </div>
+        </>
     );
 };
 
