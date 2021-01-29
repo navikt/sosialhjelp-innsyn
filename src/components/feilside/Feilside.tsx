@@ -18,11 +18,10 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
         return (
             <div className="informasjon-side">
                 <AppBanner />
-                <div className={"blokk-center"}>
+                <div className="feilside blokk-center">
                     <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                     <Panel className="panel-uthevet panel-uthevet-luft-under">
                         <Innholdstittel>Beklager. Tekniske problemer</Innholdstittel>
-                        <br />
                         <Normaltekst>Vennligst prøv igjen senere.</Normaltekst>
                     </Panel>
                 </div>

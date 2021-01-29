@@ -97,17 +97,6 @@
         background-color: white;
         margin-bottom: 1rem;
         border-radius: 4px;
-
-        hr {
-            height: 2px;
-            background-color: #979797;
-            margin-bottom: 1rem;
-            border: none;
-
-            &.tynnere {
-                height: 1px;
-            }
-        }
     }
 
     .utbetalinger_detaljer_panel:nth-child(1) {
@@ -118,6 +107,13 @@
     .utbetalinger_detaljer_panel:last-child {
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
+    }
+    .mottaker__wrapper {
+        margin: 1rem 0;
+    }
+
+    .soknad__header {
+        margin-top: 1rem;
     }
 }
 
@@ -171,6 +167,16 @@
         i {
             margin-left: 0.5rem;
         }
+    }
+}
+
+.bunnSeparator {
+    border-bottom: 2px solid #979797;
+    padding-bottom: 1rem;
+
+    &.tynnere {
+        border-bottom-width: 1px;
+        padding-bottom: 0.5rem;
     }
 }
 

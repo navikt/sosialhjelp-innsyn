@@ -19,7 +19,7 @@ import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar"
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import Panel from "nav-frontend-paneler";
-import {Systemtittel} from "nav-frontend-typografi";
+import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
@@ -93,9 +93,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
                 <AlertStripeAdvarsel className="luft_over_16px">
-                    Vi klarte ikke å hente inn all informasjonen på siden.
-                    <br />
-                    Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                    <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
+                    <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                 </AlertStripeAdvarsel>
             )}
             <Brodsmulesti

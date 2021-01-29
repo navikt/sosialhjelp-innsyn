@@ -14,9 +14,6 @@ import {getVisningstekster} from "../oppgaver/OppgaveView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
 
-const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
-const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
-
 interface Props {
     vedlegg: Vedlegg[];
     restStatus: REST_STATUS;
@@ -27,17 +24,17 @@ const LastestripeRad = () => (
     <tr>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe lastestripe__kort_forsinkelse" />
+                <span aria-label="laster innhold" className="lastestripe lastestripe__kort_forsinkelse" />
             </span>
         </td>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe" />
+                <span aria-label="laster innhold" className="lastestripe" />
             </span>
         </td>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe lastestripe__lang_forsinkelse" />
+                <span aria-label="laster innhold" className="lastestripe lastestripe__lang_forsinkelse" />
             </span>
         </td>
     </tr>
@@ -160,12 +157,11 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                 aria-sort={ariaSort(Kolonne.FILNAVN)}
                                 className={classNameAriaSort(Kolonne.FILNAVN)}
                             >
-                                <IconSizedSpacerAll />
                                 <Lenke
                                     href="#"
                                     onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
                                 >
-                                    Filnavn
+                                    <span className="ikon_liten_vedlegg_placeholder_alle">Filnavn</span>
                                 </Lenke>
                             </th>
                             <th
@@ -233,15 +229,15 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                 </Lenke>
                                             </td>
                                             <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
-                                                <IconSizedSpacerDesktop />
-                                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                                <span className="ikon_liten_vedlegg_placeholder">
+                                                    {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                                </span>
                                             </td>
                                             <td
                                                 align="right"
                                                 className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}
                                             >
-                                                <IconSizedSpacerDesktop />
-                                                <div className={"dato_lagt_til"}>
+                                                <div className="dato_lagt_til ikon_liten_vedlegg_placeholder">
                                                     <DatoOgKlokkeslett
                                                         bareDato={true}
                                                         tidspunkt={vedlegg.datoLagtTil}

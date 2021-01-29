@@ -5,36 +5,34 @@ import "./SideIkkeFunnet.less";
 
 const SideIkkeFunnet: React.FC<{}> = () => {
     return (
-        <span>
-            <div className="feilside skjema-content">
-                <div className="feilside__ikon">
-                    <UtropstegnSirkelGraIkon />
-                </div>
-                <Innholdstittel className="feilside__tittel">"OOPS, NOE GIKK GALT"</Innholdstittel>
-                <div className="feilside__innhold">Vi fant ikke siden du prøvde å åpne</div>
-
-                <ul className="feilside__link-liste">
-                    <li className="feilside__link">
-                        <a href="http://www.nav.no" className="lenke">
-                            Gå til forsiden nav.no
-                        </a>
-                    </li>
-                    <li className="feilside__link">
-                        <a href="https://www.nav.no/no/Ditt+NAV" className="lenke">
-                            Gå til Ditt NAV
-                        </a>
-                    </li>
-                    <li className="feilside__link">
-                        <a
-                            href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Klage+ris+og+ros/Feil+og+mangler+paa+navno"
-                            className="lenke"
-                        >
-                            Meld fra om feil
-                        </a>
-                    </li>
-                </ul>
+        <div className="sideIkkeFunnet skjema-content">
+            <div className="sideIkkeFunnet__ikon">
+                <UtropstegnSirkelGraIkon />
             </div>
-        </span>
+            <Innholdstittel className="sideIkkeFunnet__tittel">"OOPS, NOE GIKK GALT"</Innholdstittel>
+            <div className="sideIkkeFunnet__innhold">Vi fant ikke siden du prøvde å åpne</div>
+
+            <ul className="sideIkkeFunnet__link-liste">
+                <li className="sideIkkeFunnet__link">
+                    <a href="http://www.nav.no" className="lenke">
+                        Gå til forsiden nav.no
+                    </a>
+                </li>
+                <li className="sideIkkeFunnet__link">
+                    <a href="https://www.nav.no/no/Ditt+NAV" className="lenke">
+                        Gå til Ditt NAV
+                    </a>
+                </li>
+                <li className="sideIkkeFunnet__link">
+                    <a
+                        href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Klage+ris+og+ros/Feil+og+mangler+paa+navno"
+                        className="lenke"
+                    >
+                        Meld fra om feil
+                    </a>
+                </li>
+            </ul>
+        </div>
     );
 };
 
