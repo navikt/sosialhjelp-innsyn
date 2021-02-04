@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import {
     Fil,
@@ -70,6 +70,21 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
+
+    useEffect(() => {
+        if (filer.length > 0) {
+            window.addEventListener("beforeunload", alertUser);
+        }
+        return function unload() {
+            window.removeEventListener("beforeunload", alertUser);
+        };
+    }, [filer]);
+
+    const alertUser = (event: any) => {
+        event.preventDefault();
+        event.returnValue = "";
+    };
+
     const opplastingFeilet = harFilermedFeil(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
