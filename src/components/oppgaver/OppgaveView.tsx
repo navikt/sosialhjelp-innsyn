@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {
@@ -256,6 +256,20 @@ const OppgaveElementView = (props: {
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
+
+    useEffect(() => {
+        if (props.oppgaveElement.filer && props.oppgaveElement.filer.length > 0) {
+            window.addEventListener("beforeunload", alertUser);
+        }
+        return function unload() {
+            window.removeEventListener("beforeunload", alertUser);
+        };
+    }, [props.oppgaveElement.filer]);
+
+    const alertUser = (event: any) => {
+        event.preventDefault();
+        event.returnValue = "";
+    };
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
     return (
