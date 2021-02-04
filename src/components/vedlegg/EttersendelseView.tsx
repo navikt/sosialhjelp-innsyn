@@ -257,6 +257,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                         onChange(event);
                                     }}
                                     style={{display: "none"}}
+                                    accept={
+                                        window.navigator.platform.match(/iPad|iPhone|iPod/) !== null
+                                            ? "*"
+                                            : "image/jpeg,image/png,application/pdf"
+                                    }
                                 />
                             </div>
                         )}
