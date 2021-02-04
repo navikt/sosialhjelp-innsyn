@@ -427,6 +427,11 @@ const VelgFil = (props: {
                             onChange(event, props.oppgaveElement, props.oppgaveElementIndex, props.oppgaveIndex)
                         }
                         style={{display: "none"}}
+                        accept={
+                            window.navigator.platform.match(/iPad|iPhone|iPod/) !== null
+                                ? "*"
+                                : "image/jpeg,image/png,application/pdf"
+                        }
                     />
                 </div>
             )}
