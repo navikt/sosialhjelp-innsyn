@@ -42,8 +42,7 @@ const VedleggModal: React.FC<{file: File; synlig: boolean; onRequestClose: () =>
             shouldCloseOnOverlayClick={true}
         >
             <div style={{padding: "1rem"}}>
-                Fil: {file.name}:
-                <br />
+                <div className="blokk-xs">Fil: {file.name}:</div>
                 {isImage && <img style={{width: "100%"}} src={URL.createObjectURL(file)} alt={file.name} />}
                 {/*{isPDF && (*/}
                 {/*    <div style={{overflow: "scroll"}}>*/}

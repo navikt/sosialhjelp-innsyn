@@ -12,9 +12,10 @@ import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
+import {Normaltekst} from "nav-frontend-typografi";
 
 const Saksoversikt: React.FC = () => {
-    document.title = "Økonomisk sosialhjelp";
+    document.title = "Dine søknader - Økonomisk sosialhjelp";
 
     const dispatch = useDispatch();
     const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
@@ -68,9 +69,8 @@ const Saksoversikt: React.FC = () => {
                     <>
                         {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
                             <AlertStripeAdvarsel className="luft_over_16px">
-                                Vi klarte ikke å hente inn all informasjonen på siden.
-                                <br />
-                                Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                                <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
+                                <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                             </AlertStripeAdvarsel>
                         )}
                         {harSaker && <SaksoversiktDineSaker saker={alleSaker} />}

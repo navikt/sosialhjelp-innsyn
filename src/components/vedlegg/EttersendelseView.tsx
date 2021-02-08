@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import {
     Fil,
@@ -9,9 +9,8 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
 import UploadFileIcon from "../ikoner/UploadFile";
-import Lenke from "nav-frontend-lenker";
 import {FormattedMessage} from "react-intl";
-import {Hovedknapp} from "nav-frontend-knapper";
+import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {
@@ -32,6 +31,7 @@ import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtiliti
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
+import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 function harFilermedFeil(filer: Fil[]) {
     return filer.find((it) => {
@@ -70,6 +70,21 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
+
+    useEffect(() => {
+        if (filer.length > 0) {
+            window.addEventListener("beforeunload", alertUser);
+        }
+        return function unload() {
+            window.removeEventListener("beforeunload", alertUser);
+        };
+    }, [filer]);
+
+    const alertUser = (event: any) => {
+        event.preventDefault();
+        event.returnValue = "";
+    };
+
     const opplastingFeilet = harFilermedFeil(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -194,7 +209,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
     return (
-        <div>
+        <>
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
@@ -221,6 +236,31 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
                         </Normaltekst>
 
+                        {kanLasteOppVedlegg && (
+                            <div className="oppgaver_last_opp_fil">
+                                <Flatknapp
+                                    mini
+                                    onClick={(event: any) => {
+                                        onLinkClicked(event);
+                                    }}
+                                >
+                                    <UploadFileIcon className="last_opp_fil_ikon" />
+                                    <Element>
+                                        <FormattedMessage id="vedlegg.velg_fil" />
+                                    </Element>
+                                </Flatknapp>
+                                <input
+                                    type="file"
+                                    id={"file_andre"}
+                                    multiple={true}
+                                    onChange={(event: ChangeEvent) => {
+                                        onChange(event);
+                                    }}
+                                    style={{display: "none"}}
+                                />
+                            </div>
+                        )}
+
                         {filer &&
                             filer.length > 0 &&
                             filer.map((fil: Fil, vedleggIndex: number) => (
@@ -235,36 +275,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 />
                             ))}
 
-                        {kanLasteOppVedlegg && (
-                            <div className="oppgaver_last_opp_fil">
-                                <UploadFileIcon
-                                    className="last_opp_fil_ikon"
-                                    onClick={(event: any) => {
-                                        onLinkClicked(event);
-                                    }}
-                                />
-                                <Lenke
-                                    href="#"
-                                    className="lenke_uten_ramme"
-                                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                        onLinkClicked(event);
-                                    }}
-                                >
-                                    <Element>
-                                        <FormattedMessage id="vedlegg.velg_fil" />
-                                    </Element>
-                                </Lenke>
-                                <input
-                                    type="file"
-                                    id={"file_andre"}
-                                    multiple={true}
-                                    onChange={(event: ChangeEvent) => {
-                                        onChange(event);
-                                    }}
-                                    style={{display: "none"}}
-                                />
-                            </div>
-                        )}
                         {validerFilArrayForFeil(listeMedFilerSomFeiler) && skrivFeilmelding(listeMedFilerSomFeiler, 0)}
                     </div>
 
@@ -287,31 +297,31 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             )}
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {overMaksStorrelse && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg"}
                     />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
-        </div>
+        </>
     );
 };
 

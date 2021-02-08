@@ -77,14 +77,16 @@ const SakPanel: React.FC<Props> = ({
                         <div className="sakpanel_status">
                             {fiksDigisosId !== null && !underLasting && (
                                 <EtikettLiten>
-                                    {status} ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
+                                    {status} <span aria-hidden="true"> ● </span> oppdatert{" "}
+                                    <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                                 </EtikettLiten>
                             )}
                             {fiksDigisosId !== null && underLasting && (
                                 <div className="sakspanel_status_laster">
                                     <Lastestriper linjer={1} />
                                     <EtikettLiten>
-                                        ● oppdatert <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
+                                        <span aria-hidden="true"> ● </span> oppdatert{" "}
+                                        <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                                     </EtikettLiten>
                                 </div>
                             )}
@@ -95,7 +97,7 @@ const SakPanel: React.FC<Props> = ({
                             )}
                         </div>
                         {underLasting && <Lastestriper linjer={1} />}
-                        {!underLasting && <Element>{tittel}</Element>}
+                        {!underLasting && <Element className="lenkepanel__heading">{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">

@@ -7,7 +7,6 @@ import {
     isDevSbs,
     getSoknadBaseUrl,
     getNavUrl,
-    getApiUrlForSwagger,
     isDevGcpWithProxy,
 } from "./restUtils";
 
@@ -179,60 +178,6 @@ describe("getDittNavUrl", () => {
     function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getNavUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
-        });
-    }
-});
-
-describe("getSwaggerUrl", () => {
-    it("should return correct backend-url", () => {
-        validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/swagger-ui.html");
-
-        validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html");
-        validateGetBaseUrl(devSbs_navnoOrigins, "https://www-q0.nav.no/sosialhjelp/innsyn-api/swagger-ui.html");
-        validateGetBaseUrl(
-            devSbs_origins,
-            "https://sosialhjelp-innsyn-api.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-        validateGetBaseUrl(
-            devSbsIntern_devNavnoOrigins,
-            "https://www-q1.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-        validateGetBaseUrl(devSbsIntern_navnoOrigins, "https://www-q1.nav.no/sosialhjelp/innsyn-api/swagger-ui.html");
-        validateGetBaseUrl(
-            devSbsIntern_origins,
-            "https://sosialhjelp-innsyn-api-intern.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-
-        validateGetBaseUrl(
-            labsGcpWithProxyOrigins,
-            "https://digisos.labs.nais.io/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-        validateGetBaseUrl(
-            labsGcpWithoutProxyOrigins,
-            "https://sosialhjelp-innsyn-api.labs.nais.io/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-        validateGetBaseUrl(
-            devGcpWithProxyOrigins,
-            "https://digisos-gcp.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-        validateGetBaseUrl(
-            devGcpWithoutProxyOrigins,
-            "https://sosialhjelp-innsyn-api-gcp.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui.html"
-        );
-    });
-
-    it("should return nothing for prod", () => {
-        validateGetBaseUrl(prodSbsOrigins, "");
-        validateGetBaseUrl(prodNavnoOrigins, "");
-    });
-
-    it("should default to nothing when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "");
-    });
-
-    function validateGetBaseUrl(origins: string[], expected: string) {
-        origins.forEach((origin) => {
-            expect(getApiUrlForSwagger(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });

@@ -72,8 +72,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                                 <div className="ellablunk-rad">
                                     <EllaBlunk size={"175"} />
                                 </div>
-                                <Innholdstittel>Hei {fornavn}</Innholdstittel>
-                                <br />
+                                <Innholdstittel className="blokk-xs">Hei {fornavn}</Innholdstittel>
                                 <Normaltekst>
                                     Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta
                                     kontakt med ditt lokale NAV-kontor for å få hjelp til å søke.

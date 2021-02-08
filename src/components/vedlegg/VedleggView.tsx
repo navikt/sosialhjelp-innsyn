@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import Lenke from "nav-frontend-lenker";
 import {Select} from "nav-frontend-skjema";
-import NavFrontendChevron from "nav-frontend-chevron";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
@@ -15,9 +14,6 @@ import {getVisningstekster} from "../oppgaver/OppgaveView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
 
-const IconSizedSpacerAll: React.FC = () => <span className="ikon_liten_vedlegg_placeholder_alle" />;
-const IconSizedSpacerDesktop: React.FC = () => <span className="ikon_liten_vedlegg_placeholder" />;
-
 interface Props {
     vedlegg: Vedlegg[];
     restStatus: REST_STATUS;
@@ -28,17 +24,17 @@ const LastestripeRad = () => (
     <tr>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe lastestripe__kort_forsinkelse" />
+                <span aria-label="laster innhold" className="lastestripe lastestripe__kort_forsinkelse" />
             </span>
         </td>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe" />
+                <span aria-label="laster innhold" className="lastestripe" />
             </span>
         </td>
         <td>
             <span className="lastestriper">
-                <span className="lastestripe lastestripe__lang_forsinkelse" />
+                <span aria-label="laster innhold" className="lastestripe lastestripe__lang_forsinkelse" />
             </span>
         </td>
     </tr>
@@ -118,25 +114,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
         event.preventDefault();
     };
 
-    const setSortOrder = (event: any, newDescending: boolean) => {
-        switch (sortBy) {
-            case Kolonne.FILNAVN:
-                setDescending({...descending, filnavn: !descending[Kolonne.FILNAVN]});
-                break;
-            case Kolonne.BESKRIVELSE:
-                setDescending({...descending, beskrivelse: !descending[Kolonne.BESKRIVELSE]});
-                break;
-            default:
-                setDescending({...descending, dato: !descending[Kolonne.DATO]});
-        }
-        event.preventDefault();
-    };
-
     const sorterteVedlegg = sorterVedlegg(vedlegg, sortBy, descending[sortBy]);
-
-    const currentSortDescending = (): boolean => {
-        return descending[sortBy];
-    };
 
     const ariaSort = (kolonne: Kolonne): "descending" | "ascending" | "none" => {
         return kolonne === sortBy ? (descending[kolonne] ? "descending" : "ascending") : "none";
@@ -170,16 +148,6 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         <option value={Kolonne.BESKRIVELSE}>beskrivelse</option>
                         <option value={Kolonne.DATO}>dato</option>
                     </Select>
-                    {!currentSortDescending() && (
-                        <Lenke href="#" onClick={(event) => setSortOrder(event, true)}>
-                            <NavFrontendChevron type={"opp"} />
-                        </Lenke>
-                    )}
-                    {currentSortDescending() && (
-                        <Lenke href="#" onClick={(event) => setSortOrder(event, false)}>
-                            <NavFrontendChevron type={"ned"} />
-                        </Lenke>
-                    )}
                 </div>
                 <table className={"tabell " + (className ? className : "")}>
                     <thead>
@@ -189,12 +157,11 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                 aria-sort={ariaSort(Kolonne.FILNAVN)}
                                 className={classNameAriaSort(Kolonne.FILNAVN)}
                             >
-                                <IconSizedSpacerAll />
                                 <Lenke
                                     href="#"
                                     onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
                                 >
-                                    Filnavn
+                                    <span className="ikon_liten_vedlegg_placeholder_alle">Filnavn</span>
                                 </Lenke>
                             </th>
                             <th
@@ -262,15 +229,15 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                 </Lenke>
                                             </td>
                                             <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
-                                                <IconSizedSpacerDesktop />
-                                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                                <span className="ikon_liten_vedlegg_placeholder">
+                                                    {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                                </span>
                                             </td>
                                             <td
                                                 align="right"
                                                 className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}
                                             >
-                                                <IconSizedSpacerDesktop />
-                                                <div className={"dato_lagt_til"}>
+                                                <div className="dato_lagt_til ikon_liten_vedlegg_placeholder">
                                                     <DatoOgKlokkeslett
                                                         bareDato={true}
                                                         tidspunkt={vedlegg.datoLagtTil}

@@ -1,6 +1,5 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
-import Lenke from "nav-frontend-lenker";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {
     Fil,
@@ -10,9 +9,7 @@ import {
     Oppgave,
     OppgaveElement,
     settRestStatus,
-    Vedlegg,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import VedleggActionsView from "./VedleggActionsView";
 import FilView from "./FilView";
 import {useDispatch, useSelector} from "react-redux";
 import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
@@ -41,9 +38,10 @@ import {
     opprettFormDataMedVedleggFraOppgaver,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
-import {Hovedknapp} from "nav-frontend-knapper";
+import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 interface Props {
     oppgave: Oppgave;
@@ -83,34 +81,34 @@ const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
 const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
     if (listeMedFil.length > 1) {
         return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </div>
+            </SkjemaelementFeilmelding>
         );
     } else if (listeMedFil.length === 1) {
         return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </div>
+            </SkjemaelementFeilmelding>
         );
     } else {
         return (
-            <div className="oppgaver_vedlegg_feilmelding_overskrift">
+            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
                 <FormattedMessage id={feilId} />
-            </div>
+            </SkjemaelementFeilmelding>
         );
     }
 };
 
 const feilmeldingComponent = (feilId: string) => {
     return (
-        <div className="oppgaver_vedlegg_feilmelding">
+        <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding">
             <li>
                 <span className="oppgaver_vedlegg_feilmelding_bullet_point">
                     <FormattedMessage id={feilId} />
                 </span>
             </li>
-        </div>
+        </SkjemaelementFeilmelding>
     );
 };
 
@@ -259,6 +257,20 @@ const OppgaveElementView = (props: {
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
 
+    useEffect(() => {
+        if (props.oppgaveElement.filer && props.oppgaveElement.filer.length > 0) {
+            window.addEventListener("beforeunload", alertUser);
+        }
+        return function unload() {
+            window.removeEventListener("beforeunload", alertUser);
+        };
+    }, [props.oppgaveElement.filer]);
+
+    const alertUser = (event: any) => {
+        event.preventDefault();
+        event.returnValue = "";
+    };
+
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
@@ -272,12 +284,6 @@ const OppgaveElementView = (props: {
                 oppgaveId={props.oppgaveId}
                 setOverMaksStorrelse={props.setOverMaksStorrelse}
             />
-
-            {props.oppgaveElement.vedlegg &&
-                props.oppgaveElement.vedlegg.length > 0 &&
-                props.oppgaveElement.vedlegg.map((vedlegg: Vedlegg, vedleggIndex: number) => (
-                    <VedleggActionsView vedlegg={vedlegg} key={vedleggIndex} />
-                ))}
 
             {props.oppgaveElement.filer &&
                 props.oppgaveElement.filer.length > 0 &&
@@ -316,10 +322,7 @@ const VelgFil = (props: {
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
 
-    const onLinkClicked = (
-        oppgaveElementIndex: number,
-        event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-    ): void => {
+    const onClick = (oppgaveElementIndex: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
             dispatch(setOppgaveVedleggopplastingFeilet(response));
         };
@@ -404,24 +407,18 @@ const VelgFil = (props: {
             )}
             {kanLasteOppVedlegg && (
                 <div className="oppgaver_last_opp_fil">
-                    <UploadFileIcon
-                        className="last_opp_fil_ikon"
-                        onClick={(event: any) => {
-                            onLinkClicked(props.oppgaveElementIndex, event);
-                        }}
-                    />
-                    <Lenke
-                        href="#"
+                    <Flatknapp
+                        mini
                         id={"oppgave_" + props.oppgaveElementIndex + "_last_opp_fil_knapp"}
-                        className="lenke_uten_ramme"
-                        onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                            onLinkClicked(props.oppgaveElementIndex, event);
+                        onClick={(event) => {
+                            onClick(props.oppgaveElementIndex, event);
                         }}
                     >
+                        <UploadFileIcon className="last_opp_fil_ikon" />
                         <Element>
                             <FormattedMessage id="vedlegg.velg_fil" />
                         </Element>
-                    </Lenke>
+                    </Flatknapp>
                     <input
                         type="file"
                         id={"file_" + props.oppgaveIndex + "_" + props.oppgaveElementIndex}
@@ -633,24 +630,24 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
             </div>
 
             {listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(oppgave.oppgaveId) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
 
             {overMaksStorrelse && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
             {(listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId) || opplastingFeilet) && (
-                <div className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
                             listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId)
@@ -658,7 +655,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                                 : "vedlegg.opplasting_feilmelding"
                         }
                     />
-                </div>
+                </SkjemaelementFeilmelding>
             )}
         </div>
     );

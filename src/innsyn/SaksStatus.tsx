@@ -18,13 +18,14 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import {soknadsStatusTittel} from "../components/soknadsStatus/soknadsStatusUtils";
 import Panel from "nav-frontend-paneler";
-import {Systemtittel} from "nav-frontend-typografi";
+import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
+import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
+import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
 
 interface Props {
     match: {
@@ -75,8 +76,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
-    const statusTittel = soknadsStatusTittel(innsynsdata.soknadsStatus.status, intl);
-    document.title = statusTittel;
+    const statusTittel = "Søknadsstatus";
+    document.title = `${statusTittel} - Økonomisk sosialhjelp`;
+
+    useBannerTittel(statusTittel);
 
     const shouldShowHotjarTrigger = () => {
         return (
@@ -90,9 +93,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
                 <AlertStripeAdvarsel className="luft_over_16px">
-                    Vi klarte ikke å hente inn all informasjonen på siden.
-                    <br />
-                    Du kan forsøke å oppdatere siden, eller prøve igjen senere.
+                    <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
+                    <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                 </AlertStripeAdvarsel>
             )}
             <Brodsmulesti
@@ -130,11 +132,22 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
                     <ForelopigSvarAlertstripe />
 
-                    <SoknadsStatus
-                        status={innsynsdata.soknadsStatus.status}
-                        sak={innsynsdata.saksStatus}
-                        restStatus={restStatus.soknadsStatus}
-                    />
+                    {!erPaInnsyn && (
+                        <SoknadsStatusUtenInnsyn
+                            restStatus={restStatus.soknadsStatus}
+                            tidspunktSendt={innsynsdata.soknadsStatus.tidspunktSendt}
+                            navKontor={innsynsdata.soknadsStatus.navKontor}
+                            filUrl={innsynsdata.soknadsStatus.filUrl}
+                        />
+                    )}
+
+                    {erPaInnsyn && (
+                        <SoknadsStatus
+                            status={innsynsdata.soknadsStatus.status}
+                            sak={innsynsdata.saksStatus}
+                            restStatus={restStatus.soknadsStatus}
+                        />
+                    )}
 
                     {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
                         <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
