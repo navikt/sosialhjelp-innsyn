@@ -34,9 +34,7 @@ const SoknadsStatusUtenInnsyn = (props: {
                         Sendt den{" "}
                         <DatoOgKlokkeslett bareDato={true} tidspunkt={props.tidspunktSendt} brukKortMaanedNavn={true} />
                         til {props.navKontor}{" "}
-                        <EksternLenke href={props.filUrl.link} target="_blank">
-                            {props.filUrl.linkTekst}
-                        </EksternLenke>
+                        <EksternLenke href={props.filUrl.link}>{props.filUrl.linkTekst}</EksternLenke>
                     </Normaltekst>
                 )}
             </div>

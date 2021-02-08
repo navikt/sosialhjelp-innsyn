@@ -221,6 +221,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                 <Lenke
                                                     href={vedlegg.url}
                                                     target="_blank"
+                                                    rel="noopener noreferrer"
                                                     title={
                                                         vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"
                                                     }
