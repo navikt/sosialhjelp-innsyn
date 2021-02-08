@@ -9,7 +9,7 @@ const SideIkkeFunnet: React.FC<{}> = () => {
             <div className="sideIkkeFunnet__ikon">
                 <UtropstegnSirkelGraIkon />
             </div>
-            <Innholdstittel className="sideIkkeFunnet__tittel">"OOPS, NOE GIKK GALT"</Innholdstittel>
+            <Innholdstittel className="sideIkkeFunnet__tittel">OOPS, NOE GIKK GALT</Innholdstittel>
             <div className="sideIkkeFunnet__innhold">Vi fant ikke siden du prøvde å åpne</div>
 
             <ul className="sideIkkeFunnet__link-liste">

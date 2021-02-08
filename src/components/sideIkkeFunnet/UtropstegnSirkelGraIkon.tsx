@@ -1,8 +1,15 @@
 import * as React from "react";
 
-const UtropstegnSirkelGraIkon: React.StatelessComponent = () => {
+const UtropstegnSirkelGraIkon = () => {
     return (
-        <svg width="100px" height="100px" viewBox="85 85 30 30" enableBackground="new 85 85 30 30">
+        <svg
+            aria-labelledby="advarsel-ikon"
+            width="100px"
+            height="100px"
+            viewBox="85 85 30 30"
+            enableBackground="new 85 85 30 30"
+        >
+            <title id="advarsel-ikon">advarsel-ikon</title>
             <path
                 fill="#C7C5C4"
                 d={

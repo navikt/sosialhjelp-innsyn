@@ -2,7 +2,8 @@ import React from "react";
 
 const RemoveCircle: React.FC = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <svg aria-labelleby="feil-ikon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <title id="feil-ikon">feil-ikon</title>
             <g fill="none" fillRule="nonzero">
                 <path
                     fill="#A13A28"

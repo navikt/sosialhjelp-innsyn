@@ -8,7 +8,9 @@ const DocumentIcon: React.FC<{className?: string}> = ({className}) => {
             version="1"
             viewBox="0 0 24 24"
             className={className}
+            aria-hidden="true"
         >
+            <title>Dokument</title>
             <path
                 fill="none"
                 stroke="#3e3832"

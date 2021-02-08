@@ -8,7 +8,9 @@ const DokumentElla: React.FC = () => {
             width="88"
             height="90"
             viewBox="0 0 88 90"
+            aria-hidden="true"
         >
+            <title>Veileder og dokument</title>
             <defs>
                 <path
                     id="document-ella-a"
