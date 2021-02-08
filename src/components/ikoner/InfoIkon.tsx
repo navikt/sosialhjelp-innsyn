@@ -2,7 +2,7 @@ import React from "react";
 
 const InfoIkon: React.FC = () => {
     return (
-        <svg aria-labelleby="info-ikon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <svg aria-labelledby="info-ikon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <title id="info-ikon">info-ikon</title>
             <g fill="none" fillRule="evenodd">
                 <path
