@@ -2,7 +2,13 @@ import React from "react";
 
 const HandCoinsIcon: React.FC<{}> = () => {
     return (
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="hands_coin_icon">
+        <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            className="hands_coin_icon"
+            pointerEvents="none"
+        >
             <title>Hånd med penger</title>
             <g fill="none" fillRule="evenodd">
                 <circle cx="50" cy="50" r="50" fill="#CDE7D8" />

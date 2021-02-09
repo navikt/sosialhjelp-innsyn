@@ -6,7 +6,14 @@ interface Props {
 
 const ChecklistSmall: React.FC<Props> = (props: Props) => {
     return (
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            pointerEvents="none"
+        >
             <title>Liste</title>
             <g fill="none" fillRule="evenodd" stroke="#000" strokeLinejoin="round">
                 <path d="M23.5 23.5H.5V.5h23z" />

@@ -10,6 +10,7 @@ const DokumentBinder: React.FC<{className?: string}> = ({className}) => {
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             aria-hidden="true"
+            pointerEvents="none"
         >
             <title>Vedlegg</title>
             <defs>

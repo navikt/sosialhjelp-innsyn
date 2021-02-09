@@ -9,6 +9,7 @@ const DocumentIcon: React.FC<{className?: string}> = ({className}) => {
             viewBox="0 0 24 24"
             className={className}
             aria-hidden="true"
+            pointerEvents="none"
         >
             <title>Dokument</title>
             <path

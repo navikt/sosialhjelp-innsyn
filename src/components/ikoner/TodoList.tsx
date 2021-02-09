@@ -9,6 +9,7 @@ const TodoList: React.FC<{className?: string}> = ({className}) => {
             height="24"
             viewBox="0 0 24 24"
             className={className}
+            pointerEvents="none"
         >
             <title>Liste</title>
             <g fill="none" stroke="#000" strokeLinejoin="round" strokeMiterlimit="10">

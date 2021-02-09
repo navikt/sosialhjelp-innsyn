@@ -10,6 +10,7 @@ class IngenSoknaderFunnet extends React.Component {
                 viewBox="0 0 73 83"
                 className="ingenSoknadFunnet"
                 aria-hidden="true"
+                pointerEvents="none"
             >
                 <title>Skjema med forstørrelsesglass</title>
                 <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">

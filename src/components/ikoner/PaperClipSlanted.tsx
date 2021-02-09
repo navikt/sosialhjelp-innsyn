@@ -11,6 +11,7 @@ const PaperClipSlanted: React.FC<{className?: string}> = ({className}) => {
             xmlns="http://www.w3.org/2000/svg"
             version="1"
             aria-hidden="true"
+            pointerEvents="none"
         >
             <title>Binders</title>
             <path

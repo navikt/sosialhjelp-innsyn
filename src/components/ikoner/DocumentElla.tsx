@@ -9,6 +9,7 @@ const DokumentElla: React.FC = () => {
             height="90"
             viewBox="0 0 88 90"
             aria-hidden="true"
+            pointerEvents="none"
         >
             <title>Veileder og dokument</title>
             <defs>

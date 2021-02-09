@@ -13,6 +13,7 @@ const BinderSmall: React.FC<Props> = (props: Props) => {
             height="32"
             viewBox="0 0 32 32"
             aria-hidden="true"
+            pointerEvents="none"
         >
             <title>Binders</title>
             <defs>
