@@ -2,7 +2,13 @@ import React from "react";
 
 const UserIcon: React.FC<{}> = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="saksoversikt-userIcon">
+        <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            className="saksoversikt-userIcon"
+        >
+            <title>person</title>
             <path
                 fill="#3E3832"
                 fillRule="evenodd"

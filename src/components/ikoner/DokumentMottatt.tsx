@@ -2,7 +2,8 @@ import React from "react";
 
 const DokumentMottatt: React.FC = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="63" height="76" viewBox="0 0 63 76">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="63" height="76" viewBox="0 0 63 76">
+            <title>Dokument</title>
             <g fill="none" fillRule="evenodd">
                 <path
                     fill="#E3E3DA"

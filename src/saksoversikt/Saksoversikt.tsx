@@ -73,8 +73,7 @@ const Saksoversikt: React.FC = () => {
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                             </AlertStripeAdvarsel>
                         )}
-                        {harSaker && <SaksoversiktDineSaker saker={alleSaker} />}
-                        {!harSaker && <SaksoversiktIngenSoknader />}
+                        {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}
             </div>
