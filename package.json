@@ -67,7 +67,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.4.0",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.5.0"
   },
   "scripts": {
     "start": "craco start",
