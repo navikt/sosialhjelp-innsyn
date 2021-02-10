@@ -10,6 +10,7 @@ const UploadFile: React.FC<{className?: string; onClick?: (event: any) => void}>
                 width="24"
                 height="25"
                 viewBox="0 0 24 25"
+                pointerEvents="none"
             >
                 <title>Last opp</title>
                 <path

@@ -2,7 +2,14 @@ import React from "react";
 
 const PaperClip: React.FC = () => {
     return (
-        <svg aria-hidden="true" width="24" viewBox="0 0 24 24" height="24" xmlns="http://www.w3.org/2000/svg">
+        <svg
+            aria-hidden="true"
+            width="24"
+            viewBox="0 0 24 24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            pointerEvents="none"
+        >
             <title>Binders</title>
             <path
                 fill="#3e3832"

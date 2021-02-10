@@ -10,6 +10,7 @@ const DocumentChecklist: React.FC<{className?: string}> = ({className}) => {
             height="100"
             viewBox="0 0 100 100"
             aria-hidden="true"
+            pointerEvents="none"
         >
             <title>Sjekkliste</title>
             <defs>
