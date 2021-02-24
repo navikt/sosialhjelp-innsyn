@@ -1,6 +1,5 @@
 import React from "react";
 import {Element, Undertittel} from "nav-frontend-typografi";
-import {EtikettLiten} from "nav-frontend-typografi";
 import SavnerUtbetalingPanel from "./SavnerUtbetalingPanel";
 import UtbetalingEkspanderbart from "./UtbetalingEkspanderbart";
 import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
@@ -8,6 +7,7 @@ import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {erDevMiljo} from "../utils/ServiceHookTypes";
+import {EtikettLiten} from "../components/etikett/EtikettLiten";
 
 interface Props {
     utbetalinger: UtbetalingSakType[];

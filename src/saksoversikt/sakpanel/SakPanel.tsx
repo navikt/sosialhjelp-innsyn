@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Element, EtikettLiten} from "nav-frontend-typografi";
+import {Element} from "nav-frontend-typografi";
 import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
 import {EtikettFokus} from "nav-frontend-etiketter";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
+import {EtikettLiten} from "../../components/etikett/EtikettLiten";
 
 interface Props {
     fiksDigisosId: string;
