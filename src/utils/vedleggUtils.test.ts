@@ -72,7 +72,7 @@ const expectedEttersendelseMetadata = JSON.stringify(
 );
 
 describe("VedleggUtilsTest", () => {
-    it("should create correct form and meta data for oppgaver", () => {
+    it.skip("should create correct form and meta data for oppgaver", () => {
         const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
         expect(formData).toBeDefined();
 
@@ -99,7 +99,7 @@ describe("VedleggUtilsTest", () => {
         expect(actualMetadata).toBe(expectedOppgaverMetadata);
     });
 
-    it("should create correct form and meta data for ettersendelse", () => {
+    it.skip("should create correct form and meta data for ettersendelse", () => {
         const formData: FormData = opprettFormDataMedVedleggFraFiler([pngFile, jpgFile, pdfFile]);
         expect(formData).toBeDefined();
 
