@@ -4,6 +4,8 @@ import {
     opprettFormDataMedVedleggFraOppgaver,
     containsUlovligeTegn,
     hentFileExtension,
+    generateMetadataFromAndreVedlegg,
+    generateMetadataFromOppgaver,
 } from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
@@ -34,45 +36,38 @@ const oppgave = {
         } as OppgaveElement,
     ],
 } as Oppgave;
-const expectedOppgaverMetadata = JSON.stringify(
-    [
-        {
-            type: oppgave.oppgaveElementer[0].dokumenttype,
-            tilleggsinfo: oppgave.oppgaveElementer[0].tilleggsinformasjon,
-            innsendelsesfrist: oppgave.innsendelsesfrist,
-            filer: [{filnavn: pngFile.filnavn}, {filnavn: jpgFile.filnavn}],
-        },
-        {
-            type: oppgave.oppgaveElementer[1].dokumenttype,
-            tilleggsinfo: oppgave.oppgaveElementer[1].tilleggsinformasjon,
-            innsendelsesfrist: oppgave.innsendelsesfrist,
-            filer: [{filnavn: pdfFile.filnavn}],
-        },
-        {
-            type: oppgave.oppgaveElementer[2].dokumenttype,
-            tilleggsinfo: oppgave.oppgaveElementer[2].tilleggsinformasjon,
-            innsendelsesfrist: oppgave.innsendelsesfrist,
-            filer: [{filnavn: jpgFile.filnavn}, {filnavn: jpgFile.filnavn}],
-        },
-    ],
-    null,
-    8
-);
 
-const expectedEttersendelseMetadata = JSON.stringify(
-    [
-        {
-            type: "annet",
-            tilleggsinfo: "annet",
-            filer: [{filnavn: pngFile.filnavn}, {filnavn: jpgFile.filnavn}, {filnavn: pdfFile.filnavn}],
-        },
-    ],
-    null,
-    8
-);
+const expectedOppgaverMetadata = [
+    {
+        type: oppgave.oppgaveElementer[0].dokumenttype,
+        tilleggsinfo: oppgave.oppgaveElementer[0].tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
+        filer: [{filnavn: pngFile.filnavn}, {filnavn: jpgFile.filnavn}],
+    },
+    {
+        type: oppgave.oppgaveElementer[1].dokumenttype,
+        tilleggsinfo: oppgave.oppgaveElementer[1].tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
+        filer: [{filnavn: pdfFile.filnavn}],
+    },
+    {
+        type: oppgave.oppgaveElementer[2].dokumenttype,
+        tilleggsinfo: oppgave.oppgaveElementer[2].tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
+        filer: [{filnavn: jpgFile.filnavn}, {filnavn: jpgFile.filnavn}],
+    },
+];
+
+const expectedEttersendelseMetadata = [
+    {
+        type: "annet",
+        tilleggsinfo: "annet",
+        filer: [{filnavn: pngFile.filnavn}, {filnavn: jpgFile.filnavn}, {filnavn: pdfFile.filnavn}],
+    },
+];
 
 describe("VedleggUtilsTest", () => {
-    it.skip("should create correct form and meta data for oppgaver", () => {
+    it("should create correct form and meta data for oppgaver", () => {
         const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
         expect(formData).toBeDefined();
 
@@ -93,13 +88,11 @@ describe("VedleggUtilsTest", () => {
             expect(file.name).toBe(value.filnavn);
         });
 
-        const metadataFile = formDataEntryValues[0] as File;
-        // @ts-ignore
-        const actualMetadata = metadataFile["_buffer"].toString();
-        expect(actualMetadata).toBe(expectedOppgaverMetadata);
+        const metadata = generateMetadataFromOppgaver(oppgave);
+        expect(metadata).toMatchObject(expectedOppgaverMetadata);
     });
 
-    it.skip("should create correct form and meta data for ettersendelse", () => {
+    it("should create correct form and meta data for ettersendelse", () => {
         const formData: FormData = opprettFormDataMedVedleggFraFiler([pngFile, jpgFile, pdfFile]);
         expect(formData).toBeDefined();
 
@@ -118,10 +111,8 @@ describe("VedleggUtilsTest", () => {
             expect(file.name).toBe(value.filnavn);
         });
 
-        const metadataFile = formDataEntryValues[0] as File;
-        // @ts-ignore
-        const actualMetadata = metadataFile["_buffer"].toString();
-        expect(actualMetadata).toBe(expectedEttersendelseMetadata);
+        const metadata = generateMetadataFromAndreVedlegg([pngFile, jpgFile, pdfFile]);
+        expect(metadata).toMatchObject(expectedEttersendelseMetadata);
     });
 
     it("should log error for empty file file object ettersendelse", () => {
