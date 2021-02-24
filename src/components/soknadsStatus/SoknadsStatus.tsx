@@ -1,6 +1,6 @@
 import React from "react";
 import Panel from "nav-frontend-paneler";
-import {Element, EtikettLiten, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
+import {Element, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -14,6 +14,7 @@ import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentOk from "../ikoner/DokumentOk";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
+import {EtikettLiten} from "../etikett/EtikettLiten";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
