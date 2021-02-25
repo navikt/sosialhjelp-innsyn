@@ -42,12 +42,14 @@ export const tekster = {
         "oppgaver.veileder_trenger_mer":
             "Vi trenger mer dokumentasjon for å behandle søknaden din. " +
             "Hvis du ikke leverer dokumentasjonen innen fristen, blir " +
-            "søknaden behandlet med den informasjonen vi har.",
+            "søknaden behandlet med den informasjonen vi har. " +
+            "Har du levert dokumentasjonen til NAV-kontoret, kan du se bort fra denne meldingen.",
         "oppgaver.last_opp_vedlegg_ikke":
             "Last opp vedlegg du ikke lastet opp da du sendte søknaden. " +
             "Vi anbefaler at du ettersender vedlegg så snart som mulig og helst innen 14 dager. " +
             "Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi " +
-            "har.",
+            "har. " +
+            "Har du levert dokumentasjonen til NAV-kontoret, kan du se bort fra denne meldingen.",
         "oppgaver.hjelp_last_opp": "Hjelp til å laste opp?",
         "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å laste opp vedlegg?",
         "oppgaver.informasjon.modal.bolk1.tittel": "Du vil laste opp dokumentasjon du har på papir",
