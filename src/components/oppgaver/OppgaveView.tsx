@@ -242,6 +242,11 @@ function harIkkeValgtFiler(oppgave: Oppgave | null) {
     return antall === 0;
 }
 
+const alertUser = (event: any) => {
+    event.preventDefault();
+    event.returnValue = "";
+};
+
 const OppgaveElementView = (props: {
     typeTekst: string;
     tilleggsinfoTekst: string | undefined;
@@ -265,11 +270,6 @@ const OppgaveElementView = (props: {
             window.removeEventListener("beforeunload", alertUser);
         };
     }, [props.oppgaveElement.filer]);
-
-    const alertUser = (event: any) => {
-        event.preventDefault();
-        event.returnValue = "";
-    };
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
     return (
@@ -465,6 +465,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
     const sendVedlegg = (event: any) => {
+        window.removeEventListener("beforeunload", alertUser);
         dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, false));
         dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgave.oppgaveId, false));
 
