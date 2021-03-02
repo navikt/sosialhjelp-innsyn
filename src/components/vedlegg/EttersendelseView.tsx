@@ -136,6 +136,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             return;
         }
 
+        window.removeEventListener("beforeunload", alertUser);
+
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
