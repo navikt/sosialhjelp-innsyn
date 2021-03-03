@@ -52,7 +52,11 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
 function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     let formData = new FormData();
     // Metadata skal ikke inneholde file-blob fra Fil-typen
-    const metadataJson = JSON.stringify(metadata, ["type", "tilleggsinfo", "innsendelsesfrist", "filer", "filnavn"], 8);
+    const metadataJson = JSON.stringify(
+        metadata,
+        ["type", "tilleggsinfo", "innsendelsesfrist", "hendelsetype", "hendelsereferanse", "filer", "filnavn"],
+        8
+    );
     const metadataBlob = new Blob([metadataJson], {type: "application/json"});
     formData.append("files", metadataBlob, "metadata.json");
     metadata.forEach((filgruppe: Metadata) => {
