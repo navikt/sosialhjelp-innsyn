@@ -4,11 +4,20 @@ import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggAction
 export const maxMengdeStorrelse = 150 * 1024 * 1024;
 export const maxFilStorrelse = 10 * 1024 * 1024;
 
+export enum HendelseTypeEnum {
+    BRUKER = "bruker",
+    SOKNAD = "soknad",
+    DOKUMENTASJON_ETTERSPURT = "dokumentasjonEtterspurt",
+    DOKUMENTASJONKRAV = "dokumentasjonkrav",
+}
+
 interface Metadata {
     type: string;
     tilleggsinfo: string | undefined;
     filer: Fil[]; // Beholder kun filnavn-feltet ved serialisering
     innsendelsesfrist: string | undefined;
+    hendelsetype: HendelseTypeEnum | undefined;
+    hendelsereferanse: string | undefined;
 }
 
 export function opprettFormDataMedVedleggFraOppgaver(oppgave: Oppgave) {
@@ -19,6 +28,8 @@ export function opprettFormDataMedVedleggFraOppgaver(oppgave: Oppgave) {
             tilleggsinfo: oppgaveElement.tilleggsinformasjon,
             innsendelsesfrist: oppgave.innsendelsesfrist,
             filer: oppgaveElement.filer ? oppgaveElement.filer : [],
+            hendelsetype: oppgaveElement.hendelsetype,
+            hendelsereferanse: oppgaveElement.hendelsereferanse,
         });
     });
     return opprettFormDataMedVedlegg(metadata);
@@ -31,6 +42,8 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
             tilleggsinfo: "annet",
             filer: filer,
             innsendelsesfrist: undefined,
+            hendelsetype: HendelseTypeEnum.BRUKER,
+            hendelsereferanse: undefined,
         },
     ];
     return opprettFormDataMedVedlegg(metadata);
@@ -39,7 +52,11 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
 function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
     let formData = new FormData();
     // Metadata skal ikke inneholde file-blob fra Fil-typen
-    const metadataJson = JSON.stringify(metadata, ["type", "tilleggsinfo", "innsendelsesfrist", "filer", "filnavn"], 8);
+    const metadataJson = JSON.stringify(
+        metadata,
+        ["type", "tilleggsinfo", "innsendelsesfrist", "hendelsetype", "hendelsereferanse", "filer", "filnavn"],
+        8
+    );
     const metadataBlob = new Blob([metadataJson], {type: "application/json"});
     formData.append("files", metadataBlob, "metadata.json");
     metadata.forEach((filgruppe: Metadata) => {

@@ -1,9 +1,10 @@
 import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {
+    containsUlovligeTegn,
+    HendelseTypeEnum,
+    hentFileExtension,
     opprettFormDataMedVedleggFraFiler,
     opprettFormDataMedVedleggFraOppgaver,
-    containsUlovligeTegn,
-    hentFileExtension,
 } from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
@@ -17,12 +18,15 @@ const oppgave = {
         {
             dokumenttype: "dokumenttype1",
             tilleggsinformasjon: "tilleggsinformasjon1",
+            hendelsetype: HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT,
             erFraInnsyn: true,
             filer: [pngFile, jpgFile],
         } as OppgaveElement,
         {
             dokumenttype: "dokumenttype2",
             tilleggsinformasjon: "tilleggsinformasjon2",
+            hendelsetype: HendelseTypeEnum.DOKUMENTASJONKRAV,
+            hendelsereferanse: "dokkravref-1234",
             erFraInnsyn: true,
             filer: [pdfFile],
         } as OppgaveElement,
@@ -40,12 +44,15 @@ const expectedOppgaverMetadata = JSON.stringify(
             type: oppgave.oppgaveElementer[0].dokumenttype,
             tilleggsinfo: oppgave.oppgaveElementer[0].tilleggsinformasjon,
             innsendelsesfrist: oppgave.innsendelsesfrist,
+            hendelsetype: "dokumentasjonEtterspurt",
             filer: [{filnavn: pngFile.filnavn}, {filnavn: jpgFile.filnavn}],
         },
         {
             type: oppgave.oppgaveElementer[1].dokumenttype,
             tilleggsinfo: oppgave.oppgaveElementer[1].tilleggsinformasjon,
             innsendelsesfrist: oppgave.innsendelsesfrist,
+            hendelsetype: "dokumentasjonkrav",
+            hendelsereferanse: oppgave.oppgaveElementer[1].hendelsereferanse,
             filer: [{filnavn: pdfFile.filnavn}],
         },
         {
@@ -64,6 +71,7 @@ const expectedEttersendelseMetadata = JSON.stringify(
         {
             type: "annet",
             tilleggsinfo: "annet",
+            hendelsetype: "bruker",
             filer: [{filnavn: pngFile.filnavn}, {filnavn: jpgFile.filnavn}, {filnavn: pdfFile.filnavn}],
         },
     ],
