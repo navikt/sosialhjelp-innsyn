@@ -21,22 +21,28 @@ interface Metadata {
 }
 
 export function opprettFormDataMedVedleggFraOppgaver(oppgave: Oppgave) {
-    const metadata: Metadata[] = [];
-    oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
-        metadata.push({
-            type: oppgaveElement.dokumenttype,
-            tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-            innsendelsesfrist: oppgave.innsendelsesfrist,
-            filer: oppgaveElement.filer ? oppgaveElement.filer : [],
-            hendelsetype: oppgaveElement.hendelsetype,
-            hendelsereferanse: oppgaveElement.hendelsereferanse,
-        });
-    });
+    const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);
     return opprettFormDataMedVedlegg(metadata);
 }
 
+export function generateMetadataFromOppgaver(oppgave: Oppgave) {
+    return oppgave.oppgaveElementer.map((oppgaveElement: OppgaveElement) => ({
+        type: oppgaveElement.dokumenttype,
+        tilleggsinfo: oppgaveElement.tilleggsinformasjon,
+        innsendelsesfrist: oppgave.innsendelsesfrist,
+        filer: oppgaveElement.filer ? oppgaveElement.filer : [],
+        hendelsetype: oppgaveElement.hendelsetype,
+        hendelsereferanse: oppgaveElement.hendelsereferanse,
+    }));
+}
+
 export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
-    const metadata: Metadata[] = [
+    const metadata: Metadata[] = generateMetadataFromAndreVedlegg(filer);
+    return opprettFormDataMedVedlegg(metadata);
+}
+
+export function generateMetadataFromAndreVedlegg(filer: Fil[]): Metadata[] {
+    return [
         {
             type: "annet",
             tilleggsinfo: "annet",
@@ -46,7 +52,6 @@ export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
             hendelsereferanse: undefined,
         },
     ];
-    return opprettFormDataMedVedlegg(metadata);
 }
 
 function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
