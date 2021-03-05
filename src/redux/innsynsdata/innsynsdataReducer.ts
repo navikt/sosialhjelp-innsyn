@@ -1,6 +1,7 @@
 import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
+import {HendelseTypeEnum} from "../../utils/vedleggUtils";
 
 export enum SaksStatus {
     UNDER_BEHANDLING = "UNDER_BEHANDLING",
@@ -74,6 +75,8 @@ export interface OppgaveElement {
     dokumenttype: string;
     tilleggsinformasjon?: string;
     erFraInnsyn: boolean;
+    hendelsetype: HendelseTypeEnum | undefined;
+    hendelsereferanse: string | undefined;
     filer?: Fil[];
 }
 
