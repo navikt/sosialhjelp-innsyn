@@ -242,7 +242,7 @@ function harIkkeValgtFiler(oppgave: Oppgave | null) {
     return antall === 0;
 }
 
-const alertUser = (event: any) => {
+export const alertUser = (event: any) => {
     event.preventDefault();
     event.returnValue = "";
 };
@@ -305,7 +305,7 @@ const OppgaveElementView = (props: {
     );
 };
 
-const VelgFil = (props: {
+export const VelgFil = (props: {
     typeTekst: string;
     tilleggsinfoTekst: string | undefined;
     oppgaveElement: OppgaveElement;
