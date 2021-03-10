@@ -6,7 +6,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
 import {skrivFeilmelding, alertUser, VelgFil} from "./OppgaveView";
 
-const DokumentasjonEtterspurtElementView = (props: {
+const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;
     tilleggsinfoTekst: string | undefined;
     oppgaveElement: OppgaveElement;
@@ -14,6 +14,14 @@ const DokumentasjonEtterspurtElementView = (props: {
     oppgaveIndex: number;
     oppgaveId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
+}> = ({
+    typeTekst,
+    tilleggsinfoTekst,
+    oppgaveElement,
+    oppgaveElementIndex,
+    oppgaveIndex,
+    oppgaveId,
+    setOverMaksStorrelse,
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
 
@@ -22,44 +30,44 @@ const DokumentasjonEtterspurtElementView = (props: {
     );
 
     useEffect(() => {
-        if (props.oppgaveElement.filer && props.oppgaveElement.filer.length > 0) {
+        if (oppgaveElement.filer && oppgaveElement.filer.length > 0) {
             window.addEventListener("beforeunload", alertUser);
         }
         return function unload() {
             window.removeEventListener("beforeunload", alertUser);
         };
-    }, [props.oppgaveElement.filer]);
+    }, [oppgaveElement.filer]);
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <VelgFil
-                typeTekst={props.typeTekst}
-                tilleggsinfoTekst={props.tilleggsinfoTekst}
-                oppgaveElement={props.oppgaveElement}
-                oppgaveElementIndex={props.oppgaveElementIndex}
-                oppgaveIndex={props.oppgaveIndex}
+                typeTekst={typeTekst}
+                tilleggsinfoTekst={tilleggsinfoTekst}
+                oppgaveElement={oppgaveElement}
+                oppgaveElementIndex={oppgaveElementIndex}
+                oppgaveIndex={oppgaveIndex}
                 setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
-                oppgaveId={props.oppgaveId}
-                setOverMaksStorrelse={props.setOverMaksStorrelse}
+                oppgaveId={oppgaveId}
+                setOverMaksStorrelse={setOverMaksStorrelse}
             />
 
-            {props.oppgaveElement.filer &&
-            props.oppgaveElement.filer.length > 0 &&
-            props.oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                <FilView
-                    key={vedleggIndex}
-                    fil={fil}
-                    oppgaveElement={props.oppgaveElement}
-                    vedleggIndex={vedleggIndex}
-                    oppgaveElementIndex={props.oppgaveElementIndex}
-                    oppgaveIndex={props.oppgaveIndex}
-                    setOverMaksStorrelse={props.setOverMaksStorrelse}
-                    oppgaveId={props.oppgaveId}
-                />
-            ))}
+            {oppgaveElement.filer &&
+                oppgaveElement.filer.length > 0 &&
+                oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
+                    <FilView
+                        key={vedleggIndex}
+                        fil={fil}
+                        oppgaveElement={oppgaveElement}
+                        vedleggIndex={vedleggIndex}
+                        oppgaveElementIndex={oppgaveElementIndex}
+                        oppgaveIndex={oppgaveIndex}
+                        setOverMaksStorrelse={setOverMaksStorrelse}
+                        oppgaveId={oppgaveId}
+                    />
+                ))}
             {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
-            skrivFeilmelding(listeMedFilerSomFeiler, props.oppgaveElementIndex)}
+                skrivFeilmelding(listeMedFilerSomFeiler, oppgaveElementIndex)}
         </div>
     );
 };

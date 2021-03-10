@@ -42,6 +42,7 @@ import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
+import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 
 interface Props {
     oppgave: Oppgave;
@@ -245,64 +246,6 @@ function harIkkeValgtFiler(oppgave: Oppgave | null) {
 export const alertUser = (event: any) => {
     event.preventDefault();
     event.returnValue = "";
-};
-
-const OppgaveElementView = (props: {
-    typeTekst: string;
-    tilleggsinfoTekst: string | undefined;
-    oppgaveElement: OppgaveElement;
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
-    oppgaveId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-}) => {
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
-
-    const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
-    );
-
-    useEffect(() => {
-        if (props.oppgaveElement.filer && props.oppgaveElement.filer.length > 0) {
-            window.addEventListener("beforeunload", alertUser);
-        }
-        return function unload() {
-            window.removeEventListener("beforeunload", alertUser);
-        };
-    }, [props.oppgaveElement.filer]);
-
-    const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
-    return (
-        <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <VelgFil
-                typeTekst={props.typeTekst}
-                tilleggsinfoTekst={props.tilleggsinfoTekst}
-                oppgaveElement={props.oppgaveElement}
-                oppgaveElementIndex={props.oppgaveElementIndex}
-                oppgaveIndex={props.oppgaveIndex}
-                setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
-                oppgaveId={props.oppgaveId}
-                setOverMaksStorrelse={props.setOverMaksStorrelse}
-            />
-
-            {props.oppgaveElement.filer &&
-                props.oppgaveElement.filer.length > 0 &&
-                props.oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FilView
-                        key={vedleggIndex}
-                        fil={fil}
-                        oppgaveElement={props.oppgaveElement}
-                        vedleggIndex={vedleggIndex}
-                        oppgaveElementIndex={props.oppgaveElementIndex}
-                        oppgaveIndex={props.oppgaveIndex}
-                        setOverMaksStorrelse={props.setOverMaksStorrelse}
-                        oppgaveId={props.oppgaveId}
-                    />
-                ))}
-            {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
-                skrivFeilmelding(listeMedFilerSomFeiler, props.oppgaveElementIndex)}
-        </div>
-    );
 };
 
 export const VelgFil = (props: {
@@ -602,7 +545,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
                         oppgaveElement.tilleggsinformasjon
                     );
                     return (
-                        <OppgaveElementView
+                        <DokumentasjonEtterspurtElementView
                             key={oppgaveElementIndex}
                             typeTekst={typeTekst}
                             tilleggsinfoTekst={tilleggsinfoTekst}
