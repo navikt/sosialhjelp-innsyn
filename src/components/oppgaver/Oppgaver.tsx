@@ -144,7 +144,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             {oppgaver !== null &&
                                 oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
                                     <DokumentasjonEtterspurtView
-                                        oppgave={oppgave}
+                                        dokumentasjonEtterspurt={oppgave}
                                         key={oppgaveIndex}
                                         oppgaverErFraInnsyn={oppgaverErFraInnsyn}
                                         oppgaveIndex={oppgaveIndex}

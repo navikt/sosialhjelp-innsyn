@@ -19,11 +19,11 @@ import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtiliti
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    setOppgaveVedleggopplastingFeilet,
+    setFilVedleggopplastingFeilet,
     hentOppgaveMedId,
-    setOppgaveOpplastingFeilet,
-    setOppgaveOpplastingFeiletPaBackend,
-    setOppgaveOpplastingFeiletVirussjekkPaBackend,
+    setFilOpplastingFeilet,
+    setFilOpplastingFeiletPaBackend,
+    setFilOpplastingFeiletVirussjekkPaBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
@@ -43,7 +43,7 @@ import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 
 interface Props {
-    oppgave: DokumentasjonEtterspurt;
+    dokumentasjonEtterspurt: DokumentasjonEtterspurt;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
@@ -265,7 +265,7 @@ export const VelgFil = (props: {
 
     const onClick = (oppgaveElementIndex: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
-            dispatch(setOppgaveVedleggopplastingFeilet(response));
+            dispatch(setFilVedleggopplastingFeilet(response));
         };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
@@ -287,9 +287,9 @@ export const VelgFil = (props: {
         props.setOverMaksStorrelse(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            dispatch(setOppgaveOpplastingFeilet(props.oppgaveId, false));
-            dispatch(setOppgaveOpplastingFeiletPaBackend(props.oppgaveId, false));
-            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(props.oppgaveId, false));
+            dispatch(setFilOpplastingFeilet(props.oppgaveId, false));
+            dispatch(setFilOpplastingFeiletPaBackend(props.oppgaveId, false));
+            dispatch(setFilOpplastingFeiletVirussjekkPaBackend(props.oppgaveId, false));
 
             const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
@@ -375,15 +375,15 @@ export const VelgFil = (props: {
     );
 };
 
-const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
+const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
-    const listeOverOpggaveIderSomFeilet: string[] = useSelector(
+    const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
     );
-    const listeOverOppgaveIderSomFeiletPaBackend: string[] = useSelector(
+    const listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
     );
-    const listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
+    const listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
 
@@ -392,9 +392,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
 
-    const opplastingFeilet = harFilerMedFeil(oppgave.oppgaveElementer);
+    const opplastingFeilet = harFilerMedFeil(dokumentasjonEtterspurt.oppgaveElementer);
 
-    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(oppgave.innsendelsesfrist!!));
+    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonEtterspurt.innsendelsesfrist!!));
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
@@ -407,18 +407,18 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
 
     const sendVedlegg = (event: any) => {
         window.removeEventListener("beforeunload", alertUser);
-        dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, false));
-        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgave.oppgaveId, false));
+        dispatch(setFilOpplastingFeiletPaBackend(dokumentasjonEtterspurt.oppgaveId, false));
+        dispatch(setFilOpplastingFeiletVirussjekkPaBackend(dokumentasjonEtterspurt.oppgaveId, false));
 
-        if (!oppgave || !fiksDigisosId) {
+        if (!dokumentasjonEtterspurt || !fiksDigisosId) {
             event.preventDefault();
             return;
         }
 
         try {
-            var formData = opprettFormDataMedVedleggFraOppgaver(oppgave);
+            var formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjonEtterspurt);
         } catch (e) {
-            dispatch(setOppgaveOpplastingFeilet(oppgave.oppgaveId, true));
+            dispatch(setFilOpplastingFeilet(dokumentasjonEtterspurt.oppgaveId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
             event.preventDefault();
             return;
@@ -428,12 +428,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
-        const ingenFilerValgt = harIkkeValgtFiler(oppgave);
-        dispatch(setOppgaveOpplastingFeilet(oppgave.oppgaveId, ingenFilerValgt));
+        const ingenFilerValgt = harIkkeValgtFiler(dokumentasjonEtterspurt);
+        dispatch(setFilOpplastingFeilet(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
 
         setOverMaksStorrelse(false);
 
-        const sammensattFilStorrelseForOppgaveElement = oppgave.oppgaveElementer
+        const sammensattFilStorrelseForOppgaveElement = dokumentasjonEtterspurt.oppgaveElementer
             .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
                 return oppgaveElement.filer ?? [];
             })
@@ -483,7 +483,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                     if (harFeil) {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     } else {
-                        dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, oppgave.oppgaveId));
+                        dispatch(
+                            hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
+                        );
                         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                     }
@@ -492,12 +494,14 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                     // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                     fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                         if (errorResponse.message === "Mulig virus funnet") {
-                            dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, false));
-                            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgave.oppgaveId, true));
+                            dispatch(setFilOpplastingFeiletPaBackend(dokumentasjonEtterspurt.oppgaveId, false));
+                            dispatch(
+                                setFilOpplastingFeiletVirussjekkPaBackend(dokumentasjonEtterspurt.oppgaveId, true)
+                            );
                         }
                     });
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    dispatch(setOppgaveOpplastingFeiletPaBackend(oppgave.oppgaveId, true));
+                    dispatch(setFilOpplastingFeiletPaBackend(dokumentasjonEtterspurt.oppgaveId, true));
                     logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
                 });
         } else {
@@ -506,18 +510,18 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
         event.preventDefault();
     };
 
-    const visOppgaverDetaljeFeiler: boolean =
-        listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId) ||
+    const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
+        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
-        listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId) ||
-        listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(oppgave.oppgaveId);
+        listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
+        listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
 
     return (
         <div>
             <div
                 className={
-                    (visOppgaverDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
+                    (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
                     " luft_over_1rem"
                 }
             >
@@ -525,7 +529,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                     <Normaltekst className="luft_under_8px">
                         <FormattedMessage
                             id="oppgaver.innsendelsesfrist"
-                            values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
+                            values={{innsendelsesfrist: formatDato(dokumentasjonEtterspurt.innsendelsesfrist!)}}
                         />
                     </Normaltekst>
                 )}
@@ -533,11 +537,11 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                     <Normaltekst className="luft_under_8px">
                         <FormattedMessage
                             id="oppgaver.innsendelsesfrist_passert"
-                            values={{innsendelsesfrist: formatDato(oppgave.innsendelsesfrist!)}}
+                            values={{innsendelsesfrist: formatDato(dokumentasjonEtterspurt.innsendelsesfrist!)}}
                         />
                     </Normaltekst>
                 )}
-                {oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
+                {dokumentasjonEtterspurt.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
@@ -550,7 +554,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                             oppgaveElement={oppgaveElement}
                             oppgaveElementIndex={oppgaveElementIndex}
                             oppgaveIndex={oppgaveIndex}
-                            oppgaveId={oppgave.oppgaveId}
+                            oppgaveId={dokumentasjonEtterspurt.oppgaveId}
                             setOverMaksStorrelse={setOverMaksStorrelse}
                         />
                     );
@@ -571,13 +575,15 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                 )}
             </div>
 
-            {listeOverOppgaveIderSomFeiletPaBackend.includes(oppgave.oppgaveId) && (
+            {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
                 <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
                 </SkjemaelementFeilmelding>
             )}
 
-            {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(oppgave.oppgaveId) && (
+            {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
+                dokumentasjonEtterspurt.oppgaveId
+            ) && (
                 <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
                 </SkjemaelementFeilmelding>
@@ -588,11 +594,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInn
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
                 </SkjemaelementFeilmelding>
             )}
-            {(listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId) || opplastingFeilet) && (
+            {(listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
+                opplastingFeilet) && (
                 <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
-                            listeOverOpggaveIderSomFeilet.includes(oppgave.oppgaveId)
+                            listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId)
                                 ? "vedlegg.minst_ett_vedlegg"
                                 : "vedlegg.opplasting_feilmelding"
                         }
