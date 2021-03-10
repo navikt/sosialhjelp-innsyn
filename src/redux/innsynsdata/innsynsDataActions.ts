@@ -122,25 +122,25 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
     };
 }
 
-export const setFilVedleggopplastingFeilet = (status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FIL_VEDLEGSOPPLASTING_FEILET,
+export const setFilAttachmentsUploadingFailed = (status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FIL_ATTACHMENTSUPLOADING_FAILED,
     status: status,
 });
 
-export const setFilOpplastingFeilet = (oppgaveId: string, status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FIL_OPPLASTING_FEILET,
+export const setFilUploadingFailed = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FIL_UPLOADING_FAILED,
     oppgaveId,
     status,
 });
 
-export const setFilOpplastingFeiletPaBackend = (oppgaveId: string, status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FIL_OPPLASTING_BACKEND_FEILET,
+export const setFilUploadingFailedInBackend = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FIL_UPLOADING_BACKEND_FAILED,
     oppgaveId,
     status,
 });
 
-export const setFilOpplastingFeiletVirussjekkPaBackend = (oppgaveId: string, status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FIL_OPPLASTING_BACKEND_FEILET_PGA_VIRUS,
+export const setFilUploadingFailedVirusCheckInBackend = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FIL_UPLOADING_BACKEND_FAILED_BECAUSE_VIRUS,
     oppgaveId,
     status,
 });
