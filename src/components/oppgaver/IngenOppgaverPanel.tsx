@@ -5,7 +5,7 @@ import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {Oppgave, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseIngenOppgaverPanel} from "./oppgaverUtilities";
 import Panel from "nav-frontend-paneler";
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
-    const oppgaver: Oppgave[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
+    const oppgaver: DokumentasjonEtterspurt[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );

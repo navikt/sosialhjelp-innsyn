@@ -10,7 +10,7 @@ import "./responsiv_tabell.less";
 import "../lastestriper/lastestriper.less";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
-import {getVisningstekster} from "../oppgaver/OppgaveView";
+import {getVisningstekster} from "../oppgaver/DokumentasjonEtterspurtView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
 

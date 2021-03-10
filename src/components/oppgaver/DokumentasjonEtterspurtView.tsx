@@ -6,11 +6,10 @@ import {
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     KommuneResponse,
-    Oppgave,
-    OppgaveElement,
+    DokumentasjonEtterspurt,
+    DokumentasjonEtterspurtElement,
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import FilView from "./FilView";
 import {useDispatch, useSelector} from "react-redux";
 import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedleggskravVisningConfig";
@@ -34,7 +33,6 @@ import {
     legalFileSize,
     legalFileExtension,
     FilFeil,
-    validerFilArrayForFeil,
     opprettFormDataMedVedleggFraOppgaver,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
@@ -45,7 +43,7 @@ import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 
 interface Props {
-    oppgave: Oppgave;
+    oppgave: DokumentasjonEtterspurt;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
@@ -69,7 +67,7 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
-const harFilerMedFeil = (oppgaveElementer: OppgaveElement[]) => {
+const harFilerMedFeil = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
     return oppgaveElementer.find((oppgaveElement) => {
         return !oppgaveElement.filer
             ? false
@@ -231,10 +229,10 @@ export function finnFilerMedFeil(files: FileList, oppgaveElemendIndex: number): 
     return filerMedFeil;
 }
 
-function harIkkeValgtFiler(oppgave: Oppgave | null) {
+function harIkkeValgtFiler(oppgave: DokumentasjonEtterspurt | null) {
     let antall = 0;
     oppgave &&
-        oppgave.oppgaveElementer.forEach((oppgaveElement: OppgaveElement) => {
+        oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
             oppgaveElement.filer &&
                 oppgaveElement.filer.forEach(() => {
                     antall += 1;
@@ -251,7 +249,7 @@ export const alertUser = (event: any) => {
 export const VelgFil = (props: {
     typeTekst: string;
     tilleggsinfoTekst: string | undefined;
-    oppgaveElement: OppgaveElement;
+    oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     setListeMedFilerSomFeiler: (filerMedFeil: Array<FilFeil>) => void;
@@ -281,7 +279,7 @@ export const VelgFil = (props: {
 
     const onChange = (
         event: any,
-        oppgaveElement: OppgaveElement,
+        oppgaveElement: DokumentasjonEtterspurtElement,
         oppgaveElementIndex: number,
         oppgaveIndex: number
     ) => {
@@ -377,7 +375,7 @@ export const VelgFil = (props: {
     );
 };
 
-const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
+const DokumentasjonEtterspurtView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
     const listeOverOpggaveIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
@@ -436,7 +434,7 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
         setOverMaksStorrelse(false);
 
         const sammensattFilStorrelseForOppgaveElement = oppgave.oppgaveElementer
-            .flatMap((oppgaveElement: OppgaveElement) => {
+            .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
                 return oppgaveElement.filer ?? [];
             })
             .reduce(
@@ -605,4 +603,4 @@ const OppgaveView: React.FC<Props> = ({oppgave, oppgaverErFraInnsyn, oppgaveInde
     );
 };
 
-export default OppgaveView;
+export default DokumentasjonEtterspurtView;

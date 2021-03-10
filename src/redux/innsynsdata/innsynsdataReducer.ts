@@ -65,13 +65,13 @@ export interface Fil {
     status?: string;
 }
 
-export interface Oppgave {
+export interface DokumentasjonEtterspurt {
     innsendelsesfrist?: string;
     oppgaveId: string;
-    oppgaveElementer: OppgaveElement[];
+    oppgaveElementer: DokumentasjonEtterspurtElement[]; // todo rename felt til dokumentasjonEtterspurtElementer
 }
 
-export interface OppgaveElement {
+export interface DokumentasjonEtterspurtElement {
     dokumenttype: string;
     tilleggsinformasjon?: string;
     erFraInnsyn: boolean;
@@ -135,7 +135,7 @@ export interface VedleggActionType {
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     fil: Fil;
-    oppgaveElement: OppgaveElement;
+    oppgaveElement: DokumentasjonEtterspurtElement;
     status?: string;
     restStatus?: REST_STATUS;
     fiksDigisosId?: string;
@@ -192,7 +192,7 @@ const initiellKommuneResponse_antarAltOk: KommuneResponse = {
 export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
-    oppgaver: Oppgave[];
+    oppgaver: DokumentasjonEtterspurt[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -277,11 +277,13 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...setPath(state, action.sti, action.verdi),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
-            const oppgave: Oppgave[] = action.verdi;
+            const oppgave: DokumentasjonEtterspurt[] = action.verdi;
             if (oppgave.length === 0) {
                 return {
                     ...state,
-                    oppgaver: state.oppgaver.filter((oppgave: Oppgave) => oppgave.oppgaveId !== action.oppgaveId),
+                    oppgaver: state.oppgaver.filter(
+                        (oppgave: DokumentasjonEtterspurt) => oppgave.oppgaveId !== action.oppgaveId
+                    ),
                 };
             }
             return {
@@ -558,7 +560,7 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
     };
 };
 
-export const oppdaterOppgaveState = (oppgaveId: string, verdi: Oppgave[]): any => {
+export const oppdaterOppgaveState = (oppgaveId: string, verdi: DokumentasjonEtterspurt[]): any => {
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE,
         sti: InnsynsdataSti.OPPGAVER,

@@ -2,7 +2,11 @@ import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
-import {Fil, InnsynsdataActionTypeKeys, OppgaveElement} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    DokumentasjonEtterspurtElement,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
@@ -20,7 +24,7 @@ const FilView: React.FC<{
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     fil: Fil;
-    oppgaveElement?: OppgaveElement;
+    oppgaveElement?: DokumentasjonEtterspurtElement;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     oppgaveId: string;
 }> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse, oppgaveId}) => {

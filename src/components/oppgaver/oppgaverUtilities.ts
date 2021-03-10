@@ -1,14 +1,14 @@
-import {Oppgave, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
 
 export const getSkalViseIngenOppgaverPanel = (
-    oppgaver: undefined | string | Oppgave[],
+    oppgaver: undefined | string | DokumentasjonEtterspurt[],
     innsynSaksStatusListe: undefined | SaksStatusState[]
 ) => {
     return brukerHarIngenOppgaver(oppgaver) && vilkarViewVisesIkke(innsynSaksStatusListe);
 };
 
-const brukerHarIngenOppgaver = (oppgaver: undefined | string | Oppgave[]): boolean => {
+const brukerHarIngenOppgaver = (oppgaver: undefined | string | DokumentasjonEtterspurt[]): boolean => {
     if (oppgaver && Array.isArray(oppgaver) && oppgaver.length > 0) {
         return false;
     }

@@ -26,7 +26,7 @@ import {
     validerFilArrayForFeil,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
-import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/OppgaveView";
+import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/DokumentasjonEtterspurtView";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";

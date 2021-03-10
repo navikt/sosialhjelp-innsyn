@@ -1,15 +1,15 @@
-import {Fil, OppgaveElement} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
 import {FilFeil, validerFilArrayForFeil} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
-import {skrivFeilmelding, alertUser, VelgFil} from "./OppgaveView";
+import {skrivFeilmelding, alertUser, VelgFil} from "./DokumentasjonEtterspurtView";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;
     tilleggsinfoTekst: string | undefined;
-    oppgaveElement: OppgaveElement;
+    oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     oppgaveId: string;
