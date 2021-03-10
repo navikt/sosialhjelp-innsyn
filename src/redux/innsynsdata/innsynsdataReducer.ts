@@ -98,7 +98,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
     OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
     SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
-    Fil_VEDLEGSOPPLASTING_FEILET = "innsynsdata/FIL_VEDLEGSOPPLASTING_FEILET",
+    FIL_VEDLEGSOPPLASTING_FEILET = "innsynsdata/FIL_VEDLEGSOPPLASTING_FEILET",
     FIL_OPPLASTING_FEILET = "innsynsdata/FIL_OPPLASTING_FEILET",
     FIL_OPPLASTING_BACKEND_FEILET = "innsynsdata/FIL_OPPLASTING_BACKEND_FEILET",
     FIL_OPPLASTING_BACKEND_FEILET_PGA_VIRUS = "innsynsdata/FIL_OPPLASTING_BACKEND_FEILET_PGA_VIRUS",
@@ -483,7 +483,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 },
             };
 
-        case InnsynsdataActionTypeKeys.Fil_VEDLEGSOPPLASTING_FEILET:
+        case InnsynsdataActionTypeKeys.FIL_VEDLEGSOPPLASTING_FEILET:
             return {
                 ...state,
                 oppgaveVedlegsOpplastingFeilet: action.status,

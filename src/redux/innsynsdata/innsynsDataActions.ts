@@ -123,7 +123,7 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
 }
 
 export const setFilVedleggopplastingFeilet = (status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.Fil_VEDLEGSOPPLASTING_FEILET,
+    type: InnsynsdataActionTypeKeys.FIL_VEDLEGSOPPLASTING_FEILET,
     status: status,
 });
 
