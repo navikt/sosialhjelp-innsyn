@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {
