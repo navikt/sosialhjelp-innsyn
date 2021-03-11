@@ -2,13 +2,17 @@ import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
-import {Fil, InnsynsdataActionTypeKeys, OppgaveElement} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    InnsynsdataActionTypeKeys,
+    DokumentasjonEtterspurtElement,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
-import {setOppgaveOpplastingFeiletVirussjekkPaBackend} from "../../redux/innsynsdata/innsynsDataActions";
+import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
@@ -20,7 +24,7 @@ const FilView: React.FC<{
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     fil: Fil;
-    oppgaveElement?: OppgaveElement;
+    oppgaveElement?: DokumentasjonEtterspurtElement;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     oppgaveId: string;
 }> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse, oppgaveId}) => {
@@ -29,7 +33,7 @@ const FilView: React.FC<{
 
     const onSlettClick = (event: ClickEvent): void => {
         setOverMaksStorrelse(false);
-        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(oppgaveId, false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
         dispatch({
             type: oppgaveElement
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING

@@ -1,4 +1,4 @@
-import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
+import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 
 export const maxMengdeStorrelse = 150 * 1024 * 1024;
@@ -20,13 +20,13 @@ interface Metadata {
     hendelsereferanse: string | undefined;
 }
 
-export function opprettFormDataMedVedleggFraOppgaver(oppgave: Oppgave) {
+export function opprettFormDataMedVedleggFraOppgaver(oppgave: DokumentasjonEtterspurt) {
     const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);
     return opprettFormDataMedVedlegg(metadata);
 }
 
-export function generateMetadataFromOppgaver(oppgave: Oppgave) {
-    return oppgave.oppgaveElementer.map((oppgaveElement: OppgaveElement) => ({
+export function generateMetadataFromOppgaver(oppgave: DokumentasjonEtterspurt) {
+    return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
         type: oppgaveElement.dokumenttype,
         tilleggsinfo: oppgaveElement.tilleggsinformasjon,
         innsendelsesfrist: oppgave.innsendelsesfrist,

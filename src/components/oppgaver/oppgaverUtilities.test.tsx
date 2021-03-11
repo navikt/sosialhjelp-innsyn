@@ -1,8 +1,13 @@
-import {Oppgave, OppgaveElement, SaksStatus, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonEtterspurt,
+    DokumentasjonEtterspurtElement,
+    SaksStatus,
+    SaksStatusState,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseIngenOppgaverPanel, vilkarViewVisesIkke} from "./oppgaverUtilities";
 
 describe("IngenOppgaverPanel", () => {
-    const oppgaverIngen: Oppgave[] = [];
+    const oppgaverIngen: DokumentasjonEtterspurt[] = [];
 
     const oppgaverMerEnnEn = [
         {
@@ -10,9 +15,9 @@ describe("IngenOppgaverPanel", () => {
                 {
                     dokumenttype: "asdf",
                     erFraInnsyn: true,
-                } as OppgaveElement,
+                } as DokumentasjonEtterspurtElement,
             ],
-        } as Oppgave,
+        } as DokumentasjonEtterspurt,
     ];
 
     const saksStatusMedSkalViseVedtakInfoPanelTrue: SaksStatusState = {

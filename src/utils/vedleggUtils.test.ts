@@ -1,4 +1,4 @@
-import {Fil, Oppgave, OppgaveElement} from "../redux/innsynsdata/innsynsdataReducer";
+import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {
     containsUlovligeTegn,
     HendelseTypeEnum,
@@ -23,7 +23,7 @@ const oppgave = {
             hendelsetype: HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT,
             erFraInnsyn: true,
             filer: [pngFile, jpgFile],
-        } as OppgaveElement,
+        } as DokumentasjonEtterspurtElement,
         {
             dokumenttype: "dokumenttype2",
             tilleggsinformasjon: "tilleggsinformasjon2",
@@ -31,15 +31,15 @@ const oppgave = {
             hendelsereferanse: "dokkravref-1234",
             erFraInnsyn: true,
             filer: [pdfFile],
-        } as OppgaveElement,
+        } as DokumentasjonEtterspurtElement,
         {
             dokumenttype: "dokumenttype3",
             tilleggsinformasjon: "tilleggsinformasjon3",
             erFraInnsyn: true,
             filer: [jpgFile, jpgFile],
-        } as OppgaveElement,
+        } as DokumentasjonEtterspurtElement,
     ],
-} as Oppgave;
+} as DokumentasjonEtterspurt;
 
 const expectedOppgaverMetadata = [
     {

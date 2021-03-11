@@ -4,8 +4,8 @@ import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import OppgaveView from "./OppgaveView";
-import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
+import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -16,16 +16,18 @@ import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 interface Props {
-    oppgaver: null | Oppgave[];
+    oppgaver: null | DokumentasjonEtterspurt[];
     restStatus: REST_STATUS;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null | Oppgave[]): Date | null {
+function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): Date | null {
     if (oppgaver === null) {
         return null;
     }
     if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map((oppgave: Oppgave) => new Date(oppgave.innsendelsesfrist!!));
+        const innsendelsesfrister = oppgaver.map(
+            (oppgave: DokumentasjonEtterspurt) => new Date(oppgave.innsendelsesfrist!!)
+        );
         return innsendelsesfrister[0];
     }
     return null;
@@ -140,9 +142,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
                         <div>
                             {oppgaver !== null &&
-                                oppgaver.map((oppgave: Oppgave, oppgaveIndex: number) => (
-                                    <OppgaveView
-                                        oppgave={oppgave}
+                                oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
+                                    <DokumentasjonEtterspurtView
+                                        dokumentasjonEtterspurt={oppgave}
                                         key={oppgaveIndex}
                                         oppgaverErFraInnsyn={oppgaverErFraInnsyn}
                                         oppgaveIndex={oppgaveIndex}

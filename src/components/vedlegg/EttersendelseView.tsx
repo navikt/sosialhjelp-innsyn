@@ -16,8 +16,8 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    setOppgaveOpplastingFeiletPaBackend,
-    setOppgaveOpplastingFeiletVirussjekkPaBackend,
+    setFileUploadFailedInBackend,
+    setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, fetchPostGetErrors, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
@@ -26,7 +26,7 @@ import {
     validerFilArrayForFeil,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
-import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/OppgaveView";
+import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/DokumentasjonEtterspurtView";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
@@ -141,8 +141,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         let formData = opprettFormDataMedVedleggFraFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, false));
-        dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(BACKEND_FEIL_ID, false));
+        dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
 
         setOverMaksStorrelse(false);
 
@@ -185,12 +185,12 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                     fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                         if (errorResponse.message === "Mulig virus funnet") {
-                            dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, false));
-                            dispatch(setOppgaveOpplastingFeiletVirussjekkPaBackend(BACKEND_FEIL_ID, true));
+                            dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
+                            dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, true));
                         }
                     });
                     dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                    dispatch(setOppgaveOpplastingFeiletPaBackend(BACKEND_FEIL_ID, true));
+                    dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, true));
                     logWarningMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
                 });
         }
