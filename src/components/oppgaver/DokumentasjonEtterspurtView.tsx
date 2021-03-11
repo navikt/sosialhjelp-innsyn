@@ -19,11 +19,11 @@ import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtiliti
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    setFileAttachmentsUploadingFailed,
+    setFileAttachmentsUploadFailed,
     hentOppgaveMedId,
-    setFileUploadingFailed,
-    setFileUploadingFailedInBackend,
-    setFileUploadingFailedVirusCheckInBackend,
+    setFileUploadFailed,
+    setFileUploadFailedInBackend,
+    setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
@@ -265,7 +265,7 @@ export const VelgFil = (props: {
 
     const onClick = (oppgaveElementIndex: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
-            dispatch(setFileAttachmentsUploadingFailed(response));
+            dispatch(setFileAttachmentsUploadFailed(response));
         };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
@@ -287,9 +287,9 @@ export const VelgFil = (props: {
         props.setOverMaksStorrelse(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            dispatch(setFileUploadingFailed(props.oppgaveId, false));
-            dispatch(setFileUploadingFailedInBackend(props.oppgaveId, false));
-            dispatch(setFileUploadingFailedVirusCheckInBackend(props.oppgaveId, false));
+            dispatch(setFileUploadFailed(props.oppgaveId, false));
+            dispatch(setFileUploadFailedInBackend(props.oppgaveId, false));
+            dispatch(setFileUploadFailedVirusCheckInBackend(props.oppgaveId, false));
 
             const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
@@ -407,8 +407,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
     const sendVedlegg = (event: any) => {
         window.removeEventListener("beforeunload", alertUser);
-        dispatch(setFileUploadingFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-        dispatch(setFileUploadingFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
+        dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
 
         if (!dokumentasjonEtterspurt || !fiksDigisosId) {
             event.preventDefault();
@@ -418,7 +418,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         try {
             var formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjonEtterspurt);
         } catch (e) {
-            dispatch(setFileUploadingFailed(dokumentasjonEtterspurt.oppgaveId, true));
+            dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
             event.preventDefault();
             return;
@@ -429,7 +429,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
         const ingenFilerValgt = harIkkeValgtFiler(dokumentasjonEtterspurt);
-        dispatch(setFileUploadingFailed(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
+        dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
 
         setOverMaksStorrelse(false);
 
@@ -494,14 +494,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                     fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                         if (errorResponse.message === "Mulig virus funnet") {
-                            dispatch(setFileUploadingFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-                            dispatch(
-                                setFileUploadingFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true)
-                            );
+                            dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
+                            dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
                         }
                     });
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    dispatch(setFileUploadingFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
+                    dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
                     logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
                 });
         } else {

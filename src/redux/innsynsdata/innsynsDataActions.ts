@@ -122,25 +122,25 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
     };
 }
 
-export const setFileAttachmentsUploadingFailed = (status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FILE_ATTACHMENTSUPLOADING_FAILED,
+export const setFileAttachmentsUploadFailed = (status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FILE_ATTACHMENTS_UPLOAD_FAILED,
     status: status,
 });
 
-export const setFileUploadingFailed = (oppgaveId: string, status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FILE_UPLOADING_FAILED,
+export const setFileUploadFailed = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FILE_UPLOAD_FAILED,
     oppgaveId,
     status,
 });
 
-export const setFileUploadingFailedInBackend = (oppgaveId: string, status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FILE_UPLOADING_BACKEND_FAILED,
+export const setFileUploadFailedInBackend = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FILE_UPLOAD_BACKEND_FAILED,
     oppgaveId,
     status,
 });
 
-export const setFileUploadingFailedVirusCheckInBackend = (oppgaveId: string, status: boolean) => ({
-    type: InnsynsdataActionTypeKeys.FILE_UPLOADING_BACKEND_FAILED_BECAUSE_VIRUS,
+export const setFileUploadFailedVirusCheckInBackend = (oppgaveId: string, status: boolean) => ({
+    type: InnsynsdataActionTypeKeys.FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK,
     oppgaveId,
     status,
 });

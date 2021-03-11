@@ -98,10 +98,10 @@ export enum InnsynsdataActionTypeKeys {
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
     OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
     SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
-    FILE_ATTACHMENTSUPLOADING_FAILED = "innsynsdata/FILE_VEDLEGSOPPLASTING_FEILET",
-    FILE_UPLOADING_FAILED = "innsynsdata/FILE_OPPLASTING_FEILET",
-    FILE_UPLOADING_BACKEND_FAILED = "innsynsdata/FILE_OPPLASTING_BACKEND_FEILET",
-    FILE_UPLOADING_BACKEND_FAILED_BECAUSE_VIRUS = "innsynsdata/FILE_OPPLASTING_BACKEND_FEILET_PGA_VIRUS",
+    FILE_ATTACHMENTS_UPLOAD_FAILED = "innsynsdata/FILE_ATTACHMENTS_UPLOAD_FAILED",
+    FILE_UPLOAD_FAILED = "innsynsdata/FILE_UPLOAD_FAILED",
+    FILE_UPLOAD_BACKEND_FAILED = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED",
+    FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK",
 }
 
 export enum InnsynsdataSti {
@@ -483,7 +483,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 },
             };
 
-        case InnsynsdataActionTypeKeys.FILE_ATTACHMENTSUPLOADING_FAILED:
+        case InnsynsdataActionTypeKeys.FILE_ATTACHMENTS_UPLOAD_FAILED:
             return {
                 ...state,
                 oppgaveVedlegsOpplastingFeilet: action.status,
@@ -501,7 +501,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 skalViseForbudtSide: action.skalViseForbudt,
             };
 
-        case InnsynsdataActionTypeKeys.FILE_UPLOADING_FAILED:
+        case InnsynsdataActionTypeKeys.FILE_UPLOAD_FAILED:
             if (action.status) {
                 return {
                     ...state,
@@ -514,7 +514,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };
-        case InnsynsdataActionTypeKeys.FILE_UPLOADING_BACKEND_FAILED:
+        case InnsynsdataActionTypeKeys.FILE_UPLOAD_BACKEND_FAILED:
             if (action.status) {
                 return {
                     ...state,
@@ -530,7 +530,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };
-        case InnsynsdataActionTypeKeys.FILE_UPLOADING_BACKEND_FAILED_BECAUSE_VIRUS:
+        case InnsynsdataActionTypeKeys.FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK:
             if (action.status) {
                 return {
                     ...state,
