@@ -12,7 +12,7 @@ import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
-import {setFilUploadingFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
+import {setFileUploadingFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
@@ -33,7 +33,7 @@ const FilView: React.FC<{
 
     const onSlettClick = (event: ClickEvent): void => {
         setOverMaksStorrelse(false);
-        dispatch(setFilUploadingFailedVirusCheckInBackend(oppgaveId, false));
+        dispatch(setFileUploadingFailedVirusCheckInBackend(oppgaveId, false));
         dispatch({
             type: oppgaveElement
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
