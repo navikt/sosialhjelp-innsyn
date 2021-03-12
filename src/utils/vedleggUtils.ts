@@ -2,8 +2,7 @@ import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../r
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
-import {FormattedMessage} from "react-intl";
+import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
 
 export const maxMengdeStorrelse = 150 * 1024 * 1024;
 export const maxFilStorrelse = 10 * 1024 * 1024;
@@ -171,54 +170,6 @@ export const harFilerMedFeil = (oppgaveElementer: DokumentasjonEtterspurtElement
     });
 };
 
-export const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
-    if (listeMedFil.length > 1) {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </SkjemaelementFeilmelding>
-        );
-    } else if (listeMedFil.length === 1) {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </SkjemaelementFeilmelding>
-        );
-    } else {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} />
-            </SkjemaelementFeilmelding>
-        );
-    }
-};
-
-export const feilmeldingComponent = (feilId: string) => {
-    return (
-        <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding">
-            <li>
-                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
-                    <FormattedMessage id={feilId} />
-                </span>
-            </li>
-        </SkjemaelementFeilmelding>
-    );
-};
-
-export function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) {
-    return (
-        <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
-            {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
-            {flagg.maxSammensattFilStorrelse &&
-                feilmeldingComponentTittel("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
-            {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
-            {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
-            {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
-        </ul>
-    );
-}
-
 export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) {
     let filnavn = "";
 
@@ -267,7 +218,7 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementInde
         }
     });
 
-    return returnFeilmeldingComponent(flagg, filnavn, listeMedFil);
+    return ReturnErrorMessage(flagg, filnavn, listeMedFil);
 }
 
 export function finnFilerMedFeil(files: FileList, oppgaveElemendIndex: number): Array<FilFeil> {

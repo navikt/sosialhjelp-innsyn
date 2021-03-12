@@ -3,7 +3,7 @@ import {
     InnsynsdataActionTypeKeys,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {FilFeil} from "../../utils/vedleggUtils";
+import {FilFeil, finnFilerMedFeil} from "../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
@@ -19,7 +19,6 @@ import {Flatknapp} from "nav-frontend-knapper";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {FormattedMessage} from "react-intl";
 import React from "react";
-import {finnFilerMedFeil} from "./DokumentasjonEtterspurtView";
 
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
 
