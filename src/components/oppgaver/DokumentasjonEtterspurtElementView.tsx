@@ -1,11 +1,10 @@
 import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {FilFeil, validerFilArrayForFeil} from "../../utils/vedleggUtils";
+import {validerFilArrayForFeil, alertUser, skrivFeilmelding, FilFeil} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
 import AddFile from "./AddFile";
-import {skrivFeilmelding, alertUser} from "./DokumentasjonEtterspurtView";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;

@@ -10,8 +10,6 @@ import {
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
-import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedleggskravVisningConfig";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
@@ -26,12 +24,11 @@ import {
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
 import {
-    containsUlovligeTegn,
-    legalCombinedFilesSize,
-    legalFileSize,
-    legalFileExtension,
-    FilFeil,
     opprettFormDataMedVedleggFraOppgaver,
+    alertUser,
+    harFilerMedFeil,
+    harIkkeValgtFiler,
+    getVisningstekster,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
@@ -45,202 +42,6 @@ interface Props {
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
-
-export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
-    let typeTekst,
-        tilleggsinfoTekst,
-        sammensattType = type + "|" + tilleggsinfo,
-        erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some((val) => val === sammensattType);
-
-    if (erOriginalSoknadVedleggType) {
-        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!!;
-        typeTekst = soknadVedleggSpec.tittel;
-        tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
-    } else {
-        typeTekst = type;
-        tilleggsinfoTekst = tilleggsinfo;
-    }
-    return {typeTekst, tilleggsinfoTekst};
-};
-
-const harFilerMedFeil = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
-    return oppgaveElementer.find((oppgaveElement) => {
-        return !oppgaveElement.filer
-            ? false
-            : oppgaveElement.filer.find((it) => {
-                  return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
-              });
-    });
-};
-
-const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
-    if (listeMedFil.length > 1) {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </SkjemaelementFeilmelding>
-        );
-    } else if (listeMedFil.length === 1) {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </SkjemaelementFeilmelding>
-        );
-    } else {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} />
-            </SkjemaelementFeilmelding>
-        );
-    }
-};
-
-const feilmeldingComponent = (feilId: string) => {
-    return (
-        <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding">
-            <li>
-                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
-                    <FormattedMessage id={feilId} />
-                </span>
-            </li>
-        </SkjemaelementFeilmelding>
-    );
-};
-
-function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) {
-    return (
-        <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
-            {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
-            {flagg.maxSammensattFilStorrelse &&
-                feilmeldingComponentTittel("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
-            {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
-            {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
-            {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
-        </ul>
-    );
-}
-
-export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) {
-    let filnavn = "";
-
-    const flagg = {
-        ulovligFil: false,
-        ulovligFiler: false,
-        legalFileExtension: false,
-        containsUlovligeTegn: false,
-        maxFilStorrelse: false,
-        maxSammensattFilStorrelse: false,
-    };
-
-    listeMedFil.forEach((value) => {
-        if (value.oppgaveElemendIndex === oppgaveElementIndex) {
-            if (
-                value.containsUlovligeTegn ||
-                value.legalFileSize ||
-                value.legalFileExtension ||
-                value.legalCombinedFilesSize
-            ) {
-                if (listeMedFil.length === 1) {
-                    filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
-                    flagg.ulovligFil = true;
-                } else {
-                    flagg.ulovligFiler = true;
-                    flagg.ulovligFil = false;
-                }
-                if (value.legalFileSize) {
-                    flagg.maxFilStorrelse = true;
-                }
-                if (value.containsUlovligeTegn) {
-                    flagg.containsUlovligeTegn = true;
-                }
-                if (value.legalFileExtension) {
-                    flagg.legalFileExtension = true;
-                }
-                if (value.legalCombinedFilesSize) {
-                    flagg.maxSammensattFilStorrelse = true;
-                    flagg.maxFilStorrelse = false;
-                    flagg.containsUlovligeTegn = false;
-                    flagg.legalFileExtension = false;
-                    flagg.ulovligFiler = false;
-                    flagg.ulovligFil = false;
-                }
-            }
-        }
-    });
-
-    return returnFeilmeldingComponent(flagg, filnavn, listeMedFil);
-}
-
-export function finnFilerMedFeil(files: FileList, oppgaveElemendIndex: number): Array<FilFeil> {
-    let sjekkMaxMengde = false;
-    const filerMedFeil: Array<FilFeil> = [];
-    let isCombinedFileSizeLegal = 0;
-
-    for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
-        const file: File = files[vedleggIndex];
-        const filename = file.name;
-
-        let fileErrorObject: FilFeil = {
-            legalFileExtension: false,
-            containsUlovligeTegn: false,
-            legalFileSize: false,
-            legalCombinedFilesSize: false,
-            arrayIndex: vedleggIndex,
-            oppgaveElemendIndex: oppgaveElemendIndex,
-            filename: filename,
-        };
-
-        if (!legalFileExtension(filename)) {
-            fileErrorObject.legalFileExtension = true;
-        }
-        if (containsUlovligeTegn(filename)) {
-            fileErrorObject.containsUlovligeTegn = true;
-        }
-        if (legalFileSize(file)) {
-            fileErrorObject.legalFileSize = true;
-        }
-        if (legalCombinedFilesSize(isCombinedFileSizeLegal)) {
-            sjekkMaxMengde = true;
-            fileErrorObject.legalCombinedFilesSize = true;
-        }
-
-        if (
-            fileErrorObject.legalFileExtension ||
-            fileErrorObject.containsUlovligeTegn ||
-            fileErrorObject.legalFileSize ||
-            fileErrorObject.legalCombinedFilesSize
-        ) {
-            filerMedFeil.push(fileErrorObject);
-        }
-        isCombinedFileSizeLegal += file.size;
-    }
-
-    if (sjekkMaxMengde) {
-        logInfoMessage(
-            "Bruker prøvde å laste opp over 150 mb. Størrelse på vedlegg var: " +
-                isCombinedFileSizeLegal / (1024 * 1024)
-        );
-    }
-    return filerMedFeil;
-}
-
-function harIkkeValgtFiler(oppgave: DokumentasjonEtterspurt | null) {
-    let antall = 0;
-    oppgave &&
-        oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
-            oppgaveElement.filer &&
-                oppgaveElement.filer.forEach(() => {
-                    antall += 1;
-                });
-        });
-    return antall === 0;
-}
-
-export const alertUser = (event: any) => {
-    event.preventDefault();
-    event.returnValue = "";
-};
 
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
