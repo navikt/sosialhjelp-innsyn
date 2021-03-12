@@ -4,7 +4,8 @@ import {FilFeil, validerFilArrayForFeil} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
-import {skrivFeilmelding, alertUser, VelgFil} from "./DokumentasjonEtterspurtView";
+import AddFile from "./AddFile";
+import {skrivFeilmelding, alertUser} from "./DokumentasjonEtterspurtView";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;
@@ -41,7 +42,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <VelgFil
+            <AddFile
                 typeTekst={typeTekst}
                 tilleggsinfoTekst={tilleggsinfoTekst}
                 oppgaveElement={oppgaveElement}

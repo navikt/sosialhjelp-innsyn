@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {Element, Normaltekst} from "nav-frontend-typografi";
-import UploadFileIcon from "../ikoner/UploadFile";
+import {Normaltekst} from "nav-frontend-typografi";
 import {
     Fil,
     InnsynsdataActionTypeKeys,
@@ -19,7 +18,6 @@ import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtiliti
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    setFileAttachmentsUploadFailed,
     hentOppgaveMedId,
     setFileUploadFailed,
     setFileUploadFailedInBackend,
@@ -36,7 +34,7 @@ import {
     opprettFormDataMedVedleggFraOppgaver,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
-import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
+import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
@@ -47,8 +45,6 @@ interface Props {
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
-
-type ChangeEvent = React.FormEvent<HTMLInputElement>;
 
 export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
     let typeTekst,
@@ -244,135 +240,6 @@ function harIkkeValgtFiler(oppgave: DokumentasjonEtterspurt | null) {
 export const alertUser = (event: any) => {
     event.preventDefault();
     event.returnValue = "";
-};
-
-export const VelgFil = (props: {
-    typeTekst: string;
-    tilleggsinfoTekst: string | undefined;
-    oppgaveElement: DokumentasjonEtterspurtElement;
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
-    setListeMedFilerSomFeiler: (filerMedFeil: Array<FilFeil>) => void;
-    oppgaveId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-}) => {
-    const dispatch = useDispatch();
-
-    const kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
-
-    const onClick = (oppgaveElementIndex: number, event?: any): void => {
-        const handleOnLinkClicked = (response: boolean) => {
-            dispatch(setFileAttachmentsUploadFailed(response));
-        };
-        if (handleOnLinkClicked) {
-            handleOnLinkClicked(false);
-        }
-        const uploadElement: any = document.getElementById("file_" + props.oppgaveIndex + "_" + oppgaveElementIndex);
-        uploadElement.click();
-        if (event) {
-            event.preventDefault();
-        }
-    };
-
-    const onChange = (
-        event: any,
-        oppgaveElement: DokumentasjonEtterspurtElement,
-        oppgaveElementIndex: number,
-        oppgaveIndex: number
-    ) => {
-        props.setListeMedFilerSomFeiler([]);
-        props.setOverMaksStorrelse(false);
-        const files: FileList | null = event.currentTarget.files;
-        if (files) {
-            dispatch(setFileUploadFailed(props.oppgaveId, false));
-            dispatch(setFileUploadFailedInBackend(props.oppgaveId, false));
-            dispatch(setFileUploadFailedVirusCheckInBackend(props.oppgaveId, false));
-
-            const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
-            if (filerMedFeil.length === 0) {
-                for (let index = 0; index < files.length; index++) {
-                    const file: File = files[index];
-                    if (!file) {
-                        logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
-                    } else {
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
-                            oppgaveElement: oppgaveElement,
-                            oppgaveElementIndex: oppgaveElementIndex,
-                            oppgaveIndex: oppgaveIndex,
-                            fil: {
-                                filnavn: file.name,
-                                status: "INITIALISERT",
-                                file: file,
-                            },
-                        });
-                    }
-                }
-            } else {
-                props.setListeMedFilerSomFeiler(filerMedFeil);
-                filerMedFeil.forEach((fil: FilFeil) => {
-                    if (fil.containsUlovligeTegn) {
-                        logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
-                    }
-                    if (fil.legalCombinedFilesSize) {
-                        logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
-                    }
-                    if (fil.legalFileExtension) {
-                        logInfoMessage("Validering vedlegg feilet: Ulovlig filtype");
-                    }
-                    if (fil.legalFileSize) {
-                        logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
-                    }
-                });
-            }
-        }
-        if (event.target.value === "") {
-            return;
-        }
-        event.target.value = null;
-        event.preventDefault();
-    };
-
-    return (
-        <div className={"oppgave-detalj-overste-linje"}>
-            <div className={"tekst-wrapping"}>
-                <Element>{props.typeTekst}</Element>
-            </div>
-            {props.tilleggsinfoTekst && (
-                <div className={"tekst-wrapping"}>
-                    <Normaltekst className="luft_over_4px">{props.tilleggsinfoTekst}</Normaltekst>
-                </div>
-            )}
-            {kanLasteOppVedlegg && (
-                <div className="oppgaver_last_opp_fil">
-                    <Flatknapp
-                        mini
-                        id={"oppgave_" + props.oppgaveElementIndex + "_last_opp_fil_knapp"}
-                        onClick={(event) => {
-                            onClick(props.oppgaveElementIndex, event);
-                        }}
-                    >
-                        <UploadFileIcon className="last_opp_fil_ikon" />
-                        <Element>
-                            <FormattedMessage id="vedlegg.velg_fil" />
-                        </Element>
-                    </Flatknapp>
-                    <input
-                        type="file"
-                        id={"file_" + props.oppgaveIndex + "_" + props.oppgaveElementIndex}
-                        multiple={true}
-                        onChange={(event: ChangeEvent) =>
-                            onChange(event, props.oppgaveElement, props.oppgaveElementIndex, props.oppgaveIndex)
-                        }
-                        style={{display: "none"}}
-                    />
-                </div>
-            )}
-        </div>
-    );
 };
 
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
