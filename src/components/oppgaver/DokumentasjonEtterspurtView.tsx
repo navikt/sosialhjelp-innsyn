@@ -26,8 +26,8 @@ import {formatDato} from "../../utils/formatting";
 import {
     opprettFormDataMedVedleggFraOppgaver,
     alertUser,
-    harFilerMedFeil,
-    harIkkeValgtFiler,
+    oppgaveHasFilesWithError,
+    hasNotAddedFiles,
     getVisningstekster,
     maxMengdeStorrelse,
 } from "../../utils/vedleggUtils";
@@ -60,7 +60,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
 
-    const opplastingFeilet = harFilerMedFeil(dokumentasjonEtterspurt.oppgaveElementer);
+    const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
 
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonEtterspurt.innsendelsesfrist!!));
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
@@ -96,7 +96,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
-        const ingenFilerValgt = harIkkeValgtFiler(dokumentasjonEtterspurt);
+        const ingenFilerValgt = hasNotAddedFiles(dokumentasjonEtterspurt);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
 
         setOverMaksStorrelse(false);

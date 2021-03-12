@@ -23,12 +23,12 @@ interface Metadata {
     hendelsereferanse: string | undefined;
 }
 
-export function opprettFormDataMedVedleggFraOppgaver(oppgave: DokumentasjonEtterspurt) {
+export const opprettFormDataMedVedleggFraOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);
     return opprettFormDataMedVedlegg(metadata);
-}
+};
 
-export function generateMetadataFromOppgaver(oppgave: DokumentasjonEtterspurt) {
+export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
         type: oppgaveElement.dokumenttype,
         tilleggsinfo: oppgaveElement.tilleggsinformasjon,
@@ -37,14 +37,14 @@ export function generateMetadataFromOppgaver(oppgave: DokumentasjonEtterspurt) {
         hendelsetype: oppgaveElement.hendelsetype,
         hendelsereferanse: oppgaveElement.hendelsereferanse,
     }));
-}
+};
 
-export function opprettFormDataMedVedleggFraFiler(filer: Fil[]): FormData {
+export const opprettFormDataMedVedleggFraFiler = (filer: Fil[]): FormData => {
     const metadata: Metadata[] = generateMetadataFromAndreVedlegg(filer);
     return opprettFormDataMedVedlegg(metadata);
-}
+};
 
-export function generateMetadataFromAndreVedlegg(filer: Fil[]): Metadata[] {
+export const generateMetadataFromAndreVedlegg = (filer: Fil[]): Metadata[] => {
     return [
         {
             type: "annet",
@@ -55,9 +55,9 @@ export function generateMetadataFromAndreVedlegg(filer: Fil[]): Metadata[] {
             hendelsereferanse: undefined,
         },
     ];
-}
+};
 
-function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
+const opprettFormDataMedVedlegg = (metadata: Metadata[]): FormData => {
     let formData = new FormData();
     // Metadata skal ikke inneholde file-blob fra Fil-typen
     const metadataJson = JSON.stringify(
@@ -86,9 +86,9 @@ function opprettFormDataMedVedlegg(metadata: Metadata[]): FormData {
         });
     });
     return formData;
-}
+};
 
-export function hentFileExtension(filnavn: string) {
+export const hentFileExtension = (filnavn: string) => {
     var filetternavn = "ukjent";
     if (filnavn.length >= 5) {
         var testSteng = filnavn.substr(filnavn.length - 5, 5);
@@ -98,9 +98,9 @@ export function hentFileExtension(filnavn: string) {
         }
     }
     return filetternavn;
-}
+};
 
-export function containsUlovligeTegn(filnavn: string) {
+export const containsUlovligeTegn = (filnavn: string) => {
     /* Filsystemet på macos lagrer fil med 'å' i navnet som 'a\u030A' (a + ring). Dette blir ikke konvertert tilbake før regexen under kjøres. Vi replacer derfor manuelt */
     const fixedFilenavn = filnavn.replace("a\u030A", "å").replace("A\u030A", "Å");
     const match = fixedFilenavn.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 (),._–-]")); // FIKS takler ikke *, :, <, >, |, ?, \, /. Fonten Helvetica takler færre tegn. Denne brukes til generering av ettersendelse.pdf
@@ -109,20 +109,20 @@ export function containsUlovligeTegn(filnavn: string) {
         return true;
     }
     return false;
-}
+};
 
-export function legalCombinedFilesSize(sammensattFilStorrelse: number) {
+export const legalCombinedFilesSize = (sammensattFilStorrelse: number) => {
     return sammensattFilStorrelse > maxMengdeStorrelse;
-}
+};
 
-export function legalFileSize(file: File) {
+export const legalFileSize = (file: File) => {
     return file.size > maxFilStorrelse;
-}
+};
 
-export function legalFileExtension(filename: string) {
+export const legalFileExtension = (filename: string) => {
     const fileExtension = filename.replace(/^.*\./, "");
     return fileExtension.match(/jpe?g|png|pdf/i) !== null;
-}
+};
 
 export interface FilFeil {
     legalFileExtension: boolean;
@@ -134,9 +134,9 @@ export interface FilFeil {
     filename: string;
 }
 
-export function validerFilArrayForFeil(listeMedFil: Array<FilFeil>) {
+export const validerFilArrayForFeil = (listeMedFil: Array<FilFeil>) => {
     return !!(listeMedFil && listeMedFil.length);
-}
+};
 
 export const alertUser = (event: any) => {
     event.preventDefault();
@@ -160,17 +160,20 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
-export const harFilerMedFeil = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
+//Todo må generaliseres mer når dok.krav blir tatt med
+export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
     return oppgaveElementer.find((oppgaveElement) => {
-        return !oppgaveElement.filer
-            ? false
-            : oppgaveElement.filer.find((it) => {
-                  return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
-              });
+        return !oppgaveElement.filer ? false : hasFilesWithError(oppgaveElement.filer);
     });
 };
 
-export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) {
+export const hasFilesWithError = (filer: Fil[]) => {
+    return filer.find((it) => {
+        return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
+    });
+};
+
+export const writeErrorMessage = (listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) => {
     let filnavn = "";
 
     const flagg = {
@@ -219,9 +222,9 @@ export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementInde
     });
 
     return ReturnErrorMessage(flagg, filnavn, listeMedFil);
-}
+};
 
-export function finnFilerMedFeil(files: FileList, oppgaveElemendIndex: number): Array<FilFeil> {
+export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number): Array<FilFeil> => {
     let sjekkMaxMengde = false;
     const filerMedFeil: Array<FilFeil> = [];
     let isCombinedFileSizeLegal = 0;
@@ -272,9 +275,9 @@ export function finnFilerMedFeil(files: FileList, oppgaveElemendIndex: number): 
         );
     }
     return filerMedFeil;
-}
+};
 
-export function harIkkeValgtFiler(oppgave: DokumentasjonEtterspurt | null) {
+export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurt | null) => {
     let antall = 0;
     oppgave &&
         oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
@@ -284,4 +287,4 @@ export function harIkkeValgtFiler(oppgave: DokumentasjonEtterspurt | null) {
                 });
         });
     return antall === 0;
-}
+};

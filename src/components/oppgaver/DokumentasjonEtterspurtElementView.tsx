@@ -1,6 +1,6 @@
 import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {validerFilArrayForFeil, alertUser, skrivFeilmelding, FilFeil} from "../../utils/vedleggUtils";
+import {validerFilArrayForFeil, alertUser, writeErrorMessage, FilFeil} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
@@ -67,7 +67,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                     />
                 ))}
             {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
-                skrivFeilmelding(listeMedFilerSomFeiler, oppgaveElementIndex)}
+                writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
         </div>
     );
 };

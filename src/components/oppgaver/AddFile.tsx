@@ -3,7 +3,7 @@ import {
     InnsynsdataActionTypeKeys,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {FilFeil, finnFilerMedFeil} from "../../utils/vedleggUtils";
+import {FilFeil, findFilesWithError} from "../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
@@ -76,7 +76,7 @@ const AddFile: React.FC<{
             dispatch(setFileUploadFailedInBackend(oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
 
-            const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
+            const filerMedFeil: Array<FilFeil> = findFilesWithError(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];

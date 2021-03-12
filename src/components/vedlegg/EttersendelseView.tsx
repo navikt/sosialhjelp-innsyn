@@ -25,8 +25,9 @@ import {
     FilFeil,
     validerFilArrayForFeil,
     maxMengdeStorrelse,
-    skrivFeilmelding,
-    finnFilerMedFeil,
+    writeErrorMessage,
+    findFilesWithError,
+    hasFilesWithError,
 } from "../../utils/vedleggUtils";
 import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -34,11 +35,6 @@ import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggAct
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
-function harFilermedFeil(filer: Fil[]) {
-    return filer.find((it) => {
-        return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
-    });
-}
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
  * brukt sånnn at man slipper å lage egne actions
@@ -86,7 +82,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         event.returnValue = "";
     };
 
-    const opplastingFeilet = harFilermedFeil(filer);
+    const opplastingFeilet = hasFilesWithError(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -102,7 +98,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
-            const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, 0);
+            const filerMedFeil: Array<FilFeil> = findFilesWithError(files, 0);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
@@ -278,7 +274,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 />
                             ))}
 
-                        {validerFilArrayForFeil(listeMedFilerSomFeiler) && skrivFeilmelding(listeMedFilerSomFeiler, 0)}
+                        {validerFilArrayForFeil(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                     </div>
 
                     <Hovedknapp
