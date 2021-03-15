@@ -6,7 +6,7 @@ import {
 import {FileErrors, findFilesWithError} from "../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {isUploadFilesAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {
     setFileAttachmentsUploadFailed,
     setFileUploadFailed,
@@ -44,7 +44,7 @@ const AddFile: React.FC<{
     const kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const canUploadAttatchemnts: boolean = isUploadFilesAllowed(kommuneResponse);
+    const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommuneResponse);
 
     const onClick = (internalId: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
@@ -69,17 +69,16 @@ const AddFile: React.FC<{
             dispatch(setFileUploadFailedInBackend(internalIndex.toString(), false));
             dispatch(setFileUploadFailedVirusCheckInBackend(internalIndex.toString(), false));
 
-            const filerMedFeil: Array<FileErrors> = findFilesWithError(files, internalIndex);
-            if (filerMedFeil.length === 0) {
-                for (let index = 0; index < files.length; index++) {
-                    const file: File = files[index];
+            const filesWithError: Array<FileErrors> = findFilesWithError(files, internalIndex);
+            if (filesWithError.length === 0) {
+                Array.from(files).forEach((file: File) => {
                     if (!file) {
                         logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
                     } else {
                         dispatch({
                             type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
-                            oppgaveElement: oppgaveElement,
                             internalIndex: internalIndex,
+                            oppgaveElement: oppgaveElement,
                             externalIndex: externalIndex,
                             fil: {
                                 filename: file.name,
@@ -88,10 +87,10 @@ const AddFile: React.FC<{
                             },
                         });
                     }
-                }
+                });
             } else {
-                setListWithFilesWithErrors(filerMedFeil);
-                filerMedFeil.forEach((fil: FileErrors) => {
+                setListWithFilesWithErrors(filesWithError);
+                filesWithError.forEach((fil: FileErrors) => {
                     if (fil.containsIllegalCharacters) {
                         logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
                     }

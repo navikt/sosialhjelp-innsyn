@@ -168,6 +168,7 @@ export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspu
 };
 
 export const hasFilesWithError = (filer: Fil[]) => {
+    console.log("filer med feil", filer);
     return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });

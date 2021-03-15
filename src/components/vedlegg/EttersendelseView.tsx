@@ -29,7 +29,7 @@ import {
     findFilesWithError,
     hasFilesWithError,
 } from "../../utils/vedleggUtils";
-import {isUploadFilesAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -197,7 +197,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = isUploadFilesAllowed(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
     const visDetaljeFeiler: boolean =
         opplastingFeilet !== undefined ||

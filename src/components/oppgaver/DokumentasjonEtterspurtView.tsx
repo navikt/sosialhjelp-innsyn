@@ -12,7 +12,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {isUploadFilesAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
@@ -58,7 +58,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = isUploadFilesAllowed(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
 
