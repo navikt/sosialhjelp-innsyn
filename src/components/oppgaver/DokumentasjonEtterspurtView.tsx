@@ -12,7 +12,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
+import {isUploadFilesAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
@@ -29,7 +29,7 @@ import {
     oppgaveHasFilesWithError,
     hasNotAddedFiles,
     getVisningstekster,
-    maxMengdeStorrelse,
+    maxCombinedFileSize,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
@@ -58,7 +58,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isUploadFilesAllowed(kommuneResponse);
 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
 
@@ -110,7 +110,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 0
             );
 
-        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse);
+        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -119,12 +119,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             return;
         }
 
-        if (sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse) {
+        if (sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize) {
             logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
         }
 
         if (
-            sammensattFilStorrelseForOppgaveElement < maxMengdeStorrelse &&
+            sammensattFilStorrelseForOppgaveElement < maxCombinedFileSize &&
             sammensattFilStorrelseForOppgaveElement !== 0
         ) {
             fetchPost(path, formData, "multipart/form-data")

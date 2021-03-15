@@ -22,14 +22,14 @@ import {
 import {fetchPost, fetchPostGetErrors, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
     opprettFormDataMedVedleggFraFiler,
-    FilFeil,
+    FileErrors,
     validerFilArrayForFeil,
-    maxMengdeStorrelse,
+    maxCombinedFileSize,
     writeErrorMessage,
     findFilesWithError,
     hasFilesWithError,
 } from "../../utils/vedleggUtils";
-import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
+import {isUploadFilesAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -50,7 +50,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileErrors>>([]);
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
@@ -98,7 +98,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
-            const filerMedFeil: Array<FilFeil> = findFilesWithError(files, 0);
+            const filerMedFeil: Array<FileErrors> = findFilesWithError(files, 0);
 
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
@@ -148,9 +148,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             0
         );
 
-        setOverMaksStorrelse(totaltSammensattFilStorrelse > maxMengdeStorrelse);
+        setOverMaksStorrelse(totaltSammensattFilStorrelse > maxCombinedFileSize);
 
-        if (totaltSammensattFilStorrelse < maxMengdeStorrelse && totaltSammensattFilStorrelse !== 0) {
+        if (totaltSammensattFilStorrelse < maxCombinedFileSize && totaltSammensattFilStorrelse !== 0) {
             dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
             fetchPost(path, formData, "multipart/form-data")
@@ -197,7 +197,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isUploadFilesAllowed(kommuneResponse);
 
     const visDetaljeFeiler: boolean =
         opplastingFeilet !== undefined ||

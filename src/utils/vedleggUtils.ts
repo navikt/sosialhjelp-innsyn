@@ -4,8 +4,8 @@ import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
 import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
 
-export const maxMengdeStorrelse = 150 * 1024 * 1024;
-export const maxFilStorrelse = 10 * 1024 * 1024;
+export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
+export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 
 export enum HendelseTypeEnum {
     BRUKER = "bruker",
@@ -100,10 +100,10 @@ export const hentFileExtension = (filnavn: string) => {
     return filetternavn;
 };
 
-export const containsUlovligeTegn = (filnavn: string) => {
+export const containsIllegalCharacters = (filename: string) => {
     /* Filsystemet på macos lagrer fil med 'å' i navnet som 'a\u030A' (a + ring). Dette blir ikke konvertert tilbake før regexen under kjøres. Vi replacer derfor manuelt */
-    const fixedFilenavn = filnavn.replace("a\u030A", "å").replace("A\u030A", "Å");
-    const match = fixedFilenavn.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 (),._–-]")); // FIKS takler ikke *, :, <, >, |, ?, \, /. Fonten Helvetica takler færre tegn. Denne brukes til generering av ettersendelse.pdf
+    const fixedFilename = filename.replace("a\u030A", "å").replace("A\u030A", "Å");
+    const match = fixedFilename.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 (),._–-]")); // FIKS takler ikke *, :, <, >, |, ?, \, /. Fonten Helvetica takler færre tegn. Denne brukes til generering av ettersendelse.pdf
     if (match != null) {
         logInfoMessage(`Filnavn inneholdt ugyldige tegn. Det første var ${match[0]}`);
         return true;
@@ -112,11 +112,11 @@ export const containsUlovligeTegn = (filnavn: string) => {
 };
 
 export const legalCombinedFilesSize = (sammensattFilStorrelse: number) => {
-    return sammensattFilStorrelse > maxMengdeStorrelse;
+    return sammensattFilStorrelse > maxCombinedFileSize;
 };
 
 export const legalFileSize = (file: File) => {
-    return file.size > maxFilStorrelse;
+    return file.size > maxFileSize;
 };
 
 export const legalFileExtension = (filename: string) => {
@@ -124,9 +124,9 @@ export const legalFileExtension = (filename: string) => {
     return fileExtension.match(/jpe?g|png|pdf/i) !== null;
 };
 
-export interface FilFeil {
+export interface FileErrors {
     legalFileExtension: boolean;
-    containsUlovligeTegn: boolean;
+    containsIllegalCharacters: boolean;
     legalFileSize: boolean;
     legalCombinedFilesSize: boolean;
     arrayIndex: number;
@@ -134,7 +134,7 @@ export interface FilFeil {
     filename: string;
 }
 
-export const validerFilArrayForFeil = (listeMedFil: Array<FilFeil>) => {
+export const validerFilArrayForFeil = (listeMedFil: Array<FileErrors>) => {
     return !!(listeMedFil && listeMedFil.length);
 };
 
@@ -173,7 +173,7 @@ export const hasFilesWithError = (filer: Fil[]) => {
     });
 };
 
-export const writeErrorMessage = (listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) => {
+export const writeErrorMessage = (listeMedFil: Array<FileErrors>, oppgaveElementIndex: number) => {
     let filnavn = "";
 
     const flagg = {
@@ -188,7 +188,7 @@ export const writeErrorMessage = (listeMedFil: Array<FilFeil>, oppgaveElementInd
     listeMedFil.forEach((value) => {
         if (value.oppgaveElemendIndex === oppgaveElementIndex) {
             if (
-                value.containsUlovligeTegn ||
+                value.containsIllegalCharacters ||
                 value.legalFileSize ||
                 value.legalFileExtension ||
                 value.legalCombinedFilesSize
@@ -203,7 +203,7 @@ export const writeErrorMessage = (listeMedFil: Array<FilFeil>, oppgaveElementInd
                 if (value.legalFileSize) {
                     flagg.maxFilStorrelse = true;
                 }
-                if (value.containsUlovligeTegn) {
+                if (value.containsIllegalCharacters) {
                     flagg.containsUlovligeTegn = true;
                 }
                 if (value.legalFileExtension) {
@@ -224,18 +224,18 @@ export const writeErrorMessage = (listeMedFil: Array<FilFeil>, oppgaveElementInd
     return ReturnErrorMessage(flagg, filnavn, listeMedFil);
 };
 
-export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number): Array<FilFeil> => {
+export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number): Array<FileErrors> => {
     let sjekkMaxMengde = false;
-    const filerMedFeil: Array<FilFeil> = [];
+    const filerMedFeil: Array<FileErrors> = [];
     let isCombinedFileSizeLegal = 0;
 
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
         const file: File = files[vedleggIndex];
         const filename = file.name;
 
-        let fileErrorObject: FilFeil = {
+        let fileErrorObject: FileErrors = {
             legalFileExtension: false,
-            containsUlovligeTegn: false,
+            containsIllegalCharacters: false,
             legalFileSize: false,
             legalCombinedFilesSize: false,
             arrayIndex: vedleggIndex,
@@ -246,8 +246,8 @@ export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number)
         if (!legalFileExtension(filename)) {
             fileErrorObject.legalFileExtension = true;
         }
-        if (containsUlovligeTegn(filename)) {
-            fileErrorObject.containsUlovligeTegn = true;
+        if (containsIllegalCharacters(filename)) {
+            fileErrorObject.containsIllegalCharacters = true;
         }
         if (legalFileSize(file)) {
             fileErrorObject.legalFileSize = true;
@@ -259,7 +259,7 @@ export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number)
 
         if (
             fileErrorObject.legalFileExtension ||
-            fileErrorObject.containsUlovligeTegn ||
+            fileErrorObject.containsIllegalCharacters ||
             fileErrorObject.legalFileSize ||
             fileErrorObject.legalCombinedFilesSize
         ) {
