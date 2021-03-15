@@ -48,7 +48,6 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 internalIndex={oppgaveElementIndex}
                 externalIndex={oppgaveIndex}
                 setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
-                oppgaveId={oppgaveId}
                 setOverMaksStorrelse={setOverMaksStorrelse}
             />
 

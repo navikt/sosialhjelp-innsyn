@@ -132,8 +132,8 @@ export interface VedleggActionType {
     dokumenttype: string; // For å finne rett oppgaveElement
     tilleggsinfo?: string; // For å finne rett oppgaveElement
     vedleggIndex: number; // For å finne rett vedlegg i oppgaveElement
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
+    internalIndex: number;
+    externalIndex: number;
     fil: Fil;
     oppgaveElement: DokumentasjonEtterspurtElement;
     status?: string;
@@ -303,12 +303,13 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave, oppgaveIndex: number) => {
-                    if (oppgaveIndex === action.oppgaveIndex) {
+                    console.log("internalIndex ", oppgaveIndex, " ", "action.oppgaveindex", action.externalIndex);
+                    if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
                             oppgaveElementer: oppgave.oppgaveElementer.map(
                                 (oppgaveElement, oppgaveElementIndex: number) => {
-                                    if (oppgaveElementIndex === action.oppgaveElementIndex) {
+                                    if (oppgaveElementIndex === action.internalIndex) {
                                         return {
                                             ...oppgaveElement,
                                             filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil],
@@ -326,12 +327,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave, oppgaveIndex) => {
-                    if (oppgaveIndex === action.oppgaveIndex) {
+                    if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
                             oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                                 if (
-                                    oppgaveElementIndex === action.oppgaveElementIndex &&
+                                    oppgaveElementIndex === action.internalIndex &&
                                     oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
                                     oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon
                                 ) {

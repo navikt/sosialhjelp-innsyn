@@ -46,14 +46,14 @@ const AddFile: React.FC<{
     );
     const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
 
-    const onClick = (oppgaveElementIndex: number, event?: any): void => {
+    const onClick = (internalId: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
             dispatch(setFileAttachmentsUploadFailed(response));
         };
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
-        const uploadElement: any = document.getElementById("file_" + externalIndex + "_" + oppgaveElementIndex);
+        const uploadElement: any = document.getElementById("file_" + externalIndex + "_" + internalId);
         uploadElement.click();
         if (event) {
             event.preventDefault();
