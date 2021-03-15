@@ -45,8 +45,8 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 title={typeTekst}
                 description={tilleggsinfoTekst}
                 oppgaveElement={oppgaveElement}
-                oppgaveElementIndex={oppgaveElementIndex}
-                oppgaveIndex={oppgaveIndex}
+                internalIndex={oppgaveElementIndex}
+                externalIndex={oppgaveIndex}
                 setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
                 oppgaveId={oppgaveId}
                 setOverMaksStorrelse={setOverMaksStorrelse}

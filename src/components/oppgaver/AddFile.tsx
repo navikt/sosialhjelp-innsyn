@@ -26,19 +26,17 @@ const AddFile: React.FC<{
     title: string;
     description: string | undefined;
     oppgaveElement: DokumentasjonEtterspurtElement;
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
+    internalIndex: number; // todo vurdere andre navn
+    externalIndex: number; // todo vurdere andre navn
     setListeMedFilerSomFeiler: (filerMedFeil: Array<FilFeil>) => void;
-    oppgaveId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
 }> = ({
     title,
     description,
     oppgaveElement,
-    oppgaveElementIndex,
-    oppgaveIndex,
+    internalIndex,
+    externalIndex,
     setListeMedFilerSomFeiler,
-    oppgaveId,
     setOverMaksStorrelse,
 }) => {
     const dispatch = useDispatch();
@@ -55,7 +53,7 @@ const AddFile: React.FC<{
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
-        const uploadElement: any = document.getElementById("file_" + oppgaveIndex + "_" + oppgaveElementIndex);
+        const uploadElement: any = document.getElementById("file_" + externalIndex + "_" + oppgaveElementIndex);
         uploadElement.click();
         if (event) {
             event.preventDefault();
@@ -72,9 +70,9 @@ const AddFile: React.FC<{
         setOverMaksStorrelse(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            dispatch(setFileUploadFailed(oppgaveId, false));
-            dispatch(setFileUploadFailedInBackend(oppgaveId, false));
-            dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
+            dispatch(setFileUploadFailed(oppgaveElementIndex.toString(), false));
+            dispatch(setFileUploadFailedInBackend(oppgaveElementIndex.toString(), false));
+            dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveElementIndex.toString(), false));
 
             const filerMedFeil: Array<FilFeil> = findFilesWithError(files, oppgaveElementIndex);
             if (filerMedFeil.length === 0) {
@@ -86,8 +84,8 @@ const AddFile: React.FC<{
                         dispatch({
                             type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                             oppgaveElement: oppgaveElement,
-                            oppgaveElementIndex: oppgaveElementIndex,
-                            oppgaveIndex: oppgaveIndex,
+                            internalIndex: oppgaveElementIndex,
+                            externalIndex: oppgaveIndex,
                             fil: {
                                 filnavn: file.name,
                                 status: "INITIALISERT",
@@ -135,9 +133,9 @@ const AddFile: React.FC<{
                 <div className="oppgaver_last_opp_fil">
                     <Flatknapp
                         mini
-                        id={"oppgave_" + oppgaveElementIndex + "_last_opp_fil_knapp"}
+                        id={"oppgave_" + internalIndex + "_last_opp_fil_knapp"}
                         onClick={(event) => {
-                            onClick(oppgaveElementIndex, event);
+                            onClick(internalIndex, event);
                         }}
                     >
                         <UploadFileIcon className="last_opp_fil_ikon" />
@@ -147,11 +145,9 @@ const AddFile: React.FC<{
                     </Flatknapp>
                     <input
                         type="file"
-                        id={"file_" + oppgaveIndex + "_" + oppgaveElementIndex}
+                        id={"file_" + externalIndex + "_" + internalIndex}
                         multiple={true}
-                        onChange={(event: ChangeEvent) =>
-                            onChange(event, oppgaveElement, oppgaveElementIndex, oppgaveIndex)
-                        }
+                        onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, internalIndex, externalIndex)}
                         style={{display: "none"}}
                     />
                 </div>
