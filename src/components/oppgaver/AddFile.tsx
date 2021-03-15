@@ -80,7 +80,7 @@ const AddFile: React.FC<{
                             internalIndex: internalIndex,
                             oppgaveElement: oppgaveElement,
                             externalIndex: externalIndex,
-                            fil: {
+                            file: {
                                 filename: file.name,
                                 status: "INITIALISERT",
                                 file: file,
