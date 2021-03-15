@@ -3,10 +3,10 @@ import {
     InnsynsdataActionTypeKeys,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {FilFeil, findFilesWithError} from "../../utils/vedleggUtils";
+import {FileErrors, findFilesWithError} from "../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
+import {isUploadFilesAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {
     setFileAttachmentsUploadFailed,
     setFileUploadFailed,
@@ -25,26 +25,26 @@ type ChangeEvent = React.FormEvent<HTMLInputElement>;
 const AddFile: React.FC<{
     title: string;
     description: string | undefined;
-    oppgaveElement: DokumentasjonEtterspurtElement;
+    oppgaveElement: DokumentasjonEtterspurtElement; // todo må generaliseres
     internalIndex: number; // todo vurdere andre navn
     externalIndex: number; // todo vurdere andre navn
-    setListeMedFilerSomFeiler: (filerMedFeil: Array<FilFeil>) => void;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
+    setListWithFilesWithErrors: (filesWithErrors: Array<FileErrors>) => void;
+    setAboveMaxSize: (aboveMaxSize: boolean) => void;
 }> = ({
     title,
     description,
     oppgaveElement,
     internalIndex,
     externalIndex,
-    setListeMedFilerSomFeiler,
-    setOverMaksStorrelse,
+    setListWithFilesWithErrors,
+    setAboveMaxSize,
 }) => {
     const dispatch = useDispatch();
 
     const kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
+    const canUploadAttatchemnts: boolean = isUploadFilesAllowed(kommuneResponse);
 
     const onClick = (internalId: number, event?: any): void => {
         const handleOnLinkClicked = (response: boolean) => {
@@ -60,21 +60,16 @@ const AddFile: React.FC<{
         }
     };
 
-    const onChange = (
-        event: any,
-        oppgaveElement: DokumentasjonEtterspurtElement,
-        oppgaveElementIndex: number,
-        oppgaveIndex: number
-    ) => {
-        setListeMedFilerSomFeiler([]);
-        setOverMaksStorrelse(false);
+    const onChange = (event: any, oppgaveElement: DokumentasjonEtterspurtElement) => {
+        setListWithFilesWithErrors([]);
+        setAboveMaxSize(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            dispatch(setFileUploadFailed(oppgaveElementIndex.toString(), false));
-            dispatch(setFileUploadFailedInBackend(oppgaveElementIndex.toString(), false));
-            dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveElementIndex.toString(), false));
+            dispatch(setFileUploadFailed(internalIndex.toString(), false));
+            dispatch(setFileUploadFailedInBackend(internalIndex.toString(), false));
+            dispatch(setFileUploadFailedVirusCheckInBackend(internalIndex.toString(), false));
 
-            const filerMedFeil: Array<FilFeil> = findFilesWithError(files, oppgaveElementIndex);
+            const filerMedFeil: Array<FileErrors> = findFilesWithError(files, internalIndex);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
@@ -84,8 +79,8 @@ const AddFile: React.FC<{
                         dispatch({
                             type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                             oppgaveElement: oppgaveElement,
-                            internalIndex: oppgaveElementIndex,
-                            externalIndex: oppgaveIndex,
+                            internalIndex: internalIndex,
+                            externalIndex: externalIndex,
                             fil: {
                                 filename: file.name,
                                 status: "INITIALISERT",
@@ -95,9 +90,9 @@ const AddFile: React.FC<{
                     }
                 }
             } else {
-                setListeMedFilerSomFeiler(filerMedFeil);
-                filerMedFeil.forEach((fil: FilFeil) => {
-                    if (fil.containsUlovligeTegn) {
+                setListWithFilesWithErrors(filerMedFeil);
+                filerMedFeil.forEach((fil: FileErrors) => {
+                    if (fil.containsIllegalCharacters) {
                         logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
                     }
                     if (fil.legalCombinedFilesSize) {
@@ -129,7 +124,7 @@ const AddFile: React.FC<{
                     <Normaltekst className="luft_over_4px">{description}</Normaltekst>
                 </div>
             )}
-            {kanLasteOppVedlegg && (
+            {canUploadAttatchemnts && (
                 <div className="oppgaver_last_opp_fil">
                     <Flatknapp
                         mini
@@ -147,7 +142,7 @@ const AddFile: React.FC<{
                         type="file"
                         id={"file_" + externalIndex + "_" + internalIndex}
                         multiple={true}
-                        onChange={(event: ChangeEvent) => onChange(event, oppgaveElement, internalIndex, externalIndex)}
+                        onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
                         style={{display: "none"}}
                     />
                 </div>

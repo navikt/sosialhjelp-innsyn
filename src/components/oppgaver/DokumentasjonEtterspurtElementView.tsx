@@ -1,6 +1,6 @@
 import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {validerFilArrayForFeil, alertUser, writeErrorMessage, FilFeil} from "../../utils/vedleggUtils";
+import {validerFilArrayForFeil, alertUser, writeErrorMessage, FileErrors} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
@@ -23,7 +23,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveId,
     setOverMaksStorrelse,
 }) => {
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileErrors>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -47,8 +47,8 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 oppgaveElement={oppgaveElement}
                 internalIndex={oppgaveElementIndex}
                 externalIndex={oppgaveIndex}
-                setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
-                setOverMaksStorrelse={setOverMaksStorrelse}
+                setListWithFilesWithErrors={setListeMedFilerSomFeiler}
+                setAboveMaxSize={setOverMaksStorrelse}
             />
 
             {oppgaveElement.filer &&
