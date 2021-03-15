@@ -138,7 +138,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 }
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                    fil: {filnavn: fil.filnavn} as Fil,
+                                    fil: {filename: fil.filename} as Fil,
                                     status: fil.status,
                                     innsendelsesfrist: respons.innsendelsesfrist,
                                     dokumenttype: respons.type,

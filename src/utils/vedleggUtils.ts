@@ -71,11 +71,11 @@ const opprettFormDataMedVedlegg = (metadata: Metadata[]): FormData => {
         filgruppe.filer.forEach((fil: Fil) => {
             if (fil) {
                 if (fil.file) {
-                    formData.append("files", fil.file, fil.filnavn);
+                    formData.append("files", fil.file, fil.filename);
                 } else {
-                    if (fil.filnavn) {
+                    if (fil.filename) {
                         logWarningMessage(
-                            "Finner ikke innholdet til en fil av type: " + hentFileExtension(fil.filnavn)
+                            "Finner ikke innholdet til en fil av type: " + hentFileExtension(fil.filename)
                         );
                     }
                     logWarningMessage("Fil uten filnavn og innhold ble forsøkt lagt til i opprettFormDataMedVedlegg()");

@@ -110,9 +110,9 @@ describe("VedleggUtilsTest", () => {
 
         [
             {file: formDataEntryValues[0], filnavn: "metadata.json"},
-            {file: formDataEntryValues[1], filnavn: pngFile.filnavn},
-            {file: formDataEntryValues[2], filnavn: jpgFile.filnavn},
-            {file: formDataEntryValues[3], filnavn: pdfFile.filnavn},
+            {file: formDataEntryValues[1], filnavn: pngFile.filename},
+            {file: formDataEntryValues[2], filnavn: jpgFile.filename},
+            {file: formDataEntryValues[3], filnavn: pdfFile.filename},
         ].forEach((value: {file: FormDataEntryValue; filnavn: string}) => {
             const file = value.file as File;
             expect(file).toBeDefined();
@@ -133,8 +133,8 @@ describe("VedleggUtilsTest", () => {
 
         [
             {file: formDataMedTomFilEntryValues[0], filnavn: "metadata.json"},
-            {file: formDataMedTomFilEntryValues[1], filnavn: pngFile.filnavn},
-            {file: formDataMedTomFilEntryValues[2], filnavn: jpgFile.filnavn},
+            {file: formDataMedTomFilEntryValues[1], filnavn: pngFile.filename},
+            {file: formDataMedTomFilEntryValues[2], filnavn: jpgFile.filename},
         ].forEach((value: {file: FormDataEntryValue; filnavn: string}) => {
             const file = value.file as File;
             expect(file).toBeDefined();

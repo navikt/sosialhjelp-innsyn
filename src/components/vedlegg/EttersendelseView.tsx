@@ -109,7 +109,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         dispatch({
                             type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
                             fil: {
-                                filnavn: file.name,
+                                filename: file.name,
                                 status: "INITIALISERT",
                                 file: file,
                             },
@@ -165,7 +165,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             }
                             dispatch({
                                 type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
-                                fil: {filnavn: fileItem.filnavn} as Fil,
+                                fil: {filename: fileItem.filnavn} as Fil,
                                 status: fileItem.status,
                                 vedleggIndex: vedleggIndex,
                             });
