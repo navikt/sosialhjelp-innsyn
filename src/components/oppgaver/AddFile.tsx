@@ -23,8 +23,8 @@ import React from "react";
 type ChangeEvent = React.FormEvent<HTMLInputElement>;
 
 const AddFile: React.FC<{
-    typeTekst: string;
-    tilleggsinfoTekst: string | undefined;
+    title: string;
+    description: string | undefined;
     oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveIndex: number;
@@ -32,8 +32,8 @@ const AddFile: React.FC<{
     oppgaveId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
 }> = ({
-    typeTekst,
-    tilleggsinfoTekst,
+    title,
+    description,
     oppgaveElement,
     oppgaveElementIndex,
     oppgaveIndex,
@@ -124,11 +124,11 @@ const AddFile: React.FC<{
     return (
         <div className={"oppgave-detalj-overste-linje"}>
             <div className={"tekst-wrapping"}>
-                <Element>{typeTekst}</Element>
+                <Element>{title}</Element>
             </div>
-            {tilleggsinfoTekst && (
+            {description && (
                 <div className={"tekst-wrapping"}>
-                    <Normaltekst className="luft_over_4px">{tilleggsinfoTekst}</Normaltekst>
+                    <Normaltekst className="luft_over_4px">{description}</Normaltekst>
                 </div>
             )}
             {kanLasteOppVedlegg && (

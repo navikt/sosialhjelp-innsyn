@@ -42,8 +42,8 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <AddFile
-                typeTekst={typeTekst}
-                tilleggsinfoTekst={tilleggsinfoTekst}
+                title={typeTekst}
+                description={tilleggsinfoTekst}
                 oppgaveElement={oppgaveElement}
                 oppgaveElementIndex={oppgaveElementIndex}
                 oppgaveIndex={oppgaveIndex}
