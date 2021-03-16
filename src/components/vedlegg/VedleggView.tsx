@@ -194,7 +194,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {skalViseLastestripe(restStatus) && <LastestripeRad />}
+                        {skalViseLastestripe(restStatus, true) && <LastestripeRad />}
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
                                 <tr key={index}>
