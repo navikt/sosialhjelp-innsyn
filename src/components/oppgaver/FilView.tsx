@@ -42,7 +42,7 @@ const FilView: React.FC<{
             oppgaveElement: oppgaveElement,
             internalIndex: oppgaveElementIndex,
             externalIndex: oppgaveIndex,
-            fil: fil,
+            file: fil,
         });
         event.preventDefault();
     };

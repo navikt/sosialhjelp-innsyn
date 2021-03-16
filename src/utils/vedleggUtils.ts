@@ -130,7 +130,7 @@ export interface FileErrors {
     legalFileSize: boolean;
     legalCombinedFilesSize: boolean;
     arrayIndex: number;
-    oppgaveElemendIndex: number;
+    oppgaveElementIndex: number;
     filename: string;
 }
 
@@ -168,7 +168,6 @@ export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspu
 };
 
 export const hasFilesWithError = (filer: Fil[]) => {
-    console.log("filer med feil", filer);
     return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
@@ -187,7 +186,7 @@ export const writeErrorMessage = (listeMedFil: Array<FileErrors>, oppgaveElement
     };
 
     listeMedFil.forEach((value) => {
-        if (value.oppgaveElemendIndex === oppgaveElementIndex) {
+        if (value.oppgaveElementIndex === oppgaveElementIndex) {
             if (
                 value.containsIllegalCharacters ||
                 value.legalFileSize ||
@@ -225,7 +224,7 @@ export const writeErrorMessage = (listeMedFil: Array<FileErrors>, oppgaveElement
     return ReturnErrorMessage(flagg, filnavn, listeMedFil);
 };
 
-export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number): Array<FileErrors> => {
+export const findFilesWithError = (files: FileList, oppgaveElementIndex: number): Array<FileErrors> => {
     let sjekkMaxMengde = false;
     const filerMedFeil: Array<FileErrors> = [];
     let isCombinedFileSizeLegal = 0;
@@ -240,7 +239,7 @@ export const findFilesWithError = (files: FileList, oppgaveElemendIndex: number)
             legalFileSize: false,
             legalCombinedFilesSize: false,
             arrayIndex: vedleggIndex,
-            oppgaveElemendIndex: oppgaveElemendIndex,
+            oppgaveElementIndex: oppgaveElementIndex,
             filename: filename,
         };
 
