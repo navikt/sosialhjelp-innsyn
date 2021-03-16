@@ -1,6 +1,6 @@
 import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {validerFilArrayForFeil, alertUser, writeErrorMessage, FileErrors} from "../../utils/vedleggUtils";
+import {isFileErrorsNotEmpty, alertUser, writeErrorMessage, FileError} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
@@ -23,7 +23,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveId,
     setOverMaksStorrelse,
 }) => {
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileErrors>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -65,7 +65,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                         oppgaveId={oppgaveId}
                     />
                 ))}
-            {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
+            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
                 writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
         </div>
     );

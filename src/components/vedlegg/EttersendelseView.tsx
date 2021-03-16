@@ -22,12 +22,12 @@ import {
 import {fetchPost, fetchPostGetErrors, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
     opprettFormDataMedVedleggFraFiler,
-    FileErrors,
-    validerFilArrayForFeil,
+    FileError,
+    isFileErrorsNotEmpty,
     maxCombinedFileSize,
     writeErrorMessage,
     findFilesWithError,
-    hasFilesWithError,
+    hasFilesWithErrorStatus,
 } from "../../utils/vedleggUtils";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -50,7 +50,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileErrors>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
 
@@ -84,7 +84,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         event.returnValue = "";
     };
 
-    const opplastingFeilet = hasFilesWithError(filer);
+    const opplastingFeilet = hasFilesWithErrorStatus(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -100,7 +100,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
-            const filerMedFeil: Array<FileErrors> = findFilesWithError(files, 0);
+            const filerMedFeil: Array<FileError> = findFilesWithError(files, 0);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
@@ -275,7 +275,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 />
                             ))}
 
-                        {validerFilArrayForFeil(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
+                        {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                     </div>
 
                     <Hovedknapp

@@ -3,7 +3,7 @@ import {
     InnsynsdataActionTypeKeys,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {FileErrors, findFilesWithError} from "../../utils/vedleggUtils";
+import {FileError, findFilesWithError} from "../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
@@ -28,7 +28,7 @@ const AddFile: React.FC<{
     oppgaveElement: DokumentasjonEtterspurtElement; // todo må generaliseres
     internalIndex: number; // todo vurdere andre navn
     externalIndex: number; // todo vurdere andre navn
-    setListWithFilesWithErrors: (filesWithErrors: Array<FileErrors>) => void;
+    setListWithFilesWithErrors: (filesWithErrors: Array<FileError>) => void;
     setAboveMaxSize: (aboveMaxSize: boolean) => void;
 }> = ({
     title,
@@ -69,7 +69,7 @@ const AddFile: React.FC<{
             dispatch(setFileUploadFailedInBackend(internalIndex.toString(), false));
             dispatch(setFileUploadFailedVirusCheckInBackend(internalIndex.toString(), false));
 
-            const filesWithError: Array<FileErrors> = findFilesWithError(files, internalIndex);
+            const filesWithError: Array<FileError> = findFilesWithError(files, internalIndex);
             if (filesWithError.length === 0) {
                 Array.from(files).forEach((file: File) => {
                     if (!file) {
@@ -90,7 +90,7 @@ const AddFile: React.FC<{
                 });
             } else {
                 setListWithFilesWithErrors(filesWithError);
-                filesWithError.forEach((fil: FileErrors) => {
+                filesWithError.forEach((fil: FileError) => {
                     if (fil.containsIllegalCharacters) {
                         logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
                     }

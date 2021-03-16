@@ -124,7 +124,7 @@ export const legalFileExtension = (filename: string) => {
     return fileExtension.match(/jpe?g|png|pdf/i) !== null;
 };
 
-export interface FileErrors {
+export interface FileError {
     legalFileExtension: boolean;
     containsIllegalCharacters: boolean;
     legalFileSize: boolean;
@@ -134,8 +134,8 @@ export interface FileErrors {
     filename: string;
 }
 
-export const validerFilArrayForFeil = (listeMedFil: Array<FileErrors>) => {
-    return !!(listeMedFil && listeMedFil.length);
+export const isFileErrorsNotEmpty = (fileErrors: Array<FileError>) => {
+    return !!(fileErrors && fileErrors.length);
 };
 
 export const alertUser = (event: any) => {
@@ -163,17 +163,17 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
 //Todo må generaliseres mer når dok.krav blir tatt med
 export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
     return oppgaveElementer.find((oppgaveElement) => {
-        return !oppgaveElement.filer ? false : hasFilesWithError(oppgaveElement.filer);
+        return !oppgaveElement.filer ? false : hasFilesWithErrorStatus(oppgaveElement.filer);
     });
 };
 
-export const hasFilesWithError = (filer: Fil[]) => {
+export const hasFilesWithErrorStatus = (filer: Fil[]) => {
     return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
 };
 
-export const writeErrorMessage = (listeMedFil: Array<FileErrors>, oppgaveElementIndex: number) => {
+export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementIndex: number) => {
     let filnavn = "";
 
     const flagg = {
@@ -224,16 +224,16 @@ export const writeErrorMessage = (listeMedFil: Array<FileErrors>, oppgaveElement
     return ReturnErrorMessage(flagg, filnavn, listeMedFil);
 };
 
-export const findFilesWithError = (files: FileList, oppgaveElementIndex: number): Array<FileErrors> => {
+export const findFilesWithError = (files: FileList, oppgaveElementIndex: number): Array<FileError> => {
     let sjekkMaxMengde = false;
-    const filerMedFeil: Array<FileErrors> = [];
+    const filerMedFeil: Array<FileError> = [];
     let isCombinedFileSizeLegal = 0;
 
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
         const file: File = files[vedleggIndex];
         const filename = file.name;
 
-        let fileErrorObject: FileErrors = {
+        let fileErrorObject: FileError = {
             legalFileExtension: false,
             containsIllegalCharacters: false,
             legalFileSize: false,
