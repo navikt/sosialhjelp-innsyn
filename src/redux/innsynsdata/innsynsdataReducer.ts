@@ -61,7 +61,7 @@ export interface Vedlegg {
 
 export interface Fil {
     //todo: fin et bedre ord en "Fil" som dommeneord
-    filename: string;
+    filnavn: string;
     file?: File;
     status?: string;
 }
@@ -135,7 +135,7 @@ export interface VedleggActionType {
     vedleggIndex: number; // For å finne rett vedlegg i oppgaveElement
     internalIndex: number;
     externalIndex: number;
-    file: Fil;
+    fil: Fil;
     oppgaveElement: DokumentasjonEtterspurtElement;
     status?: string;
     restStatus?: REST_STATUS;
@@ -312,7 +312,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                     if (oppgaveElementIndex === action.internalIndex) {
                                         return {
                                             ...oppgaveElement,
-                                            filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.file],
+                                            filer: [...(oppgaveElement.filer ? oppgaveElement.filer : []), action.fil],
                                         };
                                     }
                                     return oppgaveElement;
@@ -327,7 +327,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave, oppgaveIndex) => {
-                    console.log("internalIndex ", oppgaveIndex, " ", "action.oppgaveindex", action.externalIndex);
                     if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
@@ -449,7 +448,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: [...(state.ettersendelse.filer ? state.ettersendelse.filer : []), action.file],
+                    filer: [...(state.ettersendelse.filer ? state.ettersendelse.filer : []), action.fil],
                 },
             };
         }

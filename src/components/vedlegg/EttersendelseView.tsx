@@ -101,27 +101,23 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
         if (files) {
             const filerMedFeil: Array<FileErrors> = findFilesWithError(files, 0);
-            console.log("filermedfeil1", filerMedFeil);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
                     if (!file) {
                         logInfoMessage("Tom fil ble forsøkt lagt til i EttersendelseView.onChange()");
                     } else {
-                        console.log("files1", file.name);
                         dispatch({
                             type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_ETTERSENDELSE,
-                            file: {
-                                filename: file.name,
+                            fil: {
+                                filnavn: file.name,
                                 status: "INITIALISERT",
                                 file: file,
                             },
                         });
-                        console.log("files2", file.name);
                     }
                 }
             } else {
-                console.log("filermedfeil2", filerMedFeil);
                 setListeMedFilerSomFeiler(filerMedFeil);
             }
         }
@@ -170,7 +166,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             }
                             dispatch({
                                 type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
-                                fil: {filename: fileItem.filnavn} as Fil,
+                                fil: {filnavn: fileItem.filnavn} as Fil,
                                 status: fileItem.status,
                                 vedleggIndex: vedleggIndex,
                             });
@@ -211,7 +207,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         overMaksStorrelse ||
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
-    console.log("opplastingFeilet", opplastingFeilet);
+
     return (
         <>
             <DriftsmeldingVedlegg

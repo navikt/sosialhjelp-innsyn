@@ -42,7 +42,7 @@ const FilView: React.FC<{
             oppgaveElement: oppgaveElement,
             internalIndex: oppgaveElementIndex,
             externalIndex: oppgaveIndex,
-            file: fil,
+            fil: fil,
         });
         event.preventDefault();
     };
@@ -68,7 +68,7 @@ const FilView: React.FC<{
                         className="filnavn lenke_uten_ramme"
                         onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
                     >
-                        {fil.filename}
+                        {fil.filnavn}
                     </Lenke>
                     <span className="filstorrelse">({storrelse})</span>
                 </div>
