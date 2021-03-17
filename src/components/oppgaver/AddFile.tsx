@@ -60,7 +60,24 @@ const AddFile: React.FC<{
         }
     };
 
-    const onChange = (event: any, oppgaveElement: DokumentasjonEtterspurtElement) => {
+    function logFilesWithErrors(filesWithError: Array<FileError>) {
+        filesWithError.forEach((fil: FileError) => {
+            if (fil.containsIllegalCharacters) {
+                logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
+            }
+            if (fil.legalCombinedFilesSize) {
+                logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
+            }
+            if (fil.legalFileExtension) {
+                logInfoMessage("Validering vedlegg feilet: Ulovlig filtype");
+            }
+            if (fil.legalFileSize) {
+                logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
+            }
+        });
+    }
+
+    const onChange = (event: any) => {
         setListWithFilesWithErrors([]);
         setAboveMaxSize(false);
         const files: FileList | null = event.currentTarget.files;
@@ -90,20 +107,7 @@ const AddFile: React.FC<{
                 });
             } else {
                 setListWithFilesWithErrors(filesWithError);
-                filesWithError.forEach((fil: FileError) => {
-                    if (fil.containsIllegalCharacters) {
-                        logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
-                    }
-                    if (fil.legalCombinedFilesSize) {
-                        logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
-                    }
-                    if (fil.legalFileExtension) {
-                        logInfoMessage("Validering vedlegg feilet: Ulovlig filtype");
-                    }
-                    if (fil.legalFileSize) {
-                        logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
-                    }
-                });
+                logFilesWithErrors(filesWithError);
             }
         }
         if (event.target.value === "") {
@@ -141,7 +145,7 @@ const AddFile: React.FC<{
                         type="file"
                         id={"file_" + externalIndex + "_" + internalIndex}
                         multiple={true}
-                        onChange={(event: ChangeEvent) => onChange(event, oppgaveElement)}
+                        onChange={(event: ChangeEvent) => onChange(event)}
                         style={{display: "none"}}
                     />
                 </div>
