@@ -25,9 +25,9 @@ type ChangeEvent = React.FormEvent<HTMLInputElement>;
 const AddFile: React.FC<{
     title: string;
     description: string | undefined;
-    oppgaveElement: DokumentasjonEtterspurtElement; // todo må generaliseres
-    internalIndex: number; // todo vurdere andre navn
-    externalIndex: number; // todo vurdere andre navn
+    oppgaveElement: DokumentasjonEtterspurtElement; //  -----må generaliseres i digisos-2093
+    internalIndex: number; // disse 2 brukes til å skille hvor feilmeldinger
+    externalIndex: number; // og filer ligger
     setListWithFilesWithErrors: (filesWithErrors: Array<FileError>) => void;
     setAboveMaxSize: (aboveMaxSize: boolean) => void;
 }> = ({
