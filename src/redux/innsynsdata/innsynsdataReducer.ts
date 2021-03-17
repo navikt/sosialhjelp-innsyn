@@ -60,7 +60,6 @@ export interface Vedlegg {
 }
 
 export interface Fil {
-    //todo: fin et bedre ord en "Fil" som dommeneord
     filnavn: string;
     file?: File;
     status?: string;

@@ -3,7 +3,6 @@ import ErrorMessage from "./ErrorMessage";
 import ErrorMessageTitle from "./ErrorMessageTitle";
 
 const ReturnErrorMessage = (flagg: any, filnavn: any, listeMedFil: any) => {
-    // todo sjekk om dette kan skrives type <ErrorMessage .....>
     return (
         <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
             {flagg.ulovligFil && ErrorMessageTitle("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}

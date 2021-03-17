@@ -160,7 +160,6 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
-//Todo må generaliseres mer når dok.krav blir tatt med
 export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
     return oppgaveElementer.find((oppgaveElement) => {
         return !oppgaveElement.filer ? false : hasFilesWithErrorStatus(oppgaveElement.filer);
