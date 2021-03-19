@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {Element, Normaltekst} from "nav-frontend-typografi";
-import UploadFileIcon from "../ikoner/UploadFile";
+import {Normaltekst} from "nav-frontend-typografi";
 import {
     Fil,
     InnsynsdataActionTypeKeys,
@@ -11,15 +10,12 @@ import {
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {OriginalSoknadVedleggType} from "../../redux/soknadsdata/vedleggTypes";
-import {originalSoknadVedleggTekstVisning} from "../../redux/soknadsdata/vedleggskravVisningConfig";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
-    setFileAttachmentsUploadFailed,
     hentOppgaveMedId,
     setFileUploadFailed,
     setFileUploadFailedInBackend,
@@ -28,15 +24,14 @@ import {
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
 import {
-    containsUlovligeTegn,
-    legalCombinedFilesSize,
-    legalFileSize,
-    legalFileExtension,
-    FilFeil,
     opprettFormDataMedVedleggFraOppgaver,
-    maxMengdeStorrelse,
+    alertUser,
+    oppgaveHasFilesWithError,
+    hasNotAddedFiles,
+    getVisningstekster,
+    maxCombinedFileSize,
 } from "../../utils/vedleggUtils";
-import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
+import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
@@ -47,333 +42,6 @@ interface Props {
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
-
-type ChangeEvent = React.FormEvent<HTMLInputElement>;
-
-export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
-    let typeTekst,
-        tilleggsinfoTekst,
-        sammensattType = type + "|" + tilleggsinfo,
-        erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some((val) => val === sammensattType);
-
-    if (erOriginalSoknadVedleggType) {
-        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!!;
-        typeTekst = soknadVedleggSpec.tittel;
-        tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
-    } else {
-        typeTekst = type;
-        tilleggsinfoTekst = tilleggsinfo;
-    }
-    return {typeTekst, tilleggsinfoTekst};
-};
-
-const harFilerMedFeil = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
-    return oppgaveElementer.find((oppgaveElement) => {
-        return !oppgaveElement.filer
-            ? false
-            : oppgaveElement.filer.find((it) => {
-                  return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
-              });
-    });
-};
-
-const feilmeldingComponentTittel = (feilId: string, filnavn: string, listeMedFil: any) => {
-    if (listeMedFil.length > 1) {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{antallFiler: listeMedFil.length}} />
-            </SkjemaelementFeilmelding>
-        );
-    } else if (listeMedFil.length === 1) {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} values={{filnavn: filnavn}} />
-            </SkjemaelementFeilmelding>
-        );
-    } else {
-        return (
-            <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={feilId} />
-            </SkjemaelementFeilmelding>
-        );
-    }
-};
-
-const feilmeldingComponent = (feilId: string) => {
-    return (
-        <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding">
-            <li>
-                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
-                    <FormattedMessage id={feilId} />
-                </span>
-            </li>
-        </SkjemaelementFeilmelding>
-    );
-};
-
-function returnFeilmeldingComponent(flagg: any, filnavn: any, listeMedFil: any) {
-    return (
-        <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
-            {flagg.ulovligFil && feilmeldingComponentTittel("vedlegg.ulovlig_en_fil_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFiler && feilmeldingComponentTittel("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
-            {flagg.maxSammensattFilStorrelse &&
-                feilmeldingComponentTittel("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
-            {flagg.containsUlovligeTegn && feilmeldingComponent("vedlegg.ulovlig_filnavn_feilmelding")}
-            {flagg.legalFileExtension && feilmeldingComponent("vedlegg.ulovlig_filtype_feilmelding")}
-            {flagg.maxFilStorrelse && feilmeldingComponent("vedlegg.ulovlig_filstorrelse_feilmelding")}
-        </ul>
-    );
-}
-
-export function skrivFeilmelding(listeMedFil: Array<FilFeil>, oppgaveElementIndex: number) {
-    let filnavn = "";
-
-    const flagg = {
-        ulovligFil: false,
-        ulovligFiler: false,
-        legalFileExtension: false,
-        containsUlovligeTegn: false,
-        maxFilStorrelse: false,
-        maxSammensattFilStorrelse: false,
-    };
-
-    listeMedFil.forEach((value) => {
-        if (value.oppgaveElemendIndex === oppgaveElementIndex) {
-            if (
-                value.containsUlovligeTegn ||
-                value.legalFileSize ||
-                value.legalFileExtension ||
-                value.legalCombinedFilesSize
-            ) {
-                if (listeMedFil.length === 1) {
-                    filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
-                    flagg.ulovligFil = true;
-                } else {
-                    flagg.ulovligFiler = true;
-                    flagg.ulovligFil = false;
-                }
-                if (value.legalFileSize) {
-                    flagg.maxFilStorrelse = true;
-                }
-                if (value.containsUlovligeTegn) {
-                    flagg.containsUlovligeTegn = true;
-                }
-                if (value.legalFileExtension) {
-                    flagg.legalFileExtension = true;
-                }
-                if (value.legalCombinedFilesSize) {
-                    flagg.maxSammensattFilStorrelse = true;
-                    flagg.maxFilStorrelse = false;
-                    flagg.containsUlovligeTegn = false;
-                    flagg.legalFileExtension = false;
-                    flagg.ulovligFiler = false;
-                    flagg.ulovligFil = false;
-                }
-            }
-        }
-    });
-
-    return returnFeilmeldingComponent(flagg, filnavn, listeMedFil);
-}
-
-export function finnFilerMedFeil(files: FileList, oppgaveElemendIndex: number): Array<FilFeil> {
-    let sjekkMaxMengde = false;
-    const filerMedFeil: Array<FilFeil> = [];
-    let isCombinedFileSizeLegal = 0;
-
-    for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
-        const file: File = files[vedleggIndex];
-        const filename = file.name;
-
-        let fileErrorObject: FilFeil = {
-            legalFileExtension: false,
-            containsUlovligeTegn: false,
-            legalFileSize: false,
-            legalCombinedFilesSize: false,
-            arrayIndex: vedleggIndex,
-            oppgaveElemendIndex: oppgaveElemendIndex,
-            filename: filename,
-        };
-
-        if (!legalFileExtension(filename)) {
-            fileErrorObject.legalFileExtension = true;
-        }
-        if (containsUlovligeTegn(filename)) {
-            fileErrorObject.containsUlovligeTegn = true;
-        }
-        if (legalFileSize(file)) {
-            fileErrorObject.legalFileSize = true;
-        }
-        if (legalCombinedFilesSize(isCombinedFileSizeLegal)) {
-            sjekkMaxMengde = true;
-            fileErrorObject.legalCombinedFilesSize = true;
-        }
-
-        if (
-            fileErrorObject.legalFileExtension ||
-            fileErrorObject.containsUlovligeTegn ||
-            fileErrorObject.legalFileSize ||
-            fileErrorObject.legalCombinedFilesSize
-        ) {
-            filerMedFeil.push(fileErrorObject);
-        }
-        isCombinedFileSizeLegal += file.size;
-    }
-
-    if (sjekkMaxMengde) {
-        logInfoMessage(
-            "Bruker prøvde å laste opp over 150 mb. Størrelse på vedlegg var: " +
-                isCombinedFileSizeLegal / (1024 * 1024)
-        );
-    }
-    return filerMedFeil;
-}
-
-function harIkkeValgtFiler(oppgave: DokumentasjonEtterspurt | null) {
-    let antall = 0;
-    oppgave &&
-        oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
-            oppgaveElement.filer &&
-                oppgaveElement.filer.forEach(() => {
-                    antall += 1;
-                });
-        });
-    return antall === 0;
-}
-
-export const alertUser = (event: any) => {
-    event.preventDefault();
-    event.returnValue = "";
-};
-
-export const VelgFil = (props: {
-    typeTekst: string;
-    tilleggsinfoTekst: string | undefined;
-    oppgaveElement: DokumentasjonEtterspurtElement;
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
-    setListeMedFilerSomFeiler: (filerMedFeil: Array<FilFeil>) => void;
-    oppgaveId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-}) => {
-    const dispatch = useDispatch();
-
-    const kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
-
-    const onClick = (oppgaveElementIndex: number, event?: any): void => {
-        const handleOnLinkClicked = (response: boolean) => {
-            dispatch(setFileAttachmentsUploadFailed(response));
-        };
-        if (handleOnLinkClicked) {
-            handleOnLinkClicked(false);
-        }
-        const uploadElement: any = document.getElementById("file_" + props.oppgaveIndex + "_" + oppgaveElementIndex);
-        uploadElement.click();
-        if (event) {
-            event.preventDefault();
-        }
-    };
-
-    const onChange = (
-        event: any,
-        oppgaveElement: DokumentasjonEtterspurtElement,
-        oppgaveElementIndex: number,
-        oppgaveIndex: number
-    ) => {
-        props.setListeMedFilerSomFeiler([]);
-        props.setOverMaksStorrelse(false);
-        const files: FileList | null = event.currentTarget.files;
-        if (files) {
-            dispatch(setFileUploadFailed(props.oppgaveId, false));
-            dispatch(setFileUploadFailedInBackend(props.oppgaveId, false));
-            dispatch(setFileUploadFailedVirusCheckInBackend(props.oppgaveId, false));
-
-            const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, oppgaveElementIndex);
-            if (filerMedFeil.length === 0) {
-                for (let index = 0; index < files.length; index++) {
-                    const file: File = files[index];
-                    if (!file) {
-                        logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
-                    } else {
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
-                            oppgaveElement: oppgaveElement,
-                            oppgaveElementIndex: oppgaveElementIndex,
-                            oppgaveIndex: oppgaveIndex,
-                            fil: {
-                                filnavn: file.name,
-                                status: "INITIALISERT",
-                                file: file,
-                            },
-                        });
-                    }
-                }
-            } else {
-                props.setListeMedFilerSomFeiler(filerMedFeil);
-                filerMedFeil.forEach((fil: FilFeil) => {
-                    if (fil.containsUlovligeTegn) {
-                        logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
-                    }
-                    if (fil.legalCombinedFilesSize) {
-                        logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
-                    }
-                    if (fil.legalFileExtension) {
-                        logInfoMessage("Validering vedlegg feilet: Ulovlig filtype");
-                    }
-                    if (fil.legalFileSize) {
-                        logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
-                    }
-                });
-            }
-        }
-        if (event.target.value === "") {
-            return;
-        }
-        event.target.value = null;
-        event.preventDefault();
-    };
-
-    return (
-        <div className={"oppgave-detalj-overste-linje"}>
-            <div className={"tekst-wrapping"}>
-                <Element>{props.typeTekst}</Element>
-            </div>
-            {props.tilleggsinfoTekst && (
-                <div className={"tekst-wrapping"}>
-                    <Normaltekst className="luft_over_4px">{props.tilleggsinfoTekst}</Normaltekst>
-                </div>
-            )}
-            {kanLasteOppVedlegg && (
-                <div className="oppgaver_last_opp_fil">
-                    <Flatknapp
-                        mini
-                        id={"oppgave_" + props.oppgaveElementIndex + "_last_opp_fil_knapp"}
-                        onClick={(event) => {
-                            onClick(props.oppgaveElementIndex, event);
-                        }}
-                    >
-                        <UploadFileIcon className="last_opp_fil_ikon" />
-                        <Element>
-                            <FormattedMessage id="vedlegg.velg_fil" />
-                        </Element>
-                    </Flatknapp>
-                    <input
-                        type="file"
-                        id={"file_" + props.oppgaveIndex + "_" + props.oppgaveElementIndex}
-                        multiple={true}
-                        onChange={(event: ChangeEvent) =>
-                            onChange(event, props.oppgaveElement, props.oppgaveElementIndex, props.oppgaveIndex)
-                        }
-                        style={{display: "none"}}
-                    />
-                </div>
-            )}
-        </div>
-    );
-};
 
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
@@ -390,9 +58,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
-    const opplastingFeilet = harFilerMedFeil(dokumentasjonEtterspurt.oppgaveElementer);
+    const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
 
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonEtterspurt.innsendelsesfrist!!));
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
@@ -428,7 +96,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
 
-        const ingenFilerValgt = harIkkeValgtFiler(dokumentasjonEtterspurt);
+        const ingenFilerValgt = hasNotAddedFiles(dokumentasjonEtterspurt);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
 
         setOverMaksStorrelse(false);
@@ -442,7 +110,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 0
             );
 
-        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse);
+        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
 
         if (ingenFilerValgt) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -451,12 +119,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             return;
         }
 
-        if (sammensattFilStorrelseForOppgaveElement > maxMengdeStorrelse) {
+        if (sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize) {
             logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
         }
 
         if (
-            sammensattFilStorrelseForOppgaveElement < maxMengdeStorrelse &&
+            sammensattFilStorrelseForOppgaveElement < maxCombinedFileSize &&
             sammensattFilStorrelseForOppgaveElement !== 0
         ) {
             fetchPost(path, formData, "multipart/form-data")

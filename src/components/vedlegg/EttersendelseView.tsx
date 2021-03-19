@@ -22,22 +22,19 @@ import {
 import {fetchPost, fetchPostGetErrors, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
     opprettFormDataMedVedleggFraFiler,
-    FilFeil,
-    validerFilArrayForFeil,
-    maxMengdeStorrelse,
+    FileError,
+    isFileErrorsNotEmpty,
+    maxCombinedFileSize,
+    writeErrorMessage,
+    findFilesWithError,
+    hasFilesWithErrorStatus,
 } from "../../utils/vedleggUtils";
-import {skrivFeilmelding, finnFilerMedFeil} from "../oppgaver/DokumentasjonEtterspurtView";
-import {erOpplastingAvVedleggTillat} from "../driftsmelding/DriftsmeldingUtilities";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
-function harFilermedFeil(filer: Fil[]) {
-    return filer.find((it) => {
-        return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
-    });
-}
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
  * brukt sånnn at man slipper å lage egne actions
@@ -53,8 +50,10 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
+
     const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
+
     const vedleggKlarForOpplasting = filer.length > 0;
     const [sendVedleggTrykket, setSendVedleggTrykket] = useState<boolean>(false);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
@@ -85,7 +84,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         event.returnValue = "";
     };
 
-    const opplastingFeilet = harFilermedFeil(filer);
+    const opplastingFeilet = hasFilesWithErrorStatus(filer);
 
     const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         setSendVedleggTrykket(false);
@@ -101,8 +100,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
-            const filerMedFeil: Array<FilFeil> = finnFilerMedFeil(files, 0);
-
+            const filerMedFeil: Array<FileError> = findFilesWithError(files, 0);
             if (filerMedFeil.length === 0) {
                 for (let index = 0; index < files.length; index++) {
                     const file: File = files[index];
@@ -151,9 +149,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             0
         );
 
-        setOverMaksStorrelse(totaltSammensattFilStorrelse > maxMengdeStorrelse);
+        setOverMaksStorrelse(totaltSammensattFilStorrelse > maxCombinedFileSize);
 
-        if (totaltSammensattFilStorrelse < maxMengdeStorrelse && totaltSammensattFilStorrelse !== 0) {
+        if (totaltSammensattFilStorrelse < maxCombinedFileSize && totaltSammensattFilStorrelse !== 0) {
             dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
 
             fetchPost(path, formData, "multipart/form-data")
@@ -200,7 +198,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
     const visDetaljeFeiler: boolean =
         opplastingFeilet !== undefined ||
@@ -277,7 +275,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 />
                             ))}
 
-                        {validerFilArrayForFeil(listeMedFilerSomFeiler) && skrivFeilmelding(listeMedFilerSomFeiler, 0)}
+                        {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                     </div>
 
                     <Hovedknapp

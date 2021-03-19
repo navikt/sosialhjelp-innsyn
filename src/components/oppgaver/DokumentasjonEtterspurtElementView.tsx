@@ -1,10 +1,10 @@
 import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {FilFeil, validerFilArrayForFeil} from "../../utils/vedleggUtils";
+import {isFileErrorsNotEmpty, alertUser, writeErrorMessage, FileError} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FilView from "./FilView";
-import {skrivFeilmelding, alertUser, VelgFil} from "./DokumentasjonEtterspurtView";
+import AddFile from "./AddFile";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;
@@ -23,7 +23,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveId,
     setOverMaksStorrelse,
 }) => {
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FilFeil>>([]);
+    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -41,15 +41,14 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <VelgFil
-                typeTekst={typeTekst}
-                tilleggsinfoTekst={tilleggsinfoTekst}
+            <AddFile
+                title={typeTekst}
+                description={tilleggsinfoTekst}
                 oppgaveElement={oppgaveElement}
-                oppgaveElementIndex={oppgaveElementIndex}
-                oppgaveIndex={oppgaveIndex}
-                setListeMedFilerSomFeiler={setListeMedFilerSomFeiler}
-                oppgaveId={oppgaveId}
-                setOverMaksStorrelse={setOverMaksStorrelse}
+                internalIndex={oppgaveElementIndex}
+                externalIndex={oppgaveIndex}
+                setListWithFilesWithErrors={setListeMedFilerSomFeiler}
+                setAboveMaxSize={setOverMaksStorrelse}
             />
 
             {oppgaveElement.filer &&
@@ -66,8 +65,8 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                         oppgaveId={oppgaveId}
                     />
                 ))}
-            {validerFilArrayForFeil(listeMedFilerSomFeiler) &&
-                skrivFeilmelding(listeMedFilerSomFeiler, oppgaveElementIndex)}
+            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
+                writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
         </div>
     );
 };

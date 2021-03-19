@@ -1,6 +1,6 @@
 import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {
-    containsUlovligeTegn,
+    containsIllegalCharacters,
     HendelseTypeEnum,
     hentFileExtension,
     generateMetadataFromAndreVedlegg,
@@ -164,26 +164,26 @@ describe("VedleggUtilsTest", () => {
 
     it("should validate filenames", () => {
         const filename = "gyldigfilnavn.jpg";
-        expect(containsUlovligeTegn(filename)).toBe(false);
+        expect(containsIllegalCharacters(filename)).toBe(false);
     });
 
     it("should properly validate norwegian characters in filenames", () => {
         const filename = "æøå.pdf";
-        expect(containsUlovligeTegn(filename)).toBe(false);
+        expect(containsIllegalCharacters(filename)).toBe(false);
     });
 
     it("should reject illegal characters in filenames", () => {
         const filename = "[abc]&.pdf";
-        expect(containsUlovligeTegn(filename)).toBe(true);
+        expect(containsIllegalCharacters(filename)).toBe(true);
     });
 
     it("should properly validate decomposed filename", () => {
         const filename = "a\u030AA\u030A.pdf";
-        expect(containsUlovligeTegn(filename)).toBe(false);
+        expect(containsIllegalCharacters(filename)).toBe(false);
     });
 
     it("should reject ring modifier key", () => {
         const filename = "\u030A.pdf";
-        expect(containsUlovligeTegn(filename)).toBe(true);
+        expect(containsIllegalCharacters(filename)).toBe(true);
     });
 });

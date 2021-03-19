@@ -39,9 +39,9 @@ const FilView: React.FC<{
                 ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
                 : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
             vedleggIndex: vedleggIndex,
-            oppgaveElementIndex: oppgaveElementIndex,
             oppgaveElement: oppgaveElement,
-            oppgaveIndex: oppgaveIndex,
+            internalIndex: oppgaveElementIndex,
+            externalIndex: oppgaveIndex,
             fil: fil,
         });
         event.preventDefault();

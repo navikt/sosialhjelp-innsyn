@@ -65,7 +65,7 @@ export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneRespon
     } as Driftsmelding;
 };
 
-export const erOpplastingAvVedleggTillat = (kommuneInfo: KommuneResponse | undefined): boolean => {
+export const isFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined): boolean => {
     if (kommuneInfo) {
         if (kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert) {
             return false;

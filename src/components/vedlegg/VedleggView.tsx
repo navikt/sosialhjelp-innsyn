@@ -10,9 +10,9 @@ import "./responsiv_tabell.less";
 import "../lastestriper/lastestriper.less";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
-import {getVisningstekster} from "../oppgaver/DokumentasjonEtterspurtView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
+import {getVisningstekster} from "../../utils/vedleggUtils";
 
 interface Props {
     vedlegg: Vedlegg[];
