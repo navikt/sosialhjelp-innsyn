@@ -141,15 +141,20 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus)} />
 
                         <div>
-                            {oppgaver !== null &&
-                                oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
-                                    <DokumentasjonEtterspurtView
-                                        dokumentasjonEtterspurt={oppgave}
-                                        key={oppgaveIndex}
-                                        oppgaverErFraInnsyn={oppgaverErFraInnsyn}
-                                        oppgaveIndex={oppgaveIndex}
-                                    />
-                                ))}
+                            {
+                                //oppgaver !== null &&
+                                //   oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
+                                //       <DokumentasjonEtterspurtView
+                                //           dokumentasjonEtterspurt={oppgave}
+                                //           key={oppgaveIndex}
+                                //           oppgaverErFraInnsyn={oppgaverErFraInnsyn}
+                                //           oppgaveIndex={oppgaveIndex}
+                                //       />
+                                //   ))
+                            }
+                            <OppgaveView oppgaver={dokumentasjonetterspurt} type={"dokumentasjonetterspurt"} />
+                            <OppgaveView oppgaver={vilkar} type={"vilkar"} />
+                            <OppgaveView oppgaver={dokumentasjonkrav} type={"dokumentasjonkrav"} />
                         </div>
                     </Ekspanderbartpanel>
                 </Panel>
