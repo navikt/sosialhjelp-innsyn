@@ -88,6 +88,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60)
         );
     };
+    console.log("innsyndata", innsynsdata);
 
     return (
         <>
@@ -149,8 +150,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         />
                     )}
 
-                    {(erPaInnsyn || innsynsdata.dokumentasjonEtterspurt.length > 0) && (
-                        <Oppgaver oppgaver={innsynsdata.dokumentasjonEtterspurt} restStatus={restStatus.oppgaver} />
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
+                        <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
                     )}
 
                     {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (

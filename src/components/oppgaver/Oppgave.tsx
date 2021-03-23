@@ -6,6 +6,7 @@ interface Props {
 }
 
 const OppgaveView: React.FC<Props> = ({oppgave}) => {
+    console.log(oppgave);
     return (
         <div>
             {oppgave.tittel}

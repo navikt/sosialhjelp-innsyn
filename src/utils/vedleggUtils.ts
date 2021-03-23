@@ -30,8 +30,8 @@ export const opprettFormDataMedVedleggFraOppgaver = (oppgave: DokumentasjonEtter
 
 export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
-        type: oppgaveElement.dokumenttype,
-        tilleggsinfo: oppgaveElement.tilleggsinformasjon,
+        type: oppgaveElement.tittel,
+        tilleggsinfo: oppgaveElement.beskrivelse,
         innsendelsesfrist: oppgave.innsendelsesfrist,
         filer: oppgaveElement.filer ? oppgaveElement.filer : [],
         hendelsetype: oppgaveElement.hendelsetype,

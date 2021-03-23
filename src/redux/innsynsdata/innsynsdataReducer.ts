@@ -87,9 +87,6 @@ export interface DokumentasjonEtterspurt extends OppgaveListe {
 }
 
 export interface DokumentasjonEtterspurtElement extends OppgaveInnhold {
-    dokumenttype: string;
-    tilleggsinformasjon?: string;
-    erFraInnsyn: boolean;
     hendelsetype: HendelseTypeEnum | undefined;
     hendelsereferanse: string | undefined;
     filer?: Fil[];
@@ -207,7 +204,7 @@ const initiellKommuneResponse_antarAltOk: KommuneResponse = {
 export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
-    dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
+    oppgaver: DokumentasjonEtterspurt[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -226,7 +223,7 @@ export interface InnsynsdataType {
 
 export const initialInnsynsdataRestStatus = {
     saksStatus: REST_STATUS.INITIALISERT,
-    oppgaver: REST_STATUS.INITIALISERT,
+    dokumentasjonEtterspurt: REST_STATUS.INITIALISERT,
     soknadsStatus: REST_STATUS.INITIALISERT,
     hendelser: REST_STATUS.INITIALISERT,
     vedlegg: REST_STATUS.INITIALISERT,
@@ -239,7 +236,7 @@ export const initialInnsynsdataRestStatus = {
 export const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
-    dokumentasjonEtterspurt: [],
+    oppgaver: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
@@ -296,14 +293,14 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             if (oppgave.length === 0) {
                 return {
                     ...state,
-                    oppgaver: state.dokumentasjonEtterspurt.filter(
+                    oppgaver: state.oppgaver.filter(
                         (oppgave: DokumentasjonEtterspurt) => oppgave.oppgaveId !== action.oppgaveId
                     ),
                 };
             }
             return {
                 ...state,
-                oppgaver: state.dokumentasjonEtterspurt.map((oppgave) => {
+                oppgaver: state.oppgaver.map((oppgave) => {
                     if (oppgave.oppgaveId === action.oppgaveId) {
                         return action.verdi[0];
                     }
@@ -317,7 +314,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.dokumentasjonEtterspurt.map((oppgave, oppgaveIndex: number) => {
+                oppgaver: state.oppgaver.map((oppgave, oppgaveIndex: number) => {
                     if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
@@ -340,15 +337,15 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.dokumentasjonEtterspurt.map((oppgave, oppgaveIndex) => {
+                oppgaver: state.oppgaver.map((oppgave, oppgaveIndex) => {
                     if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
                             oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                                 if (
                                     oppgaveElementIndex === action.internalIndex &&
-                                    oppgaveElement.dokumenttype === action.oppgaveElement.dokumenttype &&
-                                    oppgaveElement.tilleggsinformasjon === action.oppgaveElement.tilleggsinformasjon
+                                    oppgaveElement.tittel === action.oppgaveElement.tittel &&
+                                    oppgaveElement.beskrivelse === action.oppgaveElement.beskrivelse
                                 ) {
                                     return {
                                         ...oppgaveElement,
@@ -369,7 +366,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
             return {
                 ...state,
-                oppgaver: state.dokumentasjonEtterspurt.map((oppgave) => {
+                oppgaver: state.oppgaver.map((oppgave) => {
                     if (oppgave.innsendelsesfrist !== action.innsendelsesfrist) {
                         return oppgave;
                     }
@@ -378,8 +375,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         ...oppgave,
                         oppgaveElementer: oppgave.oppgaveElementer.map((oppgaveElement) => {
                             if (
-                                oppgaveElement.dokumenttype !== action.dokumenttype ||
-                                oppgaveElement.tilleggsinformasjon !== action.tilleggsinfo
+                                oppgaveElement.tittel !== action.dokumenttype ||
+                                oppgaveElement.beskrivelse !== action.tilleggsinfo
                             ) {
                                 return oppgaveElement;
                             }

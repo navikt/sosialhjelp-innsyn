@@ -13,7 +13,7 @@ describe("IngenOppgaverPanel", () => {
         {
             oppgaveElementer: [
                 {
-                    dokumenttype: "asdf",
+                    tittel: "asdf",
                     erFraInnsyn: true,
                 } as DokumentasjonEtterspurtElement,
             ],
