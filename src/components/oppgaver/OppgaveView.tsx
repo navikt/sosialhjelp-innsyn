@@ -1,12 +1,20 @@
 import React from "react";
-import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Oppgaver} from "../../redux/innsynsdata/innsynsdataReducer";
+import Oppgave from "./Oppgave";
 
 interface Props {
-    oppgave: Oppgave;
+    oppgave: Oppgaver;
 }
 
 const OppgaveView: React.FC<Props> = ({oppgave}) => {
-    return <div>{oppgave.tittel}</div>;
+    return (
+        <div>
+            {oppgave.oppgaveId}
+            <Oppgave
+                oppgave={oppgave.oppgaveElementer[0]} // må være en forEach
+            />
+        </div>
+    );
 };
 
 export default OppgaveView;

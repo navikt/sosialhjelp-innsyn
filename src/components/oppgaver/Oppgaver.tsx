@@ -6,7 +6,7 @@ import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import OppgaveView from "./OppgaveView";
-import {DokumentasjonEtterspurt, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -156,7 +156,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
                             {oppgaver !== null &&
                                 oppgaver.map((dok: DokumentasjonEtterspurt, oppgaveIndex: number) => (
-                                    <OppgaveView oppgave={Oppgave(dok.oppgaveId)} />
+                                    <OppgaveView oppgave={dok} />
                                 ))}
 
                             {

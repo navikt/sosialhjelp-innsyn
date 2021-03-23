@@ -65,14 +65,24 @@ export interface Fil {
     status?: string;
 }
 
-export interface DokumentasjonEtterspurt {
+export interface Oppgaver {
+    // Krav med en frist
     innsendelsesfrist?: string;
     oppgaveId: string;
-    oppgaveElementer: DokumentasjonEtterspurtElement[]; // todo rename felt til dokumentasjonEtterspurtElementer
+    oppgaveElementer: Oppgave[]; //Flere dokumentasjonskrav
 }
 
 export interface Oppgave {
     tittel: string;
+    beskrivelse: string;
+}
+//<Oppgaver liste med DokumentasjonEtterspurt> -  på sikt liste med Oppgave
+//    <OppgaveView tar i mot ett object av DokumentasjonEtterspurt> - tar i mot ett objekt av Oppgave (inneholder OppgaveElement)
+//        <OppgaveElementView tar imot en liste av DokumentasjonEtterspurtElement> - en liste med OppgaveElement
+export interface DokumentasjonEtterspurt {
+    innsendelsesfrist?: string;
+    oppgaveId: string;
+    oppgaveElementer: DokumentasjonEtterspurtElement[]; // todo rename felt til dokumentasjonEtterspurtElementer
 }
 
 export interface DokumentasjonEtterspurtElement {
