@@ -5,7 +5,8 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
+import OppgaveView from "./OppgaveView";
+import {DokumentasjonEtterspurt, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -152,9 +153,16 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 //       />
                                 //   ))
                             }
-                            <OppgaveView oppgaver={dokumentasjonetterspurt} type={"dokumentasjonetterspurt"} />
-                            <OppgaveView oppgaver={vilkar} type={"vilkar"} />
-                            <OppgaveView oppgaver={dokumentasjonkrav} type={"dokumentasjonkrav"} />
+
+                            {oppgaver !== null &&
+                                oppgaver.map((dok: DokumentasjonEtterspurt, oppgaveIndex: number) => (
+                                    <OppgaveView oppgave={Oppgave(dok.oppgaveId)} />
+                                ))}
+
+                            {
+                                //<OppgaveView oppgave={vilkar}/>
+                                //<OppgaveView oppgave={dokumentasjonkrav}/>
+                            }
                         </div>
                     </Ekspanderbartpanel>
                 </Panel>

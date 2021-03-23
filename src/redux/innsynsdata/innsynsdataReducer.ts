@@ -71,6 +71,10 @@ export interface DokumentasjonEtterspurt {
     oppgaveElementer: DokumentasjonEtterspurtElement[]; // todo rename felt til dokumentasjonEtterspurtElementer
 }
 
+export interface Oppgave {
+    tittel: string;
+}
+
 export interface DokumentasjonEtterspurtElement {
     dokumenttype: string;
     tilleggsinformasjon?: string;
