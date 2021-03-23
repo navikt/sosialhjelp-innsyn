@@ -65,27 +65,28 @@ export interface Fil {
     status?: string;
 }
 
-export interface Oppgaver {
+export interface OppgaveListe {
     // Krav med en frist
     innsendelsesfrist?: string;
     oppgaveId: string;
-    oppgaveElementer: Oppgave[]; //Flere dokumentasjonskrav
+    oppgaveElementer: OppgaveInnhold[]; //Flere dokumentasjonskrav
 }
 
-export interface Oppgave {
+export interface OppgaveInnhold {
     tittel: string;
     beskrivelse: string;
+    erFraInnsyn: boolean;
 }
 //<Oppgaver liste med DokumentasjonEtterspurt> -  på sikt liste med Oppgave
 //    <OppgaveView tar i mot ett object av DokumentasjonEtterspurt> - tar i mot ett objekt av Oppgave (inneholder OppgaveElement)
 //        <OppgaveElementView tar imot en liste av DokumentasjonEtterspurtElement> - en liste med OppgaveElement
-export interface DokumentasjonEtterspurt {
+export interface DokumentasjonEtterspurt extends OppgaveListe {
     innsendelsesfrist?: string;
     oppgaveId: string;
     oppgaveElementer: DokumentasjonEtterspurtElement[]; // todo rename felt til dokumentasjonEtterspurtElementer
 }
 
-export interface DokumentasjonEtterspurtElement {
+export interface DokumentasjonEtterspurtElement extends OppgaveInnhold {
     dokumenttype: string;
     tilleggsinformasjon?: string;
     erFraInnsyn: boolean;
@@ -206,7 +207,7 @@ const initiellKommuneResponse_antarAltOk: KommuneResponse = {
 export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
-    oppgaver: DokumentasjonEtterspurt[];
+    dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -238,7 +239,7 @@ export const initialInnsynsdataRestStatus = {
 export const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
-    oppgaver: [],
+    dokumentasjonEtterspurt: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
@@ -295,14 +296,14 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             if (oppgave.length === 0) {
                 return {
                     ...state,
-                    oppgaver: state.oppgaver.filter(
+                    oppgaver: state.dokumentasjonEtterspurt.filter(
                         (oppgave: DokumentasjonEtterspurt) => oppgave.oppgaveId !== action.oppgaveId
                     ),
                 };
             }
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((oppgave) => {
+                oppgaver: state.dokumentasjonEtterspurt.map((oppgave) => {
                     if (oppgave.oppgaveId === action.oppgaveId) {
                         return action.verdi[0];
                     }
@@ -316,7 +317,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((oppgave, oppgaveIndex: number) => {
+                oppgaver: state.dokumentasjonEtterspurt.map((oppgave, oppgaveIndex: number) => {
                     if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
@@ -339,7 +340,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING:
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((oppgave, oppgaveIndex) => {
+                oppgaver: state.dokumentasjonEtterspurt.map((oppgave, oppgaveIndex) => {
                     if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...oppgave,
@@ -368,7 +369,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
             return {
                 ...state,
-                oppgaver: state.oppgaver.map((oppgave) => {
+                oppgaver: state.dokumentasjonEtterspurt.map((oppgave) => {
                     if (oppgave.innsendelsesfrist !== action.innsendelsesfrist) {
                         return oppgave;
                     }

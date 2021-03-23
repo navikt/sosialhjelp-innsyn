@@ -14,7 +14,9 @@ interface Props {
 }
 
 const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
-    const oppgaver: DokumentasjonEtterspurt[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
+    const oppgaver: DokumentasjonEtterspurt[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.dokumentasjonEtterspurt
+    );
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );

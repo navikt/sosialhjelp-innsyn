@@ -4,9 +4,8 @@ import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import OppgaveView from "./OppgaveView";
-import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
+import {OppgaveListe} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -17,18 +16,16 @@ import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 interface Props {
-    oppgaver: null | DokumentasjonEtterspurt[];
+    oppgaver: null | OppgaveListe[];
     restStatus: REST_STATUS;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): Date | null {
+function foersteInnsendelsesfrist(oppgaver: null | OppgaveListe[]): Date | null {
     if (oppgaver === null) {
         return null;
     }
     if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map(
-            (oppgave: DokumentasjonEtterspurt) => new Date(oppgave.innsendelsesfrist!!)
-        );
+        const innsendelsesfrister = oppgaver.map((oppgave: OppgaveListe) => new Date(oppgave.innsendelsesfrist!!));
         return innsendelsesfrister[0];
     }
     return null;
@@ -51,8 +48,14 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
 
 const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
+
+    console.log("oppgaver", oppgaver);
+    console.log("brukerharOppgave", brukerHarOppgaver);
+
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
+
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
+
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
     return (
@@ -155,14 +158,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             }
 
                             {oppgaver !== null &&
-                                oppgaver.map((dok: DokumentasjonEtterspurt, oppgaveIndex: number) => (
+                                oppgaver.map((dok: OppgaveListe, oppgaveIndex: number) => (
                                     <OppgaveView oppgave={dok} />
                                 ))}
-
-                            {
-                                //<OppgaveView oppgave={vilkar}/>
-                                //<OppgaveView oppgave={dokumentasjonkrav}/>
-                            }
                         </div>
                     </Ekspanderbartpanel>
                 </Panel>

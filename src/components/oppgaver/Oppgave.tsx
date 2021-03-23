@@ -1,8 +1,8 @@
 import React from "react";
-import {Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import {OppgaveInnhold} from "../../redux/innsynsdata/innsynsdataReducer";
 
 interface Props {
-    oppgave: Oppgave;
+    oppgave: OppgaveInnhold;
 }
 
 const OppgaveView: React.FC<Props> = ({oppgave}) => {
