@@ -3,6 +3,7 @@ import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggAction
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
 import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
+import DokumentasjonEtterspurtView from "../components/oppgaver/DokumentasjonEtterspurtView";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
@@ -22,6 +23,14 @@ interface Metadata {
     hendelsetype: HendelseTypeEnum | undefined;
     hendelsereferanse: string | undefined;
 }
+
+export const createFormDataWithVedlegg = (vedlegg: Fil[] | DokumentasjonEtterspurt) => {
+    //ikke krasjer hvis brukt av noe annet
+    if (Array.isArray(vedlegg)) {
+        return opprettFormDataMedVedleggFraFiler(vedlegg);
+    }
+    return opprettFormDataMedVedleggFraOppgaver(vedlegg);
+};
 
 export const opprettFormDataMedVedleggFraOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);

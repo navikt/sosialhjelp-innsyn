@@ -1,5 +1,6 @@
 import {
     alertUser,
+    createFormDataWithVedlegg,
     hasNotAddedFiles,
     maxCombinedFileSize,
     opprettFormDataMedVedleggFraOppgaver,
@@ -22,15 +23,14 @@ import {
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
-import {useDispatch} from "react-redux";
 
 const SendVedlegg = (
     event: any,
     dokumentasjonEtterspurt: DokumentasjonEtterspurt,
     fiksDigisosId: string | undefined,
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void
+    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
+    dispatch: React.Dispatch<any>
 ) => {
-    const dispatch = useDispatch();
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
@@ -41,7 +41,7 @@ const SendVedlegg = (
     }
 
     try {
-        var formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjonEtterspurt);
+        var formData = createFormDataWithVedlegg(dokumentasjonEtterspurt);
     } catch (e) {
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, true));
         logInfoMessage("Validering vedlegg feilet: " + e.message);
