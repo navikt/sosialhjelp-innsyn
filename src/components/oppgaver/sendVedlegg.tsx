@@ -15,27 +15,28 @@ import {
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     settRestStatus,
+    VedleggActionType,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 
 export function sendDispatchDokumentasjonEtterspurt(
     dispatch: React.Dispatch<any>,
     fil: Fil,
-    respons: any,
+    vedlegg: VedleggActionType,
     index: number
 ) {
     dispatch({
         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
         fil: {filnavn: fil.filnavn} as Fil,
         status: fil.status,
-        innsendelsesfrist: respons.innsendelsesfrist,
-        dokumenttype: respons.type,
-        tilleggsinfo: respons.tilleggsinfo,
+        innsendelsesfrist: vedlegg.innsendelsesfrist,
+        dokumenttype: vedlegg.type,
+        tilleggsinfo: vedlegg.tilleggsinfo,
         vedleggIndex: index,
     });
 }
 
-export function sendDispatchEttersendelse(dispatch: React.Dispatch<any>, fil: Fil, respons: any, index: number) {
+export function sendDispatchEttersendelse(dispatch: React.Dispatch<any>, fil: Fil, index: number) {
     dispatch({
         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
         fil: {filnavn: fil.filnavn} as Fil,
@@ -44,17 +45,24 @@ export function sendDispatchEttersendelse(dispatch: React.Dispatch<any>, fil: Fi
     });
 }
 
-function itererOverfiler(respons: any, sendDispatchDokumentasjonEtterspurt: (...dispatcj) => void) {
-    let harFeil: boolean = false;
-
-    respons.filer.forEach((fil: Fil, index: number) => {
+function itererOverfiler(
+    dispatch: React.Dispatch<any>,
+    vedlegg: any,
+    innsyndataSti: InnsynsdataSti,
+    containsError: boolean
+) {
+    vedlegg.filer.forEach((fil: Fil, index: number) => {
         if (fil.status !== "OK") {
-            harFeil = true;
+            containsError = true;
         }
-        sendDispatchDokumentasjonEtterspurt(dispatch, fil, respons, index);
+        if (innsyndataSti === InnsynsdataSti.OPPGAVER) {
+            sendDispatchDokumentasjonEtterspurt(dispatch, fil, vedlegg, index);
+        } else {
+            sendDispatchEttersendelse(dispatch, fil, index);
+        }
     });
 
-    return harFeil;
+    return containsError;
 }
 
 const SendVedlegg = (
@@ -121,10 +129,10 @@ const SendVedlegg = (
 
                 if (datasti === InnsynsdataSti.OPPGAVER && Array.isArray(filRespons)) {
                     filRespons.forEach((respons) => {
-                        containsError = itererOverfiler(respons, sendDispatchDokumentasjonEtterspurt);
+                        containsError = itererOverfiler(dispatch, respons, datasti, containsError);
                     });
                 } else if (Array.isArray(filRespons[0].filer)) {
-                    containsError = itererOverfiler(filRespons[0].filer, sendDispatchDokumentasjonEtterspurt);
+                    containsError = itererOverfiler(dispatch, filRespons[0].filer, datasti, containsError);
                 }
 
                 if (containsError) {
