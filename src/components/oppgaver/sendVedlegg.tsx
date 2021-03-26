@@ -18,7 +18,12 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 
-export function sendDispatchDokumentasjonEtterspurt(dispatch: React.Dispatch<any>, fil: Fil, respons: any, index: number) {
+export function sendDispatchDokumentasjonEtterspurt(
+    dispatch: React.Dispatch<any>,
+    fil: Fil,
+    respons: any,
+    index: number
+) {
     dispatch({
         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
         fil: {filnavn: fil.filnavn} as Fil,
@@ -30,19 +35,26 @@ export function sendDispatchDokumentasjonEtterspurt(dispatch: React.Dispatch<any
     });
 }
 
-function sendDispatch(dispatch: React.Dispatch<any>, fil: Fil, vedlegg: Fil | DokumentasjonEtterspurt, index: number, dokumentasjonetterspurt: string) {
-    if (dokumentasjonetterspurt === "") {
-    }
-    sendDispatchDokumentasjonEtterspurt(dispatch, fil, vedlegg, index);
+export function sendDispatchEttersendelse(dispatch: React.Dispatch<any>, fil: Fil, respons: any, index: number) {
+    dispatch({
+        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
+        fil: {filnavn: fil.filnavn} as Fil,
+        status: fil.status,
+        vedleggIndex: index,
+    });
 }
 
-function itererOverfiler() {
+function itererOverfiler(respons: any, sendDispatchDokumentasjonEtterspurt: (...dispatcj) => void) {
+    let harFeil: boolean = false;
+
     respons.filer.forEach((fil: Fil, index: number) => {
         if (fil.status !== "OK") {
             harFeil = true;
         }
         sendDispatchDokumentasjonEtterspurt(dispatch, fil, respons, index);
     });
+
+    return harFeil;
 }
 
 const SendVedlegg = (
@@ -51,7 +63,7 @@ const SendVedlegg = (
     fiksDigisosId: string | undefined,
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
     dispatch: React.Dispatch<any>,
-    datasti: OPPGAVER
+    datasti: InnsynsdataSti
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
@@ -102,25 +114,25 @@ const SendVedlegg = (
     if (
         sammensattFilStorrelseForOppgaveElement < maxCombinedFileSize &&
         sammensattFilStorrelseForOppgaveElement !== 0
-    ) {ª
+    ) {
         fetchPost(path, formData, "multipart/form-data")
             .then((filRespons: any) => {
-                let harFeil: boolean = false;
+                let containsError: boolean = false;
 
                 if (datasti === InnsynsdataSti.OPPGAVER && Array.isArray(filRespons)) {
                     filRespons.forEach((respons) => {
-                        itererOverfiler(respons);
-                    };
+                        containsError = itererOverfiler(respons, sendDispatchDokumentasjonEtterspurt);
+                    });
                 } else if (Array.isArray(filRespons[0].filer)) {
-                    itererOverfiler(filRespons[0].filer);
+                    containsError = itererOverfiler(filRespons[0].filer, sendDispatchDokumentasjonEtterspurt);
                 }
 
-                if (harFeil) {
+                if (containsError) {
                     dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
                 } else {
-                    dispatch(
-                        hentOppgaveMedId(fiksDigisosId, datasti, dokumentasjonEtterspurt.oppgaveId)
-                    );
+                    if (datasti === InnsynsdataSti.OPPGAVER) {
+                        dispatch(hentOppgaveMedId(fiksDigisosId, datasti, dokumentasjonEtterspurt.oppgaveId));
+                    }
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                 }
