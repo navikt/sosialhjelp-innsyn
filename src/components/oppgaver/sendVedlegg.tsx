@@ -67,25 +67,36 @@ function itererOverfiler(
 
 const SendVedlegg = (
     event: any,
-    dokumentasjonEtterspurt: DokumentasjonEtterspurt,
+    dok: DokumentasjonEtterspurt | Fil[],
     fiksDigisosId: string | undefined,
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
     dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti
 ) => {
     window.removeEventListener("beforeunload", alertUser);
-    dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-    dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
+    var dokumentasjon = null;
+    var dokId = "";
 
-    if (!dokumentasjonEtterspurt || !fiksDigisosId) {
+    if (datasti === InnsynsdataSti.OPPGAVER) {
+        dokumentasjon = dok as DokumentasjonEtterspurt;
+        dokId = dokumentasjon.oppgaveId;
+    } else {
+        dokumentasjon = dok as Fil[];
+        dokId = "backendFeilId";
+    }
+
+    dispatch(setFileUploadFailedInBackend(dokId, false));
+    dispatch(setFileUploadFailedVirusCheckInBackend(dokId, false));
+
+    if (!dokumentasjon || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
 
     try {
-        var formData = createFormDataWithVedlegg(dokumentasjonEtterspurt);
+        var formData = createFormDataWithVedlegg(dokumentasjon);
     } catch (e) {
-        dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, true));
+        dispatch(setFileUploadFailed(dokId, true));
         logInfoMessage("Validering vedlegg feilet: " + e.message);
         event.preventDefault();
         return;
@@ -95,8 +106,8 @@ const SendVedlegg = (
 
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
-    const ingenFilerValgt = hasNotAddedFiles(dokumentasjonEtterspurt);
-    dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
+    const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
+    dispatch(setFileUploadFailed(dokumentasjon.oppgaveId, ingenFilerValgt));
 
     setOverMaksStorrelse(false);
 
