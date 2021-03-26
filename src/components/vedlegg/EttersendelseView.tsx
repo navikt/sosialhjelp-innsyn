@@ -289,7 +289,15 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 setSendVedleggTrykket(true);
                                 return;
                             }
-                            SendVedlegg(event);
+                            SendVedlegg(
+                                event,
+                                fiksDigisosId,
+                                setOverMaksStorrelse,
+                                dispatch,
+                                InnsynsdataSti.VEDLEGG,
+                                BACKEND_FEIL_ID,
+                                filer
+                            );
                         }}
                     >
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />

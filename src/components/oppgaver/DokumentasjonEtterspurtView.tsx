@@ -131,7 +131,17 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            SendVedlegg(event, dokumentasjonEtterspurt, fiksDigisosId, setOverMaksStorrelse, dispatch, InnsynsdataSti.OPPGAVER);
+                            dokumentasjonEtterspurt.oppgaveElementer.forEach((oppgave) => {
+                                SendVedlegg(
+                                    event,
+                                    fiksDigisosId,
+                                    setOverMaksStorrelse,
+                                    dispatch,
+                                    InnsynsdataSti.OPPGAVER,
+                                    dokumentasjonEtterspurt.oppgaveId,
+                                    oppgave.filer
+                                );
+                            });
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />

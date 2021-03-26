@@ -67,12 +67,12 @@ const itererOverfiler = (
 
 const SendVedlegg = (
     event: any,
-    filer: Fil[],
     fiksDigisosId: string | undefined,
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
     dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti,
-    dokId: string
+    dokId: string,
+    filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
 
@@ -129,13 +129,7 @@ const SendVedlegg = (
             .then((filRespons: any) => {
                 let containsError: boolean = false;
 
-                if (datasti === InnsynsdataSti.OPPGAVER && Array.isArray(filRespons)) {
-                    filRespons.forEach((respons) => {
-                        containsError = itererOverfiler(dispatch, respons, datasti, containsError);
-                    });
-                } else if (Array.isArray(filRespons[0].filer)) {
-                    containsError = itererOverfiler(dispatch, filRespons[0].filer, datasti, containsError);
-                }
+                containsError = itererOverfiler(dispatch, filer, datasti, containsError);
 
                 if (containsError) {
                     dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
