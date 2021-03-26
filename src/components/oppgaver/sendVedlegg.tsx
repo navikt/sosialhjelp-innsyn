@@ -1,10 +1,4 @@
-import {
-    alertUser,
-    createFormDataWithVedlegg,
-    hasNotAddedFiles,
-    maxCombinedFileSize,
-    opprettFormDataMedVedleggFraOppgaver,
-} from "../../utils/vedleggUtils";
+import {alertUser, createFormDataWithVedlegg, hasNotAddedFiles, maxCombinedFileSize} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     hentOppgaveMedId,
@@ -23,6 +17,24 @@ import {
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
+
+function sendDispatchDokumentasjonEtterspurt(dispatch: React.Dispatch<any>, fil: Fil, respons: any, index: number) {
+    dispatch({
+        type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+        fil: {filnavn: fil.filnavn} as Fil,
+        status: fil.status,
+        innsendelsesfrist: respons.innsendelsesfrist,
+        dokumenttype: respons.type,
+        tilleggsinfo: respons.tilleggsinfo,
+        vedleggIndex: index,
+    });
+}
+
+function sendDispatch(dispatch: React.Dispatch<any>, fil: Fil, vedlegg: Fil | DokumentasjonEtterspurt, index: number) {
+    if (vedlegg) {
+    }
+    sendDispatchDokumentasjonEtterspurt(dispatch, fil, vedlegg, index);
+}
 
 const SendVedlegg = (
     event: any,
@@ -90,15 +102,7 @@ const SendVedlegg = (
                             if (fil.status !== "OK") {
                                 harFeil = true;
                             }
-                            dispatch({
-                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                fil: {filnavn: fil.filnavn} as Fil,
-                                status: fil.status,
-                                innsendelsesfrist: respons.innsendelsesfrist,
-                                dokumenttype: respons.type,
-                                tilleggsinfo: respons.tilleggsinfo,
-                                vedleggIndex: index,
-                            });
+                            sendDispatchDokumentasjonEtterspurt(dispatch, fil, respons, index);
                         });
                     });
                 }
