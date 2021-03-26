@@ -19,12 +19,12 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 
-export function sendDispatchDokumentasjonEtterspurt(
+const sendDispatchDokumentasjonEtterspurt = (
     dispatch: React.Dispatch<any>,
     fil: Fil,
     vedlegg: VedleggActionType,
     index: number
-) {
+) => {
     dispatch({
         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
         fil: {filnavn: fil.filnavn} as Fil,
@@ -34,23 +34,23 @@ export function sendDispatchDokumentasjonEtterspurt(
         tilleggsinfo: vedlegg.tilleggsinfo,
         vedleggIndex: index,
     });
-}
+};
 
-export function sendDispatchEttersendelse(dispatch: React.Dispatch<any>, fil: Fil, index: number) {
+const sendDispatchEttersendelse = (dispatch: React.Dispatch<any>, fil: Fil, index: number) => {
     dispatch({
         type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
         fil: {filnavn: fil.filnavn} as Fil,
         status: fil.status,
         vedleggIndex: index,
     });
-}
+};
 
-function itererOverfiler(
+const itererOverfiler = (
     dispatch: React.Dispatch<any>,
     vedlegg: any,
     innsyndataSti: InnsynsdataSti,
     containsError: boolean
-) {
+) => {
     vedlegg.filer.forEach((fil: Fil, index: number) => {
         if (fil.status !== "OK") {
             containsError = true;
@@ -63,27 +63,18 @@ function itererOverfiler(
     });
 
     return containsError;
-}
+};
 
 const SendVedlegg = (
     event: any,
-    dok: DokumentasjonEtterspurt | Fil[],
+    filer: Fil[],
     fiksDigisosId: string | undefined,
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
     dispatch: React.Dispatch<any>,
-    datasti: InnsynsdataSti
+    datasti: InnsynsdataSti,
+    dokId: string
 ) => {
     window.removeEventListener("beforeunload", alertUser);
-    var dokumentasjon = null;
-    var dokId = "";
-
-    if (datasti === InnsynsdataSti.OPPGAVER) {
-        dokumentasjon = dok as DokumentasjonEtterspurt;
-        dokId = dokumentasjon.oppgaveId;
-    } else {
-        dokumentasjon = dok as Fil[];
-        dokId = "backendFeilId";
-    }
 
     dispatch(setFileUploadFailedInBackend(dokId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(dokId, false));
@@ -107,7 +98,7 @@ const SendVedlegg = (
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
     const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
-    dispatch(setFileUploadFailed(dokumentasjon.oppgaveId, ingenFilerValgt));
+    dispatch(setFileUploadFailed(dokId, ingenFilerValgt));
 
     setOverMaksStorrelse(false);
 
