@@ -85,20 +85,12 @@ const SendVedlegg = (
         return;
     }
 
-    try {
-        var formData = createFormDataWithVedlegg(dokumentasjon);
-    } catch (e) {
-        dispatch(setFileUploadFailed(dokId, true));
-        logInfoMessage("Validering vedlegg feilet: " + e.message);
-        event.preventDefault();
-        return;
-    }
     const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
     const path = innsynsdataUrl(fiksDigisosId, sti);
 
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
-    const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
+    const ingenFilerValgt = hasNotAddedFiles(filer);
     dispatch(setFileUploadFailed(dokId, ingenFilerValgt));
 
     setOverMaksStorrelse(false);

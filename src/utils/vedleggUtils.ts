@@ -285,14 +285,6 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
     return filerMedFeil;
 };
 
-export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurt | null) => {
-    let antall = 0;
-    oppgave &&
-        oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
-            oppgaveElement.filer &&
-                oppgaveElement.filer.forEach(() => {
-                    antall += 1;
-                });
-        });
-    return antall === 0;
+export const hasNotAddedFiles = (filer: Fil[] | null) => {
+    return filer !== null && filer.length === 0;
 };

@@ -16,6 +16,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
+    setFileUploadFailed,
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
@@ -28,6 +29,7 @@ import {
     writeErrorMessage,
     findFilesWithError,
     hasFilesWithErrorStatus,
+    opprettFormDataMedVedleggFraOppgaver,
 } from "../../utils/vedleggUtils";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -93,6 +95,17 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         uploadElement.click();
         if (event) {
             event.preventDefault();
+        }
+    };
+
+    const getFormData = (event: any) => {
+        try {
+            return opprettFormDataMedVedleggFraFiler(filer);
+        } catch (e) {
+            dispatch(setFileUploadFailed(BACKEND_FEIL_ID, true));
+            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            event.preventDefault();
+            return;
         }
     };
 
@@ -222,6 +235,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 setSendVedleggTrykket(true);
                                 return;
                             }
+                            const formData = getFormData(event);
                             SendVedlegg(
                                 event,
                                 fiksDigisosId,
@@ -229,7 +243,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 dispatch,
                                 InnsynsdataSti.VEDLEGG,
                                 BACKEND_FEIL_ID,
-                                opprettFormDataMedVedleggFraFiler(filer),
+                                formData,
                                 filer
                             );
                         }}

@@ -12,12 +12,15 @@ import {
     opprettFormDataMedVedleggFraOppgaver,
     oppgaveHasFilesWithError,
     getVisningstekster,
+    createFormDataWithVedlegg,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import SendVedlegg from "./sendVedlegg";
+import {setFileUploadFailed} from "../../redux/innsynsdata/innsynsDataActions";
+import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -61,6 +64,17 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         overMaksStorrelse ||
         listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
+
+    const getFormData = (event: any) => {
+        try {
+            return opprettFormDataMedVedleggFraOppgaver(dokumentasjonEtterspurt);
+        } catch (e) {
+            dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, true));
+            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            event.preventDefault();
+            return;
+        }
+    };
 
     return (
         <div>
@@ -112,8 +126,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            var formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjonEtterspurt);
-
+                            const formData = getFormData(event);
                             dokumentasjonEtterspurt.oppgaveElementer.forEach((oppgave) => {
                                 SendVedlegg(
                                     event,
