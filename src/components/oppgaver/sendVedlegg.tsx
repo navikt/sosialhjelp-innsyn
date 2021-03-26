@@ -19,6 +19,7 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 
+//dette kan kanskje draes ut og denne dispatch må skje en eller annen plass
 const sendDispatchDokumentasjonEtterspurt = (
     dispatch: React.Dispatch<any>,
     fil: Fil,
