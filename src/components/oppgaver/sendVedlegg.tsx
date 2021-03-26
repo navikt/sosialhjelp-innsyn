@@ -72,6 +72,7 @@ const SendVedlegg = (
     dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti,
     dokId: string,
+    formData: any,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
@@ -79,7 +80,7 @@ const SendVedlegg = (
     dispatch(setFileUploadFailedInBackend(dokId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(dokId, false));
 
-    if (!dokumentasjon || !fiksDigisosId) {
+    if (!filer || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -126,7 +127,7 @@ const SendVedlegg = (
         sammensattFilStorrelseForOppgaveElement !== 0
     ) {
         fetchPost(path, formData, "multipart/form-data")
-            .then((filRespons: any) => {
+            .then(() => {
                 let containsError: boolean = false;
 
                 containsError = itererOverfiler(dispatch, filer, datasti, containsError);
@@ -135,7 +136,7 @@ const SendVedlegg = (
                     dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
                 } else {
                     if (datasti === InnsynsdataSti.OPPGAVER) {
-                        dispatch(hentOppgaveMedId(fiksDigisosId, datasti, dokumentasjonEtterspurt.oppgaveId));
+                        dispatch(hentOppgaveMedId(fiksDigisosId, datasti, dokId));
                     }
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
@@ -145,12 +146,12 @@ const SendVedlegg = (
                 // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                 fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                     if (errorResponse.message === "Mulig virus funnet") {
-                        dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-                        dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
+                        dispatch(setFileUploadFailedInBackend(dokId, false));
+                        dispatch(setFileUploadFailedVirusCheckInBackend(dokId, true));
                     }
                 });
                 dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
-                dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
+                dispatch(setFileUploadFailedInBackend(dokId, true));
                 logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
             });
     } else {
