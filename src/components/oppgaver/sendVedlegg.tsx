@@ -95,11 +95,10 @@ const SendVedlegg = (
 
     setOverMaksStorrelse(false);
 
-    const sammensattFilStorrelseForOppgaveElement = dokumentasjonEtterspurt.oppgaveElementer
-        .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
-            return oppgaveElement.filer ?? [];
-        })
-        .reduce((accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0), 0);
+    const sammensattFilStorrelseForOppgaveElement = filer?.reduce(
+        (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+        0
+    );
 
     setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
 

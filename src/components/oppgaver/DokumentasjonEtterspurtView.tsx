@@ -134,7 +134,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                     setOverMaksStorrelse,
                                     dispatch,
                                     InnsynsdataSti.OPPGAVER,
-                                    dokumentasjonEtterspurt.oppgaveId,
+                                    dokumentasjonEtterspurt.oppgaveId, //ser ut som at id ikke velges riktig
                                     formData,
                                     oppgave.filer
                                 );
