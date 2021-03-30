@@ -78,10 +78,9 @@ export const tekster = {
 
         "vedlegg.ulovlig_en_fil_feilmelding": "{filnavn} ble ikke lagt til:",
 
-        "vedlegg.ulovlig_en_filtype_feilmelding": "{filnavn} har ikke rett type og ble ikke lagt til. ",
-        "vedlegg.ulovlig_en_filnavn_feilmelding":
-            "{filnavn} inneholder tegner i navnet som den ikke bør ha og ble ikke lagt til.",
-        "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og ble ikke lagt til.",
+        "vedlegg.ulovlig_en_filtype_feilmelding": "{filnavn} er av en type vi ikke støtter og ble ikke lagt til:",
+        "vedlegg.ulovlig_en_filnavn_feilmelding": "{filnavn} bruker tegn vi ikke støtter og ble ikke lagt til:",
+        "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og ble ikke lagt til:",
 
         "vedlegg.ulovlig_flere_fil_feilmelding":
             "Vi kunne ikke legge til filene dine. {antallFiler} av dem var av en type vi ikke støtter:",

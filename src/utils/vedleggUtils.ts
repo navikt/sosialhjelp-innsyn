@@ -176,7 +176,9 @@ export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementI
     let filnavn = "";
 
     const flagg = {
-        ulovligFil: false,
+        ulovligFiltype: false,
+        ulovligFilnavn: false,
+        ulovligFilstorrelse: false,
         ulovligFiler: false,
         legalFileExtension: false,
         containsUlovligeTegn: false,
@@ -194,10 +196,21 @@ export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementI
             ) {
                 if (listeMedFil.length === 1) {
                     filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
-                    flagg.ulovligFil = true;
+
+                    if (value.legalFileSize) {
+                        flagg.ulovligFilstorrelse = true;
+                    }
+                    if (value.containsIllegalCharacters) {
+                        flagg.ulovligFilnavn = true;
+                    }
+                    if (value.legalFileExtension) {
+                        flagg.ulovligFiltype = true;
+                    }
                 } else {
                     flagg.ulovligFiler = true;
-                    flagg.ulovligFil = false;
+                    flagg.ulovligFilstorrelse = false;
+                    flagg.ulovligFilnavn = false;
+                    flagg.ulovligFiltype = false;
                 }
                 if (value.legalFileSize) {
                     flagg.maxFilStorrelse = true;
@@ -214,7 +227,9 @@ export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementI
                     flagg.containsUlovligeTegn = false;
                     flagg.legalFileExtension = false;
                     flagg.ulovligFiler = false;
-                    flagg.ulovligFil = false;
+                    flagg.ulovligFilstorrelse = false;
+                    flagg.ulovligFilnavn = false;
+                    flagg.ulovligFiltype = false;
                 }
             }
         }
