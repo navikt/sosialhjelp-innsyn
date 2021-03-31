@@ -23,7 +23,7 @@ export const ErrorMessageList = (errors: string[]) => {
     return (
         <ul>
             {errors.map((error: string) => {
-                <li>{error}</li>;
+                return <li key={error}>{error}</li>;
             })}
         </ul>
     );

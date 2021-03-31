@@ -7,6 +7,8 @@ import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 
+export type FileValidationError = "ILLEGAL_FILETYPE" | "ILLEGAL_FILENAME" | "ILLEGAL_FILESIZE";
+
 export enum HendelseTypeEnum {
     BRUKER = "bruker",
     SOKNAD = "soknad",
