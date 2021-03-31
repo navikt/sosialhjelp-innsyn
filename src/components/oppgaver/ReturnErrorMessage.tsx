@@ -19,4 +19,14 @@ const ReturnErrorMessage = (flagg: any, filnavn: any, listeMedFil: any) => {
     );
 };
 
+export const ErrorMessageList = (errors: string[]) => {
+    return (
+        <ul>
+            {errors.map((error: string) => {
+                <li>{error}</li>;
+            })}
+        </ul>
+    );
+};
+
 export default ReturnErrorMessage;
