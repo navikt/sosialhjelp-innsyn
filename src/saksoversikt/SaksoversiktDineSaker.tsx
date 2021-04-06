@@ -146,11 +146,11 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 </Subheader>
 
                 <InfoPanelContainer>
-                    <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/artikkel/124876"}>
+                    <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/gi-beskjed"}>
                         Du må melde fra dersom din økonomiske situasjon endres.
                     </InfoPanel>
 
-                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/sosialhjelp/artikkel/124875"}>
+                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/sosialhjelp/klage"}>
                         Har du fått et vedtak fra oss som du mener er feil, kan du klage.
                     </InfoPanel>
 
