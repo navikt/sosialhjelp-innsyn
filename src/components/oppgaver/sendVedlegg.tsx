@@ -49,6 +49,7 @@ const itererOverfiler = (dispatch: React.Dispatch<any>, vedlegg: any, innsyndata
     vedlegg.forEach((fil: Fil, index: number) => {
         console.log("fil.status = ", fil.status);
         if (fil.status !== "OK") {
+            // status skulle vært OK når OK og ikke initiailisert
             containsError = true;
         }
         if (innsyndataSti === InnsynsdataSti.OPPGAVER) {
