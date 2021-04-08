@@ -1,4 +1,4 @@
-import {alertUser, createFormDataWithVedlegg, hasNotAddedFiles, maxCombinedFileSize} from "../../utils/vedleggUtils";
+import {alertUser, hasNotAddedFiles, maxCombinedFileSize} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     hentOppgaveMedId,
@@ -9,8 +9,6 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {
-    DokumentasjonEtterspurt,
-    DokumentasjonEtterspurtElement,
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
@@ -46,13 +44,10 @@ const sendDispatchEttersendelse = (dispatch: React.Dispatch<any>, fil: Fil, inde
     });
 };
 
-const itererOverfiler = (
-    dispatch: React.Dispatch<any>,
-    vedlegg: any,
-    innsyndataSti: InnsynsdataSti,
-    containsError: boolean
-) => {
-    vedlegg.filer.forEach((fil: Fil, index: number) => {
+const itererOverfiler = (dispatch: React.Dispatch<any>, vedlegg: any, innsyndataSti: InnsynsdataSti) => {
+    let containsError: boolean = false;
+    vedlegg.forEach((fil: Fil, index: number) => {
+        console.log("fil.status = ", fil.status);
         if (fil.status !== "OK") {
             containsError = true;
         }
@@ -122,8 +117,9 @@ const SendVedlegg = (
             .then(() => {
                 let containsError: boolean = false;
 
-                containsError = itererOverfiler(dispatch, filer, datasti, containsError);
+                containsError = itererOverfiler(dispatch, filer, datasti);
 
+                console.log("Contains error", containsError);
                 if (containsError) {
                     dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
                 } else {
