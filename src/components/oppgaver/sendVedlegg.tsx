@@ -44,20 +44,22 @@ const sendDispatchEttersendelse = (dispatch: React.Dispatch<any>, fil: Fil, inde
     });
 };
 
-const itererOverfiler = (dispatch: React.Dispatch<any>, vedlegg: any, innsyndataSti: InnsynsdataSti) => {
+const itererOverfiler = (dispatch: React.Dispatch<any>, filrespons: any, innsyndataSti: InnsynsdataSti) => {
     let containsError: boolean = false;
-    vedlegg.forEach((fil: Fil, index: number) => {
-        console.log("fil.status = ", fil.status);
-        if (fil.status !== "OK") {
-            containsError = true;
-        }
-        if (innsyndataSti === InnsynsdataSti.OPPGAVER) {
-            sendDispatchDokumentasjonEtterspurt(dispatch, fil, vedlegg, index);
-        } else {
-            sendDispatchEttersendelse(dispatch, fil, index);
-        }
-    });
-
+    if (Array.isArray(filrespons)) {
+        filrespons.forEach((respons) => {
+            respons.filer.forEach((fil: Fil, index: number) => {
+                if (fil.status !== "OK") {
+                    containsError = true;
+                }
+                if (innsyndataSti === InnsynsdataSti.OPPGAVER) {
+                    sendDispatchDokumentasjonEtterspurt(dispatch, fil, respons, index);
+                } else {
+                    sendDispatchEttersendelse(dispatch, fil, index);
+                }
+            });
+        });
+    }
     return containsError;
 };
 
@@ -81,7 +83,8 @@ const SendVedlegg = (
         return;
     }
 
-    const path = innsynsdataUrl(fiksDigisosId, datasti);
+    const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
+    const path = innsynsdataUrl(fiksDigisosId, sti);
 
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
@@ -113,12 +116,11 @@ const SendVedlegg = (
         sammensattFilStorrelseForOppgaveElement !== 0
     ) {
         fetchPost(path, formData, "multipart/form-data")
-            .then(() => {
+            .then((filResponse: any) => {
                 let containsError: boolean = false;
 
-                containsError = itererOverfiler(dispatch, filer, datasti);
+                containsError = itererOverfiler(dispatch, filResponse, datasti);
 
-                console.log("Contains error", containsError);
                 if (containsError) {
                     dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
                 } else {
