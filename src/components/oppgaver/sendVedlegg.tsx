@@ -49,7 +49,6 @@ const itererOverfiler = (dispatch: React.Dispatch<any>, vedlegg: any, innsyndata
     vedlegg.forEach((fil: Fil, index: number) => {
         console.log("fil.status = ", fil.status);
         if (fil.status !== "OK") {
-            // status skulle vært OK når OK og ikke initiailisert
             containsError = true;
         }
         if (innsyndataSti === InnsynsdataSti.OPPGAVER) {
@@ -82,8 +81,7 @@ const SendVedlegg = (
         return;
     }
 
-    const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
-    const path = innsynsdataUrl(fiksDigisosId, sti);
+    const path = innsynsdataUrl(fiksDigisosId, datasti);
 
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
