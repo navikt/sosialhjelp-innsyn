@@ -3,20 +3,79 @@ import ErrorMessage from "./ErrorMessage";
 import ErrorMessageTitle from "./ErrorMessageTitle";
 
 const ReturnErrorMessage = (flagg: any, filnavn: any, listeMedFil: any) => {
-    return (
-        <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
-            {flagg.ulovligFiltype && ErrorMessageTitle("vedlegg.ulovlig_en_filtype_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFilnavn && ErrorMessageTitle("vedlegg.ulovlig_en_filnavn_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFilstorrelse &&
-                ErrorMessageTitle("vedlegg.ulovlig_en_filstorrelse_feilmelding", filnavn, listeMedFil)}
-            {flagg.ulovligFiler && ErrorMessageTitle("vedlegg.ulovlig_flere_fil_feilmelding", "", listeMedFil)}
-            {flagg.maxSammensattFilStorrelse &&
-                ErrorMessageTitle("vedlegg.ulovlig_storrelse_av_alle_valgte_filer", "", listeMedFil)}
-            {flagg.containsUlovligeTegn && ErrorMessage("vedlegg.ulovlig_filnavn_feilmelding")}
-            {flagg.legalFileExtension && ErrorMessage("vedlegg.ulovlig_filtype_feilmelding")}
-            {flagg.maxFilStorrelse && ErrorMessage("vedlegg.ulovlig_filstorrelse_feilmelding")}
-        </ul>
-    );
+    if (flagg.legalFileExtension && !flagg.ulovligFiler) {
+        return (
+            <>
+                <ErrorMessageTitle
+                    feilId="vedlegg.ulovlig_en_filtype_feilmelding"
+                    filnavn={filnavn}
+                    listeMedFil={listeMedFil}
+                />
+                <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
+                    <ErrorMessage feilId="vedlegg.ulovlig_filtype_feilmelding" />
+                </ul>
+            </>
+        );
+    }
+
+    if (flagg.containsUlovligeTegn && !flagg.ulovligFiler) {
+        return (
+            <>
+                <ErrorMessageTitle
+                    feilId="vedlegg.ulovlig_en_filnavn_feilmelding"
+                    filnavn={filnavn}
+                    listeMedFil={listeMedFil}
+                />
+                <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
+                    <ErrorMessage feilId="vedlegg.ulovlig_filnavn_feilmelding" />
+                </ul>
+            </>
+        );
+    }
+
+    if (flagg.maxFilStorrelse && !flagg.ulovligFiler) {
+        return (
+            <>
+                <ErrorMessageTitle
+                    feilId="vedlegg.ulovlig_en_filstorrelse_feilmelding"
+                    filnavn={filnavn}
+                    listeMedFil={listeMedFil}
+                />
+                <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
+                    <ErrorMessage feilId="vedlegg.ulovlig_filstorrelse_feilmelding" />
+                </ul>
+            </>
+        );
+    }
+
+    if (flagg.ulovligFiler) {
+        return (
+            <>
+                <ErrorMessageTitle
+                    feilId="vedlegg.ulovlig_flere_fil_feilmelding"
+                    filnavn=""
+                    listeMedFil={listeMedFil}
+                />
+                <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
+                    {flagg.containsUlovligeTegn && <ErrorMessage feilId="vedlegg.ulovlig_filnavn_feilmelding" />}
+                    {flagg.maxFilStorrelse && <ErrorMessage feilId="vedlegg.ulovlig_filstorrelse_feilmelding" />}
+                    {flagg.legalFileExtension && <ErrorMessage feilId="vedlegg.ulovlig_filtype_feilmelding" />}
+                </ul>
+            </>
+        );
+    }
+
+    if (flagg.maxSammensattFilStorrelse) {
+        return (
+            <>
+                <ErrorMessageTitle
+                    feilId="vedlegg.ulovlig_storrelse_av_alle_valgte_filer"
+                    filnavn=""
+                    listeMedFil={listeMedFil}
+                />
+            </>
+        );
+    }
 };
 
 export default ReturnErrorMessage;
