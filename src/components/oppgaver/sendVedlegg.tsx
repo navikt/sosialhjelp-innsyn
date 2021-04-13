@@ -66,11 +66,12 @@ const itererOverfiler = (dispatch: React.Dispatch<any>, filrespons: any, innsynd
 const SendVedlegg = (
     event: any,
     fiksDigisosId: string | undefined,
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
     dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti,
     dokId: string,
-    formData: any
+    formData: any,
+    sammensattFilStorrelseForOppgaveElement: number,
+    filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
 
@@ -89,15 +90,6 @@ const SendVedlegg = (
 
     const ingenFilerValgt = hasNotAddedFiles(filer);
     dispatch(setFileUploadFailed(dokId, ingenFilerValgt));
-
-    setOverMaksStorrelse(false);
-
-    const sammensattFilStorrelseForOppgaveElement = filer?.reduce(
-        (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-        0
-    );
-
-    setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
 
     if (ingenFilerValgt) {
         dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
