@@ -70,8 +70,7 @@ const SendVedlegg = (
     dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti,
     dokId: string,
-    formData: any,
-    filer?: Fil[]
+    formData: any
 ) => {
     window.removeEventListener("beforeunload", alertUser);
 

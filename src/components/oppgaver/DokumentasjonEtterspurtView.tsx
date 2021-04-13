@@ -127,18 +127,15 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         className="luft_over_1rem"
                         onClick={(event: any) => {
                             const formData = getFormData(event);
-                            dokumentasjonEtterspurt.oppgaveElementer.forEach((oppgave) => {
-                                SendVedlegg(
-                                    event,
-                                    fiksDigisosId,
-                                    setOverMaksStorrelse,
-                                    dispatch,
-                                    InnsynsdataSti.OPPGAVER,
-                                    dokumentasjonEtterspurt.oppgaveId, //ser ut som at id ikke velges riktig
-                                    formData,
-                                    oppgave.filer
-                                );
-                            });
+                            SendVedlegg(
+                                event,
+                                fiksDigisosId,
+                                setOverMaksStorrelse,
+                                dispatch,
+                                InnsynsdataSti.OPPGAVER,
+                                dokumentasjonEtterspurt.oppgaveId, //ser ut som at id ikke velges riktig
+                                formData
+                            );
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
