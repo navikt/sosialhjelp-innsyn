@@ -73,15 +73,20 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
 
-    setOverMaksStorrelse(false);
+    const valider = () => {
+        setOverMaksStorrelse(false);
 
-    const sammensattFilStorrelseForOppgaveElement = dokumentasjonEtterspurt.oppgaveElementer
-        .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
-            return oppgaveElement.filer ?? [];
-        })
-        .reduce((accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0), 0);
+        const sammensattFilStorrelseForOppgaveElement = dokumentasjonEtterspurt.oppgaveElementer
+            .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
+                return oppgaveElement.filer ?? [];
+            })
+            .reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
+                0
+            );
 
-    setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
+        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
+    };
 
     const getFormData = (event: any) => {
         try {
@@ -144,19 +149,18 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
+                            valider();
                             const formData = getFormData(event);
-                            dokumentasjonEtterspurt.oppgaveElementer.forEach((oppgave) => {
-                                SendVedlegg(
-                                    event,
-                                    fiksDigisosId,
-                                    dispatch,
-                                    InnsynsdataSti.OPPGAVER,
-                                    dokumentasjonEtterspurt.oppgaveId,
-                                    formData,
-                                    sammensattFilStorrelseForOppgaveElement,
-                                    oppgave.filer
-                                );
-                            });
+                            SendVedlegg(
+                                event,
+                                fiksDigisosId,
+                                setOverMaksStorrelse,
+                                dispatch,
+                                InnsynsdataSti.OPPGAVER,
+                                dokumentasjonEtterspurt.oppgaveId,
+                                formData,
+                                dokumentasjonEtterspurt.oppgaveElementer
+                            );
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />

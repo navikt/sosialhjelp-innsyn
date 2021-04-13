@@ -245,11 +245,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 event,
                                 fiksDigisosId,
                                 dispatch,
+                                setOverMaksStorrelse,
                                 InnsynsdataSti.VEDLEGG,
                                 BACKEND_FEIL_ID,
                                 formData,
-                                totaltSammensattFilStorrelse,
-                                filer
+                                undefined
                             );
                         }}
                     >

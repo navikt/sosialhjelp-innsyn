@@ -9,6 +9,7 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {
+    DokumentasjonEtterspurtElement,
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
@@ -67,18 +68,18 @@ const SendVedlegg = (
     event: any,
     fiksDigisosId: string | undefined,
     dispatch: React.Dispatch<any>,
+    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
     datasti: InnsynsdataSti,
     dokId: string,
     formData: any,
-    sammensattFilStorrelseForOppgaveElement: number,
-    filer?: Fil[]
+    oppgaveElement?: DokumentasjonEtterspurtElement[] | undefined
 ) => {
     window.removeEventListener("beforeunload", alertUser);
 
     dispatch(setFileUploadFailedInBackend(dokId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(dokId, false));
 
-    if (!filer || !fiksDigisosId) {
+    if (!formData || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -88,8 +89,25 @@ const SendVedlegg = (
 
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
-    const ingenFilerValgt = hasNotAddedFiles(filer);
+    const ingenFilerValgt = hasNotAddedFiles(oppgaveElement);
     dispatch(setFileUploadFailed(dokId, ingenFilerValgt));
+
+    if (datasti === InnsynsdataSti.OPPGAVER) {
+        setOverMaksStorrelse(false);
+
+        const sammensattFilStorrelseForOppgaveElement =
+            oppgaveElement &&
+            oppgaveElement
+                .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
+                    return oppgaveElement.filer ?? [];
+                })
+                .reduce(
+                    (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
+                    0
+                );
+
+        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
+    }
 
     if (ingenFilerValgt) {
         dispatch(settRestStatus(datasti, REST_STATUS.FEILET));
