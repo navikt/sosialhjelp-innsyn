@@ -16,6 +16,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {
     hentInnsynsdata,
     innsynsdataUrl,
+    setFileUploadFailed,
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
@@ -28,12 +29,14 @@ import {
     writeErrorMessage,
     findFilesWithError,
     hasFilesWithErrorStatus,
+    opprettFormDataMedVedleggFraOppgaver,
 } from "../../utils/vedleggUtils";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
+import SendVedlegg from "../oppgaver/sendVedlegg";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -95,6 +98,17 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         }
     };
 
+    const getFormData = (event: any) => {
+        try {
+            return opprettFormDataMedVedleggFraFiler(filer);
+        } catch (e) {
+            dispatch(setFileUploadFailed(BACKEND_FEIL_ID, true));
+            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            event.preventDefault();
+            return;
+        }
+    };
+
     const onChange = (event: any) => {
         setListeMedFilerSomFeiler([]);
         const files: FileList | null = event.currentTarget.files;
@@ -125,73 +139,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             return;
         }
         event.target.value = null;
-        event.preventDefault();
-    };
-
-    const sendVedlegg = (event: any) => {
-        if (!fiksDigisosId) {
-            event.preventDefault();
-            return;
-        }
-
-        window.removeEventListener("beforeunload", alertUser);
-
-        let formData = opprettFormDataMedVedleggFraFiler(filer);
-        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
-        const path = innsynsdataUrl(fiksDigisosId, sti);
-        dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
-        dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
-
-        setOverMaksStorrelse(false);
-
-        const totaltSammensattFilStorrelse = filer?.reduce(
-            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-            0
-        );
-
-        setOverMaksStorrelse(totaltSammensattFilStorrelse > maxCombinedFileSize);
-
-        if (totaltSammensattFilStorrelse < maxCombinedFileSize && totaltSammensattFilStorrelse !== 0) {
-            dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.PENDING));
-
-            fetchPost(path, formData, "multipart/form-data")
-                .then((filRespons: any) => {
-                    let harFeil: boolean = false;
-                    let vedlegg = filRespons[0].filer;
-                    if (Array.isArray(vedlegg)) {
-                        for (let vedleggIndex = 0; vedleggIndex < vedlegg.length; vedleggIndex++) {
-                            const fileItem = vedlegg[vedleggIndex];
-                            if (fileItem.status !== "OK") {
-                                harFeil = true;
-                            }
-                            dispatch({
-                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_ETTERSENDELSESFIL,
-                                fil: {filnavn: fileItem.filnavn} as Fil,
-                                status: fileItem.status,
-                                vedleggIndex: vedleggIndex,
-                            });
-                        }
-                    }
-                    if (harFeil) {
-                        dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                    } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG, false));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER, false));
-                    }
-                })
-                .catch((e) => {
-                    // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
-                    fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
-                        if (errorResponse.message === "Mulig virus funnet") {
-                            dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
-                            dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, true));
-                        }
-                    });
-                    dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-                    dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, true));
-                    logWarningMessage("Feil med opplasting av vedlegg: " + e.message, e.navCallId);
-                });
-        }
         event.preventDefault();
     };
 
@@ -288,7 +235,17 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 setSendVedleggTrykket(true);
                                 return;
                             }
-                            sendVedlegg(event);
+                            const formData = getFormData(event);
+                            //SendVedlegg(
+                            //    event,
+                            //    fiksDigisosId,
+                            //    setOverMaksStorrelse,
+                            //    dispatch,
+                            //    InnsynsdataSti.VEDLEGG,
+                            //    BACKEND_FEIL_ID,
+                            //    formData,
+                            //    filer
+                            //);
                         }}
                     >
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
