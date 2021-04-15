@@ -21,7 +21,7 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {fetchPost, fetchPostGetErrors, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
-    opprettFormDataMedVedleggFraFiler,
+    createFormDataWithVedleggFromFiler,
     FileError,
     isFileErrorsNotEmpty,
     maxCombinedFileSize,
@@ -137,7 +137,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
         window.removeEventListener("beforeunload", alertUser);
 
-        let formData = opprettFormDataMedVedleggFraFiler(filer);
+        let formData = createFormDataWithVedleggFromFiler(filer);
         const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
         const path = innsynsdataUrl(fiksDigisosId, sti);
         dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));

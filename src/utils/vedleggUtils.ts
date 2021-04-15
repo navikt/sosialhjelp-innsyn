@@ -23,7 +23,7 @@ interface Metadata {
     hendelsereferanse: string | undefined;
 }
 
-export const opprettFormDataMedVedleggFraOppgaver = (oppgave: DokumentasjonEtterspurt) => {
+export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);
     return opprettFormDataMedVedlegg(metadata);
 };
@@ -39,7 +39,7 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
     }));
 };
 
-export const opprettFormDataMedVedleggFraFiler = (filer: Fil[]): FormData => {
+export const createFormDataWithVedleggFromFiler = (filer: Fil[]): FormData => {
     const metadata: Metadata[] = generateMetadataFromAndreVedlegg(filer);
     return opprettFormDataMedVedlegg(metadata);
 };

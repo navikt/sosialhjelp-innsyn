@@ -2,8 +2,8 @@ import {
     alertUser,
     hasNotAddedFiles,
     maxCombinedFileSize,
-    opprettFormDataMedVedleggFraFiler,
-    opprettFormDataMedVedleggFraOppgaver,
+    createFormDataWithVedleggFromFiler,
+    createFormDataWithVedleggFromOppgaver,
 } from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
@@ -27,42 +27,40 @@ import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils"
 export const SendVedlegg = (
     event: any,
     dispatch: React.Dispatch<any>,
-    dokumentasjonsId: string,
+    vedleggId: string,
     innsyndatasti: InnsynsdataSti,
     fiksDigisosId: string | undefined,
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
-    dokumentasjon?: DokumentasjonEtterspurt,
+    setAboveMaxSize: (aboveMaxSize: boolean) => void,
+    dokumentasjonEtterspurt?: DokumentasjonEtterspurt,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
-    dispatch(setFileUploadFailedInBackend(dokumentasjonsId, false));
-    dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonsId, false));
+    dispatch(setFileUploadFailedInBackend(vedleggId, false));
+    dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
 
-    if ((!dokumentasjon && !filer) || !fiksDigisosId) {
+    if ((!dokumentasjonEtterspurt && !filer) || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
 
-    const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
-    const path = innsynsdataUrl(fiksDigisosId, sti);
-
+    const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
     let formData: any = undefined;
 
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjon) {
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
         try {
-            formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjon);
+            formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
         } catch (e) {
-            dispatch(setFileUploadFailed(dokumentasjonsId, true));
+            dispatch(setFileUploadFailed(vedleggId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
             event.preventDefault();
             return;
         }
 
         dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
-        const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
-        dispatch(setFileUploadFailed(dokumentasjonsId, ingenFilerValgt));
+        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
+        dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
 
-        if (ingenFilerValgt) {
+        if (noFilesAdded) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             event.preventDefault();
@@ -72,21 +70,21 @@ export const SendVedlegg = (
 
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         try {
-            formData = opprettFormDataMedVedleggFraFiler(filer);
+            formData = createFormDataWithVedleggFromFiler(filer);
         } catch (e) {
-            dispatch(setFileUploadFailed(dokumentasjonsId, true));
+            dispatch(setFileUploadFailed(vedleggId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
             event.preventDefault();
             return;
         }
     }
 
-    setOverMaksStorrelse(false);
+    setAboveMaxSize(false);
 
-    let sammensattFilStorrelseForOppgaveElement = 0;
+    let combinedSizeOfAllFiles = 0;
 
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjon) {
-        sammensattFilStorrelseForOppgaveElement = dokumentasjon.oppgaveElementer
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
+        combinedSizeOfAllFiles = dokumentasjonEtterspurt.oppgaveElementer
             .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
                 return oppgaveElement.filer ?? [];
             })
@@ -96,39 +94,36 @@ export const SendVedlegg = (
             );
     }
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
-        sammensattFilStorrelseForOppgaveElement = filer.reduce(
+        combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
         );
     }
 
-    setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
+    setAboveMaxSize(combinedSizeOfAllFiles > maxCombinedFileSize);
 
-    if (sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize) {
+    if (combinedSizeOfAllFiles > maxCombinedFileSize) {
         logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
     }
 
-    if (
-        sammensattFilStorrelseForOppgaveElement < maxCombinedFileSize &&
-        sammensattFilStorrelseForOppgaveElement !== 0
-    ) {
+    if (combinedSizeOfAllFiles < maxCombinedFileSize && combinedSizeOfAllFiles !== 0) {
         fetchPost(path, formData, "multipart/form-data")
-            .then((filRespons: any) => {
-                let harFeil: boolean = false;
-                if (Array.isArray(filRespons)) {
-                    filRespons.forEach((respons) => {
-                        respons.filer.forEach((fil: Fil, index: number) => {
+            .then((fileResponse: any) => {
+                let hasError: boolean = false;
+                if (Array.isArray(fileResponse)) {
+                    fileResponse.forEach((response) => {
+                        response.filer.forEach((fil: Fil, index: number) => {
                             if (fil.status !== "OK") {
-                                harFeil = true;
+                                hasError = true;
                             }
                             if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
                                     fil: {filnavn: fil.filnavn} as Fil,
                                     status: fil.status,
-                                    innsendelsesfrist: respons.innsendelsesfrist,
-                                    dokumenttype: respons.type,
-                                    tilleggsinfo: respons.tilleggsinfo,
+                                    innsendelsesfrist: response.innsendelsesfrist,
+                                    dokumenttype: response.type,
+                                    tilleggsinfo: response.tilleggsinfo,
                                     vedleggIndex: index,
                                 });
                             } else if (innsyndatasti === InnsynsdataSti.VEDLEGG) {
@@ -142,10 +137,10 @@ export const SendVedlegg = (
                         });
                     });
                 }
-                if (harFeil) {
+                if (hasError) {
                     dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                 } else {
-                    dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonsId));
+                    dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                 }
@@ -154,12 +149,12 @@ export const SendVedlegg = (
                 // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                 fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                     if (errorResponse.message === "Mulig virus funnet") {
-                        dispatch(setFileUploadFailedInBackend(dokumentasjonsId, false));
-                        dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonsId, true));
+                        dispatch(setFileUploadFailedInBackend(vedleggId, false));
+                        dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, true));
                     }
                 });
                 dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                dispatch(setFileUploadFailedInBackend(dokumentasjonsId, true));
+                dispatch(setFileUploadFailedInBackend(vedleggId, true));
                 logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
             });
     } else {

@@ -5,8 +5,8 @@ import {
     hentFileExtension,
     generateMetadataFromAndreVedlegg,
     generateMetadataFromOppgaver,
-    opprettFormDataMedVedleggFraOppgaver,
-    opprettFormDataMedVedleggFraFiler,
+    createFormDataWithVedleggFromOppgaver,
+    createFormDataWithVedleggFromFiler,
 } from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
@@ -76,7 +76,7 @@ const expectedEttersendelseMetadata = [
 
 describe("VedleggUtilsTest", () => {
     it("should create correct form and meta data for oppgaver", () => {
-        const formData: FormData = opprettFormDataMedVedleggFraOppgaver(oppgave);
+        const formData: FormData = createFormDataWithVedleggFromOppgaver(oppgave);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
@@ -101,7 +101,7 @@ describe("VedleggUtilsTest", () => {
     });
 
     it("should create correct form and meta data for ettersendelse", () => {
-        const formData: FormData = opprettFormDataMedVedleggFraFiler([pngFile, jpgFile, pdfFile]);
+        const formData: FormData = createFormDataWithVedleggFromFiler([pngFile, jpgFile, pdfFile]);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
@@ -124,7 +124,7 @@ describe("VedleggUtilsTest", () => {
     });
 
     it("should log error for empty file file object ettersendelse", () => {
-        const formDataMedTomFil: FormData = opprettFormDataMedVedleggFraFiler([pngFile, jpgFile, emptyFile]);
+        const formDataMedTomFil: FormData = createFormDataWithVedleggFromFiler([pngFile, jpgFile, emptyFile]);
         expect(formDataMedTomFil).toBeDefined();
 
         const formDataMedTomFilEntryValues: FormDataEntryValue[] = formDataMedTomFil.getAll("files");
