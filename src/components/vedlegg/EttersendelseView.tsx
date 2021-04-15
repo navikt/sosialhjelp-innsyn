@@ -34,6 +34,7 @@ import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
+import {SendVedlegg} from "../oppgaver/sendVedlegg";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -288,7 +289,16 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 setSendVedleggTrykket(true);
                                 return;
                             }
-                            sendVedlegg(event);
+                            SendVedlegg(
+                                event,
+                                dispatch,
+                                BACKEND_FEIL_ID,
+                                InnsynsdataSti.VEDLEGG,
+                                fiksDigisosId,
+                                setOverMaksStorrelse,
+                                undefined,
+                                filer
+                            );
                         }}
                     >
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />

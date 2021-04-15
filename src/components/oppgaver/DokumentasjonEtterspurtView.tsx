@@ -1,39 +1,15 @@
 import React, {useState} from "react";
 import {Normaltekst} from "nav-frontend-typografi";
-import {
-    Fil,
-    InnsynsdataActionTypeKeys,
-    InnsynsdataSti,
-    KommuneResponse,
-    DokumentasjonEtterspurt,
-    DokumentasjonEtterspurtElement,
-    settRestStatus,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
-import {
-    hentInnsynsdata,
-    innsynsdataUrl,
-    hentOppgaveMedId,
-    setFileUploadFailed,
-    setFileUploadFailedInBackend,
-    setFileUploadFailedVirusCheckInBackend,
-} from "../../redux/innsynsdata/innsynsDataActions";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
-import {
-    opprettFormDataMedVedleggFraOppgaver,
-    alertUser,
-    oppgaveHasFilesWithError,
-    hasNotAddedFiles,
-    getVisningstekster,
-    maxCombinedFileSize,
-} from "../../utils/vedleggUtils";
+import {getVisningstekster, oppgaveHasFilesWithError} from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
-import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {SendVedlegg} from "./sendVedlegg";
@@ -131,7 +107,16 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            SendVedlegg(event, dispatch, dokumentasjonEtterspurt, fiksDigisosId, setOverMaksStorrelse);
+                            SendVedlegg(
+                                event,
+                                dispatch,
+                                dokumentasjonEtterspurt.oppgaveId,
+                                InnsynsdataSti.OPPGAVER,
+                                fiksDigisosId,
+                                setOverMaksStorrelse,
+                                dokumentasjonEtterspurt,
+                                undefined
+                            );
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
