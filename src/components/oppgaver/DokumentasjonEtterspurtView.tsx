@@ -36,6 +36,7 @@ import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils"
 import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
+import {SendVedlegg} from "./sendVedlegg";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -72,109 +73,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
-
-    const sendVedlegg = (event: any) => {
-        window.removeEventListener("beforeunload", alertUser);
-        dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-        dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-
-        if (!dokumentasjonEtterspurt || !fiksDigisosId) {
-            event.preventDefault();
-            return;
-        }
-
-        try {
-            var formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjonEtterspurt);
-        } catch (e) {
-            dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e.message);
-            event.preventDefault();
-            return;
-        }
-        const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
-        const path = innsynsdataUrl(fiksDigisosId, sti);
-
-        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.PENDING));
-
-        const ingenFilerValgt = hasNotAddedFiles(dokumentasjonEtterspurt);
-        dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, ingenFilerValgt));
-
-        setOverMaksStorrelse(false);
-
-        const sammensattFilStorrelseForOppgaveElement = dokumentasjonEtterspurt.oppgaveElementer
-            .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
-                return oppgaveElement.filer ?? [];
-            })
-            .reduce(
-                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
-                0
-            );
-
-        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
-
-        if (ingenFilerValgt) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
-            event.preventDefault();
-            return;
-        }
-
-        if (sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize) {
-            logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
-        }
-
-        if (
-            sammensattFilStorrelseForOppgaveElement < maxCombinedFileSize &&
-            sammensattFilStorrelseForOppgaveElement !== 0
-        ) {
-            fetchPost(path, formData, "multipart/form-data")
-                .then((filRespons: any) => {
-                    let harFeil: boolean = false;
-                    if (Array.isArray(filRespons)) {
-                        filRespons.forEach((respons) => {
-                            respons.filer.forEach((fil: Fil, index: number) => {
-                                if (fil.status !== "OK") {
-                                    harFeil = true;
-                                }
-                                dispatch({
-                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                    fil: {filnavn: fil.filnavn} as Fil,
-                                    status: fil.status,
-                                    innsendelsesfrist: respons.innsendelsesfrist,
-                                    dokumenttype: respons.type,
-                                    tilleggsinfo: respons.tilleggsinfo,
-                                    vedleggIndex: index,
-                                });
-                            });
-                        });
-                    }
-                    if (harFeil) {
-                        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    } else {
-                        dispatch(
-                            hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
-                        );
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                    }
-                })
-                .catch((e) => {
-                    // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
-                    fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
-                        if (errorResponse.message === "Mulig virus funnet") {
-                            dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
-                            dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
-                        }
-                    });
-                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
-                    logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
-                });
-        } else {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-        }
-        event.preventDefault();
-    };
 
     const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
         listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
@@ -233,7 +131,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            sendVedlegg(event);
+                            SendVedlegg(event, dispatch, dokumentasjonEtterspurt, fiksDigisosId, setOverMaksStorrelse);
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
