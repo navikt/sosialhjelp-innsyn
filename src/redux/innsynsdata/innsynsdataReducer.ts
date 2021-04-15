@@ -374,6 +374,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                 filer:
                                     oppgaveElement.filer &&
                                     oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => {
+                                        console.log("reducsergrer fil ", fil, "vedleggIndex ", vedleggIndex);
                                         if (vedleggIndex === action.vedleggIndex) {
                                             return {
                                                 ...fil,
@@ -561,6 +562,7 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
 };
 
 export const oppdaterOppgaveState = (oppgaveId: string, verdi: DokumentasjonEtterspurt[]): any => {
+    console.log("Oppdater oppgave state for oppgave med id ", oppgaveId, verdi);
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE,
         sti: InnsynsdataSti.OPPGAVER,

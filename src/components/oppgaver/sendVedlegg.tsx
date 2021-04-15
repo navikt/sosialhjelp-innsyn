@@ -1,4 +1,9 @@
-import {alertUser, hasNotAddedFiles, maxCombinedFileSize} from "../../utils/vedleggUtils";
+import {
+    alertUser,
+    hasNotAddedFiles,
+    maxCombinedFileSize,
+    opprettFormDataMedVedleggFraOppgaver,
+} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     hentOppgaveMedId,
@@ -50,6 +55,7 @@ const itererOverfiler = (dispatch: React.Dispatch<any>, filrespons: any, innsynd
     let containsError: boolean = false;
     if (Array.isArray(filrespons)) {
         filrespons.forEach((respons) => {
+            console.log(respons);
             respons.filer.forEach((fil: Fil, index: number) => {
                 console.log("fil", fil, "index", index);
                 if (fil.status !== "OK") {
@@ -73,7 +79,7 @@ const SendVedlegg = (
     dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti,
     dokId: string,
-    formData: any,
+    formData1: any,
     dokumentasjon: DokumentasjonEtterspurt
 ) => {
     window.removeEventListener("beforeunload", alertUser);
@@ -85,6 +91,17 @@ const SendVedlegg = (
         event.preventDefault();
         return;
     }
+
+    try {
+        var formData = opprettFormDataMedVedleggFraOppgaver(dokumentasjon);
+    } catch (e) {
+        dispatch(setFileUploadFailed(dokumentasjon.oppgaveId, true));
+        logInfoMessage("Validering vedlegg feilet: " + e.message);
+        event.preventDefault();
+        return;
+    }
+
+    console.log("dokId", dokId);
 
     const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
     const path = innsynsdataUrl(fiksDigisosId, sti);
