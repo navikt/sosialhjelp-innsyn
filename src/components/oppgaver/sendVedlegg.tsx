@@ -43,6 +43,9 @@ export const SendVedlegg = (
         return;
     }
 
+    const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
+    const path = innsynsdataUrl(fiksDigisosId, sti);
+
     let formData: any = undefined;
 
     if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjon) {
@@ -54,6 +57,17 @@ export const SendVedlegg = (
             event.preventDefault();
             return;
         }
+
+        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
+        const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
+        dispatch(setFileUploadFailed(dokumentasjonsId, ingenFilerValgt));
+
+        if (ingenFilerValgt) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
+            event.preventDefault();
+            return;
+        }
     }
 
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
@@ -62,21 +76,6 @@ export const SendVedlegg = (
         } catch (e) {
             dispatch(setFileUploadFailed(dokumentasjonsId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
-            event.preventDefault();
-            return;
-        }
-    }
-
-    const sti: InnsynsdataSti = InnsynsdataSti.VEDLEGG;
-    const path = innsynsdataUrl(fiksDigisosId, sti);
-
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjon) {
-        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
-        const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
-        dispatch(setFileUploadFailed(dokumentasjonsId, ingenFilerValgt));
-        if (ingenFilerValgt) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             event.preventDefault();
             return;
         }
@@ -96,13 +95,11 @@ export const SendVedlegg = (
                 0
             );
     }
-    if (innsyndatasti === InnsynsdataSti.VEDLEGG) {
-        sammensattFilStorrelseForOppgaveElement = filer
-            ? filer.reduce(
-                  (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-                  0
-              )
-            : 0;
+    if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
+        sammensattFilStorrelseForOppgaveElement = filer.reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
     }
 
     setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
