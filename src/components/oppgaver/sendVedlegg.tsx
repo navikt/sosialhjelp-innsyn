@@ -9,6 +9,7 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {
+    DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
     Fil,
     InnsynsdataActionTypeKeys,
@@ -50,6 +51,7 @@ const itererOverfiler = (dispatch: React.Dispatch<any>, filrespons: any, innsynd
     if (Array.isArray(filrespons)) {
         filrespons.forEach((respons) => {
             respons.filer.forEach((fil: Fil, index: number) => {
+                console.log("fil", fil, "index", index);
                 if (fil.status !== "OK") {
                     containsError = true;
                 }
@@ -67,19 +69,19 @@ const itererOverfiler = (dispatch: React.Dispatch<any>, filrespons: any, innsynd
 const SendVedlegg = (
     event: any,
     fiksDigisosId: string | undefined,
-    dispatch: React.Dispatch<any>,
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void,
+    dispatch: React.Dispatch<any>,
     datasti: InnsynsdataSti,
     dokId: string,
     formData: any,
-    oppgaveElement?: DokumentasjonEtterspurtElement[] | undefined
+    dokumentasjon: DokumentasjonEtterspurt
 ) => {
     window.removeEventListener("beforeunload", alertUser);
 
     dispatch(setFileUploadFailedInBackend(dokId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(dokId, false));
 
-    if (!formData || !fiksDigisosId) {
+    if (!dokumentasjon || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -89,25 +91,18 @@ const SendVedlegg = (
 
     dispatch(settRestStatus(datasti, REST_STATUS.PENDING));
 
-    const ingenFilerValgt = hasNotAddedFiles(oppgaveElement);
+    const ingenFilerValgt = hasNotAddedFiles(dokumentasjon);
     dispatch(setFileUploadFailed(dokId, ingenFilerValgt));
 
-    if (datasti === InnsynsdataSti.OPPGAVER) {
-        setOverMaksStorrelse(false);
+    setOverMaksStorrelse(false);
 
-        const sammensattFilStorrelseForOppgaveElement =
-            oppgaveElement &&
-            oppgaveElement
-                .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
-                    return oppgaveElement.filer ?? [];
-                })
-                .reduce(
-                    (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
-                    0
-                );
+    const sammensattFilStorrelseForOppgaveElement = dokumentasjon.oppgaveElementer
+        .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
+            return oppgaveElement.filer ?? [];
+        })
+        .reduce((accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0), 0);
 
-        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
-    }
+    setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
 
     if (ingenFilerValgt) {
         dispatch(settRestStatus(datasti, REST_STATUS.FEILET));

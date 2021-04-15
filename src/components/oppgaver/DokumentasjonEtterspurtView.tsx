@@ -1,12 +1,6 @@
 import React, {useState} from "react";
 import {Normaltekst} from "nav-frontend-typografi";
-import {
-    InnsynsdataSti,
-    KommuneResponse,
-    DokumentasjonEtterspurt,
-    Fil,
-    DokumentasjonEtterspurtElement,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti, KommuneResponse, DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -19,8 +13,6 @@ import {
     oppgaveHasFilesWithError,
     getVisningstekster,
     createFormDataWithVedlegg,
-    hasNotAddedFiles,
-    maxCombinedFileSize,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {REST_STATUS} from "../../utils/restUtils";
@@ -72,21 +64,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         overMaksStorrelse ||
         listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
-
-    const valider = () => {
-        setOverMaksStorrelse(false);
-
-        const sammensattFilStorrelseForOppgaveElement = dokumentasjonEtterspurt.oppgaveElementer
-            .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
-                return oppgaveElement.filer ?? [];
-            })
-            .reduce(
-                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
-                0
-            );
-
-        setOverMaksStorrelse(sammensattFilStorrelseForOppgaveElement > maxCombinedFileSize);
-    };
 
     const getFormData = (event: any) => {
         try {
@@ -149,7 +126,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            valider();
                             const formData = getFormData(event);
                             SendVedlegg(
                                 event,
@@ -159,7 +135,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 InnsynsdataSti.OPPGAVER,
                                 dokumentasjonEtterspurt.oppgaveId,
                                 formData,
-                                dokumentasjonEtterspurt.oppgaveElementer
+                                dokumentasjonEtterspurt
                             );
                         }}
                     >

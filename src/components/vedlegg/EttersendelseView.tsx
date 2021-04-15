@@ -155,11 +155,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
-    const totaltSammensattFilStorrelse = filer?.reduce(
-        (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-        0
-    );
-
     return (
         <>
             <DriftsmeldingVedlegg
@@ -241,16 +236,16 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 return;
                             }
                             const formData = getFormData(event);
-                            SendVedlegg(
-                                event,
-                                fiksDigisosId,
-                                dispatch,
-                                setOverMaksStorrelse,
-                                InnsynsdataSti.VEDLEGG,
-                                BACKEND_FEIL_ID,
-                                formData,
-                                undefined
-                            );
+                            //SendVedlegg(
+                            //    event,
+                            //    fiksDigisosId,
+                            //    setOverMaksStorrelse,
+                            //    dispatch,
+                            //    InnsynsdataSti.VEDLEGG,
+                            //    BACKEND_FEIL_ID,
+                            //    formData,
+                            //    filer
+                            //);
                         }}
                     >
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />

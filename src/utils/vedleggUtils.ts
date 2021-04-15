@@ -285,12 +285,14 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
     return filerMedFeil;
 };
 
-export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurtElement[] | undefined) => {
+export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurt | null) => {
     let antall = 0;
-    /*oppgave &&
-        oppgave.forEach(() => ) &&
-                oppgave.filer.forEach(() => {
+    oppgave &&
+        oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
+            oppgaveElement.filer &&
+                oppgaveElement.filer.forEach(() => {
                     antall += 1;
-                });*/
+                });
+        });
     return antall === 0;
 };
