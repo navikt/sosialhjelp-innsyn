@@ -138,9 +138,11 @@ export const SendVedlegg = (
                     });
                 }
                 if (hasError) {
-                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                    dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
                 } else {
-                    dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
+                    if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
+                        dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
+                    }
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                 }
@@ -153,12 +155,12 @@ export const SendVedlegg = (
                         dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, true));
                     }
                 });
-                dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
                 dispatch(setFileUploadFailedInBackend(vedleggId, true));
                 logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
             });
     } else {
-        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+        dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
     }
     event.preventDefault();
 };
