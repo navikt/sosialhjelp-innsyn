@@ -77,6 +77,7 @@ export const SendVedlegg = (
             event.preventDefault();
             return;
         }
+        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
     }
 
     setAboveMaxSize(false);
