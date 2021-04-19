@@ -24,7 +24,7 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 
-export const SendVedlegg = (
+export const onSendVedleggClicked = (
     event: any,
     dispatch: React.Dispatch<any>,
     vedleggId: string,

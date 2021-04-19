@@ -12,7 +12,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
-import {SendVedlegg} from "./sendVedlegg";
+import {onSendVedleggClicked} from "./onSendVedleggClicked";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -107,7 +107,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            SendVedlegg(
+                            onSendVedleggClicked(
                                 event,
                                 dispatch,
                                 dokumentasjonEtterspurt.oppgaveId,
