@@ -64,7 +64,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <VilkarView />
 
-            {skalViseLastestripe(restStatus) && (
+            {skalViseLastestripe(restStatus, true) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
