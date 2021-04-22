@@ -151,6 +151,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     />
                                 ))}
                         </div>
+                        <div>her skal dok.krav</div>
                     </Ekspanderbartpanel>
                 </Panel>
             )}
