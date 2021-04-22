@@ -60,6 +60,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         if (innsynsdata.restStatus.saksStatus !== REST_STATUS.PENDING) {
             [
                 InnsynsdataSti.OPPGAVER,
+                InnsynsdataSti.DOKUMENTASJONKRAV,
                 InnsynsdataSti.SOKNADS_STATUS,
                 InnsynsdataSti.HENDELSER,
                 InnsynsdataSti.VEDLEGG,
@@ -149,7 +150,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         />
                     )}
 
-                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
+                    {(erPaInnsyn || innsynsdata.oppgaver.dokumentasjonEtterspurt.length > 0) && (
                         <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
                     )}
 

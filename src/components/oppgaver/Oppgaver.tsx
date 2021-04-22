@@ -5,7 +5,7 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, Oppgaver} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -16,16 +16,16 @@ import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 interface Props {
-    oppgaver: null | DokumentasjonEtterspurt[];
+    oppgaver: null | Oppgaver;
     restStatus: REST_STATUS;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): Date | null {
+function foersteInnsendelsesfrist(oppgaver: null | Oppgaver): Date | null {
     if (oppgaver === null) {
         return null;
     }
-    if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map(
+    if (oppgaver.dokumentasjonEtterspurt.length > 0) {
+        const innsendelsesfrister = oppgaver.dokumentasjonEtterspurt.map(
             (oppgave: DokumentasjonEtterspurt) => new Date(oppgave.innsendelsesfrist!!)
         );
         return innsendelsesfrister[0];
