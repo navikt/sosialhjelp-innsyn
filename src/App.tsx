@@ -17,6 +17,7 @@ import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
 import {isDevSbs, isProd} from "./utils/restUtils";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
+import {initAmplitude} from "./utils/amplitude";
 
 const store = configureStore();
 
@@ -36,6 +37,8 @@ if (isProd(origin)) {
     Sentry.init({dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15"});
 }
 Sentry.setUser({ip_address: "", id: uuid()});
+
+initAmplitude();
 
 const App: React.FC = () => {
     const language = "nb";
