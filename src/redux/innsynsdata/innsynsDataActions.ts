@@ -32,7 +32,7 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(skalViseForbudtside(true));
                 } else {
-                    logWarningMessage(reason.message, reason.navCallId);
+                    logWarningMessage(reason.message + " " + url, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
                         dispatch(skalViseFeilside(true));
