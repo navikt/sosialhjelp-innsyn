@@ -1,6 +1,6 @@
 import React from "react";
 import Panel from "nav-frontend-paneler";
-import {Element, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
+import {Element, Innholdstittel, Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -8,7 +8,7 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
-import {AlertStripeInfo} from "nav-frontend-alertstriper";
+import Alertstripe, {AlertStripeInfo} from "nav-frontend-alertstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentOk from "../ikoner/DokumentOk";
@@ -43,7 +43,15 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     return (
         <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
             <div className="tittel_og_ikon">
-                {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
+                {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={1} />}
+                {restStatus === REST_STATUS.FEILET && (
+                    <ul>
+                        <Systemtittel>Søknadsstatus</Systemtittel>
+                        <Alertstripe type="feil" form="inline">
+                            Vi klarte ikke hente søknadsstatus
+                        </Alertstripe>
+                    </ul>
+                )}
                 {restStatus !== REST_STATUS.FEILET && (
                     <>
                         <Innholdstittel>{soknadsStatusTittel(status, intl)}</Innholdstittel>
