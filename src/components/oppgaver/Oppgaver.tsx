@@ -14,6 +14,7 @@ import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import Alertstripe from "nav-frontend-alertstriper";
 
 interface Props {
     oppgaver: null | DokumentasjonEtterspurt[];
@@ -64,26 +65,23 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <VilkarView />
 
-            {skalViseLastestripe(restStatus) && (
-                <Panel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
-                    <Lastestriper linjer={1} />
-                </Panel>
-            )}
+            <Panel
+                className={
+                    "panel-glippe-over oppgaver_panel " +
+                    (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
+                }
+            >
+                {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={1} />}
 
-            <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
+                {restStatus === REST_STATUS.FEILET && (
+                    <Alertstripe type="feil" form="inline">
+                        Vi klarte ikke hente dine oppgaver
+                    </Alertstripe>
+                )}
 
-            {brukerHarOppgaver && (
-                <Panel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
+                <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
+
+                {brukerHarOppgaver && (
                     <Ekspanderbartpanel
                         apen={false}
                         border={false}
@@ -152,8 +150,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 ))}
                         </div>
                     </Ekspanderbartpanel>
-                </Panel>
-            )}
+                )}
+            </Panel>
         </>
     );
 };
