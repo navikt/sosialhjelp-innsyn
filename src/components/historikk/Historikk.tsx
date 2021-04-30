@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Normaltekst, Element} from "nav-frontend-typografi";
+import {Element, Normaltekst} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -7,6 +7,7 @@ import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import Alertstripe from "nav-frontend-alertstriper";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -26,15 +27,19 @@ function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
 interface HistorikkListeProps {
     hendelser: Hendelse[];
     className: string;
-    leserData: boolean;
+    restStatus: REST_STATUS;
 }
 
-const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
-    if (leserData) {
-        return <Lastestriper linjer={3} />;
-    }
+const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, restStatus}) => {
     return (
         <ul className={className}>
+            {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={3} />}
+
+            {restStatus === REST_STATUS.FEILET && (
+                <Alertstripe type="feil" form="inline">
+                    Vi klarte ikke hente dine oppgaver
+                </Alertstripe>
+            )}
             {hendelser.map((hendelse: Hendelse, index: number) => {
                 return (
                     <li key={index}>
@@ -54,8 +59,8 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
     );
 };
 
-const KortHistorikk: React.FC<{hendelser: Hendelse[]; leserData: boolean}> = ({hendelser, leserData}) => {
-    return <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />;
+const KortHistorikk: React.FC<{hendelser: Hendelse[]; restStatus: REST_STATUS}> = ({hendelser, restStatus}) => {
+    return <HistorikkListe hendelser={hendelser} className="historikk" restStatus={restStatus} />;
 };
 
 const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
@@ -73,14 +78,14 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
                 <HistorikkListe
                     hendelser={hendelser.slice(0, MAX_ANTALL_KORT_LISTE)}
                     className={"historikk " + historikkListeClassname}
-                    leserData={false}
+                    restStatus={REST_STATUS.OK}
                 />
             }
         >
             <HistorikkListe
                 hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
                 className="historikk"
-                leserData={false}
+                restStatus={REST_STATUS.OK}
             />
         </Lesmerpanel>
     );
@@ -92,7 +97,7 @@ const Historikk: React.FC<Props> = ({hendelser, restStatus}) => {
     }
     const sorterteHendelser = sorterHendelserKronologisk(hendelser);
     if (sorterteHendelser.length < MAX_ANTALL_KORT_LISTE + 1) {
-        return <KortHistorikk hendelser={sorterteHendelser} leserData={skalViseLastestripe(restStatus)} />;
+        return <KortHistorikk hendelser={sorterteHendelser} restStatus={restStatus} />;
     }
     if (sorterteHendelser.length > MAX_ANTALL_KORT_LISTE) {
         return <LangHistorikk hendelser={sorterteHendelser} />;
