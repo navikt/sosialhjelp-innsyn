@@ -300,23 +300,29 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...setPath(state, action.sti, action.verdi),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
-            const oppgave: DokumentasjonEtterspurt[] = action.verdi;
-            if (oppgave.length === 0) {
+            const oppgave: Oppgave = action.verdi;
+            if (oppgave.dokumentasjonEtterspurt.length === 0) {
                 return {
                     ...state,
-                    oppgaver: state.oppgaver.dokumentasjonEtterspurt.filter(
-                        (oppgave: DokumentasjonEtterspurt) => oppgave.oppgaveId !== action.oppgaveId
-                    ),
+                    oppgaver: {
+                        dokumentasjonEtterspurt: state.oppgaver.dokumentasjonEtterspurt.filter(
+                            (oppgave: DokumentasjonEtterspurt) => oppgave.oppgaveId !== action.oppgaveId
+                        ),
+                        dokumentasjonKrav: oppgave.dokumentasjonKrav,
+                    },
                 };
             }
             return {
                 ...state,
-                oppgaver: state.oppgaver.dokumentasjonEtterspurt.map((oppgave) => {
-                    if (oppgave.oppgaveId === action.oppgaveId) {
-                        return action.verdi[0];
-                    }
-                    return oppgave;
-                }),
+                oppgaver: {
+                    dokumentasjonEtterspurt: state.oppgaver.dokumentasjonEtterspurt.map((oppgave) => {
+                        if (oppgave.oppgaveId === action.oppgaveId) {
+                            return action.verdi[0];
+                        }
+                        return oppgave;
+                    }),
+                    dokumentasjonKrav: oppgave.dokumentasjonKrav,
+                },
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS:
             return {

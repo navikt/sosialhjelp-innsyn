@@ -5,7 +5,8 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
+import DokumentasjonKravView from "./DokumentasjonKravView";
+import {DokumentasjonEtterspurt, DokumentasjonKrav, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -56,6 +57,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
+    console.log("oppgaver", oppgaver);
+    console.log("brukerhar", brukerHarOppgaver);
+
     return (
         <>
             <Panel className="panel-luft-over">
@@ -79,6 +83,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
+            <div>heio heifhosjhgouhajnf</div>
+
             {brukerHarOppgaver && (
                 <Panel
                     className={
@@ -86,6 +92,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
                     }
                 >
+                    <div>adfsfgadfadg</div>
                     <Ekspanderbartpanel
                         apen={false}
                         border={false}
@@ -155,7 +162,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     )
                                 )}
                         </div>
-                        <div>her skal dok.krav</div>
                     </Ekspanderbartpanel>
                 </Panel>
             )}
