@@ -65,7 +65,7 @@ export interface Fil {
     status?: string;
 }
 
-export interface Oppgaver {
+export interface Oppgave {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
     dokumentasjonKrav: DokumentasjonKrav[];
 }
@@ -211,7 +211,7 @@ const initiellKommuneResponse_antarAltOk: KommuneResponse = {
 export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
-    oppgaver: Oppgaver;
+    oppgaver: Oppgave;
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];

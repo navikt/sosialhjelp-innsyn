@@ -5,7 +5,7 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt, Oppgaver} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, Oppgave} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -16,11 +16,11 @@ import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 
 interface Props {
-    oppgaver: null | Oppgaver;
+    oppgaver: null | Oppgave;
     restStatus: REST_STATUS;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null | Oppgaver): Date | null {
+function foersteInnsendelsesfrist(oppgaver: null | Oppgave): Date | null {
     if (oppgaver === null) {
         return null;
     }
@@ -49,8 +49,10 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
 }
 
 const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
-    const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
-    const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
+    const brukerHarOppgaver: boolean =
+        oppgaver !== null && oppgaver.dokumentasjonEtterspurt && oppgaver.dokumentasjonEtterspurt.length > 0;
+    const oppgaverErFraInnsyn: boolean =
+        brukerHarOppgaver && oppgaver!!.dokumentasjonEtterspurt[0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
@@ -142,14 +144,16 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
                         <div>
                             {oppgaver !== null &&
-                                oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
-                                    <DokumentasjonEtterspurtView
-                                        dokumentasjonEtterspurt={oppgave}
-                                        key={oppgaveIndex}
-                                        oppgaverErFraInnsyn={oppgaverErFraInnsyn}
-                                        oppgaveIndex={oppgaveIndex}
-                                    />
-                                ))}
+                                oppgaver.dokumentasjonEtterspurt.map(
+                                    (oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
+                                        <DokumentasjonEtterspurtView
+                                            dokumentasjonEtterspurt={oppgave}
+                                            key={oppgaveIndex}
+                                            oppgaverErFraInnsyn={oppgaverErFraInnsyn}
+                                            oppgaveIndex={oppgaveIndex}
+                                        />
+                                    )
+                                )}
                         </div>
                         <div>her skal dok.krav</div>
                     </Ekspanderbartpanel>
