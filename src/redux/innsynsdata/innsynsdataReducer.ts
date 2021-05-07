@@ -80,6 +80,21 @@ export interface DokumentasjonEtterspurtElement {
     filer?: Fil[];
 }
 
+export interface DokumentasjonKrav {
+    frist?: string;
+    dokumentasjonkravElementer: DokumentasjonKravElement[];
+}
+
+export interface DokumentasjonKravElement {
+    hendelsetidspunkt?: string;
+    hendelsetype: HendelseTypeEnum | undefined;
+    tittel?: string;
+    beskrivelse?: string;
+    dokumentasjonkravReferanse: string | undefined;
+    status: string;
+    filer?: Fil[];
+}
+
 export enum InnsynsdataActionTypeKeys {
     // Innsynsdata:
     SETT_FIKSDIGISOSID = "innsynsdata/SETT_FIKSDIGISOSID",
@@ -107,6 +122,7 @@ export enum InnsynsdataActionTypeKeys {
 export enum InnsynsdataSti {
     SAKSSTATUS = "saksStatus",
     OPPGAVER = "oppgaver",
+    DOKUMENTASJONKRAV = "dokumentasjonkrav",
     SOKNADS_STATUS = "soknadsStatus",
     HENDELSER = "hendelser",
     VEDLEGG = "vedlegg",
@@ -193,6 +209,7 @@ export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: DokumentasjonEtterspurt[];
+    dokumentasjonKrav: DokumentasjonKrav[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -225,6 +242,7 @@ export const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
+    dokumentasjonKrav: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],

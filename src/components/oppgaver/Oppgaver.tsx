@@ -1,11 +1,11 @@
 import Panel from "nav-frontend-paneler";
 import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
-import React from "react";
+import React, {useState} from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, DokumentasjonKrav, Sakstype} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -14,6 +14,9 @@ import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import DokumentasjonKravView from "./DokumentasjonKravView";
 
 interface Props {
     oppgaver: null | DokumentasjonEtterspurt[];
@@ -49,6 +52,10 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
 }
 
 const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
+    const dokumentasjonKrav: DokumentasjonKrav[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.dokumentasjonKrav
+    );
+
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
@@ -147,6 +154,17 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                         dokumentasjonEtterspurt={oppgave}
                                         key={oppgaveIndex}
                                         oppgaverErFraInnsyn={oppgaverErFraInnsyn}
+                                        oppgaveIndex={oppgaveIndex}
+                                    />
+                                ))}
+                        </div>
+
+                        <div>
+                            {dokumentasjonKrav !== null &&
+                                dokumentasjonKrav.map((oppgave: DokumentasjonKrav, oppgaveIndex: number) => (
+                                    <DokumentasjonKravView
+                                        dokumentasjonKrav={oppgave}
+                                        key={oppgaveIndex}
                                         oppgaveIndex={oppgaveIndex}
                                     />
                                 ))}
