@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {DokumentasjonKrav, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKrav, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getVisningstekster, oppgaveHasFilesWithError} from "../../utils/vedleggUtils";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,6 +7,9 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {REST_STATUS} from "../../utils/restUtils";
+import {Hovedknapp} from "nav-frontend-knapper";
+import {onSendVedleggClicked} from "./onSendVedleggClicked";
+import {FormattedMessage} from "react-intl";
 
 interface Props {
     dokumentasjonKrav: DokumentasjonKrav;
@@ -51,7 +54,12 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonKrav.oppgaveId);*/
 
     return (
-        <div>
+        <div
+            className={
+                ("oppgaver_detaljer") +
+                " luft_over_1rem"
+            }
+        >
             {dokumentasjonKrav.dokumentasjonkravElementer.map(
                 (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
@@ -72,6 +80,30 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                     );
                 }
             )}
+
+            {kanLasteOppVedlegg && (
+                <Hovedknapp
+                    disabled={vedleggLastesOpp || otherVedleggLastesOpp}
+                    spinner={vedleggLastesOpp}
+                    type="hoved"
+                    className="luft_over_1rem"
+                    onClick={(event: any) => {
+                        onSendVedleggClicked(
+                            event,
+                            dispatch,
+                            "testId",
+                            InnsynsdataSti.DOKUMENTASJONKRAV,
+                            fiksDigisosId,
+                            setOverMaksStorrelse,
+                            dokumentasjonKrav,
+                            undefined
+                        );
+                    }}
+                >
+                    <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                </Hovedknapp>
+            )}
+        </div>
         </div>
     );
 };

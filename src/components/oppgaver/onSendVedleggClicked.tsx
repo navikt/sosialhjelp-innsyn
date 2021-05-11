@@ -16,7 +16,7 @@ import {
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {
     DokumentasjonEtterspurt,
-    DokumentasjonEtterspurtElement,
+    DokumentasjonEtterspurtElement, DokumentasjonKrav,
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
@@ -31,7 +31,7 @@ export const onSendVedleggClicked = (
     innsyndatasti: InnsynsdataSti,
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
-    dokumentasjonEtterspurt?: DokumentasjonEtterspurt,
+    dokumentasjonEtterspurt?: DokumentasjonEtterspurt | DokumentasjonKrav,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
