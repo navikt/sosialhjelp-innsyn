@@ -6,6 +6,7 @@ import {
     Fil,
     InnsynsdataActionTypeKeys,
     DokumentasjonEtterspurtElement,
+    DokumentasjonKravElement,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import {useDispatch} from "react-redux";
@@ -24,7 +25,7 @@ const FilView: React.FC<{
     oppgaveElementIndex: number;
     oppgaveIndex: number;
     fil: Fil;
-    oppgaveElement?: DokumentasjonEtterspurtElement;
+    oppgaveElement?: DokumentasjonEtterspurtElement | DokumentasjonKravElement;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     oppgaveId: string;
 }> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse, oppgaveId}) => {

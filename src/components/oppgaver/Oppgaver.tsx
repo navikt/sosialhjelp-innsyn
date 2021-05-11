@@ -165,7 +165,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     <DokumentasjonKravView
                                         dokumentasjonKrav={oppgave}
                                         key={oppgaveIndex}
-                                        oppgaveIndex={oppgaveIndex}
+                                        dokumentasjonKravIndex={oppgaveIndex}
                                     />
                                 ))}
                         </div>
