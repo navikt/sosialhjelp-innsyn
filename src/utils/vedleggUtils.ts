@@ -1,4 +1,10 @@
-import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    DokumentasjonEtterspurt,
+    DokumentasjonEtterspurtElement,
+    DokumentasjonKrav,
+    DokumentasjonKravElement,
+} from "../redux/innsynsdata/innsynsdataReducer";
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
@@ -28,6 +34,11 @@ export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtte
     return opprettFormDataMedVedlegg(metadata);
 };
 
+export const createFormDataWithVedleggFromDokumentasjonkrav = (dokumentasjonKrav: DokumentasjonKrav) => {
+    const metadata: Metadata[] = generateMetadataFromDokumentasjonkrav(dokumentasjonKrav);
+    return opprettFormDataMedVedlegg(metadata);
+};
+
 export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
         type: oppgaveElement.dokumenttype,
@@ -36,6 +47,17 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
         filer: oppgaveElement.filer ? oppgaveElement.filer : [],
         hendelsetype: oppgaveElement.hendelsetype,
         hendelsereferanse: oppgaveElement.hendelsereferanse,
+    }));
+};
+
+export const generateMetadataFromDokumentasjonkrav = (dokumentasjonKrav: DokumentasjonKrav) => {
+    return dokumentasjonKrav.dokumentasjonkravElementer.map((dokumentasjonkravElement: DokumentasjonKravElement) => ({
+        type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "test",
+        tilleggsinfo: dokumentasjonkravElement.beskrivelse,
+        innsendelsesfrist: dokumentasjonKrav.frist,
+        filer: dokumentasjonkravElement.filer ? dokumentasjonkravElement.filer : [],
+        hendelsetype: dokumentasjonkravElement.hendelsetype,
+        hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
     }));
 };
 
@@ -278,6 +300,18 @@ export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurt | null) => {
         oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
             oppgaveElement.filer &&
                 oppgaveElement.filer.forEach(() => {
+                    antall += 1;
+                });
+        });
+    return antall === 0;
+};
+
+export const hasNotAddedFilesToDokkrav = (dokumentasjonkrav: DokumentasjonKrav | null) => {
+    let antall = 0;
+    dokumentasjonkrav &&
+        dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonKravElement: DokumentasjonKravElement) => {
+            dokumentasjonKravElement.filer &&
+                dokumentasjonKravElement.filer.forEach(() => {
                     antall += 1;
                 });
         });

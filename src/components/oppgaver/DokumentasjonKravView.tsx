@@ -54,12 +54,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonKrav.oppgaveId);*/
 
     return (
-        <div
-            className={
-                ("oppgaver_detaljer") +
-                " luft_over_1rem"
-            }
-        >
+        <div className={"oppgaver_detaljer" + " luft_over_1rem"}>
             {dokumentasjonKrav.dokumentasjonkravElementer.map(
                 (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
@@ -95,6 +90,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                             InnsynsdataSti.DOKUMENTASJONKRAV,
                             fiksDigisosId,
                             setOverMaksStorrelse,
+                            undefined,
                             dokumentasjonKrav,
                             undefined
                         );
@@ -103,7 +99,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                     <FormattedMessage id="oppgaver.send_knapp_tittel" />
                 </Hovedknapp>
             )}
-        </div>
         </div>
     );
 };

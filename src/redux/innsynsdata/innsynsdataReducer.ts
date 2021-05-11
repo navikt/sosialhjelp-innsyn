@@ -86,10 +86,10 @@ export interface DokumentasjonKrav {
 }
 
 export interface DokumentasjonKravElement {
-    hendelsetidspunkt?: string;
-    hendelsetype: HendelseTypeEnum | undefined;
     tittel?: string;
     beskrivelse?: string;
+    hendelsetidspunkt?: string;
+    hendelsetype: HendelseTypeEnum | undefined;
     dokumentasjonkravReferanse: string | undefined;
     status: string;
     filer?: Fil[];

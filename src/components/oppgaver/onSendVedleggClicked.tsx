@@ -4,6 +4,8 @@ import {
     maxCombinedFileSize,
     createFormDataWithVedleggFromFiler,
     createFormDataWithVedleggFromOppgaver,
+    createFormDataWithVedleggFromDokumentasjonkrav,
+    hasNotAddedFilesToDokkrav,
 } from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
@@ -16,7 +18,8 @@ import {
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {
     DokumentasjonEtterspurt,
-    DokumentasjonEtterspurtElement, DokumentasjonKrav,
+    DokumentasjonEtterspurtElement,
+    DokumentasjonKrav,
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
@@ -31,14 +34,15 @@ export const onSendVedleggClicked = (
     innsyndatasti: InnsynsdataSti,
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
-    dokumentasjonEtterspurt?: DokumentasjonEtterspurt | DokumentasjonKrav,
+    oppgave?: DokumentasjonEtterspurt,
+    dokumentasjonkrav?: DokumentasjonKrav,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
 
-    if ((!dokumentasjonEtterspurt && !filer) || !fiksDigisosId) {
+    if ((!oppgave && !filer) || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -46,9 +50,9 @@ export const onSendVedleggClicked = (
     const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
     let formData: any = undefined;
 
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && oppgave) {
         try {
-            formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
+            formData = createFormDataWithVedleggFromOppgaver(oppgave);
         } catch (e) {
             dispatch(setFileUploadFailed(vedleggId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
@@ -57,7 +61,29 @@ export const onSendVedleggClicked = (
         }
 
         dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
-        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
+        const noFilesAdded = hasNotAddedFiles(oppgave);
+        dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
+
+        if (noFilesAdded) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
+            event.preventDefault();
+            return;
+        }
+    }
+
+    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonkrav) {
+        try {
+            formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav);
+        } catch (e) {
+            dispatch(setFileUploadFailed(vedleggId, true));
+            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            event.preventDefault();
+            return;
+        }
+
+        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
+        const noFilesAdded = hasNotAddedFilesToDokkrav(dokumentasjonkrav);
         dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
 
         if (noFilesAdded) {
@@ -84,8 +110,8 @@ export const onSendVedleggClicked = (
 
     let combinedSizeOfAllFiles = 0;
 
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
-        combinedSizeOfAllFiles = dokumentasjonEtterspurt.oppgaveElementer
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && oppgave) {
+        combinedSizeOfAllFiles = oppgave.oppgaveElementer
             .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
                 return oppgaveElement.filer ?? [];
             })
