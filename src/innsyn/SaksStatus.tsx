@@ -40,6 +40,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const innsynRestStatus = innsynsdata.restStatus.saksStatus;
 
+    console.log("innsyndata", innsynsdata.dokumentasjonkrav);
+
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );

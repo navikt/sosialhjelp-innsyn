@@ -53,7 +53,7 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
 
 const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const dokumentasjonKrav: DokumentasjonKrav[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.dokumentasjonKrav
+        (state: InnsynAppState) => state.innsynsdata.dokumentasjonkrav
     );
 
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;

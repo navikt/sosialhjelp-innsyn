@@ -209,7 +209,7 @@ export interface InnsynsdataType {
     fiksDigisosId: string | undefined;
     saksStatus: SaksStatusState[];
     oppgaver: DokumentasjonEtterspurt[];
-    dokumentasjonKrav: DokumentasjonKrav[];
+    dokumentasjonkrav: DokumentasjonKrav[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -242,7 +242,7 @@ export const initialState: InnsynsdataType = {
     fiksDigisosId: undefined,
     saksStatus: [],
     oppgaver: [],
-    dokumentasjonKrav: [],
+    dokumentasjonkrav: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
