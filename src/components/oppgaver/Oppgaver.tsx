@@ -203,6 +203,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         }
                     >
                         <Normaltekst>
+                            finne ut -oppgaverErFraInnsyn- er relevant for dokumentasjonkrav
                             <FormattedMessage
                                 id="dokumentasjonkrav.veileder_trenger_mer"
                                 values={{
