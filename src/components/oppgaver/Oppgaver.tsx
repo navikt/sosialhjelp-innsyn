@@ -158,7 +158,61 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     />
                                 ))}
                         </div>
+                    </Ekspanderbartpanel>
 
+                    <Ekspanderbartpanel
+                        apen={false}
+                        border={false}
+                        tittel={
+                            <div className="oppgaver_header">
+                                <DokumentBinder />
+                                <div>
+                                    <Element>
+                                        {oppgaverErFraInnsyn && (
+                                            <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
+                                        )}
+                                        {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
+                                    </Element>
+                                    <Normaltekst>
+                                        {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
+                                            <FormattedMessage
+                                                id="oppgaver.neste_frist"
+                                                values={{
+                                                    innsendelsesfrist:
+                                                        innsendelsesfrist != null
+                                                            ? formatDato(innsendelsesfrist.toISOString())
+                                                            : "",
+                                                }}
+                                            />
+                                        )}
+                                        {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                                            <FormattedMessage
+                                                id="oppgaver.neste_frist_passert"
+                                                values={{
+                                                    antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
+                                                    innsendelsesfrist:
+                                                        innsendelsesfrist != null
+                                                            ? formatDato(innsendelsesfrist!.toISOString())
+                                                            : "",
+                                                }}
+                                            />
+                                        )}
+                                    </Normaltekst>
+                                </div>
+                            </div>
+                        }
+                    >
+                        <Normaltekst>
+                            <FormattedMessage
+                                id="dokumentasjonkrav.veileder_trenger_mer"
+                                values={{
+                                    antallDokumenter: dokumentasjonKrav.reduce(
+                                        (count, dokumenter) => count + dokumenter.dokumentasjonkravElementer.length,
+                                        0
+                                    ),
+                                }}
+                            />
+                        </Normaltekst>
                         <div>
                             {dokumentasjonKrav !== null &&
                                 dokumentasjonKrav.map((oppgave: DokumentasjonKrav, oppgaveIndex: number) => (

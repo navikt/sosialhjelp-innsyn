@@ -73,6 +73,11 @@ export const tekster = {
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
         "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
         "oppgaver.andre_dokumenter_beskjed": 'Du kan sende dokumenter under fanen "Dine vedlegg" nedenfor.',
+
+        "dokumentasjonkrav.dokumentasjon_stonad": "Dokumentasjon for stønaden din",
+        "dokumentasjonkrav.veileder_trenger_mer":
+            "Du må levere {antallDokumenter} dokumenter. Dokumentasjonen kan være knyttet til vilkårene dine eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
+
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
         "vedlegg.ulovlig_fil_feilmelding": "Vi kunne ikke legge til filene dine:",
 
