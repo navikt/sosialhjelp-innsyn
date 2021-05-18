@@ -107,6 +107,8 @@ export enum InnsynsdataActionTypeKeys {
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
     FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING",
+    LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV = "innsynsdata/LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV",
+    FJERN_FIL_FOR_DOKUMENTASJONKRAV = "innsynsdata/FJERN_FIL_FOR_DOKUMENTASJONKRAV",
     SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
     LEGG_TIL_FIL_FOR_ETTERSENDELSE = "innsynsdata/LEGG_TIL_FIL_FOR_ETTERSENDELSE",
     FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
@@ -152,6 +154,7 @@ export interface VedleggActionType {
     externalIndex: number;
     fil: Fil;
     oppgaveElement: DokumentasjonEtterspurtElement;
+    dokumentasjonkravElement: DokumentasjonKravElement;
     status?: string;
     restStatus?: REST_STATUS;
     fiksDigisosId?: string;
@@ -367,6 +370,68 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         };
                     }
                     return oppgave;
+                }),
+            };
+        case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV:
+            return {
+                ...state,
+                dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav, oppgaveIndex: number) => {
+                    if (oppgaveIndex === action.externalIndex) {
+                        return {
+                            ...dokumentasjonkrav,
+                            oppgaveElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
+                                (dokumentasjonkravElement, oppgaveElementIndex: number) => {
+                                    if (oppgaveElementIndex === action.internalIndex) {
+                                        return {
+                                            ...dokumentasjonkravElement,
+                                            filer: [
+                                                ...(dokumentasjonkravElement.filer
+                                                    ? dokumentasjonkravElement.filer
+                                                    : []),
+                                                action.fil,
+                                            ],
+                                        };
+                                    }
+                                    return dokumentasjonkravElement;
+                                }
+                            ),
+                        };
+                    }
+                    return dokumentasjonkrav;
+                }),
+            };
+        case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_DOKUMENTASJONKRAV:
+            return {
+                ...state,
+                dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav, oppgaveIndex) => {
+                    if (oppgaveIndex === action.externalIndex) {
+                        return {
+                            ...dokumentasjonkrav,
+                            dokumentasjonkravElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
+                                (dokumentasjonkravElement, oppgaveElementIndex) => {
+                                    if (
+                                        oppgaveElementIndex === action.internalIndex &&
+                                        dokumentasjonkravElement.tittel === action.dokumentasjonkravElement.tittel &&
+                                        dokumentasjonkravElement.beskrivelse ===
+                                            action.dokumentasjonkravElement.beskrivelse
+                                    ) {
+                                        return {
+                                            ...dokumentasjonkravElement,
+                                            filer:
+                                                dokumentasjonkravElement.filer &&
+                                                dokumentasjonkravElement.filer.filter(
+                                                    (fil: Fil, vedleggIndex: number) => {
+                                                        return vedleggIndex !== action.vedleggIndex;
+                                                    }
+                                                ),
+                                        };
+                                    }
+                                    return dokumentasjonkravElement;
+                                }
+                            ),
+                        };
+                    }
+                    return dokumentasjonkrav;
                 }),
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:

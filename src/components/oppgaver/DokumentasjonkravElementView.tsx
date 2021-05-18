@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {DokumentasjonKravElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKravElement, Fil, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
 import AddFile from "./AddFile";
 import FilView from "./FilView";
 import {alertUser, FileError, isFileErrorsNotEmpty, writeErrorMessage} from "../../utils/vedleggUtils";
@@ -50,6 +50,7 @@ const DokumentasjonkravElementView: React.FC<{
                 externalIndex={dokumentasjonKravIndex}
                 setListWithFilesWithErrors={setListeMedFilerSomFeiler}
                 setAboveMaxSize={setOverMaksStorrelse}
+                innsynDataSti={InnsynsdataSti.DOKUMENTASJONKRAV}
             />
 
             {dokumentasjonkravElement.filer &&

@@ -2,6 +2,7 @@ import {
     DokumentasjonEtterspurtElement,
     DokumentasjonKravElement,
     InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {FileError, findFilesWithError} from "../../utils/vedleggUtils";
@@ -31,6 +32,7 @@ const AddFile: React.FC<{
     externalIndex: number; // og filer ligger
     setListWithFilesWithErrors: (filesWithErrors: Array<FileError>) => void;
     setAboveMaxSize: (aboveMaxSize: boolean) => void;
+    innsynDataSti: InnsynsdataSti;
 }> = ({
     title,
     description,
@@ -39,6 +41,7 @@ const AddFile: React.FC<{
     externalIndex,
     setListWithFilesWithErrors,
     setAboveMaxSize,
+    innsynDataSti,
 }) => {
     const dispatch = useDispatch();
 
@@ -93,8 +96,13 @@ const AddFile: React.FC<{
                     if (!file) {
                         logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
                     } else {
+                        const actionType =
+                            innsynDataSti === InnsynsdataSti.OPPGAVER
+                                ? InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING
+                                : InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV;
+                        console.log("actiontype", actionType);
                         dispatch({
-                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
+                            type: actionType,
                             internalIndex: internalIndex,
                             oppgaveElement: oppgaveElement,
                             externalIndex: externalIndex,
@@ -130,6 +138,7 @@ const AddFile: React.FC<{
             )}
             {canUploadAttatchemnts && (
                 <div className="oppgaver_last_opp_fil">
+                    {innsynDataSti}
                     <Flatknapp
                         mini
                         id={"oppgave_" + internalIndex + "_last_opp_fil_knapp"}
