@@ -17,6 +17,7 @@ import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
+import {getRandomInt} from "../../utbetalinger/Utbetalinger.testdata";
 
 interface Props {
     oppgaver: null | DokumentasjonEtterspurt[];
@@ -220,7 +221,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     <DokumentasjonKravView
                                         dokumentasjonKrav={oppgave}
                                         key={oppgaveIndex}
-                                        dokumentasjonKravIndex={oppgaveIndex}
+                                        dokumentasjonKravIndex={Math.floor(Math.random() * 100000)}
                                     />
                                 ))}
                         </div>

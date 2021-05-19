@@ -101,6 +101,7 @@ const AddFile: React.FC<{
                                 ? InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING
                                 : InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV;
                         console.log("actiontype", actionType);
+                        console.log("datasti", innsynDataSti);
                         dispatch({
                             type: actionType,
                             internalIndex: internalIndex,
