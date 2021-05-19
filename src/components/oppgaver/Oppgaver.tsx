@@ -216,14 +216,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             />
                         </Normaltekst>
                         <div>
-                            {dokumentasjonKrav !== null &&
-                                dokumentasjonKrav.map((oppgave: DokumentasjonKrav, oppgaveIndex: number) => (
-                                    <DokumentasjonKravView
-                                        dokumentasjonKrav={oppgave}
-                                        key={oppgaveIndex}
-                                        dokumentasjonKravIndex={Math.floor(Math.random() * 100000)}
-                                    />
-                                ))}
+                            {dokumentasjonKrav.map((oppgave: DokumentasjonKrav, oppgaveIndex: number) => (
+                                <DokumentasjonKravView
+                                    dokumentasjonKrav={oppgave}
+                                    key={oppgaveIndex}
+                                    dokumentasjonKravIndex={oppgaveIndex}
+                                />
+                            ))}
                         </div>
                     </Ekspanderbartpanel>
                 </Panel>

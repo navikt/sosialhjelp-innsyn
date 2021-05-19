@@ -57,7 +57,9 @@ const AddFile: React.FC<{
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
-        const uploadElement: any = document.getElementById("file_" + externalIndex + "_" + internalId);
+        const uploadElement: any = document.getElementById(
+            "file_" + externalIndex + "_" + internalId + "_" + innsynDataSti
+        );
         uploadElement.click();
         if (event) {
             event.preventDefault();
@@ -100,8 +102,6 @@ const AddFile: React.FC<{
                             innsynDataSti === InnsynsdataSti.OPPGAVER
                                 ? InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING
                                 : InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV;
-                        console.log("actiontype", actionType);
-                        console.log("datasti", innsynDataSti);
                         dispatch({
                             type: actionType,
                             internalIndex: internalIndex,
@@ -139,7 +139,6 @@ const AddFile: React.FC<{
             )}
             {canUploadAttatchemnts && (
                 <div className="oppgaver_last_opp_fil">
-                    {innsynDataSti}
                     <Flatknapp
                         mini
                         id={"oppgave_" + internalIndex + "_last_opp_fil_knapp"}
@@ -154,7 +153,7 @@ const AddFile: React.FC<{
                     </Flatknapp>
                     <input
                         type="file"
-                        id={"file_" + externalIndex + "_" + internalIndex}
+                        id={"file_" + externalIndex + "_" + internalIndex + "_" + innsynDataSti}
                         multiple={true}
                         onChange={(event: ChangeEvent) => onChange(event)}
                         style={{display: "none"}}

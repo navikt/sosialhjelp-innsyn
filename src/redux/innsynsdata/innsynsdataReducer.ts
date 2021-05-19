@@ -379,7 +379,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     if (oppgaveIndex === action.externalIndex) {
                         return {
                             ...dokumentasjonkrav,
-                            oppgaveElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
+                            dokumentasjonkravElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
                                 (dokumentasjonkravElement, oppgaveElementIndex: number) => {
                                     if (oppgaveElementIndex === action.internalIndex) {
                                         return {

@@ -100,6 +100,11 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     );
                 })}
 
+                {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
+                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                        <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                    </SkjemaelementFeilmelding>
+                )}
                 {kanLasteOppVedlegg && (
                     <Hovedknapp
                         disabled={vedleggLastesOpp || otherVedleggLastesOpp}
@@ -124,13 +129,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     </Hovedknapp>
                 )}
             </div>
-
-            {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                </SkjemaelementFeilmelding>
-            )}
-
             {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
                 dokumentasjonEtterspurt.oppgaveId
             ) && (
