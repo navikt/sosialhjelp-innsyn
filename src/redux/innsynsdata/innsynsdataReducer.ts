@@ -216,6 +216,9 @@ export interface InnsynsdataType {
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
+    dokumentasjonkravReferanserSomFeilet: string[];
+    dokumentasjonkravReferanserSomFeiletPaBackend: string[];
+    dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend: string[];
     oppgaveVedlegsOpplastingFeilet: boolean;
     restStatus: any;
     soknadsStatus: Status;
@@ -249,6 +252,9 @@ export const initialState: InnsynsdataType = {
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
+    dokumentasjonkravReferanserSomFeilet: [],
+    dokumentasjonkravReferanserSomFeiletPaBackend: [],
+    dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend: [],
     oppgaveVedlegsOpplastingFeilet: false,
     soknadsStatus: {
         status: null,

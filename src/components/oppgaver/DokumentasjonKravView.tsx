@@ -1,6 +1,15 @@
 import React, {useState} from "react";
-import {DokumentasjonKrav, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
-import {getVisningstekster, oppgaveHasFilesWithError} from "../../utils/vedleggUtils";
+import {
+    DokumentasjonKrav,
+    DokumentasjonKravElement,
+    InnsynsdataSti,
+    KommuneResponse,
+} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    dokumentasjonkravHasFilesWithError,
+    getVisningstekster,
+    oppgaveHasFilesWithError,
+} from "../../utils/vedleggUtils";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -18,14 +27,14 @@ interface Props {
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjonKravIndex}) => {
     const dispatch = useDispatch();
-    const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
+    const dokumentasjonkravReferanserSomFeilet: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeilet
     );
-    const listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
+    const dokumentasjonkravReferanserSomFeiletPaBackend: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeiletPaBackend
     );
-    const listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
+    const dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend: string[] = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend
     );
 
     let kommuneResponse: KommuneResponse | undefined = useSelector(
@@ -33,7 +42,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
     );
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
-    //const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonKrav.dokumentasjonkravElementer);
+    const opplastingFeilet = dokumentasjonkravHasFilesWithError(dokumentasjonKrav.dokumentasjonkravElementer);
 
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonKrav.frist!!));
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
@@ -46,15 +55,31 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
-    /*    const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
-        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonKrav.oppgaveId) ||
+    const includesReferense = (feilReferanse: string[]) => {
+        dokumentasjonKrav.dokumentasjonkravElementer.filter((dokkrav) => {
+            if (dokkrav.dokumentasjonkravReferanse) {
+                return feilReferanse.includes(dokkrav.dokumentasjonkravReferanse);
+            }
+            return false;
+        });
+
+        return false;
+    };
+
+    const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
+        includesReferense(dokumentasjonkravReferanserSomFeilet) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonKrav.oppgaveId) ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonKrav.oppgaveId);*/
+        includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
+        includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
     return (
-        <div className={"oppgaver_detaljer" + " luft_over_1rem"}>
+        <div
+            className={
+                (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
+                " luft_over_1rem"
+            }
+        >
             {dokumentasjonKrav.dokumentasjonkravElementer.map(
                 (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(

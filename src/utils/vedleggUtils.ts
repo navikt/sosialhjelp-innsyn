@@ -188,6 +188,12 @@ export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspu
     });
 };
 
+export const dokumentasjonkravHasFilesWithError = (dokumentasjonKravElementer: DokumentasjonKravElement[]) => {
+    return dokumentasjonKravElementer.find((dokumentasjonkravElement) => {
+        return !dokumentasjonkravElement.filer ? false : hasFilesWithErrorStatus(dokumentasjonkravElement.filer);
+    });
+};
+
 export const hasFilesWithErrorStatus = (filer: Fil[]) => {
     return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
