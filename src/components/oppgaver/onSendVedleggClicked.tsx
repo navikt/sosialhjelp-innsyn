@@ -20,6 +20,7 @@ import {
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
     DokumentasjonKrav,
+    DokumentasjonKravElement,
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
@@ -42,7 +43,7 @@ export const onSendVedleggClicked = (
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
 
-    if ((!oppgave && !filer) || !fiksDigisosId) {
+    if ((!oppgave && !dokumentasjonkrav && !filer) || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -120,6 +121,18 @@ export const onSendVedleggClicked = (
                 0
             );
     }
+
+    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonkrav) {
+        combinedSizeOfAllFiles = dokumentasjonkrav.dokumentasjonkravElementer
+            .flatMap((dokumentasjonKravElement: DokumentasjonKravElement) => {
+                return dokumentasjonKravElement.filer ?? [];
+            })
+            .reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
+                0
+            );
+    }
+
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
@@ -146,6 +159,17 @@ export const onSendVedleggClicked = (
                             if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                    fil: {filnavn: fil.filnavn} as Fil,
+                                    status: fil.status,
+                                    innsendelsesfrist: response.innsendelsesfrist,
+                                    dokumenttype: response.type,
+                                    tilleggsinfo: response.tilleggsinfo,
+                                    vedleggIndex: index,
+                                });
+                            }
+                            if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
+                                dispatch({
+                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL,
                                     fil: {filnavn: fil.filnavn} as Fil,
                                     status: fil.status,
                                     innsendelsesfrist: response.innsendelsesfrist,

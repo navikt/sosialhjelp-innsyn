@@ -107,9 +107,10 @@ export enum InnsynsdataActionTypeKeys {
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
     FJERN_FIL_FOR_OPPLASTING = "innsynsdata/FJERN_FIL_FOR_OPPLASTING",
+    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
     LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV = "innsynsdata/LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV",
     FJERN_FIL_FOR_DOKUMENTASJONKRAV = "innsynsdata/FJERN_FIL_FOR_DOKUMENTASJONKRAV",
-    SETT_STATUS_FOR_FIL = "innsynsdata/SETT_STATUS_FOR_FIL",
+    SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL = "innsynsdata/SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL",
     LEGG_TIL_FIL_FOR_ETTERSENDELSE = "innsynsdata/LEGG_TIL_FIL_FOR_ETTERSENDELSE",
     FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
@@ -304,8 +305,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...setPath(state, action.sti, action.verdi),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
-            const oppgave: DokumentasjonEtterspurt[] = action.verdi;
-            if (oppgave.length === 0) {
+            const dokumentasjonkrav: DokumentasjonEtterspurt[] = action.verdi;
+            if (dokumentasjonkrav.length === 0) {
                 return {
                     ...state,
                     oppgaver: state.oppgaver.filter(
@@ -473,6 +474,44 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                     }),
                             };
                         }),
+                    };
+                }),
+            };
+        case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL:
+            return {
+                ...state,
+                dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav) => {
+                    if (dokumentasjonkrav.frist !== action.innsendelsesfrist) {
+                        return dokumentasjonkrav;
+                    }
+
+                    return {
+                        ...dokumentasjonkrav,
+                        dokumentasjonkravElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
+                            (dokumentasjonkravElement) => {
+                                if (
+                                    dokumentasjonkravElement.tittel !== action.dokumenttype ||
+                                    dokumentasjonkravElement.beskrivelse !== action.tilleggsinfo
+                                ) {
+                                    return dokumentasjonkravElement;
+                                }
+
+                                return {
+                                    ...dokumentasjonkravElement,
+                                    filer:
+                                        dokumentasjonkravElement.filer &&
+                                        dokumentasjonkravElement.filer.map((fil: Fil, vedleggIndex: number) => {
+                                            if (vedleggIndex === action.vedleggIndex) {
+                                                return {
+                                                    ...fil,
+                                                    status: action.status,
+                                                };
+                                            }
+                                            return fil;
+                                        }),
+                                };
+                            }
+                        ),
                     };
                 }),
             };
