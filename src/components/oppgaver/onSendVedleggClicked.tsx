@@ -8,6 +8,7 @@ import {
     hasNotAddedFilesToDokkrav,
 } from "../../utils/vedleggUtils";
 import {
+    hentDokumentasjonkravMedId,
     hentInnsynsdata,
     hentOppgaveMedId,
     innsynsdataUrl,
@@ -193,6 +194,10 @@ export const onSendVedleggClicked = (
                 } else {
                     if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                         dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
+                    } else if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
+                        dispatch(
+                            hentDokumentasjonkravMedId(fiksDigisosId, InnsynsdataSti.DOKUMENTASJONKRAV, vedleggId)
+                        );
                     }
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));

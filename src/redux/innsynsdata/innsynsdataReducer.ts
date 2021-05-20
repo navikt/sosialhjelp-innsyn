@@ -100,6 +100,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_FIKSDIGISOSID = "innsynsdata/SETT_FIKSDIGISOSID",
     OPPDATER_INNSYNSSDATA_STI = "innsynsdata/OPPDATER_STI",
     OPPDATER_OPPGAVE_STATE = "innsynsdata/OPPDATER_OPPGAVE_STATE",
+    OPPDATER_DOKUMENTASJONKRAV_STATE = "innsyndata/OPPDATER_DOKUMENTASJONKRAV_STATE",
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
     SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
     SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
@@ -114,6 +115,7 @@ export enum InnsynsdataActionTypeKeys {
     LEGG_TIL_FIL_FOR_ETTERSENDELSE = "innsynsdata/LEGG_TIL_FIL_FOR_ETTERSENDELSE",
     FJERN_FIL_FOR_ETTERSENDELSE = "innsynsdata/FJERN_FIL_FOR_ETTERSENDELSE",
     SETT_STATUS_FOR_ETTERSENDELSESFIL = "innsynsdata/SETT_STATUS_FOR_ETTERSENDELSESFIL",
+
     OPPDATER_SAKSDETALJER = "innsynsdata/OPPDATER_SAKSDETALJER",
     SETT_REST_STATUS_SAKSDETALJER = "innsynsdata/SETT_REST_STATUS_SAKSDETALJER",
     FILE_ATTACHMENTS_UPLOAD_FAILED = "innsynsdata/FILE_ATTACHMENTS_UPLOAD_FAILED",
@@ -305,8 +307,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...setPath(state, action.sti, action.verdi),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
-            const dokumentasjonkrav: DokumentasjonEtterspurt[] = action.verdi;
-            if (dokumentasjonkrav.length === 0) {
+            const oppgave: DokumentasjonEtterspurt[] = action.verdi;
+            if (oppgave.length === 0) {
                 return {
                     ...state,
                     oppgaver: state.oppgaver.filter(
@@ -321,6 +323,30 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         return action.verdi[0];
                     }
                     return oppgave;
+                }),
+            };
+        case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
+            const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
+            if (dokumentasjonkrav.length === 0) {
+                return {
+                    ...state,
+                    dokumentasjonkrav: state.dokumentasjonkrav.filter((dokumentasjonKrav: DokumentasjonKrav) =>
+                        dokumentasjonKrav.dokumentasjonkravElementer.map(
+                            (dokumentasjonKravElement) =>
+                                dokumentasjonKravElement.dokumentasjonkravReferanse !== action.oppgaveId
+                        )
+                    ),
+                };
+            }
+            return {
+                ...state,
+                dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav) => {
+                    if (
+                        dokumentasjonkrav.dokumentasjonkravElementer[0].dokumentasjonkravReferanse === action.oppgaveId
+                    ) {
+                        return action.verdi[0];
+                    }
+                    return dokumentasjonkrav;
                 }),
             };
         case InnsynsdataActionTypeKeys.SETT_REST_STATUS:
@@ -692,6 +718,15 @@ export const oppdaterOppgaveState = (oppgaveId: string, verdi: DokumentasjonEtte
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE,
         sti: InnsynsdataSti.OPPGAVER,
+        oppgaveId,
+        verdi,
+    };
+};
+
+export const oppdaterDokumentasjonkravState = (oppgaveId: string, verdi: DokumentasjonKrav[]): any => {
+    return {
+        type: InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE,
+        sti: InnsynsdataSti.DOKUMENTASJONKRAV,
         oppgaveId,
         verdi,
     };
