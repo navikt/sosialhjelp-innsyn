@@ -327,7 +327,9 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             };
         case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
             const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
+            console.log("action.verdi", action.oppgaveId);
             if (dokumentasjonkrav.length === 0) {
+                console.log("action.verdi", action.oppgaveId);
                 return {
                     ...state,
                     dokumentasjonkrav: state.dokumentasjonkrav.filter((dokumentasjonKrav: DokumentasjonKrav) =>
@@ -344,6 +346,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     if (
                         dokumentasjonkrav.dokumentasjonkravElementer[0].dokumentasjonkravReferanse === action.oppgaveId
                     ) {
+                        console.log("action.verdi", action.oppgaveId);
                         return action.verdi[0];
                     }
                     return dokumentasjonkrav;

@@ -89,7 +89,7 @@ export const onSendVedleggClicked = (
         dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
 
         if (noFilesAdded) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             event.preventDefault();
             return;
@@ -195,6 +195,7 @@ export const onSendVedleggClicked = (
                     if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                         dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
                     } else if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
+                        //vedleggId som "testId" funker ikke. Må få implementert eller endret på funksjonaliteten.
                         dispatch(
                             hentDokumentasjonkravMedId(fiksDigisosId, InnsynsdataSti.DOKUMENTASJONKRAV, vedleggId)
                         );

@@ -63,7 +63,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
             }
             return false;
         });
-
         return false;
     };
 

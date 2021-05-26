@@ -69,6 +69,7 @@ export function hentOppgaveMedId(fiksDigisosId: string, sti: InnsynsdataSti, opp
 }
 
 export function hentDokumentasjonkravMedId(fiksDigisosId: string, sti: InnsynsdataSti, oppgaveId: string) {
+    console.log("hentdokumnetasjonkrav", oppgaveId);
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         const url = `${innsynsdataUrl(fiksDigisosId, sti)}/${oppgaveId}`;
