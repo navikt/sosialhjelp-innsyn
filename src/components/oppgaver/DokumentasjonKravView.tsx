@@ -118,7 +118,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                             onSendVedleggClicked(
                                 event,
                                 dispatch,
-                                "testId",
+                                dokumentasjonKravIndex + "",
                                 InnsynsdataSti.DOKUMENTASJONKRAV,
                                 fiksDigisosId,
                                 setOverMaksStorrelse,

@@ -320,6 +320,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 oppgaver: state.oppgaver.map((oppgave) => {
                     if (oppgave.oppgaveId === action.oppgaveId) {
+                        console.log("oppgaveid == action oppgaveId", oppgave, action);
                         return action.verdi[0];
                     }
                     return oppgave;
@@ -327,9 +328,17 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             };
         case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
             const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
-            console.log("action.verdi", action.oppgaveId);
+            console.log("action er ", action);
+            return {
+                 ...state,
+                // vi har index på hva i dokumentaasjonkravarrayet som er trykka send på, vi trenger bare å hente det ut og fjerne de som har filer på seg
+                dokumentasjonkrav: [
+                    dokumentasjonkrav[action.oppgaveId]: {filter og div}
+                    ...dokumentasjonkrav
+                ]
+            }
+
             if (dokumentasjonkrav.length === 0) {
-                console.log("action.verdi", action.oppgaveId);
                 return {
                     ...state,
                     dokumentasjonkrav: state.dokumentasjonkrav.filter((dokumentasjonKrav: DokumentasjonKrav) =>
@@ -343,12 +352,13 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav) => {
+                    //finner riktig dokumentasjonkrav og returnerer kravet uten de dokkravelementene som er lasta opp filer på
                     if (
                         dokumentasjonkrav.dokumentasjonkravElementer[0].dokumentasjonkravReferanse === action.oppgaveId
                     ) {
-                        console.log("action.verdi", action.oppgaveId);
                         return action.verdi[0];
                     }
+                    console.log("i if", dokumentasjonkrav.dokumentasjonkravElementer[0].dokumentasjonkravReferanse);
                     return dokumentasjonkrav;
                 }),
             };
