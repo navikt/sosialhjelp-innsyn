@@ -33,6 +33,7 @@ interface DokumentasjonKravFiler {
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjonKravIndex}) => {
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
+
     const dispatch = useDispatch();
     const dokumentasjonkravReferanserSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeilet
