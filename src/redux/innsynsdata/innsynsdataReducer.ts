@@ -328,6 +328,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             };
         case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
             const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
+            // verdi er dokumentasjonkrav-lista og oppgaveId er dokumentasjonkravreferansen til dokumentasjonkravet
             console.log("action er ", action);
             /*       return {
                  ...state,
