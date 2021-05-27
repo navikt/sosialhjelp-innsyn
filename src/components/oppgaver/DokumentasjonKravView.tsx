@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {
     DokumentasjonKrav,
     DokumentasjonKravElement,
@@ -80,6 +80,35 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
         includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
         includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
+    const onChange = (event: any, dokumentasjonkravReferanse: string) => {
+        //til senere husk legg til validering av fil
+        console.log("currentTarget.files", event.currentTarget.files);
+        const files: FileList | null = event.currentTarget.files;
+
+        if (files) {
+            const filer = Array.from(files).map((file: File) => {
+                return {filnavn: file.name, status: "INITIALISERT", file: file};
+            });
+            const newDokumentasjonkrav = {...dokumentasjonkravFiler};
+            if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
+                    dokumentasjonkravReferanse
+                ].concat(filer);
+                console.log(
+                    "newDokumentasjonkrav[dokumentasjonkravReferanse]",
+                    newDokumentasjonkrav[dokumentasjonkravReferanse]
+                );
+            } else {
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
+            }
+            setDokumentasjonkravFiler(newDokumentasjonkrav);
+        }
+    };
+
+    const onDeleteClick = (event: any, dokumentasjonkravReferanse: string) => {
+        //todo
+    };
+
     return (
         <div>
             <div
@@ -104,6 +133,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                                 dokumentasjonKravIndex={dokumentasjonKravIndex}
                                 dokumetasjonKravId={"testId"}
                                 setOverMaksStorrelse={setOverMaksStorrelse}
+                                onChange={onChange}
                                 filer={
                                     dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
                                     []
@@ -126,6 +156,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
+                            //må håndter å fjerne krav når filer blir sendt inn.
                             onSendVedleggClicked(
                                 event,
                                 dispatch,

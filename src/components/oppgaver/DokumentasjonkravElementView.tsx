@@ -30,6 +30,7 @@ import {
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {v4 as uuidv4} from "uuid";
 
 const DokumentasjonkravElementView: React.FC<{
     tittel: string;
@@ -39,6 +40,7 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonKravIndex: number;
     dokumetasjonKravId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
+    onChange: (event: any, dokumentasjonkravReferanse: string) => void;
     filer: Fil[];
 }> = ({
     tittel,
@@ -48,9 +50,12 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonKravIndex,
     dokumetasjonKravId,
     setOverMaksStorrelse,
+    onChange,
     filer,
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
+
+    const uuid = uuidv4();
 
     const dispatch = useDispatch();
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
@@ -73,58 +78,6 @@ const DokumentasjonkravElementView: React.FC<{
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
 
-    const onClick = (uuid: string, event?: any): void => {
-        const handleOnLinkClicked = (response: boolean) => {
-            dispatch(setFileAttachmentsUploadFailed(response));
-        };
-        if (handleOnLinkClicked) {
-            handleOnLinkClicked(false);
-        }
-        const uploadElement: any = document.getElementById("file_" + uuid);
-        uploadElement.click();
-        if (event) {
-            event.preventDefault();
-        }
-    };
-
-    const onChange = (uuid: string, event: any) => {
-        //setListWithFilesWithErrors([]);
-        //setAboveMaxSize(false);
-        const files: FileList | null = event.currentTarget.files;
-        if (files) {
-            //dispatch(setFileUploadFailed(internalIndex.toString(), false));
-            //dispatch(setFileUploadFailedInBackend(internalIndex.toString(), false));
-            //dispatch(setFileUploadFailedVirusCheckInBackend(internalIndex.toString(), false));
-
-            const filesWithError: Array<FileError> = findFilesWithError(files, uuid);
-            if (filesWithError.length === 0) {
-                Array.from(files).forEach((file: File) => {
-                    if (!file) {
-                        logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
-                    } else {
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV,
-                            dokumentasjonkravReferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
-                            fil: {
-                                filnavn: file.name,
-                                status: "INITIALISERT",
-                                file: file,
-                            },
-                        });
-                    }
-                });
-            } else {
-                setListWithFilesWithErrors(filesWithError);
-                logFilesWithErrors(filesWithError);
-            }
-        }
-        if (event.target.value === "") {
-            return;
-        }
-        event.target.value = null;
-        event.preventDefault();
-    };
-
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <div className={"oppgave-detalj-overste-linje"}>
@@ -136,10 +89,17 @@ const DokumentasjonkravElementView: React.FC<{
                         <Normaltekst className="luft_over_4px">{dokumentasjonkravElement.beskrivelse}</Normaltekst>
                     </div>
                 )}
-                {canUploadAttatchemnts && <AddFileButton onClick={onClick} onChange={onChange} />}
+                {canUploadAttatchemnts && (
+                    <AddFileButton
+                        onChange={onChange}
+                        referanse={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
+                        id={uuid}
+                    />
+                )}
             </div>
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
+                //sende inn fjern fil som en ondelete click funksjon
                 <FilView
                     key={vedleggIndex}
                     fil={fil}

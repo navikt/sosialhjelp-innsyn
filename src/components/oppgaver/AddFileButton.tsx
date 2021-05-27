@@ -9,21 +9,27 @@ import {Flatknapp} from "nav-frontend-knapper";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {Element} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
-import {v4 as uuidv4} from "uuid";
 
 const AddFileButton: React.FC<{
-    onClick: (uuid: string, event?: any) => void;
-    onChange: (event: any) => void;
-}> = ({onClick, onChange}) => {
-    const uuid = uuidv4();
+    onChange: (event: any, dokumentasjonkravReferanse: string) => void;
+    referanse: string;
+    id: string;
+}> = ({onChange, referanse, id}) => {
+    const onClick = (event?: any): void => {
+        const uploadElement: any = document.getElementById("file_" + id);
+        uploadElement.click();
+        if (event) {
+            event.preventDefault();
+        }
+    };
 
     return (
         <div className="oppgaver_last_opp_fil">
             <Flatknapp
                 mini
-                id={"oppgave_" + uuid + "_last_opp_fil_knapp"}
+                id={"oppgave_" + id + "_last_opp_fil_knapp"}
                 onClick={(event) => {
-                    onClick(uuid, event);
+                    onClick(event);
                 }}
             >
                 <UploadFileIcon className="last_opp_fil_ikon" />
@@ -33,9 +39,9 @@ const AddFileButton: React.FC<{
             </Flatknapp>
             <input
                 type="file"
-                id={"file_" + uuid}
+                id={"file_" + id}
                 multiple={true}
-                onChange={(event: ChangeEvent) => onChange(event)}
+                onChange={(event: ChangeEvent) => onChange(event, referanse)}
                 style={{display: "none"}}
             />
         </div>
