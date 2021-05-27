@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {
     DokumentasjonKrav,
     DokumentasjonKravElement,
+    Fil,
     InnsynsdataSti,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
@@ -26,7 +27,12 @@ interface Props {
     dokumentasjonKravIndex: number;
 }
 
+interface DokumentasjonKravFiler {
+    [key: string]: Fil[];
+}
+
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjonKravIndex}) => {
+    const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
     const dispatch = useDispatch();
     const dokumentasjonkravReferanserSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeilet
@@ -83,7 +89,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
             >
                 {dokumentasjonKrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
-                        let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
+                        const {typeTekst, tilleggsinfoTekst} = getVisningstekster(
                             dokumentasjonkravElement.tittel || "",
                             dokumentasjonkravElement.beskrivelse
                         );
@@ -97,6 +103,10 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                                 dokumentasjonKravIndex={dokumentasjonKravIndex}
                                 dokumetasjonKravId={"testId"}
                                 setOverMaksStorrelse={setOverMaksStorrelse}
+                                filer={
+                                    dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
+                                    []
+                                }
                             />
                         );
                     }

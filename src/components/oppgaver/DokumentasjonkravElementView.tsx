@@ -14,6 +14,7 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonKravIndex: number;
     dokumetasjonKravId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
+    filer: Fil[];
 }> = ({
     tittel,
     beskrivelse,
@@ -22,6 +23,7 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonKravIndex,
     dokumetasjonKravId,
     setOverMaksStorrelse,
+    filer,
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
@@ -30,43 +32,32 @@ const DokumentasjonkravElementView: React.FC<{
     );
 
     useEffect(() => {
-        if (dokumentasjonkravElement.filer && dokumentasjonkravElement.filer.length > 0) {
+        if (filer && filer.length > 0) {
             window.addEventListener("beforeunload", alertUser);
         }
         return function unload() {
             window.removeEventListener("beforeunload", alertUser);
         };
-    }, [dokumentasjonkravElement.filer]);
+    }, [filer]);
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
 
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <AddFile
-                title={tittel}
-                description={beskrivelse}
-                oppgaveElement={dokumentasjonkravElement}
-                internalIndex={dokumentasjonkravElementIndex}
-                externalIndex={dokumentasjonKravIndex}
-                setListWithFilesWithErrors={setListeMedFilerSomFeiler}
-                setAboveMaxSize={setOverMaksStorrelse}
-                innsynDataSti={InnsynsdataSti.DOKUMENTASJONKRAV}
-            />
+            <AddFileButton onClick={onClick} />
 
-            {dokumentasjonkravElement.filer &&
-                dokumentasjonkravElement.filer.length > 0 &&
-                dokumentasjonkravElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FilView
-                        key={vedleggIndex}
-                        fil={fil}
-                        oppgaveElement={dokumentasjonkravElement}
-                        vedleggIndex={vedleggIndex}
-                        oppgaveElementIndex={dokumentasjonkravElementIndex}
-                        oppgaveIndex={dokumentasjonKravIndex}
-                        setOverMaksStorrelse={setOverMaksStorrelse}
-                        oppgaveId={dokumetasjonKravId}
-                    />
-                ))}
+            {filer.map((fil: Fil, vedleggIndex: number) => (
+                <FilView
+                    key={vedleggIndex}
+                    fil={fil}
+                    oppgaveElement={dokumentasjonkravElement}
+                    vedleggIndex={vedleggIndex}
+                    oppgaveElementIndex={dokumentasjonkravElementIndex}
+                    oppgaveIndex={dokumentasjonKravIndex}
+                    setOverMaksStorrelse={setOverMaksStorrelse}
+                    oppgaveId={dokumetasjonKravId}
+                />
+            ))}
             {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
                 writeErrorMessage(listeMedFilerSomFeiler, dokumentasjonKravIndex)}
         </div>

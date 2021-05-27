@@ -329,14 +329,14 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
             const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
             console.log("action er ", action);
-            return {
+            /*       return {
                  ...state,
                 // vi har index på hva i dokumentaasjonkravarrayet som er trykka send på, vi trenger bare å hente det ut og fjerne de som har filer på seg
                 dokumentasjonkrav: [
                     dokumentasjonkrav[action.oppgaveId]: {filter og div}
                     ...dokumentasjonkrav
                 ]
-            }
+            }*/
 
             if (dokumentasjonkrav.length === 0) {
                 return {
