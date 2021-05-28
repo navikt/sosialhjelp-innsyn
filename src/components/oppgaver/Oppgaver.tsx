@@ -85,13 +85,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
-            {brukerHarOppgaver && (
-                <Panel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
+            <Panel
+                className={
+                    "panel-glippe-over oppgaver_panel " +
+                    (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
+                }
+            >
+                {brukerHarOppgaver && (
                     <Ekspanderbartpanel
                         apen={false}
                         border={false}
@@ -160,7 +160,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 ))}
                         </div>
                     </Ekspanderbartpanel>
+                )}
 
+                {dokumentasjonKrav && (
                     <Ekspanderbartpanel
                         apen={false}
                         border={false}
@@ -204,7 +206,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         }
                     >
                         <Normaltekst>
-                            finne ut -oppgaverErFraInnsyn- er relevant for dokumentasjonkrav
                             <FormattedMessage
                                 id="dokumentasjonkrav.veileder_trenger_mer"
                                 values={{
@@ -225,8 +226,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             ))}
                         </div>
                     </Ekspanderbartpanel>
-                </Panel>
-            )}
+                )}
+            </Panel>
         </>
     );
 };
