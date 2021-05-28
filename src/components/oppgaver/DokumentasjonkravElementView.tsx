@@ -41,6 +41,7 @@ const DokumentasjonkravElementView: React.FC<{
     dokumetasjonKravId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
+    onDelete: (event: any, dokumentasjonkravReferanse: string) => void;
     filer: Fil[];
 }> = ({
     tittel,
@@ -51,6 +52,7 @@ const DokumentasjonkravElementView: React.FC<{
     dokumetasjonKravId,
     setOverMaksStorrelse,
     onChange,
+    onDelete,
     filer,
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
@@ -100,7 +102,7 @@ const DokumentasjonkravElementView: React.FC<{
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 //sende inn fjern fil som en ondelete click funksjon
-                <FilView
+                <FileViewItem
                     key={vedleggIndex}
                     fil={fil}
                     oppgaveElement={dokumentasjonkravElement}
@@ -109,6 +111,7 @@ const DokumentasjonkravElementView: React.FC<{
                     oppgaveIndex={dokumentasjonKravIndex}
                     setOverMaksStorrelse={setOverMaksStorrelse}
                     oppgaveId={dokumetasjonKravId}
+                    onDelete={onDelete}
                 />
             ))}
             {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&

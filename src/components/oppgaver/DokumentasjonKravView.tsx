@@ -82,7 +82,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const onChange = (event: any, dokumentasjonkravReferanse: string) => {
         //til senere husk legg til validering av fil
-        console.log("currentTarget.files", event.currentTarget.files);
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
@@ -107,6 +106,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string) => {
         //todo
+        console.log("event ondelete", event);
     };
 
     return (
@@ -131,9 +131,10 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                                 dokumentasjonkravElement={dokumentasjonkravElement}
                                 dokumentasjonkravElementIndex={dokumentasjonkravElementIndex}
                                 dokumentasjonKravIndex={dokumentasjonKravIndex}
-                                dokumetasjonKravId={"testId"}
+                                dokumetasjonKravId={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                                 setOverMaksStorrelse={setOverMaksStorrelse}
                                 onChange={onChange}
+                                onDelete={onDeleteClick}
                                 filer={
                                     dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
                                     []
