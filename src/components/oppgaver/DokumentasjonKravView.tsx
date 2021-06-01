@@ -82,6 +82,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const onChange = (event: any, dokumentasjonkravReferanse: string) => {
         //til senere husk legg til validering av fil
+        // finne ut hvorfor vi ikke kan legge til samme fil flere ganger etter hverandre
         const files: FileList | null = event.currentTarget.files;
 
         if (files) {
@@ -104,27 +105,20 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
         }
     };
 
-    const onDeleteClick = (event: any, dokumentasjonkravReferanse: string) => {
-        //todo
-        console.log("event ondelete", event.currentTarget.files);
+    const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
+        //todo må teste med flere dokkrav-bokser
+        console.log("event ondelete files", event);
 
-        const files: FileList | null = event.currentTarget.files;
-
-        if (files) {
-            const filer = Array.from(files).map((file: File) => {
-                return {filnavn: file.name, status: "INITIALISERT", file: file};
-            });
+        if (dokumentasjonkravReferanse !== "" && fil) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
                     dokumentasjonkravReferanse
-                ].filter((fil) => fil.filnavn == filer[0].filnavn);
+                ].filter((dokkrav) => dokkrav.file !== fil.file);
                 console.log(
                     "newDokumentasjonkrav[dokumentasjonkravReferanse]",
                     newDokumentasjonkrav[dokumentasjonkravReferanse]
                 );
-            } else {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }

@@ -42,7 +42,7 @@ const DokumentasjonkravElementView: React.FC<{
     dokumetasjonKravId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
-    onDelete: (event: any, dokumentasjonkravReferanse: string) => void;
+    onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     filer: Fil[];
 }> = ({
     tittel,

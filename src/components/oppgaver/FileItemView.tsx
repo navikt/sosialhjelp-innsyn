@@ -23,7 +23,7 @@ type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseE
 const FileViewItem: React.FC<{
     fil: Fil;
     referanse: string;
-    onDelete: (event: any, dokumentasjonkravReferanse: string) => void;
+    onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
 }> = ({fil, referanse, onDelete}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
@@ -54,7 +54,7 @@ const FileViewItem: React.FC<{
                     <span className="filstorrelse">({storrelse})</span>
                 </div>
                 <div className="fjern_lenkeboks">
-                    <Flatknapp mini onClick={(event) => onDelete(event, referanse ?? "")}>
+                    <Flatknapp mini onClick={(event) => onDelete(event, referanse ?? "", fil)}>
                         <Element>
                             <FormattedMessage id="vedlegg.fjern" />
                         </Element>
