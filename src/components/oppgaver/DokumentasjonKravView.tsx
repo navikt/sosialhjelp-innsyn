@@ -106,7 +106,28 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string) => {
         //todo
-        console.log("event ondelete", event);
+        console.log("event ondelete", event.currentTarget.files);
+
+        const files: FileList | null = event.currentTarget.files;
+
+        if (files) {
+            const filer = Array.from(files).map((file: File) => {
+                return {filnavn: file.name, status: "INITIALISERT", file: file};
+            });
+            const newDokumentasjonkrav = {...dokumentasjonkravFiler};
+            if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
+                    dokumentasjonkravReferanse
+                ].filter((fil) => fil.filnavn == filer[0].filnavn);
+                console.log(
+                    "newDokumentasjonkrav[dokumentasjonkravReferanse]",
+                    newDokumentasjonkrav[dokumentasjonkravReferanse]
+                );
+            } else {
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
+            }
+            setDokumentasjonkravFiler(newDokumentasjonkrav);
+        }
     };
 
     return (

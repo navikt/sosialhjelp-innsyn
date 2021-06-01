@@ -31,6 +31,7 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {v4 as uuidv4} from "uuid";
+import FileItemView from "./FileItemView";
 
 const DokumentasjonkravElementView: React.FC<{
     tittel: string;
@@ -102,17 +103,7 @@ const DokumentasjonkravElementView: React.FC<{
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 //sende inn fjern fil som en ondelete click funksjon
-                <FileViewItem
-                    key={vedleggIndex}
-                    fil={fil}
-                    oppgaveElement={dokumentasjonkravElement}
-                    vedleggIndex={vedleggIndex}
-                    oppgaveElementIndex={dokumentasjonkravElementIndex}
-                    oppgaveIndex={dokumentasjonKravIndex}
-                    setOverMaksStorrelse={setOverMaksStorrelse}
-                    oppgaveId={dokumetasjonKravId}
-                    onDelete={onDelete}
-                />
+                <FileItemView key={vedleggIndex} fil={fil} referanse={dokumetasjonKravId} onDelete={onDelete} />
             ))}
             {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
                 writeErrorMessage(listeMedFilerSomFeiler, dokumentasjonKravIndex)}

@@ -20,25 +20,11 @@ import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilViewItem: React.FC<{
-    vedleggIndex: number;
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
+const FileViewItem: React.FC<{
     fil: Fil;
-    oppgaveElement?: DokumentasjonEtterspurtElement | DokumentasjonKravElement;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-    oppgaveId: string;
+    referanse: string;
     onDelete: (event: any, dokumentasjonkravReferanse: string) => void;
-}> = ({
-    vedleggIndex,
-    oppgaveElementIndex,
-    oppgaveIndex,
-    fil,
-    oppgaveElement,
-    setOverMaksStorrelse,
-    oppgaveId,
-    onDelete,
-}) => {
+}> = ({fil, referanse, onDelete}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
     const dispatch = useDispatch();
 
@@ -68,7 +54,7 @@ const FilViewItem: React.FC<{
                     <span className="filstorrelse">({storrelse})</span>
                 </div>
                 <div className="fjern_lenkeboks">
-                    <Flatknapp mini onClick={(event) => onDelete(event)}>
+                    <Flatknapp mini onClick={(event) => onDelete(event, referanse ?? "")}>
                         <Element>
                             <FormattedMessage id="vedlegg.fjern" />
                         </Element>
@@ -87,4 +73,4 @@ const FilViewItem: React.FC<{
     );
 };
 
-export default FilViewItem;
+export default FileViewItem;
