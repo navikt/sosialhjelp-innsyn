@@ -37,14 +37,14 @@ export const onSendVedleggClicked = (
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
     oppgave?: DokumentasjonEtterspurt,
-    dokumentasjonkrav?: DokumentasjonKrav,
+    dokumentasjonData?: FormData,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
 
-    if ((!oppgave && !dokumentasjonkrav && !filer) || !fiksDigisosId) {
+    if ((!oppgave && !dokumentasjonData && !filer) || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -83,12 +83,12 @@ export const onSendVedleggClicked = (
             event.preventDefault();
             return;
         }
-
         dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
         const noFilesAdded = hasNotAddedFilesToDokkrav(dokumentasjonkrav);
         dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
 
         if (noFilesAdded) {
+            console.log(formData);
             dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             event.preventDefault();
@@ -169,6 +169,7 @@ export const onSendVedleggClicked = (
                                 });
                             }
                             if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
+                                // må oppdatere hvilke frister/dokkrav som skal fjernes
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL,
                                     fil: {filnavn: fil.filnavn} as Fil,

@@ -52,7 +52,7 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
 
 export const generateMetadataFromDokumentasjonkrav = (dokumentasjonKrav: DokumentasjonKrav) => {
     return dokumentasjonKrav.dokumentasjonkravElementer.map((dokumentasjonkravElement: DokumentasjonKravElement) => ({
-        type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "test",
+        type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
         tilleggsinfo: dokumentasjonkravElement.beskrivelse,
         innsendelsesfrist: dokumentasjonKrav.frist,
         filer: dokumentasjonkravElement.filer ? dokumentasjonkravElement.filer : [],
