@@ -1,16 +1,6 @@
-import React, {ChangeEvent, useState} from "react";
-import {
-    DokumentasjonKrav,
-    DokumentasjonKravElement,
-    Fil,
-    InnsynsdataSti,
-    KommuneResponse,
-} from "../../redux/innsynsdata/innsynsdataReducer";
-import {
-    dokumentasjonkravHasFilesWithError,
-    getVisningstekster,
-    oppgaveHasFilesWithError,
-} from "../../utils/vedleggUtils";
+import React, {useState} from "react";
+import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {dokumentasjonkravHasFilesWithError} from "../../utils/vedleggUtils";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -82,9 +72,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const onChange = (event: any, dokumentasjonkravReferanse: string) => {
         //til senere husk legg til validering av fil
-        // finne ut hvorfor vi ikke kan legge til samme fil flere ganger etter hverandre
         const files: FileList | null = event.currentTarget.files;
-
         if (files) {
             const filer = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
@@ -94,15 +82,17 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
                     dokumentasjonkravReferanse
                 ].concat(filer);
-                console.log(
-                    "newDokumentasjonkrav[dokumentasjonkravReferanse]",
-                    newDokumentasjonkrav[dokumentasjonkravReferanse]
-                );
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
+
+        if (event.target.value === "") {
+            return;
+        }
+        event.target.value = null;
+        event.preventDefault();
     };
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
@@ -134,17 +124,10 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
             >
                 {dokumentasjonKrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
-                        const {typeTekst, tilleggsinfoTekst} = getVisningstekster(
-                            dokumentasjonkravElement.tittel || "",
-                            dokumentasjonkravElement.beskrivelse
-                        );
                         return (
                             <DokumentasjonkravElementView
                                 key={dokumentasjonkravElementIndex}
-                                tittel={typeTekst}
-                                beskrivelse={tilleggsinfoTekst}
                                 dokumentasjonkravElement={dokumentasjonkravElement}
-                                dokumentasjonkravElementIndex={dokumentasjonkravElementIndex}
                                 dokumentasjonKravIndex={dokumentasjonKravIndex}
                                 dokumetasjonKravId={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                                 setOverMaksStorrelse={setOverMaksStorrelse}

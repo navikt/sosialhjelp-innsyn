@@ -2,18 +2,11 @@ import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
-import {
-    Fil,
-    InnsynsdataActionTypeKeys,
-    DokumentasjonEtterspurtElement,
-    DokumentasjonKravElement,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
-import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
-import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
@@ -26,7 +19,6 @@ const FileViewItem: React.FC<{
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
 }> = ({fil, referanse, onDelete}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
-    const dispatch = useDispatch();
 
     const [modalVises, setModalVises] = useState(false);
 

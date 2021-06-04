@@ -1,10 +1,4 @@
 import React, {ChangeEvent} from "react";
-import {
-    DokumentasjonEtterspurtElement,
-    DokumentasjonKravElement,
-    InnsynsdataSti,
-} from "../../redux/innsynsdata/innsynsdataReducer";
-import {FileError} from "../../utils/vedleggUtils";
 import {Flatknapp} from "nav-frontend-knapper";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {Element} from "nav-frontend-typografi";
