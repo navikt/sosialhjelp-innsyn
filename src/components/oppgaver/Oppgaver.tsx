@@ -219,9 +219,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         <div>
                             {dokumentasjonKrav.map((dokumentasjonKrav: DokumentasjonKrav, index: number) => (
                                 <DokumentasjonKravView
-                                    dokumentasjonKrav={dokumentasjonKrav}
+                                    dokumentasjonkrav={dokumentasjonKrav}
                                     key={index}
-                                    dokumentasjonKravIndex={index}
+                                    dokumentasjonkravIndex={index}
                                 />
                             ))}
                         </div>

@@ -1,6 +1,15 @@
 import React, {useState} from "react";
-import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
-import {dokumentasjonkravHasFilesWithError} from "../../utils/vedleggUtils";
+import {
+    DokumentasjonKrav,
+    DokumentasjonKravElement,
+    Fil,
+    InnsynsdataSti,
+    KommuneResponse,
+} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    createFormDataWithVedleggFromDokumentasjonkrav,
+    dokumentasjonkravHasFilesWithError,
+} from "../../utils/vedleggUtils";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -13,15 +22,15 @@ import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 interface Props {
-    dokumentasjonKrav: DokumentasjonKrav;
-    dokumentasjonKravIndex: number;
+    dokumentasjonkrav: DokumentasjonKrav;
+    dokumentasjonkravIndex: number;
 }
 
 interface DokumentasjonKravFiler {
     [key: string]: Fil[];
 }
 
-const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjonKravIndex}) => {
+const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
 
     const dispatch = useDispatch();
@@ -40,9 +49,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
     );
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
-    const opplastingFeilet = dokumentasjonkravHasFilesWithError(dokumentasjonKrav.dokumentasjonkravElementer);
+    const opplastingFeilet = dokumentasjonkravHasFilesWithError(dokumentasjonkrav.dokumentasjonkravElementer);
 
-    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonKrav.frist!!));
+    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonkrav.frist!!));
     const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
     const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
@@ -53,8 +62,16 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
+    const formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav);
+
+    const filer = dokumentasjonkrav.dokumentasjonkravElementer.flatMap(
+        (dokumentasjonKravElement: DokumentasjonKravElement) => {
+            return dokumentasjonKravElement.filer ?? [];
+        }
+    );
+
     const includesReferense = (feilReferanse: string[]) => {
-        dokumentasjonKrav.dokumentasjonkravElementer.filter((dokkrav) => {
+        dokumentasjonkrav.dokumentasjonkravElementer.filter((dokkrav) => {
             if (dokkrav.dokumentasjonkravReferanse) {
                 return feilReferanse.includes(dokkrav.dokumentasjonkravReferanse);
             }
@@ -122,13 +139,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                     " luft_over_1rem"
                 }
             >
-                {dokumentasjonKrav.dokumentasjonkravElementer.map(
+                {dokumentasjonkrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                         return (
                             <DokumentasjonkravElementView
                                 key={dokumentasjonkravElementIndex}
                                 dokumentasjonkravElement={dokumentasjonkravElement}
-                                dokumentasjonKravIndex={dokumentasjonKravIndex}
+                                dokumentasjonKravIndex={dokumentasjonkravIndex}
                                 dokumetasjonKravId={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                                 setOverMaksStorrelse={setOverMaksStorrelse}
                                 onChange={onChange}
@@ -159,13 +176,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonKrav, dokumentasjo
                             onSendVedleggClicked(
                                 event,
                                 dispatch,
-                                dokumentasjonKravIndex + "",
+                                dokumentasjonkravIndex + "",
                                 InnsynsdataSti.DOKUMENTASJONKRAV,
                                 fiksDigisosId,
                                 setOverMaksStorrelse,
                                 undefined,
-                                dokumentasjonKrav,
-                                undefined
+                                formData,
+                                filer
                             );
                         }}
                     >

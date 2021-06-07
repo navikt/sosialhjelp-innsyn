@@ -74,26 +74,18 @@ export const onSendVedleggClicked = (
         }
     }
 
-    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonkrav) {
-        try {
-            formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav);
-        } catch (e) {
-            dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e.message);
-            event.preventDefault();
-            return;
-        }
-        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
-        const noFilesAdded = hasNotAddedFilesToDokkrav(dokumentasjonkrav);
-        dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
+    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonData) {
+        formData = dokumentasjonData;
 
-        if (noFilesAdded) {
-            console.log(formData);
-            dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
-            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
-            event.preventDefault();
-            return;
-        }
+        //const noFilesAdded = hasNotAddedFilesToDokkrav(dokumentasjonData);
+        //
+        //if (noFilesAdded) {
+        //    console.log(formData);
+        //    dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
+        //    logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
+        //    event.preventDefault();
+        //    return;
+        //}
     }
 
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
@@ -123,18 +115,7 @@ export const onSendVedleggClicked = (
             );
     }
 
-    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonkrav) {
-        combinedSizeOfAllFiles = dokumentasjonkrav.dokumentasjonkravElementer
-            .flatMap((dokumentasjonKravElement: DokumentasjonKravElement) => {
-                return dokumentasjonKravElement.filer ?? [];
-            })
-            .reduce(
-                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file?.size : 0),
-                0
-            );
-    }
-
-    if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
+    if ((innsyndatasti === InnsynsdataSti.VEDLEGG || innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) && filer) {
         combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
