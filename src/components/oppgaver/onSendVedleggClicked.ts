@@ -74,7 +74,7 @@ export const onSendVedleggClicked = (
         }
     }
 
-    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonData) {
+    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonData && filer) {
         formData = dokumentasjonData;
 
         //const noFilesAdded = hasNotAddedFilesToDokkrav(dokumentasjonData);
@@ -116,6 +116,7 @@ export const onSendVedleggClicked = (
     }
 
     if ((innsyndatasti === InnsynsdataSti.VEDLEGG || innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) && filer) {
+        console.log("reduce", filer);
         combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
@@ -127,8 +128,9 @@ export const onSendVedleggClicked = (
     if (combinedSizeOfAllFiles > maxCombinedFileSize) {
         logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
     }
-
+    console.log("combinessize", combinedSizeOfAllFiles);
     if (combinedSizeOfAllFiles < maxCombinedFileSize && combinedSizeOfAllFiles !== 0) {
+        console.log("skalposte");
         fetchPost(path, formData, "multipart/form-data")
             .then((fileResponse: any) => {
                 let hasError: boolean = false;

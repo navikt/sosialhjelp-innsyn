@@ -64,11 +64,11 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav);
 
-    const filer = dokumentasjonkrav.dokumentasjonkravElementer.flatMap(
-        (dokumentasjonKravElement: DokumentasjonKravElement) => {
-            return dokumentasjonKravElement.filer ?? [];
-        }
-    );
+    let filer = Array.from(Object.values(dokumentasjonkravFiler)).flatMap((dokkrav) => {
+        return dokkrav;
+    });
+
+    console.log("filer", filer);
 
     const includesReferense = (feilReferanse: string[]) => {
         dokumentasjonkrav.dokumentasjonkravElementer.filter((dokkrav) => {
@@ -182,7 +182,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                                 setOverMaksStorrelse,
                                 undefined,
                                 formData,
-                                filer
+                                filer.length > 0 ? filer : undefined
                             );
                         }}
                     >
