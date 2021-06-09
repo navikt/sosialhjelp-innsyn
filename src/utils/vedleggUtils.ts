@@ -9,6 +9,7 @@ import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggAction
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
 import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
+import {DokumentasjonKravFiler} from "../components/oppgaver/DokumentasjonKravView";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
@@ -34,8 +35,11 @@ export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtte
     return opprettFormDataMedVedlegg(metadata);
 };
 
-export const createFormDataWithVedleggFromDokumentasjonkrav = (dokumentasjonKrav: DokumentasjonKrav) => {
-    const metadata: Metadata[] = generateMetadataFromDokumentasjonkrav(dokumentasjonKrav);
+export const createFormDataWithVedleggFromDokumentasjonkrav = (
+    dokumentasjonKrav: DokumentasjonKrav,
+    dokumentasjonkravFiler: DokumentasjonKravFiler
+) => {
+    const metadata: Metadata[] = generateMetadataFromDokumentasjonkrav(dokumentasjonKrav, dokumentasjonkravFiler);
     return opprettFormDataMedVedlegg(metadata);
 };
 
@@ -50,12 +54,15 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
     }));
 };
 
-export const generateMetadataFromDokumentasjonkrav = (dokumentasjonKrav: DokumentasjonKrav) => {
+export const generateMetadataFromDokumentasjonkrav = (
+    dokumentasjonKrav: DokumentasjonKrav,
+    dokumentasjonkravFiler: DokumentasjonKravFiler
+) => {
     return dokumentasjonKrav.dokumentasjonkravElementer.map((dokumentasjonkravElement: DokumentasjonKravElement) => ({
         type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
         tilleggsinfo: dokumentasjonkravElement.beskrivelse,
         innsendelsesfrist: dokumentasjonKrav.frist,
-        filer: dokumentasjonkravElement.filer ? dokumentasjonkravElement.filer : [],
+        filer: dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ?? [],
         hendelsetype: dokumentasjonkravElement.hendelsetype,
         hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
     }));

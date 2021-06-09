@@ -1,11 +1,5 @@
 import React, {useState} from "react";
-import {
-    DokumentasjonKrav,
-    DokumentasjonKravElement,
-    Fil,
-    InnsynsdataSti,
-    KommuneResponse,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
@@ -26,7 +20,7 @@ interface Props {
     dokumentasjonkravIndex: number;
 }
 
-interface DokumentasjonKravFiler {
+export interface DokumentasjonKravFiler {
     [key: string]: Fil[];
 }
 
@@ -62,13 +56,11 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
-    const formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav);
+    const formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav, dokumentasjonkravFiler);
 
     let filer = Array.from(Object.values(dokumentasjonkravFiler)).flatMap((dokkrav) => {
         return dokkrav;
     });
-
-    console.log("filer", filer);
 
     const includesReferense = (feilReferanse: string[]) => {
         dokumentasjonkrav.dokumentasjonkravElementer.filter((dokkrav) => {
@@ -114,18 +106,12 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
         //todo må teste med flere dokkrav-bokser
-        console.log("event ondelete files", event);
-
         if (dokumentasjonkravReferanse !== "" && fil) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
                     dokumentasjonkravReferanse
                 ].filter((dokkrav) => dokkrav.file !== fil.file);
-                console.log(
-                    "newDokumentasjonkrav[dokumentasjonkravReferanse]",
-                    newDokumentasjonkrav[dokumentasjonkravReferanse]
-                );
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }

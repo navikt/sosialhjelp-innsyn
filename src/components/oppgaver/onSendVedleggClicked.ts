@@ -116,7 +116,6 @@ export const onSendVedleggClicked = (
     }
 
     if ((innsyndatasti === InnsynsdataSti.VEDLEGG || innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) && filer) {
-        console.log("reduce", filer);
         combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
@@ -130,7 +129,6 @@ export const onSendVedleggClicked = (
     }
     console.log("combinessize", combinedSizeOfAllFiles);
     if (combinedSizeOfAllFiles < maxCombinedFileSize && combinedSizeOfAllFiles !== 0) {
-        console.log("skalposte");
         fetchPost(path, formData, "multipart/form-data")
             .then((fileResponse: any) => {
                 let hasError: boolean = false;
@@ -152,6 +150,7 @@ export const onSendVedleggClicked = (
                                 });
                             }
                             if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
+                                console.log("skal dispatche");
                                 // må oppdatere hvilke frister/dokkrav som skal fjernes
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL,
