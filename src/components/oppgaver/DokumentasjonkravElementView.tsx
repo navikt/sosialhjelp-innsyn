@@ -17,6 +17,7 @@ const DokumentasjonkravElementView: React.FC<{
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     filer: Fil[];
+    errorMessage?: string;
 }> = ({
     dokumentasjonkravElement,
     dokumentasjonKravIndex,
@@ -25,6 +26,7 @@ const DokumentasjonkravElementView: React.FC<{
     onChange,
     onDelete,
     filer,
+    errorMessage,
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 

@@ -10,7 +10,7 @@ export const onSendVedleggClicked = (
     handleFileResponse: (fil: {filnavn: string}, status: string) => void,
     handleFileWithVirus: (reference: string) => void,
     handleFileUploadFailed: (reference: string) => void,
-    onSuccessful: () => void
+    onSuccessful: (reference: string) => void
 ) => {
     fetchPost(path, formData, "multipart/form-data")
         .then((fileResponse: any) => {
@@ -21,7 +21,7 @@ export const onSendVedleggClicked = (
                     });
                 });
             }
-            onSuccessful();
+            onSuccessful(reference);
         })
         .catch((e) => {
             // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:

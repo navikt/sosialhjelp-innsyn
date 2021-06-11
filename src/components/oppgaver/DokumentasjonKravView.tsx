@@ -27,6 +27,7 @@ export interface DokumentasjonKravFiler {
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
     const dispatch = useDispatch();
     const dokumentasjonkravReferanserSomFeilet: string[] = useSelector(
@@ -72,11 +73,21 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         if (!fiksDigisosId) {
             return;
         }
+        setErrorMessage(undefined);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
-        const handleFileResponse = (fil: {filnavn: string}, status: string) => {};
-        const handleFileWithVirus = (reference: string) => {};
-        const handleFileUploadFailed = (reference: string) => {};
-        const onSuccessful = () => {};
+        const handleFileResponse = (fil: {filnavn: string}, status: string) => {
+            //ta kontakt med fag for å fine ut hvilken failcaser vi skal håndtere
+            setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
+        };
+        const handleFileWithVirus = (reference: string) => {
+            setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
+        };
+        const handleFileUploadFailed = (reference: string) => {
+            setErrorMessage("vedlegg.opplasting_feilmelding");
+        };
+        const onSuccessful = (reference: string) => {
+            //gjør et get request med frist for å oppdatere redux state
+        };
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
             const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
             const filer = dokumentasjonkravFiler[reference];
@@ -173,13 +184,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                         );
                     }
                 )}
-
-                {includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) && (
-                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                    </SkjemaelementFeilmelding>
-                )}
-
                 {kanLasteOppVedlegg && (
                     <Hovedknapp
                         disabled={vedleggLastesOpp || otherVedleggLastesOpp}
@@ -195,26 +199,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     </Hovedknapp>
                 )}
             </div>
-            {includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend) && (
+            {errorMessage && (
                 <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </SkjemaelementFeilmelding>
-            )}
-
-            {overMaksStorrelse && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </SkjemaelementFeilmelding>
-            )}
-            {(includesReferense(dokumentasjonkravReferanserSomFeilet) || opplastingFeilet) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage
-                        id={
-                            includesReferense(dokumentasjonkravReferanserSomFeilet)
-                                ? "vedlegg.minst_ett_vedlegg"
-                                : "vedlegg.opplasting_feilmelding"
-                        }
-                    />
+                    <FormattedMessage id={errorMessage} />
                 </SkjemaelementFeilmelding>
             )}
         </div>
