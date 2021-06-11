@@ -11,9 +11,10 @@ import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {REST_STATUS} from "../../utils/restUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {onSendVedleggClicked} from "./onSendVedleggClicked";
+import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
+import {innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -56,12 +57,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
-    const formData = createFormDataWithVedleggFromDokumentasjonkrav(dokumentasjonkrav, dokumentasjonkravFiler);
-
-    let filer = Array.from(Object.values(dokumentasjonkravFiler)).flatMap((dokkrav) => {
-        return dokkrav;
-    });
-
     const includesReferense = (feilReferanse: string[]) => {
         dokumentasjonkrav.dokumentasjonkravElementer.filter((dokkrav) => {
             if (dokkrav.dokumentasjonkravReferanse) {
@@ -70,6 +65,40 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             return false;
         });
         return false;
+    };
+
+    const onSendClicked = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        if (!fiksDigisosId) {
+            return;
+        }
+        const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
+        const handleFileResponse = (fil: {filnavn: string}, status: string) => {};
+        const handleFileWithVirus = (reference: string) => {};
+        const handleFileUploadFailed = (reference: string) => {};
+        const onSuccessful = () => {};
+        dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
+            const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
+            const filer = dokumentasjonkravFiler[reference];
+            if (!filer || filer.length === 0) {
+                return;
+            }
+            const formData = createFormDataWithVedleggFromDokumentasjonkrav(
+                dokumentasjonkravElement,
+                filer,
+                dokumentasjonkrav.frist
+            );
+            onSendVedleggClicked(
+                reference,
+                formData,
+                filer,
+                path,
+                handleFileResponse,
+                handleFileWithVirus,
+                handleFileUploadFailed,
+                onSuccessful
+            );
+        });
     };
 
     const visDokumentasjonkravDetaljerFeiler: boolean =
@@ -157,19 +186,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                         spinner={vedleggLastesOpp}
                         type="hoved"
                         className="luft_over_1rem"
-                        onClick={(event: any) => {
+                        onClick={(event) => {
                             //må håndter å fjerne krav når filer blir sendt inn.
-                            onSendVedleggClicked(
-                                event,
-                                dispatch,
-                                dokumentasjonkravIndex + "",
-                                InnsynsdataSti.DOKUMENTASJONKRAV,
-                                fiksDigisosId,
-                                setOverMaksStorrelse,
-                                undefined,
-                                formData,
-                                filer.length > 0 ? filer : undefined
-                            );
+                            onSendClicked(event);
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />

@@ -36,10 +36,11 @@ export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtte
 };
 
 export const createFormDataWithVedleggFromDokumentasjonkrav = (
-    dokumentasjonKrav: DokumentasjonKrav,
-    dokumentasjonkravFiler: DokumentasjonKravFiler
+    dokumentasjonkravElement: DokumentasjonKravElement,
+    filer: Fil[],
+    frist?: string
 ) => {
-    const metadata: Metadata[] = generateMetadataFromDokumentasjonkrav(dokumentasjonKrav, dokumentasjonkravFiler);
+    const metadata: Metadata[] = generateMetadataFromDokumentasjonkrav(dokumentasjonkravElement, filer, frist);
     return opprettFormDataMedVedlegg(metadata);
 };
 
@@ -55,17 +56,20 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
 };
 
 export const generateMetadataFromDokumentasjonkrav = (
-    dokumentasjonKrav: DokumentasjonKrav,
-    dokumentasjonkravFiler: DokumentasjonKravFiler
+    dokumentasjonkravElement: DokumentasjonKravElement,
+    filer: Fil[],
+    frist?: string
 ) => {
-    return dokumentasjonKrav.dokumentasjonkravElementer.map((dokumentasjonkravElement: DokumentasjonKravElement) => ({
-        type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
-        tilleggsinfo: dokumentasjonkravElement.beskrivelse,
-        innsendelsesfrist: dokumentasjonKrav.frist,
-        filer: dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ?? [],
-        hendelsetype: dokumentasjonkravElement.hendelsetype,
-        hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
-    }));
+    return [
+        {
+            type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
+            tilleggsinfo: dokumentasjonkravElement.beskrivelse,
+            innsendelsesfrist: frist,
+            filer: filer,
+            hendelsetype: dokumentasjonkravElement.hendelsetype,
+            hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
+        },
+    ];
 };
 
 export const createFormDataWithVedleggFromFiler = (filer: Fil[]): FormData => {
