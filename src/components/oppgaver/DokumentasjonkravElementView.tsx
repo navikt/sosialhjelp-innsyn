@@ -8,28 +8,27 @@ import {Element, Normaltekst} from "nav-frontend-typografi";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
+import {FileValidationErrors} from "./DokumentasjonKravView";
+import ErrorMessage from "./ErrorMessage";
+import ErrorMessageTitle from "./ErrorMessageTitle";
 
 const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravElement: DokumentasjonKravElement;
     dokumentasjonKravIndex: number;
     dokumetasjonKravId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     filer: Fil[];
-    errorMessage?: string;
+    fileValidationErrors?: FileValidationErrors;
 }> = ({
     dokumentasjonkravElement,
     dokumentasjonKravIndex,
     dokumetasjonKravId,
-    setOverMaksStorrelse,
     onChange,
     onDelete,
     filer,
-    errorMessage,
+    fileValidationErrors,
 }) => {
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
-
     const uuid = uuidv4();
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
@@ -50,7 +49,8 @@ const DokumentasjonkravElementView: React.FC<{
         };
     }, [filer]);
 
-    const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
+    const visOppgaverDetaljeFeil: boolean =
+        oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
 
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
@@ -76,8 +76,19 @@ const DokumentasjonkravElementView: React.FC<{
                 //sende inn fjern fil som en ondelete click funksjon
                 <FileItemView key={vedleggIndex} fil={fil} referanse={dokumetasjonKravId} onDelete={onDelete} />
             ))}
-            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
-                writeErrorMessage(listeMedFilerSomFeiler, dokumentasjonKravIndex)}
+            {fileValidationErrors?.errors.size && (
+                <div>
+                    // lag nye komponenter for errormessagetitle :)
+                    {fileValidationErrors.filenames.size === 1 ? (
+                        <ErrorMessageTitle feilId={} filnavn={} />
+                    ) : (
+                        <ErrorMessageTitle feilId={} filnavn={} listeMedFil={} />
+                    )}
+                    {Object.keys(fileValidationErrors.errors).map((key) => {
+                        return <ErrorMessage feilId={key} />;
+                    })}
+                </div>
+            )}
         </div>
     );
 };
