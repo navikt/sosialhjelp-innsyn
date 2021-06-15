@@ -1,8 +1,12 @@
 import React, {useState} from "react";
 import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
+    containsIllegalCharacters,
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
+    legalCombinedFilesSize,
+    legalFileExtension,
+    legalFileSize,
 } from "../../utils/vedleggUtils";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import {useDispatch, useSelector} from "react-redux";
@@ -77,7 +81,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
         const handleFileResponse = (fil: {filnavn: string}, status: string) => {
             //ta kontakt med fag for å fine ut hvilken failcaser vi skal håndtere
-            setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
+            //trekke ut feilmelding key til enum
+            setErrorMessage("vedlegg.minst_ett_vedlegg");
         };
         const handleFileWithVirus = (reference: string) => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
@@ -119,8 +124,43 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
         includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
+    const validateFile = (files: Fil[]) => {
+        //fjerne gamle feilmeldinger
+        const totalFileSize = files.reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
+
+        const errors: string[] = [];
+
+        if (!legalCombinedFilesSize(totalFileSize)) {
+            //todo: set state
+            errors.push("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+        }
+
+        files
+            .filter((file) => file.file)
+            .forEach((file) => {
+                if (file.file && !legalFileSize(file.file)) {
+                    errors.push("vedlegg.ulovlig_filstorrelse_feilmelding");
+                }
+
+                if (file.file && !legalFileExtension(file.file.name)) {
+                    errors.push("vedlegg.ulovlig_filtype_feilmelding");
+                }
+
+                if (file.file && containsIllegalCharacters(file.file.name)) {
+                    errors.push("vedlegg.ulovlig_filnavn_feilmelding");
+                }
+            });
+    };
+
     const onChange = (event: any, dokumentasjonkravReferanse: string) => {
         //til senere husk legg til validering av fil
+        //validere filstørrelse
+        //validere filtype
+        //validere filnavn
+        //validere totale filstørrelse
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const filer = Array.from(files).map((file: File) => {
@@ -134,6 +174,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
             }
+            validateFile(newDokumentasjonkrav[dokumentasjonkravReferanse]);
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
 
