@@ -67,7 +67,7 @@ export const tekster = {
             "Det er viktig at du sjekker at dokumentene du laster opp er fullstendige og lesbare på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende den på nytt.",
         "oppgaver.neste_frist": "Neste frist for innlevering er {innsendelsesfrist}",
         "oppgaver.neste_frist_passert":
-            "Neste frist for innlevering var for {antall_dager} siden, den {innsendelsesfrist}",
+            "Frist for innlevering var for {antall_dager} siden, den {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
