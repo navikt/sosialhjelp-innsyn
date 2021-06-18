@@ -10,7 +10,7 @@ import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
 import {FileValidationErrors} from "./DokumentasjonKravView";
 import ErrorMessage from "./ErrorMessage";
-import ErrorMessageTitle from "./ErrorMessageTitle";
+import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 
 const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravElement: DokumentasjonKravElement;
@@ -80,9 +80,15 @@ const DokumentasjonkravElementView: React.FC<{
                 <div>
                     // lag nye komponenter for errormessagetitle :)
                     {fileValidationErrors.filenames.size === 1 ? (
-                        <ErrorMessageTitle feilId={} filnavn={} />
+                        <ErrorMessageTitle
+                            feilId={"vedlegg.ulovlig_en_fil_feilmelding"}
+                            errorValue={{filnavn: Array.from(fileValidationErrors.filenames)[0]}}
+                        />
                     ) : (
-                        <ErrorMessageTitle feilId={} filnavn={} listeMedFil={} />
+                        <ErrorMessageTitle
+                            feilId={"vedlegg.ulovlig_flere_fil_feilmelding"}
+                            errorValue={{antallFiler: fileValidationErrors.filenames.size}}
+                        />
                     )}
                     {Object.keys(fileValidationErrors.errors).map((key) => {
                         return <ErrorMessage feilId={key} />;

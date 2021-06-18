@@ -19,8 +19,6 @@ import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -181,8 +179,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             });
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] =
-                    newDokumentasjonkrav[dokumentasjonkravReferanse].concat(filer);
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
+                    dokumentasjonkravReferanse
+                ].concat(filer);
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
             }
@@ -222,7 +221,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                                 dokumentasjonkravElement={dokumentasjonkravElement}
                                 dokumentasjonKravIndex={dokumentasjonkravIndex}
                                 dokumetasjonKravId={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
-                                setOverMaksStorrelse={setOverMaksStorrelse}
                                 onChange={onChange}
                                 onDelete={onDeleteClick}
                                 filer={
