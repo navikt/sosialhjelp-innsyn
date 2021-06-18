@@ -78,7 +78,6 @@ const DokumentasjonkravElementView: React.FC<{
             ))}
             {fileValidationErrors?.errors.size && (
                 <div>
-                    // lag nye komponenter for errormessagetitle :)
                     {fileValidationErrors.filenames.size === 1 ? (
                         <ErrorMessageTitle
                             feilId={"vedlegg.ulovlig_en_fil_feilmelding"}

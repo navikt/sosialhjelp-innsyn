@@ -144,11 +144,11 @@ export const containsIllegalCharacters = (filename: string) => {
     return false;
 };
 
-export const legalCombinedFilesSize = (sammensattFilStorrelse: number) => {
+export const illegalCombinedFilesSize = (sammensattFilStorrelse: number) => {
     return sammensattFilStorrelse > maxCombinedFileSize;
 };
 
-export const legalFileSize = (file: File) => {
+export const illegalFileSize = (file: File) => {
     return file.size > maxFileSize;
 };
 
@@ -283,10 +283,10 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
         if (containsIllegalCharacters(filename)) {
             fileErrorObject.containsIllegalCharacters = true;
         }
-        if (legalFileSize(file)) {
+        if (illegalFileSize(file)) {
             fileErrorObject.legalFileSize = true;
         }
-        if (legalCombinedFilesSize(isCombinedFileSizeLegal)) {
+        if (illegalCombinedFilesSize(isCombinedFileSizeLegal)) {
             sjekkMaxMengde = true;
             fileErrorObject.legalCombinedFilesSize = true;
         }
