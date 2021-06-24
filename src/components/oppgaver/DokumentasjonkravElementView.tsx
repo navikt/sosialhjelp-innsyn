@@ -52,6 +52,11 @@ const DokumentasjonkravElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
 
+    const onChangeElement = (event: any) => {
+        //valider filer her
+        //caller onchange
+    };
+
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <div className={"oppgave-detalj-overste-linje"}>
