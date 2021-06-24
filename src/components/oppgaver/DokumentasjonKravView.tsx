@@ -19,6 +19,7 @@ import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {validateFile} from "./validateFile";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -29,15 +30,9 @@ export interface DokumentasjonKravFiler {
     [key: string]: Fil[];
 }
 
-export interface FileValidationErrors {
-    errors: Set<string>;
-    filenames: Set<string>;
-}
-
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
-    const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 
     const dokumentasjonkravReferanserSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeilet
@@ -134,34 +129,15 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
         includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
-    const validateFile = (files: Fil[]) => {
-        const errors = new Set<string>();
-        const filenames = new Set<string>();
-
-        files.forEach((file) => {
-            if (file.file && illegalFileSize(file.file)) {
-                errors.add("vedlegg.ulovlig_filstorrelse_feilmelding");
-                filenames.add(file.filnavn);
-            }
-
-            if (file.file && !legalFileExtension(file.file.name)) {
-                errors.add("vedlegg.ulovlig_filtype_feilmelding");
-                filenames.add(file.filnavn);
-            }
-
-            if (file.file && containsIllegalCharacters(file.file.name)) {
-                errors.add("vedlegg.ulovlig_filnavn_feilmelding");
-                filenames.add(file.filnavn);
-            }
-        });
-        const validFiles = files.filter((file) => !filenames.has(file.filnavn));
-        return {validFiles, errors, filenames};
-    };
-
-    const onChange = (event: any, dokumentasjonkravReferanse: string) => {
-        setFileValidationErrors(undefined);
+    const onChange = (
+        event: any,
+        dokumentasjonkravReferanse: string,
+        result: {filenames: Set<string>; validFiles: Fil[]; errors: Set<string>},
+        files: FileList | null
+    ) => {
+        //setFileValidationErrors(undefined);
         setErrorMessage(undefined);
-        const files: FileList | null = event.currentTarget.files;
+
         if (files) {
             const filer = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
@@ -176,21 +152,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             }
 
-            const {validFiles, errors, filenames} = validateFile(filer);
-
-            if (errors.size) {
-                // vi trenger ca noe sånt for å skille mellom hvilken boks feilene tilhører
-                // fileValidationErrors?.errors.set(dokumentasjonkravReferanse, errors)
-                setFileValidationErrors({errors, filenames});
-            }
-
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
                     dokumentasjonkravReferanse
-                ].concat(validFiles);
+                ].concat(result.validFiles);
             } else {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = result.validFiles;
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
@@ -203,7 +171,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     };
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
-        setFileValidationErrors(undefined);
+        //setFileValidationErrors(undefined);
         setErrorMessage(undefined);
         if (dokumentasjonkravReferanse !== "" && fil) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
@@ -237,14 +205,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                                 key={dokumentasjonkravElementIndex}
                                 dokumentasjonkravElement={dokumentasjonkravElement}
                                 dokumentasjonKravIndex={dokumentasjonkravIndex}
-                                dokumetasjonKravId={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
+                                dokumentasjonkravReferanse={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                                 onChange={onChange}
                                 onDelete={onDeleteClick}
                                 filer={
                                     dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
                                     []
                                 }
-                                fileValidationErrors={fileValidationErrors}
                             />
                         );
                     }

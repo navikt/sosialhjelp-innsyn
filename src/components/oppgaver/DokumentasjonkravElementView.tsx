@@ -8,28 +8,30 @@ import {Element, Normaltekst} from "nav-frontend-typografi";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
-import {FileValidationErrors} from "./DokumentasjonKravView";
 import ErrorMessage from "./ErrorMessage";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
+import {validateFile} from "./validateFile";
+
+export interface FileValidationErrors {
+    errors: Set<string>;
+    filenames: Set<string>;
+}
 
 const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravElement: DokumentasjonKravElement;
     dokumentasjonKravIndex: number;
-    dokumetasjonKravId: string;
-    onChange: (event: any, dokumentasjonkravReferanse: string) => void;
+    dokumentasjonkravReferanse: string;
+    onChange: (
+        event: any,
+        dokumentasjonkravReferanse: string,
+        result: {filenames: Set<string>; validFiles: Fil[]; errors: Set<string>},
+        files: FileList | null
+    ) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     filer: Fil[];
-    fileValidationErrors?: FileValidationErrors;
-}> = ({
-    dokumentasjonkravElement,
-    dokumentasjonKravIndex,
-    dokumetasjonKravId,
-    onChange,
-    onDelete,
-    filer,
-    fileValidationErrors,
-}) => {
+}> = ({dokumentasjonkravElement, dokumentasjonKravIndex, dokumentasjonkravReferanse, onChange, onDelete, filer}) => {
     const uuid = uuidv4();
+    const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -53,8 +55,22 @@ const DokumentasjonkravElementView: React.FC<{
         oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
 
     const onChangeElement = (event: any) => {
-        //valider filer her
-        //caller onchange
+        const files: FileList | null = event.currentTarget.files;
+        if (files) {
+            const filer = Array.from(files).map((file: File) => {
+                return {filnavn: file.name, status: "INITIALISERT", file: file};
+            });
+
+            const result = validateFile(filer);
+
+            if (result.errors.size) {
+                // vi trenger ca noe sånt for å skille mellom hvilken boks feilene tilhører
+                // fileValidationErrors?.errors.set(dokumentasjonkravReferanse, errors)
+                setFileValidationErrors({errors: result.errors, filenames: result.filenames});
+            }
+
+            onChange(event, dokumentasjonkravReferanse, result, files);
+        }
     };
 
     return (
@@ -70,7 +86,7 @@ const DokumentasjonkravElementView: React.FC<{
                 )}
                 {canUploadAttatchemnts && (
                     <AddFileButton
-                        onChange={onChange}
+                        onChange={onChangeElement}
                         referanse={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                         id={uuid}
                     />
@@ -79,7 +95,7 @@ const DokumentasjonkravElementView: React.FC<{
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 //sende inn fjern fil som en ondelete click funksjon
-                <FileItemView key={vedleggIndex} fil={fil} referanse={dokumetasjonKravId} onDelete={onDelete} />
+                <FileItemView key={vedleggIndex} fil={fil} referanse={dokumentasjonkravReferanse} onDelete={onDelete} />
             ))}
             {fileValidationErrors?.errors.size && (
                 <div>
@@ -94,8 +110,8 @@ const DokumentasjonkravElementView: React.FC<{
                             errorValue={{antallFiler: fileValidationErrors.filenames.size}}
                         />
                     )}
-                    {Array.from(fileValidationErrors.errors).map((key) => {
-                        return <ErrorMessage feilId={key} />;
+                    {Array.from(fileValidationErrors.errors).map((key, index) => {
+                        return <ErrorMessage feilId={key} key={index} />;
                     })}
                 </div>
             )}
