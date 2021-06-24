@@ -89,7 +89,7 @@ const DokumentasjonkravElementView: React.FC<{
                             errorValue={{antallFiler: fileValidationErrors.filenames.size}}
                         />
                     )}
-                    {Object.keys(fileValidationErrors.errors).map((key) => {
+                    {Array.from(fileValidationErrors.errors).map((key) => {
                         return <ErrorMessage feilId={key} />;
                     })}
                 </div>

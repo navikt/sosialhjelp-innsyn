@@ -30,8 +30,8 @@ export interface DokumentasjonKravFiler {
 }
 
 export interface FileValidationErrors {
-    errors: Map<string, Set<string>>;
-    filenames: Map<string, Set<string>>;
+    errors: Set<string>;
+    filenames: Set<string>;
 }
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
@@ -129,7 +129,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
         includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
-    const validateFile = (files: Fil[], dokumentasjonkravReferanse: string) => {
+    const validateFile = (files: Fil[]) => {
         setFileValidationErrors(undefined);
         const totalFileSize = files.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
@@ -174,8 +174,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             });
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] =
-                    newDokumentasjonkrav[dokumentasjonkravReferanse].concat(filer);
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
+                    dokumentasjonkravReferanse
+                ].concat(filer);
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
             }
