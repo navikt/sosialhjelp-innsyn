@@ -158,12 +158,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 filenames.add(file.filnavn);
             }
         });
-        if (errors.size) {
-            // vi trenger ca noe sånt for å skille mellom hvilken boks feilene tilhører
-            // fileValidationErrors?.errors.set(dokumentasjonkravReferanse, errors)
-            setFileValidationErrors({errors, filenames});
-        }
-        return errors.size;
+        return {gyldigeFiler, errors, filenames};
     };
 
     const onChange = (event: any, dokumentasjonkravReferanse: string) => {
@@ -180,10 +175,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = filer;
             }
-            if (validateFile(newDokumentasjonkrav[dokumentasjonkravReferanse])) {
-                return;
-            }
-            setDokumentasjonkravFiler(newDokumentasjonkrav);
+            const {gyldigeFiler} = validateFile(newDokumentasjonkrav[dokumentasjonkravReferanse]);
+            setDokumentasjonkravFiler(gyldigeFiler);
         }
 
         if (event.target.value === "") {
