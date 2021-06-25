@@ -17,7 +17,6 @@ import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
-import {getRandomInt} from "../../utbetalinger/Utbetalinger.testdata";
 
 interface Props {
     oppgaver: null | DokumentasjonEtterspurt[];
@@ -32,6 +31,17 @@ function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): D
         const innsendelsesfrister = oppgaver.map(
             (oppgave: DokumentasjonEtterspurt) => new Date(oppgave.innsendelsesfrist!!)
         );
+        return innsendelsesfrister[0];
+    }
+    return null;
+}
+
+function foersteFrist(oppgaver: null | DokumentasjonKrav[]): Date | null {
+    if (oppgaver === null) {
+        return null;
+    }
+    if (oppgaver.length > 0) {
+        const innsendelsesfrister = oppgaver.map((oppgave: DokumentasjonKrav) => new Date(oppgave.frist!!));
         return innsendelsesfrister[0];
     }
     return null;
@@ -60,6 +70,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
+    let frist = foersteFrist(dokumentasjonKrav);
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
     return (
@@ -171,32 +182,28 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 <DokumentBinder />
                                 <div>
                                     <Element>
-                                        {oppgaverErFraInnsyn && (
+                                        {dokumentasjonKrav && (
                                             <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                                         )}
-                                        {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
+                                        {!dokumentasjonKrav && <FormattedMessage id="oppgaver.maa_sende_dok" />}
                                     </Element>
                                     <Normaltekst>
-                                        {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
+                                        {dokumentasjonKrav && antallDagerEtterFrist(frist) <= 0 && (
                                             <FormattedMessage
                                                 id="oppgaver.neste_frist"
                                                 values={{
                                                     innsendelsesfrist:
-                                                        innsendelsesfrist != null
-                                                            ? formatDato(innsendelsesfrist.toISOString())
-                                                            : "",
+                                                        frist != null ? formatDato(frist.toISOString()) : "",
                                                 }}
                                             />
                                         )}
-                                        {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                                        {dokumentasjonKrav && antallDagerEtterFrist(frist) > 0 && (
                                             <FormattedMessage
                                                 id="oppgaver.neste_frist_passert"
                                                 values={{
-                                                    antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
+                                                    antall_dager: getAntallDagerTekst(antallDagerEtterFrist(frist)),
                                                     innsendelsesfrist:
-                                                        innsendelsesfrist != null
-                                                            ? formatDato(innsendelsesfrist!.toISOString())
-                                                            : "",
+                                                        frist != null ? formatDato(frist!.toISOString()) : "",
                                                 }}
                                             />
                                         )}

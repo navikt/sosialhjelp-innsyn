@@ -20,6 +20,8 @@ import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {validateFile} from "./validateFile";
+import {Normaltekst} from "nav-frontend-typografi";
+import {formatDato} from "../../utils/formatting";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -198,6 +200,23 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     " luft_over_1rem"
                 }
             >
+                {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert <= 0 && (
+                    <Normaltekst className="luft_under_8px">
+                        <FormattedMessage
+                            id="oppgaver.innsendelsesfrist"
+                            values={{innsendelsesfrist: formatDato(dokumentasjonkrav.frist!)}}
+                        />
+                    </Normaltekst>
+                )}
+                {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert > 0 && (
+                    <Normaltekst className="luft_under_8px">
+                        <FormattedMessage
+                            id="oppgaver.innsendelsesfrist_passert"
+                            values={{innsendelsesfrist: formatDato(dokumentasjonkrav.frist!)}}
+                        />
+                    </Normaltekst>
+                )}
+
                 {dokumentasjonkrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                         return (
