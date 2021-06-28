@@ -18,7 +18,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
-import {innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {hentDokumentasjonkravMedFrist, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {validateFile} from "./validateFile";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
@@ -33,6 +33,7 @@ export interface DokumentasjonKravFiler {
 }
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
+    const dispatch = useDispatch();
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
@@ -99,6 +100,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         };
         const onSuccessful = (reference: string) => {
             //gjør et get request med frist for å oppdatere redux state
+            dispatch(
+                hentDokumentasjonkravMedFrist(
+                    fiksDigisosId,
+                    InnsynsdataSti.DOKUMENTASJONKRAV,
+                    dokumentasjonkrav.frist ?? "null"
+                )
+            );
         };
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
             const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";

@@ -327,6 +327,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 }),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
+            //action.oppgaveId er her frist
             const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
             // verdi er dokumentasjonkrav-lista og oppgaveId er dokumentasjonkravreferansen til dokumentasjonkravet
             console.log("action er ", action);
@@ -342,11 +343,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             if (dokumentasjonkrav.length === 0) {
                 return {
                     ...state,
-                    dokumentasjonkrav: state.dokumentasjonkrav.filter((dokumentasjonKrav: DokumentasjonKrav) =>
-                        dokumentasjonKrav.dokumentasjonkravElementer.map(
-                            (dokumentasjonKravElement) =>
-                                dokumentasjonKravElement.dokumentasjonkravReferanse !== action.oppgaveId
-                        )
+                    dokumentasjonkrav: state.dokumentasjonkrav.filter(
+                        (dokumentasjonKrav: DokumentasjonKrav) => dokumentasjonKrav.frist !== action.oppgaveId
                     ),
                 };
             }
@@ -354,9 +352,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav) => {
                     //finner riktig dokumentasjonkrav og returnerer kravet uten de dokkravelementene som er lasta opp filer på
-                    if (
-                        dokumentasjonkrav.dokumentasjonkravElementer[0].dokumentasjonkravReferanse === action.oppgaveId
-                    ) {
+                    if (dokumentasjonkrav.frist === action.oppgaveId) {
                         return action.verdi[0];
                     }
                     console.log("i if", dokumentasjonkrav.dokumentasjonkravElementer[0].dokumentasjonkravReferanse);

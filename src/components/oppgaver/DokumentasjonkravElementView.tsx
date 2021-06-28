@@ -55,6 +55,7 @@ const DokumentasjonkravElementView: React.FC<{
         oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
 
     const onChangeElement = (event: any) => {
+        setFileValidationErrors(undefined);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const filer = Array.from(files).map((file: File) => {
@@ -71,6 +72,11 @@ const DokumentasjonkravElementView: React.FC<{
 
             onChange(event, dokumentasjonkravReferanse, result, files);
         }
+    };
+
+    const onDeleteElement = (event: any, fil: Fil) => {
+        setFileValidationErrors(undefined);
+        onDelete(event, dokumentasjonkravReferanse, fil);
     };
 
     return (
@@ -95,7 +101,12 @@ const DokumentasjonkravElementView: React.FC<{
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 //sende inn fjern fil som en ondelete click funksjon
-                <FileItemView key={vedleggIndex} fil={fil} referanse={dokumentasjonkravReferanse} onDelete={onDelete} />
+                <FileItemView
+                    key={vedleggIndex}
+                    fil={fil}
+                    referanse={dokumentasjonkravReferanse}
+                    onDelete={onDeleteElement}
+                />
             ))}
             {fileValidationErrors?.errors.size && (
                 <div>

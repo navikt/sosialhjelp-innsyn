@@ -68,14 +68,13 @@ export function hentOppgaveMedId(fiksDigisosId: string, sti: InnsynsdataSti, opp
     };
 }
 
-export function hentDokumentasjonkravMedId(fiksDigisosId: string, sti: InnsynsdataSti, oppgaveId: string) {
-    console.log("hentdokumnetasjonkrav", oppgaveId);
+export function hentDokumentasjonkravMedFrist(fiksDigisosId: string, sti: InnsynsdataSti, frist: string) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
-        const url = `${innsynsdataUrl(fiksDigisosId, sti)}/${oppgaveId}`;
+        const url = `${innsynsdataUrl(fiksDigisosId, sti)}/${frist}`;
         fetchToJson(url)
             .then((response: any) => {
-                dispatch(oppdaterDokumentasjonkravState(oppgaveId, response));
+                dispatch(oppdaterDokumentasjonkravState(frist, response));
                 dispatch(settRestStatus(sti, REST_STATUS.OK));
             })
             .catch((reason) => {

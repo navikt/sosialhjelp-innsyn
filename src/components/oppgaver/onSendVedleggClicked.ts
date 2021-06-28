@@ -8,7 +8,7 @@ import {
     hasNotAddedFilesToDokkrav,
 } from "../../utils/vedleggUtils";
 import {
-    hentDokumentasjonkravMedId,
+    hentDokumentasjonkravMedFrist,
     hentInnsynsdata,
     hentOppgaveMedId,
     innsynsdataUrl,
@@ -180,7 +180,7 @@ export const onSendVedleggClicked = (
                     } else if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
                         //vedleggId som "testId" funker ikke. Må få implementert eller endret på funksjonaliteten.
                         dispatch(
-                            hentDokumentasjonkravMedId(fiksDigisosId, InnsynsdataSti.DOKUMENTASJONKRAV, vedleggId)
+                            hentDokumentasjonkravMedFrist(fiksDigisosId, InnsynsdataSti.DOKUMENTASJONKRAV, vedleggId)
                         );
                     }
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
