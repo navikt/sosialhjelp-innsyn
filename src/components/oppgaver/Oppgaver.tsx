@@ -182,13 +182,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 <DokumentBinder />
                                 <div>
                                     <Element>
-                                        {dokumentasjonKrav && (
-                                            <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
-                                        )}
-                                        {!dokumentasjonKrav && <FormattedMessage id="oppgaver.maa_sende_dok" />}
+                                        <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                                     </Element>
                                     <Normaltekst>
-                                        {dokumentasjonKrav && antallDagerEtterFrist(frist) <= 0 && (
+                                        {antallDagerEtterFrist(frist) <= 0 && (
                                             <FormattedMessage
                                                 id="oppgaver.neste_frist"
                                                 values={{
@@ -197,7 +194,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                                 }}
                                             />
                                         )}
-                                        {dokumentasjonKrav && antallDagerEtterFrist(frist) > 0 && (
+                                        {antallDagerEtterFrist(frist) > 0 && (
                                             <FormattedMessage
                                                 id="oppgaver.neste_frist_passert"
                                                 values={{
