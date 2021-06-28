@@ -92,6 +92,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             //trekke ut feilmelding key til enum
             //setErrorMessage("vedlegg.minst_ett_vedlegg");
         };
+        // reference?
         const handleFileWithVirus = (reference: string) => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
         };
@@ -99,12 +100,11 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setErrorMessage("vedlegg.opplasting_feilmelding");
         };
         const onSuccessful = (reference: string) => {
-            //gjør et get request med frist for å oppdatere redux state
             dispatch(
                 hentDokumentasjonkravMedFrist(
                     fiksDigisosId,
                     InnsynsdataSti.DOKUMENTASJONKRAV,
-                    dokumentasjonkrav.frist ?? "null"
+                    dokumentasjonkrav.dokumentasjonkravId
                 )
             );
         };
@@ -145,7 +145,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         result: {filenames: Set<string>; validFiles: Fil[]; errors: Set<string>},
         files: FileList | null
     ) => {
-        //setFileValidationErrors(undefined);
         setErrorMessage(undefined);
 
         if (files) {
@@ -181,7 +180,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     };
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
-        //setFileValidationErrors(undefined);
         setErrorMessage(undefined);
         if (dokumentasjonkravReferanse !== "" && fil) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
