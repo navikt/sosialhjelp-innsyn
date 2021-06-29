@@ -221,7 +221,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 fiksDigisosId,
                                 setOverMaksStorrelse,
                                 undefined,
-                                undefined,
                                 filer
                             );
                         }}

@@ -37,14 +37,13 @@ export const onSendVedleggClicked = (
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
     oppgave?: DokumentasjonEtterspurt,
-    dokumentasjonData?: FormData,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
 
-    if ((!oppgave && !dokumentasjonData && !filer) || !fiksDigisosId) {
+    if ((!oppgave && !filer) || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -74,20 +73,6 @@ export const onSendVedleggClicked = (
         }
     }
 
-    if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV && dokumentasjonData && filer) {
-        formData = dokumentasjonData;
-
-        //const noFilesAdded = hasNotAddedFilesToDokkrav(dokumentasjonData);
-        //
-        //if (noFilesAdded) {
-        //    console.log(formData);
-        //    dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
-        //    logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
-        //    event.preventDefault();
-        //    return;
-        //}
-    }
-
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         try {
             formData = createFormDataWithVedleggFromFiler(filer);
@@ -115,7 +100,7 @@ export const onSendVedleggClicked = (
             );
     }
 
-    if ((innsyndatasti === InnsynsdataSti.VEDLEGG || innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) && filer) {
+    if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
@@ -127,7 +112,6 @@ export const onSendVedleggClicked = (
     if (combinedSizeOfAllFiles > maxCombinedFileSize) {
         logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
     }
-    console.log("combinessize", combinedSizeOfAllFiles);
     if (combinedSizeOfAllFiles < maxCombinedFileSize && combinedSizeOfAllFiles !== 0) {
         fetchPost(path, formData, "multipart/form-data")
             .then((fileResponse: any) => {
@@ -141,19 +125,6 @@ export const onSendVedleggClicked = (
                             if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                    fil: {filnavn: fil.filnavn} as Fil,
-                                    status: fil.status,
-                                    innsendelsesfrist: response.innsendelsesfrist,
-                                    dokumenttype: response.type,
-                                    tilleggsinfo: response.tilleggsinfo,
-                                    vedleggIndex: index,
-                                });
-                            }
-                            if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
-                                console.log("skal dispatche");
-                                // må oppdatere hvilke frister/dokkrav som skal fjernes
-                                dispatch({
-                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_DOKUMENTASJONKRAV_FIL,
                                     fil: {filnavn: fil.filnavn} as Fil,
                                     status: fil.status,
                                     innsendelsesfrist: response.innsendelsesfrist,
@@ -177,11 +148,6 @@ export const onSendVedleggClicked = (
                 } else {
                     if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                         dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
-                    } else if (innsyndatasti === InnsynsdataSti.DOKUMENTASJONKRAV) {
-                        //vedleggId som "testId" funker ikke. Må få implementert eller endret på funksjonaliteten.
-                        dispatch(
-                            hentDokumentasjonkravMedFrist(fiksDigisosId, InnsynsdataSti.DOKUMENTASJONKRAV, vedleggId)
-                        );
                     }
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));

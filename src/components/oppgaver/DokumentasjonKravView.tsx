@@ -93,13 +93,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             //setErrorMessage("vedlegg.minst_ett_vedlegg");
         };
         // reference?
-        const handleFileWithVirus = (reference: string) => {
+        const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
         };
-        const handleFileUploadFailed = (reference: string) => {
+        const handleFileUploadFailed = () => {
             setErrorMessage("vedlegg.opplasting_feilmelding");
         };
-        const onSuccessful = (reference: string) => {
+        const onSuccessful = () => {
             dispatch(
                 hentDokumentasjonkravMedFrist(
                     fiksDigisosId,

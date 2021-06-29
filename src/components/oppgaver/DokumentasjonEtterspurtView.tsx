@@ -120,7 +120,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 fiksDigisosId,
                                 setOverMaksStorrelse,
                                 dokumentasjonEtterspurt,
-                                undefined,
                                 undefined
                             );
                         }}

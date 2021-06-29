@@ -8,9 +8,9 @@ export const onSendVedleggClicked = (
     filer: Fil[],
     path: string,
     handleFileResponse: (fil: {filnavn: string}, status: string) => void,
-    handleFileWithVirus: (reference: string) => void,
-    handleFileUploadFailed: (reference: string) => void,
-    onSuccessful: (reference: string) => void
+    handleFileWithVirus: () => void,
+    handleFileUploadFailed: () => void,
+    onSuccessful: () => void
 ) => {
     fetchPost(path, formData, "multipart/form-data")
         .then((fileResponse: any) => {
@@ -21,16 +21,16 @@ export const onSendVedleggClicked = (
                     });
                 });
             }
-            onSuccessful(reference);
+            onSuccessful();
         })
         .catch((e) => {
             // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
             fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                 if (errorResponse.message === "Mulig virus funnet") {
-                    handleFileWithVirus(reference);
+                    handleFileWithVirus();
                 }
             });
-            handleFileUploadFailed(reference);
+            handleFileUploadFailed();
             logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
         });
 };
