@@ -96,142 +96,146 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
-            <Panel
-                className={
-                    "panel-glippe-over oppgaver_panel " +
-                    (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                }
-            >
-                {brukerHarOppgaver && (
-                    <Ekspanderbartpanel
-                        apen={false}
-                        border={false}
-                        tittel={
-                            <div className="oppgaver_header">
-                                <DokumentBinder />
-                                <div>
-                                    <Element>
-                                        {oppgaverErFraInnsyn && (
-                                            <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
-                                        )}
-                                        {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
-                                    </Element>
-                                    <Normaltekst>
-                                        {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
-                                            <FormattedMessage
-                                                id="oppgaver.neste_frist"
-                                                values={{
-                                                    innsendelsesfrist:
-                                                        innsendelsesfrist != null
-                                                            ? formatDato(innsendelsesfrist.toISOString())
-                                                            : "",
-                                                }}
-                                            />
-                                        )}
-                                        {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
-                                            <FormattedMessage
-                                                id="oppgaver.neste_frist_passert"
-                                                values={{
-                                                    antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
-                                                    innsendelsesfrist:
-                                                        innsendelsesfrist != null
-                                                            ? formatDato(innsendelsesfrist!.toISOString())
-                                                            : "",
-                                                }}
-                                            />
-                                        )}
-                                    </Normaltekst>
+            {(brukerHarOppgaver || dokumentasjonKrav) && (
+                <Panel
+                    className={
+                        "panel-glippe-over oppgaver_panel " +
+                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
+                    }
+                >
+                    {brukerHarOppgaver && (
+                        <Ekspanderbartpanel
+                            apen={false}
+                            border={false}
+                            tittel={
+                                <div className="oppgaver_header">
+                                    <DokumentBinder />
+                                    <div>
+                                        <Element>
+                                            {oppgaverErFraInnsyn && (
+                                                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
+                                            )}
+                                            {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
+                                        </Element>
+                                        <Normaltekst>
+                                            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
+                                                <FormattedMessage
+                                                    id="oppgaver.neste_frist"
+                                                    values={{
+                                                        innsendelsesfrist:
+                                                            innsendelsesfrist != null
+                                                                ? formatDato(innsendelsesfrist.toISOString())
+                                                                : "",
+                                                    }}
+                                                />
+                                            )}
+                                            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                                                <FormattedMessage
+                                                    id="oppgaver.neste_frist_passert"
+                                                    values={{
+                                                        antall_dager: getAntallDagerTekst(
+                                                            antallDagerSidenFristBlePassert
+                                                        ),
+                                                        innsendelsesfrist:
+                                                            innsendelsesfrist != null
+                                                                ? formatDato(innsendelsesfrist!.toISOString())
+                                                                : "",
+                                                    }}
+                                                />
+                                            )}
+                                        </Normaltekst>
+                                    </div>
                                 </div>
+                            }
+                        >
+                            {oppgaverErFraInnsyn ? (
+                                <Normaltekst>
+                                    <FormattedMessage id="oppgaver.veileder_trenger_mer" />
+                                </Normaltekst>
+                            ) : (
+                                <Normaltekst>
+                                    <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
+                                </Normaltekst>
+                            )}
+
+                            <OpplastingAvVedleggModal />
+
+                            <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus)} />
+
+                            <div>
+                                {oppgaver !== null &&
+                                    oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
+                                        <DokumentasjonEtterspurtView
+                                            dokumentasjonEtterspurt={oppgave}
+                                            key={oppgaveIndex}
+                                            oppgaverErFraInnsyn={oppgaverErFraInnsyn}
+                                            oppgaveIndex={oppgaveIndex}
+                                        />
+                                    ))}
                             </div>
-                        }
-                    >
-                        {oppgaverErFraInnsyn ? (
+                        </Ekspanderbartpanel>
+                    )}
+
+                    {dokumentasjonKrav && (
+                        <Ekspanderbartpanel
+                            apen={false}
+                            border={false}
+                            tittel={
+                                <div className="oppgaver_header">
+                                    <DokumentBinder />
+                                    <div>
+                                        <Element>
+                                            <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
+                                        </Element>
+                                        <Normaltekst>
+                                            {antallDagerEtterFrist(frist) <= 0 && (
+                                                <FormattedMessage
+                                                    id="oppgaver.neste_frist"
+                                                    values={{
+                                                        innsendelsesfrist:
+                                                            frist != null ? formatDato(frist.toISOString()) : "",
+                                                    }}
+                                                />
+                                            )}
+                                            {antallDagerEtterFrist(frist) > 0 && (
+                                                <FormattedMessage
+                                                    id="oppgaver.neste_frist_passert"
+                                                    values={{
+                                                        antall_dager: getAntallDagerTekst(antallDagerEtterFrist(frist)),
+                                                        innsendelsesfrist:
+                                                            frist != null ? formatDato(frist!.toISOString()) : "",
+                                                    }}
+                                                />
+                                            )}
+                                        </Normaltekst>
+                                    </div>
+                                </div>
+                            }
+                        >
                             <Normaltekst>
-                                <FormattedMessage id="oppgaver.veileder_trenger_mer" />
+                                <FormattedMessage
+                                    id="dokumentasjonkrav.veileder_trenger_mer"
+                                    values={{
+                                        antallDokumenter: dokumentasjonKrav.reduce(
+                                            (count, dokumenter) => count + dokumenter.dokumentasjonkravElementer.length,
+                                            0
+                                        ),
+                                    }}
+                                />
                             </Normaltekst>
-                        ) : (
-                            <Normaltekst>
-                                <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
-                            </Normaltekst>
-                        )}
-
-                        <OpplastingAvVedleggModal />
-
-                        <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus)} />
-
-                        <div>
-                            {oppgaver !== null &&
-                                oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
-                                    <DokumentasjonEtterspurtView
-                                        dokumentasjonEtterspurt={oppgave}
-                                        key={oppgaveIndex}
-                                        oppgaverErFraInnsyn={oppgaverErFraInnsyn}
-                                        oppgaveIndex={oppgaveIndex}
+                            <div>
+                                {dokumentasjonKrav.map((dokumentasjonKrav: DokumentasjonKrav, index: number) => (
+                                    <DokumentasjonKravView
+                                        dokumentasjonkrav={dokumentasjonKrav}
+                                        key={index}
+                                        dokumentasjonkravIndex={index}
                                     />
                                 ))}
-                        </div>
-                    </Ekspanderbartpanel>
-                )}
-
-                {dokumentasjonKrav && (
-                    <Ekspanderbartpanel
-                        apen={false}
-                        border={false}
-                        tittel={
-                            <div className="oppgaver_header">
-                                <DokumentBinder />
-                                <div>
-                                    <Element>
-                                        <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
-                                    </Element>
-                                    <Normaltekst>
-                                        {antallDagerEtterFrist(frist) <= 0 && (
-                                            <FormattedMessage
-                                                id="oppgaver.neste_frist"
-                                                values={{
-                                                    innsendelsesfrist:
-                                                        frist != null ? formatDato(frist.toISOString()) : "",
-                                                }}
-                                            />
-                                        )}
-                                        {antallDagerEtterFrist(frist) > 0 && (
-                                            <FormattedMessage
-                                                id="oppgaver.neste_frist_passert"
-                                                values={{
-                                                    antall_dager: getAntallDagerTekst(antallDagerEtterFrist(frist)),
-                                                    innsendelsesfrist:
-                                                        frist != null ? formatDato(frist!.toISOString()) : "",
-                                                }}
-                                            />
-                                        )}
-                                    </Normaltekst>
-                                </div>
                             </div>
-                        }
-                    >
-                        <Normaltekst>
-                            <FormattedMessage
-                                id="dokumentasjonkrav.veileder_trenger_mer"
-                                values={{
-                                    antallDokumenter: dokumentasjonKrav.reduce(
-                                        (count, dokumenter) => count + dokumenter.dokumentasjonkravElementer.length,
-                                        0
-                                    ),
-                                }}
-                            />
-                        </Normaltekst>
-                        <div>
-                            {dokumentasjonKrav.map((dokumentasjonKrav: DokumentasjonKrav, index: number) => (
-                                <DokumentasjonKravView
-                                    dokumentasjonkrav={dokumentasjonKrav}
-                                    key={index}
-                                    dokumentasjonkravIndex={index}
-                                />
-                            ))}
-                        </div>
-                    </Ekspanderbartpanel>
-                )}
-            </Panel>
+                        </Ekspanderbartpanel>
+                    )}
+                </Panel>
+            )}
         </>
     );
 };
