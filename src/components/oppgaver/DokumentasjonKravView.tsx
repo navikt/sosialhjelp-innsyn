@@ -149,9 +149,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            checkTotalFileSize(filer);
+            const totalFileSize = filer.reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
+            );
 
-            if (overMaksStorrelse) {
+            if (illegalCombinedFilesSize(totalFileSize)) {
+                setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             }
 
@@ -174,6 +178,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     };
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
+        //må håndtere feil med sletting av filer.
         setErrorMessage(undefined);
 
         if (dokumentasjonkravReferanse !== "" && fil) {
@@ -192,7 +197,14 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
 
-        checkTotalFileSize(dokumentasjonkravFiler[dokumentasjonkravReferanse]);
+        const totalFileSize = dokumentasjonkravFiler[dokumentasjonkravReferanse].reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
+
+        if (!illegalCombinedFilesSize(totalFileSize)) {
+            setOverMaksStorrelse(false);
+        }
     };
 
     const visDokumentasjonkravDetaljerFeiler: boolean =
