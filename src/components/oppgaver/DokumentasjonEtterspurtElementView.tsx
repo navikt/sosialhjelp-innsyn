@@ -1,4 +1,4 @@
-import {Fil, DokumentasjonEtterspurtElement, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
 import {isFileErrorsNotEmpty, alertUser, writeErrorMessage, FileError} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
@@ -49,7 +49,6 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 externalIndex={oppgaveIndex}
                 setListWithFilesWithErrors={setListeMedFilerSomFeiler}
                 setAboveMaxSize={setOverMaksStorrelse}
-                innsynDataSti={InnsynsdataSti.OPPGAVER}
             />
 
             {oppgaveElement.filer &&

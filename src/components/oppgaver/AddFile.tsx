@@ -1,8 +1,6 @@
 import {
     DokumentasjonEtterspurtElement,
-    DokumentasjonKravElement,
     InnsynsdataActionTypeKeys,
-    InnsynsdataSti,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {FileError, findFilesWithError} from "../../utils/vedleggUtils";
@@ -27,12 +25,11 @@ type ChangeEvent = React.FormEvent<HTMLInputElement>;
 const AddFile: React.FC<{
     title: string;
     description: string | undefined;
-    oppgaveElement: DokumentasjonEtterspurtElement | DokumentasjonKravElement; //  -----må generaliseres i digisos-2093
+    oppgaveElement: DokumentasjonEtterspurtElement;
     internalIndex: number; // disse 2 brukes til å skille hvor feilmeldinger
     externalIndex: number; // og filer ligger
     setListWithFilesWithErrors: (filesWithErrors: Array<FileError>) => void;
     setAboveMaxSize: (aboveMaxSize: boolean) => void;
-    innsynDataSti: InnsynsdataSti;
 }> = ({
     title,
     description,
@@ -41,7 +38,6 @@ const AddFile: React.FC<{
     externalIndex,
     setListWithFilesWithErrors,
     setAboveMaxSize,
-    innsynDataSti,
 }) => {
     const dispatch = useDispatch();
 
@@ -57,9 +53,7 @@ const AddFile: React.FC<{
         if (handleOnLinkClicked) {
             handleOnLinkClicked(false);
         }
-        const uploadElement: any = document.getElementById(
-            "file_" + externalIndex + "_" + internalId + "_" + innsynDataSti
-        );
+        const uploadElement: any = document.getElementById("file_" + externalIndex + "_" + internalId);
         uploadElement.click();
         if (event) {
             event.preventDefault();
@@ -98,12 +92,8 @@ const AddFile: React.FC<{
                     if (!file) {
                         logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
                     } else {
-                        const actionType =
-                            innsynDataSti === InnsynsdataSti.OPPGAVER
-                                ? InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING
-                                : InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV;
                         dispatch({
-                            type: actionType,
+                            type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
                             internalIndex: internalIndex,
                             oppgaveElement: oppgaveElement,
                             externalIndex: externalIndex,
@@ -153,7 +143,7 @@ const AddFile: React.FC<{
                     </Flatknapp>
                     <input
                         type="file"
-                        id={"file_" + externalIndex + "_" + internalIndex + "_" + innsynDataSti}
+                        id={"file_" + externalIndex + "_" + internalIndex}
                         multiple={true}
                         onChange={(event: ChangeEvent) => onChange(event)}
                         style={{display: "none"}}
