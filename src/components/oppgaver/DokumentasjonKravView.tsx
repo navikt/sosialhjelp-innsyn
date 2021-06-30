@@ -75,9 +75,17 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         return false;
     };
 
+    const checkTotalFileSize = (filer: Fil[]) => {
+        const totalFileSize = filer.reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
+        setOverMaksStorrelse(illegalCombinedFilesSize(totalFileSize));
+    };
+
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        if (!fiksDigisosId) {
+        if (!fiksDigisosId || overMaksStorrelse) {
             return;
         }
         setErrorMessage(undefined);
@@ -132,13 +140,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         });
     };
 
-    const visDokumentasjonkravDetaljerFeiler: boolean =
-        includesReferense(dokumentasjonkravReferanserSomFeilet) ||
-        opplastingFeilet !== undefined ||
-        overMaksStorrelse ||
-        includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
-        includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
-
     const onChange = (
         event: any,
         dokumentasjonkravReferanse: string,
@@ -152,12 +153,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            const totalFileSize = filer.reduce(
-                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-                0
-            );
+            checkTotalFileSize(filer);
 
-            if (illegalCombinedFilesSize(totalFileSize)) {
+            if (overMaksStorrelse) {
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             }
 
@@ -181,6 +179,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
         setErrorMessage(undefined);
+
         if (dokumentasjonkravReferanse !== "" && fil) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
@@ -196,7 +195,16 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
+
+        checkTotalFileSize(dokumentasjonkravFiler[dokumentasjonkravReferanse]);
     };
+
+    const visDokumentasjonkravDetaljerFeiler: boolean =
+        includesReferense(dokumentasjonkravReferanserSomFeilet) ||
+        opplastingFeilet !== undefined ||
+        overMaksStorrelse ||
+        includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
+        includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
     return (
         <div>
