@@ -1,12 +1,9 @@
 import React, {useState} from "react";
 import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
-    containsIllegalCharacters,
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
     illegalCombinedFilesSize,
-    legalFileExtension,
-    illegalFileSize,
 } from "../../utils/vedleggUtils";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,7 +16,6 @@ import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {hentDokumentasjonkravMedFrist, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {validateFile} from "./validateFile";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
 

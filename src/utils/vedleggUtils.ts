@@ -9,7 +9,6 @@ import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggAction
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
 import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
-import {DokumentasjonKravFiler} from "../components/oppgaver/DokumentasjonKravView";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil

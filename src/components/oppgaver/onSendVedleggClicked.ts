@@ -4,11 +4,8 @@ import {
     maxCombinedFileSize,
     createFormDataWithVedleggFromFiler,
     createFormDataWithVedleggFromOppgaver,
-    createFormDataWithVedleggFromDokumentasjonkrav,
-    hasNotAddedFilesToDokkrav,
 } from "../../utils/vedleggUtils";
 import {
-    hentDokumentasjonkravMedFrist,
     hentInnsynsdata,
     hentOppgaveMedId,
     innsynsdataUrl,
@@ -20,8 +17,6 @@ import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggAct
 import {
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
-    DokumentasjonKrav,
-    DokumentasjonKravElement,
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
