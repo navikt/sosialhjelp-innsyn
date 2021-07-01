@@ -242,7 +242,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event) => {
-                            //må håndter å fjerne krav når filer blir sendt inn.
                             onSendClicked(event);
                         }}
                     >
