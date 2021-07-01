@@ -71,14 +71,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         return false;
     };
 
-    const checkTotalFileSize = (filer: Fil[]) => {
-        const totalFileSize = filer.reduce(
-            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-            0
-        );
-        setOverMaksStorrelse(illegalCombinedFilesSize(totalFileSize));
-    };
-
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (!fiksDigisosId || overMaksStorrelse) {
@@ -136,20 +128,20 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         });
     };
 
-    const onChange = (
-        event: any,
-        dokumentasjonkravReferanse: string,
-        result: {filenames: Set<string>; validFiles: Fil[]; errors: Set<string>},
-        files: FileList | null
-    ) => {
+    const onChange = (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => {
         setErrorMessage(undefined);
 
-        if (files) {
-            const filer = Array.from(files).map((file: File) => {
-                return {filnavn: file.name, status: "INITIALISERT", file: file};
-            });
+        if (validFiles.length) {
+            const newDokumentasjonkrav = {...dokumentasjonkravFiler};
+            if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
+                    dokumentasjonkravReferanse
+                ].concat(validFiles);
+            } else {
+                newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
+            }
 
-            const totalFileSize = filer.reduce(
+            const totalFileSize = newDokumentasjonkrav[dokumentasjonkravReferanse].reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
@@ -157,15 +149,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             if (illegalCombinedFilesSize(totalFileSize)) {
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
-            }
-
-            const newDokumentasjonkrav = {...dokumentasjonkravFiler};
-            if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
-                    dokumentasjonkravReferanse
-                ].concat(result.validFiles);
-            } else {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = result.validFiles;
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
@@ -178,7 +161,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     };
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
-        //må håndtere feil med sletting av filer.
         setErrorMessage(undefined);
 
         if (dokumentasjonkravReferanse !== "" && fil) {
@@ -202,7 +184,10 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             0
         );
 
-        if (!illegalCombinedFilesSize(totalFileSize)) {
+        if (illegalCombinedFilesSize(totalFileSize)) {
+            setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            setOverMaksStorrelse(true);
+        } else {
             setOverMaksStorrelse(false);
         }
     };

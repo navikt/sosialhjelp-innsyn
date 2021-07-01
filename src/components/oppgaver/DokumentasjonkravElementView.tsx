@@ -21,15 +21,10 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravElement: DokumentasjonKravElement;
     dokumentasjonKravIndex: number;
     dokumentasjonkravReferanse: string;
-    onChange: (
-        event: any,
-        dokumentasjonkravReferanse: string,
-        result: {filenames: Set<string>; validFiles: Fil[]; errors: Set<string>},
-        files: FileList | null
-    ) => void;
+    onChange: (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     filer: Fil[];
-}> = ({dokumentasjonkravElement, dokumentasjonKravIndex, dokumentasjonkravReferanse, onChange, onDelete, filer}) => {
+}> = ({dokumentasjonkravElement, dokumentasjonkravReferanse, onChange, onDelete, filer}) => {
     const uuid = uuidv4();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 
@@ -70,7 +65,7 @@ const DokumentasjonkravElementView: React.FC<{
                 setFileValidationErrors({errors: result.errors, filenames: result.filenames});
             }
 
-            onChange(event, dokumentasjonkravReferanse, result, files);
+            onChange(event, dokumentasjonkravReferanse, result.validFiles);
         }
     };
 
@@ -108,7 +103,7 @@ const DokumentasjonkravElementView: React.FC<{
                     onDelete={onDeleteElement}
                 />
             ))}
-            {fileValidationErrors?.errors.size && (
+            {fileValidationErrors && fileValidationErrors?.errors.size && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (
                         <ErrorMessageTitle
