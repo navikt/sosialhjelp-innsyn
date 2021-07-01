@@ -94,7 +94,6 @@ export const onSendVedleggClicked = (
                 0
             );
     }
-
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         combinedSizeOfAllFiles = filer.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
@@ -107,6 +106,7 @@ export const onSendVedleggClicked = (
     if (combinedSizeOfAllFiles > maxCombinedFileSize) {
         logInfoMessage("Validering vedlegg feilet: Totalt over 150MB for alle oppgaver");
     }
+
     if (combinedSizeOfAllFiles < maxCombinedFileSize && combinedSizeOfAllFiles !== 0) {
         fetchPost(path, formData, "multipart/form-data")
             .then((fileResponse: any) => {
