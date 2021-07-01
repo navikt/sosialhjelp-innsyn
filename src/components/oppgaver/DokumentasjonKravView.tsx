@@ -15,7 +15,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
-import {hentDokumentasjonkravMedFrist, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {hentDokumentasjonkravMedId, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
 
@@ -91,7 +91,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         };
         const onSuccessful = () => {
             dispatch(
-                hentDokumentasjonkravMedFrist(
+                hentDokumentasjonkravMedId(
                     fiksDigisosId,
                     InnsynsdataSti.DOKUMENTASJONKRAV,
                     dokumentasjonkrav.dokumentasjonkravId
