@@ -31,14 +31,14 @@ export const onSendVedleggClicked = (
     innsyndatasti: InnsynsdataSti,
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
-    oppgave?: DokumentasjonEtterspurt,
+    dokumentasjonEtterspurt?: DokumentasjonEtterspurt,
     filer?: Fil[]
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
     dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
 
-    if ((!oppgave && !filer) || !fiksDigisosId) {
+    if ((!dokumentasjonEtterspurt && !filer) || !fiksDigisosId) {
         event.preventDefault();
         return;
     }
@@ -46,9 +46,9 @@ export const onSendVedleggClicked = (
     const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
     let formData: any = undefined;
 
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && oppgave) {
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
         try {
-            formData = createFormDataWithVedleggFromOppgaver(oppgave);
+            formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
         } catch (e) {
             dispatch(setFileUploadFailed(vedleggId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
@@ -57,7 +57,7 @@ export const onSendVedleggClicked = (
         }
 
         dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
-        const noFilesAdded = hasNotAddedFiles(oppgave);
+        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
         dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
 
         if (noFilesAdded) {
@@ -84,8 +84,8 @@ export const onSendVedleggClicked = (
 
     let combinedSizeOfAllFiles = 0;
 
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && oppgave) {
-        combinedSizeOfAllFiles = oppgave.oppgaveElementer
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
+        combinedSizeOfAllFiles = dokumentasjonEtterspurt.oppgaveElementer
             .flatMap((oppgaveElement: DokumentasjonEtterspurtElement) => {
                 return oppgaveElement.filer ?? [];
             })
