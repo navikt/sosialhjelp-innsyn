@@ -60,8 +60,6 @@ const DokumentasjonkravElementView: React.FC<{
             const result = validateFile(filer);
 
             if (result.errors.size) {
-                // vi trenger ca noe sånt for å skille mellom hvilken boks feilene tilhører
-                // fileValidationErrors?.errors.set(dokumentasjonkravReferanse, errors)
                 setFileValidationErrors({errors: result.errors, filenames: result.filenames});
             }
 
@@ -95,7 +93,6 @@ const DokumentasjonkravElementView: React.FC<{
             </div>
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
-                //sende inn fjern fil som en ondelete click funksjon
                 <FileItemView
                     key={vedleggIndex}
                     fil={fil}
