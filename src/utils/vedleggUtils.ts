@@ -2,7 +2,6 @@ import {
     Fil,
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
-    DokumentasjonKrav,
     DokumentasjonKravElement,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
@@ -316,18 +315,6 @@ export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurt | null) => {
         oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
             oppgaveElement.filer &&
                 oppgaveElement.filer.forEach(() => {
-                    antall += 1;
-                });
-        });
-    return antall === 0;
-};
-
-export const hasNotAddedFilesToDokkrav = (dokumentasjonkrav: DokumentasjonKrav | null) => {
-    let antall = 0;
-    dokumentasjonkrav &&
-        dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonKravElement: DokumentasjonKravElement) => {
-            dokumentasjonKravElement.filer &&
-                dokumentasjonKravElement.filer.forEach(() => {
                     antall += 1;
                 });
         });
