@@ -38,9 +38,7 @@ function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): D
 
 const nextInnsedelsesfrist = (dokumentasjonkrav: DokumentasjonKrav[]): Date | null => {
     return dokumentasjonkrav
-        ? dokumentasjonkrav
-              .filter((dokumentasjonkrav) => dokumentasjonkrav.frist)
-              .map((dokumentasjonKrav: DokumentasjonKrav) => new Date(dokumentasjonKrav.frist!!))[0]
+        ? dokumentasjonkrav.filter((krav) => krav.frist).map((krav: DokumentasjonKrav) => new Date(krav.frist!!))[0]
         : null;
 };
 
@@ -226,9 +224,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 />
                             </Normaltekst>
                             <div>
-                                {dokumentasjonKrav.map((dokumentasjonKrav: DokumentasjonKrav, index: number) => (
+                                {dokumentasjonKrav.map((krav: DokumentasjonKrav, index: number) => (
                                     <DokumentasjonKravView
-                                        dokumentasjonkrav={dokumentasjonKrav}
+                                        dokumentasjonkrav={krav}
                                         key={index}
                                         dokumentasjonkravIndex={index}
                                     />

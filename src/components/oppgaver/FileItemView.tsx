@@ -13,7 +13,7 @@ import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FileViewItem: React.FC<{
+const FileItemView: React.FC<{
     fil: Fil;
     referanse: string;
     onDelete: (event: any, fil: Fil) => void;
@@ -65,4 +65,4 @@ const FileViewItem: React.FC<{
     );
 };
 
-export default FileViewItem;
+export default FileItemView;

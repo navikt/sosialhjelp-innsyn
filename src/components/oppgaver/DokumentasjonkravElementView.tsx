@@ -53,11 +53,11 @@ const DokumentasjonkravElementView: React.FC<{
         setFileValidationErrors(undefined);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            const filer = Array.from(files).map((file: File) => {
+            const opplastedeFiler = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            const result = validateFile(filer);
+            const result = validateFile(opplastedeFiler);
 
             if (result.errors.size) {
                 setFileValidationErrors({errors: result.errors, filenames: result.filenames});
