@@ -81,14 +81,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
         if (Object.keys(dokumentasjonkravFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
-        } //ingen filer valgt
+        }
 
-        const handleFileResponse = (fil: {filnavn: string}, status: string) => {
-            //ta kontakt med fag for å fine ut hvilken failcaser vi skal håndtere
-            //trekke ut feilmelding key til enum
-            //setErrorMessage("vedlegg.minst_ett_vedlegg");
-        };
-        // reference?
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
         };
@@ -120,7 +114,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 formData,
                 filer,
                 path,
-                handleFileResponse,
                 handleFileWithVirus,
                 handleFileUploadFailed,
                 onSuccessful

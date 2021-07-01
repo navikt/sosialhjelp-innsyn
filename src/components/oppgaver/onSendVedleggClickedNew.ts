@@ -7,22 +7,12 @@ export const onSendVedleggClicked = (
     formData: FormData,
     filer: Fil[],
     path: string,
-    handleFileResponse: (fil: {filnavn: string}, status: string) => void,
     handleFileWithVirus: () => void,
     handleFileUploadFailed: () => void,
     onSuccessful: () => void
 ) => {
     fetchPost(path, formData, "multipart/form-data")
-        .then((fileResponse: any) => {
-            if (Array.isArray(fileResponse)) {
-                fileResponse.forEach((response) => {
-                    response.filer.forEach((fil: Fil, index: number) => {
-                        handleFileResponse({filnavn: fil.filnavn}, fil.status ?? "");
-                    });
-                });
-            }
-            onSuccessful();
-        })
+        .then(() => onSuccessful())
         .catch((e) => {
             // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
             fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
