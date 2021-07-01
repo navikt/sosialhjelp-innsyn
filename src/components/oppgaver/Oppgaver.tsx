@@ -36,25 +36,20 @@ function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): D
     return null;
 }
 
-function foersteFrist(oppgaver: null | DokumentasjonKrav[]): Date | null {
-    if (oppgaver === null) {
-        return null;
-    }
-    if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map((oppgave: DokumentasjonKrav) => new Date(oppgave.frist!!));
-        return innsendelsesfrister[0];
-    }
-    return null;
-}
+const nextInnsedelsesfrist = (dokumentasjonkrav: DokumentasjonKrav[]): Date => {
+    return dokumentasjonkrav
+        .filter((dokumentasjonkrav) => dokumentasjonkrav.frist)
+        .map((dokumentasjonKrav: DokumentasjonKrav) => new Date(dokumentasjonKrav.frist!!))[0];
+};
 
-export function antallDagerEtterFrist(innsendelsesfrist: null | Date): number {
-    if (innsendelsesfrist === null) {
+export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
+    if (!innsendelsesfrist) {
         return 0;
     }
     let now = Math.floor(new Date().getTime() / (3600 * 24 * 1000)); //days as integer from..
     let frist = Math.floor(innsendelsesfrist.getTime() / (3600 * 24 * 1000)); //days as integer from..
     return now - frist;
-}
+};
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -69,9 +64,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
-    let innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
-    let frist = foersteFrist(dokumentasjonKrav);
-    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
+    const innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
+    const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
+    const dokumentasjonkravFrist = nextInnsedelsesfrist(dokumentasjonKrav);
+    const daysSinceDokumentasjonkravFrist = antallDagerEtterFrist(dokumentasjonkravFrist);
 
     return (
         <>
@@ -188,22 +184,26 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                             <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                                         </Element>
                                         <Normaltekst>
-                                            {antallDagerEtterFrist(frist) <= 0 && (
+                                            {dokumentasjonkravFrist && daysSinceDokumentasjonkravFrist <= 0 && (
                                                 <FormattedMessage
                                                     id="oppgaver.neste_frist"
                                                     values={{
-                                                        innsendelsesfrist:
-                                                            frist != null ? formatDato(frist.toISOString()) : "",
+                                                        innsendelsesfrist: formatDato(
+                                                            dokumentasjonkravFrist.toISOString()
+                                                        ),
                                                     }}
                                                 />
                                             )}
-                                            {antallDagerEtterFrist(frist) > 0 && (
+                                            {daysSinceDokumentasjonkravFrist > 0 && (
                                                 <FormattedMessage
                                                     id="oppgaver.neste_frist_passert"
                                                     values={{
-                                                        antall_dager: getAntallDagerTekst(antallDagerEtterFrist(frist)),
-                                                        innsendelsesfrist:
-                                                            frist != null ? formatDato(frist!.toISOString()) : "",
+                                                        antall_dager: getAntallDagerTekst(
+                                                            antallDagerEtterFrist(dokumentasjonkravFrist)
+                                                        ),
+                                                        innsendelsesfrist: formatDato(
+                                                            dokumentasjonkravFrist!.toISOString()
+                                                        ),
                                                     }}
                                                 />
                                             )}
