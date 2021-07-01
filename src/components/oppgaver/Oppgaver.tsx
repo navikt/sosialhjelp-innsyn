@@ -36,10 +36,12 @@ function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): D
     return null;
 }
 
-const nextInnsedelsesfrist = (dokumentasjonkrav: DokumentasjonKrav[]): Date => {
+const nextInnsedelsesfrist = (dokumentasjonkrav: DokumentasjonKrav[]): Date | null => {
     return dokumentasjonkrav
-        .filter((dokumentasjonkrav) => dokumentasjonkrav.frist)
-        .map((dokumentasjonKrav: DokumentasjonKrav) => new Date(dokumentasjonKrav.frist!!))[0];
+        ? dokumentasjonkrav
+              .filter((dokumentasjonkrav) => dokumentasjonkrav.frist)
+              .map((dokumentasjonKrav: DokumentasjonKrav) => new Date(dokumentasjonKrav.frist!!))[0]
+        : null;
 };
 
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
