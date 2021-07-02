@@ -36,12 +36,6 @@ function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): D
     return null;
 }
 
-const nextInnsedelsesfrist = (dokumentasjonkrav: DokumentasjonKrav[]): Date => {
-    return dokumentasjonkrav
-        .filter((dokumentasjonkrav) => dokumentasjonkrav.frist)
-        .map((dokumentasjonKrav: DokumentasjonKrav) => new Date(dokumentasjonKrav.frist!!))[0];
-};
-
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
         return 0;
@@ -66,8 +60,6 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     const innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
-    const dokumentasjonkravFrist = nextInnsedelsesfrist(dokumentasjonKrav);
-    const daysSinceDokumentasjonkravFrist = antallDagerEtterFrist(dokumentasjonkravFrist);
 
     return (
         <>
@@ -184,45 +176,21 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                             <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                                         </Element>
                                         <Normaltekst>
-                                            {dokumentasjonkravFrist && daysSinceDokumentasjonkravFrist <= 0 && (
-                                                <FormattedMessage
-                                                    id="oppgaver.neste_frist"
-                                                    values={{
-                                                        innsendelsesfrist: formatDato(
-                                                            dokumentasjonkravFrist.toISOString()
-                                                        ),
-                                                    }}
-                                                />
-                                            )}
-                                            {daysSinceDokumentasjonkravFrist > 0 && (
-                                                <FormattedMessage
-                                                    id="oppgaver.neste_frist_passert"
-                                                    values={{
-                                                        antall_dager: getAntallDagerTekst(
-                                                            antallDagerEtterFrist(dokumentasjonkravFrist)
-                                                        ),
-                                                        innsendelsesfrist: formatDato(
-                                                            dokumentasjonkravFrist!.toISOString()
-                                                        ),
-                                                    }}
-                                                />
-                                            )}
+                                            <FormattedMessage
+                                                id="dokumentasjonkrav.veileder_trenger_mer"
+                                                values={{
+                                                    antallDokumenter: dokumentasjonKrav.reduce(
+                                                        (count, dokumenter) =>
+                                                            count + dokumenter.dokumentasjonkravElementer.length,
+                                                        0
+                                                    ),
+                                                }}
+                                            />
                                         </Normaltekst>
                                     </div>
                                 </div>
                             }
                         >
-                            <Normaltekst>
-                                <FormattedMessage
-                                    id="dokumentasjonkrav.veileder_trenger_mer"
-                                    values={{
-                                        antallDokumenter: dokumentasjonKrav.reduce(
-                                            (count, dokumenter) => count + dokumenter.dokumentasjonkravElementer.length,
-                                            0
-                                        ),
-                                    }}
-                                />
-                            </Normaltekst>
                             <div>
                                 {dokumentasjonKrav.map((dokumentasjonKrav: DokumentasjonKrav, index: number) => (
                                     <DokumentasjonKravView
