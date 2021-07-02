@@ -192,9 +192,9 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             }
                         >
                             <div>
-                                {dokumentasjonKrav.map((dokumentasjonKrav: DokumentasjonKrav, index: number) => (
+                                {dokumentasjonKrav.map((krav: DokumentasjonKrav, index: number) => (
                                     <DokumentasjonKravView
-                                        dokumentasjonkrav={dokumentasjonKrav}
+                                        dokumentasjonkrav={krav}
                                         key={index}
                                         dokumentasjonkravIndex={index}
                                     />

@@ -327,8 +327,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 }),
             };
         case InnsynsdataActionTypeKeys.OPPDATER_DOKUMENTASJONKRAV_STATE:
-            const dokumentasjonkrav: DokumentasjonKrav[] = action.verdi;
-            if (dokumentasjonkrav.length === 0) {
+            const dokumentasjonkravListe: DokumentasjonKrav[] = action.verdi;
+            if (dokumentasjonkravListe.length === 0) {
                 return {
                     ...state,
                     dokumentasjonkrav: state.dokumentasjonkrav.filter(
@@ -405,11 +405,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_DOKUMENTASJONKRAV:
             return {
                 ...state,
-                dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav, oppgaveIndex: number) => {
+                dokumentasjonkrav: state.dokumentasjonkrav.map((krav, oppgaveIndex: number) => {
                     if (oppgaveIndex === action.externalIndex) {
                         return {
-                            ...dokumentasjonkrav,
-                            dokumentasjonkravElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
+                            ...krav,
+                            dokumentasjonkravElementer: krav.dokumentasjonkravElementer.map(
                                 (dokumentasjonkravElement, oppgaveElementIndex: number) => {
                                     if (oppgaveElementIndex === action.internalIndex) {
                                         return {
@@ -427,17 +427,17 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                             ),
                         };
                     }
-                    return dokumentasjonkrav;
+                    return krav;
                 }),
             };
         case InnsynsdataActionTypeKeys.FJERN_FIL_FOR_DOKUMENTASJONKRAV:
             return {
                 ...state,
-                dokumentasjonkrav: state.dokumentasjonkrav.map((dokumentasjonkrav, oppgaveIndex) => {
+                dokumentasjonkrav: state.dokumentasjonkrav.map((krav, oppgaveIndex) => {
                     if (oppgaveIndex === action.externalIndex) {
                         return {
-                            ...dokumentasjonkrav,
-                            dokumentasjonkravElementer: dokumentasjonkrav.dokumentasjonkravElementer.map(
+                            ...krav,
+                            dokumentasjonkravElementer: krav.dokumentasjonkravElementer.map(
                                 (dokumentasjonkravElement, oppgaveElementIndex) => {
                                     if (
                                         oppgaveElementIndex === action.internalIndex &&
@@ -461,7 +461,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                             ),
                         };
                     }
-                    return dokumentasjonkrav;
+                    return krav;
                 }),
             };
         case InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL:
