@@ -1,4 +1,9 @@
-import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    DokumentasjonEtterspurt,
+    DokumentasjonEtterspurtElement,
+    DokumentasjonKravElement,
+} from "../redux/innsynsdata/innsynsdataReducer";
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
@@ -28,6 +33,15 @@ export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtte
     return opprettFormDataMedVedlegg(metadata);
 };
 
+export const createFormDataWithVedleggFromDokumentasjonkrav = (
+    dokumentasjonkravElement: DokumentasjonKravElement,
+    filer: Fil[],
+    frist?: string
+) => {
+    const metadata: Metadata[] = generateMetadataFromDokumentasjonkrav(dokumentasjonkravElement, filer, frist);
+    return opprettFormDataMedVedlegg(metadata);
+};
+
 export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
     return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
         type: oppgaveElement.dokumenttype,
@@ -37,6 +51,23 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
         hendelsetype: oppgaveElement.hendelsetype,
         hendelsereferanse: oppgaveElement.hendelsereferanse,
     }));
+};
+
+export const generateMetadataFromDokumentasjonkrav = (
+    dokumentasjonkravElement: DokumentasjonKravElement,
+    filer: Fil[],
+    frist?: string
+) => {
+    return [
+        {
+            type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
+            tilleggsinfo: dokumentasjonkravElement.beskrivelse,
+            innsendelsesfrist: frist,
+            filer: filer,
+            hendelsetype: dokumentasjonkravElement.hendelsetype,
+            hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
+        },
+    ];
 };
 
 export const createFormDataWithVedleggFromFiler = (filer: Fil[]): FormData => {
@@ -111,11 +142,11 @@ export const containsIllegalCharacters = (filename: string) => {
     return false;
 };
 
-export const legalCombinedFilesSize = (sammensattFilStorrelse: number) => {
+export const illegalCombinedFilesSize = (sammensattFilStorrelse: number) => {
     return sammensattFilStorrelse > maxCombinedFileSize;
 };
 
-export const legalFileSize = (file: File) => {
+export const illegalFileSize = (file: File) => {
     return file.size > maxFileSize;
 };
 
@@ -163,6 +194,12 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
 export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
     return oppgaveElementer.find((oppgaveElement) => {
         return !oppgaveElement.filer ? false : hasFilesWithErrorStatus(oppgaveElement.filer);
+    });
+};
+
+export const dokumentasjonkravHasFilesWithError = (dokumentasjonKravElementer: DokumentasjonKravElement[]) => {
+    return dokumentasjonKravElementer.find((dokumentasjonkravElement) => {
+        return !dokumentasjonkravElement.filer ? false : hasFilesWithErrorStatus(dokumentasjonkravElement.filer);
     });
 };
 
@@ -244,10 +281,10 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
         if (containsIllegalCharacters(filename)) {
             fileErrorObject.containsIllegalCharacters = true;
         }
-        if (legalFileSize(file)) {
+        if (illegalFileSize(file)) {
             fileErrorObject.legalFileSize = true;
         }
-        if (legalCombinedFilesSize(isCombinedFileSizeLegal)) {
+        if (illegalCombinedFilesSize(isCombinedFileSizeLegal)) {
             sjekkMaxMengde = true;
             fileErrorObject.legalCombinedFilesSize = true;
         }

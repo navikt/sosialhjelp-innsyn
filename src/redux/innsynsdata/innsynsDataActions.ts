@@ -10,6 +10,7 @@ import {
     skalViseFeilside,
     oppdaterOppgaveState,
     skalViseForbudtside,
+    oppdaterDokumentasjonkravState,
 } from "./innsynsdataReducer";
 import {logWarningMessage} from "./loggActions";
 
@@ -49,6 +50,31 @@ export function hentOppgaveMedId(fiksDigisosId: string, sti: InnsynsdataSti, opp
         fetchToJson(url)
             .then((response: any) => {
                 dispatch(oppdaterOppgaveState(oppgaveId, response));
+                dispatch(settRestStatus(sti, REST_STATUS.OK));
+            })
+            .catch((reason) => {
+                if (reason.message === HttpErrorType.UNAUTHORIZED) {
+                    dispatch(settRestStatus(sti, REST_STATUS.UNAUTHORIZED));
+                } else if (reason.message === HttpErrorType.FORBIDDEN) {
+                    logWarningMessage(reason.message, reason.navCallId);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(skalViseForbudtside(true));
+                } else {
+                    logWarningMessage(reason.message);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(skalViseFeilside(true));
+                }
+            });
+    };
+}
+
+export function hentDokumentasjonkravMedId(fiksDigisosId: string, sti: InnsynsdataSti, dokumentasjonkravId: string) {
+    return (dispatch: Dispatch) => {
+        dispatch(settRestStatus(sti, REST_STATUS.PENDING));
+        const url = `${innsynsdataUrl(fiksDigisosId, sti)}/${dokumentasjonkravId}`;
+        fetchToJson(url)
+            .then((response: any) => {
+                dispatch(oppdaterDokumentasjonkravState(dokumentasjonkravId, response));
                 dispatch(settRestStatus(sti, REST_STATUS.OK));
             })
             .catch((reason) => {
