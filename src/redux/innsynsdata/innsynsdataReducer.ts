@@ -80,6 +80,18 @@ export interface DokumentasjonEtterspurtElement {
     filer?: Fil[];
 }
 
+export interface Vilkar {
+    vilkarElementer: VilkarElement[];
+}
+
+export interface VilkarElement {
+    hendelsetidspunkt: string;
+    vilkarReferanse: string;
+    tittel?: string;
+    beskrivelse?: string;
+    status: string;
+}
+
 export interface DokumentasjonKrav {
     frist?: string;
     dokumentasjonkravId: string;
@@ -217,6 +229,7 @@ export interface InnsynsdataType {
     saksStatus: SaksStatusState[];
     oppgaver: DokumentasjonEtterspurt[];
     dokumentasjonkrav: DokumentasjonKrav[];
+    vilkar: Vilkar[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -253,6 +266,7 @@ export const initialState: InnsynsdataType = {
     saksStatus: [],
     oppgaver: [],
     dokumentasjonkrav: [],
+    vilkar: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],
@@ -693,9 +707,10 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             }
             return {
                 ...state,
-                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
-                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                ),
+                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend:
+                    state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
+                        (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                    ),
             };
 
         default:

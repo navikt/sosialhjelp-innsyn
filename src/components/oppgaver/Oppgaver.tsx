@@ -5,11 +5,11 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt, DokumentasjonKrav} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, DokumentasjonKrav, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import VilkarView from "../vilkar/VilkarView";
+import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
@@ -56,6 +56,8 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkrav
     );
 
+    const vilkar: Vilkar[] = useSelector((state: InnsynAppState) => state.innsynsdata.vilkar);
+
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     const innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
@@ -69,7 +71,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 </Systemtittel>
             </Panel>
 
-            <VilkarView />
+            <OppgaveInformasjon />
 
             {skalViseLastestripe(restStatus) && (
                 <Panel
@@ -162,6 +164,26 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     ))}
                             </div>
                         </Ekspanderbartpanel>
+                    )}
+
+                    {vilkar && (
+                        <Ekspanderbartpanel
+                            apen={false}
+                            border={false}
+                            tittel={
+                                <div className="oppgaver_header">
+                                    <DokumentBinder />
+                                    <div>
+                                        <Element>
+                                            {oppgaverErFraInnsyn && (
+                                                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
+                                            )}
+                                            {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
+                                        </Element>
+                                    </div>
+                                </div>
+                            }
+                        ></Ekspanderbartpanel>
                     )}
 
                     {dokumentasjonKrav && (

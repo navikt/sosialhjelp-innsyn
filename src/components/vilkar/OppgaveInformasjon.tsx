@@ -10,7 +10,7 @@ import ChecklistSmall from "../ikoner/ChecklistSmall";
 import EkspanderbartIkonPanel, {PanelIkon} from "../paneler/EkspanderbartIkonPanel";
 import "./vilkar.less";
 
-const VilkarView: React.FC = () => {
+const OppgaveInformasjon: React.FC = () => {
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
@@ -57,4 +57,4 @@ const VilkarView: React.FC = () => {
     }
 };
 
-export default VilkarView;
+export default OppgaveInformasjon;
