@@ -17,6 +17,7 @@ import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
+import {VilkarView} from "./VilkarView";
 
 interface Props {
     oppgaver: null | DokumentasjonEtterspurt[];
@@ -183,7 +184,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     </div>
                                 </div>
                             }
-                        ></Ekspanderbartpanel>
+                        >
+                            <div>
+                                {vilkar[0].vilkarElementer.map((vilkarElement, index) => (
+                                    <VilkarView key={index} vilkar={vilkarElement} />
+                                ))}
+                            </div>
+                        </Ekspanderbartpanel>
                     )}
 
                     {dokumentasjonKrav && (
