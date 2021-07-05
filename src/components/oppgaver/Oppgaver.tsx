@@ -175,12 +175,15 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 <div className="oppgaver_header">
                                     <DokumentBinder />
                                     <div>
-                                        <Element>
-                                            {oppgaverErFraInnsyn && (
-                                                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
-                                            )}
-                                            {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
-                                        </Element>
+                                        <Element>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Element>
+                                        <Normaltekst>
+                                            <FormattedMessage
+                                                id="vilkar.veileder_trenger_mer"
+                                                values={{
+                                                    antallVilkar: vilkar.length,
+                                                }}
+                                            />
+                                        </Normaltekst>
                                     </div>
                                 </div>
                             }
