@@ -1,8 +1,8 @@
 import React from "react";
-import {VilkarElement} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 
 interface Props {
-    vilkar: VilkarElement;
+    vilkar: Vilkar;
 }
 
 export const VilkarView: React.FC<Props> = ({vilkar}) => {

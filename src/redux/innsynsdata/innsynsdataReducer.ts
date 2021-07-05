@@ -81,10 +81,6 @@ export interface DokumentasjonEtterspurtElement {
 }
 
 export interface Vilkar {
-    vilkarElementer: VilkarElement[];
-}
-
-export interface VilkarElement {
     hendelsetidspunkt: string;
     vilkarReferanse: string;
     tittel?: string;
@@ -147,6 +143,7 @@ export enum InnsynsdataSti {
     SAKER = "saker",
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune",
+    VILKAR = "vilkar",
 }
 
 export interface InnsynsdataActionType {
@@ -707,10 +704,9 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             }
             return {
                 ...state,
-                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend:
-                    state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
-                        (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                    ),
+                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
+                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                ),
             };
 
         default:

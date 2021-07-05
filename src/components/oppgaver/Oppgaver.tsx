@@ -186,7 +186,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             }
                         >
                             <div>
-                                {vilkar[0].vilkarElementer.map((vilkarElement, index) => (
+                                {vilkar.map((vilkarElement, index) => (
                                     <VilkarView key={index} vilkar={vilkarElement} />
                                 ))}
                             </div>
