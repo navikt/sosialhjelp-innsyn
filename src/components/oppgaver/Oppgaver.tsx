@@ -86,7 +86,12 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 </Panel>
             )}
 
-            <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
+            <IngenOppgaverPanel
+                dokumentasjonEtterspurt={oppgaver}
+                dokumentasjonkrav={dokumentasjonKrav}
+                vilkar={vilkar}
+                leserData={skalViseLastestripe(restStatus)}
+            />
 
             {skalViseOppgaver && (
                 <Panel
