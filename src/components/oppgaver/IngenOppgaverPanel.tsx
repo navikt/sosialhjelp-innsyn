@@ -5,22 +5,41 @@ import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {DokumentasjonEtterspurt, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
-import {getSkalViseIngenOppgaverPanel} from "./oppgaverUtilities";
+import {
+    DokumentasjonEtterspurt,
+    DokumentasjonKrav,
+    SaksStatusState,
+    Vilkar,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import Panel from "nav-frontend-paneler";
+import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
 
 interface Props {
+    dokumentasjonEtterspurt: DokumentasjonEtterspurt[] | null;
+    dokumentasjonkrav: DokumentasjonKrav[];
+    vilkar: Vilkar[];
     leserData: boolean | undefined;
 }
 
-const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
-    const oppgaver: DokumentasjonEtterspurt[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
+const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumentasjonEtterspurt, leserData}) => {
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
-    const skalViseIngenOppgaverPanel = getSkalViseIngenOppgaverPanel(oppgaver, innsynSaksStatusListe);
 
-    if (skalViseIngenOppgaverPanel && !props.leserData) {
+    const finnesOppgaver = (oppgaveArray: any) => {
+        return oppgaveArray && Array.isArray(oppgaveArray) && oppgaveArray.length > 0;
+    };
+
+    const skalViseIngenOppgaverPanel = () => {
+        return !(
+            getSkalViseVilkarView(innsynSaksStatusListe) ||
+            finnesOppgaver(dokumentasjonEtterspurt) ||
+            finnesOppgaver(dokumentasjonkrav) ||
+            finnesOppgaver(vilkar)
+        );
+    };
+
+    if (skalViseIngenOppgaverPanel() && !leserData) {
         return (
             <Panel className={"panel-glippe-over oppgaver_panel "}>
                 <div>
