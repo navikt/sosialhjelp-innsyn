@@ -63,6 +63,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     const innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
+    const skalViseOppgaver = brukerHarOppgaver || dokumentasjonKrav || vilkar;
 
     return (
         <>
@@ -78,7 +79,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
-                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
+                        (skalViseOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
                     }
                 >
                     <Lastestriper linjer={1} />
@@ -87,7 +88,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
-            {(brukerHarOppgaver || dokumentasjonKrav) && (
+            {skalViseOppgaver && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
@@ -167,7 +168,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         </Ekspanderbartpanel>
                     )}
 
-                    {vilkar && (
+                    {vilkar && vilkar.length > 0 && (
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
@@ -196,7 +197,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         </Ekspanderbartpanel>
                     )}
 
-                    {dokumentasjonKrav && (
+                    {dokumentasjonKrav && dokumentasjonKrav.length > 0 && (
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
