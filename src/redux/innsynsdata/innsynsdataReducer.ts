@@ -80,6 +80,14 @@ export interface DokumentasjonEtterspurtElement {
     filer?: Fil[];
 }
 
+export interface Vilkar {
+    hendelsetidspunkt: string;
+    vilkarReferanse: string;
+    tittel?: string;
+    beskrivelse?: string;
+    status: string;
+}
+
 export interface DokumentasjonKrav {
     frist?: string;
     dokumentasjonkravId: string;
@@ -135,6 +143,7 @@ export enum InnsynsdataSti {
     SAKER = "saker",
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune",
+    VILKAR = "vilkar",
 }
 
 export interface InnsynsdataActionType {
@@ -217,6 +226,7 @@ export interface InnsynsdataType {
     saksStatus: SaksStatusState[];
     oppgaver: DokumentasjonEtterspurt[];
     dokumentasjonkrav: DokumentasjonKrav[];
+    vilkar: Vilkar[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[];
@@ -253,6 +263,7 @@ export const initialState: InnsynsdataType = {
     saksStatus: [],
     oppgaver: [],
     dokumentasjonkrav: [],
+    vilkar: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
     listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: [],

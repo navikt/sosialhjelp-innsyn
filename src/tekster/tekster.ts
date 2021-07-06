@@ -66,13 +66,16 @@ export const tekster = {
         "oppgaver.informasjon.modal.bolk3.avsnitt1":
             "Det er viktig at du sjekker at dokumentene du laster opp er fullstendige og lesbare på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende den på nytt.",
         "oppgaver.neste_frist": "Neste frist for innlevering er {innsendelsesfrist}",
-        "oppgaver.neste_frist_passert":
-            "Frist for innlevering var for {antall_dager} siden, den {innsendelsesfrist}",
+        "oppgaver.neste_frist_passert": "Frist for innlevering var for {antall_dager} siden, den {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
         "oppgaver.andre_dokumenter": "Har du andre dokumenter du vil sende?",
         "oppgaver.andre_dokumenter_beskjed": 'Du kan sende dokumenter under fanen "Dine vedlegg" nedenfor.',
+
+        "vilkar.du_har_vilkar": "Vilkår for søknaden din",
+        "vilkar.veileder_trenger_mer":
+            "Du har {antallVilkar} vilkår. Vilkår er aktiviter som du må gjøre som en del av oppfølgingen din fra NAV.",
 
         "dokumentasjonkrav.dokumentasjon_stonad": "Dokumentasjon for stønaden din",
         "dokumentasjonkrav.veileder_trenger_mer":

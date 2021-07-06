@@ -60,6 +60,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         if (innsynsdata.restStatus.saksStatus !== REST_STATUS.PENDING) {
             [
                 InnsynsdataSti.OPPGAVER,
+                InnsynsdataSti.VILKAR,
                 InnsynsdataSti.DOKUMENTASJONKRAV,
                 InnsynsdataSti.SOKNADS_STATUS,
                 InnsynsdataSti.HENDELSER,

@@ -5,11 +5,11 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt, DokumentasjonKrav} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, DokumentasjonKrav, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import VilkarView from "../vilkar/VilkarView";
+import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
@@ -17,6 +17,7 @@ import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
+import {VilkarView} from "./VilkarView";
 
 interface Props {
     oppgaver: null | DokumentasjonEtterspurt[];
@@ -56,10 +57,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkrav
     );
 
+    const vilkar: Vilkar[] = useSelector((state: InnsynAppState) => state.innsynsdata.vilkar);
+
     const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
     const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
     const innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
+    const skalViseOppgaver = brukerHarOppgaver || dokumentasjonKrav || vilkar;
 
     return (
         <>
@@ -69,13 +73,13 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 </Systemtittel>
             </Panel>
 
-            <VilkarView />
+            <OppgaveInformasjon />
 
             {skalViseLastestripe(restStatus) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
-                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
+                        (skalViseOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
                     }
                 >
                     <Lastestriper linjer={1} />
@@ -84,7 +88,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <IngenOppgaverPanel leserData={skalViseLastestripe(restStatus)} />
 
-            {(brukerHarOppgaver || dokumentasjonKrav) && (
+            {skalViseOppgaver && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
@@ -164,7 +168,36 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         </Ekspanderbartpanel>
                     )}
 
-                    {dokumentasjonKrav && (
+                    {vilkar && vilkar.length > 0 && (
+                        <Ekspanderbartpanel
+                            apen={false}
+                            border={false}
+                            tittel={
+                                <div className="oppgaver_header">
+                                    <DokumentBinder />
+                                    <div>
+                                        <Element>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Element>
+                                        <Normaltekst>
+                                            <FormattedMessage
+                                                id="vilkar.veileder_trenger_mer"
+                                                values={{
+                                                    antallVilkar: vilkar.length,
+                                                }}
+                                            />
+                                        </Normaltekst>
+                                    </div>
+                                </div>
+                            }
+                        >
+                            <div>
+                                {vilkar.map((vilkarElement, index) => (
+                                    <VilkarView key={index} vilkar={vilkarElement} />
+                                ))}
+                            </div>
+                        </Ekspanderbartpanel>
+                    )}
+
+                    {dokumentasjonKrav && dokumentasjonKrav.length > 0 && (
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
