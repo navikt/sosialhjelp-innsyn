@@ -67,7 +67,7 @@ export const tekster = {
             "Det er viktig at du sjekker at dokumentene du laster opp er fullstendige og kan leses på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende den på nytt.",
         "oppgaver.informasjon.modal.bolk4.tittel": "Godtar vi ikke dokumentet du prøver å sende inn?",
         "oppgaver.informasjon.modal.bolk4.avsnitt1":
-            "Det er noen krav til hvilke dokumenter vi godtar. Vennligst sjekk at dokumentet ikke:"
+            "Det er noen krav til hvilke dokumenter vi godtar. Vennligst sjekk at dokumentet ikke:",
         "oppgaver.informasjon.modal.bolk4.liste1": "er over 10 MB pr. dokument",
         "oppgaver.informasjon.modal.bolk4.liste2": "inneholder andre tegn enn tall og bokstaver i filnavnet",
         "oppgaver.informasjon.modal.bolk4.liste3": "er andre filtyper enn PDF, JPEG eller PNG",
