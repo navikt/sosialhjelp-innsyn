@@ -50,21 +50,27 @@ export const tekster = {
             "Hvis du ikke leverer dokumentasjonen, blir søknaden behandlet med den informasjonen vi " +
             "har. " +
             "Har du levert dokumentasjonen til NAV-kontoret, kan du se bort fra denne meldingen.",
-        "oppgaver.hjelp_last_opp": "Hjelp til å laste opp?",
-        "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å laste opp vedlegg?",
-        "oppgaver.informasjon.modal.bolk1.tittel": "Du vil laste opp dokumentasjon du har på papir",
+        "oppgaver.hjelp_last_opp": "Hjelp til å sende dokumentasjon?",
+        "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å sende dokumentasjon?",
+        "oppgaver.informasjon.modal.bolk1.tittel": "Sende dokumentasjon på papir",
         "oppgaver.informasjon.modal.bolk1.avsnitt1":
-            "Har du vedlegg på papir er det best å skanne dokumentene. Dokumenter som er skannet er av bedre kvalitet og lettere for NAV-kontoret å lese.",
+            "Har du dokumentasjon på papir er det best å skanne dokumentene. Skannede dokumenter er av bedre kvalitet og lettere for NAV-kontoret å lese.",
         "oppgaver.informasjon.modal.bolk1.avsnitt2":
-            "Du kan også ta bilde av dokumentasjon du har på papir med mobiltelefonen din. Bildene kan du legge ved når du åpner søknaden på mobilen. Hvis du søker fra datamaskinen din, kan du sende bildene til deg selv på e-post.",
+            "Med en skanne app kan du bruke kameraet på mobiltelefonen din til å skanne dokumenter. Du kan samle flere papirsider til ett digitalt dokument, for eksempel husleiekontrakten din.",
         "oppgaver.informasjon.modal.bolk1.avsnitt3":
-            "Med en skanne app kan du bruke kamerafunksjonen på mobiltelefonen din til å skanne dokumenter. Du kan samle flere papirsider til ett digitalt dokument, for eksempel husleiekontrakten din.",
-        "oppgaver.informasjon.modal.bolk2.tittel": "Du vil laste opp dokumentasjon du har fra andre nettsider",
+            "Du kan også ta bilde av dokumentasjon du har på papir med mobiltelefonen din. Bildene kan du legge ved når du sender dokumentasjon fra mobilen. Hvis du bruker datamaskin, kan du sende bildene til deg selv på e-post.",
+        "oppgaver.informasjon.modal.bolk2.tittel": "Sende dokumentasajon fra andre nettsider",
         "oppgaver.informasjon.modal.bolk2.avsnitt1":
-            "Hvis du skal dokumentere noe fra en annen nettside, bør du unngå å ta bilde av PC-skjermen med et kamera. Last heller ned innholdet hvis det er mulig. For eksempel er skattemeldingen, kontoutskrifter og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF.",
-        "oppgaver.informasjon.modal.bolk3.tittel": "Sørg for at dokumentasjonen du sender er lesbar",
+            "Hvis du skal dokumentere noe fra en annen nettside, kan du laste ned innholdet hvis det er mulig. Du bør unngå å ta bilde av PC-skjermen med et kamera. For eksempel er skattemeldingen, vedtak fra Lånekassen og kontoutskrifter fra noen banker tilgjengelig for nedlastning som PDF.",
+        "oppgaver.informasjon.modal.bolk3.tittel": "Sørg for at dokumentasjonen du sender kan leses",
         "oppgaver.informasjon.modal.bolk3.avsnitt1":
-            "Det er viktig at du sjekker at dokumentene du laster opp er fullstendige og lesbare på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende den på nytt.",
+            "Det er viktig at du sjekker at dokumentene du laster opp er fullstendige og kan leses på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende den på nytt.",
+        "oppgaver.informasjon.modal.bolk4.tittel": "Godtar vi ikke dokumentet du prøver å sende inn?",
+        "oppgaver.informasjon.modal.bolk4.avsnitt1":
+            "Det er noen krav til hvilke dokumenter vi godtar. Vennligst sjekk at dokumentet ikke:"
+        "oppgaver.informasjon.modal.bolk4.liste1": "er over 10 MB pr. dokument",
+        "oppgaver.informasjon.modal.bolk4.liste2": "inneholder andre tegn enn tall og bokstaver i filnavnet",
+        "oppgaver.informasjon.modal.bolk4.liste3": "er andre filtyper enn PDF, JPEG eller PNG",
         "oppgaver.neste_frist": "Neste frist for innlevering er {innsendelsesfrist}",
         "oppgaver.neste_frist_passert": "Frist for innlevering var for {antall_dager} siden, den {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
