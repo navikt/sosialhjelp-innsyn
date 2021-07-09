@@ -18,6 +18,7 @@ import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {hentDokumentasjonkravMedId, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
+import {fileUploadFailedEvent} from "../../utils/amplitude";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -81,13 +82,16 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
         if (Object.keys(dokumentasjonkravFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
+            fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
         }
 
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
+            fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
         };
         const handleFileUploadFailed = () => {
             setErrorMessage("vedlegg.opplasting_feilmelding");
+            fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
         };
         const onSuccessful = () => {
             dispatch(
@@ -127,9 +131,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         if (validFiles.length) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
-                    dokumentasjonkravReferanse
-                ].concat(validFiles);
+                newDokumentasjonkrav[dokumentasjonkravReferanse] =
+                    newDokumentasjonkrav[dokumentasjonkravReferanse].concat(validFiles);
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
             }
@@ -142,6 +145,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             if (illegalCombinedFilesSize(totalFileSize)) {
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+                fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }

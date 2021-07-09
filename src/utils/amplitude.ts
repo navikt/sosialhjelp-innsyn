@@ -23,3 +23,7 @@ export function logAmplitudeEvent(eventName: string, eventData?: Record<string, 
         }
     });
 }
+
+export function fileUploadFailedEvent(errorMessage: string) {
+    logAmplitudeEvent("Filopplasting feilet", {errorMessage});
+}
