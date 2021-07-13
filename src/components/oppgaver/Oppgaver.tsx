@@ -5,7 +5,7 @@ import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import {DokumentasjonEtterspurt, DokumentasjonKrav, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, DokumentasjonKrav} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -13,16 +13,11 @@ import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {formatDato} from "../../utils/formatting";
 import {OpplastingAvVedleggModal} from "./OpplastingAvVedleggModal";
-import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {VilkarView} from "./VilkarView";
-
-interface Props {
-    oppgaver: null | DokumentasjonEtterspurt[];
-    restStatus: REST_STATUS;
-}
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt === null) {
@@ -52,19 +47,20 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
         : antallDagerSidenFristBlePassert + " dag";
 }
 
-const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
-    const dokumentasjonKrav: DokumentasjonKrav[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.dokumentasjonkrav
-    );
+const Oppgaver = () => {
+    const {dokumentasjonkrav, vilkar, restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
 
-    const vilkar: Vilkar[] = useSelector((state: InnsynAppState) => state.innsynsdata.vilkar);
+    const dokumentasjonEtterspurt = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
 
-    const brukerHarDokumentasjonEtterspurt: boolean = oppgaver !== null && oppgaver.length > 0;
+    const brukerHarDokumentasjonEtterspurt: boolean =
+        dokumentasjonEtterspurt !== null && dokumentasjonEtterspurt.length > 0;
     const dokumentasjonEtterspurtErFraInnsyn: boolean =
-        brukerHarDokumentasjonEtterspurt && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
-    const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
+        brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurt!![0].oppgaveElementer!![0].erFraInnsyn;
+    const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn
+        ? foersteInnsendelsesfrist(dokumentasjonEtterspurt)
+        : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
-    const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonKrav || vilkar;
+    const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonkrav || vilkar;
 
     return (
         <>
@@ -76,7 +72,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
             <OppgaveInformasjon />
 
-            {skalViseLastestripe(restStatus) && (
+            {skalViseLastestripe(restStatus.oppgaver) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
@@ -88,10 +84,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
             )}
 
             <IngenOppgaverPanel
-                dokumentasjonEtterspurt={oppgaver}
-                dokumentasjonkrav={dokumentasjonKrav}
+                dokumentasjonEtterspurt={dokumentasjonEtterspurt}
+                dokumentasjonkrav={dokumentasjonkrav}
                 vilkar={vilkar}
-                leserData={skalViseLastestripe(restStatus)}
+                leserData={skalViseLastestripe(restStatus.oppgaver)}
             />
 
             {skalViseOppgaver && (
@@ -161,18 +157,20 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
                             <OpplastingAvVedleggModal />
 
-                            <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus)} />
+                            <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus.oppgaver)} />
 
                             <div>
-                                {oppgaver !== null &&
-                                    oppgaver.map((oppgave: DokumentasjonEtterspurt, oppgaveIndex: number) => (
-                                        <DokumentasjonEtterspurtView
-                                            dokumentasjonEtterspurt={oppgave}
-                                            key={oppgaveIndex}
-                                            oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
-                                            oppgaveIndex={oppgaveIndex}
-                                        />
-                                    ))}
+                                {dokumentasjonEtterspurt !== null &&
+                                    dokumentasjonEtterspurt.map(
+                                        (dokumentasjon: DokumentasjonEtterspurt, index: number) => (
+                                            <DokumentasjonEtterspurtView
+                                                dokumentasjonEtterspurt={dokumentasjon}
+                                                key={index}
+                                                oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
+                                                oppgaveIndex={index}
+                                            />
+                                        )
+                                    )}
                             </div>
                         </Ekspanderbartpanel>
                     )}
@@ -206,7 +204,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                         </Ekspanderbartpanel>
                     )}
 
-                    {dokumentasjonKrav && dokumentasjonKrav.length > 0 && (
+                    {dokumentasjonkrav && dokumentasjonkrav.length > 0 && (
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
@@ -221,7 +219,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                             <FormattedMessage
                                                 id="dokumentasjonkrav.veileder_trenger_mer"
                                                 values={{
-                                                    antallDokumenter: dokumentasjonKrav.reduce(
+                                                    antallDokumenter: dokumentasjonkrav.reduce(
                                                         (count, dokumenter) =>
                                                             count + dokumenter.dokumentasjonkravElementer.length,
                                                         0
@@ -234,7 +232,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                             }
                         >
                             <div>
-                                {dokumentasjonKrav.map((krav: DokumentasjonKrav, index: number) => (
+                                {dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
                                     <DokumentasjonKravView
                                         dokumentasjonkrav={krav}
                                         key={index}

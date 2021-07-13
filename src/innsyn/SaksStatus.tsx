@@ -151,9 +151,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         />
                     )}
 
-                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
-                        <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
-                    )}
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver />}
 
                     {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                         <>
