@@ -24,13 +24,13 @@ interface Props {
     restStatus: REST_STATUS;
 }
 
-function foersteInnsendelsesfrist(oppgaver: null | DokumentasjonEtterspurt[]): Date | null {
-    if (oppgaver === null) {
+function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
+    if (dokumentasjonEtterspurt === null) {
         return null;
     }
-    if (oppgaver.length > 0) {
-        const innsendelsesfrister = oppgaver.map(
-            (oppgave: DokumentasjonEtterspurt) => new Date(oppgave.innsendelsesfrist!!)
+    if (dokumentasjonEtterspurt.length > 0) {
+        const innsendelsesfrister = dokumentasjonEtterspurt.map(
+            (dokumentasjon: DokumentasjonEtterspurt) => new Date(dokumentasjon.innsendelsesfrist!!)
         );
         return innsendelsesfrister[0];
     }
@@ -59,11 +59,12 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
 
     const vilkar: Vilkar[] = useSelector((state: InnsynAppState) => state.innsynsdata.vilkar);
 
-    const brukerHarOppgaver: boolean = oppgaver !== null && oppgaver.length > 0;
-    const oppgaverErFraInnsyn: boolean = brukerHarOppgaver && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
-    const innsendelsesfrist = oppgaverErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
+    const brukerHarDokumentasjonEtterspurt: boolean = oppgaver !== null && oppgaver.length > 0;
+    const dokumentasjonEtterspurtErFraInnsyn: boolean =
+        brukerHarDokumentasjonEtterspurt && oppgaver!![0].oppgaveElementer!![0].erFraInnsyn;
+    const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn ? foersteInnsendelsesfrist(oppgaver) : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
-    const skalViseOppgaver = brukerHarOppgaver || dokumentasjonKrav || vilkar;
+    const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonKrav || vilkar;
 
     return (
         <>
@@ -97,10 +98,10 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
-                        (brukerHarOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
+                        (brukerHarDokumentasjonEtterspurt ? "oppgaver_panel_bruker_har_oppgaver" : "")
                     }
                 >
-                    {brukerHarOppgaver && (
+                    {brukerHarDokumentasjonEtterspurt && (
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
@@ -109,24 +110,27 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                     <DokumentBinder />
                                     <div>
                                         <Element>
-                                            {oppgaverErFraInnsyn && (
+                                            {dokumentasjonEtterspurtErFraInnsyn && (
                                                 <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
                                             )}
-                                            {!oppgaverErFraInnsyn && <FormattedMessage id="oppgaver.maa_sende_dok" />}
+                                            {!dokumentasjonEtterspurtErFraInnsyn && (
+                                                <FormattedMessage id="oppgaver.maa_sende_dok" />
+                                            )}
                                         </Element>
                                         <Normaltekst>
-                                            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
-                                                <FormattedMessage
-                                                    id="oppgaver.neste_frist"
-                                                    values={{
-                                                        innsendelsesfrist:
-                                                            innsendelsesfrist != null
-                                                                ? formatDato(innsendelsesfrist.toISOString())
-                                                                : "",
-                                                    }}
-                                                />
-                                            )}
-                                            {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                                            {dokumentasjonEtterspurtErFraInnsyn &&
+                                                antallDagerSidenFristBlePassert <= 0 && (
+                                                    <FormattedMessage
+                                                        id="oppgaver.neste_frist"
+                                                        values={{
+                                                            innsendelsesfrist:
+                                                                innsendelsesfrist != null
+                                                                    ? formatDato(innsendelsesfrist.toISOString())
+                                                                    : "",
+                                                        }}
+                                                    />
+                                                )}
+                                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
                                                 <FormattedMessage
                                                     id="oppgaver.neste_frist_passert"
                                                     values={{
@@ -145,7 +149,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                 </div>
                             }
                         >
-                            {oppgaverErFraInnsyn ? (
+                            {dokumentasjonEtterspurtErFraInnsyn ? (
                                 <Normaltekst>
                                     <FormattedMessage id="oppgaver.veileder_trenger_mer" />
                                 </Normaltekst>
@@ -165,7 +169,7 @@ const Oppgaver: React.FC<Props> = ({oppgaver, restStatus}) => {
                                         <DokumentasjonEtterspurtView
                                             dokumentasjonEtterspurt={oppgave}
                                             key={oppgaveIndex}
-                                            oppgaverErFraInnsyn={oppgaverErFraInnsyn}
+                                            oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
                                             oppgaveIndex={oppgaveIndex}
                                         />
                                     ))}
