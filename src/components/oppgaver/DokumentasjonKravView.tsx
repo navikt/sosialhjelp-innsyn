@@ -15,7 +15,7 @@ import {Hovedknapp} from "nav-frontend-knapper";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
-import {hentDokumentasjonkravMedId, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {hentDokumentasjonkravMedId, hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
 
@@ -97,6 +97,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     dokumentasjonkrav.dokumentasjonkravId
                 )
             );
+            dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
         };
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
             const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
@@ -127,9 +128,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         if (validFiles.length) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
             if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = newDokumentasjonkrav[
-                    dokumentasjonkravReferanse
-                ].concat(validFiles);
+                newDokumentasjonkrav[dokumentasjonkravReferanse] =
+                    newDokumentasjonkrav[dokumentasjonkravReferanse].concat(validFiles);
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
             }
