@@ -4,8 +4,8 @@ import {
     HendelseTypeEnum,
     hentFileExtension,
     generateMetadataFromAndreVedlegg,
-    generateMetadataFromOppgaver,
-    createFormDataWithVedleggFromOppgaver,
+    generateMetadataFromDokumentasjonEtterspurt,
+    createFormDataWithVedleggFromDokumentasjonEtterspurt,
     createFormDataWithVedleggFromFiler,
 } from "./vedleggUtils";
 
@@ -76,7 +76,7 @@ const expectedEttersendelseMetadata = [
 
 describe("VedleggUtilsTest", () => {
     it("should create correct form and meta data for oppgaver", () => {
-        const formData: FormData = createFormDataWithVedleggFromOppgaver(oppgave);
+        const formData: FormData = createFormDataWithVedleggFromDokumentasjonEtterspurt(oppgave);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
@@ -96,7 +96,7 @@ describe("VedleggUtilsTest", () => {
             expect(file.name).toBe(value.filnavn);
         });
 
-        const metadata = generateMetadataFromOppgaver(oppgave);
+        const metadata = generateMetadataFromDokumentasjonEtterspurt(oppgave);
         expect(metadata).toMatchObject(expectedOppgaverMetadata);
     });
 

@@ -28,8 +28,10 @@ interface Metadata {
     hendelsereferanse: string | undefined;
 }
 
-export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
-    const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);
+export const createFormDataWithVedleggFromDokumentasjonEtterspurt = (
+    dokumentasjonEtterspurt: DokumentasjonEtterspurt
+) => {
+    const metadata: Metadata[] = generateMetadataFromDokumentasjonEtterspurt(dokumentasjonEtterspurt);
     return opprettFormDataMedVedlegg(metadata);
 };
 
@@ -42,15 +44,17 @@ export const createFormDataWithVedleggFromDokumentasjonkrav = (
     return opprettFormDataMedVedlegg(metadata);
 };
 
-export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
-    return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
-        type: oppgaveElement.dokumenttype,
-        tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-        innsendelsesfrist: oppgave.innsendelsesfrist,
-        filer: oppgaveElement.filer ? oppgaveElement.filer : [],
-        hendelsetype: oppgaveElement.hendelsetype,
-        hendelsereferanse: oppgaveElement.hendelsereferanse,
-    }));
+export const generateMetadataFromDokumentasjonEtterspurt = (dokumentasjonEtterspurt: DokumentasjonEtterspurt) => {
+    return dokumentasjonEtterspurt.oppgaveElementer.map(
+        (dokumentasjonEtterspurtElement: DokumentasjonEtterspurtElement) => ({
+            type: dokumentasjonEtterspurtElement.dokumenttype,
+            tilleggsinfo: dokumentasjonEtterspurtElement.tilleggsinformasjon,
+            innsendelsesfrist: dokumentasjonEtterspurt.innsendelsesfrist,
+            filer: dokumentasjonEtterspurtElement.filer ? dokumentasjonEtterspurtElement.filer : [],
+            hendelsetype: dokumentasjonEtterspurtElement.hendelsetype,
+            hendelsereferanse: dokumentasjonEtterspurtElement.hendelsereferanse,
+        })
+    );
 };
 
 export const generateMetadataFromDokumentasjonkrav = (
@@ -191,9 +195,11 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     return {typeTekst, tilleggsinfoTekst};
 };
 
-export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspurtElement[]) => {
-    return oppgaveElementer.find((oppgaveElement) => {
-        return !oppgaveElement.filer ? false : hasFilesWithErrorStatus(oppgaveElement.filer);
+export const oppgaveHasFilesWithError = (dokumentasjonEtterspurtElementer: DokumentasjonEtterspurtElement[]) => {
+    return dokumentasjonEtterspurtElementer.find((dokumentasjonEtterspurtElement) => {
+        return !dokumentasjonEtterspurtElement.filer
+            ? false
+            : hasFilesWithErrorStatus(dokumentasjonEtterspurtElement.filer);
     });
 };
 
@@ -309,14 +315,16 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
     return filerMedFeil;
 };
 
-export const hasNotAddedFiles = (oppgave: DokumentasjonEtterspurt | null) => {
+export const hasNotAddedFiles = (dokumentasjonEtterspurt: DokumentasjonEtterspurt | null) => {
     let antall = 0;
-    oppgave &&
-        oppgave.oppgaveElementer.forEach((oppgaveElement: DokumentasjonEtterspurtElement) => {
-            oppgaveElement.filer &&
-                oppgaveElement.filer.forEach(() => {
-                    antall += 1;
-                });
-        });
+    dokumentasjonEtterspurt &&
+        dokumentasjonEtterspurt.oppgaveElementer.forEach(
+            (dokumentasjonEtterspurtElement: DokumentasjonEtterspurtElement) => {
+                dokumentasjonEtterspurtElement.filer &&
+                    dokumentasjonEtterspurtElement.filer.forEach(() => {
+                        antall += 1;
+                    });
+            }
+        );
     return antall === 0;
 };

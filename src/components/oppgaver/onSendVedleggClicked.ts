@@ -3,7 +3,7 @@ import {
     hasNotAddedFiles,
     maxCombinedFileSize,
     createFormDataWithVedleggFromFiler,
-    createFormDataWithVedleggFromOppgaver,
+    createFormDataWithVedleggFromDokumentasjonEtterspurt,
 } from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
@@ -48,7 +48,7 @@ export const onSendVedleggClicked = (
 
     if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
         try {
-            formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
+            formData = createFormDataWithVedleggFromDokumentasjonEtterspurt(dokumentasjonEtterspurt);
         } catch (e) {
             dispatch(setFileUploadFailed(vedleggId, true));
             logInfoMessage("Validering vedlegg feilet: " + e.message);
