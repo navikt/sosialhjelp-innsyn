@@ -10,7 +10,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
-import {REST_STATUS} from "../../utils/restUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
@@ -29,10 +28,27 @@ export interface DokumentasjonKravFiler {
     [key: string]: Fil[];
 }
 
+export const deleteReferenceFromDokumentasjonkravFiler = (
+    dokumentasjonkravFiler: DokumentasjonKravFiler,
+    reference: string
+) => {
+    return Object.keys(dokumentasjonkravFiler).reduce(
+        (updated, currentReference) =>
+            currentReference === reference
+                ? updated
+                : {
+                      ...updated,
+                      [currentReference]: dokumentasjonkravFiler[currentReference],
+                  },
+        {}
+    );
+};
+
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const dispatch = useDispatch();
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const [isUploading, setIsUploading] = useState(false);
 
     const dokumentasjonkravReferanserSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeilet
@@ -52,11 +68,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     const opplastingFeilet = dokumentasjonkravHasFilesWithError(dokumentasjonkrav.dokumentasjonkravElementer);
 
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonkrav.frist!!));
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
-    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
-    const otherVedleggLastesOpp =
-        otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
@@ -77,23 +88,27 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         if (!fiksDigisosId || overMaksStorrelse) {
             return;
         }
+        setIsUploading(true);
         setErrorMessage(undefined);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
 
         if (Object.keys(dokumentasjonkravFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
+            setIsUploading(false);
         }
 
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
+            setIsUploading(false);
         };
         const handleFileUploadFailed = () => {
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
+            setIsUploading(false);
         };
-        const onSuccessful = () => {
+        const onSuccessful = (reference: string) => {
             dispatch(
                 hentDokumentasjonkravMedId(
                     fiksDigisosId,
@@ -102,6 +117,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )
             );
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
+
+            setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
+            setIsUploading(false);
         };
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
             const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
@@ -170,11 +188,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
                 if (remainingFiles.length) {
                     newDokumentasjonkrav[dokumentasjonkravReferanse] = remainingFiles;
+                    setDokumentasjonkravFiler(newDokumentasjonkrav);
                 } else {
-                    delete newDokumentasjonkrav[dokumentasjonkravReferanse];
+                    setDokumentasjonkravFiler(
+                        deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, dokumentasjonkravReferanse)
+                    );
                 }
             }
-            setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
 
         const totalFileSize = dokumentasjonkravFiler[dokumentasjonkravReferanse].reduce(
@@ -242,8 +262,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )}
                 {kanLasteOppVedlegg && (
                     <Hovedknapp
-                        disabled={vedleggLastesOpp || otherVedleggLastesOpp}
-                        spinner={vedleggLastesOpp}
+                        disabled={isUploading}
+                        spinner={isUploading}
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event) => {

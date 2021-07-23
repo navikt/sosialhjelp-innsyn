@@ -9,10 +9,10 @@ export const onSendVedleggClicked = (
     path: string,
     handleFileWithVirus: () => void,
     handleFileUploadFailed: () => void,
-    onSuccessful: () => void
+    onSuccessful: (reference: string) => void
 ) => {
     fetchPost(path, formData, "multipart/form-data")
-        .then(() => onSuccessful())
+        .then(() => onSuccessful(reference))
         .catch((e) => {
             // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
             fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
