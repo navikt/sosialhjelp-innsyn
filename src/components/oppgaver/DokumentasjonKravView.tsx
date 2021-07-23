@@ -28,6 +28,22 @@ export interface DokumentasjonKravFiler {
     [key: string]: Fil[];
 }
 
+export const deleteReferenceFromDokumentasjonkravFiler = (
+    dokumentasjonkravFiler: DokumentasjonKravFiler,
+    reference: string
+) => {
+    return Object.keys(dokumentasjonkravFiler).reduce(
+        (updated, currentReference) =>
+            currentReference === reference
+                ? updated
+                : {
+                      ...updated,
+                      [currentReference]: dokumentasjonkravFiler[currentReference],
+                  },
+        {}
+    );
+};
+
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const dispatch = useDispatch();
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
@@ -101,7 +117,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )
             );
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
-            delete dokumentasjonkravFiler[reference];
+
+            setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
             setIsUploading(false);
         };
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
@@ -171,11 +188,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
                 if (remainingFiles.length) {
                     newDokumentasjonkrav[dokumentasjonkravReferanse] = remainingFiles;
+                    setDokumentasjonkravFiler(newDokumentasjonkrav);
                 } else {
-                    delete newDokumentasjonkrav[dokumentasjonkravReferanse];
+                    setDokumentasjonkravFiler(
+                        deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, dokumentasjonkravReferanse)
+                    );
                 }
             }
-            setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
 
         const totalFileSize = dokumentasjonkravFiler[dokumentasjonkravReferanse].reduce(
