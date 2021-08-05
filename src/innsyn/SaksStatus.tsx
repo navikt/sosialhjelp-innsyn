@@ -50,7 +50,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const intl: IntlShape = useIntl();
 
     useEffect(() => {
-        // LogEvent
         if (erPaInnsyn) {
             logAmplitudeEvent("Hentet saker for søknad", {
                 antallSaker: innsynsdata.saksStatus.length,
