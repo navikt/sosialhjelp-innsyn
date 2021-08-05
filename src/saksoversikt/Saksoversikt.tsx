@@ -59,18 +59,11 @@ const Saksoversikt: React.FC = () => {
         if (!pageLoadIsLogged && innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Hentet innsynsdata", {
                 antallSoknader: alleSaker.length,
-                antallDokumentasjonkrav: innsynData.dokumentasjonkrav.length,
             });
             //Ensure only one logging to amplitude
             setPageLoadIsLogged(true);
         }
-    }, [
-        innsynRestStatus,
-        soknadApiData.restStatus,
-        alleSaker.length,
-        innsynData.dokumentasjonkrav.length,
-        pageLoadIsLogged,
-    ]);
+    }, [innsynRestStatus, soknadApiData.restStatus, alleSaker.length, pageLoadIsLogged]);
 
     useBannerTittel("Økonomisk sosialhjelp");
 
