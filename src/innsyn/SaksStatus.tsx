@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
@@ -48,14 +48,17 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
     useEffect(() => {
-        if (erPaInnsyn) {
+        if (!pageLoadIsLogged && erPaInnsyn) {
             logAmplitudeEvent("Hentet saker for søknad", {
                 antallSaker: innsynsdata.saksStatus.length,
             });
+            //Ensure only one logging to amplitude
+            setPageLoadIsLogged(true);
         }
-    }, [innsynsdata.saksStatus.length]);
+    }, [innsynsdata.saksStatus.length, erPaInnsyn, pageLoadIsLogged]);
 
     useEffect(() => {
         dispatch({

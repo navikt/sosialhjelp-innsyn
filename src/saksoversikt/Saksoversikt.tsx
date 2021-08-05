@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
@@ -17,7 +17,7 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
-
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const dispatch = useDispatch();
     const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const innsynRestStatus = innsynData.restStatus.saker;
@@ -56,13 +56,21 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
+        if (!pageLoadIsLogged && innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Hentet innsynsdata", {
                 antallSoknader: alleSaker.length,
                 antallDokumentasjonkrav: innsynData.dokumentasjonkrav.length,
             });
+            //Ensure only one logging to amplitude
+            setPageLoadIsLogged(true);
         }
-    }, [innsynRestStatus, soknadApiData.restStatus]);
+    }, [
+        innsynRestStatus,
+        soknadApiData.restStatus,
+        alleSaker.length,
+        innsynData.dokumentasjonkrav.length,
+        pageLoadIsLogged,
+    ]);
 
     useBannerTittel("Økonomisk sosialhjelp");
 
