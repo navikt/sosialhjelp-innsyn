@@ -15,6 +15,7 @@ import DokumentOk from "../ikoner/DokumentOk";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -39,6 +40,10 @@ interface Props {
 const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     const antallSaksElementer: number = sak ? sak.length : 0;
     const intl: IntlShape = useIntl();
+
+    const onVisVedtak = () => {
+        logButtonOrLinkClick("Åpnet vedtaksbrev");
+    };
 
     return (
         <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
@@ -118,7 +123,11 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                 statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
                                     <div className={"status_detalj_linje"} key={index}>
                                         <div className="status_detalj_panel__kommentarer">
-                                            <EksternLenke href={"" + hendelse.vedtaksfilUrl} target="_blank">
+                                            <EksternLenke
+                                                href={"" + hendelse.vedtaksfilUrl}
+                                                target="_blank"
+                                                onClick={onVisVedtak}
+                                            >
                                                 Vedtak (<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato} />)
                                             </EksternLenke>
                                         </div>

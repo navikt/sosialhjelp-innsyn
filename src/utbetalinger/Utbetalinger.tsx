@@ -15,6 +15,7 @@ import {Sidetittel} from "nav-frontend-typografi";
 import {useDispatch} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
+import {logAmplitudeEvent} from "../utils/amplitude";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
@@ -51,6 +52,12 @@ const Utbetalinger: React.FC = () => {
 
     let utbetalinger: UtbetalingSakType[] =
         utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
+
+    useEffect(() => {
+        if (utbetalingerService.restStatus === REST_STATUS.OK) {
+            logAmplitudeEvent("Lastet utbetalinger", {antall: utbetalingerService.payload.length});
+        }
+    }, [utbetalingerService]);
 
     const now: Date = new Date();
     utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);

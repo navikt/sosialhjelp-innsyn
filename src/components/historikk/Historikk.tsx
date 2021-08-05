@@ -7,6 +7,7 @@ import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -33,6 +34,11 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
+
+    const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
+        logButtonOrLinkClick(`Historikk: ${beskrivelse}. ${lenketekst}`);
+    };
+
     return (
         <ul className={className}>
             {hendelser.map((hendelse: Hendelse, index: number) => {
@@ -43,7 +49,13 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         </Element>
                         <Normaltekst>{hendelse.beskrivelse}</Normaltekst>
                         {hendelse.filUrl && (
-                            <EksternLenke href={hendelse.filUrl.link} target="_blank">
+                            <EksternLenke
+                                href={hendelse.filUrl.link}
+                                target="_blank"
+                                onClick={() => {
+                                    onClickHendelseLenke(hendelse.beskrivelse, hendelse?.filUrl?.linkTekst);
+                                }}
+                            >
                                 {hendelse.filUrl.linkTekst}
                             </EksternLenke>
                         )}

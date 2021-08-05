@@ -27,3 +27,9 @@ export function logAmplitudeEvent(eventName: string, eventData?: Record<string, 
 export function fileUploadFailedEvent(errorMessage: string) {
     logAmplitudeEvent("Filopplasting feilet", {errorMessage});
 }
+
+export const logButtonOrLinkClick = (tittel: string) => {
+    logAmplitudeEvent("Klikk på knapp eller lenke", {
+        tittel,
+    });
+};

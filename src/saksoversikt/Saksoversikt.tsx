@@ -13,6 +13,7 @@ import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
+import {logAmplitudeEvent} from "../utils/amplitude";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
@@ -53,6 +54,15 @@ const Saksoversikt: React.FC = () => {
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
     }, [dispatch]);
+
+    useEffect(() => {
+        if (innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
+            logAmplitudeEvent("Hentet innsynsdata", {
+                antallSoknader: alleSaker.length,
+                antallDokumentasjonkrav: innsynData.dokumentasjonkrav.length,
+            });
+        }
+    }, [innsynRestStatus, soknadApiData.restStatus]);
 
     useBannerTittel("Økonomisk sosialhjelp");
 

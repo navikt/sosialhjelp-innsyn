@@ -26,6 +26,7 @@ import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
+import {logAmplitudeEvent} from "../utils/amplitude";
 
 interface Props {
     match: {
@@ -47,6 +48,15 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
+
+    useEffect(() => {
+        // LogEvent
+        if (erPaInnsyn) {
+            logAmplitudeEvent("Hentet saker for søknad", {
+                antallSaker: innsynsdata.saksStatus.length,
+            });
+        }
+    }, [innsynsdata.saksStatus.length]);
 
     useEffect(() => {
         dispatch({
