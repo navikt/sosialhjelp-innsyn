@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Panel from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, isBefore, subMonths} from "date-fns";
@@ -14,13 +14,25 @@ import {history} from "../configureStore";
 import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
+import {logAmplitudeEvent} from "../utils/amplitude";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
     const utbetalingerExistsService = useUtbetalingerExistsService(12);
-    let utbetalingerExists: boolean =
+    const utbetalingerExists: boolean =
         utbetalingerExistsService.restStatus === REST_STATUS.OK ? utbetalingerExistsService.payload : false;
+
+    useEffect(() => {
+        if (!pageLoadIsLogged && utbetalingerExistsService.restStatus === REST_STATUS.OK) {
+            logAmplitudeEvent("Hentet innsynsdata", {
+                harUtbetalinger: utbetalingerExists,
+            });
+            //Ensure only one logging to amplitude
+            setPageLoadIsLogged(true);
+        }
+    }, [utbetalingerExists, pageLoadIsLogged, utbetalingerExistsService.restStatus]);
 
     let filtrerteSaker: Sakstype[];
 
