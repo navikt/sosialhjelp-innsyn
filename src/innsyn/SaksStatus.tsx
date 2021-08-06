@@ -58,7 +58,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             restStatus.oppgaver === REST_STATUS.OK &&
             restStatus.forelopigSvar === REST_STATUS.OK
         ) {
-            const harVedtaksbrev = innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList.length > 0);
+            const harVedtaksbrev =
+                innsynsdata.saksStatus && innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList?.length > 0);
             logAmplitudeEvent("Hentet saker for søknad", {
                 antallSaker: innsynsdata.saksStatus.length,
                 harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
@@ -69,7 +70,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             setPageLoadIsLogged(true);
         }
     }, [
-        innsynsdata.saksStatus.length,
         erPaInnsyn,
         pageLoadIsLogged,
         innsynsdata.oppgaver.length,
