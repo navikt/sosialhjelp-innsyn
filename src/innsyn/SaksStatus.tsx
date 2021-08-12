@@ -65,6 +65,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
                 harEtterspurtDokumentasjon: innsynsdata.oppgaver.length > 0,
                 harVedtaksbrev: harVedtaksbrev,
+                status: innsynsdata.soknadsStatus.status,
             });
             //Ensure only one logging to amplitude
             setPageLoadIsLogged(true);
