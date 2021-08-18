@@ -18,6 +18,7 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {VilkarView} from "./VilkarView";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt === null) {
@@ -101,6 +102,7 @@ const Oppgaver = () => {
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
+                            onClick={() => logButtonOrLinkClick("Åpnet etterspørsel av dokumentasjon")}
                             tittel={
                                 <div className="oppgaver_header">
                                     <DokumentBinder />

@@ -15,6 +15,7 @@ import {Sidetittel} from "nav-frontend-typografi";
 import {useDispatch} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
+import {logAmplitudeEvent} from "../utils/amplitude";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
@@ -29,6 +30,7 @@ const Utbetalinger: React.FC = () => {
     const [hentetAntallMnd, setHentetAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
     useBannerTittel("Utbetalingsoversikt");
 
@@ -49,13 +51,20 @@ const Utbetalinger: React.FC = () => {
         }
     };
 
-    let utbetalinger: UtbetalingSakType[] =
+    const utbetalinger: UtbetalingSakType[] =
         utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
 
+    useEffect(() => {
+        if (!pageLoadIsLogged && utbetalingerService.restStatus === REST_STATUS.OK) {
+            logAmplitudeEvent("Lastet utbetalinger", {antall: utbetalinger.length});
+            setPageLoadIsLogged(true);
+        }
+    }, [utbetalingerService.restStatus, pageLoadIsLogged, utbetalinger.length]);
+
     const now: Date = new Date();
-    utbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
-    utbetalinger = filtrerUtbetalingerPaaMottaker(utbetalinger, tilBrukersKonto, tilAnnenMottaker);
-    utbetalinger = filtrerMaanederUtenUtbetalinger(utbetalinger);
+    let filtrerteUtbetalinger = filtrerUtbetalingerForTidsinterval(utbetalinger, visAntallMnd, now);
+    filtrerteUtbetalinger = filtrerUtbetalingerPaaMottaker(filtrerteUtbetalinger, tilBrukersKonto, tilAnnenMottaker);
+    filtrerteUtbetalinger = filtrerMaanederUtenUtbetalinger(filtrerteUtbetalinger);
 
     return (
         <div>
@@ -85,7 +94,7 @@ const Utbetalinger: React.FC = () => {
                         </div>
                     </div>
                     <UtbetalingerPanel
-                        utbetalinger={utbetalinger}
+                        utbetalinger={filtrerteUtbetalinger}
                         lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
                     />
                 </div>

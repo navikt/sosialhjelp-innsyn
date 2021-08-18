@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
@@ -26,6 +26,7 @@ import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
+import {logAmplitudeEvent} from "../utils/amplitude";
 
 interface Props {
     match: {
@@ -47,6 +48,41 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
+
+    const dataErKlare =
+        !pageLoadIsLogged &&
+        erPaInnsyn &&
+        restStatus.saksStatus === REST_STATUS.OK &&
+        restStatus.oppgaver === REST_STATUS.OK &&
+        restStatus.forelopigSvar === REST_STATUS.OK;
+
+    useEffect(() => {
+        function createAmplitudeData() {
+            const harVedtaksbrev =
+                innsynsdata.saksStatus && innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList?.length > 0);
+
+            return {
+                antallSaker: innsynsdata.saksStatus.length,
+                harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
+                harEtterspurtDokumentasjon: innsynsdata.oppgaver.length > 0,
+                harVedtaksbrev: harVedtaksbrev,
+                status: innsynsdata.soknadsStatus.status,
+            };
+        }
+
+        if (dataErKlare) {
+            logAmplitudeEvent("Hentet saker for søknad", createAmplitudeData());
+            //Ensure only one logging to amplitude
+            setPageLoadIsLogged(true);
+        }
+    }, [
+        dataErKlare,
+        innsynsdata.oppgaver.length,
+        innsynsdata.forelopigSvar.harMottattForelopigSvar,
+        innsynsdata.saksStatus,
+        innsynsdata.soknadsStatus.status,
+    ]);
 
     useEffect(() => {
         dispatch({

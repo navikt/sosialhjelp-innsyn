@@ -1,10 +1,4 @@
-import {
-    SaksStatusState,
-    SaksStatus,
-    VedtakFattet,
-    Vedtak,
-    UtfallVedtak,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {SaksStatusState, SaksStatus} from "../../redux/innsynsdata/innsynsdataReducer";
 import {getSkalViseVilkarView} from "./VilkarUtils";
 
 const saksStatus1: SaksStatusState = {
