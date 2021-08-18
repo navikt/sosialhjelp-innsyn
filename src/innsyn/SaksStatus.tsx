@@ -50,35 +50,38 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const intl: IntlShape = useIntl();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
+    const dataErKlare =
+        !pageLoadIsLogged &&
+        erPaInnsyn &&
+        restStatus.saksStatus === REST_STATUS.OK &&
+        restStatus.oppgaver === REST_STATUS.OK &&
+        restStatus.forelopigSvar === REST_STATUS.OK;
+
     useEffect(() => {
-        if (
-            !pageLoadIsLogged &&
-            erPaInnsyn &&
-            restStatus.saksStatus === REST_STATUS.OK &&
-            restStatus.oppgaver === REST_STATUS.OK &&
-            restStatus.forelopigSvar === REST_STATUS.OK
-        ) {
+        function createAmplitudeData() {
             const harVedtaksbrev =
                 innsynsdata.saksStatus && innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList?.length > 0);
-            logAmplitudeEvent("Hentet saker for søknad", {
+
+            return {
                 antallSaker: innsynsdata.saksStatus.length,
                 harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
                 harEtterspurtDokumentasjon: innsynsdata.oppgaver.length > 0,
                 harVedtaksbrev: harVedtaksbrev,
                 status: innsynsdata.soknadsStatus.status,
-            });
+            };
+        }
+
+        if (dataErKlare) {
+            logAmplitudeEvent("Hentet saker for søknad", createAmplitudeData());
             //Ensure only one logging to amplitude
             setPageLoadIsLogged(true);
         }
     }, [
-        erPaInnsyn,
-        pageLoadIsLogged,
+        dataErKlare,
         innsynsdata.oppgaver.length,
         innsynsdata.forelopigSvar.harMottattForelopigSvar,
         innsynsdata.saksStatus,
-        restStatus.saksStatus,
-        restStatus.oppgaver,
-        restStatus.forelopigSvar,
+        innsynsdata.soknadsStatus.status,
     ]);
 
     useEffect(() => {
