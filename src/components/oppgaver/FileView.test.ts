@@ -11,6 +11,7 @@ describe("FileView", () => {
             "spike.PNG",
             "spike.pdf",
             "spike.PDF",
+            "spike",
         ];
         legalNames.forEach((filename: string) => {
             expect(legalFileExtension(filename)).toBe(true);

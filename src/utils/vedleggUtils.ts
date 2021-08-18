@@ -152,7 +152,7 @@ export const illegalFileSize = (file: File) => {
 
 export const legalFileExtension = (filename: string) => {
     const fileExtension = filename.replace(/^.*\./, "");
-    return fileExtension.match(/jpe?g|png|pdf/i) !== null;
+    return fileExtension === filename ? true : fileExtension.match(/jpe?g|png|pdf/i) !== null;
 };
 
 export interface FileError {
