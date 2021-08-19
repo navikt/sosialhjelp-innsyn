@@ -1,5 +1,5 @@
 import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
-import {containsIllegalCharacters, illegalFileSize, legalFileExtension} from "../../utils/vedleggUtils";
+import {containsIllegalCharacters, illegalFileSize} from "../../utils/vedleggUtils";
 import {fileUploadFailedEvent} from "../../utils/amplitude";
 
 export const validateFile = (files: Fil[]) => {
@@ -11,12 +11,6 @@ export const validateFile = (files: Fil[]) => {
             errors.add("vedlegg.ulovlig_filstorrelse_feilmelding");
             filenames.add(file.filnavn);
             fileUploadFailedEvent("vedlegg.ulovlig_filstorrelse_feilmelding");
-        }
-
-        if (file.file && !legalFileExtension(file.file.name)) {
-            errors.add("vedlegg.ulovlig_filtype_feilmelding");
-            filenames.add(file.filnavn);
-            fileUploadFailedEvent("vedlegg.ulovlig_filtype_feilmelding");
         }
 
         if (file.file && containsIllegalCharacters(file.file.name)) {

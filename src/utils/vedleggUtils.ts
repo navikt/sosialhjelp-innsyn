@@ -150,13 +150,7 @@ export const illegalFileSize = (file: File) => {
     return file.size > maxFileSize;
 };
 
-export const legalFileExtension = (filename: string) => {
-    const fileExtension = filename.replace(/^.*\./, "");
-    return fileExtension.match(/jpe?g|png|pdf/i) !== null;
-};
-
 export interface FileError {
-    legalFileExtension: boolean;
     containsIllegalCharacters: boolean;
     legalFileSize: boolean;
     legalCombinedFilesSize: boolean;
@@ -214,7 +208,6 @@ export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementI
 
     const flagg = {
         ulovligFiler: false,
-        legalFileExtension: false,
         containsUlovligeTegn: false,
         maxFilStorrelse: false,
         maxSammensattFilStorrelse: false,
@@ -222,12 +215,7 @@ export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementI
 
     listeMedFil.forEach((value) => {
         if (value.oppgaveElementIndex === oppgaveElementIndex) {
-            if (
-                value.containsIllegalCharacters ||
-                value.legalFileSize ||
-                value.legalFileExtension ||
-                value.legalCombinedFilesSize
-            ) {
+            if (value.containsIllegalCharacters || value.legalFileSize || value.legalCombinedFilesSize) {
                 if (listeMedFil.length === 1) {
                     filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
                 } else {
@@ -239,14 +227,10 @@ export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementI
                 if (value.containsIllegalCharacters) {
                     flagg.containsUlovligeTegn = true;
                 }
-                if (value.legalFileExtension) {
-                    flagg.legalFileExtension = true;
-                }
                 if (value.legalCombinedFilesSize) {
                     flagg.maxSammensattFilStorrelse = true;
                     flagg.maxFilStorrelse = false;
                     flagg.containsUlovligeTegn = false;
-                    flagg.legalFileExtension = false;
                     flagg.ulovligFiler = false;
                 }
             }
@@ -266,7 +250,6 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
         const filename = file.name;
 
         let fileErrorObject: FileError = {
-            legalFileExtension: false,
             containsIllegalCharacters: false,
             legalFileSize: false,
             legalCombinedFilesSize: false,
@@ -275,9 +258,6 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
             filename: filename,
         };
 
-        if (!legalFileExtension(filename)) {
-            fileErrorObject.legalFileExtension = true;
-        }
         if (containsIllegalCharacters(filename)) {
             fileErrorObject.containsIllegalCharacters = true;
         }
@@ -290,7 +270,6 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
         }
 
         if (
-            fileErrorObject.legalFileExtension ||
             fileErrorObject.containsIllegalCharacters ||
             fileErrorObject.legalFileSize ||
             fileErrorObject.legalCombinedFilesSize

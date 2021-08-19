@@ -3,21 +3,6 @@ import ErrorMessage from "./ErrorMessage";
 import ErrorMessageTitle from "./ErrorMessageTitle";
 
 const ReturnErrorMessage = (flagg: any, filnavn: any, listeMedFil: any) => {
-    if (flagg.legalFileExtension && !flagg.ulovligFiler) {
-        return (
-            <>
-                <ErrorMessageTitle
-                    feilId="vedlegg.ulovlig_en_filtype_feilmelding"
-                    filnavn={filnavn}
-                    listeMedFil={listeMedFil}
-                />
-                <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
-                    <ErrorMessage feilId="vedlegg.ulovlig_filtype_feilmelding" />
-                </ul>
-            </>
-        );
-    }
-
     if (flagg.containsUlovligeTegn && !flagg.ulovligFiler) {
         return (
             <>
@@ -59,7 +44,6 @@ const ReturnErrorMessage = (flagg: any, filnavn: any, listeMedFil: any) => {
                 <ul className="oppgaver_vedlegg_feilmelding_ul_plassering">
                     {flagg.containsUlovligeTegn && <ErrorMessage feilId="vedlegg.ulovlig_filnavn_feilmelding" />}
                     {flagg.maxFilStorrelse && <ErrorMessage feilId="vedlegg.ulovlig_filstorrelse_feilmelding" />}
-                    {flagg.legalFileExtension && <ErrorMessage feilId="vedlegg.ulovlig_filtype_feilmelding" />}
                 </ul>
             </>
         );
