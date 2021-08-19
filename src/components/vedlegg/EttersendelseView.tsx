@@ -175,17 +175,15 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />
                         )}
 
-                        {filer &&
-                            filer.length > 0 &&
-                            filer.map((fil: Fil, vedleggIndex: number) => (
-                                <FileItemView
-                                    key={vedleggIndex}
-                                    fil={fil}
-                                    onDelete={(event: MouseEvent, fil) => {
-                                        onDeleteClick(event, vedleggIndex, fil);
-                                    }}
-                                />
-                            ))}
+                        {filer.map((fil: Fil, vedleggIndex: number) => (
+                            <FileItemView
+                                key={vedleggIndex}
+                                fil={fil}
+                                onDelete={(event: MouseEvent, fil) => {
+                                    onDeleteClick(event, vedleggIndex, fil);
+                                }}
+                            />
+                        ))}
 
                         {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                     </div>
