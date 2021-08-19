@@ -68,9 +68,6 @@ const AddFile: React.FC<{
             if (fil.legalCombinedFilesSize) {
                 logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
             }
-            if (fil.legalFileExtension) {
-                logInfoMessage("Validering vedlegg feilet: Ulovlig filtype");
-            }
             if (fil.legalFileSize) {
                 logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
             }
