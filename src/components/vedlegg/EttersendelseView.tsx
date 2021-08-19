@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import {
     Fil,
@@ -7,9 +7,8 @@ import {
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import FilView from "../oppgaver/FilView";
-import UploadFileIcon from "../ikoner/UploadFile";
 import {FormattedMessage} from "react-intl";
-import {Flatknapp, Hovedknapp} from "nav-frontend-knapper";
+import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
@@ -26,6 +25,8 @@ import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
+import AddFileButton from "../oppgaver/AddFileButton";
+import {v4 as uuidv4} from "uuid";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -40,6 +41,8 @@ interface Props {
 
 const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
+    const uuid = uuidv4();
+
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
@@ -78,16 +81,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
     const opplastingFeilet = hasFilesWithErrorStatus(filer);
 
-    const onLinkClicked = (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        setSendVedleggTrykket(false);
-        const uploadElement: any = document.getElementById("file_andre");
-        uploadElement.click();
-        if (event) {
-            event.preventDefault();
-        }
-    };
-
     const onChange = (event: any) => {
+        setSendVedleggTrykket(false);
+
         setListeMedFilerSomFeiler([]);
         const files: FileList | null = event.currentTarget.files;
 
@@ -162,28 +158,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         </Normaltekst>
 
                         {kanLasteOppVedlegg && (
-                            <div className="oppgaver_last_opp_fil">
-                                <Flatknapp
-                                    mini
-                                    onClick={(event: any) => {
-                                        onLinkClicked(event);
-                                    }}
-                                >
-                                    <UploadFileIcon className="last_opp_fil_ikon" />
-                                    <Element>
-                                        <FormattedMessage id="vedlegg.velg_fil" />
-                                    </Element>
-                                </Flatknapp>
-                                <input
-                                    type="file"
-                                    id={"file_andre"}
-                                    multiple={true}
-                                    onChange={(event: ChangeEvent) => {
-                                        onChange(event);
-                                    }}
-                                    style={{display: "none"}}
-                                />
-                            </div>
+                            <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />
                         )}
 
                         {filer &&
