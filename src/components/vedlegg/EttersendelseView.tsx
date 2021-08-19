@@ -6,7 +6,6 @@ import {
     InnsynsdataSti,
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import FilView from "../oppgaver/FilView";
 import {FormattedMessage} from "react-intl";
 import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,6 +26,8 @@ import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
 import AddFileButton from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
+import FileItemView from "../oppgaver/FileItemView";
+import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -129,6 +130,19 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
+    const onDeleteClick = (event: MouseEvent, vedleggIndex: number, fil: Fil) => {
+        setOverMaksStorrelse(false);
+        dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
+        dispatch({
+            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
+            vedleggIndex: vedleggIndex,
+            internalIndex: 0,
+            externalIndex: 0,
+            fil: fil,
+        });
+        event.preventDefault();
+    };
+
     return (
         <>
             <DriftsmeldingVedlegg
@@ -164,14 +178,12 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         {filer &&
                             filer.length > 0 &&
                             filer.map((fil: Fil, vedleggIndex: number) => (
-                                <FilView
+                                <FileItemView
                                     key={vedleggIndex}
                                     fil={fil}
-                                    vedleggIndex={vedleggIndex}
-                                    oppgaveElementIndex={0}
-                                    oppgaveIndex={0}
-                                    setOverMaksStorrelse={setOverMaksStorrelse}
-                                    oppgaveId={BACKEND_FEIL_ID}
+                                    onDelete={(event: MouseEvent, fil) => {
+                                        onDeleteClick(event, vedleggIndex, fil);
+                                    }}
                                 />
                             ))}
 

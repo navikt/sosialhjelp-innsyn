@@ -15,9 +15,8 @@ type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseE
 
 const FileItemView: React.FC<{
     fil: Fil;
-    referanse: string;
     onDelete: (event: any, fil: Fil) => void;
-}> = ({fil, referanse, onDelete}) => {
+}> = ({fil, onDelete}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
 
     const [modalVises, setModalVises] = useState(false);

@@ -93,12 +93,7 @@ const DokumentasjonkravElementView: React.FC<{
             </div>
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
-                <FileItemView
-                    key={vedleggIndex}
-                    fil={fil}
-                    referanse={dokumentasjonkravReferanse}
-                    onDelete={onDeleteElement}
-                />
+                <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
             ))}
             {fileValidationErrors && fileValidationErrors?.errors.size && (
                 <div>
