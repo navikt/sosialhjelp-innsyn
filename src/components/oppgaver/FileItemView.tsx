@@ -8,6 +8,8 @@ import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
+import {REST_STATUS} from "../../utils/restUtils";
+import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -51,6 +53,13 @@ const FileItemView: React.FC<{
                     </Flatknapp>
                 </div>
             </div>
+            {fil.status !== REST_STATUS.INITIALISERT &&
+                fil.status !== REST_STATUS.PENDING &&
+                fil.status !== REST_STATUS.OK && (
+                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_rad">
+                        <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status} />
+                    </SkjemaelementFeilmelding>
+                )}
         </div>
     );
 };
