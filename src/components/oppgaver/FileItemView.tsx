@@ -6,14 +6,11 @@ import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
-import {REST_STATUS} from "../../utils/restUtils";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-// gir ikke feilmelding på .tiff
 const FileItemView: React.FC<{
     fil: Fil;
     onDelete: (event: any, fil: Fil) => void;
@@ -25,21 +22,6 @@ const FileItemView: React.FC<{
     const onVisVedlegg = (event: ClickEvent): void => {
         setModalVises(true);
         event.preventDefault();
-    };
-
-    const getFileValidationError = () => {
-        // componentet må oppdatere seg når fil får ny status. Å legge til fil i denne componenten trigger ikke ny state.
-        if (
-            fil.status !== REST_STATUS.INITIALISERT &&
-            fil.status !== REST_STATUS.PENDING &&
-            fil.status !== REST_STATUS.OK
-        ) {
-            return (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_rad">
-                    <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status} />
-                </SkjemaelementFeilmelding>
-            );
-        }
     };
 
     return (
@@ -69,7 +51,6 @@ const FileItemView: React.FC<{
                     </Flatknapp>
                 </div>
             </div>
-            {getFileValidationError()}
         </div>
     );
 };

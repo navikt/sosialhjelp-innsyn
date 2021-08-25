@@ -23,7 +23,8 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravReferanse: string;
     onChange: (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
-}> = ({dokumentasjonkravElement, dokumentasjonkravReferanse, onChange, onDelete}) => {
+    filer: Fil[];
+}> = ({dokumentasjonkravElement, dokumentasjonkravReferanse, onChange, onDelete, filer}) => {
     const uuid = uuidv4();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 
@@ -37,13 +38,13 @@ const DokumentasjonkravElementView: React.FC<{
     const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommuneResponse);
 
     useEffect(() => {
-        if (dokumentasjonkravElement.filer && dokumentasjonkravElement.filer.length > 0) {
+        if (filer && filer.length > 0) {
             window.addEventListener("beforeunload", alertUser);
         }
         return function unload() {
             window.removeEventListener("beforeunload", alertUser);
         };
-    }, [dokumentasjonkravElement.filer]);
+    }, [filer]);
 
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
@@ -91,10 +92,9 @@ const DokumentasjonkravElementView: React.FC<{
                 )}
             </div>
 
-            {dokumentasjonkravElement.filer &&
-                dokumentasjonkravElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
-                ))}
+            {filer.map((fil: Fil, vedleggIndex: number) => (
+                <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
+            ))}
             {fileValidationErrors && fileValidationErrors?.errors.size && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (
