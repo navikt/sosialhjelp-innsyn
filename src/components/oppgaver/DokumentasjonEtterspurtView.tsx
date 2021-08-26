@@ -1,6 +1,12 @@
 import React, {useState} from "react";
 import {Normaltekst} from "nav-frontend-typografi";
-import {DokumentasjonEtterspurt, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonEtterspurt,
+    Fil,
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
+    KommuneResponse,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -13,6 +19,7 @@ import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {onSendVedleggClicked} from "./onSendVedleggClicked";
+import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -86,6 +93,20 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
                     );
+
+                    const onDelete = (oppgaveId: string, vedleggIndex: number, fil: Fil) => {
+                        setOverMaksStorrelse(false);
+                        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
+                            vedleggIndex: vedleggIndex,
+                            oppgaveElement: oppgaveElement,
+                            internalIndex: oppgaveElementIndex,
+                            externalIndex: oppgaveIndex,
+                            fil: fil,
+                        });
+                    };
+
                     return (
                         <DokumentasjonEtterspurtElementView
                             key={oppgaveElementIndex}
@@ -96,6 +117,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             oppgaveIndex={oppgaveIndex}
                             oppgaveId={dokumentasjonEtterspurt.oppgaveId}
                             setOverMaksStorrelse={setOverMaksStorrelse}
+                            onDelete={onDelete}
                         />
                     );
                 })}

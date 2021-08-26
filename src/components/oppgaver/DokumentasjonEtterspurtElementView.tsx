@@ -3,8 +3,8 @@ import React, {useEffect, useState} from "react";
 import {isFileErrorsNotEmpty, alertUser, writeErrorMessage, FileError} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import FilView from "./FilView";
 import AddFile from "./AddFile";
+import FileItemView from "./FileItemView";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;
@@ -14,6 +14,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveIndex: number;
     oppgaveId: string;
     setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
+    onDelete: (oppgaveId: string, vedleggIndex: number, fil: Fil) => void;
 }> = ({
     typeTekst,
     tilleggsinfoTekst,
@@ -22,6 +23,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveIndex,
     oppgaveId,
     setOverMaksStorrelse,
+    onDelete,
 }) => {
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
@@ -39,6 +41,12 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     }, [oppgaveElement.filer]);
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
+
+    const onDeleteClick = (event: any, vedleggIndex: number, fil: Fil) => {
+        event.preventDefault();
+        onDelete(oppgaveId, vedleggIndex, fil);
+    };
+
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <AddFile
@@ -52,17 +60,13 @@ const DokumentasjonEtterspurtElementView: React.FC<{
             />
 
             {oppgaveElement.filer &&
-                oppgaveElement.filer.length > 0 &&
                 oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FilView
+                    <FileItemView
                         key={vedleggIndex}
                         fil={fil}
-                        oppgaveElement={oppgaveElement}
-                        vedleggIndex={vedleggIndex}
-                        oppgaveElementIndex={oppgaveElementIndex}
-                        oppgaveIndex={oppgaveIndex}
-                        setOverMaksStorrelse={setOverMaksStorrelse}
-                        oppgaveId={oppgaveId}
+                        onDelete={(event: MouseEvent, fil) => {
+                            onDeleteClick(event, vedleggIndex, fil);
+                        }}
                     />
                 ))}
             {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
