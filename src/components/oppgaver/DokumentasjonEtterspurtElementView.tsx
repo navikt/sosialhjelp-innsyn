@@ -5,6 +5,8 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AddFile from "./AddFile";
 import FileItemView from "./FileItemView";
+import AddFileButton from "./AddFileButton";
+import {v4 as uuidv4} from "uuid";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     typeTekst: string;
@@ -25,6 +27,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     setOverMaksStorrelse,
     onDelete,
 }) => {
+    const uuid = uuidv4();
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
@@ -47,17 +50,11 @@ const DokumentasjonEtterspurtElementView: React.FC<{
         onDelete(oppgaveId, vedleggIndex, fil);
     };
 
+    const onChange = (event: any) => {};
+
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <AddFile
-                title={typeTekst}
-                description={tilleggsinfoTekst}
-                oppgaveElement={oppgaveElement}
-                internalIndex={oppgaveElementIndex}
-                externalIndex={oppgaveIndex}
-                setListWithFilesWithErrors={setListeMedFilerSomFeiler}
-                setAboveMaxSize={setOverMaksStorrelse}
-            />
+            <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
 
             {oppgaveElement.filer &&
                 oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
