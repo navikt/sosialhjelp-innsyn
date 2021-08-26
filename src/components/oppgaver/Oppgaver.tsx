@@ -181,6 +181,7 @@ const Oppgaver = () => {
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
+                            onClick={() => logButtonOrLinkClick("Åpnet vilkår")}
                             tittel={
                                 <div className="oppgaver_header">
                                     <DokumentBinder />
@@ -210,6 +211,7 @@ const Oppgaver = () => {
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
+                            onClick={() => logButtonOrLinkClick("Åpnet dokumentasjonkrav")}
                             tittel={
                                 <div className="oppgaver_header">
                                     <DokumentBinder />
