@@ -6,18 +6,17 @@ import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
-import {REST_STATUS} from "../../utils/restUtils";
 import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
+import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
 const FileItemView: React.FC<{
     fil: Fil;
-    referanse: string;
     onDelete: (event: any, fil: Fil) => void;
-}> = ({fil, referanse, onDelete}) => {
+}> = ({fil, onDelete}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
 
     const [modalVises, setModalVises] = useState(false);
