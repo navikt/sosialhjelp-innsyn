@@ -102,7 +102,7 @@ const Oppgaver = () => {
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
-                            onClick={() => logButtonOrLinkClick("Åpnet etterspørsel av dokumentasjon")}
+                            onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
                             tittel={
                                 <div className="oppgaver_header">
                                     <DokumentBinder />
@@ -181,6 +181,7 @@ const Oppgaver = () => {
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
+                            onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}
                             tittel={
                                 <div className="oppgaver_header">
                                     <DokumentBinder />
@@ -210,6 +211,7 @@ const Oppgaver = () => {
                         <Ekspanderbartpanel
                             apen={false}
                             border={false}
+                            onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}
                             tittel={
                                 <div className="oppgaver_header">
                                     <DokumentBinder />
