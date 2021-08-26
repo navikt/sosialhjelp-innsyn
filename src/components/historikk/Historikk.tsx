@@ -8,6 +8,7 @@ import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {useIntl} from "react-intl";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -31,12 +32,23 @@ interface HistorikkListeProps {
 }
 
 const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
+    const intl = useIntl();
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
 
     const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
-        logButtonOrLinkClick(`Historikk: ${beskrivelse}. ${lenketekst}`);
+        if (beskrivelse === intl.formatMessage({id: "forelopigSvar"}).trim()) {
+            logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
+        } else if (beskrivelse === intl.formatMessage({id: "oppgaver.maa_sende_dok_veileder"})) {
+            logButtonOrLinkClick(`Historikk: åpnet etterspørsel av dokumentasjon`);
+        } else if (lenketekst === "Vis søknaden") {
+            logButtonOrLinkClick(`Historikk: åpnet søknaden`);
+        } else if (beskrivelse.includes("er ferdig behandlet") && lenketekst === "Vis brevet") {
+            logButtonOrLinkClick(`Historikk: åpnet vedtak fattet`);
+        } else {
+            logButtonOrLinkClick(`Historikk: ukjent hendelse`);
+        }
     };
 
     return (
