@@ -7,5 +7,6 @@
     "https://www.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": true,
-  "appresCmsUrl": "https://appres.nav.no"
+  "appresCmsUrl": "https://appres.nav.no",
+  "dekoratorMiljo": "prod"
 }
