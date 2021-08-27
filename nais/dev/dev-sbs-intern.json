@@ -7,5 +7,6 @@
     "https://www-q1.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": true,
-  "appresCmsUrl": "https://appres-q1.nav.no"
+  "appresCmsUrl": "https://appres-q1.nav.no",
+  "dekoratorMiljo": "q1"
 }
