@@ -1,6 +1,13 @@
 import React, {useState} from "react";
 import {Normaltekst} from "nav-frontend-typografi";
-import {DokumentasjonEtterspurt, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonEtterspurt,
+    DokumentasjonEtterspurtElement,
+    Fil,
+    InnsynsdataActionTypeKeys,
+    InnsynsdataSti,
+    KommuneResponse,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -13,6 +20,12 @@ import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {onSendVedleggClicked} from "./onSendVedleggClicked";
+import {
+    setFileUploadFailed,
+    setFileUploadFailedInBackend,
+    setFileUploadFailedVirusCheckInBackend,
+} from "../../redux/innsynsdata/innsynsDataActions";
+import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -57,6 +70,34 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
 
+    const onAddFileChange = (
+        files: FileList,
+        internalIndex: number,
+        oppgaveElement: DokumentasjonEtterspurtElement
+    ) => {
+        dispatch(setFileUploadFailed(internalIndex.toString(), false));
+        dispatch(setFileUploadFailedInBackend(internalIndex.toString(), false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(internalIndex.toString(), false));
+
+        Array.from(files).forEach((file: File) => {
+            if (!file) {
+                logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
+            } else {
+                dispatch({
+                    type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
+                    internalIndex: internalIndex,
+                    oppgaveElement: oppgaveElement,
+                    externalIndex: oppgaveIndex,
+                    fil: {
+                        filnavn: file.name,
+                        status: "INITIALISERT",
+                        file: file,
+                    },
+                });
+            }
+        });
+    };
+
     return (
         <div>
             <div
@@ -86,16 +127,31 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
                     );
+
+                    const onDelete = (oppgaveId: string, vedleggIndex: number, fil: Fil) => {
+                        setOverMaksStorrelse(false);
+                        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
+                        dispatch({
+                            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
+                            vedleggIndex: vedleggIndex,
+                            oppgaveElement: oppgaveElement,
+                            internalIndex: oppgaveElementIndex,
+                            externalIndex: oppgaveIndex,
+                            fil: fil,
+                        });
+                    };
+
                     return (
                         <DokumentasjonEtterspurtElementView
                             key={oppgaveElementIndex}
-                            typeTekst={typeTekst}
-                            tilleggsinfoTekst={tilleggsinfoTekst}
+                            tittel={typeTekst}
+                            beskrivelse={tilleggsinfoTekst}
                             oppgaveElement={oppgaveElement}
                             oppgaveElementIndex={oppgaveElementIndex}
-                            oppgaveIndex={oppgaveIndex}
                             oppgaveId={dokumentasjonEtterspurt.oppgaveId}
                             setOverMaksStorrelse={setOverMaksStorrelse}
+                            onDelete={onDelete}
+                            onAddFileChange={onAddFileChange}
                         />
                     );
                 })}
