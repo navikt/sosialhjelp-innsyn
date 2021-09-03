@@ -4,7 +4,7 @@ ENV NODE_ENV production
 
 WORKDIR /app
 COPY package.json .
-RUN npm i node-fetch node-cache @navikt/nav-dekoratoren-moduler jsdom
+RUN npm i node-fetch@2.6.1 node-cache @navikt/nav-dekoratoren-moduler jsdom
 COPY server.js server.js
 COPY build build/
 
