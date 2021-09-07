@@ -7,6 +7,7 @@ import {
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     KommuneResponse,
+    settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
@@ -14,18 +15,25 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {formatDato} from "../../utils/formatting";
-import {getVisningstekster, oppgaveHasFilesWithError} from "../../utils/vedleggUtils";
+import {
+    createFormDataWithVedleggFromOppgaver,
+    getVisningstekster,
+    oppgaveHasFilesWithError,
+} from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {REST_STATUS} from "../../utils/restUtils";
+import {fetchPost, REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
-import {onSendVedleggClicked} from "./onSendVedleggClicked";
+import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {
+    hentOppgaveMedId,
+    innsynsdataUrl,
     setFileUploadFailed,
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {fileUploadFailedEvent} from "../../utils/amplitude";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -69,6 +77,71 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         overMaksStorrelse ||
         listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
+
+    const onSendClicked = (event: React.SyntheticEvent) => {
+        const path = innsynsdataUrl(fiksDigisosId ? fiksDigisosId : "", InnsynsdataSti.VEDLEGG);
+        const formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
+
+        const filer = dokumentasjonEtterspurt.oppgaveElementer.flatMap(
+            (oppgaveElement: DokumentasjonEtterspurtElement) => {
+                return oppgaveElement.filer ?? [];
+            }
+        );
+
+        const handleFileWithVirus = () => {
+            //setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
+            fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
+            //setIsUploading(false);
+        };
+        const handleFileUploadFailed = () => {
+            //setErrorMessage("vedlegg.opplasting_feilmelding");
+            fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
+            //setIsUploading(false);
+        };
+        const onSuccessful = (reference: string) => {
+            fetchPost(path, formData, "multipart/form-data").then((fileResponse: any) => {
+                let hasError: boolean = false;
+                if (Array.isArray(fileResponse)) {
+                    fileResponse.forEach((response) => {
+                        response.filer.forEach((fil: Fil, index: number) => {
+                            if (fil.status !== "OK") {
+                                hasError = true;
+                            }
+                            dispatch({
+                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                fil: {filnavn: fil.filnavn} as Fil,
+                                status: fil.status,
+                                innsendelsesfrist: response.innsendelsesfrist,
+                                dokumenttype: response.type,
+                                tilleggsinfo: response.tilleggsinfo,
+                                vedleggIndex: index,
+                            });
+                        });
+                    });
+                }
+                if (hasError) {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                }
+            });
+            dispatch(
+                hentOppgaveMedId(
+                    fiksDigisosId ? fiksDigisosId : "",
+                    InnsynsdataSti.OPPGAVER,
+                    dokumentasjonEtterspurt.oppgaveId
+                )
+            );
+        };
+
+        onSendVedleggClicked(
+            dokumentasjonEtterspurt.oppgaveId,
+            formData,
+            filer,
+            path,
+            handleFileWithVirus,
+            handleFileUploadFailed,
+            onSuccessful
+        );
+    };
 
     const onAddFileChange = (
         files: FileList,
@@ -168,16 +241,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
-                            onSendVedleggClicked(
-                                event,
-                                dispatch,
-                                dokumentasjonEtterspurt.oppgaveId,
-                                InnsynsdataSti.OPPGAVER,
-                                fiksDigisosId,
-                                setOverMaksStorrelse,
-                                dokumentasjonEtterspurt,
-                                undefined
-                            );
+                            onSendClicked(event);
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
