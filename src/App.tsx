@@ -18,6 +18,7 @@ import Feilside from "./components/feilside/Feilside";
 import {isDevSbs, isProd} from "./utils/restUtils";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 import {initAmplitude} from "./utils/amplitude";
+import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
 
 const store = configureStore();
 
@@ -39,6 +40,17 @@ if (isProd(origin)) {
 Sentry.setUser({ip_address: "", id: uuid()});
 
 initAmplitude();
+
+// Dersom appen bygges og deployes med docker-image vil dekoratøren bli lagt på serverside med express i Docker (eks ved deploy til miljø)
+if (process.env.NODE_ENV !== "production") {
+    injectDecoratorClientSide({
+        env: "dev",
+        simple: false,
+        feedback: false,
+        chatbot: false,
+        shareScreen: false,
+    });
+}
 
 const App: React.FC = () => {
     const language = "nb";
