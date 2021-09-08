@@ -89,24 +89,26 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         );
 
         const handleFileWithVirus = () => {
+            console.log("file with virus");
             //setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             //setIsUploading(false);
+            dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
+            dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
+            console.log("file with error");
             //setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             //setIsUploading(false);
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const onSuccessful = (reference: string) => {
             fetchPost(path, formData, "multipart/form-data").then((fileResponse: any) => {
-                let hasError: boolean = false;
                 if (Array.isArray(fileResponse)) {
                     fileResponse.forEach((response) => {
                         response.filer.forEach((fil: Fil, index: number) => {
-                            if (fil.status !== "OK") {
-                                hasError = true;
-                            }
                             dispatch({
                                 type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
                                 fil: {filnavn: fil.filnavn} as Fil,
@@ -118,9 +120,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             });
                         });
                     });
-                }
-                if (hasError) {
-                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                 }
             });
             dispatch(
