@@ -18,6 +18,7 @@ import {formatDato} from "../../utils/formatting";
 import {
     createFormDataWithVedleggFromOppgaver,
     getVisningstekster,
+    hasNotAddedFiles,
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
@@ -43,6 +44,8 @@ interface Props {
 
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
+    const [isUploading, setIsUploading] = useState(false);
+
     const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
     );
@@ -61,11 +64,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
 
     let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonEtterspurt.innsendelsesfrist!!));
-    const restStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.oppgaver);
-    const vedleggLastesOpp = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    const otherRestStatus = useSelector((state: InnsynAppState) => state.innsynsdata.restStatus.vedlegg);
-    const otherVedleggLastesOpp =
-        otherRestStatus === REST_STATUS.INITIALISERT || otherRestStatus === REST_STATUS.PENDING;
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
@@ -79,7 +77,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
 
     const onSendClicked = (event: React.SyntheticEvent) => {
-        const path = innsynsdataUrl(fiksDigisosId ? fiksDigisosId : "", InnsynsdataSti.VEDLEGG);
+        event.preventDefault();
+        if (!fiksDigisosId || overMaksStorrelse) {
+            return;
+        }
+        setIsUploading(true);
+        const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
         const formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
 
         const filer = dokumentasjonEtterspurt.oppgaveElementer.flatMap(
@@ -88,27 +91,40 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             }
         );
 
+        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
+        dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, noFilesAdded));
+
+        if (noFilesAdded) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
+            setIsUploading(false);
+            event.preventDefault();
+            return;
+        }
+
         const handleFileWithVirus = () => {
             console.log("file with virus");
-            //setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
-            //setIsUploading(false);
+            setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
             console.log("file with error");
-            //setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-            //setIsUploading(false);
+            setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
-        const onSuccessful = (reference: string) => {
+        const onSuccessful = () => {
             fetchPost(path, formData, "multipart/form-data").then((fileResponse: any) => {
+                let hasError: boolean = false;
                 if (Array.isArray(fileResponse)) {
                     fileResponse.forEach((response) => {
                         response.filer.forEach((fil: Fil, index: number) => {
+                            if (fil.status !== "OK") {
+                                hasError = true;
+                            }
                             dispatch({
                                 type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
                                 fil: {filnavn: fil.filnavn} as Fil,
@@ -121,14 +137,15 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         });
                     });
                 }
+                if (hasError) {
+                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                } else {
+                    dispatch(
+                        hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
+                    );
+                }
+                setIsUploading(false);
             });
-            dispatch(
-                hentOppgaveMedId(
-                    fiksDigisosId ? fiksDigisosId : "",
-                    InnsynsdataSti.OPPGAVER,
-                    dokumentasjonEtterspurt.oppgaveId
-                )
-            );
         };
 
         onSendVedleggClicked(
@@ -235,8 +252,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 )}
                 {kanLasteOppVedlegg && (
                     <Hovedknapp
-                        disabled={vedleggLastesOpp || otherVedleggLastesOpp}
-                        spinner={vedleggLastesOpp}
+                        disabled={isUploading}
+                        spinner={isUploading}
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
