@@ -164,9 +164,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         internalIndex: number,
         oppgaveElement: DokumentasjonEtterspurtElement
     ) => {
-        dispatch(setFileUploadFailed(internalIndex.toString(), false));
-        dispatch(setFileUploadFailedInBackend(internalIndex.toString(), false));
-        dispatch(setFileUploadFailedVirusCheckInBackend(internalIndex.toString(), false));
+        dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, false));
+        dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
 
         Array.from(files).forEach((file: File) => {
             if (!file) {
