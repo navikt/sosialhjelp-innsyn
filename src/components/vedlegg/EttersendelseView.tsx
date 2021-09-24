@@ -28,6 +28,7 @@ import AddFileButton from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -194,6 +195,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
+                            logButtonOrLinkClick("Ettersendelse: Send vedlegg");
                             if (!vedleggKlarForOpplasting) {
                                 setSendVedleggTrykket(true);
                                 return;
