@@ -22,10 +22,9 @@ import {
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
 import {Hovedknapp} from "nav-frontend-knapper";
-import {fetchPost, REST_STATUS} from "../../utils/restUtils";
+import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
-import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {
     hentOppgaveMedId,
     innsynsdataUrl,
@@ -33,7 +32,7 @@ import {
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
-import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 
 interface Props {
@@ -85,12 +84,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
         const formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
 
-        const filer = dokumentasjonEtterspurt.oppgaveElementer.flatMap(
-            (oppgaveElement: DokumentasjonEtterspurtElement) => {
-                return oppgaveElement.filer ?? [];
-            }
-        );
-
         const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, noFilesAdded));
 
@@ -117,46 +110,48 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const onSuccessful = () => {
-            fetchPost(path, formData, "multipart/form-data").then((fileResponse: any) => {
-                let hasError: boolean = false;
-                if (Array.isArray(fileResponse)) {
-                    fileResponse.forEach((response) => {
-                        response.filer.forEach((fil: Fil, index: number) => {
-                            if (fil.status !== "OK") {
-                                hasError = true;
-                            }
-                            dispatch({
-                                type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                fil: {filnavn: fil.filnavn} as Fil,
-                                status: fil.status,
-                                innsendelsesfrist: response.innsendelsesfrist,
-                                dokumenttype: response.type,
-                                tilleggsinfo: response.tilleggsinfo,
-                                vedleggIndex: index,
+            fetchPost(path, formData, "multipart/form-data")
+                .then((fileResponse: any) => {
+                    let hasError: boolean = false;
+                    if (Array.isArray(fileResponse)) {
+                        fileResponse.forEach((response) => {
+                            response.filer.forEach((fil: Fil, index: number) => {
+                                if (fil.status !== "OK") {
+                                    hasError = true;
+                                }
+                                dispatch({
+                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
+                                    fil: {filnavn: fil.filnavn} as Fil,
+                                    status: fil.status,
+                                    innsendelsesfrist: response.innsendelsesfrist,
+                                    dokumenttype: response.type,
+                                    tilleggsinfo: response.tilleggsinfo,
+                                    vedleggIndex: index,
+                                });
                             });
                         });
+                    }
+                    if (hasError) {
+                        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+                    } else {
+                        dispatch(
+                            hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
+                        );
+                    }
+                    setIsUploading(false);
+                })
+                .catch((e) => {
+                    // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
+                    fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
+                        if (errorResponse.message === "Mulig virus funnet") {
+                            handleFileWithVirus();
+                        }
                     });
-                }
-                if (hasError) {
-                    dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                } else {
-                    dispatch(
-                        hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
-                    );
-                }
-                setIsUploading(false);
-            });
+                    handleFileUploadFailed();
+                    logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
+                });
         };
-
-        onSendVedleggClicked(
-            dokumentasjonEtterspurt.oppgaveId,
-            formData,
-            filer,
-            path,
-            handleFileWithVirus,
-            handleFileUploadFailed,
-            onSuccessful
-        );
+        onSuccessful();
     };
 
     const onAddFileChange = (
