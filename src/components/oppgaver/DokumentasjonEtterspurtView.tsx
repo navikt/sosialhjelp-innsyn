@@ -34,7 +34,7 @@ import {
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
-import {fileUploadFailedEvent} from "../../utils/amplitude";
+import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -257,6 +257,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
+                            logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
                             onSendClicked(event);
                         }}
                     >
