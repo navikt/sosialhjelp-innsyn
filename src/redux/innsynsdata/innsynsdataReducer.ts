@@ -141,6 +141,7 @@ export enum InnsynsdataSti {
     HENDELSER = "hendelser",
     VEDLEGG = "vedlegg",
     SAKER = "saker",
+    SKAL_VISE_MELDINGER_LENKE = "skalViseMeldingerLenke",
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune",
     VILKAR = "vilkar",
@@ -240,6 +241,7 @@ export interface InnsynsdataType {
     vedlegg: Vedlegg[];
     ettersendelse: Ettersendelse;
     saker: Sakstype[];
+    skalViseMeldingerLenke: boolean;
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
     skalViseFeilside: boolean;
@@ -281,6 +283,7 @@ export const initialState: InnsynsdataType = {
     hendelser: [],
     vedlegg: [],
     saker: [],
+    skalViseMeldingerLenke: false,
     ettersendelse: {
         filer: [],
         feil: undefined,
@@ -704,9 +707,10 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             }
             return {
                 ...state,
-                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
-                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                ),
+                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend:
+                    state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
+                        (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                    ),
             };
 
         default:

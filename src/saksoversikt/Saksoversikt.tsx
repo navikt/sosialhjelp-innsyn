@@ -56,6 +56,10 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        dispatch(hentSaksdata(InnsynsdataSti.SKAL_VISE_MELDINGER_LENKE, false));
+    }, [dispatch]);
+
+    useEffect(() => {
         if (!pageLoadIsLogged && innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Hentet innsynsdata", {
                 antallSoknader: alleSaker.length,
