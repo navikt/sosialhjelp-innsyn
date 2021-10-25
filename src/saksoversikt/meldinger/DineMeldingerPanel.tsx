@@ -6,7 +6,7 @@ import "./dineMeldinger.less";
 
 const DineMeldingerPanel: React.FC = () => {
     return (
-        <LenkepanelBase href="/sosialhjelp/meldinger">
+        <LenkepanelBase href="/sosialhjelp/meldinger" className="dineMeldinger__panel">
             <div className="dineMeldinger__innhold">
                 <Dialog />
                 <div>
