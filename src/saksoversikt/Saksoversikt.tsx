@@ -103,6 +103,7 @@ const Saksoversikt: React.FC = () => {
                         )}
                         {kommunenavn.length > 0 && !cookies["sosialhjelp-meldinger-undersokelse"] && (
                             <StyledLenkepanel
+                                className="luft_over_16px"
                                 tittelProps={"element"}
                                 border={false}
                                 href="/sosialhjelp/innsyn/undersokelse"
