@@ -131,6 +131,8 @@ export enum InnsynsdataActionTypeKeys {
     FILE_UPLOAD_FAILED = "innsynsdata/FILE_UPLOAD_FAILED",
     FILE_UPLOAD_BACKEND_FAILED = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED",
     FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK",
+
+    SISTE_KOMMUNE = "innsynsdata/SISTE_KOMMUNE",
 }
 
 export enum InnsynsdataSti {
@@ -244,6 +246,7 @@ export interface InnsynsdataType {
     kommune: undefined | KommuneResponse;
     skalViseFeilside: boolean;
     skalViseForbudtSide: boolean;
+    sisteKommune: string;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -292,6 +295,7 @@ export const initialState: InnsynsdataType = {
     restStatus: initialInnsynsdataRestStatus,
     skalViseFeilside: false,
     skalViseForbudtSide: false,
+    sisteKommune: "",
 };
 
 export interface Ettersendelse {
@@ -704,9 +708,15 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             }
             return {
                 ...state,
-                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
-                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                ),
+                listeOverOppgaveIderSomFeiletIVirussjekkPaBackend:
+                    state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
+                        (oppgaveId: string) => oppgaveId !== action.oppgaveId
+                    ),
+            };
+        case InnsynsdataActionTypeKeys.SISTE_KOMMUNE:
+            return {
+                ...state,
+                sisteKommune: action.verdi ?? "",
             };
 
         default:
@@ -775,6 +785,13 @@ export const skalViseForbudtside = (skalViseForbudt: boolean) => {
     return {
         type: InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE,
         skalViseForbudt,
+    };
+};
+
+export const settSisteKommune = (kommunenummer: unknown) => {
+    return {
+        type: InnsynsdataActionTypeKeys.SISTE_KOMMUNE,
+        verdi: (kommunenummer as string) ?? "",
     };
 };
 

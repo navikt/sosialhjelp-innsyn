@@ -7,6 +7,7 @@ import SaksStatus from "./SaksStatus";
 import Linkside from "../components/linkside/Linkside";
 import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
 import Utbetalinger from "../utbetalinger/Utbetalinger";
+import Sporreundersokelse from "./sporreundersokelse/Sporreundersokelse";
 
 const InnsynRouter: React.FC = () => {
     // Utbetalingssiden trenger bredere spaltebredde enn de andre sidene
@@ -21,6 +22,7 @@ const InnsynRouter: React.FC = () => {
                         <Route exact path="/innsyn/utbetaling" component={Utbetalinger} />
                         <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <Route exact path="/innsyn/link" component={Linkside} />
+                        <Route exact path="/innsyn/undersokelse" component={Sporreundersokelse} />
                         <Route component={SideIkkeFunnet} />
                     </Switch>
                 </div>

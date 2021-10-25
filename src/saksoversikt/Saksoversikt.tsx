@@ -3,8 +3,8 @@ import NavFrontendSpinner from "nav-frontend-spinner";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
-import {REST_STATUS} from "../utils/restUtils";
+import {InnsynsdataSti, InnsynsdataType, Sakstype, settSisteKommune} from "../redux/innsynsdata/innsynsdataReducer";
+import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
@@ -14,6 +14,14 @@ import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import Lenkepanel from "nav-frontend-lenkepanel";
+import styled from "styled-components";
+
+const StyledLenkepanel = styled(Lenkepanel)`
+    .lenkepanel__heading {
+        margin-bottom: 0px;
+    }
+`;
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
@@ -34,6 +42,8 @@ const Saksoversikt: React.FC = () => {
     let innsynApiKommunikasjonsProblemer = false;
     let soknadApiKommunikasjonsProblemer = false;
 
+    const kommunenavn = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
+
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
         if (innsynRestStatus === REST_STATUS.OK) {
@@ -53,6 +63,12 @@ const Saksoversikt: React.FC = () => {
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
+    }, [dispatch]);
+
+    useEffect(() => {
+        fetchToJson("/innsyn/sisteKommune")
+            .then((sak: any) => dispatch(settSisteKommune(sak.kommunenummer)))
+            .catch((e) => console.error("error", e));
     }, [dispatch]);
 
     useEffect(() => {
@@ -83,6 +99,15 @@ const Saksoversikt: React.FC = () => {
                                 <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                             </AlertStripeAdvarsel>
+                        )}
+                        {kommunenavn.length > 0 && (
+                            <StyledLenkepanel
+                                tittelProps={"element"}
+                                border={false}
+                                href="/sosialhjelp/innsyn/undersokelse"
+                            >
+                                Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
+                            </StyledLenkepanel>
                         )}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>

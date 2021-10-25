@@ -6,6 +6,7 @@ import {Route, Switch} from "react-router";
 import {IntlProvider} from "react-intl";
 import * as Sentry from "@sentry/browser";
 import {v4 as uuid} from "uuid";
+import "@navikt/ds-css";
 
 import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
