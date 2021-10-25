@@ -14,6 +14,7 @@ import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
@@ -56,6 +57,10 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        dispatch(hentSaksdata(InnsynsdataSti.SKAL_VISE_MELDINGER_LENKE, false));
+    }, [dispatch]);
+
+    useEffect(() => {
         if (!pageLoadIsLogged && innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Hentet innsynsdata", {
                 antallSoknader: alleSaker.length,
@@ -84,6 +89,7 @@ const Saksoversikt: React.FC = () => {
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                             </AlertStripeAdvarsel>
                         )}
+                        {innsynData.skalViseMeldingerLenke && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}
