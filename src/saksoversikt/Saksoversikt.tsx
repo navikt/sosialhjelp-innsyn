@@ -16,6 +16,7 @@ import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import styled from "styled-components";
+import {useCookies} from "react-cookie";
 
 const StyledLenkepanel = styled(Lenkepanel)`
     .lenkepanel__heading {
@@ -42,6 +43,8 @@ const Saksoversikt: React.FC = () => {
     let innsynApiKommunikasjonsProblemer = false;
     let soknadApiKommunikasjonsProblemer = false;
 
+    const [cookies] = useCookies(["sosialhjelp-meldinger-undersokelse"]);
+
     const kommunenavn = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
 
     let alleSaker: Sakstype[] = [];
@@ -66,9 +69,7 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        fetchToJson("/innsyn/sisteKommune")
-            .then((sak: any) => dispatch(settSisteKommune(sak.kommunenummer)))
-            .catch((e) => console.error("error", e));
+        fetchToJson("/innsyn/sisteSak").then((sak: any) => dispatch(settSisteKommune(sak?.kommunenummer)));
     }, [dispatch]);
 
     useEffect(() => {
@@ -100,7 +101,7 @@ const Saksoversikt: React.FC = () => {
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                             </AlertStripeAdvarsel>
                         )}
-                        {kommunenavn.length > 0 && (
+                        {kommunenavn.length > 0 && !cookies["sosialhjelp-meldinger-undersokelse"] && (
                             <StyledLenkepanel
                                 tittelProps={"element"}
                                 border={false}

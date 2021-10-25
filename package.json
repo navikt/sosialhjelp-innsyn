@@ -64,6 +64,7 @@
     "react": "^16.13.1",
     "react-collapse": "^5.0.0",
     "react-collapsible": "^2.6.2",
+    "react-cookie": "^4.1.1",
     "react-dom": "^16.13.1",
     "react-intl": "^5.17.5",
     "react-modal": "^3.11.2",

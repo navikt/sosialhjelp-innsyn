@@ -10,6 +10,7 @@ import {push} from "connected-react-router";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {fetchToJson} from "../../utils/restUtils";
 import {settSisteKommune} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Cookies, withCookies} from "react-cookie";
 
 const StyledPanel = styled(Panel)`
     margin-top: 2rem;
@@ -45,7 +46,7 @@ export const ButtonWrapper = styled.div`
     }
 `;
 
-const Sporreundersokelse = () => {
+const Sporreundersokelse = (props: {cookies: Cookies}) => {
     const [questions, setQuestions] = useState<Record<string, string>>({});
 
     const dispatch = useDispatch();
@@ -54,18 +55,18 @@ const Sporreundersokelse = () => {
 
     useEffect(() => {
         if (kommunenavn.length === 0) {
-            fetchToJson("/innsyn/sisteKommune")
-                .then((sak: any) => dispatch(settSisteKommune(sak.kommunenummer)))
-                .catch((e) => console.error("error", e));
+            fetchToJson("/innsyn/sisteSak").then((sak: any) => dispatch(settSisteKommune(sak?.kommunenummer)));
         }
     }, [kommunenavn, dispatch]);
 
     const handleOnClick = async () => {
+        props.cookies.set("sosialhjelp-meldinger-undersokelse", true);
         logToAmplitude();
         dispatch(push("/innsyn"));
     };
 
     const handleAvbryt = async () => {
+        props.cookies.set("sosialhjelp-meldinger-undersokelse", true);
         dispatch(push("/innsyn"));
     };
 
@@ -202,4 +203,4 @@ const Sporreundersokelse = () => {
         </>
     );
 };
-export default Sporreundersokelse;
+export default withCookies(Sporreundersokelse);
