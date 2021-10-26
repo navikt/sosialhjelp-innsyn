@@ -17,6 +17,7 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import styled from "styled-components";
 import {useCookies} from "react-cookie";
+import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
 
 const StyledLenkepanel = styled(Lenkepanel)`
     .lenkepanel__heading {
@@ -75,6 +76,10 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        dispatch(hentSaksdata(InnsynsdataSti.SKAL_VISE_MELDINGER_LENKE, false));
+    }, [dispatch]);
+
+    useEffect(() => {
         if (!pageLoadIsLogged && innsynRestStatus === REST_STATUS.OK && soknadApiData.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Hentet innsynsdata", {
                 antallSoknader: alleSaker.length,
@@ -104,6 +109,7 @@ const Saksoversikt: React.FC = () => {
                             </AlertStripeAdvarsel>
                         )}
                         {kommunenummer.length > 0 &&
+                            !innsynData.skalViseMeldingerLenke &&
                             !cookies["sosialhjelp-meldinger-undersokelse"] &&
                             KOMMUNENUMMER_I_UNDERSOKELSE.includes(kommunenummer) && (
                                 <StyledLenkepanel
@@ -115,6 +121,7 @@ const Saksoversikt: React.FC = () => {
                                     Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
                                 </StyledLenkepanel>
                             )}
+                        {innsynData.skalViseMeldingerLenke && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}
