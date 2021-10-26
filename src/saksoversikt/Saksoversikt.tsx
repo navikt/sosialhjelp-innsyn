@@ -24,6 +24,8 @@ const StyledLenkepanel = styled(Lenkepanel)`
     }
 `;
 
+const KOMMUNENUMMER_I_UNDERSOKELSE = ["0301"];
+
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
@@ -45,7 +47,7 @@ const Saksoversikt: React.FC = () => {
 
     const [cookies] = useCookies(["sosialhjelp-meldinger-undersokelse"]);
 
-    const kommunenavn = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
+    const kommunenummer = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
 
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
@@ -101,16 +103,18 @@ const Saksoversikt: React.FC = () => {
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
                             </AlertStripeAdvarsel>
                         )}
-                        {kommunenavn.length > 0 && !cookies["sosialhjelp-meldinger-undersokelse"] && (
-                            <StyledLenkepanel
-                                className="luft_over_16px"
-                                tittelProps={"element"}
-                                border={false}
-                                href="/sosialhjelp/innsyn/undersokelse"
-                            >
-                                Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
-                            </StyledLenkepanel>
-                        )}
+                        {kommunenummer.length > 0 &&
+                            !cookies["sosialhjelp-meldinger-undersokelse"] &&
+                            KOMMUNENUMMER_I_UNDERSOKELSE.includes(kommunenummer) && (
+                                <StyledLenkepanel
+                                    className="luft_over_16px"
+                                    tittelProps={"element"}
+                                    border={false}
+                                    href="/sosialhjelp/innsyn/undersokelse"
+                                >
+                                    Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
+                                </StyledLenkepanel>
+                            )}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}
