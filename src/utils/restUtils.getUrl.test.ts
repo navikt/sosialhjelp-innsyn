@@ -67,7 +67,10 @@ const unknownOrigins = [
 
 describe("getBaseUrl", () => {
     it("should return correct backend-url", () => {
-        validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(
+            localhostOrigins,
+            "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
+        );
 
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(devSbs_navnoOrigins, "https://www-q0.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
@@ -85,15 +88,21 @@ describe("getBaseUrl", () => {
             "https://sosialhjelp-login-api-intern.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
         );
 
-        validateGetBaseUrl(labsGcpWithProxyOrigins, "https://digisos.labs.nais.io/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(
+            labsGcpWithProxyOrigins,
+            "https://digisos.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
+        );
         validateGetBaseUrl(
             labsGcpWithoutProxyOrigins,
-            "https://sosialhjelp-innsyn-api.labs.nais.io/sosialhjelp/innsyn-api/api/v1"
+            "https://sosialhjelp-innsyn-api.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(devGcpWithProxyOrigins, "https://digisos-gcp.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(
+            devGcpWithProxyOrigins,
+            "https://digisos-gcp.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
+        );
         validateGetBaseUrl(
             devGcpWithoutProxyOrigins,
-            "https://sosialhjelp-innsyn-api-gcp.dev.nav.no/sosialhjelp/innsyn-api/api/v1"
+            "https://sosialhjelp-innsyn-api-gcp.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
