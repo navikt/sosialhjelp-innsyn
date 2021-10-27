@@ -25,7 +25,7 @@ const StyledLenkepanel = styled(Lenkepanel)`
     }
 `;
 
-const KOMMUNENUMMER_I_UNDERSOKELSE = ["0301"];
+const KOMMUNENUMMER_I_UNDERSOKELSE = ["0301", "3411", "5001"];
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
