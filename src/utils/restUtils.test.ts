@@ -54,7 +54,7 @@ describe("getOriginAwareHeaders", () => {
         expect(headers.has("X-B3-SpanId")).toBeFalsy();
     });
 
-    it("labs and dev-gcp should contain Authorization and istio-headers", () => {
+    it("labs and dev-gcp should contain istio-headers", () => {
         let headers = getOriginAwareHeaders("https://sosialhjelp-innsyn-gcp.dev.nav.no");
         containsAllHeaders(headers);
 
@@ -66,7 +66,6 @@ describe("getOriginAwareHeaders", () => {
     });
 
     const containsAllHeaders = (headers: Headers) => {
-        expect(headers.has("Authorization")).toBeTruthy();
         expect(headers.has("X-B3-TraceId")).toBeTruthy();
         expect(headers.has("X-B3-SpanId")).toBeTruthy();
         expect(headers.has("Accept")).toBeTruthy();
