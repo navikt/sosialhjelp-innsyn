@@ -85,7 +85,7 @@ export const tekster = {
 
         "dokumentasjonkrav.dokumentasjon_stonad": "Dokumentasjon for stønaden din",
         "dokumentasjonkrav.veileder_trenger_mer":
-            "Du må levere {antallDokumenter} dokumenter. Dokumentasjonen kan være knyttet til vilkårene dine eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
+            "Du må levere {antall} {dokumenter}. Dokumentasjonen kan være knyttet til vilkårene dine eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
 
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
         "vedlegg.ulovlig_fil_feilmelding": "Vi kunne ikke legge til filene dine:",

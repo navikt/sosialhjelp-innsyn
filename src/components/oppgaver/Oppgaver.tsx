@@ -223,11 +223,19 @@ const Oppgaver = () => {
                                             <FormattedMessage
                                                 id="dokumentasjonkrav.veileder_trenger_mer"
                                                 values={{
-                                                    antallDokumenter: dokumentasjonkrav.reduce(
+                                                    antall: dokumentasjonkrav.reduce(
                                                         (count, dokumenter) =>
                                                             count + dokumenter.dokumentasjonkravElementer.length,
                                                         0
                                                     ),
+                                                    dokumenter:
+                                                        dokumentasjonkrav.reduce(
+                                                            (count, dokumenter) =>
+                                                                count + dokumenter.dokumentasjonkravElementer.length,
+                                                            0
+                                                        ) > 1
+                                                            ? "dokumenter"
+                                                            : "dokument",
                                                 }}
                                             />
                                         </Normaltekst>
