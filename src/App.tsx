@@ -31,17 +31,19 @@ const visSpraakNokler = (tekster: any) => {
     return tekster;
 };
 
-Sentry.init({
-    dsn: "https://be38195df549433ea37648dfbc4e074e@sentry.gc.nav.no/103",
-    integrations: [
-        new Integrations.BrowserTracing({
-            routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
-        }),
-    ],
+if (process.env.NODE_ENV === "production") {
+    Sentry.init({
+        dsn: "https://be38195df549433ea37648dfbc4e074e@sentry.gc.nav.no/103",
+        integrations: [
+            new Integrations.BrowserTracing({
+                routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+            }),
+        ],
 
-    environment: isProd(window.location.origin) ? "prod-sbs" : "development",
-    tracesSampleRate: 1.0,
-});
+        environment: isProd(window.location.origin) ? "prod-sbs" : "development",
+        tracesSampleRate: 1.0,
+    });
+}
 
 initAmplitude();
 
