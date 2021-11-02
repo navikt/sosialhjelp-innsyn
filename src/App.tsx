@@ -4,8 +4,7 @@ import configureStore, {history} from "./configureStore";
 import {Provider} from "react-redux";
 import {Route, Switch} from "react-router";
 import {IntlProvider} from "react-intl";
-import * as Sentry from "@sentry/browser";
-import {v4 as uuid} from "uuid";
+import * as Sentry from "@sentry/react";
 
 import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
@@ -15,10 +14,11 @@ import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
-import {isDevSbs, isProd} from "./utils/restUtils";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 import {initAmplitude} from "./utils/amplitude";
 import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
+import {Integrations} from "@sentry/tracing";
+import {isProd} from "./utils/restUtils";
 
 const store = configureStore();
 
@@ -31,13 +31,19 @@ const visSpraakNokler = (tekster: any) => {
     return tekster;
 };
 
-const origin = window.location.origin;
-if (isProd(origin)) {
-    Sentry.init({dsn: "https://400c64ba1df14250a6fa41eab8af5ca6@sentry.gc.nav.no/51"});
-} else if (isDevSbs(origin)) {
-    Sentry.init({dsn: "https://72e80fe5d64a4956a2861c3d7352e248@sentry.gc.nav.no/15"});
+if (process.env.NODE_ENV === "production") {
+    Sentry.init({
+        dsn: "https://be38195df549433ea37648dfbc4e074e@sentry.gc.nav.no/103",
+        integrations: [
+            new Integrations.BrowserTracing({
+                routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+            }),
+        ],
+
+        environment: isProd(window.location.origin) ? "prod-sbs" : "development",
+        tracesSampleRate: 1.0,
+    });
 }
-Sentry.setUser({ip_address: "", id: uuid()});
 
 initAmplitude();
 
@@ -52,6 +58,8 @@ if (process.env.NODE_ENV !== "production") {
     });
 }
 
+const SentryRoute = Sentry.withSentryRouting(Route);
+
 const App: React.FC = () => {
     const language = "nb";
     return (
@@ -61,13 +69,13 @@ const App: React.FC = () => {
                     <Tilgangskontrollside>
                         <ConnectedRouter history={history}>
                             <Switch>
-                                <Route exact path="/" component={Saksoversikt} />
-                                <Route path="/saksoversikt" component={SaksoversiktRouter} />
-                                <Route path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
-                                <Route exact path="/innsyn" component={Saksoversikt} />
-                                <Route exact path="/innsyn/" component={Saksoversikt} />
-                                <Route path="/innsyn/*" component={InnsynRouter} />
-                                <Route component={SideIkkeFunnet} />
+                                <SentryRoute exact path="/" component={Saksoversikt} />
+                                <SentryRoute path="/saksoversikt" component={SaksoversiktRouter} />
+                                <SentryRoute path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
+                                <SentryRoute exact path="/innsyn" component={Saksoversikt} />
+                                <SentryRoute exact path="/innsyn/" component={Saksoversikt} />
+                                <SentryRoute path="/innsyn/*" component={InnsynRouter} />
+                                <SentryRoute component={SideIkkeFunnet} />
                             </Switch>
                         </ConnectedRouter>
                     </Tilgangskontrollside>
