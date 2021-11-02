@@ -7,6 +7,9 @@ import SaksStatus from "./SaksStatus";
 import Linkside from "../components/linkside/Linkside";
 import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
 import Utbetalinger from "../utbetalinger/Utbetalinger";
+import * as Sentry from "@sentry/react";
+
+const SentryRoute = Sentry.withSentryRouting(Route);
 
 const InnsynRouter: React.FC = () => {
     // Utbetalingssiden trenger bredere spaltebredde enn de andre sidene
@@ -18,10 +21,10 @@ const InnsynRouter: React.FC = () => {
             <ConnectedRouter history={history}>
                 <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>
                     <Switch>
-                        <Route exact path="/innsyn/utbetaling" component={Utbetalinger} />
-                        <Route exact path="/innsyn/:soknadId/status" component={SaksStatus} />
-                        <Route exact path="/innsyn/link" component={Linkside} />
-                        <Route component={SideIkkeFunnet} />
+                        <SentryRoute exact path="/innsyn/utbetaling" component={Utbetalinger} />
+                        <SentryRoute exact path="/innsyn/:soknadId/status" component={SaksStatus} />
+                        <SentryRoute exact path="/innsyn/link" component={Linkside} />
+                        <SentryRoute component={SideIkkeFunnet} />
                     </Switch>
                 </div>
             </ConnectedRouter>
