@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {Alert} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -22,7 +23,6 @@ import Panel from "nav-frontend-paneler";
 import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
-import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
@@ -130,10 +130,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     return (
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
-                <AlertStripeAdvarsel className="luft_over_16px">
+                <Alert variant="warning" className="luft_over_16px">
                     <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
                     <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
-                </AlertStripeAdvarsel>
+                </Alert>
             )}
             <Brodsmulesti
                 foreldreside={{

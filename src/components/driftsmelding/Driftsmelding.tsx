@@ -1,5 +1,4 @@
 import * as React from "react";
-import AlertStripe from "nav-frontend-alertstriper";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -8,6 +7,7 @@ import {Driftsmelding, DriftsmeldingTypeKeys, getDriftsmeldingByKommuneResponse}
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Element from "nav-frontend-typografi/lib/element";
 import "./Driftsmelding.less";
+import {Alert} from "@navikt/ds-react";
 
 const DriftsmeldingAlertstripe: React.FC<{}> = () => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
@@ -29,26 +29,26 @@ const DriftsmeldingAlertstripe: React.FC<{}> = () => {
     switch (driftsmelding.type) {
         case DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT: {
             return (
-                <AlertStripe type="feil">
+                <Alert variant="error">
                     {tidspunkt}
                     <FormattedMessage id={driftsmelding.textKey} />
-                </AlertStripe>
+                </Alert>
             );
         }
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT: {
             return (
-                <AlertStripe type="feil">
+                <Alert variant="error">
                     {tidspunkt}
                     <FormattedMessage id={driftsmelding.textKey} />
-                </AlertStripe>
+                </Alert>
             );
         }
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT: {
             return (
-                <AlertStripe type="feil">
+                <Alert variant="error">
                     {tidspunkt}
                     <FormattedMessage id={driftsmelding.textKey} />
-                </AlertStripe>
+                </Alert>
             );
         }
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN: {

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Alert} from "@navikt/ds-react";
 import NavFrontendSpinner from "nav-frontend-spinner";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
@@ -10,7 +11,6 @@ import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
-import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
@@ -84,10 +84,10 @@ const Saksoversikt: React.FC = () => {
                 {!leserData && !mustLogin && (
                     <>
                         {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
-                            <AlertStripeAdvarsel className="luft_over_16px">
+                            <Alert variant="warning" className="luft_over_16px">
                                 <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
-                            </AlertStripeAdvarsel>
+                            </Alert>
                         )}
                         {innsynData.skalViseMeldingerLenke && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
