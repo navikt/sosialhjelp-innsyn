@@ -6,8 +6,12 @@ import {FormattedMessage} from "react-intl";
 import {Driftsmelding, DriftsmeldingTypeKeys, getDriftsmeldingByKommuneResponse} from "./DriftsmeldingUtilities";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Element from "nav-frontend-typografi/lib/element";
-import "./Driftsmelding.less";
 import {Alert} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledAlert = styled(Alert)`
+    margin-bottom: 1rem;
+`;
 
 const DriftsmeldingAlertstripe: React.FC<{}> = () => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
@@ -25,30 +29,29 @@ const DriftsmeldingAlertstripe: React.FC<{}> = () => {
             />
         </Element>
     );
-
     switch (driftsmelding.type) {
         case DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT: {
             return (
-                <Alert variant="error">
+                <StyledAlert variant="error">
                     {tidspunkt}
                     <FormattedMessage id={driftsmelding.textKey} />
-                </Alert>
+                </StyledAlert>
             );
         }
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT: {
             return (
-                <Alert variant="error">
+                <StyledAlert variant="error">
                     {tidspunkt}
                     <FormattedMessage id={driftsmelding.textKey} />
-                </Alert>
+                </StyledAlert>
             );
         }
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT: {
             return (
-                <Alert variant="error">
+                <StyledAlert variant="error">
                     {tidspunkt}
                     <FormattedMessage id={driftsmelding.textKey} />
-                </Alert>
+                </StyledAlert>
             );
         }
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN: {
