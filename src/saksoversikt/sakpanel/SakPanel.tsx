@@ -11,7 +11,6 @@ import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 import {EtikettLiten} from "../../components/etikett/EtikettLiten";
 import {Tag} from "@navikt/ds-react";
-import styled from "styled-components";
 
 interface Props {
     fiksDigisosId: string;
