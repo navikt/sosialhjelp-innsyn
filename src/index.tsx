@@ -1,4 +1,5 @@
 import "core-js";
+import "@navikt/ds-css";
 
 import React from "react";
 import ReactDOM from "react-dom";
