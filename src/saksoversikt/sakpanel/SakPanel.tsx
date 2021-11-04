@@ -11,7 +11,6 @@ import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 import {EtikettLiten} from "../../components/etikett/EtikettLiten";
 import {Tag} from "@navikt/ds-react";
-import styled from "styled-components";
 
 interface Props {
     fiksDigisosId: string;
@@ -24,14 +23,6 @@ interface Props {
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
 }
-
-const StyledTag = styled(Tag)`
-    margin: 0;
-    font-family: "Source Sans Pro", Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.375rem;
-    font-weight: 400;
-`;
 
 const SakPanel: React.FC<Props> = ({
     fiksDigisosId,
@@ -112,9 +103,9 @@ const SakPanel: React.FC<Props> = ({
                 </div>
                 <div className="sakpanel_innhold_etikett">
                     {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
-                        <StyledTag variant="warning">
+                        <Tag variant="warning">
                             <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />
-                        </StyledTag>
+                        </Tag>
                     )}
                 </div>
             </div>
