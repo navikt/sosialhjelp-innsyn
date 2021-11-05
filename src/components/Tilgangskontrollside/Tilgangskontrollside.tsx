@@ -9,9 +9,9 @@ import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
-import {logWarningMessage, logInfoMessage} from "../../redux/innsynsdata/loggActions";
-import NavFrontendSpinner from "nav-frontend-spinner";
+import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import BigBanner from "../banner/BigBanner";
+import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
 
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
@@ -51,9 +51,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
         return (
             <div className="informasjon-side">
                 <BigBanner tittel="Økonomisk sosialhjelp" />
-                <div className="application-spinner">
-                    <NavFrontendSpinner type="XL" />
-                </div>
+                <ApplicationSpinner />
             </div>
         );
     } else {

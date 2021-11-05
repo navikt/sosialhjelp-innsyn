@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Alert} from "@navikt/ds-react";
-import NavFrontendSpinner from "nav-frontend-spinner";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
@@ -15,6 +14,7 @@ import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
+import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
@@ -76,11 +76,7 @@ const Saksoversikt: React.FC = () => {
         <div className="informasjon-side">
             <BigBanner tittel="Økonomisk sosialhjelp" />
             <div className="blokk-center">
-                {(leserData || mustLogin) && (
-                    <div className="application-spinner">
-                        <NavFrontendSpinner type="XL" />
-                    </div>
-                )}
+                {(leserData || mustLogin) && <ApplicationSpinner />}
                 {!leserData && !mustLogin && (
                     <>
                         {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (

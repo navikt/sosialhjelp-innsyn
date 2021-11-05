@@ -23,10 +23,10 @@ import Panel from "nav-frontend-paneler";
 import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
-import NavFrontendSpinner from "nav-frontend-spinner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 
 interface Props {
     match: {
@@ -158,11 +158,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 </SoknadUtenInnsynHotjarTrigger>
             )}
 
-            {mustLogin && (
-                <div className="application-spinner">
-                    <NavFrontendSpinner type="XL" />
-                </div>
-            )}
+            {mustLogin && <ApplicationSpinner />}
 
             {!mustLogin && (
                 <>
