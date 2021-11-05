@@ -1,20 +1,26 @@
 import React from "react";
-import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
-import {Systemtittel, Normaltekst} from "nav-frontend-typografi";
 import Dialog from "../../components/ikoner/Dialog";
 import "./dineMeldinger.less";
+import {LinkPanel} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const FlexContainer = styled.div`
+    display: flex;
+    column-gap: 1rem;
+    align-items: center;
+`;
 
 const DineMeldingerPanel: React.FC = () => {
     return (
-        <LenkepanelBase href="/sosialhjelp/meldinger" className="dineMeldinger__panel">
-            <div className="dineMeldinger__innhold">
+        <LinkPanel href="/sosialhjelp/meldinger" border={false}>
+            <FlexContainer>
                 <Dialog />
                 <div>
-                    <Systemtittel>Dine meldinger</Systemtittel>
-                    <Normaltekst>Meldinger mellom deg og veilederen din</Normaltekst>
+                    <LinkPanel.Title>Dine meldinger</LinkPanel.Title>
+                    <LinkPanel.Description>Meldinger mellom deg og veilederen din</LinkPanel.Description>
                 </div>
-            </div>
-        </LenkepanelBase>
+            </FlexContainer>
+        </LinkPanel>
     );
 };
 
