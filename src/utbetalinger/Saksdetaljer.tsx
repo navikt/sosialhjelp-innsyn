@@ -16,7 +16,7 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
     });
 
     return (
-        <div className="utbetalinger__sakpanel">
+        <div>
             {sak && (
                 <SakPanel
                     fiksDigisosId={sak.fiksDigisosId}

@@ -13,9 +13,13 @@ const IconContainer = styled.div`
     width: 2rem;
 `;
 
+const StyledLinkPanel = styled(LinkPanel)`
+    margin-top: 1rem;
+`;
+
 const DineMeldingerPanel: React.FC = () => {
     return (
-        <LinkPanel href="/sosialhjelp/meldinger" border={false}>
+        <StyledLinkPanel href="/sosialhjelp/meldinger" border={false}>
             <FlexContainer>
                 <IconContainer>
                     <Dialog />
@@ -25,7 +29,7 @@ const DineMeldingerPanel: React.FC = () => {
                     <LinkPanel.Description>Meldinger mellom deg og veilederen din</LinkPanel.Description>
                 </div>
             </FlexContainer>
-        </LinkPanel>
+        </StyledLinkPanel>
     );
 };
 

@@ -1,8 +1,7 @@
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
-import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
-import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
+import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
-import {GuidePanel} from "@navikt/ds-react";
+import {GuidePanel, LinkPanel} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledGuidePanel = styled(GuidePanel)`
@@ -29,23 +28,20 @@ const SaksoversiktIngenSoknader: React.FC = () => {
             </StyledGuidePanel>
 
             <div className={"soknadsOversiktLenkePanel"}>
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"}>
+                <LinkPanel className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"} border={false}>
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">
-                            Les mer om økonomisk sosialhjelp
-                        </Undertittel>
+                        <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
                     </div>
-                </LenkepanelBase>
-                <LenkepanelBase
+                </LinkPanel>
+                <LinkPanel
                     className={"soknadsOversiktLenker"}
                     href={"https://www.nav.no/sosialhjelp/slik-soker-du"}
+                    border={false}
                 >
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">
-                            Søk om økonomisk sosialhjelp
-                        </Undertittel>
+                        <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
                     </div>
-                </LenkepanelBase>
+                </LinkPanel>
             </div>
         </div>
     );
