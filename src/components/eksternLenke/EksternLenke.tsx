@@ -9,7 +9,7 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 
 const EksternLenke: React.FC<Props> = ({children, href, target, onClick}) => {
     return (
-        <Link href={href} target={target} className="lenke_uten_ramme" onClick={onClick}>
+        <Link href={href} target={target} onClick={onClick}>
             {children}
             <ExternalLink className="ekstern_lenke" />
         </Link>
