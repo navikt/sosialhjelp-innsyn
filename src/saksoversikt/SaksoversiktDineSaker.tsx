@@ -15,6 +15,7 @@ import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {Button} from "@navikt/ds-react";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
@@ -95,9 +96,9 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
             <div className="dine_soknader_panel ">
                 <Systemtittel className="dine_soknader_panel_overskrift">Dine søknader</Systemtittel>
                 <div className="knapp_og_periode_container">
-                    <a href="/sosialhjelp/soknad/informasjon" className="knapp">
+                    <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
                         Ny søknad
-                    </a>
+                    </Button>
                     <div className="periodevelger_container">
                         <Select
                             onChange={(value: any) => velgPeriode(value)}

@@ -21,7 +21,6 @@ import {
     hasNotAddedFiles,
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
-import {Hovedknapp} from "nav-frontend-knapper";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
@@ -34,6 +33,7 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
+import {Button, Loader} from "@navikt/ds-react";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -246,10 +246,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     </SkjemaelementFeilmelding>
                 )}
                 {kanLasteOppVedlegg && (
-                    <Hovedknapp
+                    <Button
+                        variant="primary"
                         disabled={isUploading}
-                        spinner={isUploading}
-                        type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
                             logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
@@ -257,7 +256,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                    </Hovedknapp>
+                        {isUploading && <Loader />}
+                    </Button>
                 )}
             </div>
             {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
