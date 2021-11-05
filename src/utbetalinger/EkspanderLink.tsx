@@ -1,12 +1,12 @@
 import React from "react";
-import Lenke from "nav-frontend-lenker";
 import {NedChevron, OppChevron} from "nav-frontend-chevron";
+import {Link} from "@navikt/ds-react";
 
 const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}> = ({open, setOpen}) => {
     return (
         <span>
             {open && (
-                <Lenke
+                <Link
                     href="#"
                     onClick={(evt: any) => {
                         setOpen(false);
@@ -15,10 +15,10 @@ const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}>
                 >
                     Lukk
                     <OppChevron />
-                </Lenke>
+                </Link>
             )}
             {!open && (
-                <Lenke
+                <Link
                     href="#"
                     onClick={(evt: any) => {
                         setOpen(true);
@@ -27,7 +27,7 @@ const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}>
                 >
                     Mer informasjon
                     <NedChevron />
-                </Lenke>
+                </Link>
             )}
         </span>
     );

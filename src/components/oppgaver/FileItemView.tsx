@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
-import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
 import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
@@ -9,7 +8,7 @@ import {FormattedMessage} from "react-intl";
 import {Element} from "nav-frontend-typografi";
 import {REST_STATUS} from "../../utils/restUtils";
 import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
-import {Button} from "@navikt/ds-react";
+import {Button, Link} from "@navikt/ds-react";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -35,13 +34,13 @@ const FileItemView: React.FC<{
                     )}
 
                     <PaperClipSlanted className="filikon" />
-                    <Lenke
+                    <Link
                         href="#"
-                        className="filnavn lenke_uten_ramme"
+                        className="filnavn"
                         onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
                     >
                         {fil.filnavn}
-                    </Lenke>
+                    </Link>
                     <span className="filstorrelse">({storrelse})</span>
                 </div>
                 <div className="fjern_lenkeboks">

@@ -2,7 +2,7 @@ import React, {useState, MouseEvent} from "react";
 import {FormattedMessage} from "react-intl";
 import {Systemtittel, Undertittel} from "nav-frontend-typografi";
 import NavFrontendModal from "nav-frontend-modal";
-import Lenke from "nav-frontend-lenker";
+import {Link} from "@navikt/ds-react";
 
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
@@ -14,9 +14,9 @@ export const OpplastingAvVedleggModal = () => {
 
     return (
         <>
-            <Lenke href="#" onClick={handleOnClick} className="luft_over_10px luft_under_1rem lenke_uten_ramme">
+            <Link href="#" onClick={handleOnClick} className="luft_over_10px luft_under_1rem">
                 <FormattedMessage id="oppgaver.hjelp_last_opp" />
-            </Lenke>
+            </Link>
             <NavFrontendModal
                 isOpen={modalSynlig}
                 contentLabel="Avbryt"
