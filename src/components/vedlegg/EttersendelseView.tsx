@@ -7,7 +7,6 @@ import {
     KommuneResponse,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
-import {Hovedknapp} from "nav-frontend-knapper";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
@@ -29,6 +28,7 @@ import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {Button, Loader} from "@navikt/ds-react";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -189,10 +189,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                     </div>
 
-                    <Hovedknapp
+                    <Button
+                        variant="primary"
                         disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
-                        spinner={vedleggLastesOpp}
-                        type="hoved"
                         className="luft_over_1rem"
                         onClick={(event: any) => {
                             logButtonOrLinkClick("Ettersendelse: Send vedlegg");
@@ -213,7 +212,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         }}
                     >
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
-                    </Hovedknapp>
+                        {vedleggLastesOpp && <Loader />}
+                    </Button>
                 </div>
             )}
 
