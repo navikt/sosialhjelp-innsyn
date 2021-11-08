@@ -91,8 +91,6 @@ const Oppgaver = () => {
                 leserData={skalViseLastestripe(restStatus.oppgaver)}
             />
 
-            <OpplastingAvVedleggModal />
-
             {skalViseOppgaver && (
                 <Panel
                     className={
