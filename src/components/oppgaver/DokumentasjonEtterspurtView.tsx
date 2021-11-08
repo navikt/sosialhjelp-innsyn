@@ -22,7 +22,6 @@ import {
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {
     hentOppgaveMedId,
@@ -34,6 +33,7 @@ import {
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {Button, Loader} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -241,9 +241,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 })}
 
                 {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
-                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                    <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                         <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                    </SkjemaelementFeilmelding>
+                    </ErrorMessage>
                 )}
                 {kanLasteOppVedlegg && (
                     <Button
@@ -263,19 +263,19 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
                 dokumentasjonEtterspurt.oppgaveId
             ) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
 
             {overMaksStorrelse && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
             {(listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
                 opplastingFeilet) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={
                             listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId)
@@ -283,7 +283,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 : "vedlegg.opplasting_feilmelding"
                         }
                     />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
         </div>
     );

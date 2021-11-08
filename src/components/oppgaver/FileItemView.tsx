@@ -7,8 +7,8 @@ import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {Element} from "nav-frontend-typografi";
 import {REST_STATUS} from "../../utils/restUtils";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {Button, Link} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -55,9 +55,9 @@ const FileItemView: React.FC<{
             {fil.status !== REST_STATUS.INITIALISERT &&
                 fil.status !== REST_STATUS.PENDING &&
                 fil.status !== REST_STATUS.OK && (
-                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_rad">
+                    <ErrorMessage className="oppgaver_vedlegg_feilmelding_rad">
                         <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status} />
-                    </SkjemaelementFeilmelding>
+                    </ErrorMessage>
                 )}
         </div>
     );

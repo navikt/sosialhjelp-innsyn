@@ -21,7 +21,6 @@ import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
 import AddFileButton from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
@@ -29,6 +28,7 @@ import FileItemView from "../oppgaver/FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Button, Loader} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -218,29 +218,29 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             )}
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
 
             {overMaksStorrelse && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
 
             {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage
                         id={opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg"}
                     />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
         </>
     );

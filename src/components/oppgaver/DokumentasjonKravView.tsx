@@ -12,12 +12,12 @@ import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {hentDokumentasjonkravMedId, hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
 import {fileUploadFailedEvent} from "../../utils/amplitude";
 import {Button, Loader} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -275,9 +275,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )}
             </div>
             {errorMessage && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
         </div>
     );
