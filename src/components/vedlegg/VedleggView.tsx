@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Select} from "nav-frontend-skjema";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
@@ -12,7 +11,7 @@ import EttersendelseView from "./EttersendelseView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
 import {getVisningstekster} from "../../utils/vedleggUtils";
-import {Link} from "@navikt/ds-react";
+import {Link, Select} from "@navikt/ds-react";
 
 interface Props {
     vedlegg: Vedlegg[];
