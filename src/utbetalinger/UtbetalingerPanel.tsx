@@ -101,7 +101,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                     </>
                                                 )}
                                                 <EtikettLiten className="soknad__header">Søknaden din</EtikettLiten>
-                                                <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} />
+                                                <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} border />
                                             </UtbetalingEkspanderbart>
                                         </div>
                                     );

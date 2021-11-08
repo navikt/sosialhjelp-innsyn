@@ -4,14 +4,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: stretch;
-    }
-
-    .infopanel:nth-child(1) {
-        margin-right: 1rem;
-    }
-
-    .infopanel:nth-child(2) {
-        margin-right: 1rem;
+        gap: 1rem;
     }
 
     .infopanel {
@@ -20,24 +13,9 @@
         justify-content: space-between;
         flex: 1;
         flex-direction: column;
-        background-color: white;
 
-        .lenkepanel__indikator {
+        .navds-link-panel__chevron {
             align-self: center;
-        }
-
-        p {
-            display: block;
-            width: 100%;
-        }
-
-        .lenkepanel__heading {
-            margin-bottom: 0;
-        }
-
-        .lenkepanel__indikator {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
         }
     }
 }
@@ -47,6 +25,7 @@
         align-items: stretch;
         display: flex;
         flex-direction: column;
+        gap: 1rem;
     }
 
     .infopanel {
@@ -54,15 +33,5 @@
         flex-shrink: 0;
         max-width: none;
         min-height: auto;
-    }
-
-    .infopanel:nth-child(1) {
-        margin-right: 0;
-        margin-bottom: 1rem !important;
-    }
-
-    .infopanel:nth-child(2) {
-        margin-right: 0;
-        margin-bottom: 1rem !important;
     }
 }
