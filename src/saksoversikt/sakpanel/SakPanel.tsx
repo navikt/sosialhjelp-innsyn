@@ -28,6 +28,7 @@ interface Props {
     kilde: string;
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
+    border?: boolean;
 }
 
 const SakPanel: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const SakPanel: React.FC<Props> = ({
     kilde,
     antallNyeOppgaver,
     harBlittLastetInn,
+    border,
 }) => {
     const dispatch = useDispatch();
 
@@ -76,7 +78,7 @@ const SakPanel: React.FC<Props> = ({
     }, [dispatch, requestId, kilde]);
 
     return (
-        <StyledLinkPanel border={false} onClick={onClick} className="panel-glippe-over" href={hrefUrl}>
+        <StyledLinkPanel border={border} onClick={onClick} className="panel-glippe-over" href={hrefUrl}>
             <div className="sakpanel">
                 <div className="sakpanel_text">
                     <DocumentIcon className="document_icon" />
