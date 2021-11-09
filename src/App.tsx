@@ -4,7 +4,6 @@ import configureStore, {history} from "./configureStore";
 import {Provider} from "react-redux";
 import {Route, Switch} from "react-router";
 import {IntlProvider} from "react-intl";
-import "@navikt/ds-css";
 import * as Sentry from "@sentry/react";
 
 import {tekster} from "./tekster/tekster";
