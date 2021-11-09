@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert} from "@navikt/ds-react";
+import {Alert, LinkPanel} from "@navikt/ds-react";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,16 +13,13 @@ import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import Lenkepanel from "nav-frontend-lenkepanel";
 import styled from "styled-components";
 import {useCookies} from "react-cookie";
 import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 
-const StyledLenkepanel = styled(Lenkepanel)`
-    .lenkepanel__heading {
-        margin-bottom: 0px;
-    }
+const StyledLinkPanel = styled(LinkPanel)`
+    margin-top: 1rem;
 `;
 
 const KOMMUNENUMMER_I_UNDERSOKELSE = ["0301", "3411", "5001"];
@@ -108,14 +105,13 @@ const Saksoversikt: React.FC = () => {
                             !innsynData.skalViseMeldingerLenke &&
                             !cookies["sosialhjelp-meldinger-undersokelse"] &&
                             KOMMUNENUMMER_I_UNDERSOKELSE.includes(kommunenummer) && (
-                                <StyledLenkepanel
-                                    className="luft_over_16px"
+                                <StyledLinkPanel
                                     tittelProps={"element"}
                                     border={false}
                                     href="/sosialhjelp/innsyn/undersokelse"
                                 >
                                     Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
-                                </StyledLenkepanel>
+                                </StyledLinkPanel>
                             )}
                         {innsynData.skalViseMeldingerLenke && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
