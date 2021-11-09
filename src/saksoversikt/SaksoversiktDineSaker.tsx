@@ -5,7 +5,6 @@ import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
-import {Select} from "nav-frontend-skjema";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
@@ -15,7 +14,7 @@ import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {Button} from "@navikt/ds-react";
+import {Button, Select} from "@navikt/ds-react";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
