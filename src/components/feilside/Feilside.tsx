@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import "./Feilside.less";
 import {useSelector} from "react-redux";
 import Panel from "nav-frontend-paneler";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
+import {BodyShort, Heading} from "@navikt/ds-react";
 
 export interface FeilsideProps {
     children: React.ReactNode;
@@ -21,8 +21,10 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                 <div className="feilside blokk-center">
                     <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                     <Panel className="panel-uthevet panel-uthevet-luft-under">
-                        <Innholdstittel>Beklager. Tekniske problemer</Innholdstittel>
-                        <Normaltekst>Vennligst prøv igjen senere.</Normaltekst>
+                        <Heading level="1" size="xlarge" spacing>
+                            Beklager. Tekniske problemer
+                        </Heading>
+                        <BodyShort spacing>Vennligst prøv igjen senere.</BodyShort>
                     </Panel>
                 </div>
             </div>
