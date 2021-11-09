@@ -7,6 +7,7 @@ import SaksStatus from "./SaksStatus";
 import Linkside from "../components/linkside/Linkside";
 import SideIkkeFunnet from "../components/sideIkkeFunnet/SideIkkeFunnet";
 import Utbetalinger from "../utbetalinger/Utbetalinger";
+import Sporreundersokelse from "./sporreundersokelse/Sporreundersokelse";
 import * as Sentry from "@sentry/react";
 
 const SentryRoute = Sentry.withSentryRouting(Route);
@@ -24,6 +25,7 @@ const InnsynRouter: React.FC = () => {
                         <SentryRoute exact path="/innsyn/utbetaling" component={Utbetalinger} />
                         <SentryRoute exact path="/innsyn/:soknadId/status" component={SaksStatus} />
                         <SentryRoute exact path="/innsyn/link" component={Linkside} />
+                        <SentryRoute exact path="/innsyn/undersokelse" component={Sporreundersokelse} />
                         <SentryRoute component={SideIkkeFunnet} />
                     </Switch>
                 </div>
