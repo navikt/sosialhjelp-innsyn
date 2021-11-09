@@ -1,14 +1,15 @@
 import React, {useState} from "react";
-import {Normaltekst, Element} from "nav-frontend-typografi";
+import {Element, Normaltekst} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
+import {UnmountClosed} from "react-collapse";
+import {Button} from "@navikt/ds-react";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -86,27 +87,37 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     const [apen, setApen] = useState(false);
     const antallSkjulteElementer = hendelser.slice(MAX_ANTALL_KORT_LISTE).length;
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
+
+    const toggleOpen = () => {
+        if (!apen) {
+            setApen(true);
+        } else {
+            setApen(false);
+        }
+    };
+
     return (
-        <Lesmerpanel
-            className="lesMerPanel__historikk"
-            apneTekst={"Vis alle (" + antallSkjulteElementer + ") "}
-            defaultApen={apen}
-            onClose={() => setApen(false)}
-            onOpen={() => setApen(true)}
-            intro={
+        <>
+            {!apen && (
                 <HistorikkListe
                     hendelser={hendelser.slice(0, MAX_ANTALL_KORT_LISTE)}
                     className={"historikk " + historikkListeClassname}
                     leserData={false}
                 />
-            }
-        >
-            <HistorikkListe
-                hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
-                className="historikk"
-                leserData={false}
-            />
-        </Lesmerpanel>
+            )}
+            {apen && (
+                <UnmountClosed isOpened={apen}>
+                    <HistorikkListe
+                        hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
+                        className="historikk"
+                        leserData={false}
+                    />
+                </UnmountClosed>
+            )}
+            <Button as="a" variant="secondary" onClick={() => toggleOpen()}>
+                Vis alle ({antallSkjulteElementer})
+            </Button>
+        </>
     );
 };
 
