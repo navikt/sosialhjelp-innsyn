@@ -3,7 +3,6 @@ import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import {DokumentasjonEtterspurt, DokumentasjonKrav} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -19,6 +18,14 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {VilkarView} from "./VilkarView";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {Accordion} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledAccordion = styled(Accordion)`
+    .navds-accordion__header {
+        border-bottom: none;
+    }
+`;
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt === null) {
@@ -99,160 +106,164 @@ const Oppgaver = () => {
                     }
                 >
                     {brukerHarDokumentasjonEtterspurt && (
-                        <Ekspanderbartpanel
-                            apen={false}
-                            border={false}
-                            onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
-                            tittel={
-                                <div className="oppgaver_header">
-                                    <DokumentBinder />
-                                    <div>
-                                        <Element>
-                                            {dokumentasjonEtterspurtErFraInnsyn && (
-                                                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
-                                            )}
-                                            {!dokumentasjonEtterspurtErFraInnsyn && (
-                                                <FormattedMessage id="oppgaver.maa_sende_dok" />
-                                            )}
-                                        </Element>
-                                        <Normaltekst>
-                                            {dokumentasjonEtterspurtErFraInnsyn &&
-                                                antallDagerSidenFristBlePassert <= 0 && (
-                                                    <FormattedMessage
-                                                        id="oppgaver.neste_frist"
-                                                        values={{
-                                                            innsendelsesfrist:
-                                                                innsendelsesfrist != null
-                                                                    ? formatDato(innsendelsesfrist.toISOString())
-                                                                    : "",
-                                                        }}
-                                                    />
+                        <StyledAccordion>
+                            <Accordion.Item>
+                                <Accordion.Header
+                                    onClick={() =>
+                                        logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")
+                                    }
+                                >
+                                    <div className="oppgaver_header">
+                                        <DokumentBinder />
+                                        <div>
+                                            <Element>
+                                                {dokumentasjonEtterspurtErFraInnsyn && (
+                                                    <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
                                                 )}
-                                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
-                                                <FormattedMessage
-                                                    id="oppgaver.neste_frist_passert"
-                                                    values={{
-                                                        antall_dager: getAntallDagerTekst(
-                                                            antallDagerSidenFristBlePassert
-                                                        ),
-                                                        innsendelsesfrist:
-                                                            innsendelsesfrist != null
-                                                                ? formatDato(innsendelsesfrist!.toISOString())
-                                                                : "",
-                                                    }}
-                                                />
-                                            )}
-                                        </Normaltekst>
+                                                {!dokumentasjonEtterspurtErFraInnsyn && (
+                                                    <FormattedMessage id="oppgaver.maa_sende_dok" />
+                                                )}
+                                            </Element>
+                                            <Normaltekst>
+                                                {dokumentasjonEtterspurtErFraInnsyn &&
+                                                    antallDagerSidenFristBlePassert <= 0 && (
+                                                        <FormattedMessage
+                                                            id="oppgaver.neste_frist"
+                                                            values={{
+                                                                innsendelsesfrist:
+                                                                    innsendelsesfrist != null
+                                                                        ? formatDato(innsendelsesfrist.toISOString())
+                                                                        : "",
+                                                            }}
+                                                        />
+                                                    )}
+                                                {dokumentasjonEtterspurtErFraInnsyn &&
+                                                    antallDagerSidenFristBlePassert > 0 && (
+                                                        <FormattedMessage
+                                                            id="oppgaver.neste_frist_passert"
+                                                            values={{
+                                                                antall_dager: getAntallDagerTekst(
+                                                                    antallDagerSidenFristBlePassert
+                                                                ),
+                                                                innsendelsesfrist:
+                                                                    innsendelsesfrist != null
+                                                                        ? formatDato(innsendelsesfrist!.toISOString())
+                                                                        : "",
+                                                            }}
+                                                        />
+                                                    )}
+                                            </Normaltekst>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        >
-                            {dokumentasjonEtterspurtErFraInnsyn ? (
-                                <Normaltekst>
-                                    <FormattedMessage id="oppgaver.veileder_trenger_mer" />
-                                </Normaltekst>
-                            ) : (
-                                <Normaltekst>
-                                    <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
-                                </Normaltekst>
-                            )}
-
-                            <OpplastingAvVedleggModal />
-
-                            <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus.oppgaver)} />
-
-                            <div>
-                                {dokumentasjonEtterspurt !== null &&
-                                    dokumentasjonEtterspurt.map(
-                                        (dokumentasjon: DokumentasjonEtterspurt, index: number) => (
-                                            <DokumentasjonEtterspurtView
-                                                dokumentasjonEtterspurt={dokumentasjon}
-                                                key={index}
-                                                oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
-                                                oppgaveIndex={index}
-                                            />
-                                        )
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    {dokumentasjonEtterspurtErFraInnsyn ? (
+                                        <Normaltekst>
+                                            <FormattedMessage id="oppgaver.veileder_trenger_mer" />
+                                        </Normaltekst>
+                                    ) : (
+                                        <Normaltekst>
+                                            <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
+                                        </Normaltekst>
                                     )}
-                            </div>
-                        </Ekspanderbartpanel>
+
+                                    <OpplastingAvVedleggModal />
+
+                                    <DriftsmeldingVedlegg leserData={skalViseLastestripe(restStatus.oppgaver)} />
+
+                                    <div>
+                                        {dokumentasjonEtterspurt !== null &&
+                                            dokumentasjonEtterspurt.map(
+                                                (dokumentasjon: DokumentasjonEtterspurt, index: number) => (
+                                                    <DokumentasjonEtterspurtView
+                                                        dokumentasjonEtterspurt={dokumentasjon}
+                                                        key={index}
+                                                        oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
+                                                        oppgaveIndex={index}
+                                                    />
+                                                )
+                                            )}
+                                    </div>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                        </StyledAccordion>
                     )}
 
                     {vilkar && vilkar.length > 0 && (
-                        <Ekspanderbartpanel
-                            apen={false}
-                            border={false}
-                            onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}
-                            tittel={
-                                <div className="oppgaver_header">
-                                    <DokumentBinder />
-                                    <div>
-                                        <Element>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Element>
-                                        <Normaltekst>
-                                            <FormattedMessage
-                                                id="vilkar.veileder_trenger_mer"
-                                                values={{
-                                                    antallVilkar: vilkar.length,
-                                                }}
-                                            />
-                                        </Normaltekst>
+                        <StyledAccordion>
+                            <Accordion.Item>
+                                <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
+                                    <div className="oppgaver_header">
+                                        <DokumentBinder />
+                                        <div>
+                                            <Element>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Element>
+                                            <Normaltekst>
+                                                <FormattedMessage
+                                                    id="vilkar.veileder_trenger_mer"
+                                                    values={{
+                                                        antallVilkar: vilkar.length,
+                                                    }}
+                                                />
+                                            </Normaltekst>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        >
-                            <div>
-                                {vilkar.map((vilkarElement, index) => (
-                                    <VilkarView key={index} vilkar={vilkarElement} />
-                                ))}
-                            </div>
-                        </Ekspanderbartpanel>
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    {vilkar.map((vilkarElement, index) => (
+                                        <VilkarView key={index} vilkar={vilkarElement} />
+                                    ))}
+                                </Accordion.Content>
+                            </Accordion.Item>
+                        </StyledAccordion>
                     )}
 
                     {dokumentasjonkrav && dokumentasjonkrav.length > 0 && (
-                        <Ekspanderbartpanel
-                            apen={false}
-                            border={false}
-                            onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}
-                            tittel={
-                                <div className="oppgaver_header">
-                                    <DokumentBinder />
-                                    <div>
-                                        <Element>
-                                            <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
-                                        </Element>
-                                        <Normaltekst>
-                                            <FormattedMessage
-                                                id="dokumentasjonkrav.veileder_trenger_mer"
-                                                values={{
-                                                    antall: dokumentasjonkrav.reduce(
-                                                        (count, dokumenter) =>
-                                                            count + dokumenter.dokumentasjonkravElementer.length,
-                                                        0
-                                                    ),
-                                                    dokumenter:
-                                                        dokumentasjonkrav.reduce(
+                        <StyledAccordion>
+                            <Accordion.Item>
+                                <Accordion.Header
+                                    onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}
+                                >
+                                    <div className="oppgaver_header">
+                                        <DokumentBinder />
+                                        <div>
+                                            <Element>
+                                                <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
+                                            </Element>
+                                            <Normaltekst>
+                                                <FormattedMessage
+                                                    id="dokumentasjonkrav.veileder_trenger_mer"
+                                                    values={{
+                                                        antall: dokumentasjonkrav.reduce(
                                                             (count, dokumenter) =>
                                                                 count + dokumenter.dokumentasjonkravElementer.length,
                                                             0
-                                                        ) > 1
-                                                            ? "dokumenter"
-                                                            : "dokument",
-                                                }}
-                                            />
-                                        </Normaltekst>
+                                                        ),
+                                                        dokumenter:
+                                                            dokumentasjonkrav.reduce(
+                                                                (count, dokumenter) =>
+                                                                    count +
+                                                                    dokumenter.dokumentasjonkravElementer.length,
+                                                                0
+                                                            ) > 1
+                                                                ? "dokumenter"
+                                                                : "dokument",
+                                                    }}
+                                                />
+                                            </Normaltekst>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        >
-                            <div>
-                                {dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
-                                    <DokumentasjonKravView
-                                        dokumentasjonkrav={krav}
-                                        key={index}
-                                        dokumentasjonkravIndex={index}
-                                    />
-                                ))}
-                            </div>
-                        </Ekspanderbartpanel>
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    {dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
+                                        <DokumentasjonKravView
+                                            dokumentasjonkrav={krav}
+                                            key={index}
+                                            dokumentasjonkravIndex={index}
+                                        />
+                                    ))}
+                                </Accordion.Content>
+                            </Accordion.Item>
+                        </StyledAccordion>
                     )}
                 </Panel>
             )}

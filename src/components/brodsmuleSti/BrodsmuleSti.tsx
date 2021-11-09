@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./brodsmuleSti.less";
-import NavFrontendChevron from "nav-frontend-chevron";
+import {Back, Next} from "@navikt/ds-icons";
 import useWindowSize from "../../utils/useWindowSize";
 import {getDittNavUrl} from "../../utils/restUtils";
 import {Link} from "@navikt/ds-react";
@@ -52,7 +52,7 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
             {foreldreside && (
                 <>
                     <div key="chevron" aria-hidden={true}>
-                        <NavFrontendChevron type="høyre" />
+                        <Next />
                     </div>
                     <Link href={foreldresideUrl} title={foreldreside.tittel} className="breadcrumbs__parent">
                         {foreldreside.tittel}
@@ -61,7 +61,7 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
             )}
 
             <div key="chevron" aria-hidden={true}>
-                <NavFrontendChevron type="høyre" />
+                <Next />
             </div>
             <div aria-current="page" key="currentPage" className="typo-normal breadcrumbs__item breadcrumbs__current">
                 {tittel}
@@ -77,7 +77,7 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
         crumbs = (
             <>
                 <div key="chevron" aria-hidden={true}>
-                    <NavFrontendChevron type="venstre" />
+                    <Back />
                 </div>
                 <p className="typo-normal breadcrumbs__item">
                     <Link href={tilbakePilUrl} title="Gå til forrige side">
