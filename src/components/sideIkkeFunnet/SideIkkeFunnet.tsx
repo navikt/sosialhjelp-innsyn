@@ -16,7 +16,7 @@ const SideIkkeFunnet: React.FC<{}> = () => {
 
             <ul>
                 <li>
-                    <Link href="http://www.nav.no">Gå til forsiden nav.no</Link>
+                    <Link href="https://www.nav.no">Gå til forsiden nav.no</Link>
                 </li>
                 <li>
                     <Link href="https://www.nav.no/no/Ditt+NAV">Gå til Ditt NAV</Link>
