@@ -13,10 +13,9 @@ import {antallDagerEtterFrist} from "./Oppgaver";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {hentDokumentasjonkravMedId, hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
 import {fileUploadFailedEvent} from "../../utils/amplitude";
-import {Button, Loader} from "@navikt/ds-react";
+import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 
 interface Props {
@@ -226,22 +225,21 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 }
             >
                 {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert <= 0 && (
-                    <Normaltekst className="luft_under_8px">
+                    <BodyShort spacing>
                         <FormattedMessage
                             id="oppgaver.innsendelsesfrist"
                             values={{innsendelsesfrist: formatDato(dokumentasjonkrav.frist!)}}
                         />
-                    </Normaltekst>
+                    </BodyShort>
                 )}
                 {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert > 0 && (
-                    <Normaltekst className="luft_under_8px">
+                    <BodyShort spacing>
                         <FormattedMessage
                             id="oppgaver.innsendelsesfrist_passert"
                             values={{innsendelsesfrist: formatDato(dokumentasjonkrav.frist!)}}
                         />
-                    </Normaltekst>
+                    </BodyShort>
                 )}
-
                 {dokumentasjonkrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                         return (

@@ -1,7 +1,7 @@
 import * as React from "react";
 import UtropstegnSirkelGraIkon from "./UtropstegnSirkelGraIkon";
-import {Innholdstittel} from "nav-frontend-typografi";
 import "./SideIkkeFunnet.less";
+import {BodyShort, Heading, Link} from "@navikt/ds-react";
 
 const SideIkkeFunnet: React.FC<{}> = () => {
     return (
@@ -9,27 +9,22 @@ const SideIkkeFunnet: React.FC<{}> = () => {
             <div className="sideIkkeFunnet__ikon">
                 <UtropstegnSirkelGraIkon />
             </div>
-            <Innholdstittel className="sideIkkeFunnet__tittel">OOPS, NOE GIKK GALT</Innholdstittel>
-            <div className="sideIkkeFunnet__innhold">Vi fant ikke siden du prøvde å åpne</div>
+            <Heading level="1" size="xlarge" spacing>
+                OOPS, NOE GIKK GALT
+            </Heading>
+            <BodyShort spacing>Vi fant ikke siden du prøvde å åpne</BodyShort>
 
-            <ul className="sideIkkeFunnet__link-liste">
-                <li className="sideIkkeFunnet__link">
-                    <a href="http://www.nav.no" className="lenke">
-                        Gå til forsiden nav.no
-                    </a>
+            <ul>
+                <li>
+                    <Link href="http://www.nav.no">Gå til forsiden nav.no</Link>
                 </li>
-                <li className="sideIkkeFunnet__link">
-                    <a href="https://www.nav.no/no/Ditt+NAV" className="lenke">
-                        Gå til Ditt NAV
-                    </a>
+                <li>
+                    <Link href="https://www.nav.no/no/Ditt+NAV">Gå til Ditt NAV</Link>
                 </li>
-                <li className="sideIkkeFunnet__link">
-                    <a
-                        href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Klage+ris+og+ros/Feil+og+mangler+paa+navno"
-                        className="lenke"
-                    >
+                <li>
+                    <Link href="https://www.nav.no/person/kontakt-oss/nb/tilbakemeldinger/feil-og-mangler">
                         Meld fra om feil
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </div>

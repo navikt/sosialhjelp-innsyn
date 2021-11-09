@@ -1,7 +1,6 @@
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
-import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
-import {GuidePanel, LinkPanel} from "@navikt/ds-react";
+import {BodyShort, GuidePanel, Heading, LinkPanel} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledGuidePanel = styled(GuidePanel)`
@@ -18,12 +17,12 @@ const SaksoversiktIngenSoknader: React.FC = () => {
                 illustration={<IngenSoknaderFunnet />}
             >
                 <>
-                    <Systemtittel className="ingenSoknaderFunnetText">
+                    <Heading level="2" size="medium" spacing className="ingenSoknaderFunnetText">
                         Vi finner ingen digital søknad fra deg
-                    </Systemtittel>
-                    <Normaltekst className="ingenSoknaderFunnetText">
+                    </Heading>
+                    <BodyShort spacing className="ingenSoknaderFunnetText">
                         Vi kan dessverre ikke vise søknader som er sendt på papir.
-                    </Normaltekst>
+                    </BodyShort>
                 </>
             </StyledGuidePanel>
 

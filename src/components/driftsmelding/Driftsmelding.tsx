@@ -5,8 +5,7 @@ import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import {Driftsmelding, DriftsmeldingTypeKeys, getDriftsmeldingByKommuneResponse} from "./DriftsmeldingUtilities";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import Element from "nav-frontend-typografi/lib/element";
-import {Alert} from "@navikt/ds-react";
+import {Alert, Label} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledAlert = styled(Alert)`
@@ -20,14 +19,14 @@ const DriftsmeldingAlertstripe: React.FC<{}> = () => {
 
     const driftsmelding: Driftsmelding = getDriftsmeldingByKommuneResponse(kommuneResponse);
     const tidspunkt = (
-        <Element>
+        <Label>
             <DatoOgKlokkeslett
                 bareDato={false}
                 tidspunkt={
                     kommuneResponse ? (kommuneResponse.tidspunkt ? kommuneResponse.tidspunkt.toString() : "") : ""
                 }
             />
-        </Element>
+        </Label>
     );
     switch (driftsmelding.type) {
         case DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT: {

@@ -32,8 +32,6 @@
     "nav-frontend-lesmerpanel-style": "^2.0.1",
     "nav-frontend-paneler": "^3.0.1",
     "nav-frontend-paneler-style": "^2.0.1",
-    "nav-frontend-typografi": "^4.0.1",
-    "nav-frontend-typografi-style": "^2.0.1",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.2",
     "prop-types": "^15.7.2",

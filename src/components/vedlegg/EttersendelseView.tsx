@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import {
     Fil,
     InnsynsdataActionTypeKeys,
@@ -27,7 +26,7 @@ import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Button, Loader} from "@navikt/ds-react";
+import {BodyShort, Button, Label, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 
 /*
@@ -165,12 +164,12 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         }
                         style={{marginTop: "0px"}}
                     >
-                        <Element>
+                        <Label>
                             <FormattedMessage id="andre_vedlegg.type" />
-                        </Element>
-                        <Normaltekst className="luft_over_4px">
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                        </Normaltekst>
+                        </BodyShort>
 
                         {kanLasteOppVedlegg && (
                             <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />

@@ -6,7 +6,7 @@ import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "./DriftsmeldingUtilities";
-import {Normaltekst} from "nav-frontend-typografi";
+import {Label} from "@navikt/ds-react";
 
 interface Props {
     leserData: undefined | boolean;
@@ -24,9 +24,9 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
                 <div className={"driftsmelding-vedlegg-symbol-wrapper"}>
                     <RemoveCircle />
                 </div>
-                <Normaltekst className={"driftsmelding-vedlegg-text-wrapper"}>
+                <Label>
                     <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
-                </Normaltekst>
+                </Label>
             </div>
         );
     }
