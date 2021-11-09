@@ -1,16 +1,16 @@
 import React from "react";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {FormattedMessage} from "react-intl";
+import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
 
 const ErrorMessage = (props: {feilId: string}) => {
     return (
-        <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding">
+        <ErrorMessageLabel className="oppgaver_vedlegg_feilmelding">
             <li>
                 <span className="oppgaver_vedlegg_feilmelding_bullet_point">
                     <FormattedMessage id={props.feilId} />
                 </span>
             </li>
-        </SkjemaelementFeilmelding>
+        </ErrorMessageLabel>
     );
 };
 

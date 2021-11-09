@@ -16,13 +16,12 @@ const OppgaveInformasjon: React.FC = () => {
     );
     const skalViseVilkarView = getSkalViseVilkarView(innsynSaksStatusListe);
 
-    if (skalViseVilkarView) {
+    if (!skalViseVilkarView) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
                 underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
                 ikon={PanelIkon.CHECKLIST}
-                defaultAapen={false}
             >
                 <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
                     <div className={"vilkar-bolk-symbol-wrapper svg-width-addition"}>

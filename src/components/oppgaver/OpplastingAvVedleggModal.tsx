@@ -1,8 +1,13 @@
 import React, {useState, MouseEvent} from "react";
 import {FormattedMessage} from "react-intl";
 import {Systemtittel, Undertittel} from "nav-frontend-typografi";
-import NavFrontendModal from "nav-frontend-modal";
-import Lenke from "nav-frontend-lenker";
+import {Link, Modal} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledModal = styled(Modal)`
+    max-width: 600px;
+    padding: 3rem 2rem;
+`;
 
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
@@ -14,23 +19,16 @@ export const OpplastingAvVedleggModal = () => {
 
     return (
         <>
-            <Lenke href="#" onClick={handleOnClick} className="luft_over_10px luft_under_1rem lenke_uten_ramme">
+            <Link href="#" onClick={handleOnClick} className="luft_over_10px luft_under_1rem">
                 <FormattedMessage id="oppgaver.hjelp_last_opp" />
-            </Lenke>
-            <NavFrontendModal
-                isOpen={modalSynlig}
-                contentLabel="Avbryt"
-                closeButton={true}
-                onRequestClose={() => {
+            </Link>
+            <StyledModal
+                open={modalSynlig}
+                onClose={() => {
                     setModalSynlig(false);
                 }}
-                style={{
-                    content: {
-                        overflowY: "auto",
-                    },
-                }}
             >
-                <div className="modal-innhold">
+                <Modal.Content>
                     <Systemtittel>
                         <FormattedMessage id="oppgaver.informasjon.modal.overskrift" />
                     </Systemtittel>
@@ -79,8 +77,8 @@ export const OpplastingAvVedleggModal = () => {
                             <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste3" />
                         </li>
                     </ul>
-                </div>
-            </NavFrontendModal>
+                </Modal.Content>
+            </StyledModal>
         </>
     );
 };

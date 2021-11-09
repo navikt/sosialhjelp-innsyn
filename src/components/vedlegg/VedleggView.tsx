@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import Lenke from "nav-frontend-lenker";
-import {Select} from "nav-frontend-skjema";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
@@ -13,6 +11,7 @@ import EttersendelseView from "./EttersendelseView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
 import {getVisningstekster} from "../../utils/vedleggUtils";
+import {Link, Select} from "@navikt/ds-react";
 
 interface Props {
     vedlegg: Vedlegg[];
@@ -157,26 +156,26 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                 aria-sort={ariaSort(Kolonne.FILNAVN)}
                                 className={classNameAriaSort(Kolonne.FILNAVN)}
                             >
-                                <Lenke
+                                <Link
                                     href="#"
                                     onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
                                 >
                                     <span className="ikon_liten_vedlegg_placeholder_alle">Filnavn</span>
-                                </Lenke>
+                                </Link>
                             </th>
                             <th
                                 role="columnheader"
                                 aria-sort={ariaSort(Kolonne.BESKRIVELSE)}
                                 className={classNameAriaSort(Kolonne.BESKRIVELSE)}
                             >
-                                <Lenke
+                                <Link
                                     href="#"
                                     onClick={(event) =>
                                         setSort(Kolonne.BESKRIVELSE, !descending[Kolonne.BESKRIVELSE], event)
                                     }
                                 >
                                     Beskrivelse
-                                </Lenke>
+                                </Link>
                             </th>
                             <th
                                 role="columnheader"
@@ -184,12 +183,12 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                 className={classNameAriaSort(Kolonne.DATO)}
                                 align="right"
                             >
-                                <Lenke
+                                <Link
                                     href="#"
                                     onClick={(event) => setSort(Kolonne.DATO, !descending[Kolonne.DATO], event)}
                                 >
                                     Dato lagt til
-                                </Lenke>
+                                </Link>
                             </th>
                         </tr>
                     </thead>
@@ -218,7 +217,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                 }
                                             >
                                                 <PaperClipSlanted className="ikon_liten_vedlegg" />
-                                                <Lenke
+                                                <Link
                                                     href={vedlegg.url}
                                                     target="_blank"
                                                     title={
@@ -226,7 +225,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                     }
                                                 >
                                                     {vedlegg.filnavn}
-                                                </Lenke>
+                                                </Link>
                                             </td>
                                             <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
                                                 <span className="ikon_liten_vedlegg_placeholder">

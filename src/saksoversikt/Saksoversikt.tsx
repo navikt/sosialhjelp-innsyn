@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import NavFrontendSpinner from "nav-frontend-spinner";
+import {Alert} from "@navikt/ds-react";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,7 +10,6 @@ import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
-import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
@@ -18,6 +17,7 @@ import Lenkepanel from "nav-frontend-lenkepanel";
 import styled from "styled-components";
 import {useCookies} from "react-cookie";
 import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
+import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 
 const StyledLenkepanel = styled(Lenkepanel)`
     .lenkepanel__heading {
@@ -95,18 +95,14 @@ const Saksoversikt: React.FC = () => {
         <div className="informasjon-side">
             <BigBanner tittel="Økonomisk sosialhjelp" />
             <div className="blokk-center">
-                {(leserData || mustLogin) && (
-                    <div className="application-spinner">
-                        <NavFrontendSpinner type="XL" />
-                    </div>
-                )}
+                {(leserData || mustLogin) && <ApplicationSpinner />}
                 {!leserData && !mustLogin && (
                     <>
                         {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
-                            <AlertStripeAdvarsel className="luft_over_16px">
+                            <Alert variant="warning" className="luft_over_16px">
                                 <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
                                 <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
-                            </AlertStripeAdvarsel>
+                            </Alert>
                         )}
                         {kommunenummer.length > 0 &&
                             !innsynData.skalViseMeldingerLenke &&

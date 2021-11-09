@@ -1,7 +1,5 @@
 import React, {useEffect} from "react";
 import {Element} from "nav-frontend-typografi";
-import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
-import {EtikettFokus} from "nav-frontend-etiketter";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import DocumentIcon from "../../components/ikoner/DocumentIcon";
 import "./sakpanel.less";
@@ -11,6 +9,14 @@ import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 import {EtikettLiten} from "../../components/etikett/EtikettLiten";
+import {LinkPanel, Tag} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledLinkPanel = styled(LinkPanel)`
+    .navds-link-panel__content {
+        width: 100%;
+    }
+`;
 
 interface Props {
     fiksDigisosId: string;
@@ -22,6 +28,7 @@ interface Props {
     kilde: string;
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
+    border?: boolean;
 }
 
 const SakPanel: React.FC<Props> = ({
@@ -33,6 +40,7 @@ const SakPanel: React.FC<Props> = ({
     kilde,
     antallNyeOppgaver,
     harBlittLastetInn,
+    border,
 }) => {
     const dispatch = useDispatch();
 
@@ -70,7 +78,7 @@ const SakPanel: React.FC<Props> = ({
     }, [dispatch, requestId, kilde]);
 
     return (
-        <LenkepanelBase onClick={onClick} className="panel-glippe-over sakspanel_lenkepanel_liste" href={hrefUrl}>
+        <StyledLinkPanel border={border} onClick={onClick} className="panel-glippe-over" href={hrefUrl}>
             <div className="sakpanel">
                 <div className="sakpanel_text">
                     <DocumentIcon className="document_icon" />
@@ -98,18 +106,18 @@ const SakPanel: React.FC<Props> = ({
                             )}
                         </div>
                         {underLasting && <Lastestriper linjer={1} />}
-                        {!underLasting && <Element className="lenkepanel__heading">{tittel}</Element>}
+                        {!underLasting && <Element className="">{tittel}</Element>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">
                     {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
-                        <EtikettFokus>
+                        <Tag variant="warning">
                             <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />
-                        </EtikettFokus>
+                        </Tag>
                     )}
                 </div>
             </div>
-        </LenkepanelBase>
+        </StyledLinkPanel>
     );
 };
 

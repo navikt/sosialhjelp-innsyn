@@ -5,6 +5,9 @@ import {Route, Switch} from "react-router";
 import SaksoversiktTestMeny from "./SaksoversiktTestMeny";
 import Saksoversikt from "./Saksoversikt";
 import SaksoversiktBanner from "./banner/SaksoversiktBanner";
+import * as Sentry from "@sentry/react";
+
+const SentryRoute = Sentry.withSentryRouting(Route);
 
 const SaksoversiktRouter: React.FC<{}> = () => {
     return (
@@ -13,8 +16,8 @@ const SaksoversiktRouter: React.FC<{}> = () => {
             <div className="blokk-center">
                 <ConnectedRouter history={history}>
                     <Switch>
-                        <Route exact path="/" component={Saksoversikt} />
-                        <Route exact path="/saksoversikt/" component={SaksoversiktTestMeny} />
+                        <SentryRoute exact path="/" component={Saksoversikt} />
+                        <SentryRoute exact path="/saksoversikt/" component={SaksoversiktTestMeny} />
                     </Switch>
                 </ConnectedRouter>
             </div>

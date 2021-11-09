@@ -1,15 +1,14 @@
 import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
-import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
 import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
-import {Flatknapp} from "nav-frontend-knapper";
 import {Element} from "nav-frontend-typografi";
 import {REST_STATUS} from "../../utils/restUtils";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
+import {Button, Link} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -35,30 +34,30 @@ const FileItemView: React.FC<{
                     )}
 
                     <PaperClipSlanted className="filikon" />
-                    <Lenke
+                    <Link
                         href="#"
-                        className="filnavn lenke_uten_ramme"
+                        className="filnavn"
                         onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
                     >
                         {fil.filnavn}
-                    </Lenke>
+                    </Link>
                     <span className="filstorrelse">({storrelse})</span>
                 </div>
                 <div className="fjern_lenkeboks">
-                    <Flatknapp mini onClick={(event) => onDelete(event, fil)}>
+                    <Button variant="tertiary" size="small" onClick={(event) => onDelete(event, fil)}>
                         <Element>
                             <FormattedMessage id="vedlegg.fjern" />
                         </Element>
                         <TrashBin className="klikkbar_soppelboette" />
-                    </Flatknapp>
+                    </Button>
                 </div>
             </div>
             {fil.status !== REST_STATUS.INITIALISERT &&
                 fil.status !== REST_STATUS.PENDING &&
                 fil.status !== REST_STATUS.OK && (
-                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_rad">
+                    <ErrorMessage className="oppgaver_vedlegg_feilmelding_rad">
                         <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status} />
-                    </SkjemaelementFeilmelding>
+                    </ErrorMessage>
                 )}
         </div>
     );

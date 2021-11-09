@@ -8,7 +8,6 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
-import {AlertStripeInfo} from "nav-frontend-alertstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentOk from "../ikoner/DokumentOk";
@@ -16,6 +15,7 @@ import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {Alert} from "@navikt/ds-react";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -63,17 +63,17 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
                 <div className="status_detalj_panel_info_alert_luft_under">
-                    <AlertStripeInfo>
+                    <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </AlertStripeInfo>
+                    </Alert>
                 </div>
             )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
                 <div className="status_detalj_panel_info_alert">
-                    <AlertStripeInfo>
+                    <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </AlertStripeInfo>
+                    </Alert>
                 </div>
             )}
 

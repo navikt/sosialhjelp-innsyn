@@ -1,8 +1,8 @@
 import React, {ChangeEvent} from "react";
-import {Flatknapp} from "nav-frontend-knapper";
 import UploadFileIcon from "../ikoner/UploadFile";
 import {Element} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
+import {Button} from "@navikt/ds-react";
 
 const AddFileButton: React.FC<{
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
@@ -19,8 +19,9 @@ const AddFileButton: React.FC<{
 
     return (
         <div className="oppgaver_last_opp_fil">
-            <Flatknapp
-                mini
+            <Button
+                variant="tertiary"
+                size="small"
                 id={"oppgave_" + id + "_last_opp_fil_knapp"}
                 onClick={(event) => {
                     onClick(event);
@@ -30,7 +31,7 @@ const AddFileButton: React.FC<{
                 <Element>
                     <FormattedMessage id="vedlegg.velg_fil" />
                 </Element>
-            </Flatknapp>
+            </Button>
             <input
                 type="file"
                 id={"file_" + id}

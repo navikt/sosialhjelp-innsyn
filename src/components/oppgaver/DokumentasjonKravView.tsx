@@ -10,14 +10,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
-import {Hovedknapp} from "nav-frontend-knapper";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
 import {hentDokumentasjonkravMedId, hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
 import {Normaltekst} from "nav-frontend-typografi";
 import {formatDato} from "../../utils/formatting";
 import {fileUploadFailedEvent} from "../../utils/amplitude";
+import {Button, Loader} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -261,23 +261,23 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     }
                 )}
                 {kanLasteOppVedlegg && (
-                    <Hovedknapp
+                    <Button
+                        variant="primary"
                         disabled={isUploading}
-                        spinner={isUploading}
-                        type="hoved"
                         className="luft_over_1rem"
                         onClick={(event) => {
                             onSendClicked(event);
                         }}
                     >
                         <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                    </Hovedknapp>
+                        {isUploading && <Loader />}
+                    </Button>
                 )}
             </div>
             {errorMessage && (
-                <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
-                </SkjemaelementFeilmelding>
+                </ErrorMessage>
             )}
         </div>
     );

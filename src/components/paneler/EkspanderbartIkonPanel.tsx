@@ -1,9 +1,16 @@
 import React from "react";
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import Panel from "nav-frontend-paneler";
 import DocumentChecklist from "../ikoner/DocumentChecklist";
 import {Element, Normaltekst} from "nav-frontend-typografi";
 import DokumentBinder from "../ikoner/DocumentBinder";
+import {Accordion} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledAccordion = styled(Accordion)`
+    .navds-accordion__header {
+        border-bottom: none;
+    }
+`;
 
 enum PanelIkon {
     BINDERS,
@@ -15,10 +22,9 @@ interface Props {
     underTittel: string | React.ReactNode;
     ikon: PanelIkon;
     children: React.ReactNode;
-    defaultAapen?: boolean;
 }
 
-const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, children, defaultAapen}) => {
+const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, children}) => {
     const heading = (
         <div className={"oppgaver_header"}>
             {ikon === PanelIkon.CHECKLIST && <DocumentChecklist />}
@@ -32,14 +38,14 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, chi
 
     return (
         <Panel className={"panel-glippe-over vilkar_panel"}>
-            <Ekspanderbartpanel
-                apen={defaultAapen}
-                tittel={heading}
-                border={false}
-                className={"react-collapse-animation"}
-            >
-                <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>{children}</Panel>
-            </Ekspanderbartpanel>
+            <StyledAccordion className={"react-collapse-animation"}>
+                <Accordion.Item>
+                    <Accordion.Header>{heading}</Accordion.Header>
+                    <Accordion.Content>
+                        <Panel className={"vilkar-ekspanderbart-panel-innhold-wrapper"}>{children}</Panel>
+                    </Accordion.Content>
+                </Accordion.Item>
+            </StyledAccordion>
         </Panel>
     );
 };

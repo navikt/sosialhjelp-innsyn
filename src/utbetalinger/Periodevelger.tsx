@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Checkbox, Radio} from "nav-frontend-skjema";
+import {CheckboxGroup, Checkbox, RadioGroup, Radio} from "@navikt/ds-react";
 
 interface Props {
     className?: string;
@@ -29,48 +29,25 @@ const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) =>
 
     return (
         <div className={className}>
-            <h2 className="typo-undertittel">Velg periode</h2>
-            <form className="skjema">
-                <div className="periodevelger_skjemaelement">
-                    <Radio
-                        label="Siste 3 måneder"
-                        name="minRadioKnapp1"
-                        checked={antallMaanederTilbake === 3}
-                        onChange={() => onChangePeriode(3)}
-                    />
-                </div>
-                <div className="periodevelger_skjemaelement">
-                    <Radio
-                        label="Siste 6 måneder"
-                        name="minRadioKnapp2"
-                        checked={antallMaanederTilbake === 6}
-                        onChange={() => onChangePeriode(6)}
-                    />
-                </div>
-                <div className="periodevelger_skjemaelement">
-                    <Radio
-                        label={"Siste 12 måneder"}
-                        name="minRadioKnapp3"
-                        checked={antallMaanederTilbake === 12}
-                        onChange={() => onChangePeriode(12)}
-                    />
-                </div>
-            </form>
-            <div>
-                <h2 className="typo-undertittel">Velg mottaker</h2>
-                <form className="ytelsestypecheckbox">
-                    <div className="periodevelger_skjemaelement">
-                        <Checkbox label={"Til deg"} checked={tilDinKonto} onChange={() => onChangeTilDinKonto()} />
-                    </div>
-                    <div className="periodevelger_skjemaelement">
-                        <Checkbox
-                            label={"Til annen mottaker"}
-                            checked={tilAnnenMottaker}
-                            onChange={() => onChangeTilAnnenMottaker()}
-                        />
-                    </div>
-                </form>
-            </div>
+            <RadioGroup
+                legend="Velg periode"
+                defaultValue={antallMaanederTilbake.toString()}
+                onChange={(value: string) => onChangePeriode(parseInt(value))}
+            >
+                <Radio value="3">Siste 3 måneder</Radio>
+
+                <Radio value="6">Siste 6 måneder</Radio>
+
+                <Radio value="12">Siste 12 måneder</Radio>
+            </RadioGroup>
+            <CheckboxGroup legend="Velg mottaker" defaultValue={["tilDinKonto", "tilAnnenMottaker"]}>
+                <Checkbox value="tilDinKonto" onChange={() => onChangeTilDinKonto()}>
+                    Til deg
+                </Checkbox>
+                <Checkbox value="tilAnnenMottaker" onChange={() => onChangeTilAnnenMottaker()}>
+                    Til annen mottaker
+                </Checkbox>
+            </CheckboxGroup>
         </div>
     );
 };

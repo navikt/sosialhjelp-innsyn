@@ -1,17 +1,21 @@
-import Veilederpanel from "nav-frontend-veilederpanel";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
-import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
-import {LenkepanelBase} from "nav-frontend-lenkepanel/lib";
+import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
+import {GuidePanel, LinkPanel} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledGuidePanel = styled(GuidePanel)`
+    --navds-guide-panel-color-border: none;
+    --navds-guide-panel-color-illustration-background: #cde7d8;
+`;
 
 const SaksoversiktIngenSoknader: React.FC = () => {
     return (
         <div className="soknadsOversiktSide ingenSakerFunnetPanelLuftOver">
-            <Veilederpanel
-                veilederProps={{className: "soknadsOversiktVeilederpanelIkon"}}
-                kompakt
-                type={"plakat"}
-                svg={<IngenSoknaderFunnet />}
+            <StyledGuidePanel
+                className="soknadsOversiktVeilederpanelIkon"
+                poster
+                illustration={<IngenSoknaderFunnet />}
             >
                 <>
                     <Systemtittel className="ingenSoknaderFunnetText">
@@ -21,26 +25,23 @@ const SaksoversiktIngenSoknader: React.FC = () => {
                         Vi kan dessverre ikke vise søknader som er sendt på papir.
                     </Normaltekst>
                 </>
-            </Veilederpanel>
+            </StyledGuidePanel>
 
             <div className={"soknadsOversiktLenkePanel"}>
-                <LenkepanelBase className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"}>
+                <LinkPanel className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"} border={false}>
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">
-                            Les mer om økonomisk sosialhjelp
-                        </Undertittel>
+                        <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
                     </div>
-                </LenkepanelBase>
-                <LenkepanelBase
+                </LinkPanel>
+                <LinkPanel
                     className={"soknadsOversiktLenker"}
                     href={"https://www.nav.no/sosialhjelp/slik-soker-du"}
+                    border={false}
                 >
                     <div className={"soknadsOversiktLenkerAlign"}>
-                        <Undertittel className="lenkepanel__heading_ingen_soknader lenkepanelResenter">
-                            Søk om økonomisk sosialhjelp
-                        </Undertittel>
+                        <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
                     </div>
-                </LenkepanelBase>
+                </LinkPanel>
             </div>
         </div>
     );

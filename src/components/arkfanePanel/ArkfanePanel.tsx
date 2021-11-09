@@ -1,9 +1,9 @@
 import React, {ReactNode, useEffect, useState} from "react";
-import Lenke from "nav-frontend-lenker";
 import "./mainNav.less";
 import Panel from "nav-frontend-paneler";
 import {useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {Link} from "@navikt/ds-react";
 
 interface Arkfane {
     tittel: string;
@@ -43,13 +43,13 @@ const ArkfanePanel: React.FC<Props> = ({arkfaner, defaultArkfane, className}) =>
                                 arkfaner.map((arkfane: Arkfane, index: number) => {
                                     return (
                                         <li key={index}>
-                                            <Lenke
+                                            <Link
                                                 href="#"
                                                 onClick={(event) => velgArkfane(event, index)}
                                                 className={valgtArkfane === index ? "active" : "inactive"}
                                             >
                                                 {arkfane.tittel}
-                                            </Lenke>
+                                            </Link>
                                         </li>
                                     );
                                 })}

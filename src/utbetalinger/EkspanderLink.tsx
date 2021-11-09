@@ -1,12 +1,12 @@
 import React from "react";
-import Lenke from "nav-frontend-lenker";
-import {NedChevron, OppChevron} from "nav-frontend-chevron";
+import {Link} from "@navikt/ds-react";
+import {Collapse, Expand} from "@navikt/ds-icons";
 
 const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}> = ({open, setOpen}) => {
     return (
         <span>
             {open && (
-                <Lenke
+                <Link
                     href="#"
                     onClick={(evt: any) => {
                         setOpen(false);
@@ -14,11 +14,11 @@ const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}>
                     }}
                 >
                     Lukk
-                    <OppChevron />
-                </Lenke>
+                    <Collapse />
+                </Link>
             )}
             {!open && (
-                <Lenke
+                <Link
                     href="#"
                     onClick={(evt: any) => {
                         setOpen(true);
@@ -26,8 +26,8 @@ const EkspanderLink: React.FC<{open: boolean; setOpen: (open: boolean) => void}>
                     }}
                 >
                     Mer informasjon
-                    <NedChevron />
-                </Lenke>
+                    <Expand />
+                </Link>
             )}
         </span>
     );
