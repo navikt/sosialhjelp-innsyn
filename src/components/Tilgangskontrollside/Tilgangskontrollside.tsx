@@ -2,7 +2,6 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import "./Tilgangskontrollside.less";
 import {useDispatch, useSelector} from "react-redux";
-import Panel from "nav-frontend-paneler";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
@@ -12,6 +11,7 @@ import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggAct
 import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
 import {BodyShort, Heading} from "@navikt/ds-react";
+import {UthevetPanel} from "../paneler/UthevetPanel";
 
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
@@ -66,7 +66,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                     <div className={"blokk-center"}>
                         <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                         <div className="tilgangskontroll">
-                            <Panel className="panel-uthevet panel-uthevet-luft-under panel-glippe-over">
+                            <UthevetPanel className="panel-uthevet-luft-under panel-glippe-over">
                                 <div className="ellablunk-rad">
                                     <EllaBlunk size={"175"} />
                                 </div>
@@ -77,7 +77,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                                     Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta
                                     kontakt med ditt lokale NAV-kontor for å få hjelp til å søke.
                                 </BodyShort>
-                            </Panel>
+                            </UthevetPanel>
                         </div>
                     </div>
                 </div>

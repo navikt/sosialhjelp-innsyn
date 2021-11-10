@@ -1,5 +1,4 @@
 import React from "react";
-import Panel from "nav-frontend-paneler";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -15,6 +14,8 @@ import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
+import {UthevetPanel} from "../paneler/UthevetPanel";
+import {TittelOgIkon} from "./TittelOgIkon";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -45,8 +46,8 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     };
 
     return (
-        <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
-            <div className="tittel_og_ikon">
+        <UthevetPanel className={antallSaksElementer > 0 ? "panel-uthevet-luft-under" : ""}>
+            <TittelOgIkon>
                 {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                 {restStatus !== REST_STATUS.FEILET && (
                     <>
@@ -60,7 +61,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                         {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
                     </>
                 )}
-            </div>
+            </TittelOgIkon>
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
                 <div className="status_detalj_panel_info_alert_luft_under">
@@ -137,7 +138,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                         </div>
                     );
                 })}
-        </Panel>
+        </UthevetPanel>
     );
 };
 
