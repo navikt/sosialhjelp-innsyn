@@ -1,3 +1,4 @@
+import {Heading} from "@navikt/ds-react";
 import * as React from "react";
 import "./banner.less";
 
@@ -5,7 +6,9 @@ const Banner: React.FC<{children: React.ReactNode} & {}> = ({children}) => {
     return (
         <div className="banner">
             <div className="blokk-center">
-                <h1 className="banner__tittel">{children}</h1>
+                <Heading level="1" size="medium">
+                    {children}
+                </Heading>
             </div>
         </div>
     );

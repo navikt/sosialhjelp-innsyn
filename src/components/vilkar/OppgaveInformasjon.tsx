@@ -4,11 +4,11 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import BinderSmall from "../ikoner/BinderSmall";
 import ChecklistSmall from "../ikoner/ChecklistSmall";
 import EkspanderbartIkonPanel, {PanelIkon} from "../paneler/EkspanderbartIkonPanel";
 import "./vilkar.less";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 const OppgaveInformasjon: React.FC = () => {
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
@@ -28,12 +28,12 @@ const OppgaveInformasjon: React.FC = () => {
                         <ChecklistSmall />
                     </div>
                     <div className={"vilkar-bolk-tekst-wrapper"}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id={"oppgaver.vilkar"} />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
                 <div className={"vilkar-bolk-med-symbol-wrapper"}>
@@ -41,12 +41,12 @@ const OppgaveInformasjon: React.FC = () => {
                         <BinderSmall />
                     </div>
                     <div className={"vilkar-bolk-tekst-wrapper"}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
             </EkspanderbartIkonPanel>

@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {Element} from "nav-frontend-typografi";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import DocumentIcon from "../../components/ikoner/DocumentIcon";
 import "./sakpanel.less";
@@ -9,7 +8,7 @@ import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 import {EtikettLiten} from "../../components/etikett/EtikettLiten";
-import {LinkPanel, Tag} from "@navikt/ds-react";
+import {Label, LinkPanel, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledLinkPanel = styled(LinkPanel)`
@@ -106,7 +105,7 @@ const SakPanel: React.FC<Props> = ({
                             )}
                         </div>
                         {underLasting && <Lastestriper linjer={1} />}
-                        {!underLasting && <Element className="">{tittel}</Element>}
+                        {!underLasting && <Label>{tittel}</Label>}
                     </div>
                 </div>
                 <div className="sakpanel_innhold_etikett">

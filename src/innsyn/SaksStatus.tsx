@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Alert} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -20,7 +20,6 @@ import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar"
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import Panel from "nav-frontend-paneler";
-import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
@@ -131,8 +130,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
                 <Alert variant="warning" className="luft_over_16px">
-                    <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
-                    <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
+                    <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
+                    <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                 </Alert>
             )}
             <Brodsmulesti
@@ -188,9 +187,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                         <>
                             <Panel className="panel-luft-over">
-                                <Systemtittel>
+                                <Heading level="2" size="medium">
                                     <FormattedMessage id="vedlegg.tittel" />
-                                </Systemtittel>
+                                </Heading>
                             </Panel>
                             <Panel className="panel-glippe-over">
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />

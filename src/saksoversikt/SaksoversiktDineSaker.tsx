@@ -3,7 +3,6 @@ import Panel from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
-import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
@@ -14,7 +13,7 @@ import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {Button, Select} from "@navikt/ds-react";
+import {BodyShort, Button, Heading, Select} from "@navikt/ds-react";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
@@ -93,7 +92,9 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     return (
         <>
             <div className="dine_soknader_panel ">
-                <Systemtittel className="dine_soknader_panel_overskrift">Dine søknader</Systemtittel>
+                <Heading level="2" size="medium" className="dine_soknader_panel_overskrift">
+                    Dine søknader
+                </Heading>
                 <div className="knapp_og_periode_container">
                     <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
                         Ny søknad
@@ -146,8 +147,10 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
             {filtrerteSaker.length === 0 && (
                 <Panel className="panel-glippe-over">
-                    <Normaltekst>Vi finner ingen søknader for denne perioden.</Normaltekst>
-                    <Normaltekst>Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.</Normaltekst>
+                    <BodyShort spacing>Vi finner ingen søknader for denne perioden.</BodyShort>
+                    <BodyShort spacing>
+                        Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.
+                    </BodyShort>
                 </Panel>
             )}
 
@@ -155,7 +158,9 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 {utbetalingerExists && <DineUtbetalingerPanel />}
 
                 <Subheader className="panel-luft-over">
-                    <Undertittel>Relatert informasjon</Undertittel>
+                    <Heading level="2" size="small">
+                        Relatert informasjon
+                    </Heading>
                 </Subheader>
 
                 <InfoPanelContainer>

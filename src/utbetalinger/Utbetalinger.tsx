@@ -11,11 +11,11 @@ import {
     filtrerUtbetalingerPaaMottaker,
 } from "./utbetalingerUtils";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import {Sidetittel} from "nav-frontend-typografi";
 import {useDispatch} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {Heading} from "@navikt/ds-react";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
@@ -80,7 +80,9 @@ const Utbetalinger: React.FC = () => {
             />
 
             <div className="utbetalinger">
-                <Sidetittel className="utbetalinger__overskrift">Utbetalingsoversikt</Sidetittel>
+                <Heading level="1" size="2xlarge" spacing className="utbetalinger__overskrift">
+                    Utbetalingsoversikt
+                </Heading>
                 <div className="utbetalinger_row">
                     <div className="utbetalinger_column">
                         <div className="utbetalinger_column_1">

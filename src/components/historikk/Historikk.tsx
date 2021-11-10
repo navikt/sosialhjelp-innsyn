@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -8,8 +7,10 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
+import {BodyShort, Button, Label} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
-import {Button} from "@navikt/ds-react";
+import styled from "styled-components";
+import {Collapse, Expand} from "@navikt/ds-icons";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -17,6 +18,16 @@ interface Props {
     hendelser: null | Hendelse[];
     restStatus: REST_STATUS;
 }
+
+const CenteredButton = styled(Button)`
+    width: fit-content;
+    align-self: center;
+`;
+
+const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
 function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
     return hendelser.sort((a: Hendelse, b: Hendelse) => {
@@ -57,10 +68,10 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             {hendelser.map((hendelse: Hendelse, index: number) => {
                 return (
                     <li key={index}>
-                        <Element>
+                        <Label>
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
-                        </Element>
-                        <Normaltekst>{hendelse.beskrivelse}</Normaltekst>
+                        </Label>
+                        <BodyShort>{hendelse.beskrivelse}</BodyShort>
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
@@ -97,7 +108,7 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     };
 
     return (
-        <>
+        <FlexContainer>
             {!apen && (
                 <HistorikkListe
                     hendelser={hendelser.slice(0, MAX_ANTALL_KORT_LISTE)}
@@ -114,10 +125,18 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
                     />
                 </UnmountClosed>
             )}
-            <Button as="a" variant="secondary" onClick={() => toggleOpen()}>
-                Vis alle ({antallSkjulteElementer})
-            </Button>
-        </>
+            <CenteredButton variant="tertiary" onClick={() => toggleOpen()}>
+                {apen ? (
+                    <>
+                        Lukk <Collapse />{" "}
+                    </>
+                ) : (
+                    <>
+                        Vis alle ({antallSkjulteElementer}) <Expand />
+                    </>
+                )}
+            </CenteredButton>
+        </FlexContainer>
     );
 };
 

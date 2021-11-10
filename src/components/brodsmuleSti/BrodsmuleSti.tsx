@@ -3,7 +3,7 @@ import "./brodsmuleSti.less";
 import {Back, Next} from "@navikt/ds-icons";
 import useWindowSize from "../../utils/useWindowSize";
 import {getDittNavUrl} from "../../utils/restUtils";
-import {Link} from "@navikt/ds-react";
+import {BodyShort, Link} from "@navikt/ds-react";
 
 export enum UrlType {
     ABSOLUTE_URL = "ABSOLUTE_URL",
@@ -44,7 +44,7 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
 
     let crumbs: React.ReactNode = (
         <>
-            <div key="tilbake" className="typo-normal breadcrumbs__item">
+            <div key="tilbake" className="breadcrumbs__item">
                 <Link href={getDittNavUrl()} title="Gå til Ditt NAV">
                     Ditt NAV
                 </Link>
@@ -63,9 +63,9 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
             <div key="chevron" aria-hidden={true}>
                 <Next />
             </div>
-            <div aria-current="page" key="currentPage" className="typo-normal breadcrumbs__item breadcrumbs__current">
+            <BodyShort aria-current="page" key="currentPage" className="breadcrumbs__item breadcrumbs__current">
                 {tittel}
-            </div>
+            </BodyShort>
         </>
     );
 
@@ -79,11 +79,11 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
                 <div key="chevron" aria-hidden={true}>
                     <Back />
                 </div>
-                <p className="typo-normal breadcrumbs__item">
+                <div className="breadcrumbs__item">
                     <Link href={tilbakePilUrl} title="Gå til forrige side">
                         Tilbake
                     </Link>
-                </p>
+                </div>
             </>
         );
     }

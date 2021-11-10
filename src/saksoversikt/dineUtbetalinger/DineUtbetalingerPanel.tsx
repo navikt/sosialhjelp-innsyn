@@ -1,10 +1,9 @@
 import React from "react";
-import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import "./dineUtbetalingerPanel.less";
 import {push} from "connected-react-router";
 import {useDispatch} from "react-redux";
-import {LinkPanel} from "@navikt/ds-react";
+import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
 
 const DineUtbetalingerPanel: React.FC<{}> = () => {
     const dispatch = useDispatch();
@@ -24,8 +23,10 @@ const DineUtbetalingerPanel: React.FC<{}> = () => {
             <div className="dine_utbetalinger_innhold">
                 <HandCoinsIcon />
                 <div>
-                    <Systemtittel>Dine utbetalinger</Systemtittel>
-                    <Normaltekst>Oversikt over dine utbetalinger for økonomisk sosialhjelp</Normaltekst>
+                    <Heading level="2" size="medium" spacing>
+                        Dine utbetalinger
+                    </Heading>
+                    <BodyShort>Oversikt over dine utbetalinger for økonomisk sosialhjelp</BodyShort>
                 </div>
             </div>
         </LinkPanel>

@@ -1,6 +1,5 @@
 import React from "react";
 import Panel from "nav-frontend-paneler";
-import {Element, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -15,7 +14,7 @@ import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -51,7 +50,9 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                 {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                 {restStatus !== REST_STATUS.FEILET && (
                     <>
-                        <Innholdstittel>{soknadsStatusTittel(status, intl)}</Innholdstittel>
+                        <Heading level="1" size="xlarge">
+                            {soknadsStatusTittel(status, intl)}
+                        </Heading>
                         {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}
                         {status === SoknadsStatusEnum.MOTTATT && <DokumentMottatt />}
                         {status === SoknadsStatusEnum.UNDER_BEHANDLING && <DokumentElla />}
@@ -87,7 +88,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                         <div className="status_detalj_panel" key={index}>
                             <div className={"status_detalj_linje"}>
                                 <div className="status_detalj_panel__tittel">
-                                    <Element>{statusdetalj.tittel}</Element>
+                                    <Label>{statusdetalj.tittel}</Label>
                                 </div>
                                 <div className="status_detalj_panel__status">
                                     <EtikettLiten>
@@ -101,21 +102,21 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                             </div>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (
                                 <div className="panel-glippe-over">
-                                    <Normaltekst>{statusdetalj.melding}</Normaltekst>
+                                    <BodyShort>{statusdetalj.melding}</BodyShort>
                                 </div>
                             )}
                             {sakBehandlesIkke && !soknadBehandlesIkke && (
                                 <div className="panel-glippe-over">
-                                    <Normaltekst>
+                                    <BodyShort>
                                         <FormattedMessage id="status.sak_behandles_ikke_ingress" />
-                                    </Normaltekst>
+                                    </BodyShort>
                                 </div>
                             )}
                             {sakIkkeInnsyn && !soknadBehandlesIkke && (
                                 <div className="panel-glippe-over">
-                                    <Normaltekst>
+                                    <BodyShort>
                                         <FormattedMessage id="status.ikke_innsyn_ingress" />
-                                    </Normaltekst>
+                                    </BodyShort>
                                 </div>
                             )}
 

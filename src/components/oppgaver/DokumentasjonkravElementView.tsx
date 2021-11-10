@@ -4,13 +4,13 @@ import {alertUser} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AddFileButton from "./AddFileButton";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
 import ErrorMessage from "./ErrorMessage";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import {validateFile} from "./validateFile";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 export interface FileValidationErrors {
     errors: Set<string>;
@@ -76,11 +76,11 @@ const DokumentasjonkravElementView: React.FC<{
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <div className={"oppgave-detalj-overste-linje"}>
                 <div className={"tekst-wrapping"}>
-                    <Element>{dokumentasjonkravElement.tittel}</Element>
+                    <Label>{dokumentasjonkravElement.tittel}</Label>
                 </div>
                 {dokumentasjonkravElement.beskrivelse && (
                     <div className={"tekst-wrapping"}>
-                        <Normaltekst className="luft_over_4px">{dokumentasjonkravElement.beskrivelse}</Normaltekst>
+                        <BodyShort>{dokumentasjonkravElement.beskrivelse}</BodyShort>
                     </div>
                 )}
                 {canUploadAttatchemnts && (

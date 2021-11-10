@@ -1,11 +1,11 @@
-import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurtElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
 import {
-    isFileErrorsNotEmpty,
     alertUser,
-    writeErrorMessage,
     FileError,
     findFilesWithError,
+    isFileErrorsNotEmpty,
+    writeErrorMessage,
 } from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -13,7 +13,7 @@ import FileItemView from "./FileItemView";
 import AddFileButton from "./AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
-import {Element, Normaltekst} from "nav-frontend-typografi";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
@@ -90,11 +90,11 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <div className={"tekst-wrapping"}>
-                <Element>{tittel}</Element>
+                <Label>{tittel}</Label>
             </div>
             {beskrivelse && (
                 <div className={"tekst-wrapping"}>
-                    <Normaltekst className="luft_over_4px">{beskrivelse}</Normaltekst>
+                    <BodyShort>{beskrivelse}</BodyShort>
                 </div>
             )}
             <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />

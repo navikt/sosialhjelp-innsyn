@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {Normaltekst} from "nav-frontend-typografi";
 import EkspanderLink from "./EkspanderLink";
 import Collapsible from "react-collapsible";
+import {BodyShort} from "@navikt/ds-react";
 
 interface Props {
     tittel: string;
@@ -14,7 +14,7 @@ const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen
     return (
         <>
             <div className="utbetaling_header">
-                <Normaltekst>{tittel}</Normaltekst>
+                <BodyShort>{tittel}</BodyShort>
                 <EkspanderLink open={open} setOpen={setOpen} />
             </div>
 

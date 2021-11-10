@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Normaltekst} from "nav-frontend-typografi";
 import {
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
@@ -32,7 +31,7 @@ import {
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
-import {Button, Loader} from "@navikt/ds-react";
+import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 
 interface Props {
@@ -191,20 +190,20 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 }
             >
                 {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
-                    <Normaltekst className="luft_under_8px">
+                    <BodyShort spacing>
                         <FormattedMessage
                             id="oppgaver.innsendelsesfrist"
                             values={{innsendelsesfrist: formatDato(dokumentasjonEtterspurt.innsendelsesfrist!)}}
                         />
-                    </Normaltekst>
+                    </BodyShort>
                 )}
                 {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
-                    <Normaltekst className="luft_under_8px">
+                    <BodyShort spacing>
                         <FormattedMessage
                             id="oppgaver.innsendelsesfrist_passert"
                             values={{innsendelsesfrist: formatDato(dokumentasjonEtterspurt.innsendelsesfrist!)}}
                         />
-                    </Normaltekst>
+                    </BodyShort>
                 )}
                 {dokumentasjonEtterspurt.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
@@ -239,7 +238,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         />
                     );
                 })}
-
                 {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
                     <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                         <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
