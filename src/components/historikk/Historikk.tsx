@@ -96,43 +96,34 @@ const KortHistorikk: React.FC<{hendelser: Hendelse[]; leserData: boolean}> = ({h
 
 const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     const [apen, setApen] = useState(false);
-    const antallSkjulteElementer = hendelser.slice(MAX_ANTALL_KORT_LISTE).length;
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
 
     const toggleOpen = () => {
-        if (!apen) {
-            setApen(true);
-        } else {
-            setApen(false);
-        }
+        setApen(!apen);
     };
 
     return (
         <FlexContainer>
-            {!apen && (
+            {apen ? (
+                <UnmountClosed isOpened={apen}>
+                    <HistorikkListe hendelser={hendelser} className="historikk" leserData={false} />
+                </UnmountClosed>
+            ) : (
                 <HistorikkListe
                     hendelser={hendelser.slice(0, MAX_ANTALL_KORT_LISTE)}
                     className={"historikk " + historikkListeClassname}
                     leserData={false}
                 />
             )}
-            {apen && (
-                <UnmountClosed isOpened={apen}>
-                    <HistorikkListe
-                        hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
-                        className="historikk"
-                        leserData={false}
-                    />
-                </UnmountClosed>
-            )}
-            <CenteredButton variant="tertiary" onClick={() => toggleOpen()}>
+
+            <CenteredButton variant="tertiary" onClick={toggleOpen}>
                 {apen ? (
                     <>
                         Lukk <Collapse />{" "}
                     </>
                 ) : (
                     <>
-                        Vis alle ({antallSkjulteElementer}) <Expand />
+                        Vis alle ({hendelser.length}) <Expand />
                     </>
                 )}
             </CenteredButton>
