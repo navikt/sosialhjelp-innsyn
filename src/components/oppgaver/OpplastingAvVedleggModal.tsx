@@ -1,7 +1,6 @@
 import React, {useState, MouseEvent} from "react";
 import {FormattedMessage} from "react-intl";
-import {Systemtittel, Undertittel} from "nav-frontend-typografi";
-import {Link, Modal} from "@navikt/ds-react";
+import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledModal = styled(Modal)`
@@ -29,52 +28,58 @@ export const OpplastingAvVedleggModal = () => {
                 }}
             >
                 <Modal.Content>
-                    <Systemtittel>
+                    <Heading level="2" size="medium" spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.overskrift" />
-                    </Systemtittel>
+                    </Heading>
 
-                    <Undertittel>
+                    <Heading level="3" size="small" spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk1.tittel" />
-                    </Undertittel>
-                    <p>
+                    </Heading>
+                    <BodyShort spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk1.avsnitt1" />
-                    </p>
-                    <p>
+                    </BodyShort>
+                    <BodyShort spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk1.avsnitt2" />
-                    </p>
-                    <p>
+                    </BodyShort>
+                    <BodyShort spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk1.avsnitt3" />
-                    </p>
+                    </BodyShort>
 
-                    <Undertittel>
+                    <Heading level="3" size="small" spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk2.tittel" />
-                    </Undertittel>
-                    <p>
+                    </Heading>
+                    <BodyShort spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk2.avsnitt1" />
-                    </p>
+                    </BodyShort>
 
-                    <Undertittel>
+                    <Heading level="3" size="small" spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk3.tittel" />
-                    </Undertittel>
-                    <p>
+                    </Heading>
+                    <BodyShort spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk3.avsnitt1" />
-                    </p>
+                    </BodyShort>
 
-                    <Undertittel>
+                    <Heading level="3" size="small" spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk4.tittel" />
-                    </Undertittel>
-                    <p>
+                    </Heading>
+                    <BodyShort spacing>
                         <FormattedMessage id="oppgaver.informasjon.modal.bolk4.avsnitt1" />
-                    </p>
+                    </BodyShort>
                     <ul>
                         <li>
-                            <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste1" />
+                            <BodyShort>
+                                <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste1" />
+                            </BodyShort>
                         </li>
                         <li>
-                            <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste2" />
+                            <BodyShort>
+                                <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste2" />
+                            </BodyShort>
                         </li>
                         <li>
-                            <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste3" />
+                            <BodyShort>
+                                <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste3" />
+                            </BodyShort>
                         </li>
                     </ul>
                 </Modal.Content>

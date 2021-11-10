@@ -1,8 +1,7 @@
 import React, {ChangeEvent} from "react";
 import UploadFileIcon from "../ikoner/UploadFile";
-import {Element} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
-import {Button} from "@navikt/ds-react";
+import {Button, Label} from "@navikt/ds-react";
 
 const AddFileButton: React.FC<{
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
@@ -28,9 +27,9 @@ const AddFileButton: React.FC<{
                 }}
             >
                 <UploadFileIcon className="last_opp_fil_ikon" />
-                <Element>
+                <Label>
                     <FormattedMessage id="vedlegg.velg_fil" />
-                </Element>
+                </Label>
             </Button>
             <input
                 type="file"

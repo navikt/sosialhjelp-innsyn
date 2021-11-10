@@ -3,6 +3,7 @@ import "./bigbanner.less";
 import Head from "../ikoner/Head";
 import Brodsmulesti, {UrlType} from "../brodsmuleSti/BrodsmuleSti";
 import {getDittNavUrl} from "../../utils/restUtils";
+import {Heading} from "@navikt/ds-react";
 
 const BigBanner: React.FC<{tittel: string} & {}> = ({tittel}) => {
     return (
@@ -20,7 +21,9 @@ const BigBanner: React.FC<{tittel: string} & {}> = ({tittel}) => {
                         />
                     </div>
                 </div>
-                <h1 className="big_banner__tittel">{tittel}</h1>
+                <Heading level="1" size="xlarge">
+                    {tittel}
+                </Heading>
             </div>
         </div>
     );

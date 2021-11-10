@@ -5,9 +5,8 @@ import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
-import {Element} from "nav-frontend-typografi";
 import {REST_STATUS} from "../../utils/restUtils";
-import {Button, Link} from "@navikt/ds-react";
+import {Button, Label, Link} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
@@ -45,9 +44,9 @@ const FileItemView: React.FC<{
                 </div>
                 <div className="fjern_lenkeboks">
                     <Button variant="tertiary" size="small" onClick={(event) => onDelete(event, fil)}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id="vedlegg.fjern" />
-                        </Element>
+                        </Label>
                         <TrashBin className="klikkbar_soppelboette" />
                     </Button>
                 </div>

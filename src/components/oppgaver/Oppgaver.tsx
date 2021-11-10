@@ -1,5 +1,4 @@
 import Panel from "nav-frontend-paneler";
-import {Element, Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
@@ -18,7 +17,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {VilkarView} from "./VilkarView";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Accordion} from "@navikt/ds-react";
+import {Accordion, BodyShort, Heading, Label} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledAccordion = styled(Accordion)`
@@ -73,9 +72,9 @@ const Oppgaver = () => {
     return (
         <>
             <Panel className="panel-luft-over">
-                <Systemtittel>
+                <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
-                </Systemtittel>
+                </Heading>
             </Panel>
 
             <OppgaveInformasjon />
@@ -116,15 +115,15 @@ const Oppgaver = () => {
                                     <div className="oppgaver_header">
                                         <DokumentBinder />
                                         <div>
-                                            <Element>
+                                            <Label>
                                                 {dokumentasjonEtterspurtErFraInnsyn && (
                                                     <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
                                                 )}
                                                 {!dokumentasjonEtterspurtErFraInnsyn && (
                                                     <FormattedMessage id="oppgaver.maa_sende_dok" />
                                                 )}
-                                            </Element>
-                                            <Normaltekst>
+                                            </Label>
+                                            <BodyShort>
                                                 {dokumentasjonEtterspurtErFraInnsyn &&
                                                     antallDagerSidenFristBlePassert <= 0 && (
                                                         <FormattedMessage
@@ -152,19 +151,19 @@ const Oppgaver = () => {
                                                             }}
                                                         />
                                                     )}
-                                            </Normaltekst>
+                                            </BodyShort>
                                         </div>
                                     </div>
                                 </Accordion.Header>
                                 <Accordion.Content>
                                     {dokumentasjonEtterspurtErFraInnsyn ? (
-                                        <Normaltekst>
+                                        <BodyShort>
                                             <FormattedMessage id="oppgaver.veileder_trenger_mer" />
-                                        </Normaltekst>
+                                        </BodyShort>
                                     ) : (
-                                        <Normaltekst>
+                                        <BodyShort>
                                             <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
-                                        </Normaltekst>
+                                        </BodyShort>
                                     )}
 
                                     <OpplastingAvVedleggModal />
@@ -196,15 +195,15 @@ const Oppgaver = () => {
                                     <div className="oppgaver_header">
                                         <DokumentBinder />
                                         <div>
-                                            <Element>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Element>
-                                            <Normaltekst>
+                                            <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
+                                            <BodyShort>
                                                 <FormattedMessage
                                                     id="vilkar.veileder_trenger_mer"
                                                     values={{
                                                         antallVilkar: vilkar.length,
                                                     }}
                                                 />
-                                            </Normaltekst>
+                                            </BodyShort>
                                         </div>
                                     </div>
                                 </Accordion.Header>
@@ -226,10 +225,10 @@ const Oppgaver = () => {
                                     <div className="oppgaver_header">
                                         <DokumentBinder />
                                         <div>
-                                            <Element>
+                                            <Label>
                                                 <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
-                                            </Element>
-                                            <Normaltekst>
+                                            </Label>
+                                            <BodyShort>
                                                 <FormattedMessage
                                                     id="dokumentasjonkrav.veileder_trenger_mer"
                                                     values={{
@@ -249,7 +248,7 @@ const Oppgaver = () => {
                                                                 : "dokument",
                                                     }}
                                                 />
-                                            </Normaltekst>
+                                            </BodyShort>
                                         </div>
                                     </div>
                                 </Accordion.Header>

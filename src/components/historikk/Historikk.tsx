@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Normaltekst, Element} from "nav-frontend-typografi";
 import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -9,6 +8,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -56,10 +56,10 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             {hendelser.map((hendelse: Hendelse, index: number) => {
                 return (
                     <li key={index}>
-                        <Element>
+                        <Label>
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
-                        </Element>
-                        <Normaltekst>{hendelse.beskrivelse}</Normaltekst>
+                        </Label>
+                        <BodyShort>{hendelse.beskrivelse}</BodyShort>
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}

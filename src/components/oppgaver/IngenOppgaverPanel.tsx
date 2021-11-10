@@ -1,6 +1,5 @@
 import * as React from "react";
 import TodoList from "../ikoner/TodoList";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import {useSelector} from "react-redux";
@@ -13,6 +12,7 @@ import {
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Panel from "nav-frontend-paneler";
 import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt[] | null;
@@ -47,12 +47,12 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                         <TodoList />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id="oppgaver.ingen_oppgaver" />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id="oppgaver.beskjed" />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
                 <div style={{marginTop: "20px"}}>
@@ -60,12 +60,12 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                         <PaperClip />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id="oppgaver.andre_dokumenter" />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id="oppgaver.andre_dokumenter_beskjed" />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
             </Panel>

@@ -1,6 +1,6 @@
 import React from "react";
 import {Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
-import {Element, Normaltekst} from "nav-frontend-typografi";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 interface Props {
     vilkar: Vilkar;
@@ -11,11 +11,11 @@ export const VilkarView: React.FC<Props> = ({vilkar}) => {
         <div className={"oppgaver_detaljer luft_over_1rem"}>
             <div className={"oppgave-detalj-overste-linje"}>
                 <div className={"tekst-wrapping"}>
-                    <Element>{vilkar.tittel}</Element>
+                    <Label>{vilkar.tittel}</Label>
                 </div>
                 {vilkar.beskrivelse && (
                     <div className={"tekst-wrapping"}>
-                        <Normaltekst className="luft_over_4px">{vilkar.beskrivelse}</Normaltekst>
+                        <BodyShort>{vilkar.beskrivelse}</BodyShort>
                     </div>
                 )}
             </div>

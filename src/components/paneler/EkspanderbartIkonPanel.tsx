@@ -1,9 +1,8 @@
 import React from "react";
 import Panel from "nav-frontend-paneler";
 import DocumentChecklist from "../ikoner/DocumentChecklist";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import DokumentBinder from "../ikoner/DocumentBinder";
-import {Accordion} from "@navikt/ds-react";
+import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledAccordion = styled(Accordion)`
@@ -30,8 +29,8 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, chi
             {ikon === PanelIkon.CHECKLIST && <DocumentChecklist />}
             {ikon === PanelIkon.BINDERS && <DokumentBinder />}
             <div>
-                <Element>{tittel}</Element>
-                <Normaltekst>{underTittel}</Normaltekst>
+                <Label>{tittel}</Label>
+                <BodyShort>{underTittel}</BodyShort>
             </div>
         </div>
     );

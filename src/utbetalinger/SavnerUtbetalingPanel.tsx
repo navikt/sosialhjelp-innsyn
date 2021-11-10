@@ -1,6 +1,6 @@
 import React from "react";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import InfoIkon from "../components/ikoner/InfoIkon";
+import {BodyShort, Label, Link} from "@navikt/ds-react";
 
 const SavnerUtbetalingPanel: React.FC = () => {
     return (
@@ -8,22 +8,22 @@ const SavnerUtbetalingPanel: React.FC = () => {
             <span className="infoIkon">
                 <InfoIkon />
             </span>
-            <Element className="blokk-xs">Savner du en utbetaling på denne siden?</Element>
-            <Normaltekst>Utbetalingsoversikten er under utvikling og vi kan for øyeblikket bare vise:</Normaltekst>
+            <Label spacing>Savner du en utbetaling på denne siden?</Label>
+            <BodyShort>Utbetalingsoversikten er under utvikling og vi kan for øyeblikket bare vise:</BodyShort>
             <ul>
                 <li>
-                    <Normaltekst>
+                    <BodyShort>
                         utbetalinger av økonomisk sosialhjelp,{" "}
-                        <a className="lenke" href="https://tjenester.nav.no/utbetalingsoversikt">
+                        <Link href="https://tjenester.nav.no/utbetalingsoversikt">
                             andre utbetalinger finner du her
-                        </a>
-                    </Normaltekst>
+                        </Link>
+                    </BodyShort>
                 </li>
                 <li>
-                    <Normaltekst>utbetalinger fra digitale søknader, men ikke fra papirsøknader</Normaltekst>
+                    <BodyShort>utbetalinger fra digitale søknader, men ikke fra papirsøknader</BodyShort>
                 </li>
                 <li>
-                    <Normaltekst>utbetalinger som er inntil ett år gamle</Normaltekst>
+                    <BodyShort>utbetalinger som er inntil ett år gamle</BodyShort>
                 </li>
             </ul>
         </div>

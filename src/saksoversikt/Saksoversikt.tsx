@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert, LinkPanel} from "@navikt/ds-react";
+import {Alert, BodyShort, LinkPanel} from "@navikt/ds-react";
 import "./saksoversikt.less";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,7 +11,6 @@ import BigBanner from "../components/banner/BigBanner";
 import useSoknadsSakerService from "./sakerFraSoknad/useSoknadsSakerService";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
-import {Normaltekst} from "nav-frontend-typografi";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import styled from "styled-components";
 import {useCookies} from "react-cookie";
@@ -97,8 +96,8 @@ const Saksoversikt: React.FC = () => {
                     <>
                         {(innsynApiKommunikasjonsProblemer || soknadApiKommunikasjonsProblemer) && (
                             <Alert variant="warning" className="luft_over_16px">
-                                <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
-                                <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
+                                <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
+                                <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                             </Alert>
                         )}
                         {kommunenummer.length > 0 &&
