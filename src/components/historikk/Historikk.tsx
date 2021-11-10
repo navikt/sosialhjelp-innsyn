@@ -3,12 +3,14 @@ import "./historikk.less";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import Lesmerpanel from "nav-frontend-lesmerpanel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
-import {BodyShort, Label} from "@navikt/ds-react";
+import {BodyShort, Button, Label} from "@navikt/ds-react";
+import {UnmountClosed} from "react-collapse";
+import styled from "styled-components";
+import {Collapse, Expand} from "@navikt/ds-icons";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -16,6 +18,16 @@ interface Props {
     hendelser: null | Hendelse[];
     restStatus: REST_STATUS;
 }
+
+const CenteredButton = styled(Button)`
+    width: fit-content;
+    align-self: center;
+`;
+
+const FlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
 function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
     return hendelser.sort((a: Hendelse, b: Hendelse) => {
@@ -84,29 +96,38 @@ const KortHistorikk: React.FC<{hendelser: Hendelse[]; leserData: boolean}> = ({h
 
 const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     const [apen, setApen] = useState(false);
-    const antallSkjulteElementer = hendelser.slice(MAX_ANTALL_KORT_LISTE).length;
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
+
+    const toggleOpen = () => {
+        setApen(!apen);
+    };
+
     return (
-        <Lesmerpanel
-            className="lesMerPanel__historikk"
-            apneTekst={"Vis alle (" + antallSkjulteElementer + ") "}
-            defaultApen={apen}
-            onClose={() => setApen(false)}
-            onOpen={() => setApen(true)}
-            intro={
+        <FlexContainer>
+            {apen ? (
+                <UnmountClosed isOpened={apen}>
+                    <HistorikkListe hendelser={hendelser} className="historikk" leserData={false} />
+                </UnmountClosed>
+            ) : (
                 <HistorikkListe
                     hendelser={hendelser.slice(0, MAX_ANTALL_KORT_LISTE)}
                     className={"historikk " + historikkListeClassname}
                     leserData={false}
                 />
-            }
-        >
-            <HistorikkListe
-                hendelser={hendelser.slice(MAX_ANTALL_KORT_LISTE)}
-                className="historikk"
-                leserData={false}
-            />
-        </Lesmerpanel>
+            )}
+
+            <CenteredButton variant="tertiary" onClick={toggleOpen}>
+                {apen ? (
+                    <>
+                        Lukk <Collapse />{" "}
+                    </>
+                ) : (
+                    <>
+                        Vis alle ({hendelser.length}) <Expand />
+                    </>
+                )}
+            </CenteredButton>
+        </FlexContainer>
     );
 };
 

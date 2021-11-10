@@ -1,11 +1,11 @@
-import {Fil, DokumentasjonEtterspurtElement} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurtElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
 import {
-    isFileErrorsNotEmpty,
     alertUser,
-    writeErrorMessage,
     FileError,
     findFilesWithError,
+    isFileErrorsNotEmpty,
+    writeErrorMessage,
 } from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";

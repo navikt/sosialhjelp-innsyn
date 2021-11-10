@@ -1,4 +1,4 @@
-import React, {useState, MouseEvent} from "react";
+import React, {MouseEvent, useState} from "react";
 import {FormattedMessage} from "react-intl";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";

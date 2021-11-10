@@ -11,10 +11,10 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {
     FileError,
-    isFileErrorsNotEmpty,
-    writeErrorMessage,
     findFilesWithError,
     hasFilesWithErrorStatus,
+    isFileErrorsNotEmpty,
+    writeErrorMessage,
 } from "../../utils/vedleggUtils";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
