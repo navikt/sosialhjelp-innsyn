@@ -7,7 +7,6 @@ export const TittelOgIkon = styled.div`
     @media screen and (min-width: 641px) {
         flex-direction: row;
         justify-content: space-between;
-        padding: 0 80px 2rem 80px;
     }
 
     @media screen and (max-width: 640px) {

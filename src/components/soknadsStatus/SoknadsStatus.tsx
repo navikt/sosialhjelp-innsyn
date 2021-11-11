@@ -16,6 +16,28 @@ import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {TittelOgIkon} from "./TittelOgIkon";
+import styled from "styled-components";
+
+const UthevetPanelEkstraPadding = styled(UthevetPanel)`
+    @media screen and (min-width: 641px) {
+        padding: 0 80px 2rem 80px;
+    }
+`;
+
+const StatusDetaljPanel = styled.div`
+    max-width: 640px;
+    border: 1px solid #c6c2bf;
+    border-radius: 2px;
+    padding: 1rem;
+    position: relative;
+    margin-bottom: 4px;
+
+    @media screen and (min-width: 641px) {
+        &_luft_under {
+            margin-bottom: 2rem;
+        }
+    }
+`;
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -46,7 +68,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     };
 
     return (
-        <UthevetPanel className={antallSaksElementer > 0 ? "panel-uthevet-luft-under" : ""}>
+        <UthevetPanelEkstraPadding className={antallSaksElementer > 0 ? "panel-uthevet-luft-under" : ""}>
             <TittelOgIkon>
                 {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                 {restStatus !== REST_STATUS.FEILET && (
@@ -86,7 +108,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                     const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
                     const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
                     return (
-                        <div className="status_detalj_panel" key={index}>
+                        <StatusDetaljPanel key={index}>
                             <div className={"status_detalj_linje"}>
                                 <div className="status_detalj_panel__tittel">
                                     <Label>{statusdetalj.tittel}</Label>
@@ -135,10 +157,10 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                         </div>
                                     </div>
                                 ))}
-                        </div>
+                        </StatusDetaljPanel>
                     );
                 })}
-        </UthevetPanel>
+        </UthevetPanelEkstraPadding>
     );
 };
 
