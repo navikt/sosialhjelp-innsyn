@@ -14,15 +14,9 @@ import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
-import {UthevetPanel} from "../paneler/UthevetPanel";
+import {UthevetPanelEkstraPadding} from "../paneler/UthevetPanel";
 import {TittelOgIkon} from "./TittelOgIkon";
 import styled from "styled-components";
-
-const UthevetPanelEkstraPadding = styled(UthevetPanel)`
-    @media screen and (min-width: 641px) {
-        padding: 0 80px 2rem 80px;
-    }
-`;
 
 const StatusDetaljPanel = styled.div`
     max-width: 640px;
@@ -30,7 +24,7 @@ const StatusDetaljPanel = styled.div`
     border-radius: 2px;
     padding: 1rem;
     position: relative;
-    margin-bottom: 4px;
+    margin: 2rem 0 4px 0;
 
     @media screen and (min-width: 641px) {
         &_luft_under {
@@ -86,7 +80,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
             </TittelOgIkon>
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
-                <div className="status_detalj_panel_info_alert_luft_under">
+                <div className="status_detalj_panel_info_alert_luft_over">
                     <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </Alert>
@@ -94,7 +88,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
             )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
-                <div className="status_detalj_panel_info_alert">
+                <div className="status_detalj_panel_info_alert_luft_over">
                     <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </Alert>

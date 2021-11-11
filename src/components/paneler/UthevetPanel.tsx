@@ -21,3 +21,9 @@ export const UthevetPanel = styled(Panel)`
         }
     }
 `;
+
+export const UthevetPanelEkstraPadding = styled(UthevetPanel)`
+    @media screen and (min-width: 641px) {
+        padding: 2rem 80px 2rem 80px;
+    }
+`;

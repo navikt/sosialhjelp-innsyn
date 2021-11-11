@@ -8,7 +8,7 @@ import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {BodyShort, Heading} from "@navikt/ds-react";
-import {UthevetPanel} from "../paneler/UthevetPanel";
+import {UthevetPanelEkstraPadding} from "../paneler/UthevetPanel";
 import {TittelOgIkon} from "./TittelOgIkon";
 
 const SoknadsStatusUtenInnsyn = (props: {
@@ -18,7 +18,7 @@ const SoknadsStatusUtenInnsyn = (props: {
     filUrl: UrlResponse | null;
 }) => {
     return (
-        <UthevetPanel>
+        <UthevetPanelEkstraPadding>
             <TittelOgIkon>
                 {skalViseLastestripe(props.restStatus) && <Lastestriper linjer={1} />}
                 {props.restStatus !== REST_STATUS.FEILET && (
@@ -31,8 +31,8 @@ const SoknadsStatusUtenInnsyn = (props: {
                 )}
             </TittelOgIkon>
 
-            <div className="status_detalj_panel_info_alert_luft_under">
-                {props.tidspunktSendt && props.navKontor && props.filUrl && (
+            {props.tidspunktSendt && props.navKontor && props.filUrl && (
+                <div className="status_detalj_panel_info_alert_luft_over">
                     <BodyShort>
                         Sendt den{" "}
                         <DatoOgKlokkeslett bareDato={true} tidspunkt={props.tidspunktSendt} brukKortMaanedNavn={true} />
@@ -41,9 +41,9 @@ const SoknadsStatusUtenInnsyn = (props: {
                             {props.filUrl.linkTekst}
                         </EksternLenke>
                     </BodyShort>
-                )}
-            </div>
-        </UthevetPanel>
+                </div>
+            )}
+        </UthevetPanelEkstraPadding>
     );
 };
 
