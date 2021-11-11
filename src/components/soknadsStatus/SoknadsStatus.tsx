@@ -1,5 +1,4 @@
 import React from "react";
-import Panel from "nav-frontend-paneler";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -15,6 +14,24 @@ import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
+import {UthevetPanelEkstraPadding} from "../paneler/UthevetPanel";
+import {TittelOgIkon} from "./TittelOgIkon";
+import styled from "styled-components";
+
+const StatusDetaljPanel = styled.div`
+    max-width: 640px;
+    border: 1px solid #c6c2bf;
+    border-radius: 2px;
+    padding: 1rem;
+    position: relative;
+    margin: 2rem 0 4px 0;
+
+    @media screen and (min-width: 641px) {
+        &_luft_under {
+            margin-bottom: 2rem;
+        }
+    }
+`;
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -45,8 +62,8 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     };
 
     return (
-        <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
-            <div className="tittel_og_ikon">
+        <UthevetPanelEkstraPadding className={antallSaksElementer > 0 ? "panel-uthevet-luft-under" : ""}>
+            <TittelOgIkon>
                 {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                 {restStatus !== REST_STATUS.FEILET && (
                     <>
@@ -60,10 +77,10 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                         {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
                     </>
                 )}
-            </div>
+            </TittelOgIkon>
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
-                <div className="status_detalj_panel_info_alert_luft_under">
+                <div className="status_detalj_panel_info_alert_luft_over">
                     <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </Alert>
@@ -71,7 +88,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
             )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
-                <div className="status_detalj_panel_info_alert">
+                <div className="status_detalj_panel_info_alert_luft_over">
                     <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </Alert>
@@ -85,7 +102,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                     const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
                     const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
                     return (
-                        <div className="status_detalj_panel" key={index}>
+                        <StatusDetaljPanel key={index}>
                             <div className={"status_detalj_linje"}>
                                 <div className="status_detalj_panel__tittel">
                                     <Label>{statusdetalj.tittel}</Label>
@@ -134,10 +151,10 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                         </div>
                                     </div>
                                 ))}
-                        </div>
+                        </StatusDetaljPanel>
                     );
                 })}
-        </Panel>
+        </UthevetPanelEkstraPadding>
     );
 };
 
