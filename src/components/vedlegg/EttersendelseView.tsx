@@ -149,7 +149,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
 
-            {skalViseLastestripe(restStatus, true) ? (
+            {skalViseLastestripe(restStatus) ? (
                 <Lastestriper linjer={1} />
             ) : (
                 <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>

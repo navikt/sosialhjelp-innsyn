@@ -79,7 +79,7 @@ const Oppgaver = () => {
 
             <OppgaveInformasjon />
 
-            {skalViseLastestripe(restStatus, true) && (
+            {skalViseLastestripe(restStatus) && (
                 <Panel
                     className={
                         "panel-glippe-over oppgaver_panel " +
