@@ -4,37 +4,36 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import BinderSmall from "../ikoner/BinderSmall";
 import ChecklistSmall from "../ikoner/ChecklistSmall";
 import EkspanderbartIkonPanel, {PanelIkon} from "../paneler/EkspanderbartIkonPanel";
 import "./vilkar.less";
+import {BodyShort, Label} from "@navikt/ds-react";
 
-const VilkarView: React.FC = () => {
+const OppgaveInformasjon: React.FC = () => {
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
     const skalViseVilkarView = getSkalViseVilkarView(innsynSaksStatusListe);
 
-    if (skalViseVilkarView) {
+    if (!skalViseVilkarView) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
                 underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
                 ikon={PanelIkon.CHECKLIST}
-                defaultAapen={false}
             >
                 <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
                     <div className={"vilkar-bolk-symbol-wrapper svg-width-addition"}>
                         <ChecklistSmall />
                     </div>
                     <div className={"vilkar-bolk-tekst-wrapper"}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id={"oppgaver.vilkar"} />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
                 <div className={"vilkar-bolk-med-symbol-wrapper"}>
@@ -42,12 +41,12 @@ const VilkarView: React.FC = () => {
                         <BinderSmall />
                     </div>
                     <div className={"vilkar-bolk-tekst-wrapper"}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
             </EkspanderbartIkonPanel>
@@ -57,4 +56,4 @@ const VilkarView: React.FC = () => {
     }
 };
 
-export default VilkarView;
+export default OppgaveInformasjon;

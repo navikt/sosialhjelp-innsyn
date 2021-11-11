@@ -1,8 +1,5 @@
 @import "../node_modules/nav-frontend-core/less/core";
 @import "../node_modules/nav-frontend-paneler-style/src/index.less";
-@import "../node_modules/nav-frontend-lenkepanel-style/src/index.less";
-@import "../node_modules/nav-frontend-typografi-style/src/index.less";
-@import "../node_modules/nav-frontend-chevron-style/src/index.less";
 
 @import "./components/paneler/paneler.less";
 
@@ -31,6 +28,13 @@ code {
     }
 }
 
+@media screen and (max-width: 340px) {
+    .blokk-center {
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
+}
+
 @media screen and (min-width: 641px) {
     .blokk-center {
         padding-left: 1rem;
@@ -47,54 +51,9 @@ code {
     padding-top: 0;
 }
 
-.ikon_liten_vedlegg {
-    display: block;
-    float: left;
-    height: 1rem;
-    width: 1rem;
-    margin-right: 0.5rem;
-    margin-top: 3px;
-}
-
-.file_error_celle {
-    display: flex;
-    align-items: center;
-}
-
-.file_error_ikon {
-    margin-right: 1em;
-}
-
-.ikon_liten_vedlegg_placeholder:before {
-    display: none;
-
-    @media screen and (max-width: 640px) {
-        content: "";
-        display: block;
-        float: left;
-        height: 1rem;
-        width: 1rem;
-        margin-right: 0.5rem;
-        margin-top: 3px;
-    }
-}
-
-.ikon_liten_vedlegg_placeholder_alle:before {
-    display: block;
-    content: "";
-    float: left;
-    height: 1rem;
-    width: 1rem;
-    margin-right: 0.5rem;
-    margin-top: 3px;
-}
-
 // Hack for å skjule del-skjerm knappen
-.footer-bottom-content__del-skjerm {
-    display: none !important;
-}
-.simple-footer__del-skjerm {
-    display: none !important;
+.footer-bottom-content__personvern-lenker > li:last-child {
+    display: none;
 }
 
 #nav-chatbot {

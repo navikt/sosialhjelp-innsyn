@@ -1,9 +1,9 @@
 import * as React from "react";
 import "./brodsmuleSti.less";
-import NavFrontendChevron from "nav-frontend-chevron";
+import {Back, Next} from "@navikt/ds-icons";
 import useWindowSize from "../../utils/useWindowSize";
 import {getDittNavUrl} from "../../utils/restUtils";
-import Lenke from "nav-frontend-lenker";
+import {BodyShort, Link} from "@navikt/ds-react";
 
 export enum UrlType {
     ABSOLUTE_URL = "ABSOLUTE_URL",
@@ -44,28 +44,28 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
 
     let crumbs: React.ReactNode = (
         <>
-            <div key="tilbake" className="typo-normal breadcrumbs__item">
-                <Lenke href={getDittNavUrl()} title="Gå til Ditt NAV">
+            <div key="tilbake" className="breadcrumbs__item">
+                <Link href={getDittNavUrl()} title="Gå til Ditt NAV">
                     Ditt NAV
-                </Lenke>
+                </Link>
             </div>
             {foreldreside && (
                 <>
                     <div key="chevron" aria-hidden={true}>
-                        <NavFrontendChevron type="høyre" />
+                        <Next />
                     </div>
-                    <Lenke href={foreldresideUrl} title={foreldreside.tittel} className="breadcrumbs__parent">
+                    <Link href={foreldresideUrl} title={foreldreside.tittel} className="breadcrumbs__parent">
                         {foreldreside.tittel}
-                    </Lenke>
+                    </Link>
                 </>
             )}
 
             <div key="chevron" aria-hidden={true}>
-                <NavFrontendChevron type="høyre" />
+                <Next />
             </div>
-            <div aria-current="page" key="currentPage" className="typo-normal breadcrumbs__item breadcrumbs__current">
+            <BodyShort aria-current="page" key="currentPage" className="breadcrumbs__item breadcrumbs__current">
                 {tittel}
-            </div>
+            </BodyShort>
         </>
     );
 
@@ -77,13 +77,13 @@ const Brodsmulesti: React.FC<Props> = ({tittel, className, foreldreside, tilbake
         crumbs = (
             <>
                 <div key="chevron" aria-hidden={true}>
-                    <NavFrontendChevron type="venstre" />
+                    <Back />
                 </div>
-                <p className="typo-normal breadcrumbs__item">
-                    <Lenke href={tilbakePilUrl} title="Gå til forrige side">
+                <div className="breadcrumbs__item">
+                    <Link href={tilbakePilUrl} title="Gå til forrige side">
                         Tilbake
-                    </Lenke>
-                </p>
+                    </Link>
+                </div>
             </>
         );
     }

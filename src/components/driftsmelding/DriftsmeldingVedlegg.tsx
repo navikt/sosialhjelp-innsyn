@@ -5,8 +5,8 @@ import "./DriftsmeldingVedlegg.less";
 import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {erOpplastingAvVedleggTillat} from "./DriftsmeldingUtilities";
-import {Normaltekst} from "nav-frontend-typografi";
+import {isFileUploadAllowed} from "./DriftsmeldingUtilities";
+import {Label} from "@navikt/ds-react";
 
 interface Props {
     leserData: undefined | boolean;
@@ -16,7 +16,7 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
         (state: InnsynAppState) => state.innsynsdata.kommune
     );
-    const kanLasteOppVedlegg: boolean = erOpplastingAvVedleggTillat(kommuneResponse);
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
     if (!kanLasteOppVedlegg && !props.leserData) {
         return (
@@ -24,9 +24,9 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
                 <div className={"driftsmelding-vedlegg-symbol-wrapper"}>
                     <RemoveCircle />
                 </div>
-                <Normaltekst className={"driftsmelding-vedlegg-text-wrapper"}>
+                <Label>
                     <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
-                </Normaltekst>
+                </Label>
             </div>
         );
     }

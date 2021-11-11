@@ -55,26 +55,18 @@ export function isMockServer(origin: string): boolean {
     );
 }
 
-export function erMedLoginApi(): boolean {
-    // return true; // Uncomment om testing via login-api
-    return false;
-}
-
 export function getApiBaseUrl(): string {
     return getBaseUrl(window.location.origin);
 }
 
 export function getBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
-        if (erMedLoginApi()) {
-            return "http://localhost:7000/sosialhjelp/login-api/innsyn-api/api/v1";
-        }
-        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
+        return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
     }
     if (isMockServer(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
-            "/sosialhjelp/innsyn-api/api/v1"
+            "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
     } else if (isDevSbs(origin)) {
         return (
@@ -147,9 +139,6 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
         headers.append("Content-Type", contentType ? contentType : "application/json; charset=utf-8");
     }
 
-    if (isMockServer(origin) || (isLocalhost(origin) && !erMedLoginApi())) {
-        headers.append("Authorization", "dummytoken");
-    }
     if (isMockServer(origin)) {
         headers.append("X-B3-TraceId", sessionTraceID.substr(0, 16));
         headers.append("X-B3-SpanId", sessionTraceID.substr(16, 16));

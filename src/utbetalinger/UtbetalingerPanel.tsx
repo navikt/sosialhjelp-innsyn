@@ -1,5 +1,4 @@
 import React from "react";
-import {Element, Undertittel} from "nav-frontend-typografi";
 import SavnerUtbetalingPanel from "./SavnerUtbetalingPanel";
 import UtbetalingEkspanderbart from "./UtbetalingEkspanderbart";
 import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
@@ -8,6 +7,7 @@ import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {erDevMiljo} from "../utils/ServiceHookTypes";
 import {EtikettLiten} from "../components/etikett/EtikettLiten";
+import {Heading, Label} from "@navikt/ds-react";
 
 interface Props {
     utbetalinger: UtbetalingSakType[];
@@ -37,7 +37,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
         <div className="utbetalinger_detaljer">
             {(!utbetalinger || utbetalinger.length === 0) && (
                 <div className="utbetaling__header">
-                    <Element>Vi finner ingen registrerte utbetalinger for perioden.</Element>
+                    <Label>Vi finner ingen registrerte utbetalinger for perioden.</Label>
                 </div>
             )}
             {utbetalinger &&
@@ -45,12 +45,18 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                     return (
                         <span key={"utbetaling_" + index}>
                             {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
-                                <Undertittel className="blokk-xs">{utbetalingSak.ar}</Undertittel>
+                                <Heading level="2" size="medium" className="blokk-xs">
+                                    {utbetalingSak.ar}
+                                </Heading>
                             )}
                             <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
                                 <div className="utbetaling__header bunnSeparator">
-                                    <Undertittel>{utbetalingSak.maned + " " + utbetalingSak.ar}</Undertittel>
-                                    <Undertittel>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</Undertittel>
+                                    <Heading level="2" size="medium">
+                                        {utbetalingSak.maned + " " + utbetalingSak.ar}
+                                    </Heading>
+                                    <Heading level="2" size="medium">
+                                        {formatCurrency(sumUtbetalinger(utbetalingSak))} kr
+                                    </Heading>
                                 </div>
                                 {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
                                     const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
@@ -61,10 +67,10 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                             className={!erSisteUtbetaling ? "bunnSeparator tynnere" : ""}
                                         >
                                             <div className="utbetaling__header">
-                                                <Element>
+                                                <Label>
                                                     {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}{" "}
-                                                </Element>
-                                                <Element>{formatCurrency(utbetalingMaaned.belop)} kr</Element>
+                                                </Label>
+                                                <Label>{formatCurrency(utbetalingMaaned.belop)} kr</Label>
                                             </div>
                                             <UtbetalingEkspanderbart
                                                 tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
@@ -73,35 +79,35 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 <div className="mottaker__wrapper">
                                                     <EtikettLiten>Mottaker</EtikettLiten>
                                                     {annenMottaker ? (
-                                                        <Element style={{textTransform: "capitalize"}}>
+                                                        <Label style={{textTransform: "capitalize"}}>
                                                             {utbetalingMaaned.mottaker}
                                                             {utbetalingMaaned.utbetalingsmetode && (
                                                                 <span style={{textTransform: "lowercase"}}>
                                                                     &nbsp;({utbetalingMaaned.utbetalingsmetode})&nbsp;
                                                                 </span>
                                                             )}
-                                                        </Element>
+                                                        </Label>
                                                     ) : (
-                                                        <Element>
+                                                        <Label>
                                                             Til deg (
                                                             {utbetalingMaaned.utbetalingsmetode && (
                                                                 <>{utbetalingMaaned.utbetalingsmetode} </>
                                                             )}
                                                             {utbetalingMaaned.kontonummer})
-                                                        </Element>
+                                                        </Label>
                                                     )}
                                                 </div>
                                                 {utbetalingMaaned.fom && utbetalingMaaned.tom && (
                                                     <>
                                                         <EtikettLiten>Periode</EtikettLiten>
-                                                        <Element className="blokk-xs">
+                                                        <Label className="blokk-xs">
                                                             {formatDato(utbetalingMaaned.fom)} -
                                                             {formatDato(utbetalingMaaned.tom)}
-                                                        </Element>
+                                                        </Label>
                                                     </>
                                                 )}
                                                 <EtikettLiten className="soknad__header">Søknaden din</EtikettLiten>
-                                                <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} />
+                                                <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} border />
                                             </UtbetalingEkspanderbart>
                                         </div>
                                     );

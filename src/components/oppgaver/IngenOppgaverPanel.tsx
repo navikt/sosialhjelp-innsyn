@@ -1,26 +1,45 @@
 import * as React from "react";
 import TodoList from "../ikoner/TodoList";
-import {Element, Normaltekst} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
 import PaperClip from "../ikoner/PaperClip";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {DokumentasjonEtterspurt, SaksStatusState} from "../../redux/innsynsdata/innsynsdataReducer";
-import {getSkalViseIngenOppgaverPanel} from "./oppgaverUtilities";
+import {
+    DokumentasjonEtterspurt,
+    DokumentasjonKrav,
+    SaksStatusState,
+    Vilkar,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import Panel from "nav-frontend-paneler";
+import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 interface Props {
+    dokumentasjonEtterspurt: DokumentasjonEtterspurt[] | null;
+    dokumentasjonkrav: DokumentasjonKrav[];
+    vilkar: Vilkar[];
     leserData: boolean | undefined;
 }
 
-const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
-    const oppgaver: DokumentasjonEtterspurt[] = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
+const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumentasjonEtterspurt, leserData}) => {
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
-    const skalViseIngenOppgaverPanel = getSkalViseIngenOppgaverPanel(oppgaver, innsynSaksStatusListe);
 
-    if (skalViseIngenOppgaverPanel && !props.leserData) {
+    const finnesOppgaver = (oppgaveArray: any) => {
+        return oppgaveArray && Array.isArray(oppgaveArray) && oppgaveArray.length > 0;
+    };
+
+    const skalViseIngenOppgaverPanel = () => {
+        return !(
+            getSkalViseVilkarView(innsynSaksStatusListe) ||
+            finnesOppgaver(dokumentasjonEtterspurt) ||
+            finnesOppgaver(dokumentasjonkrav) ||
+            finnesOppgaver(vilkar)
+        );
+    };
+
+    if (skalViseIngenOppgaverPanel() && !leserData) {
         return (
             <Panel className={"panel-glippe-over oppgaver_panel "}>
                 <div>
@@ -28,12 +47,12 @@ const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
                         <TodoList />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id="oppgaver.ingen_oppgaver" />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id="oppgaver.beskjed" />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
                 <div style={{marginTop: "20px"}}>
@@ -41,12 +60,12 @@ const IngenOppgaverPanel: React.FC<Props> = (props: Props) => {
                         <PaperClip />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
-                        <Element>
+                        <Label>
                             <FormattedMessage id="oppgaver.andre_dokumenter" />
-                        </Element>
-                        <Normaltekst>
+                        </Label>
+                        <BodyShort>
                             <FormattedMessage id="oppgaver.andre_dokumenter_beskjed" />
-                        </Normaltekst>
+                        </BodyShort>
                     </div>
                 </div>
             </Panel>

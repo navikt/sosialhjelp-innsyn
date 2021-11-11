@@ -1,18 +1,85 @@
 import React, {useState} from "react";
-import Lenke from "nav-frontend-lenker";
-import {Select} from "nav-frontend-skjema";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import "nav-frontend-tabell-style";
-import "./responsiv_tabell.less";
-import "../lastestriper/lastestriper.less";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
-import {getVisningstekster} from "../oppgaver/DokumentasjonEtterspurtView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
+import {getVisningstekster} from "../../utils/vedleggUtils";
+import {Link, Select, Table} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const Vedleggliste = styled.div`
+    margin-bottom: 3rem;
+`;
+
+const SorteringListeboks = styled.div`
+    @media screen and (max-width: 640px) {
+        a {
+            margin-top: 2.5rem;
+            float: right;
+        }
+    }
+
+    @media screen and (min-width: 640px) {
+        display: none;
+    }
+`;
+
+const StyledTable = styled(Table)`
+    @media screen and (max-width: 640px) {
+        thead {
+            display: none;
+        }
+
+        tr {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+            margin-bottom: 1rem;
+
+            td {
+                width: 100%;
+                text-align: left;
+                border-bottom: none;
+                line-height: 1rem;
+                padding: 0.4rem;
+            }
+            td:not(:first-child) {
+                padding-left: 2rem;
+            }
+        }
+
+        tr:first-child {
+            padding-top: 1rem;
+        }
+    }
+`;
+
+const StyledPaperClipSlanted = styled(PaperClipSlanted)`
+    display: block;
+    float: left;
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+    margin-top: 3px;
+`;
+
+const NoWrap = styled.div`
+    white-space: nowrap;
+`;
+
+const FilnavnHeader = styled.span`
+    padding-left: 1.5rem;
+`;
+
+const FileErrorCell = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`;
 
 interface Props {
     vedlegg: Vedlegg[];
@@ -21,23 +88,23 @@ interface Props {
 }
 
 const LastestripeRad = () => (
-    <tr>
-        <td>
+    <Table.Row>
+        <Table.DataCell>
             <span className="lastestriper">
                 <span aria-label="laster innhold" className="lastestripe lastestripe__kort_forsinkelse" />
             </span>
-        </td>
-        <td>
+        </Table.DataCell>
+        <Table.DataCell>
             <span className="lastestriper">
                 <span aria-label="laster innhold" className="lastestripe" />
             </span>
-        </td>
-        <td>
+        </Table.DataCell>
+        <Table.DataCell>
             <span className="lastestriper">
                 <span aria-label="laster innhold" className="lastestripe lastestripe__lang_forsinkelse" />
             </span>
-        </td>
-    </tr>
+        </Table.DataCell>
+    </Table.Row>
 );
 
 enum Kolonne {
@@ -120,10 +187,6 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
         return kolonne === sortBy ? (descending[kolonne] ? "descending" : "ascending") : "none";
     };
 
-    const classNameAriaSort = (kolonne: Kolonne): string => {
-        return kolonne === sortBy ? (descending[kolonne] ? "tabell__th--sortert-desc" : "tabell__th--sortert-asc") : "";
-    };
-
     /* Paginering */
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState<number>(0);
@@ -141,84 +204,69 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
     return (
         <>
             <EttersendelseView restStatus={restStatus} />
-            <div className="vedleggliste">
-                <div className="sortering_listeboks">
+            <Vedleggliste>
+                <SorteringListeboks>
                     <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
                         <option value={Kolonne.FILNAVN}>filnavn</option>
                         <option value={Kolonne.BESKRIVELSE}>beskrivelse</option>
                         <option value={Kolonne.DATO}>dato</option>
                     </Select>
-                </div>
-                <table className={"tabell " + (className ? className : "")}>
-                    <thead>
-                        <tr>
-                            <th
-                                role="columnheader"
-                                aria-sort={ariaSort(Kolonne.FILNAVN)}
-                                className={classNameAriaSort(Kolonne.FILNAVN)}
-                            >
-                                <Lenke
+                </SorteringListeboks>
+                <StyledTable>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.FILNAVN)}>
+                                <Link
                                     href="#"
                                     onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
                                 >
-                                    <span className="ikon_liten_vedlegg_placeholder_alle">Filnavn</span>
-                                </Lenke>
-                            </th>
-                            <th
-                                role="columnheader"
-                                aria-sort={ariaSort(Kolonne.BESKRIVELSE)}
-                                className={classNameAriaSort(Kolonne.BESKRIVELSE)}
-                            >
-                                <Lenke
+                                    <FilnavnHeader>Filnavn</FilnavnHeader>
+                                </Link>
+                            </Table.HeaderCell>
+                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.BESKRIVELSE)}>
+                                <Link
                                     href="#"
                                     onClick={(event) =>
                                         setSort(Kolonne.BESKRIVELSE, !descending[Kolonne.BESKRIVELSE], event)
                                     }
                                 >
                                     Beskrivelse
-                                </Lenke>
-                            </th>
-                            <th
-                                role="columnheader"
-                                aria-sort={ariaSort(Kolonne.DATO)}
-                                className={classNameAriaSort(Kolonne.DATO)}
-                                align="right"
-                            >
-                                <Lenke
+                                </Link>
+                            </Table.HeaderCell>
+                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.DATO)}>
+                                <Link
                                     href="#"
                                     onClick={(event) => setSort(Kolonne.DATO, !descending[Kolonne.DATO], event)}
                                 >
                                     Dato lagt til
-                                </Lenke>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                                </Link>
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
                         {skalViseLastestripe(restStatus, true) && <LastestripeRad />}
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
-                                <tr key={index}>
+                                <Table.Row key={index}>
                                     {harFeilPaVedleggFraServer(vedlegg) && (
-                                        <td colSpan={4}>
-                                            <div className="file_error_celle">
-                                                <div className="file_error_ikon">
-                                                    <RemoveCircle />
-                                                </div>{" "}
-                                                {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
-                                            </div>
-                                        </td>
+                                        <>
+                                            <Table.DataCell>
+                                                <FileErrorCell>
+                                                    <div>
+                                                        <RemoveCircle />
+                                                    </div>
+                                                    {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
+                                                </FileErrorCell>
+                                            </Table.DataCell>
+                                            <Table.DataCell></Table.DataCell>
+                                            <Table.DataCell></Table.DataCell>
+                                        </>
                                     )}
                                     {!harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
-                                            <td
-                                                className={
-                                                    sortBy === Kolonne.FILNAVN
-                                                        ? "tabell__td--sortert filnavn_kollonne"
-                                                        : "filnavn_kollonne"
-                                                }
-                                            >
-                                                <PaperClipSlanted className="ikon_liten_vedlegg" />
-                                                <Lenke
+                                            <Table.DataCell className="filnavn_kollonne">
+                                                <StyledPaperClipSlanted />
+                                                <Link
                                                     href={vedlegg.url}
                                                     target="_blank"
                                                     title={
@@ -226,32 +274,27 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                                     }
                                                 >
                                                     {vedlegg.filnavn}
-                                                </Lenke>
-                                            </td>
-                                            <td className={sortBy === Kolonne.BESKRIVELSE ? "tabell__td--sortert" : ""}>
-                                                <span className="ikon_liten_vedlegg_placeholder">
-                                                    {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
-                                                </span>
-                                            </td>
-                                            <td
-                                                align="right"
-                                                className={sortBy === Kolonne.DATO ? "tabell__td--sortert" : ""}
-                                            >
-                                                <div className="dato_lagt_til ikon_liten_vedlegg_placeholder">
+                                                </Link>
+                                            </Table.DataCell>
+                                            <Table.DataCell>
+                                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                            </Table.DataCell>
+                                            <Table.DataCell>
+                                                <NoWrap>
                                                     <DatoOgKlokkeslett
                                                         bareDato={true}
                                                         tidspunkt={vedlegg.datoLagtTil}
                                                         brukKortMaanedNavn={true}
                                                     />
-                                                </div>
-                                            </td>
+                                                </NoWrap>
+                                            </Table.DataCell>
                                         </>
                                     )}
-                                </tr>
+                                </Table.Row>
                             );
                         })}
-                    </tbody>
-                </table>
+                    </Table.Body>
+                </StyledTable>
                 {sorterteVedlegg.length > itemsPerPage && (
                     <Paginering
                         initialPage={0}
@@ -259,7 +302,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         onPageChange={(page: number) => handlePageClick(page)}
                     />
                 )}
-            </div>
+            </Vedleggliste>
         </>
     );
 };

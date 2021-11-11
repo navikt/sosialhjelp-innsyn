@@ -1,6 +1,5 @@
 import React from "react";
 import Panel from "nav-frontend-paneler";
-import {Element, Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -8,13 +7,14 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
-import {AlertStripeInfo} from "nav-frontend-alertstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import DokumentSendt from "../ikoner/DokumentSendt";
 import DokumentOk from "../ikoner/DokumentOk";
 import DokumentMottatt from "../ikoner/DokumentMottatt";
 import DokumentElla from "../ikoner/DocumentElla";
 import {EtikettLiten} from "../etikett/EtikettLiten";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
     switch (saksStatus) {
@@ -40,13 +40,19 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     const antallSaksElementer: number = sak ? sak.length : 0;
     const intl: IntlShape = useIntl();
 
+    const onVisVedtak = () => {
+        logButtonOrLinkClick("Åpnet vedtaksbrev");
+    };
+
     return (
         <Panel className={"panel-uthevet " + (antallSaksElementer > 0 ? "panel-uthevet-luft-under" : "")}>
             <div className="tittel_og_ikon">
                 {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                 {restStatus !== REST_STATUS.FEILET && (
                     <>
-                        <Innholdstittel>{soknadsStatusTittel(status, intl)}</Innholdstittel>
+                        <Heading level="1" size="xlarge">
+                            {soknadsStatusTittel(status, intl)}
+                        </Heading>
                         {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}
                         {status === SoknadsStatusEnum.MOTTATT && <DokumentMottatt />}
                         {status === SoknadsStatusEnum.UNDER_BEHANDLING && <DokumentElla />}
@@ -58,17 +64,17 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
                 <div className="status_detalj_panel_info_alert_luft_under">
-                    <AlertStripeInfo>
+                    <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </AlertStripeInfo>
+                    </Alert>
                 </div>
             )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
                 <div className="status_detalj_panel_info_alert">
-                    <AlertStripeInfo>
+                    <Alert variant="info">
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </AlertStripeInfo>
+                    </Alert>
                 </div>
             )}
 
@@ -82,7 +88,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                         <div className="status_detalj_panel" key={index}>
                             <div className={"status_detalj_linje"}>
                                 <div className="status_detalj_panel__tittel">
-                                    <Element>{statusdetalj.tittel}</Element>
+                                    <Label>{statusdetalj.tittel}</Label>
                                 </div>
                                 <div className="status_detalj_panel__status">
                                     <EtikettLiten>
@@ -96,21 +102,21 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                             </div>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (
                                 <div className="panel-glippe-over">
-                                    <Normaltekst>{statusdetalj.melding}</Normaltekst>
+                                    <BodyShort>{statusdetalj.melding}</BodyShort>
                                 </div>
                             )}
                             {sakBehandlesIkke && !soknadBehandlesIkke && (
                                 <div className="panel-glippe-over">
-                                    <Normaltekst>
+                                    <BodyShort>
                                         <FormattedMessage id="status.sak_behandles_ikke_ingress" />
-                                    </Normaltekst>
+                                    </BodyShort>
                                 </div>
                             )}
                             {sakIkkeInnsyn && !soknadBehandlesIkke && (
                                 <div className="panel-glippe-over">
-                                    <Normaltekst>
+                                    <BodyShort>
                                         <FormattedMessage id="status.ikke_innsyn_ingress" />
-                                    </Normaltekst>
+                                    </BodyShort>
                                 </div>
                             )}
 
@@ -118,7 +124,11 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                 statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
                                     <div className={"status_detalj_linje"} key={index}>
                                         <div className="status_detalj_panel__kommentarer">
-                                            <EksternLenke href={"" + hendelse.vedtaksfilUrl} target="_blank">
+                                            <EksternLenke
+                                                href={"" + hendelse.vedtaksfilUrl}
+                                                target="_blank"
+                                                onClick={onVisVedtak}
+                                            >
                                                 Vedtak (<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato} />)
                                             </EksternLenke>
                                         </div>

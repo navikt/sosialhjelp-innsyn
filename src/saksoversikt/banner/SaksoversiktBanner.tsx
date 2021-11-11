@@ -1,18 +1,22 @@
 import * as React from "react";
-import Lenke from "nav-frontend-lenker";
 import UserIcon from "./UserIcon";
 import "./saksoversiktBanner.less";
 import {getDittNavUrl} from "../../utils/restUtils";
+import {BodyShort, Heading, Link} from "@navikt/ds-react";
 
 const SaksoversiktBanner: React.FC<{children: React.ReactNode} & {}> = ({children}) => {
     return (
         <div className="saksoversikt-banner">
             <div className="blokk-center">
-                <p className="saksoversikt-banner__brodsmulesti">
+                <div className="saksoversikt-banner__brodsmulesti">
                     <UserIcon />
-                    <Lenke href={getDittNavUrl()}>Ditt NAV</Lenke>&nbsp;/ Økonomisk sosialhjelp
-                </p>
-                <h1 className="saksoversikt-banner__tittel">{children}</h1>
+                    <BodyShort>
+                        <Link href={getDittNavUrl()}>Ditt NAV</Link> / Økonomisk sosialhjelp
+                    </BodyShort>
+                </div>
+                <Heading level="1" size="2xlarge" className="saksoversikt-banner__tittel">
+                    {children}
+                </Heading>
             </div>
         </div>
     );

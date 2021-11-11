@@ -1,11 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Panel from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
-import {Normaltekst, Systemtittel, Undertittel} from "nav-frontend-typografi";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
-import {Select} from "nav-frontend-skjema";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
@@ -14,13 +12,26 @@ import {history} from "../configureStore";
 import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
+import {logAmplitudeEvent} from "../utils/amplitude";
+import {BodyShort, Button, Heading, Select} from "@navikt/ds-react";
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
     const utbetalingerExistsService = useUtbetalingerExistsService(12);
-    let utbetalingerExists: boolean =
+    const utbetalingerExists: boolean =
         utbetalingerExistsService.restStatus === REST_STATUS.OK ? utbetalingerExistsService.payload : false;
+
+    useEffect(() => {
+        if (!pageLoadIsLogged && utbetalingerExistsService.restStatus === REST_STATUS.OK) {
+            logAmplitudeEvent("Hentet innsynsdata", {
+                harUtbetalinger: utbetalingerExists,
+            });
+            //Ensure only one logging to amplitude
+            setPageLoadIsLogged(true);
+        }
+    }, [utbetalingerExists, pageLoadIsLogged, utbetalingerExistsService.restStatus]);
 
     let filtrerteSaker: Sakstype[];
 
@@ -81,11 +92,13 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     return (
         <>
             <div className="dine_soknader_panel ">
-                <Systemtittel className="dine_soknader_panel_overskrift">Dine søknader</Systemtittel>
+                <Heading level="2" size="medium" className="dine_soknader_panel_overskrift">
+                    Dine søknader
+                </Heading>
                 <div className="knapp_og_periode_container">
-                    <a href="/sosialhjelp/soknad/informasjon" className="knapp">
+                    <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
                         Ny søknad
-                    </a>
+                    </Button>
                     <div className="periodevelger_container">
                         <Select
                             onChange={(value: any) => velgPeriode(value)}
@@ -119,6 +132,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         kilde={sak.kilde}
                         antallNyeOppgaver={sak.antallNyeOppgaver}
                         harBlittLastetInn={sak.harBlittLastetInn}
+                        border={false}
                     />
                 );
             })}
@@ -133,8 +147,10 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
             {filtrerteSaker.length === 0 && (
                 <Panel className="panel-glippe-over">
-                    <Normaltekst>Vi finner ingen søknader for denne perioden.</Normaltekst>
-                    <Normaltekst>Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.</Normaltekst>
+                    <BodyShort spacing>Vi finner ingen søknader for denne perioden.</BodyShort>
+                    <BodyShort spacing>
+                        Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.
+                    </BodyShort>
                 </Panel>
             )}
 
@@ -142,15 +158,17 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 {utbetalingerExists && <DineUtbetalingerPanel />}
 
                 <Subheader className="panel-luft-over">
-                    <Undertittel>Relatert informasjon</Undertittel>
+                    <Heading level="2" size="small">
+                        Relatert informasjon
+                    </Heading>
                 </Subheader>
 
                 <InfoPanelContainer>
-                    <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/artikkel/124876"}>
+                    <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/gi-beskjed"}>
                         Du må melde fra dersom din økonomiske situasjon endres.
                     </InfoPanel>
 
-                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/sosialhjelp/artikkel/124875"}>
+                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/sosialhjelp/klage"}>
                         Har du fått et vedtak fra oss som du mener er feil, kan du klage.
                     </InfoPanel>
 

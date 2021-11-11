@@ -1,5 +1,6 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -19,13 +20,12 @@ import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar"
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import Panel from "nav-frontend-paneler";
-import {Normaltekst, Systemtittel} from "nav-frontend-typografi";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
-import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
-import NavFrontendSpinner from "nav-frontend-spinner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
+import {logAmplitudeEvent} from "../utils/amplitude";
+import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 
 interface Props {
     match: {
@@ -47,6 +47,41 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
+
+    const dataErKlare =
+        !pageLoadIsLogged &&
+        erPaInnsyn &&
+        restStatus.saksStatus === REST_STATUS.OK &&
+        restStatus.oppgaver === REST_STATUS.OK &&
+        restStatus.forelopigSvar === REST_STATUS.OK;
+
+    useEffect(() => {
+        function createAmplitudeData() {
+            const harVedtaksbrev =
+                innsynsdata.saksStatus && innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList?.length > 0);
+
+            return {
+                antallSaker: innsynsdata.saksStatus.length,
+                harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
+                harEtterspurtDokumentasjon: innsynsdata.oppgaver.length > 0,
+                harVedtaksbrev: harVedtaksbrev,
+                status: innsynsdata.soknadsStatus.status,
+            };
+        }
+
+        if (dataErKlare) {
+            logAmplitudeEvent("Hentet saker for søknad", createAmplitudeData());
+            //Ensure only one logging to amplitude
+            setPageLoadIsLogged(true);
+        }
+    }, [
+        dataErKlare,
+        innsynsdata.oppgaver.length,
+        innsynsdata.forelopigSvar.harMottattForelopigSvar,
+        innsynsdata.saksStatus,
+        innsynsdata.soknadsStatus.status,
+    ]);
 
     useEffect(() => {
         dispatch({
@@ -60,6 +95,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         if (innsynsdata.restStatus.saksStatus !== REST_STATUS.PENDING) {
             [
                 InnsynsdataSti.OPPGAVER,
+                InnsynsdataSti.VILKAR,
+                InnsynsdataSti.DOKUMENTASJONKRAV,
                 InnsynsdataSti.SOKNADS_STATUS,
                 InnsynsdataSti.HENDELSER,
                 InnsynsdataSti.VEDLEGG,
@@ -92,10 +129,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     return (
         <>
             {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
-                <AlertStripeAdvarsel className="luft_over_16px">
-                    <Normaltekst>Vi klarte ikke å hente inn all informasjonen på siden.</Normaltekst>
-                    <Normaltekst>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</Normaltekst>
-                </AlertStripeAdvarsel>
+                <Alert variant="warning" className="luft_over_16px">
+                    <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
+                    <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+                </Alert>
             )}
             <Brodsmulesti
                 foreldreside={{
@@ -120,11 +157,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 </SoknadUtenInnsynHotjarTrigger>
             )}
 
-            {mustLogin && (
-                <div className="application-spinner">
-                    <NavFrontendSpinner type="XL" />
-                </div>
-            )}
+            {mustLogin && <ApplicationSpinner />}
 
             {!mustLogin && (
                 <>
@@ -149,16 +182,14 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         />
                     )}
 
-                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && (
-                        <Oppgaver oppgaver={innsynsdata.oppgaver} restStatus={restStatus.oppgaver} />
-                    )}
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver />}
 
                     {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                         <>
                             <Panel className="panel-luft-over">
-                                <Systemtittel>
+                                <Heading level="2" size="medium">
                                     <FormattedMessage id="vedlegg.tittel" />
-                                </Systemtittel>
+                                </Heading>
                             </Panel>
                             <Panel className="panel-glippe-over">
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />

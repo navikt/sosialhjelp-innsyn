@@ -1,51 +1,21 @@
 import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
-import Lenke from "nav-frontend-lenker";
 import TrashBin from "../ikoner/TrashBin";
-import {
-    Fil,
-    InnsynsdataActionTypeKeys,
-    DokumentasjonEtterspurtElement,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
-import {useDispatch} from "react-redux";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
-import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
-import {Flatknapp} from "nav-frontend-knapper";
-import {Element} from "nav-frontend-typografi";
-import {SkjemaelementFeilmelding} from "nav-frontend-skjema";
+import {Button, Label, Link} from "@navikt/ds-react";
+import {ErrorMessage} from "../errors/ErrorMessage";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-const FilView: React.FC<{
-    vedleggIndex: number;
-    oppgaveElementIndex: number;
-    oppgaveIndex: number;
+const FileItemView: React.FC<{
     fil: Fil;
-    oppgaveElement?: DokumentasjonEtterspurtElement;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-    oppgaveId: string;
-}> = ({vedleggIndex, oppgaveElementIndex, oppgaveIndex, fil, oppgaveElement, setOverMaksStorrelse, oppgaveId}) => {
+    onDelete: (event: any, fil: Fil) => void;
+}> = ({fil, onDelete}) => {
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
-    const dispatch = useDispatch();
-
-    const onSlettClick = (event: ClickEvent): void => {
-        setOverMaksStorrelse(false);
-        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
-        dispatch({
-            type: oppgaveElement
-                ? InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING
-                : InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
-            vedleggIndex: vedleggIndex,
-            oppgaveElementIndex: oppgaveElementIndex,
-            oppgaveElement: oppgaveElement,
-            oppgaveIndex: oppgaveIndex,
-            fil: fil,
-        });
-        event.preventDefault();
-    };
 
     const [modalVises, setModalVises] = useState(false);
 
@@ -63,33 +33,33 @@ const FilView: React.FC<{
                     )}
 
                     <PaperClipSlanted className="filikon" />
-                    <Lenke
+                    <Link
                         href="#"
-                        className="filnavn lenke_uten_ramme"
+                        className="filnavn"
                         onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
                     >
                         {fil.filnavn}
-                    </Lenke>
+                    </Link>
                     <span className="filstorrelse">({storrelse})</span>
                 </div>
                 <div className="fjern_lenkeboks">
-                    <Flatknapp mini onClick={(event) => onSlettClick(event)}>
-                        <Element>
+                    <Button variant="tertiary" size="small" onClick={(event) => onDelete(event, fil)}>
+                        <Label>
                             <FormattedMessage id="vedlegg.fjern" />
-                        </Element>
+                        </Label>
                         <TrashBin className="klikkbar_soppelboette" />
-                    </Flatknapp>
+                    </Button>
                 </div>
             </div>
             {fil.status !== REST_STATUS.INITIALISERT &&
                 fil.status !== REST_STATUS.PENDING &&
                 fil.status !== REST_STATUS.OK && (
-                    <SkjemaelementFeilmelding className="oppgaver_vedlegg_feilmelding_rad">
+                    <ErrorMessage className="oppgaver_vedlegg_feilmelding_rad">
                         <FormattedMessage id={"vedlegg.opplasting_feilmelding_" + fil.status} />
-                    </SkjemaelementFeilmelding>
+                    </ErrorMessage>
                 )}
         </div>
     );
 };
 
-export default FilView;
+export default FileItemView;

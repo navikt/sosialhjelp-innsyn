@@ -7,7 +7,7 @@ export enum OriginalSoknadVedleggType {
     SAMVARSAVTALE_BARN = "samvarsavtale|barn",
     HUSLEIEKONTRAKT_HUSLEIEKONTRAKT = "husleiekontrakt|husleiekontrakt",
     HUSLEIEKONTRAKT_KOMMUNAL = "husleiekontrakt|kommunal",
-    BOSTOTTE_VEDTAK = "bostotte|vedtak",
+    BOSTOTTE_VEDTAK = "husbanken|vedtak",
     KONTOOVERSIKT_BRUKSKONTO = "kontooversikt|brukskonto",
     KONTOOVERSIKT_BSU = "kontooversikt|bsu",
     KONTOOVERSIKT_SPAREKONTO = "kontooversikt|sparekonto",
