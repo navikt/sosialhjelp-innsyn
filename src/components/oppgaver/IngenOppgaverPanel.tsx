@@ -10,9 +10,16 @@ import {
     SaksStatusState,
     Vilkar,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import Panel from "nav-frontend-paneler";
 import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
-import {BodyShort, Label} from "@navikt/ds-react";
+import {BodyShort, Label, Panel} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+`;
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt[] | null;
@@ -41,7 +48,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
 
     if (skalViseIngenOppgaverPanel() && !leserData) {
         return (
-            <Panel className={"panel-glippe-over oppgaver_panel "}>
+            <StyledPanel className={"panel-glippe-over oppgaver_panel "}>
                 <div>
                     <span style={{float: "left", marginTop: "6px"}}>
                         <TodoList />
@@ -68,7 +75,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                         </BodyShort>
                     </div>
                 </div>
-            </Panel>
+            </StyledPanel>
         );
     }
     return null;
