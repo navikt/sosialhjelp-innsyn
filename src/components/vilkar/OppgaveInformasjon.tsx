@@ -27,7 +27,7 @@ const OppgaveInformasjon: React.FC = () => {
                     <div className={"vilkar-bolk-symbol-wrapper svg-width-addition"}>
                         <ChecklistSmall />
                     </div>
-                    <div className={"vilkar-bolk-tekst-wrapper"}>
+                    <div>
                         <Label>
                             <FormattedMessage id={"oppgaver.vilkar"} />
                         </Label>
@@ -40,7 +40,7 @@ const OppgaveInformasjon: React.FC = () => {
                     <div className={"vilkar-bolk-symbol-wrapper"}>
                         <BinderSmall />
                     </div>
-                    <div className={"vilkar-bolk-tekst-wrapper"}>
+                    <div>
                         <Label>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
                         </Label>
