@@ -1,9 +1,8 @@
-import {Grid, Cell, Heading, BodyLong, Button, Radio, RadioGroup} from "@navikt/ds-react";
+import {BodyLong, Button, Cell, Grid, Heading, Panel, Radio, RadioGroup} from "@navikt/ds-react";
 import styled from "styled-components";
 import React, {useEffect, useState} from "react";
 import {logAmplitudeEvent} from "../../utils/amplitude";
 import {RadioGruppe} from "../../components/sporreundersokelse/RadioGruppe";
-import Panel from "nav-frontend-paneler";
 import Brodsmulesti, {UrlType} from "../../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch, useSelector} from "react-redux";
 import {push} from "connected-react-router";
@@ -15,6 +14,10 @@ import {Cookies, withCookies} from "react-cookie";
 const StyledPanel = styled(Panel)`
     margin-top: 2rem;
     padding-top: 2rem;
+
+    @media screen and (min-width: 641px) {
+        padding: 2rem 80px 2rem 80px;
+    }
 `;
 
 const StyledHeader = styled(Heading)`
