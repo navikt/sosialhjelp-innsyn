@@ -1,9 +1,16 @@
 import React, {ReactNode, useEffect, useState} from "react";
 import "./mainNav.less";
-import Panel from "nav-frontend-paneler";
 import {useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Link} from "@navikt/ds-react";
+import {Link, Panel} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+`;
 
 interface Arkfane {
     tittel: string;
@@ -57,7 +64,7 @@ const ArkfanePanel: React.FC<Props> = ({arkfaner, defaultArkfane, className}) =>
                     </div>
                 </nav>
             </div>
-            <Panel>{arkfaner[valgtArkfane].content}</Panel>
+            <StyledPanel>{arkfaner[valgtArkfane].content}</StyledPanel>
         </div>
     );
 };

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Panel from "nav-frontend-paneler";
 import "./saksoversikt.less";
 import {isAfter, isBefore, subMonths} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
@@ -13,7 +12,15 @@ import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {BodyShort, Button, Heading, Select} from "@navikt/ds-react";
+import {BodyShort, Button, Heading, Panel, Select} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const IngenSoknaderPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+`;
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const [periode, setPeriode] = useState<string>("alle");
@@ -146,12 +153,12 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
             )}
 
             {filtrerteSaker.length === 0 && (
-                <Panel className="panel-glippe-over">
+                <IngenSoknaderPanel className="panel-glippe-over">
                     <BodyShort spacing>Vi finner ingen søknader for denne perioden.</BodyShort>
                     <BodyShort spacing>
                         Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.
                     </BodyShort>
-                </Panel>
+                </IngenSoknaderPanel>
             )}
 
             <>

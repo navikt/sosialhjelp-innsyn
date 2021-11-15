@@ -1,4 +1,3 @@
-import Panel from "nav-frontend-paneler";
 import React from "react";
 import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
@@ -17,8 +16,15 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {VilkarView} from "./VilkarView";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Accordion, BodyShort, Heading, Label} from "@navikt/ds-react";
+import {Accordion, BodyShort, Heading, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
+
+const StyledPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+`;
 
 const StyledAccordion = styled(Accordion)`
     .navds-accordion__header {
@@ -71,23 +77,23 @@ const Oppgaver = () => {
 
     return (
         <>
-            <Panel className="panel-luft-over">
+            <StyledPanel className="panel-luft-over">
                 <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
-            </Panel>
+            </StyledPanel>
 
             <OppgaveInformasjon />
 
             {skalViseLastestripe(restStatus.oppgaver, true) && (
-                <Panel
+                <StyledPanel
                     className={
                         "panel-glippe-over oppgaver_panel " +
                         (skalViseOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
                     }
                 >
                     <Lastestriper linjer={1} />
-                </Panel>
+                </StyledPanel>
             )}
 
             <IngenOppgaverPanel
@@ -98,7 +104,7 @@ const Oppgaver = () => {
             />
 
             {skalViseOppgaver && (
-                <Panel
+                <StyledPanel
                     className={
                         "panel-glippe-over oppgaver_panel " +
                         (brukerHarDokumentasjonEtterspurt ? "oppgaver_panel_bruker_har_oppgaver" : "")
@@ -264,7 +270,7 @@ const Oppgaver = () => {
                             </Accordion.Item>
                         </StyledAccordion>
                     )}
-                </Panel>
+                </StyledPanel>
             )}
         </>
     );

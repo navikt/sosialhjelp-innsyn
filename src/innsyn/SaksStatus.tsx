@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Alert, BodyShort, Heading} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -19,13 +19,20 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import Panel from "nav-frontend-paneler";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
+import styled from "styled-components";
+
+const StyledPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+`;
 
 interface Props {
     match: {
@@ -186,14 +193,14 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
                     {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
                         <>
-                            <Panel className="panel-luft-over">
+                            <StyledPanel className="panel-luft-over">
                                 <Heading level="2" size="medium">
                                     <FormattedMessage id="vedlegg.tittel" />
                                 </Heading>
-                            </Panel>
-                            <Panel className="panel-glippe-over">
+                            </StyledPanel>
+                            <StyledPanel className="panel-glippe-over">
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
-                            </Panel>
+                            </StyledPanel>
                         </>
                     )}
                     {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (

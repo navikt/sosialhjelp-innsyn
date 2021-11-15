@@ -1,13 +1,18 @@
 import React from "react";
-import Panel from "nav-frontend-paneler";
 import DocumentChecklist from "../ikoner/DocumentChecklist";
 import DokumentBinder from "../ikoner/DocumentBinder";
-import {Accordion, BodyShort, Label} from "@navikt/ds-react";
+import {Accordion, BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledAccordion = styled(Accordion)`
     .navds-accordion__header {
         border-bottom: none;
+    }
+`;
+
+const StyledPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding: 2rem 80px 2rem 80px;
     }
 `;
 
@@ -36,7 +41,7 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, chi
     );
 
     return (
-        <Panel className={"panel-glippe-over vilkar_panel"}>
+        <StyledPanel className={"panel-glippe-over vilkar_panel"}>
             <StyledAccordion className={"react-collapse-animation"}>
                 <Accordion.Item>
                     <Accordion.Header>{heading}</Accordion.Header>
@@ -45,7 +50,7 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, ikon, chi
                     </Accordion.Content>
                 </Accordion.Item>
             </StyledAccordion>
-        </Panel>
+        </StyledPanel>
     );
 };
 
