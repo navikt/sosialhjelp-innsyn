@@ -147,7 +147,7 @@ function generateCallId(): string {
     return `CallId_${systemTime}_${randomNr}`;
 }
 
-const getCookie = (name: String): string | null => {
+const getCookie = (name: string): string | null => {
     if (!document.cookie) {
         return null;
     }
