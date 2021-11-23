@@ -3,7 +3,6 @@
   "namespace": "teamdigisos",
   "ingresses": [
     "https://sosialhjelp-innsyn.nais.oera.no/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn.prod-sbs.nais.io/sosialhjelp/innsyn",
     "https://www.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": true,
