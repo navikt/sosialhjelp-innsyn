@@ -53,4 +53,23 @@ describe("getOriginAwareHeaders", () => {
         expect(headers.has("X-B3-TraceId")).toBeFalsy();
         expect(headers.has("X-B3-SpanId")).toBeFalsy();
     });
+
+    it("labs and dev-gcp should contain istio-headers", () => {
+        let headers = getOriginAwareHeaders("https://sosialhjelp-innsyn-gcp.dev.nav.no");
+        containsAllHeaders(headers);
+
+        headers = getOriginAwareHeaders("https://sosialhjelp-innsyn.labs.nais.io");
+        containsAllHeaders(headers);
+
+        headers = getOriginAwareHeaders("http://digisos.labs.nais.io/");
+        containsAllHeaders(headers);
+    });
+
+    const containsAllHeaders = (headers: Headers) => {
+        expect(headers.has("X-B3-TraceId")).toBeTruthy();
+        expect(headers.has("X-B3-SpanId")).toBeTruthy();
+        expect(headers.has("Accept")).toBeTruthy();
+        expect(headers.has("Nav-Call-Id")).toBeTruthy();
+        expect(headers.has("Content-Type")).toBeTruthy();
+    };
 });
