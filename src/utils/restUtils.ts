@@ -2,8 +2,6 @@ import "whatwg-fetch";
 import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 import {v4 as uuidv4} from "uuid";
 
-const sessionTraceID = uuidv4().toString().replace(/-/g, "");
-
 export function isProd(origin: string) {
     return origin.indexOf("www.nav.no") >= 0;
 }
@@ -139,10 +137,6 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
         headers.append("Content-Type", contentType ? contentType : "application/json; charset=utf-8");
     }
 
-    if (isMockServer(origin)) {
-        headers.append("X-B3-TraceId", sessionTraceID.substr(0, 16));
-        headers.append("X-B3-SpanId", sessionTraceID.substr(16, 16));
-    }
     return headers;
 };
 
@@ -152,6 +146,22 @@ function generateCallId(): string {
 
     return `CallId_${systemTime}_${randomNr}`;
 }
+
+const getCookie = (name: string): string | null => {
+    if (!document.cookie) {
+        return null;
+    }
+
+    const xsrfCookies = document.cookie
+        .split(";")
+        .map((c) => c.trim())
+        .filter((c) => c.startsWith(name + "="));
+
+    if (xsrfCookies.length === 0) {
+        return null;
+    }
+    return decodeURIComponent(xsrfCookies[0].split("=")[1]);
+};
 
 export enum HttpErrorType {
     UNAUTHORIZED = "unauthorized",
@@ -168,8 +178,15 @@ export const serverRequest = (
     isSoknadApi?: boolean,
     callId?: string
 ) => {
+    const headers = getHeaders(contentType, callId);
+    if (method === RequestMethod.PUT || method === RequestMethod.POST) {
+        const cookie = getCookie("XSRF-TOKEN-INNSYN-API");
+        if (cookie !== null) {
+            headers.append("XSRF-TOKEN-INNSYN-API", cookie);
+        }
+    }
     const OPTIONS: RequestInit = {
-        headers: getHeaders(contentType, callId),
+        headers: headers,
         method: method,
         credentials: determineCredentialsParameter(),
         body: body ? body : undefined,
