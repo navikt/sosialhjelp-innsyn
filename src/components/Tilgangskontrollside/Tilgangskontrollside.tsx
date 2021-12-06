@@ -2,8 +2,6 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import "./Tilgangskontrollside.less";
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -12,6 +10,8 @@ import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
 import {BodyShort, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
+import {setBreadcrumbs} from "../../utils/breadcrumbs";
+import {InnsynAppState} from "../../redux/reduxTypes";
 
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
@@ -24,6 +24,12 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
     const [restStatus, setRestStatus] = useState(REST_STATUS.INITIALISERT);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (restkallHarGittForbidden || !tilgang) {
+            setBreadcrumbs();
+        }
+    }, [restkallHarGittForbidden, tilgang]);
 
     useEffect(() => {
         setRestStatus(REST_STATUS.PENDING);
@@ -64,7 +70,6 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                 <div className="informasjon-side">
                     <BigBanner tittel="Økonomisk sosialhjelp" />
                     <div className={"blokk-center"}>
-                        <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                         <div className="tilgangskontroll">
                             <UthevetPanel className="panel-uthevet-luft-under panel-glippe-over">
                                 <div className="ellablunk-rad">

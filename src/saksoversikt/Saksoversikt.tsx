@@ -16,6 +16,7 @@ import styled from "styled-components";
 import {useCookies} from "react-cookie";
 import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
+import {setBreadcrumbs} from "../utils/breadcrumbs";
 
 const StyledLinkPanel = styled(LinkPanel)`
     margin-top: 1rem;
@@ -62,6 +63,10 @@ const Saksoversikt: React.FC = () => {
         }
     }
     const harSaker = alleSaker.length > 0;
+
+    useEffect(() => {
+        setBreadcrumbs();
+    }, []);
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));

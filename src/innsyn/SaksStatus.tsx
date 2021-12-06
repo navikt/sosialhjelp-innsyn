@@ -18,7 +18,6 @@ import VedleggView from "../components/vedlegg/VedleggView";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
@@ -26,6 +25,8 @@ import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUt
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
+import {setBreadcrumbs} from "../utils/breadcrumbs";
+import {useLocation} from "react-router";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -62,6 +63,11 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         restStatus.saksStatus === REST_STATUS.OK &&
         restStatus.oppgaver === REST_STATUS.OK &&
         restStatus.forelopigSvar === REST_STATUS.OK;
+
+    const {pathname} = useLocation();
+    useEffect(() => {
+        setBreadcrumbs({title: "Søknadsstatus", url: `/sosialhjelp${pathname}`});
+    }, [pathname]);
 
     useEffect(() => {
         function createAmplitudeData() {
@@ -141,16 +147,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                 </Alert>
             )}
-            <Brodsmulesti
-                foreldreside={{
-                    tittel: "Økonomisk sosialhjelp",
-                    path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH,
-                }}
-                tittel={statusTittel}
-                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                className="breadcrumbs__luft_rundt"
-            />
 
             {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
                 <SoknadMedInnsynHotjarTrigger>

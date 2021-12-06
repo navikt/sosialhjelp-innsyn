@@ -10,12 +10,13 @@ import {
     filtrerUtbetalingerForTidsinterval,
     filtrerUtbetalingerPaaMottaker,
 } from "./utbetalingerUtils";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {Heading} from "@navikt/ds-react";
+import {useLocation} from "react-router";
+import {setBreadcrumbs} from "../utils/breadcrumbs";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
@@ -54,6 +55,11 @@ const Utbetalinger: React.FC = () => {
     const utbetalinger: UtbetalingSakType[] =
         utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
 
+    const {pathname} = useLocation();
+    useEffect(() => {
+        setBreadcrumbs({title: "Utbetalingsoversikt", url: `/sosialhjelp${pathname}`});
+    }, [pathname]);
+
     useEffect(() => {
         if (!pageLoadIsLogged && utbetalingerService.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Lastet utbetalinger", {antall: utbetalinger.length});
@@ -68,17 +74,6 @@ const Utbetalinger: React.FC = () => {
 
     return (
         <div>
-            <Brodsmulesti
-                tittel={"Utbetalingsoversikt"}
-                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                foreldreside={{
-                    tittel: "Økonomisk sosialhjelp",
-                    path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH,
-                }}
-                className="breadcrumbs__luft_rundt"
-            />
-
             <div className="utbetalinger">
                 <Heading level="1" size="2xlarge" spacing className="utbetalinger__overskrift">
                     Utbetalingsoversikt
