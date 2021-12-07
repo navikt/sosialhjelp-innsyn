@@ -14,9 +14,10 @@ const OppgaveInformasjon: React.FC = () => {
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
+
     const skalViseVilkarView = getSkalViseVilkarView(innsynSaksStatusListe);
 
-    if (!skalViseVilkarView) {
+    if (skalViseVilkarView) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
