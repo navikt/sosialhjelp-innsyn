@@ -36,7 +36,6 @@ export const tekster = {
         "oppgaver.dine_oppgaver": "Dine oppgaver",
         "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
         "oppgaver.maa_sende_dok": "Du må sende inn dokumentasjon",
-        "oppgaver.vedlegg_mangler": "{antall} vedlegg mangler",
         "oppgaver.innsendelsesfrist": "Frist for innlevering er {innsendelsesfrist}",
         "oppgaver.innsendelsesfrist_passert": "Frist for innlevering var {innsendelsesfrist}",
         "oppgaver.veileder_trenger_mer":
@@ -88,19 +87,15 @@ export const tekster = {
             "Du må levere {antall} {dokumenter}. Dokumentasjonen kan være knyttet til vilkårene dine eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
 
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
-        "vedlegg.ulovlig_fil_feilmelding": "Vi kunne ikke legge til filene dine:",
 
         "vedlegg.ulovlig_en_fil_feilmelding": "{filnavn} ble ikke lagt til:",
 
-        "vedlegg.ulovlig_en_filtype_feilmelding": "{filnavn} er av en type vi ikke støtter og ble ikke lagt til:",
         "vedlegg.ulovlig_en_filnavn_feilmelding": "{filnavn} bruker tegn vi ikke støtter og ble ikke lagt til:",
         "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og ble ikke lagt til:",
 
         "vedlegg.ulovlig_flere_fil_feilmelding":
             "Vi kunne ikke legge til filene dine. {antallFiler} av dem var av en type vi ikke støtter:",
 
-        "vedlegg.ulovlig_alle_fil_feilmelding": "Alle av dine filer ble ikke lagt til:",
-        "vedlegg.ulovlig_filtype_feilmelding": "Filer må være av typen JPG, PNG eller PDF.",
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
         "vedlegg.ulovlig_filstorrelse_feilmelding": "Filer må være under 10 Mb.",
         "vedlegg.ulovlig_storrelse_av_alle_valgte_filer":
@@ -108,8 +103,6 @@ export const tekster = {
         "vedlegg.velg_fil": "Velg vedlegg",
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
-        "vedlegg.ingress": "Hvis du har andre vedlegg du ønsker å gi oss, kan de lastes opp her.",
-        "vedlegg.ettersend_knapptekst": "Ettersend vedlegg",
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
         "vedlegg.opplasting_feilmelding":
             "Vi kan ikke sende vedleggene. Vennligst slett og korriger filene som feilet over",
