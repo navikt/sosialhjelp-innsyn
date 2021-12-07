@@ -83,7 +83,7 @@ const Oppgaver = () => {
                 </Heading>
             </StyledPanel>
 
-            <OppgaveInformasjon />
+            <OppgaveInformasjon dokumentasjonkrav={dokumentasjonkrav} vilkar={vilkar} />
 
             {skalViseLastestripe(restStatus.oppgaver, true) && (
                 <StyledPanel
