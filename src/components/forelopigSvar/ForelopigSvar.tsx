@@ -21,7 +21,6 @@ const ForelopigSvarAlertstripe: React.FC<{}> = () => {
         return (
             <Alert className="blokk" variant="info">
                 <FormattedMessage id={"forelopigSvar"} />
-                <FormattedMessage id={"forelopigSvar"} />
                 {forelopigSvar.link && (
                     <EksternLenke href={forelopigSvar.link} target="_blank" onClick={onVisForeløpigSvar}>
                         <b>
