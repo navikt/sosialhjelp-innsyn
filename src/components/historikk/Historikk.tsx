@@ -7,7 +7,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
-import {BodyShort, Button, Label} from "@navikt/ds-react";
+import {BodyShort, Button, Label, Link} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
@@ -63,6 +63,19 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         }
     };
 
+    const getBeskrivelse = (beskrivelse: string) => {
+        if (beskrivelse === "Dine utbetalinger har blitt oppdatert.") {
+            const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", "");
+            return (
+                <BodyShort>
+                    <Link href="/sosialhjelp/innsyn/utbetaling">Dine utbetalinger</Link>
+                    {beskrivelseUtenLenke}
+                </BodyShort>
+            );
+        }
+        return <BodyShort>{beskrivelse}</BodyShort>;
+    };
+
     return (
         <ul className={className}>
             {hendelser.map((hendelse: Hendelse, index: number) => {
@@ -71,7 +84,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         <Label>
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Label>
-                        <BodyShort>{hendelse.beskrivelse}</BodyShort>
+                        <BodyShort>{getBeskrivelse(hendelse.beskrivelse)}</BodyShort>
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
