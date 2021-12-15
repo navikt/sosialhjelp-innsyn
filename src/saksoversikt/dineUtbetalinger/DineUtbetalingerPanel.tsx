@@ -26,7 +26,7 @@ const DineUtbetalingerPanel: React.FC<{}> = () => {
                     <Heading level="2" size="medium" spacing>
                         Dine utbetalinger
                     </Heading>
-                    <BodyShort>Oversikt over dine utbetalinger for økonomisk sosialhjelp</BodyShort>
+                    <BodyShort>Se oversikten over utbetalingene du har fått</BodyShort>
                 </div>
             </div>
         </LinkPanel>
