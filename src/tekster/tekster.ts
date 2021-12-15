@@ -59,7 +59,7 @@ export const tekster = {
             "Hvis du skal sende opplysninger du har fra en annen nettside, kan du laste ned innholdet hvis det er mulig. For eksempel er skattemeldingen, brev fra Lånekassen og kontoutskrifter fra noen banker tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
         "oppgaver.informasjon.modal.bolk3.tittel": "Sørg for at opplysningene du sender kan leses",
         "oppgaver.informasjon.modal.bolk3.avsnitt1":
-            "Det er viktig at du sjekker at opplysningene du laster opp er fullstendige og kan leses på skjermen. Hvis det er vanskelig å lese opplysningene, så kan du bli bedt om å sende de på nytt.",
+            "Det er viktig at du sjekker at opplysningene du laster opp er fullstendige, og kan leses på skjermen. Hvis det er vanskelig å lese opplysningene, så kan du bli bedt om å sende de på nytt.",
         "oppgaver.informasjon.modal.bolk4.tittel": "Godtar vi ikke vedlegget du prøver å sende inn?",
         "oppgaver.informasjon.modal.bolk4.avsnitt1":
             "Har du problemer med å sende inn vedlegg, kan du gjerne sjekke om vedlegget:",
@@ -80,7 +80,7 @@ export const tekster = {
 
         "dokumentasjonkrav.dokumentasjon_stonad": "Opplysninger for stønaden din",
         "dokumentasjonkrav.veileder_trenger_mer":
-            "Du må levere {antall} {dokumenter}. Opplysningene kan være knyttet til vilkårene dine eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
+            "Du må levere {antall} {dokumenter}. Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
 
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
 
@@ -116,7 +116,7 @@ export const tekster = {
         "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
             "Vi kan ikke motta vedleggene dine hvis de til sammen er over 150 Mb",
         "andre_vedlegg.type": "Send andre vedlegg",
-        "andre_vedlegg.tilleggsinfo": "Hvis du har andre vedlegg du ønsker å sende oss kan de lastes opp her.",
+        "andre_vedlegg.tilleggsinfo": "Hvis du noe annet du vil sende, kan du laste det opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
 
         forelopigSvar: "Du har fått ett brev om saksbehandlingstiden for søknaden din ",
@@ -126,8 +126,8 @@ export const tekster = {
         "driftsmelding.ettersendelseDeaktivert":
             "Vi kan dessverre ikke motta vedlegg fra deg. Du kan enten prøve igjen senere, eller levere de på NAV-kontoret ditt.",
         "driftsmelding.innsynOgEttersendelseDeaktivert":
-            "Vi kan dessverre ikke vise deg nyeste status for søknaden din eller motta vedlegg fra deg. Du kan enten prøve igjen senere, eller ta kontakt med NAV-kontoret ditt.",
+            "Vi kan dessverre ikke vise deg nyeste status for søknaden din, eller motta vedlegg fra deg. Du kan enten prøve igjen senere, eller ta kontakt med NAV-kontoret ditt.",
         "driftsmelding.kanIkkeSendeVedlegg":
-            "Vi har dessverre problemer med systemet og ber deg levere vedlegg på ditt NAV kontor",
+            "Vi har dessverre problemer med systemet, og ber deg levere vedlegg på ditt NAV kontor",
     },
 };
