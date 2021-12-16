@@ -31,35 +31,35 @@ export const tekster = {
             "Les svaret på søknaden din for å se om du har vilkår. Dette er aktiviteter du må gjøre som en del av oppfølgingen din fra NAV.",
         "oppgaver.vilkar.dokumentasjonskrav": "Dokumentasjonskrav",
         "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
-            "Les svaret på søknaden din for å se om vi trenger flere opplysninger fra deg. Dette kan du sende til oss i «Dine vedlegg» fanen under.",
+            "Les svaret på søknaden din for å se om vi trenger dokumentasjon fra deg. Dette kan du sende til oss i «Dine vedlegg» fanen under.",
 
         "oppgaver.dine_oppgaver": "Dine oppgaver",
-        "oppgaver.maa_sende_dok_veileder": "Du må sende opplysninger",
-        "oppgaver.maa_sende_dok": "Du må sende opplysninger",
+        "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
+        "oppgaver.maa_sende_dok": "Du må sende dokumentasjon",
         "oppgaver.innsendelsesfrist": "Fristen din for å sende dem er {innsendelsesfrist}",
         "oppgaver.innsendelsesfrist_passert": "Frist for å sende dem var {innsendelsesfrist}",
         "oppgaver.veileder_trenger_mer":
-            "Vi trenger flere opplysninger om deg for å behandle søknaden din. " +
-            "Har du levert opplysningene til NAV-kontoret, kan du se bort fra denne meldingen.",
+            "Vi trenger mer dokumentasjon om deg for å behandle søknaden din. " +
+            "Har du levert dokumentasjonen til NAV-kontoret, kan du se bort fra denne meldingen.",
         "oppgaver.last_opp_vedlegg_ikke":
-            "Her ser du hvilke opplysninger du ikke sendte sammen med søknaden. " +
-            "Vi anbefaler at du sender opplysningene så snart som mulig, og helst innen 14 dager. " +
-            "Har du levert opplysningene til NAV-kontoret, kan du se bort fra denne meldingen.",
-        "oppgaver.hjelp_last_opp": "Hjelp til å sende opplysninger?",
-        "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å sende opplysninger?",
-        "oppgaver.informasjon.modal.bolk1.tittel": "Sende opplysninger du har på papir",
+            "Her ser du hvilken dokumentasjon du ikke sendte sammen med søknaden. " +
+            "Vi anbefaler at du sender dokumentasjonen så snart som mulig, og helst innen 14 dager. " +
+            "Har du levert dokumentasjonen til NAV-kontoret, kan du se bort fra denne meldingen.",
+        "oppgaver.hjelp_last_opp": "Hjelp til å sende dokumentasjon?",
+        "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å sende dokumentasjon?",
+        "oppgaver.informasjon.modal.bolk1.tittel": "Sende dokumentasjon du har på papir",
         "oppgaver.informasjon.modal.bolk1.avsnitt1":
-            "Har du opplysninger på papir, kan du skanne de før du sender det digitalt. Ved å skanne opplysningene blir kvaliteten bedre, og det blir lettere for NAV-kontoret å lese de.",
+            "Har du dokumentasjon på papir, kan du skanne de før du sender det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, og det blir lettere for NAV-kontoret å lese de.",
         "oppgaver.informasjon.modal.bolk1.avsnitt2":
-            "Med en skanne app kan du bruke kameraet på mobiltelefonen din til å skanne opplysningene. Du kan samle flere papirsider til ett digitalt vedlegg, for eksempel husleiekontrakten din.",
+            "Med en skanne app kan du bruke kameraet på mobiltelefonen din til å skanne dokumentasjonen. Du kan samle flere papirsider til ett digitalt vedlegg, for eksempel husleiekontrakten din.",
         "oppgaver.informasjon.modal.bolk1.avsnitt3":
-            "Du kan også ta bilde av opplysninger du har på papir med mobiltelefonen din. Bildene kan du legge ved når du sender vedlegg fra mobilen. Hvis du bruker datamaskin, kan du sende bildene til deg selv på e-post først, og så laste de opp på nav.no.",
-        "oppgaver.informasjon.modal.bolk2.tittel": "Sende opplysninger fra andre nettsider",
+            "Du kan også ta bilde av dokumentasjon du har på papir med mobiltelefonen din. Bildene kan du legge ved når du sender vedlegg fra mobilen. Hvis du bruker datamaskin, kan du sende bildene til deg selv på e-post først, og så laste de opp på nav.no.",
+        "oppgaver.informasjon.modal.bolk2.tittel": "Sende dokumentasjon fra andre nettsider",
         "oppgaver.informasjon.modal.bolk2.avsnitt1":
-            "Hvis du skal sende opplysninger du har fra en annen nettside, kan du laste ned innholdet hvis det er mulig. For eksempel er skattemeldingen, brev fra Lånekassen og kontoutskrifter fra noen banker tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
-        "oppgaver.informasjon.modal.bolk3.tittel": "Sørg for at opplysningene du sender kan leses",
+            "Hvis du skal sende dokumentasjon du har fra en annen nettside, kan du laste ned innholdet hvis det er mulig. For eksempel er skattemeldingen, brev fra Lånekassen og kontoutskrifter fra noen banker tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
+        "oppgaver.informasjon.modal.bolk3.tittel": "Sørg for at dokumentasjonen du sender kan leses",
         "oppgaver.informasjon.modal.bolk3.avsnitt1":
-            "Det er viktig at du sjekker at opplysningene du laster opp er fullstendige, og kan leses på skjermen. Hvis det er vanskelig å lese opplysningene, så kan du bli bedt om å sende de på nytt.",
+            "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige, og kan leses på skjermen. Hvis det er vanskelig å lese dokumentasjonen, så kan du bli bedt om å sende de på nytt.",
         "oppgaver.informasjon.modal.bolk4.tittel": "Godtar vi ikke vedlegget du prøver å sende inn?",
         "oppgaver.informasjon.modal.bolk4.avsnitt1":
             "Har du problemer med å sende inn vedlegg, kan du gjerne sjekke om vedlegget:",
@@ -67,20 +67,20 @@ export const tekster = {
         "oppgaver.informasjon.modal.bolk4.liste2": "er av filtypen PDF, JPEG eller PNG",
         "oppgaver.informasjon.modal.bolk4.liste3": "kun inneholder bokstaver og tall i filnavnet",
         "oppgaver.neste_frist": "Neste frist for å sende dem er {innsendelsesfrist}",
-        "oppgaver.neste_frist_passert": "Frist for å levere opplysningene var for {antall_dager} siden, den {innsendelsesfrist}",
+        "oppgaver.neste_frist_passert": "Frist for å levere dokumentasjonen var for {antall_dager} siden, den {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
-        "oppgaver.andre_dokumenter": "Har du andre opplysninger du vil sende?",
-        "oppgaver.andre_dokumenter_beskjed": 'Du kan sende opplysninger under fanen "Dine vedlegg" nedenfor.',
+        "oppgaver.andre_dokumenter": "Har du annen dokumentasjon du vil sende?",
+        "oppgaver.andre_dokumenter_beskjed": 'Du kan sende dokumentasjonen under fanen "Dine vedlegg" nedenfor.',
 
         "vilkar.du_har_vilkar": "Vilkår for stønaden din",
         "vilkar.veileder_trenger_mer":
             "Du har {antallVilkar} vilkår. Vilkår er aktiviter du må gjøre som en del av oppfølgingen din fra NAV.",
 
-        "dokumentasjonkrav.dokumentasjon_stonad": "Opplysninger for stønaden din",
+        "dokumentasjonkrav.dokumentasjon_stonad": "Dokumentasjon for stønaden din",
         "dokumentasjonkrav.veileder_trenger_mer":
-            "Du må levere {antall} {dokumenter}. Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
+            "Du må levere {antall} {dokumenter}. Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
 
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
 
@@ -122,7 +122,7 @@ export const tekster = {
         forelopigSvar: "Du har fått ett brev om saksbehandlingstiden for søknaden din ",
 
         "driftsmelding.innsynDeaktivert":
-            "Vi kan dessverre ikke vise nyeste status for søknaden din. Du kan fortsatt sende inn opplysningene på nav.no. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
+            "Vi kan dessverre ikke vise nyeste status for søknaden din. Du kan fortsatt sende inn dokumentasjonen på nav.no. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
         "driftsmelding.ettersendelseDeaktivert":
             "Vi kan dessverre ikke motta vedlegg fra deg. Du kan enten prøve igjen senere, eller levere de på NAV-kontoret ditt.",
         "driftsmelding.innsynOgEttersendelseDeaktivert":
