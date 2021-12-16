@@ -108,13 +108,11 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                     <Label>{statusdetalj.tittel}</Label>
                                 </div>
                                 <div className="status_detalj_panel__status">
-                                    <EtikettLiten>
-                                        {soknadBehandlesIkke ? (
-                                            <FormattedMessage id={hentSaksStatusTittel(SaksStatus.BEHANDLES_IKKE)} />
-                                        ) : (
+                                    {!soknadBehandlesIkke && !sakIkkeInnsyn && (
+                                        <EtikettLiten>
                                             <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
-                                        )}
-                                    </EtikettLiten>
+                                        </EtikettLiten>
+                                    )}
                                 </div>
                             </div>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (

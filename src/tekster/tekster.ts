@@ -17,7 +17,6 @@ export const tekster = {
 
         "saksStatus.under_behandling": "Under behandling",
         "saksStatus.ferdig_behandlet": "Ferdig behandlet",
-        "saksStatus.kan_ikke_vise_status": "Kan ikke vise status",
 
         "tidspunkt.klokken": "klokken",
         "saker.oppgave": "Du har oppgaver",
