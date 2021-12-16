@@ -120,7 +120,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
-    const statusTittel = "Søknadsstatus";
+    const statusTittel = "Status på søknaden din";
     document.title = `${statusTittel} - Økonomisk sosialhjelp`;
 
     useBannerTittel(statusTittel);
