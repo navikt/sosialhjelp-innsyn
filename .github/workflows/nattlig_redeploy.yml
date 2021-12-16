@@ -1,11 +1,11 @@
-name: Nattlig restart
+name: Nattlig restart i testmiljøer
 on:
   schedule:
     - cron: '0 2 * * *'
 
 jobs:
   deploy:
-    name: Nattlig restart
+    name: Nattlig restart i testmiljøer
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/sosialhjelp-innsyn
