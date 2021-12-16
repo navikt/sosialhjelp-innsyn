@@ -31,7 +31,7 @@ export const tekster = {
             "Les svaret på søknaden din for å se om du har vilkår. Dette er aktiviteter du må gjøre som en del av oppfølgingen din fra NAV.",
         "oppgaver.vilkar.dokumentasjonskrav": "Dokumentasjonskrav",
         "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
-            "Les svaret på søknaden din for å se om vi trenger dokumentasjon fra deg. Dette kan du sende til oss i «Dine vedlegg» fanen under.",
+            "Les svaret på søknaden din for å se om vi trenger mer dokumentasjon fra deg. Dette kan du sende til oss i «Dine vedlegg» fanen under.",
 
         "oppgaver.dine_oppgaver": "Dine oppgaver",
         "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
