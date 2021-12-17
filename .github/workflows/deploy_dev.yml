@@ -1,4 +1,4 @@
-name: Deploy til dev ${{ github.event.inputs.config-file-name }}
+name: Deploy til dev
 on:
   workflow_dispatch:
     inputs:
