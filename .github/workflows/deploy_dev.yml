@@ -1,4 +1,4 @@
-name: Deploy til dev
+name: Deploy til dev ${{ github.event.inputs.config-file-name }}
 on:
   workflow_dispatch:
     inputs:
@@ -15,7 +15,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to dev ${{ github.event.inputs.config-file-name }}
+    name: Deploy to dev - ${{ github.event.inputs.config-file-name }}
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
