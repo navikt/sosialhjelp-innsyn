@@ -84,7 +84,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         <Label>
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Label>
-                        <BodyShort>{getBeskrivelse(hendelse.beskrivelse)}</BodyShort>
+                        {getBeskrivelse(hendelse.beskrivelse)}
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
