@@ -16,7 +16,7 @@ export const tekster = {
             "Saken din vil bli behandlet, men vi kan ikke vise behandlingsstatus på nett. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
 
         "saksStatus.under_behandling": "Under behandling",
-        "saksStatus.ferdig_behandlet": "Ferdig behandlet",
+        "saksStatus.ferdig_behandlet": "Ferdigbehandlet",
 
         "tidspunkt.klokken": "klokken",
         "saker.oppgave": "Du har oppgaver",
