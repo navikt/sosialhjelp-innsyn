@@ -33,3 +33,7 @@ export const logButtonOrLinkClick = (tittel: string) => {
         tittel,
     });
 };
+
+export const logServerfeil = (eventData?: Record<string, unknown>) => {
+    logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
+};

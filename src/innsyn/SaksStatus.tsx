@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
@@ -26,6 +26,7 @@ import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUt
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
+import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -113,13 +114,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
-    const leserData = (restStatus: REST_STATUS): boolean => {
-        return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    };
-
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
-    const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
     const statusTittel = "Status på søknaden din";
     document.title = `${statusTittel} - Økonomisk sosialhjelp`;
 
@@ -135,12 +131,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     return (
         <>
-            {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
-                <Alert variant="warning" className="luft_over_16px">
-                    <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                    <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
-                </Alert>
-            )}
+            <LoadingResourcesFailedAlert />
             <Brodsmulesti
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
