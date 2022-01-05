@@ -17,7 +17,6 @@ export const tekster = {
 
         "saksStatus.under_behandling": "Under behandling",
         "saksStatus.ferdig_behandlet": "Ferdigbehandlet",
-        "saksStatus.kan_ikke_vise_status": "Kan ikke vise status",
 
         "tidspunkt.klokken": "klokken",
         "saker.oppgave": "Du har oppgaver",
@@ -67,7 +66,8 @@ export const tekster = {
         "oppgaver.informasjon.modal.bolk4.liste2": "er av filtypen PDF, JPEG eller PNG",
         "oppgaver.informasjon.modal.bolk4.liste3": "kun inneholder bokstaver og tall i filnavnet",
         "oppgaver.neste_frist": "Neste frist for å sende dem er {innsendelsesfrist}",
-        "oppgaver.neste_frist_passert": "Frist for å levere dokumentasjonen var for {antall_dager} siden, den {innsendelsesfrist}",
+        "oppgaver.neste_frist_passert":
+            "Frist for å levere dokumentasjonen var for {antall_dager} siden, den {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
         "oppgaver.ingen_oppgaver": "Du har ingen oppgaver.",
         "oppgaver.beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
@@ -100,8 +100,7 @@ export const tekster = {
         "vedlegg.fjern": "Fjern",
         "vedlegg.tittel": "Dine vedlegg",
         "vedlegg.validering.duplikat": "Vedlegget {filnavn} finnes allerede.",
-        "vedlegg.opplasting_feilmelding":
-            "Vi kan ikke sende vedleggene. Vennligst fjern og korriger filene over",
+        "vedlegg.opplasting_feilmelding": "Vi kan ikke sende vedleggene. Vennligst fjern og korriger filene over",
         "vedlegg.opplasting_backend_feilmelding":
             "Vi klarte dessverre ikke å sende vedleggene. Vennligst forsøk igjen senere.",
         "vedlegg.opplasting_backend_virus_feilmelding":
