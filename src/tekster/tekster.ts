@@ -76,11 +76,11 @@ export const tekster = {
 
         "vilkar.du_har_vilkar": "Vilkår for stønaden din",
         "vilkar.veileder_trenger_mer":
-            "Du har {antallVilkar} vilkår. Vilkår er aktiviter du må gjøre som en del av oppfølgingen din fra NAV.",
+            "Du har vilkår. Vilkår er aktiviter du må gjøre som en del av oppfølgingen din fra NAV.",
 
         "dokumentasjonkrav.dokumentasjon_stonad": "Dokumentasjon for stønaden din",
         "dokumentasjonkrav.veileder_trenger_mer":
-            "Du må levere {antall} {dokumenter}. Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
+            "Du må levere dokumentasjon. Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
 
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
 
