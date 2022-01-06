@@ -1,5 +1,5 @@
 import {Alert, BodyShort} from "@navikt/ds-react";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {REST_STATUS} from "../utils/restUtils";
 import {logServerfeil} from "../utils/amplitude";
 import {useSelector} from "react-redux";
@@ -9,11 +9,15 @@ const leserData = (restStatus: REST_STATUS): boolean => {
     return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 };
 
-export const LoadingResourcesFailedAlert = () => {
+export const LoadingResourcesFailedAlert = (props: {
+    loadingResourcesFailed: boolean;
+    setLoadingResourcesFailed: (loadingResourcesFailed: boolean) => void;
+}) => {
     const {saksStatus, oppgaver, hendelser, vedlegg} = useSelector(
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
-    const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
+
+    const {setLoadingResourcesFailed} = props;
 
     useEffect(() => {
         if (!leserData(saksStatus) && !leserData(oppgaver) && !leserData(hendelser) && !leserData(vedlegg)) {
@@ -27,10 +31,10 @@ export const LoadingResourcesFailedAlert = () => {
                 setLoadingResourcesFailed(true);
             }
         }
-    }, [saksStatus, oppgaver, hendelser, vedlegg]);
+    }, [saksStatus, oppgaver, hendelser, vedlegg, setLoadingResourcesFailed]);
     return (
         <>
-            {loadingResourcesFailed && (
+            {props.loadingResourcesFailed && (
                 <Alert variant="warning" className="luft_over_16px">
                     <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
                     <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>

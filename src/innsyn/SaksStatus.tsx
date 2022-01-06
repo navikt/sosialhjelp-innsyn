@@ -56,6 +56,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const dispatch = useDispatch();
     const intl: IntlShape = useIntl();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
+    const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
 
     const dataErKlare =
         !pageLoadIsLogged &&
@@ -131,7 +132,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     return (
         <>
-            <LoadingResourcesFailedAlert />
+            <LoadingResourcesFailedAlert
+                loadingResourcesFailed={loadingResourcesFailed}
+                setLoadingResourcesFailed={setLoadingResourcesFailed}
+            />
             <Brodsmulesti
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
@@ -157,7 +161,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             {mustLogin && <ApplicationSpinner />}
 
-            {!mustLogin && (
+            {!mustLogin && !loadingResourcesFailed && (
                 <>
                     <DriftsmeldingAlertstripe />
 
