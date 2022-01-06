@@ -1,5 +1,5 @@
 import {Alert, BodyShort} from "@navikt/ds-react";
-import React, {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import {REST_STATUS} from "../utils/restUtils";
 import {logServerfeil} from "../utils/amplitude";
 import {useSelector} from "react-redux";
@@ -17,7 +17,7 @@ export const LoadingResourcesFailedAlert = (props: {
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
 
-    const setLoadingResourcesFailed = useCallback(props.setLoadingResourcesFailed, []);
+    //const setLoadingResourcesFailed = useCallback(() => {props.setLoadingResourcesFailed(props.loadingResourcesFailed)}, [props.loadingResourcesFailed]);
 
     useEffect(() => {
         if (!leserData(saksStatus) && !leserData(oppgaver) && !leserData(hendelser) && !leserData(vedlegg)) {
@@ -28,10 +28,10 @@ export const LoadingResourcesFailedAlert = (props: {
                 vedlegg === REST_STATUS.FEILET
             ) {
                 logServerfeil({saksStatus, oppgaver, hendelser, vedlegg});
-                setLoadingResourcesFailed(true);
+                props.setLoadingResourcesFailed(true);
             }
         }
-    }, [saksStatus, oppgaver, hendelser, vedlegg, setLoadingResourcesFailed]);
+    }, [saksStatus, oppgaver, hendelser, vedlegg, props]);
     return (
         <>
             {props.loadingResourcesFailed && (
