@@ -17,7 +17,7 @@ export const LoadingResourcesFailedAlert = (props: {
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
 
-    //const setLoadingResourcesFailed = useCallback(() => {props.setLoadingResourcesFailed(props.loadingResourcesFailed)}, [props.loadingResourcesFailed]);
+    const {setLoadingResourcesFailed} = props;
 
     useEffect(() => {
         if (!leserData(saksStatus) && !leserData(oppgaver) && !leserData(hendelser) && !leserData(vedlegg)) {
@@ -28,10 +28,10 @@ export const LoadingResourcesFailedAlert = (props: {
                 vedlegg === REST_STATUS.FEILET
             ) {
                 logServerfeil({saksStatus, oppgaver, hendelser, vedlegg});
-                props.setLoadingResourcesFailed(true);
+                setLoadingResourcesFailed(true);
             }
         }
-    }, [saksStatus, oppgaver, hendelser, vedlegg, props]);
+    }, [saksStatus, oppgaver, hendelser, vedlegg, setLoadingResourcesFailed]);
     return (
         <>
             {props.loadingResourcesFailed && (
