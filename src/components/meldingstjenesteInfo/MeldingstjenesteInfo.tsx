@@ -15,6 +15,7 @@ const StyledSnakkeboble = styled(SpeechBubble)`
 const MeldingsInnhold = styled(SpeechBubble.Bubble)`
     position: relative;
     padding-right: 48px;
+    border: 1px solid #a0a0a0;
 `;
 
 const Lukkeknapp = styled(Button).attrs({variant: "tertiary"})`
@@ -24,7 +25,7 @@ const Lukkeknapp = styled(Button).attrs({variant: "tertiary"})`
     margin: 0 0 8px 8px;
 `;
 
-const useLocalStorageState = (key: string, initialValue = "") => {
+export const useLocalStorageState = (key: string, initialValue = "") => {
     const [value, setValue] = React.useState<string>(() => window.localStorage.getItem(key) || initialValue);
 
     React.useEffect(() => {
@@ -34,24 +35,20 @@ const useLocalStorageState = (key: string, initialValue = "") => {
     return [value, setValue] as const;
 };
 
+export const getVisMeldingsInfo = (dialogStatus: DialogStatus | undefined, harLukketInfo: "true" | "false") => {
+    // Boks vises når den ikke har blitt lukket, man har tilgang til dialog og man har ikke sendt melding
+
+    return harLukketInfo === "false" && dialogStatus?.tilgangTilDialog && !dialogStatus?.harSendtMelding;
+};
+
 interface Props {
-    dialogStatus?: DialogStatus;
+    lukkInfo: () => void;
 }
 const MeldingstjenesteInfo = (props: Props) => {
     const fornavn = useSelector((state: InnsynAppState) => state.innsynsdata.fornavn);
-    const [harLukketInfo, setHarLukketInfo] = useLocalStorageState("visMeldingstjenesteInfo", "false");
 
-    // Ikke vis boks hvis det er lagret i localstorage
-    if (harLukketInfo === "true") return null;
-
-    if (!props.dialogStatus) return null;
-
-    const skalSeBoks = props.dialogStatus.tilgangTilDialog && !props.dialogStatus.harSendtMelding;
-    if (!skalSeBoks) {
-        return null;
-    }
     const lukkInfo = () => {
-        setHarLukketInfo("true");
+        props.lukkInfo();
     };
 
     return (

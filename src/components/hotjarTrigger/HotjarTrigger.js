@@ -5,7 +5,6 @@ import {isLocalhost, isMockServer} from "../../utils/restUtils";
 class HotjarTrigger extends Component {
     componentDidMount() {
         const {hotjarTrigger} = this.props;
-        console.log(hotjarTrigger, window.hj);
         if (
             typeof window.hj === "function" &&
             !isMockServer(window.location.origin) &&

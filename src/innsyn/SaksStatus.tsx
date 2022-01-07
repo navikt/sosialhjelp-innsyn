@@ -28,7 +28,10 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
-import MeldingstjenesteInfo from "../components/meldingstjenesteInfo/MeldingstjenesteInfo";
+import MeldingstjenesteInfo, {
+    getVisMeldingsInfo,
+    useLocalStorageState,
+} from "../components/meldingstjenesteInfo/MeldingstjenesteInfo";
 
 const StickyStyle = styled.div`
     position: sticky;
@@ -67,7 +70,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const intl: IntlShape = useIntl();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
-
+    const [harLukketMeldingsInfo, setHarLukketMeldingsInfo] = useLocalStorageState("harLukketMeldingsInfo", "false");
+    const visMeldingsInfo = getVisMeldingsInfo(innsynsdata.dialogStatus, harLukketMeldingsInfo as "true" | "false");
     const dataErKlare =
         !pageLoadIsLogged &&
         erPaInnsyn &&
@@ -127,7 +131,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     useEffect(() => {
         if (!innsynsdata.dialogStatus) {
-            console.log("fetchpånytt");
             fetchToJson("/innsyn/dialogstatus").then((verdi: any) => dispatch(hentDialogStatus(verdi)));
         }
     }, [dispatch, innsynsdata.dialogStatus]);
@@ -143,7 +146,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         const shouldShowHotjarTrigger =
             restStatus.soknadsStatus === REST_STATUS.OK &&
             restStatus.kommune === REST_STATUS.OK &&
-            innsynsdata.dialogStatus?.tilgangTilDialog === false &&
+            !visMeldingsInfo &&
             (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60);
         if (!shouldShowHotjarTrigger) return null;
         if (isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
@@ -233,9 +236,11 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                             defaultArkfane={0}
                         />
                     )}
-                    <StickyStyle>
-                        <MeldingstjenesteInfo dialogStatus={innsynsdata.dialogStatus} />
-                    </StickyStyle>
+                    {visMeldingsInfo && (
+                        <StickyStyle>
+                            <MeldingstjenesteInfo lukkInfo={() => setHarLukketMeldingsInfo("true")} />
+                        </StickyStyle>
+                    )}
                 </>
             )}
         </>
