@@ -2,9 +2,10 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
-import {REST_STATUS} from "../utils/restUtils";
+import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {
+    hentDialogStatus,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     InnsynsdataType,
@@ -19,7 +20,7 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
+import {SoknadHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
@@ -27,7 +28,16 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
+import MeldingstjenesteInfo from "../components/meldingstjenesteInfo/MeldingstjenesteInfo";
 
+const StickyStyle = styled.div`
+    position: sticky;
+    max-width: 30rem;
+    display: block;
+    right: 8px;
+    bottom: 32px;
+    margin-left: auto;
+`;
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
         padding-left: 80px;
@@ -115,6 +125,13 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
+    useEffect(() => {
+        if (!innsynsdata.dialogStatus) {
+            console.log("fetchpånytt");
+            fetchToJson("/innsyn/dialogstatus").then((verdi: any) => dispatch(hentDialogStatus(verdi)));
+        }
+    }, [dispatch, innsynsdata.dialogStatus]);
+
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const statusTittel = "Status på søknaden din";
@@ -122,12 +139,15 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     useBannerTittel(statusTittel);
 
-    const shouldShowHotjarTrigger = () => {
-        return (
+    const getHotjarTriggerIfValid = () => {
+        const shouldShowHotjarTrigger =
             restStatus.soknadsStatus === REST_STATUS.OK &&
             restStatus.kommune === REST_STATUS.OK &&
-            (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60)
-        );
+            innsynsdata.dialogStatus?.tilgangTilDialog === false &&
+            (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60);
+        if (!shouldShowHotjarTrigger) return null;
+        if (isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
+        if (isKommuneUtenInnsyn(kommuneResponse)) return "digisos_ikke_innsyn";
     };
 
     return (
@@ -147,17 +167,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 className="breadcrumbs__luft_rundt"
             />
 
-            {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
-                <SoknadMedInnsynHotjarTrigger>
-                    <div />
-                </SoknadMedInnsynHotjarTrigger>
-            )}
-
-            {shouldShowHotjarTrigger() && isKommuneUtenInnsyn(kommuneResponse) && (
-                <SoknadUtenInnsynHotjarTrigger>
-                    <div />
-                </SoknadUtenInnsynHotjarTrigger>
-            )}
+            <SoknadHotjarTrigger trigger={getHotjarTriggerIfValid()}>
+                <div />
+            </SoknadHotjarTrigger>
 
             {mustLogin && <ApplicationSpinner />}
 
@@ -221,6 +233,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                             defaultArkfane={0}
                         />
                     )}
+                    <StickyStyle>
+                        <MeldingstjenesteInfo dialogStatus={innsynsdata.dialogStatus} />
+                    </StickyStyle>
                 </>
             )}
         </>

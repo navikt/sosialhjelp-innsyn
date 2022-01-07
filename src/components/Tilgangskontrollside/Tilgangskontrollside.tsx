@@ -6,7 +6,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
-import {skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataActionTypeKeys, skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
@@ -19,8 +19,8 @@ export interface TilgangskontrollsideProps {
 
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) => {
     const restkallHarGittForbidden = useSelector((state: InnsynAppState) => state.innsynsdata.skalViseForbudtSide);
+    const fornavn = useSelector((state: InnsynAppState) => state.innsynsdata.fornavn);
     const [tilgang, setTilgang] = useState(!restkallHarGittForbidden);
-    const [fornavn, setFornavn] = useState("");
     const [restStatus, setRestStatus] = useState(REST_STATUS.INITIALISERT);
 
     const dispatch = useDispatch();
@@ -30,7 +30,11 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
         fetchToJson("/innsyn/tilgang")
             .then((response: any) => {
                 setTilgang(response.harTilgang);
-                setFornavn(response.fornavn);
+                dispatch({
+                    type: InnsynsdataActionTypeKeys.SETT_FORNAVN,
+                    fornavn: response.fornavn,
+                });
+
                 setRestStatus(REST_STATUS.OK);
             })
             .catch((reason) => {
