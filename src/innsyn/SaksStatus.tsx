@@ -161,7 +161,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             {mustLogin && <ApplicationSpinner />}
 
-            {!mustLogin && !loadingResourcesFailed && (
+            {!mustLogin && (
                 <>
                     <DriftsmeldingAlertstripe />
 

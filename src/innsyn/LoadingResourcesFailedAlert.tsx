@@ -32,6 +32,7 @@ export const LoadingResourcesFailedAlert = (props: {
             }
         }
     }, [saksStatus, oppgaver, hendelser, vedlegg, setLoadingResourcesFailed]);
+
     return (
         <>
             {props.loadingResourcesFailed && (
