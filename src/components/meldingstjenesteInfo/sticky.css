@@ -1,0 +1,8 @@
+.stickyElement {
+    position: sticky;
+    max-width: 30rem;
+    display: block;
+    right: 8px;
+    bottom: 32px;
+    margin-left: auto;
+}

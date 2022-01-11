@@ -32,15 +32,9 @@ import MeldingstjenesteInfo, {
     getVisMeldingsInfo,
     useLocalStorageState,
 } from "../components/meldingstjenesteInfo/MeldingstjenesteInfo";
+import "../components/meldingstjenesteInfo/sticky.css";
+import {Portal} from "../components/meldingstjenesteInfo/Portal";
 
-const StickyStyle = styled.div`
-    position: sticky;
-    max-width: 30rem;
-    display: block;
-    right: 8px;
-    bottom: 32px;
-    margin-left: auto;
-`;
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
         padding-left: 80px;
@@ -237,9 +231,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                         />
                     )}
                     {visMeldingsInfo && (
-                        <StickyStyle>
+                        <Portal className="stickyElement">
                             <MeldingstjenesteInfo lukkInfo={() => setHarLukketMeldingsInfo("true")} />
-                        </StickyStyle>
+                        </Portal>
                     )}
                 </>
             )}
