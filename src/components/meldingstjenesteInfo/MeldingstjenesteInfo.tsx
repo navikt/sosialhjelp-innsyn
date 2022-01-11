@@ -65,7 +65,7 @@ const MeldingstjenesteInfo = (props: Props) => {
                 <span>
                     {`Hei ${fornavn}. Har du spørsmål til søknaden din eller ønsker å snakke med veilderen din? Det kan du
                     gjøre i `}{" "}
-                    <a href="/sosialhjelp/meldinger">meldingstjensten.</a>
+                    <a href="/sosialhjelp/meldinger">meldingstjenesten.</a>
                 </span>
             </MeldingsInnhold>
         </StyledSnakkeboble>
