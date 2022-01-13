@@ -22,7 +22,7 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                     <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                     <UthevetPanel className="panel-uthevet-luft-under">
                         <Heading level="1" size="xlarge" spacing>
-                            Beklager. Tekniske problemer
+                            Beklager, vi har dessverre tekniske problemer.
                         </Heading>
                         <BodyShort spacing>Vennligst prøv igjen senere.</BodyShort>
                     </UthevetPanel>
