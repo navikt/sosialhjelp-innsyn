@@ -24,7 +24,7 @@ const SavnerUtbetalingPanel: React.FC = () => {
                     <BodyShort>
                         utbetalinger for økonomisk sosialhjelp.{" "}
                         <Link href="https://tjenester.nav.no/utbetalingsoversikt">
-                            andre utbetalinger finner du her
+                            Andre utbetalinger finner du her.
                         </Link>
                     </BodyShort>
                 </li>
