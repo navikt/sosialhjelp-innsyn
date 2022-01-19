@@ -31,7 +31,7 @@ const SavnerUtbetalingPanel: React.FC = () => {
             </ul>
             <BodyShort>
                 Du kan se utbetalinger du skal få fremover i brevet med svar på søknaden din. Du finner dette under{" "}
-                <Link href="https://tjenester.nav.no/sosialhjelp/innsyn">dine søknader.</Link>
+                <Link href="https://www.nav.no/sosialhjelp/innsyn">dine søknader.</Link>
             </BodyShort>
         </div>
     );
