@@ -36,6 +36,14 @@ export function isDevGcpWithoutProxy(origin: string): boolean {
     return origin.indexOf("innsyn-gcp.dev.nav.no") >= 0;
 }
 
+export function isDevGcpMockWithProxy(origin: string): boolean {
+    return origin.indexOf("digisos.ekstern.dev.nav.no") >= 0;
+}
+
+export function isDevGcpMockWithoutProxy(origin: string): boolean {
+    return origin.indexOf("innsyn-mock.dev.nav.no") >= 0;
+}
+
 export function isLabsGcpWithProxy(origin: string): boolean {
     return origin.indexOf("digisos.labs.nais.io") >= 0;
 }
@@ -49,7 +57,9 @@ export function isMockServer(origin: string): boolean {
         isLabsGcpWithoutProxy(origin) ||
         isLabsGcpWithProxy(origin) ||
         isDevGcpWithoutProxy(origin) ||
-        isDevGcpWithProxy(origin)
+        isDevGcpWithProxy(origin) ||
+        isDevGcpMockWithoutProxy(origin) ||
+        isDevGcpMockWithProxy(origin)
     );
 }
 
@@ -170,6 +180,15 @@ export enum HttpErrorType {
     SERVICE_UNAVAILABLE = "Service Unavailable",
 }
 
+function addXsrfHeadersIfPutOrPost(method: string, headers: Headers) {
+    if (method === RequestMethod.PUT || method === RequestMethod.POST) {
+        const cookie = getCookie("XSRF-TOKEN-INNSYN-API");
+        if (cookie !== null) {
+            headers.append("XSRF-TOKEN-INNSYN-API", cookie);
+        }
+    }
+}
+
 export const serverRequest = (
     method: string,
     urlPath: string,
@@ -179,12 +198,7 @@ export const serverRequest = (
     callId?: string
 ) => {
     const headers = getHeaders(contentType, callId);
-    if (method === RequestMethod.PUT || method === RequestMethod.POST) {
-        const cookie = getCookie("XSRF-TOKEN-INNSYN-API");
-        if (cookie !== null) {
-            headers.append("XSRF-TOKEN-INNSYN-API", cookie);
-        }
-    }
+    addXsrfHeadersIfPutOrPost(method, headers);
     const OPTIONS: RequestInit = {
         headers: headers,
         method: method,
@@ -216,8 +230,10 @@ export const serverRequestGetErrors = (
     contentType?: string,
     isSoknadApi?: boolean
 ) => {
+    const headers = getHeaders(contentType);
+    addXsrfHeadersIfPutOrPost(method, headers);
     const OPTIONS: RequestInit = {
-        headers: getHeaders(contentType),
+        headers: headers,
         method: method,
         credentials: determineCredentialsParameter(),
         body: body ? body : undefined,
