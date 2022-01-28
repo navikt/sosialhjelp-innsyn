@@ -1,6 +1,6 @@
-import express from "express";
-import {injectDecoratorServerSide} from "@navikt/nav-dekoratoren-moduler/ssr";
-import path from "path";
+const express = require("express");
+const {injectDecoratorServerSide} = require("@navikt/nav-dekoratoren-moduler/ssr");
+const path = require("path");
 
 const decoratorParams = {
     env: process.env.DEKORATOR_MILJO || "prod",
