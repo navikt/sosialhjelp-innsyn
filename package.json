@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "/sosialhjelp/innsyn/",
+  "type": "module",
   "dependencies": {
     "@navikt/ds-css": "^0.10.0",
     "@navikt/ds-icons": "^0.6.2",
