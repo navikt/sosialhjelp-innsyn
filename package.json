@@ -69,7 +69,7 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^6.1.1",
+    "@craco/craco": "^6.4.3",
     "@types/classnames": "^2.2.10",
     "@types/history": "^4.7.6",
     "@types/jest": "^26.0.0",
