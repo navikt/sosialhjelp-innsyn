@@ -1,5 +1,5 @@
 import express from "express";
-import injectDecoratorServerSide from "@navikt/nav-dekoratoren-moduler/ssr";
+import {injectDecoratorServerSide} from "@navikt/nav-dekoratoren-moduler/ssr";
 import path from "path";
 
 const decoratorParams = {
