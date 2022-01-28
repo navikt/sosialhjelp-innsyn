@@ -44,6 +44,10 @@ export function isDevGcpMockWithoutProxy(origin: string): boolean {
     return origin.indexOf("innsyn-mock.dev.nav.no") >= 0;
 }
 
+export function isDevGcpQWithoutProxy(origin: string): boolean {
+    return origin.indexOf("innsyn-q.dev.nav.no") >= 0;
+}
+
 export function isLabsGcpWithProxy(origin: string): boolean {
     return origin.indexOf("digisos.labs.nais.io") >= 0;
 }
@@ -76,7 +80,7 @@ export function getBaseUrl(origin: string): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin)) {
+    } else if (isDevSbs(origin) || isDevGcpQWithoutProxy(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
