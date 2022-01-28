@@ -13,12 +13,13 @@ import {
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch, useSelector} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
-import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti, InnsynsdataType, KommuneResponse, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {Heading} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
 import UtbetalingsoversiktIngenSoknader from "./UtbetalingsoversiktIngenSoknader";
+import UtbetalingsoversiktIngenInnsyn from "./UtbetalingsoversiktIngenInnsyn";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
@@ -91,6 +92,10 @@ const Utbetalinger: React.FC = () => {
     }
     const harSaker = alleSaker.length > 0;
 
+    let kommuneResponse: KommuneResponse | undefined = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.kommune
+    );
+
     return (
         <div>
             <Brodsmulesti
@@ -103,6 +108,8 @@ const Utbetalinger: React.FC = () => {
                 }}
                 className="breadcrumbs__luft_rundt"
             />
+
+            {kommuneResponse?.erInnsynDeaktivert && <UtbetalingsoversiktIngenInnsyn />}
 
             {harSaker ? (
                 <div className="utbetalinger">
