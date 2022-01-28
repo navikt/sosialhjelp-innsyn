@@ -28,7 +28,7 @@ jobs:
         run: npm run build
       - name: Create artifact version
         id: artifact-version
-        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@rydde
       - name: Login to GitHub package registry
         run: |
           echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_REPOSITORY} --password-stdin docker.pkg.github.com
