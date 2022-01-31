@@ -107,7 +107,7 @@ describe("getBaseUrl", () => {
         );
         validateGetBaseUrl(
             devGcpQWithoutProxyOrigins,
-            "https://sosialhjelp-innsyn-api-q.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
+            "https://sosialhjelp-login-api-q.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
         );
         validateGetBaseUrl(
             devGcpWithoutProxyOrigins,
