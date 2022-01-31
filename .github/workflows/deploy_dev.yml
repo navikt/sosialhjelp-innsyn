@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - 'dev-gcp'
+          - 'dev-gcp-q'
           - 'dev-sbs'
           - 'dev-sbs-intern'
           - 'labs-gcp'
