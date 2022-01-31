@@ -2,7 +2,8 @@
   "applicationName": "sosialhjelp-innsyn-q",
   "namespace": "teamdigisos",
   "ingresses": [
-    "https://sosialhjelp-innsyn-q.dev.nav.no/sosialhjelp/innsyn"
+    "https://sosialhjelp-innsyn-q.dev.nav.no/sosialhjelp/innsyn",
+    "https://sosialhjelp.dev.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": false,
   "dekoratorMiljo": "dev",
