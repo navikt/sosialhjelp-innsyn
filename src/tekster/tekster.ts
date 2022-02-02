@@ -22,15 +22,15 @@ export const tekster = {
         "saker.oppgave": "Du har oppgaver",
         "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
-        "oppgaver.vilkar.tittel": "Du kan ha vilkår eller dokumentasjonskrav",
+        "oppgaver.vilkar.tittel": "Du kan ha vilkår",
         "oppgaver.vilkar.tittel.tekst":
-            "Du må følge disse for å sørge for at du får utbetalt riktig beløp til riktig tid.",
+            "Les svaret på søknaden din for å se om du har vilkår, eller om vi trenger opplysninger for å utbetale stønaden din.",
         "oppgaver.vilkar": "Vilkår",
         "oppgaver.vilkar.beskrivelse":
-            "Les svaret på søknaden din for å se om du har vilkår. Dette er aktiviteter du må gjøre som en del av oppfølgingen din fra NAV.",
-        "oppgaver.vilkar.dokumentasjonskrav": "Dokumentasjonskrav",
+            "Les svaret på søknaden din for å se om du har vilkår. Dette er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
+        "oppgaver.vilkar.dokumentasjonskrav": "Opplysninger til stønaden din",
         "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
-            "Les svaret på søknaden din for å se om vi trenger mer dokumentasjon fra deg. Dette kan du sende til oss i «Dine vedlegg» fanen under.",
+            "Les svaret på søknaden din for å se om vi trenger opplysninger fra deg. Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din. Du kan sende disse under «Dine vedlegg» nedenfor.",
 
         "oppgaver.dine_oppgaver": "Dine oppgaver",
         "oppgaver.maa_sende_dok_veileder": "Du må sende dokumentasjon",
@@ -74,13 +74,13 @@ export const tekster = {
         "oppgaver.andre_dokumenter": "Har du annen dokumentasjon du vil sende?",
         "oppgaver.andre_dokumenter_beskjed": 'Du kan sende dokumentasjonen under fanen "Dine vedlegg" nedenfor.',
 
-        "vilkar.du_har_vilkar": "Vilkår for stønaden din",
+        "vilkar.du_har_vilkar": "Du har vilkår",
         "vilkar.veileder_trenger_mer":
-            "Du har vilkår. Vilkår er aktiviter du må gjøre som en del av oppfølgingen din fra NAV.",
+            "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
 
-        "dokumentasjonkrav.dokumentasjon_stonad": "Dokumentasjon for stønaden din",
+        "dokumentasjonkrav.dokumentasjon_stonad": "Du må sende opplysninger",
         "dokumentasjonkrav.veileder_trenger_mer":
-            "Du må levere dokumentasjon. Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden.",
+            "Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din.",
 
         "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
 
