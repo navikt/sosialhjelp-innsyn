@@ -21,8 +21,8 @@ const UtbetalingsoversiktIngenInnsyn: React.FC = () => {
                         Vi kan ikke vise dine utbetalinger for øknomisk sosialhjelp
                     </Heading>
                     <BodyShort className="ingenSoknaderFunnetText" style={{margin: "0 3rem"}}>
-                        Din kommune støtter foreløpig ikke denne visningen. Du kan se dine utbetalinger i brevet med
-                        svar på søknaden din.
+                        Oversikten over utbetalinger for økonomisk sosialhjelp er dessverre ikke tilgjengelig i alle
+                        kommuner. Du kan se dine utbetalinger i brevet med svar på søknaden din.
                     </BodyShort>
                 </>
             </StyledGuidePanel>
