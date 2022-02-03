@@ -6,7 +6,7 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
-import {InnsynsdataActionTypeKeys, skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Feilside, InnsynsdataActionTypeKeys, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
@@ -18,7 +18,8 @@ export interface TilgangskontrollsideProps {
 }
 
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) => {
-    const restkallHarGittForbidden = useSelector((state: InnsynAppState) => state.innsynsdata.skalViseForbudtSide);
+    const restkallHarGittForbidden =
+        useSelector((state: InnsynAppState) => state.innsynsdata.feilside) === Feilside.IKKE_TILGANG;
     const fornavn = useSelector((state: InnsynAppState) => state.innsynsdata.fornavn);
     const [tilgang, setTilgang] = useState(!restkallHarGittForbidden);
     const [restStatus, setRestStatus] = useState(REST_STATUS.INITIALISERT);
@@ -43,7 +44,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                 } else {
                     setRestStatus(REST_STATUS.FEILET);
                     logWarningMessage(reason.message, reason.navCallId);
-                    dispatch(skalViseFeilside(true));
+                    dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                 }
             });
     }, [dispatch]);
