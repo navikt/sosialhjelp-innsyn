@@ -38,6 +38,12 @@ export enum UtfallVedtak {
     AVVIST = "AVVIST",
 }
 
+export enum Feilside {
+    TEKNISKE_PROBLEMER = "TEKNISKE_PROBLEMER",
+    IKKE_TILGANG = "IKKE_TILGANG",
+    FINNES_IKKE = "FINNES_IKKE",
+}
+
 export interface Sakstype {
     fiksDigisosId: string;
     soknadTittel: string;
@@ -113,6 +119,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
     SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
     SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
+    VIS_FEILSIDE = "innsynsdata/VIS_FEILSIDE",
     SETT_FORNAVN = "innsynsdata/SETT_FORNAVN",
     HENT_DIALOGSTATUS = "innsynsdata/HENT_DIALOGSTATUS",
 
@@ -157,10 +164,9 @@ export interface InnsynsdataActionType {
     verdi?: any;
     sti: InnsynsdataSti;
     restStatus?: string;
-    skalVise?: boolean;
-    skalViseForbudt?: boolean;
     oppgaveId?: string;
     fornavn?: string;
+    feilside?: Feilside;
 }
 
 export interface VedleggActionType {
@@ -255,10 +261,9 @@ export interface InnsynsdataType {
     dialogStatus: undefined | DialogStatus;
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
-    skalViseFeilside: boolean;
-    skalViseForbudtSide: boolean;
     sisteKommune: string;
     fornavn: string;
+    feilside?: Feilside;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -305,11 +310,10 @@ export const initialState: InnsynsdataType = {
     },
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
-    skalViseFeilside: false,
-    skalViseForbudtSide: false,
     sisteKommune: "",
     fornavn: "",
     dialogStatus: undefined,
+    feilside: undefined,
 };
 
 export interface Ettersendelse {
@@ -673,19 +677,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 oppgaveVedlegsOpplastingFeilet: action.status,
             };
-
-        case InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE:
-            return {
-                ...state,
-                skalViseFeilside: action.skalVise,
-            };
-
-        case InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE:
-            return {
-                ...state,
-                skalViseForbudtSide: action.skalViseForbudt,
-            };
-
         case InnsynsdataActionTypeKeys.FILE_UPLOAD_FAILED:
             if (action.status) {
                 return {
@@ -742,6 +733,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 fornavn: action.fornavn,
+            };
+        case InnsynsdataActionTypeKeys.VIS_FEILSIDE:
+            return {
+                ...state,
+                feilside: action.feilside,
             };
         default:
             return state;
@@ -805,24 +801,17 @@ export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): In
     };
 };
 
-export const skalViseFeilside = (skalVise: boolean) => {
-    return {
-        type: InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE,
-        skalVise,
-    };
-};
-
-export const skalViseForbudtside = (skalViseForbudt: boolean) => {
-    return {
-        type: InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE,
-        skalViseForbudt,
-    };
-};
-
 export const settSisteKommune = (kommunenummer: unknown) => {
     return {
         type: InnsynsdataActionTypeKeys.SISTE_KOMMUNE,
         verdi: (kommunenummer as string) ?? "",
+    };
+};
+
+export const visFeilside = (feilside?: Feilside) => {
+    return {
+        type: InnsynsdataActionTypeKeys.VIS_FEILSIDE,
+        feilside,
     };
 };
 

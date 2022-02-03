@@ -6,13 +6,15 @@ import AppBanner from "../appBanner/AppBanner";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import {BodyShort, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
+import {Feilside as Feil} from "../../redux/innsynsdata/innsynsdataReducer";
 
 export interface FeilsideProps {
     children: React.ReactNode;
 }
 
 const Feilside: React.FC<FeilsideProps> = ({children}) => {
-    let skalViseFeilside = useSelector((state: InnsynAppState) => state.innsynsdata.skalViseFeilside);
+    const skalViseFeilside =
+        useSelector((state: InnsynAppState) => state.innsynsdata.feilside) === Feil.TEKNISKE_PROBLEMER;
 
     if (skalViseFeilside) {
         return (
