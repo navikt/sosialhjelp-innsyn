@@ -105,7 +105,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
             fiksDigisosId: fiksDigisosId,
         });
-        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, true));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
