@@ -8,6 +8,7 @@ import {BodyShort, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
+import EksternLenke from "../eksternLenke/EksternLenke";
 
 export interface FeilsideProps {
     children: React.ReactNode;
@@ -36,6 +37,10 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                                 <Heading level="1" size="xlarge" spacing>
                                     <FormattedMessage id="feilside.finnes_ikke_overskrift" />
                                 </Heading>
+                                <BodyShort>
+                                    Vennligst gå tilbake til{" "}
+                                    <EksternLenke href="/sosialhjelp/innsyn">Dine søknader</EksternLenke>
+                                </BodyShort>
                             </>
                         )}
                     </UthevetPanel>
