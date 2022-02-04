@@ -26,8 +26,7 @@ export const tekster = {
         "oppgaver.vilkar.tittel.tekst":
             "Les svaret på søknaden din for å se om du har vilkår, eller om vi trenger opplysninger for å utbetale stønaden din.",
         "oppgaver.vilkar": "Vilkår",
-        "oppgaver.vilkar.beskrivelse":
-            "Dette er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
+        "oppgaver.vilkar.beskrivelse": "Dette er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
         "oppgaver.vilkar.dokumentasjonskrav": "Opplysninger til stønaden din",
         "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
             "Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din. Du kan sende disse under «Dine vedlegg» nedenfor.",
@@ -75,8 +74,7 @@ export const tekster = {
         "oppgaver.andre_dokumenter_beskjed": 'Du kan sende opplysningene under fanen "Dine vedlegg" nedenfor.',
 
         "vilkar.du_har_vilkar": "Du har vilkår",
-        "vilkar.veileder_trenger_mer":
-            "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
+        "vilkar.veileder_trenger_mer": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
 
         "dokumentasjonkrav.dokumentasjon_stonad": "Du må sende opplysninger",
         "dokumentasjonkrav.veileder_trenger_mer":
@@ -128,5 +126,6 @@ export const tekster = {
             "Vi kan dessverre ikke vise deg nyeste status for søknaden din, eller motta vedlegg fra deg. Du kan enten prøve igjen senere, eller ta kontakt med NAV-kontoret ditt.",
         "driftsmelding.kanIkkeSendeVedlegg":
             "Vi har dessverre problemer med systemet, og ber deg levere vedlegg på ditt NAV kontor",
+        "feilside.finnes_ikke_overskrift": "Denne siden finnes ikke",
     },
 };

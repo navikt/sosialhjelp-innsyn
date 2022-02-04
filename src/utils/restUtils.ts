@@ -178,6 +178,7 @@ export enum HttpErrorType {
     UNAUTHORIZED_LOOP = "unauthorized_loop",
     FORBIDDEN = "Forbidden",
     SERVICE_UNAVAILABLE = "Service Unavailable",
+    NOT_FOUND = "Not found",
 }
 
 function addXsrfHeadersIfPutOrPost(method: string, headers: Headers) {
@@ -274,6 +275,9 @@ function sjekkStatuskode(response: Response, url: string) {
     }
     if (response.status >= 200 && response.status < 300) {
         return response;
+    }
+    if (response.status === 404) {
+        throw new Error(HttpErrorType.NOT_FOUND);
     }
     throw new Error(response.statusText);
 }
