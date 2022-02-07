@@ -39,9 +39,6 @@ export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
             return "saksStatus.under_behandling";
         case SaksStatus.FERDIGBEHANDLET:
             return "saksStatus.ferdig_behandlet";
-        case SaksStatus.BEHANDLES_IKKE:
-        case SaksStatus.IKKE_INNSYN:
-            return "saksStatus.kan_ikke_vise_status";
         default:
             return "";
     }
@@ -108,13 +105,11 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                     <Label>{statusdetalj.tittel}</Label>
                                 </div>
                                 <div className="status_detalj_panel__status">
-                                    <EtikettLiten>
-                                        {soknadBehandlesIkke ? (
-                                            <FormattedMessage id={hentSaksStatusTittel(SaksStatus.BEHANDLES_IKKE)} />
-                                        ) : (
+                                    {!(sakBehandlesIkke || sakIkkeInnsyn) && (
+                                        <EtikettLiten>
                                             <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
-                                        )}
-                                    </EtikettLiten>
+                                        </EtikettLiten>
+                                    )}
                                 </div>
                             </div>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (

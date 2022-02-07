@@ -22,8 +22,8 @@ spec:
     enabled: {{prometheusEnabled}}
     path: /actuator/metrics
   replicas:
-    min: 2
-    max: 4
+    min: {{minReplicas}}
+    max: {{maxReplicas}}
   ingresses:
 {{#each ingresses}}
     - "{{this}}"
@@ -31,11 +31,11 @@ spec:
   webproxy: true
   resources:
     limits:
-      cpu: 500m
-      memory: 1Gi
+      cpu: {{cpuLimit}}
+      memory: {{memoryLimit}}
     requests:
-      cpu: 200m
-      memory: 512Mi
+      cpu: {{cpuRequest}}
+      memory: {{memoryRequest}}
   vault:
     enabled: false
   env:

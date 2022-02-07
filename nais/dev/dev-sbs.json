@@ -7,5 +7,11 @@
     "https://www-q0.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": true,
-  "dekoratorMiljo": "q0"
+  "dekoratorMiljo": "q0",
+  "minReplicas": "1",
+  "maxReplicas": "2",
+  "cpuLimit": "200m",
+  "memoryLimit": "256Mi",
+  "cpuRequest": "1m",
+  "memoryRequest": "32Mi"
 }

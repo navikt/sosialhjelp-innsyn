@@ -5,5 +5,11 @@
     "https://sosialhjelp-innsyn.labs.nais.io/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": false,
-  "dekoratorMiljo": "prod"
+  "dekoratorMiljo": "prod",
+  "minReplicas": "1",
+  "maxReplicas": "2",
+  "cpuLimit": "200m",
+  "memoryLimit": "256Mi",
+  "cpuRequest": "1m",
+  "memoryRequest": "32Mi"
 }

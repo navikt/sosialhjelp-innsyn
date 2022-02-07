@@ -1,8 +1,8 @@
 {
-  "applicationName": "sosialhjelp-innsyn",
+  "applicationName": "sosialhjelp-innsyn-mock",
   "namespace": "teamdigisos",
   "ingresses": [
-    "https://sosialhjelp-innsyn-gcp.dev.nav.no/sosialhjelp/innsyn"
+    "https://sosialhjelp-innsyn-mock.dev.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": false,
   "dekoratorMiljo": "dev",
