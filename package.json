@@ -13,7 +13,7 @@
     "@sentry/tracing": "^6.13.3",
     "@types/amplitude-js": "^8.9.5",
     "@types/react-collapse": "^5.0.1",
-    "amplitude-js": "^8.1.0",
+    "amplitude-js": "^8.16.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.8.0",
     "core-js": "^3.4.8",
