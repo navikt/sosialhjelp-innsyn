@@ -40,7 +40,6 @@
     "react-paginate": "^6.3.2",
     "react-redux": "^7.2.0",
     "react-router": "^5.2.0",
-    "react-scripts": "^5.0.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.3",
@@ -90,6 +89,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.9",
     "prettier": "^2.3.1",
+    "react-scripts": "^5.0.0",
     "request": "^2.88.2",
     "typescript": "^3.9.5"
   },
