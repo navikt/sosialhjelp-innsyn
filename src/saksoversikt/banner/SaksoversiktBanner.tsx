@@ -14,7 +14,7 @@ const SaksoversiktBanner: React.FC<{children: React.ReactNode} & {}> = ({childre
                         <Link href={getDittNavUrl()}>Ditt NAV</Link> / Økonomisk sosialhjelp
                     </BodyShort>
                 </div>
-                <Heading level="1" size="2xlarge" className="saksoversikt-banner__tittel">
+                <Heading level="1" size="xlarge" className="saksoversikt-banner__tittel">
                     {children}
                 </Heading>
             </div>

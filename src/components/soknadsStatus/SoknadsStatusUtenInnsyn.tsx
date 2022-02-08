@@ -23,7 +23,7 @@ const SoknadsStatusUtenInnsyn = (props: {
                 {skalViseLastestripe(props.restStatus) && <Lastestriper linjer={1} />}
                 {props.restStatus !== REST_STATUS.FEILET && (
                     <>
-                        <Heading level="1" size="xlarge">
+                        <Heading level="1" size="large">
                             Søknaden er sendt
                         </Heading>
                         <DokumentSendt />

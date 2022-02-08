@@ -9,7 +9,7 @@ const SideIkkeFunnet: React.FC<{}> = () => {
             <div className="sideIkkeFunnet__ikon">
                 <UtropstegnSirkelGraIkon />
             </div>
-            <Heading level="1" size="xlarge" spacing>
+            <Heading level="1" size="large" spacing>
                 OOPS, NOE GIKK GALT
             </Heading>
             <BodyShort spacing>Vi fant ikke siden du prøvde å åpne</BodyShort>
