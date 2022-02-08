@@ -201,12 +201,7 @@ const Oppgaver = () => {
                                         <div>
                                             <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
                                             <BodyShort>
-                                                <FormattedMessage
-                                                    id="vilkar.veileder_trenger_mer"
-                                                    values={{
-                                                        antallVilkar: vilkar.length,
-                                                    }}
-                                                />
+                                                <FormattedMessage id="vilkar.veileder_trenger_mer" />
                                             </BodyShort>
                                         </div>
                                     </div>
@@ -233,25 +228,7 @@ const Oppgaver = () => {
                                                 <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                                             </Label>
                                             <BodyShort>
-                                                <FormattedMessage
-                                                    id="dokumentasjonkrav.veileder_trenger_mer"
-                                                    values={{
-                                                        antall: dokumentasjonkrav.reduce(
-                                                            (count, dokumenter) =>
-                                                                count + dokumenter.dokumentasjonkravElementer.length,
-                                                            0
-                                                        ),
-                                                        dokumenter:
-                                                            dokumentasjonkrav.reduce(
-                                                                (count, dokumenter) =>
-                                                                    count +
-                                                                    dokumenter.dokumentasjonkravElementer.length,
-                                                                0
-                                                            ) > 1
-                                                                ? "dokumenter"
-                                                                : "dokument",
-                                                    }}
-                                                />
+                                                <FormattedMessage id="dokumentasjonkrav.veileder_trenger_mer" />
                                             </BodyShort>
                                         </div>
                                     </div>

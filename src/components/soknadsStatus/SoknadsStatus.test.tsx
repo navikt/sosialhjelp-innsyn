@@ -8,9 +8,6 @@ describe("SoknadStatusTest", () => {
     it("hentSaksStatusTittel should return correct title key for FERDIG_BEHANDLET", () => {
         expect(hentSaksStatusTittel(SaksStatus.FERDIGBEHANDLET)).toEqual("saksStatus.ferdig_behandlet");
     });
-    it("hentSaksStatusTittel should return correct title key for IKKE_INNSYN", () => {
-        expect(hentSaksStatusTittel(SaksStatus.IKKE_INNSYN)).toEqual("saksStatus.kan_ikke_vise_status");
-    });
     it("hentSaksStatusTittel should have same title for IKKE_INNSYN and BEHANDLES_IKKE", () => {
         expect(hentSaksStatusTittel(SaksStatus.IKKE_INNSYN)).toEqual(hentSaksStatusTittel(SaksStatus.BEHANDLES_IKKE));
     });

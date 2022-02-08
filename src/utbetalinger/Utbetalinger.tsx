@@ -11,18 +11,21 @@ import {
     filtrerUtbetalingerPaaMottaker,
 } from "./utbetalingerUtils";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
-import {InnsynsdataSti} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {Heading} from "@navikt/ds-react";
+import {InnsynAppState} from "../redux/reduxTypes";
+import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
+import UtbetalingsoversiktIngenSoknader from "./UtbetalingsoversiktIngenSoknader";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER));
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
     }, [dispatch]);
 
     document.title = "Utbetalingsoversikt - Økonomisk sosialhjelp";
@@ -66,6 +69,28 @@ const Utbetalinger: React.FC = () => {
     filtrerteUtbetalinger = filtrerUtbetalingerPaaMottaker(filtrerteUtbetalinger, tilBrukersKonto, tilAnnenMottaker);
     filtrerteUtbetalinger = filtrerMaanederUtenUtbetalinger(filtrerteUtbetalinger);
 
+    const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const innsynRestStatus = innsynData.restStatus.saker;
+    const leserInnsynData: boolean =
+        innsynRestStatus === REST_STATUS.INITIALISERT || innsynRestStatus === REST_STATUS.PENDING;
+
+    const soknadApiData = useSoknadsSakerService();
+    const leserSoknadApiData: boolean =
+        soknadApiData.restStatus === REST_STATUS.INITIALISERT || soknadApiData.restStatus === REST_STATUS.PENDING;
+
+    const leserData: boolean = leserInnsynData || leserSoknadApiData;
+
+    let alleSaker: Sakstype[] = [];
+    if (!leserData) {
+        if (innsynRestStatus === REST_STATUS.OK) {
+            alleSaker = alleSaker.concat(innsynData.saker);
+        }
+        if (soknadApiData.restStatus === REST_STATUS.OK) {
+            alleSaker = alleSaker.concat(soknadApiData.payload.results);
+        }
+    }
+    const harSaker = alleSaker.length > 0;
+
     return (
         <div>
             <Brodsmulesti
@@ -79,28 +104,32 @@ const Utbetalinger: React.FC = () => {
                 className="breadcrumbs__luft_rundt"
             />
 
-            <div className="utbetalinger">
-                <Heading level="1" size="2xlarge" spacing className="utbetalinger__overskrift">
-                    Utbetalingsoversikt
-                </Heading>
-                <div className="utbetalinger_row">
-                    <div className="utbetalinger_column">
-                        <div className="utbetalinger_column_1">
-                            <Periodevelger
-                                className="utbetalinger_periodevelger_panel"
-                                antMndTilbake={visAntallMnd}
-                                onChange={(antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
-                                    oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)
-                                }
-                            />
+            {harSaker ? (
+                <div className="utbetalinger">
+                    <Heading level="1" size="2xlarge" spacing className="utbetalinger__overskrift">
+                        Utbetalingsoversikt
+                    </Heading>
+                    <div className="utbetalinger_row">
+                        <div className="utbetalinger_column">
+                            <div className="utbetalinger_column_1">
+                                <Periodevelger
+                                    className="utbetalinger_periodevelger_panel"
+                                    antMndTilbake={visAntallMnd}
+                                    onChange={(antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
+                                        oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)
+                                    }
+                                />
+                            </div>
                         </div>
+                        <UtbetalingerPanel
+                            utbetalinger={filtrerteUtbetalinger}
+                            lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
+                        />
                     </div>
-                    <UtbetalingerPanel
-                        utbetalinger={filtrerteUtbetalinger}
-                        lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
-                    />
                 </div>
-            </div>
+            ) : (
+                <UtbetalingsoversiktIngenSoknader />
+            )}
         </div>
     );
 };
