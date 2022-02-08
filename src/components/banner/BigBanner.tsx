@@ -21,7 +21,7 @@ const BigBanner: React.FC<{tittel: string} & {}> = ({tittel}) => {
                         />
                     </div>
                 </div>
-                <Heading level="1" size="xlarge">
+                <Heading level="1" size="large">
                     {tittel}
                 </Heading>
             </div>
