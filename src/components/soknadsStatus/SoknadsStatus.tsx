@@ -64,7 +64,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                 {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                 {restStatus !== REST_STATUS.FEILET && (
                     <>
-                        <Heading level="1" size="xlarge">
+                        <Heading level="1" size="large">
                             {soknadsStatusTittel(status, intl)}
                         </Heading>
                         {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}

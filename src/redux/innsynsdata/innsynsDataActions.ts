@@ -1,16 +1,16 @@
 import {Dispatch} from "redux";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {
+    Feilside,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
+    oppdaterDokumentasjonkravState,
     oppdaterInnsynsdataState,
+    oppdaterOppgaveState,
     oppdaterSaksdetaljerRestStatus,
     oppdaterSaksdetaljerState,
     settRestStatus,
-    skalViseFeilside,
-    oppdaterOppgaveState,
-    skalViseForbudtside,
-    oppdaterDokumentasjonkravState,
+    visFeilside,
 } from "./innsynsdataReducer";
 import {logWarningMessage} from "./loggActions";
 
@@ -31,12 +31,16 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseForbudtside(true));
+                    dispatch(visFeilside(Feilside.IKKE_TILGANG));
+                } else if (reason.message === HttpErrorType.NOT_FOUND) {
+                    logWarningMessage(reason.message, reason.navCallId);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(visFeilside(Feilside.FINNES_IKKE));
                 } else {
                     logWarningMessage(reason.message + " " + url, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
-                        dispatch(skalViseFeilside(true));
+                        dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                     }
                 }
             });
@@ -58,11 +62,11 @@ export function hentOppgaveMedId(fiksDigisosId: string, sti: InnsynsdataSti, opp
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseForbudtside(true));
+                    dispatch(visFeilside(Feilside.IKKE_TILGANG));
                 } else {
                     logWarningMessage(reason.message);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseFeilside(true));
+                    dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                 }
             });
     };
@@ -83,11 +87,11 @@ export function hentDokumentasjonkravMedId(fiksDigisosId: string, sti: Innsynsda
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseForbudtside(true));
+                    dispatch(visFeilside(Feilside.IKKE_TILGANG));
                 } else {
                     logWarningMessage(reason.message);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseFeilside(true));
+                    dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                 }
             });
     };
@@ -110,12 +114,12 @@ export function hentSaksdata(sti: InnsynsdataSti, visFeilSide?: boolean) {
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
-                    dispatch(skalViseForbudtside(true));
+                    dispatch(visFeilside(Feilside.IKKE_TILGANG));
                 } else {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
-                        dispatch(skalViseFeilside(true));
+                        dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                     }
                 }
             });
@@ -136,12 +140,12 @@ export function hentSaksdetaljer(fiksDigisosId: string, visFeilSide?: boolean) {
                 } else if (reason.message === HttpErrorType.FORBIDDEN) {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
-                    dispatch(skalViseForbudtside(true));
+                    dispatch(visFeilside(Feilside.IKKE_TILGANG));
                 } else {
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(oppdaterSaksdetaljerRestStatus(fiksDigisosId, REST_STATUS.FEILET));
                     if (visFeilSide !== false) {
-                        dispatch(skalViseFeilside(true));
+                        dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                     }
                 }
             });
