@@ -18,6 +18,10 @@ import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Accordion, BodyShort, Heading, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 
+const StyledPanelHeader = styled.div`
+    border-bottom: 2px solid #a0a0a0;
+`;
+
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
         padding-left: 80px;
@@ -43,10 +47,6 @@ const StyledAccordion = styled(Accordion)`
     &:last-child {
         margin-bottom: 1rem;
     }
-`;
-
-const StyledOppgaveHeader = styled.div`
-    border-bottom: 2px solid #a0a0a0;
 `;
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
@@ -94,11 +94,11 @@ const Oppgaver = () => {
 
     return (
         <StyledPanel>
-            <StyledOppgaveHeader>
+            <StyledPanelHeader>
                 <Heading level="2" size="medium" spacing>
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
-            </StyledOppgaveHeader>
+            </StyledPanelHeader>
 
             {skalViseLastestripe(restStatus.oppgaver, true) && (
                 <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
