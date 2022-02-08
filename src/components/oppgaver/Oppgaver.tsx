@@ -26,7 +26,6 @@ const StyledPanel = styled(Panel)`
     }
     @media screen and (max-width: 640px) {
         padding: 1rem;
-    }
 `;
 
 const StyledHeader = styled.div`
@@ -39,6 +38,10 @@ const StyledAccordion = styled(Accordion)`
     }
     .navds-accordion__content {
         padding-left: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 1rem;
     }
 `;
 
@@ -92,12 +95,14 @@ const Oppgaver = () => {
     return (
         <StyledPanel>
             <StyledOppgaveHeader>
-                <Heading level="2" size="medium">
+                <Heading level="2" size="medium" spacing>
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
             </StyledOppgaveHeader>
 
-            {skalViseLastestripe(restStatus.oppgaver, true) && <Lastestriper linjer={1} />}
+            {skalViseLastestripe(restStatus.oppgaver, true) && (
+                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
+            )}
 
             <IngenOppgaverPanel
                 dokumentasjonEtterspurt={dokumentasjonEtterspurt}
@@ -116,7 +121,7 @@ const Oppgaver = () => {
                                     }
                                 >
                                     <StyledHeader>
-                                        <Label>
+                                        <Label spacing>
                                             {dokumentasjonEtterspurtErFraInnsyn && (
                                                 <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
                                             )}
@@ -192,7 +197,7 @@ const Oppgaver = () => {
                             <Accordion.Item>
                                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
                                     <StyledHeader>
-                                        <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
+                                        <Label spacing>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
                                         <BodyShort>
                                             <FormattedMessage id="vilkar.veileder_trenger_mer" />
                                         </BodyShort>
@@ -214,7 +219,7 @@ const Oppgaver = () => {
                                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}
                                 >
                                     <StyledHeader>
-                                        <Label>
+                                        <Label spacing>
                                             <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                                         </Label>
                                         <BodyShort>

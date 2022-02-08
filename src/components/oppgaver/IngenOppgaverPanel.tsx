@@ -15,10 +15,8 @@ import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledPanel = styled(Panel)`
-    @media screen and (min-width: 641px) {
-        padding-left: 80px;
-        padding-right: 80px;
-    }
+    padding-left: 0;
+    margin: 1.5rem 0;
 `;
 
 interface Props {
