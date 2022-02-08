@@ -1,5 +1,5 @@
 import * as React from "react";
-import {getSkalViseVilkarView} from "./VilkarUtils";
+import {getSkalViseInformasjonsboks, getSkalViseVilkarView} from "./VilkarUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -21,8 +21,9 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
     );
 
     const skalViseVilkarView = getSkalViseVilkarView(innsynSaksStatusListe);
+    const skalViseInformasjonsboks = getSkalViseInformasjonsboks(dokumentasjonkrav, vilkar);
 
-    if (skalViseVilkarView && !vilkar && !dokumentasjonkrav) {
+    if (skalViseVilkarView && skalViseInformasjonsboks) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
