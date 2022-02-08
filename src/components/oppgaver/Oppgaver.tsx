@@ -1,5 +1,4 @@
 import React from "react";
-import DokumentBinder from "../ikoner/DocumentBinder";
 import "./oppgaver.less";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import {DokumentasjonEtterspurt, DokumentasjonKrav} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -23,13 +22,28 @@ const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
         padding-left: 80px;
         padding-right: 80px;
+        margin-top: 4rem;
     }
+    @media screen and (max-width: 640px) {
+        padding: 1rem;
+    }
+`;
+
+const StyledHeader = styled.div`
+    padding-top: 4px;
 `;
 
 const StyledAccordion = styled(Accordion)`
     .navds-accordion__header {
-        border-bottom: none;
+        padding-left: 0;
     }
+    .navds-accordion__content {
+        padding-left: 0;
+    }
+`;
+
+const StyledOppgaveHeader = styled.div`
+    border-bottom: 2px solid #a0a0a0;
 `;
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
@@ -76,23 +90,14 @@ const Oppgaver = () => {
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonkrav || vilkar;
 
     return (
-        <>
-            <StyledPanel className="panel-luft-over">
+        <StyledPanel>
+            <StyledOppgaveHeader>
                 <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
-            </StyledPanel>
+            </StyledOppgaveHeader>
 
-            {skalViseLastestripe(restStatus.oppgaver, true) && (
-                <StyledPanel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (skalViseOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
-                    <Lastestriper linjer={1} />
-                </StyledPanel>
-            )}
+            {skalViseLastestripe(restStatus.oppgaver, true) && <Lastestriper linjer={1} />}
 
             <IngenOppgaverPanel
                 dokumentasjonEtterspurt={dokumentasjonEtterspurt}
@@ -100,14 +105,8 @@ const Oppgaver = () => {
                 vilkar={vilkar}
                 leserData={skalViseLastestripe(restStatus.oppgaver)}
             />
-
             {skalViseOppgaver && (
-                <StyledPanel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (brukerHarDokumentasjonEtterspurt ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
+                <>
                     {brukerHarDokumentasjonEtterspurt && (
                         <StyledAccordion>
                             <Accordion.Item>
@@ -116,48 +115,44 @@ const Oppgaver = () => {
                                         logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")
                                     }
                                 >
-                                    <div className="oppgaver_header">
-                                        <DokumentBinder />
-                                        <div>
-                                            <Label>
-                                                {dokumentasjonEtterspurtErFraInnsyn && (
-                                                    <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
+                                    <StyledHeader>
+                                        <Label>
+                                            {dokumentasjonEtterspurtErFraInnsyn && (
+                                                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
+                                            )}
+                                            {!dokumentasjonEtterspurtErFraInnsyn && (
+                                                <FormattedMessage id="oppgaver.maa_sende_dok" />
+                                            )}
+                                        </Label>
+                                        <BodyShort>
+                                            {dokumentasjonEtterspurtErFraInnsyn &&
+                                                antallDagerSidenFristBlePassert <= 0 && (
+                                                    <FormattedMessage
+                                                        id="oppgaver.neste_frist"
+                                                        values={{
+                                                            innsendelsesfrist:
+                                                                innsendelsesfrist != null
+                                                                    ? formatDato(innsendelsesfrist.toISOString())
+                                                                    : "",
+                                                        }}
+                                                    />
                                                 )}
-                                                {!dokumentasjonEtterspurtErFraInnsyn && (
-                                                    <FormattedMessage id="oppgaver.maa_sende_dok" />
-                                                )}
-                                            </Label>
-                                            <BodyShort>
-                                                {dokumentasjonEtterspurtErFraInnsyn &&
-                                                    antallDagerSidenFristBlePassert <= 0 && (
-                                                        <FormattedMessage
-                                                            id="oppgaver.neste_frist"
-                                                            values={{
-                                                                innsendelsesfrist:
-                                                                    innsendelsesfrist != null
-                                                                        ? formatDato(innsendelsesfrist.toISOString())
-                                                                        : "",
-                                                            }}
-                                                        />
-                                                    )}
-                                                {dokumentasjonEtterspurtErFraInnsyn &&
-                                                    antallDagerSidenFristBlePassert > 0 && (
-                                                        <FormattedMessage
-                                                            id="oppgaver.neste_frist_passert"
-                                                            values={{
-                                                                antall_dager: getAntallDagerTekst(
-                                                                    antallDagerSidenFristBlePassert
-                                                                ),
-                                                                innsendelsesfrist:
-                                                                    innsendelsesfrist != null
-                                                                        ? formatDato(innsendelsesfrist!.toISOString())
-                                                                        : "",
-                                                            }}
-                                                        />
-                                                    )}
-                                            </BodyShort>
-                                        </div>
-                                    </div>
+                                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                                                <FormattedMessage
+                                                    id="oppgaver.neste_frist_passert"
+                                                    values={{
+                                                        antall_dager: getAntallDagerTekst(
+                                                            antallDagerSidenFristBlePassert
+                                                        ),
+                                                        innsendelsesfrist:
+                                                            innsendelsesfrist != null
+                                                                ? formatDato(innsendelsesfrist!.toISOString())
+                                                                : "",
+                                                    }}
+                                                />
+                                            )}
+                                        </BodyShort>
+                                    </StyledHeader>
                                 </Accordion.Header>
                                 <Accordion.Content>
                                     {dokumentasjonEtterspurtErFraInnsyn ? (
@@ -196,15 +191,12 @@ const Oppgaver = () => {
                         <StyledAccordion>
                             <Accordion.Item>
                                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
-                                    <div className="oppgaver_header">
-                                        <DokumentBinder />
-                                        <div>
-                                            <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
-                                            <BodyShort>
-                                                <FormattedMessage id="vilkar.veileder_trenger_mer" />
-                                            </BodyShort>
-                                        </div>
-                                    </div>
+                                    <StyledHeader>
+                                        <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
+                                        <BodyShort>
+                                            <FormattedMessage id="vilkar.veileder_trenger_mer" />
+                                        </BodyShort>
+                                    </StyledHeader>
                                 </Accordion.Header>
                                 <Accordion.Content>
                                     {vilkar.map((vilkarElement, index) => (
@@ -221,17 +213,14 @@ const Oppgaver = () => {
                                 <Accordion.Header
                                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}
                                 >
-                                    <div className="oppgaver_header">
-                                        <DokumentBinder />
-                                        <div>
-                                            <Label>
-                                                <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
-                                            </Label>
-                                            <BodyShort>
-                                                <FormattedMessage id="dokumentasjonkrav.veileder_trenger_mer" />
-                                            </BodyShort>
-                                        </div>
-                                    </div>
+                                    <StyledHeader>
+                                        <Label>
+                                            <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
+                                        </Label>
+                                        <BodyShort>
+                                            <FormattedMessage id="dokumentasjonkrav.veileder_trenger_mer" />
+                                        </BodyShort>
+                                    </StyledHeader>
                                 </Accordion.Header>
                                 <Accordion.Content>
                                     {dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
@@ -245,10 +234,10 @@ const Oppgaver = () => {
                             </Accordion.Item>
                         </StyledAccordion>
                     )}
-                </StyledPanel>
+                </>
             )}
             <OppgaveInformasjon dokumentasjonkrav={dokumentasjonkrav} vilkar={vilkar} />
-        </>
+        </StyledPanel>
     );
 };
 
