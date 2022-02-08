@@ -106,7 +106,7 @@ const Utbetalinger: React.FC = () => {
 
             {harSaker ? (
                 <div className="utbetalinger">
-                    <Heading level="1" size="2xlarge" spacing className="utbetalinger__overskrift">
+                    <Heading level="1" size="xlarge" spacing className="utbetalinger__overskrift">
                         Utbetalingsoversikt
                     </Heading>
                     <div className="utbetalinger_row">

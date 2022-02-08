@@ -26,7 +26,7 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                     <UthevetPanel className="panel-uthevet-luft-under">
                         {feilside === FeilsideEnum.TEKNISKE_PROBLEMER && (
                             <>
-                                <Heading level="1" size="xlarge" spacing>
+                                <Heading level="1" size="large" spacing>
                                     Beklager, vi har dessverre tekniske problemer.
                                 </Heading>
                                 <BodyShort spacing>Vennligst prøv igjen senere.</BodyShort>
@@ -34,7 +34,7 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                         )}
                         {feilside === FeilsideEnum.FINNES_IKKE && (
                             <>
-                                <Heading level="1" size="xlarge" spacing>
+                                <Heading level="1" size="large" spacing>
                                     <FormattedMessage id="feilside.finnes_ikke_overskrift" />
                                 </Heading>
                                 <BodyShort>
