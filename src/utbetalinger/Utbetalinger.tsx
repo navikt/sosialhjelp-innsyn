@@ -125,7 +125,7 @@ const Utbetalinger: React.FC = () => {
             .catch(() => {
                 dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
             });
-    }, [setHarSoknaderMedInnsyn, setLasterSoknaderMedInnsyn]);
+    }, [setHarSoknaderMedInnsyn, setLasterSoknaderMedInnsyn, dispatch]);
 
     return (
         <div>
