@@ -99,9 +99,8 @@ const Utbetalinger: React.FC = () => {
     const harSaker = alleSaker.length > 0;
 
     useEffect(() => {
-        fetchToJson("/innsyn/harSoknaderMedInnsyn")
+        fetchToJson<boolean>("/innsyn/harSoknaderMedInnsyn")
             .then((response) => {
-                // @ts-ignore
                 setHarSoknaderMedInnsyn(response);
                 setLasterSoknaderMedInnsyn(false);
             })
