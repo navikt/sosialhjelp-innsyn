@@ -47,7 +47,7 @@ const IngenUtbetalingsoversikt = (props: {
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER, true));
     }, [dispatch]);
 
     document.title = "Utbetalingsoversikt - Økonomisk sosialhjelp";
