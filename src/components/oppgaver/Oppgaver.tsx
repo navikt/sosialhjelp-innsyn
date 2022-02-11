@@ -14,10 +14,10 @@ import {skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import DokumentasjonKravView from "./DokumentasjonKravView";
-import {VilkarView} from "./VilkarView";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Accordion, BodyShort, Heading, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
+import {VilkarAccordion} from "./accordions/VilkarAccordion";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -26,7 +26,7 @@ const StyledPanel = styled(Panel)`
     }
 `;
 
-const StyledAccordion = styled(Accordion)`
+export const StyledAccordion = styled(Accordion)`
     .navds-accordion__header {
         border-bottom: none;
     }
@@ -192,28 +192,7 @@ const Oppgaver = () => {
                         </StyledAccordion>
                     )}
 
-                    {vilkar && vilkar.length > 0 && (
-                        <StyledAccordion>
-                            <Accordion.Item>
-                                <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
-                                    <div className="oppgaver_header">
-                                        <DokumentBinder />
-                                        <div>
-                                            <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
-                                            <BodyShort>
-                                                <FormattedMessage id="vilkar.veileder_trenger_mer" />
-                                            </BodyShort>
-                                        </div>
-                                    </div>
-                                </Accordion.Header>
-                                <Accordion.Content>
-                                    {vilkar.map((vilkarElement, index) => (
-                                        <VilkarView key={index} vilkar={vilkarElement} />
-                                    ))}
-                                </Accordion.Content>
-                            </Accordion.Item>
-                        </StyledAccordion>
-                    )}
+                    {vilkar?.length > 0 && <VilkarAccordion vilkar={vilkar} />}
 
                     {dokumentasjonkrav && dokumentasjonkrav.length > 0 && (
                         <StyledAccordion>
