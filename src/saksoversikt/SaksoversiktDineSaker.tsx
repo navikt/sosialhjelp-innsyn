@@ -48,7 +48,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     const velgPeriode = (value: any) => {
         setPeriode(value.target.value);
-        logAmplitudeEvent("Søknadsoversikt: Filtrer søknader etter periode", {valgtPeriode: value});
+        logAmplitudeEvent("Søknadsoversikt: Filtrer søknader etter periode", {valgtPeriode: value.target.value});
     };
 
     if (periode === "alle") filtrerteSaker = saker;
