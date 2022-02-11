@@ -24,25 +24,8 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {Heading} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
-import UtbetalingsoversiktIngenSoknader from "./UtbetalingsoversiktIngenSoknader";
-import UtbetalingsoversiktIngenInnsyn from "./UtbetalingsoversiktIngenInnsyn";
-
+import {IngenUtbetalingsoversikt} from "./IngenUtbetalingsoversikt";
 let DEFAULT_ANTALL_MND_VIST: number = 3;
-
-const IngenUtbetalingsoversikt = (props: {
-    harSoknaderMedInnsyn: boolean;
-    lasterSoknaderMedInnsyn: boolean;
-    harSaker: boolean;
-    leserData: boolean;
-}) => {
-    if (!props.harSaker && !props.leserData) {
-        return <UtbetalingsoversiktIngenSoknader />;
-    }
-    if (!props.harSoknaderMedInnsyn && !props.lasterSoknaderMedInnsyn) {
-        return <UtbetalingsoversiktIngenInnsyn />;
-    }
-    return null;
-};
 
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
