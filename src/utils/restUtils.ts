@@ -190,14 +190,14 @@ function addXsrfHeadersIfPutOrPost(method: string, headers: Headers) {
     }
 }
 
-export const serverRequest = (
+export const serverRequest = <T>(
     method: string,
     urlPath: string,
     body: string | null | FormData,
     contentType?: string,
     isSoknadApi?: boolean,
     callId?: string
-) => {
+): Promise<T> => {
     const headers = getHeaders(contentType, callId);
     addXsrfHeadersIfPutOrPost(method, headers);
     const OPTIONS: RequestInit = {
@@ -213,7 +213,7 @@ export const serverRequest = (
         fetch(url, OPTIONS)
             .then((response: Response) => {
                 sjekkStatuskode(response, url);
-                const jsonResponse = toJson(response);
+                const jsonResponse = toJson<T>(response);
                 resolve(jsonResponse);
             })
             .catch((reason: any) => {
@@ -297,20 +297,20 @@ function determineCredentialsParameter() {
         : "same-origin";
 }
 
-export function fetchToJson(urlPath: string) {
-    return serverRequest(RequestMethod.GET, urlPath, null);
+export function fetchToJson<T>(urlPath: string) {
+    return serverRequest<T>(RequestMethod.GET, urlPath, null);
 }
 
-export function fetchToJsonFromSoknadApi(urlPath: string) {
-    return serverRequest(RequestMethod.GET, urlPath, null, undefined, true);
+export function fetchToJsonFromSoknadApi<T>(urlPath: string) {
+    return serverRequest<T>(RequestMethod.GET, urlPath, null, undefined, true);
 }
 
-export function fetchPut(urlPath: string, body: string) {
-    return serverRequest(RequestMethod.PUT, urlPath, body);
+export function fetchPut<T>(urlPath: string, body: string) {
+    return serverRequest<T>(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string | FormData, contentType?: string, callId?: string) {
-    return serverRequest(RequestMethod.POST, urlPath, body, contentType, undefined, callId);
+export function fetchPost<T>(urlPath: string, body: string | FormData, contentType?: string, callId?: string) {
+    return serverRequest<T>(RequestMethod.POST, urlPath, body, contentType, undefined, callId);
 }
 
 export function fetchPostGetErrors(urlPath: string, body: string | FormData, contentType?: string) {
