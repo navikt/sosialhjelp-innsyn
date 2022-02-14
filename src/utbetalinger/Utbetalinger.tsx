@@ -30,7 +30,7 @@ let DEFAULT_ANTALL_MND_VIST: number = 3;
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER, true));
     }, [dispatch]);
 
     document.title = "Utbetalingsoversikt - Økonomisk sosialhjelp";
