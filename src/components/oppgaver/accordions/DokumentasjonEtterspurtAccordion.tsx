@@ -1,6 +1,5 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
-import DokumentBinder from "../../ikoner/DocumentBinder";
 import {FormattedMessage} from "react-intl";
 import {formatDato} from "../../../utils/formatting";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
@@ -9,7 +8,6 @@ import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
 import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonEtterspurtView from "../DokumentasjonEtterspurtView";
 import React from "react";
-import {StyledAccordion} from "../Oppgaver";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -25,49 +23,45 @@ export const DokumentasjonEtterspurtAccordion = (props: {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
 }) => {
     return (
-        <StyledAccordion>
+        <Accordion>
             <Accordion.Item>
                 <Accordion.Header
                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
                 >
-                    <div className="oppgaver_header">
-                        <DokumentBinder />
-                        <div>
-                            <Label>
-                                {props.dokumentasjonEtterspurtErFraInnsyn && (
-                                    <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
-                                )}
-                                {!props.dokumentasjonEtterspurtErFraInnsyn && (
-                                    <FormattedMessage id="oppgaver.maa_sende_dok" />
-                                )}
-                            </Label>
-                            <BodyShort>
-                                {props.dokumentasjonEtterspurtErFraInnsyn &&
-                                    props.antallDagerSidenFristBlePassert <= 0 && (
-                                        <FormattedMessage
-                                            id="oppgaver.neste_frist"
-                                            values={{
-                                                innsendelsesfrist:
-                                                    props.innsendelsesfrist != null
-                                                        ? formatDato(props.innsendelsesfrist.toISOString())
-                                                        : "",
-                                            }}
-                                        />
-                                    )}
-                                {props.dokumentasjonEtterspurtErFraInnsyn && props.antallDagerSidenFristBlePassert > 0 && (
-                                    <FormattedMessage
-                                        id="oppgaver.neste_frist_passert"
-                                        values={{
-                                            antall_dager: getAntallDagerTekst(props.antallDagerSidenFristBlePassert),
-                                            innsendelsesfrist:
-                                                props.innsendelsesfrist != null
-                                                    ? formatDato(props.innsendelsesfrist!.toISOString())
-                                                    : "",
-                                        }}
-                                    />
-                                )}
-                            </BodyShort>
-                        </div>
+                    <div>
+                        <Label>
+                            {props.dokumentasjonEtterspurtErFraInnsyn && (
+                                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
+                            )}
+                            {!props.dokumentasjonEtterspurtErFraInnsyn && (
+                                <FormattedMessage id="oppgaver.maa_sende_dok" />
+                            )}
+                        </Label>
+                        <BodyShort>
+                            {props.dokumentasjonEtterspurtErFraInnsyn && props.antallDagerSidenFristBlePassert <= 0 && (
+                                <FormattedMessage
+                                    id="oppgaver.neste_frist"
+                                    values={{
+                                        innsendelsesfrist:
+                                            props.innsendelsesfrist != null
+                                                ? formatDato(props.innsendelsesfrist.toISOString())
+                                                : "",
+                                    }}
+                                />
+                            )}
+                            {props.dokumentasjonEtterspurtErFraInnsyn && props.antallDagerSidenFristBlePassert > 0 && (
+                                <FormattedMessage
+                                    id="oppgaver.neste_frist_passert"
+                                    values={{
+                                        antall_dager: getAntallDagerTekst(props.antallDagerSidenFristBlePassert),
+                                        innsendelsesfrist:
+                                            props.innsendelsesfrist != null
+                                                ? formatDato(props.innsendelsesfrist!.toISOString())
+                                                : "",
+                                    }}
+                                />
+                            )}
+                        </BodyShort>
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
@@ -100,6 +94,6 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                     </div>
                 </Accordion.Content>
             </Accordion.Item>
-        </StyledAccordion>
+        </Accordion>
     );
 };

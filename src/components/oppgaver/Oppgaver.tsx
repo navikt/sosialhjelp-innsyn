@@ -8,23 +8,25 @@ import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {Accordion, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {VilkarAccordion} from "./accordions/VilkarAccordion";
 import {DokumentasjonkravAccordion} from "./accordions/DokumentasjonkravAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./accordions/DokumentasjonEtterspurtAccordion";
 
-const StyledPanel = styled(Panel)`
-    @media screen and (min-width: 641px) {
-        padding-left: 80px;
-        padding-right: 80px;
-    }
+const StyledPanelHeader = styled.div`
+    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
+    padding-left: 0.75rem;
 `;
 
-export const StyledAccordion = styled(Accordion)`
-    .navds-accordion__header {
-        border-bottom: none;
+const StyledPanel = styled(Panel)`
+    @media screen and (min-width: 641px) {
+        padding: 2rem 4.25rem;
+        margin-top: 4rem;
     }
+    @media screen and (max-width: 640px) {
+        padding: 1rem;
+        margin-top: 2rem;
 `;
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
@@ -65,22 +67,15 @@ const Oppgaver = () => {
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonkrav || vilkar;
 
     return (
-        <>
-            <StyledPanel className="panel-luft-over">
-                <Heading level="2" size="medium">
+        <StyledPanel>
+            <StyledPanelHeader>
+                <Heading level="2" size="medium" spacing>
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
-            </StyledPanel>
+            </StyledPanelHeader>
 
             {skalViseLastestripe(restStatus.oppgaver, true) && (
-                <StyledPanel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (skalViseOppgaver ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
-                    <Lastestriper linjer={1} />
-                </StyledPanel>
+                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
             )}
 
             <IngenOppgaverPanel
@@ -89,14 +84,8 @@ const Oppgaver = () => {
                 vilkar={vilkar}
                 leserData={skalViseLastestripe(restStatus.oppgaver)}
             />
-
             {skalViseOppgaver && (
-                <StyledPanel
-                    className={
-                        "panel-glippe-over oppgaver_panel " +
-                        (brukerHarDokumentasjonEtterspurt ? "oppgaver_panel_bruker_har_oppgaver" : "")
-                    }
-                >
+                <>
                     {brukerHarDokumentasjonEtterspurt && (
                         <DokumentasjonEtterspurtAccordion
                             dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
@@ -112,10 +101,10 @@ const Oppgaver = () => {
                     {dokumentasjonkrav?.length > 0 && (
                         <DokumentasjonkravAccordion dokumentasjonkrav={dokumentasjonkrav} />
                     )}
-                </StyledPanel>
+                </>
             )}
             <OppgaveInformasjon dokumentasjonkrav={dokumentasjonkrav} vilkar={vilkar} />
-        </>
+        </StyledPanel>
     );
 };
 
