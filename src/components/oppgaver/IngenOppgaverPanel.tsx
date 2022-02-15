@@ -15,7 +15,6 @@ import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const StyledPanel = styled(Panel)`
-    padding-left: 0;
     margin: 1.5rem 0;
 `;
 
