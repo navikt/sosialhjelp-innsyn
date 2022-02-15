@@ -82,6 +82,7 @@ const Utbetalinger: React.FC = () => {
 
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
+        console.log("tulle");
         if (innsynRestStatus === REST_STATUS.OK) {
             alleSaker = alleSaker.concat(innsynData.saker);
         }
