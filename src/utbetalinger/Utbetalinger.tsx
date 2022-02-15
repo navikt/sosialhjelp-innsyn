@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Periodevelger from "./Periodevelger";
 import UtbetalingerPanel from "./UtbetalingerPanel";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
-import {REST_STATUS} from "../utils/restUtils";
+import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import "./utbetalinger.less";
 import {
@@ -13,19 +13,24 @@ import {
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch, useSelector} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
-import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    Feilside,
+    InnsynsdataSti,
+    InnsynsdataType,
+    Sakstype,
+    visFeilside,
+} from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {Heading} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
-import UtbetalingsoversiktIngenSoknader from "./UtbetalingsoversiktIngenSoknader";
-
+import {IngenUtbetalingsoversikt} from "./IngenUtbetalingsoversikt";
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
+        dispatch(hentSaksdata(InnsynsdataSti.SAKER, true));
     }, [dispatch]);
 
     document.title = "Utbetalingsoversikt - Økonomisk sosialhjelp";
@@ -34,6 +39,8 @@ const Utbetalinger: React.FC = () => {
     const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);
     const [tilAnnenMottaker, setTilAnnenMottaker] = useState<boolean>(true);
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
+    const [harSoknaderMedInnsyn, setHarSoknaderMedInnsyn] = useState(false);
+    const [lasterSoknaderMedInnsyn, setLasterSoknaderMedInnsyn] = useState(true);
 
     useBannerTittel("Utbetalingsoversikt");
 
@@ -91,6 +98,17 @@ const Utbetalinger: React.FC = () => {
     }
     const harSaker = alleSaker.length > 0;
 
+    useEffect(() => {
+        fetchToJson<boolean>("/innsyn/harSoknaderMedInnsyn")
+            .then((response) => {
+                setHarSoknaderMedInnsyn(response);
+                setLasterSoknaderMedInnsyn(false);
+            })
+            .catch(() => {
+                dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
+            });
+    }, [setHarSoknaderMedInnsyn, setLasterSoknaderMedInnsyn, dispatch]);
+
     return (
         <div>
             <Brodsmulesti
@@ -104,7 +122,7 @@ const Utbetalinger: React.FC = () => {
                 className="breadcrumbs__luft_rundt"
             />
 
-            {harSaker ? (
+            {harSoknaderMedInnsyn && harSaker && !lasterSoknaderMedInnsyn && (
                 <div className="utbetalinger">
                     <Heading level="1" size="xlarge" spacing className="utbetalinger__overskrift">
                         Utbetalingsoversikt
@@ -127,9 +145,13 @@ const Utbetalinger: React.FC = () => {
                         />
                     </div>
                 </div>
-            ) : (
-                <UtbetalingsoversiktIngenSoknader />
             )}
+            <IngenUtbetalingsoversikt
+                harSoknaderMedInnsyn={harSoknaderMedInnsyn}
+                lasterSoknaderMedInnsyn={lasterSoknaderMedInnsyn}
+                harSaker={harSaker}
+                leserData={leserData}
+            />
         </div>
     );
 };

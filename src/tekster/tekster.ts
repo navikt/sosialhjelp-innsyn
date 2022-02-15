@@ -29,19 +29,19 @@ export const tekster = {
         "oppgaver.vilkar.beskrivelse": "Dette er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
         "oppgaver.vilkar.dokumentasjonskrav": "Opplysninger til stønaden din",
         "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
-            "Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din. Du kan sende disse under «Dine vedlegg» nedenfor.",
+            "Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din. Du kan levere disse under «Dine vedlegg» nedenfor.",
 
         "oppgaver.dine_oppgaver": "Dine oppgaver",
-        "oppgaver.maa_sende_dok_veileder": "Du må sende opplysninger til søknaden din",
+        "oppgaver.maa_sende_dok_veileder": "Du må levere opplysninger til søknaden din",
         "oppgaver.maa_sende_dok": "Vi mangler noen opplysninger til søknaden din",
-        "oppgaver.innsendelsesfrist": "Fristen din for å sende dem er {innsendelsesfrist}",
-        "oppgaver.innsendelsesfrist_passert": "Frist for å sende dem var {innsendelsesfrist}",
+        "oppgaver.innsendelsesfrist": "Frist for å levere er {innsendelsesfrist}",
+        "oppgaver.innsendelsesfrist_passert": "Frist for å levere var {innsendelsesfrist}",
         "oppgaver.veileder_trenger_mer":
             "Vi trenger flere opplysninger om deg for å behandle søknaden din. " +
             "Har du levert opplysningene til NAV-kontoret, kan du se bort fra denne meldingen.",
         "oppgaver.last_opp_vedlegg_ikke":
             "Her ser du hvilke opplysninger du ikke sendte sammen med søknaden. " +
-            "Vi anbefaler at du sender opplysningene så snart som mulig, og helst innen 14 dager. " +
+            "Vi anbefaler at du leverer opplysningene så snart som mulig, og helst innen 14 dager. " +
             "Har du levert opplysningene til NAV-kontoret, kan du se bort fra denne meldingen.",
         "oppgaver.hjelp_last_opp": "Trenger du hjelp til å sende opplysninger?",
         "oppgaver.informasjon.modal.overskrift": "Trenger du hjelp til å sende opplysninger?",
@@ -64,7 +64,7 @@ export const tekster = {
         "oppgaver.informasjon.modal.bolk4.liste1": "er under 10 MB per dokument",
         "oppgaver.informasjon.modal.bolk4.liste2": "er av filtypen PDF, JPEG eller PNG",
         "oppgaver.informasjon.modal.bolk4.liste3": "kun inneholder bokstaver og tall i filnavnet",
-        "oppgaver.neste_frist": "Neste frist for å sende inn er {innsendelsesfrist}",
+        "oppgaver.neste_frist": "Neste frist for å levere er {innsendelsesfrist}",
         "oppgaver.neste_frist_passert":
             "Frist for å levere opplysningene var for {antall_dager} siden, den {innsendelsesfrist}",
         "oppgaver.send_knapp_tittel": "Send vedlegg",
@@ -76,7 +76,7 @@ export const tekster = {
         "vilkar.du_har_vilkar": "Du har vilkår",
         "vilkar.veileder_trenger_mer": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra NAV.",
 
-        "dokumentasjonkrav.dokumentasjon_stonad": "Du må sende opplysninger",
+        "dokumentasjonkrav.dokumentasjon_stonad": "Du må levere opplysninger",
         "dokumentasjonkrav.veileder_trenger_mer":
             "Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din.",
 
