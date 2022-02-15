@@ -8,7 +8,6 @@ import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
 import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonEtterspurtView from "../DokumentasjonEtterspurtView";
 import React from "react";
-import {StyledAccordion, StyledHeader} from "../Oppgaver";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -24,12 +23,12 @@ export const DokumentasjonEtterspurtAccordion = (props: {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
 }) => {
     return (
-        <StyledAccordion>
+        <Accordion>
             <Accordion.Item>
                 <Accordion.Header
                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
                 >
-                    <StyledHeader>
+                    <div>
                         <Label>
                             {props.dokumentasjonEtterspurtErFraInnsyn && (
                                 <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
@@ -63,7 +62,7 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                                 />
                             )}
                         </BodyShort>
-                    </StyledHeader>
+                    </div>
                 </Accordion.Header>
                 <Accordion.Content>
                     {props.dokumentasjonEtterspurtErFraInnsyn ? (
@@ -95,6 +94,6 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                     </div>
                 </Accordion.Content>
             </Accordion.Item>
-        </StyledAccordion>
+        </Accordion>
     );
 };

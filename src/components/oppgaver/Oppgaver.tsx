@@ -8,41 +8,25 @@ import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {skalViseLastestripe} from "../../utils/restUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {Accordion, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {VilkarAccordion} from "./accordions/VilkarAccordion";
 import {DokumentasjonkravAccordion} from "./accordions/DokumentasjonkravAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./accordions/DokumentasjonEtterspurtAccordion";
 
 const StyledPanelHeader = styled.div`
-    border-bottom: 2px solid #a0a0a0;
+    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
+    padding-left: 0.75rem;
 `;
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
-        padding-left: 80px;
-        padding-right: 80px;
+        padding: 2rem 4.25rem;
         margin-top: 4rem;
     }
     @media screen and (max-width: 640px) {
         padding: 1rem;
-`;
-
-export const StyledHeader = styled.div`
-    padding-top: 4px;
-`;
-
-export const StyledAccordion = styled(Accordion)`
-    .navds-accordion__header {
-        padding-left: 0;
-    }
-    .navds-accordion__content {
-        padding-left: 0;
-    }
-
-    &:last-child {
-        margin-bottom: 1rem;
-    }
+        margin-top: 2rem;
 `;
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {

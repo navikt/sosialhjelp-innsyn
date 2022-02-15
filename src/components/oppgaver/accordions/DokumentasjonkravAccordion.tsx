@@ -4,21 +4,20 @@ import {FormattedMessage} from "react-intl";
 import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "../DokumentasjonKravView";
 import React from "react";
-import {StyledAccordion, StyledHeader} from "../Oppgaver";
 
 export const DokumentasjonkravAccordion = (props: {dokumentasjonkrav: DokumentasjonKrav[]}) => {
     return (
-        <StyledAccordion>
+        <Accordion>
             <Accordion.Item>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}>
-                    <StyledHeader>
+                    <div>
                         <Label>
                             <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
                         </Label>
                         <BodyShort>
                             <FormattedMessage id="dokumentasjonkrav.veileder_trenger_mer" />
                         </BodyShort>
-                    </StyledHeader>
+                    </div>
                 </Accordion.Header>
                 <Accordion.Content>
                     {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
@@ -26,6 +25,6 @@ export const DokumentasjonkravAccordion = (props: {dokumentasjonkrav: Dokumentas
                     ))}
                 </Accordion.Content>
             </Accordion.Item>
-        </StyledAccordion>
+        </Accordion>
     );
 };
