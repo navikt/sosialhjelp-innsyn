@@ -7,30 +7,61 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
-import DokumentSendt from "../ikoner/DokumentSendt";
-import DokumentOk from "../ikoner/DokumentOk";
-import DokumentMottatt from "../ikoner/DokumentMottatt";
-import DokumentElla from "../ikoner/DocumentElla";
-import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
-import {UthevetPanelEkstraPadding} from "../paneler/UthevetPanel";
-import {TittelOgIkon} from "./TittelOgIkon";
+import {Alert, BodyShort, GuidePanel, Heading, Label, Tag} from "@navikt/ds-react";
+import {PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components";
 
-const StatusDetaljPanel = styled.div`
-    max-width: 640px;
-    border: 1px solid #c6c2bf;
+const StatusDetalje = styled.div`
+    border-bottom: 1px solid var(--navds-semantic-color-border-muted);
     border-radius: 2px;
     padding: 1rem;
     position: relative;
-    margin: 2rem 0 4px 0;
+    //margin: 2rem 0 4px 0;
 
     @media screen and (min-width: 641px) {
         &_luft_under {
             margin-bottom: 2rem;
         }
     }
+`;
+
+const StatusDetaljLinje = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: normal;
+`;
+
+const StatusDetaljPanelTittel = styled.div`
+    @media screen and (min-width: 641px) {
+        width: 70%;
+    }
+    @media screen and (max-width: 640px) {
+        width: 50%;
+    }
+`;
+
+const StatusDetaljPanelStatus = styled.div`
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    background-color: white;
+`;
+
+const StatusDetaljPanelKommentarer = styled.div`
+    line-height: 22px;
+    margin-top: 6px;
+`;
+
+const StyledHeading = styled(Heading)`
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--navds-semantic-color-border-muted);
+`;
+
+const StyledGuidePanel = styled(GuidePanel)`
+    --navds-guide-panel-color-border: 0;
+    --navds-guide-panel-color-illustration-background: var(--navds-semantic-color-feedback-success-background);
 `;
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
@@ -59,26 +90,18 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     };
 
     return (
-        <UthevetPanelEkstraPadding className={antallSaksElementer > 0 ? "panel-uthevet-luft-under" : ""}>
-            <TittelOgIkon>
-                {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
-                {restStatus !== REST_STATUS.FEILET && (
-                    <>
-                        <Heading level="1" size="large">
-                            {soknadsStatusTittel(status, intl)}
-                        </Heading>
-                        {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}
-                        {status === SoknadsStatusEnum.MOTTATT && <DokumentMottatt />}
-                        {status === SoknadsStatusEnum.UNDER_BEHANDLING && <DokumentElla />}
-                        {status === SoknadsStatusEnum.FERDIGBEHANDLET && <DokumentOk />}
-                        {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
-                    </>
-                )}
-            </TittelOgIkon>
+        <StyledGuidePanel poster illustration={<PlaceFilled />}>
+            {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
+            {restStatus !== REST_STATUS.FEILET && (
+                <StyledHeading level="1" size="large">
+                    {soknadsStatusTittel(status, intl)}
+                </StyledHeading>
+            )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
                 <div className="status_detalj_panel_info_alert_luft_over">
                     <Alert variant="info">
+                        test 2
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </Alert>
                 </div>
@@ -87,6 +110,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
                 <div className="status_detalj_panel_info_alert_luft_over">
                     <Alert variant="info">
+                        test 3
                         <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
                     </Alert>
                 </div>
@@ -99,33 +123,38 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                     const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
                     const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
                     return (
-                        <StatusDetaljPanel key={index}>
-                            <div className={"status_detalj_linje"}>
-                                <div className="status_detalj_panel__tittel">
-                                    <Label>{statusdetalj.tittel}</Label>
-                                </div>
-                                <div className="status_detalj_panel__status">
-                                    {!(sakBehandlesIkke || sakIkkeInnsyn) && (
-                                        <EtikettLiten>
-                                            <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
-                                        </EtikettLiten>
-                                    )}
-                                </div>
-                            </div>
+                        <StatusDetalje key={index}>
+                            <StatusDetaljLinje>
+                                <Label>{statusdetalj.tittel}</Label>
+                                {!(sakBehandlesIkke || sakIkkeInnsyn) && (
+                                    <>
+                                        {saksStatus === SaksStatus.FERDIGBEHANDLET && (
+                                            <Tag variant="success">
+                                                <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
+                                            </Tag>
+                                        )}
+                                        {saksStatus === SaksStatus.UNDER_BEHANDLING && (
+                                            <Tag variant="warning">
+                                                <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
+                                            </Tag>
+                                        )}
+                                    </>
+                                )}
+                            </StatusDetaljLinje>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (
-                                <div className="panel-glippe-over">
+                                <div>
                                     <BodyShort>{statusdetalj.melding}</BodyShort>
                                 </div>
                             )}
                             {sakBehandlesIkke && !soknadBehandlesIkke && (
-                                <div className="panel-glippe-over">
+                                <div>
                                     <BodyShort>
                                         <FormattedMessage id="status.sak_behandles_ikke_ingress" />
                                     </BodyShort>
                                 </div>
                             )}
                             {sakIkkeInnsyn && !soknadBehandlesIkke && (
-                                <div className="panel-glippe-over">
+                                <div>
                                     <BodyShort>
                                         <FormattedMessage id="status.ikke_innsyn_ingress" />
                                     </BodyShort>
@@ -134,8 +163,8 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
 
                             {statusdetalj.vedtaksfilUrlList &&
                                 statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
-                                    <div className={"status_detalj_linje"} key={index}>
-                                        <div className="status_detalj_panel__kommentarer">
+                                    <div key={index}>
+                                        <div>
                                             <EksternLenke
                                                 href={"" + hendelse.vedtaksfilUrl}
                                                 target="_blank"
@@ -146,10 +175,10 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                         </div>
                                     </div>
                                 ))}
-                        </StatusDetaljPanel>
+                        </StatusDetalje>
                     );
                 })}
-        </UthevetPanelEkstraPadding>
+        </StyledGuidePanel>
     );
 };
 
