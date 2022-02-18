@@ -4,9 +4,7 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
-import BinderSmall from "../ikoner/BinderSmall";
-import ChecklistSmall from "../ikoner/ChecklistSmall";
-import EkspanderbartIkonPanel, {PanelIkon} from "../paneler/EkspanderbartIkonPanel";
+import EkspanderbartIkonPanel from "../paneler/EkspanderbartIkonPanel";
 import "./vilkar.less";
 import {BodyShort, Label} from "@navikt/ds-react";
 
@@ -27,12 +25,8 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
                 underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
-                ikon={PanelIkon.CHECKLIST}
             >
                 <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
-                    <div className={"vilkar-bolk-symbol-wrapper svg-width-addition"}>
-                        <ChecklistSmall />
-                    </div>
                     <div>
                         <Label>
                             <FormattedMessage id={"oppgaver.vilkar"} />
@@ -43,9 +37,6 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                     </div>
                 </div>
                 <div className={"vilkar-bolk-med-symbol-wrapper"}>
-                    <div className={"vilkar-bolk-symbol-wrapper"}>
-                        <BinderSmall />
-                    </div>
                     <div>
                         <Label>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
