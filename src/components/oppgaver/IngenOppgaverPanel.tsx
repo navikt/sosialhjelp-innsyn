@@ -1,7 +1,5 @@
 import * as React from "react";
-import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
-import PaperClip from "../ikoner/PaperClip";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {
@@ -13,6 +11,7 @@ import {
 import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
+import {Attachment, Task} from "@navikt/ds-icons";
 
 const StyledPanel = styled(Panel)`
     margin: 1.5rem 0;
@@ -48,7 +47,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
             <StyledPanel className={"panel-glippe-over oppgaver_panel "}>
                 <div>
                     <span style={{float: "left", marginTop: "6px"}}>
-                        <TodoList />
+                        <Task width="1.5rem" height="1.5rem" />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
                         <Label>
@@ -61,7 +60,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                 </div>
                 <div style={{marginTop: "20px"}}>
                     <span style={{float: "left", marginTop: "6px"}}>
-                        <PaperClip />
+                        <Attachment width="1.5rem" height="1.5rem" />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
                         <Label>
