@@ -9,6 +9,12 @@ import {BodyShort, Label} from "@navikt/ds-react";
 import {Attachment, List} from "@navikt/ds-icons";
 import styled from "styled-components";
 
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
 const StyledIconWithText = styled.div`
     display: flex;
     align-items: normal;
@@ -37,32 +43,34 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
                 underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
             >
-                <StyledIconWithText>
-                    <StyledIcon>
-                        <List width="1.5rem" height="1.5rem" />
-                    </StyledIcon>
-                    <div style={{marginBottom: "1rem"}}>
-                        <Label>
-                            <FormattedMessage id={"oppgaver.vilkar"} />
-                        </Label>
-                        <BodyShort>
-                            <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
-                        </BodyShort>
-                    </div>
-                </StyledIconWithText>
-                <StyledIconWithText>
-                    <StyledIcon>
-                        <Attachment width="1.5rem" height="1.5rem" />
-                    </StyledIcon>
-                    <div>
-                        <Label>
-                            <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
-                        </Label>
-                        <BodyShort>
-                            <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
-                        </BodyShort>
-                    </div>
-                </StyledIconWithText>
+                <StyledContainer>
+                    <StyledIconWithText>
+                        <StyledIcon>
+                            <List width="1.5rem" height="1.5rem" />
+                        </StyledIcon>
+                        <div>
+                            <Label>
+                                <FormattedMessage id={"oppgaver.vilkar"} />
+                            </Label>
+                            <BodyShort>
+                                <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
+                            </BodyShort>
+                        </div>
+                    </StyledIconWithText>
+                    <StyledIconWithText>
+                        <StyledIcon>
+                            <Attachment width="1.5rem" height="1.5rem" />
+                        </StyledIcon>
+                        <div>
+                            <Label>
+                                <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
+                            </Label>
+                            <BodyShort>
+                                <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
+                            </BodyShort>
+                        </div>
+                    </StyledIconWithText>
+                </StyledContainer>
             </EkspanderbartIkonPanel>
         );
     } else {
