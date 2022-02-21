@@ -6,7 +6,7 @@ import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdat
 import {FormattedMessage} from "react-intl";
 import EkspanderbartIkonPanel from "../paneler/EkspanderbartIkonPanel";
 import {BodyShort, Label} from "@navikt/ds-react";
-import {Attachment, Task} from "@navikt/ds-icons";
+import {Attachment, List} from "@navikt/ds-icons";
 import styled from "styled-components";
 
 const StyledIconWithText = styled.div`
@@ -39,7 +39,7 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
             >
                 <StyledIconWithText>
                     <StyledIcon>
-                        <Task width="2rem" height="2rem" />
+                        <List width="1.5rem" height="1.5rem" />
                     </StyledIcon>
                     <div style={{marginBottom: "1rem"}}>
                         <Label>
@@ -52,7 +52,7 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                 </StyledIconWithText>
                 <StyledIconWithText>
                     <StyledIcon>
-                        <Attachment width="2rem" height="2rem" />
+                        <Attachment width="1.5rem" height="1.5rem" />
                     </StyledIcon>
                     <div>
                         <Label>
