@@ -5,8 +5,19 @@ import {InnsynAppState} from "../../redux/reduxTypes";
 import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import EkspanderbartIkonPanel from "../paneler/EkspanderbartIkonPanel";
-import "./vilkar.less";
 import {BodyShort, Label} from "@navikt/ds-react";
+import {Attachment, Task} from "@navikt/ds-icons";
+import styled from "styled-components";
+
+const StyledIconWithText = styled.div`
+    display: flex;
+    align-items: normal;
+    flex-direction: row;
+`;
+
+const StyledIcon = styled.div`
+    margin-right: 1rem;
+`;
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav[];
@@ -26,8 +37,11 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
                 underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
             >
-                <div className={"vilkar-bolk-med-symbol-wrapper space-below"}>
-                    <div>
+                <StyledIconWithText>
+                    <StyledIcon>
+                        <Task width="2rem" height="2rem" />
+                    </StyledIcon>
+                    <div style={{marginBottom: "1rem"}}>
                         <Label>
                             <FormattedMessage id={"oppgaver.vilkar"} />
                         </Label>
@@ -35,8 +49,11 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                             <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
                         </BodyShort>
                     </div>
-                </div>
-                <div className={"vilkar-bolk-med-symbol-wrapper"}>
+                </StyledIconWithText>
+                <StyledIconWithText>
+                    <StyledIcon>
+                        <Attachment width="2rem" height="2rem" />
+                    </StyledIcon>
                     <div>
                         <Label>
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
@@ -45,7 +62,7 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                             <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
                         </BodyShort>
                     </div>
-                </div>
+                </StyledIconWithText>
             </EkspanderbartIkonPanel>
         );
     } else {
