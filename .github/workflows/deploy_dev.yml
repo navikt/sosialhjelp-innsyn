@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - 'dev-gcp'
+          - 'dev-gcp-mock'
           - 'dev-gcp-q'
           - 'dev-gcp-mock'
           - 'dev-sbs'
