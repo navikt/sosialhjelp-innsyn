@@ -12,56 +12,41 @@ import {Alert, BodyShort, GuidePanel, Heading, Label, Tag} from "@navikt/ds-reac
 import {PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components";
 
-const StatusDetalje = styled.div`
-    border-bottom: 1px solid var(--navds-semantic-color-border-muted);
-    border-radius: 2px;
-    padding: 1rem;
-    position: relative;
-    //margin: 2rem 0 4px 0;
-
-    @media screen and (min-width: 641px) {
-        &_luft_under {
-            margin-bottom: 2rem;
-        }
+const StyledGuidePanel = styled(GuidePanel)`
+    --navds-guide-panel-color-border: 0;
+    --navds-guide-panel-color-illustration-background: var(--navds-semantic-color-feedback-success-background);
+    .navds-guide__illustration svg,
+    .navds-guide__illustration img {
+        height: 2.5rem;
+        width: 5rem;
+        top: 30%;
+        left: 10%;
+        position: fixed;
     }
-`;
-
-const StatusDetaljLinje = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: normal;
-`;
-
-const StatusDetaljPanelTittel = styled.div`
-    @media screen and (min-width: 641px) {
-        width: 70%;
-    }
-    @media screen and (max-width: 640px) {
-        width: 50%;
-    }
-`;
-
-const StatusDetaljPanelStatus = styled.div`
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    background-color: white;
-`;
-
-const StatusDetaljPanelKommentarer = styled.div`
-    line-height: 22px;
-    margin-top: 6px;
 `;
 
 const StyledHeading = styled(Heading)`
     text-align: center;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--navds-semantic-color-border-muted);
+    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
 `;
 
-const StyledGuidePanel = styled(GuidePanel)`
-    --navds-guide-panel-color-border: 0;
-    --navds-guide-panel-color-illustration-background: var(--navds-semantic-color-feedback-success-background);
+const StyledStatusBox = styled.div`
+    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
+    border-radius: 2px;
+    padding: 1rem;
+    position: relative;
+`;
+
+const StyledStatusMessage = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: normal;
+`;
+
+const StyledStatusMessageVedtak = styled.div`
+    line-height: 22px;
+    margin-top: 6px;
 `;
 
 export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
@@ -99,21 +84,15 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
             )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
-                <div className="status_detalj_panel_info_alert_luft_over">
-                    <Alert variant="info">
-                        test 2
-                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </Alert>
-                </div>
+                <Alert variant="info">
+                    <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                </Alert>
             )}
 
             {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
-                <div className="status_detalj_panel_info_alert_luft_over">
-                    <Alert variant="info">
-                        test 3
-                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </Alert>
-                </div>
+                <Alert variant="info">
+                    <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                </Alert>
             )}
 
             {sak &&
@@ -123,8 +102,8 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                     const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
                     const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
                     return (
-                        <StatusDetalje key={index}>
-                            <StatusDetaljLinje>
+                        <StyledStatusBox key={index}>
+                            <StyledStatusMessage>
                                 <Label>{statusdetalj.tittel}</Label>
                                 {!(sakBehandlesIkke || sakIkkeInnsyn) && (
                                     <>
@@ -140,7 +119,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                         )}
                                     </>
                                 )}
-                            </StatusDetaljLinje>
+                            </StyledStatusMessage>
                             {statusdetalj.melding && statusdetalj.melding.length > 0 && (
                                 <div>
                                     <BodyShort>{statusdetalj.melding}</BodyShort>
@@ -163,19 +142,20 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
 
                             {statusdetalj.vedtaksfilUrlList &&
                                 statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
-                                    <div key={index}>
-                                        <div>
+                                    <StyledStatusMessage key={index}>
+                                        <StyledStatusMessageVedtak>
                                             <EksternLenke
                                                 href={"" + hendelse.vedtaksfilUrl}
                                                 target="_blank"
                                                 onClick={onVisVedtak}
                                             >
-                                                Vedtak (<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato} />)
+                                                Vedtak (
+                                                <DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato} />)
                                             </EksternLenke>
-                                        </div>
-                                    </div>
+                                        </StyledStatusMessageVedtak>
+                                    </StyledStatusMessage>
                                 ))}
-                        </StatusDetalje>
+                        </StyledStatusBox>
                     );
                 })}
         </StyledGuidePanel>
