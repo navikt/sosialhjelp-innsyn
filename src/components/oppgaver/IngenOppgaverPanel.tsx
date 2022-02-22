@@ -8,7 +8,7 @@ import {
     SaksStatusState,
     Vilkar,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
+import {harSakMedInnvilgetEllerDelvisInnvilgetSak} from "../vilkar/VilkarUtils";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {Attachment, Task} from "@navikt/ds-icons";
@@ -34,12 +34,9 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
     };
 
     const skalViseIngenOppgaverPanel = () => {
-        return !(
-            getSkalViseVilkarView(innsynSaksStatusListe) ||
-            finnesOppgaver(dokumentasjonEtterspurt) ||
-            finnesOppgaver(dokumentasjonkrav) ||
-            finnesOppgaver(vilkar)
-        );
+        const harOppgaver =
+            finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
+        return harSakMedInnvilgetEllerDelvisInnvilgetSak(innsynSaksStatusListe) && !harOppgaver;
     };
 
     if (skalViseIngenOppgaverPanel() && !leserData) {

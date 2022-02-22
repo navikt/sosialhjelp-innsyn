@@ -1,5 +1,5 @@
 import * as React from "react";
-import {getSkalViseVilkarView} from "./VilkarUtils";
+import {harSakMedInnvilgetEllerDelvisInnvilgetSak} from "./VilkarUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -35,9 +35,9 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
 
-    const skalViseVilkarView = getSkalViseVilkarView(innsynSaksStatusListe);
+    const harSakInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilgetSak(innsynSaksStatusListe);
 
-    if (skalViseVilkarView && !vilkar && !dokumentasjonkrav) {
+    if (!harSakInnvilgetEllerDelvisInnvilget && !vilkar && !dokumentasjonkrav) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
