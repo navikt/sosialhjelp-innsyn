@@ -32,6 +32,10 @@ export function hentInnsynsdata(fiksDigisosId: string | string, sti: Innsynsdata
                     logWarningMessage(reason.message, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));
                     dispatch(visFeilside(Feilside.IKKE_TILGANG));
+                } else if (reason.message === HttpErrorType.NOT_FOUND) {
+                    logWarningMessage(reason.message, reason.navCallId);
+                    dispatch(settRestStatus(sti, REST_STATUS.FEILET));
+                    dispatch(visFeilside(Feilside.FINNES_IKKE));
                 } else {
                     logWarningMessage(reason.message + " " + url, reason.navCallId);
                     dispatch(settRestStatus(sti, REST_STATUS.FEILET));

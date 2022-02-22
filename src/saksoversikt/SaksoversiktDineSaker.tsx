@@ -48,6 +48,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
 
     const velgPeriode = (value: any) => {
         setPeriode(value.target.value);
+        logAmplitudeEvent("Søknadsoversikt: Filtrer søknader etter periode", {valgtPeriode: value.target.value});
     };
 
     if (periode === "alle") filtrerteSaker = saker;
@@ -179,8 +180,8 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         Har du fått et vedtak fra oss som du mener er feil, kan du klage.
                     </InfoPanel>
 
-                    <InfoPanel tittel={"Mer om sosialhjelp"} href={"https://www.nav.no/sosialhjelp/"}>
-                        Lær mer om økonomisk sosialhjelp på nav.no
+                    <InfoPanel tittel={"Personopplysninger"} href={"https://www.nav.no/sosialhjelp/personopplysninger"}>
+                        Hvordan vi behandler dine personopplysninger
                     </InfoPanel>
                 </InfoPanelContainer>
             </>

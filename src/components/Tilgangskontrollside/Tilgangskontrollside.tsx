@@ -75,7 +75,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                                 <div className="ellablunk-rad">
                                     <EllaBlunk size={"175"} />
                                 </div>
-                                <Heading level="1" size="xlarge" spacing className="blokk-xs">
+                                <Heading level="1" size="large" spacing className="blokk-xs">
                                     Hei {fornavn}
                                 </Heading>
                                 <BodyShort spacing>
