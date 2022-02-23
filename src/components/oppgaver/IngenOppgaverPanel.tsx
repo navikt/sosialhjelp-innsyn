@@ -37,7 +37,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         const harOppgaver =
             finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
         const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
-        return (!harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) && !harOppgaver) || !harSaker;
+        return !harOppgaver && (!harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) || !harSaker);
     };
 
     if (skalViseIngenOppgaverPanel() && !leserData) {
