@@ -37,7 +37,7 @@ const StyledIcon = styled(PlaceFilled)`
     top: 50%;
     left: 50%;
     height: 1.5rem;
-    width: 1rem;
+    width: 1.5rem;
 `;
 
 const StyledPanelContent = styled.div`
@@ -58,7 +58,7 @@ const StyledHeading = styled(Heading)`
 
 const StyledStatusBox = styled.div`
     padding: 1rem;
-    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
+    border-bottom: 2px solid var(--navds-semantic-color-border-inverted);
 `;
 
 const StyledStatusMessage = styled.div`
