@@ -52,6 +52,11 @@ const devGcpWithoutProxyOrigins = [
     "https://sosialhjelp-innsyn-gcp.dev.nav.no",
 ];
 
+const devGcpQWithoutProxyOrigins = [
+    "https://sosialhjelp-innsyn-q.dev.nav.no/sosialhjelp/innsyn",
+    "https://sosialhjelp-innsyn-q.dev.nav.no",
+];
+
 const prodSbsOrigins = [
     "https://sosialhjelp-innsyn.prod-sbs.nais.io/sosialhjelp/innsyn",
     "https://sosialhjelp-innsyn.prod-sbs.nais.io",
@@ -99,6 +104,10 @@ describe("getBaseUrl", () => {
         validateGetBaseUrl(
             devGcpWithProxyOrigins,
             "https://digisos-gcp.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
+        );
+        validateGetBaseUrl(
+            devGcpQWithoutProxyOrigins,
+            "https://sosialhjelp-login-api-q.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
         );
         validateGetBaseUrl(
             devGcpWithoutProxyOrigins,
