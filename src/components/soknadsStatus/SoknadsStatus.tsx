@@ -17,52 +17,48 @@ const StyledContainer = styled.div`
 `;
 
 const StyledPanel = styled(Panel)`
-    background-color: var(--navds-guide-panel-color-background);
-    border-radius: 4px;
-    border: 2px solid var(--navds-guide-panel-color-border);
-    min-height: 7.25rem;
-    padding: 1.5rem;
-    padding-left: 3.5rem;
+    position: relative;
 `;
 
 const StyledIconContainer = styled.div`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 50%;
+    background: var(--navds-semantic-color-feedback-success-background);
+    border-radius: 50%;
     height: 4rem;
     width: 4rem;
-    background: var(--navds-guide-panel-color-illustration-background);
-    top: 40%;
-    left: 48%;
-    border-radius: 50px;
-    position: absolute;
 `;
 
-const StyledIcon = styled.div`
+const StyledIcon = styled(PlaceFilled)`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
     height: 1.5rem;
     width: 1rem;
-    top: 25%;
-    left: 25%;
-    position: absolute;
 `;
 
 const StyledPanelContent = styled.div`
+    border-radius: 0;
     @media screen and (min-width: 641px) {
-        padding: 0 2.25rem 0 2.25rem;
+        padding: 2rem 4.25rem 0 4.25rem;
     }
     @media screen and (max-width: 640px) {
-        padding: 1rem;
+        padding: 2rem;
     }
 `;
 
 const StyledHeading = styled(Heading)`
     text-align: center;
-    padding: 1rem 0 1rem 0;
+    padding-bottom: 1rem;
     border-bottom: 2px solid var(--navds-semantic-color-border-muted);
 `;
 
 const StyledStatusBox = styled.div`
+    padding: 1rem;
     border-bottom: 2px solid var(--navds-semantic-color-border-muted);
-    border-radius: 2px;
-    padding: 1rem 0 0 0;
-    position: relative;
 `;
 
 const StyledStatusMessage = styled.div`
@@ -105,9 +101,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
         <StyledContainer>
             <StyledPanel>
                 <StyledIconContainer>
-                    <StyledIcon>
-                        <PlaceFilled />
-                    </StyledIcon>
+                    <StyledIcon />
                 </StyledIconContainer>
                 <StyledPanelContent>
                     {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
