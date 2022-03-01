@@ -186,6 +186,7 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
                                                         <EksternLenke
+                                                            rel="noopener noreferrer"
                                                             href={"" + hendelse.vedtaksfilUrl}
                                                             target="_blank"
                                                             onClick={onVisVedtak}
