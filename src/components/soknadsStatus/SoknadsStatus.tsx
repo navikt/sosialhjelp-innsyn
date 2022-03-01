@@ -182,26 +182,24 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                         )}
 
                                         {statusdetalj.vedtaksfilUrlList &&
-                                            statusdetalj.vedtaksfilUrlList.map(
-                                                (hendelse: VedtakFattet, index: number) => (
-                                                    <StatusMessage key={index}>
-                                                        <StatusMessageVedtak>
-                                                            <EksternLenke
-                                                                href={"" + hendelse.vedtaksfilUrl}
-                                                                target="_blank"
-                                                                onClick={onVisVedtak}
-                                                            >
-                                                                Vedtak (
-                                                                <DatoOgKlokkeslett
-                                                                    bareDato={true}
-                                                                    tidspunkt={hendelse.dato}
-                                                                />
-                                                                )
-                                                            </EksternLenke>
-                                                        </StatusMessageVedtak>
-                                                    </StatusMessage>
-                                                )
-                                            )}
+                                            statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, id: number) => (
+                                                <StatusMessage key={id}>
+                                                    <StatusMessageVedtak>
+                                                        <EksternLenke
+                                                            href={"" + hendelse.vedtaksfilUrl}
+                                                            target="_blank"
+                                                            onClick={onVisVedtak}
+                                                        >
+                                                            Vedtak (
+                                                            <DatoOgKlokkeslett
+                                                                bareDato={true}
+                                                                tidspunkt={hendelse.dato}
+                                                            />
+                                                            )
+                                                        </EksternLenke>
+                                                    </StatusMessageVedtak>
+                                                </StatusMessage>
+                                            ))}
                                     </StatusBox>
                                     <ContentPanelBorder lightColor />
                                 </>
