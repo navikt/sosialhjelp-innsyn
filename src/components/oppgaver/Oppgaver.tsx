@@ -1,12 +1,12 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./oppgaver.less";
-import {DokumentasjonEtterspurt} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {skalViseLastestripe} from "../../utils/restUtils";
-import {useSelector} from "react-redux";
+import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
+import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
@@ -51,8 +51,21 @@ export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number =>
     return now - frist;
 };
 
+interface SaksUtbetalingResponse {
+    utbetalinger: UtbetalingerResponse[];
+}
+
+interface UtbetalingerResponse {
+    fom: string;
+    tom: string;
+    utbetlingsreferanse: string;
+    status: "STOPPET" | "ANNULLERT" | "PLANLAGT_UTBETALING" | "UTBETALT";
+}
+
 const Oppgaver = () => {
-    const {dokumentasjonkrav, vilkar, restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
+        (state: InnsynAppState) => state.innsynsdata
+    );
 
     const dokumentasjonEtterspurt = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
 
@@ -65,6 +78,42 @@ const Oppgaver = () => {
         : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonkrav || vilkar;
+
+    const [sakUtbetalinger, setSakUtbetalinger] = useState<SaksUtbetalingResponse[]>([]);
+    const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
+    const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (fiksDigisosId) {
+            fetchToJson<SaksUtbetalingResponse[]>(`/innsyn/${fiksDigisosId}/utbetalinger`)
+                .then((response) => {
+                    response.map((sakUtbetaling) => {});
+                    setSakUtbetalinger(response);
+                })
+                .catch(() => {
+                    dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
+                });
+        }
+    }, [setSakUtbetalinger, dispatch, fiksDigisosId]);
+
+    //useEffect(() => {
+    //
+    //    dokumentasjonkrav.map((value) => {
+    //        const dokumentasjonkravElementer = value.dokumentasjonkravElementer.map((element)=> {
+    //            const utbetalingsReferanser = element.utbetalingsReferanse;
+    //            const sak = sakUtbetalinger.map((s) => {
+    //                s.utbetalinger.filter((utbetaling) =>
+    //                    utbetalingsReferanser.includes(utbetaling.utbetlingsreferanse)
+    //                ).filter((utbetaling) => {
+    //                    const forbigaattUtbetalingsDato = add(new Date (utbetaling.tom),{days : 21});
+    //                    return isBefore(forbigaattUtbetalingsDato, new Date());
+    //                });
+    //            })
+    //        });
+    //    })
+    //
+    //}, [sakUtbetalinger, dokumentasjonkrav, setFiltrerteDokumentasjonkrav]);
 
     return (
         <StyledPanel>
@@ -80,8 +129,8 @@ const Oppgaver = () => {
 
             <IngenOppgaverPanel
                 dokumentasjonEtterspurt={dokumentasjonEtterspurt}
-                dokumentasjonkrav={dokumentasjonkrav}
-                vilkar={vilkar}
+                dokumentasjonkrav={filtrerteDokumentasjonkrav}
+                vilkar={filtrerteVilkar}
                 leserData={skalViseLastestripe(restStatus.oppgaver)}
             />
             {skalViseOppgaver && (
@@ -96,14 +145,14 @@ const Oppgaver = () => {
                         />
                     )}
 
-                    {vilkar?.length > 0 && <VilkarAccordion vilkar={vilkar} />}
+                    {filtrerteVilkar?.length > 0 && <VilkarAccordion vilkar={filtrerteVilkar} />}
 
-                    {dokumentasjonkrav?.length > 0 && (
-                        <DokumentasjonkravAccordion dokumentasjonkrav={dokumentasjonkrav} />
+                    {filtrerteDokumentasjonkrav?.length > 0 && (
+                        <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav} />
                     )}
                 </>
             )}
-            <OppgaveInformasjon dokumentasjonkrav={dokumentasjonkrav} vilkar={vilkar} />
+            <OppgaveInformasjon dokumentasjonkrav={filtrerteDokumentasjonkrav} vilkar={filtrerteVilkar} />
         </StyledPanel>
     );
 };

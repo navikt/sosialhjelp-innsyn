@@ -92,6 +92,7 @@ export interface Vilkar {
     tittel?: string;
     beskrivelse?: string;
     status: string;
+    utbetalingsReferanse: string[];
 }
 
 export interface DokumentasjonKrav {
@@ -108,6 +109,7 @@ export interface DokumentasjonKravElement {
     dokumentasjonkravReferanse: string | undefined;
     status: string;
     filer?: Fil[];
+    utbetalingsReferanse: string[];
 }
 
 export enum InnsynsdataActionTypeKeys {

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import React from "react";
 import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
-import {render, fireEvent, screen} from "../../../test/test-utils";
+import {fireEvent, render, screen} from "../../../test/test-utils";
 import {VilkarAccordion} from "./VilkarAccordion";
 
 const vilkar: Vilkar[] = [
@@ -11,6 +11,7 @@ const vilkar: Vilkar[] = [
         tittel: "tittel for et vilkår",
         beskrivelse: "beskrivelse",
         status: "behandlet",
+        utbetalingsReferanse: [],
     },
 ];
 
