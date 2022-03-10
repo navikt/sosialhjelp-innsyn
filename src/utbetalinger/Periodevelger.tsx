@@ -38,7 +38,7 @@ const Periodevelger: React.FC<Props> = ({className, onChange, antMndTilbake}) =>
 
                 <Radio value="6">Siste 6 måneder</Radio>
 
-                <Radio value="12">Siste 12 måneder</Radio>
+                <Radio value="12">Siste 15 måneder</Radio>
             </RadioGroup>
             <CheckboxGroup legend="Velg mottaker" defaultValue={["tilDinKonto", "tilAnnenMottaker"]}>
                 <Checkbox value="tilDinKonto" onChange={() => onChangeTilDinKonto()}>

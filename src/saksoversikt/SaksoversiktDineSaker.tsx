@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./saksoversikt.less";
-import {isAfter, isBefore, subMonths} from "date-fns";
+import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
@@ -12,7 +12,7 @@ import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {BodyShort, Button, Heading, Panel, Select} from "@navikt/ds-react";
+import {BodyShort, Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const IngenSoknaderPanel = styled(Panel)`
@@ -23,10 +23,9 @@ const IngenSoknaderPanel = styled(Panel)`
 `;
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
-    const [periode, setPeriode] = useState<string>("alle");
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
-    const utbetalingerExistsService = useUtbetalingerExistsService(12);
+    const utbetalingerExistsService = useUtbetalingerExistsService(15);
     const utbetalingerExists: boolean =
         utbetalingerExistsService.restStatus === REST_STATUS.OK ? utbetalingerExistsService.payload : false;
 
@@ -40,24 +39,6 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         }
     }, [utbetalingerExists, pageLoadIsLogged, utbetalingerExistsService.restStatus]);
 
-    let filtrerteSaker: Sakstype[];
-
-    const tolkPeriode = (periode: string) => {
-        return Number(periode);
-    };
-
-    const velgPeriode = (value: any) => {
-        setPeriode(value.target.value);
-        logAmplitudeEvent("Søknadsoversikt: Filtrer søknader etter periode", {valgtPeriode: value.target.value});
-    };
-
-    if (periode === "alle") filtrerteSaker = saker;
-    else {
-        const periodeLengde = tolkPeriode(periode);
-        filtrerteSaker = saker.filter((sak) =>
-            isAfter(Date.parse(sak.sistOppdatert), subMonths(new Date(), periodeLengde))
-        );
-    }
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
@@ -71,7 +52,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
         }
         return 0;
     }
-    filtrerteSaker.sort(sammenlignSaksTidspunkt);
+    saker.sort(sammenlignSaksTidspunkt);
 
     /* Paginering */
     const itemsPerPage = 10;
@@ -83,11 +64,11 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
             currentPage = parsedPageNumber - 1;
         }
     }
-    const lastPage = Math.ceil(filtrerteSaker.length / itemsPerPage);
+    const lastPage = Math.ceil(saker.length / itemsPerPage);
     if (currentPage >= lastPage) {
         history.push({search: "?side=" + lastPage});
     }
-    const paginerteSaker: Sakstype[] = filtrerteSaker.slice(
+    const paginerteSaker: Sakstype[] = saker.slice(
         currentPage * itemsPerPage,
         currentPage * itemsPerPage + itemsPerPage
     );
@@ -107,19 +88,6 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                     <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
                         Ny søknad
                     </Button>
-                    <div className="periodevelger_container">
-                        <Select
-                            onChange={(value: any) => velgPeriode(value)}
-                            label="Vis for"
-                            className="periode_velger"
-                        >
-                            <option value="alle">Alle</option>
-                            <option value="12">Siste år</option>
-                            <option value="6">Siste 6 måneder&nbsp;</option>
-                            <option value="3">Siste 3 måneder&nbsp;</option>
-                            <option value="1">Siste måned</option>
-                        </Select>
-                    </div>
                 </div>
             </div>
 
@@ -145,7 +113,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 );
             })}
 
-            {filtrerteSaker.length > itemsPerPage && (
+            {saker.length > itemsPerPage && (
                 <Paginering
                     pageCount={lastPage}
                     forcePage={currentPage}
@@ -153,7 +121,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 />
             )}
 
-            {filtrerteSaker.length === 0 && (
+            {saker.length === 0 && (
                 <IngenSoknaderPanel className="panel-glippe-over">
                     <BodyShort spacing>Vi finner ingen søknader for denne perioden.</BodyShort>
                     <BodyShort spacing>
