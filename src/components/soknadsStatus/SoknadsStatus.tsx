@@ -153,11 +153,14 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                                             <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
                                                         </Tag>
                                                     )}
-                                                    {saksStatus === SaksStatus.UNDER_BEHANDLING && (
-                                                        <Tag variant="warning">
-                                                            <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
-                                                        </Tag>
-                                                    )}
+                                                    {saksStatus === SaksStatus.UNDER_BEHANDLING &&
+                                                        status !== SoknadsStatusEnum.BEHANDLES_IKKE && (
+                                                            <Tag variant="warning">
+                                                                <FormattedMessage
+                                                                    id={hentSaksStatusTittel(saksStatus)}
+                                                                />
+                                                            </Tag>
+                                                        )}
                                                 </>
                                             )}
                                         </StatusMessage>
