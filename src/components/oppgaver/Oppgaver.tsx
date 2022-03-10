@@ -13,6 +13,7 @@ import styled from "styled-components";
 import {VilkarAccordion} from "./accordions/VilkarAccordion";
 import {DokumentasjonkravAccordion} from "./accordions/DokumentasjonkravAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./accordions/DokumentasjonEtterspurtAccordion";
+import {add, isAfter} from "date-fns";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--navds-semantic-color-border-muted);
@@ -51,8 +52,35 @@ export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number =>
     return now - frist;
 };
 
+export const filterUtbetalinger = (
+    utbetalingsReferanser: string[],
+    sakUtbetalinger: SaksUtbetaling,
+    currentDate: Date
+) => {
+    if (utbetalingsReferanser.length === 0) {
+        return true;
+    }
+
+    const utbetalingerSomIkkeErUtgaatt = utbetalingsReferanser
+        .filter((utbetalingsreferanse) => sakUtbetalinger[utbetalingsreferanse])
+        .filter((utbetalingsreferanse) => {
+            const utbetaling = sakUtbetalinger[utbetalingsreferanse];
+            const forbigaattUtbetalingsDato = add(new Date(utbetaling.tom), {days: 21});
+            return isAfter(forbigaattUtbetalingsDato, currentDate);
+        });
+
+    if (utbetalingerSomIkkeErUtgaatt.length > 0) {
+        return true;
+    }
+    return false;
+};
+
 interface SaksUtbetalingResponse {
     utbetalinger: UtbetalingerResponse[];
+}
+
+export interface SaksUtbetaling {
+    [key: string]: UtbetalingerResponse;
 }
 
 interface UtbetalingerResponse {
@@ -79,7 +107,8 @@ const Oppgaver = () => {
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || dokumentasjonkrav || vilkar;
 
-    const [sakUtbetalinger, setSakUtbetalinger] = useState<SaksUtbetalingResponse[]>([]);
+    const [sakUtbetalinger, setSakUtbetalinger] = useState<SaksUtbetaling>({});
+
     const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const dispatch = useDispatch();
@@ -88,8 +117,13 @@ const Oppgaver = () => {
         if (fiksDigisosId) {
             fetchToJson<SaksUtbetalingResponse[]>(`/innsyn/${fiksDigisosId}/utbetalinger`)
                 .then((response) => {
-                    response.map((sakUtbetaling) => {});
-                    setSakUtbetalinger(response);
+                    const flattenedUtbetalinger: SaksUtbetaling = {};
+                    response.forEach((saksUtbetaling) => {
+                        saksUtbetaling.utbetalinger.forEach((utbetaling) => {
+                            flattenedUtbetalinger[utbetaling.utbetlingsreferanse] = utbetaling;
+                        });
+                    });
+                    setSakUtbetalinger(flattenedUtbetalinger);
                 })
                 .catch(() => {
                     dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
@@ -97,23 +131,37 @@ const Oppgaver = () => {
         }
     }, [setSakUtbetalinger, dispatch, fiksDigisosId]);
 
-    //useEffect(() => {
-    //
-    //    dokumentasjonkrav.map((value) => {
-    //        const dokumentasjonkravElementer = value.dokumentasjonkravElementer.map((element)=> {
-    //            const utbetalingsReferanser = element.utbetalingsReferanse;
-    //            const sak = sakUtbetalinger.map((s) => {
-    //                s.utbetalinger.filter((utbetaling) =>
-    //                    utbetalingsReferanser.includes(utbetaling.utbetlingsreferanse)
-    //                ).filter((utbetaling) => {
-    //                    const forbigaattUtbetalingsDato = add(new Date (utbetaling.tom),{days : 21});
-    //                    return isBefore(forbigaattUtbetalingsDato, new Date());
-    //                });
-    //            })
-    //        });
-    //    })
-    //
-    //}, [sakUtbetalinger, dokumentasjonkrav, setFiltrerteDokumentasjonkrav]);
+    useEffect(() => {
+        setFiltrerteDokumentasjonkrav(dokumentasjonkrav);
+        const utbetalingerSomIkkeErUtbetalt = Object.values(sakUtbetalinger).filter(
+            (utbetaling) => utbetaling.status !== "UTBETALT" && utbetaling.status !== "ANNULLERT"
+        );
+
+        if (utbetalingerSomIkkeErUtbetalt.length === 0) {
+            const ferdigFiltrerteDokumentasjonskrav = dokumentasjonkrav.map((dokkrav) => {
+                const filtrerteDokumentasjonkravElementer = dokkrav.dokumentasjonkravElementer.filter((element) =>
+                    filterUtbetalinger(element.utbetalingsReferanse, sakUtbetalinger, new Date())
+                );
+                dokkrav.dokumentasjonkravElementer = filtrerteDokumentasjonkravElementer;
+                return dokkrav;
+            });
+            setFiltrerteDokumentasjonkrav(ferdigFiltrerteDokumentasjonskrav);
+        }
+    }, [sakUtbetalinger, dokumentasjonkrav, setFiltrerteDokumentasjonkrav]);
+
+    useEffect(() => {
+        setFiltrerteVilkar(vilkar);
+        const utbetalingerSomIkkeErUtbetalt = Object.values(sakUtbetalinger).filter(
+            (utbetaling) => utbetaling.status !== "UTBETALT" && utbetaling.status !== "ANNULLERT"
+        );
+
+        if (utbetalingerSomIkkeErUtbetalt.length === 0) {
+            const ferdigFiltrerteVilkar = vilkar.filter((value) =>
+                filterUtbetalinger(value.utbetalingsReferanse, sakUtbetalinger, new Date())
+            );
+            setFiltrerteVilkar(ferdigFiltrerteVilkar);
+        }
+    }, [sakUtbetalinger, vilkar, setFiltrerteVilkar]);
 
     return (
         <StyledPanel>
