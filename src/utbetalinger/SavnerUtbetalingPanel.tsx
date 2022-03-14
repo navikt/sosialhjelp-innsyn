@@ -16,7 +16,7 @@ const SavnerUtbetalingPanel: React.FC = () => {
                     <BodyShort>utbetalinger for dine digitale søknader, ikke dine søknader på papir.</BodyShort>
                 </li>
                 <li>
-                    <BodyShort>utbetalinger som er opp til ett år gamle.</BodyShort>
+                    <BodyShort>utbetalinger som er opp til 15 måneder gamle.</BodyShort>
                 </li>
                 <li>
                     <BodyShort>
