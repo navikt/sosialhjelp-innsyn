@@ -16,13 +16,35 @@ import {logWarningMessage} from "./loggActions";
 
 export const innsynsdataUrl = (fiksDigisosId: string, sti: string): string => `/innsyn/${fiksDigisosId}/${sti}`;
 
-export function hentInnsynsdata(fiksDigisosId: string | string, sti: InnsynsdataSti, visFeilSide?: boolean) {
+const handleResponse = (response: any, sti: InnsynsdataSti) => {
+    if (typeof response == "string" && responseShouldBeArray(sti)) {
+        return [];
+    }
+    return response;
+};
+
+const emptyArrayStier: InnsynsdataSti[] = [
+    InnsynsdataSti.SAKSSTATUS,
+    InnsynsdataSti.OPPGAVER,
+    InnsynsdataSti.VILKAR,
+    InnsynsdataSti.DOKUMENTASJONKRAV,
+    InnsynsdataSti.HENDELSER,
+    InnsynsdataSti.VEDLEGG,
+    InnsynsdataSti.SAKER,
+];
+
+const responseShouldBeArray = (sti: InnsynsdataSti) => {
+    return emptyArrayStier.includes(sti);
+};
+
+export function hentInnsynsdata(fiksDigisosId: string, sti: InnsynsdataSti, visFeilSide?: boolean) {
     return (dispatch: Dispatch) => {
         dispatch(settRestStatus(sti, REST_STATUS.PENDING));
         let url = innsynsdataUrl(fiksDigisosId, sti);
         fetchToJson(url)
             .then((response: any) => {
-                dispatch(oppdaterInnsynsdataState(sti, response));
+                const handledResponse = handleResponse(response, sti);
+                dispatch(oppdaterInnsynsdataState(sti, handledResponse));
                 dispatch(settRestStatus(sti, REST_STATUS.OK));
             })
             .catch((reason) => {

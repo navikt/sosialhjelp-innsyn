@@ -1,7 +1,7 @@
 export const tekster = {
     nb: {
         "historikk.tittel": "Historikk",
-        "historikk.se_vedtaksbrev": "Vis svar på søknaden",
+        "historikk.se_vedtaksbrev": "Vis brevet",
 
         "status.sendt": "Søknaden er sendt",
         "status.mottatt": "Søknaden er mottatt",
