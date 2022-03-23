@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from "react";
 import "./oppgaver.less";
-import {DokumentasjonEtterspurt, Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonEtterspurt,
+    DokumentasjonKrav,
+    Feilside,
+    visFeilside,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
@@ -52,6 +57,8 @@ export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number =>
     return now - frist;
 };
 
+const DAGER_SIDEN_UTBETALINGSPERIODE_ER_FORBIGAATT = 21;
+
 export const filterUtbetalinger = (
     utbetalingsReferanser: string[],
     sakUtbetalinger: SaksUtbetaling,
@@ -60,19 +67,31 @@ export const filterUtbetalinger = (
     if (utbetalingsReferanser.length === 0) {
         return true;
     }
-
     const utbetalingerSomIkkeErUtgaatt = utbetalingsReferanser
         .filter((utbetalingsreferanse) => sakUtbetalinger[utbetalingsreferanse])
         .filter((utbetalingsreferanse) => {
             const utbetaling = sakUtbetalinger[utbetalingsreferanse];
-            const forbigaattUtbetalingsDato = add(new Date(utbetaling.tom), {days: 21});
+            const forbigaattUtbetalingsDato = add(new Date(utbetaling.tom), {
+                days: DAGER_SIDEN_UTBETALINGSPERIODE_ER_FORBIGAATT,
+            });
             return isAfter(forbigaattUtbetalingsDato, currentDate);
         });
+    return utbetalingerSomIkkeErUtgaatt.length > 0;
+};
 
-    if (utbetalingerSomIkkeErUtgaatt.length > 0) {
-        return true;
-    }
-    return false;
+export const filterDokumentasjonkrav = (
+    dokumentasjonkrav: DokumentasjonKrav[],
+    sakUtbetalinger: SaksUtbetaling,
+    currentDate: Date
+) => {
+    return dokumentasjonkrav
+        .map((dokkrav) => {
+            dokkrav.dokumentasjonkravElementer = dokkrav.dokumentasjonkravElementer.filter((element) =>
+                filterUtbetalinger(element.utbetalingsReferanse, sakUtbetalinger, currentDate)
+            );
+            return dokkrav;
+        })
+        .filter((dokumentasjonkrav) => dokumentasjonkrav.dokumentasjonkravElementer.length > 0);
 };
 
 interface SaksUtbetalingResponse {
@@ -86,7 +105,7 @@ export interface SaksUtbetaling {
 interface UtbetalingerResponse {
     fom: string;
     tom: string;
-    utbetlingsreferanse: string;
+    utbetalingsreferanse: string;
     status: "STOPPET" | "ANNULLERT" | "PLANLAGT_UTBETALING" | "UTBETALT";
 }
 
@@ -120,7 +139,7 @@ const Oppgaver = () => {
                     const flattenedUtbetalinger: SaksUtbetaling = {};
                     response.forEach((saksUtbetaling) => {
                         saksUtbetaling.utbetalinger.forEach((utbetaling) => {
-                            flattenedUtbetalinger[utbetaling.utbetlingsreferanse] = utbetaling;
+                            flattenedUtbetalinger[utbetaling.utbetalingsreferanse] = utbetaling;
                         });
                     });
                     setSakUtbetalinger(flattenedUtbetalinger);
@@ -138,13 +157,12 @@ const Oppgaver = () => {
         );
 
         if (utbetalingerSomIkkeErUtbetalt.length === 0) {
-            const ferdigFiltrerteDokumentasjonskrav = dokumentasjonkrav.map((dokkrav) => {
-                const filtrerteDokumentasjonkravElementer = dokkrav.dokumentasjonkravElementer.filter((element) =>
-                    filterUtbetalinger(element.utbetalingsReferanse, sakUtbetalinger, new Date())
-                );
-                dokkrav.dokumentasjonkravElementer = filtrerteDokumentasjonkravElementer;
-                return dokkrav;
-            });
+            const currentDate = new Date();
+            const ferdigFiltrerteDokumentasjonskrav = filterDokumentasjonkrav(
+                dokumentasjonkrav,
+                sakUtbetalinger,
+                currentDate
+            );
             setFiltrerteDokumentasjonkrav(ferdigFiltrerteDokumentasjonskrav);
         }
     }, [sakUtbetalinger, dokumentasjonkrav, setFiltrerteDokumentasjonkrav]);
@@ -156,8 +174,9 @@ const Oppgaver = () => {
         );
 
         if (utbetalingerSomIkkeErUtbetalt.length === 0) {
+            const currentDate = new Date();
             const ferdigFiltrerteVilkar = vilkar.filter((value) =>
-                filterUtbetalinger(value.utbetalingsReferanse, sakUtbetalinger, new Date())
+                filterUtbetalinger(value.utbetalingsReferanse, sakUtbetalinger, currentDate)
             );
             setFiltrerteVilkar(ferdigFiltrerteVilkar);
         }
