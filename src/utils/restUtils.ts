@@ -28,24 +28,12 @@ export function isQGammelVersjon(origin: string): boolean {
     return origin.indexOf("www-q0.nav.no") >= 0 || origin.indexOf("www-q1.nav.no") >= 0;
 }
 
-export function isDevGcpWithProxy(origin: string): boolean {
-    return origin.indexOf("digisos-gcp.dev.nav.no") >= 0;
+export function isDev(origin: string): boolean {
+    return origin.indexOf("digisos.dev.nav.no") >= 0;
 }
 
-export function isDevGcpWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn-gcp.dev.nav.no") >= 0;
-}
-
-export function isDevGcpMockWithProxy(origin: string): boolean {
+export function isMock(origin: string): boolean {
     return origin.indexOf("digisos.ekstern.dev.nav.no") >= 0;
-}
-
-export function isDevGcpMockWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn-mock.dev.nav.no") >= 0;
-}
-
-export function isDevGcpQWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn-q.dev.nav.no") >= 0;
 }
 
 export function isLabsGcpWithProxy(origin: string): boolean {
@@ -57,14 +45,7 @@ export function isLabsGcpWithoutProxy(origin: string): boolean {
 }
 
 export function isMockServer(origin: string): boolean {
-    return (
-        isLabsGcpWithoutProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isDevGcpWithoutProxy(origin) ||
-        isDevGcpWithProxy(origin) ||
-        isDevGcpMockWithoutProxy(origin) ||
-        isDevGcpMockWithProxy(origin)
-    );
+    return isLabsGcpWithoutProxy(origin) || isLabsGcpWithProxy(origin) || isMock(origin);
 }
 
 export function getApiBaseUrl(): string {
@@ -80,7 +61,7 @@ export function getBaseUrl(origin: string): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin) || isDevGcpQWithoutProxy(origin)) {
+    } else if (isDevSbs(origin) || isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
@@ -97,7 +78,7 @@ export function getSoknadBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (isDevSbs(origin) || isMockServer(origin) || isDevGcpQWithoutProxy(origin)) {
+    if (isDevSbs(origin) || isMockServer(origin) || isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"

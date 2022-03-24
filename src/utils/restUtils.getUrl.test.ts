@@ -1,13 +1,12 @@
 import {
     getBaseUrl,
-    isDevGcpWithoutProxy,
     isLocalhost,
     isLabsGcpWithoutProxy,
     isLabsGcpWithProxy,
     isDevSbs,
     getSoknadBaseUrl,
     getNavUrl,
-    isDevGcpWithProxy,
+    isDev,
 } from "./restUtils";
 
 const localhostOrigins = [
@@ -268,72 +267,37 @@ describe("isDevSbs", () => {
     }
 });
 
-describe("isDevGcpWithProxy", () => {
+describe("isDev", () => {
     it("should return true for dev-gcp with proxy", () => {
-        validateIsDevGcpWithProxy(devGcpWithProxyOrigins, true);
+        validateIsDev(devGcpWithProxyOrigins, true);
     });
 
     it("should return false for prod", () => {
-        validateIsDevGcpWithProxy(prodSbsOrigins, false);
-        validateIsDevGcpWithProxy(prodNavnoOrigins, false);
+        validateIsDev(prodSbsOrigins, false);
+        validateIsDev(prodNavnoOrigins, false);
     });
 
     it("should return false for other", () => {
-        validateIsDevGcpWithProxy(localhostOrigins, false);
+        validateIsDev(localhostOrigins, false);
 
-        validateIsDevGcpWithProxy(devSbs_origins, false);
-        validateIsDevGcpWithProxy(devSbs_navnoOrigins, false);
-        validateIsDevGcpWithProxy(devSbs_devNavnoOrigins, false);
-        validateIsDevGcpWithProxy(devSbsIntern_origins, false);
-        validateIsDevGcpWithProxy(devSbsIntern_devNavnoOrigins, false);
-        validateIsDevGcpWithProxy(devSbsIntern_navnoOrigins, false);
+        validateIsDev(devSbs_origins, false);
+        validateIsDev(devSbs_navnoOrigins, false);
+        validateIsDev(devSbs_devNavnoOrigins, false);
+        validateIsDev(devSbsIntern_origins, false);
+        validateIsDev(devSbsIntern_devNavnoOrigins, false);
+        validateIsDev(devSbsIntern_navnoOrigins, false);
 
-        validateIsDevGcpWithProxy(labsGcpWithProxyOrigins, false);
-        validateIsDevGcpWithProxy(labsGcpWithoutProxyOrigins, false);
+        validateIsDev(labsGcpWithProxyOrigins, false);
+        validateIsDev(labsGcpWithoutProxyOrigins, false);
 
-        validateIsDevGcpWithProxy(devGcpWithoutProxyOrigins, false);
+        validateIsDev(devGcpWithoutProxyOrigins, false);
 
-        validateIsDevGcpWithProxy(unknownOrigins, false);
+        validateIsDev(unknownOrigins, false);
     });
 
-    function validateIsDevGcpWithProxy(origins: string[], expected: boolean) {
+    function validateIsDev(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
-            expect(isDevGcpWithProxy(origin) + " for " + origin).toEqual(expected + " for " + origin);
-        });
-    }
-});
-
-describe("isDevGcpWithoutProxy", () => {
-    it("should return true for dev-gcp without proxy", () => {
-        validateIsDevGcpWithoutProxy(devGcpWithoutProxyOrigins, true);
-    });
-
-    it("should return false for prod", () => {
-        validateIsDevGcpWithoutProxy(prodSbsOrigins, false);
-        validateIsDevGcpWithoutProxy(prodNavnoOrigins, false);
-    });
-
-    it("should return false for other", () => {
-        validateIsDevGcpWithoutProxy(localhostOrigins, false);
-
-        validateIsDevGcpWithoutProxy(devSbs_origins, false);
-        validateIsDevGcpWithoutProxy(devSbs_navnoOrigins, false);
-        validateIsDevGcpWithoutProxy(devSbs_devNavnoOrigins, false);
-        validateIsDevGcpWithoutProxy(devSbsIntern_origins, false);
-        validateIsDevGcpWithoutProxy(devSbsIntern_devNavnoOrigins, false);
-        validateIsDevGcpWithoutProxy(devSbsIntern_navnoOrigins, false);
-
-        validateIsDevGcpWithoutProxy(labsGcpWithProxyOrigins, false);
-        validateIsDevGcpWithoutProxy(labsGcpWithoutProxyOrigins, false);
-
-        validateIsDevGcpWithoutProxy(devGcpWithProxyOrigins, false);
-
-        validateIsDevGcpWithoutProxy(unknownOrigins, false);
-    });
-
-    function validateIsDevGcpWithoutProxy(origins: string[], expected: boolean) {
-        origins.forEach((origin) => {
-            expect(isDevGcpWithoutProxy(origin) + " for " + origin).toEqual(expected + " for " + origin);
+            expect(isDev(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });
