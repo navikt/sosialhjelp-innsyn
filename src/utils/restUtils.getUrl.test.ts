@@ -44,17 +44,7 @@ const labsGcpWithoutProxyOrigins = [
     "https://sosialhjelp-innsyn.labs.nais.io",
 ];
 
-const devGcpWithProxyOrigins = ["https://digisos-gcp.dev.nav.no/sosialhjelp/innsyn", "https://digisos-gcp.dev.nav.no"];
-
-const devGcpWithoutProxyOrigins = [
-    "https://sosialhjelp-innsyn-gcp.dev.nav.no/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn-gcp.dev.nav.no",
-];
-
-const devGcpQWithoutProxyOrigins = [
-    "https://sosialhjelp-innsyn-q.dev.nav.no/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn-q.dev.nav.no",
-];
+const devOrigins = ["https://digisos.dev.nav.no/sosialhjelp/innsyn", "https://digisos.dev.nav.no"];
 
 const prodSbsOrigins = [
     "https://sosialhjelp-innsyn.prod-sbs.nais.io/sosialhjelp/innsyn",
@@ -100,18 +90,7 @@ describe("getBaseUrl", () => {
             labsGcpWithoutProxyOrigins,
             "https://sosialhjelp-innsyn-api.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(
-            devGcpWithProxyOrigins,
-            "https://digisos-gcp.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
-        );
-        validateGetBaseUrl(
-            devGcpQWithoutProxyOrigins,
-            "https://sosialhjelp-login-api-q.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
-        );
-        validateGetBaseUrl(
-            devGcpWithoutProxyOrigins,
-            "https://sosialhjelp-innsyn-api-gcp.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
-        );
+        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
@@ -147,11 +126,7 @@ describe("getSoknadBaseUrl", () => {
             labsGcpWithoutProxyOrigins,
             "https://sosialhjelp-soknad-api.labs.nais.io/sosialhjelp/soknad-api"
         );
-        validateGetBaseUrl(devGcpWithProxyOrigins, "https://digisos-gcp.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(
-            devGcpWithoutProxyOrigins,
-            "https://sosialhjelp-soknad-api-gcp.dev.nav.no/sosialhjelp/soknad-api"
-        );
+        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/soknad-api");
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
@@ -181,8 +156,7 @@ describe("getDittNavUrl", () => {
 
         validateGetBaseUrl(labsGcpWithProxyOrigins, "https://www-q0.nav.no/person/dittnav/");
         validateGetBaseUrl(labsGcpWithoutProxyOrigins, "https://www-q0.nav.no/person/dittnav/");
-        validateGetBaseUrl(devGcpWithProxyOrigins, "https://www-q0.nav.no/person/dittnav/");
-        validateGetBaseUrl(devGcpWithoutProxyOrigins, "https://www-q0.nav.no/person/dittnav/");
+        validateGetBaseUrl(devOrigins, "https://www-q0.nav.no/person/dittnav/");
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/person/dittnav/");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/person/dittnav/");
@@ -220,8 +194,7 @@ describe("isDev", () => {
         validateIsDev(labsGcpWithProxyOrigins, false);
         validateIsDev(labsGcpWithoutProxyOrigins, false);
 
-        validateIsDev(devGcpWithProxyOrigins, false);
-        validateIsDev(devGcpWithoutProxyOrigins, false);
+        validateIsDev(devOrigins, false);
 
         validateIsDev(unknownOrigins, false);
     });
@@ -254,8 +227,7 @@ describe("isDevSbs", () => {
         validateIsDevSbs(labsGcpWithProxyOrigins, false);
         validateIsDevSbs(labsGcpWithoutProxyOrigins, false);
 
-        validateIsDevSbs(devGcpWithProxyOrigins, false);
-        validateIsDevSbs(devGcpWithoutProxyOrigins, false);
+        validateIsDevSbs(devOrigins, false);
 
         validateIsDevSbs(unknownOrigins, false);
     });
@@ -269,7 +241,7 @@ describe("isDevSbs", () => {
 
 describe("isDev", () => {
     it("should return true for dev-gcp with proxy", () => {
-        validateIsDev(devGcpWithProxyOrigins, true);
+        validateIsDev(devOrigins, true);
     });
 
     it("should return false for prod", () => {
@@ -289,8 +261,6 @@ describe("isDev", () => {
 
         validateIsDev(labsGcpWithProxyOrigins, false);
         validateIsDev(labsGcpWithoutProxyOrigins, false);
-
-        validateIsDev(devGcpWithoutProxyOrigins, false);
 
         validateIsDev(unknownOrigins, false);
     });
@@ -322,8 +292,7 @@ describe("isLabsGcpWithProxy", () => {
         validateIsLabsGcpWithProxy(devSbsIntern_navnoOrigins, false);
         validateIsLabsGcpWithProxy(devSbsIntern_devNavnoOrigins, false);
 
-        validateIsLabsGcpWithProxy(devGcpWithProxyOrigins, false);
-        validateIsLabsGcpWithProxy(devGcpWithoutProxyOrigins, false);
+        validateIsLabsGcpWithProxy(devOrigins, false);
         validateIsLabsGcpWithProxy(labsGcpWithoutProxyOrigins, false);
 
         validateIsLabsGcpWithProxy(unknownOrigins, false);
@@ -354,8 +323,7 @@ describe("isLabsGcpWithoutProxy", () => {
         validateIsLabsGcpWithoutProxy(devSbsIntern_origins, false);
         validateIsLabsGcpWithoutProxy(devSbsIntern_devNavnoOrigins, false);
         validateIsLabsGcpWithoutProxy(devSbsIntern_navnoOrigins, false);
-        validateIsLabsGcpWithoutProxy(devGcpWithProxyOrigins, false);
-        validateIsLabsGcpWithoutProxy(devGcpWithoutProxyOrigins, false);
+        validateIsLabsGcpWithoutProxy(devOrigins, false);
         validateIsLabsGcpWithoutProxy(labsGcpWithProxyOrigins, false);
         validateIsLabsGcpWithoutProxy(unknownOrigins, false);
     });

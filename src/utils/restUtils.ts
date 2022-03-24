@@ -95,7 +95,7 @@ export function getNavUrl(origin: string): string {
     if (isQ1(origin)) {
         return "https://www-q1.nav.no/person/dittnav/";
     }
-    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin)) {
+    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin) || isDev(origin)) {
         return "https://www-q0.nav.no/person/dittnav/";
     } else {
         return "https://www.nav.no/person/dittnav/";
