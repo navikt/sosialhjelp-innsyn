@@ -17,23 +17,23 @@ jobs:
       - name: Sett env variabler
         run: |
           echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
-      - name: Restart dev-gcp
+      - name: Restart dev i dev-gcp
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais.yaml
           CLUSTER: dev-gcp
-          VARS: nais/dev/dev-gcp.json
+          VARS: nais/dev/dev.json
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
           IMAGE: ${{ env.DOCKER_TAG }}
-      - name: Restart dev-gcp-mock
+      - name: Restart mock i dev-gcp
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais.yaml
           CLUSTER: dev-gcp
-          VARS: nais/dev/dev-gcp-mock.json
+          VARS: nais/dev/mock.json
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
           IMAGE: ${{ env.DOCKER_TAG }}
