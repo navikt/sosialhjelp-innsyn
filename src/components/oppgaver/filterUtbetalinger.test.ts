@@ -152,3 +152,112 @@ test("alle vilk책r vises n책r en utb.ref har utbetalingsdato som ikke er forbig�
     const filtrerteUtbetalinger = filterVilkar(vilkar, saksutbetalinger, todaysDate);
     expect(filtrerteUtbetalinger).toBe(vilkar);
 });
+
+test("dok.krav fjernes n책r utbetalingsperiode for begge utbetalinger er forbig책tt med 21 dager og har status utbetalt", () => {
+    const dokumentasjonkrav: DokumentasjonKrav[] = [
+        {
+            dokumentasjonkravId: "1",
+            dokumentasjonkravElementer: [
+                {
+                    hendelsetype: undefined,
+                    dokumentasjonkravReferanse: "dokumentasjonkravReferanse",
+                    status: "UTBETALT",
+                    utbetalingsReferanse: ["utbetalingsReferanse1"],
+                },
+            ],
+        },
+        {
+            dokumentasjonkravId: "2",
+            dokumentasjonkravElementer: [
+                {
+                    hendelsetype: undefined,
+                    dokumentasjonkravReferanse: "dokumentasjonkravReferanse",
+                    status: "UTBETALT",
+                    utbetalingsReferanse: ["utbetalingsReferanse2"],
+                },
+            ],
+        },
+    ];
+    const saksutbetalinger: SaksUtbetaling = {
+        utbetalingsReferanse1: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse1",
+            status: "UTBETALT",
+        },
+        utbetalingsReferanse2: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse2",
+            status: "UTBETALT",
+        },
+    };
+
+    const todaysDate = new Date("2022-03-31");
+    const filtrerteUtbetalinger = filterDokumentasjonkrav(dokumentasjonkrav, saksutbetalinger, todaysDate);
+    expect(filtrerteUtbetalinger.length).toBe(0);
+});
+
+test("vilk책r fjernes n책r utbetalingsperiode for begge utbetalinger er forbig책tt med 21 dager og har status utbetalt", () => {
+    const vilkar: Vilkar[] = [
+        {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: ["utbetalingsReferanse1"]},
+        {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: ["utbetalingsReferanse2"]},
+    ];
+    const saksutbetalinger: SaksUtbetaling = {
+        utbetalingsReferanse1: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse1",
+            status: "UTBETALT",
+        },
+        utbetalingsReferanse2: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse2",
+            status: "UTBETALT",
+        },
+    };
+
+    const todaysDate = new Date("2022-03-31");
+    const filtrerteUtbetalinger = filterVilkar(vilkar, saksutbetalinger, todaysDate);
+    expect(filtrerteUtbetalinger.length).toBe(0);
+});
+
+test("viser alle dok.krav hvis en mangler utb.ref", () => {
+    const dokumentasjonkrav: DokumentasjonKrav[] = [
+        {
+            dokumentasjonkravId: "1",
+            dokumentasjonkravElementer: [
+                {
+                    hendelsetype: undefined,
+                    dokumentasjonkravReferanse: "dokumentasjonkravReferanse",
+                    status: "UTBETALT",
+                    utbetalingsReferanse: ["utbetalingsReferanse1"],
+                },
+            ],
+        },
+        {
+            dokumentasjonkravId: "2",
+            dokumentasjonkravElementer: [
+                {
+                    hendelsetype: undefined,
+                    dokumentasjonkravReferanse: "dokumentasjonkravReferanse",
+                    status: "UTBETALT",
+                    utbetalingsReferanse: [],
+                },
+            ],
+        },
+    ];
+    const saksutbetalinger: SaksUtbetaling = {
+        utbetalingsReferanse1: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse1",
+            status: "UTBETALT",
+        },
+    };
+
+    const todaysDate = new Date("2022-03-31");
+    const filtrerteUtbetalinger = filterDokumentasjonkrav(dokumentasjonkrav, saksutbetalinger, todaysDate);
+    expect(filtrerteUtbetalinger).toBe(dokumentasjonkrav);
+});
