@@ -83,7 +83,7 @@ test("vilkår/dok.krav uten urb.ref blir ikke filtrert bort", () => {
     expect(filtrerteUtbetalinger).toBe(true);
 });
 
-test("alle dok.krav vises når en utb.ref har utbetalingsdato som ikke er forbigått med 21 dager", () => {
+test("alle dok.krav vises når utbetalingsperioden til en utb.ref ikke er forbigått med 21 dager", () => {
     const dokumentasjonkrav: DokumentasjonKrav[] = [
         {
             dokumentasjonkravId: "1",
@@ -128,7 +128,7 @@ test("alle dok.krav vises når en utb.ref har utbetalingsdato som ikke er forbig
     expect(filtrerteUtbetalinger).toBe(dokumentasjonkrav);
 });
 
-test("alle vilkår vises når en utb.ref har utbetalingsdato som ikke er forbigått med 21 dager", () => {
+test("alle vilkår vises når utbetalingsperioden til en utb.ref ikke er forbigått med 21 dager", () => {
     const vilkar: Vilkar[] = [
         {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: ["utbetalingsReferanse1"]},
         {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: ["utbetalingsReferanse2"]},
@@ -243,6 +243,17 @@ test("viser alle dok.krav hvis en mangler utb.ref", () => {
                     hendelsetype: undefined,
                     dokumentasjonkravReferanse: "dokumentasjonkravReferanse",
                     status: "UTBETALT",
+                    utbetalingsReferanse: ["utbetalingsReferanse2"],
+                },
+            ],
+        },
+        {
+            dokumentasjonkravId: "3",
+            dokumentasjonkravElementer: [
+                {
+                    hendelsetype: undefined,
+                    dokumentasjonkravReferanse: "dokumentasjonkravReferanse",
+                    status: "UTBETALT",
                     utbetalingsReferanse: [],
                 },
             ],
@@ -255,9 +266,40 @@ test("viser alle dok.krav hvis en mangler utb.ref", () => {
             utbetlingsreferanse: "utbetalingsReferanse1",
             status: "UTBETALT",
         },
+        utbetalingsReferanse2: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse2",
+            status: "UTBETALT",
+        },
     };
 
     const todaysDate = new Date("2022-03-31");
     const filtrerteUtbetalinger = filterDokumentasjonkrav(dokumentasjonkrav, saksutbetalinger, todaysDate);
     expect(filtrerteUtbetalinger).toBe(dokumentasjonkrav);
+});
+
+test("viser alle vilkår hvis en mangler utb.ref", () => {
+    const vilkar: Vilkar[] = [
+        {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: ["utbetalingsReferanse1"]},
+        {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: ["utbetalingsReferanse2"]},
+        {hendelsetidspunkt: "", vilkarReferanse: "", status: "", utbetalingsReferanse: []},
+    ];
+    const saksutbetalinger: SaksUtbetaling = {
+        utbetalingsReferanse1: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse1",
+            status: "UTBETALT",
+        },
+        utbetalingsReferanse2: {
+            fom: "2022-02-01",
+            tom: "2022-02-28",
+            utbetlingsreferanse: "utbetalingsReferanse2",
+            status: "UTBETALT",
+        },
+    };
+    const todaysDate = new Date("2022-03-31");
+    const filtrerteUtbetalinger = filterVilkar(vilkar, saksutbetalinger, todaysDate);
+    expect(filtrerteUtbetalinger).toBe(vilkar);
 });
