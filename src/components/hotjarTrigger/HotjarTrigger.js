@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {node, string} from "prop-types";
-import {isLocalhost, isMockServer} from "../../utils/restUtils";
+import {isLocalhost, isUsingMockAlt} from "../../utils/restUtils";
 
 class HotjarTrigger extends Component {
     componentDidMount() {
         const {hotjarTrigger} = this.props;
         if (
             typeof window.hj === "function" &&
-            !isMockServer(window.location.origin) &&
+            !isUsingMockAlt(window.location.origin) &&
             !isLocalhost(window.location.origin)
         ) {
             window.hj("trigger", hotjarTrigger);

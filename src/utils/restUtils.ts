@@ -36,16 +36,12 @@ export function isMock(origin: string): boolean {
     return origin.indexOf("digisos.ekstern.dev.nav.no") >= 0;
 }
 
-export function isLabsGcpWithProxy(origin: string): boolean {
+export function isLabs(origin: string): boolean {
     return origin.indexOf("digisos.labs.nais.io") >= 0;
 }
 
-export function isLabsGcpWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn.labs.nais.io") >= 0;
-}
-
-export function isMockServer(origin: string): boolean {
-    return isLabsGcpWithoutProxy(origin) || isLabsGcpWithProxy(origin) || isMock(origin);
+export function isUsingMockAlt(origin: string): boolean {
+    return isLabs(origin) || isMock(origin);
 }
 
 export function getApiBaseUrl(): string {
@@ -56,7 +52,7 @@ export function getBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
     }
-    if (isMockServer(origin)) {
+    if (isUsingMockAlt(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
@@ -78,7 +74,7 @@ export function getSoknadBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (isDevSbs(origin) || isMockServer(origin) || isDev(origin)) {
+    if (isDevSbs(origin) || isUsingMockAlt(origin) || isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"
@@ -95,7 +91,7 @@ export function getNavUrl(origin: string): string {
     if (isQ1(origin)) {
         return "https://www-q1.nav.no/person/dittnav/";
     }
-    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin) || isDev(origin)) {
+    if (isLocalhost(origin) || isUsingMockAlt(origin) || isDevSbs(origin) || isDev(origin)) {
         return "https://www-q0.nav.no/person/dittnav/";
     } else {
         return "https://www.nav.no/person/dittnav/";
@@ -277,7 +273,7 @@ const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: numb
 function determineCredentialsParameter() {
     return window.location.origin.indexOf("nais.oera") ||
         isLocalhost(window.location.origin) ||
-        isMockServer(window.location.origin)
+        isUsingMockAlt(window.location.origin)
         ? "include"
         : "same-origin";
 }
