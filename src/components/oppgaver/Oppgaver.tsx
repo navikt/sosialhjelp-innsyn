@@ -4,6 +4,7 @@ import {
     DokumentasjonEtterspurt,
     DokumentasjonKrav,
     Feilside,
+    Vilkar,
     visFeilside,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -59,7 +60,7 @@ export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number =>
 
 const DAGER_SIDEN_UTBETALINGSPERIODE_ER_FORBIGAATT = 21;
 
-export const filterUtbetalinger = (
+export const skalViseAlleHvisUtbetalingIkkeUtgaatt = (
     utbetalingsReferanser: string[],
     sakUtbetalinger: SaksUtbetaling,
     currentDate: Date
@@ -84,14 +85,22 @@ export const filterDokumentasjonkrav = (
     sakUtbetalinger: SaksUtbetaling,
     currentDate: Date
 ) => {
-    return dokumentasjonkrav
+    const filtrerteDokumentasjonkrav = dokumentasjonkrav
         .map((dokkrav) => {
             dokkrav.dokumentasjonkravElementer = dokkrav.dokumentasjonkravElementer.filter((element) =>
-                filterUtbetalinger(element.utbetalingsReferanse, sakUtbetalinger, currentDate)
+                skalViseAlleHvisUtbetalingIkkeUtgaatt(element.utbetalingsReferanse, sakUtbetalinger, currentDate)
             );
             return dokkrav;
         })
         .filter((dokumentasjonkrav) => dokumentasjonkrav.dokumentasjonkravElementer.length > 0);
+    return filtrerteDokumentasjonkrav.length > 0 ? dokumentasjonkrav : [];
+};
+
+export const filterVilkar = (vilkar: Vilkar[], sakUtbetalinger: SaksUtbetaling, currentDate: Date) => {
+    const ferdigFiltrerteVilkar = vilkar.filter((value) =>
+        skalViseAlleHvisUtbetalingIkkeUtgaatt(value.utbetalingsReferanse, sakUtbetalinger, currentDate)
+    );
+    return ferdigFiltrerteVilkar.length > 0 ? vilkar : [];
 };
 
 interface SaksUtbetalingResponse {
@@ -105,7 +114,7 @@ export interface SaksUtbetaling {
 interface UtbetalingerResponse {
     fom: string;
     tom: string;
-    utbetalingsreferanse: string;
+    utbetlingsreferanse: string;
     status: "STOPPET" | "ANNULLERT" | "PLANLAGT_UTBETALING" | "UTBETALT";
 }
 
@@ -139,7 +148,7 @@ const Oppgaver = () => {
                     const flattenedUtbetalinger: SaksUtbetaling = {};
                     response.forEach((saksUtbetaling) => {
                         saksUtbetaling.utbetalinger.forEach((utbetaling) => {
-                            flattenedUtbetalinger[utbetaling.utbetalingsreferanse] = utbetaling;
+                            flattenedUtbetalinger[utbetaling.utbetlingsreferanse] = utbetaling;
                         });
                     });
                     setSakUtbetalinger(flattenedUtbetalinger);
@@ -155,15 +164,9 @@ const Oppgaver = () => {
         const utbetalingerSomIkkeErUtbetalt = Object.values(sakUtbetalinger).filter(
             (utbetaling) => utbetaling.status !== "UTBETALT" && utbetaling.status !== "ANNULLERT"
         );
-
         if (utbetalingerSomIkkeErUtbetalt.length === 0) {
             const currentDate = new Date();
-            const ferdigFiltrerteDokumentasjonskrav = filterDokumentasjonkrav(
-                dokumentasjonkrav,
-                sakUtbetalinger,
-                currentDate
-            );
-            setFiltrerteDokumentasjonkrav(ferdigFiltrerteDokumentasjonskrav);
+            setFiltrerteDokumentasjonkrav(filterDokumentasjonkrav(dokumentasjonkrav, sakUtbetalinger, currentDate));
         }
     }, [sakUtbetalinger, dokumentasjonkrav, setFiltrerteDokumentasjonkrav]);
 
@@ -175,10 +178,7 @@ const Oppgaver = () => {
 
         if (utbetalingerSomIkkeErUtbetalt.length === 0) {
             const currentDate = new Date();
-            const ferdigFiltrerteVilkar = vilkar.filter((value) =>
-                filterUtbetalinger(value.utbetalingsReferanse, sakUtbetalinger, currentDate)
-            );
-            setFiltrerteVilkar(ferdigFiltrerteVilkar);
+            setFiltrerteVilkar(filterVilkar(vilkar, sakUtbetalinger, currentDate));
         }
     }, [sakUtbetalinger, vilkar, setFiltrerteVilkar]);
 
