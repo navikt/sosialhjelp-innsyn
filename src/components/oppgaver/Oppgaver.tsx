@@ -68,16 +68,20 @@ export const skalViseAlleHvisUtbetalingIkkeUtgaatt = (
     if (utbetalingsReferanser.length === 0) {
         return true;
     }
-    const utbetalingerSomIkkeErUtgaatt = utbetalingsReferanser
-        .filter((utbetalingsreferanse) => sakUtbetalinger[utbetalingsreferanse])
-        .filter((utbetalingsreferanse) => {
-            const utbetaling = sakUtbetalinger[utbetalingsreferanse];
+    for (const utbetalingsReferanse of utbetalingsReferanser) {
+        const utbetaling = sakUtbetalinger[utbetalingsReferanse];
+        if (utbetaling) {
             const forbigaattUtbetalingsDato = add(new Date(utbetaling.tom), {
                 days: DAGER_SIDEN_UTBETALINGSPERIODE_ER_FORBIGAATT,
             });
-            return isAfter(forbigaattUtbetalingsDato, currentDate);
-        });
-    return utbetalingerSomIkkeErUtgaatt.length > 0;
+
+            const isAfterDate = isAfter(forbigaattUtbetalingsDato, currentDate);
+            if (isAfterDate) {
+                return true;
+            }
+        }
+    }
+    return false;
 };
 
 export const filterDokumentasjonkrav = (
@@ -85,22 +89,29 @@ export const filterDokumentasjonkrav = (
     sakUtbetalinger: SaksUtbetaling,
     currentDate: Date
 ) => {
-    const filtrerteDokumentasjonkrav = dokumentasjonkrav
-        .map((dokkrav) => {
-            dokkrav.dokumentasjonkravElementer = dokkrav.dokumentasjonkravElementer.filter((element) =>
-                skalViseAlleHvisUtbetalingIkkeUtgaatt(element.utbetalingsReferanse, sakUtbetalinger, currentDate)
+    for (const dokkrav of dokumentasjonkrav) {
+        for (const element of dokkrav.dokumentasjonkravElementer) {
+            const skalVise = skalViseAlleHvisUtbetalingIkkeUtgaatt(
+                element.utbetalingsReferanse,
+                sakUtbetalinger,
+                currentDate
             );
-            return dokkrav;
-        })
-        .filter((dokumentasjonkrav) => dokumentasjonkrav.dokumentasjonkravElementer.length > 0);
-    return filtrerteDokumentasjonkrav.length > 0 ? dokumentasjonkrav : [];
+            if (skalVise) {
+                return dokumentasjonkrav;
+            }
+        }
+    }
+
+    return [];
 };
 
 export const filterVilkar = (vilkar: Vilkar[], sakUtbetalinger: SaksUtbetaling, currentDate: Date) => {
-    const ferdigFiltrerteVilkar = vilkar.filter((value) =>
-        skalViseAlleHvisUtbetalingIkkeUtgaatt(value.utbetalingsReferanse, sakUtbetalinger, currentDate)
-    );
-    return ferdigFiltrerteVilkar.length > 0 ? vilkar : [];
+    for (const value of vilkar) {
+        if (skalViseAlleHvisUtbetalingIkkeUtgaatt(value.utbetalingsReferanse, sakUtbetalinger, currentDate)) {
+            return vilkar;
+        }
+    }
+    return [];
 };
 
 interface SaksUtbetalingResponse {
@@ -166,7 +177,8 @@ const Oppgaver = () => {
         );
         if (utbetalingerSomIkkeErUtbetalt.length === 0) {
             const currentDate = new Date();
-            setFiltrerteDokumentasjonkrav(filterDokumentasjonkrav(dokumentasjonkrav, sakUtbetalinger, currentDate));
+            const filtrerteKrav = filterDokumentasjonkrav(dokumentasjonkrav, sakUtbetalinger, currentDate);
+            setFiltrerteDokumentasjonkrav(filtrerteKrav);
         }
     }, [sakUtbetalinger, dokumentasjonkrav, setFiltrerteDokumentasjonkrav]);
 
