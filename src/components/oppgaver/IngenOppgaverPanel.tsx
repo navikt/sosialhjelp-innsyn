@@ -1,14 +1,6 @@
 import * as React from "react";
 import {FormattedMessage} from "react-intl";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {
-    DokumentasjonEtterspurt,
-    DokumentasjonKrav,
-    SaksStatusState,
-    Vilkar,
-} from "../../redux/innsynsdata/innsynsdataReducer";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
+import {DokumentasjonEtterspurt, DokumentasjonKrav, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {Attachment, Task} from "@navikt/ds-icons";
@@ -25,22 +17,14 @@ interface Props {
 }
 
 const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumentasjonEtterspurt, leserData}) => {
-    const innsynSaksStatusListe: SaksStatusState[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.saksStatus
-    );
-
     const finnesOppgaver = (oppgaveArray: any) => {
         return oppgaveArray && Array.isArray(oppgaveArray) && oppgaveArray.length > 0;
     };
 
-    const skalViseIngenOppgaverPanel = () => {
-        const harOppgaver =
-            finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
-        const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
-        return !harOppgaver && (!harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) || !harSaker);
-    };
+    const harOppgaver =
+        finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
 
-    if (skalViseIngenOppgaverPanel() && !leserData) {
+    if (!harOppgaver && !leserData) {
         return (
             <StyledPanel className={"panel-glippe-over oppgaver_panel "}>
                 <div>
