@@ -38,7 +38,7 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
     const harSakInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe);
     const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
 
-    if (harSakInnvilgetEllerDelvisInnvilget && !vilkar && !dokumentasjonkrav && harSaker) {
+    if (harSakInnvilgetEllerDelvisInnvilget && vilkar.length === 0 && dokumentasjonkrav.length === 0 && harSaker) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
