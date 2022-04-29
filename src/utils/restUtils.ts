@@ -11,21 +11,13 @@ export function isLocalhost(origin: string) {
 }
 
 export function isDevSbs(origin: string): boolean {
-    return (
-        origin.indexOf("www-q") >= 0 ||
-        origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0 ||
-        origin.indexOf("sosialhjelp-innsyn-intern.dev.nav.no") >= 0
-    );
-}
-
-export function isQ1(origin: string): boolean {
-    return isDevSbs(origin) && (origin.indexOf("-q1") >= 0 || origin.indexOf("-intern") >= 0);
+    return origin.indexOf("www-q") >= 0 || origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0;
 }
 
 export function isQGammelVersjon(origin: string): boolean {
     /* Vi endrer url til www-q*.dev.nav.no. Denne funksjonen returnerer true når den gamle URL-en blir benyttet.
      * Den gamle URL-en vil bli benyttet en stund av kommuner. */
-    return origin.indexOf("www-q0.nav.no") >= 0 || origin.indexOf("www-q1.nav.no") >= 0;
+    return origin.indexOf("www-q0.nav.no") >= 0;
 }
 
 export function isDev(origin: string): boolean {
@@ -88,11 +80,8 @@ export function getDittNavUrl(): string {
 }
 
 export function getNavUrl(origin: string): string {
-    if (isQ1(origin)) {
-        return "https://www-q1.nav.no/person/dittnav/";
-    }
     if (isLocalhost(origin) || isUsingMockAlt(origin) || isDevSbs(origin) || isDev(origin)) {
-        return "https://www-q0.nav.no/person/dittnav/";
+        return "https://www.dev.nav.no/person/dittnav/";
     } else {
         return "https://www.nav.no/person/dittnav/";
     }
