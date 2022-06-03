@@ -60,13 +60,19 @@ export function getSoknadBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (isDevSbs(origin) || isUsingMockAlt(origin) || isDev(origin)) {
+    if (isUsingMockAlt(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"
         );
     }
-    return "https://www.nav.no/sosialhjelp/soknad-api";
+    if (isDevSbs(origin) || isDev(origin)) {
+        return (
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
+            "/sosialhjelp/login-api/soknad-api"
+        );
+    }
+    return "https://www.nav.no/sosialhjelp/login-api/soknad-api";
 }
 
 export function getDittNavUrl(): string {

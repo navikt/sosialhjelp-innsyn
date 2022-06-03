@@ -73,24 +73,27 @@ describe("getBaseUrl", () => {
 
 describe("getSoknadBaseUrl", () => {
     it("should return correct backend-url", () => {
-        validateGetBaseUrl(localhostOrigins, "http://localhost:8181/sosialhjelp/soknad-api");
+        validateGetSoknadBaseUrl(localhostOrigins, "http://localhost:8181/sosialhjelp/soknad-api");
 
-        validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(devSbs_origins, "https://sosialhjelp-soknad-api.dev.nav.no/sosialhjelp/soknad-api");
+        validateGetSoknadBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/soknad-api");
+        validateGetSoknadBaseUrl(
+            devSbs_origins,
+            "https://sosialhjelp-soknad-api.dev.nav.no/sosialhjelp/login-api/soknad-api"
+        );
 
-        validateGetBaseUrl(labsOrigins, "https://digisos.labs.nais.io/sosialhjelp/soknad-api");
-        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(mockOrigins, "https://digisos.ekstern.dev.nav.no/sosialhjelp/soknad-api");
+        validateGetSoknadBaseUrl(labsOrigins, "https://digisos.labs.nais.io/sosialhjelp/soknad-api");
+        validateGetSoknadBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/login-api/soknad-api");
+        validateGetSoknadBaseUrl(mockOrigins, "https://digisos.ekstern.dev.nav.no/sosialhjelp/soknad-api");
 
-        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
+        validateGetSoknadBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/soknad-api");
+        validateGetSoknadBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/soknad-api");
     });
 
     it("should default to prod when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
+        validateGetSoknadBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/login-api/soknad-api");
     });
 
-    function validateGetBaseUrl(origins: string[], expected: string) {
+    function validateGetSoknadBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getSoknadBaseUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
@@ -99,24 +102,24 @@ describe("getSoknadBaseUrl", () => {
 
 describe("getDittNavUrl", () => {
     it("should return correct dittnav-url", () => {
-        validateGetBaseUrl(localhostOrigins, "https://www.dev.nav.no/person/dittnav/");
+        validateGetNavUrl(localhostOrigins, "https://www.dev.nav.no/person/dittnav/");
 
-        validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(devSbs_origins, "https://www.dev.nav.no/person/dittnav/");
+        validateGetNavUrl(devSbs_devNavnoOrigins, "https://www.dev.nav.no/person/dittnav/");
+        validateGetNavUrl(devSbs_origins, "https://www.dev.nav.no/person/dittnav/");
 
-        validateGetBaseUrl(labsOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(devOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(mockOrigins, "https://www.dev.nav.no/person/dittnav/");
+        validateGetNavUrl(labsOrigins, "https://www.dev.nav.no/person/dittnav/");
+        validateGetNavUrl(devOrigins, "https://www.dev.nav.no/person/dittnav/");
+        validateGetNavUrl(mockOrigins, "https://www.dev.nav.no/person/dittnav/");
 
-        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/person/dittnav/");
-        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/person/dittnav/");
+        validateGetNavUrl(prodSbsOrigins, "https://www.nav.no/person/dittnav/");
+        validateGetNavUrl(prodNavnoOrigins, "https://www.nav.no/person/dittnav/");
     });
 
     it("should default to prod when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/person/dittnav/");
+        validateGetNavUrl(unknownOrigins, "https://www.nav.no/person/dittnav/");
     });
 
-    function validateGetBaseUrl(origins: string[], expected: string) {
+    function validateGetNavUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getNavUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
