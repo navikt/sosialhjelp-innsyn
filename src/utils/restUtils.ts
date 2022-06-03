@@ -14,12 +14,6 @@ export function isDevSbs(origin: string): boolean {
     return origin.indexOf("www-q") >= 0 || origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0;
 }
 
-export function isQGammelVersjon(origin: string): boolean {
-    /* Vi endrer url til www-q*.dev.nav.no. Denne funksjonen returnerer true når den gamle URL-en blir benyttet.
-     * Den gamle URL-en vil bli benyttet en stund av kommuner. */
-    return origin.indexOf("www-q0.nav.no") >= 0;
-}
-
 export function isDev(origin: string): boolean {
     return origin.indexOf("digisos.dev.nav.no") >= 0;
 }
@@ -292,11 +286,6 @@ function getRedirectOrigin() {
      * Men den gamle URL-en (www-q*.nav.no) vil bli benyttet en stund av kommuner.
      * Loginservice kan kun sette cookies på apper som kjører på samme domene.
      * Vi lar derfor loginservice redirecte til den nye ingressen. */
-
-    const currentOrigin = window.location.origin;
-    if (isQGammelVersjon(currentOrigin)) {
-        return currentOrigin.replace("nav.no", "dev.nav.no");
-    }
     return window.location.origin;
 }
 
