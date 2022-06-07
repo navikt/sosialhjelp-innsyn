@@ -15,8 +15,6 @@ const devSbs_origins = [
     "https://sosialhjelp-innsyn.dev.nav.no",
 ];
 
-const devSbs_navnoOrigins = ["https://www-q0.nav.no/sosialhjelp/innsyn", "https://www-q0.nav.no"];
-
 const devSbs_devNavnoOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
 
 const labsOrigins = ["https://digisos.labs.nais.io/sosialhjelp/innsyn", "https://digisos.labs.nais.io"];
@@ -45,7 +43,6 @@ describe("getBaseUrl", () => {
             "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
-        validateGetBaseUrl(devSbs_navnoOrigins, "https://www-q0.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(
             devSbs_origins,
             "https://sosialhjelp-login-api.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
@@ -79,7 +76,6 @@ describe("getSoknadBaseUrl", () => {
         validateGetBaseUrl(localhostOrigins, "http://localhost:8181/sosialhjelp/soknad-api");
 
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(devSbs_navnoOrigins, "https://www-q0.nav.no/sosialhjelp/soknad-api");
         validateGetBaseUrl(devSbs_origins, "https://sosialhjelp-soknad-api.dev.nav.no/sosialhjelp/soknad-api");
 
         validateGetBaseUrl(labsOrigins, "https://digisos.labs.nais.io/sosialhjelp/soknad-api");
@@ -106,7 +102,6 @@ describe("getDittNavUrl", () => {
         validateGetBaseUrl(localhostOrigins, "https://www.dev.nav.no/person/dittnav/");
 
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(devSbs_navnoOrigins, "https://www.dev.nav.no/person/dittnav/");
         validateGetBaseUrl(devSbs_origins, "https://www.dev.nav.no/person/dittnav/");
 
         validateGetBaseUrl(labsOrigins, "https://www.dev.nav.no/person/dittnav/");
@@ -141,7 +136,6 @@ describe("isDev", () => {
     it("should return false for other", () => {
         validateIsDev(devSbs_origins, false);
         validateIsDev(devSbs_devNavnoOrigins, false);
-        validateIsDev(devSbs_navnoOrigins, false);
 
         validateIsDev(labsOrigins, false);
         validateIsDev(devOrigins, false);
@@ -161,7 +155,6 @@ describe("isDevSbs", () => {
     it("should return true for dev-sbs", () => {
         validateIsDevSbs(devSbs_origins, true);
         validateIsDevSbs(devSbs_devNavnoOrigins, true);
-        validateIsDevSbs(devSbs_navnoOrigins, true);
     });
 
     it("should return false for prod", () => {
@@ -200,7 +193,6 @@ describe("isDev", () => {
         validateIsDev(localhostOrigins, false);
 
         validateIsDev(devSbs_origins, false);
-        validateIsDev(devSbs_navnoOrigins, false);
         validateIsDev(devSbs_devNavnoOrigins, false);
 
         validateIsDev(labsOrigins, false);
@@ -230,7 +222,6 @@ describe("isLabs", () => {
         validateIsLabsGcpWithProxy(localhostOrigins, false);
 
         validateIsLabsGcpWithProxy(devSbs_origins, false);
-        validateIsLabsGcpWithProxy(devSbs_navnoOrigins, false);
         validateIsLabsGcpWithProxy(devSbs_devNavnoOrigins, false);
 
         validateIsLabsGcpWithProxy(devOrigins, false);
