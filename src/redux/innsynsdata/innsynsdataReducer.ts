@@ -122,6 +122,7 @@ export enum InnsynsdataActionTypeKeys {
     VIS_FEILSIDE = "innsynsdata/VIS_FEILSIDE",
     SETT_FORNAVN = "innsynsdata/SETT_FORNAVN",
     HENT_DIALOGSTATUS = "innsynsdata/HENT_DIALOGSTATUS",
+    HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV = "innsynsdata/HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
@@ -156,6 +157,7 @@ export enum InnsynsdataSti {
     KOMMUNE = "kommune",
     VILKAR = "vilkar",
     DIALOG_STATUS = "dialogstatus",
+    HAR_LEVERT_DOKUMENTASJONKRAV = "harLeverteDokumentasjonkrav",
 }
 
 export interface InnsynsdataActionType {
@@ -244,6 +246,7 @@ export interface InnsynsdataType {
     saksStatus: SaksStatusState[];
     oppgaver: DokumentasjonEtterspurt[];
     dokumentasjonkrav: DokumentasjonKrav[];
+    harLevertTidligereDokumentasjonkrav: boolean;
     vilkar: Vilkar[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
@@ -283,6 +286,7 @@ export const initialState: InnsynsdataType = {
     saksStatus: [],
     oppgaver: [],
     dokumentasjonkrav: [],
+    harLevertTidligereDokumentasjonkrav: false,
     vilkar: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
@@ -344,6 +348,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 dialogStatus: action.verdi,
+            };
+        case InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV:
+            return {
+                ...state,
+                harLevertTidligereDokumentasjonkrav: action.verdi,
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
             const oppgave: DokumentasjonEtterspurt[] = action.verdi;
@@ -755,6 +764,14 @@ export const hentDialogStatus = (verdi: DialogStatus): InnsynsdataActionType => 
     return {
         type: InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS,
         sti: InnsynsdataSti.DIALOG_STATUS,
+        verdi,
+    };
+};
+
+export const hentHarLevertDokumentasjonkrav = (verdi: Boolean): InnsynsdataActionType => {
+    return {
+        type: InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV,
+        sti: InnsynsdataSti.HAR_LEVERT_DOKUMENTASJONKRAV,
         verdi,
     };
 };
