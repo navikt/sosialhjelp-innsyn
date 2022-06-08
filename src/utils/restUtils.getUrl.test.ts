@@ -19,7 +19,10 @@ const devSbs_devNavnoOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", 
 
 const labsOrigins = ["https://digisos.labs.nais.io/sosialhjelp/innsyn", "https://digisos.labs.nais.io"];
 
-const devOrigins = ["https://digisos.dev.nav.no/sosialhjelp/innsyn", "https://digisos.dev.nav.no"];
+const devOrigins = [
+    "https://sosialhjelp-innsyn-dev.dev.nav.no/sosialhjelp/innsyn",
+    "https://sosialhjelp-innsyn-dev.dev.nav.no",
+];
 
 const mockOrigins = ["https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn", "https://digisos.ekstern.dev.nav.no"];
 
@@ -51,7 +54,10 @@ describe("getBaseUrl", () => {
             labsOrigins,
             "https://digisos.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
+        validateGetBaseUrl(
+            devOrigins,
+            "https://sosialhjelp-login-api-dev.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
+        );
         validateGetBaseUrl(
             mockOrigins,
             "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
@@ -79,7 +85,7 @@ describe("getSoknadBaseUrl", () => {
         validateGetBaseUrl(devSbs_origins, "https://sosialhjelp-soknad-api.dev.nav.no/sosialhjelp/soknad-api");
 
         validateGetBaseUrl(labsOrigins, "https://digisos.labs.nais.io/sosialhjelp/soknad-api");
-        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/soknad-api");
+        validateGetBaseUrl(devOrigins, "https://sosialhjelp-soknad-api-dev.dev.nav.no/sosialhjelp/soknad-api");
         validateGetBaseUrl(mockOrigins, "https://digisos.ekstern.dev.nav.no/sosialhjelp/soknad-api");
 
         validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
