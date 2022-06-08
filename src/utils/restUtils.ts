@@ -15,7 +15,7 @@ export function isDevSbs(origin: string): boolean {
 }
 
 export function isDev(origin: string): boolean {
-    return origin.indexOf("digisos.dev.nav.no") >= 0;
+    return origin.indexOf("sosialhjelp-innsyn-dev.dev.nav.no") >= 0;
 }
 
 export function isMock(origin: string): boolean {
