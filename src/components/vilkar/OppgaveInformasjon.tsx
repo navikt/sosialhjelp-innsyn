@@ -35,10 +35,20 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
 
+    const harLevertDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
+    );
+
     const harSakInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe);
     const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
 
-    if (harSakInnvilgetEllerDelvisInnvilget && vilkar.length === 0 && dokumentasjonkrav.length === 0 && harSaker) {
+    if (
+        harSakInnvilgetEllerDelvisInnvilget &&
+        vilkar.length === 0 &&
+        dokumentasjonkrav.length === 0 &&
+        harSaker &&
+        !harLevertDokumentasjonkrav
+    ) {
         return (
             <EkspanderbartIkonPanel
                 tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}

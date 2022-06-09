@@ -32,11 +32,20 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         return oppgaveArray && Array.isArray(oppgaveArray) && oppgaveArray.length > 0;
     };
 
+    const harLevertDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
+    );
+
     const skalViseIngenOppgaverPanel = () => {
         const harOppgaver =
             finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
         const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
-        return !harOppgaver && (!harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) || !harSaker);
+        return (
+            !harOppgaver &&
+            ((harLevertDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+                !harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) ||
+                !harSaker)
+        );
     };
 
     if (skalViseIngenOppgaverPanel() && !leserData) {
