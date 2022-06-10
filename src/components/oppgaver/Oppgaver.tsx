@@ -114,7 +114,7 @@ const Oppgaver = () => {
                 dispatch(hentHarLevertDokumentasjonkrav(verdi))
             );
         }
-    }, [dispatch, fiksDigisosId]);
+    }, [dispatch, fiksDigisosId, filtrerteDokumentasjonkrav]);
 
     useEffect(() => {
         if (fiksDigisosId) {
