@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from "react";
 import "./oppgaver.less";
-import {DokumentasjonEtterspurt, Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonEtterspurt,
+    Feilside,
+    hentHarLevertDokumentasjonkrav,
+    visFeilside,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
@@ -102,6 +107,14 @@ const Oppgaver = () => {
         : null;
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || filtrerteDokumentasjonkrav || filtrerteVilkar;
+
+    useEffect(() => {
+        if (fiksDigisosId) {
+            fetchToJson(`/innsyn/${fiksDigisosId}/harLeverteDokumentasjonkrav`).then((verdi: any) =>
+                dispatch(hentHarLevertDokumentasjonkrav(verdi))
+            );
+        }
+    }, [dispatch, fiksDigisosId, filtrerteDokumentasjonkrav]);
 
     useEffect(() => {
         if (fiksDigisosId) {

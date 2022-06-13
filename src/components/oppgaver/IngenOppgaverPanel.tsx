@@ -1,17 +1,17 @@
 import * as React from "react";
 import {FormattedMessage} from "react-intl";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
 import {
     DokumentasjonEtterspurt,
     DokumentasjonKrav,
     SaksStatusState,
     Vilkar,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {Attachment, Task} from "@navikt/ds-icons";
+import {useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
 
 const StyledPanel = styled(Panel)`
     margin: 1.5rem 0;
@@ -28,16 +28,24 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
-
     const finnesOppgaver = (oppgaveArray: any) => {
         return oppgaveArray && Array.isArray(oppgaveArray) && oppgaveArray.length > 0;
     };
+
+    const harLevertDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
+    );
 
     const skalViseIngenOppgaverPanel = () => {
         const harOppgaver =
             finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
         const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
-        return !harOppgaver && (!harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) || !harSaker);
+        return (
+            !harOppgaver &&
+            ((harLevertDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+                !harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) ||
+                !harSaker)
+        );
     };
 
     if (skalViseIngenOppgaverPanel() && !leserData) {
