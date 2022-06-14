@@ -33,12 +33,17 @@ import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggAct
 import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
+import styled from "styled-components";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
+
+const ButtonWrapper = styled.div`
+    margin-top: 1rem;
+`;
 
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
@@ -244,18 +249,19 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     </ErrorMessage>
                 )}
                 {kanLasteOppVedlegg && (
-                    <Button
-                        variant="primary"
-                        disabled={isUploading}
-                        className="luft_over_1rem"
-                        onClick={(event: any) => {
-                            logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
-                            onSendClicked(event);
-                        }}
-                    >
-                        <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                        {isUploading && <Loader />}
-                    </Button>
+                    <ButtonWrapper>
+                        <Button
+                            variant="primary"
+                            disabled={isUploading}
+                            onClick={(event: any) => {
+                                logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
+                                onSendClicked(event);
+                            }}
+                        >
+                            <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                            {isUploading && <Loader />}
+                        </Button>
+                    </ButtonWrapper>
                 )}
             </div>
             {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
