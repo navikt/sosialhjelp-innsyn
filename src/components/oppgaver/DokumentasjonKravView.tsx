@@ -17,6 +17,7 @@ import {formatDato} from "../../utils/formatting";
 import {fileUploadFailedEvent} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
+import styled from "styled-components";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -42,6 +43,10 @@ export const deleteReferenceFromDokumentasjonkravFiler = (
         {}
     );
 };
+
+const ButtonWrapper = styled.div`
+    margin-top: 1rem;
+`;
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const dispatch = useDispatch();
@@ -259,17 +264,18 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     }
                 )}
                 {kanLasteOppVedlegg && (
-                    <Button
-                        variant="primary"
-                        disabled={isUploading}
-                        className="luft_over_1rem"
-                        onClick={(event) => {
-                            onSendClicked(event);
-                        }}
-                    >
-                        <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                        {isUploading && <Loader />}
-                    </Button>
+                    <ButtonWrapper>
+                        <Button
+                            variant="primary"
+                            disabled={isUploading}
+                            onClick={(event) => {
+                                onSendClicked(event);
+                            }}
+                        >
+                            <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                            {isUploading && <Loader />}
+                        </Button>
+                    </ButtonWrapper>
                 )}
             </div>
             {errorMessage && (

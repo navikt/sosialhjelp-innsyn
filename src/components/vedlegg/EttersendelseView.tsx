@@ -27,6 +27,7 @@ import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/in
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Label, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
+import styled from "styled-components";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -38,6 +39,10 @@ const BACKEND_FEIL_ID = "backendFeilId";
 interface Props {
     restStatus: REST_STATUS;
 }
+
+const ButtonWrapper = styled.div`
+    margin-top: 1rem;
+`;
 
 const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
@@ -181,32 +186,32 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
                     {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                 </div>
-
-                <Button
-                    variant="primary"
-                    disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
-                    className="luft_over_1rem"
-                    onClick={(event: any) => {
-                        logButtonOrLinkClick("Ettersendelse: Send vedlegg");
-                        if (!vedleggKlarForOpplasting) {
-                            setSendVedleggTrykket(true);
-                            return;
-                        }
-                        onSendVedleggClicked(
-                            event,
-                            dispatch,
-                            BACKEND_FEIL_ID,
-                            InnsynsdataSti.VEDLEGG,
-                            fiksDigisosId,
-                            setOverMaksStorrelse,
-                            undefined,
-                            filer
-                        );
-                    }}
-                >
-                    <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
-                    {vedleggLastesOpp && <Loader />}
-                </Button>
+                <ButtonWrapper>
+                    <Button
+                        variant="primary"
+                        disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
+                        onClick={(event: any) => {
+                            logButtonOrLinkClick("Ettersendelse: Send vedlegg");
+                            if (!vedleggKlarForOpplasting) {
+                                setSendVedleggTrykket(true);
+                                return;
+                            }
+                            onSendVedleggClicked(
+                                event,
+                                dispatch,
+                                BACKEND_FEIL_ID,
+                                InnsynsdataSti.VEDLEGG,
+                                fiksDigisosId,
+                                setOverMaksStorrelse,
+                                undefined,
+                                filer
+                            );
+                        }}
+                    >
+                        <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
+                        {vedleggLastesOpp && <Loader />}
+                    </Button>
+                </ButtonWrapper>
             </div>
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
