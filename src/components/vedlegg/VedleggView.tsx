@@ -12,6 +12,7 @@ import {Link, Select, Table} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const Vedleggliste = styled.div`
+    margin-top: 1rem;
     margin-bottom: 3rem;
 `;
 
