@@ -116,7 +116,7 @@ export const tekster = {
         "andre_vedlegg.tilleggsinfo": "Hvis du noe annet du vil sende, kan du laste det opp her.",
         "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
 
-        forelopigSvar: "Du har fått et brev om saksbehandlingstiden for søknaden din.",
+        forelopigSvar: "Du har fått et brev om saksbehandlingstiden for søknaden din. ",
 
         "driftsmelding.innsynDeaktivert":
             "Vi kan dessverre ikke vise nyeste status for søknaden din. Du kan fortsatt sende inn vedlegg på nav.no. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
