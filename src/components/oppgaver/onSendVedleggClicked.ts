@@ -149,11 +149,15 @@ export const onSendVedleggClicked = (
                 }
             })
             .catch((e) => {
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
                 // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                 fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                     if (errorResponse.message === "Mulig virus funnet") {
                         dispatch(setFileUploadFailedInBackend(vedleggId, false));
                         dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, true));
+                    } else if (errorResponse.message === "Klientfeil") {
+                        dispatch(setFileUploadFailedInBackend(vedleggId, true));
+                        dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
                     }
                 });
                 dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
