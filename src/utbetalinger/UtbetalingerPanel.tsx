@@ -60,11 +60,12 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                 </div>
                                 {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
                                     const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
-                                    const erSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
+                                    const erIkkeSisteUtbetaling: boolean =
+                                        index !== utbetalingSak.utbetalinger.length - 1;
                                     return (
                                         <div
                                             key={"utbetaling_" + index}
-                                            className={!erSisteUtbetaling ? "bunnSeparator tynnere" : ""}
+                                            className={erIkkeSisteUtbetaling ? "bunnSeparator tynnere" : ""}
                                         >
                                             <div className="utbetaling__header">
                                                 <Label>
