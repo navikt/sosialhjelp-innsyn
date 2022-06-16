@@ -139,6 +139,7 @@ export const onSendVedleggClicked = (
                     });
                 }
                 if (hasError) {
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
                     dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
                 } else {
                     if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
