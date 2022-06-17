@@ -139,6 +139,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     if (hasError) {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     } else {
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                         dispatch(
                             hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
                         );
