@@ -9,7 +9,7 @@ const SavnerUtbetalingPanel: React.FC = () => {
                 <InfoIkon />
             </span>
             <Label spacing>Er det en utbetaling du savner?</Label>
-            <BodyShort>Oversikten over tutbetalinger for økonomisk sosialhjelp er under utvikling.</BodyShort>
+            <BodyShort>Oversikten over utbetalinger for økonomisk sosialhjelp er under utvikling.</BodyShort>
             <BodyShort style={{marginTop: "18px"}}>For øyeblikket kan vi kun vise</BodyShort>
             <ul style={{marginTop: "0px"}}>
                 <li>
