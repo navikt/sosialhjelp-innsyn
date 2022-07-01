@@ -98,11 +98,6 @@ interface Props {
 
 const HeadingWrapper = styled.div`
     text-align: center;
-    @media only screen and (max-width: 480px) {
-        a {
-            text-align: left;
-        }
-    }
 `;
 
 const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
