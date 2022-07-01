@@ -23,6 +23,14 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                 <div className="feilside blokk-center">
                     <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                     <UthevetPanel className="panel-uthevet-luft-under">
+                        {feilside === FeilsideEnum.TEKNISKE_PROBLEMER && (
+                            <>
+                                <Heading level="1" size="large" spacing>
+                                    Beklager, vi har dessverre tekniske problemer.
+                                </Heading>
+                                <BodyLong spacing>Vennligst prøv igjen senere.</BodyLong>
+                            </>
+                        )}
                         {feilside === FeilsideEnum.FINNES_IKKE && (
                             <>
                                 <Heading level="1" size="large" spacing>
