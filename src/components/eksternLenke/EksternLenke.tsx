@@ -7,9 +7,9 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     href: string;
 }
 
-const EksternLenke: React.FC<Props> = ({children, href, target, onClick}) => {
+const EksternLenke: React.FC<Props> = ({children, href, onClick}) => {
     return (
-        <Link href={href} target={target} onClick={onClick}>
+        <Link href={href} target="_blank" onClick={onClick}>
             {children}
             <ExternalLink className="ekstern_lenke" />
         </Link>

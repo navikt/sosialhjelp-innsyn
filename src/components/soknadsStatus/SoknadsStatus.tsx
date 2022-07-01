@@ -10,7 +10,8 @@ import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
 import {PlaceFilled} from "@navikt/ds-icons";
-import styled from "styled-components";
+import styled from "styled-components/macro";
+import SoknadsStatusLenke from "./SoknadsStatusLenke";
 
 const Container = styled.div`
     padding-top: 3rem;
@@ -39,10 +40,6 @@ const SpotIcon = styled(PlaceFilled)`
     left: 50%;
     height: 1.5rem;
     width: 1.5rem;
-`;
-
-const ContentPanelHeading = styled(Heading)`
-    text-align: center;
 `;
 
 const ContentPanelBody = styled.div`
@@ -94,10 +91,19 @@ export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
 };
 
 interface Props {
-    status: string | null | SoknadsStatusEnum;
+    status: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
     restStatus: REST_STATUS;
 }
+
+const HeadingWrapper = styled.div`
+    text-align: center;
+    @media only screen and (max-width: 480px) {
+        a {
+            text-align: left;
+        }
+    }
+`;
 
 const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
     const antallSaksElementer: number = sak ? sak.length : 0;
@@ -116,12 +122,13 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                 <ContentPanelBody>
                     {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
-                        <>
-                            <ContentPanelHeading level="1" size="large" spacing>
+                        <HeadingWrapper>
+                            <Heading level="2" size="large" spacing>
                                 {soknadsStatusTittel(status, intl)}
-                            </ContentPanelHeading>
+                            </Heading>
+                            <SoknadsStatusLenke status={status} />
                             <ContentPanelBorder />
-                        </>
+                        </HeadingWrapper>
                     )}
 
                     {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
@@ -191,7 +198,6 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                                                         <EksternLenke
                                                             rel="noopener noreferrer"
                                                             href={"" + hendelse.vedtaksfilUrl}
-                                                            target="_blank"
                                                             onClick={onVisVedtak}
                                                         >
                                                             Vedtak (
