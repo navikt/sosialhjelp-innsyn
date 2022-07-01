@@ -19,7 +19,6 @@ const SoknadsStatusUtenInnsyn = (props: {
     navKontor: string | null;
     filUrl: UrlResponse | null;
 }) => {
-    console.log(props);
     return (
         <UthevetPanelEkstraPadding>
             <TittelOgIkon>
