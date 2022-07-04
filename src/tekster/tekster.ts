@@ -8,6 +8,10 @@ export const tekster = {
         "status.under_behandling": "Søknaden er under behandling",
         "status.ferdigbehandlet": "Søknaden er ferdigbehandlet",
         "status.behandles_ikke": "Søknaden er ferdigbehandlet",
+        "soknadstatus.sendt": "Sendt",
+        "soknadstatus.mottatt": "Mottatt",
+        "soknadstatus.under_behandling": "Under behandling",
+        "soknadstatus.ferdigbehandlet": "Ferdigbehandlet",
         "status.soknad_behandles_ikke_ingress":
             "Vi kan ikke vise status på søknaden din på nav.no. Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt, eller fordi du har trukket tilbake søknaden. Har du spørsmål kan du ta kontakt med NAV-kontoret ditt.",
         "status.sak_behandles_ikke_ingress":

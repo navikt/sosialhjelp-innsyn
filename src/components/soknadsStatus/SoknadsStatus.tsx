@@ -1,11 +1,10 @@
 import React from "react";
-import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
+import {SoknadsStatusEnum, soknadsStatusTag, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
@@ -51,6 +50,9 @@ const ContentPanelBody = styled.div`
     }
 `;
 
+const StyledAlert = styled(Alert)`
+    margin-bottom: 1rem;
+`;
 interface ContentPanelBorderProps {
     lightColor?: boolean;
 }
@@ -101,7 +103,6 @@ const HeadingWrapper = styled.div`
 `;
 
 const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
-    const antallSaksElementer: number = sak ? sak.length : 0;
     const intl: IntlShape = useIntl();
 
     const onVisVedtak = () => {
@@ -126,23 +127,28 @@ const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
                         </HeadingWrapper>
                     )}
 
-                    {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
-                        <Alert variant="info">
+                    {status === SoknadsStatusEnum.BEHANDLES_IKKE && (
+                        <StyledAlert variant="info">
                             <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                        </Alert>
+                        </StyledAlert>
                     )}
 
-                    {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
-                        <Alert variant="info">
-                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                        </Alert>
+                    {sak?.length === 0 && (
+                        <StatusBox>
+                            <StatusMessage>
+                                <Label>{intl.formatMessage({id: "saker.default_tittel"})}</Label>
+                                <Tag variant="success">{soknadsStatusTag(status, intl)}</Tag>
+                            </StatusMessage>
+                        </StatusBox>
                     )}
+
                     {sak &&
                         sak.map((statusdetalj: SaksStatusState, index: number) => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
                             const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
+
                             return (
                                 <>
                                     <StatusBox key={index}>
