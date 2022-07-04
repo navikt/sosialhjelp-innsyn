@@ -2,6 +2,7 @@ import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
 import {HendelseTypeEnum} from "../../utils/vedleggUtils";
+import {SoknadsStatusEnum} from "../../components/soknadsStatus/soknadsStatusUtils";
 
 export enum SaksStatus {
     UNDER_BEHANDLING = "UNDER_BEHANDLING",
@@ -189,7 +190,7 @@ export interface VedleggActionType {
 }
 
 export interface Status {
-    status: string | null;
+    status: SoknadsStatusEnum | null;
     tidspunktSendt: string | null;
     soknadsalderIMinutter: number;
     navKontor: string | null;

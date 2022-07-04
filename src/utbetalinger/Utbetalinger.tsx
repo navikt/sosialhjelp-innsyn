@@ -21,11 +21,40 @@ import {
     visFeilside,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {Heading} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
 import {IngenUtbetalingsoversikt} from "./IngenUtbetalingsoversikt";
+import styled from "styled-components/macro";
 let DEFAULT_ANTALL_MND_VIST: number = 3;
+
+const StyledUtbetalinger = styled.div`
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    @media screen and (max-width: 900px) {
+        margin-top: 0;
+
+        flex-direction: column;
+    }
+`;
+
+const StyledUtbetalingerFilter = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+
+    width: 16rem;
+
+    @media screen and (max-width: 900px) {
+        width: 100%;
+
+        .utbetalinger_periodevelger_panel {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+`;
 
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
@@ -112,7 +141,7 @@ const Utbetalinger: React.FC = () => {
     return (
         <div>
             <Brodsmulesti
-                tittel={"Utbetalingsoversikt"}
+                tittel={"Utbetalingsoversikt for økonomisk sosialhjelp"}
                 tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
                 foreldreside={{
                     tittel: "Økonomisk sosialhjelp",
@@ -123,28 +152,21 @@ const Utbetalinger: React.FC = () => {
             />
 
             {harSoknaderMedInnsyn && harSaker && !lasterSoknaderMedInnsyn && (
-                <div className="utbetalinger">
-                    <Heading level="1" size="xlarge" spacing className="utbetalinger__overskrift">
-                        Utbetalingsoversikt
-                    </Heading>
-                    <div className="utbetalinger_row">
-                        <div className="utbetalinger_column">
-                            <div className="utbetalinger_column_1">
-                                <Periodevelger
-                                    className="utbetalinger_periodevelger_panel"
-                                    antMndTilbake={visAntallMnd}
-                                    onChange={(antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
-                                        oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)
-                                    }
-                                />
-                            </div>
-                        </div>
-                        <UtbetalingerPanel
-                            utbetalinger={filtrerteUtbetalinger}
-                            lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
+                <StyledUtbetalinger>
+                    <StyledUtbetalingerFilter>
+                        <Periodevelger
+                            className="utbetalinger_periodevelger_panel"
+                            antMndTilbake={visAntallMnd}
+                            onChange={(antMndTilbake: number, tilDinKnt: boolean, tilAnnenMottaker: boolean) =>
+                                oppdaterPeriodeOgMottaker(antMndTilbake, tilDinKnt, tilAnnenMottaker)
+                            }
                         />
-                    </div>
-                </div>
+                    </StyledUtbetalingerFilter>
+                    <UtbetalingerPanel
+                        utbetalinger={filtrerteUtbetalinger}
+                        lasterData={utbetalingerService.restStatus === REST_STATUS.PENDING}
+                    />
+                </StyledUtbetalinger>
             )}
             <IngenUtbetalingsoversikt
                 harSoknaderMedInnsyn={harSoknaderMedInnsyn}

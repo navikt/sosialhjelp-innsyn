@@ -88,7 +88,6 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
-                                target="_blank"
                                 onClick={() => {
                                     onClickHendelseLenke(hendelse.beskrivelse, hendelse?.filUrl?.linkTekst);
                                 }}
