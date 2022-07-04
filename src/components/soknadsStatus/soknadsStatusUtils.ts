@@ -28,5 +28,19 @@ const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, intl: In
     }
     return "Søknad";
 };
+export const soknadsStatusTag = (status: string | null | SoknadsStatusEnum, intl: IntlShape): string => {
+    switch (status) {
+        case SoknadsStatusEnum.SENDT:
+            return intl.formatMessage({id: "soknadstatus.sendt"});
+        case SoknadsStatusEnum.MOTTATT:
+            return intl.formatMessage({id: "soknadstatus.mottatt"});
+        case SoknadsStatusEnum.UNDER_BEHANDLING:
+            return intl.formatMessage({id: "soknadstatus.under_behandling"});
+        case SoknadsStatusEnum.FERDIGBEHANDLET:
+        case SoknadsStatusEnum.BEHANDLES_IKKE:
+            return intl.formatMessage({id: "soknadstatus.ferdigbehandlet"});
+    }
+    return intl.formatMessage({id: "soknadstatus.sendt"});
+};
 
 export {SoknadsStatusEnum, SaksStatusEnum, soknadsStatusTittel};
