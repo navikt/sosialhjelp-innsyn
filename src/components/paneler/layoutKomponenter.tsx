@@ -1,5 +1,5 @@
 import React from "react";
-import "./layoutKomponenter.less";
+import "./layoutKomponenter.css";
 
 const OverskriftBoks: React.FC<{children: any}> = ({children}) => (
     <div className="layout_overskriftboks">{children}</div>

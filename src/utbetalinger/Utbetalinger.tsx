@@ -4,7 +4,7 @@ import UtbetalingerPanel from "./UtbetalingerPanel";
 import useUtbetalingerService, {UtbetalingSakType} from "./service/useUtbetalingerService";
 import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
-import "./utbetalinger.less";
+import "./utbetalinger.css";
 import {
     filtrerMaanederUtenUtbetalinger,
     filtrerUtbetalingerForTidsinterval,

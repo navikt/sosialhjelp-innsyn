@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./lastestriper.less";
+import "./lastestriper.css";
 
 export interface NavFrontendLastestriperProps {
     /**

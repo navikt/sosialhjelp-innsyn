@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./historikk.less";
+import "./historikk.css";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";

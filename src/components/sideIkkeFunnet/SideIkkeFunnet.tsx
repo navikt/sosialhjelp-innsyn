@@ -1,6 +1,6 @@
 import * as React from "react";
 import UtropstegnSirkelGraIkon from "./UtropstegnSirkelGraIkon";
-import "./SideIkkeFunnet.less";
+import "./SideIkkeFunnet.css";
 import {BodyShort, Heading, Link} from "@navikt/ds-react";
 
 const SideIkkeFunnet: React.FC<{}> = () => {
