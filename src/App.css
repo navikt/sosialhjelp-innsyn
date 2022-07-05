@@ -1,11 +1,5 @@
-@mobile: ~"only screen and (max-width: 480px) ";
-
 .App {
     text-align: center;
-}
-
-.blokk-center .vedlegg_liste_panel {
-    padding-bottom: 5rem;
 }
 
 .filnavn_kollonne {
@@ -20,38 +14,27 @@
     }
 }
 
-.dato_lagt_til {
-    white-space: nowrap;
-}
-
-@media screen and (max-width: 301px) {
-    .dato_lagt_til {
-        white-space: normal;
-    }
-}
-
-// Overstyr css fra dekoratør:
+/* Overstyr css fra dekoratør:*/
 a.lenke:not(.knapp) {
     border-bottom: none;
 }
 
 .informasjon-side {
     margin-bottom: 4rem;
+}
 
-    .breadcrumbs_wrapper {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+.informasjon-side .breadcrumbs_wrapper {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .modal-innhold {
     padding: 3rem 2rem;
     max-width: 600px;
+}
 
-    @media @mobile {
-        padding-top: 3rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-bottom: 1rem;
+@media only screen and (max-width: 480px) {
+    .modal-innhold {
+        padding: 3rem 1rem 1rem;
     }
 }

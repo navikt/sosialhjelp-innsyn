@@ -6,12 +6,12 @@
     display: flex;
     align-items: center;
     border-bottom: 4px solid #38a161;
+}
 
-    &__brodsmulesti {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
+.saksoversikt-banner__brodsmulesti {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .saksoversikt-userIcon {

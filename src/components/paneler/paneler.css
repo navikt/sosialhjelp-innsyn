@@ -16,31 +16,3 @@
 .panel-glippe-over {
     margin-bottom: 0 !important;
 }
-
-@media screen and (min-width: 641px) {
-    .panel-ikon-grupppe {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-}
-
-.panel-ikon-boks {
-    background-color: #cde7d8;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 62px;
-}
-
-.panel-ikon-boks svg {
-    width: 100%;
-    height: 32px;
-    margin-top: 10px;
-}
-
-.panel-ikon-tekst {
-    margin-left: 4rem;
-    font-weight: bold;
-}

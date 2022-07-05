@@ -1,39 +1,24 @@
-// Størrelser:
-@fullBredde: 912px; // Maks bredde på et panel
-@skjermbreddeNettbrett: 1024px; // Max bredde liggende på nettbrett skjerm
-@skjermbreddeEnSpalte: 730px; // En spalte visning
-@skjermbreddeMindreFlate: 640px; // Minste skjermer vi tar hensyn til
-@spalteMellomrom: 25px; // Standard mellomrom mellom paneler
-@spalteMellomromLite: 2px; // Lite mellomrom mellom paneler
-@marginMindreFlater: 10px; // Sidemarg på mindre flater
-@rammeTykkelse: 4px; // Tykkelse på rammene til paneler
-
-@panelPaddingTop: 1rem; // Avstanden mellom panel-rammen og innholdet i panelet
-@panelPaddingLeft: 1.5rem;
-@panelPaddingRight: 1.5rem;
-@panelPaddingBottom: 3rem;
-
 .sideIkkeFunnet {
     text-align: center;
+}
 
-    &__ikon {
-        margin-top: 40px;
-        margin-bottom: 2rem;
-    }
+.sideIkkeFunnet ul {
+    margin-top: 20px;
+    padding-left: 0;
+}
 
-    ul {
-        margin-top: 20px;
-        padding-left: 0;
-    }
+.sideIkkeFunnet li {
+    display: inline-block;
+    margin-top: 20px;
+    padding-left: 30px;
+    position: relative;
+}
 
-    li {
-        display: inline-block;
-        margin-top: 20px;
-        padding-left: 30px;
-        position: relative;
+.sideIkkeFunnet li:first-child {
+    padding-left: 0;
+}
 
-        &:first-child {
-            padding-left: 0;
-        }
-    }
+.sideIkkeFunnet__ikon {
+    margin-top: 40px;
+    margin-bottom: 2rem;
 }

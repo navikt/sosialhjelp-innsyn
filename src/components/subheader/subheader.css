@@ -5,13 +5,12 @@
     align-items: center;
     margin-bottom: 1.25rem;
     text-align: center;
-
-    h2 {
-        margin-left: 16px;
-        margin-right: 16px;
-    }
 }
 
+.informasjonstavle__subheader h2 {
+    margin-left: 16px;
+    margin-right: 16px;
+}
 .informasjonstavle__subheader::before,
 .informasjonstavle__subheader::after {
     content: "";

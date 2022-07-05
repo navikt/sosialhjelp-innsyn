@@ -1,63 +1,57 @@
-.arkfane {
-    .arkfane_panel {
-        background-color: #fff;
-        display: block;
-        padding: 1rem 0 0 0;
-        border-radius: 4px;
+.arkfane .arkfane_panel {
+    background-color: #fff;
+    display: block;
+    padding: 1rem 0 0 0;
+    border-radius: 4px;
+}
 
-        @media screen and (min-width: 641px) {
-            .arkfane_mainNav {
-                padding-left: 60px;
-                padding-right: 80px;
-            }
-        }
+@media screen and (min-width: 641px) {
+    .arkfane_mainNav {
+        padding-left: 60px;
+        padding-right: 80px;
     }
 }
 
 .arkfane_mainNav {
     margin-top: 1rem;
     border-bottom: 4px solid var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
+}
+.arkfane_mainNav__wrapper {
+    display: flex;
+    justify-content: space-between;
+}
 
-    &__wrapper {
-        display: flex;
-        justify-content: space-between;
+.arkfane_mainNav__wrapper ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
 
-        ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
+.arkfane_mainNav__wrapper ul li a {
+    display: block;
+    color: var(--navds-link-color-text);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 4px solid var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
+    position: relative;
+    top: 4px;
+}
+.arkfane_mainNav__wrapper ul li a:hover {
+    background: var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
+    border-bottom: 4px solid var(--navds-link-color-text);
+}
 
-            li {
-                a {
-                    display: block;
-                    color: var(--navds-link-color-text);
-                    padding: 0.75rem 1.25rem;
-                    border-bottom: 4px solid var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
-                    position: relative;
-                    top: 4px;
+.arkfane_mainNav__wrapper ul li a:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--navds-link-color-text-focus);
+    z-index: 1;
+}
 
-                    &:hover {
-                        background: var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
-                        border-bottom: 4px solid var(--navds-link-color-text);
-                    }
+.arkfane_mainNav__wrapper ul li a.active {
+    font-weight: bold;
+    border-bottom: 4px solid var(--navds-link-color-text);
+}
 
-                    &:focus {
-                        outline: none;
-                        box-shadow: 0 0 0 3px var(--navds-link-color-text-focus);
-                        z-index: 1;
-                    }
-
-                    &.active {
-                        font-weight: bold;
-                        border-bottom: 4px solid var(--navds-link-color-text);
-                    }
-
-                    &.inactive {
-                        border-bottom: 4px solid var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
-                    }
-                }
-            }
-        }
-    }
+.arkfane_mainNav__wrapper ul li a.inactive {
+    border-bottom: 4px solid var(--navds-global-color-gray-100); /* TODO: Bytte ut med semantisk farge */
 }

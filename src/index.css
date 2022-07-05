@@ -35,11 +35,10 @@ code {
     .blokk-center {
         padding-left: 1rem;
         padding-right: 1rem;
-
-        &.blokk-center--wide {
-            display: block;
-            max-width: 944px;
-        }
+    }
+    .blokk-center .blokk-center--wide {
+        display: block;
+        max-width: 944px;
     }
 }
 
@@ -47,7 +46,7 @@ code {
     padding-top: 0;
 }
 
-// Hack for å skjule del-skjerm knappen
+/* Hack for å skjule del-skjerm knappen  */
 .footer-bottom-content__personvern-lenker > li:last-child {
     display: none;
 }
