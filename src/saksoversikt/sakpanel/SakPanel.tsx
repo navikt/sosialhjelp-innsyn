@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import DocumentIcon from "../../components/ikoner/DocumentIcon";
-import "./sakpanel.less";
+import "./sakpanel.css";
 import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";

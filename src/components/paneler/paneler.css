@@ -1,0 +1,18 @@
+@media screen and (max-width: 640px) {
+    .panel-luft-over {
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .panel-luft-over {
+        margin-top: 4rem;
+    }
+}
+
+.panel-glippe-over {
+    margin-top: 4px;
+}
+.panel-glippe-over {
+    margin-bottom: 0 !important;
+}

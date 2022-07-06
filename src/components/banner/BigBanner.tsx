@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./bigbanner.less";
+import "./bigbanner.css";
 import Head from "../ikoner/Head";
 import Brodsmulesti, {UrlType} from "../brodsmuleSti/BrodsmuleSti";
 import {getDittNavUrl} from "../../utils/restUtils";

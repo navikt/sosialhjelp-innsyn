@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import "./Tilgangskontrollside.less";
+import "./Tilgangskontrollside.css";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";

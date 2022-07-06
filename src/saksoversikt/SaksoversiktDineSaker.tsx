@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import "./saksoversikt.less";
+import "./saksoversikt.css";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
