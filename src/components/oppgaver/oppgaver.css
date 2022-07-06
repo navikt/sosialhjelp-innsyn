@@ -44,14 +44,6 @@
     border: solid 1px #ba3a25 !important;
 }
 
-.oppgaver_last_opp_fil {
-    display: inline-block;
-}
-
-.oppgaver_last_opp_fil .lenke {
-    display: inline-block;
-}
-
 @media screen and (max-width: 640px) {
     .oppgaver_detaljer {
         padding: 0.5rem;
