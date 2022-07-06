@@ -20,7 +20,7 @@ import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
-import AddFileButton from "../oppgaver/AddFileButton";
+import AddFileButton, {TextAndButtonWrapper} from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
@@ -165,14 +165,19 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     }
                     style={{marginTop: "0px"}}
                 >
-                    <Label>
-                        <FormattedMessage id="andre_vedlegg.type" />
-                    </Label>
-                    <BodyShort>
-                        <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                    </BodyShort>
-
-                    {kanLasteOppVedlegg && <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />}
+                    <TextAndButtonWrapper>
+                        <div>
+                            <Label>
+                                <FormattedMessage id="andre_vedlegg.type" />
+                            </Label>
+                            <BodyShort>
+                                <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
+                            </BodyShort>
+                        </div>
+                        {kanLasteOppVedlegg && (
+                            <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />
+                        )}
+                    </TextAndButtonWrapper>
 
                     {filer.map((fil: Fil, vedleggIndex: number) => (
                         <FileItemView
