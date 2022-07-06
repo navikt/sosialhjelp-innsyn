@@ -1,39 +1,6 @@
-.oppgaver_header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    svg {
-        flex-shrink: 0;
-    }
-
-    div {
-        padding-left: 1rem;
-        padding-top: 4px;
-        flex-shrink: 4;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .oppgaver_header > svg {
-        width: 15vw;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .oppgaver_panel_bruker_har_oppgaver {
-        padding: 0;
-    }
-}
-
 .luft_over_1rem {
     margin-top: 1rem;
 }
-
-.luft_over_2rem {
-    margin-top: 2rem;
-}
-
 .luft_under_1rem {
     margin-bottom: 1rem;
 }
@@ -45,14 +12,6 @@
 .luft_over_10px {
     display: block;
     margin-top: 10px;
-}
-
-.luft_over_4px {
-    margin-top: 4px;
-}
-
-.luft_under_8px {
-    margin-bottom: 8px;
 }
 
 .oppgaver_detaljer {
@@ -86,10 +45,10 @@
 
 .oppgaver_last_opp_fil {
     display: block;
+}
 
-    .lenke {
-        display: inline-block;
-    }
+.oppgaver_last_opp_fil .lenke {
+    display: inline-block;
 }
 
 .last_opp_fil_ikon {
@@ -97,10 +56,10 @@
     width: 16px;
     float: left;
     margin-right: 0.5rem;
+}
 
-    path {
-        stroke-width: 2px;
-    }
+.last_opp_fil_ikon path {
+    stroke-width: 2px;
 }
 
 @media screen and (max-width: 640px) {
@@ -125,19 +84,6 @@
     }
 }
 
-@media screen and (min-width: 471px) {
-    svg.stort_ikon {
-        width: 100px !important;
-        height: 100px !important;
-    }
-}
-
-@media screen and (max-width: 470px) {
-    svg.stort_ikon {
-        width: 18vw !important;
-    }
-}
-
 .vedlegg_liste_element {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -146,55 +92,39 @@
     padding-bottom: 1px;
     border-bottom: 1px solid #c6c2bf;
     display: inline-table;
+}
 
-    .innhold {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-    }
+.vedlegg_liste_element .innhold {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
 
-    .filnavn {
-        margin-right: 8px;
-    }
+.vedlegg_liste_element .filnavn {
+    margin-right: 8px;
+}
 
-    .filikon {
-        height: 20px;
-        width: 20px;
-        margin-right: 8px;
-        margin-bottom: -2px;
-    }
+.vedlegg_liste_element .filikon {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    margin-bottom: -2px;
+}
 
-    .fjern_lenke {
-        margin-bottom: 4px;
-
-        text-decoration: none;
-    }
-
-    @media screen and (min-width: 641px) {
-        .fjern_lenke {
-            margin-right: 8px;
-        }
-    }
-
-    @media screen and (max-width: 641px) {
-        .fjern_lenke {
-            margin-right: 0;
-        }
-
-        .klikkbar_soppelboette {
-            display: none;
-        }
-    }
-
+@media screen and (max-width: 641px) {
     .klikkbar_soppelboette {
-        margin-left: 0.25rem;
-        height: 20px;
-
-        path {
-            stroke: #0067c5;
-            stroke-width: 1px;
-        }
+        display: none;
     }
+}
+
+.klikkbar_soppelboette {
+    margin-left: 0.25rem;
+    height: 20px;
+}
+
+.klikkbar_soppelboette path {
+    stroke: #0067c5;
+    stroke-width: 1px;
 }
 
 .oppgaver_vedlegg_feilmelding_overskrift {

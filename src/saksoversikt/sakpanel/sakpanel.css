@@ -26,19 +26,11 @@
     }
 }
 
-.periodevelger_container {
-    margin-left: 1rem;
-}
 @media screen and (max-width: 606px) {
     .document_icon {
         height: 20px;
         margin-left: 2px;
         margin-right: 10px;
-    }
-
-    .periodevelger_container {
-        margin-top: 8px;
-        margin-left: 0;
     }
 }
 
@@ -68,10 +60,6 @@
         padding-right: 4px;
         justify-content: left;
     }
-
-    .etikett--fokus {
-        padding: 2px 0.5rem 2px 0.5rem;
-    }
 }
 
 .sakpanel_status {
@@ -86,7 +74,8 @@
     display: flex;
     flex-direction: row;
     width: 24rem;
-    .lastestriper {
-        width: 8rem;
-    }
+}
+
+.sakspanel_status_laster .lastestriper {
+    width: 8rem;
 }

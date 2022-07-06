@@ -1,5 +1,5 @@
 import React from "react";
-import "./infoPanel.less";
+import "./infoPanel.css";
 import {LinkPanel} from "@navikt/ds-react";
 
 const InfoPanelContainer: React.FC<{children: React.ReactNode; className?: string}> = ({children, className}) => {

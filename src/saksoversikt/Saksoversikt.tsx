@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Alert, BodyShort, LinkPanel} from "@navikt/ds-react";
-import "./saksoversikt.less";
+import "./saksoversikt.css";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
 import {

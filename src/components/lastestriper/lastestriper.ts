@@ -1,7 +1,9 @@
-@lasterstriperMork: #ddd9d6;
-@lasterstriperLys: #e9e7e7;
+import styled from "styled-components/macro";
 
-.lastestriper {
+const lasterstriperMork = "#ddd9d6";
+const lasterstriperLys = "#e9e7e7";
+
+export const StyledLastestriper = styled.div`
     display: block;
     width: 100%;
 
@@ -10,7 +12,7 @@
         height: 18px;
         border-radius: 2px;
         margin-bottom: 8px;
-        background-color: @lasterstriperMork;
+        background-color: ${lasterstriperMork};
         webkit-animation-name: animasjon; /* Safari 4.0 - 8.0 */
         -webkit-animation-duration: 1200ms; /* Safari 4.0 - 8.0 */
         -webkit-animation-timing-function: ease-in-out;
@@ -38,10 +40,10 @@
     @-webkit-keyframes animasjon {
         0%,
         100% {
-            background-color: @lasterstriperMork;
+            background-color: ${lasterstriperMork};
         }
         50% {
-            background-color: @lasterstriperLys;
+            background-color: ${lasterstriperLys};
         }
     }
 
@@ -49,10 +51,10 @@
     @keyframes animasjon {
         0%,
         100% {
-            background-color: @lasterstriperMork;
+            background-color: ${lasterstriperMork};
         }
         50% {
-            background-color: @lasterstriperLys;
+            background-color: ${lasterstriperLys};
         }
     }
-}
+`;
