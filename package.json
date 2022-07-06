@@ -47,9 +47,9 @@
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx --fix ./src"
   },
@@ -69,7 +69,6 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^6.4.3",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@types/classnames": "^2.2.10",
@@ -87,7 +86,6 @@
     "@types/styled-components": "^5.1.15",
     "@types/uuid": "^8.0.0",
     "babel-runtime": "^6.26.0",
-    "craco-less": "^2.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.9",
     "prettier": "^2.3.1",

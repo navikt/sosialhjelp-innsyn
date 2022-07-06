@@ -10,6 +10,5 @@
 !package.json
 !package-lock.json
 !nais.yaml
-!craco.config.cjs
 !build
 !server.js
