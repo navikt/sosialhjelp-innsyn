@@ -8,13 +8,13 @@ const SoknadsStatusLenke = (props: {status: SoknadsStatusEnum | null}) => {
         case SoknadsStatusEnum.MOTTATT:
         case SoknadsStatusEnum.UNDER_BEHANDLING:
             return (
-                <Link href="https://www.nav.no/sosialhjelp/behandlingstid">
+                <Link href="https://www.nav.no/okonomisk-sosialhjelp#saksbehandlingstider">
                     Hvor lang tid tar det å behandle søknaden?
                 </Link>
             );
 
         case SoknadsStatusEnum.FERDIGBEHANDLET:
-            return <Link href="https://www.nav.no/sosialhjelp/klage">Hvordan sende klage?</Link>;
+            return <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Hvordan sende klage?</Link>;
     }
     return null;
 };
