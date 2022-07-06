@@ -55,7 +55,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     saker.sort(sammenlignSaksTidspunkt);
 
     /* Paginering */
-    const itemsPerPage = 1;
+    const itemsPerPage = 10;
     let currentPage = 0;
     const pageParam = parse(history.location.search)["side"];
     if (pageParam) {
