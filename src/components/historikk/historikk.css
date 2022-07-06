@@ -1,5 +1,4 @@
 ul.historikk {
-    margin: 0 auto;
     list-style-type: none;
     margin: 0;
     padding-left: 0;
@@ -53,10 +52,4 @@ ul.historikk_start_lukket li:last-of-type:before {
 
 ul.historikk_start li:last-of-type:before {
     border-left: 2px solid #3e3832;
-}
-
-.lesMerPanel__historikk {
-    .lesMerPanel__mer {
-        padding-top: 0;
-    }
 }

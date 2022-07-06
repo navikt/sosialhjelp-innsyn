@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import "./saksoversikt.less";
+import "./saksoversikt.css";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
@@ -140,15 +140,18 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 </Subheader>
 
                 <InfoPanelContainer>
-                    <InfoPanel tittel={"Meld fra om endringer"} href={"https://www.nav.no/sosialhjelp/gi-beskjed"}>
+                    <InfoPanel
+                        tittel={"Meld fra om endringer"}
+                        href={"https://www.nav.no/okonomisk-sosialhjelp#meld-fra-ved-endring"}
+                    >
                         Du må melde fra dersom din økonomiske situasjon endres.
                     </InfoPanel>
 
-                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/sosialhjelp/klage"}>
+                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/okonomisk-sosialhjelp#klage"}>
                         Har du fått et vedtak fra oss som du mener er feil, kan du klage.
                     </InfoPanel>
 
-                    <InfoPanel tittel={"Personopplysninger"} href={"https://www.nav.no/sosialhjelp/personopplysninger"}>
+                    <InfoPanel tittel={"Personopplysninger"} href={"https://www.nav.no/personopplysninger-sosialhjelp"}>
                         Hvordan vi behandler dine personopplysninger
                     </InfoPanel>
                 </InfoPanelContainer>

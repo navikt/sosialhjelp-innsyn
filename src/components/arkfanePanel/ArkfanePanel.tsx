@@ -1,5 +1,5 @@
 import React, {ReactNode, useEffect, useState} from "react";
-import "./mainNav.less";
+import "./mainNav.css";
 import {useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Link, Panel} from "@navikt/ds-react";

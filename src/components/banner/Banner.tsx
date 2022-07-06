@@ -1,6 +1,6 @@
 import {Heading} from "@navikt/ds-react";
 import * as React from "react";
-import "./banner.less";
+import "./banner.css";
 
 const Banner: React.FC<{children: React.ReactNode} & {}> = ({children}) => {
     return (

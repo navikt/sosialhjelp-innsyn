@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./Feilside.less";
+import "./Feilside.css";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";

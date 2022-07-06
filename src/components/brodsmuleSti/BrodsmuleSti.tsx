@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./brodsmuleSti.less";
+import "./brodsmuleSti.css";
 import {Back, Next} from "@navikt/ds-icons";
 import useWindowSize from "../../utils/useWindowSize";
 import {getDittNavUrl} from "../../utils/restUtils";

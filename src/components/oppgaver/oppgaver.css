@@ -46,12 +46,10 @@
 
 .oppgaver_last_opp_fil {
     display: inline-block;
+}
 
-    @media screen and (min-width: 641px) {
-        //position: absolute;
-        right: 1rem;
-        top: 0.3rem;
-    }
+.oppgaver_last_opp_fil .lenke {
+    display: inline-block;
 }
 
 @media screen and (max-width: 640px) {
@@ -78,55 +76,39 @@
     padding-bottom: 1px;
     border-bottom: 1px solid #c6c2bf;
     display: inline-table;
+}
 
-    .innhold {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-    }
+.vedlegg_liste_element .innhold {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
 
-    .filnavn {
-        margin-right: 8px;
-    }
+.vedlegg_liste_element .filnavn {
+    margin-right: 8px;
+}
 
-    .filikon {
-        height: 20px;
-        width: 20px;
-        margin-right: 8px;
-        margin-bottom: -2px;
-    }
+.vedlegg_liste_element .filikon {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    margin-bottom: -2px;
+}
 
-    .fjern_lenke {
-        margin-bottom: 4px;
-
-        text-decoration: none;
-    }
-
-    @media screen and (min-width: 641px) {
-        .fjern_lenke {
-            margin-right: 8px;
-        }
-    }
-
-    @media screen and (max-width: 641px) {
-        .fjern_lenke {
-            margin-right: 0;
-        }
-
-        .klikkbar_soppelboette {
-            display: none;
-        }
-    }
-
+@media screen and (max-width: 641px) {
     .klikkbar_soppelboette {
-        margin-left: 0.25rem;
-        height: 20px;
-
-        path {
-            stroke: #0067c5;
-            stroke-width: 1px;
-        }
+        display: none;
     }
+}
+
+.klikkbar_soppelboette {
+    margin-left: 0.25rem;
+    height: 20px;
+}
+
+.klikkbar_soppelboette path {
+    stroke: #0067c5;
+    stroke-width: 1px;
 }
 
 .oppgaver_vedlegg_feilmelding_overskrift {
