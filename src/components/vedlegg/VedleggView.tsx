@@ -30,9 +30,6 @@ const SorteringListeboks = styled.div`
 `;
 
 const StyledTable = styled(Table)`
-    .navds-table__sort-button {
-        white-space: nowrap;
-    }
     @media screen and (max-width: 640px) {
         thead {
             display: none;
@@ -216,12 +213,17 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         <option value={Kolonne.DATO}>dato</option>
                     </Select>
                 </SorteringListeboks>
-                <StyledTable sort={sortBy} onSortChange={changeSortConfig}>
+                <StyledTable>
                     <Table.Header>
                         <Table.Row>
-                            <Table.ColumnHeader sortKey={Kolonne.FILNAVN} sortable>
-                                <FilnavnHeader>Filnavn</FilnavnHeader>
-                            </Table.ColumnHeader>
+                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.FILNAVN)}>
+                                <Link
+                                    href="#"
+                                    onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
+                                >
+                                    <FilnavnHeader>Filnavn</FilnavnHeader>
+                                </Link>
+                            </Table.HeaderCell>
                             <Table.HeaderCell aria-sort={ariaSort(Kolonne.BESKRIVELSE)}>
                                 <Link
                                     href="#"

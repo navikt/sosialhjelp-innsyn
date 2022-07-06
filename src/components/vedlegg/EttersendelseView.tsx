@@ -166,12 +166,14 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     style={{marginTop: "0px"}}
                 >
                     <TextAndButtonWrapper>
-                        <Label>
-                            <FormattedMessage id="andre_vedlegg.type" />
-                        </Label>
-                        <BodyShort>
-                            <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                        </BodyShort>
+                        <div>
+                            <Label>
+                                <FormattedMessage id="andre_vedlegg.type" />
+                            </Label>
+                            <BodyShort>
+                                <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
+                            </BodyShort>
+                        </div>
                         {kanLasteOppVedlegg && (
                             <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />
                         )}
