@@ -82,11 +82,6 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                     {annenMottaker ? (
                                                         <Label style={{textTransform: "capitalize"}}>
                                                             {utbetalingMaaned.mottaker}
-                                                            {utbetalingMaaned.utbetalingsmetode && (
-                                                                <span style={{textTransform: "lowercase"}}>
-                                                                    &nbsp;({utbetalingMaaned.utbetalingsmetode})&nbsp;
-                                                                </span>
-                                                            )}
                                                         </Label>
                                                     ) : (
                                                         <Label>
