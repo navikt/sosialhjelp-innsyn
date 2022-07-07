@@ -32,7 +32,6 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket
         if (valgtFane === ARKFANER.VEDLEGG) {
-            console.log("sjekk");
             logButtonOrLinkClick("Dine vedlegg");
         }
     }, [valgtFane]);
