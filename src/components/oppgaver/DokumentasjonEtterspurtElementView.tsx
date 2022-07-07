@@ -10,7 +10,7 @@ import {
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FileItemView from "./FileItemView";
-import AddFileButton from "./AddFileButton";
+import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
@@ -89,15 +89,14 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <div className={"tekst-wrapping"}>
-                <Label>{tittel}</Label>
-            </div>
-            {beskrivelse && (
+            <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
-                    <BodyShort>{beskrivelse}</BodyShort>
+                    <Label>{tittel}</Label>
+                    {beskrivelse && <BodyShort>{beskrivelse}</BodyShort>}
                 </div>
-            )}
-            <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
+
+                <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
+            </TextAndButtonWrapper>
 
             {oppgaveElement.filer &&
                 oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (

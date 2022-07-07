@@ -3,7 +3,7 @@ import {DokumentasjonKravElement, Fil, KommuneResponse} from "../../redux/innsyn
 import {alertUser} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import AddFileButton from "./AddFileButton";
+import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
@@ -74,15 +74,14 @@ const DokumentasjonkravElementView: React.FC<{
 
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
-            <div className={"oppgave-detalj-overste-linje"}>
+            <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
                     <Label>{dokumentasjonkravElement.tittel}</Label>
-                </div>
-                {dokumentasjonkravElement.beskrivelse && (
-                    <div className={"tekst-wrapping"}>
+                    {dokumentasjonkravElement.beskrivelse && (
                         <BodyShort>{dokumentasjonkravElement.beskrivelse}</BodyShort>
-                    </div>
-                )}
+                    )}
+                </div>
+
                 {canUploadAttatchemnts && (
                     <AddFileButton
                         onChange={onChangeElement}
@@ -90,7 +89,7 @@ const DokumentasjonkravElementView: React.FC<{
                         id={uuid}
                     />
                 )}
-            </div>
+            </TextAndButtonWrapper>
 
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />

@@ -1,6 +1,7 @@
 .luft_over_1rem {
     margin-top: 1rem;
 }
+
 .luft_under_1rem {
     margin-bottom: 1rem;
 }
@@ -43,25 +44,6 @@
     border: solid 1px #ba3a25 !important;
 }
 
-.oppgaver_last_opp_fil {
-    display: block;
-}
-
-.oppgaver_last_opp_fil .lenke {
-    display: inline-block;
-}
-
-.last_opp_fil_ikon {
-    height: 24px;
-    width: 16px;
-    float: left;
-    margin-right: 0.5rem;
-}
-
-.last_opp_fil_ikon path {
-    stroke-width: 2px;
-}
-
 @media screen and (max-width: 640px) {
     .oppgaver_detaljer {
         padding: 0.5rem;
@@ -75,12 +57,6 @@
 @media screen and (min-width: 641px) {
     .oppgaver_detaljer {
         padding: 1rem;
-    }
-
-    .oppgaver_last_opp_fil {
-        position: absolute;
-        right: 1rem;
-        top: 0.3rem;
     }
 }
 
@@ -185,8 +161,4 @@ a.filnavn {
 
 .tekst-wrapping {
     word-wrap: break-word;
-}
-
-.oppgave-detalj-overste-linje {
-    max-width: 65%;
 }

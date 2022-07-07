@@ -49,9 +49,9 @@ export const onSendVedleggClicked = (
     if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
         try {
             formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
-        } catch (e) {
+        } catch (e: any) {
             dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            logInfoMessage("Validering vedlegg feilet: " + e?.message);
             event.preventDefault();
             return;
         }
@@ -71,9 +71,9 @@ export const onSendVedleggClicked = (
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         try {
             formData = createFormDataWithVedleggFromFiler(filer);
-        } catch (e) {
+        } catch (e: any) {
             dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            logInfoMessage("Validering vedlegg feilet: " + e?.message);
             event.preventDefault();
             return;
         }
