@@ -209,25 +209,12 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     )}
                     {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
                         <ArkfanePanel
-                            className="panel-luft-over"
-                            arkfaner={[
-                                {
-                                    tittel: intl.formatMessage({id: "historikk.tittel"}),
-                                    content: (
-                                        <Historikk
-                                            hendelser={innsynsdata.hendelser}
-                                            restStatus={restStatus.hendelser}
-                                        />
-                                    ),
-                                },
-                                {
-                                    tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                                    content: (
-                                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
-                                    ),
-                                },
-                            ]}
-                            defaultArkfane={0}
+                            historikkChildren={
+                                <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />
+                            }
+                            vedleggChildren={
+                                <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                            }
                         />
                     )}
                     {visMeldingsInfo && (
