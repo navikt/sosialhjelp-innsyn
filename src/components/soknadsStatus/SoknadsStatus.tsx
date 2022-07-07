@@ -86,17 +86,6 @@ const StatusMessageVedtak = styled.div`
     margin-top: 6px;
 `;
 
-export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
-    switch (saksStatus) {
-        case SaksStatus.UNDER_BEHANDLING:
-            return "saksStatus.under_behandling";
-        case SaksStatus.FERDIGBEHANDLET:
-            return "saksStatus.ferdig_behandlet";
-        default:
-            return "";
-    }
-};
-
 interface Props {
     soknadsStatus: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
