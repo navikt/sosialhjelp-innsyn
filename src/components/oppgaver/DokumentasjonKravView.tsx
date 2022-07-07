@@ -1,5 +1,11 @@
 import React, {useState} from "react";
-import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonKrav,
+    Fil,
+    InnsynsdataSti,
+    KommuneResponse,
+    settRestStatus,
+} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
@@ -12,12 +18,20 @@ import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {antallDagerEtterFrist} from "./Oppgaver";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
-import {hentDokumentasjonkravMedId, hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
+import {
+    hentDokumentasjonkravMedId,
+    hentInnsynsdata,
+    innsynsdataUrl,
+    setFileUploadFailed,
+    setFileUploadFailedInBackend,
+    setFileUploadFailedVirusCheckInBackend,
+} from "../../redux/innsynsdata/innsynsDataActions";
 import {formatDato} from "../../utils/formatting";
 import {fileUploadFailedEvent} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
+import {REST_STATUS} from "../../utils/restUtils";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -96,6 +110,10 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         setErrorMessage(undefined);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
 
+        dispatch(
+            setFileUploadFailed(dokumentasjonkrav.dokumentasjonkravId, Object.keys(dokumentasjonkravFiler).length === 0)
+        );
+
         if (Object.keys(dokumentasjonkravFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
@@ -106,12 +124,16 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
+            dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
+            dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonkrav.dokumentasjonkravId, true));
         };
         const handleFileUploadFailed = () => {
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
+            dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
+            dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, true));
         };
         const onSuccessful = (reference: string) => {
             dispatch(
@@ -152,6 +174,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const onChange = (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => {
         setErrorMessage(undefined);
+        dispatch(setFileUploadFailed(dokumentasjonkrav.dokumentasjonkravId, false));
+        dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
 
         if (validFiles.length) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
