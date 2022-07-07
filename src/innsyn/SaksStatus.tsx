@@ -16,7 +16,7 @@ import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {FormattedMessage, IntlShape, useIntl} from "react-intl";
+import {FormattedMessage} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
