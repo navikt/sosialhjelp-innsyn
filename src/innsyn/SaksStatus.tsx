@@ -61,7 +61,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
-    const intl: IntlShape = useIntl();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
     const [harLukketMeldingsInfo, setHarLukketMeldingsInfo] = useLocalStorageState("harLukketMeldingsInfo", "false");
