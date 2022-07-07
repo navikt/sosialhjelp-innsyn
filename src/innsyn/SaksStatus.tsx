@@ -187,7 +187,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
                     {erPaInnsyn && (
                         <SoknadsStatus
-                            status={innsynsdata.soknadsStatus.status}
+                            soknadsStatus={innsynsdata.soknadsStatus.status}
                             sak={innsynsdata.saksStatus}
                             restStatus={restStatus.soknadsStatus}
                         />
