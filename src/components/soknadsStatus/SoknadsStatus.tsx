@@ -12,6 +12,7 @@ import {PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
+import {v4 as uuidv4} from "uuid";
 
 const Container = styled.div`
     padding-top: 3rem;
@@ -142,9 +143,9 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
-
+                            const randomId = uuidv4();
                             return (
-                                <>
+                                <React.Fragment key={randomId}>
                                     <StatusBox key={index}>
                                         <StatusMessage>
                                             <Label>{statusdetalj.tittel}</Label>
@@ -194,7 +195,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                                             ))}
                                     </StatusBox>
                                     <ContentPanelBorder lightColor />
-                                </>
+                                </React.Fragment>
                             );
                         })}
                 </ContentPanelBody>

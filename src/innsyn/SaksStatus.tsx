@@ -16,7 +16,7 @@ import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {FormattedMessage, IntlShape, useIntl} from "react-intl";
+import {FormattedMessage} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
@@ -61,7 +61,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
-    const intl: IntlShape = useIntl();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
     const [harLukketMeldingsInfo, setHarLukketMeldingsInfo] = useLocalStorageState("harLukketMeldingsInfo", "false");
@@ -209,25 +208,12 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     )}
                     {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
                         <ArkfanePanel
-                            className="panel-luft-over"
-                            arkfaner={[
-                                {
-                                    tittel: intl.formatMessage({id: "historikk.tittel"}),
-                                    content: (
-                                        <Historikk
-                                            hendelser={innsynsdata.hendelser}
-                                            restStatus={restStatus.hendelser}
-                                        />
-                                    ),
-                                },
-                                {
-                                    tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                                    content: (
-                                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
-                                    ),
-                                },
-                            ]}
-                            defaultArkfane={0}
+                            historikkChildren={
+                                <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />
+                            }
+                            vedleggChildren={
+                                <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                            }
                         />
                     )}
                     {visMeldingsInfo && (
