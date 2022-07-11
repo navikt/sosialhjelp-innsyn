@@ -108,6 +108,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setIsUploading(false);
         };
         const handleFileUploadFailed = () => {
+            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
@@ -121,6 +122,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )
             );
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
+            dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
 
             setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
             setIsUploading(false);

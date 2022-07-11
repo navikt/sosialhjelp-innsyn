@@ -8,11 +8,6 @@ enum SoknadsStatusEnum {
     BEHANDLES_IKKE = "BEHANDLES_IKKE",
 }
 
-enum SaksStatusEnum {
-    BEHANDLES_IKKE = "BEHANDLES IKKE",
-    IKKE_INNSYN = "IKKE INNSYN",
-}
-
 const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, intl: IntlShape): string => {
     switch (status) {
         case SoknadsStatusEnum.SENDT:
@@ -29,4 +24,4 @@ const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, intl: In
     return "Søknad";
 };
 
-export {SoknadsStatusEnum, SaksStatusEnum, soknadsStatusTittel};
+export {SoknadsStatusEnum, soknadsStatusTittel};

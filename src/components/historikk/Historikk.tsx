@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./historikk.less";
+import "./historikk.css";
 import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
@@ -88,7 +88,6 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
-                                target="_blank"
                                 onClick={() => {
                                     onClickHendelseLenke(hendelse.beskrivelse, hendelse?.filUrl?.linkTekst);
                                 }}

@@ -1,8 +1,27 @@
 import React, {ChangeEvent} from "react";
-import UploadFileIcon from "../ikoner/UploadFile";
 import {FormattedMessage} from "react-intl";
 import {Button, Label} from "@navikt/ds-react";
+import {Upload} from "@navikt/ds-icons";
+import styled from "styled-components/macro";
 
+const StyledUploadIcon = styled(Upload)`
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+`;
+
+export const TextAndButtonWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    button {
+        flex-shrink: 0;
+    }
+
+    @media screen and (max-width: 40em) {
+        flex-direction: column;
+    }
+`;
 const AddFileButton: React.FC<{
     onChange: (event: any, dokumentasjonkravReferanse: string) => void;
     referanse: string;
@@ -17,7 +36,7 @@ const AddFileButton: React.FC<{
     };
 
     return (
-        <div className="oppgaver_last_opp_fil">
+        <>
             <Button
                 variant="tertiary"
                 size="small"
@@ -26,7 +45,7 @@ const AddFileButton: React.FC<{
                     onClick(event);
                 }}
             >
-                <UploadFileIcon className="last_opp_fil_ikon" />
+                <StyledUploadIcon />
                 <Label>
                     <FormattedMessage id="vedlegg.velg_fil" />
                 </Label>
@@ -38,7 +57,7 @@ const AddFileButton: React.FC<{
                 onChange={(event: ChangeEvent) => onChange(event, referanse)}
                 style={{display: "none"}}
             />
-        </div>
+        </>
     );
 };
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import UserIcon from "./UserIcon";
-import "./saksoversiktBanner.less";
+import "./saksoversiktBanner.css";
 import {getDittNavUrl} from "../../utils/restUtils";
 import {BodyShort, Heading, Link} from "@navikt/ds-react";
 

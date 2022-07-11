@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import "./oppgaver.less";
+import "./oppgaver.css";
 import {
     DokumentasjonEtterspurt,
     Feilside,

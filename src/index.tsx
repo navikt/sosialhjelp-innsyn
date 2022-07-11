@@ -3,7 +3,7 @@ import "@navikt/ds-css";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.less";
+import "./index.css";
 import App from "./App";
 import "formdata-polyfill";
 import Modal from "react-modal";

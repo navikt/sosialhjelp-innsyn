@@ -27,14 +27,18 @@ const SaksoversiktIngenSoknader: React.FC = () => {
             </StyledGuidePanel>
 
             <div className={"soknadsOversiktLenkePanel"}>
-                <LinkPanel className={"soknadsOversiktLenker"} href={"https://www.nav.no/sosialhjelp/"} border={false}>
+                <LinkPanel
+                    className={"soknadsOversiktLenker"}
+                    href={"https://www.nav.no/okonomisk-sosialhjelp"}
+                    border={false}
+                >
                     <div className={"soknadsOversiktLenkerAlign"}>
                         <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
                     </div>
                 </LinkPanel>
                 <LinkPanel
                     className={"soknadsOversiktLenker"}
-                    href={"https://www.nav.no/sosialhjelp/slik-soker-du"}
+                    href={"https://www.nav.no/okonomisk-sosialhjelp#soknad"}
                     border={false}
                 >
                     <div className={"soknadsOversiktLenkerAlign"}>

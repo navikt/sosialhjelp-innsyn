@@ -6,11 +6,12 @@
 
 .dine_utbetalinger_panel {
     padding: 1.5rem 1rem 1.5rem 2rem;
+}
 
-    @media screen and (max-width: 640px) {
+@media screen and (max-width: 640px) {
+    .dine_utbetalinger_panel {
         padding-left: 16px;
     }
-    // padding-right: 42px;
 }
 
 .dine_utbetalinger_innhold {
