@@ -6,8 +6,7 @@ import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {VilkarView} from "../VilkarView";
 
 export const getUnikeVilkar = (vilkar: Vilkar[]) => {
-    const vilkarCopy = Array.from(vilkar);
-    return vilkarCopy.filter(
+    return vilkar.filter(
         (vilkarElement, index, self) =>
             index ===
             self.findIndex((it) => it.beskrivelse === vilkarElement.beskrivelse && it.tittel === vilkarElement.tittel)
@@ -15,7 +14,7 @@ export const getUnikeVilkar = (vilkar: Vilkar[]) => {
 };
 export const VilkarAccordion = (props: {vilkar: Vilkar[]}) => {
     const unikeVilkar = getUnikeVilkar(props.vilkar);
-
+    console.log(props.vilkar, unikeVilkar);
     return (
         <Accordion>
             <Accordion.Item>
