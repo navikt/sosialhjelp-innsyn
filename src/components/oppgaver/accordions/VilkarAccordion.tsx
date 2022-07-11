@@ -14,7 +14,7 @@ export const getUnikeVilkar = (vilkar: Vilkar[]) => {
 };
 export const VilkarAccordion = (props: {vilkar: Vilkar[]}) => {
     const unikeVilkar = getUnikeVilkar(props.vilkar);
-    console.log(props.vilkar, unikeVilkar);
+    console.log("vilkår", props.vilkar, unikeVilkar);
     return (
         <Accordion>
             <Accordion.Item>
