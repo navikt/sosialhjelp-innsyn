@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./Feilside.css";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
@@ -8,7 +7,14 @@ import {BodyLong, Heading, Link} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
+import styled from "styled-components/macro";
 
+const FeilsideWrapper = styled.div.attrs({className: "blokk-center"})`
+    .breadcrumbs {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+`;
 export interface FeilsideProps {
     children: React.ReactNode;
 }
@@ -20,9 +26,9 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
         return (
             <div className="informasjon-side">
                 <AppBanner />
-                <div className="feilside blokk-center">
+                <FeilsideWrapper>
                     <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
-                    <UthevetPanel className="panel-uthevet-luft-under">
+                    <UthevetPanel>
                         {feilside === FeilsideEnum.TEKNISKE_PROBLEMER && (
                             <>
                                 <Heading level="1" size="large" spacing>
@@ -42,7 +48,7 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                             </>
                         )}
                     </UthevetPanel>
-                </div>
+                </FeilsideWrapper>
             </div>
         );
     }
