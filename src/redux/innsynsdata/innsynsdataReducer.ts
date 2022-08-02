@@ -124,6 +124,7 @@ export enum InnsynsdataActionTypeKeys {
     SETT_FORNAVN = "innsynsdata/SETT_FORNAVN",
     HENT_DIALOGSTATUS = "innsynsdata/HENT_DIALOGSTATUS",
     HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV = "innsynsdata/HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV",
+    FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "innsynsdata/FAGSYSTEM_HAR_DOKUMENTASJONKRAV",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
@@ -159,6 +160,7 @@ export enum InnsynsdataSti {
     VILKAR = "vilkar",
     DIALOG_STATUS = "dialogstatus",
     HAR_LEVERT_DOKUMENTASJONKRAV = "harLeverteDokumentasjonkrav",
+    FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "fagsystemHarDokumentasjonkrav",
 }
 
 export interface InnsynsdataActionType {
@@ -248,6 +250,7 @@ export interface InnsynsdataType {
     oppgaver: DokumentasjonEtterspurt[];
     dokumentasjonkrav: DokumentasjonKrav[];
     harLevertTidligereDokumentasjonkrav: boolean;
+    fagsystemHarDokumentasjonkrav: boolean;
     vilkar: Vilkar[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
@@ -288,6 +291,7 @@ export const initialState: InnsynsdataType = {
     oppgaver: [],
     dokumentasjonkrav: [],
     harLevertTidligereDokumentasjonkrav: false,
+    fagsystemHarDokumentasjonkrav: false,
     vilkar: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
@@ -354,6 +358,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
             return {
                 ...state,
                 harLevertTidligereDokumentasjonkrav: action.verdi,
+            };
+        case InnsynsdataActionTypeKeys.FAGSYSTEM_HAR_DOKUMENTASJONKRAV:
+            return {
+                ...state,
+                fagsystemHarDokumentasjonkrav: action.verdi,
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
             const oppgave: DokumentasjonEtterspurt[] = action.verdi;
@@ -773,6 +782,14 @@ export const hentHarLevertDokumentasjonkrav = (verdi: Boolean): InnsynsdataActio
     return {
         type: InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV,
         sti: InnsynsdataSti.HAR_LEVERT_DOKUMENTASJONKRAV,
+        verdi,
+    };
+};
+
+export const hentFagsystemHarDokumentasjonkrav = (verdi: Boolean): InnsynsdataActionType => {
+    return {
+        type: InnsynsdataActionTypeKeys.FAGSYSTEM_HAR_DOKUMENTASJONKRAV,
+        sti: InnsynsdataSti.FAGSYSTEM_HAR_DOKUMENTASJONKRAV,
         verdi,
     };
 };

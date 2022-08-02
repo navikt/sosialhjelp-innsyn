@@ -3,6 +3,7 @@ import "./oppgaver.css";
 import {
     DokumentasjonEtterspurt,
     Feilside,
+    hentFagsystemHarDokumentasjonkrav,
     hentHarLevertDokumentasjonkrav,
     visFeilside,
 } from "../../redux/innsynsdata/innsynsdataReducer";
@@ -115,6 +116,14 @@ const Oppgaver = () => {
             );
         }
     }, [dispatch, fiksDigisosId, filtrerteDokumentasjonkrav]);
+
+    useEffect(() => {
+        if (fiksDigisosId) {
+            fetchToJson(`/innsyn/${fiksDigisosId}/fagsystemHarDokumentasjonkrav`).then((verdi: any) =>
+                dispatch(hentFagsystemHarDokumentasjonkrav(verdi))
+            );
+        }
+    }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
         if (fiksDigisosId) {

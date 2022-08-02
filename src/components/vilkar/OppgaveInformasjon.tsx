@@ -39,6 +39,10 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
         (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
     );
 
+    const fagsystemHarDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.fagsystemHarDokumentasjonkrav
+    );
+
     const harSakInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe);
     const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
 
@@ -47,6 +51,7 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
         vilkar.length === 0 &&
         dokumentasjonkrav.length === 0 &&
         harSaker &&
+        !fagsystemHarDokumentasjonkrav &&
         !harLevertDokumentasjonkrav
     ) {
         return (
