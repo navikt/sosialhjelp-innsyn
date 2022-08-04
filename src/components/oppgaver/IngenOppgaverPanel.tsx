@@ -46,9 +46,8 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
         return (
             !harOppgaver &&
-            ((fagsystemHarDokumentasjonkrav &&
-                harLevertDokumentasjonkrav &&
-                harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+            ((harLevertDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+                (fagsystemHarDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
                 !harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) ||
                 !harSaker)
         );
