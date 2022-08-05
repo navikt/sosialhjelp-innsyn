@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./saksoversikt.css";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
-import InfoPanel, {InfoPanelContainer} from "../components/Infopanel/InfoPanel";
+import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
@@ -139,7 +139,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                     </Heading>
                 </Subheader>
 
-                <InfoPanelContainer>
+                <InfoPanelWrapper>
                     <InfoPanel
                         tittel={"Meld fra om endringer"}
                         href={"https://www.nav.no/okonomisk-sosialhjelp#meld-fra-ved-endring"}
@@ -154,7 +154,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                     <InfoPanel tittel={"Personopplysninger"} href={"https://www.nav.no/personopplysninger-sosialhjelp"}>
                         Hvordan vi behandler dine personopplysninger
                     </InfoPanel>
-                </InfoPanelContainer>
+                </InfoPanelWrapper>
             </>
         </>
     );

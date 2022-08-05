@@ -1,6 +1,5 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import "./Tilgangskontrollside.css";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
@@ -10,9 +9,15 @@ import {Feilside, InnsynsdataActionTypeKeys, visFeilside} from "../../redux/inns
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
-import {BodyShort, Heading} from "@navikt/ds-react";
+import {BodyLong, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
+import styled from "styled-components";
 
+const StyledElla = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
 }
@@ -69,21 +74,23 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                 <div className="informasjon-side">
                     <BigBanner tittel="Økonomisk sosialhjelp" />
                     <div className={"blokk-center"}>
-                        <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
-                        <div className="tilgangskontroll">
-                            <UthevetPanel className="panel-uthevet-luft-under panel-glippe-over">
-                                <div className="ellablunk-rad">
-                                    <EllaBlunk size={"175"} />
-                                </div>
-                                <Heading level="1" size="large" spacing className="blokk-xs">
-                                    Hei {fornavn}
-                                </Heading>
-                                <BodyShort spacing>
-                                    Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta
-                                    kontakt med ditt lokale NAV-kontor for å få hjelp til å søke.
-                                </BodyShort>
-                            </UthevetPanel>
-                        </div>
+                        <Brodsmulesti
+                            tittel="Innsyn"
+                            foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}}
+                            className="breadcrumbs__luft_rundt"
+                        />
+                        <UthevetPanel className="panel-glippe-over">
+                            <StyledElla>
+                                <EllaBlunk size={"175"} />
+                            </StyledElla>
+                            <Heading as="p" size="large" spacing>
+                                Hei {fornavn}
+                            </Heading>
+                            <BodyLong spacing>
+                                Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt
+                                med ditt lokale NAV-kontor for å få hjelp til å søke.
+                            </BodyLong>
+                        </UthevetPanel>
                     </div>
                 </div>
             );
