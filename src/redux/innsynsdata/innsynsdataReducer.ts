@@ -786,7 +786,7 @@ export const hentHarLevertDokumentasjonkrav = (verdi: Boolean): InnsynsdataActio
     };
 };
 
-export const hentFagsystemHarDokumentasjonkrav = (verdi: Boolean): InnsynsdataActionType => {
+export const settFagsystemHarDokumentasjonkrav = (verdi: Boolean): InnsynsdataActionType => {
     return {
         type: InnsynsdataActionTypeKeys.FAGSYSTEM_HAR_DOKUMENTASJONKRAV,
         sti: InnsynsdataSti.FAGSYSTEM_HAR_DOKUMENTASJONKRAV,

@@ -3,8 +3,8 @@ import "./oppgaver.css";
 import {
     DokumentasjonEtterspurt,
     Feilside,
-    hentFagsystemHarDokumentasjonkrav,
     hentHarLevertDokumentasjonkrav,
+    settFagsystemHarDokumentasjonkrav,
     visFeilside,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -120,7 +120,7 @@ const Oppgaver = () => {
     useEffect(() => {
         if (fiksDigisosId) {
             fetchToJson(`/innsyn/${fiksDigisosId}/fagsystemHarDokumentasjonkrav`).then((verdi: any) =>
-                dispatch(hentFagsystemHarDokumentasjonkrav(verdi))
+                dispatch(settFagsystemHarDokumentasjonkrav(verdi))
             );
         }
     }, [dispatch, fiksDigisosId]);
