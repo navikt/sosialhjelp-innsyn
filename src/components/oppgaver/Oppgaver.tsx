@@ -4,6 +4,7 @@ import {
     DokumentasjonEtterspurt,
     Feilside,
     hentHarLevertDokumentasjonkrav,
+    settFagsystemHarDokumentasjonkrav,
     visFeilside,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -115,6 +116,14 @@ const Oppgaver = () => {
             );
         }
     }, [dispatch, fiksDigisosId, filtrerteDokumentasjonkrav]);
+
+    useEffect(() => {
+        if (fiksDigisosId) {
+            fetchToJson(`/innsyn/${fiksDigisosId}/fagsystemHarDokumentasjonkrav`).then((verdi: any) =>
+                dispatch(settFagsystemHarDokumentasjonkrav(verdi))
+            );
+        }
+    }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
         if (fiksDigisosId) {

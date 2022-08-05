@@ -36,6 +36,10 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
     );
 
+    const fagsystemHarDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.fagsystemHarDokumentasjonkrav
+    );
+
     const skalViseIngenOppgaverPanel = () => {
         const harOppgaver =
             finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
@@ -43,6 +47,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         return (
             !harOppgaver &&
             ((harLevertDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+                (fagsystemHarDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
                 !harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) ||
                 !harSaker)
         );
