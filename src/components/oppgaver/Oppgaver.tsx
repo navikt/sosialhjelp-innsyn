@@ -159,7 +159,7 @@ const Oppgaver = () => {
                     setFetchError(true);
                 });
         }
-    }, [setSakUtbetalinger, dispatch, fiksDigisosId, setFetchError]);
+    }, [setSakUtbetalinger, fiksDigisosId, setFetchError]);
 
     useEffect(() => {
         const todaysDate = new Date();
