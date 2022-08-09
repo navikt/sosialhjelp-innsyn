@@ -1,7 +1,7 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {FormattedMessage} from "react-intl";
-import {DokumentasjonKrav, Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "../DokumentasjonKravView";
 import React from "react";
 
