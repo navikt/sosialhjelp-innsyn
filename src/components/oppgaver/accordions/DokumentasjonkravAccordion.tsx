@@ -5,7 +5,12 @@ import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "../DokumentasjonKravView";
 import React from "react";
 
-export const DokumentasjonkravAccordion = (props: {dokumentasjonkrav: DokumentasjonKrav[]}) => {
+interface Props {
+    dokumentasjonkrav: DokumentasjonKrav[];
+    feilmelding?: React.ReactNode;
+}
+
+export const DokumentasjonkravAccordion = (props: Props) => {
     return (
         <Accordion>
             <Accordion.Item>
@@ -20,6 +25,7 @@ export const DokumentasjonkravAccordion = (props: {dokumentasjonkrav: Dokumentas
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
+                    {props.feilmelding}
                     {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
                         <DokumentasjonKravView dokumentasjonkrav={krav} key={index} dokumentasjonkravIndex={index} />
                     ))}

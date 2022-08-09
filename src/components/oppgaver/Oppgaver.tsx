@@ -2,10 +2,8 @@ import React, {useEffect, useState} from "react";
 import "./oppgaver.css";
 import {
     DokumentasjonEtterspurt,
-    Feilside,
     hentHarLevertDokumentasjonkrav,
     settFagsystemHarDokumentasjonkrav,
-    visFeilside,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
@@ -14,16 +12,21 @@ import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {Heading, Panel} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {VilkarAccordion} from "./accordions/VilkarAccordion";
 import {DokumentasjonkravAccordion} from "./accordions/DokumentasjonkravAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./accordions/DokumentasjonEtterspurtAccordion";
 import {add, isBefore} from "date-fns";
+import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--navds-semantic-color-border-muted);
     padding-left: 0.75rem;
+`;
+
+const StyledAlert = styled(Alert)`
+    margin-top: 0.5rem;
 `;
 
 const StyledPanel = styled(Panel)`
@@ -66,7 +69,8 @@ export interface UtbetalingerResponse {
     tom: string;
     status: "STOPPET" | "ANNULLERT" | "PLANLAGT_UTBETALING" | "UTBETALT";
 }
-
+/* Alle vilkår og dokumentasjonskrav fjernes hvis alle utbetalinger har status utbetalt/annullert
+ og er forbigått utbetalingsperioden med 21 dager */
 export const filterUtbetalinger = (utbetalinger: UtbetalingerResponse[], todaysDate: Date) => {
     return utbetalinger
         .filter((utbetaling) => utbetaling.status === "UTBETALT" || utbetaling.status === "ANNULLERT")
@@ -87,6 +91,14 @@ export const skalSkjuleVilkarOgDokKrav = (
 
 const DAGER_SIDEN_UTBETALINGSPERIODEN_ER_FORBIGAATT = 21;
 
+const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
+    return fetchError ? (
+        <StyledAlert variant="error">
+            <BodyShort>Vi klarte ikke å hente oppdatert informasjon.</BodyShort>
+            <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+        </StyledAlert>
+    ) : null;
+};
 const Oppgaver = () => {
     const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
         (state: InnsynAppState) => state.innsynsdata
@@ -96,6 +108,7 @@ const Oppgaver = () => {
     const [sakUtbetalinger, setSakUtbetalinger] = useState<UtbetalingerResponse[]>([]);
     const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
+    const [fetchError, setFetchError] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -127,6 +140,7 @@ const Oppgaver = () => {
 
     useEffect(() => {
         if (fiksDigisosId) {
+            setFetchError(false);
             fetchToJson<SaksUtbetalingResponse[]>(`/innsyn/${fiksDigisosId}/utbetalinger`)
                 .then((response) => {
                     const utbetalinger = response.reduce((acc: UtbetalingerResponse[], utbetaling) => {
@@ -140,11 +154,12 @@ const Oppgaver = () => {
                     }, []);
                     setSakUtbetalinger(utbetalinger);
                 })
-                .catch(() => {
-                    dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
+                .catch((reason) => {
+                    logWarningMessage(reason.message, reason.navCallId);
+                    setFetchError(true);
                 });
         }
-    }, [setSakUtbetalinger, dispatch, fiksDigisosId]);
+    }, [setSakUtbetalinger, fiksDigisosId, setFetchError]);
 
     useEffect(() => {
         const todaysDate = new Date();
@@ -187,10 +202,18 @@ const Oppgaver = () => {
                         />
                     )}
 
-                    {filtrerteVilkar?.length > 0 && <VilkarAccordion vilkar={filtrerteVilkar} />}
+                    {filtrerteVilkar?.length > 0 && (
+                        <VilkarAccordion
+                            vilkar={filtrerteVilkar}
+                            feilmelding={<Feilmelding fetchError={fetchError} />}
+                        />
+                    )}
 
                     {filtrerteDokumentasjonkrav?.length > 0 && (
-                        <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav} />
+                        <DokumentasjonkravAccordion
+                            dokumentasjonkrav={filtrerteDokumentasjonkrav}
+                            feilmelding={<Feilmelding fetchError={fetchError} />}
+                        />
                     )}
                 </>
             )}
