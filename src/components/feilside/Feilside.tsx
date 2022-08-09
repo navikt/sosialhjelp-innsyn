@@ -2,7 +2,7 @@ import * as React from "react";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
-import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
+import Brodsmulesti, {UrlType} from "../brodsmuleSti/BrodsmuleSti";
 import {BodyLong, Heading, Link} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -27,7 +27,14 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
             <div className="informasjon-side">
                 <AppBanner />
                 <FeilsideWrapper>
-                    <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
+                    <Brodsmulesti
+                        tittel="Innsyn"
+                        foreldreside={{
+                            tittel: "Økonomisk sosialhjelp",
+                            path: "/sosialhjelp/innsyn/",
+                            urlType: UrlType.ABSOLUTE_PATH,
+                        }}
+                    />
                     <UthevetPanel>
                         {feilside === FeilsideEnum.TEKNISKE_PROBLEMER && (
                             <>
