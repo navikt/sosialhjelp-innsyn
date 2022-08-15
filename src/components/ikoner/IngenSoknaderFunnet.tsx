@@ -5,12 +5,12 @@ class IngenSoknaderFunnet extends React.Component {
         return (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="73"
-                height="83"
+                width="5rem"
+                height="5rem"
                 viewBox="0 0 73 83"
-                className="ingenSoknadFunnet"
                 aria-hidden="true"
                 pointerEvents="none"
+                preserveAspectRatio="xMidYMin"
             >
                 <title>Skjema med forstørrelsesglass</title>
                 <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
