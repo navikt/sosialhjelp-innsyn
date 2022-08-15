@@ -13,13 +13,33 @@ import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {BodyShort, Button, Heading, Panel} from "@navikt/ds-react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
+import {SakspanelMaxBreakpoint} from "../styles/constants";
 
 const IngenSoknaderPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
         padding-left: 4rem;
         padding-right: 4rem;
     }
+`;
+
+const StyledDineSoknaderPanel = styled(Panel)`
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-left: 64px; /* Tar høyde for bredden på svg-ikon i SaksPanel */
+
+    @media screen and (max-width: ${SakspanelMaxBreakpoint}) {
+        padding-left: var(--navds-spacing-4);
+    }
+`;
+
+const StyledHeading = styled(Heading)`
+    //margin-right: 1rem;
+    white-space: nowrap;
 `;
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
@@ -80,16 +100,14 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     // noinspection HtmlUnknownTarget
     return (
         <>
-            <div className="dine_soknader_panel ">
-                <Heading level="2" size="medium" className="dine_soknader_panel_overskrift">
+            <StyledDineSoknaderPanel>
+                <StyledHeading level="2" size="medium">
                     Dine søknader
-                </Heading>
-                <div className="knapp_og_periode_container">
-                    <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
-                        Ny søknad
-                    </Button>
-                </div>
-            </div>
+                </StyledHeading>
+                <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
+                    Ny søknad
+                </Button>
+            </StyledDineSoknaderPanel>
 
             {paginerteSaker.map((sak: Sakstype) => {
                 let key = sak.fiksDigisosId;
