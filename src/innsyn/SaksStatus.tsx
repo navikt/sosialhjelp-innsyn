@@ -84,8 +84,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
             const saksStatuser = innsynsdata.saksStatus?.map((item) => item.status);
 
-            console.log("lagrer sak ampl", saksStatuser);
-
             return {
                 antallSaker: innsynsdata.saksStatus.length,
                 harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
