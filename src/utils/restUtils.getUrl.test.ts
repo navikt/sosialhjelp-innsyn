@@ -1,4 +1,4 @@
-import {getBaseUrl, isLocalhost, isLabs, isDevSbs, getSoknadBaseUrl, getNavUrl, isDev} from "./restUtils";
+import {getBaseUrl, isLocalhost, isLabs, isDevSbs, getSoknadBaseUrl, isDev} from "./restUtils";
 
 const localhostOrigins = [
     "http://localhost:3003/sosialhjelp/innsyn",

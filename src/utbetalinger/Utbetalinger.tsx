@@ -20,7 +20,6 @@ import {
     visFeilside,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {Heading} from "@navikt/ds-react";
 import {useLocation} from "react-router";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {InnsynAppState} from "../redux/reduxTypes";
