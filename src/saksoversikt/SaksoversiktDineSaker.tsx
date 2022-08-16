@@ -38,7 +38,6 @@ const StyledDineSoknaderPanel = styled(Panel)`
 `;
 
 const StyledHeading = styled(Heading)`
-    //margin-right: 1rem;
     white-space: nowrap;
 `;
 
