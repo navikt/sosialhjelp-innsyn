@@ -1,0 +1,164 @@
+.luft_over_1rem {
+    margin-top: 1rem;
+}
+
+.luft_under_1rem {
+    margin-bottom: 1rem;
+}
+
+.luft_over_16px {
+    margin-top: 16px;
+}
+
+.luft_over_10px {
+    display: block;
+    margin-top: 10px;
+}
+
+.oppgaver_detaljer {
+    border: 1px solid #e9e7e7;
+    border-radius: 2px;
+    padding: 1rem;
+}
+
+.oppgaver_detaljer_feil_ramme {
+    border: solid 1px #ba3a25 !important;
+    border-radius: 2px;
+    padding: 1rem;
+}
+
+.oppgaver_detalj {
+    position: relative;
+    margin-top: 16px;
+    background-color: #e9e7e7;
+    border-radius: 2px;
+    padding: 0.7rem 1rem 0.5rem 1rem;
+}
+
+.oppgaver_detalj_feil {
+    border: solid 1px #ba3a25 !important;
+    background-color: #f3e4e3 !important;
+}
+
+.oppgaver_detalj_feil_ramme {
+    border: solid 1px #ba3a25 !important;
+}
+
+@media screen and (max-width: 640px) {
+    .oppgaver_detaljer {
+        padding: 0.5rem;
+    }
+
+    .oppgaver_panel {
+        padding: 1rem;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .oppgaver_detaljer {
+        padding: 1rem;
+    }
+}
+
+.vedlegg_liste_element {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    height: 38px;
+    padding-bottom: 1px;
+    border-bottom: 1px solid #c6c2bf;
+    display: inline-table;
+}
+
+.vedlegg_liste_element .innhold {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.vedlegg_liste_element .filnavn {
+    margin-right: 8px;
+}
+
+.vedlegg_liste_element .filikon {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    margin-bottom: -2px;
+}
+
+@media screen and (max-width: 641px) {
+    .klikkbar_soppelboette {
+        display: none;
+    }
+}
+
+.klikkbar_soppelboette {
+    margin-left: 0.25rem;
+    height: 20px;
+}
+
+.klikkbar_soppelboette path {
+    stroke: #0067c5;
+    stroke-width: 1px;
+}
+
+.oppgaver_vedlegg_feilmelding_overskrift {
+    margin-top: 0.5rem;
+}
+
+.oppgaver_vedlegg_feilmelding_bullet_point {
+    position: relative;
+    left: -7.5px;
+}
+
+.oppgaver_vedlegg_feilmelding {
+    margin-top: 0.5rem;
+    margin-left: 1.25rem;
+}
+
+.oppgaver_vedlegg_feilmelding_ul_plassering {
+    padding: 0;
+}
+
+.oppgaver_vedlegg_feilmelding_rad {
+    margin: 0.5rem 0 0.5rem 2rem;
+}
+
+a.filnavn {
+    display: inline-block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: -5px;
+}
+
+@media screen and (max-width: 1230px) {
+    a.filnavn {
+        max-width: 28vw;
+    }
+}
+
+@media screen and (min-width: 1231px) {
+    a.filnavn {
+        max-width: 350px;
+    }
+}
+
+.filstorrelse {
+    display: inline-block;
+}
+
+.fjern_lenkeboks {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.filnavn_lenkeboks {
+    margin-bottom: 2px;
+}
+
+.tekst-wrapping {
+    word-wrap: break-word;
+}

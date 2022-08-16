@@ -1,0 +1,15 @@
+{
+  "applicationName": "sosialhjelp-innsyn",
+  "namespace": "teamdigisos",
+  "ingresses": [
+    "https://sosialhjelp-innsyn.prod-gcp.nais.io/sosialhjelp/innsyn"
+  ],
+  "prometheusEnabled": true,
+  "dekoratorMiljo": "prod",
+  "minReplicas": "2",
+  "maxReplicas": "4",
+  "cpuLimit": "200m",
+  "memoryLimit": "256Mi",
+  "cpuRequest": "10m",
+  "memoryRequest": "64Mi"
+}

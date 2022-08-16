@@ -1,24 +1,20 @@
 import * as React from "react";
-import TodoList from "../ikoner/TodoList";
 import {FormattedMessage} from "react-intl";
-import PaperClip from "../ikoner/PaperClip";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
 import {
     DokumentasjonEtterspurt,
     DokumentasjonKrav,
     SaksStatusState,
     Vilkar,
 } from "../../redux/innsynsdata/innsynsdataReducer";
-import {getSkalViseVilkarView} from "../vilkar/VilkarUtils";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
+import {Attachment, Task} from "@navikt/ds-icons";
+import {useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
 
 const StyledPanel = styled(Panel)`
-    @media screen and (min-width: 641px) {
-        padding-left: 80px;
-        padding-right: 80px;
-    }
+    margin: 1.5rem 0;
 `;
 
 interface Props {
@@ -32,17 +28,28 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
-
     const finnesOppgaver = (oppgaveArray: any) => {
         return oppgaveArray && Array.isArray(oppgaveArray) && oppgaveArray.length > 0;
     };
 
+    const harLevertDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
+    );
+
+    const fagsystemHarDokumentasjonkrav: Boolean = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.fagsystemHarDokumentasjonkrav
+    );
+
     const skalViseIngenOppgaverPanel = () => {
-        return !(
-            getSkalViseVilkarView(innsynSaksStatusListe) ||
-            finnesOppgaver(dokumentasjonEtterspurt) ||
-            finnesOppgaver(dokumentasjonkrav) ||
-            finnesOppgaver(vilkar)
+        const harOppgaver =
+            finnesOppgaver(dokumentasjonEtterspurt) || finnesOppgaver(dokumentasjonkrav) || finnesOppgaver(vilkar);
+        const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
+        return (
+            !harOppgaver &&
+            ((harLevertDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+                (fagsystemHarDokumentasjonkrav && harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe)) ||
+                !harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe) ||
+                !harSaker)
         );
     };
 
@@ -51,7 +58,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
             <StyledPanel className={"panel-glippe-over oppgaver_panel "}>
                 <div>
                     <span style={{float: "left", marginTop: "6px"}}>
-                        <TodoList />
+                        <Task width="1.5rem" height="1.5rem" />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
                         <Label>
@@ -64,7 +71,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                 </div>
                 <div style={{marginTop: "20px"}}>
                     <span style={{float: "left", marginTop: "6px"}}>
-                        <PaperClip />
+                        <Attachment width="1.5rem" height="1.5rem" />
                     </span>
                     <div style={{paddingLeft: "38px"}}>
                         <Label>

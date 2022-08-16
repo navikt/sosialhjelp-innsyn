@@ -11,46 +11,23 @@ export function isLocalhost(origin: string) {
 }
 
 export function isDevSbs(origin: string): boolean {
-    return (
-        origin.indexOf("www-q") >= 0 ||
-        origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0 ||
-        origin.indexOf("sosialhjelp-innsyn-intern.dev.nav.no") >= 0
-    );
+    return origin.indexOf("www-q") >= 0 || origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0;
 }
 
-export function isQ1(origin: string): boolean {
-    return isDevSbs(origin) && (origin.indexOf("-q1") >= 0 || origin.indexOf("-intern") >= 0);
+export function isDev(origin: string): boolean {
+    return origin.indexOf("digisos.dev.nav.no") >= 0;
 }
 
-export function isQGammelVersjon(origin: string): boolean {
-    /* Vi endrer url til www-q*.dev.nav.no. Denne funksjonen returnerer true når den gamle URL-en blir benyttet.
-     * Den gamle URL-en vil bli benyttet en stund av kommuner. */
-    return origin.indexOf("www-q0.nav.no") >= 0 || origin.indexOf("www-q1.nav.no") >= 0;
+export function isMock(origin: string): boolean {
+    return origin.indexOf("digisos.ekstern.dev.nav.no") >= 0;
 }
 
-export function isDevGcpWithProxy(origin: string): boolean {
-    return origin.indexOf("digisos-gcp.dev.nav.no") >= 0;
-}
-
-export function isDevGcpWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn-gcp.dev.nav.no") >= 0;
-}
-
-export function isLabsGcpWithProxy(origin: string): boolean {
+export function isLabs(origin: string): boolean {
     return origin.indexOf("digisos.labs.nais.io") >= 0;
 }
 
-export function isLabsGcpWithoutProxy(origin: string): boolean {
-    return origin.indexOf("innsyn.labs.nais.io") >= 0;
-}
-
-export function isMockServer(origin: string): boolean {
-    return (
-        isLabsGcpWithoutProxy(origin) ||
-        isLabsGcpWithProxy(origin) ||
-        isDevGcpWithoutProxy(origin) ||
-        isDevGcpWithProxy(origin)
-    );
+export function isUsingMockAlt(origin: string): boolean {
+    return isLabs(origin) || isMock(origin);
 }
 
 export function getApiBaseUrl(): string {
@@ -61,12 +38,12 @@ export function getBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
     }
-    if (isMockServer(origin)) {
+    if (isUsingMockAlt(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin)) {
+    } else if (isDevSbs(origin) || isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
@@ -83,7 +60,7 @@ export function getSoknadBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:8181/sosialhjelp/soknad-api";
     }
-    if (isDevSbs(origin) || isMockServer(origin)) {
+    if (isDevSbs(origin) || isUsingMockAlt(origin) || isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
             "/sosialhjelp/soknad-api"
@@ -92,16 +69,9 @@ export function getSoknadBaseUrl(origin: string): string {
     return "https://www.nav.no/sosialhjelp/soknad-api";
 }
 
-export function getDittNavUrl(): string {
-    return getNavUrl(window.location.origin);
-}
-
 export function getNavUrl(origin: string): string {
-    if (isQ1(origin)) {
-        return "https://www-q1.nav.no/person/dittnav/";
-    }
-    if (isLocalhost(origin) || isMockServer(origin) || isDevSbs(origin)) {
-        return "https://www-q0.nav.no/person/dittnav/";
+    if (isLocalhost(origin) || isUsingMockAlt(origin) || isDevSbs(origin) || isDev(origin)) {
+        return "https://www.dev.nav.no/person/dittnav/";
     } else {
         return "https://www.nav.no/person/dittnav/";
     }
@@ -168,23 +138,28 @@ export enum HttpErrorType {
     UNAUTHORIZED_LOOP = "unauthorized_loop",
     FORBIDDEN = "Forbidden",
     SERVICE_UNAVAILABLE = "Service Unavailable",
+    NOT_FOUND = "Not found",
 }
 
-export const serverRequest = (
-    method: string,
-    urlPath: string,
-    body: string | null | FormData,
-    contentType?: string,
-    isSoknadApi?: boolean,
-    callId?: string
-) => {
-    const headers = getHeaders(contentType, callId);
+function addXsrfHeadersIfPutOrPost(method: string, headers: Headers) {
     if (method === RequestMethod.PUT || method === RequestMethod.POST) {
         const cookie = getCookie("XSRF-TOKEN-INNSYN-API");
         if (cookie !== null) {
             headers.append("XSRF-TOKEN-INNSYN-API", cookie);
         }
     }
+}
+
+export const serverRequest = <T>(
+    method: string,
+    urlPath: string,
+    body: string | null | FormData,
+    contentType?: string,
+    isSoknadApi?: boolean,
+    callId?: string
+): Promise<T> => {
+    const headers = getHeaders(contentType, callId);
+    addXsrfHeadersIfPutOrPost(method, headers);
     const OPTIONS: RequestInit = {
         headers: headers,
         method: method,
@@ -198,7 +173,7 @@ export const serverRequest = (
         fetch(url, OPTIONS)
             .then((response: Response) => {
                 sjekkStatuskode(response, url);
-                const jsonResponse = toJson(response);
+                const jsonResponse = toJson<T>(response);
                 resolve(jsonResponse);
             })
             .catch((reason: any) => {
@@ -216,8 +191,10 @@ export const serverRequestGetErrors = (
     contentType?: string,
     isSoknadApi?: boolean
 ) => {
+    const headers = getHeaders(contentType);
+    addXsrfHeadersIfPutOrPost(method, headers);
     const OPTIONS: RequestInit = {
-        headers: getHeaders(contentType),
+        headers: headers,
         method: method,
         credentials: determineCredentialsParameter(),
         body: body ? body : undefined,
@@ -259,6 +236,9 @@ function sjekkStatuskode(response: Response, url: string) {
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
+    if (response.status === 404) {
+        throw new Error(HttpErrorType.NOT_FOUND);
+    }
     throw new Error(response.statusText);
 }
 
@@ -272,25 +252,25 @@ const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: numb
 function determineCredentialsParameter() {
     return window.location.origin.indexOf("nais.oera") ||
         isLocalhost(window.location.origin) ||
-        isMockServer(window.location.origin)
+        isUsingMockAlt(window.location.origin)
         ? "include"
         : "same-origin";
 }
 
-export function fetchToJson(urlPath: string) {
-    return serverRequest(RequestMethod.GET, urlPath, null);
+export function fetchToJson<T>(urlPath: string) {
+    return serverRequest<T>(RequestMethod.GET, urlPath, null);
 }
 
-export function fetchToJsonFromSoknadApi(urlPath: string) {
-    return serverRequest(RequestMethod.GET, urlPath, null, undefined, true);
+export function fetchToJsonFromSoknadApi<T>(urlPath: string) {
+    return serverRequest<T>(RequestMethod.GET, urlPath, null, undefined, true);
 }
 
-export function fetchPut(urlPath: string, body: string) {
-    return serverRequest(RequestMethod.PUT, urlPath, body);
+export function fetchPut<T>(urlPath: string, body: string) {
+    return serverRequest<T>(RequestMethod.PUT, urlPath, body);
 }
 
-export function fetchPost(urlPath: string, body: string | FormData, contentType?: string, callId?: string) {
-    return serverRequest(RequestMethod.POST, urlPath, body, contentType, undefined, callId);
+export function fetchPost<T>(urlPath: string, body: string | FormData, contentType?: string, callId?: string) {
+    return serverRequest<T>(RequestMethod.POST, urlPath, body, contentType, undefined, callId);
 }
 
 export function fetchPostGetErrors(urlPath: string, body: string | FormData, contentType?: string) {
@@ -302,11 +282,6 @@ function getRedirectOrigin() {
      * Men den gamle URL-en (www-q*.nav.no) vil bli benyttet en stund av kommuner.
      * Loginservice kan kun sette cookies på apper som kjører på samme domene.
      * Vi lar derfor loginservice redirecte til den nye ingressen. */
-
-    const currentOrigin = window.location.origin;
-    if (isQGammelVersjon(currentOrigin)) {
-        return currentOrigin.replace("nav.no", "dev.nav.no");
-    }
     return window.location.origin;
 }
 

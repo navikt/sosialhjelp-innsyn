@@ -1,4 +1,4 @@
-const amplitude = typeof window !== "undefined" ? require("amplitude-js") : () => null;
+import amplitude from "amplitude-js";
 
 export const initAmplitude = () => {
     if (amplitude) {
@@ -32,4 +32,8 @@ export const logButtonOrLinkClick = (tittel: string) => {
     logAmplitudeEvent("Klikk på knapp eller lenke", {
         tittel,
     });
+};
+
+export const logServerfeil = (eventData?: Record<string, unknown>) => {
+    logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
 };

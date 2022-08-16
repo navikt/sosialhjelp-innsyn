@@ -2,6 +2,7 @@ import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
 import {HendelseTypeEnum} from "../../utils/vedleggUtils";
+import {SoknadsStatusEnum} from "../../components/soknadsStatus/soknadsStatusUtils";
 
 export enum SaksStatus {
     UNDER_BEHANDLING = "UNDER_BEHANDLING",
@@ -36,6 +37,12 @@ export enum UtfallVedtak {
     DELVIS_INNVILGET = "DELVIS_INNVILGET",
     AVSLATT = "AVSLATT",
     AVVIST = "AVVIST",
+}
+
+export enum Feilside {
+    TEKNISKE_PROBLEMER = "TEKNISKE_PROBLEMER",
+    IKKE_TILGANG = "IKKE_TILGANG",
+    FINNES_IKKE = "FINNES_IKKE",
 }
 
 export interface Sakstype {
@@ -113,6 +120,11 @@ export enum InnsynsdataActionTypeKeys {
     SETT_REST_STATUS = "innsynsdata/SETT_REST_STATUS",
     SKAL_VISE_FEILSIDE = "innsynsdata/SKAL_VISE_FEILSIDE",
     SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
+    VIS_FEILSIDE = "innsynsdata/VIS_FEILSIDE",
+    SETT_FORNAVN = "innsynsdata/SETT_FORNAVN",
+    HENT_DIALOGSTATUS = "innsynsdata/HENT_DIALOGSTATUS",
+    HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV = "innsynsdata/HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV",
+    FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "innsynsdata/FAGSYSTEM_HAR_DOKUMENTASJONKRAV",
 
     // Vedlegg:
     LEGG_TIL_FIL_FOR_OPPLASTING = "innsynsdata/LEGG_TIL_FILE_FOR_OPPLASTING",
@@ -143,10 +155,12 @@ export enum InnsynsdataSti {
     HENDELSER = "hendelser",
     VEDLEGG = "vedlegg",
     SAKER = "saker",
-    SKAL_VISE_MELDINGER_LENKE = "skalViseMeldingerLenke",
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune",
     VILKAR = "vilkar",
+    DIALOG_STATUS = "dialogstatus",
+    HAR_LEVERT_DOKUMENTASJONKRAV = "harLeverteDokumentasjonkrav",
+    FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "fagsystemHarDokumentasjonkrav",
 }
 
 export interface InnsynsdataActionType {
@@ -155,9 +169,9 @@ export interface InnsynsdataActionType {
     verdi?: any;
     sti: InnsynsdataSti;
     restStatus?: string;
-    skalVise?: boolean;
-    skalViseForbudt?: boolean;
     oppgaveId?: string;
+    fornavn?: string;
+    feilside?: Feilside;
 }
 
 export interface VedleggActionType {
@@ -178,7 +192,7 @@ export interface VedleggActionType {
 }
 
 export interface Status {
-    status: string | null;
+    status: SoknadsStatusEnum | null;
     tidspunktSendt: string | null;
     soknadsalderIMinutter: number;
     navKontor: string | null;
@@ -214,6 +228,12 @@ export interface KommuneResponse {
     tidspunkt: Date | null;
     kommunenummer: String | null;
 }
+export interface DialogStatus {
+    ident: string;
+    tilgangTilDialog: boolean;
+    antallUlesteMeldinger: number;
+    harSendtMelding: boolean;
+}
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
     erInnsynDeaktivert: false,
@@ -229,6 +249,8 @@ export interface InnsynsdataType {
     saksStatus: SaksStatusState[];
     oppgaver: DokumentasjonEtterspurt[];
     dokumentasjonkrav: DokumentasjonKrav[];
+    harLevertTidligereDokumentasjonkrav: boolean;
+    fagsystemHarDokumentasjonkrav: boolean;
     vilkar: Vilkar[];
     listeOverOpggaveIderSomFeilet: string[];
     listeOverOppgaveIderSomFeiletPaBackend: string[];
@@ -243,12 +265,12 @@ export interface InnsynsdataType {
     vedlegg: Vedlegg[];
     ettersendelse: Ettersendelse;
     saker: Sakstype[];
-    skalViseMeldingerLenke: boolean;
+    dialogStatus: undefined | DialogStatus;
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
-    skalViseFeilside: boolean;
-    skalViseForbudtSide: boolean;
     sisteKommune: string;
+    fornavn: string;
+    feilside?: Feilside;
 }
 
 export const initialInnsynsdataRestStatus = {
@@ -268,6 +290,8 @@ export const initialState: InnsynsdataType = {
     saksStatus: [],
     oppgaver: [],
     dokumentasjonkrav: [],
+    harLevertTidligereDokumentasjonkrav: false,
+    fagsystemHarDokumentasjonkrav: false,
     vilkar: [],
     listeOverOpggaveIderSomFeilet: [],
     listeOverOppgaveIderSomFeiletPaBackend: [],
@@ -286,7 +310,6 @@ export const initialState: InnsynsdataType = {
     hendelser: [],
     vedlegg: [],
     saker: [],
-    skalViseMeldingerLenke: false,
     ettersendelse: {
         filer: [],
         feil: undefined,
@@ -296,9 +319,10 @@ export const initialState: InnsynsdataType = {
     },
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
-    skalViseFeilside: false,
-    skalViseForbudtSide: false,
     sisteKommune: "",
+    fornavn: "",
+    dialogStatus: undefined,
+    feilside: undefined,
 };
 
 export interface Ettersendelse {
@@ -324,6 +348,21 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
                 ...setPath(state, action.sti, action.verdi),
+            };
+        case InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS:
+            return {
+                ...state,
+                dialogStatus: action.verdi,
+            };
+        case InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV:
+            return {
+                ...state,
+                harLevertTidligereDokumentasjonkrav: action.verdi,
+            };
+        case InnsynsdataActionTypeKeys.FAGSYSTEM_HAR_DOKUMENTASJONKRAV:
+            return {
+                ...state,
+                fagsystemHarDokumentasjonkrav: action.verdi,
             };
         case InnsynsdataActionTypeKeys.OPPDATER_OPPGAVE_STATE:
             const oppgave: DokumentasjonEtterspurt[] = action.verdi;
@@ -657,19 +696,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 ...state,
                 oppgaveVedlegsOpplastingFeilet: action.status,
             };
-
-        case InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE:
-            return {
-                ...state,
-                skalViseFeilside: action.skalVise,
-            };
-
-        case InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE:
-            return {
-                ...state,
-                skalViseForbudtSide: action.skalViseForbudt,
-            };
-
         case InnsynsdataActionTypeKeys.FILE_UPLOAD_FAILED:
             if (action.status) {
                 return {
@@ -722,6 +748,16 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 sisteKommune: action.verdi ?? "",
             };
 
+        case InnsynsdataActionTypeKeys.SETT_FORNAVN:
+            return {
+                ...state,
+                fornavn: action.fornavn,
+            };
+        case InnsynsdataActionTypeKeys.VIS_FEILSIDE:
+            return {
+                ...state,
+                feilside: action.feilside,
+            };
         default:
             return state;
     }
@@ -731,6 +767,29 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
+        verdi,
+    };
+};
+export const hentDialogStatus = (verdi: DialogStatus): InnsynsdataActionType => {
+    return {
+        type: InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS,
+        sti: InnsynsdataSti.DIALOG_STATUS,
+        verdi,
+    };
+};
+
+export const hentHarLevertDokumentasjonkrav = (verdi: Boolean): InnsynsdataActionType => {
+    return {
+        type: InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV,
+        sti: InnsynsdataSti.HAR_LEVERT_DOKUMENTASJONKRAV,
+        verdi,
+    };
+};
+
+export const settFagsystemHarDokumentasjonkrav = (verdi: Boolean): InnsynsdataActionType => {
+    return {
+        type: InnsynsdataActionTypeKeys.FAGSYSTEM_HAR_DOKUMENTASJONKRAV,
+        sti: InnsynsdataSti.FAGSYSTEM_HAR_DOKUMENTASJONKRAV,
         verdi,
     };
 };
@@ -777,24 +836,17 @@ export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): In
     };
 };
 
-export const skalViseFeilside = (skalVise: boolean) => {
-    return {
-        type: InnsynsdataActionTypeKeys.SKAL_VISE_FEILSIDE,
-        skalVise,
-    };
-};
-
-export const skalViseForbudtside = (skalViseForbudt: boolean) => {
-    return {
-        type: InnsynsdataActionTypeKeys.SKAL_VISE_FORBUDTSIDE,
-        skalViseForbudt,
-    };
-};
-
 export const settSisteKommune = (kommunenummer: unknown) => {
     return {
         type: InnsynsdataActionTypeKeys.SISTE_KOMMUNE,
         verdi: (kommunenummer as string) ?? "",
+    };
+};
+
+export const visFeilside = (feilside?: Feilside) => {
+    return {
+        type: InnsynsdataActionTypeKeys.VIS_FEILSIDE,
+        feilside,
     };
 };
 

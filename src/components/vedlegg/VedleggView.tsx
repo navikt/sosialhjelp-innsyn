@@ -8,10 +8,11 @@ import EttersendelseView from "./EttersendelseView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import RemoveCircle from "../ikoner/RemoveCircle";
 import {getVisningstekster} from "../../utils/vedleggUtils";
-import {Link, Select, Table} from "@navikt/ds-react";
+import {Link, Select, SortState, Table} from "@navikt/ds-react";
 import styled from "styled-components";
 
 const Vedleggliste = styled.div`
+    margin-top: 1rem;
     margin-bottom: 3rem;
 `;
 
@@ -29,6 +30,9 @@ const SorteringListeboks = styled.div`
 `;
 
 const StyledTable = styled(Table)`
+    .navds-table__sort-button {
+        white-space: nowrap;
+    }
     @media screen and (max-width: 640px) {
         thead {
             display: none;
@@ -115,15 +119,15 @@ enum Kolonne {
 
 const strCompare = (a: string, b: string) => {
     if (a.toLocaleUpperCase() < b.toLocaleUpperCase()) {
-        return -1;
+        return 1;
     }
     if (a.toLocaleUpperCase() > b.toLocaleUpperCase()) {
-        return 1;
+        return -1;
     }
     return 0;
 };
 
-const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: Kolonne, descending: boolean) => {
+const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: string, descending: boolean) => {
     switch (kolonne) {
         case Kolonne.DATO:
             return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
@@ -139,53 +143,43 @@ const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: Kolonne, descending: boolean
             return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
                 return descending ? strCompare(a.type, b.type) : strCompare(b.type, a.type);
             });
+        default:
+            return vedlegg;
     }
 };
 
 const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
-    const [sortBy, setSortBy] = useState<Kolonne>(Kolonne.DATO);
-    const [descending, setDescending] = useState({
-        filnavn: true,
-        beskrivelse: true,
-        dato: true,
-    });
+    const defaultSortState: SortState = {orderBy: Kolonne.DATO, direction: "descending"};
+    const [sortState, setSortState] = useState<SortState | undefined>(defaultSortState);
 
-    const setSort = (newSortBy: Kolonne, newDescending: boolean, event: any) => {
-        setSortBy(newSortBy);
-        switch (newSortBy) {
-            case Kolonne.FILNAVN:
-                setDescending({...descending, filnavn: newDescending});
-                break;
-            case Kolonne.BESKRIVELSE:
-                setDescending({...descending, beskrivelse: newDescending});
-                break;
-            default:
-                setDescending({...descending, dato: newDescending});
+    const onSortChange = (sortKey?: string) => {
+        if (!sortKey) {
+            console.error("shoud not get here");
+            return;
         }
-        event.preventDefault();
+
+        setSortState(
+            sortState && sortKey === sortState.orderBy && sortState.direction === "descending"
+                ? undefined
+                : {
+                      orderBy: sortKey,
+                      direction:
+                          sortState && sortKey === sortState.orderBy && sortState.direction === "ascending"
+                              ? "descending"
+                              : "ascending",
+                  }
+        );
     };
 
     const selectSort = (event: any) => {
-        const newSortBy = event.target.value;
-        setSortBy(newSortBy);
-        switch (newSortBy) {
-            case Kolonne.FILNAVN:
-                setDescending({...descending, filnavn: descending[Kolonne.FILNAVN]});
-                break;
-            case Kolonne.BESKRIVELSE:
-                setDescending({...descending, beskrivelse: descending[Kolonne.BESKRIVELSE]});
-                break;
-            default:
-                setDescending({...descending, dato: descending[Kolonne.DATO]});
-        }
+        const sortDirection = event.target.value === Kolonne.DATO ? "descending" : "ascending";
+        setSortState({orderBy: event.target.value, direction: sortDirection});
         event.preventDefault();
     };
 
-    const sorterteVedlegg = sorterVedlegg(vedlegg, sortBy, descending[sortBy]);
-
-    const ariaSort = (kolonne: Kolonne): "descending" | "ascending" | "none" => {
-        return kolonne === sortBy ? (descending[kolonne] ? "descending" : "ascending") : "none";
-    };
+    const sorterteVedlegg = sortState
+        ? sorterVedlegg(vedlegg, sortState.orderBy, sortState.direction === "descending")
+        : sorterVedlegg(vedlegg, defaultSortState.orderBy, defaultSortState.direction === "descending");
 
     /* Paginering */
     const itemsPerPage = 10;
@@ -206,41 +200,28 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
             <EttersendelseView restStatus={restStatus} />
             <Vedleggliste>
                 <SorteringListeboks>
-                    <Select value={sortBy} label={"Sorter på"} onChange={(event: any) => selectSort(event)}>
+                    <Select
+                        value={sortState?.orderBy ?? Kolonne.DATO}
+                        label={"Sorter på"}
+                        onChange={(event: any) => selectSort(event)}
+                    >
                         <option value={Kolonne.FILNAVN}>filnavn</option>
                         <option value={Kolonne.BESKRIVELSE}>beskrivelse</option>
                         <option value={Kolonne.DATO}>dato</option>
                     </Select>
                 </SorteringListeboks>
-                <StyledTable>
+                <StyledTable sort={sortState} onSortChange={onSortChange}>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.FILNAVN)}>
-                                <Link
-                                    href="#"
-                                    onClick={(event) => setSort(Kolonne.FILNAVN, !descending[Kolonne.FILNAVN], event)}
-                                >
-                                    <FilnavnHeader>Filnavn</FilnavnHeader>
-                                </Link>
-                            </Table.HeaderCell>
-                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.BESKRIVELSE)}>
-                                <Link
-                                    href="#"
-                                    onClick={(event) =>
-                                        setSort(Kolonne.BESKRIVELSE, !descending[Kolonne.BESKRIVELSE], event)
-                                    }
-                                >
-                                    Beskrivelse
-                                </Link>
-                            </Table.HeaderCell>
-                            <Table.HeaderCell aria-sort={ariaSort(Kolonne.DATO)}>
-                                <Link
-                                    href="#"
-                                    onClick={(event) => setSort(Kolonne.DATO, !descending[Kolonne.DATO], event)}
-                                >
-                                    Dato lagt til
-                                </Link>
-                            </Table.HeaderCell>
+                            <Table.ColumnHeader sortKey={Kolonne.FILNAVN} sortable>
+                                <FilnavnHeader>Filnavn</FilnavnHeader>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader sortKey={Kolonne.BESKRIVELSE} sortable>
+                                Beskrivelse
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader sortKey={Kolonne.DATO} sortable>
+                                Dato lagt til
+                            </Table.ColumnHeader>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

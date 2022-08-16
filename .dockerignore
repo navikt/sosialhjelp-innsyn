@@ -9,7 +9,7 @@
 
 !package.json
 !package-lock.json
+!node_modules
 !nais.yaml
-!craco.config.js
 !build
 !server.js

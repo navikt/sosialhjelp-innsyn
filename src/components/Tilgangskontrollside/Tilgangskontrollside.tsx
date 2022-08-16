@@ -1,26 +1,36 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import "./Tilgangskontrollside.less";
 import {useDispatch, useSelector} from "react-redux";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
-import {skalViseFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Feilside, InnsynsdataActionTypeKeys, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
-import {BodyShort, Heading} from "@navikt/ds-react";
+import {BodyLong, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {setBreadcrumbs} from "../../utils/breadcrumbs";
 import {InnsynAppState} from "../../redux/reduxTypes";
+import styled from "styled-components";
 
+const StyledElla = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Wrapper = styled.div`
+    margin-top: 2rem;
+`;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
 }
 
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) => {
-    const restkallHarGittForbidden = useSelector((state: InnsynAppState) => state.innsynsdata.skalViseForbudtSide);
+    const restkallHarGittForbidden =
+        useSelector((state: InnsynAppState) => state.innsynsdata.feilside) === Feilside.IKKE_TILGANG;
+    const fornavn = useSelector((state: InnsynAppState) => state.innsynsdata.fornavn);
     const [tilgang, setTilgang] = useState(!restkallHarGittForbidden);
-    const [fornavn, setFornavn] = useState("");
     const [restStatus, setRestStatus] = useState(REST_STATUS.INITIALISERT);
 
     const dispatch = useDispatch();
@@ -36,7 +46,11 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
         fetchToJson("/innsyn/tilgang")
             .then((response: any) => {
                 setTilgang(response.harTilgang);
-                setFornavn(response.fornavn);
+                dispatch({
+                    type: InnsynsdataActionTypeKeys.SETT_FORNAVN,
+                    fornavn: response.fornavn,
+                });
+
                 setRestStatus(REST_STATUS.OK);
             })
             .catch((reason) => {
@@ -45,7 +59,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                 } else {
                     setRestStatus(REST_STATUS.FEILET);
                     logWarningMessage(reason.message, reason.navCallId);
-                    dispatch(skalViseFeilside(true));
+                    dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
                 }
             });
     }, [dispatch]);
@@ -69,22 +83,20 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
             return (
                 <div className="informasjon-side">
                     <BigBanner tittel="Økonomisk sosialhjelp" />
-                    <div className={"blokk-center"}>
-                        <div className="tilgangskontroll">
-                            <UthevetPanel className="panel-uthevet-luft-under panel-glippe-over">
-                                <div className="ellablunk-rad">
-                                    <EllaBlunk size={"175"} />
-                                </div>
-                                <Heading level="1" size="xlarge" spacing className="blokk-xs">
-                                    Hei {fornavn}
-                                </Heading>
-                                <BodyShort spacing>
-                                    Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta
-                                    kontakt med ditt lokale NAV-kontor for å få hjelp til å søke.
-                                </BodyShort>
-                            </UthevetPanel>
-                        </div>
-                    </div>
+                    <Wrapper className={"blokk-center"}>
+                        <UthevetPanel className="panel-glippe-over">
+                            <StyledElla>
+                                <EllaBlunk size={"175"} />
+                            </StyledElla>
+                            <Heading as="p" size="large" spacing>
+                                Hei {fornavn}
+                            </Heading>
+                            <BodyLong spacing>
+                                Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt
+                                med ditt lokale NAV-kontor for å få hjelp til å søke.
+                            </BodyLong>
+                        </UthevetPanel>
+                    </Wrapper>
                 </div>
             );
         }

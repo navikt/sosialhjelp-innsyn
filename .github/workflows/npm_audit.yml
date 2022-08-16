@@ -17,9 +17,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: "16"
+          registry-url: "https://npm.pkg.github.com"
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Run npm audit
-        run: npm audit --audit-level=moderate # Denne kan justeres hvis vi ønsker at bygg brekker på sårbarheter lavere enn moderate. Mulige verdier er low|moderate|high|critical
+        run: npm audit --production --audit-level=moderate # Denne kan justeres hvis vi ønsker at bygg brekker på sårbarheter lavere enn moderate. Mulige verdier er low|moderate|high|critical

@@ -1,0 +1,21 @@
+.hands_coin_icon {
+    width: 100px;
+    height: 100px;
+    margin-right: 24px;
+}
+
+.dine_utbetalinger_panel {
+    padding: 1.5rem 1rem 1.5rem 2rem;
+}
+
+@media screen and (max-width: 640px) {
+    .dine_utbetalinger_panel {
+        padding-left: 16px;
+    }
+}
+
+.dine_utbetalinger_innhold {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

@@ -1,0 +1,15 @@
+.saksoversikt-banner {
+    background-color: #9bd0b0;
+    color: var(--navds-semantic-color-text);
+    width: 100%;
+    height: 8.5rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 4px solid #38a161;
+}
+
+.saksoversikt-userIcon {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+}

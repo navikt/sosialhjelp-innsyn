@@ -6,5 +6,11 @@
     "https://www.nav.no/sosialhjelp/innsyn"
   ],
   "prometheusEnabled": true,
-  "dekoratorMiljo": "prod"
+  "dekoratorMiljo": "prod",
+  "minReplicas": "2",
+  "maxReplicas": "4",
+  "cpuLimit": "200m",
+  "memoryLimit": "256Mi",
+  "cpuRequest": "10m",
+  "memoryRequest": "64Mi"
 }

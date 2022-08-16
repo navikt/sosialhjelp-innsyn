@@ -1,5 +1,4 @@
 import React from "react";
-import "./soknadsStatus.less";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
@@ -7,154 +6,201 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
-import DokumentSendt from "../ikoner/DokumentSendt";
-import DokumentOk from "../ikoner/DokumentOk";
-import DokumentMottatt from "../ikoner/DokumentMottatt";
-import DokumentElla from "../ikoner/DocumentElla";
-import {EtikettLiten} from "../etikett/EtikettLiten";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert, BodyShort, Heading, Label} from "@navikt/ds-react";
-import {UthevetPanelEkstraPadding} from "../paneler/UthevetPanel";
-import {TittelOgIkon} from "./TittelOgIkon";
-import styled from "styled-components";
+import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
+import {PlaceFilled} from "@navikt/ds-icons";
+import styled from "styled-components/macro";
+import SoknadsStatusLenke from "./SoknadsStatusLenke";
+import SoknadsStatusTag from "./SoknadsStatusTag";
+import {v4 as uuidv4} from "uuid";
 
-const StatusDetaljPanel = styled.div`
-    max-width: 640px;
-    border: 1px solid #c6c2bf;
-    border-radius: 2px;
-    padding: 1rem;
+const Container = styled.div`
+    padding-top: 3rem;
+`;
+
+const ContentPanel = styled(Panel)`
+    padding-top: 2rem;
     position: relative;
-    margin: 2rem 0 4px 0;
+`;
 
+const Spot = styled.div`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 50%;
+    background: var(--navds-semantic-color-feedback-success-background);
+    border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+`;
+
+const SpotIcon = styled(PlaceFilled)`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+`;
+
+const ContentPanelBody = styled.div`
     @media screen and (min-width: 641px) {
-        &_luft_under {
-            margin-bottom: 2rem;
-        }
+        padding: 1rem 3.25rem 1rem 3.25rem;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 2rem;
     }
 `;
 
-export const hentSaksStatusTittel = (saksStatus: SaksStatus) => {
-    switch (saksStatus) {
-        case SaksStatus.UNDER_BEHANDLING:
-            return "saksStatus.under_behandling";
-        case SaksStatus.FERDIGBEHANDLET:
-            return "saksStatus.ferdig_behandlet";
-        case SaksStatus.BEHANDLES_IKKE:
-        case SaksStatus.IKKE_INNSYN:
-            return "saksStatus.kan_ikke_vise_status";
-        default:
-            return "";
+const StyledAlert = styled(Alert)`
+    margin-bottom: 1rem;
+`;
+interface ContentPanelBorderProps {
+    lightColor?: boolean;
+}
+
+const ContentPanelBorder = styled.div<ContentPanelBorderProps>`
+    border-bottom: 2px solid
+        var(
+            ${(props) =>
+                props.lightColor ? "--navds-semantic-color-border-inverted" : "--navds-semantic-color-border-muted"}
+        );
+    margin: 1rem 0;
+`;
+
+const StatusBox = styled.div`
+    margin: 0 1rem;
+`;
+
+const StatusMessage = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .navds-tag {
+        white-space: nowrap;
     }
-};
+`;
+
+const StatusMessageVedtak = styled.div`
+    line-height: 22px;
+    margin-top: 6px;
+`;
 
 interface Props {
-    status: string | null | SoknadsStatusEnum;
+    soknadsStatus: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
     restStatus: REST_STATUS;
 }
 
-const SoknadsStatus: React.FC<Props> = ({status, sak, restStatus}) => {
-    const antallSaksElementer: number = sak ? sak.length : 0;
+const HeadingWrapper = styled.div`
+    text-align: center;
+`;
+
+const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
     const intl: IntlShape = useIntl();
+    const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
     };
 
     return (
-        <UthevetPanelEkstraPadding className={antallSaksElementer > 0 ? "panel-uthevet-luft-under" : ""}>
-            <TittelOgIkon>
-                {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
-                {restStatus !== REST_STATUS.FEILET && (
-                    <>
-                        <Heading level="1" size="xlarge">
-                            {soknadsStatusTittel(status, intl)}
-                        </Heading>
-                        {status === SoknadsStatusEnum.SENDT && <DokumentSendt />}
-                        {status === SoknadsStatusEnum.MOTTATT && <DokumentMottatt />}
-                        {status === SoknadsStatusEnum.UNDER_BEHANDLING && <DokumentElla />}
-                        {status === SoknadsStatusEnum.FERDIGBEHANDLET && <DokumentOk />}
-                        {status === SoknadsStatusEnum.BEHANDLES_IKKE && <DokumentOk />}
-                    </>
-                )}
-            </TittelOgIkon>
+        <Container>
+            <ContentPanel>
+                <Spot>
+                    <SpotIcon />
+                </Spot>
+                <ContentPanelBody>
+                    {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
+                    {restStatus !== REST_STATUS.FEILET && (
+                        <HeadingWrapper>
+                            <Heading level="2" size="large" spacing>
+                                {soknadsStatusTittel(soknadsStatus, intl)}
+                            </Heading>
+                            <SoknadsStatusLenke status={soknadsStatus} />
+                            <ContentPanelBorder />
+                        </HeadingWrapper>
+                    )}
 
-            {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer === 0 && (
-                <div className="status_detalj_panel_info_alert_luft_over">
-                    <Alert variant="info">
-                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </Alert>
-                </div>
-            )}
+                    {soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE && (
+                        <StyledAlert variant="info">
+                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
+                        </StyledAlert>
+                    )}
 
-            {status === SoknadsStatusEnum.BEHANDLES_IKKE && antallSaksElementer !== 0 && (
-                <div className="status_detalj_panel_info_alert_luft_over">
-                    <Alert variant="info">
-                        <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                    </Alert>
-                </div>
-            )}
+                    {sak?.length === 0 && !soknadBehandlesIkke && (
+                        <StatusBox>
+                            <StatusMessage>
+                                <Label>{intl.formatMessage({id: "saker.default_tittel"})}</Label>
+                                <SoknadsStatusTag status={soknadsStatus} intl={intl} />
+                            </StatusMessage>
+                        </StatusBox>
+                    )}
 
-            {sak &&
-                sak.map((statusdetalj: SaksStatusState, index: number) => {
-                    const saksStatus = statusdetalj.status;
-                    const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;
-                    const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
-                    const soknadBehandlesIkke = status === SoknadsStatusEnum.BEHANDLES_IKKE;
-                    return (
-                        <StatusDetaljPanel key={index}>
-                            <div className={"status_detalj_linje"}>
-                                <div className="status_detalj_panel__tittel">
-                                    <Label>{statusdetalj.tittel}</Label>
-                                </div>
-                                <div className="status_detalj_panel__status">
-                                    <EtikettLiten>
-                                        {soknadBehandlesIkke ? (
-                                            <FormattedMessage id={hentSaksStatusTittel(SaksStatus.BEHANDLES_IKKE)} />
-                                        ) : (
-                                            <FormattedMessage id={hentSaksStatusTittel(saksStatus)} />
+                    {sak &&
+                        sak.map((statusdetalj: SaksStatusState, index: number) => {
+                            const saksStatus = statusdetalj.status;
+                            const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;
+                            const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
+                            const randomId = uuidv4();
+                            return (
+                                <React.Fragment key={randomId}>
+                                    <StatusBox key={index}>
+                                        <StatusMessage>
+                                            <Label>{statusdetalj.tittel}</Label>
+                                            {saksStatus === SaksStatus.FERDIGBEHANDLET && (
+                                                <Tag variant="success">
+                                                    <FormattedMessage id="saksStatus.ferdig_behandlet" />
+                                                </Tag>
+                                            )}
+                                            {saksStatus === SaksStatus.UNDER_BEHANDLING && !soknadBehandlesIkke && (
+                                                <Tag variant="warning">
+                                                    <FormattedMessage id="saksStatus.under_behandling" />
+                                                </Tag>
+                                            )}
+                                        </StatusMessage>
+                                        {statusdetalj.melding && statusdetalj.melding.length > 0 && (
+                                            <BodyShort>{statusdetalj.melding}</BodyShort>
                                         )}
-                                    </EtikettLiten>
-                                </div>
-                            </div>
-                            {statusdetalj.melding && statusdetalj.melding.length > 0 && (
-                                <div className="panel-glippe-over">
-                                    <BodyShort>{statusdetalj.melding}</BodyShort>
-                                </div>
-                            )}
-                            {sakBehandlesIkke && !soknadBehandlesIkke && (
-                                <div className="panel-glippe-over">
-                                    <BodyShort>
-                                        <FormattedMessage id="status.sak_behandles_ikke_ingress" />
-                                    </BodyShort>
-                                </div>
-                            )}
-                            {sakIkkeInnsyn && !soknadBehandlesIkke && (
-                                <div className="panel-glippe-over">
-                                    <BodyShort>
-                                        <FormattedMessage id="status.ikke_innsyn_ingress" />
-                                    </BodyShort>
-                                </div>
-                            )}
+                                        {sakBehandlesIkke && !soknadBehandlesIkke && (
+                                            <BodyShort>
+                                                <FormattedMessage id="status.sak_behandles_ikke_ingress" />
+                                            </BodyShort>
+                                        )}
+                                        {sakIkkeInnsyn && !soknadBehandlesIkke && (
+                                            <BodyShort>
+                                                <FormattedMessage id="status.ikke_innsyn_ingress" />
+                                            </BodyShort>
+                                        )}
 
-                            {statusdetalj.vedtaksfilUrlList &&
-                                statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, index: number) => (
-                                    <div className={"status_detalj_linje"} key={index}>
-                                        <div className="status_detalj_panel__kommentarer">
-                                            <EksternLenke
-                                                href={"" + hendelse.vedtaksfilUrl}
-                                                target="_blank"
-                                                onClick={onVisVedtak}
-                                            >
-                                                Vedtak (<DatoOgKlokkeslett bareDato={true} tidspunkt={hendelse.dato} />)
-                                            </EksternLenke>
-                                        </div>
-                                    </div>
-                                ))}
-                        </StatusDetaljPanel>
-                    );
-                })}
-        </UthevetPanelEkstraPadding>
+                                        {statusdetalj.vedtaksfilUrlList &&
+                                            statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, id: number) => (
+                                                <StatusMessage key={id}>
+                                                    <StatusMessageVedtak>
+                                                        <EksternLenke
+                                                            rel="noopener noreferrer"
+                                                            href={"" + hendelse.vedtaksfilUrl}
+                                                            onClick={onVisVedtak}
+                                                        >
+                                                            Vedtak (
+                                                            <DatoOgKlokkeslett
+                                                                bareDato={true}
+                                                                tidspunkt={hendelse.dato}
+                                                            />
+                                                            )
+                                                        </EksternLenke>
+                                                    </StatusMessageVedtak>
+                                                </StatusMessage>
+                                            ))}
+                                    </StatusBox>
+                                    <ContentPanelBorder lightColor />
+                                </React.Fragment>
+                            );
+                        })}
+                </ContentPanelBody>
+            </ContentPanel>
+        </Container>
     );
 };
 

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
-import {REST_STATUS} from "../utils/restUtils";
+import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {
+    hentDialogStatus,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     InnsynsdataType,
@@ -15,10 +16,10 @@ import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {FormattedMessage, IntlShape, useIntl} from "react-intl";
+import {FormattedMessage} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
-import {SoknadMedInnsynHotjarTrigger, SoknadUtenInnsynHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
+import {SoknadHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUtenInnsyn";
@@ -27,6 +28,13 @@ import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSp
 import styled from "styled-components";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {useLocation} from "react-router";
+import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
+import MeldingstjenesteInfo, {
+    getVisMeldingsInfo,
+    useLocalStorageState,
+} from "../components/meldingstjenesteInfo/MeldingstjenesteInfo";
+import "../components/meldingstjenesteInfo/sticky.css";
+import {Portal} from "../components/meldingstjenesteInfo/Portal";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -54,9 +62,10 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
-    const intl: IntlShape = useIntl();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-
+    const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
+    const [harLukketMeldingsInfo, setHarLukketMeldingsInfo] = useLocalStorageState("harLukketMeldingsInfo", "false");
+    const visMeldingsInfo = getVisMeldingsInfo(innsynsdata.dialogStatus, harLukketMeldingsInfo as "true" | "false");
     const dataErKlare =
         !pageLoadIsLogged &&
         erPaInnsyn &&
@@ -66,7 +75,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
     const {pathname} = useLocation();
     useEffect(() => {
-        setBreadcrumbs({title: "Søknadsstatus", url: `/sosialhjelp${pathname}`});
+        setBreadcrumbs({title: "Status på søknaden din", url: `/sosialhjelp${pathname}`});
     }, [pathname]);
 
     useEffect(() => {
@@ -101,7 +110,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
             fiksDigisosId: fiksDigisosId,
         });
-        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, true));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
@@ -119,46 +128,40 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
-    const leserData = (restStatus: REST_STATUS): boolean => {
-        return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-    };
+    useEffect(() => {
+        if (!innsynsdata.dialogStatus) {
+            fetchToJson("/innsyn/dialogstatus").then((verdi: any) => dispatch(hentDialogStatus(verdi)));
+        }
+    }, [dispatch, innsynsdata.dialogStatus]);
 
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
-    const sakStatusHarFeilet = innsynsdata.restStatus.saksStatus === REST_STATUS.FEILET;
-    const statusTittel = "Søknadsstatus";
+    const statusTittel = "Status på søknaden din";
     document.title = `${statusTittel} - Økonomisk sosialhjelp`;
 
     useBannerTittel(statusTittel);
 
-    const shouldShowHotjarTrigger = () => {
-        return (
+    const getHotjarTriggerIfValid = () => {
+        const shouldShowHotjarTrigger =
             restStatus.soknadsStatus === REST_STATUS.OK &&
             restStatus.kommune === REST_STATUS.OK &&
-            (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60)
-        );
+            !visMeldingsInfo &&
+            (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60);
+        if (!shouldShowHotjarTrigger) return null;
+        if (isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
+        if (isKommuneUtenInnsyn(kommuneResponse)) return "digisos_ikke_innsyn";
     };
 
     return (
         <>
-            {!leserData(restStatus.saksStatus) && sakStatusHarFeilet && (
-                <Alert variant="warning" className="luft_over_16px">
-                    <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                    <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
-                </Alert>
-            )}
+            <LoadingResourcesFailedAlert
+                loadingResourcesFailed={loadingResourcesFailed}
+                setLoadingResourcesFailed={setLoadingResourcesFailed}
+            />
 
-            {shouldShowHotjarTrigger() && isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status) && (
-                <SoknadMedInnsynHotjarTrigger>
-                    <div />
-                </SoknadMedInnsynHotjarTrigger>
-            )}
-
-            {shouldShowHotjarTrigger() && isKommuneUtenInnsyn(kommuneResponse) && (
-                <SoknadUtenInnsynHotjarTrigger>
-                    <div />
-                </SoknadUtenInnsynHotjarTrigger>
-            )}
+            <SoknadHotjarTrigger trigger={getHotjarTriggerIfValid()}>
+                <div />
+            </SoknadHotjarTrigger>
 
             {mustLogin && <ApplicationSpinner />}
 
@@ -179,7 +182,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
                     {erPaInnsyn && (
                         <SoknadsStatus
-                            status={innsynsdata.soknadsStatus.status}
+                            soknadsStatus={innsynsdata.soknadsStatus.status}
                             sak={innsynsdata.saksStatus}
                             restStatus={restStatus.soknadsStatus}
                         />
@@ -201,26 +204,18 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     )}
                     {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
                         <ArkfanePanel
-                            className="panel-luft-over"
-                            arkfaner={[
-                                {
-                                    tittel: intl.formatMessage({id: "historikk.tittel"}),
-                                    content: (
-                                        <Historikk
-                                            hendelser={innsynsdata.hendelser}
-                                            restStatus={restStatus.hendelser}
-                                        />
-                                    ),
-                                },
-                                {
-                                    tittel: intl.formatMessage({id: "vedlegg.tittel"}),
-                                    content: (
-                                        <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
-                                    ),
-                                },
-                            ]}
-                            defaultArkfane={0}
+                            historikkChildren={
+                                <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />
+                            }
+                            vedleggChildren={
+                                <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
+                            }
                         />
+                    )}
+                    {visMeldingsInfo && (
+                        <Portal className="stickyElement">
+                            <MeldingstjenesteInfo lukkInfo={() => setHarLukketMeldingsInfo("true")} />
+                        </Portal>
                     )}
                 </>
             )}

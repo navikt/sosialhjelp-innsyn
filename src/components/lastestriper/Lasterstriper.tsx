@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./lastestriper.less";
+import {StyledLastestriper} from "./lastestriper";
 
 export interface NavFrontendLastestriperProps {
     /**
@@ -37,10 +37,8 @@ const lastestriper = (linjer: number): React.ReactNode[] => {
     return divs;
 };
 
-const Lastestriper: React.StatelessComponent<NavFrontendLastestriperProps> = ({linjer = 3, style}) => (
-    <div className="lastestriper" style={style}>
-        {lastestriper(linjer)}
-    </div>
+const Lastestriper: React.FC<NavFrontendLastestriperProps> = ({linjer = 3, style}) => (
+    <StyledLastestriper style={style}>{lastestriper(linjer)}</StyledLastestriper>
 );
 
 export default Lastestriper;

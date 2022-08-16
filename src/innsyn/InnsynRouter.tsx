@@ -17,7 +17,7 @@ const InnsynRouter: React.FC = () => {
     const ekstraSpaltebredde: boolean = window.location.pathname.match(/\/utbetaling/) !== null;
 
     return (
-        <div className="informasjon-side">
+        <div id="maincontent" className="informasjon-side">
             <AppBanner />
             <ConnectedRouter history={history}>
                 <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>

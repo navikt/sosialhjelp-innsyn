@@ -8,7 +8,7 @@ import {
 import {FormattedMessage} from "react-intl";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {REST_STATUS} from "../../utils/restUtils";
 import {
     FileError,
     findFilesWithError,
@@ -19,15 +19,15 @@ import {
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
-import Lastestriper from "../lastestriper/Lasterstriper";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
-import AddFileButton from "../oppgaver/AddFileButton";
+import AddFileButton, {TextAndButtonWrapper} from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Label, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
+import styled from "styled-components";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -39,6 +39,10 @@ const BACKEND_FEIL_ID = "backendFeilId";
 interface Props {
     restStatus: REST_STATUS;
 }
+
+const ButtonWrapper = styled.div`
+    margin-top: 1rem;
+`;
 
 const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
@@ -149,49 +153,48 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
 
-            {skalViseLastestripe(restStatus, true) ? (
-                <Lastestriper linjer={1} />
-            ) : (
-                <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
-                    <div
-                        className={
-                            "oppgaver_detalj " +
-                            (opplastingFeilet ||
-                            listeMedFilerSomFeiler.length > 0 ||
-                            (!vedleggKlarForOpplasting && sendVedleggTrykket)
-                                ? " oppgaver_detalj_feil"
-                                : "")
-                        }
-                        style={{marginTop: "0px"}}
-                    >
-                        <Label>
-                            <FormattedMessage id="andre_vedlegg.type" />
-                        </Label>
-                        <BodyShort>
-                            <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                        </BodyShort>
-
+            <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
+                <div
+                    className={
+                        "oppgaver_detalj " +
+                        (opplastingFeilet ||
+                        listeMedFilerSomFeiler.length > 0 ||
+                        (!vedleggKlarForOpplasting && sendVedleggTrykket)
+                            ? " oppgaver_detalj_feil"
+                            : "")
+                    }
+                    style={{marginTop: "0px"}}
+                >
+                    <TextAndButtonWrapper>
+                        <div>
+                            <Label>
+                                <FormattedMessage id="andre_vedlegg.type" />
+                            </Label>
+                            <BodyShort>
+                                <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
+                            </BodyShort>
+                        </div>
                         {kanLasteOppVedlegg && (
                             <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />
                         )}
+                    </TextAndButtonWrapper>
 
-                        {filer.map((fil: Fil, vedleggIndex: number) => (
-                            <FileItemView
-                                key={vedleggIndex}
-                                fil={fil}
-                                onDelete={(event: MouseEvent, fil) => {
-                                    onDeleteClick(event, vedleggIndex, fil);
-                                }}
-                            />
-                        ))}
+                    {filer.map((fil: Fil, vedleggIndex: number) => (
+                        <FileItemView
+                            key={vedleggIndex}
+                            fil={fil}
+                            onDelete={(event: MouseEvent, fil) => {
+                                onDeleteClick(event, vedleggIndex, fil);
+                            }}
+                        />
+                    ))}
 
-                        {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
-                    </div>
-
+                    {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
+                </div>
+                <ButtonWrapper>
                     <Button
                         variant="primary"
                         disabled={!kanLasteOppVedlegg || vedleggLastesOpp || otherVedleggLastesOpp}
-                        className="luft_over_1rem"
                         onClick={(event: any) => {
                             logButtonOrLinkClick("Ettersendelse: Send vedlegg");
                             if (!vedleggKlarForOpplasting) {
@@ -213,8 +216,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
                         {vedleggLastesOpp && <Loader />}
                     </Button>
-                </div>
-            )}
+                </ButtonWrapper>
+            </div>
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>

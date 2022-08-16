@@ -1,6 +1,6 @@
 import React from "react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import "./dineUtbetalingerPanel.less";
+import "./dineUtbetalingerPanel.css";
 import {push} from "connected-react-router";
 import {useDispatch} from "react-redux";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
@@ -26,7 +26,7 @@ const DineUtbetalingerPanel: React.FC<{}> = () => {
                     <Heading level="2" size="medium" spacing>
                         Dine utbetalinger
                     </Heading>
-                    <BodyShort>Oversikt over dine utbetalinger for økonomisk sosialhjelp</BodyShort>
+                    <BodyShort>Se oversikten over utbetalingene du har fått</BodyShort>
                 </div>
             </div>
         </LinkPanel>

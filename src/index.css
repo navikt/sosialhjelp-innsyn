@@ -1,0 +1,56 @@
+@import "./components/paneler/paneler.css";
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--navds-semantic-color-canvas-background);
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.blokk-center {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 640px) {
+    .blokk-center {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .blokk-center {
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .blokk-center {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .blokk-center .blokk-center--wide {
+        display: block;
+        max-width: 944px;
+    }
+}
+
+.maincontent .side-innhold {
+    padding-top: 0;
+}
+
+/* Hack for å skjule del-skjerm knappen  */
+.footer-bottom-content__personvern-lenker > li:last-child {
+    display: none;
+}
+
+#nav-chatbot {
+    display: none !important;
+}

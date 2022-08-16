@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Alert, BodyShort, LinkPanel} from "@navikt/ds-react";
-import "./saksoversikt.less";
+import "./saksoversikt.css";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynsdataSti, InnsynsdataType, Sakstype, settSisteKommune} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    hentDialogStatus,
+    InnsynsdataSti,
+    InnsynsdataType,
+    Sakstype,
+    settSisteKommune,
+} from "../redux/innsynsdata/innsynsdataReducer";
 import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
@@ -77,7 +83,7 @@ const Saksoversikt: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SKAL_VISE_MELDINGER_LENKE, false));
+        fetchToJson("/innsyn/dialogstatus").then((verdi: any) => dispatch(hentDialogStatus(verdi)));
     }, [dispatch]);
 
     useEffect(() => {
@@ -106,7 +112,7 @@ const Saksoversikt: React.FC = () => {
                             </Alert>
                         )}
                         {kommunenummer.length > 0 &&
-                            !innsynData.skalViseMeldingerLenke &&
+                            innsynData.dialogStatus?.tilgangTilDialog === false &&
                             !cookies["sosialhjelp-meldinger-undersokelse"] &&
                             KOMMUNENUMMER_I_UNDERSOKELSE.includes(kommunenummer) && (
                                 <StyledLinkPanel
@@ -117,7 +123,7 @@ const Saksoversikt: React.FC = () => {
                                     Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
                                 </StyledLinkPanel>
                             )}
-                        {innsynData.skalViseMeldingerLenke && <DineMeldingerPanel />}
+                        {innsynData.dialogStatus?.tilgangTilDialog && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}

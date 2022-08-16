@@ -1,0 +1,10 @@
+.banner {
+    background-color: #9bd0b0;
+    color: var(--navds-semantic-color-text);
+    width: 100%;
+    height: 3.75rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 4px solid #38a161;
+    margin-bottom: 2rem;
+}

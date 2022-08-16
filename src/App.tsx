@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/react";
 
 import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
-import "./App.less";
+import "./App.css";
 import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
 import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
@@ -19,6 +19,7 @@ import {initAmplitude} from "./utils/amplitude";
 import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
 import {Integrations} from "@sentry/tracing";
 import {isProd} from "./utils/restUtils";
+import ScrollToTop from "./utils/ScrollToTop";
 
 const store = configureStore();
 
@@ -69,6 +70,7 @@ const App: React.FC = () => {
                 <Feilside>
                     <Tilgangskontrollside>
                         <ConnectedRouter history={history}>
+                            <ScrollToTop />
                             <Switch>
                                 <SentryRoute exact path="/" component={Saksoversikt} />
                                 <SentryRoute path="/saksoversikt" component={SaksoversiktRouter} />

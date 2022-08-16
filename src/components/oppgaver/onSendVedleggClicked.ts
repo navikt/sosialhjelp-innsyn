@@ -49,9 +49,9 @@ export const onSendVedleggClicked = (
     if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
         try {
             formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
-        } catch (e) {
+        } catch (e: any) {
             dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            logInfoMessage("Validering vedlegg feilet: " + e?.message);
             event.preventDefault();
             return;
         }
@@ -71,9 +71,9 @@ export const onSendVedleggClicked = (
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         try {
             formData = createFormDataWithVedleggFromFiler(filer);
-        } catch (e) {
+        } catch (e: any) {
             dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e.message);
+            logInfoMessage("Validering vedlegg feilet: " + e?.message);
             event.preventDefault();
             return;
         }
@@ -139,6 +139,7 @@ export const onSendVedleggClicked = (
                     });
                 }
                 if (hasError) {
+                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
                     dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
                 } else {
                     if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
@@ -149,11 +150,15 @@ export const onSendVedleggClicked = (
                 }
             })
             .catch((e) => {
+                dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
                 // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
                 fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                     if (errorResponse.message === "Mulig virus funnet") {
                         dispatch(setFileUploadFailedInBackend(vedleggId, false));
                         dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, true));
+                    } else if (errorResponse.message === "Klientfeil") {
+                        dispatch(setFileUploadFailedInBackend(vedleggId, true));
+                        dispatch(setFileUploadFailedVirusCheckInBackend(vedleggId, false));
                     }
                 });
                 dispatch(settRestStatus(innsyndatasti, REST_STATUS.FEILET));
