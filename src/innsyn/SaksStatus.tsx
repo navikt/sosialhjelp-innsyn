@@ -71,6 +71,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         erPaInnsyn &&
         restStatus.saksStatus === REST_STATUS.OK &&
         restStatus.oppgaver === REST_STATUS.OK &&
+        restStatus.soknadsStatus === REST_STATUS.OK &&
         restStatus.forelopigSvar === REST_STATUS.OK;
 
     const {pathname} = useLocation();
@@ -79,9 +80,15 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     }, [pathname]);
 
     useEffect(() => {
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, true));
+    }, [dispatch, fiksDigisosId]);
+
+    useEffect(() => {
         function createAmplitudeData() {
             const harVedtaksbrev =
                 innsynsdata.saksStatus && innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList?.length > 0);
+
+            const saksStatuser = innsynsdata.saksStatus?.map((item) => item.status);
 
             return {
                 antallSaker: innsynsdata.saksStatus.length,
@@ -89,6 +96,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                 harEtterspurtDokumentasjon: innsynsdata.oppgaver.length > 0,
                 harVedtaksbrev: harVedtaksbrev,
                 status: innsynsdata.soknadsStatus.status,
+                saksStatuser: saksStatuser,
             };
         }
 
@@ -110,7 +118,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
             fiksDigisosId: fiksDigisosId,
         });
-        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, true));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {

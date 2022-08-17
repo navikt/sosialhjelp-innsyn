@@ -1,32 +1,35 @@
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 import React from "react";
-import {BodyShort, GuidePanel, Heading} from "@navikt/ds-react";
+import {BodyLong, Heading} from "@navikt/ds-react";
+import {StyledGuidePanel} from "../styles/styledGuidePanel";
 import styled from "styled-components";
 
-const StyledGuidePanel = styled(GuidePanel)`
-    --navds-guide-panel-color-border: none;
-    --navds-guide-panel-color-illustration-background: #cde7d8;
+const StyledGuidePanelContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 3rem;
+`;
+
+const Wrapper = styled.div`
+    padding-top: 1rem;
 `;
 
 const UtbetalingsoversiktIngenInnsyn: React.FC = () => {
     return (
-        <div className="soknadsOversiktSide ingenSakerFunnetPanelLuftOver">
-            <StyledGuidePanel
-                className="soknadsOversiktVeilederpanelIkon"
-                poster
-                illustration={<IngenSoknaderFunnet />}
-            >
-                <>
-                    <Heading level="2" size="medium" spacing className="ingenSoknaderFunnetText">
+        <Wrapper>
+            <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
+                <StyledGuidePanelContent>
+                    <Heading level="2" size="medium" spacing>
                         Vi kan ikke vise dine utbetalinger for øknomisk sosialhjelp
                     </Heading>
-                    <BodyShort className="ingenSoknaderFunnetText" style={{margin: "0 3rem"}}>
+                    <BodyLong>
                         Oversikten over utbetalinger for økonomisk sosialhjelp er dessverre ikke tilgjengelig i alle
                         kommuner. Du kan se dine utbetalinger i brevet med svar på søknaden din.
-                    </BodyShort>
-                </>
+                    </BodyLong>
+                </StyledGuidePanelContent>
             </StyledGuidePanel>
-        </div>
+        </Wrapper>
     );
 };
 
