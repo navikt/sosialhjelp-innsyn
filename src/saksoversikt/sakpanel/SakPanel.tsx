@@ -80,7 +80,7 @@ const SakPanel: React.FC<Props> = ({
         <StyledLinkPanel border={border} onClick={onClick} className="panel-glippe-over" href={hrefUrl}>
             <div className="sakpanel">
                 <div className="sakpanel_text">
-                    <DocumentIcon className="document_icon" />
+                    <DocumentIcon />
                     <div className="sakpanel_innhold">
                         <div className="sakpanel_status">
                             {fiksDigisosId !== null && !underLasting && (

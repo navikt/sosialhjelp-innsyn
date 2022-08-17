@@ -10,7 +10,6 @@ import {tekster} from "./tekster/tekster";
 import InnsynRouter from "./innsyn/InnsynRouter";
 import "./App.css";
 import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
-import UtbetalingerRouter from "./utbetalinger/UtbetalingerRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
@@ -73,7 +72,6 @@ const App: React.FC = () => {
                             <Switch>
                                 <SentryRoute exact path="/" component={Saksoversikt} />
                                 <SentryRoute path="/saksoversikt" component={SaksoversiktRouter} />
-                                <SentryRoute path="/innsyn/utbetalinger" component={UtbetalingerRouter} />
                                 <SentryRoute exact path="/innsyn" component={Saksoversikt} />
                                 <SentryRoute exact path="/innsyn/" component={Saksoversikt} />
                                 <SentryRoute path="/innsyn/*" component={InnsynRouter} />
