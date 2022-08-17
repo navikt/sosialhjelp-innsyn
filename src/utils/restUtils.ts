@@ -36,7 +36,7 @@ export function getApiBaseUrl(): string {
 
 export function getBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
-        return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     }
     if (isUsingMockAlt(origin)) {
         return (
@@ -226,7 +226,7 @@ function sjekkStatuskode(response: Response, url: string) {
         response.json().then((r) => {
             if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
+                window.location.href = r.loginUrl; // + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
                 logWarningMessage(
                     "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
