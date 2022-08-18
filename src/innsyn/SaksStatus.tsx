@@ -82,15 +82,12 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             const harVedtaksbrev =
                 innsynsdata.saksStatus && innsynsdata.saksStatus.some((item) => item.vedtaksfilUrlList?.length > 0);
 
-            const saksStatuser = innsynsdata.saksStatus?.map((item) => item.status);
-
             return {
                 antallSaker: innsynsdata.saksStatus.length,
                 harMottattForelopigSvar: innsynsdata.forelopigSvar.harMottattForelopigSvar,
                 harEtterspurtDokumentasjon: innsynsdata.oppgaver.length > 0,
                 harVedtaksbrev: harVedtaksbrev,
                 status: innsynsdata.soknadsStatus.status,
-                saksStatuser: saksStatuser,
             };
         }
 
