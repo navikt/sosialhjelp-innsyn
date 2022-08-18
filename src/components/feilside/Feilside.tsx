@@ -1,19 +1,17 @@
 import * as React from "react";
+import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
-import Brodsmulesti, {UrlType} from "../brodsmuleSti/BrodsmuleSti";
 import {BodyLong, Heading, Link} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import styled from "styled-components/macro";
+import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
 const FeilsideWrapper = styled.div.attrs({className: "blokk-center"})`
-    .breadcrumbs {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+    margin-top: 2rem;
 `;
 export interface FeilsideProps {
     children: React.ReactNode;
@@ -22,19 +20,17 @@ export interface FeilsideProps {
 const Feilside: React.FC<FeilsideProps> = ({children}) => {
     const feilside = useSelector((state: InnsynAppState) => state.innsynsdata.feilside);
 
+    useEffect(() => {
+        if (feilside) {
+            setBreadcrumbs();
+        }
+    }, [feilside]);
+
     if (feilside) {
         return (
             <div className="informasjon-side">
                 <AppBanner />
                 <FeilsideWrapper>
-                    <Brodsmulesti
-                        tittel="Innsyn"
-                        foreldreside={{
-                            tittel: "Økonomisk sosialhjelp",
-                            path: "/sosialhjelp/innsyn/",
-                            urlType: UrlType.ABSOLUTE_PATH,
-                        }}
-                    />
                     <UthevetPanel>
                         {feilside === FeilsideEnum.TEKNISKE_PROBLEMER && (
                             <>

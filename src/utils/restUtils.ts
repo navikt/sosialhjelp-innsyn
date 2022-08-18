@@ -69,10 +69,6 @@ export function getSoknadBaseUrl(origin: string): string {
     return "https://www.nav.no/sosialhjelp/soknad-api";
 }
 
-export function getDittNavUrl(): string {
-    return getNavUrl(window.location.origin);
-}
-
 export function getNavUrl(origin: string): string {
     if (isLocalhost(origin) || isUsingMockAlt(origin) || isDevSbs(origin) || isDev(origin)) {
         return "https://www.dev.nav.no/person/dittnav/";

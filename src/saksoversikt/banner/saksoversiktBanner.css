@@ -8,12 +8,6 @@
     border-bottom: 4px solid #38a161;
 }
 
-.saksoversikt-banner__brodsmulesti {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
 .saksoversikt-userIcon {
     width: 32px;
     height: 32px;

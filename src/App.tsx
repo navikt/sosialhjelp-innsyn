@@ -55,6 +55,7 @@ if (process.env.NODE_ENV !== "production") {
         feedback: false,
         chatbot: false,
         shareScreen: false,
+        utilsBackground: "white",
     });
 }
 

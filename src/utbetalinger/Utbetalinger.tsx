@@ -10,7 +10,6 @@ import {
     filtrerUtbetalingerForTidsinterval,
     filtrerUtbetalingerPaaMottaker,
 } from "./utbetalingerUtils";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch, useSelector} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {
@@ -21,10 +20,13 @@ import {
     visFeilside,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {useLocation} from "react-router";
+import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {InnsynAppState} from "../redux/reduxTypes";
 import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
 import {IngenUtbetalingsoversikt} from "./IngenUtbetalingsoversikt";
 import styled from "styled-components/macro";
+
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
 const StyledUtbetalinger = styled.div`
@@ -93,6 +95,11 @@ const Utbetalinger: React.FC = () => {
     const utbetalinger: UtbetalingSakType[] =
         utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
 
+    const {pathname} = useLocation();
+    useEffect(() => {
+        setBreadcrumbs({title: "Utbetalingsoversikt", url: `/sosialhjelp${pathname}`});
+    }, [pathname]);
+
     useEffect(() => {
         if (!pageLoadIsLogged && utbetalingerService.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Lastet utbetalinger", {antall: utbetalinger.length});
@@ -140,17 +147,6 @@ const Utbetalinger: React.FC = () => {
 
     return (
         <div>
-            <Brodsmulesti
-                tittel={"Utbetalingsoversikt for økonomisk sosialhjelp"}
-                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                foreldreside={{
-                    tittel: "Økonomisk sosialhjelp",
-                    path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH,
-                }}
-                className="breadcrumbs__luft_rundt"
-            />
-
             {harSoknaderMedInnsyn && harSaker && !lasterSoknaderMedInnsyn && (
                 <StyledUtbetalinger>
                     <StyledUtbetalingerFilter>

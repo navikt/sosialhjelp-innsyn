@@ -1,4 +1,4 @@
-import {getBaseUrl, isLocalhost, isLabs, isDevSbs, getSoknadBaseUrl, getNavUrl, isDev} from "./restUtils";
+import {getBaseUrl, isLocalhost, isLabs, isDevSbs, getSoknadBaseUrl, isDev} from "./restUtils";
 
 const localhostOrigins = [
     "http://localhost:3003/sosialhjelp/innsyn",
@@ -93,32 +93,6 @@ describe("getSoknadBaseUrl", () => {
     function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getSoknadBaseUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
-        });
-    }
-});
-
-describe("getDittNavUrl", () => {
-    it("should return correct dittnav-url", () => {
-        validateGetBaseUrl(localhostOrigins, "https://www.dev.nav.no/person/dittnav/");
-
-        validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(devSbs_origins, "https://www.dev.nav.no/person/dittnav/");
-
-        validateGetBaseUrl(labsOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(devOrigins, "https://www.dev.nav.no/person/dittnav/");
-        validateGetBaseUrl(mockOrigins, "https://www.dev.nav.no/person/dittnav/");
-
-        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/person/dittnav/");
-        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/person/dittnav/");
-    });
-
-    it("should default to prod when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/person/dittnav/");
-    });
-
-    function validateGetBaseUrl(origins: string[], expected: string) {
-        origins.forEach((origin) => {
-            expect(getNavUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });

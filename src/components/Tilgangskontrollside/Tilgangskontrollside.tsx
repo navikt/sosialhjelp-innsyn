@@ -1,8 +1,6 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {Feilside, InnsynsdataActionTypeKeys, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -11,12 +9,18 @@ import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
 import {BodyLong, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
+import {setBreadcrumbs} from "../../utils/breadcrumbs";
+import {InnsynAppState} from "../../redux/reduxTypes";
 import styled from "styled-components";
 
 const StyledElla = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+const Wrapper = styled.div`
+    margin-top: 2rem;
 `;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
@@ -30,6 +34,12 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
     const [restStatus, setRestStatus] = useState(REST_STATUS.INITIALISERT);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (restkallHarGittForbidden || !tilgang) {
+            setBreadcrumbs();
+        }
+    }, [restkallHarGittForbidden, tilgang]);
 
     useEffect(() => {
         setRestStatus(REST_STATUS.PENDING);
@@ -73,12 +83,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
             return (
                 <div className="informasjon-side">
                     <BigBanner tittel="Økonomisk sosialhjelp" />
-                    <div className={"blokk-center"}>
-                        <Brodsmulesti
-                            tittel="Innsyn"
-                            foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}}
-                            className="breadcrumbs__luft_rundt"
-                        />
+                    <Wrapper className={"blokk-center"}>
                         <UthevetPanel className="panel-glippe-over">
                             <StyledElla>
                                 <EllaBlunk size={"175"} />
@@ -91,7 +96,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
                                 med ditt lokale NAV-kontor for å få hjelp til å søke.
                             </BodyLong>
                         </UthevetPanel>
-                    </div>
+                    </Wrapper>
                 </div>
             );
         }
