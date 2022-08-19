@@ -42,9 +42,6 @@ const StyledFilInfo = styled.div`
     align-items: center;
     gap: 0.5rem;
     min-width: 0;
-    //flex-shrink: 1;
-    //flex-grow: 0;
-    //max-width: 66%;
     white-space: nowrap;
     flex-wrap: wrap;
 
@@ -60,14 +57,7 @@ const StyledFilInfo = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        //min-width: 50%;
         max-width: 20rem;
-    }
-
-    @media screen and (max-width: 1230px) {
-        a.filnavn {
-            // max-width: 25vw;
-        }
     }
 `;
 
