@@ -20,7 +20,14 @@ jobs:
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}
     steps:
-
+      - uses: actions/checkout@v2
+      - name: Create artifact version
+        id: artifact-version
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@master
+      - name: Sett env variabler
+        run: |
+          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
+          echo "CONFIG_FILE=${{ github.event.inputs.config-file-name }}" >> $GITHUB_ENV
       - name: Sett cluster basert på config-file
         run: |
           if [[ ${{ github.event.inputs.config-file-name }} = 'dev-sbs' ]]; then
@@ -30,7 +37,15 @@ jobs:
           else
             echo "CLUSTER_NAME=dev-gcp" >> $GITHUB_ENV
           fi
-      - name: echo cluster
-        run: |
-          echo "${{ env.CLUSTER_NAME }}"
+          echo "Deployer til ${{ env.CLUSTER_NAME }}"
+      - name: Deploy til dev
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          RESOURCE: nais.yaml
+          CLUSTER: ${{ env.CLUSTER_NAME }}
+          VARS: nais/dev/${{ env.CONFIG_FILE }}.json
+          REF: ${{ github.sha }}
+          PRINT_PAYLOAD: true
+          IMAGE: ${{ env.DOCKER_TAG }}
 
