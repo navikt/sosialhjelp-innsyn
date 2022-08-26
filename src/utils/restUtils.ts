@@ -35,6 +35,7 @@ export function getApiBaseUrl(): string {
 }
 
 export function getBaseUrl(origin: string): string {
+    console.log("Origin: " + origin);
     if (isLocalhost(origin)) {
         return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     }
@@ -44,11 +45,13 @@ export function getBaseUrl(origin: string): string {
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
     } else if (isDevSbs(origin)) {
+        console.log("Origin er dev-sbs");
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
         );
     } else if (isDev(origin)) {
+        console.log("Origin er dev");
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
