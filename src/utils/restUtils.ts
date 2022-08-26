@@ -36,7 +36,7 @@ export function getApiBaseUrl(): string {
 
 export function getBaseUrl(origin: string): string {
     if (isLocalhost(origin)) {
-        return "http://localhost:8080/sosialhjelp/innsyn-api/login-proxy/api/v1";
+        return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";
     }
     if (isUsingMockAlt(origin)) {
         return (
