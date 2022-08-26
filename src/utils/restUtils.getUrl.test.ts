@@ -38,10 +38,7 @@ const unknownOrigins = [
 
 describe("getBaseUrl", () => {
     it("should return correct backend-url", () => {
-        validateGetBaseUrl(
-            localhostOrigins,
-            "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
-        );
+        validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(
             devSbs_origins,
@@ -51,7 +48,7 @@ describe("getBaseUrl", () => {
             labsOrigins,
             "https://digisos.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
+        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
             mockOrigins,
             "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
