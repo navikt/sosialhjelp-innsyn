@@ -1,6 +1,8 @@
 import * as React from "react";
 import {Panel, BodyLong, Heading, Link} from "@navikt/ds-react";
 import styled from "styled-components";
+import {useEffect} from "react";
+import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
 const PageWrapper = styled(Panel)`
     margin: 2rem auto;
@@ -11,6 +13,10 @@ const PageWrapper = styled(Panel)`
 `;
 
 const SideIkkeFunnet: React.FC<{}> = () => {
+    useEffect(() => {
+        setBreadcrumbs({title: "Feil: Fant ikke siden  ", url: "/"});
+    }, []);
+
     return (
         <PageWrapper>
             <Heading level="1" size="large" spacing>
