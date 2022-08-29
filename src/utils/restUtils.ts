@@ -293,7 +293,7 @@ function getRedirectOrigin() {
 
 export function getRedirectPath(loginUrl: string): string {
     const redirectOrigin = getRedirectOrigin();
-    if (loginUrl.indexOf("soknad-api") == -1) {
+    if (loginUrl.indexOf("soknad-api") === -1) {
         // Not soknad-api
         return "goto=" + redirectOrigin + window.location.pathname;
     } else {
