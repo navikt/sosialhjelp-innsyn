@@ -228,7 +228,7 @@ function sjekkStatuskode(response: Response, url: string) {
         response.json().then((r) => {
             if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                window.location.href = r.loginUrl + queryDivider + getRedirectPath(r.loginUrl); // + "%26login_id=" + r.id;
+                window.location.href = r.loginUrl + queryDivider + getRedirectPath(r.loginUrl, r.id);
             } else {
                 logWarningMessage(
                     "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
@@ -291,7 +291,7 @@ function getRedirectOrigin() {
     return window.location.origin;
 }
 
-export function getRedirectPath(loginUrl: string): string {
+export function getRedirectPath(loginUrl: string, id: string): string {
     const redirectOrigin = getRedirectOrigin();
     if (loginUrl.indexOf("soknad-api") === -1) {
         // Not soknad-api
@@ -299,7 +299,7 @@ export function getRedirectPath(loginUrl: string): string {
     } else {
         const gotoParameter = "goto=" + window.location.pathname;
         const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link?" + gotoParameter;
-        return "redirect=" + redirectPath;
+        return "redirect=" + redirectPath + "%26login_id=" + id;
     }
 }
 
