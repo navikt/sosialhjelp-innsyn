@@ -262,8 +262,8 @@ function getRedirectOrigin() {
 
 export function getRedirectPath(loginUrl: string, id: string): string {
     const redirectOrigin = getRedirectOrigin();
-    if (loginUrl.indexOf("soknad-api") === -1) {
-        // Not soknad-api
+    if (loginUrl.indexOf("loginservice") === -1) {
+        // Ikke loginservice:
         return "goto=" + redirectOrigin + window.location.pathname;
     } else {
         const gotoParameter = "goto=" + window.location.pathname;
