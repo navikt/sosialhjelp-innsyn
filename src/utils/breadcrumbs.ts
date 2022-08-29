@@ -6,8 +6,8 @@ const sosialhjelpPage = {
 };
 
 const dittNavPage = {
-    url: "https://www.nav.no/person/dittnav",
-    title: "Ditt NAV",
+    url: "https://www.nav.no/minside",
+    title: "Min side",
 };
 
 export const setBreadcrumbs = (page?: {title: string; url: string}) => {
