@@ -9,6 +9,7 @@ const decoratorParams = {
     chatbot: false,
     shareScreen: false,
     utilsBackground: "white",
+    logoutUrl: "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/logout" // test
 };
 
 const app = express(); // create express app
