@@ -26,13 +26,12 @@ const SideIkkeFunnet: React.FC<{}> = () => {
                 Beklager, siden kan være slettet eller flyttet, eller det var en feil i lenken som førte deg hit.
             </BodyLong>
             <BodyLong spacing>
-                Du kan <Link href="https://www.nav.no/">gå til forsiden nav.no</Link>, eller{" "}
-                <Link href="https://www.nav.no/no/Ditt+NAV">gå til Ditt NAV</Link>.
+                Bruk gjerne søket, menyen eller <Link href="https://www.nav.no/">gå til forsiden </Link>.
             </BodyLong>
 
             <BodyLong spacing>
                 <Link href="https://www.nav.no/person/kontakt-oss/nb/tilbakemeldinger/feil-og-mangler">
-                    Meld gjerne fra om denne lenken.
+                    Meld gjerne fra om denne lenken
                 </Link>
                 .
             </BodyLong>
