@@ -74,14 +74,13 @@ const Saksoversikt: React.FC = () => {
 
     useEffect(() => {
         if (!pageLoadIsLogged && restStatus === REST_STATUS.OK) {
-            // && soknadApiData.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Hentet innsynsdata", {
                 antallSoknader: alleSaker.length,
             });
             //Ensure only one logging to amplitude
             setPageLoadIsLogged(true);
         }
-    }, [restStatus, alleSaker.length, pageLoadIsLogged]); // soknadApiData.restStatus, alleSaker.length, pageLoadIsLogged]);
+    }, [restStatus, alleSaker.length, pageLoadIsLogged]);
 
     useBannerTittel("Økonomisk sosialhjelp");
 
