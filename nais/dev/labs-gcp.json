@@ -6,6 +6,7 @@
   ],
   "prometheusEnabled": false,
   "dekoratorMiljo": "prod",
+  "innsyn-api-single-logout-url": "https://digisos.labs.nais.io/sosialhjelp/innsyn-api/oauth2/logout",
   "minReplicas": "1",
   "maxReplicas": "2",
   "cpuLimit": "200m",

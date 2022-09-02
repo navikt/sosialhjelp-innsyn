@@ -6,6 +6,7 @@
   ],
   "prometheusEnabled": true,
   "dekoratorMiljo": "prod",
+  "innsyn-api-single-logout-url": "https://www.nav.no/sosialhjelp/innsyn-api/oauth2/logout",
   "minReplicas": "2",
   "maxReplicas": "4",
   "cpuLimit": "200m",
