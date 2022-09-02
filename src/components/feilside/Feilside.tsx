@@ -17,12 +17,23 @@ export interface FeilsideProps {
     children: React.ReactNode;
 }
 
+const getFeilType = (feilside: FeilsideEnum) => {
+    switch (feilside) {
+        case FeilsideEnum.FINNES_IKKE:
+            return "Siden finnes ikke";
+        case FeilsideEnum.TEKNISKE_PROBLEMER:
+            return "Tekniske problemer";
+        case FeilsideEnum.IKKE_TILGANG:
+            return "Ingen tilgang";
+    }
+};
+
 const Feilside: React.FC<FeilsideProps> = ({children}) => {
     const feilside = useSelector((state: InnsynAppState) => state.innsynsdata.feilside);
 
     useEffect(() => {
         if (feilside) {
-            setBreadcrumbs();
+            setBreadcrumbs({title: `Feil: ${getFeilType(feilside)}`, url: "/"});
         }
     }, [feilside]);
 
