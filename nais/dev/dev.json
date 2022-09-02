@@ -4,6 +4,7 @@
     "ingresses": ["https://sosialhjelp-innsyn-dev.dev.nav.no/sosialhjelp/innsyn"],
     "prometheusEnabled": false,
     "dekoratorMiljo": "dev",
+    "innsyn-api-single-logout-url": "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/logout",
     "minReplicas": "1",
     "maxReplicas": "2",
     "cpuLimit": "200m",
