@@ -40,14 +40,9 @@ export function getBaseUrl(origin: string): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin)) {
+    } else if (isDevSbs(origin) || isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
-            "/sosialhjelp/login-api/innsyn-api/api/v1"
-        );
-    } else if (isDev(origin)) {
-        return (
-            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
         );
     }
