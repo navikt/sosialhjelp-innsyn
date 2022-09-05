@@ -42,11 +42,11 @@ export function getBaseUrl(origin: string): string {
         );
     } else if (isDevSbs(origin) || isDev(origin)) {
         return (
-            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
         );
     }
-    return "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
+    return "https://www.nav.no/sosialhjelp/innsyn-api/api/v1";
 }
 
 export function getNavUrl(origin: string): string {
