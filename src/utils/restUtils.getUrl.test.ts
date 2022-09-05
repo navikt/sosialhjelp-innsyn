@@ -10,11 +10,6 @@ const localhostOrigins = [
     "localhost",
 ];
 
-const devSbs_origins = [
-    "https://sosialhjelp-innsyn.dev.nav.no/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn.dev.nav.no",
-];
-
 const devSbs_devNavnoOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
 
 const labsOrigins = ["https://digisos.labs.nais.io/sosialhjelp/innsyn", "https://digisos.labs.nais.io"];
@@ -44,7 +39,6 @@ describe("getBaseUrl", () => {
         );
         //validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");//for idporten testing
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
-        validateGetBaseUrl(devSbs_origins, "https://sosialhjelp-login-api.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
             labsOrigins,
             "https://digisos.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
@@ -80,7 +74,6 @@ describe("isDev", () => {
     });
 
     it("should return false for other", () => {
-        validateIsDev(devSbs_origins, false);
         validateIsDev(devSbs_devNavnoOrigins, false);
 
         validateIsDev(labsOrigins, false);
@@ -99,7 +92,6 @@ describe("isDev", () => {
 
 describe("isDevSbs", () => {
     it("should return true for dev-sbs", () => {
-        validateIsDevSbs(devSbs_origins, true);
         validateIsDevSbs(devSbs_devNavnoOrigins, true);
     });
 
@@ -138,7 +130,6 @@ describe("isDev", () => {
     it("should return false for other", () => {
         validateIsDev(localhostOrigins, false);
 
-        validateIsDev(devSbs_origins, false);
         validateIsDev(devSbs_devNavnoOrigins, false);
 
         validateIsDev(labsOrigins, false);
@@ -167,7 +158,6 @@ describe("isLabs", () => {
     it("should return false for other", () => {
         validateIsLabsGcpWithProxy(localhostOrigins, false);
 
-        validateIsLabsGcpWithProxy(devSbs_origins, false);
         validateIsLabsGcpWithProxy(devSbs_devNavnoOrigins, false);
 
         validateIsLabsGcpWithProxy(devOrigins, false);
