@@ -36,9 +36,14 @@ export const useLocalStorageState = (key: string, initialValue = "") => {
 };
 
 export const getVisMeldingsInfo = (dialogStatus: DialogStatus | undefined, harLukketInfo: "true" | "false") => {
-    // Boks vises når den ikke har blitt lukket, man har tilgang til dialog og man har ikke sendt melding
+    // Boks vises når den ikke har blitt lukket, man har tilgang til dialog og man har ikke sendt melding, men har onboardet
 
-    return harLukketInfo === "false" && dialogStatus?.tilgangTilDialog && !dialogStatus?.harSendtMelding;
+    return (
+        harLukketInfo === "false" &&
+        dialogStatus?.tilgangTilDialog &&
+        !dialogStatus?.harSendtMelding &&
+        dialogStatus?.harFullfortOnboarding
+    );
 };
 
 interface Props {

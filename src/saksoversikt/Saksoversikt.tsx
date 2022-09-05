@@ -109,7 +109,8 @@ const Saksoversikt: React.FC = () => {
                                     Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
                                 </StyledLinkPanel>
                             )}
-                        {innsynData.dialogStatus?.tilgangTilDialog && <DineMeldingerPanel />}
+                        {innsynData.dialogStatus?.tilgangTilDialog &&
+                            innsynData.dialogStatus?.harFullfortOnboarding && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}
