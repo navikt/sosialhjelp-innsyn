@@ -48,12 +48,12 @@ describe("getBaseUrl", () => {
             mockOrigins,
             "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
-        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
+        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/innsyn-api/api/v1");
     });
 
     it("should default to prod when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
+        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/innsyn-api/api/v1");
     });
 
     function validateGetBaseUrl(origins: string[], expected: string) {
