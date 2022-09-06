@@ -8,6 +8,7 @@ const decoratorParams = {
     feedback: false,
     chatbot: false,
     shareScreen: false,
+    utilsBackground: "white",
 };
 
 const app = express(); // create express app

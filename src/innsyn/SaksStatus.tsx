@@ -19,7 +19,6 @@ import VedleggView from "../components/vedlegg/VedleggView";
 import {FormattedMessage} from "react-intl";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {SoknadHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
@@ -27,6 +26,8 @@ import SoknadsStatusUtenInnsyn from "../components/soknadsStatus/SoknadsStatusUt
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
+import {setBreadcrumbs} from "../utils/breadcrumbs";
+import {useLocation} from "react-router";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
 import MeldingstjenesteInfo, {
     getVisMeldingsInfo,
@@ -70,7 +71,17 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         erPaInnsyn &&
         restStatus.saksStatus === REST_STATUS.OK &&
         restStatus.oppgaver === REST_STATUS.OK &&
+        restStatus.soknadsStatus === REST_STATUS.OK &&
         restStatus.forelopigSvar === REST_STATUS.OK;
+
+    const {pathname} = useLocation();
+    useEffect(() => {
+        setBreadcrumbs({title: "Status på søknaden din", url: `/sosialhjelp${pathname}`});
+    }, [pathname]);
+
+    useEffect(() => {
+        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, true));
+    }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
         function createAmplitudeData() {
@@ -104,7 +115,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             type: InnsynsdataActionTypeKeys.SETT_FIKSDIGISOSID,
             fiksDigisosId: fiksDigisosId,
         });
-        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, true));
     }, [dispatch, fiksDigisosId]);
 
     useEffect(() => {
@@ -151,16 +161,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             <LoadingResourcesFailedAlert
                 loadingResourcesFailed={loadingResourcesFailed}
                 setLoadingResourcesFailed={setLoadingResourcesFailed}
-            />
-            <Brodsmulesti
-                foreldreside={{
-                    tittel: "Økonomisk sosialhjelp",
-                    path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH,
-                }}
-                tittel={statusTittel}
-                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                className="breadcrumbs__luft_rundt"
             />
 
             <SoknadHotjarTrigger trigger={getHotjarTriggerIfValid()}>

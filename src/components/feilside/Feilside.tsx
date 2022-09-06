@@ -1,33 +1,47 @@
 import * as React from "react";
+import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AppBanner from "../appBanner/AppBanner";
-import Brodsmulesti from "../brodsmuleSti/BrodsmuleSti";
 import {BodyLong, Heading, Link} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import styled from "styled-components/macro";
+import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
 const FeilsideWrapper = styled.div.attrs({className: "blokk-center"})`
-    .breadcrumbs {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+    margin-top: 2rem;
 `;
 export interface FeilsideProps {
     children: React.ReactNode;
 }
 
+const getFeilType = (feilside: FeilsideEnum) => {
+    switch (feilside) {
+        case FeilsideEnum.FINNES_IKKE:
+            return "Siden finnes ikke";
+        case FeilsideEnum.TEKNISKE_PROBLEMER:
+            return "Tekniske problemer";
+        case FeilsideEnum.IKKE_TILGANG:
+            return "Ingen tilgang";
+    }
+};
+
 const Feilside: React.FC<FeilsideProps> = ({children}) => {
     const feilside = useSelector((state: InnsynAppState) => state.innsynsdata.feilside);
+
+    useEffect(() => {
+        if (feilside) {
+            setBreadcrumbs({title: `Feil: ${getFeilType(feilside)}`, url: "/"});
+        }
+    }, [feilside]);
 
     if (feilside) {
         return (
             <div className="informasjon-side">
                 <AppBanner />
                 <FeilsideWrapper>
-                    <Brodsmulesti tittel="Innsyn" foreldreside={{tittel: "Økonomisk sosialhjelp", path: "/"}} />
                     <UthevetPanel>
                         {feilside === FeilsideEnum.TEKNISKE_PROBLEMER && (
                             <>

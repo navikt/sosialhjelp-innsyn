@@ -2,15 +2,10 @@
     background-color: #9bd0b0;
     color: var(--navds-semantic-color-text);
     width: 100%;
-    height: 8.5rem;
+
     border-bottom: 4px solid #38a161;
     padding-left: 1rem;
     padding-top: 1rem;
-}
-
-.big_banner .brodsmulesti {
-    padding-top: 1rem;
-    padding-bottom: 0.75rem;
 }
 
 @media screen and (max-width: 370px) {
@@ -25,14 +20,4 @@
         margin-right: auto;
         margin-bottom: 1rem;
     }
-}
-
-.big_banner__brodsmuler {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin-bottom: 1rem;
-}
-.big_banner__brodsmuler__head {
-    padding-right: 0.5rem;
 }

@@ -3,13 +3,14 @@ import styled from "styled-components";
 import React, {useEffect, useState} from "react";
 import {logAmplitudeEvent} from "../../utils/amplitude";
 import {RadioGruppe} from "../../components/sporreundersokelse/RadioGruppe";
-import Brodsmulesti, {UrlType} from "../../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch, useSelector} from "react-redux";
 import {push} from "connected-react-router";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {fetchToJson} from "../../utils/restUtils";
 import {settSisteKommune} from "../../redux/innsynsdata/innsynsdataReducer";
 import {Cookies, withCookies} from "react-cookie";
+import {useLocation} from "react-router";
+import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
 const StyledPanel = styled(Panel)`
     margin-top: 2rem;
@@ -56,6 +57,11 @@ const Sporreundersokelse = (props: {cookies: Cookies}) => {
 
     const kommunenavn = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
 
+    const {pathname} = useLocation();
+    useEffect(() => {
+        setBreadcrumbs({title: "Spørreundersøkelse", url: `/sosialhjelp${pathname}`});
+    }, [pathname]);
+
     useEffect(() => {
         if (kommunenavn.length === 0) {
             fetchToJson("/innsyn/sisteSak").then((sak: any) => dispatch(settSisteKommune(sak?.kommunenummer)));
@@ -88,16 +94,6 @@ const Sporreundersokelse = (props: {cookies: Cookies}) => {
 
     return (
         <>
-            <Brodsmulesti
-                foreldreside={{
-                    tittel: "Økonomisk sosialhjelp",
-                    path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH,
-                }}
-                tittel="Spørreundersøkelse"
-                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                className="breadcrumbs__luft_rundt"
-            />
             <StyledPanel>
                 <StyledHeader level={"2"} size={"large"}>
                     Dine erfaringer med NAV og sosialtjenesten

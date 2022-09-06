@@ -10,7 +10,6 @@ import {
     filtrerUtbetalingerForTidsinterval,
     filtrerUtbetalingerPaaMottaker,
 } from "./utbetalingerUtils";
-import Brodsmulesti, {UrlType} from "../components/brodsmuleSti/BrodsmuleSti";
 import {useDispatch, useSelector} from "react-redux";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import {
@@ -21,10 +20,12 @@ import {
     visFeilside,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {useLocation} from "react-router";
+import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {InnsynAppState} from "../redux/reduxTypes";
-import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
 import {IngenUtbetalingsoversikt} from "./IngenUtbetalingsoversikt";
 import styled from "styled-components/macro";
+
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
 const StyledUtbetalinger = styled.div`
@@ -93,6 +94,11 @@ const Utbetalinger: React.FC = () => {
     const utbetalinger: UtbetalingSakType[] =
         utbetalingerService.restStatus === REST_STATUS.OK ? utbetalingerService.payload : [];
 
+    const {pathname} = useLocation();
+    useEffect(() => {
+        setBreadcrumbs({title: "Utbetalingsoversikt", url: `/sosialhjelp${pathname}`});
+    }, [pathname]);
+
     useEffect(() => {
         if (!pageLoadIsLogged && utbetalingerService.restStatus === REST_STATUS.OK) {
             logAmplitudeEvent("Lastet utbetalinger", {antall: utbetalinger.length});
@@ -106,23 +112,13 @@ const Utbetalinger: React.FC = () => {
     filtrerteUtbetalinger = filtrerMaanederUtenUtbetalinger(filtrerteUtbetalinger);
 
     const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const innsynRestStatus = innsynData.restStatus.saker;
-    const leserInnsynData: boolean =
-        innsynRestStatus === REST_STATUS.INITIALISERT || innsynRestStatus === REST_STATUS.PENDING;
-
-    const soknadApiData = useSoknadsSakerService();
-    const leserSoknadApiData: boolean =
-        soknadApiData.restStatus === REST_STATUS.INITIALISERT || soknadApiData.restStatus === REST_STATUS.PENDING;
-
-    const leserData: boolean = leserInnsynData || leserSoknadApiData;
+    const restStatus = innsynData.restStatus.saker;
+    const leserData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
-        if (innsynRestStatus === REST_STATUS.OK) {
+        if (restStatus === REST_STATUS.OK) {
             alleSaker = alleSaker.concat(innsynData.saker);
-        }
-        if (soknadApiData.restStatus === REST_STATUS.OK) {
-            alleSaker = alleSaker.concat(soknadApiData.payload.results);
         }
     }
     const harSaker = alleSaker.length > 0;
@@ -140,17 +136,6 @@ const Utbetalinger: React.FC = () => {
 
     return (
         <div>
-            <Brodsmulesti
-                tittel={"Utbetalingsoversikt for økonomisk sosialhjelp"}
-                tilbakePilUrlType={UrlType.ABSOLUTE_PATH}
-                foreldreside={{
-                    tittel: "Økonomisk sosialhjelp",
-                    path: "/sosialhjelp/innsyn/",
-                    urlType: UrlType.ABSOLUTE_PATH,
-                }}
-                className="breadcrumbs__luft_rundt"
-            />
-
             {harSoknaderMedInnsyn && harSaker && !lasterSoknaderMedInnsyn && (
                 <StyledUtbetalinger>
                     <StyledUtbetalingerFilter>

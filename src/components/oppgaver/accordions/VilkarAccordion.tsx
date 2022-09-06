@@ -13,7 +13,12 @@ export const getUnikeVilkar = (vilkar: Vilkar[]) => {
             self.findIndex((it) => it.beskrivelse === vilkarElement.beskrivelse && it.tittel === vilkarElement.tittel)
     );
 };
-export const VilkarAccordion = (props: {vilkar: Vilkar[]}) => {
+
+interface Props {
+    vilkar: Vilkar[];
+    feilmelding?: React.ReactNode;
+}
+export const VilkarAccordion = (props: Props) => {
     const unikeVilkar = getUnikeVilkar(props.vilkar);
 
     return (
@@ -28,6 +33,7 @@ export const VilkarAccordion = (props: {vilkar: Vilkar[]}) => {
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
+                    {props.feilmelding}
                     {unikeVilkar.map((vilkarElement, index) => (
                         <VilkarView key={index} vilkar={vilkarElement} />
                     ))}

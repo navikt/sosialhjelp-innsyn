@@ -52,27 +52,6 @@ export function getBaseUrl(origin: string): string {
     return "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
 }
 
-export function getSoknadApiUrl(): string {
-    return getSoknadBaseUrl(window.location.origin);
-}
-
-export function getSoknadBaseUrl(origin: string): string {
-    if (isLocalhost(origin)) {
-        return "http://localhost:8181/sosialhjelp/soknad-api";
-    }
-    if (isDevSbs(origin) || isUsingMockAlt(origin) || isDev(origin)) {
-        return (
-            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-soknad-api") +
-            "/sosialhjelp/soknad-api"
-        );
-    }
-    return "https://www.nav.no/sosialhjelp/soknad-api";
-}
-
-export function getDittNavUrl(): string {
-    return getNavUrl(window.location.origin);
-}
-
 export function getNavUrl(origin: string): string {
     if (isLocalhost(origin) || isUsingMockAlt(origin) || isDevSbs(origin) || isDev(origin)) {
         return "https://www.dev.nav.no/person/dittnav/";
@@ -159,7 +138,6 @@ export const serverRequest = <T>(
     urlPath: string,
     body: string | null | FormData,
     contentType?: string,
-    isSoknadApi?: boolean,
     callId?: string
 ): Promise<T> => {
     const headers = getHeaders(contentType, callId);
@@ -171,7 +149,7 @@ export const serverRequest = <T>(
         body: body ? body : undefined,
     };
 
-    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath;
+    const url = getApiBaseUrl() + urlPath;
 
     return new Promise((resolve, reject) => {
         fetch(url, OPTIONS)
@@ -192,8 +170,7 @@ export const serverRequestGetErrors = (
     method: string,
     urlPath: string,
     body: string | null | FormData,
-    contentType?: string,
-    isSoknadApi?: boolean
+    contentType?: string
 ) => {
     const headers = getHeaders(contentType);
     addXsrfHeadersIfPutOrPost(method, headers);
@@ -204,7 +181,7 @@ export const serverRequestGetErrors = (
         body: body ? body : undefined,
     };
 
-    const url = isSoknadApi ? getSoknadApiUrl() + urlPath : getApiBaseUrl() + urlPath;
+    const url = getApiBaseUrl() + urlPath;
 
     return fetch(url, OPTIONS).then(toJson);
 };
@@ -265,16 +242,12 @@ export function fetchToJson<T>(urlPath: string) {
     return serverRequest<T>(RequestMethod.GET, urlPath, null);
 }
 
-export function fetchToJsonFromSoknadApi<T>(urlPath: string) {
-    return serverRequest<T>(RequestMethod.GET, urlPath, null, undefined, true);
-}
-
 export function fetchPut<T>(urlPath: string, body: string) {
     return serverRequest<T>(RequestMethod.PUT, urlPath, body);
 }
 
 export function fetchPost<T>(urlPath: string, body: string | FormData, contentType?: string, callId?: string) {
-    return serverRequest<T>(RequestMethod.POST, urlPath, body, contentType, undefined, callId);
+    return serverRequest<T>(RequestMethod.POST, urlPath, body, contentType, callId);
 }
 
 export function fetchPostGetErrors(urlPath: string, body: string | FormData, contentType?: string) {

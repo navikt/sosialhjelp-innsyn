@@ -27,7 +27,7 @@ import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/in
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Label, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
