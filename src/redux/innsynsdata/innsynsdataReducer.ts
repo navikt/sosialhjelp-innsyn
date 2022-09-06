@@ -233,6 +233,7 @@ export interface DialogStatus {
     tilgangTilDialog: boolean;
     antallUlesteMeldinger: number;
     harSendtMelding: boolean;
+    harFullfortOnboarding: boolean;
 }
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
