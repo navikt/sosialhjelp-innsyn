@@ -15,7 +15,7 @@
     "amplitude-js": "^8.16.1",
     "connected-react-router": "^6.8.0",
     "core-js": "^3.21.0",
-    "date-fns": "^2.21.3",
+    "date-fns": "^2.29.2",
     "express": "^4.17.1",
     "formdata-polyfill": "^3.0.19",
     "history": "^4.10.1",
