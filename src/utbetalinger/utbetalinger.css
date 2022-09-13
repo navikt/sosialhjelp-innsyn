@@ -95,17 +95,6 @@
     text-transform: capitalize;
 }
 
-.utbetaling_header {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    margin-bottom: 4px;
-}
-
-.utbetaling_header a i {
-    margin-left: 0.5rem;
-}
-
 .bunnSeparator {
     border-bottom: 2px solid #979797;
     padding-bottom: 1rem;
