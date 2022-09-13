@@ -23,7 +23,7 @@ export const TextAndButtonWrapper = styled.div`
     }
 `;
 const AddFileButton: React.FC<{
-    onChange: (event: any, dokumentasjonkravReferanse: string) => void;
+    onChange: (event: any, referanse: string) => void;
     referanse: string;
     id: string;
 }> = ({onChange, referanse, id}) => {

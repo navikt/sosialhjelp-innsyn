@@ -1,10 +1,4 @@
-import {
-    alertUser,
-    hasNotAddedFiles,
-    maxCombinedFileSize,
-    createFormDataWithVedleggFromFiler,
-    createFormDataWithVedleggFromOppgaver,
-} from "../../utils/vedleggUtils";
+import {alertUser, createFormDataWithVedleggFromFiler, maxCombinedFileSize} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     hentOppgaveMedId,
@@ -45,28 +39,6 @@ export const onSendVedleggClicked = (
 
     const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
     let formData: any = undefined;
-
-    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
-        try {
-            formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
-        } catch (e: any) {
-            dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e?.message);
-            event.preventDefault();
-            return;
-        }
-
-        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
-        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
-        dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
-
-        if (noFilesAdded) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
-            event.preventDefault();
-            return;
-        }
-    }
 
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         try {

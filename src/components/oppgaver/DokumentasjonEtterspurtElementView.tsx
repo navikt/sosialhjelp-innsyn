@@ -1,19 +1,17 @@
-import {DokumentasjonEtterspurtElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurtElement, Fil, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {
-    alertUser,
-    FileError,
-    findFilesWithError,
-    isFileErrorsNotEmpty,
-    writeErrorMessage,
-} from "../../utils/vedleggUtils";
+import {alertUser} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FileItemView from "./FileItemView";
 import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
 import {v4 as uuidv4} from "uuid";
-import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
+import {FileValidationErrors} from "./DokumentasjonkravElementView";
+import {validateFile} from "./validateFile";
+import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
+import ErrorMessage from "./ErrorMessage";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
@@ -21,70 +19,67 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-    onDelete: (oppgaveId: string, vedleggIndex: number, fil: Fil) => void;
-    onAddFileChange: (files: FileList, internalIndex: number, oppgaveElement: DokumentasjonEtterspurtElement) => void;
+    dokumentasjonEtterspurtIndex: number;
+    hendelseReferanse: string;
+    onDelete: (event: any, hendelseReferanse: string, fil: Fil) => void;
+    onAddFileChange: (event: any, hendelseReferanse: string, validFiles: Fil[]) => void;
+    filer: Fil[];
 }> = ({
     tittel,
     beskrivelse,
     oppgaveElement,
     oppgaveElementIndex,
     oppgaveId,
-    setOverMaksStorrelse,
+    dokumentasjonEtterspurtIndex,
+    hendelseReferanse,
     onDelete,
     onAddFileChange,
+    filer,
 }) => {
     const uuid = uuidv4();
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
+    const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
 
+    const kommuneResponse: KommuneResponse | undefined = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.kommune
+    );
+    const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommuneResponse);
+
     useEffect(() => {
-        if (oppgaveElement.filer && oppgaveElement.filer.length > 0) {
+        if (filer && filer.length > 0) {
             window.addEventListener("beforeunload", alertUser);
         }
         return function unload() {
             window.removeEventListener("beforeunload", alertUser);
         };
-    }, [oppgaveElement.filer]);
+    }, [filer]);
 
-    const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
+    const visOppgaverDetaljeFeil: boolean =
+        oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
 
-    const onDeleteClick = (event: any, vedleggIndex: number, fil: Fil) => {
-        event.preventDefault();
-        onDelete(oppgaveId, vedleggIndex, fil);
+    const onDeleteElement = (event: any, fil: Fil) => {
+        setFileValidationErrors(undefined);
+        onDelete(event, hendelseReferanse, fil);
     };
 
     const onChange = (event: any) => {
-        setListeMedFilerSomFeiler([]);
-        setOverMaksStorrelse(false);
+        setFileValidationErrors(undefined);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            const filesWithError: Array<FileError> = findFilesWithError(files, oppgaveElementIndex);
-            if (filesWithError.length === 0) {
-                onAddFileChange(files, oppgaveElementIndex, oppgaveElement);
-            } else {
-                setListeMedFilerSomFeiler(filesWithError);
-                filesWithError.forEach((fil: FileError) => {
-                    if (fil.containsIllegalCharacters) {
-                        logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
-                    }
-                    if (fil.legalCombinedFilesSize) {
-                        logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
-                    }
-                    if (fil.legalFileSize) {
-                        logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
-                    }
-                });
+            const opplastedeFiler = Array.from(files).map((file: File) => {
+                return {filnavn: file.name, status: "INITIALISERT", file: file};
+            });
+
+            const result = validateFile(opplastedeFiler);
+
+            if (result.errors.size) {
+                setFileValidationErrors({errors: result.errors, filenames: result.filenames});
             }
+            onAddFileChange(event, hendelseReferanse, result.validFiles);
         }
-        if (event.target.value === "") {
-            return;
-        }
-        event.target.value = null;
-        event.preventDefault();
     };
 
     return (
@@ -94,22 +89,33 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                     <Label>{tittel}</Label>
                     {beskrivelse && <BodyShort>{beskrivelse}</BodyShort>}
                 </div>
-
-                <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
+                {canUploadAttatchemnts && (
+                    <AddFileButton onChange={onChange} referanse={oppgaveElement.hendelsereferanse ?? ""} id={uuid} />
+                )}
             </TextAndButtonWrapper>
 
-            {oppgaveElement.filer &&
-                oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FileItemView
-                        key={vedleggIndex}
-                        fil={fil}
-                        onDelete={(event: MouseEvent, fil) => {
-                            onDeleteClick(event, vedleggIndex, fil);
-                        }}
-                    />
-                ))}
-            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
-                writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
+            {filer.map((fil: Fil, vedleggIndex: number) => (
+                <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
+            ))}
+
+            {fileValidationErrors && fileValidationErrors?.errors.size && (
+                <div>
+                    {fileValidationErrors.filenames.size === 1 ? (
+                        <ErrorMessageTitle
+                            feilId={"vedlegg.ulovlig_en_fil_feilmelding"}
+                            errorValue={{filnavn: Array.from(fileValidationErrors.filenames)[0]}}
+                        />
+                    ) : (
+                        <ErrorMessageTitle
+                            feilId={"vedlegg.ulovlig_flere_fil_feilmellding"}
+                            errorValue={{antallFiler: fileValidationErrors.filenames.size}}
+                        />
+                    )}
+                    {Array.from(fileValidationErrors.errors).map((key, index) => {
+                        return <ErrorMessage feilId={key} key={index} />;
+                    })}
+                </div>
+            )}
         </div>
     );
 };

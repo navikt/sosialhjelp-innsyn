@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import {
     DokumentasjonEtterspurt,
-    DokumentasjonEtterspurtElement,
     Fil,
-    InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     KommuneResponse,
     settRestStatus,
@@ -17,10 +15,10 @@ import {formatDato} from "../../utils/formatting";
 import {
     createFormDataWithVedleggFromOppgaver,
     getVisningstekster,
-    hasNotAddedFiles,
+    illegalCombinedFilesSize,
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
-import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
+import {REST_STATUS} from "../../utils/restUtils";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {
     hentInnsynsdata,
@@ -30,17 +28,38 @@ import {
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
-import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
+import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
+import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
     oppgaverErFraInnsyn: boolean;
     oppgaveIndex: any;
 }
+
+export interface DokumentasjonEtterspurtFiler {
+    [key: string]: Fil[];
+}
+
+export const deleteReferenceFromDokumentasjonEtterspurtFiler = (
+    dokumentasjonEtterspurtFiler: DokumentasjonEtterspurtFiler,
+    reference: string
+) => {
+    return Object.keys(dokumentasjonEtterspurtFiler).reduce(
+        (updated, currentReference) =>
+            currentReference === reference
+                ? updated
+                : {
+                      ...updated,
+                      [currentReference]: dokumentasjonEtterspurtFiler[currentReference],
+                  },
+        {}
+    );
+};
 
 const ButtonWrapper = styled.div`
     margin-top: 1rem;
@@ -49,6 +68,8 @@ const ButtonWrapper = styled.div`
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
     const [isUploading, setIsUploading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const [dokumentasjonEtterspurtFiler, setDokumentasjonEtterspurtFiler] = useState<DokumentasjonEtterspurtFiler>({});
 
     const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
@@ -73,12 +94,22 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
+    const includesReferanse = (feilReferanse: string[]) => {
+        dokumentasjonEtterspurt.oppgaveElementer.filter((doketterspurt) => {
+            if (doketterspurt.hendelsereferanse) {
+                return feilReferanse.includes(doketterspurt.hendelsereferanse);
+            }
+            return false;
+        });
+        return false;
+    };
+
     const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
-        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
+        includesReferanse(listeOverDokumentasjonEtterspurtIderSomFeilet) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
+        includesReferanse(listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend) ||
+        includesReferanse(listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend);
 
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -86,106 +117,138 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             return;
         }
         setIsUploading(true);
+        setErrorMessage(undefined);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
-        const formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
 
-        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
-        dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, noFilesAdded));
+        dispatch(
+            setFileUploadFailed(
+                dokumentasjonEtterspurt.oppgaveId,
+                Object.keys(dokumentasjonEtterspurtFiler).length === 0
+            )
+        );
 
-        if (noFilesAdded) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+        if (Object.keys(dokumentasjonEtterspurtFiler).length === 0) {
+            setErrorMessage("vedlegg.minst_ett_vedlegg");
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setIsUploading(false);
-            event.preventDefault();
-            return;
         }
 
         const handleFileWithVirus = () => {
+            setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
+            dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
+            setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
-        const onSuccessful = () => {
-            fetchPost(path, formData, "multipart/form-data")
-                .then((fileResponse: any) => {
-                    let hasError: boolean = false;
-                    if (Array.isArray(fileResponse)) {
-                        fileResponse.forEach((response) => {
-                            response.filer.forEach((fil: Fil, index: number) => {
-                                if (fil.status !== "OK") {
-                                    hasError = true;
-                                }
-                                dispatch({
-                                    type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                    fil: {filnavn: fil.filnavn} as Fil,
-                                    status: fil.status,
-                                    innsendelsesfrist: response.innsendelsesfrist,
-                                    dokumenttype: response.type,
-                                    tilleggsinfo: response.tilleggsinfo,
-                                    vedleggIndex: index,
-                                });
-                            });
-                        });
-                    }
-                    if (hasError) {
-                        dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
-                    } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
-                        dispatch(
-                            hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
-                        );
-                    }
-                    setIsUploading(false);
-                })
-                .catch((e) => {
-                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
-                    // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
-                    fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
-                        if (errorResponse.message === "Mulig virus funnet") {
-                            handleFileWithVirus();
-                        }
-                    });
-                    handleFileUploadFailed();
-                    logWarningMessage("Feil med opplasting av vedlegg: " + e.message);
-                });
+        const onSuccessful = (reference: string) => {
+            dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
+
+            dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
+            dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
+
+            setDokumentasjonEtterspurtFiler(
+                deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, reference)
+            );
+            setIsUploading(false);
         };
-        onSuccessful();
+        dokumentasjonEtterspurt.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
+            const reference = dokumentasjonEtterspurtElement.hendelsereferanse ?? "";
+            const filer = dokumentasjonEtterspurtFiler[reference];
+            if (!filer || filer.length === 0) {
+                return;
+            }
+
+            const formData = createFormDataWithVedleggFromOppgaver(
+                dokumentasjonEtterspurtElement,
+                filer,
+                dokumentasjonEtterspurt.innsendelsesfrist
+            );
+            onSendVedleggClicked(
+                reference,
+                formData,
+                filer,
+                path,
+                handleFileWithVirus,
+                handleFileUploadFailed,
+                onSuccessful
+            );
+        });
     };
 
-    const onAddFileChange = (
-        files: FileList,
-        internalIndex: number,
-        oppgaveElement: DokumentasjonEtterspurtElement
-    ) => {
+    const onAddFileChange = (event: any, hendelseReferanse: string, validFiles: Fil[]) => {
+        setErrorMessage(undefined);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
 
-        Array.from(files).forEach((file: File) => {
-            if (!file) {
-                logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
+        if (validFiles.length) {
+            const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
+            if (newDokumentasjonEtterspurt[hendelseReferanse]) {
+                newDokumentasjonEtterspurt[hendelseReferanse] =
+                    newDokumentasjonEtterspurt[hendelseReferanse].concat(validFiles);
             } else {
-                dispatch({
-                    type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
-                    internalIndex: internalIndex,
-                    oppgaveElement: oppgaveElement,
-                    externalIndex: oppgaveIndex,
-                    fil: {
-                        filnavn: file.name,
-                        status: "INITIALISERT",
-                        file: file,
-                    },
-                });
+                newDokumentasjonEtterspurt[hendelseReferanse] = validFiles;
             }
-        });
+
+            const totalFileSize = newDokumentasjonEtterspurt[hendelseReferanse].reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
+            );
+
+            if (illegalCombinedFilesSize(totalFileSize)) {
+                setOverMaksStorrelse(true);
+                setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+                fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            }
+            setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
+        }
+
+        if (event.target.value === "") {
+            return;
+        }
+        event.target.value = null;
+        event.preventDefault();
+    };
+
+    const onDeleteClick = (event: any, hendelseReferanse: string, fil: Fil) => {
+        setErrorMessage(undefined);
+
+        if (hendelseReferanse !== "" && fil) {
+            const newDokumentasjonOppgaveId = {...dokumentasjonEtterspurtFiler};
+            if (newDokumentasjonOppgaveId[hendelseReferanse]) {
+                const remainingFiles = newDokumentasjonOppgaveId[hendelseReferanse].filter(
+                    (doketterspurt) => doketterspurt.file !== fil.file
+                );
+                if (remainingFiles.length) {
+                    newDokumentasjonOppgaveId[hendelseReferanse] = remainingFiles;
+                    setDokumentasjonEtterspurtFiler(newDokumentasjonOppgaveId);
+                } else {
+                    setDokumentasjonEtterspurtFiler(
+                        deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, hendelseReferanse)
+                    );
+                }
+            }
+        }
+
+        const totalFileSize = dokumentasjonEtterspurtFiler[hendelseReferanse].reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
+
+        if (illegalCombinedFilesSize(totalFileSize)) {
+            setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            setOverMaksStorrelse(true);
+        } else {
+            setOverMaksStorrelse(false);
+        }
     };
 
     return (
@@ -217,20 +280,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         oppgaveElement.dokumenttype,
                         oppgaveElement.tilleggsinformasjon
                     );
-
-                    const onDelete = (oppgaveId: string, vedleggIndex: number, fil: Fil) => {
-                        setOverMaksStorrelse(false);
-                        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
-                        dispatch({
-                            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
-                            vedleggIndex: vedleggIndex,
-                            oppgaveElement: oppgaveElement,
-                            internalIndex: oppgaveElementIndex,
-                            externalIndex: oppgaveIndex,
-                            fil: fil,
-                        });
-                    };
-
                     return (
                         <DokumentasjonEtterspurtElementView
                             key={oppgaveElementIndex}
@@ -239,17 +288,14 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             oppgaveElement={oppgaveElement}
                             oppgaveElementIndex={oppgaveElementIndex}
                             oppgaveId={dokumentasjonEtterspurt.oppgaveId}
-                            setOverMaksStorrelse={setOverMaksStorrelse}
-                            onDelete={onDelete}
+                            dokumentasjonEtterspurtIndex={oppgaveIndex}
+                            hendelseReferanse={oppgaveElement.hendelsereferanse ?? ""}
+                            onDelete={onDeleteClick}
                             onAddFileChange={onAddFileChange}
+                            filer={dokumentasjonEtterspurtFiler[oppgaveElement.hendelsereferanse ?? ""] ?? []}
                         />
                     );
                 })}
-                {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
-                    <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                    </ErrorMessage>
-                )}
                 {kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
@@ -266,29 +312,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     </ButtonWrapper>
                 )}
             </div>
-            {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
-                dokumentasjonEtterspurt.oppgaveId
-            ) && (
+            {errorMessage && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
-                </ErrorMessage>
-            )}
-
-            {overMaksStorrelse && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
-                </ErrorMessage>
-            )}
-            {(listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
-                opplastingFeilet) && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage
-                        id={
-                            listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId)
-                                ? "vedlegg.minst_ett_vedlegg"
-                                : "vedlegg.opplasting_feilmelding"
-                        }
-                    />
+                    <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
         </div>
