@@ -4,9 +4,9 @@
   "private": true,
   "homepage": "/sosialhjelp/innsyn/",
   "dependencies": {
-    "@navikt/ds-css": "^0.18.27",
-    "@navikt/ds-icons": "^0.8.18",
-    "@navikt/ds-react": "^0.19.25",
+    "@navikt/ds-css": "^1.2.6",
+    "@navikt/ds-icons": "^1.2.6",
+    "@navikt/ds-react": "^1.2.6",
     "@navikt/nav-dekoratoren-moduler": "^1.6.17",
     "@sentry/react": "^7.8.0",
     "@sentry/tracing": "^7.8.0",

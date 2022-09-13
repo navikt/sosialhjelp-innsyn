@@ -62,7 +62,6 @@ const StyledFilInfo = styled.div`
 `;
 
 const StyledDeleteButton = styled(Button)`
-    display: inline-block;
     white-space: nowrap;
     margin-left: auto;
     @media screen and (max-width: ${MOBILE_MAXWIDTH}) {
@@ -107,11 +106,16 @@ const FileItemView: React.FC<{
                         ({storrelse})
                     </BodyShort>
                 </StyledFilInfo>
-                <StyledDeleteButton variant="tertiary" size="small" onClick={(event: any) => onDelete(event, fil)}>
+                <StyledDeleteButton
+                    variant="tertiary"
+                    size="small"
+                    onClick={(event: any) => onDelete(event, fil)}
+                    iconPosition="right"
+                    icon={<Delete />}
+                >
                     <Label>
                         <FormattedMessage id="vedlegg.fjern" />
                     </Label>
-                    <Delete />
                 </StyledDeleteButton>
             </StyledFilInfoOgKnapp>
             {fil.status !== REST_STATUS.INITIALISERT &&
