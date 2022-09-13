@@ -212,9 +212,10 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 filer
                             );
                         }}
+                        iconPosition="right"
+                        icon={vedleggLastesOpp && <Loader />}
                     >
                         <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
-                        {vedleggLastesOpp && <Loader />}
                     </Button>
                 </ButtonWrapper>
             </div>
