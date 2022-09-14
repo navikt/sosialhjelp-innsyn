@@ -60,6 +60,14 @@ const StyledTable = styled(Table)`
             padding-top: 1rem;
         }
     }
+
+    a.filnavn {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 20rem;
+    }
 `;
 
 const StyledPaperClipSlanted = styled(PaperClipSlanted)`
@@ -245,11 +253,12 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                     )}
                                     {!harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
-                                            <Table.DataCell className="filnavn_kollonne">
+                                            <Table.DataCell>
                                                 <StyledPaperClipSlanted />
                                                 <Link
                                                     href={vedlegg.url}
                                                     target="_blank"
+                                                    className="filnavn"
                                                     title={
                                                         vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"
                                                     }

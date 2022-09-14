@@ -44,8 +44,8 @@ const AddFileButton: React.FC<{
                 onClick={(event) => {
                     onClick(event);
                 }}
+                icon={<StyledUploadIcon />}
             >
-                <StyledUploadIcon />
                 <Label>
                     <FormattedMessage id="vedlegg.velg_fil" />
                 </Label>

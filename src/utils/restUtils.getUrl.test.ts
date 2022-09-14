@@ -1,4 +1,4 @@
-import {getBaseUrl, isLocalhost, isDevSbs, getSoknadBaseUrl, isDev} from "./restUtils";
+import {getBaseUrl, isLocalhost, isDevSbs, isDev} from "./restUtils";
 
 const localhostOrigins = [
     "http://localhost:3003/sosialhjelp/innsyn",
@@ -61,31 +61,6 @@ describe("getBaseUrl", () => {
     function validateGetBaseUrl(origins: string[], expected: string) {
         origins.forEach((origin) => {
             expect(getBaseUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
-        });
-    }
-});
-
-describe("getSoknadBaseUrl", () => {
-    it("should return correct backend-url", () => {
-        validateGetBaseUrl(localhostOrigins, "http://localhost:8181/sosialhjelp/soknad-api");
-
-        validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(devSbs_origins, "https://sosialhjelp-soknad-api.dev.nav.no/sosialhjelp/soknad-api");
-
-        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(mockOrigins, "https://digisos.ekstern.dev.nav.no/sosialhjelp/soknad-api");
-
-        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
-        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
-    });
-
-    it("should default to prod when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/soknad-api");
-    });
-
-    function validateGetBaseUrl(origins: string[], expected: string) {
-        origins.forEach((origin) => {
-            expect(getSoknadBaseUrl(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });

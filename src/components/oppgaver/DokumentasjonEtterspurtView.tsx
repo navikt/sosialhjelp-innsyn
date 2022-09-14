@@ -101,14 +101,12 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         }
 
         const handleFileWithVirus = () => {
-            console.log("file with virus");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
-            console.log("file with error");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -261,9 +259,10 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
                                 onSendClicked(event);
                             }}
+                            iconPosition="right"
+                            icon={isUploading && <Loader />}
                         >
                             <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                            {isUploading && <Loader />}
                         </Button>
                     </ButtonWrapper>
                 )}

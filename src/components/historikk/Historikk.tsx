@@ -128,16 +128,13 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
                 />
             )}
 
-            <CenteredButton variant="tertiary" onClick={toggleOpen}>
-                {apen ? (
-                    <>
-                        Lukk <Collapse />{" "}
-                    </>
-                ) : (
-                    <>
-                        Vis alle ({hendelser.length}) <Expand />
-                    </>
-                )}
+            <CenteredButton
+                variant="tertiary"
+                onClick={toggleOpen}
+                iconPosition={"right"}
+                icon={apen ? <Collapse /> : <Expand />}
+            >
+                {apen ? "Lukk" : `Vis alle (${hendelser.length})`}
             </CenteredButton>
         </FlexContainer>
     );

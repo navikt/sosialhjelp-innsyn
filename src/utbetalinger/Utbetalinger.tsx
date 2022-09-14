@@ -23,7 +23,6 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {useLocation} from "react-router";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {InnsynAppState} from "../redux/reduxTypes";
-import useSoknadsSakerService from "../saksoversikt/sakerFraSoknad/useSoknadsSakerService";
 import {IngenUtbetalingsoversikt} from "./IngenUtbetalingsoversikt";
 import styled from "styled-components/macro";
 
@@ -113,23 +112,13 @@ const Utbetalinger: React.FC = () => {
     filtrerteUtbetalinger = filtrerMaanederUtenUtbetalinger(filtrerteUtbetalinger);
 
     const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const innsynRestStatus = innsynData.restStatus.saker;
-    const leserInnsynData: boolean =
-        innsynRestStatus === REST_STATUS.INITIALISERT || innsynRestStatus === REST_STATUS.PENDING;
-
-    const soknadApiData = useSoknadsSakerService();
-    const leserSoknadApiData: boolean =
-        soknadApiData.restStatus === REST_STATUS.INITIALISERT || soknadApiData.restStatus === REST_STATUS.PENDING;
-
-    const leserData: boolean = leserInnsynData || leserSoknadApiData;
+    const restStatus = innsynData.restStatus.saker;
+    const leserData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
-        if (innsynRestStatus === REST_STATUS.OK) {
+        if (restStatus === REST_STATUS.OK) {
             alleSaker = alleSaker.concat(innsynData.saker);
-        }
-        if (soknadApiData.restStatus === REST_STATUS.OK) {
-            alleSaker = alleSaker.concat(soknadApiData.payload.results);
         }
     }
     const harSaker = alleSaker.length > 0;

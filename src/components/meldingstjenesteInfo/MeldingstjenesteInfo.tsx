@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, SpeechBubble} from "@navikt/ds-react";
+import {Button, Chat} from "@navikt/ds-react";
 import NavLogo from "./NavLogo";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -7,12 +7,12 @@ import styled from "styled-components";
 import {Close} from "@navikt/ds-icons";
 import {DialogStatus} from "../../redux/innsynsdata/innsynsdataReducer";
 
-const StyledSnakkeboble = styled(SpeechBubble)`
+const StyledSnakkeboble = styled(Chat)`
     svg {
         padding: 0 3px;
     }
 `;
-const MeldingsInnhold = styled(SpeechBubble.Bubble)`
+const MeldingsInnhold = styled(Chat.Bubble)`
     position: relative;
     padding-right: 48px;
     border: 1px solid #a0a0a0;
@@ -36,9 +36,14 @@ export const useLocalStorageState = (key: string, initialValue = "") => {
 };
 
 export const getVisMeldingsInfo = (dialogStatus: DialogStatus | undefined, harLukketInfo: "true" | "false") => {
-    // Boks vises når den ikke har blitt lukket, man har tilgang til dialog og man har ikke sendt melding
+    // Boks vises når den ikke har blitt lukket, man har tilgang til dialog og man har ikke sendt melding, men har onboardet
 
-    return harLukketInfo === "false" && dialogStatus?.tilgangTilDialog && !dialogStatus?.harSendtMelding;
+    return (
+        harLukketInfo === "false" &&
+        dialogStatus?.tilgangTilDialog &&
+        !dialogStatus?.harSendtMelding &&
+        dialogStatus?.harFullfortOnboarding
+    );
 };
 
 interface Props {
@@ -54,14 +59,12 @@ const MeldingstjenesteInfo = (props: Props) => {
     return (
         <StyledSnakkeboble
             position={"left"}
-            illustration={<NavLogo titleId="meldingFraNav" className="navLogo" />}
-            illustrationBgColor={"#262626"}
+            avatar={<NavLogo titleId="meldingFraNav" className="navLogo" />}
+            avatarBgColor={"#262626"}
             backgroundColor="#FFF"
         >
             <MeldingsInnhold backgroundColor="#FFF">
-                <Lukkeknapp onClick={lukkInfo}>
-                    <Close />
-                </Lukkeknapp>
+                <Lukkeknapp onClick={lukkInfo} icon={<Close title="Lukk" />} />
                 <span>
                     {`Hei ${fornavn}. Har du spørsmål til søknaden din eller ønsker å snakke med veilderen din? Det kan du
                     gjøre i `}{" "}
