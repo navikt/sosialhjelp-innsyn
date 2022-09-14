@@ -6,8 +6,8 @@ import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {erDevMiljo} from "../utils/ServiceHookTypes";
-import {EtikettLiten} from "../components/etikett/EtikettLiten";
-import {Heading, Label} from "@navikt/ds-react";
+import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
+import styled, {css} from "styled-components/macro";
 
 interface Props {
     utbetalinger: UtbetalingSakType[];
@@ -23,96 +23,126 @@ const sumUtbetalinger = (utbetalingSak: UtbetalingSakType): number => {
     return sum;
 };
 
+const StyledDetail = styled(Detail)`
+    margin-top: 1rem;
+`;
+
+const StyledHeading = styled(Heading)`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 2px solid #979797;
+    padding-bottom: 1rem;
+    text-transform: capitalize;
+`;
+
+const StyledPanel = styled(Panel)`
+    margin-bottom: 1rem;
+`;
+
+const StyledUtbetaling = styled.div<{$erIkkeSiste: boolean}>`
+  ${(props) =>
+      props.$erIkkeSiste &&
+      css`
+          border-bottom: 1px solid #979797;
+          padding-bottom: 0.5rem;
+      `}
+}`;
+
+const StyledUtbetalingHeader = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    h3 {
+        text-transform: capitalize;
+    }
+`;
+
+const MottakerWrapper = styled.div`
+    margin: 1rem 0;
+`;
+
 const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
     if (lasterData) {
         return (
             <div className="utbetalinger_detaljer">
-                <div className="utbetaling__header">
-                    <Lastestriper linjer={3} />
-                </div>
+                <Lastestriper linjer={3} />
             </div>
         );
     }
+
     return (
         <div className="utbetalinger_detaljer">
             {(!utbetalinger || utbetalinger.length === 0) && (
-                <div className="utbetaling__header">
-                    <Label>Vi finner ingen registrerte utbetalinger for perioden.</Label>
-                </div>
+                <Label as="p">Vi finner ingen registrerte utbetalinger for perioden.</Label>
             )}
-            {utbetalinger &&
-                utbetalinger.map((utbetalingSak: UtbetalingSakType, index: number) => {
-                    return (
-                        <span key={"utbetaling_" + index}>
-                            {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
-                                <Heading level="2" size="medium" className="blokk-xs">
-                                    {utbetalingSak.ar}
-                                </Heading>
-                            )}
-                            <div className="utbetalinger_detaljer_panel" key={"utbetaling_" + index}>
-                                <div className="utbetaling__header bunnSeparator">
-                                    <Heading level="2" size="medium">
-                                        {utbetalingSak.maned + " " + utbetalingSak.ar}
-                                    </Heading>
-                                    <Heading level="2" size="medium">
-                                        {formatCurrency(sumUtbetalinger(utbetalingSak))} kr
-                                    </Heading>
-                                </div>
-                                {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
-                                    const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
-                                    const erIkkeSisteUtbetaling: boolean =
-                                        index !== utbetalingSak.utbetalinger.length - 1;
-                                    return (
-                                        <div
-                                            key={"utbetaling_" + index}
-                                            className={erIkkeSisteUtbetaling ? "bunnSeparator tynnere" : ""}
-                                        >
-                                            <div className="utbetaling__header">
-                                                <Label>
-                                                    {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}{" "}
+            {utbetalinger?.map((utbetalingSak: UtbetalingSakType, index: number) => (
+                <>
+                    {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
+                        <Heading as="p" size="medium">
+                            {utbetalingSak.ar}
+                        </Heading>
+                    )}
+                    <StyledPanel forwardedAs="section" key={utbetalingSak.foersteIManeden + "_" + index}>
+                        <StyledHeading level="2" size="medium">
+                            <span>{utbetalingSak.maned + " " + utbetalingSak.ar}</span>
+                            <span>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</span>
+                        </StyledHeading>
+                        {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+                            const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
+                            const erIkkeSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
+                            return (
+                                <StyledUtbetaling
+                                    key={utbetalingMaaned.forfallsdato + "_" + index}
+                                    $erIkkeSiste={erIkkeSisteUtbetaling}
+                                >
+                                    <StyledUtbetalingHeader>
+                                        <Heading level="3" size="small">
+                                            {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}{" "}
+                                        </Heading>
+                                        <Label as="p">{formatCurrency(utbetalingMaaned.belop)} kr</Label>
+                                    </StyledUtbetalingHeader>
+                                    <UtbetalingEkspanderbart
+                                        tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
+                                        defaultOpen={erDevMiljo()}
+                                    >
+                                        <MottakerWrapper>
+                                            <Detail>Mottaker</Detail>
+                                            {annenMottaker ? (
+                                                <Label as="p" style={{textTransform: "capitalize"}}>
+                                                    {utbetalingMaaned.mottaker}
                                                 </Label>
-                                                <Label>{formatCurrency(utbetalingMaaned.belop)} kr</Label>
-                                            </div>
-                                            <UtbetalingEkspanderbart
-                                                tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
-                                                defaultOpen={erDevMiljo()}
-                                            >
-                                                <div className="mottaker__wrapper">
-                                                    <EtikettLiten>Mottaker</EtikettLiten>
-                                                    {annenMottaker ? (
-                                                        <Label style={{textTransform: "capitalize"}}>
-                                                            {utbetalingMaaned.mottaker}
-                                                        </Label>
-                                                    ) : (
-                                                        <Label>
-                                                            Til deg (
-                                                            {utbetalingMaaned.utbetalingsmetode && (
-                                                                <>{utbetalingMaaned.utbetalingsmetode} </>
-                                                            )}
-                                                            {utbetalingMaaned.kontonummer})
-                                                        </Label>
+                                            ) : (
+                                                <Label as="p">
+                                                    Til deg (
+                                                    {utbetalingMaaned.utbetalingsmetode && (
+                                                        <>{utbetalingMaaned.utbetalingsmetode} </>
                                                     )}
-                                                </div>
-                                                {utbetalingMaaned.fom && utbetalingMaaned.tom && (
-                                                    <>
-                                                        <EtikettLiten>Periode</EtikettLiten>
-                                                        <Label className="blokk-xs">
-                                                            {formatDato(utbetalingMaaned.fom)} -
-                                                            {formatDato(utbetalingMaaned.tom)}
-                                                        </Label>
-                                                    </>
-                                                )}
-                                                <EtikettLiten className="soknad__header">Søknaden din</EtikettLiten>
-                                                <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} border />
-                                            </UtbetalingEkspanderbart>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </span>
-                    );
-                })}
-
+                                                    {utbetalingMaaned.kontonummer})
+                                                </Label>
+                                            )}
+                                        </MottakerWrapper>
+                                        {utbetalingMaaned.fom && utbetalingMaaned.tom && (
+                                            <>
+                                                <Detail>Periode</Detail>
+                                                <Label as="p" spacing>
+                                                    {formatDato(utbetalingMaaned.fom)} -{" "}
+                                                    {formatDato(utbetalingMaaned.tom)}
+                                                </Label>
+                                            </>
+                                        )}
+                                        <StyledDetail>Søknaden din</StyledDetail>
+                                        <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} border />
+                                    </UtbetalingEkspanderbart>
+                                </StyledUtbetaling>
+                            );
+                        })}
+                    </StyledPanel>
+                </>
+            ))}
             <SavnerUtbetalingPanel />
         </div>
     );
