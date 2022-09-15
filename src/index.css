@@ -6,8 +6,21 @@ body {
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--navds-semantic-color-canvas-background);
 }
+
+html,
+body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
 #root {
-    min-height: 50vh;
+    flex: 1 0 auto;
+}
+header,
+footer {
+    flex-shrink: 0;
 }
 
 code {
