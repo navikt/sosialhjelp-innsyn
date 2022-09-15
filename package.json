@@ -14,7 +14,7 @@
     "@types/react-collapse": "^5.0.1",
     "amplitude-js": "^8.16.1",
     "connected-react-router": "^6.8.0",
-    "core-js": "^3.21.0",
+    "core-js": "^3.25.0",
     "date-fns": "^2.29.2",
     "express": "^4.17.1",
     "formdata-polyfill": "^3.0.19",
