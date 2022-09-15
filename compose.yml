@@ -1,0 +1,6 @@
+services:
+  sosialhjelp-innyn:
+    container_name: sosialhjelp-innsyn
+    image: ghcr.io/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:latest
+    ports:
+      - "8080:8080"
