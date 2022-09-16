@@ -108,27 +108,19 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 </Button>
             </StyledDineSoknaderPanel>
 
-            {paginerteSaker.map((sak: Sakstype) => {
-                let key = sak.fiksDigisosId;
-
-                if (sak.fiksDigisosId == null) {
-                    key = sak.soknadTittel;
-                }
-                return (
-                    <SakPanel
-                        fiksDigisosId={sak.fiksDigisosId}
-                        tittel={sak.soknadTittel}
-                        status={sak.status}
-                        oppdatert={sak.sistOppdatert}
-                        key={key}
-                        url={sak.url}
-                        kilde={sak.kilde}
-                        antallNyeOppgaver={sak.antallNyeOppgaver}
-                        harBlittLastetInn={sak.harBlittLastetInn}
-                        border={false}
-                    />
-                );
-            })}
+            {paginerteSaker.map((sak: Sakstype) => (
+                <SakPanel
+                    fiksDigisosId={sak.fiksDigisosId}
+                    tittel={sak.soknadTittel}
+                    status={sak.status}
+                    oppdatert={sak.sistOppdatert}
+                    key={sak.fiksDigisosId ?? sak.soknadTittel}
+                    url={sak.url}
+                    kilde={sak.kilde}
+                    antallNyeOppgaver={sak.antallNyeOppgaver}
+                    harBlittLastetInn={sak.harBlittLastetInn}
+                />
+            ))}
 
             {saker.length > itemsPerPage && (
                 <Paginering

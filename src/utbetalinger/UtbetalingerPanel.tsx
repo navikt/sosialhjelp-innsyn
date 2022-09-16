@@ -29,6 +29,7 @@ const StyledDetail = styled(Detail)`
 
 const StyledHeading = styled(Heading)`
     display: flex;
+    gap: 8px;
     justify-content: space-between;
     width: 100%;
     border-bottom: 2px solid #979797;
@@ -55,7 +56,7 @@ const StyledUtbetalingHeader = styled.div`
     justify-content: space-between;
     margin-top: 1rem;
     margin-bottom: 1rem;
-
+    gap: 16px;
     h3 {
         text-transform: capitalize;
     }
