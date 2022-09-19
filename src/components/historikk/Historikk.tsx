@@ -81,7 +81,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             {hendelser.map((hendelse: Hendelse, index: number) => {
                 return (
                     <li key={index}>
-                        <Label>
+                        <Label as="p">
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Label>
                         {getBeskrivelse(hendelse.beskrivelse)}

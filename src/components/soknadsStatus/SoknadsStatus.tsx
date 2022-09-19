@@ -48,7 +48,7 @@ const ContentPanelBody = styled.div`
         padding: 1rem 3.25rem 1rem 3.25rem;
     }
     @media screen and (max-width: 640px) {
-        padding: 2rem;
+        padding: 1rem 0;
     }
 `;
 

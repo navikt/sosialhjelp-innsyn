@@ -7,14 +7,19 @@ import {
     Vilkar,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {Attachment, Task} from "@navikt/ds-icons";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
 
 const StyledPanel = styled(Panel)`
-    margin: 1.5rem 0;
+    margin-top: 1.5rem;
+    margin-bottom: 0 !important;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px 12px;
 `;
 
 interface Props {
@@ -55,33 +60,29 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
 
     if (skalViseIngenOppgaverPanel() && !leserData) {
         return (
-            <StyledPanel className={"panel-glippe-over oppgaver_panel "}>
-                <div>
-                    <span style={{float: "left", marginTop: "6px"}}>
-                        <Task width="1.5rem" height="1.5rem" />
-                    </span>
-                    <div style={{paddingLeft: "38px"}}>
-                        <Label>
+            <StyledPanel>
+                <>
+                    <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                    <div>
+                        <Label as={"p"}>
                             <FormattedMessage id="oppgaver.ingen_oppgaver" />
                         </Label>
                         <BodyShort>
                             <FormattedMessage id="oppgaver.beskjed" />
                         </BodyShort>
                     </div>
-                </div>
-                <div style={{marginTop: "20px"}}>
-                    <span style={{float: "left", marginTop: "6px"}}>
-                        <Attachment width="1.5rem" height="1.5rem" />
-                    </span>
-                    <div style={{paddingLeft: "38px"}}>
-                        <Label>
+                </>
+                <>
+                    <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                    <div>
+                        <Label as="p">
                             <FormattedMessage id="oppgaver.andre_dokumenter" />
                         </Label>
                         <BodyShort>
                             <FormattedMessage id="oppgaver.andre_dokumenter_beskjed" />
                         </BodyShort>
                     </div>
-                </div>
+                </>
             </StyledPanel>
         );
     }
