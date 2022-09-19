@@ -25,12 +25,10 @@ export const VilkarAccordion = (props: Props) => {
         <Accordion>
             <Accordion.Item>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
-                    <div>
-                        <Label>{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
-                        <BodyShort>
-                            <FormattedMessage id="vilkar.veileder_trenger_mer" />
-                        </BodyShort>
-                    </div>
+                    <Label as="p">{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
+                    <BodyShort>
+                        <FormattedMessage id="vilkar.veileder_trenger_mer" />
+                    </BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
                     {props.feilmelding}

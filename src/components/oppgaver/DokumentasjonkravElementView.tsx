@@ -76,7 +76,7 @@ const DokumentasjonkravElementView: React.FC<{
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
-                    <Label>{dokumentasjonkravElement.tittel}</Label>
+                    <Label as="p">{dokumentasjonkravElement.tittel}</Label>
                     {dokumentasjonkravElement.beskrivelse && (
                         <BodyShort>{dokumentasjonkravElement.beskrivelse}</BodyShort>
                     )}

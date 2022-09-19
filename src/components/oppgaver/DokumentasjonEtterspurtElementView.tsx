@@ -91,7 +91,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
-                    <Label>{tittel}</Label>
+                    <Label as="p">{tittel}</Label>
                     {beskrivelse && <BodyShort>{beskrivelse}</BodyShort>}
                 </div>
 
