@@ -23,13 +23,11 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
 
     if (!kanLasteOppVedlegg && !props.leserData) {
         return (
-            <>
-                <Alert variant="error" size="medium" inline>
-                    <Bold>
-                        <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
-                    </Bold>
-                </Alert>
-            </>
+            <Alert variant="error" size="medium" inline>
+                <Bold>
+                    <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
+                </Bold>
+            </Alert>
         );
     }
     return null;
