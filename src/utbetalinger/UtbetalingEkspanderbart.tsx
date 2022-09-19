@@ -20,6 +20,15 @@ const StyledExpanderbarHeader = styled.div`
     button {
         padding: var(--navds-spacing-2) var(--navds-spacing-4);
     }
+
+    @media only screen and (max-width: 480px) {
+        gap: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        button {
+            align-self: flex-end;
+        }
+    }
 `;
 const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen}) => {
     const [open, setOpen] = useState(defaultOpen ? defaultOpen : false);
