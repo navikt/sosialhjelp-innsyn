@@ -1,4 +1,4 @@
-import {getBaseUrl, isLocalhost, isLabs, isDevSbs, isDev} from "./restUtils";
+import {getBaseUrl, isLocalhost, isDevSbs, isDev} from "./restUtils";
 
 const localhostOrigins = [
     "http://localhost:3003/sosialhjelp/innsyn",
@@ -11,8 +11,6 @@ const localhostOrigins = [
 ];
 
 const devSbs_devNavnoOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
-
-const labsOrigins = ["https://digisos.labs.nais.io/sosialhjelp/innsyn", "https://digisos.labs.nais.io"];
 
 const devOrigins = ["https://digisos.dev.nav.no/sosialhjelp/innsyn", "https://digisos.dev.nav.no"];
 
@@ -39,10 +37,6 @@ describe("getBaseUrl", () => {
         );
         //validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");//for idporten testing
         validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
-        validateGetBaseUrl(
-            labsOrigins,
-            "https://digisos.labs.nais.io/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
-        );
         validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
             mockOrigins,
@@ -76,7 +70,6 @@ describe("isDev", () => {
     it("should return false for other", () => {
         validateIsDev(devSbs_devNavnoOrigins, false);
 
-        validateIsDev(labsOrigins, false);
         validateIsDev(devOrigins, false);
         validateIsDev(mockOrigins, false);
 
@@ -103,7 +96,6 @@ describe("isDevSbs", () => {
     it("should return false for other", () => {
         validateIsDevSbs(localhostOrigins, false);
 
-        validateIsDevSbs(labsOrigins, false);
         validateIsDevSbs(devOrigins, false);
         validateIsDevSbs(mockOrigins, false);
 
@@ -132,7 +124,6 @@ describe("isDev", () => {
 
         validateIsDev(devSbs_devNavnoOrigins, false);
 
-        validateIsDev(labsOrigins, false);
         validateIsDev(mockOrigins, false);
 
         validateIsDev(unknownOrigins, false);
@@ -141,34 +132,6 @@ describe("isDev", () => {
     function validateIsDev(origins: string[], expected: boolean) {
         origins.forEach((origin) => {
             expect(isDev(origin) + " for " + origin).toEqual(expected + " for " + origin);
-        });
-    }
-});
-
-describe("isLabs", () => {
-    it("should return true for labs with proxy", () => {
-        validateIsLabsGcpWithProxy(labsOrigins, true);
-    });
-
-    it("should return false for prod", () => {
-        validateIsLabsGcpWithProxy(prodSbsOrigins, false);
-        validateIsLabsGcpWithProxy(prodNavnoOrigins, false);
-    });
-
-    it("should return false for other", () => {
-        validateIsLabsGcpWithProxy(localhostOrigins, false);
-
-        validateIsLabsGcpWithProxy(devSbs_devNavnoOrigins, false);
-
-        validateIsLabsGcpWithProxy(devOrigins, false);
-        validateIsLabsGcpWithProxy(mockOrigins, false);
-
-        validateIsLabsGcpWithProxy(unknownOrigins, false);
-    });
-
-    function validateIsLabsGcpWithProxy(origins: string[], expected: boolean) {
-        origins.forEach((origin) => {
-            expect(isLabs(origin) + " for " + origin).toEqual(expected + " for " + origin);
         });
     }
 });

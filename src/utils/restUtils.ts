@@ -22,12 +22,8 @@ export function isMock(origin: string): boolean {
     return origin.indexOf("digisos.ekstern.dev.nav.no") >= 0;
 }
 
-export function isLabs(origin: string): boolean {
-    return origin.indexOf("digisos.labs.nais.io") >= 0;
-}
-
 export function isUsingMockAlt(origin: string): boolean {
-    return isLabs(origin) || isMock(origin);
+    return isMock(origin);
 }
 
 export function getApiBaseUrl(): string {

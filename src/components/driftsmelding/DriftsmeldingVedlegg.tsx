@@ -1,16 +1,19 @@
 import * as React from "react";
-import RemoveCircle from "../ikoner/RemoveCircle";
 import {FormattedMessage} from "react-intl";
-import "./DriftsmeldingVedlegg.css";
 import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {isFileUploadAllowed} from "./DriftsmeldingUtilities";
-import {Label} from "@navikt/ds-react";
+import {Alert} from "@navikt/ds-react";
+import styled from "styled-components/macro";
 
 interface Props {
     leserData: undefined | boolean;
 }
+
+const Bold = styled.span`
+    font-weight: bold;
+`;
 
 const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
     let kommuneResponse: KommuneResponse | undefined = useSelector(
@@ -20,14 +23,11 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
 
     if (!kanLasteOppVedlegg && !props.leserData) {
         return (
-            <div className={"driftsmelding-vedlegg-wrapper"}>
-                <div className={"driftsmelding-vedlegg-symbol-wrapper"}>
-                    <RemoveCircle />
-                </div>
-                <Label>
+            <Alert variant="error" size="medium" inline>
+                <Bold>
                     <FormattedMessage id={"driftsmelding.kanIkkeSendeVedlegg"} />
-                </Label>
-            </div>
+                </Bold>
+            </Alert>
         );
     }
     return null;

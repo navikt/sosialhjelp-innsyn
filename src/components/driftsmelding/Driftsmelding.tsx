@@ -18,8 +18,8 @@ const DriftsmeldingAlertstripe: React.FC<{}> = () => {
     );
 
     const driftsmelding: Driftsmelding = getDriftsmeldingByKommuneResponse(kommuneResponse);
-    const tidspunkt = (
-        <Label>
+    const Tidspunkt = () => (
+        <Label as="p">
             <DatoOgKlokkeslett
                 bareDato={false}
                 tidspunkt={
@@ -28,37 +28,20 @@ const DriftsmeldingAlertstripe: React.FC<{}> = () => {
             />
         </Label>
     );
+
     switch (driftsmelding.type) {
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT: {
+        case DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT:
+        case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT:
+        case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT:
             return (
                 <StyledAlert variant="error">
-                    {tidspunkt}
+                    <Tidspunkt />
                     <FormattedMessage id={driftsmelding.textKey} />
                 </StyledAlert>
             );
-        }
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT: {
-            return (
-                <StyledAlert variant="error">
-                    {tidspunkt}
-                    <FormattedMessage id={driftsmelding.textKey} />
-                </StyledAlert>
-            );
-        }
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT: {
-            return (
-                <StyledAlert variant="error">
-                    {tidspunkt}
-                    <FormattedMessage id={driftsmelding.textKey} />
-                </StyledAlert>
-            );
-        }
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN: {
+        case DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN:
+        default:
             return null;
-        }
-        default: {
-            return null;
-        }
     }
 };
 
