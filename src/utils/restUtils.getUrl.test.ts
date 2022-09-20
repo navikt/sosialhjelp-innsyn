@@ -38,7 +38,7 @@ describe("getBaseUrl", () => {
         //validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");//for idporten testing
         validateGetBaseUrl(
             devSbs_devNavnoOrigins,
-            "https://sosialhjelp-login-api.dev-fss-pub.nais.io/sosialhjelp/login-api/innsyn-api/api/v1"
+            "https://sosialhjelp-innsyn-api.dev-fss-pub.nais.io/sosialhjelp/innsyn-api/api/v1"
         );
         validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
