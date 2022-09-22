@@ -42,9 +42,9 @@ describe("getBaseUrl", () => {
         );
         validateGetBaseUrl(
             devSbs_devNavnoOrigins,
-            "https://digisos-test.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
+            "https://sosialhjelp.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(devSbs_origins, "https://digisos-test.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
+        validateGetBaseUrl(devSbs_origins, "https://sosialhjelp.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(
             mockOrigins,
