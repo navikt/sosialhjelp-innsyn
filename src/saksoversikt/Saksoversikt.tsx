@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert, BodyShort, LinkPanel} from "@navikt/ds-react";
+import {Alert, BodyShort} from "@navikt/ds-react";
 import "./saksoversikt.css";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,8 +11,6 @@ import BigBanner from "../components/banner/BigBanner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import styled from "styled-components";
-import {useCookies} from "react-cookie";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 
@@ -27,10 +25,6 @@ const Saksoversikt: React.FC = () => {
     const mustLogin: boolean = restStatus === REST_STATUS.UNAUTHORIZED;
 
     let innsynApiKommunikasjonsProblemer = false;
-
-    const [cookies] = useCookies(["sosialhjelp-meldinger-undersokelse"]);
-
-    const kommunenummer = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
 
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
