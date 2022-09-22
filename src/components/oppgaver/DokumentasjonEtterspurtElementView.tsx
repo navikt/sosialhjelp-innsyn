@@ -17,25 +17,11 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
     beskrivelse: string | undefined;
     oppgaveElement: DokumentasjonEtterspurtElement;
-    oppgaveElementIndex: number;
-    oppgaveId: string;
-    dokumentasjonEtterspurtIndex: number;
     hendelseReferanse: string;
     onDelete: (event: any, hendelseReferanse: string, fil: Fil) => void;
     onAddFileChange: (event: any, hendelseReferanse: string, validFiles: Fil[]) => void;
     filer: Fil[];
-}> = ({
-    tittel,
-    beskrivelse,
-    oppgaveElement,
-    oppgaveElementIndex,
-    oppgaveId,
-    dokumentasjonEtterspurtIndex,
-    hendelseReferanse,
-    onDelete,
-    onAddFileChange,
-    filer,
-}) => {
+}> = ({tittel, beskrivelse, oppgaveElement, hendelseReferanse, onDelete, onAddFileChange, filer}) => {
     const uuid = uuidv4();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 

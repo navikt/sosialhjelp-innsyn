@@ -45,22 +45,6 @@ export interface DokumentasjonEtterspurtFiler {
     [key: string]: Fil[];
 }
 
-export const deleteReferenceFromDokumentasjonEtterspurtFiler = (
-    dokumentasjonEtterspurtFiler: DokumentasjonEtterspurtFiler,
-    reference: string
-) => {
-    return Object.keys(dokumentasjonEtterspurtFiler).reduce(
-        (updated, currentReference) =>
-            currentReference === reference
-                ? updated
-                : {
-                      ...updated,
-                      [currentReference]: dokumentasjonEtterspurtFiler[currentReference],
-                  },
-        {}
-    );
-};
-
 const ButtonWrapper = styled.div`
     margin-top: 1rem;
 `;
@@ -126,11 +110,13 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 Object.keys(dokumentasjonEtterspurtFiler).length === 0
             )
         );
+        console.log("etterspurt", dokumentasjonEtterspurtFiler);
 
         if (Object.keys(dokumentasjonEtterspurtFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setIsUploading(false);
+            console.log("har ikke vedlegg");
         }
 
         const handleFileWithVirus = () => {
@@ -139,6 +125,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
+            console.log("etterspurt handleFileWithVirus filer", dokumentasjonEtterspurtFiler);
         };
         const handleFileUploadFailed = () => {
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
@@ -147,16 +134,15 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
+            console.log("etterspurt handleFileUploadFailed filer", dokumentasjonEtterspurtFiler);
         };
         const onSuccessful = (reference: string) => {
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
 
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
+            console.log("etterspurt onSuccessful filer", dokumentasjonEtterspurtFiler);
 
-            setDokumentasjonEtterspurtFiler(
-                deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, reference)
-            );
             setIsUploading(false);
         };
         dokumentasjonEtterspurt.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
@@ -222,20 +208,19 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         setErrorMessage(undefined);
 
         if (hendelseReferanse !== "" && fil) {
-            const newDokumentasjonOppgaveId = {...dokumentasjonEtterspurtFiler};
-            if (newDokumentasjonOppgaveId[hendelseReferanse]) {
-                const remainingFiles = newDokumentasjonOppgaveId[hendelseReferanse].filter(
+            const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
+            if (newDokumentasjonEtterspurt[hendelseReferanse]) {
+                const remainingFiles = newDokumentasjonEtterspurt[hendelseReferanse].filter(
                     (doketterspurt) => doketterspurt.file !== fil.file
                 );
+
                 if (remainingFiles.length) {
-                    newDokumentasjonOppgaveId[hendelseReferanse] = remainingFiles;
-                    setDokumentasjonEtterspurtFiler(newDokumentasjonOppgaveId);
+                    newDokumentasjonEtterspurt[hendelseReferanse] = remainingFiles;
                 } else {
-                    setDokumentasjonEtterspurtFiler(
-                        deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, hendelseReferanse)
-                    );
+                    delete newDokumentasjonEtterspurt[hendelseReferanse];
                 }
             }
+            setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
         }
 
         const totalFileSize = dokumentasjonEtterspurtFiler[hendelseReferanse].reduce(
@@ -286,9 +271,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             tittel={typeTekst}
                             beskrivelse={tilleggsinfoTekst}
                             oppgaveElement={oppgaveElement}
-                            oppgaveElementIndex={oppgaveElementIndex}
-                            oppgaveId={dokumentasjonEtterspurt.oppgaveId}
-                            dokumentasjonEtterspurtIndex={oppgaveIndex}
                             hendelseReferanse={oppgaveElement.hendelsereferanse ?? ""}
                             onDelete={onDeleteClick}
                             onAddFileChange={onAddFileChange}
@@ -301,7 +283,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         <Button
                             variant="primary"
                             disabled={isUploading}
-                            onClick={(event: any) => {
+                            onClick={(event) => {
                                 logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
                                 onSendClicked(event);
                             }}
