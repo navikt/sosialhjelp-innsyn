@@ -10,6 +10,7 @@ import {
     InnsynsdataSti,
     InnsynsdataType,
     KommuneResponse,
+    UrlResponse,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";

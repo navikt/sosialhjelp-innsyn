@@ -5,8 +5,12 @@ import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {ForelopigSvar} from "../../redux/innsynsdata/innsynsdataReducer";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert} from "@navikt/ds-react";
+import {Alert, Link} from "@navikt/ds-react";
+import styled from "styled-components";
 
+const Bold = styled.span`
+    font-weight: bold;
+`;
 const ForelopigSvarAlertstripe: React.FC<{}> = () => {
     let forelopigSvar: ForelopigSvar = useSelector((state: InnsynAppState) => state.innsynsdata.forelopigSvar);
     let soknadsStatusState: string | null = useSelector(
@@ -19,7 +23,7 @@ const ForelopigSvarAlertstripe: React.FC<{}> = () => {
 
     if (forelopigSvar.harMottattForelopigSvar && soknadsStatusState !== "FERDIGBEHANDLET") {
         return (
-            <Alert className="blokk" variant="info">
+            <Alert variant="info">
                 <FormattedMessage id={"forelopigSvar"} />
                 {forelopigSvar.link && (
                     <EksternLenke href={forelopigSvar.link} onClick={onVisForeløpigSvar}>

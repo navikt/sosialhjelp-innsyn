@@ -7,7 +7,7 @@ import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading, Label, Link, Panel, Tag} from "@navikt/ds-react";
 import {PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
@@ -183,12 +183,11 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                                                             href={"" + hendelse.vedtaksfilUrl}
                                                             onClick={onVisVedtak}
                                                         >
-                                                            Vedtak (
+                                                            Vedtak -
                                                             <DatoOgKlokkeslett
                                                                 bareDato={true}
                                                                 tidspunkt={hendelse.dato}
                                                             />
-                                                            )
                                                         </EksternLenke>
                                                     </StatusMessageVedtak>
                                                 </StatusMessage>

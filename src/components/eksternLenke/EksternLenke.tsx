@@ -1,6 +1,4 @@
 import React from "react";
-import ExternalLink from "../ikoner/ExternalLink";
-import "./eksternLenke.css";
 import {Link} from "@navikt/ds-react";
 
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -10,8 +8,7 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 const EksternLenke: React.FC<Props> = ({children, href, onClick}) => {
     return (
         <Link href={href} target="_blank" onClick={onClick}>
-            {children}
-            <ExternalLink className="ekstern_lenke" />
+            <span>{children} (åpnes i ny fane)</span>
         </Link>
     );
 };
