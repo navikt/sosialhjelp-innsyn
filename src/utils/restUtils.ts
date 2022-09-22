@@ -11,7 +11,7 @@ export function isLocalhost(origin: string) {
 }
 
 export function isDevSbs(origin: string): boolean {
-    return origin.indexOf("www-q") >= 0 || origin.indexOf("sosialhjelp-innsyn.dev.nav.no") >= 0;
+    return origin.indexOf("www-q") >= 0;
 }
 
 export function isDev(origin: string): boolean {
@@ -227,11 +227,7 @@ const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: numb
 };
 
 function determineCredentialsParameter() {
-    return window.location.origin.indexOf("nais.oera") ||
-        isLocalhost(window.location.origin) ||
-        isUsingMockAlt(window.location.origin)
-        ? "include"
-        : "same-origin";
+    return isLocalhost(window.location.origin) || isUsingMockAlt(window.location.origin) ? "include" : "same-origin";
 }
 
 export function fetchToJson<T>(urlPath: string) {

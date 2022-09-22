@@ -10,21 +10,12 @@ const localhostOrigins = [
     "localhost",
 ];
 
-const devSbs_origins = [
-    "https://sosialhjelp-innsyn.dev.nav.no/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn.dev.nav.no",
-];
-
-const devSbs_devNavnoOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
+const devSbsOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
 
 const devOrigins = ["https://digisos.dev.nav.no/sosialhjelp/innsyn", "https://digisos.dev.nav.no"];
 
 const mockOrigins = ["https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn", "https://digisos.ekstern.dev.nav.no"];
 
-const prodSbsOrigins = [
-    "https://sosialhjelp-innsyn.prod-sbs.nais.io/sosialhjelp/innsyn",
-    "https://sosialhjelp-innsyn.prod-sbs.nais.io",
-];
 const prodNavnoOrigins = ["https://www.nav.no/sosialhjelp/innsyn", "https://www.nav.no"];
 
 const unknownOrigins = [
@@ -40,17 +31,12 @@ describe("getBaseUrl", () => {
             localhostOrigins,
             "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(devSbs_devNavnoOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
-        validateGetBaseUrl(
-            devSbs_origins,
-            "https://sosialhjelp-login-api.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1"
-        );
+        validateGetBaseUrl(devSbsOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(
             mockOrigins,
             "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(prodSbsOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
     });
 
@@ -71,13 +57,11 @@ describe("isDev", () => {
     });
 
     it("should return false for prod", () => {
-        validateIsDev(prodSbsOrigins, false);
         validateIsDev(prodNavnoOrigins, false);
     });
 
     it("should return false for other", () => {
-        validateIsDev(devSbs_origins, false);
-        validateIsDev(devSbs_devNavnoOrigins, false);
+        validateIsDev(devSbsOrigins, false);
 
         validateIsDev(devOrigins, false);
         validateIsDev(mockOrigins, false);
@@ -94,12 +78,10 @@ describe("isDev", () => {
 
 describe("isDevSbs", () => {
     it("should return true for dev-sbs", () => {
-        validateIsDevSbs(devSbs_origins, true);
-        validateIsDevSbs(devSbs_devNavnoOrigins, true);
+        validateIsDevSbs(devSbsOrigins, true);
     });
 
     it("should return false for prod", () => {
-        validateIsDevSbs(prodSbsOrigins, false);
         validateIsDevSbs(prodNavnoOrigins, false);
     });
 
@@ -125,15 +107,13 @@ describe("isDev", () => {
     });
 
     it("should return false for prod", () => {
-        validateIsDev(prodSbsOrigins, false);
         validateIsDev(prodNavnoOrigins, false);
     });
 
     it("should return false for other", () => {
         validateIsDev(localhostOrigins, false);
 
-        validateIsDev(devSbs_origins, false);
-        validateIsDev(devSbs_devNavnoOrigins, false);
+        validateIsDev(devSbsOrigins, false);
 
         validateIsDev(mockOrigins, false);
 
