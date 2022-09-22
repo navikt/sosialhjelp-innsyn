@@ -167,7 +167,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 >
                     <TextAndButtonWrapper>
                         <div>
-                            <Label>
+                            <Label as="p">
                                 <FormattedMessage id="andre_vedlegg.type" />
                             </Label>
                             <BodyShort>

@@ -64,7 +64,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                 <>
                     <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
                     <div>
-                        <Label as={"p"}>
+                        <Label as="p">
                             <FormattedMessage id="oppgaver.ingen_oppgaver" />
                         </Label>
                         <BodyShort>

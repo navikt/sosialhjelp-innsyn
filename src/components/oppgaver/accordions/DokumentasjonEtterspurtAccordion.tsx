@@ -29,11 +29,10 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
                 >
                     <div>
-                        <Label>
-                            {props.dokumentasjonEtterspurtErFraInnsyn && (
+                        <Label as="p">
+                            {props.dokumentasjonEtterspurtErFraInnsyn ? (
                                 <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
-                            )}
-                            {!props.dokumentasjonEtterspurtErFraInnsyn && (
+                            ) : (
                                 <FormattedMessage id="oppgaver.maa_sende_dok" />
                             )}
                         </Label>
