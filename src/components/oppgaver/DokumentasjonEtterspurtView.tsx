@@ -45,6 +45,22 @@ export interface DokumentasjonEtterspurtFiler {
     [key: string]: Fil[];
 }
 
+export const deleteReferenceFromDokumentasjonEtterspurtFiler = (
+    dokumentasjonEtterspurtFiler: DokumentasjonEtterspurtFiler,
+    reference: string
+) => {
+    return Object.keys(dokumentasjonEtterspurtFiler).reduce(
+        (updated, currentReference) =>
+            currentReference === reference
+                ? updated
+                : {
+                      ...updated,
+                      [currentReference]: dokumentasjonEtterspurtFiler[currentReference],
+                  },
+        {}
+    );
+};
+
 const ButtonWrapper = styled.div`
     margin-top: 1rem;
 `;
@@ -136,11 +152,16 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
             console.log("etterspurt handleFileUploadFailed filer", dokumentasjonEtterspurtFiler);
         };
-        const onSuccessful = (reference: string) => {
+        const onSuccessful = (hendelseReferanse: string) => {
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
 
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
+
+            //setDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler[hendelseReferanse]);
+            setDokumentasjonEtterspurtFiler(
+                deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, hendelseReferanse)
+            );
             console.log("etterspurt onSuccessful filer", dokumentasjonEtterspurtFiler);
 
             setIsUploading(false);

@@ -141,9 +141,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, true));
             console.log("ettersendelse handleFileUploadFailed filer", filerGet);
         };
-        const onSuccessful = (reference: string) => {
+        const onSuccessful = () => {
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
+
+            setFilerGet([]);
             console.log("ettersendelse onSuccessful filer", filerGet);
 
             setIsUploading(false);
