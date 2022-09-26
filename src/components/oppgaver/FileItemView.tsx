@@ -5,7 +5,7 @@ import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
-import {BodyShort, Button, Label, Link} from "@navikt/ds-react";
+import {BodyShort, Button, Link} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
@@ -62,9 +62,9 @@ const StyledFilInfo = styled.div`
 `;
 
 const StyledDeleteButton = styled(Button)`
-    display: inline-block;
     white-space: nowrap;
     margin-left: auto;
+    font-weight: bold;
     @media screen and (max-width: ${MOBILE_MAXWIDTH}) {
         svg {
             display: none;
@@ -107,11 +107,14 @@ const FileItemView: React.FC<{
                         ({storrelse})
                     </BodyShort>
                 </StyledFilInfo>
-                <StyledDeleteButton variant="tertiary" size="small" onClick={(event: any) => onDelete(event, fil)}>
-                    <Label>
-                        <FormattedMessage id="vedlegg.fjern" />
-                    </Label>
-                    <Delete />
+                <StyledDeleteButton
+                    variant="tertiary"
+                    size="small"
+                    onClick={(event: any) => onDelete(event, fil)}
+                    iconPosition="right"
+                    icon={<Delete />}
+                >
+                    <FormattedMessage id="vedlegg.fjern" />
                 </StyledDeleteButton>
             </StyledFilInfoOgKnapp>
             {fil.status !== REST_STATUS.INITIALISERT &&

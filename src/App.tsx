@@ -47,7 +47,10 @@ if (process.env.NODE_ENV === "production") {
 
 initAmplitude();
 
-// Dersom appen bygges og deployes med docker-image vil dekoratøren bli lagt på serverside med express i Docker (eks ved deploy til miljø)
+/* Dersom appen bygges og deployes med docker-image vil dekoratøren bli lagt på serverside med express i Docker
+ (eks ved deploy til miljø). Når den injectes clientside legges den utenfor body, slik at stylingen som
+ gir sticky footer gir en unødvendig scrollbar localhost på sider med lite innhold
+*/
 if (process.env.NODE_ENV !== "production") {
     injectDecoratorClientSide({
         env: "dev",

@@ -48,10 +48,6 @@
     .oppgaver_detaljer {
         padding: 0.5rem;
     }
-
-    .oppgaver_panel {
-        padding: 1rem;
-    }
 }
 
 @media screen and (min-width: 641px) {

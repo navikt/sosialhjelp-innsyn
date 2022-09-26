@@ -1,24 +1,36 @@
 import React, {useEffect} from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
-import DocumentIcon from "../../components/ikoner/DocumentIcon";
-import "./sakpanel.css";
-import {FormattedMessage} from "react-intl";
 import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
-import {EtikettLiten} from "../../components/etikett/EtikettLiten";
-import {Label, LinkPanel, Tag} from "@navikt/ds-react";
-import styled from "styled-components";
+import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
+import styled, {css} from "styled-components/macro";
+import OppgaverTag from "../../components/sakspanel/OppgaverTag";
+import SaksMetaData from "../../components/sakspanel/SaksMetaData";
+import {
+    StyledFileIcon,
+    StyledLinkPanelDescription,
+    StyledSaksDetaljer,
+} from "../../components/sakspanel/sakspanelStyles";
+
+const PanelStyle = css`
+    margin-top: 4px;
+`;
+
+const StyledLastestripeWrapper = styled(Panel)`
+    ${PanelStyle};
+`;
 
 const StyledLinkPanel = styled(LinkPanel)`
     .navds-link-panel__content {
         width: 100%;
     }
+    ${PanelStyle};
 `;
 
 interface Props {
-    fiksDigisosId: string;
+    fiksDigisosId: string | null;
     tittel: string;
     status: string;
     oppdatert: string;
@@ -27,7 +39,6 @@ interface Props {
     kilde: string;
     antallNyeOppgaver?: number;
     harBlittLastetInn?: boolean;
-    border?: boolean;
 }
 
 const SakPanel: React.FC<Props> = ({
@@ -39,15 +50,10 @@ const SakPanel: React.FC<Props> = ({
     kilde,
     antallNyeOppgaver,
     harBlittLastetInn,
-    border,
 }) => {
     const dispatch = useDispatch();
 
-    let dispatchUrl = "/innsyn/" + fiksDigisosId + "/status";
-    let hrefUrl = "/sosialhjelp" + dispatchUrl;
-    if (fiksDigisosId === null || fiksDigisosId === undefined) {
-        hrefUrl = url;
-    }
+    const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
     const onClick = (event: any) => {
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
@@ -56,19 +62,15 @@ const SakPanel: React.FC<Props> = ({
         if (kilde === "soknad-api") {
             window.location.href = url;
         } else if (kilde === "innsyn-api") {
-            dispatch(push(dispatchUrl));
+            dispatch(push(`/innsyn/${fiksDigisosId}/status`));
             event.preventDefault();
         } else {
             // do nothing?
         }
     };
 
-    let underLasting = !harBlittLastetInn;
-    let requestId = fiksDigisosId;
-    if (fiksDigisosId === null) {
-        underLasting = false;
-        requestId = "";
-    }
+    let underLasting = fiksDigisosId ? !harBlittLastetInn : false;
+    let requestId = fiksDigisosId ?? "";
 
     useEffect(() => {
         if (kilde === "innsyn-api") {
@@ -76,46 +78,31 @@ const SakPanel: React.FC<Props> = ({
         }
     }, [dispatch, requestId, kilde]);
 
+    if (underLasting) {
+        return (
+            <StyledLastestripeWrapper>
+                <Lastestriper linjer={2} />
+            </StyledLastestripeWrapper>
+        );
+    }
     return (
-        <StyledLinkPanel border={border} onClick={onClick} className="panel-glippe-over" href={hrefUrl}>
-            <div className="sakpanel">
-                <div className="sakpanel_text">
-                    <DocumentIcon />
-                    <div className="sakpanel_innhold">
-                        <div className="sakpanel_status">
-                            {fiksDigisosId !== null && !underLasting && (
-                                <EtikettLiten>
-                                    {status} <span aria-hidden="true"> ● </span> oppdatert{" "}
-                                    <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
-                                </EtikettLiten>
-                            )}
-                            {fiksDigisosId !== null && underLasting && (
-                                <div className="sakspanel_status_laster">
-                                    <Lastestriper linjer={1} />
-                                    <EtikettLiten>
-                                        <span aria-hidden="true"> ● </span> oppdatert{" "}
-                                        <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
-                                    </EtikettLiten>
-                                </div>
-                            )}
-                            {fiksDigisosId === null && (
-                                <EtikettLiten>
-                                    SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
-                                </EtikettLiten>
-                            )}
-                        </div>
-                        {underLasting && <Lastestriper linjer={1} />}
-                        {!underLasting && <Label>{tittel}</Label>}
-                    </div>
-                </div>
-                <div className="sakpanel_innhold_etikett">
-                    {!underLasting && antallNyeOppgaver !== undefined && antallNyeOppgaver >= 1 && (
-                        <Tag variant="warning">
-                            <FormattedMessage id="saker.oppgave" values={{antall: antallNyeOppgaver}} />
-                        </Tag>
-                    )}
-                </div>
-            </div>
+        <StyledLinkPanel border={false} onClick={onClick} href={linkpanelUrl}>
+            <StyledLinkPanelDescription>
+                <StyledFileIcon width="2rem" />
+                <StyledSaksDetaljer>
+                    <span>
+                        {fiksDigisosId === null ? (
+                            <Detail>
+                                SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
+                            </Detail>
+                        ) : (
+                            <SaksMetaData oppdatert={oppdatert} status={status} />
+                        )}
+                        <Label as="p">{tittel}</Label>
+                    </span>
+                    <OppgaverTag antallNyeOppgaver={antallNyeOppgaver} />
+                </StyledSaksDetaljer>
+            </StyledLinkPanelDescription>
         </StyledLinkPanel>
     );
 };

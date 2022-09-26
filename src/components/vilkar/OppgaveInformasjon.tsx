@@ -10,19 +10,10 @@ import {Attachment, List} from "@navikt/ds-icons";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
-const StyledIconWithText = styled.div`
-    display: flex;
-    align-items: normal;
-    flex-direction: row;
-`;
-
-const StyledIcon = styled.div`
-    margin-right: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px 12px;
 `;
 
 interface Props {
@@ -60,32 +51,28 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                 underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
             >
                 <StyledContainer>
-                    <StyledIconWithText>
-                        <StyledIcon>
-                            <List width="1.5rem" height="1.5rem" />
-                        </StyledIcon>
+                    <>
+                        <List width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
                         <div>
-                            <Label>
+                            <Label as="p">
                                 <FormattedMessage id={"oppgaver.vilkar"} />
                             </Label>
                             <BodyShort>
                                 <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
                             </BodyShort>
                         </div>
-                    </StyledIconWithText>
-                    <StyledIconWithText>
-                        <StyledIcon>
-                            <Attachment width="1.5rem" height="1.5rem" />
-                        </StyledIcon>
+                    </>
+                    <>
+                        <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
                         <div>
-                            <Label>
+                            <Label as="p">
                                 <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
                             </Label>
                             <BodyShort>
                                 <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
                             </BodyShort>
                         </div>
-                    </StyledIconWithText>
+                    </>
                 </StyledContainer>
             </EkspanderbartIkonPanel>
         );

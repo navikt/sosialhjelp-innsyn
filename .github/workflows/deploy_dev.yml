@@ -5,13 +5,11 @@ on:
       config-file-name:
         description: 'Config-fil som skal deployes'
         required: true
-        default: 'dev-sbs'
+        default: 'mock'
         type: choice
         options:
           - 'dev'
           - 'mock'
-          - 'dev-sbs'
-          - 'labs-gcp'
 
 jobs:
   deploy:
@@ -28,22 +26,12 @@ jobs:
         run: |
           echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
           echo "CONFIG_FILE=${{ github.event.inputs.config-file-name }}" >> $GITHUB_ENV
-      - name: Sett cluster basert på config-file
-        run: |
-          if [[ ${{ github.event.inputs.config-file-name }} = 'dev-sbs' ]]; then
-            echo "CLUSTER_NAME=dev-sbs" >> $GITHUB_ENV
-          elif [[ ${{ github.event.inputs.config-file-name }} = 'labs-gcp' ]]; then
-            echo "CLUSTER_NAME=labs-gcp" >> $GITHUB_ENV
-          else
-            echo "CLUSTER_NAME=dev-gcp" >> $GITHUB_ENV
-          fi
-          echo "Deployer til ${{ env.CLUSTER_NAME }}"
       - name: Deploy til dev
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais.yaml
-          CLUSTER: ${{ env.CLUSTER_NAME }}
+          CLUSTER: dev-gcp
           VARS: nais/dev/${{ env.CONFIG_FILE }}.json
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true

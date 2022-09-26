@@ -308,9 +308,10 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 logButtonOrLinkClick("Dokumentasjon etterspurt: Send vedlegg");
                                 onSendClicked(event);
                             }}
+                            iconPosition="right"
+                            icon={isUploading && <Loader />}
                         >
                             <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                            {isUploading && <Loader />}
                         </Button>
                     </ButtonWrapper>
                 )}

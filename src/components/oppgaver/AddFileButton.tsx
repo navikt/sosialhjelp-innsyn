@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import {FormattedMessage} from "react-intl";
-import {Button, Label} from "@navikt/ds-react";
+import {Button} from "@navikt/ds-react";
 import {Upload} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
 
@@ -22,6 +22,10 @@ export const TextAndButtonWrapper = styled.div`
         flex-direction: column;
     }
 `;
+
+const StyledButton = styled(Button)`
+    font-weight: bold;
+`;
 const AddFileButton: React.FC<{
     onChange: (event: any, referanse: string) => void;
     referanse: string;
@@ -37,19 +41,15 @@ const AddFileButton: React.FC<{
 
     return (
         <>
-            <Button
+            <StyledButton
                 variant="tertiary"
                 size="small"
                 id={"oppgave_" + id + "_last_opp_fil_knapp"}
-                onClick={(event) => {
-                    onClick(event);
-                }}
+                onClick={onClick}
+                icon={<StyledUploadIcon />}
             >
-                <StyledUploadIcon />
-                <Label>
-                    <FormattedMessage id="vedlegg.velg_fil" />
-                </Label>
-            </Button>
+                <FormattedMessage id="vedlegg.velg_fil" />
+            </StyledButton>
             <input
                 type="file"
                 id={"file_" + id}

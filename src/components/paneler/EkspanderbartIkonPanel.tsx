@@ -13,10 +13,8 @@ const EkspanderbartIkonPanel: React.FC<Props> = ({tittel, underTittel, children}
         <Accordion>
             <Accordion.Item>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet informasjons boks")}>
-                    <div>
-                        <Label>{tittel}</Label>
-                        <BodyShort>{underTittel}</BodyShort>
-                    </div>
+                    <Label as="p">{tittel}</Label>
+                    <BodyShort>{underTittel}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>{children}</Accordion.Content>
             </Accordion.Item>

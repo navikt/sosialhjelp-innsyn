@@ -304,9 +304,10 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                             onClick={(event) => {
                                 onSendClicked(event);
                             }}
+                            iconPosition="right"
+                            icon={isUploading && <Loader />}
                         >
                             <FormattedMessage id="oppgaver.send_knapp_tittel" />
-                            {isUploading && <Loader />}
                         </Button>
                     </ButtonWrapper>
                 )}
