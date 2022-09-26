@@ -1,15 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Alert, BodyShort, LinkPanel} from "@navikt/ds-react";
+import {Alert, BodyShort} from "@navikt/ds-react";
 import "./saksoversikt.css";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    hentDialogStatus,
-    InnsynsdataSti,
-    InnsynsdataType,
-    Sakstype,
-    settSisteKommune,
-} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataSti, InnsynsdataType, Sakstype, settSisteKommune} from "../redux/innsynsdata/innsynsdataReducer";
 import {fetchToJson, REST_STATUS} from "../utils/restUtils";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
@@ -17,17 +11,8 @@ import BigBanner from "../components/banner/BigBanner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import styled from "styled-components";
-import {useCookies} from "react-cookie";
-import DineMeldingerPanel from "./meldinger/DineMeldingerPanel";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
-
-const StyledLinkPanel = styled(LinkPanel)`
-    margin-top: 1rem;
-`;
-
-const KOMMUNENUMMER_I_UNDERSOKELSE = ["0301", "3411", "5001"];
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
@@ -40,10 +25,6 @@ const Saksoversikt: React.FC = () => {
     const mustLogin: boolean = restStatus === REST_STATUS.UNAUTHORIZED;
 
     let innsynApiKommunikasjonsProblemer = false;
-
-    const [cookies] = useCookies(["sosialhjelp-meldinger-undersokelse"]);
-
-    const kommunenummer = useSelector((state: InnsynAppState) => state.innsynsdata.sisteKommune);
 
     let alleSaker: Sakstype[] = [];
     if (!leserData) {
@@ -66,10 +47,6 @@ const Saksoversikt: React.FC = () => {
 
     useEffect(() => {
         fetchToJson("/innsyn/sisteSak").then((sak: any) => dispatch(settSisteKommune(sak?.kommunenummer)));
-    }, [dispatch]);
-
-    useEffect(() => {
-        fetchToJson("/innsyn/dialogstatus").then((verdi: any) => dispatch(hentDialogStatus(verdi)));
     }, [dispatch]);
 
     useEffect(() => {
@@ -97,20 +74,6 @@ const Saksoversikt: React.FC = () => {
                                 <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                             </Alert>
                         )}
-                        {kommunenummer.length > 0 &&
-                            innsynData.dialogStatus?.tilgangTilDialog === false &&
-                            !cookies["sosialhjelp-meldinger-undersokelse"] &&
-                            KOMMUNENUMMER_I_UNDERSOKELSE.includes(kommunenummer) && (
-                                <StyledLinkPanel
-                                    tittelProps={"element"}
-                                    border={false}
-                                    href="/sosialhjelp/innsyn/undersokelse"
-                                >
-                                    Vil du hjelpe oss med å forbedre nettsidene for sosialhjelp?
-                                </StyledLinkPanel>
-                            )}
-                        {innsynData.dialogStatus?.tilgangTilDialog &&
-                            innsynData.dialogStatus?.harFullfortOnboarding && <DineMeldingerPanel />}
                         {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
                     </>
                 )}

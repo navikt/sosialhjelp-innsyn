@@ -122,7 +122,6 @@ export enum InnsynsdataActionTypeKeys {
     SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
     VIS_FEILSIDE = "innsynsdata/VIS_FEILSIDE",
     SETT_FORNAVN = "innsynsdata/SETT_FORNAVN",
-    HENT_DIALOGSTATUS = "innsynsdata/HENT_DIALOGSTATUS",
     HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV = "innsynsdata/HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV",
     FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "innsynsdata/FAGSYSTEM_HAR_DOKUMENTASJONKRAV",
 
@@ -158,7 +157,6 @@ export enum InnsynsdataSti {
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune",
     VILKAR = "vilkar",
-    DIALOG_STATUS = "dialogstatus",
     HAR_LEVERT_DOKUMENTASJONKRAV = "harLeverteDokumentasjonkrav",
     FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "fagsystemHarDokumentasjonkrav",
 }
@@ -228,13 +226,6 @@ export interface KommuneResponse {
     tidspunkt: Date | null;
     kommunenummer: String | null;
 }
-export interface DialogStatus {
-    ident: string;
-    tilgangTilDialog: boolean;
-    antallUlesteMeldinger: number;
-    harSendtMelding: boolean;
-    harFullfortOnboarding: boolean;
-}
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
     erInnsynDeaktivert: false,
@@ -266,7 +257,6 @@ export interface InnsynsdataType {
     vedlegg: Vedlegg[];
     ettersendelse: Ettersendelse;
     saker: Sakstype[];
-    dialogStatus: undefined | DialogStatus;
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
     sisteKommune: string;
@@ -322,7 +312,6 @@ export const initialState: InnsynsdataType = {
     restStatus: initialInnsynsdataRestStatus,
     sisteKommune: "",
     fornavn: "",
-    dialogStatus: undefined,
     feilside: undefined,
 };
 
@@ -349,11 +338,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
                 ...setPath(state, action.sti, action.verdi),
-            };
-        case InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS:
-            return {
-                ...state,
-                dialogStatus: action.verdi,
             };
         case InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV:
             return {
@@ -768,13 +752,6 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
-        verdi,
-    };
-};
-export const hentDialogStatus = (verdi: DialogStatus): InnsynsdataActionType => {
-    return {
-        type: InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS,
-        sti: InnsynsdataSti.DIALOG_STATUS,
         verdi,
     };
 };
