@@ -142,8 +142,6 @@ export enum InnsynsdataActionTypeKeys {
     FILE_UPLOAD_FAILED = "innsynsdata/FILE_UPLOAD_FAILED",
     FILE_UPLOAD_BACKEND_FAILED = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED",
     FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK",
-
-    SISTE_KOMMUNE = "innsynsdata/SISTE_KOMMUNE",
 }
 
 export enum InnsynsdataSti {
@@ -259,7 +257,6 @@ export interface InnsynsdataType {
     saker: Sakstype[];
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
-    sisteKommune: string;
     fornavn: string;
     feilside?: Feilside;
 }
@@ -310,7 +307,6 @@ export const initialState: InnsynsdataType = {
     },
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
-    sisteKommune: "",
     fornavn: "",
     feilside: undefined,
 };
@@ -727,11 +723,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         (oppgaveId: string) => oppgaveId !== action.oppgaveId
                     ),
             };
-        case InnsynsdataActionTypeKeys.SISTE_KOMMUNE:
-            return {
-                ...state,
-                sisteKommune: action.verdi ?? "",
-            };
 
         case InnsynsdataActionTypeKeys.SETT_FORNAVN:
             return {
@@ -811,13 +802,6 @@ export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): In
         type: InnsynsdataActionTypeKeys.SETT_REST_STATUS,
         sti,
         restStatus,
-    };
-};
-
-export const settSisteKommune = (kommunenummer: unknown) => {
-    return {
-        type: InnsynsdataActionTypeKeys.SISTE_KOMMUNE,
-        verdi: (kommunenummer as string) ?? "",
     };
 };
 

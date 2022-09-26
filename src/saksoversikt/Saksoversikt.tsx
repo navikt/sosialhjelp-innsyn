@@ -3,8 +3,8 @@ import {Alert, BodyShort} from "@navikt/ds-react";
 import "./saksoversikt.css";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynsdataSti, InnsynsdataType, Sakstype, settSisteKommune} from "../redux/innsynsdata/innsynsdataReducer";
-import {fetchToJson, REST_STATUS} from "../utils/restUtils";
+import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
+import {REST_STATUS} from "../utils/restUtils";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import BigBanner from "../components/banner/BigBanner";
@@ -43,10 +43,6 @@ const Saksoversikt: React.FC = () => {
 
     useEffect(() => {
         dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
-    }, [dispatch]);
-
-    useEffect(() => {
-        fetchToJson("/innsyn/sisteSak").then((sak: any) => dispatch(settSisteKommune(sak?.kommunenummer)));
     }, [dispatch]);
 
     useEffect(() => {
