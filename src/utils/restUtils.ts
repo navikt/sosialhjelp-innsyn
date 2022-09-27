@@ -40,7 +40,7 @@ export function getBaseUrl(origin: string): string {
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
     } else if (isDevSbs(origin)) {
-        return "https://sosialhjelp.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
+        return "https://digisos-test.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
     } else if (isDev(origin)) {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
