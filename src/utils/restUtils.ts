@@ -229,7 +229,11 @@ const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: numb
 };
 
 function determineCredentialsParameter() {
-    return isLocalhost(window.location.origin) || isUsingMockAlt(window.location.origin) ? "include" : "same-origin";
+    return isLocalhost(window.location.origin) ||
+        isUsingMockAlt(window.location.origin) ||
+        isDevSbs(window.location.origin)
+        ? "include"
+        : "same-origin";
 }
 
 export function fetchToJson<T>(urlPath: string) {
