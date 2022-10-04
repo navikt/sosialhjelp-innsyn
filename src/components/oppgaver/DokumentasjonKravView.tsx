@@ -113,13 +113,11 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         dispatch(
             setFileUploadFailed(dokumentasjonkrav.dokumentasjonkravId, Object.keys(dokumentasjonkravFiler).length === 0)
         );
-        console.log("krav", dokumentasjonkravFiler);
 
         if (Object.keys(dokumentasjonkravFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
             setIsUploading(false);
-            console.log("har ikke vedlegg");
         }
 
         const handleFileWithVirus = () => {
@@ -128,7 +126,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonkrav.dokumentasjonkravId, true));
-            console.log("krav handleFileWithVirus filer", dokumentasjonkravFiler);
         };
         const handleFileUploadFailed = () => {
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
@@ -137,7 +134,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, true));
-            console.log("krav handleFileUploadFailed filer", dokumentasjonkravFiler);
         };
         const onSuccessful = (reference: string) => {
             dispatch(
@@ -151,7 +147,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
 
             setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
-            console.log("krav onSuccessful filer", dokumentasjonkravFiler);
 
             setIsUploading(false);
         };

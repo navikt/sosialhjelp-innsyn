@@ -11,7 +11,6 @@ export const onSendVedleggClicked = (
     handleFileUploadFailed: () => void,
     onSuccessful: (reference: string) => void
 ) => {
-    console.log("sendvedlegg filer", filer);
     fetchPost(path, formData, "multipart/form-data")
         .then(() => onSuccessful(reference))
         .catch((e) => {

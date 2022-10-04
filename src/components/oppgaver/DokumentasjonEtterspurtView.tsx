@@ -126,13 +126,11 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 Object.keys(dokumentasjonEtterspurtFiler).length === 0
             )
         );
-        console.log("etterspurt", dokumentasjonEtterspurtFiler);
 
         if (Object.keys(dokumentasjonEtterspurtFiler).length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setIsUploading(false);
-            console.log("har ikke vedlegg");
         }
 
         const handleFileWithVirus = () => {
@@ -141,7 +139,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
-            console.log("etterspurt handleFileWithVirus filer", dokumentasjonEtterspurtFiler);
         };
         const handleFileUploadFailed = () => {
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
@@ -150,7 +147,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
-            console.log("etterspurt handleFileUploadFailed filer", dokumentasjonEtterspurtFiler);
         };
         const onSuccessful = (hendelseReferanse: string) => {
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
@@ -158,11 +154,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
 
-            //setDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler[hendelseReferanse]);
             setDokumentasjonEtterspurtFiler(
                 deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, hendelseReferanse)
             );
-            console.log("etterspurt onSuccessful filer", dokumentasjonEtterspurtFiler);
 
             setIsUploading(false);
         };

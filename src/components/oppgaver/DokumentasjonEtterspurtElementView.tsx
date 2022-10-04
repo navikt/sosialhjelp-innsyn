@@ -93,7 +93,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                         />
                     ) : (
                         <ErrorMessageTitle
-                            feilId={"vedlegg.ulovlig_flere_fil_feilmellding"}
+                            feilId={"vedlegg.ulovlig_flere_fil_feilmelding"}
                             errorValue={{antallFiler: fileValidationErrors.filenames.size}}
                         />
                     )}

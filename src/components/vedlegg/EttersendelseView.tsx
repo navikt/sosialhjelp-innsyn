@@ -59,7 +59,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const [filerGet, setFilerGet] = useState<Fil[]>([]);
+    const [ettersendelseFiler, setEttersendelseFiler] = useState<Fil[]>([]);
 
     const [isUploading, setIsUploading] = useState(false);
 
@@ -74,7 +74,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
 
-    const opplastingFeilet = hasFilesWithErrorStatus(filerGet);
+    const opplastingFeilet = hasFilesWithErrorStatus(ettersendelseFiler);
 
     const vedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -87,13 +87,13 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
 
     useEffect(() => {
-        if (filerGet.length > 0) {
+        if (ettersendelseFiler.length > 0) {
             window.addEventListener("beforeunload", alertUser);
         }
         return function unload() {
             window.removeEventListener("beforeunload", alertUser);
         };
-    }, [filerGet]);
+    }, [ettersendelseFiler]);
 
     const visDetaljeFeiler: boolean =
         listeOverVedleggIderSomFeilet.includes(BACKEND_FEIL_ID) ||
@@ -114,14 +114,12 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setErrorMessage(undefined);
 
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
-        dispatch(setFileUploadFailed(BACKEND_FEIL_ID, filerGet.length === 0));
-        console.log("ettersendelse", filerGet);
+        dispatch(setFileUploadFailed(BACKEND_FEIL_ID, ettersendelseFiler.length === 0));
 
-        if (filerGet.length === 0) {
+        if (ettersendelseFiler.length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
             setIsUploading(false);
-            console.log("har ikke vedlegg");
         }
 
         const handleFileWithVirus = () => {
@@ -130,7 +128,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setIsUploading(false);
             dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, true));
-            console.log("ettersendelse handleFileWithVirus filer", filerGet);
         };
         const handleFileUploadFailed = () => {
             dispatch(hentInnsynsdata(BACKEND_FEIL_ID, InnsynsdataSti.VEDLEGG, false));
@@ -139,20 +136,18 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setIsUploading(false);
             dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, true));
-            console.log("ettersendelse handleFileUploadFailed filer", filerGet);
         };
         const onSuccessful = () => {
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
 
-            setFilerGet([]);
-            console.log("ettersendelse onSuccessful filer", filerGet);
+            setEttersendelseFiler([]);
 
             setIsUploading(false);
         };
 
-        const formData = createFormDataWithVedleggFromFiler(filerGet);
-        const filer = filerGet;
+        const formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
+        const filer = ettersendelseFiler;
         if (!filer || filer.length === 0) {
             return;
         }
@@ -185,16 +180,13 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 setFileValidationErrors({errors: result.errors, filenames: result.filenames});
             }
             if (result.validFiles.length) {
-                let newFiler = {...filerGet};
-                //if (filerGet.length) {
+                let newFiler = {...ettersendelseFiler};
                 if (newFiler.length) {
-                    //setFilerGet(filerGet.concat(result.validFiles));
                     newFiler.concat(result.validFiles);
                 } else {
-                    //setFilerGet(result.validFiles);
                     newFiler = result.validFiles;
                 }
-                const totalFileSize = filerGet.reduce(
+                const totalFileSize = ettersendelseFiler.reduce(
                     (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                     0
                 );
@@ -204,7 +196,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                     fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                 }
-                setFilerGet(newFiler);
+                setEttersendelseFiler(newFiler);
             }
 
             if (event.target.value === "") {
@@ -218,10 +210,10 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const onDeleteClick = (event: any, fil: Fil) => {
         setFileValidationErrors(undefined);
         setErrorMessage(undefined);
-        const remainingFiles = filerGet.filter((filene) => filene.file !== fil.file);
-        setFilerGet(remainingFiles);
+        const remainingFiles = ettersendelseFiler.filter((filene) => filene.file !== fil.file);
+        setEttersendelseFiler(remainingFiles);
 
-        const totalFileSize = filerGet.reduce(
+        const totalFileSize = ettersendelseFiler.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
         );
@@ -240,7 +232,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
 
-            <div className={visDetaljeFeiler ? "oppgaver_detalj_feil_ramme " : "oppgaver_detaljer"}>
+            <div
+                className={(visDetaljeFeiler ? "oppgaver_detalj_feil_ramme " : "oppgaver_detaljer") + " luft_over_1rem"}
+            >
                 <div
                     className={"oppgaver_detalj " + (visVedleggFeil ? " oppgaver_detalj_feil" : "")}
                     style={{marginTop: "0px"}}
@@ -259,7 +253,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         )}
                     </TextAndButtonWrapper>
 
-                    {filerGet.map((fil: Fil, vedleggIndex: number) => (
+                    {ettersendelseFiler.map((fil: Fil, vedleggIndex: number) => (
                         <FileItemView
                             key={vedleggIndex}
                             fil={fil}
@@ -277,7 +271,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 />
                             ) : (
                                 <ErrorMessageTitle
-                                    feilId={"vedlegg.ulovlig_flere_fil_feilmellding"}
+                                    feilId={"vedlegg.ulovlig_flere_fil_feilmelding"}
                                     errorValue={{antallFiler: fileValidationErrors.filenames.size}}
                                 />
                             )}

@@ -4,7 +4,7 @@ import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
 
 const ErrorMessage = (props: {feilId: string}) => {
     return (
-        <ErrorMessageLabel className="oppgaver_vedlegg_feilmelding">
+        <ErrorMessageLabel>
             <li>
                 <span className="oppgaver_vedlegg_feilmelding_bullet_point">
                     <FormattedMessage id={props.feilId} />
