@@ -131,5 +131,12 @@ export const tekster = {
         "driftsmelding.kanIkkeSendeVedlegg":
             "Vi har dessverre problemer med systemet, og ber deg levere vedlegg på ditt NAV kontor",
         "feilside.finnes_ikke_overskrift": "Denne siden finnes ikke",
+        "timeout.fortsett": "Fortsett",
+        "timeout.logginn": "Logg inn på nytt",
+        "timeout.loggut": "Logg ut",
+        "timeout.nedtelling":
+            'Din sesjon vil utløpe om kort tid. Dersom du ikke foretar deg noe, vil du bli logget ut. For å forsette, vennligst trykk "fortsett".',
+        "timeout.overskrift": "Obs!",
+        "timeout.utlopt": "Du har vært inaktiv på denne siden for lenge. Du må logge deg inn på nytt for å fortsette.",
     },
 };
