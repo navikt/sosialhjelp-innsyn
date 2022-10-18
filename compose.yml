@@ -1,8 +1,0 @@
-services:
-  sosialhjelp-innyn:
-    container_name: sosialhjelp-innsyn
-    image: ghcr.io/navikt/sosialhjelp-innsyn/sosialhjelp-innsyn:{{TAG}}
-    ports:
-      - "8080:8080"
-    env_file:
-      - dev-sbs.env
