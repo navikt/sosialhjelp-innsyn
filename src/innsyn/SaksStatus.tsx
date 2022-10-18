@@ -28,6 +28,7 @@ import styled from "styled-components";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {useLocation} from "react-router";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
+import TimeoutBox from "../components/timeoutbox/TimeoutBox";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -202,6 +203,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     )}
                 </>
             )}
+            <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
         </>
     );
 };

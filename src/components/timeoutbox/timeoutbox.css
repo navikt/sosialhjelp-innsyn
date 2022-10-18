@@ -1,0 +1,36 @@
+@media screen and (min-width: 481px) {
+    .timeoutbox {
+        padding: 2rem;
+        max-width: 28rem;
+    }
+
+    .timeoutbox__knapperad {
+        margin-top: 2rem;
+        text-align: center;
+        display: inline-flex;
+    }
+
+    .timeoutbox__loggutknapp {
+        margin-left: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .timeoutbox {
+        padding: 0rem;
+        max-width: 100%;
+    }
+
+    .timeoutbox__overskrift {
+        margin-bottom: 0.5rem;
+    }
+
+    .timeoutbox__knapperad {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .timeoutbox__loggutknapp {
+        margin-left: 0.5rem;
+    }
+}

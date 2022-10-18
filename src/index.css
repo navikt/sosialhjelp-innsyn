@@ -1,4 +1,5 @@
 @import "./components/paneler/paneler.css";
+@import "./components/timeoutbox/timeoutbox.css";
 
 body {
     margin: 0;

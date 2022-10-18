@@ -56,6 +56,19 @@ export function getNavUrl(origin: string): string {
     }
 }
 
+export function getLogoutUrl(origin: string): string {
+    if (isLocalhost(origin)) {
+        return "http://localhost:3000/sosialhjelp/mock-alt/";
+    }
+    if (isUsingMockAlt(origin)) {
+        return "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt/";
+    }
+    if (isDevSbs(origin) || isDev(origin)) {
+        return "https://loginservice.dev.nav.no/slo";
+    }
+    return "https://loginservice.nav.no/slo";
+}
+
 enum RequestMethod {
     GET = "GET",
     POST = "POST",
