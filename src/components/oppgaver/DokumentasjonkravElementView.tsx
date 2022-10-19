@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {DokumentasjonKravElement, Fil, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
-import {alertUser} from "../../utils/vedleggUtils";
+import {alertUser, illegalCombinedFilesSize} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
@@ -11,6 +11,20 @@ import ErrorMessage from "./ErrorMessage";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import {validateFile} from "./validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
+import styled from "styled-components/macro";
+
+const StyledErrorFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    background-color: ${(props) =>
+        props.hasError
+            ? "var(--navds-semantic-color-feedback-danger-background)"
+            : "var(--navds-semantic-color-canvas-background)"};
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
 
 export interface FileValidationErrors {
     errors: Set<string>;
@@ -23,10 +37,21 @@ const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravReferanse: string;
     onChange: (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
+    setFilesHasErrors: (filesHasErrors: boolean) => void;
+    setOvermaksStorrelse: (setOvermaksStorrelse: boolean) => void;
     filer: Fil[];
-}> = ({dokumentasjonkravElement, dokumentasjonkravReferanse, onChange, onDelete, filer}) => {
+}> = ({
+    dokumentasjonkravElement,
+    dokumentasjonkravReferanse,
+    onChange,
+    onDelete,
+    setFilesHasErrors,
+    setOvermaksStorrelse,
+    filer,
+}) => {
     const uuid = uuidv4();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
+    const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -47,33 +72,52 @@ const DokumentasjonkravElementView: React.FC<{
     }, [filer]);
 
     const visOppgaverDetaljeFeil: boolean =
-        oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
+        oppgaveVedlegsOpplastingFeilet ||
+        (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
+        concatenatedSizeOfFilesMessage !== undefined;
 
     const onChangeElement = (event: any) => {
         setFileValidationErrors(undefined);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setOvermaksStorrelse(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const opplastedeFiler = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            const result = validateFile(opplastedeFiler);
+            const validatedFile = validateFile(opplastedeFiler);
 
-            if (result.errors.size) {
-                setFileValidationErrors({errors: result.errors, filenames: result.filenames});
+            const totalSizeOfValidatedFiles = validatedFile.validFiles.reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
+            );
+
+            if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
+                setOvermaksStorrelse(true);
+                setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             }
 
-            onChange(event, dokumentasjonkravReferanse, result.validFiles);
+            if (validatedFile.errors.size) {
+                setFileValidationErrors({errors: validatedFile.errors, filenames: validatedFile.filenames});
+                setFilesHasErrors(true);
+            } else {
+                setFilesHasErrors(false);
+                onChange(event, dokumentasjonkravReferanse, validatedFile.validFiles);
+            }
         }
     };
 
     const onDeleteElement = (event: any, fil: Fil) => {
+        setOvermaksStorrelse(false);
         setFileValidationErrors(undefined);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setFilesHasErrors(false);
         onDelete(event, dokumentasjonkravReferanse, fil);
     };
 
     return (
-        <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+        <StyledErrorFrame hasError={visOppgaverDetaljeFeil}>
             <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
                     <Label as="p">{dokumentasjonkravElement.tittel}</Label>
@@ -81,7 +125,6 @@ const DokumentasjonkravElementView: React.FC<{
                         <BodyShort>{dokumentasjonkravElement.beskrivelse}</BodyShort>
                     )}
                 </div>
-
                 {canUploadAttatchemnts && (
                     <AddFileButton
                         onChange={onChangeElement}
@@ -94,7 +137,7 @@ const DokumentasjonkravElementView: React.FC<{
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
             ))}
-            {fileValidationErrors && fileValidationErrors?.errors.size && (
+            {fileValidationErrors && fileValidationErrors?.errors.size && !concatenatedSizeOfFilesMessage && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (
                         <ErrorMessageTitle
@@ -112,7 +155,8 @@ const DokumentasjonkravElementView: React.FC<{
                     })}
                 </div>
             )}
-        </div>
+            {concatenatedSizeOfFilesMessage && <ErrorMessage feilId={concatenatedSizeOfFilesMessage} />}
+        </StyledErrorFrame>
     );
 };
 

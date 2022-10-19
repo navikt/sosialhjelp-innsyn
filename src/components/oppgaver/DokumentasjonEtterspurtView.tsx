@@ -4,7 +4,6 @@ import {
     Fil,
     InnsynsdataSti,
     KommuneResponse,
-    settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
@@ -18,7 +17,6 @@ import {
     illegalCombinedFilesSize,
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
-import {REST_STATUS} from "../../utils/restUtils";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {
     hentInnsynsdata,
@@ -34,6 +32,17 @@ import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
+
+const StyledErrorFrame = styled.div<{isError?: boolean}>`
+    padding: 1rem;
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.isError
+            ? "var(--navds-semantic-color-interaction-danger-selected)"
+            : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -94,26 +103,20 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
-    const includesReferanse = (feilReferanse: string[]) => {
-        dokumentasjonEtterspurt.oppgaveElementer.filter((doketterspurt) => {
-            if (doketterspurt.hendelsereferanse) {
-                return feilReferanse.includes(doketterspurt.hendelsereferanse);
-            }
-            return false;
-        });
-        return false;
-    };
+    const [filesHasErrors, setFilesHasErrors] = useState(false);
 
     const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
-        includesReferanse(listeOverDokumentasjonEtterspurtIderSomFeilet) ||
+        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
-        includesReferanse(listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend) ||
-        includesReferanse(listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend);
+        errorMessage !== undefined ||
+        listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
+        listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
+        filesHasErrors;
 
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        if (!fiksDigisosId || overMaksStorrelse) {
+        if (!fiksDigisosId || !dokumentasjonEtterspurt) {
             return;
         }
         setIsUploading(true);
@@ -137,7 +140,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
-            dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
@@ -145,19 +147,16 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const onSuccessful = (hendelseReferanse: string) => {
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
-
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
 
             setDokumentasjonEtterspurtFiler(
                 deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, hendelseReferanse)
             );
-
             setIsUploading(false);
         };
         dokumentasjonEtterspurt.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
@@ -166,7 +165,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             if (!filer || filer.length === 0) {
                 return;
             }
-
             const formData = createFormDataWithVedleggFromOppgaver(
                 dokumentasjonEtterspurtElement,
                 filer,
@@ -198,16 +196,17 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             } else {
                 newDokumentasjonEtterspurt[hendelseReferanse] = validFiles;
             }
-
-            const totalFileSize = newDokumentasjonEtterspurt[hendelseReferanse].reduce(
+            const totalSizeOfValidatedFiles = validFiles.reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
-
-            if (illegalCombinedFilesSize(totalFileSize)) {
+            if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                 fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            } else {
+                setOverMaksStorrelse(false);
+                setIsUploading(false);
             }
             setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
         }
@@ -246,19 +245,16 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         if (illegalCombinedFilesSize(totalFileSize)) {
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             setOverMaksStorrelse(true);
+            setIsUploading(true);
         } else {
             setOverMaksStorrelse(false);
+            setIsUploading(false);
         }
     };
 
     return (
-        <div>
-            <div
-                className={
-                    (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
-                    " luft_over_1rem"
-                }
-            >
+        <>
+            <StyledErrorFrame isError={visDokumentasjonEtterspurtDetaljeFeiler}>
                 {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
                     <BodyShort spacing>
                         <FormattedMessage
@@ -289,6 +285,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             hendelseReferanse={oppgaveElement.hendelsereferanse ?? ""}
                             onDelete={onDeleteClick}
                             onAddFileChange={onAddFileChange}
+                            setFilesHasErrors={setFilesHasErrors}
                             filer={dokumentasjonEtterspurtFiler[oppgaveElement.hendelsereferanse ?? ""] ?? []}
                         />
                     );
@@ -303,19 +300,19 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                                 onSendClicked(event);
                             }}
                             iconPosition="right"
-                            icon={isUploading && <Loader />}
+                            icon={isUploading && !overMaksStorrelse && <Loader />}
                         >
                             <FormattedMessage id="oppgaver.send_knapp_tittel" />
                         </Button>
                     </ButtonWrapper>
                 )}
-            </div>
+            </StyledErrorFrame>
             {errorMessage && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
-        </div>
+        </>
     );
 };
 

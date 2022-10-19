@@ -1,11 +1,5 @@
 import React, {useState} from "react";
-import {
-    DokumentasjonKrav,
-    Fil,
-    InnsynsdataSti,
-    KommuneResponse,
-    settRestStatus,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
@@ -27,11 +21,19 @@ import {
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {formatDato} from "../../utils/formatting";
-import {fileUploadFailedEvent} from "../../utils/amplitude";
+import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
-import {REST_STATUS} from "../../utils/restUtils";
+
+const StyledErrorFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -91,6 +93,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
+    const [filesHasErrors, setFilesHasErrors] = useState(false);
+
     const includesReferense = (feilReferanse: string[]) => {
         dokumentasjonkrav.dokumentasjonkravElementer.filter((dokkrav) => {
             if (dokkrav.dokumentasjonkravReferanse) {
@@ -103,7 +107,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        if (!fiksDigisosId || overMaksStorrelse) {
+        if (!fiksDigisosId || !dokumentasjonkrav) {
             return;
         }
         setIsUploading(true);
@@ -124,7 +128,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
-            dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonkrav.dokumentasjonkravId, true));
         };
         const handleFileUploadFailed = () => {
@@ -132,7 +135,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
-            dispatch(settRestStatus(InnsynsdataSti.DOKUMENTASJONKRAV, REST_STATUS.FEILET));
             dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, true));
         };
         const onSuccessful = (reference: string) => {
@@ -147,29 +149,40 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
 
             setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
-
             setIsUploading(false);
         };
+
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
             const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
             const filer = dokumentasjonkravFiler[reference];
             if (!filer || filer.length === 0) {
                 return;
             }
-            const formData = createFormDataWithVedleggFromDokumentasjonkrav(
-                dokumentasjonkravElement,
-                filer,
-                dokumentasjonkrav.frist
+
+            const totalsizeOfAddedFiles = filer.reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
             );
-            onSendVedleggClicked(
-                reference,
-                formData,
-                filer,
-                path,
-                handleFileWithVirus,
-                handleFileUploadFailed,
-                onSuccessful
-            );
+
+            if (illegalCombinedFilesSize(totalsizeOfAddedFiles)) {
+                setOverMaksStorrelse(true);
+                setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            } else {
+                const formData = createFormDataWithVedleggFromDokumentasjonkrav(
+                    dokumentasjonkravElement,
+                    filer,
+                    dokumentasjonkrav.frist
+                );
+                onSendVedleggClicked(
+                    reference,
+                    formData,
+                    filer,
+                    path,
+                    handleFileWithVirus,
+                    handleFileUploadFailed,
+                    onSuccessful
+                );
+            }
         });
     };
 
@@ -187,16 +200,17 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             } else {
                 newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
             }
-
-            const totalFileSize = newDokumentasjonkrav[dokumentasjonkravReferanse].reduce(
+            const totalSizeOfValidatedFiles = validFiles.reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
-
-            if (illegalCombinedFilesSize(totalFileSize)) {
+            if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                 fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            } else {
+                setOverMaksStorrelse(false);
+                setIsUploading(false);
             }
             setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
@@ -233,12 +247,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
         );
-
         if (illegalCombinedFilesSize(totalFileSize)) {
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             setOverMaksStorrelse(true);
+            setIsUploading(true);
         } else {
             setOverMaksStorrelse(false);
+            setIsUploading(false);
         }
     };
 
@@ -246,17 +261,14 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         includesReferense(dokumentasjonkravReferanserSomFeilet) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
+        errorMessage !== undefined ||
         includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
-        includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
+        includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend) ||
+        filesHasErrors;
 
     return (
-        <div>
-            <div
-                className={
-                    (visDokumentasjonkravDetaljerFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
-                    " luft_over_1rem"
-                }
-            >
+        <>
+            <StyledErrorFrame hasError={visDokumentasjonkravDetaljerFeiler}>
                 {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert <= 0 && (
                     <BodyShort spacing>
                         <FormattedMessage
@@ -283,6 +295,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                                 dokumentasjonkravReferanse={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                                 onChange={onChange}
                                 onDelete={onDeleteClick}
+                                setFilesHasErrors={setFilesHasErrors}
+                                setOvermaksStorrelse={setOverMaksStorrelse}
                                 filer={
                                     dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
                                     []
@@ -297,22 +311,23 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                             variant="primary"
                             disabled={isUploading}
                             onClick={(event) => {
+                                logButtonOrLinkClick("Dokumentasjonkrav: Send vedlegg");
                                 onSendClicked(event);
                             }}
                             iconPosition="right"
-                            icon={isUploading && <Loader />}
+                            icon={isUploading && !overMaksStorrelse && <Loader />}
                         >
                             <FormattedMessage id="oppgaver.send_knapp_tittel" />
                         </Button>
                     </ButtonWrapper>
                 )}
-            </div>
+            </StyledErrorFrame>
             {errorMessage && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
-        </div>
+        </>
     );
 };
 

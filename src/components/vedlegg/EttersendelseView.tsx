@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Fil, InnsynsdataSti, KommuneResponse, settRestStatus} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -47,6 +47,28 @@ const ButtonWrapper = styled.div`
     margin-top: 1rem;
 `;
 
+const StyledOuterErrorFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
+
+const StyledInnerErrorFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    background-color: ${(props) =>
+        props.hasError
+            ? "var(--navds-semantic-color-feedback-danger-background)"
+            : "var(--navds-semantic-color-canvas-background)"};
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
+
 const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
     const uuid = uuidv4();
@@ -56,6 +78,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
+    const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
@@ -100,22 +123,39 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
-        listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
+        listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) ||
+        fileValidationErrors !== undefined ||
+        errorMessage !== undefined ||
+        concatenatedSizeOfFilesMessage !== undefined;
 
     const visVedleggFeil: boolean =
-        vedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
+        vedlegsOpplastingFeilet ||
+        (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
+        concatenatedSizeOfFilesMessage !== undefined;
 
     const onSendClick = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        if (!fiksDigisosId || overMaksStorrelse) {
+        if (!fiksDigisosId) {
             return;
         }
         setIsUploading(true);
         setErrorMessage(undefined);
+        setOverMaksStorrelse(false);
+        setConcatenatedSizeOfFilesMessage(undefined);
+
+        const totalSizeOfAddedFiles = ettersendelseFiler.reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
+        if (illegalCombinedFilesSize(totalSizeOfAddedFiles)) {
+            setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            setOverMaksStorrelse(true);
+            return;
+        }
 
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
-        dispatch(setFileUploadFailed(BACKEND_FEIL_ID, ettersendelseFiler.length === 0));
 
+        dispatch(setFileUploadFailed(BACKEND_FEIL_ID, ettersendelseFiler.length === 0));
         if (ettersendelseFiler.length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
             fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
@@ -126,46 +166,44 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
-            dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
-            dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, true));
         };
         const handleFileUploadFailed = () => {
             dispatch(hentInnsynsdata(BACKEND_FEIL_ID, InnsynsdataSti.VEDLEGG, false));
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
-            dispatch(settRestStatus(InnsynsdataSti.VEDLEGG, REST_STATUS.FEILET));
-            dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, true));
         };
         const onSuccessful = () => {
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
-
             setEttersendelseFiler([]);
-
             setIsUploading(false);
         };
-
-        const formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
-        const filer = ettersendelseFiler;
-        if (!filer || filer.length === 0) {
-            return;
+        if (overMaksStorrelse) {
+            setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+        } else {
+            const filer = ettersendelseFiler;
+            if (!filer || filer.length === 0) {
+                return;
+            }
+            const formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
+            onSendVedleggClicked(
+                BACKEND_FEIL_ID,
+                formData,
+                filer,
+                path,
+                handleFileWithVirus,
+                handleFileUploadFailed,
+                onSuccessful
+            );
         }
-
-        onSendVedleggClicked(
-            BACKEND_FEIL_ID,
-            formData,
-            filer,
-            path,
-            handleFileWithVirus,
-            handleFileUploadFailed,
-            onSuccessful
-        );
     };
 
     const onChange = (event: any) => {
         setErrorMessage(undefined);
         setFileValidationErrors(undefined);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setOverMaksStorrelse(false);
         dispatch(setFileUploadFailed(BACKEND_FEIL_ID, false));
         dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
@@ -175,55 +213,58 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             const opplastedeFiler = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
-            const result = validateFile(opplastedeFiler);
-            if (result.errors.size) {
-                setFileValidationErrors({errors: result.errors, filenames: result.filenames});
+            const validatedFile = validateFile(opplastedeFiler);
+
+            if (validatedFile.errors.size) {
+                setFileValidationErrors({errors: validatedFile.errors, filenames: validatedFile.filenames});
             }
-            if (result.validFiles.length) {
-                let newFiler = {...ettersendelseFiler};
-                if (newFiler.length) {
-                    newFiler.concat(result.validFiles);
-                } else {
-                    newFiler = result.validFiles;
-                }
-                const totalFileSize = ettersendelseFiler.reduce(
+            if (validatedFile.validFiles.length && validatedFile.errors.size === 0) {
+                const totalSizeOfValidatedFiles = validatedFile.validFiles.reduce(
                     (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                     0
                 );
 
-                if (illegalCombinedFilesSize(totalFileSize)) {
+                if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                     setOverMaksStorrelse(true);
-                    setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+                    setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                     fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+                } else {
+                    if (ettersendelseFiler[0]) {
+                        setEttersendelseFiler(ettersendelseFiler.concat(validatedFile.validFiles));
+                    } else {
+                        setEttersendelseFiler(validatedFile.validFiles);
+                    }
                 }
-                setEttersendelseFiler(newFiler);
             }
-
-            if (event.target.value === "") {
-                return;
-            }
-            event.target.value = null;
-            event.preventDefault();
         }
+        if (event.target.value === "") {
+            return;
+        }
+        event.target.value = null;
+        event.preventDefault();
     };
 
     const onDeleteClick = (event: any, fil: Fil) => {
-        setFileValidationErrors(undefined);
         setErrorMessage(undefined);
+        setFileValidationErrors(undefined);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setOverMaksStorrelse(false);
+
         const remainingFiles = ettersendelseFiler.filter((filene) => filene.file !== fil.file);
         setEttersendelseFiler(remainingFiles);
-
         const totalFileSize = ettersendelseFiler.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
         );
-
         if (illegalCombinedFilesSize(totalFileSize)) {
             setOverMaksStorrelse(true);
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            setIsUploading(true);
+        } else {
+            setOverMaksStorrelse(false);
+            setIsUploading(false);
         }
-        event.preventDefault();
     };
 
     return (
@@ -231,14 +272,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
-
-            <div
-                className={(visDetaljeFeiler ? "oppgaver_detalj_feil_ramme " : "oppgaver_detaljer") + " luft_over_1rem"}
-            >
-                <div
-                    className={"oppgaver_detalj " + (visVedleggFeil ? " oppgaver_detalj_feil" : "")}
-                    style={{marginTop: "0px"}}
-                >
+            <StyledOuterErrorFrame hasError={visDetaljeFeiler}>
+                <StyledInnerErrorFrame hasError={visVedleggFeil}>
                     <TextAndButtonWrapper>
                         <div>
                             <Label as="p">
@@ -262,7 +297,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             }}
                         />
                     ))}
-                    {fileValidationErrors && fileValidationErrors?.errors.size && (
+                    {fileValidationErrors && fileValidationErrors?.errors.size && !concatenatedSizeOfFilesMessage && (
                         <div>
                             {fileValidationErrors.filenames.size === 1 ? (
                                 <ErrorMessageTitle
@@ -280,7 +315,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             })}
                         </div>
                     )}
-                </div>
+                    {concatenatedSizeOfFilesMessage && <InnerErrorMessage feilId={concatenatedSizeOfFilesMessage} />}
+                </StyledInnerErrorFrame>
+
                 {kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
@@ -292,11 +329,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             }}
                         >
                             <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
-                            {isUploading && <Loader />}
+                            {isUploading && !overMaksStorrelse && <Loader />}
                         </Button>
                     </ButtonWrapper>
                 )}
-            </div>
+            </StyledOuterErrorFrame>
             {errorMessage && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
                     <FormattedMessage id={errorMessage} />

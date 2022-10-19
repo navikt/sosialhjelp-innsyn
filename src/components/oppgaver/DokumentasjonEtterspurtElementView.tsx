@@ -12,6 +12,20 @@ import {validateFile} from "./validateFile";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import ErrorMessage from "./ErrorMessage";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import styled from "styled-components/macro";
+
+const StyledErrorFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    background-color: ${(props) =>
+        props.hasError
+            ? "var(--navds-semantic-color-feedback-danger-background)"
+            : "var(--navds-semantic-color-canvas-background)"};
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
@@ -20,8 +34,18 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     hendelseReferanse: string;
     onDelete: (event: any, hendelseReferanse: string, fil: Fil) => void;
     onAddFileChange: (event: any, hendelseReferanse: string, validFiles: Fil[]) => void;
+    setFilesHasErrors: (filesHasErrors: boolean) => void;
     filer: Fil[];
-}> = ({tittel, beskrivelse, oppgaveElement, hendelseReferanse, onDelete, onAddFileChange, filer}) => {
+}> = ({
+    tittel,
+    beskrivelse,
+    oppgaveElement,
+    hendelseReferanse,
+    onDelete,
+    onAddFileChange,
+    setFilesHasErrors,
+    filer,
+}) => {
     const uuid = uuidv4();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
 
@@ -48,6 +72,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const onDeleteElement = (event: any, fil: Fil) => {
         setFileValidationErrors(undefined);
+        setFilesHasErrors(false);
         onDelete(event, hendelseReferanse, fil);
     };
 
@@ -59,17 +84,20 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            const result = validateFile(opplastedeFiler);
+            const validatedFiles = validateFile(opplastedeFiler);
 
-            if (result.errors.size) {
-                setFileValidationErrors({errors: result.errors, filenames: result.filenames});
+            if (validatedFiles.errors.size) {
+                setFileValidationErrors({errors: validatedFiles.errors, filenames: validatedFiles.filenames});
+                setFilesHasErrors(true);
+            } else {
+                setFilesHasErrors(false);
             }
-            onAddFileChange(event, hendelseReferanse, result.validFiles);
+            onAddFileChange(event, hendelseReferanse, validatedFiles.validFiles);
         }
     };
 
     return (
-        <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+        <StyledErrorFrame hasError={visOppgaverDetaljeFeil}>
             <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
                     <Label as="p">{tittel}</Label>
@@ -102,7 +130,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                     })}
                 </div>
             )}
-        </div>
+        </StyledErrorFrame>
     );
 };
 
