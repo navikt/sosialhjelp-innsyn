@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "formdata-polyfill": "^3.0.19",
     "history": "^4.10.1",
+    "nav-frontend-typografi": "^4.0.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.14.1",
     "react": "^17.0.2",

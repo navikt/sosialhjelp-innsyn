@@ -2,10 +2,9 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
-import {fetchToJson, REST_STATUS} from "../utils/restUtils";
+import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
 import {
-    hentDialogStatus,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     InnsynsdataType,
@@ -29,12 +28,7 @@ import styled from "styled-components";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {useLocation} from "react-router";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
-import MeldingstjenesteInfo, {
-    getVisMeldingsInfo,
-    useLocalStorageState,
-} from "../components/meldingstjenesteInfo/MeldingstjenesteInfo";
-import "../components/meldingstjenesteInfo/sticky.css";
-import {Portal} from "../components/meldingstjenesteInfo/Portal";
+import TimeoutBox from "../components/timeoutbox/TimeoutBox";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -64,8 +58,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
     const dispatch = useDispatch();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
-    const [harLukketMeldingsInfo, setHarLukketMeldingsInfo] = useLocalStorageState("harLukketMeldingsInfo", "false");
-    const visMeldingsInfo = getVisMeldingsInfo(innsynsdata.dialogStatus, harLukketMeldingsInfo as "true" | "false");
     const dataErKlare =
         !pageLoadIsLogged &&
         erPaInnsyn &&
@@ -132,12 +124,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         }
     }, [dispatch, fiksDigisosId, innsynsdata.restStatus.saksStatus]);
 
-    useEffect(() => {
-        if (!innsynsdata.dialogStatus) {
-            fetchToJson("/innsyn/dialogstatus").then((verdi: any) => dispatch(hentDialogStatus(verdi)));
-        }
-    }, [dispatch, innsynsdata.dialogStatus]);
-
     const mustLogin: boolean = innsynRestStatus === REST_STATUS.UNAUTHORIZED;
 
     const statusTittel = "Status på søknaden din";
@@ -149,7 +135,6 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
         const shouldShowHotjarTrigger =
             restStatus.soknadsStatus === REST_STATUS.OK &&
             restStatus.kommune === REST_STATUS.OK &&
-            !visMeldingsInfo &&
             (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60);
         if (!shouldShowHotjarTrigger) return null;
         if (isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
@@ -216,13 +201,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                             }
                         />
                     )}
-                    {visMeldingsInfo && (
-                        <Portal className="stickyElement">
-                            <MeldingstjenesteInfo lukkInfo={() => setHarLukketMeldingsInfo("true")} />
-                        </Portal>
-                    )}
                 </>
             )}
+            <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
         </>
     );
 };

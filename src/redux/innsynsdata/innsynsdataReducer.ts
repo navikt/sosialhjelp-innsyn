@@ -122,7 +122,6 @@ export enum InnsynsdataActionTypeKeys {
     SKAL_VISE_FORBUDTSIDE = "innsynsdata/SKAL_VISE_FORBUDTSIDE",
     VIS_FEILSIDE = "innsynsdata/VIS_FEILSIDE",
     SETT_FORNAVN = "innsynsdata/SETT_FORNAVN",
-    HENT_DIALOGSTATUS = "innsynsdata/HENT_DIALOGSTATUS",
     HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV = "innsynsdata/HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV",
     FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "innsynsdata/FAGSYSTEM_HAR_DOKUMENTASJONKRAV",
 
@@ -143,8 +142,6 @@ export enum InnsynsdataActionTypeKeys {
     FILE_UPLOAD_FAILED = "innsynsdata/FILE_UPLOAD_FAILED",
     FILE_UPLOAD_BACKEND_FAILED = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED",
     FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK = "innsynsdata/FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK",
-
-    SISTE_KOMMUNE = "innsynsdata/SISTE_KOMMUNE",
 }
 
 export enum InnsynsdataSti {
@@ -158,7 +155,6 @@ export enum InnsynsdataSti {
     FORELOPIG_SVAR = "forelopigSvar",
     KOMMUNE = "kommune",
     VILKAR = "vilkar",
-    DIALOG_STATUS = "dialogstatus",
     HAR_LEVERT_DOKUMENTASJONKRAV = "harLeverteDokumentasjonkrav",
     FAGSYSTEM_HAR_DOKUMENTASJONKRAV = "fagsystemHarDokumentasjonkrav",
 }
@@ -228,13 +224,6 @@ export interface KommuneResponse {
     tidspunkt: Date | null;
     kommunenummer: String | null;
 }
-export interface DialogStatus {
-    ident: string;
-    tilgangTilDialog: boolean;
-    antallUlesteMeldinger: number;
-    harSendtMelding: boolean;
-    harFullfortOnboarding: boolean;
-}
 
 const initiellKommuneResponse_antarAltOk: KommuneResponse = {
     erInnsynDeaktivert: false,
@@ -266,10 +255,8 @@ export interface InnsynsdataType {
     vedlegg: Vedlegg[];
     ettersendelse: Ettersendelse;
     saker: Sakstype[];
-    dialogStatus: undefined | DialogStatus;
     forelopigSvar: ForelopigSvar;
     kommune: undefined | KommuneResponse;
-    sisteKommune: string;
     fornavn: string;
     feilside?: Feilside;
 }
@@ -320,9 +307,7 @@ export const initialState: InnsynsdataType = {
     },
     kommune: initiellKommuneResponse_antarAltOk,
     restStatus: initialInnsynsdataRestStatus,
-    sisteKommune: "",
     fornavn: "",
-    dialogStatus: undefined,
     feilside: undefined,
 };
 
@@ -349,11 +334,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
         case InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI:
             return {
                 ...setPath(state, action.sti, action.verdi),
-            };
-        case InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS:
-            return {
-                ...state,
-                dialogStatus: action.verdi,
             };
         case InnsynsdataActionTypeKeys.HAR_LEVERT_TIDLIGERE_DOKUMENTASJONKRAV:
             return {
@@ -766,11 +746,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         (oppgaveId: string) => oppgaveId !== action.oppgaveId
                     ),
             };
-        case InnsynsdataActionTypeKeys.SISTE_KOMMUNE:
-            return {
-                ...state,
-                sisteKommune: action.verdi ?? "",
-            };
 
         case InnsynsdataActionTypeKeys.SETT_FORNAVN:
             return {
@@ -791,13 +766,6 @@ export const oppdaterInnsynsdataState = (sti: InnsynsdataSti, verdi: any): Innsy
     return {
         type: InnsynsdataActionTypeKeys.OPPDATER_INNSYNSSDATA_STI,
         sti,
-        verdi,
-    };
-};
-export const hentDialogStatus = (verdi: DialogStatus): InnsynsdataActionType => {
-    return {
-        type: InnsynsdataActionTypeKeys.HENT_DIALOGSTATUS,
-        sti: InnsynsdataSti.DIALOG_STATUS,
         verdi,
     };
 };
@@ -857,13 +825,6 @@ export const settRestStatus = (sti: InnsynsdataSti, restStatus: REST_STATUS): In
         type: InnsynsdataActionTypeKeys.SETT_REST_STATUS,
         sti,
         restStatus,
-    };
-};
-
-export const settSisteKommune = (kommunenummer: unknown) => {
-    return {
-        type: InnsynsdataActionTypeKeys.SISTE_KOMMUNE,
-        verdi: (kommunenummer as string) ?? "",
     };
 };
 
