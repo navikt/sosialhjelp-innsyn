@@ -8,10 +8,12 @@ import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
 import ErrorMessage from "./ErrorMessage";
+import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import {validateFile} from "./validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
 import styled from "styled-components/macro";
+import {FormattedMessage} from "react-intl";
 
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
@@ -38,7 +40,8 @@ const DokumentasjonkravElementView: React.FC<{
     onChange: (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     setFilesHasErrors: (filesHasErrors: boolean) => void;
-    setOvermaksStorrelse: (setOvermaksStorrelse: boolean) => void;
+    setOverMaksStorrelse: (setOverMaksStorrelse: boolean) => void;
+    overMaksStorrelse: boolean;
     filer: Fil[];
 }> = ({
     dokumentasjonkravElement,
@@ -46,7 +49,8 @@ const DokumentasjonkravElementView: React.FC<{
     onChange,
     onDelete,
     setFilesHasErrors,
-    setOvermaksStorrelse,
+    setOverMaksStorrelse,
+    overMaksStorrelse,
     filer,
 }) => {
     const uuid = uuidv4();
@@ -74,44 +78,44 @@ const DokumentasjonkravElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        concatenatedSizeOfFilesMessage !== undefined;
+        overMaksStorrelse;
 
     const onChangeElement = (event: any) => {
         setFileValidationErrors(undefined);
         setConcatenatedSizeOfFilesMessage(undefined);
-        setOvermaksStorrelse(false);
+        setOverMaksStorrelse(false);
+        setFilesHasErrors(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const opplastedeFiler = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            const validatedFile = validateFile(opplastedeFiler);
+            const validatedFiles = validateFile(opplastedeFiler);
 
-            const totalSizeOfValidatedFiles = validatedFile.validFiles.reduce(
+            const totalSizeOfValidatedFiles = validatedFiles.validFiles.reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
 
             if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
-                setOvermaksStorrelse(true);
+                setOverMaksStorrelse(true);
                 setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             }
 
-            if (validatedFile.errors.size) {
-                setFileValidationErrors({errors: validatedFile.errors, filenames: validatedFile.filenames});
+            if (validatedFiles.errors.size) {
+                setFileValidationErrors({errors: validatedFiles.errors, filenames: validatedFiles.filenames});
                 setFilesHasErrors(true);
             } else {
-                setFilesHasErrors(false);
-                onChange(event, dokumentasjonkravReferanse, validatedFile.validFiles);
+                onChange(event, dokumentasjonkravReferanse, validatedFiles.validFiles);
             }
         }
     };
 
     const onDeleteElement = (event: any, fil: Fil) => {
-        setOvermaksStorrelse(false);
-        setFileValidationErrors(undefined);
+        setOverMaksStorrelse(false);
         setConcatenatedSizeOfFilesMessage(undefined);
+        setFileValidationErrors(undefined);
         setFilesHasErrors(false);
         onDelete(event, dokumentasjonkravReferanse, fil);
     };
@@ -137,7 +141,7 @@ const DokumentasjonkravElementView: React.FC<{
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
             ))}
-            {fileValidationErrors && fileValidationErrors?.errors.size && !concatenatedSizeOfFilesMessage && (
+            {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (
                         <ErrorMessageTitle
@@ -155,7 +159,11 @@ const DokumentasjonkravElementView: React.FC<{
                     })}
                 </div>
             )}
-            {concatenatedSizeOfFilesMessage && <ErrorMessage feilId={concatenatedSizeOfFilesMessage} />}
+            {overMaksStorrelse && (
+                <ErrorMessageLabel>
+                    <FormattedMessage id={concatenatedSizeOfFilesMessage} />
+                </ErrorMessageLabel>
+            )}
         </StyledErrorFrame>
     );
 };

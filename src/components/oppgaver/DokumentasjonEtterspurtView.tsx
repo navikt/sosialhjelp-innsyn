@@ -121,6 +121,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         }
         setIsUploading(true);
         setErrorMessage(undefined);
+        setOverMaksStorrelse(false);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
 
         dispatch(
@@ -165,50 +166,64 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             if (!filer || filer.length === 0) {
                 return;
             }
-            const formData = createFormDataWithVedleggFromOppgaver(
-                dokumentasjonEtterspurtElement,
-                filer,
-                dokumentasjonEtterspurt.innsendelsesfrist
+
+            const totalSizeOfAddedFiles = filer.reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
             );
-            onSendVedleggClicked(
-                reference,
-                formData,
-                filer,
-                path,
-                handleFileWithVirus,
-                handleFileUploadFailed,
-                onSuccessful
-            );
+
+            if (illegalCombinedFilesSize(totalSizeOfAddedFiles)) {
+                setOverMaksStorrelse(true);
+                setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            } else {
+                const formData = createFormDataWithVedleggFromOppgaver(
+                    dokumentasjonEtterspurtElement,
+                    filer,
+                    dokumentasjonEtterspurt.innsendelsesfrist
+                );
+                onSendVedleggClicked(
+                    reference,
+                    formData,
+                    filer,
+                    path,
+                    handleFileWithVirus,
+                    handleFileUploadFailed,
+                    onSuccessful
+                );
+            }
         });
     };
 
     const onAddFileChange = (event: any, hendelseReferanse: string, validFiles: Fil[]) => {
         setErrorMessage(undefined);
+        setOverMaksStorrelse(false);
+        setIsUploading(false);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
 
         if (validFiles.length) {
-            const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
-            if (newDokumentasjonEtterspurt[hendelseReferanse]) {
-                newDokumentasjonEtterspurt[hendelseReferanse] =
-                    newDokumentasjonEtterspurt[hendelseReferanse].concat(validFiles);
-            } else {
-                newDokumentasjonEtterspurt[hendelseReferanse] = validFiles;
-            }
             const totalSizeOfValidatedFiles = validFiles.reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
+
             if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                 setOverMaksStorrelse(true);
-                setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                 fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
                 setOverMaksStorrelse(false);
                 setIsUploading(false);
+
+                const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
+                if (newDokumentasjonEtterspurt[hendelseReferanse]) {
+                    newDokumentasjonEtterspurt[hendelseReferanse] =
+                        newDokumentasjonEtterspurt[hendelseReferanse].concat(validFiles);
+                } else {
+                    newDokumentasjonEtterspurt[hendelseReferanse] = validFiles;
+                }
+                setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
             }
-            setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
         }
 
         if (event.target.value === "") {
@@ -241,7 +256,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
         );
-
         if (illegalCombinedFilesSize(totalFileSize)) {
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             setOverMaksStorrelse(true);
@@ -286,6 +300,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             onDelete={onDeleteClick}
                             onAddFileChange={onAddFileChange}
                             setFilesHasErrors={setFilesHasErrors}
+                            setOverMaksStorrelse={setOverMaksStorrelse}
+                            overMaksStorrelse={overMaksStorrelse}
                             filer={dokumentasjonEtterspurtFiler[oppgaveElement.hendelsereferanse ?? ""] ?? []}
                         />
                     );

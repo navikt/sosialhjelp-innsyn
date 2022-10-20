@@ -29,7 +29,7 @@ import styled from "styled-components/macro";
 import {FileValidationErrors} from "../oppgaver/DokumentasjonkravElementView";
 import {validateFile} from "../oppgaver/validateFile";
 import {ErrorMessageTitle} from "../oppgaver/ErrorMessageTitleNew";
-import {ErrorMessage} from "../errors/ErrorMessage";
+import {ErrorMessage as ErrorMessageLabel, ErrorMessage} from "../errors/ErrorMessage";
 import InnerErrorMessage from "../oppgaver/ErrorMessage";
 
 /*
@@ -125,13 +125,12 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) ||
         fileValidationErrors !== undefined ||
-        errorMessage !== undefined ||
-        concatenatedSizeOfFilesMessage !== undefined;
+        errorMessage !== undefined;
 
     const visVedleggFeil: boolean =
         vedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        concatenatedSizeOfFilesMessage !== undefined;
+        overMaksStorrelse;
 
     const onSendClick = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -143,18 +142,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setOverMaksStorrelse(false);
         setConcatenatedSizeOfFilesMessage(undefined);
 
-        const totalSizeOfAddedFiles = ettersendelseFiler.reduce(
-            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-            0
-        );
-        if (illegalCombinedFilesSize(totalSizeOfAddedFiles)) {
-            setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
-            setOverMaksStorrelse(true);
-            return;
-        }
-
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
-
         dispatch(setFileUploadFailed(BACKEND_FEIL_ID, ettersendelseFiler.length === 0));
         if (ettersendelseFiler.length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
@@ -179,8 +167,14 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setEttersendelseFiler([]);
             setIsUploading(false);
         };
-        if (overMaksStorrelse) {
+
+        const totalSizeOfAddedFiles = ettersendelseFiler.reduce(
+            (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+            0
+        );
+        if (illegalCombinedFilesSize(totalSizeOfAddedFiles)) {
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            setOverMaksStorrelse(true);
         } else {
             const filer = ettersendelseFiler;
             if (!filer || filer.length === 0) {
@@ -315,7 +309,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             })}
                         </div>
                     )}
-                    {concatenatedSizeOfFilesMessage && <InnerErrorMessage feilId={concatenatedSizeOfFilesMessage} />}
+                    {concatenatedSizeOfFilesMessage && (
+                        <ErrorMessageLabel>
+                            <FormattedMessage id={concatenatedSizeOfFilesMessage} />
+                        </ErrorMessageLabel>
+                    )}
                 </StyledInnerErrorFrame>
 
                 {kanLasteOppVedlegg && (

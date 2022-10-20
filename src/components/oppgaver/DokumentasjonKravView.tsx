@@ -112,6 +112,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         }
         setIsUploading(true);
         setErrorMessage(undefined);
+        setOverMaksStorrelse(false);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
 
         dispatch(
@@ -159,12 +160,12 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 return;
             }
 
-            const totalsizeOfAddedFiles = filer.reduce(
+            const totalSizeOfAddedFiles = filer.reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
 
-            if (illegalCombinedFilesSize(totalsizeOfAddedFiles)) {
+            if (illegalCombinedFilesSize(totalSizeOfAddedFiles)) {
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
@@ -188,31 +189,34 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const onChange = (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => {
         setErrorMessage(undefined);
+        setOverMaksStorrelse(false);
+        setIsUploading(false);
         dispatch(setFileUploadFailed(dokumentasjonkrav.dokumentasjonkravId, false));
         dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
 
         if (validFiles.length) {
-            const newDokumentasjonkrav = {...dokumentasjonkravFiler};
-            if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] =
-                    newDokumentasjonkrav[dokumentasjonkravReferanse].concat(validFiles);
-            } else {
-                newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
-            }
             const totalSizeOfValidatedFiles = validFiles.reduce(
                 (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
                 0
             );
+
             if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                 setOverMaksStorrelse(true);
-                setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
                 fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
                 setOverMaksStorrelse(false);
                 setIsUploading(false);
+
+                const newDokumentasjonkrav = {...dokumentasjonkravFiler};
+                if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
+                    newDokumentasjonkrav[dokumentasjonkravReferanse] =
+                        newDokumentasjonkrav[dokumentasjonkravReferanse].concat(validFiles);
+                } else {
+                    newDokumentasjonkrav[dokumentasjonkravReferanse] = validFiles;
+                }
+                setDokumentasjonkravFiler(newDokumentasjonkrav);
             }
-            setDokumentasjonkravFiler(newDokumentasjonkrav);
         }
 
         if (event.target.value === "") {
@@ -296,7 +300,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                                 onChange={onChange}
                                 onDelete={onDeleteClick}
                                 setFilesHasErrors={setFilesHasErrors}
-                                setOvermaksStorrelse={setOverMaksStorrelse}
+                                setOverMaksStorrelse={setOverMaksStorrelse}
+                                overMaksStorrelse={overMaksStorrelse}
                                 filer={
                                     dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
                                     []

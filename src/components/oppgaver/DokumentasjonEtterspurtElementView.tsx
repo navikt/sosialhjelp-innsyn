@@ -1,6 +1,6 @@
 import {DokumentasjonEtterspurtElement, Fil, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {alertUser} from "../../utils/vedleggUtils";
+import {alertUser, illegalCombinedFilesSize} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FileItemView from "./FileItemView";
@@ -13,6 +13,8 @@ import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import ErrorMessage from "./ErrorMessage";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import styled from "styled-components/macro";
+import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
+import {FormattedMessage} from "react-intl";
 
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
@@ -35,6 +37,8 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     onDelete: (event: any, hendelseReferanse: string, fil: Fil) => void;
     onAddFileChange: (event: any, hendelseReferanse: string, validFiles: Fil[]) => void;
     setFilesHasErrors: (filesHasErrors: boolean) => void;
+    setOverMaksStorrelse: (setOverMaksStorrelse: boolean) => void;
+    overMaksStorrelse: boolean;
     filer: Fil[];
 }> = ({
     tittel,
@@ -44,10 +48,13 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     onDelete,
     onAddFileChange,
     setFilesHasErrors,
+    setOverMaksStorrelse,
+    overMaksStorrelse,
     filer,
 }) => {
     const uuid = uuidv4();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
+    const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
@@ -68,9 +75,13 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     }, [filer]);
 
     const visOppgaverDetaljeFeil: boolean =
-        oppgaveVedlegsOpplastingFeilet || (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0);
+        oppgaveVedlegsOpplastingFeilet ||
+        (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
+        overMaksStorrelse;
 
     const onDeleteElement = (event: any, fil: Fil) => {
+        setOverMaksStorrelse(false);
+        setConcatenatedSizeOfFilesMessage(undefined);
         setFileValidationErrors(undefined);
         setFilesHasErrors(false);
         onDelete(event, hendelseReferanse, fil);
@@ -78,6 +89,9 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const onChange = (event: any) => {
         setFileValidationErrors(undefined);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setOverMaksStorrelse(false);
+        setFilesHasErrors(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const opplastedeFiler = Array.from(files).map((file: File) => {
@@ -86,13 +100,22 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
             const validatedFiles = validateFile(opplastedeFiler);
 
+            const totalSizeOfValidatedFiles = validatedFiles.validFiles.reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
+            );
+
+            if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
+                setOverMaksStorrelse(true);
+                setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
+            }
+
             if (validatedFiles.errors.size) {
                 setFileValidationErrors({errors: validatedFiles.errors, filenames: validatedFiles.filenames});
                 setFilesHasErrors(true);
             } else {
-                setFilesHasErrors(false);
+                onAddFileChange(event, hendelseReferanse, validatedFiles.validFiles);
             }
-            onAddFileChange(event, hendelseReferanse, validatedFiles.validFiles);
         }
     };
 
@@ -111,8 +134,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
             {filer.map((fil: Fil, vedleggIndex: number) => (
                 <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
             ))}
-
-            {fileValidationErrors && fileValidationErrors?.errors.size && (
+            {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (
                         <ErrorMessageTitle
@@ -129,6 +151,11 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                         return <ErrorMessage feilId={key} key={index} />;
                     })}
                 </div>
+            )}
+            {overMaksStorrelse && (
+                <ErrorMessageLabel>
+                    <FormattedMessage id={concatenatedSizeOfFilesMessage} />
+                </ErrorMessageLabel>
             )}
         </StyledErrorFrame>
     );
