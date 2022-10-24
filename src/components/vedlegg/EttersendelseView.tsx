@@ -291,7 +291,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             }}
                         />
                     ))}
-                    {fileValidationErrors && fileValidationErrors?.errors.size && !concatenatedSizeOfFilesMessage && (
+                    {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
                         <div>
                             {fileValidationErrors.filenames.size === 1 ? (
                                 <ErrorMessageTitle
@@ -309,7 +309,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             })}
                         </div>
                     )}
-                    {concatenatedSizeOfFilesMessage && (
+                    {overMaksStorrelse && (
                         <ErrorMessageLabel>
                             <FormattedMessage id={concatenatedSizeOfFilesMessage} />
                         </ErrorMessageLabel>
