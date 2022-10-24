@@ -18,6 +18,7 @@ import {FormattedMessage} from "react-intl";
 
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
+    margin-top: 16px;
     background-color: ${(props) =>
         props.hasError
             ? "var(--navds-semantic-color-feedback-danger-background)"
