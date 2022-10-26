@@ -79,7 +79,7 @@ const DokumentasjonkravElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        overMaksStorrelse;
+        concatenatedSizeOfFilesMessage !== undefined;
 
     const onChangeElement = (event: any) => {
         setFileValidationErrors(undefined);
@@ -102,13 +102,13 @@ const DokumentasjonkravElementView: React.FC<{
             if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                 setOverMaksStorrelse(true);
                 setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
-            }
-
-            if (validatedFiles.errors.size) {
-                setFileValidationErrors({errors: validatedFiles.errors, filenames: validatedFiles.filenames});
-                setFilesHasErrors(true);
             } else {
-                onChange(event, dokumentasjonkravReferanse, validatedFiles.validFiles);
+                if (validatedFiles.errors.size) {
+                    setFileValidationErrors({errors: validatedFiles.errors, filenames: validatedFiles.filenames});
+                    setFilesHasErrors(true);
+                } else {
+                    onChange(event, dokumentasjonkravReferanse, validatedFiles.validFiles);
+                }
             }
         }
     };
@@ -160,7 +160,7 @@ const DokumentasjonkravElementView: React.FC<{
                     })}
                 </div>
             )}
-            {overMaksStorrelse && (
+            {concatenatedSizeOfFilesMessage && (
                 <ErrorMessageLabel>
                     <FormattedMessage id={concatenatedSizeOfFilesMessage} />
                 </ErrorMessageLabel>

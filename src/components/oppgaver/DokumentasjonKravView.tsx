@@ -27,6 +27,7 @@ import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
 
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
+    margin: 1rem;
     padding: 1rem;
     border-radius: 2px;
     border-color: ${(props) =>
@@ -188,6 +189,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     };
 
     const onChange = (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => {
+        setFilesHasErrors(false);
         setErrorMessage(undefined);
         setOverMaksStorrelse(false);
         setIsUploading(false);
@@ -205,9 +207,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 setOverMaksStorrelse(true);
                 fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
-                setOverMaksStorrelse(false);
-                setIsUploading(false);
-
                 const newDokumentasjonkrav = {...dokumentasjonkravFiler};
                 if (newDokumentasjonkrav[dokumentasjonkravReferanse]) {
                     newDokumentasjonkrav[dokumentasjonkravReferanse] =

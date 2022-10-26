@@ -1,8 +1,7 @@
-import {Label} from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 
-const StyledErrorMessage = styled(Label)`
+const StyledErrorMessage = styled.div`
     color: var(--navds-semantic-color-feedback-danger-text);
     margin: 0;
 `;
@@ -12,7 +11,7 @@ interface ErrorMessageProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export const ErrorMessage = ({children, ...rest}: ErrorMessageProps) => (
-    <StyledErrorMessage aria-live="polite" {...rest} as="p">
+    <StyledErrorMessage aria-live="polite" {...rest}>
         {children}
     </StyledErrorMessage>
 );

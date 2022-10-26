@@ -34,6 +34,7 @@ import styled from "styled-components";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 
 const StyledErrorFrame = styled.div<{isError?: boolean}>`
+    margin: 1rem;
     padding: 1rem;
     border-radius: 2px;
     border-color: ${(props) =>
@@ -195,9 +196,10 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     };
 
     const onAddFileChange = (event: any, hendelseReferanse: string, validFiles: Fil[]) => {
-        setErrorMessage(undefined);
+        setFilesHasErrors(false);
         setOverMaksStorrelse(false);
         setIsUploading(false);
+        setErrorMessage(undefined);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
@@ -210,11 +212,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
             if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
                 setOverMaksStorrelse(true);
+                setIsUploading(true);
                 fileUploadFailedEvent("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
-                setOverMaksStorrelse(false);
-                setIsUploading(false);
-
                 const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
                 if (newDokumentasjonEtterspurt[hendelseReferanse]) {
                     newDokumentasjonEtterspurt[hendelseReferanse] =

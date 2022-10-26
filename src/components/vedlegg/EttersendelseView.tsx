@@ -309,7 +309,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                             })}
                         </div>
                     )}
-                    {overMaksStorrelse && (
+                    {concatenatedSizeOfFilesMessage && (
                         <ErrorMessageLabel>
                             <FormattedMessage id={concatenatedSizeOfFilesMessage} />
                         </ErrorMessageLabel>
