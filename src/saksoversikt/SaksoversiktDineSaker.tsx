@@ -12,16 +12,9 @@ import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent} from "../utils/amplitude";
-import {BodyShort, Button, Heading, Panel} from "@navikt/ds-react";
+import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
-
-const IngenSoknaderPanel = styled(Panel)`
-    @media screen and (min-width: 641px) {
-        padding-left: 4rem;
-        padding-right: 4rem;
-    }
-`;
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -128,15 +121,6 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                     forcePage={currentPage}
                     onPageChange={(page: number) => handlePageClick(page)}
                 />
-            )}
-
-            {saker.length === 0 && (
-                <IngenSoknaderPanel className="panel-glippe-over">
-                    <BodyShort spacing>Vi finner ingen søknader for denne perioden.</BodyShort>
-                    <BodyShort spacing>
-                        Har du søkt på papir, har vi dessverre ikke mulighet til å vise den her.
-                    </BodyShort>
-                </IngenSoknaderPanel>
             )}
 
             <>
