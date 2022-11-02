@@ -15,9 +15,12 @@ const SaksoversiktIngenSoknader: React.FC = () => {
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        Vi finner ingen digital søknad fra deg
+                        Vi finner ingen søknader fra deg
                     </Heading>
-                    <BodyShort spacing>Vi kan dessverre ikke vise søknader som er sendt på papir.</BodyShort>
+                    <BodyShort spacing>
+                        Dette kan være fordi kommunen din ikke kan vise søknader sendt på papir, eller at søknaden din
+                        er eldre enn 15 måneder.
+                    </BodyShort>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
 
@@ -25,7 +28,7 @@ const SaksoversiktIngenSoknader: React.FC = () => {
                 <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp"} border={false}>
                     <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
                 </LinkPanel>
-                <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp#soknad"} border={false}>
+                <LinkPanel href={"https://www.nav.no/sosialhjelp/soknad"} border={false}>
                     <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>

@@ -35,7 +35,6 @@ const Saksoversikt: React.FC = () => {
             innsynApiKommunikasjonsProblemer = true;
         }
     }
-    const harSaker = alleSaker.length > 0;
 
     useEffect(() => {
         setBreadcrumbs();
@@ -70,7 +69,11 @@ const Saksoversikt: React.FC = () => {
                                 <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                             </Alert>
                         )}
-                        {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
+                        {alleSaker.length > 0 ? (
+                            <SaksoversiktDineSaker saker={alleSaker} />
+                        ) : (
+                            <SaksoversiktIngenSoknader />
+                        )}
                     </>
                 )}
             </div>
