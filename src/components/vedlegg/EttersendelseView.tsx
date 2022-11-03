@@ -13,6 +13,7 @@ import {
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClickedNew";
+//import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
 import AddFileButton, {TextAndButtonWrapper} from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
@@ -86,6 +87,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
     const [isUploading, setIsUploading] = useState(false);
 
+    const [fileUploadingBackendFailed, setFileUploadingBackendFailed] = useState(false);
+
     const listeOverVedleggIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
     );
@@ -96,6 +99,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const listeOverOppgaveIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
+
+    //const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
 
     const opplastingFeilet = hasFilesWithErrorStatus(ettersendelseFiler);
 
@@ -125,12 +130,14 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) ||
         fileValidationErrors !== undefined ||
-        errorMessage !== undefined;
+        errorMessage !== undefined ||
+        fileUploadingBackendFailed;
 
     const visVedleggFeil: boolean =
         vedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        overMaksStorrelse;
+        overMaksStorrelse ||
+        fileUploadingBackendFailed;
 
     const onSendClick = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -140,6 +147,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setIsUploading(true);
         setErrorMessage(undefined);
         setOverMaksStorrelse(false);
+        setFileUploadingBackendFailed(false);
         setConcatenatedSizeOfFilesMessage(undefined);
 
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
@@ -149,6 +157,47 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             fileUploadFailedEvent("vedlegg.minst_ett_vedlegg");
             setIsUploading(false);
         }
+
+        const handleFileUploadFailedInBackend = (fil: Fil[]) => {
+            setFileUploadingBackendFailed(true);
+            console.log("filer med uendret status", ettersendelseFiler);
+            console.log("fil med oppdatert status fra backend", fil);
+
+            console.log("første plass i ettersendelseFiler ", ettersendelseFiler[0]);
+            console.log("andre plass i ettersendelseFiler ", ettersendelseFiler[1]);
+
+            //ettersendelseFiler.forEach((etterfile: Fil) => {
+            //    if (etterfile.file && etterfile.filnavn === fil.filnavn) {
+            //        etterfile.status = fil.status;
+            //    }
+            //});
+            let test1 = undefined;
+            fil.forEach((test) => {
+                //ettersendelseFiler.map((etterfile) => {
+                //    return etterfile.filnavn === test.filnavn ? (etterfile.status = test.status) : etterfile.status;
+                //});
+                /**
+                 *
+                 * fileswithUpdatedstatusfrombackend (fil)
+                 *
+                 * fileswithcurrentstatus (ettersendelseFiler)
+                 *
+                 *
+                 * const filesWithNewStatus = [];
+                 *
+                 *
+                 * setEttersendelseFiler(filesWithNewStatus);
+                 *
+                 *
+                 *
+                 *
+                 *
+                 */
+            });
+
+            console.log("filer med endret status", ettersendelseFiler);
+            setIsUploading(false);
+        };
 
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
@@ -176,20 +225,29 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             setOverMaksStorrelse(true);
         } else {
-            const filer = ettersendelseFiler;
-            if (!filer || filer.length === 0) {
+            //const filer = ettersendelseFiler;
+            //if (!filer || filer.length === 0) {
+            //    return;
+            //}
+            if (!ettersendelseFiler || ettersendelseFiler.length === 0) {
                 return;
             }
-            const formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
-            onSendVedleggClicked(
-                BACKEND_FEIL_ID,
-                formData,
-                filer,
-                path,
-                handleFileWithVirus,
-                handleFileUploadFailed,
-                onSuccessful
-            );
+            try {
+                const formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
+                onSendVedleggClicked(
+                    BACKEND_FEIL_ID,
+                    formData,
+                    //filer,
+                    ettersendelseFiler,
+                    path,
+                    handleFileWithVirus,
+                    handleFileUploadFailed,
+                    handleFileUploadFailedInBackend,
+                    onSuccessful
+                );
+            } catch (e: any) {
+                handleFileUploadFailed();
+            }
         }
     };
 
@@ -198,6 +256,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setFileValidationErrors(undefined);
         setConcatenatedSizeOfFilesMessage(undefined);
         setOverMaksStorrelse(false);
+        setFileUploadingBackendFailed(false);
         dispatch(setFileUploadFailed(BACKEND_FEIL_ID, false));
         dispatch(setFileUploadFailedInBackend(BACKEND_FEIL_ID, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
@@ -207,7 +266,10 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             const opplastedeFiler = Array.from(files).map((file: File) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
+
+            //console.log("opplastedeFiler", opplastedeFiler);
             const validatedFile = validateFile(opplastedeFiler);
+            //console.log("validatedfile", validatedFile);
 
             if (validatedFile.errors.size) {
                 setFileValidationErrors({errors: validatedFile.errors, filenames: validatedFile.filenames});
@@ -228,6 +290,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     } else {
                         setEttersendelseFiler(validatedFile.validFiles);
                     }
+                    //console.log("ettersendelserFiler", ettersendelseFiler);
                 }
             }
         }
@@ -243,6 +306,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setFileValidationErrors(undefined);
         setConcatenatedSizeOfFilesMessage(undefined);
         setOverMaksStorrelse(false);
+        setFileUploadingBackendFailed(false);
 
         const remainingFiles = ettersendelseFiler.filter((filene) => filene.file !== fil.file);
         setEttersendelseFiler(remainingFiles);
@@ -259,6 +323,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setOverMaksStorrelse(false);
             setIsUploading(false);
         }
+        if (event.target.value === "") {
+            return;
+        }
+        event.target.value = null;
+        event.preventDefault();
     };
 
     return (

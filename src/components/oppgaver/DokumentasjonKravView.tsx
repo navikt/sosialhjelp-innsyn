@@ -126,6 +126,11 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setIsUploading(false);
         }
 
+        const handleFileUploadFailedInBackend = () => {
+            /*
+             * placeholder
+             * */
+        };
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
@@ -182,6 +187,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     path,
                     handleFileWithVirus,
                     handleFileUploadFailed,
+                    handleFileUploadFailedInBackend,
                     onSuccessful
                 );
             }

@@ -138,6 +138,16 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
         }
 
+        const handleFileUploadFailedInBackend = () => {
+            /*
+             * placeholder
+             *
+             *
+             *
+             *
+             * */
+        };
+
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
@@ -189,6 +199,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     path,
                     handleFileWithVirus,
                     handleFileUploadFailed,
+                    handleFileUploadFailedInBackend,
                     onSuccessful
                 );
             }

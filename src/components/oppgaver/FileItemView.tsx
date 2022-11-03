@@ -85,6 +85,8 @@ const FileItemView: React.FC<{
         event.preventDefault();
     };
 
+    console.log("filnavn", fil.filnavn, "fil.status er", fil.status);
+
     return (
         <Wrapper>
             <StyledFilInfoOgKnapp>
