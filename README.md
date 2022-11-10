@@ -22,9 +22,19 @@ Dersom du i tillegg ønsker å sette opp formatering av kode i IntelliJ slik at 
 -   Trykk ⌥⇧⌘P for å formatere kode
 -   Optional: Sette opp filewatcher og automatisk formatering. Se her `https://prettier.io/docs/en/webstorm.html#running-prettier-on-save-using-file-watcher`
 
-## Manuell deploy til dev
+## Bygg og deploy
 
-Gjøres via Github Actions, se: https://github.com/navikt/sosialhjelp-innsyn/actions/workflows/deploy_dev.yml
+Image bygges vha Github Actions: https://github.com/navikt/sosialhjelp-innsyn/actions/workflows/build.yml
+
+Siden appen ikke kjører på nais lengre, se [ikke-nais deploy](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/ikke-nais%20deploy) for informasjon om deploy.
+
+### Manuell deploy til dev (NB: gjelder kun dev-gcp)
+
+Deploy til dev-gcp gjøres via Github Actions, se: https://github.com/navikt/sosialhjelp-innsyn/actions/workflows/deploy_dev.yml
+
+## Hvordan komme i gang
+
+[Felles dokumentasjon for våre frontend apper](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling#frontend)
 
 ## Available Scripts
 
