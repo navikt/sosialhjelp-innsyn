@@ -31,7 +31,11 @@ import {
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
-import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude";
+import {
+    fileUploadFailedEvent,
+    logButtonOrLinkClick,
+    logDuplicationsOfUploadedAttachmentsForDokEtterspurt,
+} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
@@ -49,6 +53,8 @@ const ButtonWrapper = styled.div`
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
     const [isUploading, setIsUploading] = useState(false);
+
+    logDuplicationsOfUploadedAttachmentsForDokEtterspurt(dokumentasjonEtterspurt, oppgaveIndex);
 
     const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
