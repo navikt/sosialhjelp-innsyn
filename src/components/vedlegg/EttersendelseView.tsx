@@ -149,8 +149,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setOverMaksStorrelse(false);
         setFileUploadingBackendFailed(false);
         setConcatenatedSizeOfFilesMessage(undefined);
-
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
+
         dispatch(setFileUploadFailed(BACKEND_FEIL_ID, ettersendelseFiler.length === 0));
         if (ettersendelseFiler.length === 0) {
             setErrorMessage("vedlegg.minst_ett_vedlegg");
@@ -158,47 +158,15 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setIsUploading(false);
         }
 
-        const handleFileUploadFailedInBackend = (fil: Fil[]) => {
+        const handleFileUploadFailedInBackend = (filerBackendResponse: Fil[]) => {
             setFileUploadingBackendFailed(true);
-            console.log("filer med uendret status", ettersendelseFiler);
-            console.log("fil med oppdatert status fra backend", fil);
-
-            console.log("første plass i ettersendelseFiler ", ettersendelseFiler[0]);
-            console.log("andre plass i ettersendelseFiler ", ettersendelseFiler[1]);
-
-            //ettersendelseFiler.forEach((etterfile: Fil) => {
-            //    if (etterfile.file && etterfile.filnavn === fil.filnavn) {
-            //        etterfile.status = fil.status;
-            //    }
-            //});
-            let test1 = undefined;
-            fil.forEach((test) => {
-                //ettersendelseFiler.map((etterfile) => {
-                //    return etterfile.filnavn === test.filnavn ? (etterfile.status = test.status) : etterfile.status;
-                //});
-                /**
-                 *
-                 * fileswithUpdatedstatusfrombackend (fil)
-                 *
-                 * fileswithcurrentstatus (ettersendelseFiler)
-                 *
-                 *
-                 * const filesWithNewStatus = [];
-                 *
-                 *
-                 * setEttersendelseFiler(filesWithNewStatus);
-                 *
-                 *
-                 *
-                 *
-                 *
-                 */
+            const nyEttersendelseFiler = ettersendelseFiler.map((etterFiler) => {
+                const found = filerBackendResponse.find((filerBack) => etterFiler.filnavn === filerBack.filnavn);
+                return {...etterFiler, ...found};
             });
-
-            console.log("filer med endret status", ettersendelseFiler);
+            setEttersendelseFiler(nyEttersendelseFiler);
             setIsUploading(false);
         };
-
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
@@ -225,10 +193,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             setOverMaksStorrelse(true);
         } else {
-            //const filer = ettersendelseFiler;
-            //if (!filer || filer.length === 0) {
-            //    return;
-            //}
             if (!ettersendelseFiler || ettersendelseFiler.length === 0) {
                 return;
             }
@@ -237,7 +201,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 onSendVedleggClicked(
                     BACKEND_FEIL_ID,
                     formData,
-                    //filer,
                     ettersendelseFiler,
                     path,
                     handleFileWithVirus,
@@ -308,7 +271,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setOverMaksStorrelse(false);
         setFileUploadingBackendFailed(false);
 
-        const remainingFiles = ettersendelseFiler.filter((filene) => filene.file !== fil.file);
+        const remainingFiles = ettersendelseFiler.filter((filene) => filene.filnavn !== fil.filnavn);
         setEttersendelseFiler(remainingFiles);
         const totalFileSize = ettersendelseFiler.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),

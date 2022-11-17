@@ -16,30 +16,28 @@ export const onSendVedleggClicked = (
     //let backendResponse = undefined;
     fetchPost(path, formData, "multipart/form-data")
         .then((fileResponse: any) => {
-            //let hasError: boolean = false;
+            let hasError: boolean = false;
+            let files: Fil[] = [];
             if (Array.isArray(fileResponse)) {
                 fileResponse.forEach((response) => {
-                    response.filer.forEach((fil: Fil[]) => {
-                        handleFileUploadFailedInBackend(fil);
-                        //        //if (fil.status !== "OK") {
-                        //        //    //handleFileUploadFailedInBackend(fil);
-                        //        //    console.log("If det ikke er ok", fil);
-                        //        //    //            hasError = true;
-                        //        //    //            //handleFileUploadFailed();
-                        //        //}
+                    response.filer.forEach((fil: Fil) => {
+                        if (fil.status !== "OK") {
+                            hasError = true;
+                            files.push(fil);
+                        }
                     });
                 });
             }
-            //if (hasError) {
-            //    console.log("WOAH THERE REALLY IS AN ERROR WTF");
-            //    //handleFileUploadFailed();
-            //    //handleFileUploadFailedInBackend();
-            //} else {
-            //    console.log("ALLS WELL THAT ENDS WELL");
-            //    onSuccessful(reference);
-            //}
+            if (hasError) {
+                console.log("WOAH THERE REALLY IS AN ERROR WTF");
+                handleFileUploadFailedInBackend(files);
+            } else {
+                console.log("ALLS WELL THAT ENDS WELL");
+                onSuccessful(reference);
+            }
         })
         .catch((e) => {
+            console.log("feil funnet", e);
             // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
             fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                 if (errorResponse.message === "Mulig virus funnet") {

@@ -1,4 +1,10 @@
-import {alertUser, createFormDataWithVedleggFromFiler, maxCombinedFileSize} from "../../utils/vedleggUtils";
+import {
+    alertUser,
+    createFormDataWithVedleggFromFiler,
+    createFormDataWithVedleggFromOppgaver,
+    hasNotAddedFiles,
+    maxCombinedFileSize,
+} from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
     hentOppgaveMedId,
@@ -25,8 +31,8 @@ export const onSendVedleggClicked = (
     innsyndatasti: InnsynsdataSti,
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
-    dokumentasjonEtterspurt?: DokumentasjonEtterspurt,
-    filer?: Fil[]
+    filer: Fil[],
+    dokumentasjonEtterspurt?: DokumentasjonEtterspurt
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
@@ -39,6 +45,34 @@ export const onSendVedleggClicked = (
 
     const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
     let formData: any = undefined;
+
+    if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
+        dokumentasjonEtterspurt?.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
+            try {
+                formData = createFormDataWithVedleggFromOppgaver(
+                    dokumentasjonEtterspurtElement,
+                    filer,
+                    dokumentasjonEtterspurt.innsendelsesfrist
+                );
+            } catch (e: any) {
+                dispatch(setFileUploadFailed(vedleggId, true));
+                logInfoMessage("Validering vedlegg feilet: " + e?.message);
+                event.preventDefault();
+                return;
+            }
+        });
+
+        dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
+        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
+        dispatch(setFileUploadFailed(vedleggId, noFilesAdded));
+
+        if (noFilesAdded) {
+            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
+            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
+            event.preventDefault();
+            return;
+        }
+    }
 
     if (innsyndatasti === InnsynsdataSti.VEDLEGG && filer) {
         try {

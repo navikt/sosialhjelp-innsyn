@@ -26,7 +26,7 @@ import {
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../redux/innsynsdata/innsynsDataActions";
-import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
+import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {
     fileUploadFailedEvent,
     logButtonOrLinkClick,
@@ -130,6 +130,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         setErrorMessage(undefined);
         setOverMaksStorrelse(false);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
+        let formData: any = undefined;
 
         dispatch(
             setFileUploadFailed(
@@ -155,12 +156,14 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         };
 
         const handleFileWithVirus = () => {
+            console.log("onSuccessful");
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
+            console.log("onSuccessful");
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
@@ -168,6 +171,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const onSuccessful = (hendelseReferanse: string) => {
+            console.log("onSuccessful");
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
@@ -193,11 +197,17 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
-                const formData = createFormDataWithVedleggFromOppgaver(
-                    dokumentasjonEtterspurtElement,
-                    filer,
-                    dokumentasjonEtterspurt.innsendelsesfrist
-                );
+                try {
+                    formData = createFormDataWithVedleggFromOppgaver(
+                        dokumentasjonEtterspurtElement,
+                        filer,
+                        dokumentasjonEtterspurt.innsendelsesfrist
+                    );
+                } catch (e: any) {
+                    logInfoMessage("Validering vedlegg feilet: " + e?.message);
+                    event.preventDefault();
+                    return;
+                }
                 onSendVedleggClicked(
                     reference,
                     formData,
