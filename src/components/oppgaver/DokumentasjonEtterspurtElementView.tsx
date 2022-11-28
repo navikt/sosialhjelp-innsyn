@@ -80,7 +80,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        concatenatedSizeOfFilesMessage !== undefined ||
+        overMaksStorrelse ||
         fileUploadingBackendFailed;
 
     const onDeleteElement = (event: any, fil: Fil) => {
