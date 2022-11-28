@@ -25,6 +25,7 @@ import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../utils/amplitude
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
+import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     margin: 1rem;
@@ -96,6 +97,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const [filesHasErrors, setFilesHasErrors] = useState(false);
 
+    const [fileUploadingBackendFailed, setFileUploadingBackendFailed] = useState(false);
+
     const includesReferense = (feilReferanse: string[]) => {
         dokumentasjonkrav.dokumentasjonkravElementer.filter((dokkrav) => {
             if (dokkrav.dokumentasjonkravReferanse) {
@@ -114,7 +117,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         setIsUploading(true);
         setErrorMessage(undefined);
         setOverMaksStorrelse(false);
+        setFileUploadingBackendFailed(false);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
+        let formData: any = undefined;
 
         dispatch(
             setFileUploadFailed(dokumentasjonkrav.dokumentasjonkravId, Object.keys(dokumentasjonkravFiler).length === 0)
@@ -126,10 +131,17 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setIsUploading(false);
         }
 
-        const handleFileUploadFailedInBackend = () => {
-            /*
-             * placeholder
-             * */
+        const handleFileUploadFailedInBackend = (filerBackendResponse: Fil[], reference: string) => {
+            setFileUploadingBackendFailed(true);
+            const newDokumentasjonkrav = {...dokumentasjonkravFiler};
+            newDokumentasjonkrav[reference] = dokumentasjonkravFiler[reference].map((kravFiler) => {
+                const overwritesPreviousFileStatus = filerBackendResponse.find(
+                    (filerBack) => kravFiler.filnavn === filerBack.filnavn
+                );
+                return {...kravFiler, ...overwritesPreviousFileStatus};
+            });
+            setDokumentasjonkravFiler(newDokumentasjonkrav);
+            setIsUploading(false);
         };
         const handleFileWithVirus = () => {
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
@@ -158,7 +170,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
             setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
             setIsUploading(false);
         };
-
         dokumentasjonkrav.dokumentasjonkravElementer.forEach((dokumentasjonkravElement) => {
             const reference = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
             const filer = dokumentasjonkravFiler[reference];
@@ -175,11 +186,17 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 setOverMaksStorrelse(true);
                 setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
-                const formData = createFormDataWithVedleggFromDokumentasjonkrav(
-                    dokumentasjonkravElement,
-                    filer,
-                    dokumentasjonkrav.frist
-                );
+                try {
+                    formData = createFormDataWithVedleggFromDokumentasjonkrav(
+                        dokumentasjonkravElement,
+                        filer,
+                        dokumentasjonkrav.frist
+                    );
+                } catch (e: any) {
+                    logInfoMessage("Validering vedlegg feilet: " + e?.message);
+                    event.preventDefault();
+                    return;
+                }
                 onSendVedleggClicked(
                     reference,
                     formData,
@@ -199,6 +216,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         setErrorMessage(undefined);
         setOverMaksStorrelse(false);
         setIsUploading(false);
+        setFileUploadingBackendFailed(false);
         dispatch(setFileUploadFailed(dokumentasjonkrav.dokumentasjonkravId, false));
         dispatch(setFileUploadFailedInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonkrav.dokumentasjonkravId, false));
@@ -233,6 +251,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
 
     const onDeleteClick = (event: any, dokumentasjonkravReferanse: string, fil: Fil) => {
         setErrorMessage(undefined);
+        setFileUploadingBackendFailed(false);
 
         if (dokumentasjonkravReferanse !== "" && fil) {
             const newDokumentasjonkrav = {...dokumentasjonkravFiler};
@@ -249,6 +268,9 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                         deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, dokumentasjonkravReferanse)
                     );
                 }
+            }
+            if (newDokumentasjonkrav[dokumentasjonkravReferanse].find((dokkrav) => dokkrav.status !== "INITIALISERT")) {
+                setFileUploadingBackendFailed(true);
             }
         }
 
@@ -273,7 +295,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         errorMessage !== undefined ||
         includesReferense(dokumentasjonkravReferanserSomFeiletPaBackend) ||
         includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend) ||
-        filesHasErrors;
+        filesHasErrors ||
+        fileUploadingBackendFailed;
 
     return (
         <>
@@ -307,6 +330,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                                 setFilesHasErrors={setFilesHasErrors}
                                 setOverMaksStorrelse={setOverMaksStorrelse}
                                 overMaksStorrelse={overMaksStorrelse}
+                                fileUploadingBackendFailed={fileUploadingBackendFailed}
                                 filer={
                                     dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
                                     []

@@ -84,9 +84,6 @@ const FileItemView: React.FC<{
         setModalVises(true);
         event.preventDefault();
     };
-
-    console.log("filnavn:", fil.filnavn, "----fil.status er:", fil.status);
-
     return (
         <Wrapper>
             <StyledFilInfoOgKnapp>

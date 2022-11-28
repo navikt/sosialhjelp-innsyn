@@ -9,11 +9,9 @@ export const onSendVedleggClicked = (
     path: string,
     handleFileWithVirus: () => void,
     handleFileUploadFailed: () => void,
-    handleFileUploadFailedInBackend: (filResponse: any) => void,
-    //handleFileUploadFailedInBackend: (filnavn: string, filStatus: string | undefined, fil: File | undefined) => void,
+    handleFileUploadFailedInBackend: (filResponse: Fil[], reference: string) => void,
     onSuccessful: (reference: string) => void
 ) => {
-    //let backendResponse = undefined;
     fetchPost(path, formData, "multipart/form-data")
         .then((fileResponse: any) => {
             let hasError: boolean = false;
@@ -29,15 +27,12 @@ export const onSendVedleggClicked = (
                 });
             }
             if (hasError) {
-                console.log("WOAH THERE REALLY IS AN ERROR WTF");
-                handleFileUploadFailedInBackend(files);
+                handleFileUploadFailedInBackend(files, reference);
             } else {
-                console.log("ALLS WELL THAT ENDS WELL");
                 onSuccessful(reference);
             }
         })
         .catch((e) => {
-            console.log("feil funnet", e);
             // Kjør feilet kall på nytt for å få tilgang til feilmelding i JSON data:
             fetchPostGetErrors(path, formData, "multipart/form-data").then((errorResponse: any) => {
                 if (errorResponse.message === "Mulig virus funnet") {

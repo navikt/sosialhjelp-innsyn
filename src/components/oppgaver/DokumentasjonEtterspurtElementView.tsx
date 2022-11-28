@@ -40,6 +40,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     setFilesHasErrors: (filesHasErrors: boolean) => void;
     setOverMaksStorrelse: (setOverMaksStorrelse: boolean) => void;
     overMaksStorrelse: boolean;
+    fileUploadingBackendFailed: boolean;
     filer: Fil[];
 }> = ({
     tittel,
@@ -51,6 +52,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     setFilesHasErrors,
     setOverMaksStorrelse,
     overMaksStorrelse,
+    fileUploadingBackendFailed,
     filer,
 }) => {
     const uuid = uuidv4();
@@ -78,7 +80,8 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        concatenatedSizeOfFilesMessage !== undefined;
+        concatenatedSizeOfFilesMessage !== undefined ||
+        fileUploadingBackendFailed;
 
     const onDeleteElement = (event: any, fil: Fil) => {
         setOverMaksStorrelse(false);

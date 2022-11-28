@@ -112,6 +112,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
     const [filesHasErrors, setFilesHasErrors] = useState(false);
 
+    const [fileUploadingBackendFailed, setFileUploadingBackendFailed] = useState(false);
+
     const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
         listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
         opplastingFeilet !== undefined ||
@@ -119,7 +121,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         errorMessage !== undefined ||
         listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
-        filesHasErrors;
+        filesHasErrors ||
+        fileUploadingBackendFailed;
 
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -129,6 +132,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         setIsUploading(true);
         setErrorMessage(undefined);
         setOverMaksStorrelse(false);
+        setFileUploadingBackendFailed(false);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
         let formData: any = undefined;
 
@@ -145,25 +149,26 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
         }
 
-        const handleFileUploadFailedInBackend = () => {
-            /*
-             * placeholder
-             *
-             *
-             *
-             *
-             * */
+        const handleFileUploadFailedInBackend = (filerBackendResponse: Fil[], reference: string) => {
+            setFileUploadingBackendFailed(true);
+            const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
+            newDokumentasjonEtterspurt[reference] = dokumentasjonEtterspurtFiler[reference].map((etterspurtFiler) => {
+                const overwritesPreviousFileStatus = filerBackendResponse.find(
+                    (filerBack) => etterspurtFiler.filnavn === filerBack.filnavn
+                );
+                return {...etterspurtFiler, ...overwritesPreviousFileStatus};
+            });
+            setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
+            setIsUploading(false);
         };
 
         const handleFileWithVirus = () => {
-            console.log("onSuccessful");
             setErrorMessage("vedlegg.opplasting_backend_virus_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_backend_virus_feilmelding");
             setIsUploading(false);
             dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const handleFileUploadFailed = () => {
-            console.log("onSuccessful");
             dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.SAKSSTATUS, false));
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
@@ -171,7 +176,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, true));
         };
         const onSuccessful = (hendelseReferanse: string) => {
-            console.log("onSuccessful");
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
@@ -227,6 +231,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         setOverMaksStorrelse(false);
         setIsUploading(false);
         setErrorMessage(undefined);
+        setFileUploadingBackendFailed(false);
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedInBackend(dokumentasjonEtterspurt.oppgaveId, false));
         dispatch(setFileUploadFailedVirusCheckInBackend(dokumentasjonEtterspurt.oppgaveId, false));
@@ -261,6 +266,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     };
 
     const onDeleteClick = (event: any, hendelseReferanse: string, fil: Fil) => {
+        setFileUploadingBackendFailed(false);
         setErrorMessage(undefined);
 
         if (hendelseReferanse !== "" && fil) {
@@ -277,6 +283,14 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 }
             }
             setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
+
+            if (
+                newDokumentasjonEtterspurt[hendelseReferanse].find(
+                    (doketterspurt) => doketterspurt.status !== "INITIALISERT"
+                )
+            ) {
+                setFileUploadingBackendFailed(true);
+            }
         }
 
         const totalFileSize = dokumentasjonEtterspurtFiler[hendelseReferanse].reduce(
@@ -329,6 +343,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                             setFilesHasErrors={setFilesHasErrors}
                             setOverMaksStorrelse={setOverMaksStorrelse}
                             overMaksStorrelse={overMaksStorrelse}
+                            fileUploadingBackendFailed={fileUploadingBackendFailed}
                             filer={dokumentasjonEtterspurtFiler[oppgaveElement.hendelsereferanse ?? ""] ?? []}
                         />
                     );

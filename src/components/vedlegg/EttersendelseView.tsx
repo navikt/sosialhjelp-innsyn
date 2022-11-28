@@ -13,7 +13,6 @@ import {
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClickedNew";
-//import {onSendVedleggClicked} from "../oppgaver/onSendVedleggClicked";
 import AddFileButton, {TextAndButtonWrapper} from "../oppgaver/AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import FileItemView from "../oppgaver/FileItemView";
@@ -100,8 +99,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
 
-    //const filer: Fil[] = useSelector((state: InnsynAppState) => state.innsynsdata.ettersendelse.filer);
-
     const opplastingFeilet = hasFilesWithErrorStatus(ettersendelseFiler);
 
     const vedlegsOpplastingFeilet: boolean = useSelector(
@@ -161,8 +158,10 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         const handleFileUploadFailedInBackend = (filerBackendResponse: Fil[]) => {
             setFileUploadingBackendFailed(true);
             const nyEttersendelseFiler = ettersendelseFiler.map((etterFiler) => {
-                const found = filerBackendResponse.find((filerBack) => etterFiler.filnavn === filerBack.filnavn);
-                return {...etterFiler, ...found};
+                const overwritesPreviousFileStatus = filerBackendResponse.find(
+                    (filerBack) => etterFiler.filnavn === filerBack.filnavn
+                );
+                return {...etterFiler, ...overwritesPreviousFileStatus};
             });
             setEttersendelseFiler(nyEttersendelseFiler);
             setIsUploading(false);
@@ -230,9 +229,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 return {filnavn: file.name, status: "INITIALISERT", file: file};
             });
 
-            //console.log("opplastedeFiler", opplastedeFiler);
             const validatedFile = validateFile(opplastedeFiler);
-            //console.log("validatedfile", validatedFile);
 
             if (validatedFile.errors.size) {
                 setFileValidationErrors({errors: validatedFile.errors, filenames: validatedFile.filenames});
@@ -253,7 +250,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                     } else {
                         setEttersendelseFiler(validatedFile.validFiles);
                     }
-                    //console.log("ettersendelserFiler", ettersendelseFiler);
                 }
             }
         }
@@ -273,10 +269,16 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
         const remainingFiles = ettersendelseFiler.filter((filene) => filene.filnavn !== fil.filnavn);
         setEttersendelseFiler(remainingFiles);
+
         const totalFileSize = ettersendelseFiler.reduce(
             (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
             0
         );
+
+        if (remainingFiles.find((etterfiler) => etterfiler.status !== "INITIALISERT")) {
+            setFileUploadingBackendFailed(true);
+        }
+
         if (illegalCombinedFilesSize(totalFileSize)) {
             setOverMaksStorrelse(true);
             setErrorMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");

@@ -43,6 +43,7 @@ const DokumentasjonkravElementView: React.FC<{
     setFilesHasErrors: (filesHasErrors: boolean) => void;
     setOverMaksStorrelse: (setOverMaksStorrelse: boolean) => void;
     overMaksStorrelse: boolean;
+    fileUploadingBackendFailed: boolean;
     filer: Fil[];
 }> = ({
     dokumentasjonkravElement,
@@ -52,6 +53,7 @@ const DokumentasjonkravElementView: React.FC<{
     setFilesHasErrors,
     setOverMaksStorrelse,
     overMaksStorrelse,
+    fileUploadingBackendFailed,
     filer,
 }) => {
     const uuid = uuidv4();
@@ -79,7 +81,8 @@ const DokumentasjonkravElementView: React.FC<{
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet ||
         (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
-        concatenatedSizeOfFilesMessage !== undefined;
+        concatenatedSizeOfFilesMessage !== undefined ||
+        fileUploadingBackendFailed;
 
     const onChangeElement = (event: any) => {
         setFileValidationErrors(undefined);
