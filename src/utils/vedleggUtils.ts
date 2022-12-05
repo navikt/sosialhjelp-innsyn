@@ -62,23 +62,6 @@ export const generateMetadataFromOppgaver = (
         },
     ];
 };
-
-export const oldCreateFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
-    const metadata: Metadata[] = oldGenerateMetadataFromOppgaver(oppgave);
-    return opprettFormDataMedVedlegg(metadata);
-};
-
-export const oldGenerateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
-    return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
-        type: oppgaveElement.dokumenttype,
-        tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-        innsendelsesfrist: oppgave.innsendelsesfrist,
-        filer: oppgaveElement.filer ? oppgaveElement.filer : [],
-        hendelsetype: oppgaveElement.hendelsetype,
-        hendelsereferanse: oppgaveElement.hendelsereferanse,
-    }));
-};
-
 export const generateMetadataFromDokumentasjonkrav = (
     dokumentasjonkravElement: DokumentasjonKravElement,
     filer: Fil[],
