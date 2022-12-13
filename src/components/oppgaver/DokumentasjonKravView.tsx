@@ -28,7 +28,6 @@ import styled from "styled-components";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
-    margin: 1rem;
     padding: 1rem;
     border-radius: 2px;
     border-color: ${(props) =>
@@ -358,7 +357,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )}
             </StyledErrorFrame>
             {errorMessage && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage style={{marginBottom: "1rem", marginLeft: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}

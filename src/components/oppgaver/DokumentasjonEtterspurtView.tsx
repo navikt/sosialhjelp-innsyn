@@ -38,7 +38,6 @@ import styled from "styled-components";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 
 const StyledErrorFrame = styled.div<{isError?: boolean}>`
-    margin: 1rem;
     padding: 1rem;
     border-radius: 2px;
     border-color: ${(props) =>
@@ -367,7 +366,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 )}
             </StyledErrorFrame>
             {errorMessage && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage style={{marginBottom: "1rem", marginLeft: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}

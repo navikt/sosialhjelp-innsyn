@@ -372,7 +372,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 )}
             </StyledOuterErrorFrame>
             {errorMessage && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage style={{marginBottom: "1rem", marginLeft: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
