@@ -31,6 +31,7 @@ import {validateFile} from "../oppgaver/validateFile";
 import {ErrorMessageTitle} from "../oppgaver/ErrorMessageTitleNew";
 import {ErrorMessage as ErrorMessageLabel, ErrorMessage} from "../errors/ErrorMessage";
 import InnerErrorMessage from "../oppgaver/ErrorMessage";
+import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -147,6 +148,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         setFileUploadingBackendFailed(false);
         setConcatenatedSizeOfFilesMessage(undefined);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
+        let formData: any = undefined;
 
         dispatch(setFileUploadFailed(BACKEND_FEIL_ID, ettersendelseFiler.length === 0));
         if (ettersendelseFiler.length === 0) {
@@ -196,20 +198,23 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 return;
             }
             try {
-                const formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
-                onSendVedleggClicked(
-                    BACKEND_FEIL_ID,
-                    formData,
-                    ettersendelseFiler,
-                    path,
-                    handleFileWithVirus,
-                    handleFileUploadFailed,
-                    handleFileUploadFailedInBackend,
-                    onSuccessful
-                );
+                formData = createFormDataWithVedleggFromFiler(ettersendelseFiler);
             } catch (e: any) {
                 handleFileUploadFailed();
+                logInfoMessage("Validering vedlegg feilet: " + e?.message);
+                event.preventDefault();
+                return;
             }
+            onSendVedleggClicked(
+                BACKEND_FEIL_ID,
+                formData,
+                ettersendelseFiler,
+                path,
+                handleFileWithVirus,
+                handleFileUploadFailed,
+                handleFileUploadFailedInBackend,
+                onSuccessful
+            );
         }
     };
 

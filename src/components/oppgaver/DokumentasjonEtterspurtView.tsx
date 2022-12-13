@@ -208,6 +208,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         dokumentasjonEtterspurt.innsendelsesfrist
                     );
                 } catch (e: any) {
+                    handleFileUploadFailed();
                     logInfoMessage("Validering vedlegg feilet: " + e?.message);
                     event.preventDefault();
                     return;

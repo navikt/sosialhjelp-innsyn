@@ -193,6 +193,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                         dokumentasjonkrav.frist
                     );
                 } catch (e: any) {
+                    handleFileUploadFailed();
                     logInfoMessage("Validering vedlegg feilet: " + e?.message);
                     event.preventDefault();
                     return;
