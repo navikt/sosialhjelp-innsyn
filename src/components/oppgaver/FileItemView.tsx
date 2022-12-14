@@ -84,6 +84,7 @@ const FileItemView: React.FC<{
         setModalVises(true);
         event.preventDefault();
     };
+
     return (
         <Wrapper>
             <StyledFilInfoOgKnapp>
