@@ -36,6 +36,10 @@ const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     border-style: solid;
 `;
 
+const StyledFrame = styled.div`
+    margin: 1rem;
+`;
+
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
     dokumentasjonkravIndex: number;
@@ -299,7 +303,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         fileUploadingBackendFailed;
 
     return (
-        <>
+        <StyledFrame>
             <StyledErrorFrame hasError={visDokumentasjonkravDetaljerFeiler}>
                 {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert <= 0 && (
                     <BodyShort spacing>
@@ -361,7 +365,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
-        </>
+        </StyledFrame>
     );
 };
 

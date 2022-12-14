@@ -48,6 +48,10 @@ const StyledErrorFrame = styled.div<{isError?: boolean}>`
     border-style: solid;
 `;
 
+const StyledFrame = styled.div`
+    margin: 1rem;
+`;
+
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
     oppgaverErFraInnsyn: boolean;
@@ -308,7 +312,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     };
 
     return (
-        <>
+        <StyledFrame>
             <StyledErrorFrame isError={visDokumentasjonEtterspurtDetaljeFeiler}>
                 {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
                     <BodyShort spacing>
@@ -370,7 +374,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
-        </>
+        </StyledFrame>
     );
 };
 
