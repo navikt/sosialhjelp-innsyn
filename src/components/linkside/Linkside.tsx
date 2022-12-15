@@ -1,10 +1,10 @@
 import * as React from "react";
 import {parse} from "query-string";
-import {Redirect} from "react-router";
+import {Navigate} from "react-router-dom";
 
 const Linkside: React.FC<{}> = () => {
     const redirectUrl = getRedirectUrl(window.location.search);
-    return <Redirect to={redirectUrl} />;
+    return <Navigate to={redirectUrl} replace />;
 };
 
 export const getRedirectUrl = (searchParameters: string) => {

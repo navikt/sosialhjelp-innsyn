@@ -31,10 +31,12 @@ export const VilkarAccordion = (props: Props) => {
                     </BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
-                    {props.feilmelding}
-                    {unikeVilkar.map((vilkarElement, index) => (
-                        <VilkarView key={index} vilkar={vilkarElement} />
-                    ))}
+                    <div>
+                        {props.feilmelding}
+                        {unikeVilkar.map((vilkarElement, index) => (
+                            <VilkarView key={index} vilkar={vilkarElement} />
+                        ))}
+                    </div>
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>
