@@ -1,8 +1,7 @@
-import {Label} from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 
-const StyledErrorMessage = styled(Label)`
+const StyledErrorMessage = styled.div`
     color: var(--navds-semantic-color-feedback-danger-text);
 `;
 
