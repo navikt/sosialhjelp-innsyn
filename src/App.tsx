@@ -1,15 +1,11 @@
 import React from "react";
-import {ConnectedRouter} from "connected-react-router";
-import configureStore, {history} from "./configureStore";
+import configureStore from "./configureStore";
 import {Provider} from "react-redux";
-import {Route, Switch} from "react-router";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {IntlProvider} from "react-intl";
 import * as Sentry from "@sentry/react";
-
 import {tekster} from "./tekster/tekster";
-import InnsynRouter from "./innsyn/InnsynRouter";
 import "./App.css";
-import SaksoversiktRouter from "./saksoversikt/SaksoversiktRouter";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
@@ -19,6 +15,9 @@ import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
 import {Integrations} from "@sentry/tracing";
 import {isProd} from "./utils/restUtils";
 import ScrollToTop from "./utils/ScrollToTop";
+import AppBanner from "./components/appBanner/AppBanner";
+import Utbetalinger from "./utbetalinger/Utbetalinger";
+import SaksStatus from "./innsyn/SaksStatus";
 
 const store = configureStore();
 
@@ -66,22 +65,27 @@ const SentryRoute = Sentry.withSentryRouting(Route);
 
 const App: React.FC = () => {
     const language = "nb";
+    const ekstraSpaltebredde: boolean = window.location.pathname.match(/\/utbetaling/) !== null;
+
     return (
         <Provider store={store}>
             <IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
                 <Feilside>
                     <Tilgangskontrollside>
-                        <ConnectedRouter history={history}>
-                            <ScrollToTop />
-                            <Switch>
-                                <SentryRoute exact path="/" component={Saksoversikt} />
-                                <SentryRoute path="/saksoversikt" component={SaksoversiktRouter} />
-                                <SentryRoute exact path="/innsyn" component={Saksoversikt} />
-                                <SentryRoute exact path="/innsyn/" component={Saksoversikt} />
-                                <SentryRoute path="/innsyn/*" component={InnsynRouter} />
-                                <SentryRoute component={SideIkkeFunnet} />
-                            </Switch>
-                        </ConnectedRouter>
+                        <div id="maincontent" className="informasjon-side">
+                            <AppBanner />
+                            <BrowserRouter>
+                                <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>
+                                    <Routes>
+                                        <SentryRoute path="/" element={Saksoversikt} />
+                                        <SentryRoute path="/utbetaling" element={Utbetalinger} />
+                                        <SentryRoute path="/:soknadId/status" element={SaksStatus} />
+                                        <SentryRoute path="*" element={SideIkkeFunnet} />
+                                    </Routes>
+                                </div>
+                            </BrowserRouter>
+                        </div>
+                        <ScrollToTop />
                     </Tilgangskontrollside>
                 </Feilside>
             </IntlProvider>

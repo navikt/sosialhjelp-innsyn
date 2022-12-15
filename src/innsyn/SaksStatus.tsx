@@ -26,7 +26,7 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
-import {useLocation} from "react-router";
+import {useLocation} from "react-router-dom";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
 import TimeoutBox from "../components/timeoutbox/TimeoutBox";
 

@@ -1,16 +1,14 @@
 import React from "react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import "./dineUtbetalingerPanel.css";
-import {push} from "connected-react-router";
-import {useDispatch} from "react-redux";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
+import {useNavigate} from "react-router-dom";
 
-const DineUtbetalingerPanel: React.FC<{}> = () => {
-    const dispatch = useDispatch();
-
+const DineUtbetalingerPanel: React.FC = () => {
+    const navigate = useNavigate();
     const onClick = (event: any) => {
-        dispatch(push("/innsyn/utbetaling"));
         event.preventDefault();
+        navigate("/innsyn/utbetaling");
     };
 
     return (
