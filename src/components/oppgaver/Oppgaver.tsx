@@ -21,7 +21,7 @@ import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 
 const StyledPanelHeader = styled.div`
-    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
+    border-bottom: 2px solid var(--a-border-default);
     padding-left: 0.75rem;
 `;
 

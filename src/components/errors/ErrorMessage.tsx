@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledErrorMessage = styled(Label)`
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
 `;
 
 interface ErrorMessageProps extends React.HTMLAttributes<HTMLElement> {

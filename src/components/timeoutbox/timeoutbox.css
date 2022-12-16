@@ -5,7 +5,6 @@
     }
 
     .timeoutbox__knapperad {
-        margin-top: 2rem;
         text-align: center;
         display: inline-flex;
     }
@@ -21,12 +20,7 @@
         max-width: 100%;
     }
 
-    .timeoutbox__overskrift {
-        margin-bottom: 0.5rem;
-    }
-
     .timeoutbox__knapperad {
-        margin-top: 1rem;
         text-align: center;
     }
 

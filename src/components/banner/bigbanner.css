@@ -1,6 +1,6 @@
 .big_banner {
     background-color: #9bd0b0;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     width: 100%;
 
     border-bottom: 4px solid #38a161;
