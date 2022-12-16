@@ -4,7 +4,7 @@ import {ErrorMessage} from "../errors/ErrorMessage";
 
 export const ErrorMessageTitle = (props: {feilId: string; errorValue: {}}) => {
     return (
-        <ErrorMessage>
+        <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
             <FormattedMessage id={props.feilId} values={props.errorValue} />
         </ErrorMessage>
     );
