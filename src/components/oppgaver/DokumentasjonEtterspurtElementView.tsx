@@ -19,13 +19,9 @@ import {FormattedMessage} from "react-intl";
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
     margin-top: 16px;
-    background-color: ${(props) =>
-        props.hasError
-            ? "var(--navds-semantic-color-feedback-danger-background)"
-            : "var(--navds-semantic-color-canvas-background)"};
+    background-color: ${(props) => (props.hasError ? "var(--a-surface-danger-subtle)" : "var(--a-bg-subtle)")};
     border-radius: 2px;
-    border-color: ${(props) =>
-        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-color: ${(props) => (props.hasError ? "var(--a-border-danger)" : "var(--a-border-on-inverted)")};
     border-width: 1px;
     border-style: solid;
 `;

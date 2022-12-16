@@ -30,8 +30,7 @@ import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 const StyledErrorFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
     border-radius: 2px;
-    border-color: ${(props) =>
-        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-color: ${(props) => (props.hasError ? "var(--a-border-danger)" : "var(--a-border-on-inverted)")};
     border-width: 1px;
     border-style: solid;
 `;

@@ -40,10 +40,7 @@ import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
 const StyledErrorFrame = styled.div<{isError?: boolean}>`
     padding: 1rem;
     border-radius: 2px;
-    border-color: ${(props) =>
-        props.isError
-            ? "var(--navds-semantic-color-interaction-danger-selected)"
-            : "var(--navds-semantic-color-border-inverted)"};
+    border-color: ${(props) => (props.isError ? "var(--a-surface-danger-active)" : "var(--a-border-on-inverted)")};
     border-width: 1px;
     border-style: solid;
 `;
