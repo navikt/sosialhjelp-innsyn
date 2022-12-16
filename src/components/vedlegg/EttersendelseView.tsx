@@ -174,7 +174,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             setIsUploading(false);
         };
         const handleFileUploadFailed = () => {
-            dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
+            dispatch(hentInnsynsdata(BACKEND_FEIL_ID, InnsynsdataSti.VEDLEGG, false));
             setErrorMessage("vedlegg.opplasting_feilmelding");
             fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
             setIsUploading(false);
