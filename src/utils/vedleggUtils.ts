@@ -1,10 +1,10 @@
 import {
-    Fil,
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
     DokumentasjonKravElement,
+    Fil,
 } from "../redux/innsynsdata/innsynsdataReducer";
-import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
+import {logInfoMessage, logWarningMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
 import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
@@ -28,8 +28,12 @@ interface Metadata {
     hendelsereferanse: string | undefined;
 }
 
-export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
-    const metadata: Metadata[] = generateMetadataFromOppgaver(oppgave);
+export const createFormDataWithVedleggFromOppgaver = (
+    dokumentasjonEtterspurtElement: DokumentasjonEtterspurtElement,
+    filer: Fil[],
+    innsendelsesfrist?: string
+) => {
+    const metadata: Metadata[] = generateMetadataFromOppgaver(dokumentasjonEtterspurtElement, filer, innsendelsesfrist);
     return opprettFormDataMedVedlegg(metadata);
 };
 
@@ -42,17 +46,22 @@ export const createFormDataWithVedleggFromDokumentasjonkrav = (
     return opprettFormDataMedVedlegg(metadata);
 };
 
-export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) => {
-    return oppgave.oppgaveElementer.map((oppgaveElement: DokumentasjonEtterspurtElement) => ({
-        type: oppgaveElement.dokumenttype,
-        tilleggsinfo: oppgaveElement.tilleggsinformasjon,
-        innsendelsesfrist: oppgave.innsendelsesfrist,
-        filer: oppgaveElement.filer ? oppgaveElement.filer : [],
-        hendelsetype: oppgaveElement.hendelsetype,
-        hendelsereferanse: oppgaveElement.hendelsereferanse,
-    }));
+export const generateMetadataFromOppgaver = (
+    dokumentasjonEtterspurtElement: DokumentasjonEtterspurtElement,
+    filer: Fil[],
+    innsendelsesfrist?: string
+) => {
+    return [
+        {
+            type: dokumentasjonEtterspurtElement.dokumenttype,
+            tilleggsinfo: dokumentasjonEtterspurtElement.tilleggsinformasjon,
+            innsendelsesfrist: innsendelsesfrist,
+            filer: filer,
+            hendelsetype: dokumentasjonEtterspurtElement.hendelsetype,
+            hendelsereferanse: dokumentasjonEtterspurtElement.hendelsereferanse,
+        },
+    ];
 };
-
 export const generateMetadataFromDokumentasjonkrav = (
     dokumentasjonkravElement: DokumentasjonKravElement,
     filer: Fil[],
