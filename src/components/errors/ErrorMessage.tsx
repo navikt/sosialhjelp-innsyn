@@ -1,4 +1,3 @@
-import {Label} from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 
