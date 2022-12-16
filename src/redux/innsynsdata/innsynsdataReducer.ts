@@ -682,18 +682,11 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 return {
                     ...state,
                     listeOverOpggaveIderSomFeilet: [...state.listeOverOpggaveIderSomFeilet, action.oppgaveId],
-                    dokumentasjonkravReferanserSomFeilet: [
-                        ...state.dokumentasjonkravReferanserSomFeilet,
-                        action.oppgaveId,
-                    ],
                 };
             }
             return {
                 ...state,
                 listeOverOpggaveIderSomFeilet: state.listeOverOpggaveIderSomFeilet.filter(
-                    (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                ),
-                dokumentasjonkravReferanserSomFeilet: state.dokumentasjonkravReferanserSomFeilet.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
             };
@@ -705,10 +698,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         ...state.listeOverOppgaveIderSomFeiletPaBackend,
                         action.oppgaveId,
                     ],
-                    dokumentasjonkravReferanserSomFeiletPaBackend: [
-                        ...state.dokumentasjonkravReferanserSomFeiletPaBackend,
-                        action.oppgaveId,
-                    ],
                 };
             }
             return {
@@ -716,10 +705,6 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 listeOverOppgaveIderSomFeiletPaBackend: state.listeOverOppgaveIderSomFeiletPaBackend.filter(
                     (oppgaveId: string) => oppgaveId !== action.oppgaveId
                 ),
-                dokumentasjonkravReferanserSomFeiletPaBackend:
-                    state.dokumentasjonkravReferanserSomFeiletPaBackend.filter(
-                        (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                    ),
             };
         case InnsynsdataActionTypeKeys.FILE_UPLOAD_BACKEND_FAILED_VIRUS_CHECK:
             if (action.status) {
@@ -729,20 +714,12 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                         ...state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend,
                         action.oppgaveId,
                     ],
-                    dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend: [
-                        ...state.dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend,
-                        action.oppgaveId,
-                    ],
                 };
             }
             return {
                 ...state,
                 listeOverOppgaveIderSomFeiletIVirussjekkPaBackend:
                     state.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.filter(
-                        (oppgaveId: string) => oppgaveId !== action.oppgaveId
-                    ),
-                dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend:
-                    state.dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend.filter(
                         (oppgaveId: string) => oppgaveId !== action.oppgaveId
                     ),
             };
