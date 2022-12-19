@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledErrorMessage = styled.div`
+const StyledErrorMessage = styled.p`
     color: var(--a-text-danger);
 `;
 
