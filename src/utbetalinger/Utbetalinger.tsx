@@ -135,7 +135,7 @@ const Utbetalinger: React.FC = () => {
     }, [setHarSoknaderMedInnsyn, setLasterSoknaderMedInnsyn, dispatch]);
 
     return (
-        <div>
+        <div className="blokk-center--wide">
             {harSoknaderMedInnsyn && harSaker && !lasterSoknaderMedInnsyn && (
                 <StyledUtbetalinger>
                     <StyledUtbetalingerFilter>

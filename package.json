@@ -7,7 +7,7 @@
     "@navikt/ds-css": "^1.2.6",
     "@navikt/ds-icons": "^1.2.6",
     "@navikt/ds-react": "^1.2.6",
-    "@navikt/nav-dekoratoren-moduler": "^1.6.17",
+    "@navikt/nav-dekoratoren-moduler": "^1.8.1",
     "@sentry/react": "^7.27.0",
     "@sentry/tracing": "^7.27.0",
     "@types/amplitude-js": "^8.9.5",

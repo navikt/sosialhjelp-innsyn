@@ -62,7 +62,7 @@ const SakPanel: React.FC<Props> = ({
         if (kilde === "soknad-api") {
             window.location.href = url;
         } else if (kilde === "innsyn-api") {
-            navigate(`/innsyn/${fiksDigisosId}/status`);
+            navigate(`/${fiksDigisosId}/status`);
             event.preventDefault();
         } else {
             // do nothing?

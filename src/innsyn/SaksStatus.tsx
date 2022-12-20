@@ -26,7 +26,7 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
 import TimeoutBox from "../components/timeoutbox/TimeoutBox";
 
@@ -37,16 +37,12 @@ const StyledPanel = styled(Panel)`
     }
 `;
 
-interface Props {
-    match: {
-        params: {
-            soknadId: string;
-        };
-    };
-}
-
-const SaksStatusView: React.FC<Props> = ({match}) => {
-    const fiksDigisosId: string = match.params.soknadId;
+const SaksStatusView = () => {
+    const {soknadId} = useParams();
+    if (!soknadId) {
+        throw new Error("mangler soknadId i urls");
+    }
+    const fiksDigisosId: string = soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const innsynRestStatus = innsynsdata.restStatus.saksStatus;
 

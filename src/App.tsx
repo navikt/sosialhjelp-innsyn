@@ -20,13 +20,12 @@ import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
 import {initAmplitude} from "./utils/amplitude";
-import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
 import {isProd} from "./utils/restUtils";
 import ScrollToTop from "./utils/ScrollToTop";
 import AppBanner from "./components/appBanner/AppBanner";
 import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
-import ReactDOM from "react-dom";
+import Linkside from "./components/linkside/Linkside";
 const store = configureStore();
 
 const visSpraakNokler = (tekster: any) => {
@@ -59,47 +58,31 @@ if (process.env.NODE_ENV === "production") {
 
 initAmplitude();
 
-/* Dersom appen bygges og deployes med docker-image vil dekoratøren bli lagt på serverside med express i Docker
- (eks ved deploy til miljø). Når den injectes clientside legges den utenfor body, slik at stylingen som
- gir sticky footer gir en unødvendig scrollbar localhost på sider med lite innhold
-*/
-if (process.env.NODE_ENV !== "production") {
-    injectDecoratorClientSide({
-        env: "dev",
-        simple: false,
-        feedback: false,
-        chatbot: false,
-        shareScreen: false,
-        utilsBackground: "white",
-    });
-}
-
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 const App = () => {
     const language = "nb";
-    const ekstraSpaltebredde: boolean = window.location.pathname.match(/\/utbetaling/) !== null;
 
     return (
         <Provider store={store}>
             <IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
                 <Feilside>
                     <Tilgangskontrollside>
-                        <div id="maincontent" className="informasjon-side">
-                            <AppBanner />
-                            <BrowserRouter basename="/sosialhjelp/innsyn">
-                                <ScrollToTop />
-
-                                <div className={"blokk-center " + (ekstraSpaltebredde ? "blokk-center--wide" : "")}>
+                        <BrowserRouter basename="/sosialhjelp/innsyn">
+                            <ScrollToTop />
+                            <main id="maincontent" role="main">
+                                <AppBanner />
+                                <div className="blokk-center informasjon-side">
                                     <SentryRoutes>
                                         <Route path="/" element={<Saksoversikt />} />
                                         <Route path="/utbetaling" element={<Utbetalinger />} />
-                                        <Route path="/:soknadId/status" element={SaksStatus} />
+                                        <Route path="/:soknadId/status" element={<SaksStatus />} />
+                                        <Route path="/link*" element={<Linkside />} />
                                         <Route path="*" element={<SideIkkeFunnet />} />
                                     </SentryRoutes>
                                 </div>
-                            </BrowserRouter>
-                        </div>
+                            </main>
+                        </BrowserRouter>
                     </Tilgangskontrollside>
                 </Feilside>
             </IntlProvider>

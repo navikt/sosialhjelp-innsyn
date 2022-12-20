@@ -7,10 +7,11 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
-import {BodyShort, Button, Label, Link} from "@navikt/ds-react";
+import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
+import {Link} from "react-router-dom";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -68,7 +69,9 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", "");
             return (
                 <BodyShort>
-                    <Link href="/sosialhjelp/innsyn/utbetaling">Dine utbetalinger</Link>
+                    <NavDsLink as={Link} to="/utbetaling">
+                        Dine utbetalinger
+                    </NavDsLink>
                     {beskrivelseUtenLenke}
                 </BodyShort>
             );

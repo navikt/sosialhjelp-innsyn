@@ -10,7 +10,7 @@ import {FormattedMessage} from "react-intl";
 import styled from "styled-components/macro";
 import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
-const FeilsideWrapper = styled.div.attrs({className: "blokk-center"})`
+const FeilsideWrapper = styled.div`
     margin-top: 2rem;
 `;
 export interface FeilsideProps {
