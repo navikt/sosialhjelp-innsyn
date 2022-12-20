@@ -3,9 +3,8 @@ import {parse} from "query-string";
 import {Navigate} from "react-router-dom";
 
 const Linkside = () => {
-    console.log("hallo");
     const redirectUrl = getRedirectUrl(window.location.search);
-    return <Navigate to={redirectUrl} />;
+    return <Navigate to={redirectUrl} replace />;
 };
 
 export const getRedirectUrl = (searchParameters: string) => {
