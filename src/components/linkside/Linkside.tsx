@@ -13,7 +13,8 @@ export const getRedirectUrl = (searchParameters: string) => {
     let redirectURL: string = "/";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
-        redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/");
+        // last forward slash is optional, ensures that it is only one slash i the redirectURL
+        redirectURL = redirectURL.replace(/\/sosialhjelp\/innsyn[\/]?/i, "/");
     }
     return redirectURL;
 };
