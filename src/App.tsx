@@ -77,7 +77,7 @@ const App = () => {
                                         <Route path="/" element={<Saksoversikt />} />
                                         <Route path="/utbetaling" element={<Utbetalinger />} />
                                         <Route path="/:soknadId/status" element={<SaksStatus />} />
-                                        <Route path="/link*" element={<Linkside />} />
+                                        <Route path="/link/*" element={<Linkside />} />
                                         <Route path="*" element={<SideIkkeFunnet />} />
                                     </SentryRoutes>
                                 </div>

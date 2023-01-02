@@ -7,7 +7,7 @@ import styled from "styled-components";
 import OppgaverTag from "../components/sakspanel/OppgaverTag";
 import SaksMetaData from "../components/sakspanel/SaksMetaData";
 import {StyledLinkPanelDescription, StyledFileIcon, StyledSaksDetaljer} from "../components/sakspanel/sakspanelStyles";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const StyledLinkPanel = styled(LinkPanel)`
     .navds-link-panel__content {
@@ -35,16 +35,6 @@ const SaksPanelUtbetalinger: React.FC<Props> = ({
     harBlittLastetInn,
 }) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const onClick = (event: any) => {
-        // Fra tidligere kommentar: skal fikse problem med command-click
-        if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
-            return;
-        }
-
-        navigate("/innsyn/" + fiksDigisosId + "/status");
-        event.preventDefault();
-    };
 
     useEffect(() => {
         dispatch(hentSaksdetaljer(fiksDigisosId, false));
@@ -54,7 +44,7 @@ const SaksPanelUtbetalinger: React.FC<Props> = ({
         return <Lastestriper linjer={2} />;
     }
     return (
-        <StyledLinkPanel border onClick={onClick} href={"/sosialhjelp/innsyn/" + fiksDigisosId + "/status"}>
+        <StyledLinkPanel border to={"/" + fiksDigisosId + "/status"} forwardedAs={Link}>
             <StyledLinkPanelDescription>
                 <StyledFileIcon />
                 <StyledSaksDetaljer>
