@@ -10,10 +10,10 @@ const Linkside = () => {
 export const getRedirectUrl = (searchParameters: string) => {
     const queryParameters = parse(searchParameters);
 
-    let redirectURL: string = "/innsyn";
+    let redirectURL: string = "/";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
-        redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/innsyn");
+        redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/");
     }
     return redirectURL;
 };

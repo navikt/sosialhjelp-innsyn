@@ -9,18 +9,5 @@
     "cpuLimit": "200m",
     "memoryLimit": "256Mi",
     "cpuRequest": "1m",
-    "memoryRequest": "32Mi",
-    "env": {
-      "AVTALER_API_BASE_URL": "http://sosialhjelp-avtaler-api-dev.teamdigisos.svc.cluster.local",
-      "AVTALER_API_TARGET_AUDIENCE":"dev-gcp:teamdigisos:sosialhjelp-avtaler-api-dev",
-      "PORT": "5000",
-      "MILJO": "dev-gcp",
-      "REACT_APP_ENVIRONMENT":"dev-sbs",
-      "REACT_APP_API_BASE_URL":"https://www-q0.dev.nav.no/sosialhjelp/login-api/soknad-api/",
-      "REACT_APP_API_BASE_URL_WITH_ACCESS_TOKEN":"https://www-q0.dev.nav.no/sosialhjelp/login-api/soknad-api/",
-      "REACT_APP_INNSYN_URL":"https://www-q0.dev.nav.no/sosialhjelp/innsyn/",
-      "REACT_APP_MIN_SIDE_URL":"https://www.dev.nav.no/minside/",
-      "REACT_APP_UTLOGGINGS_URL":"https://loginservice.dev.nav.no/slo",
-      "DEKORATOR_MILJO":"dev"
-    }
+    "memoryRequest": "32Mi"
 }
