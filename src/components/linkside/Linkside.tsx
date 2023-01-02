@@ -4,7 +4,7 @@ import {Navigate} from "react-router-dom";
 
 const Linkside = () => {
     const redirectUrl = getRedirectUrl(window.location.search);
-    return <Navigate to={redirectUrl} replace />;
+    return <Navigate to={redirectUrl} replace={true} />;
 };
 
 export const getRedirectUrl = (searchParameters: string) => {
@@ -13,8 +13,8 @@ export const getRedirectUrl = (searchParameters: string) => {
     let redirectURL: string = "/";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
-        // last forward slash is optional, ensures that it is only one slash i the redirectURL
-        redirectURL = redirectURL.replace(/\/sosialhjelp\/innsyn[/]?/i, "/");
+        redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/");
+        redirectURL = redirectURL.replace("/link", "");
     }
     return redirectURL;
 };
