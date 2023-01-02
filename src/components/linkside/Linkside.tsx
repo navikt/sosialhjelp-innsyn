@@ -14,7 +14,7 @@ export const getRedirectUrl = (searchParameters: string) => {
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
         // last forward slash is optional, ensures that it is only one slash i the redirectURL
-        redirectURL = redirectURL.replace(/\/sosialhjelp\/innsyn[\/]?/i, "/");
+        redirectURL = redirectURL.replace(/\/sosialhjelp\/innsyn[/]?/i, "/");
     }
     return redirectURL;
 };
