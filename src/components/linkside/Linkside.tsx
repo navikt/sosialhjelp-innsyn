@@ -10,11 +10,11 @@ const Linkside = () => {
 export const getRedirectUrl = (searchParameters: string) => {
     const queryParameters = parse(searchParameters);
 
+    console.log("linkside searchparam", searchParameters);
     let redirectURL: string = "/";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
         redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/");
-        redirectURL = redirectURL.replace("/link", "");
     }
     return redirectURL;
 };
