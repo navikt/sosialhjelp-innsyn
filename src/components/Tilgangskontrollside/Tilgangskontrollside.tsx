@@ -5,13 +5,13 @@ import EllaBlunk from "../ellaBlunk";
 import {fetchToJson, HttpErrorType, REST_STATUS} from "../../utils/restUtils";
 import {Feilside, InnsynsdataActionTypeKeys, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
-import BigBanner from "../banner/BigBanner";
 import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
 import {BodyLong, Heading} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {setBreadcrumbs} from "../../utils/breadcrumbs";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import styled from "styled-components";
+import Banner from "../banner/Banner";
 
 const StyledElla = styled.div`
     display: flex;
@@ -70,7 +70,8 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
     if (leserData || mustLogin) {
         return (
             <div className="informasjon-side">
-                <BigBanner tittel="Økonomisk sosialhjelp" />
+                <Banner>Økonomisk sosialhjelp</Banner>
+
                 <ApplicationSpinner />
             </div>
         );
@@ -82,7 +83,8 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
 
             return (
                 <div className="informasjon-side">
-                    <BigBanner tittel="Økonomisk sosialhjelp" />
+                    <Banner>Økonomisk sosialhjelp</Banner>
+
                     <Wrapper className={"blokk-center"}>
                         <UthevetPanel className="panel-glippe-over">
                             <StyledElla>

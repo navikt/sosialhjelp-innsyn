@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import {useDispatch} from "react-redux";
-import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
@@ -13,6 +12,7 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
+import {useNavigate} from "react-router-dom";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -52,7 +52,7 @@ const SakPanel: React.FC<Props> = ({
     harBlittLastetInn,
 }) => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
     const onClick = (event: any) => {
@@ -62,7 +62,7 @@ const SakPanel: React.FC<Props> = ({
         if (kilde === "soknad-api") {
             window.location.href = url;
         } else if (kilde === "innsyn-api") {
-            dispatch(push(`/innsyn/${fiksDigisosId}/status`));
+            navigate(`/${fiksDigisosId}/status`);
             event.preventDefault();
         } else {
             // do nothing?
