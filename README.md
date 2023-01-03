@@ -35,6 +35,8 @@ npm run start #  starter dev-server
 npm test # Kjør enhetstestene
 ```
 
+Se også [utviklerdokumentasjonen](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling/#frontend) vår.
+
 ## How-to
 
 For å teste innsynsløsning, kan man laste opp innsynsdata som JSON til API via swaggersidene slik:
