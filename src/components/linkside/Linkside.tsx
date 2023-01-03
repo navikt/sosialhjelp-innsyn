@@ -10,11 +10,13 @@ const Linkside = () => {
 export const getRedirectUrl = (searchParameters: string) => {
     const queryParameters = parse(searchParameters);
 
-    console.log("linkside searchparam", searchParameters);
     let redirectURL: string = "/";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
         redirectURL = redirectURL.replace("/sosialhjelp/innsyn", "/");
+        // goto path contains /link when using loginservice and sosialhjelp/login-api. Remove this to avoid
+        // loop calling the <Linkside> component
+        redirectURL = redirectURL.replace("/link", "");
     }
     return redirectURL;
 };
