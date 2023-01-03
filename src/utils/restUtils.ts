@@ -210,6 +210,7 @@ function sjekkStatuskode(response: Response, url: string) {
 
     if (response.status === 401) {
         response.json().then((r) => {
+            console.log("response", r);
             if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
                 window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
@@ -269,6 +270,7 @@ function getRedirectOrigin() {
 
 export function getRedirectPath(): string {
     const redirectOrigin = getRedirectOrigin();
+    console.log("pathname", window.location.pathname);
     const gotoParameter = "?goto=" + window.location.pathname;
     const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
     return "redirect=" + redirectPath;
