@@ -7,7 +7,6 @@ import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/in
 import {REST_STATUS} from "../utils/restUtils";
 import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
-import BigBanner from "../components/banner/BigBanner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {logAmplitudeEvent} from "../utils/amplitude";
@@ -57,27 +56,20 @@ const Saksoversikt: React.FC = () => {
     useBannerTittel("Økonomisk sosialhjelp");
 
     return (
-        <div className="informasjon-side">
-            <BigBanner tittel="Økonomisk sosialhjelp" />
-            <div className="blokk-center">
-                {(leserData || mustLogin) && <ApplicationSpinner />}
-                {!leserData && !mustLogin && (
-                    <>
-                        {innsynApiKommunikasjonsProblemer && (
-                            <Alert variant="warning" className="luft_over_16px">
-                                <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                                <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
-                            </Alert>
-                        )}
-                        {alleSaker.length > 0 ? (
-                            <SaksoversiktDineSaker saker={alleSaker} />
-                        ) : (
-                            <SaksoversiktIngenSoknader />
-                        )}
-                    </>
-                )}
-            </div>
-        </div>
+        <>
+            {(leserData || mustLogin) && <ApplicationSpinner />}
+            {!leserData && !mustLogin && (
+                <>
+                    {innsynApiKommunikasjonsProblemer && (
+                        <Alert variant="warning" className="luft_over_16px">
+                            <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
+                            <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+                        </Alert>
+                    )}
+                    {alleSaker.length > 0 ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
+                </>
+            )}
+        </>
     );
 };
 
