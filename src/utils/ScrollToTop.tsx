@@ -1,16 +1,11 @@
 import {useLayoutEffect} from "react";
-import {useHistory} from "react-router";
+import {useLocation} from "react-router-dom";
 
 function ScrollToTop() {
-    const history = useHistory();
+    const location = useLocation();
     useLayoutEffect(() => {
-        const unlisten = history.listen(() => {
-            window.scrollTo(0, 0);
-        });
-        return () => {
-            unlisten();
-        };
-    }, [history]);
+        window.scrollTo(0, 0);
+    }, [location]);
 
     return null;
 }

@@ -4,10 +4,10 @@ import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {hentSaksdetaljer} from "../redux/innsynsdata/innsynsDataActions";
 import {Label, LinkPanel} from "@navikt/ds-react";
 import styled from "styled-components";
-import {push} from "connected-react-router";
 import OppgaverTag from "../components/sakspanel/OppgaverTag";
 import SaksMetaData from "../components/sakspanel/SaksMetaData";
 import {StyledLinkPanelDescription, StyledFileIcon, StyledSaksDetaljer} from "../components/sakspanel/sakspanelStyles";
+import {Link} from "react-router-dom";
 
 const StyledLinkPanel = styled(LinkPanel)`
     .navds-link-panel__content {
@@ -36,16 +36,6 @@ const SaksPanelUtbetalinger: React.FC<Props> = ({
 }) => {
     const dispatch = useDispatch();
 
-    const onClick = (event: any) => {
-        // Fra tidligere kommentar: skal fikse problem med command-click
-        if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
-            return;
-        }
-
-        dispatch(push("/innsyn/" + fiksDigisosId + "/status"));
-        event.preventDefault();
-    };
-
     useEffect(() => {
         dispatch(hentSaksdetaljer(fiksDigisosId, false));
     }, [dispatch, fiksDigisosId]);
@@ -54,7 +44,7 @@ const SaksPanelUtbetalinger: React.FC<Props> = ({
         return <Lastestriper linjer={2} />;
     }
     return (
-        <StyledLinkPanel border onClick={onClick} href={"/sosialhjelp/innsyn/" + fiksDigisosId + "/status"}>
+        <StyledLinkPanel border to={"/" + fiksDigisosId + "/status"} forwardedAs={Link}>
             <StyledLinkPanelDescription>
                 <StyledFileIcon />
                 <StyledSaksDetaljer>

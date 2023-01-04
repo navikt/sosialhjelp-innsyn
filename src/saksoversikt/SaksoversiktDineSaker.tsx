@@ -7,7 +7,6 @@ import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
 import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {parse} from "query-string";
-import {history} from "../configureStore";
 import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
@@ -15,6 +14,7 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -26,7 +26,7 @@ const StyledDineSoknaderPanel = styled(Panel)`
     padding-left: 64px; /* Tar høyde for bredden på svg-ikon i SaksPanel */
 
     @media screen and (max-width: ${SakspanelMaxBreakpoint}) {
-        padding-left: var(--navds-spacing-4);
+        padding-left: var(--a-spacing-4);
     }
 `;
 
@@ -35,6 +35,8 @@ const StyledHeading = styled(Heading)`
 `;
 
 const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
     const utbetalingerExistsService = useUtbetalingerExistsService(15);
@@ -69,7 +71,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     /* Paginering */
     const itemsPerPage = 10;
     let currentPage = 0;
-    const pageParam = parse(history.location.search)["side"];
+    const pageParam = parse(location.search)["side"];
     if (pageParam) {
         let parsedPageNumber = parseInt(pageParam.toString(), 10);
         if (!isNaN(parsedPageNumber)) {
@@ -78,7 +80,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     }
     const lastPage = Math.ceil(saker.length / itemsPerPage);
     if (currentPage >= lastPage) {
-        history.push({search: "?side=" + lastPage});
+        navigate({search: "?side=" + lastPage});
     }
     const paginerteSaker: Sakstype[] = saker.slice(
         currentPage * itemsPerPage,
@@ -86,7 +88,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     );
 
     const handlePageClick = (page: number) => {
-        history.push({search: "?side=" + (page + 1)});
+        navigate({search: "?side=" + (page + 1)});
     };
 
     // noinspection HtmlUnknownTarget

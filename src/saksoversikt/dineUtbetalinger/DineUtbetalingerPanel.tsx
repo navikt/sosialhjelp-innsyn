@@ -1,25 +1,12 @@
 import React from "react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import "./dineUtbetalingerPanel.css";
-import {push} from "connected-react-router";
-import {useDispatch} from "react-redux";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
+import {Link} from "react-router-dom";
 
-const DineUtbetalingerPanel: React.FC<{}> = () => {
-    const dispatch = useDispatch();
-
-    const onClick = (event: any) => {
-        dispatch(push("/innsyn/utbetaling"));
-        event.preventDefault();
-    };
-
+const DineUtbetalingerPanel: React.FC = () => {
     return (
-        <LinkPanel
-            href="/sosialhjelp/innsyn/utbetaling"
-            onClick={(event: any) => onClick(event)}
-            className="panel-luft-over dine_utbetalinger_panel"
-            border={false}
-        >
+        <LinkPanel className="panel-luft-over dine_utbetalinger_panel" border={false} as={Link} to="/utbetaling">
             <div className="dine_utbetalinger_innhold">
                 <HandCoinsIcon />
                 <div>

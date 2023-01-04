@@ -1,7 +1,6 @@
 import * as React from "react";
 import {FormattedMessage} from "react-intl";
-import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
-import {Button} from "@navikt/ds-react";
+import {BodyLong, Button, Heading} from "@navikt/ds-react";
 
 interface Props {
     onContinueClick: () => void;
@@ -11,12 +10,12 @@ interface Props {
 const Nedtelling = (props: Props) => {
     return (
         <div>
-            <Innholdstittel className="blokk-s timeoutbox__overskrift">
+            <Heading level="1" size="large" spacing>
                 <FormattedMessage id="timeout.overskrift" />
-            </Innholdstittel>
-            <Normaltekst className="blokk-xxs">
+            </Heading>
+            <BodyLong spacing>
                 <FormattedMessage id="timeout.nedtelling" />
-            </Normaltekst>
+            </BodyLong>
             <div className="timeoutbox__knapperad">
                 <Button variant="primary" onClick={props.onContinueClick}>
                     <FormattedMessage id="timeout.fortsett" />

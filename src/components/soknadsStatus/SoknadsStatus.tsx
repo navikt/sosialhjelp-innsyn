@@ -28,7 +28,7 @@ const Spot = styled.div`
     transform: translate(-50%, -50%);
     top: 0;
     left: 50%;
-    background: var(--navds-semantic-color-feedback-success-background);
+    background: var(--a-surface-success-subtle);
     border-radius: 50%;
     height: 4rem;
     width: 4rem;
@@ -60,11 +60,7 @@ interface ContentPanelBorderProps {
 }
 
 const ContentPanelBorder = styled.div<ContentPanelBorderProps>`
-    border-bottom: 2px solid
-        var(
-            ${(props) =>
-                props.lightColor ? "--navds-semantic-color-border-inverted" : "--navds-semantic-color-border-muted"}
-        );
+    border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
     margin: 1rem 0;
 `;
 
