@@ -8,7 +8,11 @@ import {tekster} from "../tekster/tekster";
 
 const store = createStore(rootReducer());
 
-const Wrapper: React.FC = ({children}) => (
+interface Props {
+    children: React.ReactNode;
+}
+
+const Wrapper = ({children}: Props) => (
     <Provider store={store}>
         <IntlProvider defaultLocale="nb" locale="nb" messages={tekster["nb"]}>
             {children}

@@ -1,11 +1,16 @@
 @import "./components/paneler/paneler.css";
 @import "./components/timeoutbox/timeoutbox.css";
 
+[data-theme="sosialhjelp-innsyn"] {
+    --ac-guide-panel-border: none;
+    --ac-guide-panel-illustration-bg: #cde7d8;
+}
+
 body {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--navds-semantic-color-canvas-background);
+    background-color: var(--a-bg-subtle);
 }
 
 html,
