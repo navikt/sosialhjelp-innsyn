@@ -44,6 +44,19 @@ export const deleteReferenceFromDokumentasjonkravFiler = (
     );
 };
 
+const StyledInnerFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
+
+const StyledOuterFrame = styled.div`
+    margin-top: 1rem;
+`;
+
 const ButtonWrapper = styled.div`
     margin-top: 1rem;
 `;
@@ -224,13 +237,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         includesReferense(dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend);
 
     return (
-        <div>
-            <div
-                className={
-                    (visDokumentasjonkravDetaljerFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
-                    " luft_over_1rem"
-                }
-            >
+        <StyledOuterFrame>
+            <StyledInnerFrame hasError={visDokumentasjonkravDetaljerFeiler}>
                 {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert <= 0 && (
                     <BodyShort spacing>
                         <FormattedMessage
@@ -280,13 +288,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                         </Button>
                     </ButtonWrapper>
                 )}
-            </div>
+            </StyledInnerFrame>
             {errorMessage && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage style={{marginBottom: "1rem", marginLeft: "1rem"}}>
                     <FormattedMessage id={errorMessage} />
                 </ErrorMessage>
             )}
-        </div>
+        </StyledOuterFrame>
     );
 };
 

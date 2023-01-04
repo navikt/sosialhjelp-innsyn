@@ -11,6 +11,21 @@ import ErrorMessage from "./ErrorMessage";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import {validateFile} from "./validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    margin-top: 16px;
+    background-color: ${(props) =>
+        props.hasError
+            ? "var(--navds-semantic-color-feedback-danger-background)"
+            : "var(--navds-semantic-color-canvas-background)"};
+    border-radius: 2px;
+    border-color: ${(props) =>
+        props.hasError ? "var(--navds-alert-color-error-border)" : "var(--navds-semantic-color-border-inverted)"};
+    border-width: 1px;
+    border-style: solid;
+`;
 
 export interface FileValidationErrors {
     errors: Set<string>;
@@ -73,7 +88,7 @@ const DokumentasjonkravElementView: React.FC<{
     };
 
     return (
-        <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+        <StyledFrame hasError={visOppgaverDetaljeFeil}>
             <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
                     <Label as="p">{dokumentasjonkravElement.tittel}</Label>
@@ -112,7 +127,7 @@ const DokumentasjonkravElementView: React.FC<{
                     })}
                 </div>
             )}
-        </div>
+        </StyledFrame>
     );
 };
 
