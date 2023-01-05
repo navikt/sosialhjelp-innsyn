@@ -16,9 +16,9 @@ import styled from "styled-components";
 const StyledFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
     margin-top: 16px;
-    background-color: ${(props) => (props.hasError ? "var(--a-surface-danger-subtle)" : "var(--a-bg-subtle)")};
+    background-color: ${(props) => (props.hasError ? "var(--a-red-50)" : "var(--a-gray-200)")};
     border-radius: 2px;
-    border-color: ${(props) => (props.hasError ? "var(--a-border-danger)" : "var(--a-border-on-inverted)")};
+    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "var(--a-gray-200)")};
     border-width: 1px;
     border-style: solid;
 `;
