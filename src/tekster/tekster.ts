@@ -95,7 +95,7 @@ export const tekster = {
             "Vi kunne ikke legge til filene dine. {antallFiler} av dem var av en type vi ikke støtter:",
 
         "vedlegg.ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
-        "vedlegg.ulovlig_filstorrelse_feilmelding": "Filer må være under 10 Mb.",
+        "vedlegg.ulovlig_filstorrelse_feilmelding": "Størrelsen på filer må være under 10 Mb.",
         "vedlegg.ulovlig_storrelse_av_alle_valgte_filer":
             "Vi kan ikke motta vedleggene dine hvis de til sammen er over 150 Mb.",
         "vedlegg.velg_fil": "Velg vedlegg",
