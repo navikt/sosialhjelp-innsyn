@@ -13,7 +13,7 @@ interface Props {
 export const DokumentasjonkravAccordion = (props: Props) => {
     return (
         <Accordion>
-            <Accordion.Item>
+            <Accordion.Item defaultOpen>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}>
                     <Label as="p">
                         <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
