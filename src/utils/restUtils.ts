@@ -26,6 +26,10 @@ export function isUsingMockAlt(origin: string): boolean {
     return isMock(origin);
 }
 
+export function getApiBaseUrl2(): string {
+    return getBaseUrl2(window.location.origin);
+}
+
 export function getApiBaseUrl(): string {
     return getBaseUrl(window.location.origin);
 }
@@ -46,6 +50,24 @@ export function getBaseUrl(origin: string): string {
         );
     }
     return "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
+}
+
+export function getBaseUrl2(origin: string): string {
+    if (isLocalhost(origin)) {
+        return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api";
+    }
+    if (isUsingMockAlt(origin)) {
+        return (
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+            "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api"
+        );
+    } else if (isDevSbs(origin) || isDev(origin)) {
+        return (
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
+            "/sosialhjelp/login-api/innsyn-api"
+        );
+    }
+    return "https://www.nav.no/sosialhjelp/login-api/innsyn-api";
 }
 
 export function getNavUrl(origin: string): string {
@@ -102,14 +124,14 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
     return headers;
 };
 
-function generateCallId(): string {
+export function generateCallId(): string {
     let randomNr = uuidv4();
     let systemTime = Date.now();
 
     return `CallId_${systemTime}_${randomNr}`;
 }
 
-const getCookie = (name: string): string | null => {
+export const getCookie = (name: string): string | null => {
     if (!document.cookie) {
         return null;
     }
