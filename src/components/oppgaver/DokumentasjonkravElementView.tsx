@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {DokumentasjonKravElement, Fil, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKravElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {alertUser} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -11,6 +11,7 @@ import ErrorMessage from "./ErrorMessage";
 import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
 import {validateFile} from "./validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
+import useKommune from "../../hooks/useKommune";
 import styled from "styled-components";
 
 const StyledFrame = styled.div<{hasError?: boolean}>`
@@ -43,10 +44,8 @@ const DokumentasjonkravElementView: React.FC<{
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
 
-    const kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommuneResponse);
+    const {kommune} = useKommune();
+    const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommune);
 
     useEffect(() => {
         if (filer && filer.length > 0) {

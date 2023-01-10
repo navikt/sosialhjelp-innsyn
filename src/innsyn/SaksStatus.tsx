@@ -4,12 +4,7 @@ import {Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
-import {
-    InnsynsdataActionTypeKeys,
-    InnsynsdataSti,
-    InnsynsdataType,
-    KommuneResponse,
-} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataActionTypeKeys, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
@@ -29,6 +24,7 @@ import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {useLocation, useParams} from "react-router-dom";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
 import TimeoutBox from "../components/timeoutbox/TimeoutBox";
+import useKommune from "../hooks/useKommune";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -46,10 +42,8 @@ const SaksStatusView = () => {
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const innsynRestStatus = innsynsdata.restStatus.saksStatus;
 
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
+    const {kommune} = useKommune();
+    const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
@@ -112,7 +106,6 @@ const SaksStatusView = () => {
                 InnsynsdataSti.VILKAR,
                 InnsynsdataSti.DOKUMENTASJONKRAV,
                 InnsynsdataSti.SOKNADS_STATUS,
-                InnsynsdataSti.HENDELSER,
                 InnsynsdataSti.VEDLEGG,
                 InnsynsdataSti.FORELOPIG_SVAR,
                 InnsynsdataSti.KOMMUNE,
@@ -133,8 +126,8 @@ const SaksStatusView = () => {
             restStatus.kommune === REST_STATUS.OK &&
             (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60);
         if (!shouldShowHotjarTrigger) return null;
-        if (isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
-        if (isKommuneUtenInnsyn(kommuneResponse)) return "digisos_ikke_innsyn";
+        if (isKommuneMedInnsyn(kommune, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
+        if (isKommuneUtenInnsyn(kommune)) return "digisos_ikke_innsyn";
     };
 
     return (
@@ -175,7 +168,7 @@ const SaksStatusView = () => {
 
                     {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver />}
 
-                    {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
+                    {kommune != null && kommune.erInnsynDeaktivert && (
                         <>
                             <StyledPanel className="panel-luft-over">
                                 <Heading level="2" size="medium">
@@ -187,11 +180,9 @@ const SaksStatusView = () => {
                             </StyledPanel>
                         </>
                     )}
-                    {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
+                    {(kommune == null || !kommune.erInnsynDeaktivert) && (
                         <ArkfanePanel
-                            historikkChildren={
-                                <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />
-                            }
+                            historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
                             vedleggChildren={
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
                             }
