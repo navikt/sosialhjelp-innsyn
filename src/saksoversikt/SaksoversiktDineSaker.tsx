@@ -10,7 +10,7 @@ import {parse} from "query-string";
 import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
-import {logAmplitudeEvent} from "../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
@@ -98,7 +98,12 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                 <StyledHeading level="2" size="medium">
                     Dine søknader
                 </StyledHeading>
-                <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
+                <Button
+                    onClick={() => logButtonOrLinkClick("Ny søknad")}
+                    as="a"
+                    variant="primary"
+                    href="/sosialhjelp/soknad/informasjon"
+                >
                     Ny søknad
                 </Button>
             </StyledDineSoknaderPanel>
