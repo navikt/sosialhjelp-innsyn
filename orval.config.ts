@@ -13,6 +13,7 @@ export default {
                 },
                 useDates: true,
             },
+            mock: true,
         },
         hooks: {
             afterAllFilesWrite: "prettier --write",

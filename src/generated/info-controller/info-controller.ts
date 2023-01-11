@@ -9,10 +9,6 @@ import type {UseMutationOptions, MutationFunction} from "@tanstack/react-query";
 import type {Logg} from ".././model";
 import {axiosInstance} from "../../axios-instance";
 
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
 

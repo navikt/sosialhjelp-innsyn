@@ -69,7 +69,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
 
-    const {kommune} = useKommune();
+    const {kommune, isLoading} = useKommune();
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
@@ -257,7 +257,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
                     </ErrorMessage>
                 )}
-                {kanLasteOppVedlegg && (
+                {!isLoading && kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
                             variant="primary"
