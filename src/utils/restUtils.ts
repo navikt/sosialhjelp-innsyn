@@ -127,7 +127,7 @@ export function generateCallId(): string {
     return `CallId_${systemTime}_${randomNr}`;
 }
 
-export const getCookie = (name: string): string | null => {
+const getCookie = (name: string): string | null => {
     if (!document.cookie) {
         return null;
     }
