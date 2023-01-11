@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {UtbetalingerResponse, HentUtbetalingerParams, GetUtbetalingExistsParams} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -28,9 +29,12 @@ export const getHentUtbetalingerForSakQueryKey = (fiksDigisosId: string) => [
 ];
 
 export type HentUtbetalingerForSakQueryResult = NonNullable<Awaited<ReturnType<typeof hentUtbetalingerForSak>>>;
-export type HentUtbetalingerForSakQueryError = unknown;
+export type HentUtbetalingerForSakQueryError = ErrorType<unknown>;
 
-export const useHentUtbetalingerForSak = <TData = Awaited<ReturnType<typeof hentUtbetalingerForSak>>, TError = unknown>(
+export const useHentUtbetalingerForSak = <
+    TData = Awaited<ReturnType<typeof hentUtbetalingerForSak>>,
+    TError = ErrorType<unknown>
+>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalingerForSak>>, TError, TData>;
@@ -71,9 +75,9 @@ export const getHentUtbetalingerQueryKey = (params?: HentUtbetalingerParams) => 
 ];
 
 export type HentUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentUtbetalinger>>>;
-export type HentUtbetalingerQueryError = unknown;
+export type HentUtbetalingerQueryError = ErrorType<unknown>;
 
-export const useHentUtbetalinger = <TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
+export const useHentUtbetalinger = <TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = ErrorType<unknown>>(
     params?: HentUtbetalingerParams,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>;
@@ -112,9 +116,12 @@ export const getGetUtbetalingExistsQueryKey = (params?: GetUtbetalingExistsParam
 ];
 
 export type GetUtbetalingExistsQueryResult = NonNullable<Awaited<ReturnType<typeof getUtbetalingExists>>>;
-export type GetUtbetalingExistsQueryError = unknown;
+export type GetUtbetalingExistsQueryError = ErrorType<unknown>;
 
-export const useGetUtbetalingExists = <TData = Awaited<ReturnType<typeof getUtbetalingExists>>, TError = unknown>(
+export const useGetUtbetalingExists = <
+    TData = Awaited<ReturnType<typeof getUtbetalingExists>>,
+    TError = ErrorType<unknown>
+>(
     params?: GetUtbetalingExistsParams,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof getUtbetalingExists>>, TError, TData>;

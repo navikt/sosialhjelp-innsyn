@@ -8,7 +8,7 @@
 export interface SaksListeResponse {
     fiksDigisosId?: string;
     soknadTittel: string;
-    sistOppdatert: Date;
+    sistOppdatert: string;
     kilde: string;
     url?: string;
 }

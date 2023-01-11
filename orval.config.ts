@@ -11,7 +11,6 @@ export default {
                     path: "./src/axios-instance.ts",
                     name: "axiosInstance",
                 },
-                useDates: true,
             },
             mock: true,
         },

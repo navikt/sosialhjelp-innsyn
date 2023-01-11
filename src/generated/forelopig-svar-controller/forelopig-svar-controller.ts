@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {ForelopigSvarResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -28,11 +29,11 @@ export const getHentForelopigSvarStatusQueryKey = (fiksDigisosId: string) => [
 ];
 
 export type HentForelopigSvarStatusQueryResult = NonNullable<Awaited<ReturnType<typeof hentForelopigSvarStatus>>>;
-export type HentForelopigSvarStatusQueryError = unknown;
+export type HentForelopigSvarStatusQueryError = ErrorType<unknown>;
 
 export const useHentForelopigSvarStatus = <
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = unknown
+    TError = ErrorType<unknown>
 >(
     fiksDigisosId: string,
     options?: {

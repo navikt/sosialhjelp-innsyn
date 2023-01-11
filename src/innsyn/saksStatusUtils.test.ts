@@ -8,7 +8,7 @@ describe("Hotjar-trigger utils", () => {
         erInnsynMidlertidigDeaktivert: false,
         erInnsendingEttersendelseDeaktivert: false,
         erInnsendingEttersendelseMidlertidigDeaktivert: false,
-        tidspunkt: new Date(),
+        tidspunkt: new Date().toString(),
         kommunenummer: "0001",
     };
 
@@ -17,7 +17,7 @@ describe("Hotjar-trigger utils", () => {
         erInnsynMidlertidigDeaktivert: false,
         erInnsendingEttersendelseDeaktivert: false,
         erInnsendingEttersendelseMidlertidigDeaktivert: false,
-        tidspunkt: new Date(),
+        tidspunkt: new Date().toString(),
         kommunenummer: "0001",
     };
 

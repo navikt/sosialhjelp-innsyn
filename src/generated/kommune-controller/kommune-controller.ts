@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {KommuneResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -26,9 +27,9 @@ export const hentKommuneInfo = (
 export const getHentKommuneInfoQueryKey = (fiksDigisosId: string) => [`/api/v1/innsyn/${fiksDigisosId}/kommune`];
 
 export type HentKommuneInfoQueryResult = NonNullable<Awaited<ReturnType<typeof hentKommuneInfo>>>;
-export type HentKommuneInfoQueryError = unknown;
+export type HentKommuneInfoQueryError = ErrorType<unknown>;
 
-export const useHentKommuneInfo = <TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = unknown>(
+export const useHentKommuneInfo = <TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>;

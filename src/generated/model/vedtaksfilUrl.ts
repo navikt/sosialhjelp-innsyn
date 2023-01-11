@@ -6,6 +6,6 @@
  */
 
 export interface VedtaksfilUrl {
-    dato?: Date;
+    dato?: string;
     vedtaksfilUrl: string;
 }

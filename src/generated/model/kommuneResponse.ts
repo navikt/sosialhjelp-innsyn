@@ -10,6 +10,6 @@ export interface KommuneResponse {
     erInnsynMidlertidigDeaktivert: boolean;
     erInnsendingEttersendelseDeaktivert: boolean;
     erInnsendingEttersendelseMidlertidigDeaktivert: boolean;
-    tidspunkt: Date;
+    tidspunkt: string;
     kommunenummer?: string;
 }
