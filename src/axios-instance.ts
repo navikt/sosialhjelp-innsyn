@@ -1,8 +1,8 @@
 import Axios, {AxiosRequestConfig} from "axios";
-import {generateCallId, getApiBaseUrl2, isLocalhost, isUsingMockAlt} from "./utils/restUtils";
+import {generateCallId, getApiBaseUrl, isLocalhost, isUsingMockAlt} from "./utils/restUtils";
 
 export const AXIOS_INSTANCE = Axios.create({
-    baseURL: getApiBaseUrl2(),
+    baseURL: getApiBaseUrl(true),
     xsrfCookieName: "XSRF-TOKEN-INNSYN-API",
     withCredentials: isLocalhost(window.location.origin) || isUsingMockAlt(window.location.origin),
     xsrfHeaderName: "XSRF-TOKEN-INNSYN-API",
