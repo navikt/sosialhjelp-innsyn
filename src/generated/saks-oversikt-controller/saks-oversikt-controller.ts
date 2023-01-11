@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {SaksDetaljerResponse, HentSaksDetaljerParams, SaksListeResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -29,9 +30,9 @@ export const getHentSaksDetaljerQueryKey = (params: HentSaksDetaljerParams) => [
 ];
 
 export type HentSaksDetaljerQueryResult = NonNullable<Awaited<ReturnType<typeof hentSaksDetaljer>>>;
-export type HentSaksDetaljerQueryError = unknown;
+export type HentSaksDetaljerQueryError = ErrorType<unknown>;
 
-export const useHentSaksDetaljer = <TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = unknown>(
+export const useHentSaksDetaljer = <TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>;
@@ -63,9 +64,12 @@ export const hentAlleSaker = (options?: SecondParameter<typeof axiosInstance>, s
 export const getHentAlleSakerQueryKey = () => [`/api/v1/innsyn/saker`];
 
 export type HentAlleSakerQueryResult = NonNullable<Awaited<ReturnType<typeof hentAlleSaker>>>;
-export type HentAlleSakerQueryError = unknown;
+export type HentAlleSakerQueryError = ErrorType<unknown>;
 
-export const useHentAlleSaker = <TData = Awaited<ReturnType<typeof hentAlleSaker>>, TError = unknown>(options?: {
+export const useHentAlleSaker = <
+    TData = Awaited<ReturnType<typeof hentAlleSaker>>,
+    TError = ErrorType<unknown>
+>(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

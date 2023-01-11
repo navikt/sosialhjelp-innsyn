@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {HendelseResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -26,9 +27,9 @@ export const hentHendelser = (
 export const getHentHendelserQueryKey = (fiksDigisosId: string) => [`/api/v1/innsyn/${fiksDigisosId}/hendelser`];
 
 export type HentHendelserQueryResult = NonNullable<Awaited<ReturnType<typeof hentHendelser>>>;
-export type HentHendelserQueryError = unknown;
+export type HentHendelserQueryError = ErrorType<unknown>;
 
-export const useHentHendelser = <TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
+export const useHentHendelser = <TData = Awaited<ReturnType<typeof hentHendelser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>;

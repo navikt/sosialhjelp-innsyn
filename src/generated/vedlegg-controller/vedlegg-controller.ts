@@ -15,6 +15,7 @@ import type {
 } from "@tanstack/react-query";
 import type {VedleggResponse, OppgaveOpplastingResponse, SendVedleggBody} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -33,9 +34,9 @@ export const hentVedlegg = (
 export const getHentVedleggQueryKey = (fiksDigisosId: string) => [`/api/v1/innsyn/${fiksDigisosId}/vedlegg`];
 
 export type HentVedleggQueryResult = NonNullable<Awaited<ReturnType<typeof hentVedlegg>>>;
-export type HentVedleggQueryError = unknown;
+export type HentVedleggQueryError = ErrorType<unknown>;
 
-export const useHentVedlegg = <TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
+export const useHentVedlegg = <TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>;
@@ -80,9 +81,9 @@ export const sendVedlegg = (
 
 export type SendVedleggMutationResult = NonNullable<Awaited<ReturnType<typeof sendVedlegg>>>;
 export type SendVedleggMutationBody = SendVedleggBody;
-export type SendVedleggMutationError = unknown;
+export type SendVedleggMutationError = ErrorType<unknown>;
 
-export const useSendVedlegg = <TError = unknown, TContext = unknown>(options?: {
+export const useSendVedlegg = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,
