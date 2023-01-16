@@ -1,4 +1,4 @@
-import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
+import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
 
 const diffInMonths = (d1: Date, d2: Date) => {
     var d1Y = d1.getFullYear();
@@ -8,26 +8,25 @@ const diffInMonths = (d1: Date, d2: Date) => {
     return d2M + 12 * d2Y - (d1M + 12 * d1Y);
 };
 const filtrerUtbetalingerForTidsinterval = (
-    utbetalinger: UtbetalingSakType[],
+    utbetalinger: UtbetalingerResponse[],
     visAntallMnd: number,
     now: Date
-): UtbetalingSakType[] => {
-    return utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
+): UtbetalingerResponse[] => {
+    return utbetalinger.filter((utbetalingSak: UtbetalingerResponse) => {
         const foersteIManeden: Date = new Date(utbetalingSak.foersteIManeden);
-        const innenforTidsintervall: boolean = diffInMonths(foersteIManeden, now) < visAntallMnd;
-        return innenforTidsintervall;
+        return diffInMonths(foersteIManeden, now) < visAntallMnd;
     });
 };
 
 const filtrerUtbetalingerPaaMottaker = (
-    utbetalinger: UtbetalingSakType[],
+    utbetalinger: UtbetalingerResponse[],
     visTilBrukersKonto: boolean,
     visTilAnnenMottaker: boolean
-): UtbetalingSakType[] => {
-    return utbetalinger.map((utbetalingSak: UtbetalingSakType) => {
+): UtbetalingerResponse[] => {
+    return utbetalinger.map((utbetalingSak: UtbetalingerResponse) => {
         return {
             ...utbetalingSak,
-            utbetalinger: utbetalingSak.utbetalinger.filter((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+            utbetalinger: utbetalingSak.utbetalinger.filter((utbetalingMaaned: ManedUtbetaling) => {
                 const annenMottaker = utbetalingMaaned.annenMottaker;
                 if (!annenMottaker) {
                     return visTilBrukersKonto;
@@ -39,8 +38,8 @@ const filtrerUtbetalingerPaaMottaker = (
     });
 };
 
-const filtrerMaanederUtenUtbetalinger = (utbetalinger: UtbetalingSakType[]): UtbetalingSakType[] => {
-    return utbetalinger.filter((utbetalingSak: UtbetalingSakType) => {
+const filtrerMaanederUtenUtbetalinger = (utbetalinger: UtbetalingerResponse[]): UtbetalingerResponse[] => {
+    return utbetalinger.filter((utbetalingSak: UtbetalingerResponse) => {
         return utbetalingSak.utbetalinger.length > 0;
     });
 };
