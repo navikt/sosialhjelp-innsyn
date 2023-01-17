@@ -26,24 +26,42 @@ export function isUsingMockAlt(origin: string): boolean {
     return isMock(origin);
 }
 
-export function getApiBaseUrl(): string {
-    return getBaseUrl(window.location.origin);
+export function getApiBaseUrl(excludeApiV1?: boolean): string {
+    return getBaseUrl(window.location.origin, excludeApiV1);
 }
 
-export function getBaseUrl(origin: string): string {
+export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
     if (isLocalhost(origin)) {
+        if (excludeApiV1) {
+            return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api";
+        }
         return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
     }
     if (isUsingMockAlt(origin)) {
+        if (excludeApiV1) {
+            return (
+                origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+                "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api"
+            );
+        }
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
     } else if (isDevSbs(origin) || isDev(origin)) {
+        if (excludeApiV1) {
+            return (
+                origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
+                "/sosialhjelp/login-api/innsyn-api"
+            );
+        }
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
         );
+    }
+    if (excludeApiV1) {
+        return "https://www.nav.no/sosialhjelp/login-api/innsyn-api";
     }
     return "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
 }
@@ -102,7 +120,7 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
     return headers;
 };
 
-function generateCallId(): string {
+export function generateCallId(): string {
     let randomNr = uuidv4();
     let systemTime = Date.now();
 

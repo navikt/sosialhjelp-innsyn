@@ -5,7 +5,6 @@ import {
     Fil,
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
-    KommuneResponse,
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -39,6 +38,9 @@ import {
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
+import useKommune from "../../hooks/useKommune";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import {useQueryClient} from "@tanstack/react-query";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -52,6 +54,7 @@ const ButtonWrapper = styled.div`
 
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const [isUploading, setIsUploading] = useState(false);
 
     logDuplicationsOfUploadedAttachmentsForDokEtterspurt(dokumentasjonEtterspurt, oppgaveIndex);
@@ -66,10 +69,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
 
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
+    const {kommune, isLoading} = useKommune();
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
 
@@ -143,7 +144,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     if (hasError) {
                         dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
                     } else {
-                        dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                        queryClient.refetchQueries(getHentHendelserQueryKey(fiksDigisosId));
                         dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                         dispatch(
                             hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId)
@@ -256,7 +257,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
                     </ErrorMessage>
                 )}
-                {kanLasteOppVedlegg && (
+                {!isLoading && kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
                             variant="primary"

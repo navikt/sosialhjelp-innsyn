@@ -1,10 +1,10 @@
-import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
     Driftsmelding,
     DriftsmeldingTypeKeys,
     isFileUploadAllowed,
     getDriftsmeldingByKommuneResponse,
 } from "./DriftsmeldingUtilities";
+import {KommuneResponse} from "../../generated/model";
 
 const kommuneResponse_ok: KommuneResponse = {
     erInnsynDeaktivert: false,
@@ -12,7 +12,6 @@ const kommuneResponse_ok: KommuneResponse = {
     erInnsendingEttersendelseDeaktivert: false,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
     tidspunkt: new Date(),
-    kommunenummer: null,
 };
 
 const kommuneResponse_innsyn_deaktivert: KommuneResponse = {
@@ -21,7 +20,6 @@ const kommuneResponse_innsyn_deaktivert: KommuneResponse = {
     erInnsendingEttersendelseDeaktivert: false,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
     tidspunkt: new Date(),
-    kommunenummer: null,
 };
 
 const kommuneResponse_ettersendelse_deaktivert: KommuneResponse = {
@@ -30,7 +28,6 @@ const kommuneResponse_ettersendelse_deaktivert: KommuneResponse = {
     erInnsendingEttersendelseDeaktivert: true,
     erInnsendingEttersendelseMidlertidigDeaktivert: true,
     tidspunkt: new Date(),
-    kommunenummer: null,
 };
 
 const kommuneResponse_innsyn_og_ettersendelse_deaktivert: KommuneResponse = {
@@ -39,7 +36,6 @@ const kommuneResponse_innsyn_og_ettersendelse_deaktivert: KommuneResponse = {
     erInnsendingEttersendelseDeaktivert: true,
     erInnsendingEttersendelseMidlertidigDeaktivert: true,
     tidspunkt: new Date(),
-    kommunenummer: null,
 };
 
 const kommuneResponse_litt_diverse: KommuneResponse = {
@@ -48,7 +44,6 @@ const kommuneResponse_litt_diverse: KommuneResponse = {
     erInnsendingEttersendelseDeaktivert: true,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
     tidspunkt: new Date(),
-    kommunenummer: null,
 };
 
 it("viser driftsmelding for riktig kommune state", () => {

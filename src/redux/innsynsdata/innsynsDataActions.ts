@@ -28,7 +28,6 @@ const emptyArrayStier: InnsynsdataSti[] = [
     InnsynsdataSti.OPPGAVER,
     InnsynsdataSti.VILKAR,
     InnsynsdataSti.DOKUMENTASJONKRAV,
-    InnsynsdataSti.HENDELSER,
     InnsynsdataSti.VEDLEGG,
     InnsynsdataSti.SAKER,
 ];
