@@ -1,13 +1,12 @@
 import React from "react";
 import Saksoversikt from "./Saksoversikt";
-import {
-    getHentAlleSakerMock,
-    getHentSaksDetaljerMock,
-} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
+import {getHentSaksDetaljerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {rest} from "msw";
 import {server} from "../mocks/server";
 import {render, screen} from "../test/test-utils";
 import {findAllByRole, waitForElementToBeRemoved} from "@testing-library/react";
+import {faker} from "@faker-js/faker";
+import {SaksListeResponse} from "../generated/model";
 
 const notFound = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
     return res(ctx.delay(200), ctx.status(404, "Unauthorized"));
@@ -24,7 +23,15 @@ const loading = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
 const success = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
     return res(
         ctx.status(200, "Mocked status"),
-        ctx.json(getHentAlleSakerMock().map((sak) => ({...sak, kilde: "innsyn-api"})))
+        ctx.json([
+            {
+                kilde: "innsyn-api",
+                soknadTittel: "Min kule søknad",
+                url: faker.random.word(),
+                sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
+                fiksDigisosId: faker.random.alphaNumeric(5),
+            } as SaksListeResponse,
+        ])
     );
 });
 
@@ -76,7 +83,7 @@ describe("Saksoversikt", () => {
         render(<Saksoversikt />);
         const soknadSection = await screen.findByRole("region", {name: "Dine søknader"});
         expect(soknadSection).toBeVisible();
-        const links = await findAllByRole(soknadSection, "link", {name: /oppdatert/}, {timeout: 1000});
+        const links = await findAllByRole(soknadSection, "link", {name: /Min kule søknad/});
         expect(links.length).toBeGreaterThan(0);
     });
 });
