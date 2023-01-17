@@ -1,5 +1,4 @@
 import {fetchPost} from "../../utils/restUtils";
-import {usePostKlientlogg} from "../../generated/info-controller/info-controller";
 
 const LOG_URL = "/info/logg";
 

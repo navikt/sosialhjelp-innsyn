@@ -15,7 +15,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
+export const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
 const Wrapper = ({children}: Props) => (
     <BrowserRouter>
         <Provider store={store}>
