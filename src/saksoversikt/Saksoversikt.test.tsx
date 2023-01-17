@@ -18,12 +18,11 @@ const unauthorized = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
 });
 
 const loading = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
-    return res(ctx.delay("infinite"), ctx.status(200, "Laster"));
+    return res(ctx.delay(1000), ctx.status(200, "Laster"));
 });
 
 const success = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
     return res(
-        ctx.delay(200),
         ctx.status(200, "Mocked status"),
         ctx.json(getHentAlleSakerMock().map((sak) => ({...sak, kilde: "innsyn-api"})))
     );
@@ -77,7 +76,7 @@ describe("Saksoversikt", () => {
         render(<Saksoversikt />);
         const soknadSection = await screen.findByRole("region", {name: "Dine søknader"});
         expect(soknadSection).toBeVisible();
-        const links = await findAllByRole(soknadSection, "link", {name: /oppdatert/}, {timeout: 3600});
+        const links = await findAllByRole(soknadSection, "link", {name: /oppdatert/}, {timeout: 1000});
         expect(links.length).toBeGreaterThan(0);
     });
 });

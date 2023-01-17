@@ -10,10 +10,6 @@ import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths, setDay, format, subDays} from "date-fns";
 import {nb} from "date-fns/locale";
 
-const loading = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) =>
-    res(ctx.delay("infinite"), ctx.status(200, "Mocked status"), ctx.json(getHentUtbetalingerMock()))
-);
-
 const makeUtbetaling = (date: Date) => {
     return {
         maned: format(date, "LLLL", {locale: nb}),
@@ -31,6 +27,9 @@ const makeUtbetaling = (date: Date) => {
         ],
     };
 };
+const loading = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) =>
+    res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getHentUtbetalingerMock()))
+);
 
 const utbetaling5ManederSiden = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) => {
     const utbetaling5ManederSiden = makeUtbetaling(subMonths(new Date(), 5));
@@ -75,7 +74,7 @@ describe("Utbetalinger", () => {
     });
 
     it("Viser tom tilstand ved ingen saker", async () => {
-        server.use(loading, ingenSaker, harSoknaderMedInnsyn);
+        server.use(ingenSaker, harSoknaderMedInnsyn);
 
         render(<Utbetalinger />);
 
@@ -95,7 +94,7 @@ describe("Utbetalinger", () => {
     });
 
     it("Viser tom tilstand ved ingen søknader med innsyn", async () => {
-        server.use(loading, alleSaker, harIkkeSoknaderMedInnsyn);
+        server.use(alleSaker, harIkkeSoknaderMedInnsyn);
 
         render(<Utbetalinger />);
 
@@ -116,7 +115,7 @@ describe("Utbetalinger", () => {
 
         render(<Utbetalinger />);
 
-        expect(screen.queryByRole("heading", {name: "Penger"})).toBeInTheDocument();
+        expect(await screen.findByRole("heading", {name: "Penger"})).toBeInTheDocument();
         fireEvent.click(screen.getByRole("checkbox", {name: "Til deg"}));
         expect(screen.queryByRole("heading", {name: "Penger"})).not.toBeInTheDocument();
     });
