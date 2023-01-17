@@ -13,6 +13,8 @@ import {
 import {IntlProvider} from "react-intl";
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
 import {tekster} from "./tekster/tekster";
 import "./App.css";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
@@ -22,6 +24,7 @@ import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskont
 import {initAmplitude} from "./utils/amplitude";
 import {isProd} from "./utils/restUtils";
 import ScrollToTop from "./utils/ScrollToTop";
+
 import AppBanner from "./components/appBanner/AppBanner";
 import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
@@ -60,6 +63,8 @@ initAmplitude();
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
+const queryClient = new QueryClient();
+
 const App = () => {
     const language = "nb";
 
@@ -69,19 +74,21 @@ const App = () => {
                 <Feilside>
                     <Tilgangskontrollside>
                         <BrowserRouter basename="/sosialhjelp/innsyn">
-                            <ScrollToTop />
-                            <main id="maincontent" role="main">
-                                <AppBanner />
-                                <div className="blokk-center informasjon-side">
-                                    <SentryRoutes>
-                                        <Route path="/" element={<Saksoversikt />} />
-                                        <Route path="/utbetaling" element={<Utbetalinger />} />
-                                        <Route path="/:soknadId/status" element={<SaksStatus />} />
-                                        <Route path="/link" element={<Linkside />} />
-                                        <Route path="*" element={<SideIkkeFunnet />} />
-                                    </SentryRoutes>
-                                </div>
-                            </main>
+                            <QueryClientProvider client={queryClient}>
+                                <ScrollToTop />
+                                <main id="maincontent" role="main">
+                                    <AppBanner />
+                                    <div className="blokk-center informasjon-side">
+                                        <SentryRoutes>
+                                            <Route path="/" element={<Saksoversikt />} />
+                                            <Route path="/utbetaling" element={<Utbetalinger />} />
+                                            <Route path="/:soknadId/status" element={<SaksStatus />} />
+                                            <Route path="/link" element={<Linkside />} />
+                                            <Route path="*" element={<SideIkkeFunnet />} />
+                                        </SentryRoutes>
+                                    </div>
+                                </main>
+                            </QueryClientProvider>
                         </BrowserRouter>
                     </Tilgangskontrollside>
                 </Feilside>

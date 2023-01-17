@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {DokumentasjonKrav, Fil, InnsynsdataSti, KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKrav, Fil, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
 import {
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
@@ -18,6 +18,9 @@ import {fileUploadFailedEvent} from "../../utils/amplitude";
 import {BodyShort, Button, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components";
+import useKommune from "../../hooks/useKommune";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import {useQueryClient} from "@tanstack/react-query";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 
 interface Props {
@@ -63,6 +66,7 @@ const ButtonWrapper = styled.div`
 
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
     const [isUploading, setIsUploading] = useState(false);
@@ -77,10 +81,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
         (state: InnsynAppState) => state.innsynsdata.dokumentasjonkravReferanserSomFeiletIVirussjekkPaBackend
     );
 
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
+    const {kommune} = useKommune();
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const opplastingFeilet = dokumentasjonkravHasFilesWithError(dokumentasjonkrav.dokumentasjonkravElementer);
 
@@ -154,7 +156,7 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
                 )
             );
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
-            dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
+            queryClient.refetchQueries(getHentHendelserQueryKey(fiksDigisosId));
 
             setDokumentasjonkravFiler(deleteReferenceFromDokumentasjonkravFiler(dokumentasjonkravFiler, reference));
             setIsUploading(false);

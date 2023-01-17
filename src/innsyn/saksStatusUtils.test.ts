@@ -1,6 +1,6 @@
-import {KommuneResponse} from "../redux/innsynsdata/innsynsdataReducer";
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {SoknadsStatusEnum} from "../components/soknadsStatus/soknadsStatusUtils";
+import {KommuneResponse} from "../generated/model";
 
 describe("Hotjar-trigger utils", () => {
     const aktivertInnsynKommuneResponse: KommuneResponse = {
@@ -8,7 +8,7 @@ describe("Hotjar-trigger utils", () => {
         erInnsynMidlertidigDeaktivert: false,
         erInnsendingEttersendelseDeaktivert: false,
         erInnsendingEttersendelseMidlertidigDeaktivert: false,
-        tidspunkt: null,
+        tidspunkt: new Date(),
         kommunenummer: "0001",
     };
 
@@ -17,7 +17,7 @@ describe("Hotjar-trigger utils", () => {
         erInnsynMidlertidigDeaktivert: false,
         erInnsendingEttersendelseDeaktivert: false,
         erInnsendingEttersendelseMidlertidigDeaktivert: false,
-        tidspunkt: null,
+        tidspunkt: new Date(),
         kommunenummer: "0001",
     };
 

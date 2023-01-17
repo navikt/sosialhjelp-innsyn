@@ -1,4 +1,4 @@
-import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
+import {KommuneResponse} from "../../generated/model";
 
 export enum DriftsmeldingTypeKeys {
     DRIFTSMELDING_INGEN = "DRIFTSMELDING_INGEN",

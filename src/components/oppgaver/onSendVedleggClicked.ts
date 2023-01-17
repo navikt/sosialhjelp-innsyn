@@ -23,6 +23,8 @@ import {
     settRestStatus,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import {QueryClient} from "@tanstack/react-query";
 
 export const onSendVedleggClicked = (
     event: any,
@@ -31,6 +33,7 @@ export const onSendVedleggClicked = (
     innsyndatasti: InnsynsdataSti,
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
+    queryClient: QueryClient,
     dokumentasjonEtterspurt?: DokumentasjonEtterspurt,
     filer?: Fil[]
 ) => {
@@ -145,7 +148,7 @@ export const onSendVedleggClicked = (
                     if (innsyndatasti === InnsynsdataSti.OPPGAVER) {
                         dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, vedleggId));
                     }
-                    dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.HENDELSER));
+                    queryClient.refetchQueries(getHentHendelserQueryKey(fiksDigisosId));
                     dispatch(hentInnsynsdata(fiksDigisosId, InnsynsdataSti.VEDLEGG));
                 }
             })
