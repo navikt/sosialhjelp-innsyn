@@ -187,7 +187,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         dokumentasjonEtterspurt.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
             const reference = dokumentasjonEtterspurtElement.hendelsereferanse ?? "";
             const filer = dokumentasjonEtterspurtFiler[reference];
-            if (!filer || filer.length) {
+            if (!filer || filer.length === 0) {
                 return;
             }
 
@@ -354,7 +354,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
                     </ErrorMessage>
                 )}
-                {!isLoading && kanLasteOppVedlegg && (
+                {kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
                             variant="primary"
