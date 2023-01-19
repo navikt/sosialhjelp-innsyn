@@ -9,7 +9,6 @@ import {formatDato} from "../../utils/formatting";
 import {
     createFormDataWithVedleggFromOppgaver,
     getVisningstekster,
-    hasNotAddedFiles,
     illegalCombinedFilesSize,
     oppgaveHasFilesWithError,
 } from "../../utils/vedleggUtils";
@@ -35,6 +34,7 @@ import styled from "styled-components";
 import useKommune from "../../hooks/useKommune";
 import {useQueryClient} from "@tanstack/react-query";
 import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -99,7 +99,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
     );
 
-    const {kommune, isLoading} = useKommune();
+    const {kommune} = useKommune();
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
@@ -131,14 +131,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         setFileUploadingBackendFailed(false);
         const path = innsynsdataUrl(fiksDigisosId, InnsynsdataSti.VEDLEGG);
         let formData: any = undefined;
-
-        const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
-        dispatch(
-            setFileUploadFailed(
-                dokumentasjonEtterspurt.oppgaveId,
-                Object.keys(dokumentasjonEtterspurtFiler).length === 0
-            )
-        );
 
         if (Object.keys(dokumentasjonEtterspurtFiler).length === 0) {
             dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
@@ -178,6 +170,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             dispatch(hentOppgaveMedId(fiksDigisosId, InnsynsdataSti.OPPGAVER, dokumentasjonEtterspurt.oppgaveId));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.VEDLEGG, false));
             dispatch(hentInnsynsdata(fiksDigisosId ?? "", InnsynsdataSti.HENDELSER, false));
+            queryClient.refetchQueries(getHentHendelserQueryKey(fiksDigisosId));
 
             setDokumentasjonEtterspurtFiler(
                 deleteReferenceFromDokumentasjonEtterspurtFiler(dokumentasjonEtterspurtFiler, hendelseReferanse)

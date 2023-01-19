@@ -1,6 +1,6 @@
 import {DokumentasjonEtterspurtElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {alertUser, FileError, illegalCombinedFilesSize} from "../../utils/vedleggUtils";
+import {alertUser, illegalCombinedFilesSize} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FileItemView from "./FileItemView";
@@ -54,7 +54,6 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     filer,
 }) => {
     const uuid = uuidv4();
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
     const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
@@ -89,7 +88,6 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     };
 
     const onChangeElement = (event: any) => {
-        setListeMedFilerSomFeiler([]);
         setOverMaksStorrelse(false);
         setFileValidationErrors(undefined);
         setConcatenatedSizeOfFilesMessage(undefined);
