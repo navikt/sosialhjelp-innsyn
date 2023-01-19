@@ -49,13 +49,13 @@ export const createFormDataWithVedleggFromDokumentasjonkrav = (
 export const generateMetadataFromOppgaver = (
     dokumentasjonEtterspurtElement: DokumentasjonEtterspurtElement,
     filer: Fil[],
-    innsendelsefrist?: string
+    innsendelsesfrist?: string
 ) => {
     return [
         {
             type: dokumentasjonEtterspurtElement.dokumenttype,
             tilleggsinfo: dokumentasjonEtterspurtElement.tilleggsinformasjon,
-            innsendelsesfrist: innsendelsefrist,
+            innsendelsesfrist: innsendelsesfrist,
             filer: filer,
             hendelsetype: dokumentasjonEtterspurtElement.hendelsetype,
             hendelsereferanse: dokumentasjonEtterspurtElement.hendelsereferanse,
