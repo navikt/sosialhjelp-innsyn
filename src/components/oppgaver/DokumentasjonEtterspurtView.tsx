@@ -64,11 +64,11 @@ export interface DokumentasjonEtterspurtFiler {
 
 export const deleteReferenceFromDokumentasjonEtterspurtFiler = (
     dokumentasjonEtterspurtFiler: DokumentasjonEtterspurtFiler,
-    reference: string
+    hendelsereferanse: string
 ) => {
     return Object.keys(dokumentasjonEtterspurtFiler).reduce(
         (updated, currentReference) =>
-            currentReference === reference
+            currentReference === hendelsereferanse
                 ? updated
                 : {
                       ...updated,
@@ -140,15 +140,17 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             event.preventDefault();
             return;
         }
-        const handleFileUploadFailedInBackend = (filerBackendResponse: Fil[], reference: string) => {
+        const handleFileUploadFailedInBackend = (filerBackendResponse: Fil[], hendelsereferanse: string) => {
             setFileUploadingBackendFailed(true);
             const newDokumentasjonEtterspurt = {...dokumentasjonEtterspurtFiler};
-            newDokumentasjonEtterspurt[reference] = dokumentasjonEtterspurtFiler[reference].map((etterspurtFiler) => {
-                const overWritesPreviousFileStatus = filerBackendResponse.find(
-                    (filerBack) => etterspurtFiler.filnavn === filerBack.filnavn
-                );
-                return {...etterspurtFiler, ...overWritesPreviousFileStatus};
-            });
+            newDokumentasjonEtterspurt[hendelsereferanse] = dokumentasjonEtterspurtFiler[hendelsereferanse].map(
+                (etterspurtFiler) => {
+                    const overWritesPreviousFileStatus = filerBackendResponse.find(
+                        (filerBack) => etterspurtFiler.filnavn === filerBack.filnavn
+                    );
+                    return {...etterspurtFiler, ...overWritesPreviousFileStatus};
+                }
+            );
             setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
             setIsUploading(false);
         };
@@ -178,8 +180,8 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
             setIsUploading(false);
         };
         dokumentasjonEtterspurt.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
-            const reference = dokumentasjonEtterspurtElement.hendelsereferanse ?? "";
-            const filer = dokumentasjonEtterspurtFiler[reference];
+            const hendelsereferanse = dokumentasjonEtterspurtElement.hendelsereferanse ?? "";
+            const filer = dokumentasjonEtterspurtFiler[hendelsereferanse];
             if (!filer || filer.length === 0) {
                 return;
             }
@@ -206,7 +208,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     return;
                 }
                 onSendVedleggClicked(
-                    reference,
+                    hendelsereferanse,
                     formData,
                     filer,
                     path,
