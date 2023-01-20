@@ -75,7 +75,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const visOppgaverDetaljeFeil: boolean =
         oppgaveVedlegsOpplastingFeilet ||
-        (fileValidationErrors !== undefined && fileValidationErrors.errors.size > 0) ||
+        (fileValidationErrors !== undefined && !!fileValidationErrors.errors.size) ||
         overMaksStorrelse ||
         fileUploadingBackendFailed;
 
