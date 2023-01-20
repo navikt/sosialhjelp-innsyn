@@ -1,9 +1,9 @@
 import {
     alertUser,
-    hasNotAddedFiles,
-    maxCombinedFileSize,
     createFormDataWithVedleggFromFiler,
     createFormDataWithVedleggFromOppgaver,
+    hasNotAddedFiles,
+    maxCombinedFileSize,
 } from "../../utils/vedleggUtils";
 import {
     hentInnsynsdata,
@@ -34,8 +34,8 @@ export const onSendVedleggClicked = (
     fiksDigisosId: string | undefined,
     setAboveMaxSize: (aboveMaxSize: boolean) => void,
     queryClient: QueryClient,
-    dokumentasjonEtterspurt?: DokumentasjonEtterspurt,
-    filer?: Fil[]
+    filer: Fil[],
+    dokumentasjonEtterspurt?: DokumentasjonEtterspurt
 ) => {
     window.removeEventListener("beforeunload", alertUser);
     dispatch(setFileUploadFailedInBackend(vedleggId, false));
@@ -50,14 +50,20 @@ export const onSendVedleggClicked = (
     let formData: any = undefined;
 
     if (innsyndatasti === InnsynsdataSti.OPPGAVER && dokumentasjonEtterspurt) {
-        try {
-            formData = createFormDataWithVedleggFromOppgaver(dokumentasjonEtterspurt);
-        } catch (e: any) {
-            dispatch(setFileUploadFailed(vedleggId, true));
-            logInfoMessage("Validering vedlegg feilet: " + e?.message);
-            event.preventDefault();
-            return;
-        }
+        dokumentasjonEtterspurt?.oppgaveElementer.forEach((dokumentasjonEtterspurtElement) => {
+            try {
+                formData = createFormDataWithVedleggFromOppgaver(
+                    dokumentasjonEtterspurtElement,
+                    filer,
+                    dokumentasjonEtterspurt.innsendelsesfrist
+                );
+            } catch (e: any) {
+                dispatch(setFileUploadFailed(vedleggId, true));
+                logInfoMessage("Validering vedlegg feilet: " + e?.message);
+                event.preventDefault();
+                return;
+            }
+        });
 
         dispatch(settRestStatus(innsyndatasti, REST_STATUS.PENDING));
         const noFilesAdded = hasNotAddedFiles(dokumentasjonEtterspurt);
