@@ -344,11 +344,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                         />
                     );
                 })}
-                {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
-                    <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
-                    </ErrorMessage>
-                )}
                 {kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
