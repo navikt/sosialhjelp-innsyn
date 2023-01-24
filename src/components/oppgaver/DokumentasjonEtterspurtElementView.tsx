@@ -51,6 +51,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     setOverMaksStorrelse,
     overMaksStorrelse,
     fileUploadingBackendFailed,
+    setFileUploadingBackendFailed,
     filer,
 }) => {
     const uuid = uuidv4();
@@ -84,6 +85,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
         setConcatenatedSizeOfFilesMessage(undefined);
         setFileValidationErrors(undefined);
         setFilesHasErrors(false);
+        setFileUploadingBackendFailed(false);
         onDelete(event, hendelseReferanse, fil);
     };
 
@@ -92,6 +94,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
         setFileValidationErrors(undefined);
         setConcatenatedSizeOfFilesMessage(undefined);
         setFilesHasErrors(false);
+        setFileUploadingBackendFailed(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const opplastedeFiler = Array.from(files).map((file: File) => {

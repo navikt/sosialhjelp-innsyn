@@ -110,15 +110,25 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
 
     const [overMaksStorrelse, setOverMaksStorrelse] = useState(false);
 
+    const includesReferense = (feilReferanse: string[]) => {
+        dokumentasjonEtterspurt.oppgaveElementer.filter((doketterspurt) => {
+            if (doketterspurt.hendelsereferanse) {
+                return feilReferanse.includes(doketterspurt.hendelsereferanse);
+            }
+            return false;
+        });
+        return false;
+    };
+
     const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
-        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
+        includesReferense(listeOverDokumentasjonEtterspurtIderSomFeilet) ||
         opplastingFeilet !== undefined ||
         overMaksStorrelse ||
         errorMessage !== undefined ||
         filesHasErrors ||
         fileUploadingBackendFailed ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
+        includesReferense(listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend) ||
+        includesReferense(listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend);
 
     const onSendClicked = (event: React.SyntheticEvent) => {
         event.preventDefault();
