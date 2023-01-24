@@ -196,10 +196,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 return;
             }
 
-            const totalSizeOfAddedFiles = filer.reduce(
-                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
-                0
-            );
+            const totalSizeOfAddedFiles = filer.reduce((accumulator, {file}) => accumulator + (file?.size ?? 0), 0);
 
             if (illegalCombinedFilesSize(totalSizeOfAddedFiles)) {
                 setOverMaksStorrelse(true);
@@ -288,16 +285,17 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 } else {
                     delete newDokumentasjonEtterspurt[hendelseReferanse];
                 }
+
+                if (
+                    remainingFiles.length > 0 &&
+                    newDokumentasjonEtterspurt[hendelseReferanse].find(
+                        (dokEtterspurt) => dokEtterspurt.status !== "INITIALISERT"
+                    )
+                ) {
+                    setFileUploadingBackendFailed(true);
+                }
             }
             setDokumentasjonEtterspurtFiler(newDokumentasjonEtterspurt);
-
-            if (
-                newDokumentasjonEtterspurt[hendelseReferanse].find(
-                    (dokEtterspurt) => dokEtterspurt.status !== "INITIALISERT"
-                )
-            ) {
-                setFileUploadingBackendFailed(true);
-            }
         }
 
         const totalFileSize = dokumentasjonEtterspurtFiler[hendelseReferanse].reduce(
