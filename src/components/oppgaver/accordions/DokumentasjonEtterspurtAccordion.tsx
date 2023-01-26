@@ -24,7 +24,7 @@ export const DokumentasjonEtterspurtAccordion = (props: {
 }) => {
     return (
         <Accordion>
-            <Accordion.Item>
+            <Accordion.Item defaultOpen>
                 <Accordion.Header
                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
                 >
