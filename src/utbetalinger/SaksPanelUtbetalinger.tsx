@@ -10,6 +10,9 @@ import {StyledLinkPanelDescription, StyledFileIcon, StyledSaksDetaljer} from "..
 import {Link} from "react-router-dom";
 
 const StyledLinkPanel = styled(LinkPanel)`
+    &:focus {
+        box-shadow: inset var(--a-shadow-focus);
+    }
     .navds-link-panel__content {
         width: 100%;
     }
