@@ -205,8 +205,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 fiksDigisosId,
                                 setOverMaksStorrelse,
                                 queryClient,
-                                filer,
-                                undefined
+                                undefined,
+                                filer
                             );
                         }}
                         iconPosition="right"

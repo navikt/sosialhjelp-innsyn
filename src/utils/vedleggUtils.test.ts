@@ -1,12 +1,12 @@
-import {DokumentasjonEtterspurt, DokumentasjonEtterspurtElement, Fil} from "../redux/innsynsdata/innsynsdataReducer";
+import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
 import {
     containsIllegalCharacters,
-    createFormDataWithVedleggFromFiler,
-    createFormDataWithVedleggFromOppgaver,
-    generateMetadataFromAndreVedlegg,
-    generateMetadataFromOppgaver,
     HendelseTypeEnum,
     hentFileExtension,
+    generateMetadataFromAndreVedlegg,
+    generateMetadataFromOppgaver,
+    createFormDataWithVedleggFromOppgaver,
+    createFormDataWithVedleggFromFiler,
 } from "./vedleggUtils";
 
 const pngFile = {filnavn: "test0.png", file: new Blob()} as Fil;
@@ -76,33 +76,28 @@ const expectedEttersendelseMetadata = [
 
 describe("VedleggUtilsTest", () => {
     it("should create correct form and meta data for oppgaver", () => {
-        const formData: FormData = createFormDataWithVedleggFromOppgaver(
-            oppgave.oppgaveElementer[0],
-            oppgave.oppgaveElementer[0].filer ? oppgave.oppgaveElementer[0].filer : [],
-            oppgave.innsendelsesfrist
-        );
+        const formData: FormData = createFormDataWithVedleggFromOppgaver(oppgave);
         expect(formData).toBeDefined();
 
         const formDataEntryValues: FormDataEntryValue[] = formData.getAll("files");
         expect(formDataEntryValues).toBeDefined();
-        expect(formDataEntryValues.length).toBe(3);
+        expect(formDataEntryValues.length).toBe(6);
 
         [
             {file: formDataEntryValues[0], filnavn: "metadata.json"},
             {file: formDataEntryValues[1], filnavn: pngFile.filnavn},
             {file: formDataEntryValues[2], filnavn: jpgFile.filnavn},
+            {file: formDataEntryValues[3], filnavn: pdfFile.filnavn},
+            {file: formDataEntryValues[4], filnavn: jpgFile.filnavn},
+            {file: formDataEntryValues[5], filnavn: jpgFile.filnavn},
         ].forEach((value: {file: FormDataEntryValue; filnavn: string}) => {
             const file = value.file as File;
             expect(file).toBeDefined();
             expect(file.name).toBe(value.filnavn);
         });
 
-        const metadata = generateMetadataFromOppgaver(
-            oppgave.oppgaveElementer[0],
-            oppgave.oppgaveElementer[0].filer ? oppgave.oppgaveElementer[0].filer : [],
-            oppgave.innsendelsesfrist
-        );
-        expect(metadata[0]).toMatchObject(expectedOppgaverMetadata[0]);
+        const metadata = generateMetadataFromOppgaver(oppgave);
+        expect(metadata).toMatchObject(expectedOppgaverMetadata);
     });
 
     it("should create correct form and meta data for ettersendelse", () => {
