@@ -27,6 +27,7 @@ export const onSendVedleggClicked = (
                 });
             }
             if (hasError) {
+                handleFileUploadFailed();
                 handleFileUploadFailedInBackend(files, reference);
             } else {
                 onSuccessful(reference);

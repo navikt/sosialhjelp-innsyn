@@ -1,83 +1,123 @@
 import {DokumentasjonEtterspurtElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
-import {
-    alertUser,
-    FileError,
-    findFilesWithError,
-    isFileErrorsNotEmpty,
-    writeErrorMessage,
-} from "../../utils/vedleggUtils";
+import {alertUser, illegalCombinedFilesSize} from "../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import FileItemView from "./FileItemView";
 import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
 import {v4 as uuidv4} from "uuid";
-import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
+import styled from "styled-components";
+import {FileValidationErrors} from "./DokumentasjonkravElementView";
+import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import useKommune from "../../hooks/useKommune";
+import {validateFile} from "./validateFile";
+import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
+import ErrorMessage from "./ErrorMessage";
+import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
+import {FormattedMessage} from "react-intl";
+
+const StyledFrame = styled.div<{hasError?: boolean}>`
+    padding: 1rem;
+    margin-top: 16px;
+    background-color: ${(props) => (props.hasError ? "var(--a-red-50)" : "var(--a-gray-200)")};
+    border-radius: 2px;
+    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "var(--a-gray-200)")};
+    border-width: 1px;
+    border-style: solid;
+`;
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
     beskrivelse: string | undefined;
     oppgaveElement: DokumentasjonEtterspurtElement;
-    oppgaveElementIndex: number;
-    oppgaveId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
-    onDelete: (oppgaveId: string, vedleggIndex: number, fil: Fil) => void;
-    onAddFileChange: (files: FileList, internalIndex: number, oppgaveElement: DokumentasjonEtterspurtElement) => void;
+    hendelseReferanse: string;
+    onDelete: (event: any, hendelseReferanse: string, fil: Fil) => void;
+    onAddFileChange: (event: any, hendelseReferanse: string, validFiles: Fil[]) => void;
+    setFilesHasErrors: (filesHasErrors: boolean) => void;
+    setOverMaksStorrelse: (setOverMaksStorrelse: boolean) => void;
+    overMaksStorrelse: boolean;
+    fileUploadingBackendFailed: boolean;
+    setFileUploadingBackendFailed: (setFileUploadingBackendFailed: boolean) => void;
+    filer: Fil[];
 }> = ({
     tittel,
     beskrivelse,
     oppgaveElement,
-    oppgaveElementIndex,
-    oppgaveId,
-    setOverMaksStorrelse,
+    hendelseReferanse,
     onDelete,
     onAddFileChange,
+    setFilesHasErrors,
+    setOverMaksStorrelse,
+    overMaksStorrelse,
+    fileUploadingBackendFailed,
+    setFileUploadingBackendFailed,
+    filer,
 }) => {
     const uuid = uuidv4();
-    const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
+    const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
+    const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
     );
 
+    const {kommune} = useKommune();
+    const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommune);
+
     useEffect(() => {
-        if (oppgaveElement.filer && oppgaveElement.filer.length > 0) {
+        if (filer && filer.length > 0) {
             window.addEventListener("beforeunload", alertUser);
         }
         return function unload() {
             window.removeEventListener("beforeunload", alertUser);
         };
-    }, [oppgaveElement.filer]);
+    }, [filer]);
 
-    const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
+    const visOppgaverDetaljeFeil: boolean =
+        oppgaveVedlegsOpplastingFeilet ||
+        (fileValidationErrors !== undefined && !!fileValidationErrors.errors.size) ||
+        overMaksStorrelse ||
+        fileUploadingBackendFailed;
 
-    const onDeleteClick = (event: any, vedleggIndex: number, fil: Fil) => {
-        event.preventDefault();
-        onDelete(oppgaveId, vedleggIndex, fil);
+    const onDeleteElement = (event: any, fil: Fil) => {
+        setOverMaksStorrelse(false);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setFileValidationErrors(undefined);
+        setFilesHasErrors(false);
+        setFileUploadingBackendFailed(false);
+        onDelete(event, hendelseReferanse, fil);
     };
 
-    const onChange = (event: any) => {
-        setListeMedFilerSomFeiler([]);
+    const onChangeElement = (event: any) => {
         setOverMaksStorrelse(false);
+        setFileValidationErrors(undefined);
+        setConcatenatedSizeOfFilesMessage(undefined);
+        setFilesHasErrors(false);
+        setFileUploadingBackendFailed(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
-            const filesWithError: Array<FileError> = findFilesWithError(files, oppgaveElementIndex);
-            if (filesWithError.length === 0) {
-                onAddFileChange(files, oppgaveElementIndex, oppgaveElement);
+            const opplastedeFiler = Array.from(files).map((file: File) => {
+                return {filnavn: file.name, status: "INITIALISERT", file: file};
+            });
+
+            const validatedFiles = validateFile(opplastedeFiler);
+
+            const totalSizeOfValidatedFiles = validatedFiles.validFiles.reduce(
+                (accumulator, currentValue: Fil) => accumulator + (currentValue.file ? currentValue.file.size : 0),
+                0
+            );
+
+            if (illegalCombinedFilesSize(totalSizeOfValidatedFiles)) {
+                setOverMaksStorrelse(true);
+                setConcatenatedSizeOfFilesMessage("vedlegg.ulovlig_storrelse_av_alle_valgte_filer");
             } else {
-                setListeMedFilerSomFeiler(filesWithError);
-                filesWithError.forEach((fil: FileError) => {
-                    if (fil.containsIllegalCharacters) {
-                        logInfoMessage("Validering vedlegg feilet: Fil inneholder ulovlige tegn");
-                    }
-                    if (fil.legalCombinedFilesSize) {
-                        logInfoMessage("Validering vedlegg feilet: Totalt over 150MB ved en opplasting");
-                    }
-                    if (fil.legalFileSize) {
-                        logInfoMessage("Validering vedlegg feilet: Fil over 10MB");
-                    }
-                });
+                if (validatedFiles.errors.size) {
+                    setFileValidationErrors({errors: validatedFiles.errors, filenames: validatedFiles.filenames});
+                    setFilesHasErrors(true);
+                } else {
+                    onAddFileChange(event, hendelseReferanse, validatedFiles.validFiles);
+                }
             }
         }
         if (event.target.value === "") {
@@ -88,29 +128,49 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     };
 
     return (
-        <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
+        <StyledFrame hasError={visOppgaverDetaljeFeil}>
             <TextAndButtonWrapper>
                 <div className={"tekst-wrapping"}>
                     <Label as="p">{tittel}</Label>
                     {beskrivelse && <BodyShort>{beskrivelse}</BodyShort>}
                 </div>
-
-                <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
+                {canUploadAttatchemnts && (
+                    <AddFileButton
+                        onChange={onChangeElement}
+                        referanse={oppgaveElement.hendelsereferanse ?? ""}
+                        id={uuid}
+                    />
+                )}
             </TextAndButtonWrapper>
 
-            {oppgaveElement.filer &&
-                oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FileItemView
-                        key={vedleggIndex}
-                        fil={fil}
-                        onDelete={(event: MouseEvent, fil) => {
-                            onDeleteClick(event, vedleggIndex, fil);
-                        }}
-                    />
+            {filer &&
+                filer.map((fil: Fil, vedleggIndex: number) => (
+                    <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
                 ))}
-            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
-                writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
-        </div>
+            {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
+                <div>
+                    {fileValidationErrors.filenames.size === 1 ? (
+                        <ErrorMessageTitle
+                            feilId={"vedlegg.ulovlig_en_fil_feilmelding"}
+                            errorValue={{filnavn: Array.from(fileValidationErrors.filenames)[0]}}
+                        />
+                    ) : (
+                        <ErrorMessageTitle
+                            feilId={"vedlegg.ulovlig_flere_fil_feilmelding"}
+                            errorValue={{antallFiler: fileValidationErrors.filenames.size}}
+                        />
+                    )}
+                    {Array.from(fileValidationErrors.errors).map((key, index) => {
+                        return <ErrorMessage feilId={key} key={index} />;
+                    })}
+                </div>
+            )}
+            {concatenatedSizeOfFilesMessage && (
+                <ErrorMessageLabel>
+                    <FormattedMessage id={concatenatedSizeOfFilesMessage} />
+                </ErrorMessageLabel>
+            )}
+        </StyledFrame>
     );
 };
 
