@@ -27,7 +27,7 @@ const StyledButton = styled(Button)`
     font-weight: bold;
 `;
 const AddFileButton: React.FC<{
-    onChange: (event: any, referanse: string) => void;
+    onChange: (event: any, dokumentasjonkravReferanse: string) => void;
     referanse: string;
     id: string;
 }> = ({onChange, referanse, id}) => {
