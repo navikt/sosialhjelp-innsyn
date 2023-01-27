@@ -28,7 +28,7 @@ const UtbetalingsoversiktIngenSoknader: React.FC = () => {
                 <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp"} border={false}>
                     <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
                 </LinkPanel>
-                <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp#soknad"} border={false}>
+                <LinkPanel href={"https://www.nav.no/sosialhjelp/soknad"} border={false}>
                     <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>
