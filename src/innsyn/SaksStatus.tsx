@@ -106,6 +106,7 @@ const SaksStatusView = () => {
                 InnsynsdataSti.VILKAR,
                 InnsynsdataSti.DOKUMENTASJONKRAV,
                 InnsynsdataSti.SOKNADS_STATUS,
+                InnsynsdataSti.HENDELSER,
                 InnsynsdataSti.VEDLEGG,
                 InnsynsdataSti.FORELOPIG_SVAR,
                 InnsynsdataSti.KOMMUNE,
