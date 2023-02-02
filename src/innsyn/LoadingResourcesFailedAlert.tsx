@@ -20,7 +20,7 @@ export const LoadingResourcesFailedAlert = (props: {
     const {setLoadingResourcesFailed} = props;
 
     useEffect(() => {
-        if (!leserData(saksStatus) && !leserData(oppgaver) && !leserData(hendelser) && !leserData(vedlegg)) {
+        if (!leserData(saksStatus) || !leserData(oppgaver) || !leserData(hendelser) || !leserData(vedlegg)) {
             if (
                 saksStatus === REST_STATUS.FEILET ||
                 oppgaver === REST_STATUS.FEILET ||
