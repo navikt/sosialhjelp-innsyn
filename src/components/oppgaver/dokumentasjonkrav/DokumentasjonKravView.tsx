@@ -9,7 +9,6 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {antallDagerEtterFrist} from "../Oppgaver";
 import {onSendVedleggClicked} from "../onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
 import {
@@ -89,8 +88,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const opplastingFeilet = dokumentasjonkravHasFilesWithError(dokumentasjonkrav.dokumentasjonkravElementer);
-
-    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonkrav.frist!!));
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./oppgaver.module.css";
 import {
-    DokumentasjonEtterspurt,
     hentHarLevertDokumentasjonkrav,
     settFagsystemHarDokumentasjonkrav,
 } from "../../redux/innsynsdata/innsynsdataReducer";

@@ -37,8 +37,8 @@ interface Props {
 export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     const brukerHarDokumentasjonEtterspurt = props.dokumentasjonEtterspurt.length > 0;
 
-    const dokumentasjonEtterspurtErFraInnsyn: boolean =
-        brukerHarDokumentasjonEtterspurt && props.dokumentasjonEtterspurt!![0].oppgaveElementer!![0].erFraInnsyn;
+    const dokumentasjonEtterspurtErFraInnsyn =
+        brukerHarDokumentasjonEtterspurt && props.dokumentasjonEtterspurt[0].oppgaveElementer[0].erFraInnsyn;
     const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn
         ? foersteInnsendelsesfrist(props.dokumentasjonEtterspurt)
         : null;
