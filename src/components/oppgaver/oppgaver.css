@@ -15,20 +15,10 @@
     margin-top: 10px;
 }
 
-.oppgaver_liste {
-    padding-inline-start: 0;
-    margin: 0;
-}
-
 .oppgaver_detaljer {
     border: 1px solid #e9e7e7;
     border-radius: 2px;
     padding: 1rem;
-    word-wrap: break-word;
-    list-style: none;
-}
-.oppgaver_detaljer:not(:first-of-type) {
-    margin-top: 1rem;
 }
 
 .oppgaver_detaljer_feil_ramme {
