@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import "./oppgaver.module.css";
+import "./oppgaver.css";
 import {
     hentHarLevertDokumentasjonkrav,
     settFagsystemHarDokumentasjonkrav,

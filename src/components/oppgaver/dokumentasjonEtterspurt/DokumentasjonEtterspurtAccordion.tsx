@@ -99,16 +99,19 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                     <OpplastingAvVedleggModal />
 
                     <DriftsmeldingVedlegg leserData={skalViseLastestripe(props.restStatus_oppgaver)} />
-
-                    {props.dokumentasjonEtterspurt !== null &&
-                        props.dokumentasjonEtterspurt.map((dokumentasjon: DokumentasjonEtterspurt, index: number) => (
-                            <DokumentasjonEtterspurtView
-                                dokumentasjonEtterspurt={dokumentasjon}
-                                key={index}
-                                oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
-                                oppgaveIndex={index}
-                            />
-                        ))}
+                    <div>
+                        {props.dokumentasjonEtterspurt !== null &&
+                            props.dokumentasjonEtterspurt.map(
+                                (dokumentasjon: DokumentasjonEtterspurt, index: number) => (
+                                    <DokumentasjonEtterspurtView
+                                        dokumentasjonEtterspurt={dokumentasjon}
+                                        key={index}
+                                        oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
+                                        oppgaveIndex={index}
+                                    />
+                                )
+                            )}
+                    </div>
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>

@@ -193,7 +193,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     };
 
     return (
-        <>
+        <div>
             <div
                 className={
                     (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
@@ -282,7 +282,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     />
                 </ErrorMessage>
             )}
-        </>
+        </div>
     );
 };
 

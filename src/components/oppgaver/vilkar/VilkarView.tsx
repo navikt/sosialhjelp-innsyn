@@ -1,7 +1,7 @@
 import React from "react";
 import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {BodyShort, Label} from "@navikt/ds-react";
-import styles from "../oppgaver.module.css";
+import styles from "./vilkar.module.css";
 
 interface Props {
     vilkar: Vilkar[];

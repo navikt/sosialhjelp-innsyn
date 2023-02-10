@@ -16,7 +16,7 @@ import useKommune from "../../../hooks/useKommune";
 import styled from "styled-components";
 import {FormattedMessage} from "react-intl";
 
-const StyledFrame = styled.li<{hasError?: boolean}>`
+const StyledFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
     margin-top: 16px;
     background-color: ${(props) => (props.hasError ? "var(--a-red-50)" : "var(--a-gray-200)")};
