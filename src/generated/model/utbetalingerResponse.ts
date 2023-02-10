@@ -9,6 +9,6 @@ import type {ManedUtbetaling} from "./manedUtbetaling";
 export interface UtbetalingerResponse {
     ar: number;
     maned: string;
-    foersteIManeden: Date;
+    foersteIManeden: string;
     utbetalinger: ManedUtbetaling[];
 }

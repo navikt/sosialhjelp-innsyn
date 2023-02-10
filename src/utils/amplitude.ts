@@ -16,7 +16,7 @@ export const initAmplitude = () => {
 export function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>): void {
     setTimeout(() => {
         try {
-            if (amplitude) {
+            if (amplitude && process.env.NODE_ENV !== "test") {
                 amplitude.getInstance().logEvent(eventName, eventData);
             }
         } catch (error) {

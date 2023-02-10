@@ -8,7 +8,7 @@ import type {DokumentasjonkravElementHendelsetype} from "./dokumentasjonkravElem
 import type {DokumentasjonkravElementStatus} from "./dokumentasjonkravElementStatus";
 
 export interface DokumentasjonkravElement {
-    hendelsetidspunkt: Date;
+    hendelsetidspunkt: string;
     hendelsetype?: DokumentasjonkravElementHendelsetype;
     dokumentasjonkravReferanse: string;
     tittel?: string;

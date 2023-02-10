@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import "./saksoversikt.css";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
-import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
 import {parse} from "query-string";
-import {REST_STATUS} from "../utils/restUtils";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
-import useUtbetalingerExistsService from "../utbetalinger/service/useUtbetalingerExistsService";
 import {logAmplitudeEvent, logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
 import {useLocation, useNavigate} from "react-router-dom";
+import {SaksListeResponse} from "../generated/model";
+import {useGetUtbetalingExists} from "../generated/utbetalinger-controller/utbetalinger-controller";
+import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -34,30 +34,36 @@ const StyledHeading = styled(Heading)`
     white-space: nowrap;
 `;
 
-const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
+const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-
-    const utbetalingerExistsService = useUtbetalingerExistsService(15);
-    const utbetalingerExists: boolean =
-        utbetalingerExistsService.restStatus === REST_STATUS.OK ? utbetalingerExistsService.payload : false;
-
-    useEffect(() => {
-        if (!pageLoadIsLogged && utbetalingerExistsService.restStatus === REST_STATUS.OK) {
-            logAmplitudeEvent("Hentet innsynsdata", {
-                harUtbetalinger: utbetalingerExists,
-            });
-            //Ensure only one logging to amplitude
-            setPageLoadIsLogged(true);
+    const {data} = useGetUtbetalingExists(
+        {month: 15},
+        {
+            query: {
+                onError: (error) => {
+                    logWarningMessage(error.message, error.navCallId);
+                },
+                onSuccess: (data) => {
+                    if (!pageLoadIsLogged) {
+                        logAmplitudeEvent("Hentet innsynsdata", {
+                            harUtbetalinger: data,
+                        });
+                        setPageLoadIsLogged(true);
+                    }
+                },
+            },
         }
-    }, [utbetalingerExists, pageLoadIsLogged, utbetalingerExistsService.restStatus]);
+    );
+
+    const utbetalingerExists = !!data;
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
-    function sammenlignSaksTidspunkt(a: Sakstype, b: Sakstype) {
+    function sammenlignSaksTidspunkt(a: SaksListeResponse, b: SaksListeResponse) {
         if (isAfter(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
             return -1;
         }
@@ -82,7 +88,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     if (currentPage >= lastPage) {
         navigate({search: "?side=" + lastPage});
     }
-    const paginerteSaker: Sakstype[] = saker.slice(
+    const paginerteSaker: SaksListeResponse[] = saker.slice(
         currentPage * itemsPerPage,
         currentPage * itemsPerPage + itemsPerPage
     );
@@ -90,51 +96,47 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
     const handlePageClick = (page: number) => {
         navigate({search: "?side=" + (page + 1)});
     };
-
     // noinspection HtmlUnknownTarget
     return (
         <>
-            <StyledDineSoknaderPanel>
-                <StyledHeading level="2" size="medium">
-                    Dine søknader
-                </StyledHeading>
-                <Button
-                    onClick={() => logButtonOrLinkClick("Ny søknad")}
-                    as="a"
-                    variant="primary"
-                    href="/sosialhjelp/soknad/informasjon"
-                >
-                    Ny søknad
-                </Button>
-            </StyledDineSoknaderPanel>
+            <section aria-labelledby="dine-soknader">
+                <StyledDineSoknaderPanel>
+                    <StyledHeading level="2" size="medium" id="dine-soknader">
+                        Dine søknader
+                    </StyledHeading>
+                    <Button
+                        onClick={() => logButtonOrLinkClick("Ny søknad")}
+                        as="a"
+                        variant="primary"
+                        href="/sosialhjelp/soknad/informasjon"
+                    >
+                        Ny søknad
+                    </Button>
+                </StyledDineSoknaderPanel>
+                {paginerteSaker.map((sak: SaksListeResponse) => (
+                    <SakPanel
+                        fiksDigisosId={sak.fiksDigisosId}
+                        tittel={sak.soknadTittel}
+                        oppdatert={sak.sistOppdatert}
+                        key={sak.fiksDigisosId ?? sak.soknadTittel}
+                        url={sak.url}
+                        kilde={sak.kilde}
+                    />
+                ))}
+                {saker.length > itemsPerPage && (
+                    <Paginering
+                        pageCount={lastPage}
+                        forcePage={currentPage}
+                        onPageChange={(page: number) => handlePageClick(page)}
+                    />
+                )}
+            </section>
 
-            {paginerteSaker.map((sak: Sakstype) => (
-                <SakPanel
-                    fiksDigisosId={sak.fiksDigisosId}
-                    tittel={sak.soknadTittel}
-                    status={sak.status}
-                    oppdatert={sak.sistOppdatert}
-                    key={sak.fiksDigisosId ?? sak.soknadTittel}
-                    url={sak.url}
-                    kilde={sak.kilde}
-                    antallNyeOppgaver={sak.antallNyeOppgaver}
-                    harBlittLastetInn={sak.harBlittLastetInn}
-                />
-            ))}
+            {utbetalingerExists && <DineUtbetalingerPanel />}
 
-            {saker.length > itemsPerPage && (
-                <Paginering
-                    pageCount={lastPage}
-                    forcePage={currentPage}
-                    onPageChange={(page: number) => handlePageClick(page)}
-                />
-            )}
-
-            <>
-                {utbetalingerExists && <DineUtbetalingerPanel />}
-
+            <section aria-labelledby="relatert-informasjon">
                 <Subheader className="panel-luft-over">
-                    <Heading level="2" size="small">
+                    <Heading level="2" size="small" id="relatert-informasjon">
                         Relatert informasjon
                     </Heading>
                 </Subheader>
@@ -155,7 +157,7 @@ const SaksoversiktDineSaker: React.FC<{saker: Sakstype[]}> = ({saker}) => {
                         Hvordan vi behandler dine personopplysninger
                     </InfoPanel>
                 </InfoPanelWrapper>
-            </>
+            </section>
         </>
     );
 };

@@ -10,7 +10,7 @@ import type {VedleggOpplastingResponse} from "./vedleggOpplastingResponse";
 export interface OppgaveOpplastingResponse {
     type: string;
     tilleggsinfo?: string;
-    innsendelsesfrist?: Date;
+    innsendelsesfrist?: string;
     hendelsetype?: OppgaveOpplastingResponseHendelsetype;
     hendelsereferanse?: string;
     filer: VedleggOpplastingResponse[];

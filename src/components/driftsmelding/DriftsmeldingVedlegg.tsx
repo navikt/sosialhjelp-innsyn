@@ -16,6 +16,7 @@ const Bold = styled.span`
 const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
     const {kommune, isLoading} = useKommune();
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
+
     if (!kanLasteOppVedlegg && !props.leserData && !isLoading) {
         return (
             <Alert variant="error" size="medium" inline>

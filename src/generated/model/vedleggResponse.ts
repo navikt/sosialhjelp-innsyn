@@ -11,5 +11,5 @@ export interface VedleggResponse {
     url: string;
     type: string;
     tilleggsinfo?: string;
-    datoLagtTil: Date;
+    datoLagtTil: string;
 }

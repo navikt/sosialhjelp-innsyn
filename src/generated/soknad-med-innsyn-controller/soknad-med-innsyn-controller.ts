@@ -7,6 +7,7 @@
 import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -18,11 +19,11 @@ export const harSoknaderMedInnsyn = (options?: SecondParameter<typeof axiosInsta
 export const getHarSoknaderMedInnsynQueryKey = () => [`/api/v1/innsyn/harSoknaderMedInnsyn`];
 
 export type HarSoknaderMedInnsynQueryResult = NonNullable<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>>;
-export type HarSoknaderMedInnsynQueryError = unknown;
+export type HarSoknaderMedInnsynQueryError = ErrorType<unknown>;
 
 export const useHarSoknaderMedInnsyn = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown
+    TError = ErrorType<unknown>
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
