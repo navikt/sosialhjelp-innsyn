@@ -11,7 +11,7 @@ import styled from "styled-components/macro";
 import {Attachment, Task} from "@navikt/ds-icons";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
+import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
 
 const StyledPanel = styled(Panel)`
     margin-top: 1.5rem;

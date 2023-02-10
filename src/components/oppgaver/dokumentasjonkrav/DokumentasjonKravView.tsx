@@ -1,31 +1,35 @@
 import React, {useState} from "react";
-import {DokumentasjonKrav, Fil, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonKrav, Fil, InnsynsdataSti} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {
     createFormDataWithVedleggFromDokumentasjonkrav,
     dokumentasjonkravHasFilesWithError,
     illegalCombinedFilesSize,
-} from "../../utils/vedleggUtils";
-import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
+} from "../../../utils/vedleggUtils";
+
 import {useDispatch, useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
-import {antallDagerEtterFrist} from "./Oppgaver";
-import {onSendVedleggClicked} from "./onSendVedleggClickedNew";
+import {InnsynAppState} from "../../../redux/reduxTypes";
+import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
+import {antallDagerEtterFrist} from "../Oppgaver";
+import {onSendVedleggClicked} from "../onSendVedleggClickedNew";
 import {FormattedMessage} from "react-intl";
-import {hentDokumentasjonkravMedId, hentInnsynsdata, innsynsdataUrl} from "../../redux/innsynsdata/innsynsDataActions";
-import {formatDato} from "../../utils/formatting";
-import {fileUploadFailedEvent} from "../../utils/amplitude";
-import {BodyShort, Button, Loader} from "@navikt/ds-react";
-import {ErrorMessage} from "../errors/ErrorMessage";
+import {
+    hentDokumentasjonkravMedId,
+    hentInnsynsdata,
+    innsynsdataUrl,
+} from "../../../redux/innsynsdata/innsynsDataActions";
+import {fileUploadFailedEvent} from "../../../utils/amplitude";
+import {Button, Loader} from "@navikt/ds-react";
+import {ErrorMessage} from "../../errors/ErrorMessage";
 import styled from "styled-components";
-import useKommune from "../../hooks/useKommune";
-import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import useKommune from "../../../hooks/useKommune";
+import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
 import {useQueryClient} from "@tanstack/react-query";
-import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
+import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
+import InnsendelsesFrist from "../InnsendelsesFrist";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
-    dokumentasjonkravIndex: number;
 }
 
 export interface DokumentasjonKravFiler {
@@ -64,7 +68,7 @@ const ButtonWrapper = styled.div`
     margin-top: 1rem;
 `;
 
-const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjonkravIndex}) => {
+const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
@@ -296,30 +300,14 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav, dokumentasjo
     return (
         <StyledOuterFrame>
             <StyledInnerFrame hasError={visDokumentasjonkravDetaljerFeiler}>
-                {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert <= 0 && (
-                    <BodyShort spacing>
-                        <FormattedMessage
-                            id="oppgaver.innsendelsesfrist"
-                            values={{innsendelsesfrist: formatDato(dokumentasjonkrav.frist!)}}
-                        />
-                    </BodyShort>
-                )}
-                {dokumentasjonkrav.frist && antallDagerSidenFristBlePassert > 0 && (
-                    <BodyShort spacing>
-                        <FormattedMessage
-                            id="oppgaver.innsendelsesfrist_passert"
-                            values={{innsendelsesfrist: formatDato(dokumentasjonkrav.frist!)}}
-                        />
-                    </BodyShort>
-                )}
+                <InnsendelsesFrist frist={dokumentasjonkrav.frist} />
+
                 {dokumentasjonkrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                         return (
                             <DokumentasjonkravElementView
                                 key={dokumentasjonkravElementIndex}
                                 dokumentasjonkravElement={dokumentasjonkravElement}
-                                dokumentasjonKravIndex={dokumentasjonkravIndex}
-                                dokumentasjonkravReferanse={dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""}
                                 onChange={onChange}
                                 onDelete={onDeleteClick}
                                 setFilesHasErrors={setFilesHasErrors}

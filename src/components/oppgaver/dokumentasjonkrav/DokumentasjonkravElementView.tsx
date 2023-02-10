@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {DokumentasjonKravElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
-import {alertUser, illegalCombinedFilesSize} from "../../utils/vedleggUtils";
+import {DokumentasjonKravElement, Fil} from "../../../redux/innsynsdata/innsynsdataReducer";
+import {alertUser, illegalCombinedFilesSize} from "../../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
-import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import {InnsynAppState} from "../../../redux/reduxTypes";
+import AddFileButton, {TextAndButtonWrapper} from "../AddFileButton";
+import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
-import FileItemView from "./FileItemView";
-import ErrorMessage from "./ErrorMessage";
-import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
-import {ErrorMessageTitle} from "./ErrorMessageTitleNew";
-import {validateFile} from "./validateFile";
+import FileItemView from "../FileItemView";
+import ErrorMessage from "../ErrorMessage";
+import {ErrorMessage as ErrorMessageLabel} from "../../errors/ErrorMessage";
+import {ErrorMessageTitle} from "../ErrorMessageTitleNew";
+import {validateFile} from "../validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
-import useKommune from "../../hooks/useKommune";
+import useKommune from "../../../hooks/useKommune";
 import styled from "styled-components";
 import {FormattedMessage} from "react-intl";
 
-const StyledFrame = styled.div<{hasError?: boolean}>`
+const StyledFrame = styled.li<{hasError?: boolean}>`
     padding: 1rem;
     margin-top: 16px;
     background-color: ${(props) => (props.hasError ? "var(--a-red-50)" : "var(--a-gray-200)")};
@@ -33,8 +33,6 @@ export interface FileValidationErrors {
 
 const DokumentasjonkravElementView: React.FC<{
     dokumentasjonkravElement: DokumentasjonKravElement;
-    dokumentasjonKravIndex: number;
-    dokumentasjonkravReferanse: string;
     onChange: (event: any, dokumentasjonkravReferanse: string, validFiles: Fil[]) => void;
     onDelete: (event: any, dokumentasjonkravReferanse: string, fil: Fil) => void;
     setFilesHasErrors: (fileHasErrors: boolean) => void;
@@ -45,7 +43,6 @@ const DokumentasjonkravElementView: React.FC<{
     filer: Fil[];
 }> = ({
     dokumentasjonkravElement,
-    dokumentasjonkravReferanse,
     onChange,
     onDelete,
     setFilesHasErrors,
@@ -65,6 +62,7 @@ const DokumentasjonkravElementView: React.FC<{
 
     const {kommune} = useKommune();
     const canUploadAttatchemnts: boolean = isFileUploadAllowed(kommune);
+    const dokumentasjonkravReferanse = dokumentasjonkravElement.dokumentasjonkravReferanse ?? "";
 
     useEffect(() => {
         if (filer && filer.length > 0) {

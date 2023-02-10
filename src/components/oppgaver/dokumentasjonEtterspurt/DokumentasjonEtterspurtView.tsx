@@ -6,20 +6,18 @@ import {
     InnsynsdataActionTypeKeys,
     InnsynsdataSti,
     settRestStatus,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
-import {antallDagerEtterFrist} from "./Oppgaver";
-import {formatDato} from "../../utils/formatting";
+import {InnsynAppState} from "../../../redux/reduxTypes";
+import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {
     createFormDataWithVedleggFromOppgaver,
     getVisningstekster,
     hasNotAddedFiles,
     oppgaveHasFilesWithError,
-} from "../../utils/vedleggUtils";
-import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../utils/restUtils";
+} from "../../../utils/vedleggUtils";
+import {fetchPost, fetchPostGetErrors, REST_STATUS} from "../../../utils/restUtils";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 import {
     hentInnsynsdata,
@@ -28,19 +26,20 @@ import {
     setFileUploadFailed,
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
-} from "../../redux/innsynsdata/innsynsDataActions";
-import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
+} from "../../../redux/innsynsdata/innsynsDataActions";
+import {logInfoMessage, logWarningMessage} from "../../../redux/innsynsdata/loggActions";
 import {
     fileUploadFailedEvent,
     logButtonOrLinkClick,
     logDuplicationsOfUploadedAttachmentsForDokEtterspurt,
-} from "../../utils/amplitude";
-import {BodyShort, Button, Loader} from "@navikt/ds-react";
-import {ErrorMessage} from "../errors/ErrorMessage";
+} from "../../../utils/amplitude";
+import {Button, Loader} from "@navikt/ds-react";
+import {ErrorMessage} from "../../errors/ErrorMessage";
 import styled from "styled-components";
-import useKommune from "../../hooks/useKommune";
-import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import useKommune from "../../../hooks/useKommune";
+import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
 import {useQueryClient} from "@tanstack/react-query";
+import InnsendelsesFrist from "../InnsendelsesFrist";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
@@ -73,8 +72,6 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
-
-    let antallDagerSidenFristBlePassert = antallDagerEtterFrist(new Date(dokumentasjonEtterspurt.innsendelsesfrist!!));
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
@@ -196,29 +193,15 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
     };
 
     return (
-        <div>
+        <>
             <div
                 className={
                     (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
                     " luft_over_1rem"
                 }
             >
-                {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
-                    <BodyShort spacing>
-                        <FormattedMessage
-                            id="oppgaver.innsendelsesfrist"
-                            values={{innsendelsesfrist: formatDato(dokumentasjonEtterspurt.innsendelsesfrist!)}}
-                        />
-                    </BodyShort>
-                )}
-                {oppgaverErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
-                    <BodyShort spacing>
-                        <FormattedMessage
-                            id="oppgaver.innsendelsesfrist_passert"
-                            values={{innsendelsesfrist: formatDato(dokumentasjonEtterspurt.innsendelsesfrist!)}}
-                        />
-                    </BodyShort>
-                )}
+                {oppgaverErFraInnsyn && <InnsendelsesFrist frist={dokumentasjonEtterspurt.innsendelsesfrist} />}
+
                 {dokumentasjonEtterspurt.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
                     let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
                         oppgaveElement.dokumenttype,
@@ -299,7 +282,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     />
                 </ErrorMessage>
             )}
-        </div>
+        </>
     );
 };
 

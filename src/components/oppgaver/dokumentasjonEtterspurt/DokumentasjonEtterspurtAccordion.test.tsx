@@ -4,6 +4,7 @@ import {render, fireEvent, screen} from "../../../test/test-utils";
 import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
 import {REST_STATUS} from "../../../utils/restUtils";
 import {Route, Routes} from "react-router-dom";
+import {HendelseTypeEnum} from "../../../utils/vedleggUtils";
 
 test("Rendrer DokumentasjonEtterspurt", async () => {
     render(
@@ -12,10 +13,20 @@ test("Rendrer DokumentasjonEtterspurt", async () => {
                 path="/:soknadId/status"
                 element={
                     <DokumentasjonEtterspurtAccordion
-                        dokumentasjonEtterspurt={[]}
-                        dokumentasjonEtterspurtErFraInnsyn={true}
-                        antallDagerSidenFristBlePassert={1}
-                        innsendelsesfrist={null}
+                        dokumentasjonEtterspurt={[
+                            {
+                                innsendelsesfrist: undefined,
+                                oppgaveId: "",
+                                oppgaveElementer: [
+                                    {
+                                        erFraInnsyn: true,
+                                        dokumenttype: "",
+                                        hendelsetype: HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT,
+                                        hendelsereferanse: "",
+                                    },
+                                ],
+                            },
+                        ]}
                         restStatus_oppgaver={REST_STATUS.OK}
                     />
                 }
