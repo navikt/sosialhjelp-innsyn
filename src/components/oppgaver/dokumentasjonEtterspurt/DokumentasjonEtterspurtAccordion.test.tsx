@@ -19,7 +19,6 @@ test("Rendrer DokumentasjonEtterspurt", async () => {
                                 oppgaveId: "",
                                 oppgaveElementer: [
                                     {
-                                        erFraInnsyn: true,
                                         dokumenttype: "",
                                         hendelsetype: HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT,
                                         hendelsereferanse: "",

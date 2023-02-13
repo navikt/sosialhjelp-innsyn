@@ -11,5 +11,4 @@ export interface OppgaveElement {
     tilleggsinformasjon?: string;
     hendelsetype?: OppgaveElementHendelsetype;
     hendelsereferanse?: string;
-    erFraInnsyn: boolean;
 }

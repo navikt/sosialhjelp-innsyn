@@ -9,6 +9,7 @@ import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataRed
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
 import {antallDagerEtterFrist} from "../Oppgaver";
+import {HendelseTypeEnum} from "../../../utils/vedleggUtils";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -35,7 +36,8 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     const brukerHarDokumentasjonEtterspurt = props.dokumentasjonEtterspurt.length > 0;
 
     const dokumentasjonEtterspurtErFraInnsyn =
-        brukerHarDokumentasjonEtterspurt && props.dokumentasjonEtterspurt[0].oppgaveElementer[0].erFraInnsyn;
+        brukerHarDokumentasjonEtterspurt &&
+        props.dokumentasjonEtterspurt[0].oppgaveElementer[0].hendelsetype === HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT;
     const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn
         ? foersteInnsendelsesfrist(props.dokumentasjonEtterspurt)
         : null;
