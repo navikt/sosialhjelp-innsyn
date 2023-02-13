@@ -16,10 +16,7 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
         : antallDagerSidenFristBlePassert + " dag";
 }
 
-function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
-    if (dokumentasjonEtterspurt === null) {
-        return null;
-    }
+function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt.length > 0) {
         const innsendelsesfrister = dokumentasjonEtterspurt.map(
             (dokumentasjon: DokumentasjonEtterspurt) => new Date(dokumentasjon.innsendelsesfrist!!)
