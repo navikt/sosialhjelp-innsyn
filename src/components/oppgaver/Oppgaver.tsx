@@ -38,15 +38,6 @@ const StyledPanel = styled(Panel)`
         margin-top: 2rem;
 `;
 
-export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
-    if (!innsendelsesfrist) {
-        return 0;
-    }
-    let now = Math.floor(new Date().getTime() / (3600 * 24 * 1000)); //days as integer from..
-    let frist = Math.floor(innsendelsesfrist.getTime() / (3600 * 24 * 1000)); //days as integer from..
-    return now - frist;
-};
-
 interface SaksUtbetalingResponse {
     utbetalinger: UtbetalingerResponse[];
 }
