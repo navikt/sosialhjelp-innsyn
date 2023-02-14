@@ -45,13 +45,13 @@ export const LoadingResourcesFailedAlert = (props: {
     }, [saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg, setLoadingResourcesFailed]);
 
     return (
-        <>
+        <div style={{position: "sticky", top: 0, zIndex: 1}}>
             {props.loadingResourcesFailed && (
-                <Alert variant="warning" className="luft_over_16px">
+                <Alert variant="error" className="luft_over_16px">
                     <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
                     <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                 </Alert>
             )}
-        </>
+        </div>
     );
 };
