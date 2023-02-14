@@ -8,6 +8,7 @@ import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
 import {DokumentasjonEtterspurt, HendelseTypeEnum} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
+import {antallDagerEtterFrist} from "../InnsendelsesFrist";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -39,6 +40,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn
         ? foersteInnsendelsesfrist(props.dokumentasjonEtterspurt)
         : null;
+    const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
 
     return (
         <Accordion>
@@ -54,6 +56,31 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                                 <FormattedMessage id="oppgaver.maa_sende_dok" />
                             )}
                         </Label>
+                        <BodyShort>
+                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
+                                <FormattedMessage
+                                    id="oppgaver.neste_frist"
+                                    values={{
+                                        innsendelsesfrist:
+                                            innsendelsesfrist != null
+                                                ? formatDato(innsendelsesfrist.toISOString())
+                                                : "",
+                                    }}
+                                />
+                            )}
+                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
+                                <FormattedMessage
+                                    id="oppgaver.neste_frist_passert"
+                                    values={{
+                                        antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
+                                        innsendelsesfrist:
+                                            innsendelsesfrist != null
+                                                ? formatDato(innsendelsesfrist!.toISOString())
+                                                : "",
+                                    }}
+                                />
+                            )}
+                        </BodyShort>
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>

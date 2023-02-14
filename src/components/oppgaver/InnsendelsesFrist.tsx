@@ -3,7 +3,7 @@ import {FormattedMessage} from "react-intl";
 import {formatDato} from "../../utils/formatting";
 import React from "react";
 
-const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
+export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
         return 0;
     }
@@ -12,14 +12,9 @@ const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     return now - frist;
 };
 
-const defaultProps = {
-    textId: "oppgaver.innsendelsesfrist",
-};
-type Props = {
+interface Props {
     frist?: string;
-    textId?: string;
-} & typeof defaultProps;
-
+}
 const InnsendelsesFrist = (props: Props) => {
     if (!props.frist) {
         return null;
@@ -30,17 +25,22 @@ const InnsendelsesFrist = (props: Props) => {
         <>
             {antallDagerSidenFristBlePassert <= 0 && (
                 <BodyShort spacing>
-                    <FormattedMessage id={props.textId} values={{innsendelsesfrist: formatDato(props.frist)}} />
+                    <FormattedMessage
+                        id="oppgaver.innsendelsesfrist"
+                        values={{innsendelsesfrist: formatDato(props.frist)}}
+                    />
                 </BodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (
                 <BodyShort spacing>
-                    <FormattedMessage id={props.textId} values={{innsendelsesfrist: formatDato(props.frist)}} />
+                    <FormattedMessage
+                        id="oppgaver.innsendelsesfrist_passert"
+                        values={{innsendelsesfrist: formatDato(props.frist)}}
+                    />
                 </BodyShort>
             )}
         </>
     );
 };
-InnsendelsesFrist.defaultProps = defaultProps;
 
 export default InnsendelsesFrist;
