@@ -21,7 +21,6 @@ const oppgave = {
             dokumenttype: "dokumenttype1",
             tilleggsinformasjon: "tilleggsinformasjon1",
             hendelsetype: HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT,
-            erFraInnsyn: true,
             filer: [pngFile, jpgFile],
         } as DokumentasjonEtterspurtElement,
         {
@@ -29,13 +28,12 @@ const oppgave = {
             tilleggsinformasjon: "tilleggsinformasjon2",
             hendelsetype: HendelseTypeEnum.DOKUMENTASJONKRAV,
             hendelsereferanse: "dokkravref-1234",
-            erFraInnsyn: true,
             filer: [pdfFile],
         } as DokumentasjonEtterspurtElement,
         {
             dokumenttype: "dokumenttype3",
             tilleggsinformasjon: "tilleggsinformasjon3",
-            erFraInnsyn: true,
+            hendelsetype: HendelseTypeEnum.DOKUMENTASJONKRAV,
             filer: [jpgFile, jpgFile],
         } as DokumentasjonEtterspurtElement,
     ],

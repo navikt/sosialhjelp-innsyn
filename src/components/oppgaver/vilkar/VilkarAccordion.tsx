@@ -3,7 +3,7 @@ import React from "react";
 import {FormattedMessage} from "react-intl";
 import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
-import {VilkarView} from "../VilkarView";
+import {VilkarView} from "./VilkarView";
 
 export const getUnikeVilkar = (vilkar: Vilkar[]) => {
     const vilkarCopy = Array.from(vilkar);
@@ -32,9 +32,7 @@ export const VilkarAccordion = (props: Props) => {
                 </Accordion.Header>
                 <Accordion.Content>
                     {props.feilmelding}
-                    {unikeVilkar.map((vilkarElement, index) => (
-                        <VilkarView key={index} vilkar={vilkarElement} />
-                    ))}
+                    <VilkarView vilkar={unikeVilkar} />
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>

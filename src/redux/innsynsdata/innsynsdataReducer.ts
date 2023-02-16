@@ -81,7 +81,6 @@ export interface DokumentasjonEtterspurt {
 export interface DokumentasjonEtterspurtElement {
     dokumenttype: string;
     tilleggsinformasjon?: string;
-    erFraInnsyn: boolean;
     hendelsetype: HendelseTypeEnum | undefined;
     hendelsereferanse: string | undefined;
     filer?: Fil[];

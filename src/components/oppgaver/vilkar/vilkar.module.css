@@ -1,0 +1,21 @@
+.vilkar_liste {
+    padding-inline-start: 0;
+    margin: 0;
+}
+
+.vilkar_detaljer {
+    border: 1px solid #e9e7e7;
+    border-radius: 2px;
+    padding: 1rem;
+    word-wrap: break-word;
+    list-style: none;
+}
+.vilkar_detaljer:not(:first-of-type) {
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 40em) {
+    .vilkar_detaljer {
+        padding: 0.5rem;
+    }
+}
