@@ -9,7 +9,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
+import {fetchToJson, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
@@ -19,17 +19,28 @@ import {DokumentasjonkravAccordion} from "./accordions/DokumentasjonkravAccordio
 import {DokumentasjonEtterspurtAccordion} from "./accordions/DokumentasjonEtterspurtAccordion";
 import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
+import {ErrorColored} from "@navikt/ds-icons";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
-    padding-left: 0.75rem;
+`;
+
+const StyledContainer = styled.div<{hasError?: boolean}>`
+    gap: ${(props) => (props.hasError ? "1rem" : "0rem")};
+    margin-left: ${(props) => (props.hasError ? "-1.375rem" : "0rem")};
+    padding-left: ${(props) => (props.hasError ? "0rem" : "0.75rem")};
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    word-break: break-word;
 `;
 
 const StyledAlert = styled(Alert)`
     margin-top: 0.5rem;
 `;
 
-const StyledPanel = styled(Panel)`
+const StyledPanel = styled(Panel)<{hasError?: boolean}>`
+   border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
         margin-top: 4rem;
@@ -99,6 +110,11 @@ const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
         </StyledAlert>
     ) : null;
 };
+
+const leserData = (restStatus: REST_STATUS): boolean => {
+    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+};
+
 const Oppgaver = () => {
     const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
         (state: InnsynAppState) => state.innsynsdata
@@ -109,6 +125,7 @@ const Oppgaver = () => {
     const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
+    const [restStatusError, setRestStatusError] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -172,12 +189,31 @@ const Oppgaver = () => {
         }
     }, [sakUtbetalinger, dokumentasjonkrav, vilkar]);
 
+    useEffect(() => {
+        if (
+            !leserData(restStatus.oppgaver) ||
+            !leserData(restStatus.dokumentasjonkrav) ||
+            !leserData(restStatus.vilkar)
+        ) {
+            if (
+                restStatus.oppgaver === REST_STATUS.FEILET ||
+                restStatus.dokumentasjonkrav === REST_STATUS.FEILET ||
+                restStatus.vilkar === REST_STATUS.FEILET
+            ) {
+                setRestStatusError(true);
+            }
+        }
+    }, [restStatus.oppgaver, restStatus.dokumentasjonkrav, restStatus.vilkar, restStatusError]);
+
     return (
-        <StyledPanel>
+        <StyledPanel hasError={restStatusError}>
             <StyledPanelHeader>
-                <Heading level="2" size="medium" spacing>
-                    <FormattedMessage id="oppgaver.dine_oppgaver" />
-                </Heading>
+                <StyledContainer hasError={restStatusError}>
+                    {restStatusError && <ErrorColored />}
+                    <Heading level="2" size="medium">
+                        <FormattedMessage id="oppgaver.dine_oppgaver" />
+                    </Heading>
+                </StyledContainer>
             </StyledPanelHeader>
 
             {skalViseLastestripe(restStatus.oppgaver, true) && (
