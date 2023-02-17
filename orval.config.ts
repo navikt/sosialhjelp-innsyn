@@ -1,3 +1,5 @@
+import {sendVedlegg} from "./src/generated/vedlegg-controller/vedlegg-controller";
+
 export default {
     "innsyn-api": {
         input: "./innsyn-api.json",

@@ -4,20 +4,21 @@ import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import {ErrorColored} from "@navikt/ds-icons";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {REST_STATUS} from "../../utils/restUtils";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
+import useQueryHasError from "../../hooks/useQueryHasError";
 
 enum ARKFANER {
     HISTORIKK = "Historikk",
     VEDLEGG = "Vedlegg",
 }
 
-const StyledPanel = styled(Panel)<{error: boolean}>`
+const StyledPanel = styled(Panel)<{hasError: boolean}>`
     position: relative;
     margin-top: 2rem;
     padding: 1rem 0 1rem 0;
-    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
+    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
 
     @media screen and (min-width: 641px) {
         padding-left: 60px;
@@ -50,18 +51,14 @@ interface Props {
     vedleggChildren: React.ReactNode;
 }
 
-const restStatusError = (restStatus: REST_STATUS): boolean => {
-    return (
-        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
-    );
-};
-
 const ArkfanePanel: React.FC<Props> = (props) => {
+    const fiksDigisosId = useFiksDigisosId();
     const {t} = useTranslation();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
-    const {restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const hasError = restStatusError(restStatus.hendelser) || restStatusError(restStatus.vedlegg);
+    const hendelserHasError = useQueryHasError(getHentHendelserQueryKey(fiksDigisosId));
+    const vedleggHasError = useQueryHasError(getHentVedleggQueryKey(fiksDigisosId));
 
+    const hasError = hendelserHasError || vedleggHasError;
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket
         if (valgtFane === ARKFANER.VEDLEGG) {
@@ -70,7 +67,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     }, [valgtFane]);
 
     return (
-        <StyledPanel error={+hasError}>
+        <StyledPanel hasError={hasError}>
             {hasError && <StyledErrorColored title="Feil" />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
@@ -78,13 +75,13 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     <Tabs.Tab value={ARKFANER.VEDLEGG} label={t("vedlegg.tittel")} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
-                    {restStatusError(restStatus.hendelser) && (
+                    {hendelserHasError && (
                         <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>
                     )}
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
-                    {restStatusError(restStatus.vedlegg) && (
+                    {vedleggHasError && (
                         <StyledTextPlacement>{t("feilmelding.vedlegg_innlasting")}</StyledTextPlacement>
                     )}
                     {props.vedleggChildren}

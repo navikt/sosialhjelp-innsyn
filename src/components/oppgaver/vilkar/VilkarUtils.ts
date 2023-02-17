@@ -1,12 +1,10 @@
-import {SaksStatusState} from "../../../redux/innsynsdata/innsynsdataReducer";
+import {SaksStatusResponse} from "../../../generated/model";
 
 export const harSakMedInnvilgetEllerDelvisInnvilget = (
-    innsynSaksStatusStateListe: SaksStatusState[] | undefined
+    innsynSaksStatusStateListe: SaksStatusResponse[] | undefined
 ): boolean => {
     return (
-        innsynSaksStatusStateListe !== undefined &&
-        Array.isArray(innsynSaksStatusStateListe) &&
-        innsynSaksStatusStateListe.filter((saksStatusState: SaksStatusState) => saksStatusState.skalViseVedtakInfoPanel)
-            .length > 0
+        !!innsynSaksStatusStateListe &&
+        innsynSaksStatusStateListe.filter((saksStatusState) => saksStatusState.skalViseVedtakInfoPanel).length > 0
     );
 };

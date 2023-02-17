@@ -1,11 +1,9 @@
 import {Alert} from "@navikt/ds-react";
 import React, {useEffect} from "react";
-import {logServerfeil} from "../utils/amplitude";
 import {Trans, useTranslation} from "react-i18next";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../redux/reduxTypes";
-import {REST_STATUS} from "../utils/restUtils";
+import {useQueryClient} from "@tanstack/react-query";
+import {logServerfeil} from "../utils/amplitude";
 
 const StyledWrapper = styled.div`
     position: sticky;
@@ -13,31 +11,28 @@ const StyledWrapper = styled.div`
     z-index: 1;
 `;
 
-const restStatusError = (restStatus: REST_STATUS): boolean => {
-    return (
-        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
-    );
-};
+const keys: string[] = ["hendelser", "vedlegg", "saksStatus", "oppgaver", "soknadsStatus", "dokumentasjonkrav"];
 
 export const LoadingResourcesFailedAlert = () => {
     const {t} = useTranslation();
 
-    const {soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg} = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.restStatus
-    );
-    const hasError =
-        restStatusError(soknadsStatus) ||
-        restStatusError(oppgaver) ||
-        restStatusError(vilkar) ||
-        restStatusError(dokumentasjonkrav) ||
-        restStatusError(hendelser) ||
-        restStatusError(vedlegg);
+    const queryClient = useQueryClient();
+    const queries = queryClient.getQueryCache().findAll({
+        predicate: (query) => keys.some((key) => (query.queryKey[0] as string).includes(key)),
+    });
+
+    const hasError = queries.some((it) => it.state.status === "error");
 
     useEffect(() => {
         if (hasError) {
-            logServerfeil({soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg});
+            /* Gjør dette for bakoverkompabilitet i amplitude. Burde skrives om så dette kan gjøres der dataen hentes */
+            const queryToStatus = keys.map((key) => {
+                const query = queries.find((query) => (query.queryKey[0] as string).includes(key));
+                return [key, query && query.state.status !== "error" ? "OK" : "FEILET"];
+            });
+            logServerfeil(Object.fromEntries(queryToStatus));
         }
-    }, [soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg, hasError]);
+    }, [queries, hasError]);
 
     return (
         <StyledWrapper>
