@@ -1,13 +1,17 @@
 import * as React from "react";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useTranslation} from "react-i18next";
 import EkspanderbartIkonPanel from "../paneler/EkspanderbartIkonPanel";
 import {BodyShort, Label} from "@navikt/ds-react";
 import {Attachment, List} from "@navikt/ds-icons";
 import styled from "styled-components";
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import {
+    useGetfagsystemHarDokumentasjonkrav,
+    useGetHarLevertDokumentasjonkrav,
+} from "../../generated/oppgave-controller/oppgave-controller";
+import {DokumentasjonkravResponse, VilkarResponse} from "../../generated/model";
 
 const StyledContainer = styled.div`
     display: grid;
@@ -17,32 +21,28 @@ const StyledContainer = styled.div`
 `;
 
 interface Props {
-    dokumentasjonkrav: DokumentasjonKrav[];
-    vilkar: Vilkar[];
+    dokumentasjonkrav: DokumentasjonkravResponse[] | undefined;
+    vilkar: VilkarResponse[] | undefined;
 }
 
 const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
     const {t} = useTranslation();
 
-    const innsynSaksStatusListe: SaksStatusState[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.saksStatus
-    );
+    const fiksDigisosId = useFiksDigisosId();
 
-    const harLevertDokumentasjonkrav: Boolean = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.harLevertTidligereDokumentasjonkrav
-    );
+    const {data: innsynSaksStatusListe} = useHentSaksStatuser(fiksDigisosId);
 
-    const fagsystemHarDokumentasjonkrav: Boolean = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.fagsystemHarDokumentasjonkrav
-    );
+    const {data: harLevertDokumentasjonkrav} = useGetHarLevertDokumentasjonkrav(fiksDigisosId);
+
+    const {data: fagsystemHarDokumentasjonkrav} = useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
     const harSakInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(innsynSaksStatusListe);
     const harSaker = innsynSaksStatusListe && innsynSaksStatusListe.length > 0;
 
     if (
         harSakInnvilgetEllerDelvisInnvilget &&
-        vilkar.length === 0 &&
-        dokumentasjonkrav.length === 0 &&
+        vilkar?.length === 0 &&
+        dokumentasjonkrav?.length === 0 &&
         harSaker &&
         !fagsystemHarDokumentasjonkrav &&
         !harLevertDokumentasjonkrav

@@ -34,6 +34,7 @@ export const getGetOppgaverMock = () =>
                 undefined,
             ]),
             hendelsereferanse: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            erFraInnsyn: faker.datatype.boolean(),
         })),
     }));
 
@@ -49,6 +50,7 @@ export const getGetOppgaveMedIdMock = () =>
                 undefined,
             ]),
             hendelsereferanse: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            erFraInnsyn: faker.datatype.boolean(),
         })),
     }));
 
