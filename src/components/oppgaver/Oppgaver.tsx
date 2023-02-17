@@ -18,6 +18,7 @@ import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/Dokume
 import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {DokumentasjonkravAccordion} from "./dokumentasjonkrav/DokumentasjonkravAccordion";
+import {DokumentasjonEtterspurtProvider} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtContext";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
@@ -172,12 +173,10 @@ const Oppgaver = () => {
             />
             {skalViseOppgaver && (
                 <>
-                    {brukerHarDokumentasjonEtterspurt && (
-                        <DokumentasjonEtterspurtAccordion
-                            restStatus_oppgaver={restStatus.oppgaver}
-                            dokumentasjonEtterspurt={dokumentasjonEtterspurt}
-                        />
-                    )}
+                    <DokumentasjonEtterspurtAccordion
+                        restStatus_oppgaver={restStatus.oppgaver}
+                        dokumentasjonEtterspurt={dokumentasjonEtterspurt}
+                    />
 
                     {filtrerteVilkar?.length > 0 && (
                         <VilkarAccordion

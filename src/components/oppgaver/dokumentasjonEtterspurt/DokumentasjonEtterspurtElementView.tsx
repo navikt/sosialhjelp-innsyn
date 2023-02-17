@@ -14,6 +14,7 @@ import AddFileButton, {TextAndButtonWrapper} from "./../AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
+import styles from "./dokumentasjonEtterspurt.module.css";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
@@ -21,20 +22,11 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveId: string;
-    setOverMaksStorrelse: (overMaksStorrelse: boolean) => void;
     onDelete: (oppgaveId: string, vedleggIndex: number, fil: Fil) => void;
     onAddFileChange: (files: FileList, internalIndex: number, oppgaveElement: DokumentasjonEtterspurtElement) => void;
-}> = ({
-    tittel,
-    beskrivelse,
-    oppgaveElement,
-    oppgaveElementIndex,
-    oppgaveId,
-    setOverMaksStorrelse,
-    onDelete,
-    onAddFileChange,
-}) => {
+}> = ({tittel, beskrivelse, oppgaveElement, oppgaveElementIndex, oppgaveId, onDelete, onAddFileChange}) => {
     const uuid = uuidv4();
+
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
@@ -59,7 +51,6 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const onChange = (event: any) => {
         setListeMedFilerSomFeiler([]);
-        setOverMaksStorrelse(false);
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const filesWithError: Array<FileError> = findFilesWithError(files, oppgaveElementIndex);
@@ -98,16 +89,18 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
             </TextAndButtonWrapper>
 
-            {oppgaveElement.filer &&
-                oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                    <FileItemView
-                        key={vedleggIndex}
-                        fil={fil}
-                        onDelete={(event: MouseEvent, fil) => {
-                            onDeleteClick(event, vedleggIndex, fil);
-                        }}
-                    />
-                ))}
+            <ul className={styles.unorderedList}>
+                {oppgaveElement.filer &&
+                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
+                        <FileItemView
+                            key={vedleggIndex}
+                            fil={fil}
+                            onDelete={(event: MouseEvent, fil) => {
+                                onDeleteClick(event, vedleggIndex, fil);
+                            }}
+                        />
+                    ))}
+            </ul>
             {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
                 writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
         </div>
