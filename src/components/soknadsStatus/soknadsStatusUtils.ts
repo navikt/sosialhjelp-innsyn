@@ -1,27 +1,20 @@
 import {TFunction} from "i18next";
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
-enum SoknadsStatusEnum {
-    SENDT = "SENDT",
-    MOTTATT = "MOTTATT",
-    UNDER_BEHANDLING = "UNDER_BEHANDLING",
-    FERDIGBEHANDLET = "FERDIGBEHANDLET",
-    BEHANDLES_IKKE = "BEHANDLES_IKKE",
-}
-
-const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, t: TFunction): string => {
+const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t: TFunction): string => {
     switch (status) {
-        case SoknadsStatusEnum.SENDT:
+        case SoknadsStatusResponseStatus.SENDT:
             return t("status.sendt");
-        case SoknadsStatusEnum.MOTTATT:
+        case SoknadsStatusResponseStatus.MOTTATT:
             return t("status.mottatt");
-        case SoknadsStatusEnum.UNDER_BEHANDLING:
+        case SoknadsStatusResponseStatus.UNDER_BEHANDLING:
             return t("status.under_behandling");
-        case SoknadsStatusEnum.FERDIGBEHANDLET:
+        case SoknadsStatusResponseStatus.FERDIGBEHANDLET:
             return t("status.ferdigbehandlet");
-        case SoknadsStatusEnum.BEHANDLES_IKKE:
+        case SoknadsStatusResponseStatus.BEHANDLES_IKKE:
             return t("status.behandles_ikke");
     }
     return "Søknad";
 };
 
-export {SoknadsStatusEnum, soknadsStatusTittel};
+export {soknadsStatusTittel};

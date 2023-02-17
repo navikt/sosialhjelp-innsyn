@@ -1,8 +1,8 @@
 import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
-import {SoknadsStatusEnum} from "../../components/soknadsStatus/soknadsStatusUtils";
 
 export enum HendelseTypeEnum {
     BRUKER = "bruker",
@@ -194,7 +194,7 @@ export interface VedleggActionType {
 }
 
 export interface Status {
-    status: SoknadsStatusEnum | null;
+    status: SoknadsStatusResponseStatus | null;
     tidspunktSendt: string | null;
     soknadsalderIMinutter: number;
     navKontor: string | null;

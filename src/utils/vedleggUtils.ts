@@ -2,12 +2,12 @@ import {
     Fil,
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
-    DokumentasjonKravElement,
     HendelseTypeEnum,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
+import {DokumentasjonkravElement} from "../generated/model";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
@@ -17,7 +17,7 @@ interface Metadata {
     tilleggsinfo: string | undefined;
     filer: Fil[]; // Beholder kun filnavn-feltet ved serialisering
     innsendelsesfrist: string | undefined;
-    hendelsetype: HendelseTypeEnum | undefined;
+    hendelsetype: string | undefined;
     hendelsereferanse: string | undefined;
 }
 
@@ -27,7 +27,7 @@ export const createFormDataWithVedleggFromOppgaver = (oppgave: DokumentasjonEtte
 };
 
 export const createFormDataWithVedleggFromDokumentasjonkrav = (
-    dokumentasjonkravElement: DokumentasjonKravElement,
+    dokumentasjonkravElement: DokumentasjonkravElement,
     filer: Fil[],
     frist?: string
 ) => {
@@ -40,28 +40,26 @@ export const generateMetadataFromOppgaver = (oppgave: DokumentasjonEtterspurt) =
         type: oppgaveElement.dokumenttype,
         tilleggsinfo: oppgaveElement.tilleggsinformasjon,
         innsendelsesfrist: oppgave.innsendelsesfrist,
-        filer: oppgaveElement.filer ? oppgaveElement.filer : [],
+        filer: oppgaveElement.filer ?? [],
         hendelsetype: oppgaveElement.hendelsetype,
         hendelsereferanse: oppgaveElement.hendelsereferanse,
     }));
 };
 
 export const generateMetadataFromDokumentasjonkrav = (
-    dokumentasjonkravElement: DokumentasjonKravElement,
+    dokumentasjonkravElement: DokumentasjonkravElement,
     filer: Fil[],
     frist?: string
-) => {
-    return [
-        {
-            type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
-            tilleggsinfo: dokumentasjonkravElement.beskrivelse,
-            innsendelsesfrist: frist,
-            filer: filer,
-            hendelsetype: dokumentasjonkravElement.hendelsetype,
-            hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
-        },
-    ];
-};
+): Metadata[] => [
+    {
+        type: dokumentasjonkravElement.tittel ? dokumentasjonkravElement.tittel : "",
+        tilleggsinfo: dokumentasjonkravElement.beskrivelse,
+        innsendelsesfrist: frist,
+        filer: filer,
+        hendelsetype: dokumentasjonkravElement.hendelsetype,
+        hendelsereferanse: dokumentasjonkravElement.dokumentasjonkravReferanse,
+    },
+];
 
 export const createFormDataWithVedleggFromFiler = (filer: Fil[]): FormData => {
     const metadata: Metadata[] = generateMetadataFromAndreVedlegg(filer);
@@ -184,12 +182,6 @@ export const oppgaveHasFilesWithError = (oppgaveElementer: DokumentasjonEtterspu
     });
 };
 
-export const dokumentasjonkravHasFilesWithError = (dokumentasjonKravElementer: DokumentasjonKravElement[]) => {
-    return dokumentasjonKravElementer.find((dokumentasjonkravElement) => {
-        return !dokumentasjonkravElement.filer ? false : hasFilesWithErrorStatus(dokumentasjonkravElement.filer);
-    });
-};
-
 export const hasFilesWithErrorStatus = (filer: Fil[]) => {
     return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
@@ -200,7 +192,6 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
     let sjekkMaxMengde = false;
     const filerMedFeil: Array<FileError> = [];
     let isCombinedFileSizeLegal = 0;
-
     for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
         const file: File = files[vedleggIndex];
         const filename = file.name;
