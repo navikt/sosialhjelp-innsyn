@@ -1,4 +1,8 @@
-import {DokumentasjonEtterspurtElement, Fil} from "../../../redux/innsynsdata/innsynsdataReducer";
+import {
+    DokumentasjonEtterspurtElement,
+    Fil,
+    InnsynsdataActionTypeKeys,
+} from "../../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
 import {
     alertUser,
@@ -7,7 +11,7 @@ import {
     isFileErrorsNotEmpty,
     writeErrorMessage,
 } from "../../../utils/vedleggUtils";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
 import FileItemView from "./../FileItemView";
 import AddFileButton, {TextAndButtonWrapper} from "./../AddFileButton";
@@ -15,6 +19,11 @@ import {v4 as uuidv4} from "uuid";
 import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
 import styles from "./dokumentasjonEtterspurt.module.css";
+import {
+    setFileUploadFailed,
+    setFileUploadFailedInBackend,
+    setFileUploadFailedVirusCheckInBackend,
+} from "../../../redux/innsynsdata/innsynsDataActions";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     tittel: string;
@@ -22,11 +31,10 @@ const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveId: string;
-    onDelete: (oppgaveId: string, vedleggIndex: number, fil: Fil) => void;
-    onAddFileChange: (files: FileList, internalIndex: number, oppgaveElement: DokumentasjonEtterspurtElement) => void;
-}> = ({tittel, beskrivelse, oppgaveElement, oppgaveElementIndex, oppgaveId, onDelete, onAddFileChange}) => {
+    oppgaveIndex: number;
+}> = ({tittel, beskrivelse, oppgaveElement, oppgaveElementIndex, oppgaveId, oppgaveIndex}) => {
     const uuid = uuidv4();
-
+    const dispatch = useDispatch();
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
@@ -46,7 +54,15 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const onDeleteClick = (event: any, vedleggIndex: number, fil: Fil) => {
         event.preventDefault();
-        onDelete(oppgaveId, vedleggIndex, fil);
+        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
+        dispatch({
+            type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
+            vedleggIndex: vedleggIndex,
+            oppgaveElement: oppgaveElement,
+            internalIndex: oppgaveElementIndex,
+            externalIndex: oppgaveIndex,
+            fil: fil,
+        });
     };
 
     const onChange = (event: any) => {
@@ -78,6 +94,33 @@ const DokumentasjonEtterspurtElementView: React.FC<{
         event.preventDefault();
     };
 
+    const onAddFileChange = (
+        files: FileList,
+        internalIndex: number,
+        oppgaveElement: DokumentasjonEtterspurtElement
+    ) => {
+        dispatch(setFileUploadFailed(oppgaveId, false));
+        dispatch(setFileUploadFailedInBackend(oppgaveId, false));
+        dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
+
+        Array.from(files).forEach((file: File) => {
+            if (!file) {
+                logInfoMessage("Tom fil ble forsøkt lagt til i OppgaveView.VelgFil.onChange()");
+            } else {
+                dispatch({
+                    type: InnsynsdataActionTypeKeys.LEGG_TIL_FIL_FOR_OPPLASTING,
+                    internalIndex: internalIndex,
+                    oppgaveElement: oppgaveElement,
+                    externalIndex: oppgaveIndex,
+                    fil: {
+                        filnavn: file.name,
+                        status: "INITIALISERT",
+                        file: file,
+                    },
+                });
+            }
+        });
+    };
     return (
         <div className={"oppgaver_detalj" + (visOppgaverDetaljeFeil ? " oppgaver_detalj_feil" : "")}>
             <TextAndButtonWrapper>
