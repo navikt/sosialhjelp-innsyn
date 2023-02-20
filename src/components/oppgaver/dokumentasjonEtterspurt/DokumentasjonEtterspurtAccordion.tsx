@@ -12,10 +12,9 @@ import styles from "./dokumentasjonEtterspurt.module.css";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt.length > 0) {
-        const innsendelsesfrister = dokumentasjonEtterspurt.map(
-            (dokumentasjon: DokumentasjonEtterspurt) => new Date(dokumentasjon.innsendelsesfrist!!)
-        );
-        return innsendelsesfrister[0];
+        return dokumentasjonEtterspurt[0].innsendelsesfrist
+            ? new Date(dokumentasjonEtterspurt[0].innsendelsesfrist)
+            : null;
     }
     return null;
 }
