@@ -76,7 +76,7 @@ const App = () => {
                         <BrowserRouter basename="/sosialhjelp/innsyn">
                             <QueryClientProvider client={queryClient}>
                                 <ScrollToTop />
-                                <main id="maincontent" role="main">
+                                <main id="maincontent" tabIndex={-1}>
                                     <AppBanner />
                                     <div className="blokk-center informasjon-side">
                                         <SentryRoutes>
