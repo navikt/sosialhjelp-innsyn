@@ -1,5 +1,7 @@
 import "whatwg-fetch";
 import {v4 as uuidv4} from "uuid";
+import {axiosInstance} from "../axios-instance";
+import {createLogEntry, LOG_URL} from "../redux/innsynsdata/loggActions";
 
 export function isProd(origin: string) {
     return origin.indexOf("www.nav.no") >= 0;
@@ -231,11 +233,20 @@ function sjekkStatuskode(response: Response, url: string) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
                 window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
-                console.error(
-                    "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
-                        r.id +
-                        "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
-                );
+                axiosInstance({
+                    url: getApiBaseUrl() + LOG_URL,
+                    method: "post",
+                    data: createLogEntry(
+                        "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
+                            r.id +
+                            "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).",
+                        "WARN"
+                    ),
+                })
+                    .then(() => {})
+                    .catch(() => {
+                        return; // Not important to handle those errors
+                    });
             }
         });
         throw new Error(HttpErrorType.UNAUTHORIZED);
