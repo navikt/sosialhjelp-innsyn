@@ -40,7 +40,7 @@ ul.pagination li.next {
 }
 
 ul.pagination li.active {
-    background-color: var(--navds-semantic-color-link);
+    background-color: var(--a-text-action);
     color: white;
     font-weight: 400;
     border: 1px solid #0099ff;
@@ -52,7 +52,7 @@ ul.pagination li.active a {
 }
 
 ul.pagination li.active {
-    background-color: var(--navds-semantic-color-link);
+    background-color: var(--a-text-action);
     color: white;
     font-weight: 400;
     border: 1px solid #0099ff;

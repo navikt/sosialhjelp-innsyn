@@ -1,22 +1,22 @@
 import React, {useState} from "react";
 import "./historikk.css";
-import {Hendelse} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useIntl} from "react-intl";
-import {BodyShort, Button, Label, Link} from "@navikt/ds-react";
+import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
+import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
+import {HendelseResponse} from "../../generated/model";
+import {Link} from "react-router-dom";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
 interface Props {
-    hendelser: null | Hendelse[];
-    restStatus: REST_STATUS;
+    fiksDigisosId: string;
 }
 
 const CenteredButton = styled(Button)`
@@ -29,8 +29,8 @@ const FlexContainer = styled.div`
     flex-direction: column;
 `;
 
-function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
-    return hendelser.sort((a: Hendelse, b: Hendelse) => {
+function sorterHendelserKronologisk(hendelser: HendelseResponse[]): HendelseResponse[] {
+    return hendelser.sort((a: HendelseResponse, b: HendelseResponse) => {
         let c = new Date(a.tidspunkt);
         let d = new Date(b.tidspunkt);
         return c > d ? -1 : c < d ? 1 : 0;
@@ -38,7 +38,7 @@ function sorterHendelserKronologisk(hendelser: Hendelse[]): Hendelse[] {
 }
 
 interface HistorikkListeProps {
-    hendelser: Hendelse[];
+    hendelser: HendelseResponse[];
     className: string;
     leserData: boolean;
 }
@@ -68,7 +68,9 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", "");
             return (
                 <BodyShort>
-                    <Link href="/sosialhjelp/innsyn/utbetaling">Dine utbetalinger</Link>
+                    <NavDsLink as={Link} to="/utbetaling">
+                        Dine utbetalinger
+                    </NavDsLink>
                     {beskrivelseUtenLenke}
                 </BodyShort>
             );
@@ -78,7 +80,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
 
     return (
         <ul className={className}>
-            {hendelser.map((hendelse: Hendelse, index: number) => {
+            {hendelser.map((hendelse: HendelseResponse, index: number) => {
                 return (
                     <li key={index}>
                         <Label as="p">
@@ -102,11 +104,11 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
     );
 };
 
-const KortHistorikk: React.FC<{hendelser: Hendelse[]; leserData: boolean}> = ({hendelser, leserData}) => {
+const KortHistorikk: React.FC<{hendelser: HendelseResponse[]; leserData: boolean}> = ({hendelser, leserData}) => {
     return <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />;
 };
 
-const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
+const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) => {
     const [apen, setApen] = useState(false);
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
 
@@ -140,18 +142,19 @@ const LangHistorikk: React.FC<{hendelser: Hendelse[]}> = ({hendelser}) => {
     );
 };
 
-const Historikk: React.FC<Props> = ({hendelser, restStatus}) => {
-    if (hendelser === null) {
+const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
+    const {data: hendelser, isLoading} = useHentHendelser(fiksDigisosId);
+    if (!hendelser) {
         return null;
     }
     const sorterteHendelser = sorterHendelserKronologisk(hendelser);
     if (sorterteHendelser.length < MAX_ANTALL_KORT_LISTE + 1) {
-        return <KortHistorikk hendelser={sorterteHendelser} leserData={skalViseLastestripe(restStatus)} />;
+        return <KortHistorikk hendelser={sorterteHendelser} leserData={isLoading} />;
     }
     if (sorterteHendelser.length > MAX_ANTALL_KORT_LISTE) {
         return <LangHistorikk hendelser={sorterteHendelser} />;
     }
-    return <></>;
+    return null;
 };
 
 export default Historikk;

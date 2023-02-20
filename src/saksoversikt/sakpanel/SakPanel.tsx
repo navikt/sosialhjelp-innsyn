@@ -1,9 +1,6 @@
-import React, {useEffect} from "react";
+import React from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
-import {useDispatch} from "react-redux";
-import {push} from "connected-react-router";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
-import {hentSaksdetaljer} from "../../redux/innsynsdata/innsynsDataActions";
 import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components/macro";
 import OppgaverTag from "../../components/sakspanel/OppgaverTag";
@@ -13,6 +10,8 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
+import {useNavigate} from "react-router-dom";
+import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -30,29 +29,20 @@ const StyledLinkPanel = styled(LinkPanel)`
 `;
 
 interface Props {
-    fiksDigisosId: string | null;
+    fiksDigisosId?: string;
     tittel: string;
-    status: string;
     oppdatert: string;
     key: string;
-    url: string;
+    url: string | undefined;
     kilde: string;
-    antallNyeOppgaver?: number;
-    harBlittLastetInn?: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({
-    fiksDigisosId,
-    tittel,
-    status,
-    oppdatert,
-    url,
-    kilde,
-    antallNyeOppgaver,
-    harBlittLastetInn,
-}) => {
-    const dispatch = useDispatch();
-
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde}) => {
+    const {data: saksdetaljer, isInitialLoading} = useHentSaksDetaljer(
+        {id: fiksDigisosId!},
+        {query: {enabled: kilde === "innsyn-api" && !!fiksDigisosId}}
+    );
+    const navigate = useNavigate();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
     const onClick = (event: any) => {
@@ -60,47 +50,36 @@ const SakPanel: React.FC<Props> = ({
             return;
         }
         if (kilde === "soknad-api") {
-            window.location.href = url;
+            window.location.href = url!;
         } else if (kilde === "innsyn-api") {
-            dispatch(push(`/innsyn/${fiksDigisosId}/status`));
+            navigate(`/${fiksDigisosId}/status`);
             event.preventDefault();
-        } else {
-            // do nothing?
         }
     };
-
-    let underLasting = fiksDigisosId ? !harBlittLastetInn : false;
-    let requestId = fiksDigisosId ?? "";
-
-    useEffect(() => {
-        if (kilde === "innsyn-api") {
-            dispatch(hentSaksdetaljer(requestId, false));
-        }
-    }, [dispatch, requestId, kilde]);
-
-    if (underLasting) {
+    if (isInitialLoading) {
         return (
             <StyledLastestripeWrapper>
                 <Lastestriper linjer={2} />
             </StyledLastestripeWrapper>
         );
     }
+
     return (
         <StyledLinkPanel border={false} onClick={onClick} href={linkpanelUrl}>
             <StyledLinkPanelDescription>
                 <StyledFileIcon width="2rem" />
                 <StyledSaksDetaljer>
                     <span>
-                        {fiksDigisosId === null ? (
+                        {!saksdetaljer ? (
                             <Detail>
                                 SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                             </Detail>
                         ) : (
-                            <SaksMetaData oppdatert={oppdatert} status={status} />
+                            <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
                         )}
                         <Label as="p">{tittel}</Label>
                     </span>
-                    <OppgaverTag antallNyeOppgaver={antallNyeOppgaver} />
+                    <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
                 </StyledSaksDetaljer>
             </StyledLinkPanelDescription>
         </StyledLinkPanel>

@@ -13,25 +13,36 @@ export const LoadingResourcesFailedAlert = (props: {
     loadingResourcesFailed: boolean;
     setLoadingResourcesFailed: (loadingResourcesFailed: boolean) => void;
 }) => {
-    const {saksStatus, oppgaver, hendelser, vedlegg} = useSelector(
+    const {saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg} = useSelector(
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
 
     const {setLoadingResourcesFailed} = props;
 
     useEffect(() => {
-        if (!leserData(saksStatus) && !leserData(oppgaver) && !leserData(hendelser) && !leserData(vedlegg)) {
+        if (
+            !leserData(saksStatus) ||
+            !leserData(oppgaver) ||
+            !leserData(dokumentasjonkrav) ||
+            !leserData(vilkar) ||
+            !leserData(soknadsStatus) ||
+            !leserData(hendelser) ||
+            !leserData(vedlegg)
+        ) {
             if (
                 saksStatus === REST_STATUS.FEILET ||
                 oppgaver === REST_STATUS.FEILET ||
+                dokumentasjonkrav === REST_STATUS.FEILET ||
+                vilkar === REST_STATUS.FEILET ||
+                soknadsStatus === REST_STATUS.FEILET ||
                 hendelser === REST_STATUS.FEILET ||
                 vedlegg === REST_STATUS.FEILET
             ) {
-                logServerfeil({saksStatus, oppgaver, hendelser, vedlegg});
+                logServerfeil({saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg});
                 setLoadingResourcesFailed(true);
             }
         }
-    }, [saksStatus, oppgaver, hendelser, vedlegg, setLoadingResourcesFailed]);
+    }, [saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg, setLoadingResourcesFailed]);
 
     return (
         <>

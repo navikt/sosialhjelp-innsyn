@@ -1,27 +1,26 @@
 import React, {useEffect, useState} from "react";
 import "./oppgaver.css";
 import {
-    DokumentasjonEtterspurt,
     hentHarLevertDokumentasjonkrav,
     settFagsystemHarDokumentasjonkrav,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
-import OppgaveInformasjon from "../vilkar/OppgaveInformasjon";
+import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
-import {VilkarAccordion} from "./accordions/VilkarAccordion";
-import {DokumentasjonkravAccordion} from "./accordions/DokumentasjonkravAccordion";
-import {DokumentasjonEtterspurtAccordion} from "./accordions/DokumentasjonEtterspurtAccordion";
+import {VilkarAccordion} from "./vilkar/VilkarAccordion";
+import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
 import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
+import {DokumentasjonkravAccordion} from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 
 const StyledPanelHeader = styled.div`
-    border-bottom: 2px solid var(--navds-semantic-color-border-muted);
+    border-bottom: 2px solid var(--a-border-default);
     padding-left: 0.75rem;
 `;
 
@@ -38,19 +37,6 @@ const StyledPanel = styled(Panel)`
         padding: 1rem;
         margin-top: 2rem;
 `;
-
-function foersteInnsendelsesfrist(dokumentasjonEtterspurt: null | DokumentasjonEtterspurt[]): Date | null {
-    if (dokumentasjonEtterspurt === null) {
-        return null;
-    }
-    if (dokumentasjonEtterspurt.length > 0) {
-        const innsendelsesfrister = dokumentasjonEtterspurt.map(
-            (dokumentasjon: DokumentasjonEtterspurt) => new Date(dokumentasjon.innsendelsesfrist!!)
-        );
-        return innsendelsesfrister[0];
-    }
-    return null;
-}
 
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
@@ -112,14 +98,8 @@ const Oppgaver = () => {
 
     const dispatch = useDispatch();
 
-    const brukerHarDokumentasjonEtterspurt: boolean =
-        dokumentasjonEtterspurt !== null && dokumentasjonEtterspurt.length > 0;
-    const dokumentasjonEtterspurtErFraInnsyn: boolean =
-        brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurt!![0].oppgaveElementer!![0].erFraInnsyn;
-    const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn
-        ? foersteInnsendelsesfrist(dokumentasjonEtterspurt)
-        : null;
-    const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
+    const brukerHarDokumentasjonEtterspurt = dokumentasjonEtterspurt && dokumentasjonEtterspurt.length > 0;
+
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || filtrerteDokumentasjonkrav || filtrerteVilkar;
 
     useEffect(() => {
@@ -192,15 +172,10 @@ const Oppgaver = () => {
             />
             {skalViseOppgaver && (
                 <>
-                    {brukerHarDokumentasjonEtterspurt && (
-                        <DokumentasjonEtterspurtAccordion
-                            dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
-                            antallDagerSidenFristBlePassert={antallDagerSidenFristBlePassert}
-                            innsendelsesfrist={innsendelsesfrist}
-                            restStatus_oppgaver={restStatus.oppgaver}
-                            dokumentasjonEtterspurt={dokumentasjonEtterspurt}
-                        />
-                    )}
+                    <DokumentasjonEtterspurtAccordion
+                        restStatus_oppgaver={restStatus.oppgaver}
+                        dokumentasjonEtterspurt={dokumentasjonEtterspurt}
+                    />
 
                     {filtrerteVilkar?.length > 0 && (
                         <VilkarAccordion

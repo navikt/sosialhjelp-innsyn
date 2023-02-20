@@ -17,8 +17,10 @@ const UtbetalingsoversiktIngenSoknader: React.FC = () => {
                     <Heading level="2" size="medium" spacing>
                         Vi finner ingen utbetalinger for økonomisk sosialhjelp
                     </Heading>
-                    <BodyLong>Dette kan være fordi du ikke har søkt digitalt.</BodyLong>
-                    <BodyLong>Vi kan desverre ikke vise utbetalinger for søknader som er sendt på papir.</BodyLong>
+                    <BodyLong>
+                        Dette kan være fordi kommunen din ikke kan vise utbetalinger for søknader sendt på papir, eller
+                        at utbetalingene er eldre enn 15 måneder.
+                    </BodyLong>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
 
@@ -26,7 +28,7 @@ const UtbetalingsoversiktIngenSoknader: React.FC = () => {
                 <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp"} border={false}>
                     <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
                 </LinkPanel>
-                <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp#soknad"} border={false}>
+                <LinkPanel href={"https://www.nav.no/sosialhjelp/soknad"} border={false}>
                     <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>
