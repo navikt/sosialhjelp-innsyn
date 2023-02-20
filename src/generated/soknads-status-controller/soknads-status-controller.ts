@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {SoknadsStatusResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -28,9 +29,12 @@ export const getHentSoknadsStatusQueryKey = (fiksDigisosId: string) => [
 ];
 
 export type HentSoknadsStatusQueryResult = NonNullable<Awaited<ReturnType<typeof hentSoknadsStatus>>>;
-export type HentSoknadsStatusQueryError = unknown;
+export type HentSoknadsStatusQueryError = ErrorType<unknown>;
 
-export const useHentSoknadsStatus = <TData = Awaited<ReturnType<typeof hentSoknadsStatus>>, TError = unknown>(
+export const useHentSoknadsStatus = <
+    TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
+    TError = ErrorType<unknown>
+>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>;

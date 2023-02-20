@@ -9,7 +9,7 @@ import type {UrlResponse} from "./urlResponse";
 
 export interface SoknadsStatusResponse {
     status: SoknadsStatusResponseStatus;
-    tidspunktSendt?: Date;
+    tidspunktSendt?: string;
     soknadsalderIMinutter?: number;
     navKontor?: string;
     filUrl?: UrlResponse;

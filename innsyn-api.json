@@ -614,7 +614,7 @@
                 "properties": {"dato": {"type": "string", "format": "date"}, "vedtaksfilUrl": {"type": "string"}}
             },
             "OppgaveElement": {
-                "required": ["dokumenttype", "erFraInnsyn"],
+                "required": ["dokumenttype"],
                 "type": "object",
                 "properties": {
                     "dokumenttype": {"type": "string"},
@@ -623,8 +623,7 @@
                         "type": "string",
                         "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
                     },
-                    "hendelsereferanse": {"type": "string"},
-                    "erFraInnsyn": {"type": "boolean"}
+                    "hendelsereferanse": {"type": "string"}
                 }
             },
             "OppgaveResponse": {

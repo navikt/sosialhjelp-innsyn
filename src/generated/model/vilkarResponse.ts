@@ -7,7 +7,7 @@
 import type {VilkarResponseStatus} from "./vilkarResponseStatus";
 
 export interface VilkarResponse {
-    hendelsetidspunkt: Date;
+    hendelsetidspunkt: string;
     vilkarReferanse: string;
     tittel?: string;
     beskrivelse?: string;

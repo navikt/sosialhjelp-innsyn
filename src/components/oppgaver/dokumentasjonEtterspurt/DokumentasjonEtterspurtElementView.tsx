@@ -1,4 +1,4 @@
-import {DokumentasjonEtterspurtElement, Fil} from "../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurtElement, Fil} from "../../../redux/innsynsdata/innsynsdataReducer";
 import React, {useEffect, useState} from "react";
 import {
     alertUser,
@@ -6,13 +6,13 @@ import {
     findFilesWithError,
     isFileErrorsNotEmpty,
     writeErrorMessage,
-} from "../../utils/vedleggUtils";
+} from "../../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import FileItemView from "./FileItemView";
-import AddFileButton, {TextAndButtonWrapper} from "./AddFileButton";
+import {InnsynAppState} from "../../../redux/reduxTypes";
+import FileItemView from "./../FileItemView";
+import AddFileButton, {TextAndButtonWrapper} from "./../AddFileButton";
 import {v4 as uuidv4} from "uuid";
-import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
+import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
 
 const DokumentasjonEtterspurtElementView: React.FC<{

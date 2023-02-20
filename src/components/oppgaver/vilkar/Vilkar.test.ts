@@ -1,4 +1,4 @@
-import {SaksStatusState, SaksStatus} from "../../redux/innsynsdata/innsynsdataReducer";
+import {SaksStatusState, SaksStatus} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./VilkarUtils";
 
 const saksStatus1: SaksStatusState = {

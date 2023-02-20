@@ -2,7 +2,7 @@ import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {FormattedMessage} from "react-intl";
 import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
-import DokumentasjonKravView from "../DokumentasjonKravView";
+import DokumentasjonKravView from "./DokumentasjonKravView";
 import React from "react";
 
 interface Props {
@@ -25,7 +25,7 @@ export const DokumentasjonkravAccordion = (props: Props) => {
                 <Accordion.Content>
                     {props.feilmelding}
                     {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
-                        <DokumentasjonKravView dokumentasjonkrav={krav} key={index} dokumentasjonkravIndex={index} />
+                        <DokumentasjonKravView dokumentasjonkrav={krav} key={index} />
                     ))}
                 </Accordion.Content>
             </Accordion.Item>

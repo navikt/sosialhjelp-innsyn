@@ -15,6 +15,7 @@ import type {
 } from "@tanstack/react-query";
 import type {FilOpplastingBody, OppdaterDigisosSakParams} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -40,9 +41,9 @@ export const filOpplasting = (
 
 export type FilOpplastingMutationResult = NonNullable<Awaited<ReturnType<typeof filOpplasting>>>;
 export type FilOpplastingMutationBody = FilOpplastingBody;
-export type FilOpplastingMutationError = unknown;
+export type FilOpplastingMutationError = ErrorType<unknown>;
 
-export const useFilOpplasting = <TError = unknown, TContext = unknown>(options?: {
+export const useFilOpplasting = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof filOpplasting>>,
         TError,
@@ -88,9 +89,9 @@ export const oppdaterDigisosSak = (
 
 export type OppdaterDigisosSakMutationResult = NonNullable<Awaited<ReturnType<typeof oppdaterDigisosSak>>>;
 export type OppdaterDigisosSakMutationBody = string;
-export type OppdaterDigisosSakMutationError = unknown;
+export type OppdaterDigisosSakMutationError = ErrorType<unknown>;
 
-export const useOppdaterDigisosSak = <TError = unknown, TContext = unknown>(options?: {
+export const useOppdaterDigisosSak = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof oppdaterDigisosSak>>,
         TError,
@@ -128,9 +129,9 @@ export const getInnsynsfil = (
 export const getGetInnsynsfilQueryKey = (digisosId: string) => [`/api/v1/digisosapi/${digisosId}/innsynsfil`];
 
 export type GetInnsynsfilQueryResult = NonNullable<Awaited<ReturnType<typeof getInnsynsfil>>>;
-export type GetInnsynsfilQueryError = unknown;
+export type GetInnsynsfilQueryError = ErrorType<unknown>;
 
-export const useGetInnsynsfil = <TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = unknown>(
+export const useGetInnsynsfil = <TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = ErrorType<unknown>>(
     digisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>;

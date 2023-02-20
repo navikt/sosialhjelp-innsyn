@@ -1,5 +1,4 @@
 import * as React from "react";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "./VilkarUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
@@ -8,6 +7,7 @@ import EkspanderbartIkonPanel from "../paneler/EkspanderbartIkonPanel";
 import {BodyShort, Label} from "@navikt/ds-react";
 import {Attachment, List} from "@navikt/ds-icons";
 import styled from "styled-components";
+import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
 
 const StyledContainer = styled.div`
     display: grid;

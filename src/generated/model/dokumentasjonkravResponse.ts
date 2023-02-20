@@ -8,6 +8,6 @@ import type {DokumentasjonkravElement} from "./dokumentasjonkravElement";
 
 export interface DokumentasjonkravResponse {
     dokumentasjonkravElementer: DokumentasjonkravElement[];
-    frist?: Date;
+    frist?: string;
     dokumentasjonkravId: string;
 }

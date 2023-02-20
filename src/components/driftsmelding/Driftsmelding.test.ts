@@ -11,7 +11,7 @@ const kommuneResponse_ok: KommuneResponse = {
     erInnsynMidlertidigDeaktivert: false,
     erInnsendingEttersendelseDeaktivert: false,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
-    tidspunkt: new Date(),
+    tidspunkt: new Date().toString(),
 };
 
 const kommuneResponse_innsyn_deaktivert: KommuneResponse = {
@@ -19,7 +19,7 @@ const kommuneResponse_innsyn_deaktivert: KommuneResponse = {
     erInnsynMidlertidigDeaktivert: true,
     erInnsendingEttersendelseDeaktivert: false,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
-    tidspunkt: new Date(),
+    tidspunkt: new Date().toString(),
 };
 
 const kommuneResponse_ettersendelse_deaktivert: KommuneResponse = {
@@ -27,7 +27,7 @@ const kommuneResponse_ettersendelse_deaktivert: KommuneResponse = {
     erInnsynMidlertidigDeaktivert: false,
     erInnsendingEttersendelseDeaktivert: true,
     erInnsendingEttersendelseMidlertidigDeaktivert: true,
-    tidspunkt: new Date(),
+    tidspunkt: new Date().toString(),
 };
 
 const kommuneResponse_innsyn_og_ettersendelse_deaktivert: KommuneResponse = {
@@ -35,7 +35,7 @@ const kommuneResponse_innsyn_og_ettersendelse_deaktivert: KommuneResponse = {
     erInnsynMidlertidigDeaktivert: true,
     erInnsendingEttersendelseDeaktivert: true,
     erInnsendingEttersendelseMidlertidigDeaktivert: true,
-    tidspunkt: new Date(),
+    tidspunkt: new Date().toString(),
 };
 
 const kommuneResponse_litt_diverse: KommuneResponse = {
@@ -43,7 +43,7 @@ const kommuneResponse_litt_diverse: KommuneResponse = {
     erInnsynMidlertidigDeaktivert: false,
     erInnsendingEttersendelseDeaktivert: true,
     erInnsendingEttersendelseMidlertidigDeaktivert: false,
-    tidspunkt: new Date(),
+    tidspunkt: new Date().toString(),
 };
 
 it("viser driftsmelding for riktig kommune state", () => {

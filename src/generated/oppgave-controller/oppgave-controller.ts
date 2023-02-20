@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {VilkarResponse, OppgaveResponse, DokumentasjonkravResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -26,9 +27,9 @@ export const getVilkar = (
 export const getGetVilkarQueryKey = (fiksDigisosId: string) => [`/api/v1/innsyn/${fiksDigisosId}/vilkar`];
 
 export type GetVilkarQueryResult = NonNullable<Awaited<ReturnType<typeof getVilkar>>>;
-export type GetVilkarQueryError = unknown;
+export type GetVilkarQueryError = ErrorType<unknown>;
 
-export const useGetVilkar = <TData = Awaited<ReturnType<typeof getVilkar>>, TError = unknown>(
+export const useGetVilkar = <TData = Awaited<ReturnType<typeof getVilkar>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>;
@@ -66,9 +67,9 @@ export const getOppgaver = (
 export const getGetOppgaverQueryKey = (fiksDigisosId: string) => [`/api/v1/innsyn/${fiksDigisosId}/oppgaver`];
 
 export type GetOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getOppgaver>>>;
-export type GetOppgaverQueryError = unknown;
+export type GetOppgaverQueryError = ErrorType<unknown>;
 
-export const useGetOppgaver = <TData = Awaited<ReturnType<typeof getOppgaver>>, TError = unknown>(
+export const useGetOppgaver = <TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>;
@@ -109,9 +110,9 @@ export const getGetOppgaveMedIdQueryKey = (fiksDigisosId: string, oppgaveId: str
 ];
 
 export type GetOppgaveMedIdQueryResult = NonNullable<Awaited<ReturnType<typeof getOppgaveMedId>>>;
-export type GetOppgaveMedIdQueryError = unknown;
+export type GetOppgaveMedIdQueryError = ErrorType<unknown>;
 
-export const useGetOppgaveMedId = <TData = Awaited<ReturnType<typeof getOppgaveMedId>>, TError = unknown>(
+export const useGetOppgaveMedId = <TData = Awaited<ReturnType<typeof getOppgaveMedId>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     oppgaveId: string,
     options?: {
@@ -154,11 +155,11 @@ export const getGetHarLevertDokumentasjonkravQueryKey = (fiksDigisosId: string) 
 export type GetHarLevertDokumentasjonkravQueryResult = NonNullable<
     Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>
 >;
-export type GetHarLevertDokumentasjonkravQueryError = unknown;
+export type GetHarLevertDokumentasjonkravQueryError = ErrorType<unknown>;
 
 export const useGetHarLevertDokumentasjonkrav = <
     TData = Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
-    TError = unknown
+    TError = ErrorType<unknown>
 >(
     fiksDigisosId: string,
     options?: {
@@ -202,11 +203,11 @@ export const getGetfagsystemHarDokumentasjonkravQueryKey = (fiksDigisosId: strin
 export type GetfagsystemHarDokumentasjonkravQueryResult = NonNullable<
     Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>
 >;
-export type GetfagsystemHarDokumentasjonkravQueryError = unknown;
+export type GetfagsystemHarDokumentasjonkravQueryError = ErrorType<unknown>;
 
 export const useGetfagsystemHarDokumentasjonkrav = <
     TData = Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
-    TError = unknown
+    TError = ErrorType<unknown>
 >(
     fiksDigisosId: string,
     options?: {
@@ -248,9 +249,12 @@ export const getGetDokumentasjonkravQueryKey = (fiksDigisosId: string) => [
 ];
 
 export type GetDokumentasjonkravQueryResult = NonNullable<Awaited<ReturnType<typeof getDokumentasjonkrav>>>;
-export type GetDokumentasjonkravQueryError = unknown;
+export type GetDokumentasjonkravQueryError = ErrorType<unknown>;
 
-export const useGetDokumentasjonkrav = <TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError = unknown>(
+export const useGetDokumentasjonkrav = <
+    TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>,
+    TError = ErrorType<unknown>
+>(
     fiksDigisosId: string,
     options?: {
         query?: UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>;
@@ -291,11 +295,11 @@ export const getGetDokumentasjonkravMedIdQueryKey = (fiksDigisosId: string, doku
 ];
 
 export type GetDokumentasjonkravMedIdQueryResult = NonNullable<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>>;
-export type GetDokumentasjonkravMedIdQueryError = unknown;
+export type GetDokumentasjonkravMedIdQueryError = ErrorType<unknown>;
 
 export const useGetDokumentasjonkravMedId = <
     TData = Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
-    TError = unknown
+    TError = ErrorType<unknown>
 >(
     fiksDigisosId: string,
     dokumentasjonkravId: string,

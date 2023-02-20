@@ -6,8 +6,10 @@ import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DriftsmeldingVedlegg from "../../driftsmelding/DriftsmeldingVedlegg";
 import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
 import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataReducer";
-import DokumentasjonEtterspurtView from "../DokumentasjonEtterspurtView";
+import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
+import {antallDagerEtterFrist} from "../Oppgaver";
+import {HendelseTypeEnum} from "../../../utils/vedleggUtils";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -15,13 +17,32 @@ function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
         : antallDagerSidenFristBlePassert + " dag";
 }
 
-export const DokumentasjonEtterspurtAccordion = (props: {
-    dokumentasjonEtterspurtErFraInnsyn: boolean;
-    antallDagerSidenFristBlePassert: number;
-    innsendelsesfrist: null | Date;
+function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspurt[]): Date | null {
+    if (dokumentasjonEtterspurt.length > 0) {
+        const innsendelsesfrister = dokumentasjonEtterspurt.map(
+            (dokumentasjon: DokumentasjonEtterspurt) => new Date(dokumentasjon.innsendelsesfrist!!)
+        );
+        return innsendelsesfrister[0];
+    }
+    return null;
+}
+
+interface Props {
     restStatus_oppgaver: REST_STATUS;
     dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
-}) => {
+}
+
+export const DokumentasjonEtterspurtAccordion = (props: Props) => {
+    const brukerHarDokumentasjonEtterspurt = props.dokumentasjonEtterspurt.length > 0;
+
+    const dokumentasjonEtterspurtErFraInnsyn =
+        brukerHarDokumentasjonEtterspurt &&
+        props.dokumentasjonEtterspurt[0].oppgaveElementer[0].hendelsetype === HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT;
+    const innsendelsesfrist = dokumentasjonEtterspurtErFraInnsyn
+        ? foersteInnsendelsesfrist(props.dokumentasjonEtterspurt)
+        : null;
+    const antallDagerSidenFristBlePassert = antallDagerEtterFrist(innsendelsesfrist);
+
     return (
         <Accordion>
             <Accordion.Item defaultOpen>
@@ -30,32 +51,32 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                 >
                     <div>
                         <Label as="p">
-                            {props.dokumentasjonEtterspurtErFraInnsyn ? (
+                            {dokumentasjonEtterspurtErFraInnsyn ? (
                                 <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
                             ) : (
                                 <FormattedMessage id="oppgaver.maa_sende_dok" />
                             )}
                         </Label>
                         <BodyShort>
-                            {props.dokumentasjonEtterspurtErFraInnsyn && props.antallDagerSidenFristBlePassert <= 0 && (
+                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert <= 0 && (
                                 <FormattedMessage
                                     id="oppgaver.neste_frist"
                                     values={{
                                         innsendelsesfrist:
-                                            props.innsendelsesfrist != null
-                                                ? formatDato(props.innsendelsesfrist.toISOString())
+                                            innsendelsesfrist != null
+                                                ? formatDato(innsendelsesfrist.toISOString())
                                                 : "",
                                     }}
                                 />
                             )}
-                            {props.dokumentasjonEtterspurtErFraInnsyn && props.antallDagerSidenFristBlePassert > 0 && (
+                            {dokumentasjonEtterspurtErFraInnsyn && antallDagerSidenFristBlePassert > 0 && (
                                 <FormattedMessage
                                     id="oppgaver.neste_frist_passert"
                                     values={{
-                                        antall_dager: getAntallDagerTekst(props.antallDagerSidenFristBlePassert),
+                                        antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
                                         innsendelsesfrist:
-                                            props.innsendelsesfrist != null
-                                                ? formatDato(props.innsendelsesfrist!.toISOString())
+                                            innsendelsesfrist != null
+                                                ? formatDato(innsendelsesfrist!.toISOString())
                                                 : "",
                                     }}
                                 />
@@ -64,7 +85,7 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
-                    {props.dokumentasjonEtterspurtErFraInnsyn ? (
+                    {dokumentasjonEtterspurtErFraInnsyn ? (
                         <BodyShort>
                             <FormattedMessage id="oppgaver.veileder_trenger_mer" />
                         </BodyShort>
@@ -77,7 +98,6 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                     <OpplastingAvVedleggModal />
 
                     <DriftsmeldingVedlegg leserData={skalViseLastestripe(props.restStatus_oppgaver)} />
-
                     <div>
                         {props.dokumentasjonEtterspurt !== null &&
                             props.dokumentasjonEtterspurt.map(
@@ -85,7 +105,7 @@ export const DokumentasjonEtterspurtAccordion = (props: {
                                     <DokumentasjonEtterspurtView
                                         dokumentasjonEtterspurt={dokumentasjon}
                                         key={index}
-                                        oppgaverErFraInnsyn={props.dokumentasjonEtterspurtErFraInnsyn}
+                                        oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
                                         oppgaveIndex={index}
                                     />
                                 )

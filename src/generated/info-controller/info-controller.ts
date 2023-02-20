@@ -8,6 +8,7 @@ import {useMutation} from "@tanstack/react-query";
 import type {UseMutationOptions, MutationFunction} from "@tanstack/react-query";
 import type {Logg} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -21,9 +22,9 @@ export const postKlientlogg = (logg: Logg, options?: SecondParameter<typeof axio
 
 export type PostKlientloggMutationResult = NonNullable<Awaited<ReturnType<typeof postKlientlogg>>>;
 export type PostKlientloggMutationBody = Logg;
-export type PostKlientloggMutationError = unknown;
+export type PostKlientloggMutationError = ErrorType<unknown>;
 
-export const usePostKlientlogg = <TError = unknown, TContext = unknown>(options?: {
+export const usePostKlientlogg = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
     request?: SecondParameter<typeof axiosInstance>;
 }) => {

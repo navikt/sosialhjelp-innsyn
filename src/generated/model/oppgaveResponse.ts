@@ -8,6 +8,6 @@ import type {OppgaveElement} from "./oppgaveElement";
 
 export interface OppgaveResponse {
     oppgaveId: string;
-    innsendelsesfrist?: Date;
+    innsendelsesfrist?: string;
     oppgaveElementer: OppgaveElement[];
 }

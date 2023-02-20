@@ -8,6 +8,7 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {TilgangResponse} from ".././model";
 import {axiosInstance} from "../../axios-instance";
+import type {ErrorType} from "../../axios-instance";
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
@@ -19,9 +20,9 @@ export const harTilgang = (options?: SecondParameter<typeof axiosInstance>, sign
 export const getHarTilgangQueryKey = () => [`/api/v1/innsyn/tilgang`];
 
 export type HarTilgangQueryResult = NonNullable<Awaited<ReturnType<typeof harTilgang>>>;
-export type HarTilgangQueryError = unknown;
+export type HarTilgangQueryError = ErrorType<unknown>;
 
-export const useHarTilgang = <TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export const useHarTilgang = <TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

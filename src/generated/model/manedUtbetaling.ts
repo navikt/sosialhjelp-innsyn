@@ -8,12 +8,12 @@
 export interface ManedUtbetaling {
     tittel: string;
     belop: number;
-    utbetalingsdato?: Date;
-    forfallsdato?: Date;
+    utbetalingsdato?: string;
+    forfallsdato?: string;
     status: string;
     fiksDigisosId: string;
-    fom?: Date;
-    tom?: Date;
+    fom?: string;
+    tom?: string;
     mottaker?: string;
     annenMottaker: boolean;
     kontonummer?: string;

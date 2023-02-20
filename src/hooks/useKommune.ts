@@ -1,4 +1,4 @@
-import {useParams} from "react-router";
+import {useParams} from "react-router-dom";
 import {useHentKommuneInfo} from "../generated/kommune-controller/kommune-controller";
 
 const useKommune = () => {

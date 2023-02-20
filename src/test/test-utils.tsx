@@ -7,6 +7,7 @@ import rootReducer from "../rootReducer";
 import {tekster} from "../tekster/tekster";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {BrowserRouter} from "react-router-dom";
+import Feilside from "../components/feilside/Feilside";
 
 const store = createStore(rootReducer());
 
@@ -14,15 +15,17 @@ interface Props {
     children: React.ReactNode;
 }
 
-const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
+export const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
 const Wrapper = ({children}: Props) => (
     <BrowserRouter>
         <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-                <IntlProvider defaultLocale="nb" locale="nb" messages={tekster["nb"]}>
-                    {children}
-                </IntlProvider>
-            </QueryClientProvider>
+            <Feilside>
+                <QueryClientProvider client={queryClient}>
+                    <IntlProvider defaultLocale="nb" locale="nb" messages={tekster["nb"]}>
+                        {children}
+                    </IntlProvider>
+                </QueryClientProvider>
+            </Feilside>
         </Provider>
     </BrowserRouter>
 );
