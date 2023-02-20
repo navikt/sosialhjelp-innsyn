@@ -208,12 +208,10 @@ const Oppgaver = () => {
             />
             {skalViseOppgaver && (
                 <>
-                    {brukerHarDokumentasjonEtterspurt && (
-                        <DokumentasjonEtterspurtAccordion
-                            restStatus_oppgaver={restStatus.oppgaver}
-                            dokumentasjonEtterspurt={dokumentasjonEtterspurt}
-                        />
-                    )}
+                    <DokumentasjonEtterspurtAccordion
+                        restStatus_oppgaver={restStatus.oppgaver}
+                        dokumentasjonEtterspurt={dokumentasjonEtterspurt}
+                    />
 
                     {filtrerteVilkar?.length > 0 && (
                         <VilkarAccordion
