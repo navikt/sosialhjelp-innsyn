@@ -8,6 +8,7 @@ import {
     alertUser,
     FileError,
     findFilesWithError,
+    getVisningstekster,
     isFileErrorsNotEmpty,
     writeErrorMessage,
 } from "../../../utils/vedleggUtils";
@@ -26,19 +27,21 @@ import {
 } from "../../../redux/innsynsdata/innsynsDataActions";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
-    tittel: string;
-    beskrivelse: string | undefined;
     oppgaveElement: DokumentasjonEtterspurtElement;
     oppgaveElementIndex: number;
     oppgaveId: string;
     oppgaveIndex: number;
-}> = ({tittel, beskrivelse, oppgaveElement, oppgaveElementIndex, oppgaveId, oppgaveIndex}) => {
+}> = ({oppgaveElement, oppgaveElementIndex, oppgaveId, oppgaveIndex}) => {
     const uuid = uuidv4();
     const dispatch = useDispatch();
     const [listeMedFilerSomFeiler, setListeMedFilerSomFeiler] = useState<Array<FileError>>([]);
 
     const oppgaveVedlegsOpplastingFeilet: boolean = useSelector(
         (state: InnsynAppState) => state.innsynsdata.oppgaveVedlegsOpplastingFeilet
+    );
+    let {typeTekst: tittel, tilleggsinfoTekst: beskrivelse} = getVisningstekster(
+        oppgaveElement.dokumenttype,
+        oppgaveElement.tilleggsinformasjon
     );
 
     useEffect(() => {

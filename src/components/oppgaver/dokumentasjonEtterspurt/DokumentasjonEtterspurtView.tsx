@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import {InnsynAppState} from "../../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {getVisningstekster, oppgaveHasFilesWithError} from "../../../utils/vedleggUtils";
+import {oppgaveHasFilesWithError} from "../../../utils/vedleggUtils";
 import {logDuplicationsOfUploadedAttachmentsForDokEtterspurt} from "../../../utils/amplitude";
 import {ErrorMessage} from "../../errors/ErrorMessage";
 import useKommune from "../../../hooks/useKommune";
@@ -53,16 +53,9 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 {oppgaverErFraInnsyn && <InnsendelsesFrist frist={dokumentasjonEtterspurt.innsendelsesfrist} />}
                 <ul className={styles.unorderedList}>
                     {dokumentasjonEtterspurt.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
-                        let {typeTekst, tilleggsinfoTekst} = getVisningstekster(
-                            oppgaveElement.dokumenttype,
-                            oppgaveElement.tilleggsinformasjon
-                        );
-
                         return (
                             <li key={oppgaveElementIndex}>
                                 <DokumentasjonEtterspurtElementView
-                                    tittel={typeTekst}
-                                    beskrivelse={tilleggsinfoTekst}
                                     oppgaveElement={oppgaveElement}
                                     oppgaveElementIndex={oppgaveElementIndex}
                                     oppgaveIndex={oppgaveIndex}
