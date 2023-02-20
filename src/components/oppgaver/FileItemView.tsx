@@ -21,7 +21,7 @@ const StyledErrorMessage = styled(ErrorMessage)`
     }
 `;
 
-const Wrapper = styled.div`
+const StyledLiTag = styled.li`
     margin: 1rem 0;
     max-width: 100%;
     min-height: 38px;
@@ -86,7 +86,7 @@ const FileItemView: React.FC<{
     };
 
     return (
-        <Wrapper>
+        <StyledLiTag>
             <StyledFilInfoOgKnapp>
                 <StyledFilInfo>
                     {fil.file && (
@@ -127,7 +127,7 @@ const FileItemView: React.FC<{
                         />
                     </StyledErrorMessage>
                 )}
-        </Wrapper>
+        </StyledLiTag>
     );
 };
 
