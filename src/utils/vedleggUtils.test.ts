@@ -1,7 +1,11 @@
-import {Fil, DokumentasjonEtterspurt, DokumentasjonEtterspurtElement} from "../redux/innsynsdata/innsynsdataReducer";
+import {
+    Fil,
+    DokumentasjonEtterspurt,
+    DokumentasjonEtterspurtElement,
+    HendelseTypeEnum,
+} from "../redux/innsynsdata/innsynsdataReducer";
 import {
     containsIllegalCharacters,
-    HendelseTypeEnum,
     hentFileExtension,
     generateMetadataFromAndreVedlegg,
     generateMetadataFromOppgaver,

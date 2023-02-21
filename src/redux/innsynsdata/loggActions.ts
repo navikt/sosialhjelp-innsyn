@@ -1,6 +1,6 @@
 import {fetchPost} from "../../utils/restUtils";
 
-const LOG_URL = "/info/logg";
+export const LOG_URL = "/info/logg";
 
 export function logInfoMessage(message: string, navCallId?: string) {
     loggMessage(message, "INFO", navCallId);
@@ -22,7 +22,7 @@ function loggMessage(message: string, level: LogLevel, navCallId: string | undef
         });
 }
 
-function createLogEntry(message: string, level: LogLevel) {
+export function createLogEntry(message: string, level: LogLevel) {
     return {
         level: level,
         message: message,

@@ -1,8 +1,15 @@
 import {Reducer} from "redux";
 import {setPath} from "../../utils/setPath";
 import {REST_STATUS} from "../../utils/restUtils";
-import {HendelseTypeEnum} from "../../utils/vedleggUtils";
+
 import {SoknadsStatusEnum} from "../../components/soknadsStatus/soknadsStatusUtils";
+
+export enum HendelseTypeEnum {
+    BRUKER = "bruker",
+    SOKNAD = "soknad",
+    DOKUMENTASJON_ETTERSPURT = "dokumentasjonEtterspurt",
+    DOKUMENTASJONKRAV = "dokumentasjonkrav",
+}
 
 export enum SaksStatus {
     UNDER_BEHANDLING = "UNDER_BEHANDLING",

@@ -3,10 +3,9 @@ import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DriftsmeldingVedlegg from "../../driftsmelding/DriftsmeldingVedlegg";
 import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
-import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, HendelseTypeEnum} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
-import {HendelseTypeEnum} from "../../../utils/vedleggUtils";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
 import styles from "./dokumentasjonEtterspurt.module.css";
 
