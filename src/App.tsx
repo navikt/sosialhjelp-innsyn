@@ -76,7 +76,7 @@ const App = () => {
                         <BrowserRouter basename="/sosialhjelp/innsyn">
                             <QueryClientProvider client={queryClient}>
                                 <ScrollToTop />
-                                <div id="maincontent" role="main" tabIndex={-1}>
+                                <main id="maincontent" role="main" tabIndex={-1}>
                                     <AppBanner />
                                     <div className="blokk-center informasjon-side">
                                         <SentryRoutes>
@@ -87,7 +87,7 @@ const App = () => {
                                             <Route path="*" element={<SideIkkeFunnet />} />
                                         </SentryRoutes>
                                     </div>
-                                </div>
+                                </main>
                             </QueryClientProvider>
                         </BrowserRouter>
                     </Tilgangskontrollside>
