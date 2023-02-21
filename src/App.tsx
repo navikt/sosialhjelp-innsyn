@@ -76,18 +76,17 @@ const App = () => {
                         <BrowserRouter basename="/sosialhjelp/innsyn">
                             <QueryClientProvider client={queryClient}>
                                 <ScrollToTop />
-                                <main id="maincontent" role="main">
-                                    <AppBanner />
-                                    <div className="blokk-center informasjon-side">
-                                        <SentryRoutes>
-                                            <Route path="/" element={<Saksoversikt />} />
-                                            <Route path="/utbetaling" element={<Utbetalinger />} />
-                                            <Route path="/:soknadId/status" element={<SaksStatus />} />
-                                            <Route path="/link" element={<Linkside />} />
-                                            <Route path="*" element={<SideIkkeFunnet />} />
-                                        </SentryRoutes>
-                                    </div>
-                                </main>
+
+                                <AppBanner />
+                                <div className="blokk-center informasjon-side">
+                                    <SentryRoutes>
+                                        <Route path="/" element={<Saksoversikt />} />
+                                        <Route path="/utbetaling" element={<Utbetalinger />} />
+                                        <Route path="/:soknadId/status" element={<SaksStatus />} />
+                                        <Route path="/link" element={<Linkside />} />
+                                        <Route path="*" element={<SideIkkeFunnet />} />
+                                    </SentryRoutes>
+                                </div>
                             </QueryClientProvider>
                         </BrowserRouter>
                     </Tilgangskontrollside>
