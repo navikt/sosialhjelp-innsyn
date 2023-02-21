@@ -24,22 +24,26 @@ const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
 `;
 
-const StyledContainer = styled.div<{hasError?: boolean}>`
-    gap: ${(props) => (props.hasError ? "1rem" : "0rem")};
-    margin-left: ${(props) => (props.hasError ? "-1.375rem" : "0rem")};
-    padding-left: ${(props) => (props.hasError ? "0rem" : "0.75rem")};
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    word-break: break-word;
-`;
-
 const StyledAlert = styled(Alert)`
     margin-top: 0.5rem;
 `;
 
+const StyledErrorColored = styled(ErrorColored)`
+    position: absolute;
+
+    @media screen and (min-width: 641px) {
+        top: 2.5rem;
+        left: 1.5rem;
+    }
+    @media screen and (max-width: 640px) {
+        top: 0.25rem;
+        left: 0;
+    }
+`;
+
 const StyledPanel = styled(Panel)<{hasError?: boolean}>`
-   border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
+    position: relative;
+    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
         margin-top: 4rem;
@@ -47,6 +51,7 @@ const StyledPanel = styled(Panel)<{hasError?: boolean}>`
     @media screen and (max-width: 640px) {
         padding: 1rem;
         margin-top: 2rem;
+    }
 `;
 
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
@@ -188,12 +193,10 @@ const Oppgaver = () => {
     return (
         <StyledPanel hasError={restStatusError}>
             <StyledPanelHeader>
-                <StyledContainer hasError={restStatusError}>
-                    {restStatusError && <ErrorColored />}
-                    <Heading level="2" size="medium">
-                        <FormattedMessage id="oppgaver.dine_oppgaver" />
-                    </Heading>
-                </StyledContainer>
+                {restStatusError && <StyledErrorColored />}
+                <Heading level="2" size="medium">
+                    <FormattedMessage id="oppgaver.dine_oppgaver" />
+                </Heading>
             </StyledPanelHeader>
 
             {skalViseLastestripe(restStatus.oppgaver, true) && (

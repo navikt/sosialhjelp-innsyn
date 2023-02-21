@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
@@ -8,7 +8,7 @@ import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
-import {PlaceFilled} from "@navikt/ds-icons";
+import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
@@ -18,7 +18,8 @@ const Container = styled.div`
     padding-top: 3rem;
 `;
 
-const ContentPanel = styled(Panel)`
+const ContentPanel = styled(Panel)<{hasError?: boolean}>`
+    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
     padding-top: 2rem;
     position: relative;
 `;
@@ -52,9 +53,23 @@ const ContentPanelBody = styled.div`
     }
 `;
 
+const StyledErrorColored = styled(ErrorColored)`
+    position: absolute;
+
+    @media screen and (min-width: 641px) {
+        top: 4rem;
+        left: 1.5rem;
+    }
+    @media screen and (max-width: 640px) {
+        top: 0.5rem;
+        left: 0rem;
+    }
+`;
+
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
+
 interface ContentPanelBorderProps {
     lightColor?: boolean;
 }
@@ -93,21 +108,35 @@ const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
+const leserData = (restStatus: REST_STATUS): boolean => {
+    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+};
+
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
+    const [restStatusError, setRestStatusError] = useState(false);
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
     };
 
+    useEffect(() => {
+        if (!leserData(restStatus)) {
+            if (restStatus === REST_STATUS.FEILET) {
+                setRestStatusError(true);
+            }
+        }
+    }, [restStatus, restStatusError]);
+
     return (
         <Container>
-            <ContentPanel>
+            <ContentPanel hasError={restStatusError}>
                 <Spot>
                     <SpotIcon />
                 </Spot>
                 <ContentPanelBody>
+                    {restStatusError && <StyledErrorColored />}
                     {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>
