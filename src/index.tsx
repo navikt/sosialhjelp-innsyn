@@ -31,7 +31,7 @@ const init = async () => {
         });
     }
 
-    const container = document.getElementById("root");
+    const container = document.getElementById("maincontent");
     const root = createRoot(container!);
     root.render(<App />);
 };
