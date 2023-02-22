@@ -6,10 +6,10 @@ import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
-import RemoveCircle from "../ikoner/RemoveCircle";
 import {getVisningstekster} from "../../utils/vedleggUtils";
 import {Link, Select, SortState, Table} from "@navikt/ds-react";
 import styled from "styled-components";
+import {ErrorColored} from "@navikt/ds-icons";
 
 const Vedleggliste = styled.div`
     margin-top: 1rem;
@@ -91,6 +91,10 @@ const FileErrorCell = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    svg {
+        flex-shrink: 0;
+    }
 `;
 
 interface Props {
@@ -237,13 +241,11 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
                                 <Table.Row key={index}>
-                                    {harFeilPaVedleggFraServer(vedlegg) && (
+                                    {!harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
                                             <Table.DataCell>
                                                 <FileErrorCell>
-                                                    <div>
-                                                        <RemoveCircle />
-                                                    </div>
+                                                    <ErrorColored width="1.5rem" height="1.5rem" title="Feil" />
                                                     {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
                                                 </FileErrorCell>
                                             </Table.DataCell>
@@ -251,7 +253,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                             <Table.DataCell></Table.DataCell>
                                         </>
                                     )}
-                                    {!harFeilPaVedleggFraServer(vedlegg) && (
+                                    {harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
                                             <Table.DataCell>
                                                 <StyledPaperClipSlanted />

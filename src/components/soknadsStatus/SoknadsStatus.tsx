@@ -34,7 +34,10 @@ const Spot = styled.div`
     width: 4rem;
 `;
 
-const SpotIcon = styled(PlaceFilled)`
+const SpotIcon = styled(PlaceFilled).attrs({
+    ariaHidden: true,
+    title: "spot",
+})`
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;

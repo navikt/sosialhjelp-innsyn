@@ -52,7 +52,7 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
             >
                 <StyledContainer>
                     <>
-                        <List width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                        <List width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="liste" />
                         <div>
                             <Label as="p">
                                 <FormattedMessage id={"oppgaver.vilkar"} />
@@ -63,7 +63,13 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
                         </div>
                     </>
                     <>
-                        <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                        <Attachment
+                            width="1.5rem"
+                            height="1.5rem"
+                            style={{marginTop: "6px"}}
+                            aria-hidden
+                            title="vedlegg"
+                        />
                         <div>
                             <Label as="p">
                                 <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />

@@ -112,7 +112,7 @@ const FileItemView: React.FC<{
                     size="small"
                     onClick={(event: any) => onDelete(event, fil)}
                     iconPosition="right"
-                    icon={<Delete />}
+                    icon={<Delete aria-hidden title="fjern" />}
                 >
                     <FormattedMessage id="vedlegg.fjern" />
                 </StyledDeleteButton>
