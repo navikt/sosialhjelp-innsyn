@@ -8,7 +8,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {fetchToJson, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
@@ -19,6 +19,11 @@ import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {DokumentasjonkravAccordion} from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import {ErrorColored} from "@navikt/ds-icons";
+import {
+    useGetDokumentasjonkrav,
+    useGetOppgaver,
+    useGetVilkar,
+} from "../../generated/oppgave-controller/oppgave-controller";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
@@ -102,14 +107,12 @@ const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
     ) : null;
 };
 
-const leserData = (restStatus: REST_STATUS): boolean => {
-    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-};
+interface Props {
+    fiksDigisosId: string;
+}
 
-const Oppgaver = () => {
-    const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
-        (state: InnsynAppState) => state.innsynsdata
-    );
+const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
+    const {dokumentasjonkrav, vilkar, restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
     const dokumentasjonEtterspurt = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
 
     const [sakUtbetalinger, setSakUtbetalinger] = useState<UtbetalingerResponse[]>([]);
@@ -117,6 +120,9 @@ const Oppgaver = () => {
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
     const [restStatusError, setRestStatusError] = useState(false);
+    const {isError: oppgaverError} = useGetOppgaver(fiksDigisosId);
+    const {isError: vilkarError} = useGetVilkar(fiksDigisosId);
+    const {isError: dokumentasjonkravError} = useGetDokumentasjonkrav(fiksDigisosId);
 
     const dispatch = useDispatch();
 
@@ -175,20 +181,10 @@ const Oppgaver = () => {
     }, [sakUtbetalinger, dokumentasjonkrav, vilkar]);
 
     useEffect(() => {
-        if (
-            !leserData(restStatus.oppgaver) ||
-            !leserData(restStatus.dokumentasjonkrav) ||
-            !leserData(restStatus.vilkar)
-        ) {
-            if (
-                restStatus.oppgaver === REST_STATUS.FEILET ||
-                restStatus.dokumentasjonkrav === REST_STATUS.FEILET ||
-                restStatus.vilkar === REST_STATUS.FEILET
-            ) {
-                setRestStatusError(true);
-            }
+        if (oppgaverError || vilkarError || dokumentasjonkravError) {
+            setRestStatusError(true);
         }
-    }, [restStatus.oppgaver, restStatus.dokumentasjonkrav, restStatus.vilkar, restStatusError]);
+    }, [oppgaverError, vilkarError, dokumentasjonkravError, restStatusError]);
 
     return (
         <StyledPanel hasError={restStatusError}>

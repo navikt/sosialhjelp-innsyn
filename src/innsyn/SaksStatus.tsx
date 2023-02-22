@@ -134,6 +134,7 @@ const SaksStatusView = () => {
     return (
         <>
             <LoadingResourcesFailedAlert
+                fiksDigisosId={fiksDigisosId}
                 loadingResourcesFailed={loadingResourcesFailed}
                 setLoadingResourcesFailed={setLoadingResourcesFailed}
             />
@@ -164,10 +165,11 @@ const SaksStatusView = () => {
                             soknadsStatus={innsynsdata.soknadsStatus.status}
                             sak={innsynsdata.saksStatus}
                             restStatus={restStatus.soknadsStatus}
+                            fiksDigisosId={fiksDigisosId}
                         />
                     )}
 
-                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver />}
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver fiksDigisosId={fiksDigisosId} />}
 
                     {kommune != null && kommune.erInnsynDeaktivert && (
                         <>
@@ -183,6 +185,7 @@ const SaksStatusView = () => {
                     )}
                     {(kommune == null || !kommune.erInnsynDeaktivert) && (
                         <ArkfanePanel
+                            fiksDigisosId={fiksDigisosId}
                             historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
                             vedleggChildren={
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />

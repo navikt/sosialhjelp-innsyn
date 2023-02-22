@@ -13,6 +13,7 @@ import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
 import {v4 as uuidv4} from "uuid";
+import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 
 const Container = styled.div`
     padding-top: 3rem;
@@ -102,6 +103,7 @@ interface Props {
     soknadsStatus: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
     restStatus: REST_STATUS;
+    fiksDigisosId: string;
 }
 
 const HeadingWrapper = styled.div`
@@ -112,10 +114,11 @@ const leserData = (restStatus: REST_STATUS): boolean => {
     return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
 };
 
-const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
+const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDigisosId}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
     const [restStatusError, setRestStatusError] = useState(false);
+    const {isError: soknadsStatusError} = useHentSoknadsStatus(fiksDigisosId);
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
@@ -131,12 +134,12 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
 
     return (
         <Container>
-            <ContentPanel hasError={restStatusError}>
+            <ContentPanel hasError={soknadsStatusError}>
                 <Spot>
                     <SpotIcon />
                 </Spot>
                 <ContentPanelBody>
-                    {restStatusError && <StyledErrorColored />}
+                    {soknadsStatusError && <StyledErrorColored />}
                     {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>

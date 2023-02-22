@@ -3,10 +3,9 @@ import {useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
-import {REST_STATUS} from "../../utils/restUtils";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
 import {ErrorColored} from "@navikt/ds-icons";
+import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
+import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
 
 enum ARKFANER {
     HISTORIKK = "Historikk",
@@ -40,27 +39,23 @@ const StyledErrorColored = styled(ErrorColored)`
 `;
 
 interface Props {
+    fiksDigisosId: string;
     historikkChildren: React.ReactNode;
     vedleggChildren: React.ReactNode;
 }
-
-const leserData = (restStatus: REST_STATUS): boolean => {
-    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-};
 
 const ArkfanePanel: React.FC<Props> = (props) => {
     const intl = useIntl();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
     const [restStatusError, setRestStatusError] = useState(false);
-    const {restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const {isError: hendelserError} = useHentHendelser(props.fiksDigisosId);
+    const {isError: vedleggError} = useHentVedlegg(props.fiksDigisosId);
 
     useEffect(() => {
-        if (!leserData(restStatus.hendelser) || !leserData(restStatus.vedlegg)) {
-            if (restStatus.hendelser === REST_STATUS.FEILET || restStatus.vedlegg === REST_STATUS.FEILET) {
-                setRestStatusError(true);
-            }
+        if (hendelserError || vedleggError) {
+            setRestStatusError(true);
         }
-    }, [restStatus.hendelser, restStatus.vedlegg, restStatusError]);
+    }, [hendelserError, vedleggError, restStatusError]);
 
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket

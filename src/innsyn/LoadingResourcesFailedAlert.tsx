@@ -1,48 +1,57 @@
 import {Alert, BodyShort} from "@navikt/ds-react";
 import React, {useEffect} from "react";
-import {REST_STATUS} from "../utils/restUtils";
 import {logServerfeil} from "../utils/amplitude";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../redux/reduxTypes";
-
-const leserData = (restStatus: REST_STATUS): boolean => {
-    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-};
+import {
+    useGetDokumentasjonkrav,
+    useGetOppgaver,
+    useGetVilkar,
+} from "../generated/oppgave-controller/oppgave-controller";
+import {useHentSoknadsStatus} from "../generated/soknads-status-controller/soknads-status-controller";
+import {useHentHendelser} from "../generated/hendelse-controller/hendelse-controller";
+import {useHentVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 
 export const LoadingResourcesFailedAlert = (props: {
+    fiksDigisosId: string;
     loadingResourcesFailed: boolean;
     setLoadingResourcesFailed: (loadingResourcesFailed: boolean) => void;
 }) => {
-    const {saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg} = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.restStatus
-    );
+    const {isError: soknadsStatusHasError} = useHentSoknadsStatus(props.fiksDigisosId);
+    const {isError: oppgaverHasError} = useGetOppgaver(props.fiksDigisosId);
+    const {isError: vilkarHasError} = useGetVilkar(props.fiksDigisosId);
+    const {isError: dokumentasjonkravHasError} = useGetDokumentasjonkrav(props.fiksDigisosId);
+    const {isError: hendelserHasError} = useHentHendelser(props.fiksDigisosId);
+    const {isError: vedleggHasError} = useHentVedlegg(props.fiksDigisosId);
 
     const {setLoadingResourcesFailed} = props;
 
     useEffect(() => {
         if (
-            !leserData(saksStatus) ||
-            !leserData(oppgaver) ||
-            !leserData(dokumentasjonkrav) ||
-            !leserData(vilkar) ||
-            !leserData(soknadsStatus) ||
-            !leserData(hendelser) ||
-            !leserData(vedlegg)
+            soknadsStatusHasError ||
+            oppgaverHasError ||
+            dokumentasjonkravHasError ||
+            vilkarHasError ||
+            hendelserHasError ||
+            vedleggHasError
         ) {
-            if (
-                saksStatus === REST_STATUS.FEILET ||
-                oppgaver === REST_STATUS.FEILET ||
-                dokumentasjonkrav === REST_STATUS.FEILET ||
-                vilkar === REST_STATUS.FEILET ||
-                soknadsStatus === REST_STATUS.FEILET ||
-                hendelser === REST_STATUS.FEILET ||
-                vedlegg === REST_STATUS.FEILET
-            ) {
-                logServerfeil({saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg});
-                setLoadingResourcesFailed(true);
-            }
+            logServerfeil({
+                soknadsStatusHasError,
+                oppgaverHasError,
+                vilkarHasError,
+                dokumentasjonkravHasError,
+                hendelserHasError,
+                vedleggHasError,
+            });
+            setLoadingResourcesFailed(true);
         }
-    }, [saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg, setLoadingResourcesFailed]);
+    }, [
+        soknadsStatusHasError,
+        oppgaverHasError,
+        dokumentasjonkravHasError,
+        vilkarHasError,
+        hendelserHasError,
+        vedleggHasError,
+        setLoadingResourcesFailed,
+    ]);
 
     return (
         <div style={{position: "sticky", top: 0, zIndex: 1}}>
