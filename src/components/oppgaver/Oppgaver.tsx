@@ -8,7 +8,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
+import {fetchToJson} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
@@ -35,14 +35,13 @@ const StyledAlert = styled(Alert)`
 
 const StyledErrorColored = styled(ErrorColored)`
     position: absolute;
-
     @media screen and (min-width: 641px) {
-        top: 2.5rem;
+        top: 5.25rem;
         left: 1.5rem;
     }
     @media screen and (max-width: 640px) {
-        top: 0.25rem;
-        left: 0;
+        top: 4.25rem;
+        left: 1rem;
     }
 `;
 
@@ -56,6 +55,14 @@ const StyledPanel = styled(Panel)<{hasError?: boolean}>`
     @media screen and (max-width: 640px) {
         padding: 1rem;
         margin-top: 2rem;
+    }
+`;
+
+const StyledTextPlacement = styled.div`
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
     }
 `;
 
@@ -111,9 +118,10 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
     const [restStatusError, setRestStatusError] = useState(false);
-    const {isError: oppgaverError} = useGetOppgaver(fiksDigisosId);
-    const {isError: vilkarError} = useGetVilkar(fiksDigisosId);
-    const {isError: dokumentasjonkravError} = useGetDokumentasjonkrav(fiksDigisosId);
+    const {isLoading: oppgaverLoading, isError: oppgaverError} = useGetOppgaver(fiksDigisosId);
+    const {isLoading: vilkarLoading, isError: vilkarError} = useGetVilkar(fiksDigisosId);
+    const {isLoading: dokumentasjonkravLoading, isError: dokumentasjonkravError} =
+        useGetDokumentasjonkrav(fiksDigisosId);
 
     const dispatch = useDispatch();
 
@@ -186,18 +194,22 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
                 </Heading>
             </StyledPanelHeader>
 
-            {skalViseLastestripe(restStatus.oppgaver, true) && (
+            {(oppgaverLoading || vilkarLoading || dokumentasjonkravLoading) && (
                 <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
             )}
-
-            <IngenOppgaverPanel
-                dokumentasjonEtterspurt={dokumentasjonEtterspurt}
-                dokumentasjonkrav={filtrerteDokumentasjonkrav}
-                vilkar={filtrerteVilkar}
-                leserData={skalViseLastestripe(restStatus.oppgaver)}
-            />
+            {!restStatusError && (
+                <IngenOppgaverPanel
+                    dokumentasjonEtterspurt={dokumentasjonEtterspurt}
+                    dokumentasjonkrav={filtrerteDokumentasjonkrav}
+                    vilkar={filtrerteVilkar}
+                    leserData={oppgaverLoading}
+                />
+            )}
             {skalViseOppgaver && (
                 <>
+                    {(oppgaverError || vilkarError || dokumentasjonkravError) && (
+                        <StyledTextPlacement>Ikke alt av informasjon ble lastet inn</StyledTextPlacement>
+                    )}
                     <DokumentasjonEtterspurtAccordion
                         restStatus_oppgaver={restStatus.oppgaver}
                         dokumentasjonEtterspurt={dokumentasjonEtterspurt}

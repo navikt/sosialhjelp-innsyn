@@ -27,14 +27,13 @@ const StyledPanel = styled(Panel)<{hasError?: boolean}>`
 
 const StyledErrorColored = styled(ErrorColored)`
     position: absolute;
-
     @media screen and (min-width: 641px) {
         top: 5.15rem;
         left: 1.5rem;
     }
     @media screen and (max-width: 640px) {
         top: 5.15rem;
-        left: 0;
+        left: 1rem;
     }
 `;
 
