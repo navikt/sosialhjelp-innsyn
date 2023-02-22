@@ -241,7 +241,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
                             return (
                                 <Table.Row key={index}>
-                                    {!harFeilPaVedleggFraServer(vedlegg) && (
+                                    {harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
                                             <Table.DataCell>
                                                 <FileErrorCell>
@@ -253,7 +253,7 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                                             <Table.DataCell></Table.DataCell>
                                         </>
                                     )}
-                                    {harFeilPaVedleggFraServer(vedlegg) && (
+                                    {!harFeilPaVedleggFraServer(vedlegg) && (
                                         <>
                                             <Table.DataCell>
                                                 <StyledPaperClipSlanted />
