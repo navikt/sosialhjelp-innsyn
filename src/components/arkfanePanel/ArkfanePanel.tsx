@@ -29,12 +29,18 @@ const StyledErrorColored = styled(ErrorColored)`
     position: absolute;
 
     @media screen and (min-width: 641px) {
-        top: 2rem;
+        top: 5.15rem;
         left: 1.5rem;
     }
     @media screen and (max-width: 640px) {
-        top: 0.5rem;
+        top: 5.15rem;
         left: 0;
+    }
+`;
+
+const StyledTextPlacement = styled.div`
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
     }
 `;
 
@@ -73,9 +79,11 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     <Tabs.Tab value={ARKFANER.VEDLEGG} label={intl.formatMessage({id: "vedlegg.tittel"})} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
+                    {hendelserError && <StyledTextPlacement>Historikk ble ikke hentet inn</StyledTextPlacement>}
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
+                    {vedleggError && <StyledTextPlacement>Vedlegg ble ikke hentet inn</StyledTextPlacement>}
                     {props.vedleggChildren}
                 </Tabs.Panel>
             </Tabs>
