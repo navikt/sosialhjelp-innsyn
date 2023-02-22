@@ -5,7 +5,7 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
-import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {REST_STATUS} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
 import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
@@ -58,12 +58,12 @@ const StyledErrorColored = styled(ErrorColored)`
     position: absolute;
 
     @media screen and (min-width: 641px) {
-        top: 4rem;
+        top: 3rem;
         left: 1.5rem;
     }
     @media screen and (max-width: 640px) {
-        top: 0.5rem;
-        left: 0rem;
+        top: 3.15rem;
+        left: 1rem;
     }
 `;
 
@@ -99,6 +99,12 @@ const StatusMessageVedtak = styled.div`
     margin-top: 6px;
 `;
 
+const StyledTextPlacement = styled.div`
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
+    }
+`;
+
 interface Props {
     soknadsStatus: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
@@ -118,7 +124,11 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
     const [restStatusError, setRestStatusError] = useState(false);
-    const {isError: soknadsStatusError} = useHentSoknadsStatus(fiksDigisosId);
+    const {
+        isLoading: soknadsStatusLoading,
+        isError: soknadsStatusError,
+        isSuccess: soknadsStatusSuccess,
+    } = useHentSoknadsStatus(fiksDigisosId);
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
@@ -140,7 +150,8 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                 </Spot>
                 <ContentPanelBody>
                     {soknadsStatusError && <StyledErrorColored />}
-                    {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
+                    {soknadsStatusError && <StyledTextPlacement>Søknad status ble ikke hentet inn</StyledTextPlacement>}
+                    {soknadsStatusLoading && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>
                             <Heading level="2" size="large" spacing>
@@ -157,7 +168,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                         </StyledAlert>
                     )}
 
-                    {sak?.length === 0 && !soknadBehandlesIkke && (
+                    {soknadsStatusSuccess && sak?.length === 0 && !soknadBehandlesIkke && (
                         <StatusBox>
                             <StatusMessage>
                                 <Label as="p">{intl.formatMessage({id: "saker.default_tittel"})}</Label>
