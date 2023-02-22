@@ -1,8 +1,8 @@
-import {antallDagerEtterFrist} from "../Oppgaver";
 import {BodyShort, Label} from "@navikt/ds-react";
 import {FormattedMessage} from "react-intl";
 import {formatDato} from "../../../utils/formatting";
 import React from "react";
+import {antallDagerEtterFrist} from "../InnsendelsesFrist";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1

@@ -4,7 +4,7 @@ import {render, fireEvent, screen} from "../../../test/test-utils";
 import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
 import {REST_STATUS} from "../../../utils/restUtils";
 import {Route, Routes} from "react-router-dom";
-import {HendelseTypeEnum} from "../../../utils/vedleggUtils";
+import {HendelseTypeEnum} from "../../../redux/innsynsdata/innsynsdataReducer";
 
 test("Rendrer DokumentasjonEtterspurt", async () => {
     render(

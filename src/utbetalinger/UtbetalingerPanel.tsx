@@ -23,10 +23,6 @@ const sumUtbetalinger = (utbetalingSak: UtbetalingerResponse): number => {
     return sum;
 };
 
-const StyledDetail = styled(Detail)`
-    margin-top: 1rem;
-`;
-
 const StyledHeading = styled(Heading)`
     display: flex;
     gap: 8px;
@@ -140,7 +136,6 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 </Label>
                                             </>
                                         )}
-                                        <StyledDetail>Søknaden din</StyledDetail>
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} />
                                     </UtbetalingEkspanderbart>
                                 </StyledUtbetaling>

@@ -23,7 +23,7 @@ const ForelopigSvarAlertstripe: React.FC = () => {
 
     if (forelopigSvar.harMottattForelopigSvar && soknadsStatus.status !== "FERDIGBEHANDLET") {
         return (
-            <Alert className="blokk" variant="info">
+            <Alert variant="info">
                 <FormattedMessage id={"forelopigSvar"} />
                 {forelopigSvar.link && (
                     <EksternLenke href={forelopigSvar.link} onClick={onVisForelopigSvar}>

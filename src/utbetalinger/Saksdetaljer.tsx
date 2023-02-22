@@ -1,13 +1,32 @@
 import React from "react";
-import {Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../redux/reduxTypes";
-import {REST_STATUS} from "../utils/restUtils";
-import SaksPanelUtbetalinger from "./SaksPanelUtbetalinger";
+import {useHentAlleSaker, useHentSaksDetaljer} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {SaksListeResponse} from "../generated/model";
+import {Link} from "react-router-dom";
+import {StyledFileIcon, StyledLinkPanelDescription, StyledSaksDetaljer} from "../components/sakspanel/sakspanelStyles";
+import SaksMetaData from "../components/sakspanel/SaksMetaData";
+import {Detail, Label, LinkPanel} from "@navikt/ds-react";
+import OppgaverTag from "../components/sakspanel/OppgaverTag";
+import Lastestriper from "../components/lastestriper/Lasterstriper";
+import styled from "styled-components";
+
+const StyledLinkPanel = styled(LinkPanel)`
+    &:focus {
+        box-shadow: inset var(--a-shadow-focus);
+    }
+    .navds-link-panel__content {
+        width: 100%;
+    }
+`;
+
+const StyledDetail = styled(Detail)`
+    margin-top: 1rem;
+`;
 
 const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
-    const saker: Sakstype[] = useSelector((state: InnsynAppState) => state.innsynsdata.saker);
-    const sak: Sakstype | undefined = saker.find((sak: Sakstype) => {
+    const {data: sak, isLoading: sakIsLoading} = useHentSaksDetaljer({id: fiksDigisosId});
+    const {data: alleSaker, isLoading: isAlleSakerLoading} = useHentAlleSaker();
+
+    const merOmSaken = alleSaker?.find((sak: SaksListeResponse) => {
         if (sak.fiksDigisosId === fiksDigisosId) {
             return sak;
         } else {
@@ -15,18 +34,27 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
         }
     });
 
+    if (sakIsLoading || isAlleSakerLoading) {
+        return <Lastestriper linjer={2} />;
+    }
     return (
         <>
-            {sak && (
-                <SaksPanelUtbetalinger
-                    fiksDigisosId={sak.fiksDigisosId}
-                    tittel={sak.soknadTittel}
-                    status={sak.status}
-                    oppdatert={sak.sistOppdatert}
-                    key={"sakpanel_ " + sak.fiksDigisosId}
-                    antallNyeOppgaver={sak.antallNyeOppgaver}
-                    harBlittLastetInn={sak.restStatus !== REST_STATUS.PENDING}
-                />
+            {sak && merOmSaken && (
+                <>
+                    <StyledDetail>Søknaden din</StyledDetail>
+                    <StyledLinkPanel border to={"/" + fiksDigisosId + "/status"} forwardedAs={Link}>
+                        <StyledLinkPanelDescription>
+                            <StyledFileIcon />
+                            <StyledSaksDetaljer>
+                                <span>
+                                    <SaksMetaData oppdatert={merOmSaken.sistOppdatert} status={sak.status} />
+                                    <Label as="p">{sak.soknadTittel}</Label>
+                                </span>
+                                <OppgaverTag antallNyeOppgaver={sak.antallNyeOppgaver} />
+                            </StyledSaksDetaljer>
+                        </StyledLinkPanelDescription>
+                    </StyledLinkPanel>
+                </>
             )}
         </>
     );

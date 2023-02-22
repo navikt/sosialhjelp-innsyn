@@ -3,6 +3,7 @@ import {
     DokumentasjonEtterspurt,
     DokumentasjonEtterspurtElement,
     DokumentasjonKravElement,
+    HendelseTypeEnum,
 } from "../redux/innsynsdata/innsynsdataReducer";
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
@@ -11,13 +12,6 @@ import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
-
-export enum HendelseTypeEnum {
-    BRUKER = "bruker",
-    SOKNAD = "soknad",
-    DOKUMENTASJON_ETTERSPURT = "dokumentasjonEtterspurt",
-    DOKUMENTASJONKRAV = "dokumentasjonkrav",
-}
 
 interface Metadata {
     type: string;

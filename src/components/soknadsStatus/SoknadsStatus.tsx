@@ -207,7 +207,6 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
                                                         <EksternLenke
-                                                            rel="noopener noreferrer"
                                                             href={"" + hendelse.vedtaksfilUrl}
                                                             onClick={onVisVedtak}
                                                         >
