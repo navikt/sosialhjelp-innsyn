@@ -4,6 +4,7 @@ import {FormattedMessage} from "react-intl";
 import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import React from "react";
+import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav[];
@@ -23,6 +24,7 @@ export const DokumentasjonkravAccordion = (props: Props) => {
                     </BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
+                    <OpplastingAvVedleggModal />
                     {props.feilmelding}
                     {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
                         <DokumentasjonKravView dokumentasjonkrav={krav} key={index} />
