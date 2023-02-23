@@ -119,9 +119,8 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
     const [fetchError, setFetchError] = useState(false);
     const [restStatusError, setRestStatusError] = useState(false);
     const {isLoading: oppgaverLoading, isError: oppgaverError} = useGetOppgaver(fiksDigisosId);
-    const {isLoading: vilkarLoading, isError: vilkarError} = useGetVilkar(fiksDigisosId);
-    const {isLoading: dokumentasjonkravLoading, isError: dokumentasjonkravError} =
-        useGetDokumentasjonkrav(fiksDigisosId);
+    const {isError: vilkarError} = useGetVilkar(fiksDigisosId);
+    const {isError: dokumentasjonkravError} = useGetDokumentasjonkrav(fiksDigisosId);
 
     const dispatch = useDispatch();
 
