@@ -19,8 +19,8 @@ const Container = styled.div`
     padding-top: 3rem;
 `;
 
-const ContentPanel = styled(Panel)<{hasError?: boolean}>`
-    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
+const ContentPanel = styled(Panel)<{error?: boolean}>`
+    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
     padding-top: 2rem;
     position: relative;
 `;
@@ -144,7 +144,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
 
     return (
         <Container>
-            <ContentPanel hasError={soknadsStatusError}>
+            <ContentPanel error={+soknadsStatusError}>
                 <Spot>
                     <SpotIcon />
                 </Spot>

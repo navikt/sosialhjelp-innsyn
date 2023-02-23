@@ -45,9 +45,9 @@ const StyledErrorColored = styled(ErrorColored)`
     }
 `;
 
-const StyledPanel = styled(Panel)<{hasError?: boolean}>`
+const StyledPanel = styled(Panel)<{error?: boolean}>`
     position: relative;
-    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
+    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
         margin-top: 4rem;
@@ -186,7 +186,7 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
     }, [oppgaverError, vilkarError, dokumentasjonkravError, restStatusError]);
 
     return (
-        <StyledPanel hasError={restStatusError}>
+        <StyledPanel error={+restStatusError}>
             <StyledPanelHeader>
                 {restStatusError && <StyledErrorColored />}
                 <Heading level="2" size="medium">
@@ -194,9 +194,7 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
                 </Heading>
             </StyledPanelHeader>
 
-            {(oppgaverLoading || vilkarLoading || dokumentasjonkravLoading) && (
-                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
-            )}
+            {oppgaverLoading && <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />}
             {!restStatusError && (
                 <IngenOppgaverPanel
                     dokumentasjonEtterspurt={dokumentasjonEtterspurt}

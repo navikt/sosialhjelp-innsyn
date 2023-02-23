@@ -12,11 +12,11 @@ enum ARKFANER {
     VEDLEGG = "Vedlegg",
 }
 
-const StyledPanel = styled(Panel)<{hasError?: boolean}>`
+const StyledPanel = styled(Panel)<{error: boolean}>`
     position: relative;
     margin-top: 2rem;
     padding: 1rem 0 0 0;
-    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "transparent")};
+    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
 
     @media screen and (min-width: 641px) {
         padding-left: 60px;
@@ -38,6 +38,7 @@ const StyledErrorColored = styled(ErrorColored)`
 `;
 
 const StyledTextPlacement = styled.div`
+    margin-bottom: 1rem;
     @media screen and (max-width: 640px) {
         margin-left: 2rem;
     }
@@ -70,7 +71,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     }, [valgtFane]);
 
     return (
-        <StyledPanel hasError={restStatusError}>
+        <StyledPanel error={+restStatusError}>
             {restStatusError && <StyledErrorColored />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
