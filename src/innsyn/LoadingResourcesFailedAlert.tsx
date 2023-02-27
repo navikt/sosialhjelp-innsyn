@@ -10,6 +10,13 @@ import {useHentSoknadsStatus} from "../generated/soknads-status-controller/sokna
 import {useHentHendelser} from "../generated/hendelse-controller/hendelse-controller";
 import {useHentVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 import {FormattedMessage} from "react-intl";
+import styled from "styled-components";
+
+const StyledWrapper = styled.div`
+    position: sticky;
+    top: 0;
+    z-index: 1;
+`;
 
 export const LoadingResourcesFailedAlert = (props: {
     fiksDigisosId: string;
@@ -55,12 +62,12 @@ export const LoadingResourcesFailedAlert = (props: {
     ]);
 
     return (
-        <div style={{position: "sticky", top: 0, zIndex: 1}}>
+        <StyledWrapper>
             {props.loadingResourcesFailed && (
                 <Alert variant="error" className="luft_over_16px">
                     <FormattedMessage id={"feilmelding.ressurs_innlasting"} values={{linebreak: <br />}} />
                 </Alert>
             )}
-        </div>
+        </StyledWrapper>
     );
 };
