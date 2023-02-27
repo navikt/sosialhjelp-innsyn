@@ -1,4 +1,4 @@
-import {Alert, BodyShort} from "@navikt/ds-react";
+import {Alert} from "@navikt/ds-react";
 import React, {useEffect} from "react";
 import {logServerfeil} from "../utils/amplitude";
 import {
@@ -9,6 +9,7 @@ import {
 import {useHentSoknadsStatus} from "../generated/soknads-status-controller/soknads-status-controller";
 import {useHentHendelser} from "../generated/hendelse-controller/hendelse-controller";
 import {useHentVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
+import {FormattedMessage} from "react-intl";
 
 export const LoadingResourcesFailedAlert = (props: {
     fiksDigisosId: string;
@@ -28,8 +29,8 @@ export const LoadingResourcesFailedAlert = (props: {
         if (
             soknadsStatusHasError ||
             oppgaverHasError ||
-            dokumentasjonkravHasError ||
             vilkarHasError ||
+            dokumentasjonkravHasError ||
             hendelserHasError ||
             vedleggHasError
         ) {
@@ -46,8 +47,8 @@ export const LoadingResourcesFailedAlert = (props: {
     }, [
         soknadsStatusHasError,
         oppgaverHasError,
-        dokumentasjonkravHasError,
         vilkarHasError,
+        dokumentasjonkravHasError,
         hendelserHasError,
         vedleggHasError,
         setLoadingResourcesFailed,
@@ -57,8 +58,7 @@ export const LoadingResourcesFailedAlert = (props: {
         <div style={{position: "sticky", top: 0, zIndex: 1}}>
             {props.loadingResourcesFailed && (
                 <Alert variant="error" className="luft_over_16px">
-                    <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                    <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+                    <FormattedMessage id={"feilmelding.ressurs_innlasting"} values={{linebreak: <br />}} />
                 </Alert>
             )}
         </div>

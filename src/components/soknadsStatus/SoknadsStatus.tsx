@@ -123,7 +123,7 @@ const leserData = (restStatus: REST_STATUS): boolean => {
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDigisosId}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
-    const [restStatusError, setRestStatusError] = useState(false);
+    const [LoadingResourscesError, setLoadingResourscesError] = useState(false);
     const {
         isLoading: soknadsStatusLoading,
         isError: soknadsStatusError,
@@ -135,12 +135,10 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
     };
 
     useEffect(() => {
-        if (!leserData(restStatus)) {
-            if (restStatus === REST_STATUS.FEILET) {
-                setRestStatusError(true);
-            }
+        if (soknadsStatusError) {
+            setLoadingResourscesError(true);
         }
-    }, [restStatus, restStatusError]);
+    }, [soknadsStatusError, LoadingResourscesError]);
 
     return (
         <Container>
@@ -150,7 +148,11 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                 </Spot>
                 <ContentPanelBody>
                     {soknadsStatusError && <StyledErrorColored />}
-                    {soknadsStatusError && <StyledTextPlacement>Søknad status ble ikke hentet inn</StyledTextPlacement>}
+                    {soknadsStatusError && (
+                        <StyledTextPlacement>
+                            <FormattedMessage id="feilmelding.soknadStatus_innlasting" />
+                        </StyledTextPlacement>
+                    )}
                     {soknadsStatusLoading && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>
@@ -177,7 +179,8 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                         </StatusBox>
                     )}
 
-                    {sak &&
+                    {soknadsStatusSuccess &&
+                        sak &&
                         sak.map((statusdetalj: SaksStatusState, index: number) => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;

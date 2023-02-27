@@ -117,7 +117,7 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
     const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
-    const [restStatusError, setRestStatusError] = useState(false);
+    const [LoadingResourscesError, setLoadingResourscesError] = useState(false);
     const {isLoading: oppgaverLoading, isError: oppgaverError} = useGetOppgaver(fiksDigisosId);
     const {isError: vilkarError} = useGetVilkar(fiksDigisosId);
     const {isError: dokumentasjonkravError} = useGetDokumentasjonkrav(fiksDigisosId);
@@ -180,21 +180,21 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
 
     useEffect(() => {
         if (oppgaverError || vilkarError || dokumentasjonkravError) {
-            setRestStatusError(true);
+            setLoadingResourscesError(true);
         }
-    }, [oppgaverError, vilkarError, dokumentasjonkravError, restStatusError]);
+    }, [oppgaverError, vilkarError, dokumentasjonkravError, LoadingResourscesError]);
 
     return (
-        <StyledPanel error={+restStatusError}>
+        <StyledPanel error={+LoadingResourscesError}>
             <StyledPanelHeader>
-                {restStatusError && <StyledErrorColored />}
+                {LoadingResourscesError && <StyledErrorColored />}
                 <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
             </StyledPanelHeader>
 
             {oppgaverLoading && <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />}
-            {!restStatusError && (
+            {!LoadingResourscesError && (
                 <IngenOppgaverPanel
                     dokumentasjonEtterspurt={dokumentasjonEtterspurt}
                     dokumentasjonkrav={filtrerteDokumentasjonkrav}
@@ -205,7 +205,9 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
             {skalViseOppgaver && (
                 <>
                     {(oppgaverError || vilkarError || dokumentasjonkravError) && (
-                        <StyledTextPlacement>Ikke alt av informasjon ble lastet inn</StyledTextPlacement>
+                        <StyledTextPlacement>
+                            <FormattedMessage id="feilmelding.dineOppgaver_innlasting" />
+                        </StyledTextPlacement>
                     )}
                     <DokumentasjonEtterspurtAccordion
                         restStatus_oppgaver={restStatus.oppgaver}

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useIntl} from "react-intl";
+import {FormattedMessage, useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
@@ -53,15 +53,15 @@ interface Props {
 const ArkfanePanel: React.FC<Props> = (props) => {
     const intl = useIntl();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
-    const [restStatusError, setRestStatusError] = useState(false);
+    const [LoadingResourscesError, setLoadingResourscesError] = useState(false);
     const {isError: hendelserError} = useHentHendelser(props.fiksDigisosId);
     const {isError: vedleggError} = useHentVedlegg(props.fiksDigisosId);
 
     useEffect(() => {
         if (hendelserError || vedleggError) {
-            setRestStatusError(true);
+            setLoadingResourscesError(true);
         }
-    }, [hendelserError, vedleggError, restStatusError]);
+    }, [hendelserError, vedleggError, LoadingResourscesError]);
 
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket
@@ -71,19 +71,27 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     }, [valgtFane]);
 
     return (
-        <StyledPanel error={+restStatusError}>
-            {restStatusError && <StyledErrorColored />}
+        <StyledPanel error={+LoadingResourscesError}>
+            {LoadingResourscesError && <StyledErrorColored />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
                     <Tabs.Tab value={ARKFANER.HISTORIKK} label={intl.formatMessage({id: "historikk.tittel"})} />
                     <Tabs.Tab value={ARKFANER.VEDLEGG} label={intl.formatMessage({id: "vedlegg.tittel"})} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
-                    {hendelserError && <StyledTextPlacement>Historikk ble ikke hentet inn</StyledTextPlacement>}
+                    {hendelserError && (
+                        <StyledTextPlacement>
+                            <FormattedMessage id="feilmelding.historikk_innlasting" />
+                        </StyledTextPlacement>
+                    )}
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
-                    {vedleggError && <StyledTextPlacement>Vedlegg ble ikke hentet inn</StyledTextPlacement>}
+                    {vedleggError && (
+                        <StyledTextPlacement>
+                            <FormattedMessage id="feilmelding.vedlegg_innlasting" />
+                        </StyledTextPlacement>
+                    )}
                     {props.vedleggChildren}
                 </Tabs.Panel>
             </Tabs>
