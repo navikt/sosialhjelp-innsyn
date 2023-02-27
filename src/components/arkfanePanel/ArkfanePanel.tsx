@@ -15,7 +15,7 @@ enum ARKFANER {
 const StyledPanel = styled(Panel)<{error: boolean}>`
     position: relative;
     margin-top: 2rem;
-    padding: 1rem 0 0 0;
+    padding: 1rem 0 1rem 0;
     border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
 
     @media screen and (min-width: 641px) {

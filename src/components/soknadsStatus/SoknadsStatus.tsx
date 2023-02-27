@@ -116,10 +116,6 @@ const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
-const leserData = (restStatus: REST_STATUS): boolean => {
-    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-};
-
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDigisosId}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
