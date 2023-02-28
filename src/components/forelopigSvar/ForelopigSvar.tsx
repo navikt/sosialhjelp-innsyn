@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert} from "@navikt/ds-react";
@@ -9,6 +9,7 @@ import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/so
 
 const ForelopigSvarAlertstripe: React.FC = () => {
     const {soknadId} = useParams<{soknadId: string}>();
+    const {t} = useTranslation();
 
     const {data: forelopigSvar} = useHentForelopigSvarStatus(soknadId!);
     const {data: soknadsStatus} = useHentSoknadsStatus(soknadId!);
@@ -24,12 +25,10 @@ const ForelopigSvarAlertstripe: React.FC = () => {
     if (forelopigSvar.harMottattForelopigSvar && soknadsStatus.status !== "FERDIGBEHANDLET") {
         return (
             <Alert variant="info">
-                <FormattedMessage id={"forelopigSvar"} />
+                {t("forelopigSvar")}
                 {forelopigSvar.link && (
                     <EksternLenke href={forelopigSvar.link} onClick={onVisForelopigSvar}>
-                        <b>
-                            <FormattedMessage id="historikk.se_vedtaksbrev" />
-                        </b>
+                        <b>{t("historikk.se_vedtaksbrev")}</b>
                     </EksternLenke>
                 )}
             </Alert>

@@ -1,5 +1,5 @@
 import {BodyShort, Label} from "@navikt/ds-react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {formatDato} from "../../../utils/formatting";
 import React from "react";
 import {antallDagerEtterFrist} from "../InnsendelsesFrist";
@@ -15,51 +15,42 @@ interface NesteInnsendelsesFristProps {
 }
 export const NesteInnsendelsesFrist = (props: NesteInnsendelsesFristProps) => {
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(props.innsendelsesfrist);
+    const {t} = useTranslation();
 
     return (
         <BodyShort>
-            {antallDagerSidenFristBlePassert <= 0 ? (
-                <FormattedMessage
-                    id="oppgaver.neste_frist"
-                    values={{
-                        innsendelsesfrist: props.innsendelsesfrist
-                            ? formatDato(props.innsendelsesfrist.toISOString())
-                            : "",
-                    }}
-                />
-            ) : (
-                <FormattedMessage
-                    id="oppgaver.neste_frist_passert"
-                    values={{
-                        antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
-                        innsendelsesfrist: props.innsendelsesfrist
-                            ? formatDato(props.innsendelsesfrist.toISOString())
-                            : "",
-                    }}
-                />
-            )}
+            {antallDagerSidenFristBlePassert <= 0
+                ? t("oppgaver.neste_frist", {
+                      innsendelsesfrist: props.innsendelsesfrist
+                          ? formatDato(props.innsendelsesfrist.toISOString())
+                          : "",
+                  })
+                : t("oppgaver.neste_frist_passert", {
+                      antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
+                      innsendelsesfrist: props.innsendelsesfrist
+                          ? formatDato(props.innsendelsesfrist.toISOString())
+                          : "",
+                  })}
         </BodyShort>
     );
 };
 export const MaaSendeDokTekst = (props: {dokumentasjonEtterspurtErFraInnsyn: boolean}) => {
+    const {t} = useTranslation();
+
     return (
         <Label as="p">
-            {props.dokumentasjonEtterspurtErFraInnsyn ? (
-                <FormattedMessage id="oppgaver.maa_sende_dok_veileder" />
-            ) : (
-                <FormattedMessage id="oppgaver.maa_sende_dok" />
-            )}
+            {props.dokumentasjonEtterspurtErFraInnsyn
+                ? t("oppgaver.maa_sende_dok_veileder")
+                : t("oppgaver.maa_sende_dok")}
         </Label>
     );
 };
 export const InfoOmOppgaver = (props: {dokumentasjonEtterspurtErFraInnsyn: boolean}) => {
+    const {t} = useTranslation();
+
     return props.dokumentasjonEtterspurtErFraInnsyn ? (
-        <BodyShort>
-            <FormattedMessage id="oppgaver.veileder_trenger_mer" />
-        </BodyShort>
+        <BodyShort>{t("oppgaver.veileder_trenger_mer")}</BodyShort>
     ) : (
-        <BodyShort>
-            <FormattedMessage id="oppgaver.last_opp_vedlegg_ikke" />
-        </BodyShort>
+        <BodyShort>{t("oppgaver.last_opp_vedlegg_ikke")}</BodyShort>
     );
 };

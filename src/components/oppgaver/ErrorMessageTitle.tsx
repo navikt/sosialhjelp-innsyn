@@ -1,26 +1,24 @@
 import React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {ErrorMessage} from "../errors/ErrorMessage";
 
 const ErrorMessageTitle = (props: {feilId: string; filnavn: string; listeMedFil: any}) => {
+    const {t} = useTranslation();
+
     if (props.listeMedFil.length > 1) {
         return (
             <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={props.feilId} values={{antallFiler: props.listeMedFil.length}} />
+                {t(props.feilId, {antallFiler: props.listeMedFil.length})}
             </ErrorMessage>
         );
     } else if (props.listeMedFil.length === 1) {
         return (
             <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={props.feilId} values={{filnavn: props.filnavn}} />
+                {t(props.feilId, {filnavn: props.filnavn})}
             </ErrorMessage>
         );
     } else {
-        return (
-            <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
-                <FormattedMessage id={props.feilId} />
-            </ErrorMessage>
-        );
+        return <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">{t(props.feilId)}</ErrorMessage>;
     }
 };
 

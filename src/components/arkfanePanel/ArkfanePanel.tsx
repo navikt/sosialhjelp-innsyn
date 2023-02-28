@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
-import {useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Tabs, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
+import {useTranslation} from "react-i18next";
 
 enum ARKFANER {
     HISTORIKK = "Historikk",
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const ArkfanePanel: React.FC<Props> = (props) => {
-    const intl = useIntl();
+    const {t} = useTranslation();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
 
     useEffect(() => {
@@ -40,8 +40,8 @@ const ArkfanePanel: React.FC<Props> = (props) => {
         <StyledPanel>
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
-                    <Tabs.Tab value={ARKFANER.HISTORIKK} label={intl.formatMessage({id: "historikk.tittel"})} />
-                    <Tabs.Tab value={ARKFANER.VEDLEGG} label={intl.formatMessage({id: "vedlegg.tittel"})} />
+                    <Tabs.Tab value={ARKFANER.HISTORIKK} label={t("historikk.tittel")} />
+                    <Tabs.Tab value={ARKFANER.VEDLEGG} label={t("vedlegg.tittel")} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
                     {props.historikkChildren}

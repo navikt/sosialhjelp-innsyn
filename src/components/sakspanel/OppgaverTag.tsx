@@ -1,4 +1,4 @@
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import React from "react";
 import styled from "styled-components/macro";
 import {Tag} from "@navikt/ds-react";
@@ -8,10 +8,10 @@ const StyledTag = styled(Tag)`
 `;
 
 const OppgaverTag = (props: {antallNyeOppgaver?: number}) => {
+    const {t} = useTranslation();
+
     return props.antallNyeOppgaver !== undefined && props.antallNyeOppgaver >= 1 ? (
-        <StyledTag variant="warning">
-            <FormattedMessage id="saker.oppgave" />
-        </StyledTag>
+        <StyledTag variant="warning">{t("saker.oppgave")}</StyledTag>
     ) : null;
 };
 export default OppgaverTag;

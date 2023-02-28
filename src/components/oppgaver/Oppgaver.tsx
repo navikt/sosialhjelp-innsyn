@@ -5,7 +5,7 @@ import {
     settFagsystemHarDokumentasjonkrav,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
@@ -77,6 +77,7 @@ const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
     ) : null;
 };
 const Oppgaver = () => {
+    const {t} = useTranslation();
     const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
         (state: InnsynAppState) => state.innsynsdata
     );
@@ -147,7 +148,7 @@ const Oppgaver = () => {
         <StyledPanel>
             <StyledPanelHeader>
                 <Heading level="2" size="medium" spacing>
-                    <FormattedMessage id="oppgaver.dine_oppgaver" />
+                    {t("oppgaver.dine_oppgaver")}
                 </Heading>
             </StyledPanelHeader>
 

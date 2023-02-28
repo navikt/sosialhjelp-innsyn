@@ -15,7 +15,6 @@ import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
-import {tekster} from "./tekster/tekster";
 import "./App.css";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
@@ -29,6 +28,7 @@ import AppBanner from "./components/appBanner/AppBanner";
 import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
 import Linkside from "./components/linkside/Linkside";
+import {useTranslation} from "react-i18next";
 const store = configureStore();
 
 const visSpraakNokler = (tekster: any) => {
@@ -66,26 +66,27 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 const queryClient = new QueryClient();
 
 const App = () => {
-    const language = "nb";
+    const {i18n} = useTranslation();
 
     return (
         <Provider store={store}>
-            <IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
+            <IntlProvider defaultLocale={"nb"} locale={"nb"}>
                 <Feilside>
                     <Tilgangskontrollside>
                         <BrowserRouter basename="/sosialhjelp/innsyn">
                             <QueryClientProvider client={queryClient}>
                                 <ScrollToTop />
-
-                                <AppBanner />
-                                <div className="blokk-center informasjon-side">
-                                    <SentryRoutes>
-                                        <Route path="/" element={<Saksoversikt />} />
-                                        <Route path="/utbetaling" element={<Utbetalinger />} />
-                                        <Route path="/:soknadId/status" element={<SaksStatus />} />
-                                        <Route path="/link" element={<Linkside />} />
-                                        <Route path="*" element={<SideIkkeFunnet />} />
-                                    </SentryRoutes>
+                                <div lang={i18n.language}>
+                                    <AppBanner />
+                                    <div className="blokk-center informasjon-side">
+                                        <SentryRoutes>
+                                            <Route path="/" element={<Saksoversikt />} />
+                                            <Route path="/utbetaling" element={<Utbetalinger />} />
+                                            <Route path="/:soknadId/status" element={<SaksStatus />} />
+                                            <Route path="/link" element={<Linkside />} />
+                                            <Route path="*" element={<SideIkkeFunnet />} />
+                                        </SentryRoutes>
+                                    </div>
                                 </div>
                             </QueryClientProvider>
                         </BrowserRouter>

@@ -3,7 +3,7 @@ import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {REST_STATUS} from "../../utils/restUtils";
 import {BodyShort, Button, Link} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
@@ -76,8 +76,8 @@ const FileItemView: React.FC<{
     fil: Fil;
     onDelete: (event: any, fil: Fil) => void;
 }> = ({fil, onDelete}) => {
+    const {t} = useTranslation();
     const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
-
     const [modalVises, setModalVises] = useState(false);
 
     const onVisVedlegg = (event: ClickEvent): void => {
@@ -114,17 +114,17 @@ const FileItemView: React.FC<{
                     iconPosition="right"
                     icon={<Delete />}
                 >
-                    <FormattedMessage id="vedlegg.fjern" />
+                    {t("vedlegg.fjern")}
                 </StyledDeleteButton>
             </StyledFilInfoOgKnapp>
             {fil.status !== REST_STATUS.INITIALISERT &&
                 fil.status !== REST_STATUS.PENDING &&
                 fil.status !== REST_STATUS.OK && (
                     <StyledErrorMessage>
-                        <FormattedMessage
-                            id={"vedlegg.opplasting_feilmelding_" + fil.status}
-                            defaultMessage={"Vi klarte dessverre ikke lese filen din. Årsaken er ukjent."}
-                        />
+                        {t(
+                            "vedlegg.opplasting_feilmelding_" + fil.status,
+                            "Vi klarte dessverre ikke lese filen din. Årsaken er ukjent."
+                        )}
                     </StyledErrorMessage>
                 )}
         </StyledLiTag>

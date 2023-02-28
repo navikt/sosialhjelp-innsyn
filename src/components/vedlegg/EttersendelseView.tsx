@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {REST_STATUS} from "../../utils/restUtils";
@@ -45,6 +45,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
     const uuid = uuidv4();
+    const {t} = useTranslation();
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
 
@@ -163,12 +164,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                 >
                     <TextAndButtonWrapper>
                         <div>
-                            <Label as="p">
-                                <FormattedMessage id="andre_vedlegg.type" />
-                            </Label>
-                            <BodyShort>
-                                <FormattedMessage id="andre_vedlegg.tilleggsinfo" />
-                            </BodyShort>
+                            <Label as="p">{t("andre_vedlegg.type")}</Label>
+                            <BodyShort>{t("andre_vedlegg.tilleggsinfo")}</BodyShort>
                         </div>
                         {kanLasteOppVedlegg && (
                             <AddFileButton onChange={onChange} referanse={BACKEND_FEIL_ID} id={uuid} />
@@ -212,34 +209,32 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         iconPosition="right"
                         icon={vedleggLastesOpp && <Loader />}
                     >
-                        <FormattedMessage id="andre_vedlegg.send_knapp_tittel" />
+                        {t("andre_vedlegg.send_knapp_tittel")}
                     </Button>
                 </ButtonWrapper>
             </div>
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                    {t("vedlegg.opplasting_backend_feilmelding")}
                 </ErrorMessage>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
+                    {t("vedlegg.opplasting_backend_virus_feilmelding")}
                 </ErrorMessage>
             )}
 
             {overMaksStorrelse && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.ulovlig_storrelse_av_alle_valgte_filer"} />
+                    {t("vedlegg.ulovlig_storrelse_av_alle_valgte_filer")}
                 </ErrorMessage>
             )}
 
             {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage
-                        id={opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg"}
-                    />
+                    {t(opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg")}
                 </ErrorMessage>
             )}
         </>

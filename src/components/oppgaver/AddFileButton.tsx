@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {Button} from "@navikt/ds-react";
 import {Upload} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
@@ -31,6 +31,8 @@ const AddFileButton: React.FC<{
     referanse: string;
     id: string;
 }> = ({onChange, referanse, id}) => {
+    const {t} = useTranslation();
+
     const onClick = (event?: any): void => {
         const uploadElement: any = document.getElementById("file_" + id);
         uploadElement.click();
@@ -48,7 +50,7 @@ const AddFileButton: React.FC<{
                 onClick={onClick}
                 icon={<StyledUploadIcon />}
             >
-                <FormattedMessage id="vedlegg.velg_fil" />
+                {t("vedlegg.velg_fil")}
             </StyledButton>
             <input
                 type="file"

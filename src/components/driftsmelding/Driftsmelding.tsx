@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {Driftsmelding, DriftsmeldingTypeKeys, getDriftsmeldingByKommuneResponse} from "./DriftsmeldingUtilities";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {Alert, Label} from "@navikt/ds-react";
@@ -12,6 +12,7 @@ const StyledAlert = styled(Alert)`
 
 const DriftsmeldingAlertstripe: React.FC = () => {
     const {kommune} = useKommune();
+    const {t} = useTranslation();
 
     const driftsmelding: Driftsmelding = getDriftsmeldingByKommuneResponse(kommune);
     const Tidspunkt = () => (
@@ -30,7 +31,7 @@ const DriftsmeldingAlertstripe: React.FC = () => {
             return (
                 <StyledAlert variant="error">
                     <Tidspunkt />
-                    <FormattedMessage id={driftsmelding.textKey} />
+                    {t(driftsmelding.textKey)}
                 </StyledAlert>
             );
         case DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN:

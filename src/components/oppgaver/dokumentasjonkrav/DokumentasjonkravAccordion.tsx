@@ -1,6 +1,6 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import React from "react";
@@ -11,16 +11,14 @@ interface Props {
 }
 
 export const DokumentasjonkravAccordion = (props: Props) => {
+    const {t} = useTranslation();
+
     return (
         <Accordion>
             <Accordion.Item defaultOpen>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}>
-                    <Label as="p">
-                        <FormattedMessage id="dokumentasjonkrav.dokumentasjon_stonad" />
-                    </Label>
-                    <BodyShort>
-                        <FormattedMessage id="dokumentasjonkrav.veileder_trenger_mer" />
-                    </BodyShort>
+                    <Label as="p">{t("dokumentasjonkrav.dokumentasjon_stonad")}</Label>
+                    <BodyShort>{t("dokumentasjonkrav.veileder_trenger_mer")}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
                     {props.feilmelding}

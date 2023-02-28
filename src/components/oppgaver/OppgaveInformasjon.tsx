@@ -2,7 +2,7 @@ import * as React from "react";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {DokumentasjonKrav, SaksStatusState, Vilkar} from "../../redux/innsynsdata/innsynsdataReducer";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import EkspanderbartIkonPanel from "../paneler/EkspanderbartIkonPanel";
 import {BodyShort, Label} from "@navikt/ds-react";
 import {Attachment, List} from "@navikt/ds-icons";
@@ -22,6 +22,8 @@ interface Props {
 }
 
 const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
+    const {t} = useTranslation();
+
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
@@ -47,30 +49,22 @@ const OppgaveInformasjon: React.FC<Props> = ({dokumentasjonkrav, vilkar}) => {
     ) {
         return (
             <EkspanderbartIkonPanel
-                tittel={<FormattedMessage id={"oppgaver.vilkar.tittel"} />}
-                underTittel={<FormattedMessage id={"oppgaver.vilkar.tittel.tekst"} />}
+                tittel={t("oppgaver.vilkar.tittel")}
+                underTittel={t("oppgaver.vilkar.tittel.tekst")}
             >
                 <StyledContainer>
                     <>
                         <List width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
                         <div>
-                            <Label as="p">
-                                <FormattedMessage id={"oppgaver.vilkar"} />
-                            </Label>
-                            <BodyShort>
-                                <FormattedMessage id={"oppgaver.vilkar.beskrivelse"} />
-                            </BodyShort>
+                            <Label as="p">{t("oppgaver.vilkar")}</Label>
+                            <BodyShort>{t("oppgaver.vilkar.beskrivelse")}</BodyShort>
                         </div>
                     </>
                     <>
                         <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
                         <div>
-                            <Label as="p">
-                                <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav"} />
-                            </Label>
-                            <BodyShort>
-                                <FormattedMessage id={"oppgaver.vilkar.dokumentasjonskrav.beskrivelse"} />
-                            </BodyShort>
+                            <Label as="p">{t("oppgaver.vilkar.dokumentasjonskrav")}</Label>
+                            <BodyShort>{t("oppgaver.vilkar.dokumentasjonskrav.beskrivelse")}</BodyShort>
                         </div>
                     </>
                 </StyledContainer>
