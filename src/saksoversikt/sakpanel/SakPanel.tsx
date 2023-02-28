@@ -67,7 +67,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
     return (
         <StyledLinkPanel border={false} onClick={onClick} href={linkpanelUrl}>
             <StyledLinkPanelDescription>
-                <StyledFileIcon width="2rem" />
+                <StyledFileIcon width="2rem" aria-hidden />
                 <StyledSaksDetaljer>
                     <span>
                         {!saksdetaljer ? (
