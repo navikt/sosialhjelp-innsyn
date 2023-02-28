@@ -134,7 +134,7 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
                 variant="tertiary"
                 onClick={toggleOpen}
                 iconPosition={"right"}
-                icon={apen ? <Collapse /> : <Expand />}
+                icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
             >
                 {apen ? "Lukk" : `Vis alle (${hendelser.length})`}
             </CenteredButton>

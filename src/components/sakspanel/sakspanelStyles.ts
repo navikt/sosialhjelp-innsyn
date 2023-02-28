@@ -8,7 +8,10 @@ export const StyledLinkPanelDescription = styled(LinkPanel.Description)`
     align-items: center;
 `;
 
-export const StyledFileIcon = styled(FileContent)`
+export const StyledFileIcon = styled(FileContent).attrs({
+    ariaHidden: true,
+    title: "dokument",
+})`
     margin-right: 1rem;
     @media screen and (max-width: 360px) {
         display: none;
