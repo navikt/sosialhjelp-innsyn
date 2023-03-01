@@ -1,16 +1,11 @@
 import {Alert} from "@navikt/ds-react";
 import React, {useEffect} from "react";
 import {logServerfeil} from "../utils/amplitude";
-import {
-    useGetDokumentasjonkrav,
-    useGetOppgaver,
-    useGetVilkar,
-} from "../generated/oppgave-controller/oppgave-controller";
-import {useHentSoknadsStatus} from "../generated/soknads-status-controller/soknads-status-controller";
-import {useHentHendelser} from "../generated/hendelse-controller/hendelse-controller";
-import {useHentVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 import {FormattedMessage} from "react-intl";
 import styled from "styled-components";
+import {useSelector} from "react-redux";
+import {InnsynAppState} from "../redux/reduxTypes";
+import {REST_STATUS} from "../utils/restUtils";
 
 const StyledWrapper = styled.div`
     position: sticky;
@@ -18,52 +13,35 @@ const StyledWrapper = styled.div`
     z-index: 1;
 `;
 
-export const LoadingResourcesFailedAlert = (props: {
-    fiksDigisosId: string;
-    loadingResourcesFailed: boolean;
-    setLoadingResourcesFailed: (loadingResourcesFailed: boolean) => void;
-}) => {
-    const {isError: soknadsStatusHasError} = useHentSoknadsStatus(props.fiksDigisosId);
-    const {isError: oppgaverHasError} = useGetOppgaver(props.fiksDigisosId);
-    const {isError: vilkarHasError} = useGetVilkar(props.fiksDigisosId);
-    const {isError: dokumentasjonkravHasError} = useGetDokumentasjonkrav(props.fiksDigisosId);
-    const {isError: hendelserHasError} = useHentHendelser(props.fiksDigisosId);
-    const {isError: vedleggHasError} = useHentVedlegg(props.fiksDigisosId);
+const leserData = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+    );
+};
 
-    const {setLoadingResourcesFailed} = props;
+export const LoadingResourcesFailedAlert = (props: {}) => {
+    const {soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg} = useSelector(
+        (state: InnsynAppState) => state.innsynsdata.restStatus
+    );
+
+    const hasError =
+        !leserData(soknadsStatus) ||
+        !leserData(oppgaver) ||
+        !leserData(vilkar) ||
+        !leserData(dokumentasjonkrav) ||
+        !leserData(hendelser) ||
+        !leserData(vedlegg);
 
     useEffect(() => {
-        if (
-            soknadsStatusHasError ||
-            oppgaverHasError ||
-            vilkarHasError ||
-            dokumentasjonkravHasError ||
-            hendelserHasError ||
-            vedleggHasError
-        ) {
-            logServerfeil({
-                soknadsStatusHasError,
-                oppgaverHasError,
-                vilkarHasError,
-                dokumentasjonkravHasError,
-                hendelserHasError,
-                vedleggHasError,
-            });
-            setLoadingResourcesFailed(true);
+        if (hasError) {
+            logServerfeil({soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg});
+            console.log("there is an error");
         }
-    }, [
-        soknadsStatusHasError,
-        oppgaverHasError,
-        vilkarHasError,
-        dokumentasjonkravHasError,
-        hendelserHasError,
-        vedleggHasError,
-        setLoadingResourcesFailed,
-    ]);
+    }, [soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg, hasError]);
 
     return (
         <StyledWrapper>
-            {props.loadingResourcesFailed && (
+            {hasError && (
                 <Alert variant="error" className="luft_over_16px">
                     <FormattedMessage id={"feilmelding.ressurs_innlasting"} values={{linebreak: <br />}} />
                 </Alert>

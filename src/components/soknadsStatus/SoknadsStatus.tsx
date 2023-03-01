@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
-import {REST_STATUS} from "../../utils/restUtils";
+import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
 import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
@@ -13,7 +13,6 @@ import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
 import {v4 as uuidv4} from "uuid";
-import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 
 const Container = styled.div`
     padding-top: 3rem;
@@ -116,40 +115,35 @@ const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
+const leserData = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+    );
+};
+
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDigisosId}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
-    const [LoadingResourscesError, setLoadingResourscesError] = useState(false);
-    const {
-        isLoading: soknadsStatusLoading,
-        isError: soknadsStatusError,
-        isSuccess: soknadsStatusSuccess,
-    } = useHentSoknadsStatus(fiksDigisosId);
+    const hasError = !leserData(restStatus);
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
     };
 
-    useEffect(() => {
-        if (soknadsStatusError) {
-            setLoadingResourscesError(true);
-        }
-    }, [soknadsStatusError, LoadingResourscesError]);
-
     return (
         <Container>
-            <ContentPanel error={+soknadsStatusError}>
+            <ContentPanel error={+hasError}>
                 <Spot>
                     <SpotIcon />
                 </Spot>
                 <ContentPanelBody>
-                    {soknadsStatusError && <StyledErrorColored />}
-                    {soknadsStatusError && (
+                    {hasError && <StyledErrorColored />}
+                    {hasError && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.soknadStatus_innlasting" />
                         </StyledTextPlacement>
                     )}
-                    {soknadsStatusLoading && <Lastestriper linjer={1} />}
+                    {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>
                             <Heading level="2" size="large" spacing>
@@ -166,7 +160,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                         </StyledAlert>
                     )}
 
-                    {soknadsStatusSuccess && sak?.length === 0 && !soknadBehandlesIkke && (
+                    {!hasError && sak?.length === 0 && !soknadBehandlesIkke && (
                         <StatusBox>
                             <StatusMessage>
                                 <Label as="p">{intl.formatMessage({id: "saker.default_tittel"})}</Label>
@@ -175,7 +169,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDig
                         </StatusBox>
                     )}
 
-                    {soknadsStatusSuccess &&
+                    {!hasError &&
                         sak &&
                         sak.map((statusdetalj: SaksStatusState, index: number) => {
                             const saksStatus = statusdetalj.status;

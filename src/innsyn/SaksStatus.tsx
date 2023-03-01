@@ -47,7 +47,6 @@ const SaksStatusView = () => {
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
     const dataErKlare =
         !pageLoadIsLogged &&
         erPaInnsyn &&
@@ -133,11 +132,7 @@ const SaksStatusView = () => {
 
     return (
         <>
-            <LoadingResourcesFailedAlert
-                fiksDigisosId={fiksDigisosId}
-                loadingResourcesFailed={loadingResourcesFailed}
-                setLoadingResourcesFailed={setLoadingResourcesFailed}
-            />
+            <LoadingResourcesFailedAlert />
 
             <SoknadHotjarTrigger trigger={getHotjarTriggerIfValid()}>
                 <div />

@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {FormattedMessage, useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
 import {ErrorColored} from "@navikt/ds-icons";
-import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
-import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
+import {useSelector} from "react-redux";
+import {InnsynAppState} from "../../redux/reduxTypes";
+import {REST_STATUS} from "../../utils/restUtils";
 
 enum ARKFANER {
     HISTORIKK = "Historikk",
@@ -50,18 +51,17 @@ interface Props {
     vedleggChildren: React.ReactNode;
 }
 
+const leserData = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+    );
+};
+
 const ArkfanePanel: React.FC<Props> = (props) => {
     const intl = useIntl();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
-    const [LoadingResourscesError, setLoadingResourscesError] = useState(false);
-    const {isError: hendelserError} = useHentHendelser(props.fiksDigisosId);
-    const {isError: vedleggError} = useHentVedlegg(props.fiksDigisosId);
-
-    useEffect(() => {
-        if (hendelserError || vedleggError) {
-            setLoadingResourscesError(true);
-        }
-    }, [hendelserError, vedleggError, LoadingResourscesError]);
+    const {restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
+    const hasError = !leserData(restStatus.hendelser) || !leserData(restStatus.vedlegg);
 
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket
@@ -71,15 +71,15 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     }, [valgtFane]);
 
     return (
-        <StyledPanel error={+LoadingResourscesError}>
-            {LoadingResourscesError && <StyledErrorColored />}
+        <StyledPanel error={+hasError}>
+            {hasError && <StyledErrorColored />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
                     <Tabs.Tab value={ARKFANER.HISTORIKK} label={intl.formatMessage({id: "historikk.tittel"})} />
                     <Tabs.Tab value={ARKFANER.VEDLEGG} label={intl.formatMessage({id: "vedlegg.tittel"})} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
-                    {hendelserError && (
+                    {!leserData(restStatus.hendelser) && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.historikk_innlasting" />
                         </StyledTextPlacement>
@@ -87,7 +87,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
-                    {vedleggError && (
+                    {!leserData(restStatus.vedlegg) && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.vedlegg_innlasting" />
                         </StyledTextPlacement>

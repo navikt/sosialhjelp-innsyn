@@ -8,7 +8,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {fetchToJson} from "../../utils/restUtils";
+import {fetchToJson, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
@@ -19,11 +19,6 @@ import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {DokumentasjonkravAccordion} from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import {ErrorColored} from "@navikt/ds-icons";
-import {
-    useGetDokumentasjonkrav,
-    useGetOppgaver,
-    useGetVilkar,
-} from "../../generated/oppgave-controller/oppgave-controller";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
@@ -109,6 +104,12 @@ interface Props {
     fiksDigisosId: string;
 }
 
+const leserData = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+    );
+};
+
 const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
     const {dokumentasjonkrav, vilkar, restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
     const dokumentasjonEtterspurt = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
@@ -117,10 +118,8 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
     const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
-    const [LoadingResourscesError, setLoadingResourscesError] = useState(false);
-    const {isLoading: oppgaverLoading, isError: oppgaverError} = useGetOppgaver(fiksDigisosId);
-    const {isError: vilkarError} = useGetVilkar(fiksDigisosId);
-    const {isError: dokumentasjonkravError} = useGetDokumentasjonkrav(fiksDigisosId);
+    const hasError =
+        !leserData(restStatus.oppgaver) || !leserData(restStatus.vilkar) || !leserData(restStatus.dokumentasjonkrav);
 
     const dispatch = useDispatch();
 
@@ -178,33 +177,29 @@ const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
         }
     }, [sakUtbetalinger, dokumentasjonkrav, vilkar]);
 
-    useEffect(() => {
-        if (oppgaverError || vilkarError || dokumentasjonkravError) {
-            setLoadingResourscesError(true);
-        }
-    }, [oppgaverError, vilkarError, dokumentasjonkravError, LoadingResourscesError]);
-
     return (
-        <StyledPanel error={+LoadingResourscesError}>
+        <StyledPanel error={+hasError}>
             <StyledPanelHeader>
-                {LoadingResourscesError && <StyledErrorColored />}
+                {hasError && <StyledErrorColored />}
                 <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
             </StyledPanelHeader>
 
-            {oppgaverLoading && <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />}
-            {!LoadingResourscesError && (
+            {skalViseLastestripe(restStatus.oppgaver, true) && (
+                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
+            )}
+            {!hasError && (
                 <IngenOppgaverPanel
                     dokumentasjonEtterspurt={dokumentasjonEtterspurt}
                     dokumentasjonkrav={filtrerteDokumentasjonkrav}
                     vilkar={filtrerteVilkar}
-                    leserData={oppgaverLoading}
+                    leserData={skalViseLastestripe(restStatus.oppgaver, true)}
                 />
             )}
             {skalViseOppgaver && (
                 <>
-                    {(oppgaverError || vilkarError || dokumentasjonkravError) && (
+                    {hasError && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.dineOppgaver_innlasting" />
                         </StyledTextPlacement>
