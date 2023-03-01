@@ -108,7 +108,6 @@ interface Props {
     soknadsStatus: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
     restStatus: REST_STATUS;
-    fiksDigisosId: string;
 }
 
 const HeadingWrapper = styled.div`
@@ -121,7 +120,7 @@ const leserData = (restStatus: REST_STATUS): boolean => {
     );
 };
 
-const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus, fiksDigisosId}) => {
+const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
     const hasError = !leserData(restStatus);

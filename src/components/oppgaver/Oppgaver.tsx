@@ -100,18 +100,16 @@ const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
     ) : null;
 };
 
-interface Props {
-    fiksDigisosId: string;
-}
-
 const leserData = (restStatus: REST_STATUS): boolean => {
     return (
         restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
     );
 };
 
-const Oppgaver: React.FC<Props> = ({fiksDigisosId}) => {
-    const {dokumentasjonkrav, vilkar, restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
+const Oppgaver = () => {
+    const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
+        (state: InnsynAppState) => state.innsynsdata
+    );
     const dokumentasjonEtterspurt = useSelector((state: InnsynAppState) => state.innsynsdata.oppgaver);
 
     const [sakUtbetalinger, setSakUtbetalinger] = useState<UtbetalingerResponse[]>([]);

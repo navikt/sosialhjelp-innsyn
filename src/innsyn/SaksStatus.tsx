@@ -160,11 +160,10 @@ const SaksStatusView = () => {
                             soknadsStatus={innsynsdata.soknadsStatus.status}
                             sak={innsynsdata.saksStatus}
                             restStatus={restStatus.soknadsStatus}
-                            fiksDigisosId={fiksDigisosId}
                         />
                     )}
 
-                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver fiksDigisosId={fiksDigisosId} />}
+                    {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver />}
 
                     {kommune != null && kommune.erInnsynDeaktivert && (
                         <>
@@ -180,7 +179,6 @@ const SaksStatusView = () => {
                     )}
                     {(kommune == null || !kommune.erInnsynDeaktivert) && (
                         <ArkfanePanel
-                            fiksDigisosId={fiksDigisosId}
                             historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
                             vedleggChildren={
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />

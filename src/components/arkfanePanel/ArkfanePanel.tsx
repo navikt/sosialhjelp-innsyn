@@ -46,7 +46,6 @@ const StyledTextPlacement = styled.div`
 `;
 
 interface Props {
-    fiksDigisosId: string;
     historikkChildren: React.ReactNode;
     vedleggChildren: React.ReactNode;
 }
