@@ -19,7 +19,7 @@ const leserData = (restStatus: REST_STATUS): boolean => {
     );
 };
 
-export const LoadingResourcesFailedAlert = (props: {}) => {
+export const LoadingResourcesFailedAlert = () => {
     const {soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg} = useSelector(
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
