@@ -62,7 +62,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         return (
             <StyledPanel>
                 <>
-                    <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                    <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="oppgave" />
                     <div>
                         <Label as="p">
                             <FormattedMessage id="oppgaver.ingen_oppgaver" />
@@ -73,7 +73,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                     </div>
                 </>
                 <>
-                    <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                    <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="vedlegg" />
                     <div>
                         <Label as="p">
                             <FormattedMessage id="oppgaver.andre_dokumenter" />

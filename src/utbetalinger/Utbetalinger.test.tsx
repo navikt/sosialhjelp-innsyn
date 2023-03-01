@@ -7,14 +7,14 @@ import {rest} from "msw";
 import {getHentUtbetalingerMock} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
 import {getHentAlleSakerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
-import {subMonths, setDay, format, subDays} from "date-fns";
+import {subMonths, format, subDays, startOfMonth} from "date-fns";
 import {nb} from "date-fns/locale";
 
 const makeUtbetaling = (date: Date) => {
     return {
         maned: format(date, "LLLL", {locale: nb}),
         ar: date.getFullYear(),
-        foersteIManeden: setDay(date, 1).toISOString(),
+        foersteIManeden: startOfMonth(date).toISOString(),
         utbetalinger: [
             {
                 utbetalingsdato: date.toString(),

@@ -46,7 +46,7 @@ const AddFileButton: React.FC<{
                 size="small"
                 id={"oppgave_" + id + "_last_opp_fil_knapp"}
                 onClick={onClick}
-                icon={<StyledUploadIcon />}
+                icon={<StyledUploadIcon aria-hidden title="last opp" />}
             >
                 <FormattedMessage id="vedlegg.velg_fil" />
             </StyledButton>
