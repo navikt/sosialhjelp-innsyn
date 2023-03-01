@@ -35,7 +35,6 @@ const Spot = styled.div`
 `;
 
 const SpotIcon = styled(PlaceFilled).attrs({
-    ariaHidden: true,
     title: "spot",
 })`
     position: absolute;
@@ -108,7 +107,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
         <Container>
             <ContentPanel>
                 <Spot>
-                    <SpotIcon />
+                    <SpotIcon aria-hidden />
                 </Spot>
                 <ContentPanelBody>
                     {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}

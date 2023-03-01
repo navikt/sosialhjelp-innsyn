@@ -9,7 +9,6 @@ export const StyledLinkPanelDescription = styled(LinkPanel.Description)`
 `;
 
 export const StyledFileIcon = styled(FileContent).attrs({
-    ariaHidden: true,
     title: "dokument",
 })`
     margin-right: 1rem;
