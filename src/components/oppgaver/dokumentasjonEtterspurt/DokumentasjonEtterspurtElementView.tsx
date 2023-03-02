@@ -19,7 +19,6 @@ import AddFileButton, {TextAndButtonWrapper} from "./../AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";
-import styles from "./dokumentasjonEtterspurt.module.css";
 import {
     setFileUploadFailed,
     setFileUploadFailedInBackend,
@@ -55,7 +54,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
 
-    const onDeleteClick = (event: any, vedleggIndex: number, fil: Fil) => {
+    const onDeleteClick = (event: any, fil: Fil, vedleggIndex?: number) => {
         event.preventDefault();
         dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
         dispatch({
@@ -135,18 +134,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                 <AddFileButton onChange={onChange} referanse={oppgaveId} id={uuid} />
             </TextAndButtonWrapper>
 
-            <ul className={styles.unorderedList}>
-                {oppgaveElement.filer &&
-                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => (
-                        <FileItemView
-                            key={vedleggIndex}
-                            fil={fil}
-                            onDelete={(event: MouseEvent, fil) => {
-                                onDeleteClick(event, vedleggIndex, fil);
-                            }}
-                        />
-                    ))}
-            </ul>
+            {oppgaveElement.filer && <FileItemView filer={oppgaveElement.filer} onDelete={onDeleteClick} />}
             {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
                 writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
         </div>

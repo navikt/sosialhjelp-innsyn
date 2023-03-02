@@ -10,7 +10,7 @@ import {ErrorMessage} from "../../errors/ErrorMessage";
 import useKommune from "../../../hooks/useKommune";
 import InnsendelsesFrist from "../InnsendelsesFrist";
 import SendButton from "./SendButton";
-import styles from "./dokumentasjonEtterspurt.module.css";
+import styles from "../oppgaver.module.css";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 
 interface Props {

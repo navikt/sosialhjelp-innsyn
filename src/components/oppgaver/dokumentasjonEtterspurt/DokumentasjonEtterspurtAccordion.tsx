@@ -7,7 +7,7 @@ import {DokumentasjonEtterspurt, HendelseTypeEnum} from "../../../redux/innsynsd
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
-import styles from "./dokumentasjonEtterspurt.module.css";
+import styles from "../oppgaver.module.css";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt.length > 0) {
