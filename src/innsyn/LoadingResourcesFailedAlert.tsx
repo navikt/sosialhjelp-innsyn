@@ -1,5 +1,5 @@
 import {Alert} from "@navikt/ds-react";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {logServerfeil} from "../utils/amplitude";
 import {FormattedMessage} from "react-intl";
 import styled from "styled-components";
@@ -23,25 +23,25 @@ export const LoadingResourcesFailedAlert = () => {
     const {soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg} = useSelector(
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
-
-    const hasError =
-        !leserData(soknadsStatus) ||
-        !leserData(oppgaver) ||
-        !leserData(vilkar) ||
-        !leserData(dokumentasjonkrav) ||
-        !leserData(hendelser) ||
-        !leserData(vedlegg);
+    const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
 
     useEffect(() => {
-        if (hasError) {
+        if (
+            !leserData(soknadsStatus) ||
+            !leserData(oppgaver) ||
+            !leserData(vilkar) ||
+            !leserData(dokumentasjonkrav) ||
+            !leserData(hendelser) ||
+            !leserData(vedlegg)
+        ) {
             logServerfeil({soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg});
-            console.log("there is an error");
+            setLoadingResourcesFailed(true);
         }
-    }, [soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg, hasError]);
+    }, [soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg]);
 
     return (
         <StyledWrapper>
-            {hasError && (
+            {loadingResourcesFailed && (
                 <Alert variant="error" className="luft_over_16px">
                     <FormattedMessage id={"feilmelding.ressurs_innlasting"} values={{linebreak: <br />}} />
                 </Alert>
