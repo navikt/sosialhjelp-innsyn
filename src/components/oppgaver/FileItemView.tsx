@@ -82,6 +82,10 @@ interface Props {
 const FileItemView = (props: Props) => {
     const [modalVises, setModalVises] = useState(false);
 
+    if (!props.filer || props.filer?.length === 0) {
+        return null;
+    }
+
     const onVisVedlegg = (event: ClickEvent): void => {
         setModalVises(true);
         event.preventDefault();

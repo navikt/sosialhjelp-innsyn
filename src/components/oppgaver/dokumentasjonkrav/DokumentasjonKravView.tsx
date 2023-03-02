@@ -298,7 +298,6 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
         <StyledOuterFrame>
             <StyledInnerFrame hasError={visDokumentasjonkravDetaljerFeiler}>
                 <InnsendelsesFrist frist={dokumentasjonkrav.frist} />
-
                 {dokumentasjonkrav.dokumentasjonkravElementer.map(
                     (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                         return (
