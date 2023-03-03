@@ -303,9 +303,8 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
                     {dokumentasjonkrav.dokumentasjonkravElementer.map(
                         (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
                             return (
-                                <li>
+                                <li key={dokumentasjonkravElementIndex}>
                                     <DokumentasjonkravElementView
-                                        key={dokumentasjonkravElementIndex}
                                         dokumentasjonkravElement={dokumentasjonkravElement}
                                         onChange={onChange}
                                         onDelete={onDeleteClick}

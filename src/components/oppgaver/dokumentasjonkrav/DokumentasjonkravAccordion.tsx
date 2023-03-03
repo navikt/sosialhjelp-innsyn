@@ -29,8 +29,8 @@ export const DokumentasjonkravAccordion = (props: Props) => {
                     {props.feilmelding}
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
-                            <li>
-                                <DokumentasjonKravView dokumentasjonkrav={krav} key={index} />
+                            <li key={index}>
+                                <DokumentasjonKravView dokumentasjonkrav={krav} />
                             </li>
                         ))}
                     </ul>

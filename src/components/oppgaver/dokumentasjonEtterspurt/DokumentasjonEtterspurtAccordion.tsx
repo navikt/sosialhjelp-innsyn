@@ -50,9 +50,8 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                     <DriftsmeldingVedlegg leserData={skalViseLastestripe(props.restStatus_oppgaver)} />
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt.map((dokumentasjon: DokumentasjonEtterspurt, index: number) => (
-                            <li>
+                            <li key={dokumentasjon.oppgaveId}>
                                 <DokumentasjonEtterspurtView
-                                    key={dokumentasjon.oppgaveId}
                                     dokumentasjonEtterspurt={dokumentasjon}
                                     oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
                                     oppgaveIndex={index}
