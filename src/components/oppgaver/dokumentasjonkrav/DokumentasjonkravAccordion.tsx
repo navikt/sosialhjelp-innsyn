@@ -5,6 +5,7 @@ import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import React from "react";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
+import styles from "../oppgaver.module.css";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav[];
@@ -26,7 +27,7 @@ export const DokumentasjonkravAccordion = (props: Props) => {
                 <Accordion.Content>
                     <OpplastingAvVedleggModal />
                     {props.feilmelding}
-                    <ul>
+                    <ul className={styles.unorderedList}>
                         {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
                             <li>
                                 <DokumentasjonKravView dokumentasjonkrav={krav} key={index} />
