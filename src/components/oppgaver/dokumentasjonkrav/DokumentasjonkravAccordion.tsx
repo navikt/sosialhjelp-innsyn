@@ -26,9 +26,13 @@ export const DokumentasjonkravAccordion = (props: Props) => {
                 <Accordion.Content>
                     <OpplastingAvVedleggModal />
                     {props.feilmelding}
-                    {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
-                        <DokumentasjonKravView dokumentasjonkrav={krav} key={index} />
-                    ))}
+                    <ul>
+                        {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
+                            <li>
+                                <DokumentasjonKravView dokumentasjonkrav={krav} key={index} />
+                            </li>
+                        ))}
+                    </ul>
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>

@@ -298,27 +298,32 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
         <StyledOuterFrame>
             <StyledInnerFrame hasError={visDokumentasjonkravDetaljerFeiler}>
                 <InnsendelsesFrist frist={dokumentasjonkrav.frist} />
-                {dokumentasjonkrav.dokumentasjonkravElementer.map(
-                    (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
-                        return (
-                            <DokumentasjonkravElementView
-                                key={dokumentasjonkravElementIndex}
-                                dokumentasjonkravElement={dokumentasjonkravElement}
-                                onChange={onChange}
-                                onDelete={onDeleteClick}
-                                setFilesHasErrors={setFilesHasErrors}
-                                setOverMaksStorrelse={setOverMaksStorrelse}
-                                overMaksStorrelse={overMaksStorrelse}
-                                fileUploadingBackendFailed={fileUploadingBackendFailed}
-                                setFileUploadingBackendFailed={setFileUploadingBackendFailed}
-                                filer={
-                                    dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
-                                    []
-                                }
-                            />
-                        );
-                    }
-                )}
+                <ul>
+                    {dokumentasjonkrav.dokumentasjonkravElementer.map(
+                        (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
+                            return (
+                                <li>
+                                    <DokumentasjonkravElementView
+                                        key={dokumentasjonkravElementIndex}
+                                        dokumentasjonkravElement={dokumentasjonkravElement}
+                                        onChange={onChange}
+                                        onDelete={onDeleteClick}
+                                        setFilesHasErrors={setFilesHasErrors}
+                                        setOverMaksStorrelse={setOverMaksStorrelse}
+                                        overMaksStorrelse={overMaksStorrelse}
+                                        fileUploadingBackendFailed={fileUploadingBackendFailed}
+                                        setFileUploadingBackendFailed={setFileUploadingBackendFailed}
+                                        filer={
+                                            dokumentasjonkravFiler[
+                                                dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""
+                                            ] ?? []
+                                        }
+                                    />
+                                </li>
+                            );
+                        }
+                    )}
+                </ul>
                 {kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button
