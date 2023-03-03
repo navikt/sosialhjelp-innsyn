@@ -26,6 +26,7 @@ import {useQueryClient} from "@tanstack/react-query";
 import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import InnsendelsesFrist from "../InnsendelsesFrist";
+import styles from "../../../styles/lists.module.css";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;
@@ -298,28 +299,31 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
         <StyledOuterFrame>
             <StyledInnerFrame hasError={visDokumentasjonkravDetaljerFeiler}>
                 <InnsendelsesFrist frist={dokumentasjonkrav.frist} />
-
-                {dokumentasjonkrav.dokumentasjonkravElementer.map(
-                    (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
-                        return (
-                            <DokumentasjonkravElementView
-                                key={dokumentasjonkravElementIndex}
-                                dokumentasjonkravElement={dokumentasjonkravElement}
-                                onChange={onChange}
-                                onDelete={onDeleteClick}
-                                setFilesHasErrors={setFilesHasErrors}
-                                setOverMaksStorrelse={setOverMaksStorrelse}
-                                overMaksStorrelse={overMaksStorrelse}
-                                fileUploadingBackendFailed={fileUploadingBackendFailed}
-                                setFileUploadingBackendFailed={setFileUploadingBackendFailed}
-                                filer={
-                                    dokumentasjonkravFiler[dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""] ??
-                                    []
-                                }
-                            />
-                        );
-                    }
-                )}
+                <ul className={styles.unorderedList}>
+                    {dokumentasjonkrav.dokumentasjonkravElementer.map(
+                        (dokumentasjonkravElement, dokumentasjonkravElementIndex) => {
+                            return (
+                                <li key={dokumentasjonkravElementIndex}>
+                                    <DokumentasjonkravElementView
+                                        dokumentasjonkravElement={dokumentasjonkravElement}
+                                        onChange={onChange}
+                                        onDelete={onDeleteClick}
+                                        setFilesHasErrors={setFilesHasErrors}
+                                        setOverMaksStorrelse={setOverMaksStorrelse}
+                                        overMaksStorrelse={overMaksStorrelse}
+                                        fileUploadingBackendFailed={fileUploadingBackendFailed}
+                                        setFileUploadingBackendFailed={setFileUploadingBackendFailed}
+                                        filer={
+                                            dokumentasjonkravFiler[
+                                                dokumentasjonkravElement.dokumentasjonkravReferanse ?? ""
+                                            ] ?? []
+                                        }
+                                    />
+                                </li>
+                            );
+                        }
+                    )}
+                </ul>
                 {kanLasteOppVedlegg && (
                     <ButtonWrapper>
                         <Button

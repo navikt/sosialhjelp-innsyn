@@ -6,6 +6,7 @@ import useInterval from "../../hooks/useInterval";
 import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 import {getLogoutUrl} from "../../utils/restUtils";
+import {useEffect} from "react";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 

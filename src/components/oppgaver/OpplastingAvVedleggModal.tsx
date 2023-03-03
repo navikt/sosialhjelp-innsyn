@@ -1,4 +1,4 @@
-import React, {MouseEvent, useState} from "react";
+import React, {MouseEvent, useEffect, useState} from "react";
 import {FormattedMessage} from "react-intl";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
@@ -10,6 +10,10 @@ const StyledModal = styled(Modal)`
 
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
+
+    useEffect(() => {
+        Modal.setAppElement("#root");
+    }, []);
 
     const handleOnClick = (event: MouseEvent) => {
         event.preventDefault();

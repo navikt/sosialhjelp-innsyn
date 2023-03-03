@@ -10,7 +10,7 @@ import {ErrorMessage} from "../../errors/ErrorMessage";
 import useKommune from "../../../hooks/useKommune";
 import InnsendelsesFrist from "../InnsendelsesFrist";
 import SendButton from "./SendButton";
-import styles from "./dokumentasjonEtterspurt.module.css";
+import styles from "../../../styles/lists.module.css";
 import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
 
 interface Props {
@@ -43,7 +43,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
         listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
 
     return (
-        <li>
+        <>
             <div
                 className={
                     (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
@@ -92,7 +92,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                     />
                 </ErrorMessage>
             )}
-        </li>
+        </>
     );
 };
 
