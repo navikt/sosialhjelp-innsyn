@@ -47,7 +47,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                 <Accordion.Content>
                     <InfoOmOppgaver dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     <OpplastingAvVedleggModal />
-                    <DriftsmeldingVedlegg leserData={skalViseLastestripe(props.restStatus_oppgaver)} />
+                    <DriftsmeldingVedlegg restStatusSjekk={skalViseLastestripe(props.restStatus_oppgaver)} />
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt.map((dokumentasjon: DokumentasjonEtterspurt, index: number) => (
                             <DokumentasjonEtterspurtView

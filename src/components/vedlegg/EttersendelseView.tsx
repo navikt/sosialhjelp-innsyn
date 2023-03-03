@@ -146,7 +146,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     return (
         <>
             <DriftsmeldingVedlegg
-                leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
+                restStatusSjekk={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
 
             <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
