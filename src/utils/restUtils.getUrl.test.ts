@@ -32,17 +32,17 @@ describe("getBaseUrl", () => {
             "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
         //validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");//for idporten testing
-        validateGetBaseUrl(devSbsOrigins, "https://www-q0.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(devSbsOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
         validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
             mockOrigins,
             "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(prodNavnoOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
     });
 
     it("should default to prod when url is unknown correct backend-url", () => {
-        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(unknownOrigins, "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
     });
 
     function validateGetBaseUrl(origins: string[], expected: string) {
