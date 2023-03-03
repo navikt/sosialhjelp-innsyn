@@ -140,9 +140,7 @@ const DokumentasjonkravElementView: React.FC<{
                 )}
             </TextAndButtonWrapper>
 
-            {filer.map((fil: Fil, vedleggIndex: number) => (
-                <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
-            ))}
+            <FileItemView filer={filer} onDelete={onDeleteElement} />
             {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (

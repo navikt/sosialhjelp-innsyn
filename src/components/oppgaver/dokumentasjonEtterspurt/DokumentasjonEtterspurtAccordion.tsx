@@ -7,7 +7,7 @@ import {DokumentasjonEtterspurt, HendelseTypeEnum} from "../../../redux/innsynsd
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
-import styles from "./dokumentasjonEtterspurt.module.css";
+import styles from "../oppgaver.module.css";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspurt[]): Date | null {
     if (dokumentasjonEtterspurt.length > 0) {
@@ -50,12 +50,13 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                     <DriftsmeldingVedlegg restStatusSjekk={skalViseLastestripe(props.restStatus_oppgaver)} />
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt.map((dokumentasjon: DokumentasjonEtterspurt, index: number) => (
-                            <DokumentasjonEtterspurtView
-                                key={dokumentasjon.oppgaveId}
-                                dokumentasjonEtterspurt={dokumentasjon}
-                                oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
-                                oppgaveIndex={index}
-                            />
+                            <li key={dokumentasjon.oppgaveId}>
+                                <DokumentasjonEtterspurtView
+                                    dokumentasjonEtterspurt={dokumentasjon}
+                                    oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
+                                    oppgaveIndex={index}
+                                />
+                            </li>
                         ))}
                     </ul>
                 </Accordion.Content>
