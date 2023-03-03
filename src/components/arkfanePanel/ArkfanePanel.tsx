@@ -50,9 +50,9 @@ interface Props {
     vedleggChildren: React.ReactNode;
 }
 
-const restStatusSjekk = (restStatus: REST_STATUS): boolean => {
+const restStatusError = (restStatus: REST_STATUS): boolean => {
     return (
-        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
     );
 };
 
@@ -60,7 +60,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     const intl = useIntl();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
     const {restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const hasError = !restStatusSjekk(restStatus.hendelser) || !restStatusSjekk(restStatus.vedlegg);
+    const hasError = restStatusError(restStatus.hendelser) || restStatusError(restStatus.vedlegg);
 
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket
@@ -78,7 +78,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     <Tabs.Tab value={ARKFANER.VEDLEGG} label={intl.formatMessage({id: "vedlegg.tittel"})} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
-                    {!restStatusSjekk(restStatus.hendelser) && (
+                    {restStatusError(restStatus.hendelser) && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.historikk_innlasting" />
                         </StyledTextPlacement>
@@ -86,7 +86,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
-                    {!restStatusSjekk(restStatus.vedlegg) && (
+                    {restStatusError(restStatus.vedlegg) && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.vedlegg_innlasting" />
                         </StyledTextPlacement>

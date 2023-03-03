@@ -100,9 +100,9 @@ const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
     ) : null;
 };
 
-const restStatusSjekk = (restStatus: REST_STATUS): boolean => {
+const restStatusError = (restStatus: REST_STATUS): boolean => {
     return (
-        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
     );
 };
 
@@ -117,9 +117,9 @@ const Oppgaver = () => {
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
     const hasError =
-        !restStatusSjekk(restStatus.oppgaver) ||
-        !restStatusSjekk(restStatus.vilkar) ||
-        !restStatusSjekk(restStatus.dokumentasjonkrav);
+        restStatusError(restStatus.oppgaver) ||
+        restStatusError(restStatus.vilkar) ||
+        restStatusError(restStatus.dokumentasjonkrav);
 
     const dispatch = useDispatch();
 

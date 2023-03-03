@@ -116,16 +116,16 @@ const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
-const restStatusSjekk = (restStatus: REST_STATUS): boolean => {
+const restStatusError = (restStatus: REST_STATUS): boolean => {
     return (
-        restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
+        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
     );
 };
 
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
     const intl: IntlShape = useIntl();
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
-    const hasError = !restStatusSjekk(restStatus);
+    const hasError = restStatusError(restStatus);
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
