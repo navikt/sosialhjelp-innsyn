@@ -1,7 +1,7 @@
 import "whatwg-fetch";
 import {v4 as uuidv4} from "uuid";
-import {axiosInstance} from "../axios-instance";
-import {createLogEntry, LOG_URL} from "../redux/innsynsdata/loggActions";
+import {createLogEntry, LOG_URL} from "./logUtils";
+import Axios from "axios";
 
 export function isProd(origin: string) {
     return origin.indexOf("www.nav.no") >= 0;
@@ -233,7 +233,16 @@ function sjekkStatuskode(response: Response, url: string) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
                 window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
             } else {
-                axiosInstance({
+                Axios.create({
+                    baseURL: getApiBaseUrl(true),
+                    xsrfCookieName: "XSRF-TOKEN-INNSYN-API",
+                    withCredentials: isLocalhost(window.location.origin) || isUsingMockAlt(window.location.origin),
+                    xsrfHeaderName: "XSRF-TOKEN-INNSYN-API",
+                    headers: {
+                        "Nav-Call-Id": generateCallId(),
+                        Accept: "application/json, text/plain, */*",
+                    },
+                })({
                     url: getApiBaseUrl() + LOG_URL,
                     method: "post",
                     data: createLogEntry(

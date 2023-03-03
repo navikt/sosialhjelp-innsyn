@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
+import VedleggModal from "./VedleggModal";
 import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
 import {BodyShort, Button, Link} from "@navikt/ds-react";
@@ -10,7 +11,6 @@ import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
 import {v4 as uuidv4} from "uuid";
 import styles from "../../styles/lists.module.css";
-import VedleggModal from "./VedleggModal";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -74,13 +74,17 @@ const StyledDeleteButton = styled(Button)`
     }
 `;
 
-const FileItemView: React.FC<{
-    fil: Fil;
-    onDelete: (event: any, fil: Fil) => void;
-}> = ({fil, onDelete}) => {
-    const storrelse: string = formatBytes(fil.file ? fil.file.size : 0);
+interface Props {
+    filer: Fil[];
+    onDelete: (event: any, fil: Fil, vedleggIndex?: number) => void;
+}
 
+const FileItemView = (props: Props) => {
     const [modalVises, setModalVises] = useState(false);
+
+    if (!props.filer || props.filer?.length === 0) {
+        return null;
+    }
 
     const onVisVedlegg = (event: ClickEvent): void => {
         setModalVises(true);
@@ -88,48 +92,58 @@ const FileItemView: React.FC<{
     };
 
     return (
-        <StyledLiTag>
-            <StyledFilInfoOgKnapp>
-                <StyledFilInfo>
-                    {fil.file && (
-                        <VedleggModal file={fil.file} onRequestClose={() => setModalVises(false)} synlig={modalVises} />
-                    )}
-                    <>
-                        <Link
-                            href="#"
-                            className="filnavn"
-                            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onVisVedlegg(event)}
-                        >
-                            <PaperClipSlanted className="filikon" />
+        <ul className={styles.unorderedList}>
+            {props.filer.map((fil: Fil, index) => (
+                <StyledLiTag key={uuidv4()}>
+                    <StyledFilInfoOgKnapp>
+                        <StyledFilInfo>
+                            {fil.file && (
+                                <VedleggModal
+                                    file={fil.file}
+                                    onRequestClose={() => setModalVises(false)}
+                                    synlig={modalVises}
+                                />
+                            )}
+                            <>
+                                <Link
+                                    href="#"
+                                    className="filnavn"
+                                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>
+                                        onVisVedlegg(event)
+                                    }
+                                >
+                                    <PaperClipSlanted className="filikon" />
 
-                            {fil.filnavn}
-                        </Link>
-                    </>
-                    <BodyShort as="span" className="filstorrelse">
-                        ({storrelse})
-                    </BodyShort>
-                </StyledFilInfo>
-                <StyledDeleteButton
-                    variant="tertiary"
-                    size="small"
-                    onClick={(event: any) => onDelete(event, fil)}
-                    iconPosition="right"
-                    icon={<Delete aria-hidden title="fjern" />}
-                >
-                    <FormattedMessage id="vedlegg.fjern" />
-                </StyledDeleteButton>
-            </StyledFilInfoOgKnapp>
-            {fil.status !== REST_STATUS.INITIALISERT &&
-                fil.status !== REST_STATUS.PENDING &&
-                fil.status !== REST_STATUS.OK && (
-                    <StyledErrorMessage>
-                        <FormattedMessage
-                            id={"vedlegg.opplasting_feilmelding_" + fil.status}
-                            defaultMessage={"Vi klarte dessverre ikke lese filen din. Årsaken er ukjent."}
-                        />
-                    </StyledErrorMessage>
-                )}
-        </StyledLiTag>
+                                    {fil.filnavn}
+                                </Link>
+                            </>
+                            <BodyShort as="span" className="filstorrelse">
+                                ({formatBytes(fil.file ? fil.file.size : 0)})
+                            </BodyShort>
+                        </StyledFilInfo>
+                        <StyledDeleteButton
+                            variant="tertiary"
+                            size="small"
+                            onClick={(event: any) => props.onDelete(event, fil, index)}
+                            iconPosition="right"
+                            icon={<Delete aria-hidden title="fjern" />}
+                        >
+                            <FormattedMessage id="vedlegg.fjern" />
+                        </StyledDeleteButton>
+                    </StyledFilInfoOgKnapp>
+                    {fil.status !== REST_STATUS.INITIALISERT &&
+                        fil.status !== REST_STATUS.PENDING &&
+                        fil.status !== REST_STATUS.OK && (
+                            <StyledErrorMessage>
+                                <FormattedMessage
+                                    id={"vedlegg.opplasting_feilmelding_" + fil.status}
+                                    defaultMessage={"Vi klarte dessverre ikke lese filen din. Årsaken er ukjent."}
+                                />
+                            </StyledErrorMessage>
+                        )}
+                </StyledLiTag>
+            ))}
+        </ul>
     );
 };
 
