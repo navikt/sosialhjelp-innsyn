@@ -13,7 +13,7 @@ const StyledWrapper = styled.div`
     z-index: 1;
 `;
 
-const leserData = (restStatus: REST_STATUS): boolean => {
+const restStatusSjekk = (restStatus: REST_STATUS): boolean => {
     return (
         restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING || restStatus === REST_STATUS.OK
     );
@@ -27,12 +27,12 @@ export const LoadingResourcesFailedAlert = () => {
 
     useEffect(() => {
         if (
-            !leserData(soknadsStatus) ||
-            !leserData(oppgaver) ||
-            !leserData(vilkar) ||
-            !leserData(dokumentasjonkrav) ||
-            !leserData(hendelser) ||
-            !leserData(vedlegg)
+            !restStatusSjekk(soknadsStatus) ||
+            !restStatusSjekk(oppgaver) ||
+            !restStatusSjekk(vilkar) ||
+            !restStatusSjekk(dokumentasjonkrav) ||
+            !restStatusSjekk(hendelser) ||
+            !restStatusSjekk(vedlegg)
         ) {
             logServerfeil({soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg});
             setLoadingResourcesFailed(true);
