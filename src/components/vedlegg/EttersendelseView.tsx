@@ -130,7 +130,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
-    const onDeleteClick = (event: MouseEvent, vedleggIndex: number, fil: Fil) => {
+    const onDeleteClick = (event: MouseEvent, fil: Fil, vedleggIndex?: number) => {
         setOverMaksStorrelse(false);
         dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
         dispatch({
@@ -175,15 +175,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         )}
                     </TextAndButtonWrapper>
 
-                    {filer.map((fil: Fil, vedleggIndex: number) => (
-                        <FileItemView
-                            key={vedleggIndex}
-                            fil={fil}
-                            onDelete={(event: MouseEvent, fil) => {
-                                onDeleteClick(event, vedleggIndex, fil);
-                            }}
-                        />
-                    ))}
+                    <FileItemView filer={filer} onDelete={onDeleteClick} />
 
                     {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                 </div>
