@@ -38,6 +38,9 @@ const TimeoutBox = (props: Props) => {
     const [showWarningTime, setShowWarningTime] = React.useState(
         beregnVisAdvarseTidspunkt(props.showWarningerAfterMinutes)
     );
+    useEffect(() => {
+        Modal.setAppElement("#root");
+    }, []);
 
     useInterval(() => {
         const tidIgjenAvSesjon = logoutTime - now();
