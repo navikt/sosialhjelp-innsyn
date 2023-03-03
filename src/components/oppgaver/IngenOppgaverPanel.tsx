@@ -11,7 +11,7 @@ import styled from "styled-components/macro";
 import {Attachment, Task} from "@navikt/ds-icons";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "../vilkar/VilkarUtils";
+import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
 
 const StyledPanel = styled(Panel)`
     margin-top: 1.5rem;
@@ -62,7 +62,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
         return (
             <StyledPanel>
                 <>
-                    <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                    <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="oppgave" />
                     <div>
                         <Label as="p">
                             <FormattedMessage id="oppgaver.ingen_oppgaver" />
@@ -73,7 +73,7 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                     </div>
                 </>
                 <>
-                    <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} />
+                    <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="vedlegg" />
                     <div>
                         <Label as="p">
                             <FormattedMessage id="oppgaver.andre_dokumenter" />

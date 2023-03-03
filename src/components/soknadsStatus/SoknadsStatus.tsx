@@ -28,13 +28,15 @@ const Spot = styled.div`
     transform: translate(-50%, -50%);
     top: 0;
     left: 50%;
-    background: var(--navds-semantic-color-feedback-success-background);
+    background: var(--a-surface-success-subtle);
     border-radius: 50%;
     height: 4rem;
     width: 4rem;
 `;
 
-const SpotIcon = styled(PlaceFilled)`
+const SpotIcon = styled(PlaceFilled).attrs({
+    title: "spot",
+})`
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
@@ -60,11 +62,7 @@ interface ContentPanelBorderProps {
 }
 
 const ContentPanelBorder = styled.div<ContentPanelBorderProps>`
-    border-bottom: 2px solid
-        var(
-            ${(props) =>
-                props.lightColor ? "--navds-semantic-color-border-inverted" : "--navds-semantic-color-border-muted"}
-        );
+    border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
     margin: 1rem 0;
 `;
 
@@ -109,7 +107,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
         <Container>
             <ContentPanel>
                 <Spot>
-                    <SpotIcon />
+                    <SpotIcon aria-hidden />
                 </Spot>
                 <ContentPanelBody>
                     {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
@@ -179,7 +177,6 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
                                                         <EksternLenke
-                                                            rel="noopener noreferrer"
                                                             href={"" + hendelse.vedtaksfilUrl}
                                                             onClick={onVisVedtak}
                                                         >

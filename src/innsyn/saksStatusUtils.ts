@@ -1,5 +1,5 @@
-import {KommuneResponse} from "../redux/innsynsdata/innsynsdataReducer";
 import {SoknadsStatusEnum} from "../components/soknadsStatus/soknadsStatusUtils";
+import {KommuneResponse} from "../generated/model";
 
 export function isKommuneMedInnsyn(kommuneResponse: KommuneResponse | undefined, soknadStatus: string | null): boolean {
     return (

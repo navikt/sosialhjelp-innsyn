@@ -4,12 +4,7 @@ import {Heading, Panel} from "@navikt/ds-react";
 import {InnsynAppState} from "../redux/reduxTypes";
 import {REST_STATUS} from "../utils/restUtils";
 import {hentInnsynsdata} from "../redux/innsynsdata/innsynsDataActions";
-import {
-    InnsynsdataActionTypeKeys,
-    InnsynsdataSti,
-    InnsynsdataType,
-    KommuneResponse,
-} from "../redux/innsynsdata/innsynsdataReducer";
+import {InnsynsdataActionTypeKeys, InnsynsdataSti, InnsynsdataType} from "../redux/innsynsdata/innsynsdataReducer";
 import SoknadsStatus from "../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
@@ -26,8 +21,10 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import styled from "styled-components";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
-import {useLocation} from "react-router";
+import {useLocation, useParams} from "react-router-dom";
 import {LoadingResourcesFailedAlert} from "./LoadingResourcesFailedAlert";
+import TimeoutBox from "../components/timeoutbox/TimeoutBox";
+import useKommune from "../hooks/useKommune";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -36,23 +33,17 @@ const StyledPanel = styled(Panel)`
     }
 `;
 
-interface Props {
-    match: {
-        params: {
-            soknadId: string;
-        };
-    };
-}
-
-const SaksStatusView: React.FC<Props> = ({match}) => {
-    const fiksDigisosId: string = match.params.soknadId;
+const SaksStatusView = () => {
+    const {soknadId} = useParams();
+    if (!soknadId) {
+        throw new Error("mangler soknadId i urls");
+    }
+    const fiksDigisosId: string = soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const innsynRestStatus = innsynsdata.restStatus.saksStatus;
 
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const erPaInnsyn = !kommuneResponse?.erInnsynDeaktivert && !kommuneResponse?.erInnsynMidlertidigDeaktivert;
+    const {kommune} = useKommune();
+    const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
@@ -136,8 +127,8 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
             restStatus.kommune === REST_STATUS.OK &&
             (innsynsdata.soknadsStatus.tidspunktSendt == null || innsynsdata.soknadsStatus.soknadsalderIMinutter > 60);
         if (!shouldShowHotjarTrigger) return null;
-        if (isKommuneMedInnsyn(kommuneResponse, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
-        if (isKommuneUtenInnsyn(kommuneResponse)) return "digisos_ikke_innsyn";
+        if (isKommuneMedInnsyn(kommune, innsynsdata.soknadsStatus.status)) return "digisos_innsyn";
+        if (isKommuneUtenInnsyn(kommune)) return "digisos_ikke_innsyn";
     };
 
     return (
@@ -178,7 +169,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
 
                     {(erPaInnsyn || innsynsdata.oppgaver.length > 0) && <Oppgaver />}
 
-                    {kommuneResponse != null && kommuneResponse.erInnsynDeaktivert && (
+                    {kommune != null && kommune.erInnsynDeaktivert && (
                         <>
                             <StyledPanel className="panel-luft-over">
                                 <Heading level="2" size="medium">
@@ -190,11 +181,9 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                             </StyledPanel>
                         </>
                     )}
-                    {(kommuneResponse == null || !kommuneResponse.erInnsynDeaktivert) && (
+                    {(kommune == null || !kommune.erInnsynDeaktivert) && (
                         <ArkfanePanel
-                            historikkChildren={
-                                <Historikk hendelser={innsynsdata.hendelser} restStatus={restStatus.hendelser} />
-                            }
+                            historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
                             vedleggChildren={
                                 <VedleggView vedlegg={innsynsdata.vedlegg} restStatus={restStatus.vedlegg} />
                             }
@@ -202,6 +191,7 @@ const SaksStatusView: React.FC<Props> = ({match}) => {
                     )}
                 </>
             )}
+            <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
         </>
     );
 };

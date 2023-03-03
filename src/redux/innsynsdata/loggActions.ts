@@ -1,6 +1,5 @@
 import {fetchPost} from "../../utils/restUtils";
-
-const LOG_URL = "/info/logg";
+import {createLogEntry, LOG_URL, LogLevel} from "../../utils/logUtils";
 
 export function logInfoMessage(message: string, navCallId?: string) {
     loggMessage(message, "INFO", navCallId);
@@ -21,17 +20,3 @@ function loggMessage(message: string, level: LogLevel, navCallId: string | undef
             return; // Not important to handle those errors
         });
 }
-
-function createLogEntry(message: string, level: LogLevel) {
-    return {
-        level: level,
-        message: message,
-        jsFileUrl: "",
-        lineNumber: "",
-        columnNumber: "",
-        url: window.location.href,
-        userAgent: window.navigator.userAgent,
-    };
-}
-
-type LogLevel = "ERROR" | "WARN" | "INFO";

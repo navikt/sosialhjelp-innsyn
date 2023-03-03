@@ -4,12 +4,12 @@ import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
 
 const ErrorMessage = (props: {feilId: string}) => {
     return (
-        <ErrorMessageLabel className="oppgaver_vedlegg_feilmelding">
-            <li>
-                <span className="oppgaver_vedlegg_feilmelding_bullet_point">
+        <ErrorMessageLabel>
+            <ul style={{marginTop: "0px", marginBottom: "0px"}}>
+                <li>
                     <FormattedMessage id={props.feilId} />
-                </span>
-            </li>
+                </li>
+            </ul>
         </ErrorMessageLabel>
     );
 };

@@ -1,5 +1,42 @@
 ![](https://github.com/navikt/sosialhjelp-innsyn/workflows/Build%20image/badge.svg?branch=master)
 
+# Sosialhjelp innsyn
+
+Frontend for innsyn av søknad om sosialhjelp.
+
+## Kjøring lokalt mot lokal utviklingsbackend
+
+### Backend
+
+Eksempel ihht [«Oppsett av lokalt utviklingsmiljø»](https://github.com/navikt/digisos/blob/main/oppsett-devmiljo.md#docker-compose--mock-milj%C3%B8) i digisos-repoet:
+
+```shell
+cd ../digisos-docker-compose
+docker-compose up \
+                  sosialhjelp-mock-alt \
+                  sosialhjelp-mock-alt-api \
+                  sosialhjelp-innsyn-api
+```
+
+### Github package registry
+
+Vi bruker Github sitt package registry for npm pakker, siden flere av Nav sine pakker kun blir publisert her.
+
+For å kunne kjøre `npm install` lokalt må du logge inn mot Github package registry:
+
+-   Lag/forny access token med repo og read:packages rettigheter i github ( under developer settings). husk enable sso
+-   Login på npm med `npm login --scope=@navikt --registry=https://npm.pkg.github.com` og benytt github brukernavn, epost og tokenet du nettopp genererte
+
+### Frontend
+
+```shell
+npm install # Hent avhengigheter
+npm run start #  starter dev-server
+npm test # Kjør enhetstestene
+```
+
+Se også [utviklerdokumentasjonen](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling/#frontend) vår.
+
 ## How-to
 
 For å teste innsynsløsning, kan man laste opp innsynsdata som JSON til API via swaggersidene slik:
@@ -22,43 +59,16 @@ Dersom du i tillegg ønsker å sette opp formatering av kode i IntelliJ slik at 
 -   Trykk ⌥⇧⌘P for å formatere kode
 -   Optional: Sette opp filewatcher og automatisk formatering. Se her `https://prettier.io/docs/en/webstorm.html#running-prettier-on-save-using-file-watcher`
 
-## Manuell deploy til dev
+## Bygg og deploy
 
-Gjøres via Github Actions, se: https://github.com/navikt/sosialhjelp-innsyn/actions/workflows/deploy_dev.yml
+Image bygges vha Github Actions: https://github.com/navikt/sosialhjelp-innsyn/actions/workflows/build.yml
 
-## Available Scripts
+Siden appen ikke kjører på nais lengre, se [ikke-nais deploy](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/ikke-nais%20deploy) for informasjon om deploy.
 
-In the project directory, you can run:
+### Manuell deploy til dev (NB: gjelder kun dev-gcp)
 
-### `npm start`
+Deploy til dev-gcp gjøres via Github Actions, se: https://github.com/navikt/sosialhjelp-innsyn/actions/workflows/deploy_dev.yml
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Hvordan komme i gang
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.  
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+[Felles dokumentasjon for våre frontend apper](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling#frontend)

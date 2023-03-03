@@ -1,10 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-    Fil,
-    InnsynsdataActionTypeKeys,
-    InnsynsdataSti,
-    KommuneResponse,
-} from "../../redux/innsynsdata/innsynsdataReducer";
+import {Fil, InnsynsdataActionTypeKeys, InnsynsdataSti} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -28,6 +23,8 @@ import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {BodyShort, Button, Label, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
+import useKommune from "../../hooks/useKommune";
+import {useQueryClient} from "@tanstack/react-query";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -46,6 +43,7 @@ const ButtonWrapper = styled.div`
 
 const EttersendelseView: React.FC<Props> = ({restStatus}) => {
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const uuid = uuidv4();
 
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
@@ -121,10 +119,8 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         event.preventDefault();
     };
 
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
-    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommuneResponse);
+    const {kommune} = useKommune();
+    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
     const visDetaljeFeiler: boolean =
         opplastingFeilet !== undefined ||
@@ -134,7 +130,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
-    const onDeleteClick = (event: MouseEvent, vedleggIndex: number, fil: Fil) => {
+    const onDeleteClick = (event: MouseEvent, fil: Fil, vedleggIndex?: number) => {
         setOverMaksStorrelse(false);
         dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
         dispatch({
@@ -179,15 +175,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                         )}
                     </TextAndButtonWrapper>
 
-                    {filer.map((fil: Fil, vedleggIndex: number) => (
-                        <FileItemView
-                            key={vedleggIndex}
-                            fil={fil}
-                            onDelete={(event: MouseEvent, fil) => {
-                                onDeleteClick(event, vedleggIndex, fil);
-                            }}
-                        />
-                    ))}
+                    <FileItemView filer={filer} onDelete={onDeleteClick} />
 
                     {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
                 </div>
@@ -208,6 +196,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 InnsynsdataSti.VEDLEGG,
                                 fiksDigisosId,
                                 setOverMaksStorrelse,
+                                queryClient,
                                 undefined,
                                 filer
                             );

@@ -1,80 +1,53 @@
 import React, {useEffect, useState} from "react";
 import {Alert, BodyShort} from "@navikt/ds-react";
 import "./saksoversikt.css";
-import {InnsynAppState} from "../redux/reduxTypes";
-import {useDispatch, useSelector} from "react-redux";
-import {InnsynsdataSti, InnsynsdataType, Sakstype} from "../redux/innsynsdata/innsynsdataReducer";
-import {REST_STATUS} from "../utils/restUtils";
-import {hentSaksdata} from "../redux/innsynsdata/innsynsDataActions";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
-import BigBanner from "../components/banner/BigBanner";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
+import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const Saksoversikt: React.FC = () => {
     document.title = "Dine søknader - Økonomisk sosialhjelp";
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    const dispatch = useDispatch();
-    const innsynData: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
-    const restStatus = innsynData.restStatus.saker;
-    const leserData: boolean = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
-
-    const mustLogin: boolean = restStatus === REST_STATUS.UNAUTHORIZED;
-
-    let innsynApiKommunikasjonsProblemer = false;
-
-    let alleSaker: Sakstype[] = [];
-    if (!leserData) {
-        if (restStatus === REST_STATUS.OK) {
-            alleSaker = alleSaker.concat(innsynData.saker);
-        }
-        if (restStatus === REST_STATUS.SERVICE_UNAVAILABLE || restStatus === REST_STATUS.FEILET) {
-            innsynApiKommunikasjonsProblemer = true;
-        }
-    }
-    const harSaker = alleSaker.length > 0;
-
+    const {
+        data: saker,
+        isLoading,
+        error,
+    } = useHentAlleSaker({
+        query: {
+            onSuccess: (data) => {
+                if (!pageLoadIsLogged) {
+                    logAmplitudeEvent("Hentet innsynsdata", {
+                        antallSoknader: data?.length,
+                    });
+                    setPageLoadIsLogged(true);
+                }
+            },
+        },
+    });
     useEffect(() => {
         setBreadcrumbs();
     }, []);
 
-    useEffect(() => {
-        dispatch(hentSaksdata(InnsynsdataSti.SAKER, false));
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (!pageLoadIsLogged && restStatus === REST_STATUS.OK) {
-            logAmplitudeEvent("Hentet innsynsdata", {
-                antallSoknader: alleSaker.length,
-            });
-            //Ensure only one logging to amplitude
-            setPageLoadIsLogged(true);
-        }
-    }, [restStatus, alleSaker.length, pageLoadIsLogged]);
-
     useBannerTittel("Økonomisk sosialhjelp");
-
     return (
-        <div className="informasjon-side">
-            <BigBanner tittel="Økonomisk sosialhjelp" />
-            <div className="blokk-center">
-                {(leserData || mustLogin) && <ApplicationSpinner />}
-                {!leserData && !mustLogin && (
-                    <>
-                        {innsynApiKommunikasjonsProblemer && (
-                            <Alert variant="warning" className="luft_over_16px">
-                                <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                                <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
-                            </Alert>
-                        )}
-                        {harSaker ? <SaksoversiktDineSaker saker={alleSaker} /> : <SaksoversiktIngenSoknader />}
-                    </>
-                )}
-            </div>
-        </div>
+        <>
+            {(isLoading || error?.status === 401) && <ApplicationSpinner />}
+            {!isLoading && (
+                <>
+                    {error && (
+                        <Alert variant="warning" className="luft_over_16px">
+                            <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
+                            <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+                        </Alert>
+                    )}
+                    {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
+                </>
+            )}
+        </>
     );
 };
 

@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import Collapsible from "react-collapsible";
 import {BodyShort, Button} from "@navikt/ds-react";
-import {Collapse, Expand} from "@navikt/ds-icons";
 import styled from "styled-components";
+import {Collapse, Expand} from "@navikt/ds-icons";
 
 interface Props {
     tittel: string;
@@ -18,7 +18,7 @@ const StyledExpanderbarHeader = styled.div`
     margin-bottom: 4px;
 
     button {
-        padding: var(--navds-spacing-2) var(--navds-spacing-4);
+        padding: var(--a-spacing-2) var(--a-spacing-4);
     }
 
     @media only screen and (max-width: 480px) {
@@ -43,7 +43,7 @@ const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen
                         setOpen(!open);
                         evt.preventDefault();
                     }}
-                    icon={open ? <Collapse /> : <Expand />}
+                    icon={open ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Mer informasjon" />}
                     iconPosition="right"
                 >
                     {open ? "Lukk" : "Mer informasjon"}

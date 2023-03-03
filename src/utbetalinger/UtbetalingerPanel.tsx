@@ -1,31 +1,27 @@
 import React from "react";
 import SavnerUtbetalingPanel from "./SavnerUtbetalingPanel";
 import UtbetalingEkspanderbart from "./UtbetalingEkspanderbart";
-import {UtbetalingMaaned, UtbetalingSakType} from "./service/useUtbetalingerService";
 import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {erDevMiljo} from "../utils/ServiceHookTypes";
 import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components/macro";
+import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
 
 interface Props {
-    utbetalinger: UtbetalingSakType[];
+    utbetalinger: UtbetalingerResponse[];
     lasterData: boolean;
 }
 
-const sumUtbetalinger = (utbetalingSak: UtbetalingSakType): number => {
+const sumUtbetalinger = (utbetalingSak: UtbetalingerResponse): number => {
     let sum: number = 0;
-    utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned) => {
+    utbetalingSak.utbetalinger.map((utbetalingMaaned: ManedUtbetaling) => {
         sum = sum + utbetalingMaaned.belop;
         return sum;
     });
     return sum;
 };
-
-const StyledDetail = styled(Detail)`
-    margin-top: 1rem;
-`;
 
 const StyledHeading = styled(Heading)`
     display: flex;
@@ -80,8 +76,8 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
             {(!utbetalinger || utbetalinger.length === 0) && (
                 <Label as="p">Vi finner ingen registrerte utbetalinger for perioden.</Label>
             )}
-            {utbetalinger?.map((utbetalingSak: UtbetalingSakType, index: number) => (
-                <>
+            {utbetalinger?.map((utbetalingSak: UtbetalingerResponse, index: number) => (
+                <React.Fragment key={`${utbetalingSak.foersteIManeden}-${utbetalingSak.maned}-${utbetalingSak.ar}`}>
                     {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
                         <Heading as="p" size="medium">
                             {utbetalingSak.ar}
@@ -92,7 +88,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                             <span>{utbetalingSak.maned + " " + utbetalingSak.ar}</span>
                             <span>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</span>
                         </StyledHeading>
-                        {utbetalingSak.utbetalinger.map((utbetalingMaaned: UtbetalingMaaned, index: number) => {
+                        {utbetalingSak.utbetalinger.map((utbetalingMaaned: ManedUtbetaling, index: number) => {
                             const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
                             const erIkkeSisteUtbetaling: boolean = index !== utbetalingSak.utbetalinger.length - 1;
                             return (
@@ -107,7 +103,12 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                         <Label as="p">{formatCurrency(utbetalingMaaned.belop)} kr</Label>
                                     </StyledUtbetalingHeader>
                                     <UtbetalingEkspanderbart
-                                        tittel={"Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)}
+                                        // TODO: Hvordan håndtere undefined utbetalingsdato?
+                                        tittel={
+                                            !!utbetalingMaaned.utbetalingsdato
+                                                ? "Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)
+                                                : "Ukjent utbetalingsdato"
+                                        }
                                         defaultOpen={erDevMiljo()}
                                     >
                                         <MottakerWrapper>
@@ -135,14 +136,13 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 </Label>
                                             </>
                                         )}
-                                        <StyledDetail>Søknaden din</StyledDetail>
                                         <Saksdetaljer fiksDigisosId={utbetalingMaaned.fiksDigisosId} />
                                     </UtbetalingEkspanderbart>
                                 </StyledUtbetaling>
                             );
                         })}
                     </StyledPanel>
-                </>
+                </React.Fragment>
             ))}
             <SavnerUtbetalingPanel />
         </div>

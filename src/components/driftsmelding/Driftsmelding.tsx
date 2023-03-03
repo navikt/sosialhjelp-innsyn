@@ -1,30 +1,24 @@
 import * as React from "react";
-import {useSelector} from "react-redux";
-import {InnsynAppState} from "../../redux/reduxTypes";
-import {KommuneResponse} from "../../redux/innsynsdata/innsynsdataReducer";
 import {FormattedMessage} from "react-intl";
 import {Driftsmelding, DriftsmeldingTypeKeys, getDriftsmeldingByKommuneResponse} from "./DriftsmeldingUtilities";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {Alert, Label} from "@navikt/ds-react";
 import styled from "styled-components";
+import useKommune from "../../hooks/useKommune";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
 
-const DriftsmeldingAlertstripe: React.FC<{}> = () => {
-    let kommuneResponse: KommuneResponse | undefined = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.kommune
-    );
+const DriftsmeldingAlertstripe: React.FC = () => {
+    const {kommune} = useKommune();
 
-    const driftsmelding: Driftsmelding = getDriftsmeldingByKommuneResponse(kommuneResponse);
+    const driftsmelding: Driftsmelding = getDriftsmeldingByKommuneResponse(kommune);
     const Tidspunkt = () => (
         <Label as="p">
             <DatoOgKlokkeslett
                 bareDato={false}
-                tidspunkt={
-                    kommuneResponse ? (kommuneResponse.tidspunkt ? kommuneResponse.tidspunkt.toString() : "") : ""
-                }
+                tidspunkt={kommune ? (kommune.tidspunkt ? kommune.tidspunkt.toString() : "") : ""}
             />
         </Label>
     );

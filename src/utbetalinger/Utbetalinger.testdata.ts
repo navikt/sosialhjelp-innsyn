@@ -1,20 +1,20 @@
-import {UtbetalingSakType} from "./service/useUtbetalingerService";
+import {UtbetalingerResponse} from "../generated/model";
 
 // Example: getRandomInt(3) => expected output: 0, 1 or 2
 const getRandomInt = (max: number): number => {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
-const summerAntallUtbetalinger = (utbetalingerMaaned: UtbetalingSakType[]) => {
+const summerAntallUtbetalinger = (utbetalingerMaaned: UtbetalingerResponse[]) => {
     let antallUtbetalinger: number = 0;
-    utbetalingerMaaned.map((utbetalingMaaned: UtbetalingSakType) => {
+    utbetalingerMaaned.map((utbetalingMaaned: UtbetalingerResponse) => {
         antallUtbetalinger = antallUtbetalinger + utbetalingMaaned.utbetalinger.length;
         return utbetalingMaaned;
     });
     return antallUtbetalinger;
 };
 
-const mockUtbetalinger: UtbetalingSakType[] = [
+const mockUtbetalinger: (UtbetalingerResponse & {sum: number})[] = [
     {
         ar: 2019,
         maned: "oktober",
@@ -41,11 +41,8 @@ const mockUtbetalinger: UtbetalingSakType[] = [
                 utbetalingsdato: "2019-08-01",
                 status: "UTBETALT",
                 fiksDigisosId: "ce3f24a0-359e-45f3-a7f7-5123e70cb715",
-                fom: null,
-                tom: null,
                 mottaker: "Utleier",
                 annenMottaker: true,
-                kontonummer: null,
                 forfallsdato: "2019-08-20",
                 utbetalingsmetode: "bankoverføring",
             },
@@ -67,7 +64,6 @@ const mockUtbetalinger: UtbetalingSakType[] = [
                 tom: "2019-10-31",
                 mottaker: "søkers fnr",
                 annenMottaker: false,
-                kontonummer: null,
                 forfallsdato: "2019-08-20",
                 utbetalingsmetode: "bankoverføring",
             },
@@ -99,11 +95,8 @@ const mockUtbetalinger: UtbetalingSakType[] = [
                 utbetalingsdato: "2019-08-01",
                 status: "UTBETALT",
                 fiksDigisosId: "ce3f24a0-359e-45f3-a7f7-5123e70cb715",
-                fom: null,
-                tom: null,
                 mottaker: "Utleier",
                 annenMottaker: false,
-                kontonummer: null,
                 forfallsdato: "2019-08-20",
                 utbetalingsmetode: "bankoverføring",
             },

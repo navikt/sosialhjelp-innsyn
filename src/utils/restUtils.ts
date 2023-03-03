@@ -1,6 +1,7 @@
 import "whatwg-fetch";
-import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 import {v4 as uuidv4} from "uuid";
+import {createLogEntry, LOG_URL} from "./logUtils";
+import Axios from "axios";
 
 export function isProd(origin: string) {
     return origin.indexOf("www.nav.no") >= 0;
@@ -26,27 +27,56 @@ export function isUsingMockAlt(origin: string): boolean {
     return isMock(origin);
 }
 
-export function getApiBaseUrl(): string {
-    return getBaseUrl(window.location.origin);
+export function getApiBaseUrl(excludeApiV1?: boolean): string {
+    return getBaseUrl(window.location.origin, excludeApiV1);
 }
 
-export function getBaseUrl(origin: string): string {
+export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
     if (isLocalhost(origin)) {
+        if (excludeApiV1) {
+            return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api";
+        }
         return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
         //return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";//for idporten testing
     }
     if (isUsingMockAlt(origin)) {
+        if (excludeApiV1) {
+            return (
+                origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+                "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api"
+            );
+        }
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin) || isDev(origin)) {
+    } else if (isDevSbs(origin)) {
+        if (excludeApiV1) {
+            return (
+                origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
+                "/sosialhjelp/login-api/innsyn-api"
+            );
+        }
+        return (
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
+            "/sosialhjelp/login-api/innsyn-api/api/v1"
+        );
+    } else if (isDev(origin)) {
+        if (excludeApiV1) {
+            return (
+                origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+                "/sosialhjelp/innsyn-api"
+            );
+        }
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/innsyn-api/api/v1"
         );
     }
-    return "https://www.nav.no/sosialhjelp/innsyn-api/api/v1";
+    if (excludeApiV1) {
+        return "https://www.nav.no/sosialhjelp/login-api/innsyn-api";
+    }
+    return "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
 }
 
 export function getNavUrl(origin: string): string {
@@ -55,6 +85,19 @@ export function getNavUrl(origin: string): string {
     } else {
         return "https://www.nav.no/person/dittnav/";
     }
+}
+
+export function getLogoutUrl(origin: string): string {
+    if (isLocalhost(origin)) {
+        return "http://localhost:3000/sosialhjelp/mock-alt/";
+    }
+    if (isUsingMockAlt(origin)) {
+        return "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt/";
+    }
+    if (isDevSbs(origin) || isDev(origin)) {
+        return "https://loginservice.dev.nav.no/slo";
+    }
+    return "https://loginservice.nav.no/slo";
 }
 
 enum RequestMethod {
@@ -90,7 +133,7 @@ export const getOriginAwareHeaders = (origin: string, contentType?: string, call
     return headers;
 };
 
-function generateCallId(): string {
+export function generateCallId(): string {
     let randomNr = uuidv4();
     let systemTime = Date.now();
 
@@ -202,11 +245,29 @@ function sjekkStatuskode(response: Response, url: string) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
                 window.location.href = r.loginUrl + queryDivider + getRedirectPath(r.loginUrl, r.id);
             } else {
-                logWarningMessage(
-                    "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
-                        r.id +
-                        "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
-                );
+                Axios.create({
+                    baseURL: getApiBaseUrl(true),
+                    xsrfCookieName: "XSRF-TOKEN-INNSYN-API",
+                    withCredentials: isLocalhost(window.location.origin) || isUsingMockAlt(window.location.origin),
+                    xsrfHeaderName: "XSRF-TOKEN-INNSYN-API",
+                    headers: {
+                        "Nav-Call-Id": generateCallId(),
+                        Accept: "application/json, text/plain, */*",
+                    },
+                })({
+                    url: getApiBaseUrl() + LOG_URL,
+                    method: "post",
+                    data: createLogEntry(
+                        "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
+                            r.id +
+                            "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).",
+                        "WARN"
+                    ),
+                })
+                    .then(() => {})
+                    .catch(() => {
+                        return; // Not important to handle those errors
+                    });
             }
         });
         throw new Error(HttpErrorType.UNAUTHORIZED);
