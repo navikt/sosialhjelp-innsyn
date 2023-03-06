@@ -180,7 +180,7 @@ const Oppgaver = () => {
     return (
         <StyledPanel error={+hasError}>
             <StyledPanelHeader>
-                {hasError && <StyledErrorColored />}
+                {hasError && <StyledErrorColored aria-hidden title="Feil" />}
                 <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>

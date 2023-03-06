@@ -71,7 +71,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
 
     return (
         <StyledPanel error={+hasError}>
-            {hasError && <StyledErrorColored />}
+            {hasError && <StyledErrorColored aria-hidden title="Feil" />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
                     <Tabs.Tab value={ARKFANER.HISTORIKK} label={intl.formatMessage({id: "historikk.tittel"})} />
