@@ -12,7 +12,7 @@ export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
 
     useEffect(() => {
-        Modal.setAppElement("#root");
+        if (process.env.NODE_ENV !== "test") Modal.setAppElement("#root");
     }, []);
 
     const handleOnClick = (event: MouseEvent) => {
