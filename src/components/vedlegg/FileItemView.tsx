@@ -10,7 +10,7 @@ import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
 import {v4 as uuidv4} from "uuid";
-import styles from "./oppgaver.module.css";
+import styles from "../../styles/lists.module.css";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
