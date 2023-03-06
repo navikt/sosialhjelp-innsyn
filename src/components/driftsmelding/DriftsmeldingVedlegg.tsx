@@ -6,7 +6,7 @@ import styled from "styled-components/macro";
 import useKommune from "../../hooks/useKommune";
 
 interface Props {
-    restStatusError: undefined | boolean;
+    leserData: undefined | boolean;
 }
 
 const Bold = styled.span`
@@ -17,7 +17,7 @@ const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
     const {kommune, isLoading} = useKommune();
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
-    if (!kanLasteOppVedlegg && props.restStatusError && !isLoading) {
+    if (!kanLasteOppVedlegg && !props.leserData && !isLoading) {
         return (
             <Alert variant="error" size="medium" inline>
                 <Bold>
