@@ -2,7 +2,7 @@ import {Accordion} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DriftsmeldingVedlegg from "../../driftsmelding/DriftsmeldingVedlegg";
-import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
+import {REST_STATUS} from "../../../utils/restUtils";
 import {DokumentasjonEtterspurt, HendelseTypeEnum} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
@@ -47,7 +47,12 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                 <Accordion.Content>
                     <InfoOmOppgaver dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     <OpplastingAvVedleggModal />
-                    <DriftsmeldingVedlegg restStatusSjekk={skalViseLastestripe(props.restStatus_oppgaver)} />
+                    <DriftsmeldingVedlegg
+                        restStatusError={
+                            props.restStatus_oppgaver !== REST_STATUS.INITIALISERT &&
+                            props.restStatus_oppgaver !== REST_STATUS.PENDING
+                        }
+                    />
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt.map((dokumentasjon: DokumentasjonEtterspurt, index: number) => (
                             <li key={dokumentasjon.oppgaveId}>
