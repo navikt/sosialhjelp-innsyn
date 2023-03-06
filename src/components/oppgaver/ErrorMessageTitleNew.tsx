@@ -4,6 +4,6 @@ import {ErrorMessage} from "../errors/ErrorMessage";
 
 export const ErrorMessageTitle = (props: {feilId: string; errorValue: {}}) => {
     const {t} = useTranslation();
-
-    return <ErrorMessage>{t(props.feilId, {errorValue: props.errorValue})}</ErrorMessage>;
+    const {errorValue} = props;
+    return <ErrorMessage>{t(props.feilId, errorValue)}</ErrorMessage>;
 };
