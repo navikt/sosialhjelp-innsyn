@@ -44,7 +44,7 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
                     <StyledDetail>Søknaden din</StyledDetail>
                     <StyledLinkPanel border to={"/" + fiksDigisosId + "/status"} forwardedAs={Link}>
                         <StyledLinkPanelDescription>
-                            <StyledFileIcon />
+                            <StyledFileIcon aria-hidden />
                             <StyledSaksDetaljer>
                                 <span>
                                     <SaksMetaData oppdatert={merOmSaken.sistOppdatert} status={sak.status} />

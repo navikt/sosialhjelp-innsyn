@@ -43,7 +43,7 @@ const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen
                         setOpen(!open);
                         evt.preventDefault();
                     }}
-                    icon={open ? <Collapse /> : <Expand />}
+                    icon={open ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Mer informasjon" />}
                     iconPosition="right"
                 >
                     {open ? "Lukk" : "Mer informasjon"}

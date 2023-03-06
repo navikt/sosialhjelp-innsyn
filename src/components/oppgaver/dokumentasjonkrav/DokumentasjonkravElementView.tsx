@@ -3,10 +3,10 @@ import {DokumentasjonKravElement, Fil} from "../../../redux/innsynsdata/innsynsd
 import {alertUser, illegalCombinedFilesSize} from "../../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
-import AddFileButton, {TextAndButtonWrapper} from "../AddFileButton";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
-import FileItemView from "../FileItemView";
+import AddFileButton, {TextAndButtonWrapper} from "../../vedlegg/AddFileButton";
+import FileItemView from "../../vedlegg/FileItemView";
 import ErrorMessage from "../ErrorMessage";
 import {ErrorMessage as ErrorMessageLabel} from "../../errors/ErrorMessage";
 import {ErrorMessageTitle} from "../ErrorMessageTitleNew";
@@ -141,9 +141,7 @@ const DokumentasjonkravElementView: React.FC<{
                 )}
             </TextAndButtonWrapper>
 
-            {filer.map((fil: Fil, vedleggIndex: number) => (
-                <FileItemView key={vedleggIndex} fil={fil} onDelete={onDeleteElement} />
-            ))}
+            <FileItemView filer={filer} onDelete={onDeleteElement} />
             {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (

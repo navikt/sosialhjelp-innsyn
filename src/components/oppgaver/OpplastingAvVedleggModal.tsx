@@ -1,4 +1,4 @@
-import React, {MouseEvent, useState} from "react";
+import React, {MouseEvent, useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
@@ -11,6 +11,10 @@ const StyledModal = styled(Modal)`
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
     const {t} = useTranslation();
+
+    useEffect(() => {
+        if (process.env.NODE_ENV !== "test") Modal.setAppElement("#root");
+    }, []);
 
     const handleOnClick = (event: MouseEvent) => {
         event.preventDefault();
