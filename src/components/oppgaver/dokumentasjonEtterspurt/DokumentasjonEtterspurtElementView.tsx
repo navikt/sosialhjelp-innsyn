@@ -14,8 +14,8 @@ import {
 } from "../../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
-import FileItemView from "./../FileItemView";
-import AddFileButton, {TextAndButtonWrapper} from "./../AddFileButton";
+import FileItemView from "./../../vedlegg/FileItemView";
+import AddFileButton, {TextAndButtonWrapper} from "./../../vedlegg/AddFileButton";
 import {v4 as uuidv4} from "uuid";
 import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import {BodyShort, Label} from "@navikt/ds-react";

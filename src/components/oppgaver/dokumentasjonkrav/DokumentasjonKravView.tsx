@@ -26,7 +26,7 @@ import {useQueryClient} from "@tanstack/react-query";
 import {logInfoMessage} from "../../../redux/innsynsdata/loggActions";
 import DokumentasjonkravElementView from "./DokumentasjonkravElementView";
 import InnsendelsesFrist from "../InnsendelsesFrist";
-import styles from "../oppgaver.module.css";
+import styles from "../../../styles/lists.module.css";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav;

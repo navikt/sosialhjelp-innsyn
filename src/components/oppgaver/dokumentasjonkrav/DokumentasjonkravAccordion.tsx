@@ -5,7 +5,7 @@ import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import React from "react";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
-import styles from "../oppgaver.module.css";
+import styles from "../../../styles/lists.module.css";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonKrav[];
