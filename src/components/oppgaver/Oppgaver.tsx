@@ -8,7 +8,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {FormattedMessage} from "react-intl";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {fetchToJson, skalViseLastestripe} from "../../utils/restUtils";
+import {fetchToJson, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
@@ -18,17 +18,31 @@ import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/Dokume
 import {add, isBefore} from "date-fns";
 import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {DokumentasjonkravAccordion} from "./dokumentasjonkrav/DokumentasjonkravAccordion";
+import {ErrorColored} from "@navikt/ds-icons";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
-    padding-left: 0.75rem;
 `;
 
 const StyledAlert = styled(Alert)`
     margin-top: 0.5rem;
 `;
 
-const StyledPanel = styled(Panel)`
+const StyledErrorColored = styled(ErrorColored)`
+    position: absolute;
+    @media screen and (min-width: 641px) {
+        top: 5.25rem;
+        left: 1.5rem;
+    }
+    @media screen and (max-width: 640px) {
+        top: 4.25rem;
+        left: 1rem;
+    }
+`;
+
+const StyledPanel = styled(Panel)<{error?: boolean}>`
+    position: relative;
+    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
         margin-top: 4rem;
@@ -36,6 +50,15 @@ const StyledPanel = styled(Panel)`
     @media screen and (max-width: 640px) {
         padding: 1rem;
         margin-top: 2rem;
+    }
+`;
+
+const StyledTextPlacement = styled.div`
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
+    }
 `;
 
 interface SaksUtbetalingResponse {
@@ -76,6 +99,13 @@ const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
         </StyledAlert>
     ) : null;
 };
+
+const restStatusError = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
+    );
+};
+
 const Oppgaver = () => {
     const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
         (state: InnsynAppState) => state.innsynsdata
@@ -86,6 +116,10 @@ const Oppgaver = () => {
     const [filtrerteDokumentasjonkrav, setFiltrerteDokumentasjonkrav] = useState(dokumentasjonkrav);
     const [filtrerteVilkar, setFiltrerteVilkar] = useState(vilkar);
     const [fetchError, setFetchError] = useState(false);
+    const hasError =
+        restStatusError(restStatus.oppgaver) ||
+        restStatusError(restStatus.vilkar) ||
+        restStatusError(restStatus.dokumentasjonkrav);
 
     const dispatch = useDispatch();
 
@@ -144,9 +178,10 @@ const Oppgaver = () => {
     }, [sakUtbetalinger, dokumentasjonkrav, vilkar]);
 
     return (
-        <StyledPanel>
+        <StyledPanel error={+hasError}>
             <StyledPanelHeader>
-                <Heading level="2" size="medium" spacing>
+                {hasError && <StyledErrorColored title="Feil" />}
+                <Heading level="2" size="medium">
                     <FormattedMessage id="oppgaver.dine_oppgaver" />
                 </Heading>
             </StyledPanelHeader>
@@ -154,15 +189,21 @@ const Oppgaver = () => {
             {skalViseLastestripe(restStatus.oppgaver, true) && (
                 <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
             )}
-
-            <IngenOppgaverPanel
-                dokumentasjonEtterspurt={dokumentasjonEtterspurt}
-                dokumentasjonkrav={filtrerteDokumentasjonkrav}
-                vilkar={filtrerteVilkar}
-                leserData={skalViseLastestripe(restStatus.oppgaver)}
-            />
+            {!hasError && (
+                <IngenOppgaverPanel
+                    dokumentasjonEtterspurt={dokumentasjonEtterspurt}
+                    dokumentasjonkrav={filtrerteDokumentasjonkrav}
+                    vilkar={filtrerteVilkar}
+                    leserData={skalViseLastestripe(restStatus.oppgaver, true)}
+                />
+            )}
             {skalViseOppgaver && (
                 <>
+                    {hasError && (
+                        <StyledTextPlacement>
+                            <FormattedMessage id="feilmelding.dineOppgaver_innlasting" />
+                        </StyledTextPlacement>
+                    )}
                     <DokumentasjonEtterspurtAccordion
                         restStatus_oppgaver={restStatus.oppgaver}
                         dokumentasjonEtterspurt={dokumentasjonEtterspurt}

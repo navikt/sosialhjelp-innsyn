@@ -53,7 +53,6 @@ const SendButton = (props: Props) => {
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, noFilesAdded));
 
         if (noFilesAdded) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setIsUploading(false);
             event.preventDefault();

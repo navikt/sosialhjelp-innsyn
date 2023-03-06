@@ -10,12 +10,12 @@ interface Props {
 const SoknadsStatusTag = ({status, intl}: Props) => {
     switch (status) {
         case SoknadsStatusEnum.SENDT:
-            return <Tag variant="warning">{intl.formatMessage({id: "soknadstatus.sendt"})}</Tag>;
+            return <Tag variant="info">{intl.formatMessage({id: "soknadstatus.sendt"})}</Tag>;
         case SoknadsStatusEnum.MOTTATT:
-            return <Tag variant="warning">{intl.formatMessage({id: "soknadstatus.mottatt"})}</Tag>;
+            return <Tag variant="info">{intl.formatMessage({id: "soknadstatus.mottatt"})}</Tag>;
 
         case SoknadsStatusEnum.UNDER_BEHANDLING:
-            return <Tag variant="warning">{intl.formatMessage({id: "soknadstatus.under_behandling"})}</Tag>;
+            return <Tag variant="info">{intl.formatMessage({id: "soknadstatus.under_behandling"})}</Tag>;
 
         case SoknadsStatusEnum.FERDIGBEHANDLET:
             return <Tag variant="success">{intl.formatMessage({id: "soknadstatus.ferdigbehandlet"})}</Tag>;

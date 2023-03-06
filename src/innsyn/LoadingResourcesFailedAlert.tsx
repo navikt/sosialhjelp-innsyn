@@ -1,57 +1,49 @@
-import {Alert, BodyShort} from "@navikt/ds-react";
+import {Alert} from "@navikt/ds-react";
 import React, {useEffect} from "react";
-import {REST_STATUS} from "../utils/restUtils";
 import {logServerfeil} from "../utils/amplitude";
+import {FormattedMessage} from "react-intl";
+import styled from "styled-components";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
+import {REST_STATUS} from "../utils/restUtils";
 
-const leserData = (restStatus: REST_STATUS): boolean => {
-    return restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+const StyledWrapper = styled.div`
+    position: sticky;
+    top: 0;
+    z-index: 1;
+`;
+
+const restStatusError = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
+    );
 };
 
-export const LoadingResourcesFailedAlert = (props: {
-    loadingResourcesFailed: boolean;
-    setLoadingResourcesFailed: (loadingResourcesFailed: boolean) => void;
-}) => {
-    const {saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg} = useSelector(
+export const LoadingResourcesFailedAlert = () => {
+    const {soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg} = useSelector(
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
-
-    const {setLoadingResourcesFailed} = props;
+    const hasError =
+        restStatusError(soknadsStatus) ||
+        restStatusError(oppgaver) ||
+        restStatusError(vilkar) ||
+        restStatusError(dokumentasjonkrav) ||
+        restStatusError(hendelser) ||
+        restStatusError(vedlegg);
 
     useEffect(() => {
-        if (
-            !leserData(saksStatus) ||
-            !leserData(oppgaver) ||
-            !leserData(dokumentasjonkrav) ||
-            !leserData(vilkar) ||
-            !leserData(soknadsStatus) ||
-            !leserData(hendelser) ||
-            !leserData(vedlegg)
-        ) {
-            if (
-                saksStatus === REST_STATUS.FEILET ||
-                oppgaver === REST_STATUS.FEILET ||
-                dokumentasjonkrav === REST_STATUS.FEILET ||
-                vilkar === REST_STATUS.FEILET ||
-                soknadsStatus === REST_STATUS.FEILET ||
-                hendelser === REST_STATUS.FEILET ||
-                vedlegg === REST_STATUS.FEILET
-            ) {
-                logServerfeil({saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg});
-                setLoadingResourcesFailed(true);
-            }
+        if (hasError) {
+            logServerfeil({soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg});
         }
-    }, [saksStatus, oppgaver, dokumentasjonkrav, vilkar, soknadsStatus, hendelser, vedlegg, setLoadingResourcesFailed]);
+    }, [soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg, hasError]);
 
     return (
-        <>
-            {props.loadingResourcesFailed && (
-                <Alert variant="warning" className="luft_over_16px">
-                    <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                    <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+        <StyledWrapper>
+            {hasError && (
+                <Alert variant="error" className="luft_over_16px">
+                    <FormattedMessage id={"feilmelding.ressurs_innlasting"} values={{linebreak: <br />}} />
                 </Alert>
             )}
-        </>
+        </StyledWrapper>
     );
 };
