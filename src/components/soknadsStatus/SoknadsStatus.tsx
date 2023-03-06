@@ -138,7 +138,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                     <SpotIcon aria-hidden />
                 </Spot>
                 <ContentPanelBody>
-                    {hasError && <StyledErrorColored aria-hidden title="Feil" />}
+                    {hasError && <StyledErrorColored title="Feil" />}
                     {hasError && (
                         <StyledTextPlacement>
                             <FormattedMessage id="feilmelding.soknadStatus_innlasting" />
