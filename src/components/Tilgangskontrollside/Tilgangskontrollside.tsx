@@ -64,10 +64,10 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
             });
     }, [dispatch]);
 
-    const leserData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
+    const henterData = restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING;
     const mustLogin = restStatus === REST_STATUS.UNAUTHORIZED;
 
-    if (leserData || mustLogin) {
+    if (henterData || mustLogin) {
         return (
             <div className="informasjon-side">
                 <Banner>Økonomisk sosialhjelp</Banner>

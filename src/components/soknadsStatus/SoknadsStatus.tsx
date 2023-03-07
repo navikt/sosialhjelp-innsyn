@@ -8,7 +8,7 @@ import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
 import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
-import {PlaceFilled} from "@navikt/ds-icons";
+import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
@@ -18,7 +18,8 @@ const Container = styled.div`
     padding-top: 3rem;
 `;
 
-const ContentPanel = styled(Panel)`
+const ContentPanel = styled(Panel)<{error?: boolean}>`
+    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
     padding-top: 2rem;
     position: relative;
 `;
@@ -54,9 +55,23 @@ const ContentPanelBody = styled.div`
     }
 `;
 
+const StyledErrorColored = styled(ErrorColored)`
+    position: absolute;
+
+    @media screen and (min-width: 641px) {
+        top: 3rem;
+        left: 1.5rem;
+    }
+    @media screen and (max-width: 640px) {
+        top: 3.15rem;
+        left: 1rem;
+    }
+`;
+
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
+
 interface ContentPanelBorderProps {
     lightColor?: boolean;
 }
@@ -85,6 +100,12 @@ const StatusMessageVedtak = styled.div`
     margin-top: 6px;
 `;
 
+const StyledTextPlacement = styled.div`
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
+    }
+`;
+
 interface Props {
     soknadsStatus: SoknadsStatusEnum | null;
     sak: null | SaksStatusState[];
@@ -95,10 +116,17 @@ const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
+const restStatusError = (restStatus: REST_STATUS): boolean => {
+    return (
+        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
+    );
+};
+
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
     const {t} = useTranslation();
 
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
+    const hasError = restStatusError(restStatus);
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
@@ -106,12 +134,14 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
 
     return (
         <Container>
-            <ContentPanel>
+            <ContentPanel error={+hasError}>
                 <Spot>
                     <SpotIcon aria-hidden />
                 </Spot>
                 <ContentPanelBody>
-                    {skalViseLastestripe(restStatus) && <Lastestriper linjer={1} />}
+                    {hasError && <StyledErrorColored title="Feil" />}
+                    {hasError && <StyledTextPlacement>{t("feilmelding.soknadStatus_innlasting")}</StyledTextPlacement>}
+                    {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>
                             <Heading level="2" size="large" spacing>
@@ -126,7 +156,7 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                         <StyledAlert variant="info">{t("status.soknad_behandles_ikke_ingress")}</StyledAlert>
                     )}
 
-                    {sak?.length === 0 && !soknadBehandlesIkke && (
+                    {!hasError && sak?.length === 0 && !soknadBehandlesIkke && (
                         <StatusBox>
                             <StatusMessage>
                                 <Label as="p">{t("saker.default_tittel")}</Label>
@@ -135,7 +165,8 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                         </StatusBox>
                     )}
 
-                    {sak &&
+                    {!hasError &&
+                        sak &&
                         sak.map((statusdetalj: SaksStatusState, index: number) => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;

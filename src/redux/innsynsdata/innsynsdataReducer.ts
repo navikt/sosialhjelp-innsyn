@@ -270,6 +270,8 @@ export interface InnsynsdataType {
 export const initialInnsynsdataRestStatus = {
     saksStatus: REST_STATUS.INITIALISERT,
     oppgaver: REST_STATUS.INITIALISERT,
+    vilkar: REST_STATUS.INITIALISERT,
+    dokumentasjonkrav: REST_STATUS.INITIALISERT,
     soknadsStatus: REST_STATUS.INITIALISERT,
     hendelser: REST_STATUS.INITIALISERT,
     vedlegg: REST_STATUS.INITIALISERT,

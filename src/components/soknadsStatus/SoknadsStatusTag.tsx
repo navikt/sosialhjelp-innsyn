@@ -11,12 +11,12 @@ const SoknadsStatusTag = ({status}: Props) => {
 
     switch (status) {
         case SoknadsStatusEnum.SENDT:
-            return <Tag variant="warning">{t("soknadstatus.sendt")}</Tag>;
+            return <Tag variant="info">{t("soknadstatus.sendt")}</Tag>;
         case SoknadsStatusEnum.MOTTATT:
-            return <Tag variant="warning">{t("soknadstatus.mottatt")}</Tag>;
+            return <Tag variant="info">{t("soknadstatus.mottatt")}</Tag>;
 
         case SoknadsStatusEnum.UNDER_BEHANDLING:
-            return <Tag variant="warning">{t("soknadstatus.under_behandling")}</Tag>;
+            return <Tag variant="info">{t("soknadstatus.under_behandling")}</Tag>;
 
         case SoknadsStatusEnum.FERDIGBEHANDLET:
             return <Tag variant="success">{t("soknadstatus.ferdigbehandlet")}</Tag>;

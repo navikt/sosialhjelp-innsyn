@@ -132,5 +132,10 @@
   "timeout.nedtelling":
       "Din sesjon vil utløpe om kort tid. Dersom du ikke foretar deg noe, vil du bli logget ut. For å forsette, vennligst trykk \"fortsett\".",
   "timeout.overskrift": "Obs!",
-  "timeout.utlopt": "Du har vært inaktiv på denne siden for lenge. Du må logge deg inn på nytt for å fortsette."
-  }
+  "timeout.utlopt": "Du har vært inaktiv på denne siden for lenge. Du må logge deg inn på nytt for å fortsette.",
+  "feilmelding.soknadStatus_innlasting": "Vi klarte ikke å laste opp status på søknaden din",
+  "feilmelding.dineOppgaver_innlasting": "Vi klarte ikke å laste opp informasjon om dine oppgaver",
+  "feilmelding.historikk_innlasting": "Vi klarte ikke å laste opp historikken din",
+  "feilmelding.vedlegg_innlasting": "Vi klarte ikke laste inn dine innsendte vedlegg",
+  "feilmelding.ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. <linebreak/> Du kan forsøke å oppdatere siden, eller prøve igjen senere."
+}
