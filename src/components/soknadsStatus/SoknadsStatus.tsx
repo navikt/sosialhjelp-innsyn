@@ -1,7 +1,7 @@
 import React from "react";
 import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {FormattedMessage, IntlShape, useIntl} from "react-intl";
+import {useTranslation} from "react-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
@@ -123,7 +123,8 @@ const restStatusError = (restStatus: REST_STATUS): boolean => {
 };
 
 const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
-    const intl: IntlShape = useIntl();
+    const {t} = useTranslation();
+
     const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
     const hasError = restStatusError(restStatus);
 
@@ -139,16 +140,12 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                 </Spot>
                 <ContentPanelBody>
                     {hasError && <StyledErrorColored title="Feil" />}
-                    {hasError && (
-                        <StyledTextPlacement>
-                            <FormattedMessage id="feilmelding.soknadStatus_innlasting" />
-                        </StyledTextPlacement>
-                    )}
+                    {hasError && <StyledTextPlacement>{t("feilmelding.soknadStatus_innlasting")}</StyledTextPlacement>}
                     {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={1} />}
                     {restStatus !== REST_STATUS.FEILET && (
                         <HeadingWrapper>
                             <Heading level="2" size="large" spacing>
-                                {soknadsStatusTittel(soknadsStatus, intl)}
+                                {soknadsStatusTittel(soknadsStatus, t)}
                             </Heading>
                             <SoknadsStatusLenke status={soknadsStatus} />
                             <ContentPanelBorder />
@@ -156,16 +153,14 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                     )}
 
                     {soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE && (
-                        <StyledAlert variant="info">
-                            <FormattedMessage id="status.soknad_behandles_ikke_ingress" />
-                        </StyledAlert>
+                        <StyledAlert variant="info">{t("status.soknad_behandles_ikke_ingress")}</StyledAlert>
                     )}
 
                     {!hasError && sak?.length === 0 && !soknadBehandlesIkke && (
                         <StatusBox>
                             <StatusMessage>
-                                <Label as="p">{intl.formatMessage({id: "saker.default_tittel"})}</Label>
-                                <SoknadsStatusTag status={soknadsStatus} intl={intl} />
+                                <Label as="p">{t("saker.default_tittel")}</Label>
+                                <SoknadsStatusTag status={soknadsStatus} />
                             </StatusMessage>
                         </StatusBox>
                     )}
@@ -183,28 +178,20 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                                         <StatusMessage>
                                             <Label as="p">{statusdetalj.tittel}</Label>
                                             {saksStatus === SaksStatus.FERDIGBEHANDLET && (
-                                                <Tag variant="success">
-                                                    <FormattedMessage id="saksStatus.ferdig_behandlet" />
-                                                </Tag>
+                                                <Tag variant="success">{t("saksStatus.ferdig_behandlet")}</Tag>
                                             )}
                                             {saksStatus === SaksStatus.UNDER_BEHANDLING && !soknadBehandlesIkke && (
-                                                <Tag variant="warning">
-                                                    <FormattedMessage id="saksStatus.under_behandling" />
-                                                </Tag>
+                                                <Tag variant="warning">{t("saksStatus.under_behandling")}</Tag>
                                             )}
                                         </StatusMessage>
                                         {statusdetalj.melding && statusdetalj.melding.length > 0 && (
                                             <BodyShort>{statusdetalj.melding}</BodyShort>
                                         )}
                                         {sakBehandlesIkke && !soknadBehandlesIkke && (
-                                            <BodyShort>
-                                                <FormattedMessage id="status.sak_behandles_ikke_ingress" />
-                                            </BodyShort>
+                                            <BodyShort>{t("saksStatus.sak_behandles_ikke_ingress")}</BodyShort>
                                         )}
                                         {sakIkkeInnsyn && !soknadBehandlesIkke && (
-                                            <BodyShort>
-                                                <FormattedMessage id="status.ikke_innsyn_ingress" />
-                                            </BodyShort>
+                                            <BodyShort>{t("status.ikke_innsyn_ingress")}</BodyShort>
                                         )}
 
                                         {statusdetalj.vedtaksfilUrlList &&

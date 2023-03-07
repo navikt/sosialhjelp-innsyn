@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {
     DokumentasjonEtterspurt,
     DokumentasjonKrav,
@@ -30,6 +30,8 @@ interface Props {
 }
 
 const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumentasjonEtterspurt, leserData}) => {
+    const {t} = useTranslation();
+
     const innsynSaksStatusListe: SaksStatusState[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.saksStatus
     );
@@ -64,23 +66,15 @@ const IngenOppgaverPanel: React.FC<Props> = ({dokumentasjonkrav, vilkar, dokumen
                 <>
                     <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="oppgave" />
                     <div>
-                        <Label as="p">
-                            <FormattedMessage id="oppgaver.ingen_oppgaver" />
-                        </Label>
-                        <BodyShort>
-                            <FormattedMessage id="oppgaver.beskjed" />
-                        </BodyShort>
+                        <Label as="p">{t("oppgaver.ingen_oppgaver")}</Label>
+                        <BodyShort>{t("oppgaver.beskjed")}</BodyShort>
                     </div>
                 </>
                 <>
                     <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="vedlegg" />
                     <div>
-                        <Label as="p">
-                            <FormattedMessage id="oppgaver.andre_dokumenter" />
-                        </Label>
-                        <BodyShort>
-                            <FormattedMessage id="oppgaver.andre_dokumenter_beskjed" />
-                        </BodyShort>
+                        <Label as="p">{t("oppgaver.andre_dokumenter")}</Label>
+                        <BodyShort>{t("oppgaver.andre_dokumenter_beskjed")}</BodyShort>
                     </div>
                 </>
             </StyledPanel>

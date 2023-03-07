@@ -1,11 +1,9 @@
 import React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {ErrorMessage} from "../errors/ErrorMessage";
 
 export const ErrorMessageTitle = (props: {feilId: string; errorValue: {}}) => {
-    return (
-        <ErrorMessage>
-            <FormattedMessage id={props.feilId} values={props.errorValue} />
-        </ErrorMessage>
-    );
+    const {t} = useTranslation();
+    const {errorValue} = props;
+    return <ErrorMessage>{t(props.feilId, errorValue)}</ErrorMessage>;
 };

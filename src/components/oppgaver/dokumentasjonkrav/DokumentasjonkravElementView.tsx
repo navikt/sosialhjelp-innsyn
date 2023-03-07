@@ -14,7 +14,7 @@ import {validateFile} from "../validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
 import useKommune from "../../../hooks/useKommune";
 import styled from "styled-components";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 
 const StyledFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
@@ -53,6 +53,7 @@ const DokumentasjonkravElementView: React.FC<{
     filer,
 }) => {
     const uuid = uuidv4();
+    const {t} = useTranslation();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
     const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
@@ -160,9 +161,7 @@ const DokumentasjonkravElementView: React.FC<{
                 </div>
             )}
             {concatenatedSizeOfFilesMessage && (
-                <ErrorMessageLabel>
-                    <FormattedMessage id={concatenatedSizeOfFilesMessage} />
-                </ErrorMessageLabel>
+                <ErrorMessageLabel>{t(concatenatedSizeOfFilesMessage)}</ErrorMessageLabel>
             )}
         </StyledFrame>
     );

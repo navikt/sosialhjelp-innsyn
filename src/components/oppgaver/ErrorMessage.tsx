@@ -1,14 +1,14 @@
 import React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {ErrorMessage as ErrorMessageLabel} from "../errors/ErrorMessage";
 
 const ErrorMessage = (props: {feilId: string}) => {
+    const {t} = useTranslation();
+
     return (
         <ErrorMessageLabel>
             <ul style={{marginTop: "0px", marginBottom: "0px"}}>
-                <li>
-                    <FormattedMessage id={props.feilId} />
-                </li>
+                <li>{t(props.feilId)}</li>
             </ul>
         </ErrorMessageLabel>
     );

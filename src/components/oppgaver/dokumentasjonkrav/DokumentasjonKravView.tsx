@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {onSendVedleggClicked} from "../onSendVedleggClickedNew";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {
     hentDokumentasjonkravMedId,
     hentInnsynsdata,
@@ -71,6 +71,7 @@ const ButtonWrapper = styled.div`
 const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
+    const {t} = useTranslation();
     const [dokumentasjonkravFiler, setDokumentasjonkravFiler] = useState<DokumentasjonKravFiler>({});
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
     const [isUploading, setIsUploading] = useState(false);
@@ -335,15 +336,13 @@ const DokumentasjonKravView: React.FC<Props> = ({dokumentasjonkrav}) => {
                             iconPosition="right"
                             icon={isUploading && !overMaksStorrelse && <Loader />}
                         >
-                            <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                            {t("oppgaver.send_knapp_tittel")}
                         </Button>
                     </ButtonWrapper>
                 )}
             </StyledInnerFrame>
             {errorMessage && (
-                <ErrorMessage style={{marginBottom: "1rem", marginLeft: "1rem"}}>
-                    <FormattedMessage id={errorMessage} />
-                </ErrorMessage>
+                <ErrorMessage style={{marginBottom: "1rem", marginLeft: "1rem"}}>{t(errorMessage)}</ErrorMessage>
             )}
         </StyledOuterFrame>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {useSelector} from "react-redux";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {InnsynAppState} from "../../../redux/reduxTypes";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {oppgaveHasFilesWithError} from "../../../utils/vedleggUtils";
@@ -20,6 +20,7 @@ interface Props {
 }
 const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
     logDuplicationsOfUploadedAttachmentsForDokEtterspurt(dokumentasjonEtterspurt, oppgaveIndex);
+    const {t} = useTranslation();
 
     const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
         (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
@@ -67,7 +68,7 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 </ul>
                 {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
                     <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        <FormattedMessage id={"vedlegg.opplasting_backend_feilmelding"} />
+                        {t("vedlegg.opplasting_backend_feilmelding")}
                     </ErrorMessage>
                 )}
                 {!isLoading && kanLasteOppVedlegg && <SendButton dokumentasjonEtterspurt={dokumentasjonEtterspurt} />}
@@ -76,20 +77,18 @@ const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, 
                 dokumentasjonEtterspurt.oppgaveId
             ) && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage id={"vedlegg.opplasting_backend_virus_feilmelding"} />
+                    {t("vedlegg.opplasting_backend_virus_feilmelding")}
                 </ErrorMessage>
             )}
 
             {(listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
                 opplastingFeilet) && (
                 <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    <FormattedMessage
-                        id={
-                            listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId)
-                                ? "vedlegg.minst_ett_vedlegg"
-                                : "vedlegg.opplasting_feilmelding"
-                        }
-                    />
+                    {t(
+                        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId)
+                            ? "vedlegg.minst_ett_vedlegg"
+                            : "vedlegg.opplasting_feilmelding"
+                    )}
                 </ErrorMessage>
             )}
         </>

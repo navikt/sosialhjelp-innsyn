@@ -1,5 +1,5 @@
 import React from "react";
-import {FormattedDate, FormattedTime, FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 
 /*
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
@@ -10,24 +10,27 @@ const DatoOgKlokkeslett: React.FC<{tidspunkt: string; bareDato?: boolean; brukKo
     bareDato,
     brukKortMaanedNavn,
 }) => {
-    const visKlokkeslett =
-        !(bareDato && bareDato === true) && new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes() > 0;
+    const {t, i18n} = useTranslation();
+
+    const visKlokkeslett = !bareDato && new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes() > 0;
     return (
         <>
             <time className="dato">
-                <FormattedDate
-                    value={new Date(tidspunkt)}
-                    month={brukKortMaanedNavn ? "short" : "long"}
-                    day="numeric"
-                    year="numeric"
-                />
+                {new Intl.DateTimeFormat(i18n.language, {
+                    month: brukKortMaanedNavn ? "short" : "long",
+                    day: "numeric",
+                    year: "numeric",
+                }).format(new Date(tidspunkt))}
             </time>
             {visKlokkeslett && (
                 <time>
                     &nbsp;
-                    <FormattedMessage id="tidspunkt.klokken" />
+                    {t("tidspunkt.klokken")}
                     &nbsp;
-                    <FormattedTime value={new Date(tidspunkt)} hour="2-digit" minute="2-digit" />
+                    {new Intl.DateTimeFormat(i18n.language, {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    }).format(new Date(tidspunkt))}
                 </time>
             )}
         </>

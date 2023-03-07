@@ -1,5 +1,5 @@
 import {BodyShort} from "@navikt/ds-react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {formatDato} from "../../utils/formatting";
 import React from "react";
 
@@ -16,6 +16,8 @@ interface Props {
     frist?: string;
 }
 const InnsendelsesFrist = (props: Props) => {
+    const {t} = useTranslation();
+
     if (!props.frist) {
         return null;
     }
@@ -25,20 +27,14 @@ const InnsendelsesFrist = (props: Props) => {
         <>
             {antallDagerSidenFristBlePassert <= 0 && (
                 <BodyShort spacing>
-                    <FormattedMessage
-                        id="oppgaver.innsendelsesfrist"
-                        values={{innsendelsesfrist: formatDato(props.frist)}}
-                    />
+                    {t("oppgaver.innsendelsesfrist", {innsendelsesfrist: formatDato(props.frist)})}
                 </BodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (
                 <BodyShort spacing>
-                    <FormattedMessage
-                        id="oppgaver.innsendelsesfrist_passert"
-                        values={{innsendelsesfrist: formatDato(props.frist)}}
-                    />
+                    {t("oppgaver.innsendelsesfrist_passert", {innsendelsesfrist: formatDato(props.frist)})}
                 </BodyShort>
-            )}
+            )}{" "}
         </>
     );
 };

@@ -1,7 +1,7 @@
 import {Alert} from "@navikt/ds-react";
 import React, {useEffect} from "react";
 import {logServerfeil} from "../utils/amplitude";
-import {FormattedMessage} from "react-intl";
+import {Trans, useTranslation} from "react-i18next";
 import styled from "styled-components";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../redux/reduxTypes";
@@ -20,6 +20,8 @@ const restStatusError = (restStatus: REST_STATUS): boolean => {
 };
 
 export const LoadingResourcesFailedAlert = () => {
+    const {t} = useTranslation();
+
     const {soknadsStatus, oppgaver, vilkar, dokumentasjonkrav, hendelser, vedlegg} = useSelector(
         (state: InnsynAppState) => state.innsynsdata.restStatus
     );
@@ -41,7 +43,7 @@ export const LoadingResourcesFailedAlert = () => {
         <StyledWrapper>
             {hasError && (
                 <Alert variant="error" className="luft_over_16px">
-                    <FormattedMessage id={"feilmelding.ressurs_innlasting"} values={{linebreak: <br />}} />
+                    <Trans t={t} i18nKey="feilmelding.ressurs_innlasting" components={{linebreak: <br />}} />
                 </Alert>
             )}
         </StyledWrapper>

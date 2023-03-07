@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
-import {FormattedMessage, useIntl} from "react-intl";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
+import {useTranslation} from "react-i18next";
 import {ErrorColored} from "@navikt/ds-icons";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
@@ -57,7 +57,7 @@ const restStatusError = (restStatus: REST_STATUS): boolean => {
 };
 
 const ArkfanePanel: React.FC<Props> = (props) => {
-    const intl = useIntl();
+    const {t} = useTranslation();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
     const {restStatus} = useSelector((state: InnsynAppState) => state.innsynsdata);
     const hasError = restStatusError(restStatus.hendelser) || restStatusError(restStatus.vedlegg);
@@ -74,22 +74,18 @@ const ArkfanePanel: React.FC<Props> = (props) => {
             {hasError && <StyledErrorColored title="Feil" />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
-                    <Tabs.Tab value={ARKFANER.HISTORIKK} label={intl.formatMessage({id: "historikk.tittel"})} />
-                    <Tabs.Tab value={ARKFANER.VEDLEGG} label={intl.formatMessage({id: "vedlegg.tittel"})} />
+                    <Tabs.Tab value={ARKFANER.HISTORIKK} label={t("historikk.tittel")} />
+                    <Tabs.Tab value={ARKFANER.VEDLEGG} label={t("vedlegg.tittel")} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
                     {restStatusError(restStatus.hendelser) && (
-                        <StyledTextPlacement>
-                            <FormattedMessage id="feilmelding.historikk_innlasting" />
-                        </StyledTextPlacement>
+                        <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>
                     )}
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
                     {restStatusError(restStatus.vedlegg) && (
-                        <StyledTextPlacement>
-                            <FormattedMessage id="feilmelding.vedlegg_innlasting" />
-                        </StyledTextPlacement>
+                        <StyledTextPlacement>{t("feilmelding.vedlegg_innlasting")}</StyledTextPlacement>
                     )}
                     {props.vedleggChildren}
                 </Tabs.Panel>

@@ -5,7 +5,7 @@ import {
     settFagsystemHarDokumentasjonkrav,
 } from "../../redux/innsynsdata/innsynsdataReducer";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {fetchToJson, REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
@@ -107,6 +107,7 @@ const restStatusError = (restStatus: REST_STATUS): boolean => {
 };
 
 const Oppgaver = () => {
+    const {t} = useTranslation();
     const {dokumentasjonkrav, vilkar, restStatus, fiksDigisosId} = useSelector(
         (state: InnsynAppState) => state.innsynsdata
     );
@@ -182,7 +183,7 @@ const Oppgaver = () => {
             <StyledPanelHeader>
                 {hasError && <StyledErrorColored title="Feil" />}
                 <Heading level="2" size="medium">
-                    <FormattedMessage id="oppgaver.dine_oppgaver" />
+                    {t("oppgaver.dine_oppgaver")}
                 </Heading>
             </StyledPanelHeader>
 
@@ -199,11 +200,7 @@ const Oppgaver = () => {
             )}
             {skalViseOppgaver && (
                 <>
-                    {hasError && (
-                        <StyledTextPlacement>
-                            <FormattedMessage id="feilmelding.dineOppgaver_innlasting" />
-                        </StyledTextPlacement>
-                    )}
+                    {hasError && <StyledTextPlacement>{t("feilmelding.dineOppgaver_innlasting")}</StyledTextPlacement>}
                     <DokumentasjonEtterspurtAccordion
                         restStatus_oppgaver={restStatus.oppgaver}
                         dokumentasjonEtterspurt={dokumentasjonEtterspurt}

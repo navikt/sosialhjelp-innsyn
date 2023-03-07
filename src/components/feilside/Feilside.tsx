@@ -6,7 +6,7 @@ import AppBanner from "../appBanner/AppBanner";
 import {BodyLong, Heading, Link} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import styled from "styled-components/macro";
 import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
@@ -30,6 +30,7 @@ const getFeilType = (feilside: FeilsideEnum) => {
 
 const Feilside: React.FC<FeilsideProps> = ({children}) => {
     const feilside = useSelector((state: InnsynAppState) => state.innsynsdata.feilside);
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (feilside) {
@@ -54,7 +55,7 @@ const Feilside: React.FC<FeilsideProps> = ({children}) => {
                         {feilside === FeilsideEnum.FINNES_IKKE && (
                             <>
                                 <Heading level="1" size="large" spacing>
-                                    <FormattedMessage id="feilside.finnes_ikke_overskrift" />
+                                    {t("feilside.finnes_ikke_overskrift")}
                                 </Heading>
                                 <BodyLong>
                                     Vennligst gå tilbake til <Link href="/sosialhjelp/innsyn">Dine søknader</Link>

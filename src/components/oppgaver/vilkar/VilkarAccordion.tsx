@@ -1,6 +1,6 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import React from "react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
@@ -19,16 +19,15 @@ interface Props {
     feilmelding?: React.ReactNode;
 }
 export const VilkarAccordion = (props: Props) => {
+    const {t} = useTranslation();
     const unikeVilkar = getUnikeVilkar(props.vilkar);
 
     return (
         <Accordion>
             <Accordion.Item defaultOpen>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
-                    <Label as="p">{<FormattedMessage id="vilkar.du_har_vilkar" />}</Label>
-                    <BodyShort>
-                        <FormattedMessage id="vilkar.veileder_trenger_mer" />
-                    </BodyShort>
+                    <Label as="p">{t("vilkar.du_har_vilkar")}</Label>
+                    <BodyShort>{t("vilkar.veileder_trenger_mer")}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
                     {props.feilmelding}
