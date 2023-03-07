@@ -7,6 +7,7 @@ import App from "./App";
 import "formdata-polyfill";
 import Modal from "react-modal";
 import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
+import "./locales/i18n";
 
 window.onerror = (errorMessage, url, line, column, error) => {
     // TODO implementere clientlogger, f.eks. slik:

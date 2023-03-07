@@ -4,7 +4,7 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {useIntl} from "react-intl";
+import {useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
@@ -44,15 +44,15 @@ interface HistorikkListeProps {
 }
 
 const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
-    const intl = useIntl();
+    const {t} = useTranslation();
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
 
     const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
-        if (beskrivelse === intl.formatMessage({id: "forelopigSvar"}).trim()) {
+        if (beskrivelse === t("forelopigSvar").trim()) {
             logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
-        } else if (beskrivelse === intl.formatMessage({id: "oppgaver.maa_sende_dok_veileder"})) {
+        } else if (beskrivelse === t("oppgaver.maa_sende_dok_veileder")) {
             logButtonOrLinkClick(`Historikk: åpnet etterspørsel av dokumentasjon`);
         } else if (lenketekst === "Vis søknaden") {
             logButtonOrLinkClick(`Historikk: åpnet søknaden`);

@@ -3,14 +3,14 @@ import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {Fil} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
-import {FormattedMessage} from "react-intl";
 import {REST_STATUS} from "../../utils/restUtils";
 import {BodyShort, Button, Link} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
 import {v4 as uuidv4} from "uuid";
-import styles from "./oppgaver.module.css";
+import styles from "../../styles/lists.module.css";
+import {useTranslation} from "react-i18next";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -81,6 +81,7 @@ interface Props {
 
 const FileItemView = (props: Props) => {
     const [modalVises, setModalVises] = useState(false);
+    const {t} = useTranslation();
 
     if (!props.filer || props.filer?.length === 0) {
         return null;
@@ -128,17 +129,17 @@ const FileItemView = (props: Props) => {
                             iconPosition="right"
                             icon={<Delete aria-hidden title="fjern" />}
                         >
-                            <FormattedMessage id="vedlegg.fjern" />
+                            {t("vedlegg.fjern")}
                         </StyledDeleteButton>
                     </StyledFilInfoOgKnapp>
                     {fil.status !== REST_STATUS.INITIALISERT &&
                         fil.status !== REST_STATUS.PENDING &&
                         fil.status !== REST_STATUS.OK && (
                             <StyledErrorMessage>
-                                <FormattedMessage
-                                    id={"vedlegg.opplasting_feilmelding_" + fil.status}
-                                    defaultMessage={"Vi klarte dessverre ikke lese filen din. Årsaken er ukjent."}
-                                />
+                                {t(
+                                    "vedlegg.opplasting_feilmelding_" + fil.status,
+                                    "Vi klarte dessverre ikke lese filen din. Årsaken er ukjent."
+                                )}
                             </StyledErrorMessage>
                         )}
                 </StyledLiTag>

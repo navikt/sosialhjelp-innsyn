@@ -1,4 +1,4 @@
-import {IntlShape} from "react-intl";
+import {TFunction} from "i18next";
 
 enum SoknadsStatusEnum {
     SENDT = "SENDT",
@@ -8,18 +8,18 @@ enum SoknadsStatusEnum {
     BEHANDLES_IKKE = "BEHANDLES_IKKE",
 }
 
-const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, intl: IntlShape): string => {
+const soknadsStatusTittel = (status: string | null | SoknadsStatusEnum, t: TFunction): string => {
     switch (status) {
         case SoknadsStatusEnum.SENDT:
-            return intl.formatMessage({id: "status.sendt"});
+            return t("status.sendt");
         case SoknadsStatusEnum.MOTTATT:
-            return intl.formatMessage({id: "status.mottatt"});
+            return t("status.mottatt");
         case SoknadsStatusEnum.UNDER_BEHANDLING:
-            return intl.formatMessage({id: "status.under_behandling"});
+            return t("status.under_behandling");
         case SoknadsStatusEnum.FERDIGBEHANDLET:
-            return intl.formatMessage({id: "status.ferdigbehandlet"});
+            return t("status.ferdigbehandlet");
         case SoknadsStatusEnum.BEHANDLES_IKKE:
-            return intl.formatMessage({id: "status.behandles_ikke"});
+            return t("status.behandles_ikke");
     }
     return "Søknad";
 };

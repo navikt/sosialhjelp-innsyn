@@ -24,7 +24,7 @@ import {fileUploadFailedEvent, logButtonOrLinkClick} from "../../../utils/amplit
 import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
 import styled from "styled-components";
 import {Button, Loader} from "@navikt/ds-react";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 
 const ButtonWrapper = styled.div`
     margin-top: 1rem;
@@ -34,6 +34,7 @@ interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurt;
 }
 const SendButton = (props: Props) => {
+    const {t} = useTranslation();
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
     const fiksDigisosId: string | undefined = useSelector((state: InnsynAppState) => state.innsynsdata.fiksDigisosId);
@@ -53,7 +54,6 @@ const SendButton = (props: Props) => {
         dispatch(setFileUploadFailed(dokumentasjonEtterspurt.oppgaveId, noFilesAdded));
 
         if (noFilesAdded) {
-            dispatch(settRestStatus(InnsynsdataSti.OPPGAVER, REST_STATUS.FEILET));
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setIsUploading(false);
             event.preventDefault();
@@ -131,7 +131,7 @@ const SendButton = (props: Props) => {
                 iconPosition="right"
                 icon={isUploading && <Loader />}
             >
-                <FormattedMessage id="oppgaver.send_knapp_tittel" />
+                {t("oppgaver.send_knapp_tittel")}
             </Button>
         </ButtonWrapper>
     );

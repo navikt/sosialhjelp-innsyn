@@ -1,5 +1,5 @@
-import React, {MouseEvent, useState} from "react";
-import {FormattedMessage} from "react-intl";
+import React, {MouseEvent, useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 
@@ -10,6 +10,11 @@ const StyledModal = styled(Modal)`
 
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
+    const {t} = useTranslation();
+
+    useEffect(() => {
+        if (process.env.NODE_ENV !== "test") Modal.setAppElement("#root");
+    }, []);
 
     const handleOnClick = (event: MouseEvent) => {
         event.preventDefault();
@@ -19,7 +24,7 @@ export const OpplastingAvVedleggModal = () => {
     return (
         <>
             <Link href="#" onClick={handleOnClick} className="luft_over_10px luft_under_1rem">
-                <FormattedMessage id="oppgaver.hjelp_last_opp" />
+                {t("oppgaver.hjelp_last_opp")}
             </Link>
             <StyledModal
                 open={modalSynlig}
@@ -29,57 +34,39 @@ export const OpplastingAvVedleggModal = () => {
             >
                 <Modal.Content>
                     <Heading level="2" size="medium" spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.overskrift" />
+                        {t("oppgaver.informasjon.modal.overskrift")}
                     </Heading>
 
                     <Heading level="3" size="small" spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk1.tittel" />
+                        {t("oppgaver.informasjon.modal.bolk1.tittel")}
                     </Heading>
-                    <BodyShort spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk1.avsnitt1" />
-                    </BodyShort>
-                    <BodyShort spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk1.avsnitt2" />
-                    </BodyShort>
-                    <BodyShort spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk1.avsnitt3" />
-                    </BodyShort>
+                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk1.avsnitt1")}</BodyShort>
+                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk1.avsnitt2")}</BodyShort>
+                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk1.avsnitt3")}</BodyShort>
 
                     <Heading level="3" size="small" spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk2.tittel" />
+                        {t("oppgaver.informasjon.modal.bolk2.tittel")}
                     </Heading>
-                    <BodyShort spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk2.avsnitt1" />
-                    </BodyShort>
+                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk2.avsnitt1")}</BodyShort>
 
                     <Heading level="3" size="small" spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk3.tittel" />
+                        {t("oppgaver.informasjon.modal.bolk3.tittel")}
                     </Heading>
-                    <BodyShort spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk3.avsnitt1" />
-                    </BodyShort>
+                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk3.avsnitt1")}</BodyShort>
 
                     <Heading level="3" size="small" spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk4.tittel" />
+                        {t("oppgaver.informasjon.modal.bolk4.tittel")}
                     </Heading>
-                    <BodyShort spacing>
-                        <FormattedMessage id="oppgaver.informasjon.modal.bolk4.avsnitt1" />
-                    </BodyShort>
+                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk4.avsnitt1")}</BodyShort>
                     <ul>
                         <li>
-                            <BodyShort>
-                                <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste1" />
-                            </BodyShort>
+                            <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste1")}</BodyShort>
                         </li>
                         <li>
-                            <BodyShort>
-                                <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste2" />
-                            </BodyShort>
+                            <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste2")}</BodyShort>
                         </li>
                         <li>
-                            <BodyShort>
-                                <FormattedMessage id="oppgaver.informasjon.modal.bolk4.liste3" />
-                            </BodyShort>
+                            <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste3")}</BodyShort>
                         </li>
                     </ul>
                 </Modal.Content>

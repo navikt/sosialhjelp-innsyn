@@ -10,7 +10,7 @@ import Oppgaver from "../components/oppgaver/Oppgaver";
 import Historikk from "../components/historikk/Historikk";
 import ArkfanePanel from "../components/arkfanePanel/ArkfanePanel";
 import VedleggView from "../components/vedlegg/VedleggView";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
 import {SoknadHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
@@ -41,13 +41,13 @@ const SaksStatusView = () => {
     const fiksDigisosId: string = soknadId;
     const innsynsdata: InnsynsdataType = useSelector((state: InnsynAppState) => state.innsynsdata);
     const innsynRestStatus = innsynsdata.restStatus.saksStatus;
+    const {t} = useTranslation();
 
     const {kommune} = useKommune();
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const restStatus = innsynsdata.restStatus;
     const dispatch = useDispatch();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    const [loadingResourcesFailed, setLoadingResourcesFailed] = useState(false);
     const dataErKlare =
         !pageLoadIsLogged &&
         erPaInnsyn &&
@@ -133,10 +133,7 @@ const SaksStatusView = () => {
 
     return (
         <>
-            <LoadingResourcesFailedAlert
-                loadingResourcesFailed={loadingResourcesFailed}
-                setLoadingResourcesFailed={setLoadingResourcesFailed}
-            />
+            <LoadingResourcesFailedAlert />
 
             <SoknadHotjarTrigger trigger={getHotjarTriggerIfValid()}>
                 <div />
@@ -173,7 +170,7 @@ const SaksStatusView = () => {
                         <>
                             <StyledPanel className="panel-luft-over">
                                 <Heading level="2" size="medium">
-                                    <FormattedMessage id="vedlegg.tittel" />
+                                    {t("vedlegg.tittel")}
                                 </Heading>
                             </StyledPanel>
                             <StyledPanel className="panel-glippe-over">

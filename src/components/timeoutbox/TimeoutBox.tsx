@@ -6,6 +6,7 @@ import useInterval from "../../hooks/useInterval";
 import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 import {getLogoutUrl} from "../../utils/restUtils";
+import {useEffect} from "react";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -37,6 +38,9 @@ const TimeoutBox = (props: Props) => {
     const [showWarningTime, setShowWarningTime] = React.useState(
         beregnVisAdvarseTidspunkt(props.showWarningerAfterMinutes)
     );
+    useEffect(() => {
+        Modal.setAppElement("#root");
+    }, []);
 
     useInterval(() => {
         const tidIgjenAvSesjon = logoutTime - now();

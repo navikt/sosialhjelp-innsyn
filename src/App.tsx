@@ -10,12 +10,10 @@ import {
     createRoutesFromChildren,
     matchRoutes,
 } from "react-router-dom";
-import {IntlProvider} from "react-intl";
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
-import {tekster} from "./tekster/tekster";
 import "./App.css";
 import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
@@ -29,16 +27,8 @@ import AppBanner from "./components/appBanner/AppBanner";
 import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
 import Linkside from "./components/linkside/Linkside";
+import {useTranslation} from "react-i18next";
 const store = configureStore();
-
-const visSpraakNokler = (tekster: any) => {
-    if (window.location.href.match(/\\?vistekster=true$/)) {
-        Object.keys(tekster).map((key: string) => {
-            return (tekster[key] = tekster[key] + "[" + key + "]");
-        });
-    }
-    return tekster;
-};
 
 if (process.env.NODE_ENV === "production") {
     Sentry.init({
@@ -66,17 +56,16 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 const queryClient = new QueryClient();
 
 const App = () => {
-    const language = "nb";
+    const {i18n} = useTranslation();
 
     return (
         <Provider store={store}>
-            <IntlProvider defaultLocale={language} locale={language} messages={visSpraakNokler(tekster[language])}>
-                <Feilside>
-                    <Tilgangskontrollside>
-                        <BrowserRouter basename="/sosialhjelp/innsyn">
-                            <QueryClientProvider client={queryClient}>
-                                <ScrollToTop />
-
+            <Feilside>
+                <Tilgangskontrollside>
+                    <BrowserRouter basename="/sosialhjelp/innsyn">
+                        <QueryClientProvider client={queryClient}>
+                            <ScrollToTop />
+                            <div lang={i18n.language}>
                                 <AppBanner />
                                 <div className="blokk-center informasjon-side">
                                     <SentryRoutes>
@@ -87,11 +76,11 @@ const App = () => {
                                         <Route path="*" element={<SideIkkeFunnet />} />
                                     </SentryRoutes>
                                 </div>
-                            </QueryClientProvider>
-                        </BrowserRouter>
-                    </Tilgangskontrollside>
-                </Feilside>
-            </IntlProvider>
+                            </div>
+                        </QueryClientProvider>
+                    </BrowserRouter>
+                </Tilgangskontrollside>
+            </Feilside>
         </Provider>
     );
 };

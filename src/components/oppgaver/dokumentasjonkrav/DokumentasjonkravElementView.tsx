@@ -3,10 +3,10 @@ import {DokumentasjonKravElement, Fil} from "../../../redux/innsynsdata/innsynsd
 import {alertUser, illegalCombinedFilesSize} from "../../../utils/vedleggUtils";
 import {useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
-import AddFileButton, {TextAndButtonWrapper} from "../AddFileButton";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
-import FileItemView from "../FileItemView";
+import AddFileButton, {TextAndButtonWrapper} from "../../vedlegg/AddFileButton";
+import FileItemView from "../../vedlegg/FileItemView";
 import ErrorMessage from "../ErrorMessage";
 import {ErrorMessage as ErrorMessageLabel} from "../../errors/ErrorMessage";
 import {ErrorMessageTitle} from "../ErrorMessageTitleNew";
@@ -14,7 +14,7 @@ import {validateFile} from "../validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
 import useKommune from "../../../hooks/useKommune";
 import styled from "styled-components";
-import {FormattedMessage} from "react-intl";
+import {useTranslation} from "react-i18next";
 
 const StyledFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
@@ -53,6 +53,7 @@ const DokumentasjonkravElementView: React.FC<{
     filer,
 }) => {
     const uuid = uuidv4();
+    const {t} = useTranslation();
     const [fileValidationErrors, setFileValidationErrors] = useState<FileValidationErrors | undefined>(undefined);
     const [concatenatedSizeOfFilesMessage, setConcatenatedSizeOfFilesMessage] = useState<string | undefined>(undefined);
 
@@ -160,9 +161,7 @@ const DokumentasjonkravElementView: React.FC<{
                 </div>
             )}
             {concatenatedSizeOfFilesMessage && (
-                <ErrorMessageLabel>
-                    <FormattedMessage id={concatenatedSizeOfFilesMessage} />
-                </ErrorMessageLabel>
+                <ErrorMessageLabel>{t(concatenatedSizeOfFilesMessage)}</ErrorMessageLabel>
             )}
         </StyledFrame>
     );
