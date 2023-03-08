@@ -4,13 +4,7 @@ import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import {REST_STATUS} from "../../utils/restUtils";
-import {
-    FileError,
-    findFilesWithError,
-    hasFilesWithErrorStatus,
-    isFileErrorsNotEmpty,
-    writeErrorMessage,
-} from "../../utils/vedleggUtils";
+import {FileError, findFilesWithError, hasFilesWithErrorStatus, isFileErrorsNotEmpty} from "../../utils/vedleggUtils";
 import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import {logInfoMessage} from "../../redux/innsynsdata/loggActions";
@@ -25,6 +19,7 @@ import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
 import useKommune from "../../hooks/useKommune";
 import {useQueryClient} from "@tanstack/react-query";
+import ReturnErrorMessage from "../oppgaver/ReturnErrorMessage";
 
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
@@ -174,7 +169,9 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
                     <FileItemView filer={filer} onDelete={onDeleteClick} />
 
-                    {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && writeErrorMessage(listeMedFilerSomFeiler, 0)}
+                    {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && (
+                        <ReturnErrorMessage listeMedFil={listeMedFilerSomFeiler} oppgaveElementIndex={0} />
+                    )}
                 </div>
                 <ButtonWrapper>
                     <Button
@@ -207,25 +204,25 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             </div>
 
             {listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding">
                     {t("vedlegg.opplasting_backend_feilmelding")}
                 </ErrorMessage>
             )}
 
             {listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID) && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding">
                     {t("vedlegg.opplasting_backend_virus_feilmelding")}
                 </ErrorMessage>
             )}
 
             {overMaksStorrelse && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding">
                     {t("vedlegg.ulovlig_storrelse_av_alle_valgte_filer")}
                 </ErrorMessage>
             )}
 
             {(opplastingFeilet || (!vedleggKlarForOpplasting && sendVedleggTrykket)) && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding">
                     {t(opplastingFeilet ? "vedlegg.opplasting_feilmelding" : "vedlegg.minst_ett_vedlegg")}
                 </ErrorMessage>
             )}

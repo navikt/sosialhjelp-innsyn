@@ -8,7 +8,6 @@ import {
 import {logWarningMessage, logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
-import ReturnErrorMessage from "../components/oppgaver/ReturnErrorMessage";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
@@ -195,43 +194,6 @@ export const hasFilesWithErrorStatus = (filer: Fil[]) => {
     return filer.find((it) => {
         return it.status !== "OK" && it.status !== "PENDING" && it.status !== "INITIALISERT";
     });
-};
-
-export const writeErrorMessage = (listeMedFil: Array<FileError>, oppgaveElementIndex: number) => {
-    let filnavn = "";
-
-    const flagg = {
-        ulovligFiler: false,
-        containsUlovligeTegn: false,
-        maxFilStorrelse: false,
-        maxSammensattFilStorrelse: false,
-    };
-
-    listeMedFil.forEach((value) => {
-        if (value.oppgaveElementIndex === oppgaveElementIndex) {
-            if (value.containsIllegalCharacters || value.legalFileSize || value.legalCombinedFilesSize) {
-                if (listeMedFil.length === 1) {
-                    filnavn = listeMedFil.length === 1 ? listeMedFil[0].filename : "";
-                } else {
-                    flagg.ulovligFiler = true;
-                }
-                if (value.legalFileSize) {
-                    flagg.maxFilStorrelse = true;
-                }
-                if (value.containsIllegalCharacters) {
-                    flagg.containsUlovligeTegn = true;
-                }
-                if (value.legalCombinedFilesSize) {
-                    flagg.maxSammensattFilStorrelse = true;
-                    flagg.maxFilStorrelse = false;
-                    flagg.containsUlovligeTegn = false;
-                    flagg.ulovligFiler = false;
-                }
-            }
-        }
-    });
-
-    return ReturnErrorMessage(flagg, filnavn, listeMedFil);
 };
 
 export const findFilesWithError = (files: FileList, oppgaveElementIndex: number): Array<FileError> => {

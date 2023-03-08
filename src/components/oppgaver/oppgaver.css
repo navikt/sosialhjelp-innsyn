@@ -60,18 +60,8 @@
     margin-top: 0.5rem;
 }
 
-.oppgaver_vedlegg_feilmelding_bullet_point {
-    position: relative;
-    left: -7.5px;
-}
-
 .oppgaver_vedlegg_feilmelding {
     margin-top: 0.5rem;
-    margin-left: 1.25rem;
-}
-
-.oppgaver_vedlegg_feilmelding_ul_plassering {
-    padding: 0;
 }
 
 .tekst-wrapping {

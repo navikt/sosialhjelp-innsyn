@@ -7,9 +7,7 @@ import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {v4 as uuidv4} from "uuid";
 import AddFileButton, {TextAndButtonWrapper} from "../../vedlegg/AddFileButton";
 import FileItemView from "../../vedlegg/FileItemView";
-import ErrorMessage from "../ErrorMessage";
-import {ErrorMessage as ErrorMessageLabel} from "../../errors/ErrorMessage";
-import {ErrorMessageTitle} from "../ErrorMessageTitleNew";
+import {ErrorMessage} from "../../errors/ErrorMessage";
 import {validateFile} from "../validateFile";
 import {BodyShort, Label} from "@navikt/ds-react";
 import useKommune from "../../../hooks/useKommune";
@@ -145,23 +143,31 @@ const DokumentasjonkravElementView: React.FC<{
             {fileValidationErrors && fileValidationErrors?.errors.size && !overMaksStorrelse && (
                 <div>
                     {fileValidationErrors.filenames.size === 1 ? (
-                        <ErrorMessageTitle
-                            feilId={"vedlegg.ulovlig_en_fil_feilmelding"}
-                            errorValue={{filnavn: Array.from(fileValidationErrors.filenames)[0]}}
-                        />
+                        <ErrorMessage className="oppgaver_vedlegg_feilmelding">
+                            {t("vedlegg.ulovlig_en_fil_feilmelding", {
+                                filnavn: Array.from(fileValidationErrors.filenames)[0],
+                            })}
+                        </ErrorMessage>
                     ) : (
-                        <ErrorMessageTitle
-                            feilId={"vedlegg.ulovlig_flere_fil_feilmelding"}
-                            errorValue={{antallFiler: fileValidationErrors.filenames.size}}
-                        />
+                        <ErrorMessage className="oppgaver_vedlegg_feilmelding">
+                            {t("vedlegg.ulovlig_flere_fil_feilmelding", {
+                                antallFiler: fileValidationErrors.filenames.size,
+                            })}
+                        </ErrorMessage>
                     )}
-                    {Array.from(fileValidationErrors.errors).map((key, index) => {
-                        return <ErrorMessage feilId={key} key={index} />;
-                    })}
+                    <ul style={{marginTop: "0px", marginBottom: "0px"}}>
+                        {Array.from(fileValidationErrors.errors).map((key, index) => (
+                            <li key={index}>
+                                <ErrorMessage>{t(key)}</ErrorMessage>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             )}
             {concatenatedSizeOfFilesMessage && (
-                <ErrorMessageLabel>{t(concatenatedSizeOfFilesMessage)}</ErrorMessageLabel>
+                <ErrorMessage className="oppgaver_vedlegg_feilmelding">
+                    {t(concatenatedSizeOfFilesMessage)}
+                </ErrorMessage>
             )}
         </StyledFrame>
     );

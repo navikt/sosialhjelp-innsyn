@@ -10,7 +10,6 @@ import {
     findFilesWithError,
     getVisningstekster,
     isFileErrorsNotEmpty,
-    writeErrorMessage,
 } from "../../../utils/vedleggUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {InnsynAppState} from "../../../redux/reduxTypes";
@@ -24,6 +23,7 @@ import {
     setFileUploadFailedInBackend,
     setFileUploadFailedVirusCheckInBackend,
 } from "../../../redux/innsynsdata/innsynsDataActions";
+import ReturnErrorMessage from "../ReturnErrorMessage";
 
 const DokumentasjonEtterspurtElementView: React.FC<{
     oppgaveElement: DokumentasjonEtterspurtElement;
@@ -135,8 +135,9 @@ const DokumentasjonEtterspurtElementView: React.FC<{
             </TextAndButtonWrapper>
 
             {oppgaveElement.filer && <FileItemView filer={oppgaveElement.filer} onDelete={onDeleteClick} />}
-            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) &&
-                writeErrorMessage(listeMedFilerSomFeiler, oppgaveElementIndex)}
+            {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && (
+                <ReturnErrorMessage listeMedFil={listeMedFilerSomFeiler} oppgaveElementIndex={oppgaveElementIndex} />
+            )}
         </div>
     );
 };
