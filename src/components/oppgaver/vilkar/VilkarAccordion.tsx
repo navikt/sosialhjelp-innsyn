@@ -2,7 +2,7 @@ import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import React from "react";
 import {useTranslation} from "react-i18next";
 import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import {logButtonOrLinkClick, logVilkarDuplications} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
 
 export const getUnikeVilkar = (vilkar: Vilkar[]) => {
@@ -21,6 +21,7 @@ interface Props {
 export const VilkarAccordion = (props: Props) => {
     const {t} = useTranslation();
     const unikeVilkar = getUnikeVilkar(props.vilkar);
+    logVilkarDuplications(props.vilkar);
 
     return (
         <Accordion>
