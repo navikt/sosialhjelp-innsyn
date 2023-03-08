@@ -14,13 +14,13 @@ import {v4 as uuidv4} from "uuid";
 import FileItemView from "./FileItemView";
 import {setFileUploadFailedVirusCheckInBackend} from "../../redux/innsynsdata/innsynsDataActions";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {BodyShort, Button, Label, Loader} from "@navikt/ds-react";
+import {Accordion, BodyShort, Button, Label, Loader} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
 import useKommune from "../../hooks/useKommune";
 import {useQueryClient} from "@tanstack/react-query";
 import ReturnErrorMessage from "../oppgaver/ReturnErrorMessage";
-
+import ErrorMessagePlaceholder from "../errors/ErrorMessage";
 /*
  * Siden det er ikke noe form for oppgaveId så blir BACKEND_FEIL_ID
  * brukt sånnn at man slipper å lage egne actions
@@ -144,7 +144,6 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
             <DriftsmeldingVedlegg
                 leserData={restStatus === REST_STATUS.INITIALISERT || restStatus === REST_STATUS.PENDING}
             />
-
             <div className={"oppgaver_detaljer " + (visDetaljeFeiler ? " oppgaver_detalj_feil_ramme" : "")}>
                 <div
                     className={
@@ -169,9 +168,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
 
                     <FileItemView filer={filer} onDelete={onDeleteClick} />
 
-                    {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && (
-                        <ReturnErrorMessage listeMedFil={listeMedFilerSomFeiler} oppgaveElementIndex={0} />
-                    )}
+                    <ErrorMessagePlaceholder>
+                        {isFileErrorsNotEmpty(listeMedFilerSomFeiler) && (
+                            <ReturnErrorMessage listeMedFil={listeMedFilerSomFeiler} oppgaveElementIndex={0} />
+                        )}
+                    </ErrorMessagePlaceholder>
                 </div>
                 <ButtonWrapper>
                     <Button
