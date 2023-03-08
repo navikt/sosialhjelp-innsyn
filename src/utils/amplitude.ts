@@ -1,5 +1,5 @@
 import amplitude from "amplitude-js";
-import {DokumentasjonEtterspurt} from "../redux/innsynsdata/innsynsdataReducer";
+import {DokumentasjonEtterspurt, Vilkar} from "../redux/innsynsdata/innsynsdataReducer";
 
 export const initAmplitude = () => {
     if (amplitude) {
@@ -74,5 +74,16 @@ export const logDuplicationsOfUploadedAttachmentsForDokEtterspurt = (
                 }
             }
         }
+    }
+};
+
+export const logVilkarDuplications = (vilkar: Vilkar[]) => {
+    const unikVilkar = vilkar.filter(
+        (vilkarElement, index, self) =>
+            index ===
+            self.findIndex((it) => it.beskrivelse === vilkarElement.beskrivelse && it.tittel === vilkarElement.tittel)
+    );
+    if (vilkar.length > unikVilkar.length) {
+        logAmplitudeEvent("Søknaden har dupliserte vilkår");
     }
 };
