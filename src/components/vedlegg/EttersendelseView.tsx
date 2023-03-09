@@ -39,6 +39,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
         addFiler,
         removeFil,
         mutation: {isLoading: uploadIsLoading},
+        hasAnyError,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId)),
     });
@@ -50,6 +51,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
                 logButtonOrLinkClick("Ettersendelse: Trykket på Send vedlegg");
                 return upload();
             }}
+            hasError={hasAnyError}
             errors={outerErrors.map((it) => errorStatusToMessage[it.feil])}
             showUploadButton={canUploadAttachments}
             isLoading={isLoading || uploadIsLoading}

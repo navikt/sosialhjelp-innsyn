@@ -5,10 +5,10 @@ import styled from "styled-components";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import {useTranslation} from "react-i18next";
 
-const StyledInnerFrame = styled.div<{hasError?: boolean}>`
+const StyledInnerFrame = styled.div<{$hasError?: boolean}>`
     padding: 1rem;
     border-radius: 2px;
-    border-color: ${(props) => (props.hasError ? "var(--a-red-500)" : "var(--a-gray-300)")};
+    border-color: ${(props) => (props.$hasError ? "var(--a-red-500)" : "var(--a-gray-300)")};
     border-width: 1px;
     border-style: solid;
 `;
@@ -45,7 +45,7 @@ const OppgaveUploadBox = ({
     const {t} = useTranslation();
     return (
         <StyledOuterFrame>
-            <StyledInnerFrame hasError={hasError}>
+            <StyledInnerFrame $hasError={hasError}>
                 {frist && <InnsendelsesFrist frist={frist} />}
 
                 {children}

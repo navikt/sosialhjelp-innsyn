@@ -41,6 +41,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         addFiler,
         removeFil,
         mutation: {isLoading},
+        hasAnyError,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId)),
     });
@@ -51,6 +52,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                 logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
                 return upload();
             }}
+            hasError={hasAnyError}
             errors={outerErrors.map((it) => errorStatusToMessage[it.feil])}
             frist={showFrist ? dokumentasjonEtterspurt.innsendelsesfrist : undefined}
             showUploadButton={canUploadAttachments}

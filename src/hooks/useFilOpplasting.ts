@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {getHentVedleggQueryKey, sendVedlegg, useSendVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 import useFiksDigisosId from "./useFiksDigisosId";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
@@ -64,6 +64,9 @@ function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | und
     }
 }
 
+const recordFromMetadatas = (metadatas: Metadata[]) =>
+    metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {});
+
 const useFilOpplasting = (
     metadatas: Metadata[],
     options?: UseMutationOptions<
@@ -76,18 +79,16 @@ const useFilOpplasting = (
     const fiksDigisosId = useFiksDigisosId();
     const {isLoading, mutate, error, isError, data} = useSendVedlegg();
 
-    const [files, setFiles] = useState<Record<number, File[]>>(
-        metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {})
-    );
-    const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(
-        metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {})
-    );
-    useEffect(() => {
-        setFiles(metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {}));
-        setInnerErrors(metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {}));
-    }, [metadatas, setFiles, setInnerErrors]);
+    const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
+    const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-    const allFiles = Object.values(files).flat();
+    const reset = useCallback(() => {
+        setFiles(recordFromMetadatas(metadatas));
+        setInnerErrors(recordFromMetadatas(metadatas));
+        setOuterErrors([]);
+    }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
+    useEffect(reset, [reset]);
+    const allFiles = useMemo(() => Object.values(files).flat(), [files]);
     useEffect(() => {
         if (allFiles.length) {
             window.addEventListener("beforeunload", alertUser);
@@ -113,6 +114,7 @@ const useFilOpplasting = (
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
             setInnerErrors((prev) => ({...prev, [index]: _errors}));
+            setOuterErrors([]);
         },
         [files, setInnerErrors, setFiles]
     );
@@ -154,6 +156,7 @@ const useFilOpplasting = (
                         .filter((it) => it.status !== "OK")
                         .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
                     if (!errors.length) {
+                        reset();
                         await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
                         await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
                     }
@@ -173,7 +176,7 @@ const useFilOpplasting = (
                 },
             }
         );
-    }, [mutate, fiksDigisosId, allFiles, metadatas, files, options, queryClient]);
+    }, [mutate, fiksDigisosId, allFiles, metadatas, files, options, queryClient, reset]);
 
     return {
         mutation: {isLoading, isError, error, data},
@@ -183,6 +186,7 @@ const useFilOpplasting = (
         files,
         addFiler,
         removeFil,
+        hasAnyError: Object.values(innerErrors).flat().length > 0 || outerErrors.length > 0,
     };
 };
 
