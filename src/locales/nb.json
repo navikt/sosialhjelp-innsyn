@@ -108,7 +108,7 @@
   "vedlegg.opplasting_feilmelding_PDF_IS_ENCRYPTED": "PDFen er passordbeskyttet og vi kan ikke behandle den",
   "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG eller PDF",
   "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
-  "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filer må være under 10 mb",
+  "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Størrelsen på filer må være under 10 Mb",
   "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
       "Vi kan ikke motta vedleggene dine hvis de til sammen er over 150 Mb",
   "andre_vedlegg.type": "Send andre vedlegg",
