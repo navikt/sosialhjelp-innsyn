@@ -9,7 +9,6 @@ import styles from "../../../styles/lists.module.css";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse[];
-    feilmelding?: React.ReactNode;
 }
 
 const DokumentasjonkravAccordion = (props: Props) => {
@@ -23,7 +22,6 @@ const DokumentasjonkravAccordion = (props: Props) => {
                 </Accordion.Header>
                 <Accordion.Content>
                     <OpplastingAvVedleggModal />
-                    {props.feilmelding}
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonkrav.map((krav: DokumentasjonkravResponse, index: number) => (
                             <li key={index}>

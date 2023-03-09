@@ -4,7 +4,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {VilkarAccordion} from "./vilkar/VilkarAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
@@ -26,10 +26,6 @@ import {ErrorColored} from "@navikt/ds-icons";
 
 const StyledPanelHeader = styled.div`
     border-bottom: 2px solid var(--a-border-default);
-`;
-
-const StyledAlert = styled(Alert)`
-    margin-top: 0.5rem;
 `;
 
 const StyledErrorColored = styled(ErrorColored)`
@@ -93,15 +89,6 @@ export const skalSkjuleVilkarOgDokKrav = (
 };
 
 const DAGER_SIDEN_UTBETALINGSPERIODEN_ER_FORBIGAATT = 21;
-
-const Feilmelding = ({fetchError}: {fetchError: boolean}) => {
-    return fetchError ? (
-        <StyledAlert variant="error">
-            <BodyShort>Vi klarte ikke å hente oppdatert informasjon.</BodyShort>
-            <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
-        </StyledAlert>
-    ) : null;
-};
 
 const Oppgaver = () => {
     const {t} = useTranslation();
@@ -182,27 +169,19 @@ const Oppgaver = () => {
 
             {oppgaverQuery.isLoading && <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />}
 
-            {skalViseIngenOppgaverPanel && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
-            {skalViseOppgaver && (
+            {hasError && <StyledTextPlacement>{t("feilmelding.dineOppgaver_innlasting")}</StyledTextPlacement>}
+            {skalViseIngenOppgaverPanel && !hasError && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
+            {skalViseOppgaver && !hasError && (
                 <>
-                    {hasError && <StyledTextPlacement>{t("feilmelding.dineOppgaver_innlasting")}</StyledTextPlacement>}
                     <DokumentasjonEtterspurtAccordion
                         isLoading={oppgaverQuery.isLoading}
                         dokumentasjonEtterspurt={oppgaverQuery.data}
                     />
 
-                    {Boolean(filtrerteVilkar?.length) && (
-                        <VilkarAccordion
-                            vilkar={filtrerteVilkar}
-                            feilmelding={<Feilmelding fetchError={vilkarQuery.isError} />}
-                        />
-                    )}
+                    {Boolean(filtrerteVilkar?.length) && <VilkarAccordion vilkar={filtrerteVilkar} />}
 
                     {Boolean(filtrerteDokumentasjonkrav?.length) && (
-                        <DokumentasjonkravAccordion
-                            dokumentasjonkrav={filtrerteDokumentasjonkrav!}
-                            feilmelding={<Feilmelding fetchError={dokumentasjonskravQuery.isError} />}
-                        />
+                        <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav!} />
                     )}
                 </>
             )}

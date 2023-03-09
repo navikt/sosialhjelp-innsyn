@@ -14,7 +14,6 @@ export const getUnikeVilkar = (vilkar: VilkarResponse[]) =>
 
 interface Props {
     vilkar: VilkarResponse[] | undefined;
-    feilmelding?: React.ReactNode;
 }
 export const VilkarAccordion = (props: Props) => {
     const {t} = useTranslation();
@@ -29,7 +28,6 @@ export const VilkarAccordion = (props: Props) => {
                     <BodyShort>{t("vilkar.veileder_trenger_mer")}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
-                    {props.feilmelding}
                     <VilkarView vilkar={unikeVilkar} />
                 </Accordion.Content>
             </Accordion.Item>
