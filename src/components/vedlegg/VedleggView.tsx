@@ -181,9 +181,7 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
     if (isLoading && !vedlegg) {
         return <Lastestriper />;
     }
-    if (!vedlegg) {
-        return null;
-    }
+
     const onSortChange = (sortKey?: string) => {
         if (!sortKey) {
             console.error("should not get here");
