@@ -4,10 +4,9 @@ import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import {ErrorColored} from "@navikt/ds-icons";
-import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
-import useQueryHasError from "../../hooks/useQueryHasError";
+import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
 
 enum ARKFANER {
     HISTORIKK = "Historikk",
@@ -39,13 +38,6 @@ const StyledErrorColored = styled(ErrorColored)`
     }
 `;
 
-const StyledTextPlacement = styled.div`
-    margin-bottom: 1rem;
-    @media screen and (max-width: 640px) {
-        margin-left: 2rem;
-    }
-`;
-
 interface Props {
     historikkChildren: React.ReactNode;
     vedleggChildren: React.ReactNode;
@@ -55,10 +47,11 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     const fiksDigisosId = useFiksDigisosId();
     const {t} = useTranslation();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
-    const hendelserHasError = useQueryHasError(getHentHendelserQueryKey(fiksDigisosId));
-    const vedleggHasError = useQueryHasError(getHentVedleggQueryKey(fiksDigisosId));
+    const hendelserHasError = useHentHendelser(fiksDigisosId).isError;
+    const vedleggHasError = useHentVedlegg(fiksDigisosId).isError;
 
-    const hasError = hendelserHasError || vedleggHasError;
+    const hasError =
+        (valgtFane === ARKFANER.HISTORIKK && hendelserHasError) || (valgtFane === ARKFANER.VEDLEGG && vedleggHasError);
     useEffect(() => {
         // Logg til amplitude når "dine vedlegg" blir trykket
         if (valgtFane === ARKFANER.VEDLEGG) {
@@ -75,15 +68,9 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     <Tabs.Tab value={ARKFANER.VEDLEGG} label={t("vedlegg.tittel")} />
                 </Tabs.List>
                 <Tabs.Panel value={ARKFANER.HISTORIKK} className="navds-panel">
-                    {hendelserHasError && (
-                        <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>
-                    )}
                     {props.historikkChildren}
                 </Tabs.Panel>
                 <Tabs.Panel value={ARKFANER.VEDLEGG} className="navds-panel">
-                    {vedleggHasError && (
-                        <StyledTextPlacement>{t("feilmelding.vedlegg_innlasting")}</StyledTextPlacement>
-                    )}
                     {props.vedleggChildren}
                 </Tabs.Panel>
             </Tabs>

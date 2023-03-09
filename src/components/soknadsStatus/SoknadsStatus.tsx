@@ -144,7 +144,7 @@ const SoknadsStatus = () => {
                     {hasError && <StyledErrorColored title="Feil" />}
                     {hasError && <StyledTextPlacement>{t("feilmelding.soknadStatus_innlasting")}</StyledTextPlacement>}
                     {isLoading && <Lastestriper linjer={1} />}
-                    {soknadsStatus && (
+                    {soknadsStatus && !hasError && (
                         <HeadingWrapper>
                             <Heading level="2" size="large" spacing>
                                 {soknadsStatusTittel(soknadsStatus, t)}
@@ -158,7 +158,7 @@ const SoknadsStatus = () => {
                         <StyledAlert variant="info">{t("status.soknad_behandles_ikke_ingress")}</StyledAlert>
                     )}
 
-                    {soknadsStatus && saksStatusQuery.data?.length === 0 && !soknadBehandlesIkke && (
+                    {!hasError && soknadsStatus && saksStatusQuery.data?.length === 0 && !soknadBehandlesIkke && (
                         <StatusBox>
                             <StatusMessage>
                                 <Label as="p">{t("saker.default_tittel")}</Label>

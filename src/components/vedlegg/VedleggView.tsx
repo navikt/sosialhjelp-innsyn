@@ -10,6 +10,8 @@ import styled from "styled-components";
 import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
 import {VedleggResponse} from "../../generated/model";
 import {ErrorColored} from "@navikt/ds-icons";
+import Lastestriper from "../lastestriper/Lasterstriper";
+import {useTranslation} from "react-i18next";
 
 const Vedleggliste = styled.div`
     margin-top: 1rem;
@@ -158,14 +160,33 @@ const sorterVedlegg = (vedlegg: VedleggResponse[], kolonne: string, descending: 
     }
 };
 
+const defaultSortState: SortState = {orderBy: Kolonne.DATO, direction: "descending"};
+
+const StyledTextPlacement = styled.div`
+    margin-bottom: 1rem;
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
+    }
+`;
+
 const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
-    const {data: vedlegg, isLoading} = useHentVedlegg(fiksDigisosId);
-    const defaultSortState: SortState = {orderBy: Kolonne.DATO, direction: "descending"};
+    const {t} = useTranslation();
+    const {data: vedlegg, isLoading, isError} = useHentVedlegg(fiksDigisosId);
+    const [currentPage, setCurrentPage] = useState<number>(0);
     const [sortState, setSortState] = useState<SortState | undefined>(defaultSortState);
 
+    if (isError) {
+        return <StyledTextPlacement>{t("feilmelding.vedlegg_innlasting")}</StyledTextPlacement>;
+    }
+    if (isLoading && !vedlegg) {
+        return <Lastestriper />;
+    }
+    if (!vedlegg) {
+        return null;
+    }
     const onSortChange = (sortKey?: string) => {
         if (!sortKey) {
-            console.error("shoud not get here");
+            console.error("should not get here");
             return;
         }
 
@@ -194,7 +215,6 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
 
     /* Paginering */
     const itemsPerPage = 10;
-    const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
     const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, currentPage * 10 + 10);
 
