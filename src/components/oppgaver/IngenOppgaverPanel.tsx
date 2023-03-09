@@ -18,27 +18,27 @@ interface Props {
 }
 
 const IngenOppgaverPanel: React.FC<Props> = ({leserData}) => {
-  const {t} = useTranslation();
+    const {t} = useTranslation();
     if (leserData) {
         return null;
     }
     return (
-      <StyledPanel>
-        <>
-          <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="oppgave" />
-          <div>
-            <Label as="p">{t("oppgaver.ingen_oppgaver")}</Label>
-            <BodyShort>{t("oppgaver.beskjed")}</BodyShort>
-          </div>
-        </>
-        <>
-          <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="vedlegg" />
-          <div>
-            <Label as="p">{t("oppgaver.andre_dokumenter")}</Label>
-            <BodyShort>{t("oppgaver.andre_dokumenter_beskjed")}</BodyShort>
-          </div>
-        </>
-      </StyledPanel>
+        <StyledPanel>
+            <>
+                <Task width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="oppgave" />
+                <div>
+                    <Label as="p">{t("oppgaver.ingen_oppgaver")}</Label>
+                    <BodyShort>{t("oppgaver.beskjed")}</BodyShort>
+                </div>
+            </>
+            <>
+                <Attachment width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="vedlegg" />
+                <div>
+                    <Label as="p">{t("oppgaver.andre_dokumenter")}</Label>
+                    <BodyShort>{t("oppgaver.andre_dokumenter_beskjed")}</BodyShort>
+                </div>
+            </>
+        </StyledPanel>
     );
 };
 
