@@ -55,7 +55,6 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
             errors={outerErrors.map((it) => errorStatusToMessage[it.feil])}
             showUploadButton={canUploadAttachments}
             isLoading={isLoading || uploadIsLoading}
-            buttonDisabled={files.length === 0}
         >
             <>
                 <UploadElementView

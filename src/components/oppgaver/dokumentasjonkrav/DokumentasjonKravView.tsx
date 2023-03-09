@@ -57,7 +57,6 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
             frist={dokumentasjonkrav.frist}
             showUploadButton={canUploadAttachments}
             isLoading={isLoading}
-            buttonDisabled={Object.values(files).flat().length === 0}
         >
             <ul className={styles.unorderedList}>
                 {dokumentasjonkrav.dokumentasjonkravElementer.map((element, index) => (

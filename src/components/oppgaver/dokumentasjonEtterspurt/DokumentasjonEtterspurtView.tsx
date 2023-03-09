@@ -57,7 +57,6 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
             frist={showFrist ? dokumentasjonEtterspurt.innsendelsesfrist : undefined}
             showUploadButton={canUploadAttachments}
             isLoading={isLoading}
-            buttonDisabled={Object.values(files).flat().length === 0}
         >
             <>
                 {dokumentasjonEtterspurt.oppgaveElementer.map((element, index) => {

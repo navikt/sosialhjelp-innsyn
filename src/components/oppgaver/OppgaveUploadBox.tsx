@@ -29,7 +29,6 @@ interface Props {
     isLoading?: boolean;
     onClick: MouseEventHandler<HTMLButtonElement>;
     errors: string[];
-    buttonDisabled?: boolean;
 }
 
 const OppgaveUploadBox = ({
@@ -40,7 +39,6 @@ const OppgaveUploadBox = ({
     isLoading,
     onClick,
     errors,
-    buttonDisabled,
 }: Props): ReactElement => {
     const {t} = useTranslation();
     return (
@@ -53,7 +51,7 @@ const OppgaveUploadBox = ({
                     <ButtonWrapper>
                         <Button
                             variant="primary"
-                            disabled={isLoading || buttonDisabled}
+                            disabled={isLoading}
                             onClick={onClick}
                             iconPosition="right"
                             icon={isLoading && <Loader />}
