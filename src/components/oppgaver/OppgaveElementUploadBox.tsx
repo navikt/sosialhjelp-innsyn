@@ -43,7 +43,6 @@ const ErrorMessagesSummary = ({errors}: {errors: Error[]}) => {
     const errorsWithFile = errors.filter((error) => error.fil);
     const uniqueFilesWithError = dedupeErrorsByProp(errorsWithFile, "fil");
     const {t} = useTranslation();
-    console.log(uniqueFilesWithError);
 
     if (uniqueFilesWithError.length > 1) {
         return (
