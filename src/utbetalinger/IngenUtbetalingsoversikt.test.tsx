@@ -26,7 +26,7 @@ test("Viser riktig feilmelding dersom ingen saker med innsyn", async () => {
         />
     );
 
-    expect(screen.getByText("Vi kan ikke vise dine utbetalinger for øknomisk sosialhjelp")).toBeVisible();
+    expect(screen.getByText("Vi kan ikke vise dine utbetalinger for økonomisk sosialhjelp")).toBeVisible();
 });
 
 test("Viser riktig feilmelding dersom både harSaker og harSoknaderMedInnsyn er false", async () => {
