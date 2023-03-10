@@ -84,12 +84,11 @@ const SendButton = (props: Props) => {
                                 }
                                 dispatch({
                                     type: InnsynsdataActionTypeKeys.SETT_STATUS_FOR_FIL,
-                                    fil: {filnavn: fil.filnavn} as Fil,
+                                    fil: {filnavn: fil.filnavn, id: fil.id},
                                     status: fil.status,
                                     innsendelsesfrist: response.innsendelsesfrist,
                                     dokumenttype: response.type,
                                     tilleggsinfo: response.tilleggsinfo,
-                                    vedleggIndex: index,
                                 });
                             });
                         });

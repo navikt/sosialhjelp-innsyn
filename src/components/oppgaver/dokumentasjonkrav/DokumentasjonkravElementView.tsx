@@ -87,7 +87,7 @@ const DokumentasjonkravElementView: React.FC<{
         const files: FileList | null = event.currentTarget.files;
         if (files) {
             const opplastedeFiler = Array.from(files).map((file: File) => {
-                return {filnavn: file.name, status: "INITIALISERT", file: file};
+                return {filnavn: file.name, status: "INITIALISERT", file: file, id: uuidv4()};
             });
 
             const validatedFiles = validateFile(opplastedeFiler);

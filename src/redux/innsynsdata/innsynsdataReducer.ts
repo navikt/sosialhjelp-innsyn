@@ -75,6 +75,7 @@ export interface Vedlegg {
 
 export interface Fil {
     filnavn: string;
+    id: string;
     file?: File;
     status?: string;
 }
@@ -181,7 +182,6 @@ export interface VedleggActionType {
     innsendelsesfrist?: string; // For å finne rett oppgave
     dokumenttype: string; // For å finne rett oppgaveElement
     tilleggsinfo?: string; // For å finne rett oppgaveElement
-    vedleggIndex: number; // For å finne rett vedlegg i oppgaveElement
     internalIndex: number;
     externalIndex: number;
     fil: Fil;
@@ -436,8 +436,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                         ...oppgaveElement,
                                         filer:
                                             oppgaveElement.filer &&
-                                            oppgaveElement.filer.filter((fil: Fil, vedleggIndex: number) => {
-                                                return vedleggIndex !== action.vedleggIndex;
+                                            oppgaveElement.filer.filter((fil: Fil) => {
+                                                return fil.id !== action.fil.id;
                                             }),
                                     };
                                 }
@@ -495,11 +495,9 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                             ...dokumentasjonkravElement,
                                             filer:
                                                 dokumentasjonkravElement.filer &&
-                                                dokumentasjonkravElement.filer.filter(
-                                                    (fil: Fil, vedleggIndex: number) => {
-                                                        return vedleggIndex !== action.vedleggIndex;
-                                                    }
-                                                ),
+                                                dokumentasjonkravElement.filer.filter((fil: Fil) => {
+                                                    return fil.id !== action.fil.id;
+                                                }),
                                         };
                                     }
                                     return dokumentasjonkravElement;
@@ -532,8 +530,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                 ...oppgaveElement,
                                 filer:
                                     oppgaveElement.filer &&
-                                    oppgaveElement.filer.map((fil: Fil, vedleggIndex: number) => {
-                                        if (vedleggIndex === action.vedleggIndex) {
+                                    oppgaveElement.filer.map((fil: Fil) => {
+                                        if (fil.id === action.fil.id) {
                                             return {
                                                 ...fil,
                                                 status: action.status,
@@ -569,8 +567,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                                     ...dokumentasjonkravElement,
                                     filer:
                                         dokumentasjonkravElement.filer &&
-                                        dokumentasjonkravElement.filer.map((fil: Fil, vedleggIndex: number) => {
-                                            if (vedleggIndex === action.vedleggIndex) {
+                                        dokumentasjonkravElement.filer.map((fil: Fil) => {
+                                            if (fil.id === action.fil.id) {
                                                 return {
                                                     ...fil,
                                                     status: action.status,
@@ -654,8 +652,8 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                 oppgaveVedlegsOpplastingFeilet: false,
                 ettersendelse: {
                     ...state.ettersendelse,
-                    filer: state.ettersendelse.filer.filter((fil: Fil, vedleggIndex: number) => {
-                        return vedleggIndex !== action.vedleggIndex;
+                    filer: state.ettersendelse.filer.filter((fil: Fil) => {
+                        return fil.id !== action.fil.id;
                     }),
                 },
             };
@@ -666,7 +664,7 @@ const InnsynsdataReducer: Reducer<InnsynsdataType, InnsynsdataActionType & Vedle
                     ...state.ettersendelse,
                     filer: state.ettersendelse.filer
                         .map((fil: Fil, vedleggIndex: number) => {
-                            if (vedleggIndex === action.vedleggIndex) {
+                            if (fil.id === action.fil.id) {
                                 return {
                                     ...fil,
                                     status: action.status,

@@ -54,12 +54,11 @@ const DokumentasjonEtterspurtElementView: React.FC<{
 
     const visOppgaverDetaljeFeil: boolean = oppgaveVedlegsOpplastingFeilet || listeMedFilerSomFeiler.length > 0;
 
-    const onDeleteClick = (event: any, fil: Fil, vedleggIndex?: number) => {
+    const onDeleteClick = (event: any, fil: Fil) => {
         event.preventDefault();
         dispatch(setFileUploadFailedVirusCheckInBackend(oppgaveId, false));
         dispatch({
             type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_OPPLASTING,
-            vedleggIndex: vedleggIndex,
             oppgaveElement: oppgaveElement,
             internalIndex: oppgaveElementIndex,
             externalIndex: oppgaveIndex,
@@ -118,6 +117,7 @@ const DokumentasjonEtterspurtElementView: React.FC<{
                         filnavn: file.name,
                         status: "INITIALISERT",
                         file: file,
+                        id: uuidv4(),
                     },
                 });
             }

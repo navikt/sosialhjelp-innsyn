@@ -100,6 +100,7 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
                                 filnavn: file.name,
                                 status: "INITIALISERT",
                                 file: file,
+                                id: uuidv4(),
                             },
                         });
                     }
@@ -126,12 +127,11 @@ const EttersendelseView: React.FC<Props> = ({restStatus}) => {
         listeOverVedleggIderSomFeiletPaBackend.includes(BACKEND_FEIL_ID) ||
         listeOverOppgaveIderSomFeiletIVirussjekkPaBackend.includes(BACKEND_FEIL_ID);
 
-    const onDeleteClick = (event: MouseEvent, fil: Fil, vedleggIndex?: number) => {
+    const onDeleteClick = (event: MouseEvent, fil: Fil) => {
         setOverMaksStorrelse(false);
         dispatch(setFileUploadFailedVirusCheckInBackend(BACKEND_FEIL_ID, false));
         dispatch({
             type: InnsynsdataActionTypeKeys.FJERN_FIL_FOR_ETTERSENDELSE,
-            vedleggIndex: vedleggIndex,
             internalIndex: 0,
             externalIndex: 0,
             fil: fil,

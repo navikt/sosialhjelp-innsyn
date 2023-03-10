@@ -147,7 +147,6 @@ export interface FileError {
     containsIllegalCharacters: boolean;
     legalFileSize: boolean;
     legalCombinedFilesSize: boolean;
-    arrayIndex: number;
     oppgaveElementIndex: number;
     filename: string;
 }
@@ -201,15 +200,14 @@ export const findFilesWithError = (files: FileList, oppgaveElementIndex: number)
     const filerMedFeil: Array<FileError> = [];
     let isCombinedFileSizeLegal = 0;
 
-    for (let vedleggIndex = 0; vedleggIndex < files.length; vedleggIndex++) {
-        const file: File = files[vedleggIndex];
+    for (let i = 0; i < files.length; i++) {
+        const file: File = files[i];
         const filename = file.name;
 
         let fileErrorObject: FileError = {
             containsIllegalCharacters: false,
             legalFileSize: false,
             legalCombinedFilesSize: false,
-            arrayIndex: vedleggIndex,
             oppgaveElementIndex: oppgaveElementIndex,
             filename: filename,
         };

@@ -8,7 +8,6 @@ import {BodyShort, Button, Link} from "@navikt/ds-react";
 import {ErrorMessage} from "../errors/ErrorMessage";
 import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
-import {v4 as uuidv4} from "uuid";
 import styles from "../../styles/lists.module.css";
 import {useTranslation} from "react-i18next";
 
@@ -76,7 +75,7 @@ const StyledDeleteButton = styled(Button)`
 
 interface Props {
     filer: Fil[];
-    onDelete: (event: any, fil: Fil, vedleggIndex?: number) => void;
+    onDelete: (event: any, fil: Fil) => void;
 }
 
 const FileItemView = (props: Props) => {
@@ -92,10 +91,11 @@ const FileItemView = (props: Props) => {
         event.preventDefault();
     };
 
+    console.log(props.filer);
     return (
         <ul className={styles.unorderedList}>
             {props.filer.map((fil: Fil, index) => (
-                <StyledLiTag key={uuidv4()}>
+                <StyledLiTag key={fil.id}>
                     <StyledFilInfoOgKnapp>
                         <StyledFilInfo>
                             {fil.file && (
@@ -125,7 +125,7 @@ const FileItemView = (props: Props) => {
                         <StyledDeleteButton
                             variant="tertiary"
                             size="small"
-                            onClick={(event: any) => props.onDelete(event, fil, index)}
+                            onClick={(event: any) => props.onDelete(event, fil)}
                             iconPosition="right"
                             icon={<Delete aria-hidden title="fjern" />}
                         >
