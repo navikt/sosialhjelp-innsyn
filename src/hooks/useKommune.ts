@@ -1,12 +1,9 @@
-import {useParams} from "react-router-dom";
 import {useHentKommuneInfo} from "../generated/kommune-controller/kommune-controller";
+import useFiksDigisosId from "./useFiksDigisosId";
 
 const useKommune = () => {
-    const {soknadId} = useParams<{soknadId: string}>();
-    if (!soknadId) {
-        throw Error("Kunne ikke finne søknadId i parametere");
-    }
-    const {data, isLoading, error} = useHentKommuneInfo(soknadId);
+    const fiksDigisosId = useFiksDigisosId();
+    const {data, isLoading, error} = useHentKommuneInfo(fiksDigisosId);
     return {kommune: data, isLoading, error};
 };
 

@@ -1,25 +1,23 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import React from "react";
 import {useTranslation} from "react-i18next";
-import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
+import {VilkarResponse} from "../../../generated/model";
 
-export const getUnikeVilkar = (vilkar: Vilkar[]) => {
-    const vilkarCopy = Array.from(vilkar);
-    return vilkarCopy.filter(
+export const getUnikeVilkar = (vilkar: VilkarResponse[]) =>
+    vilkar.filter(
         (vilkarElement, index, self) =>
             index ===
             self.findIndex((it) => it.beskrivelse === vilkarElement.beskrivelse && it.tittel === vilkarElement.tittel)
     );
-};
 
 interface Props {
-    vilkar: Vilkar[];
-    feilmelding?: React.ReactNode;
+    vilkar: VilkarResponse[] | undefined;
 }
 export const VilkarAccordion = (props: Props) => {
     const {t} = useTranslation();
+    if (!props.vilkar) return null;
     const unikeVilkar = getUnikeVilkar(props.vilkar);
 
     return (
@@ -30,7 +28,6 @@ export const VilkarAccordion = (props: Props) => {
                     <BodyShort>{t("vilkar.veileder_trenger_mer")}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
-                    {props.feilmelding}
                     <VilkarView vilkar={unikeVilkar} />
                 </Accordion.Content>
             </Accordion.Item>
