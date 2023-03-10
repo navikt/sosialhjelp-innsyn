@@ -1,20 +1,18 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {useTranslation} from "react-i18next";
-import {DokumentasjonKrav} from "../../../redux/innsynsdata/innsynsdataReducer";
-import DokumentasjonKravView from "./DokumentasjonKravView";
 import React from "react";
+import {DokumentasjonkravResponse} from "../../../generated/model";
+import DokumentasjonKravView from "./DokumentasjonKravView";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
 
 interface Props {
-    dokumentasjonkrav: DokumentasjonKrav[];
-    feilmelding?: React.ReactNode;
+    dokumentasjonkrav: DokumentasjonkravResponse[];
 }
 
-export const DokumentasjonkravAccordion = (props: Props) => {
+const DokumentasjonkravAccordion = (props: Props) => {
     const {t} = useTranslation();
-
     return (
         <Accordion>
             <Accordion.Item defaultOpen>
@@ -24,9 +22,8 @@ export const DokumentasjonkravAccordion = (props: Props) => {
                 </Accordion.Header>
                 <Accordion.Content>
                     <OpplastingAvVedleggModal />
-                    {props.feilmelding}
                     <ul className={styles.unorderedList}>
-                        {props.dokumentasjonkrav.map((krav: DokumentasjonKrav, index: number) => (
+                        {props.dokumentasjonkrav.map((krav: DokumentasjonkravResponse, index: number) => (
                             <li key={index}>
                                 <DokumentasjonKravView dokumentasjonkrav={krav} />
                             </li>
@@ -37,3 +34,5 @@ export const DokumentasjonkravAccordion = (props: Props) => {
         </Accordion>
     );
 };
+
+export default DokumentasjonkravAccordion;

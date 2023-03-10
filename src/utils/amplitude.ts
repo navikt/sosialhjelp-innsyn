@@ -1,5 +1,4 @@
 import amplitude from "amplitude-js";
-import {DokumentasjonEtterspurt, Vilkar} from "../redux/innsynsdata/innsynsdataReducer";
 
 export const initAmplitude = () => {
     if (amplitude) {
@@ -39,40 +38,30 @@ export const logServerfeil = (eventData?: Record<string, unknown>) => {
     logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
 };
 
-export const logDuplicationsOfUploadedAttachmentsForDokEtterspurt = (
-    dokumentasjonEtterspurt: DokumentasjonEtterspurt,
-    externalindex: any
-) => {
-    if (externalindex === 0) {
-        if (dokumentasjonEtterspurt.oppgaveElementer.length > 1) {
-            const files = dokumentasjonEtterspurt.oppgaveElementer.flatMap((element) => {
-                return element.filer ?? [];
-            });
-            if (files.length > 1) {
-                let duplikerteFiler: File[] = [];
-                files.forEach((el, i) => {
-                    files.forEach((element, index) => {
-                        if (i === index) {
-                            return null;
-                        }
-                        if (el.file && element.filnavn === el.filnavn) {
-                            if (
-                                element.file?.lastModified === el.file.lastModified &&
-                                element.file?.size === el.file.size &&
-                                element.file?.name === el.file.name &&
-                                element.file?.type === el.file.type
-                            ) {
-                                if (el.file && !duplikerteFiler.includes(el.file)) {
-                                    duplikerteFiler.push(el.file);
-                                }
-                            }
-                        }
-                    });
-                });
-                if (duplikerteFiler.length > 0) {
-                    logAmplitudeEvent("Nylig lagt til vedlegg er duplikert ");
+export const logDuplicatedFiles = (files: File[]) => {
+    if (files.length > 1) {
+        let duplikerteFiler: File[] = [];
+        files.forEach((el, i) => {
+            files.forEach((element, index) => {
+                if (i === index) {
+                    return null;
                 }
-            }
+                if (el && element.name === el.name) {
+                    if (
+                        element.lastModified === el.lastModified &&
+                        element.size === el.size &&
+                        element.name === el.name &&
+                        element.type === el.type
+                    ) {
+                        if (el && !duplikerteFiler.includes(el)) {
+                            duplikerteFiler.push(el);
+                        }
+                    }
+                }
+            });
+        });
+        if (duplikerteFiler.length > 0) {
+            logAmplitudeEvent("Nylig lagt til vedlegg er duplikert ");
         }
     }
 };

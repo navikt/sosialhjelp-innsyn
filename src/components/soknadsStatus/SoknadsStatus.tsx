@@ -1,11 +1,9 @@
 import React from "react";
-import {SaksStatus, SaksStatusState, VedtakFattet} from "../../redux/innsynsdata/innsynsdataReducer";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {useTranslation} from "react-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {SoknadsStatusEnum, soknadsStatusTittel} from "./soknadsStatusUtils";
-import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
+import {soknadsStatusTittel} from "./soknadsStatusUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
 import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
@@ -13,15 +11,22 @@ import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
 import {v4 as uuidv4} from "uuid";
+import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
+import {
+    SaksStatusResponse,
+    SaksStatusResponseStatus,
+    SoknadsStatusResponseStatus,
+    VedtaksfilUrl,
+} from "../../generated/model";
+
+interface ContentPanelBorderProps {
+    lightColor?: boolean;
+}
 
 const Container = styled.div`
     padding-top: 3rem;
-`;
-
-const ContentPanel = styled(Panel)<{error?: boolean}>`
-    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
-    padding-top: 2rem;
-    position: relative;
 `;
 
 const Spot = styled.div`
@@ -33,6 +38,12 @@ const Spot = styled.div`
     border-radius: 50%;
     height: 4rem;
     width: 4rem;
+`;
+
+const ContentPanel = styled(Panel)<{error?: boolean}>`
+    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
+    padding-top: 2rem;
+    position: relative;
 `;
 
 const SpotIcon = styled(PlaceFilled).attrs({
@@ -72,10 +83,6 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
 
-interface ContentPanelBorderProps {
-    lightColor?: boolean;
-}
-
 const ContentPanelBorder = styled.div<ContentPanelBorderProps>`
     border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
     margin: 1rem 0;
@@ -106,31 +113,26 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
-interface Props {
-    soknadsStatus: SoknadsStatusEnum | null;
-    sak: null | SaksStatusState[];
-    restStatus: REST_STATUS;
-}
-
 const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
-const restStatusError = (restStatus: REST_STATUS): boolean => {
-    return (
-        restStatus !== REST_STATUS.INITIALISERT && restStatus !== REST_STATUS.PENDING && restStatus !== REST_STATUS.OK
-    );
-};
+const SoknadsStatus = () => {
+    const fiksDigisosId = useFiksDigisosId();
 
-const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
+    const soknadsStatusQuery = useHentSoknadsStatus(fiksDigisosId);
+    const saksStatusQuery = useHentSaksStatuser(fiksDigisosId);
     const {t} = useTranslation();
 
-    const soknadBehandlesIkke = soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE;
-    const hasError = restStatusError(restStatus);
+    const soknadBehandlesIkke = soknadsStatusQuery.data?.status === SoknadsStatusResponseStatus.BEHANDLES_IKKE;
+    const hasError = soknadsStatusQuery.isError || saksStatusQuery.isError;
+    const isLoading = soknadsStatusQuery.isLoading || saksStatusQuery.isLoading;
 
     const onVisVedtak = () => {
         logButtonOrLinkClick("Åpnet vedtaksbrev");
     };
+
+    const soknadsStatus = soknadsStatusQuery.data?.status;
 
     return (
         <Container>
@@ -141,8 +143,8 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                 <ContentPanelBody>
                     {hasError && <StyledErrorColored title="Feil" />}
                     {hasError && <StyledTextPlacement>{t("feilmelding.soknadStatus_innlasting")}</StyledTextPlacement>}
-                    {skalViseLastestripe(restStatus, true) && <Lastestriper linjer={1} />}
-                    {restStatus !== REST_STATUS.FEILET && (
+                    {isLoading && <Lastestriper linjer={1} />}
+                    {soknadsStatus && !hasError && (
                         <HeadingWrapper>
                             <Heading level="2" size="large" spacing>
                                 {soknadsStatusTittel(soknadsStatus, t)}
@@ -152,11 +154,11 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                         </HeadingWrapper>
                     )}
 
-                    {soknadsStatus === SoknadsStatusEnum.BEHANDLES_IKKE && (
+                    {soknadsStatus === SoknadsStatusResponseStatus.BEHANDLES_IKKE && (
                         <StyledAlert variant="info">{t("status.soknad_behandles_ikke_ingress")}</StyledAlert>
                     )}
 
-                    {!hasError && sak?.length === 0 && !soknadBehandlesIkke && (
+                    {!hasError && soknadsStatus && saksStatusQuery.data?.length === 0 && !soknadBehandlesIkke && (
                         <StatusBox>
                             <StatusMessage>
                                 <Label as="p">{t("saker.default_tittel")}</Label>
@@ -166,27 +168,29 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                     )}
 
                     {!hasError &&
-                        sak &&
-                        sak.map((statusdetalj: SaksStatusState, index: number) => {
+                        saksStatusQuery.data &&
+                        saksStatusQuery.data.map((statusdetalj: SaksStatusResponse, index: number) => {
                             const saksStatus = statusdetalj.status;
-                            const sakIkkeInnsyn = saksStatus === SaksStatus.IKKE_INNSYN;
-                            const sakBehandlesIkke = saksStatus === SaksStatus.BEHANDLES_IKKE;
+                            const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
+                            const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
                             const randomId = uuidv4();
                             return (
                                 <React.Fragment key={randomId}>
                                     <StatusBox key={index}>
                                         <StatusMessage>
                                             <Label as="p">{statusdetalj.tittel}</Label>
-                                            {saksStatus === SaksStatus.FERDIGBEHANDLET && (
+                                            {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
                                                 <Tag variant="success">{t("saksStatus.ferdig_behandlet")}</Tag>
                                             )}
-                                            {saksStatus === SaksStatus.UNDER_BEHANDLING && !soknadBehandlesIkke && (
-                                                <Tag variant="warning">{t("saksStatus.under_behandling")}</Tag>
-                                            )}
+                                            {saksStatus === SaksStatusResponseStatus.UNDER_BEHANDLING &&
+                                                !soknadBehandlesIkke && (
+                                                    <Tag variant="warning">{t("saksStatus.under_behandling")}</Tag>
+                                                )}
                                         </StatusMessage>
-                                        {statusdetalj.melding && statusdetalj.melding.length > 0 && (
-                                            <BodyShort>{statusdetalj.melding}</BodyShort>
-                                        )}
+                                        {/* TODO: Finnes denne her enkly? */}
+                                        {/*{statusdetalj.melding && statusdetalj.melding.length > 0 && (*/}
+                                        {/*    <BodyShort>{statusdetalj.melding}</BodyShort>*/}
+                                        {/*)}*/}
                                         {sakBehandlesIkke && !soknadBehandlesIkke && (
                                             <BodyShort>{t("saksStatus.sak_behandles_ikke_ingress")}</BodyShort>
                                         )}
@@ -195,23 +199,26 @@ const SoknadsStatus: React.FC<Props> = ({soknadsStatus, sak, restStatus}) => {
                                         )}
 
                                         {statusdetalj.vedtaksfilUrlList &&
-                                            statusdetalj.vedtaksfilUrlList.map((hendelse: VedtakFattet, id: number) => (
-                                                <StatusMessage key={id}>
-                                                    <StatusMessageVedtak>
-                                                        <EksternLenke
-                                                            href={"" + hendelse.vedtaksfilUrl}
-                                                            onClick={onVisVedtak}
-                                                        >
-                                                            Vedtak (
-                                                            <DatoOgKlokkeslett
-                                                                bareDato={true}
-                                                                tidspunkt={hendelse.dato}
-                                                            />
-                                                            )
-                                                        </EksternLenke>
-                                                    </StatusMessageVedtak>
-                                                </StatusMessage>
-                                            ))}
+                                            statusdetalj.vedtaksfilUrlList.map(
+                                                (hendelse: VedtaksfilUrl, id: number) => (
+                                                    <StatusMessage key={id}>
+                                                        <StatusMessageVedtak>
+                                                            <EksternLenke
+                                                                href={"" + hendelse.vedtaksfilUrl}
+                                                                onClick={onVisVedtak}
+                                                            >
+                                                                Vedtak (
+                                                                <DatoOgKlokkeslett
+                                                                    bareDato={true}
+                                                                    // TODO: Kan denne faktisk være null?
+                                                                    tidspunkt={hendelse.dato!}
+                                                                />
+                                                                )
+                                                            </EksternLenke>
+                                                        </StatusMessageVedtak>
+                                                    </StatusMessage>
+                                                )
+                                            )}
                                     </StatusBox>
                                     <ContentPanelBorder lightColor />
                                 </React.Fragment>

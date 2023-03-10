@@ -142,8 +142,22 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
     );
 };
 
+const StyledTextPlacement = styled.div`
+    margin-bottom: 1rem;
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
+    }
+`;
+
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
-    const {data: hendelser, isLoading} = useHentHendelser(fiksDigisosId);
+    const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
+    const {t} = useTranslation();
+    if (isError) {
+        return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
+    }
+    if (isLoading && !hendelser) {
+        return <Lastestriper />;
+    }
     if (!hendelser) {
         return null;
     }

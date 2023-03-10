@@ -29,7 +29,14 @@ export const getSendVedleggMock = () =>
         hendelsereferanse: faker.helpers.arrayElement([faker.random.word(), undefined]),
         filer: Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
             filnavn: faker.helpers.arrayElement([faker.random.word(), undefined]),
-            status: faker.random.word(),
+            status: faker.helpers.arrayElement([
+                "OK",
+                "COULD_NOT_LOAD_DOCUMENT",
+                "PDF_IS_ENCRYPTED",
+                "ILLEGAL_FILE_TYPE",
+                "ILLEGAL_FILENAME",
+                "FILE_TOO_LARGE",
+            ]),
         })),
     }));
 

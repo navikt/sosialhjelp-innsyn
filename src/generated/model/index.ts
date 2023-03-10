@@ -28,6 +28,7 @@ export * from "./tilgangResponse";
 export * from "./urlResponse";
 export * from "./utbetalingerResponse";
 export * from "./vedleggOpplastingResponse";
+export * from "./vedleggOpplastingResponseStatus";
 export * from "./vedleggResponse";
 export * from "./vedtaksfilUrl";
 export * from "./vilkarResponse";

@@ -1,12 +1,11 @@
-import {SoknadsStatusEnum} from "../components/soknadsStatus/soknadsStatusUtils";
-import {KommuneResponse} from "../generated/model";
+import {KommuneResponse, SoknadsStatusResponseStatus} from "../generated/model";
 
 export function isKommuneMedInnsyn(kommuneResponse: KommuneResponse | undefined, soknadStatus: string | null): boolean {
     return (
         kommuneResponse != null &&
         !kommuneResponse.erInnsynDeaktivert &&
         soknadStatus != null &&
-        soknadStatus !== SoknadsStatusEnum.SENDT
+        soknadStatus !== SoknadsStatusResponseStatus.SENDT
     );
 }
 
