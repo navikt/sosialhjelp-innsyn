@@ -81,11 +81,10 @@ const FileItemView = (props: Props) => {
         event.preventDefault();
     };
 
-    console.log(props.filer);
     return (
         <ul className={styles.unorderedList}>
-            {props.filer.map((fil: File) => (
-                <StyledLiTag key={fil.id}>
+            {props.filer.map((fil: File, index) => (
+                <StyledLiTag key={index}>
                     <StyledFilInfoOgKnapp>
                         <StyledFilInfo>
                             {fil && (
