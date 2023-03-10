@@ -27,18 +27,14 @@ const StyledButton = styled(Button)`
     font-weight: bold;
 `;
 const AddFileButton: React.FC<{
-    onChange: (event: any, dokumentasjonkravReferanse: string) => void;
-    referanse: string;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
-}> = ({onChange, referanse, id}) => {
+}> = ({onChange, id}) => {
     const {t} = useTranslation();
-
     const onClick = (event?: any): void => {
         const uploadElement: any = document.getElementById("file_" + id);
         uploadElement.click();
-        if (event) {
-            event.preventDefault();
-        }
+        event?.preventDefault();
     };
 
     return (
@@ -52,13 +48,7 @@ const AddFileButton: React.FC<{
             >
                 {t("vedlegg.velg_fil")}
             </StyledButton>
-            <input
-                type="file"
-                id={"file_" + id}
-                multiple={true}
-                onChange={(event: ChangeEvent) => onChange(event, referanse)}
-                style={{display: "none"}}
-            />
+            <input type="file" id={"file_" + id} multiple={true} onChange={onChange} style={{display: "none"}} />
         </>
     );
 };

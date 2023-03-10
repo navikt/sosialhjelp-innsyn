@@ -21,7 +21,7 @@ const UtbetalingsoversiktIngenInnsyn: React.FC = () => {
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        Vi kan ikke vise dine utbetalinger for øknomisk sosialhjelp
+                        Vi kan ikke vise dine utbetalinger for økonomisk sosialhjelp
                     </Heading>
                     <BodyLong>
                         Oversikten over utbetalinger for økonomisk sosialhjelp er dessverre ikke tilgjengelig i alle

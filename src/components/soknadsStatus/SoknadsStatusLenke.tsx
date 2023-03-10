@@ -1,19 +1,19 @@
 import React from "react";
 import {Link} from "@navikt/ds-react";
-import {SoknadsStatusEnum} from "./soknadsStatusUtils";
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
-const SoknadsStatusLenke = (props: {status: SoknadsStatusEnum | null}) => {
+const SoknadsStatusLenke = (props: {status: SoknadsStatusResponseStatus | undefined}) => {
     switch (props.status) {
-        case SoknadsStatusEnum.SENDT:
-        case SoknadsStatusEnum.MOTTATT:
-        case SoknadsStatusEnum.UNDER_BEHANDLING:
+        case SoknadsStatusResponseStatus.SENDT:
+        case SoknadsStatusResponseStatus.MOTTATT:
+        case SoknadsStatusResponseStatus.UNDER_BEHANDLING:
             return (
                 <Link href="https://www.nav.no/okonomisk-sosialhjelp#saksbehandlingstider">
                     Hvor lang tid tar det å behandle søknaden?
                 </Link>
             );
 
-        case SoknadsStatusEnum.FERDIGBEHANDLET:
+        case SoknadsStatusResponseStatus.FERDIGBEHANDLET:
             return <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Hvordan sende klage?</Link>;
     }
     return null;
