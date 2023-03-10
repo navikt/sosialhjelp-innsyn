@@ -1,15 +1,17 @@
 import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
-import {Vedlegg} from "../../redux/innsynsdata/innsynsdataReducer";
 import {formatBytes} from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
-import {REST_STATUS, skalViseLastestripe} from "../../utils/restUtils";
 import {getVisningstekster} from "../../utils/vedleggUtils";
 import {Link, Select, SortState, Table} from "@navikt/ds-react";
 import styled from "styled-components";
+import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
+import {VedleggResponse} from "../../generated/model";
 import {ErrorColored} from "@navikt/ds-icons";
+import Lastestriper from "../lastestriper/Lasterstriper";
+import {useTranslation} from "react-i18next";
 
 const Vedleggliste = styled.div`
     margin-top: 1rem;
@@ -98,9 +100,7 @@ const FileErrorCell = styled.div`
 `;
 
 interface Props {
-    vedlegg: Vedlegg[];
-    restStatus: REST_STATUS;
-    className?: string;
+    fiksDigisosId: string;
 }
 
 const LastestripeRad = () => (
@@ -139,20 +139,20 @@ const strCompare = (a: string, b: string) => {
     return 0;
 };
 
-const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: string, descending: boolean) => {
+const sorterVedlegg = (vedlegg: VedleggResponse[], kolonne: string, descending: boolean) => {
     switch (kolonne) {
         case Kolonne.DATO:
-            return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
+            return [].slice.call(vedlegg).sort((a: VedleggResponse, b: VedleggResponse) => {
                 return descending
                     ? Date.parse(b.datoLagtTil) - Date.parse(a.datoLagtTil)
                     : Date.parse(a.datoLagtTil) - Date.parse(b.datoLagtTil);
             });
         case Kolonne.FILNAVN:
-            return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
+            return [].slice.call(vedlegg).sort((a: VedleggResponse, b: VedleggResponse) => {
                 return descending ? strCompare(a.filnavn, b.filnavn) : strCompare(b.filnavn, a.filnavn);
             });
         case Kolonne.BESKRIVELSE:
-            return [].slice.call(vedlegg).sort((a: Vedlegg, b: Vedlegg) => {
+            return [].slice.call(vedlegg).sort((a: VedleggResponse, b: VedleggResponse) => {
                 return descending ? strCompare(a.type, b.type) : strCompare(b.type, a.type);
             });
         default:
@@ -160,13 +160,31 @@ const sorterVedlegg = (vedlegg: Vedlegg[], kolonne: string, descending: boolean)
     }
 };
 
-const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
-    const defaultSortState: SortState = {orderBy: Kolonne.DATO, direction: "descending"};
+const defaultSortState: SortState = {orderBy: Kolonne.DATO, direction: "descending"};
+
+const StyledTextPlacement = styled.div`
+    margin-bottom: 1rem;
+    @media screen and (max-width: 640px) {
+        margin-left: 2rem;
+    }
+`;
+
+const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
+    const {t} = useTranslation();
+    const {data: vedlegg, isLoading, isError} = useHentVedlegg(fiksDigisosId);
+    const [currentPage, setCurrentPage] = useState<number>(0);
     const [sortState, setSortState] = useState<SortState | undefined>(defaultSortState);
+
+    if (isError) {
+        return <StyledTextPlacement>{t("feilmelding.vedlegg_innlasting")}</StyledTextPlacement>;
+    }
+    if (isLoading && !vedlegg) {
+        return <Lastestriper />;
+    }
 
     const onSortChange = (sortKey?: string) => {
         if (!sortKey) {
-            console.error("shoud not get here");
+            console.error("should not get here");
             return;
         }
 
@@ -190,26 +208,26 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
     };
 
     const sorterteVedlegg = sortState
-        ? sorterVedlegg(vedlegg, sortState.orderBy, sortState.direction === "descending")
-        : sorterVedlegg(vedlegg, defaultSortState.orderBy, defaultSortState.direction === "descending");
+        ? sorterVedlegg(vedlegg ?? [], sortState.orderBy, sortState.direction === "descending")
+        : sorterVedlegg(vedlegg ?? [], defaultSortState.orderBy, defaultSortState.direction === "descending");
 
     /* Paginering */
     const itemsPerPage = 10;
-    const [currentPage, setCurrentPage] = useState<number>(0);
     const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
-    const paginerteVedlegg: Vedlegg[] = sorterteVedlegg.slice(currentPage * 10, currentPage * 10 + 10);
+    const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, currentPage * 10 + 10);
 
     const handlePageClick = (page: number) => {
         setCurrentPage(page);
     };
 
-    function harFeilPaVedleggFraServer(vedlegg: Vedlegg) {
+    function harFeilPaVedleggFraServer(vedlegg: VedleggResponse) {
         return vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1;
     }
 
     return (
         <>
-            <EttersendelseView restStatus={restStatus} />
+            <EttersendelseView isLoading={isLoading} />
+
             <Vedleggliste>
                 <SorteringListeboks>
                     <Select
@@ -237,54 +255,50 @@ const VedleggView: React.FC<Props> = ({vedlegg, restStatus, className}) => {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {skalViseLastestripe(restStatus, true) && <LastestripeRad />}
-                        {paginerteVedlegg.map((vedlegg: Vedlegg, index: number) => {
-                            return (
-                                <Table.Row key={index}>
-                                    {harFeilPaVedleggFraServer(vedlegg) && (
-                                        <>
-                                            <Table.DataCell>
-                                                <FileErrorCell>
-                                                    <ErrorColored width="1.5rem" height="1.5rem" title="Feil" />
-                                                    {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
-                                                </FileErrorCell>
-                                            </Table.DataCell>
-                                            <Table.DataCell></Table.DataCell>
-                                            <Table.DataCell></Table.DataCell>
-                                        </>
-                                    )}
-                                    {!harFeilPaVedleggFraServer(vedlegg) && (
-                                        <>
-                                            <Table.DataCell>
-                                                <StyledPaperClipSlanted />
-                                                <Link
-                                                    href={vedlegg.url}
-                                                    target="_blank"
-                                                    className="filnavn"
-                                                    title={
-                                                        vedlegg.filnavn + " (" + formatBytes(vedlegg.storrelse, 2) + ")"
-                                                    }
-                                                >
-                                                    {vedlegg.filnavn}
-                                                </Link>
-                                            </Table.DataCell>
-                                            <Table.DataCell>
-                                                {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
-                                            </Table.DataCell>
-                                            <Table.DataCell>
-                                                <NoWrap>
-                                                    <DatoOgKlokkeslett
-                                                        bareDato={true}
-                                                        tidspunkt={vedlegg.datoLagtTil}
-                                                        brukKortMaanedNavn={true}
-                                                    />
-                                                </NoWrap>
-                                            </Table.DataCell>
-                                        </>
-                                    )}
-                                </Table.Row>
-                            );
-                        })}
+                        {isLoading && <LastestripeRad />}
+                        {paginerteVedlegg.map((vedlegg, index: number) => (
+                            <Table.Row key={index}>
+                                {harFeilPaVedleggFraServer(vedlegg) && (
+                                    <>
+                                        <Table.DataCell>
+                                            <FileErrorCell>
+                                                <ErrorColored width="1.5rem" height="1.5rem" title="Feil" />
+                                                {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
+                                            </FileErrorCell>
+                                        </Table.DataCell>
+                                        <Table.DataCell></Table.DataCell>
+                                        <Table.DataCell></Table.DataCell>
+                                    </>
+                                )}
+                                {!harFeilPaVedleggFraServer(vedlegg) && (
+                                    <>
+                                        <Table.DataCell>
+                                            <StyledPaperClipSlanted />
+                                            <Link
+                                                href={vedlegg.url}
+                                                target="_blank"
+                                                className="filnavn"
+                                                title={`${vedlegg.filnavn} (${formatBytes(vedlegg.storrelse, 2)})`}
+                                            >
+                                                {vedlegg.filnavn}
+                                            </Link>
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            <NoWrap>
+                                                <DatoOgKlokkeslett
+                                                    bareDato={true}
+                                                    tidspunkt={vedlegg.datoLagtTil}
+                                                    brukKortMaanedNavn={true}
+                                                />
+                                            </NoWrap>
+                                        </Table.DataCell>
+                                    </>
+                                )}
+                            </Table.Row>
+                        ))}
                     </Table.Body>
                 </StyledTable>
                 {sorterteVedlegg.length > itemsPerPage && (

@@ -47,6 +47,7 @@
         "lint": "eslint --ext js,ts,tsx --fix ./src",
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
         "orval": "rm -rf ./src/generated && orval --prettier",
+        "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
         "tsc": "tsc"
     },
     "eslintConfig": {

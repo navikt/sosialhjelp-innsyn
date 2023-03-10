@@ -1,16 +1,16 @@
 import "@testing-library/jest-dom";
 import React from "react";
-import {Vilkar} from "../../../redux/innsynsdata/innsynsdataReducer";
 import {render, fireEvent, screen} from "../../../test/test-utils";
 import {getUnikeVilkar, VilkarAccordion} from "./VilkarAccordion";
+import {VilkarResponse} from "../../../generated/model";
 
-const vilkar: Vilkar[] = [
+const vilkar: VilkarResponse[] = [
     {
         hendelsetidspunkt: "endato",
         vilkarReferanse: "referanse",
         tittel: "tittel for et vilkår",
         beskrivelse: "beskrivelse",
-        status: "behandlet",
+        status: "OPPFYLT",
     },
 ];
 
@@ -24,34 +24,34 @@ test("Rendrer vilkår", async () => {
     expect(screen.getByText("tittel for et vilkår")).toBeVisible();
 });
 
-const flereVilkar: Vilkar[] = [
+const flereVilkar: VilkarResponse[] = [
     {
         hendelsetidspunkt: "endato",
         vilkarReferanse: "referanse",
         tittel: "tittel for et vilkår",
         beskrivelse: "beskrivelse",
-        status: "behandlet",
+        status: "OPPFYLT",
     },
     {
         hendelsetidspunkt: "endato",
         vilkarReferanse: "referanse",
         tittel: "tittel",
         beskrivelse: "beskrivelse",
-        status: "behandlet",
+        status: "OPPFYLT",
     },
     {
         hendelsetidspunkt: "endato",
         vilkarReferanse: "referanse",
         tittel: "tittel for et vilkår",
         beskrivelse: "beskrivelse",
-        status: "behandlet",
+        status: "OPPFYLT",
     },
     {
         hendelsetidspunkt: "endato",
         vilkarReferanse: "referanse",
         tittel: "tittel for et vilkår",
         beskrivelse: "trallala",
-        status: "behandlet",
+        status: "OPPFYLT",
     },
 ];
 test("Filtrér vilkår med lik tittel og beskrivelse", () => {
