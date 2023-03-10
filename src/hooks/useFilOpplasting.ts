@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {getHentVedleggQueryKey, sendVedlegg, useSendVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 import useFiksDigisosId from "./useFiksDigisosId";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} 
 import {logInfoMessage, logWarningMessage} from "../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../utils/amplitude";
 import {getHentHendelserQueryKey} from "../generated/hendelse-controller/hendelse-controller";
+import useTimeout from "./useTimeout";
 
 export interface Metadata {
     type: string;
@@ -96,9 +97,16 @@ const useFilOpplasting = (
         return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
 
+    /*use a delay before adding erros, to ensure aria-live-regions are being read*/
+    const [hasTimeElapsed, setHasTimeElapsed] = React.useState(false);
+    useTimeout(() => {
+        setHasTimeElapsed(true);
+    }, 1000);
+
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
+
             logDuplicatedFiles(_files);
             _files.forEach((file) => {
                 if (file.size > maxFileSize) {
@@ -180,8 +188,8 @@ const useFilOpplasting = (
 
     return {
         mutation: {isLoading, isError, error, data},
-        innerErrors,
-        outerErrors,
+        innerErrors: hasTimeElapsed ? innerErrors : (recordFromMetadatas(metadatas) as Record<number, Error[]>),
+        outerErrors: hasTimeElapsed ? outerErrors : [],
         upload,
         files,
         addFiler,

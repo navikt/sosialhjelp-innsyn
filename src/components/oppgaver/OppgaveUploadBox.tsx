@@ -2,7 +2,7 @@ import React, {MouseEventHandler, ReactElement} from "react";
 import InnsendelsesFrist from "./InnsendelsesFrist";
 import {Button, Loader} from "@navikt/ds-react";
 import styled from "styled-components";
-import {ErrorMessage} from "../errors/ErrorMessage";
+import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import {useTranslation} from "react-i18next";
 
 const StyledInnerFrame = styled.div<{$hasError?: boolean}>`
@@ -61,11 +61,13 @@ const OppgaveUploadBox = ({
                     </ButtonWrapper>
                 )}
             </StyledInnerFrame>
-            {errors.map((error, index) => (
-                <ErrorMessage key={index} style={{marginBottom: "1rem", marginLeft: "1rem"}}>
-                    {t(error)}
-                </ErrorMessage>
-            ))}
+            <ErrorMessagePlaceholder>
+                {errors.map((error, index) => (
+                    <ErrorMessage key={index} style={{marginBottom: "1rem", marginLeft: "1rem"}}>
+                        {t(error)}
+                    </ErrorMessage>
+                ))}
+            </ErrorMessagePlaceholder>
         </StyledOuterFrame>
     );
 };

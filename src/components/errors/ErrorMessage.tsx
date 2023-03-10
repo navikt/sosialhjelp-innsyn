@@ -6,10 +6,12 @@ interface ErrorMessageProps extends React.HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
 }
 
-const ErrorMessageContext = React.createContext({});
+interface ErrorMessageContextProps {}
+
+const ErrorMessageContext = React.createContext<ErrorMessageContextProps | null>(null);
 
 const ErrorMessagePlaceholder = ({children}: ErrorMessageProps) => (
-    <ErrorMessageContext.Provider value={[]}>
+    <ErrorMessageContext.Provider value={{}}>
         <div className={styles.error_placeholder} aria-live="polite" aria-relevant="additions removals">
             {children}
         </div>
