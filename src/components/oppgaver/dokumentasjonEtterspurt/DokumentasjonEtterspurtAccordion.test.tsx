@@ -2,9 +2,8 @@ import "@testing-library/jest-dom";
 import React from "react";
 import {render, fireEvent, screen} from "../../../test/test-utils";
 import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
-import {REST_STATUS} from "../../../utils/restUtils";
 import {Route, Routes} from "react-router-dom";
-import {HendelseTypeEnum} from "../../../redux/innsynsdata/innsynsdataReducer";
+import {OppgaveElementHendelsetype} from "../../../generated/model";
 
 test("Rendrer DokumentasjonEtterspurt", async () => {
     render(
@@ -13,20 +12,21 @@ test("Rendrer DokumentasjonEtterspurt", async () => {
                 path="/:soknadId/status"
                 element={
                     <DokumentasjonEtterspurtAccordion
+                        isLoading={false}
                         dokumentasjonEtterspurt={[
                             {
                                 innsendelsesfrist: undefined,
                                 oppgaveId: "",
                                 oppgaveElementer: [
                                     {
+                                        erFraInnsyn: true,
                                         dokumenttype: "",
-                                        hendelsetype: HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT,
+                                        hendelsetype: OppgaveElementHendelsetype.dokumentasjonEtterspurt,
                                         hendelsereferanse: "",
                                     },
                                 ],
                             },
                         ]}
-                        restStatus_oppgaver={REST_STATUS.OK}
                     />
                 }
             />

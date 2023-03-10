@@ -1,6 +1,5 @@
 import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
-import {SoknadsStatusEnum} from "../components/soknadsStatus/soknadsStatusUtils";
-import {KommuneResponse} from "../generated/model";
+import {KommuneResponse, SoknadsStatusResponseStatus} from "../generated/model";
 
 describe("Hotjar-trigger utils", () => {
     const aktivertInnsynKommuneResponse: KommuneResponse = {
@@ -23,7 +22,7 @@ describe("Hotjar-trigger utils", () => {
 
     it("ingen kommunerespons, should not trigger any hotjar", () => {
         expect(isKommuneUtenInnsyn(undefined)).toBe(false);
-        expect(isKommuneMedInnsyn(undefined, SoknadsStatusEnum.MOTTATT)).toBe(false);
+        expect(isKommuneMedInnsyn(undefined, SoknadsStatusResponseStatus.MOTTATT)).toBe(false);
     });
 
     it("deaktivert innsyn, should trigger hotjar utenInnsyn", () => {
@@ -31,7 +30,7 @@ describe("Hotjar-trigger utils", () => {
     });
 
     it("deaktivert innsyn, should not trigger hotjar medInnsyn", () => {
-        expect(isKommuneMedInnsyn(deaktivertInnsynKommuneResponse, SoknadsStatusEnum.MOTTATT)).toBe(false);
+        expect(isKommuneMedInnsyn(deaktivertInnsynKommuneResponse, SoknadsStatusResponseStatus.MOTTATT)).toBe(false);
     });
 
     it("aktivert innsyn, should not trigger utenInnsyn", () => {
@@ -39,13 +38,19 @@ describe("Hotjar-trigger utils", () => {
     });
 
     it("aktivert innsyn med søknad SENDT, should not trigger medInnsyn", () => {
-        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.SENDT)).toBe(false);
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusResponseStatus.SENDT)).toBe(false);
     });
 
     it("aktivert innsyn med søknad !SENDT, should trigger hotjar medInnsyn", () => {
-        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.MOTTATT)).toBe(true);
-        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.UNDER_BEHANDLING)).toBe(true);
-        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.FERDIGBEHANDLET)).toBe(true);
-        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusEnum.BEHANDLES_IKKE)).toBe(true);
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusResponseStatus.MOTTATT)).toBe(true);
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusResponseStatus.UNDER_BEHANDLING)).toBe(
+            true
+        );
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusResponseStatus.FERDIGBEHANDLET)).toBe(
+            true
+        );
+        expect(isKommuneMedInnsyn(aktivertInnsynKommuneResponse, SoknadsStatusResponseStatus.BEHANDLES_IKKE)).toBe(
+            true
+        );
     });
 });

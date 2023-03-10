@@ -1,24 +1,24 @@
 import React from "react";
 import {Tag} from "@navikt/ds-react";
-import {SoknadsStatusEnum} from "./soknadsStatusUtils";
 import {useTranslation} from "react-i18next";
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
 interface Props {
-    status: null | SoknadsStatusEnum;
+    status: SoknadsStatusResponseStatus | undefined;
 }
 const SoknadsStatusTag = ({status}: Props) => {
     const {t} = useTranslation();
 
     switch (status) {
-        case SoknadsStatusEnum.SENDT:
+        case SoknadsStatusResponseStatus.SENDT:
             return <Tag variant="info">{t("soknadstatus.sendt")}</Tag>;
-        case SoknadsStatusEnum.MOTTATT:
+        case SoknadsStatusResponseStatus.MOTTATT:
             return <Tag variant="info">{t("soknadstatus.mottatt")}</Tag>;
 
-        case SoknadsStatusEnum.UNDER_BEHANDLING:
+        case SoknadsStatusResponseStatus.UNDER_BEHANDLING:
             return <Tag variant="info">{t("soknadstatus.under_behandling")}</Tag>;
 
-        case SoknadsStatusEnum.FERDIGBEHANDLET:
+        case SoknadsStatusResponseStatus.FERDIGBEHANDLET:
             return <Tag variant="success">{t("soknadstatus.ferdigbehandlet")}</Tag>;
     }
     return null;

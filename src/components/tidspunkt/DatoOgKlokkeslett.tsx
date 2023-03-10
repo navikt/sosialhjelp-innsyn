@@ -5,11 +5,11 @@ import {useTranslation} from "react-i18next";
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
          => "12. oktober 2018 klokken 13:37"
  */
-const DatoOgKlokkeslett: React.FC<{tidspunkt: string; bareDato?: boolean; brukKortMaanedNavn?: boolean}> = ({
-    tidspunkt,
-    bareDato,
-    brukKortMaanedNavn,
-}) => {
+const DatoOgKlokkeslett: React.FC<{
+    tidspunkt: string;
+    bareDato?: boolean;
+    brukKortMaanedNavn?: boolean;
+}> = ({tidspunkt, bareDato, brukKortMaanedNavn}) => {
     const {t, i18n} = useTranslation();
 
     const visKlokkeslett = !bareDato && new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes() > 0;
