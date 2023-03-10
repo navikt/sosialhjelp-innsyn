@@ -24,11 +24,15 @@ const OppgaveElementUploadBox = ({files, onDelete, errors}: Props): ReactElement
             {errors.length > 0 && (
                 <div>
                     <ErrorMessagesSummary errors={errors} />
-                    {uniqueErrors.map((key, i) => (
-                        <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift" key={i}>
-                            {t(errorStatusToMessage[key.feil])}
-                        </ErrorMessage>
-                    ))}
+                    <ul>
+                        {uniqueErrors.map((key, i) => (
+                            <li key={i}>
+                                <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
+                                    {t(errorStatusToMessage[key.feil])}
+                                </ErrorMessage>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             )}
         </>
@@ -39,8 +43,9 @@ const ErrorMessagesSummary = ({errors}: {errors: Error[]}) => {
     const errorsWithFile = errors.filter((error) => error.fil);
     const uniqueFilesWithError = dedupeErrorsByProp(errorsWithFile, "fil");
     const {t} = useTranslation();
+    console.log(uniqueFilesWithError);
 
-    if (uniqueFilesWithError.length > 0) {
+    if (uniqueFilesWithError.length > 1) {
         return (
             <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
                 {t("vedlegg.ulovlig_flere_fil_feilmelding", {
