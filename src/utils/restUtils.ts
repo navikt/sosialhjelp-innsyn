@@ -310,11 +310,3 @@ export function getRedirectPath(): string {
     const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
     return "redirect=" + redirectPath;
 }
-
-export function skalViseLastestripe(restStatus: REST_STATUS, menIkkeVedFeil?: boolean): boolean {
-    return (
-        restStatus === REST_STATUS.PENDING ||
-        restStatus === REST_STATUS.INITIALISERT ||
-        (restStatus === REST_STATUS.FEILET && !menIkkeVedFeil)
-    );
-}
