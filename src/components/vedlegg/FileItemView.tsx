@@ -5,7 +5,6 @@ import VedleggModal from "./VedleggModal";
 import {BodyShort, Button, Link} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
-import {v4 as uuidv4} from "uuid";
 import styles from "../../styles/lists.module.css";
 import {useTranslation} from "react-i18next";
 
@@ -84,8 +83,8 @@ const FileItemView = (props: Props) => {
 
     return (
         <ul className={styles.unorderedList}>
-            {props.filer.map((fil: File) => (
-                <StyledLiTag key={uuidv4()}>
+            {props.filer.map((fil: File, index) => (
+                <StyledLiTag key={index}>
                     <StyledFilInfoOgKnapp>
                         <StyledFilInfo>
                             {fil && (

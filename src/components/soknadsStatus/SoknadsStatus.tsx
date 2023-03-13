@@ -10,7 +10,6 @@ import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
 import styled from "styled-components/macro";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
-import {v4 as uuidv4} from "uuid";
 import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
@@ -173,10 +172,9 @@ const SoknadsStatus = () => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
-                            const randomId = uuidv4();
                             return (
-                                <React.Fragment key={randomId}>
-                                    <StatusBox key={index}>
+                                <React.Fragment key={index}>
+                                    <StatusBox>
                                         <StatusMessage>
                                             <Label as="p">{statusdetalj.tittel}</Label>
                                             {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
