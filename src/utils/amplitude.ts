@@ -1,5 +1,4 @@
 import amplitude from "amplitude-js";
-import {VilkarResponse} from "../generated/model";
 
 export const initAmplitude = () => {
     if (amplitude) {
@@ -67,14 +66,9 @@ export const logDuplicatedFiles = (files: File[]) => {
     }
 };
 
-export const logVilkarDuplications = (vilkar: VilkarResponse[]) => {
-    const unikVilkar = vilkar.filter(
-        (vilkarElement, index, self) =>
-            index ===
-            self.findIndex((it) => it.tittel === vilkarElement.tittel && it.beskrivelse === vilkarElement.beskrivelse)
-    );
-    const antall = vilkar.length - unikVilkar.length;
-    if (vilkar.length > unikVilkar.length) {
+export const logVilkarDuplications = (vilkar: number, unikVilkar: number) => {
+    const antall = vilkar - unikVilkar;
+    if (vilkar > unikVilkar) {
         logAmplitudeEvent("Vilkår duplisert", {antall});
     }
 };

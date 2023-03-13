@@ -19,7 +19,7 @@ export const VilkarAccordion = (props: Props) => {
     const {t} = useTranslation();
     if (!props.vilkar) return null;
     const unikeVilkar = getUnikeVilkar(props.vilkar);
-    logVilkarDuplications(props.vilkar);
+    logVilkarDuplications(props.vilkar.length, unikeVilkar.length);
     return (
         <Accordion>
             <Accordion.Item defaultOpen>
