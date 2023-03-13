@@ -45,6 +45,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
     });
     const files = _files[0];
     const errors = innerErrors[0];
+
     return (
         <OppgaveUploadBox
             onClick={() => {
