@@ -2,15 +2,14 @@ import {Accordion} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DriftsmeldingVedlegg from "../../driftsmelding/DriftsmeldingVedlegg";
-import {REST_STATUS, skalViseLastestripe} from "../../../utils/restUtils";
-import {DokumentasjonEtterspurt, HendelseTypeEnum} from "../../../redux/innsynsdata/innsynsdataReducer";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
 import styles from "../../../styles/lists.module.css";
+import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../generated/model";
 
-function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspurt[]): Date | null {
-    if (dokumentasjonEtterspurt.length > 0) {
+function foersteInnsendelsesfrist(dokumentasjonEtterspurt: OppgaveResponse[] | undefined): Date | null {
+    if (dokumentasjonEtterspurt?.length) {
         return dokumentasjonEtterspurt[0].innsendelsesfrist
             ? new Date(dokumentasjonEtterspurt[0].innsendelsesfrist)
             : null;
@@ -19,17 +18,18 @@ function foersteInnsendelsesfrist(dokumentasjonEtterspurt: DokumentasjonEtterspu
 }
 
 interface Props {
-    restStatus_oppgaver: REST_STATUS;
-    dokumentasjonEtterspurt: DokumentasjonEtterspurt[];
+    isLoading: boolean;
+    dokumentasjonEtterspurt: OppgaveResponse[] | undefined;
 }
 
 export const DokumentasjonEtterspurtAccordion = (props: Props) => {
-    const brukerHarDokumentasjonEtterspurt = props.dokumentasjonEtterspurt?.length > 0;
+    const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
     if (!brukerHarDokumentasjonEtterspurt) {
         return null;
     }
     const dokumentasjonEtterspurtErFraInnsyn =
-        props.dokumentasjonEtterspurt[0].oppgaveElementer[0].hendelsetype === HendelseTypeEnum.DOKUMENTASJON_ETTERSPURT;
+        props.dokumentasjonEtterspurt?.[0].oppgaveElementer[0].hendelsetype ===
+        OppgaveElementHendelsetype.dokumentasjonEtterspurt;
 
     return (
         <Accordion>
@@ -47,14 +47,13 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                 <Accordion.Content>
                     <InfoOmOppgaver dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     <OpplastingAvVedleggModal />
-                    <DriftsmeldingVedlegg leserData={skalViseLastestripe(props.restStatus_oppgaver)} />
+                    <DriftsmeldingVedlegg leserData={props.isLoading} />
                     <ul className={styles.unorderedList}>
-                        {props.dokumentasjonEtterspurt.map((dokumentasjon: DokumentasjonEtterspurt, index: number) => (
-                            <li key={dokumentasjon.oppgaveId}>
+                        {props.dokumentasjonEtterspurt?.map((dokumentasjon: OppgaveResponse, index: number) => (
+                            <li key={index}>
                                 <DokumentasjonEtterspurtView
+                                    showFrist={dokumentasjonEtterspurtErFraInnsyn}
                                     dokumentasjonEtterspurt={dokumentasjon}
-                                    oppgaverErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn}
-                                    oppgaveIndex={index}
                                 />
                             </li>
                         ))}

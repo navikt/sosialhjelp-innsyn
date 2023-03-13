@@ -1,97 +1,88 @@
-import React from "react";
-import {DokumentasjonEtterspurt} from "../../../redux/innsynsdata/innsynsdataReducer";
-import {useSelector} from "react-redux";
-import {useTranslation} from "react-i18next";
-import {InnsynAppState} from "../../../redux/reduxTypes";
-import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {oppgaveHasFilesWithError} from "../../../utils/vedleggUtils";
-import {logDuplicationsOfUploadedAttachmentsForDokEtterspurt} from "../../../utils/amplitude";
-import {ErrorMessage} from "../../errors/ErrorMessage";
+import React, {ReactElement, useMemo} from "react";
+import {getVisningstekster} from "../../../utils/vedleggUtils";
+import {OppgaveResponse} from "../../../generated/model";
+import useFilOpplasting, {errorStatusToMessage} from "../../../hooks/useFilOpplasting";
+import OppgaveUploadBox from "../OppgaveUploadBox";
+import UploadElementView from "../UploadElementView";
 import useKommune from "../../../hooks/useKommune";
-import InnsendelsesFrist from "../InnsendelsesFrist";
-import SendButton from "./SendButton";
-import styles from "../../../styles/lists.module.css";
-import DokumentasjonEtterspurtElementView from "./DokumentasjonEtterspurtElementView";
+import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
+import {useQueryClient} from "@tanstack/react-query";
+import {getGetOppgaverQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
+import OppgaveElementUploadBox from "../OppgaveElementUploadBox";
+import {logButtonOrLinkClick} from "../../../utils/amplitude";
 
 interface Props {
-    dokumentasjonEtterspurt: DokumentasjonEtterspurt;
-    oppgaverErFraInnsyn: boolean;
-    oppgaveIndex: any;
+    dokumentasjonEtterspurt: OppgaveResponse;
+    showFrist: boolean;
 }
-const DokumentasjonEtterspurtView: React.FC<Props> = ({dokumentasjonEtterspurt, oppgaverErFraInnsyn, oppgaveIndex}) => {
-    logDuplicationsOfUploadedAttachmentsForDokEtterspurt(dokumentasjonEtterspurt, oppgaveIndex);
-    const {t} = useTranslation();
 
-    const listeOverDokumentasjonEtterspurtIderSomFeilet: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.listeOverOpggaveIderSomFeilet
+export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}: Props): ReactElement => {
+    const fiksDigisosId = useFiksDigisosId();
+    const {kommune} = useKommune();
+    const canUploadAttachments: boolean = isFileUploadAllowed(kommune);
+    const metadatas = useMemo(
+        () =>
+            dokumentasjonEtterspurt.oppgaveElementer.map((element) => ({
+                type: element.dokumenttype,
+                tilleggsinfo: element.tilleggsinformasjon,
+                innsendelsesfrist: dokumentasjonEtterspurt.innsendelsesfrist,
+                hendelsetype: element.hendelsetype,
+                hendelsereferanse: element.hendelsereferanse,
+            })),
+        [dokumentasjonEtterspurt]
     );
-    const listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletPaBackend
-    );
-    const listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend: string[] = useSelector(
-        (state: InnsynAppState) => state.innsynsdata.listeOverOppgaveIderSomFeiletIVirussjekkPaBackend
-    );
-
-    const {kommune, isLoading} = useKommune();
-    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
-
-    const opplastingFeilet = oppgaveHasFilesWithError(dokumentasjonEtterspurt.oppgaveElementer);
-
-    const visDokumentasjonEtterspurtDetaljeFeiler: boolean =
-        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
-        opplastingFeilet !== undefined ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) ||
-        listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(dokumentasjonEtterspurt.oppgaveId);
+    const queryClient = useQueryClient();
+    const {
+        upload,
+        innerErrors,
+        outerErrors,
+        files,
+        addFiler,
+        removeFil,
+        mutation: {isLoading},
+        hasAnyError,
+    } = useFilOpplasting(metadatas, {
+        onSuccess: () => queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId)),
+    });
 
     return (
-        <>
-            <div
-                className={
-                    (visDokumentasjonEtterspurtDetaljeFeiler ? "oppgaver_detaljer_feil_ramme" : "oppgaver_detaljer") +
-                    " luft_over_1rem"
-                }
-            >
-                {oppgaverErFraInnsyn && <InnsendelsesFrist frist={dokumentasjonEtterspurt.innsendelsesfrist} />}
-                <ul className={styles.unorderedList}>
-                    {dokumentasjonEtterspurt.oppgaveElementer.map((oppgaveElement, oppgaveElementIndex) => {
-                        return (
-                            <li key={oppgaveElementIndex}>
-                                <DokumentasjonEtterspurtElementView
-                                    oppgaveElement={oppgaveElement}
-                                    oppgaveElementIndex={oppgaveElementIndex}
-                                    oppgaveIndex={oppgaveIndex}
-                                    oppgaveId={dokumentasjonEtterspurt.oppgaveId}
-                                />
-                            </li>
-                        );
-                    })}
-                </ul>
-                {listeOverDokumentasjonEtterspurtIderSomFeiletPaBackend.includes(dokumentasjonEtterspurt.oppgaveId) && (
-                    <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                        {t("vedlegg.opplasting_backend_feilmelding")}
-                    </ErrorMessage>
-                )}
-                {!isLoading && kanLasteOppVedlegg && <SendButton dokumentasjonEtterspurt={dokumentasjonEtterspurt} />}
-            </div>
-            {listeOverDokumentasjonEtterspurtIderSomFeiletIVirussjekkPaBackend.includes(
-                dokumentasjonEtterspurt.oppgaveId
-            ) && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    {t("vedlegg.opplasting_backend_virus_feilmelding")}
-                </ErrorMessage>
-            )}
-
-            {(listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId) ||
-                opplastingFeilet) && (
-                <ErrorMessage className="oppgaver_vedlegg_feilmelding" style={{marginBottom: "1rem"}}>
-                    {t(
-                        listeOverDokumentasjonEtterspurtIderSomFeilet.includes(dokumentasjonEtterspurt.oppgaveId)
-                            ? "vedlegg.minst_ett_vedlegg"
-                            : "vedlegg.opplasting_feilmelding"
-                    )}
-                </ErrorMessage>
-            )}
-        </>
+        <OppgaveUploadBox
+            onClick={() => {
+                logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
+                return upload();
+            }}
+            hasError={hasAnyError}
+            errors={outerErrors.map((it) => errorStatusToMessage[it.feil])}
+            frist={showFrist ? dokumentasjonEtterspurt.innsendelsesfrist : undefined}
+            showUploadButton={canUploadAttachments}
+            isLoading={isLoading}
+        >
+            <>
+                {dokumentasjonEtterspurt.oppgaveElementer.map((element, index) => {
+                    const {typeTekst, tilleggsinfoTekst} = getVisningstekster(
+                        element.dokumenttype,
+                        element.tilleggsinformasjon
+                    );
+                    return (
+                        <UploadElementView
+                            key={index}
+                            tittel={typeTekst}
+                            beskrivelse={tilleggsinfoTekst}
+                            showAddFileButton={canUploadAttachments}
+                            hasError={innerErrors[index].length > 0}
+                            onChange={(files) => addFiler(index, files ? Array.from(files) : [])}
+                        >
+                            <OppgaveElementUploadBox
+                                errors={innerErrors[index]}
+                                files={files[index]}
+                                onDelete={(file) => removeFil(index, file)}
+                            />
+                        </UploadElementView>
+                    );
+                })}
+            </>
+        </OppgaveUploadBox>
     );
 };
 

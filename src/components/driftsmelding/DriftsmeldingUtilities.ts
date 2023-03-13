@@ -66,14 +66,11 @@ export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneRespon
 };
 
 export const isFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined): boolean => {
-    if (kommuneInfo) {
-        if (kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert) {
-            return false;
-        }
-        if (kommuneInfo.erInnsendingEttersendelseDeaktivert) {
-            return false;
-        }
-        return true;
+    if (!kommuneInfo) {
+        return false;
     }
-    return false;
+    if (kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert) {
+        return false;
+    }
+    return !kommuneInfo.erInnsendingEttersendelseDeaktivert;
 };
