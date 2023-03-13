@@ -71,7 +71,7 @@ export const logVilkarDuplications = (vilkar: VilkarResponse[]) => {
     const unikVilkar = vilkar.filter(
         (vilkarElement, index, self) =>
             index ===
-            self.findIndex((it) => it.beskrivelse === vilkarElement.beskrivelse && it.tittel === vilkarElement.tittel)
+            self.findIndex((it) => it.tittel === vilkarElement.tittel && it.beskrivelse === vilkarElement.beskrivelse)
     );
     const antall = vilkar.length - unikVilkar.length;
     if (vilkar.length > unikVilkar.length) {
