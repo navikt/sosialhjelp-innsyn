@@ -19,7 +19,9 @@ const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose
                 <Heading level="1" size="small">
                     Fil:
                 </Heading>
-                <BodyLong spacing>{file.name}</BodyLong>
+                <BodyLong spacing className={styles.filnavn}>
+                    {file.name}
+                </BodyLong>
                 {isImage && <img src={URL.createObjectURL(file)} alt={file.name} />}
             </Modal.Content>
         </Modal>

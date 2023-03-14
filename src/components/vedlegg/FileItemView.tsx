@@ -8,7 +8,6 @@ import {Delete} from "@navikt/ds-icons";
 import styles from "../../styles/lists.module.css";
 import {useTranslation} from "react-i18next";
 import LinkButton from "../linkButton/LinkButton";
-import {fileToString} from "../../hooks/useFilOpplasting";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -69,6 +68,10 @@ interface Props {
     onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: File) => void;
 }
 
+function fileToString(file: File) {
+    return file.lastModified + file.size + file.name.replace(".", "") + file.type.replace("/", "");
+}
+
 const FileItemView = (props: Props) => {
     const [openFile, setOpenFile] = useState<File | null>(null);
     const {t} = useTranslation();
@@ -85,41 +88,37 @@ const FileItemView = (props: Props) => {
     return (
         <ul className={styles.unorderedList}>
             <VedleggModal file={openFile} onRequestClose={() => setOpenFile(null)} synlig={!!openFile} />
-            {props.filer.map((fil: File) => {
-                const filId = fileToString(fil);
-                return (
-                    <StyledLiTag key={filId}>
-                        <StyledFilInfoOgKnapp>
-                            <StyledFilInfo>
-                                <LinkButton
-                                    className="filnavn"
-                                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>
-                                        onVisVedlegg(event, fil)
-                                    }
-                                    id={filId}
-                                >
-                                    <PaperClipSlanted className="filikon" />
-
-                                    {fil.name}
-                                </LinkButton>
-                                <BodyShort as="span" className="filstorrelse">
-                                    ({formatBytes(fil ? fil.size : 0)})
-                                </BodyShort>
-                            </StyledFilInfo>
-                            <StyledDeleteButton
-                                variant="tertiary"
-                                size="small"
-                                onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.onDelete(event, fil)}
-                                iconPosition="right"
-                                icon={<Delete aria-hidden title="fjern" />}
-                                aria-controls={filId}
+            {props.filer.map((fil: File) => (
+                <StyledLiTag key={fileToString(fil)}>
+                    <StyledFilInfoOgKnapp>
+                        <StyledFilInfo>
+                            <LinkButton
+                                className="filnavn"
+                                onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>
+                                    onVisVedlegg(event, fil)
+                                }
                             >
-                                {t("vedlegg.fjern")}
-                            </StyledDeleteButton>
-                        </StyledFilInfoOgKnapp>
-                    </StyledLiTag>
-                );
-            })}
+                                <PaperClipSlanted className="filikon" />
+
+                                {fil.name}
+                            </LinkButton>
+                            <BodyShort as="span" className="filstorrelse">
+                                ({formatBytes(fil ? fil.size : 0)})
+                            </BodyShort>
+                        </StyledFilInfo>
+                        <StyledDeleteButton
+                            variant="tertiary"
+                            size="small"
+                            onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.onDelete(event, fil)}
+                            iconPosition="right"
+                            icon={<Delete aria-hidden title="fjern" />}
+                            aria-label={`${t("vedlegg.fjern")} ${fil.name}`}
+                        >
+                            {t("vedlegg.fjern")}
+                        </StyledDeleteButton>
+                    </StyledFilInfoOgKnapp>
+                </StyledLiTag>
+            ))}
         </ul>
     );
 };

@@ -49,10 +49,6 @@ export const errorStatusToMessage: Record<Feil, string> = {
     [Feil.VIRUS]: "vedlegg.opplasting_backend_virus_feilmelding",
 };
 
-export function fileToString(file: File) {
-    return file.lastModified + file.size + file.name + file.type;
-}
-
 function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | undefined {
     switch (status) {
         case "ILLEGAL_FILE_TYPE":

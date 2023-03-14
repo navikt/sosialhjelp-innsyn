@@ -1,3 +1,11 @@
 .vedleggModal {
     min-width: 20rem;
 }
+
+.vedleggModal img {
+    max-width: 90vw;
+}
+
+.filnavn {
+    word-break: break-word;
+}

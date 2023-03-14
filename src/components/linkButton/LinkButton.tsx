@@ -6,12 +6,11 @@ import styles from "./LinkButton.module.css";
 interface Props {
     onClick: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
     className?: string;
-    id?: string;
 }
 
-const LinkButton = ({onClick, className, children, id}: PropsWithChildren<Props>): JSX.Element => {
+const LinkButton = ({onClick, className, children}: PropsWithChildren<Props>): JSX.Element => {
     return (
-        <Link className={styles.linkButton + ` ${className}`} as="button" onClick={onClick} id={id}>
+        <Link className={styles.linkButton + ` ${className}`} as="button" onClick={onClick}>
             {children}
         </Link>
     );
