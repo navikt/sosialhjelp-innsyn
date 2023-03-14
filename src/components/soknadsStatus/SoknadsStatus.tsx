@@ -190,7 +190,7 @@ const SoknadsStatus = () => {
                                         {/*    <BodyShort>{statusdetalj.melding}</BodyShort>*/}
                                         {/*)}*/}
                                         {sakBehandlesIkke && !soknadBehandlesIkke && (
-                                            <BodyShort>{t("saksStatus.sak_behandles_ikke_ingress")}</BodyShort>
+                                            <BodyShort>{t("status.sak_behandles_ikke_ingress")}</BodyShort>
                                         )}
                                         {sakIkkeInnsyn && !soknadBehandlesIkke && (
                                             <BodyShort>{t("status.ikke_innsyn_ingress")}</BodyShort>
