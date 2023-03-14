@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {getHentVedleggQueryKey, sendVedlegg, useSendVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 import useFiksDigisosId from "./useFiksDigisosId";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
@@ -8,7 +8,6 @@ import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} 
 import {logInfoMessage, logWarningMessage} from "../redux/innsynsdata/loggActions";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../utils/amplitude";
 import {getHentHendelserQueryKey} from "../generated/hendelse-controller/hendelse-controller";
-import useTimeout from "./useTimeout";
 
 export interface Metadata {
     type: string;

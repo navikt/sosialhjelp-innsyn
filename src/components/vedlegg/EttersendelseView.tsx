@@ -10,7 +10,6 @@ import UploadElementView from "../oppgaver/UploadElementView";
 import OppgaveElementUploadBox from "../oppgaver/OppgaveElementUploadBox";
 import {OppgaveElementHendelsetype} from "../../generated/model";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import useTimeout from "../../hooks/useTimeout";
 
 interface Props {
     isLoading?: boolean;
