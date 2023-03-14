@@ -97,12 +97,6 @@ const useFilOpplasting = (
         return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
 
-    /*use a delay before adding erros, to ensure aria-live-regions are being read*/
-    const [hasTimeElapsed, setHasTimeElapsed] = React.useState(false);
-    useTimeout(() => {
-        setHasTimeElapsed(true);
-    }, 1000);
-
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
@@ -121,8 +115,16 @@ const useFilOpplasting = (
                 _errors.push({feil: Feil.COMBINED_TOO_LARGE});
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
-            setInnerErrors((prev) => ({...prev, [index]: _errors}));
+
+            const errorTimeout = setTimeout(
+                () => {
+                    setInnerErrors((prev) => ({...prev, [index]: _errors}));
+                },
+                _errors.length ? 1000 : 0
+            );
             setOuterErrors([]);
+
+            return () => clearTimeout(errorTimeout);
         },
         [files, setInnerErrors, setFiles]
     );
@@ -188,13 +190,12 @@ const useFilOpplasting = (
 
     return {
         mutation: {isLoading, isError, error, data},
-        innerErrors: hasTimeElapsed ? innerErrors : (recordFromMetadatas(metadatas) as Record<number, Error[]>),
-        outerErrors: hasTimeElapsed ? outerErrors : [],
+        innerErrors,
+        outerErrors,
         upload,
         files,
         addFiler,
         removeFil,
-        hasAnyError: Object.values(innerErrors).flat().length > 0 || outerErrors.length > 0,
     };
 };
 

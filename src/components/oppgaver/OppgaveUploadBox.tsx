@@ -24,26 +24,17 @@ const ButtonWrapper = styled.div`
 interface Props {
     frist?: string;
     children: ReactElement;
-    hasError?: boolean;
     showUploadButton?: boolean;
     isLoading?: boolean;
     onClick: MouseEventHandler<HTMLButtonElement>;
     errors: string[];
 }
 
-const OppgaveUploadBox = ({
-    frist,
-    children,
-    hasError,
-    showUploadButton,
-    isLoading,
-    onClick,
-    errors,
-}: Props): ReactElement => {
+const OppgaveUploadBox = ({frist, children, showUploadButton, isLoading, onClick, errors}: Props): ReactElement => {
     const {t} = useTranslation();
     return (
         <StyledOuterFrame>
-            <StyledInnerFrame $hasError={hasError}>
+            <StyledInnerFrame $hasError={errors.length > 0}>
                 {frist && <InnsendelsesFrist frist={frist} />}
 
                 {children}
