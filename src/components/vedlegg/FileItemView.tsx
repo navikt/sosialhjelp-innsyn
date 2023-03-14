@@ -2,11 +2,13 @@ import React, {useState} from "react";
 import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {formatBytes} from "../../utils/formatting";
 import VedleggModal from "./VedleggModal";
-import {BodyShort, Button, Link} from "@navikt/ds-react";
+import {BodyShort, Button} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {Delete} from "@navikt/ds-icons";
 import styles from "../../styles/lists.module.css";
 import {useTranslation} from "react-i18next";
+import LinkButton from "../linkButton/LinkButton";
+import {fileToString} from "../../hooks/useFilOpplasting";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -43,8 +45,7 @@ const StyledFilInfo = styled.div`
         margin-bottom: -2px;
     }
 
-    a.filnavn {
-        display: inline;
+    button.filnavn {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -69,60 +70,56 @@ interface Props {
 }
 
 const FileItemView = (props: Props) => {
-    const [modalVises, setModalVises] = useState(false);
+    const [openFile, setOpenFile] = useState<File | null>(null);
     const {t} = useTranslation();
 
     if (props.filer.length === 0) {
         return null;
     }
 
-    const onVisVedlegg = (event: ClickEvent): void => {
-        setModalVises(true);
+    const onVisVedlegg = (event: ClickEvent, file: File): void => {
+        setOpenFile(file);
         event.preventDefault();
     };
 
     return (
         <ul className={styles.unorderedList}>
-            {props.filer.map((fil: File, index) => (
-                <StyledLiTag key={index}>
-                    <StyledFilInfoOgKnapp>
-                        <StyledFilInfo>
-                            {fil && (
-                                <VedleggModal
-                                    file={fil}
-                                    onRequestClose={() => setModalVises(false)}
-                                    synlig={modalVises}
-                                />
-                            )}
-                            <>
-                                <Link
-                                    href="#"
+            <VedleggModal file={openFile} onRequestClose={() => setOpenFile(null)} synlig={!!openFile} />
+            {props.filer.map((fil: File) => {
+                const filId = fileToString(fil);
+                return (
+                    <StyledLiTag key={filId}>
+                        <StyledFilInfoOgKnapp>
+                            <StyledFilInfo>
+                                <LinkButton
                                     className="filnavn"
                                     onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>
-                                        onVisVedlegg(event)
+                                        onVisVedlegg(event, fil)
                                     }
+                                    id={filId}
                                 >
                                     <PaperClipSlanted className="filikon" />
 
                                     {fil.name}
-                                </Link>
-                            </>
-                            <BodyShort as="span" className="filstorrelse">
-                                ({formatBytes(fil ? fil.size : 0)})
-                            </BodyShort>
-                        </StyledFilInfo>
-                        <StyledDeleteButton
-                            variant="tertiary"
-                            size="small"
-                            onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.onDelete(event, fil)}
-                            iconPosition="right"
-                            icon={<Delete aria-hidden title="fjern" />}
-                        >
-                            {t("vedlegg.fjern")}
-                        </StyledDeleteButton>
-                    </StyledFilInfoOgKnapp>
-                </StyledLiTag>
-            ))}
+                                </LinkButton>
+                                <BodyShort as="span" className="filstorrelse">
+                                    ({formatBytes(fil ? fil.size : 0)})
+                                </BodyShort>
+                            </StyledFilInfo>
+                            <StyledDeleteButton
+                                variant="tertiary"
+                                size="small"
+                                onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.onDelete(event, fil)}
+                                iconPosition="right"
+                                icon={<Delete aria-hidden title="fjern" />}
+                                aria-controls={filId}
+                            >
+                                {t("vedlegg.fjern")}
+                            </StyledDeleteButton>
+                        </StyledFilInfoOgKnapp>
+                    </StyledLiTag>
+                );
+            })}
         </ul>
     );
 };

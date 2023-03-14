@@ -2,11 +2,14 @@ import {BodyLong, Heading, Modal} from "@navikt/ds-react";
 import React from "react";
 import styles from "./vedlegg.module.css";
 
-const VedleggModal: React.FC<{file: File; synlig: boolean; onRequestClose: () => void}> = ({
+const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose: () => void}> = ({
     file,
     synlig,
     onRequestClose,
 }) => {
+    if (!file) {
+        return null;
+    }
     const fileExtension = file.name.replace(/^.*\./, "");
     const isImage = fileExtension.match(/jpe?g|png/i) !== null;
 
