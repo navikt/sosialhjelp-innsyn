@@ -99,7 +99,8 @@ const useFilOpplasting = (
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
-
+            // reset innererrors before adding more files
+            setInnerErrors(recordFromMetadatas(metadatas));
             logDuplicatedFiles(_files);
             _files.forEach((file) => {
                 if (file.size > maxFileSize) {
@@ -115,8 +116,12 @@ const useFilOpplasting = (
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
 
-            const errorTimeout = setTimeout(() => {}, _errors.length ? 5000 : 0);
-            setInnerErrors((prev) => ({...prev, [index]: _errors}));
+            const errorTimeout = setTimeout(
+                () => {
+                    setInnerErrors((prev) => ({...prev, [index]: _errors}));
+                },
+                _errors.length ? 500 : 0
+            );
             setOuterErrors([]);
 
             return () => clearTimeout(errorTimeout);
