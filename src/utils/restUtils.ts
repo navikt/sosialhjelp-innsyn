@@ -327,11 +327,3 @@ export function getRedirectPath(loginUrl: string, id: string): string {
         return "redirect=" + redirectPath + "%26login_id=" + id;
     }
 }
-
-export function skalViseLastestripe(restStatus: REST_STATUS, menIkkeVedFeil?: boolean): boolean {
-    return (
-        restStatus === REST_STATUS.PENDING ||
-        restStatus === REST_STATUS.INITIALISERT ||
-        (restStatus === REST_STATUS.FEILET && !menIkkeVedFeil)
-    );
-}

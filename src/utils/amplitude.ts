@@ -65,3 +65,10 @@ export const logDuplicatedFiles = (files: File[]) => {
         }
     }
 };
+
+export const logVilkarDuplications = (vilkar: number, unikVilkar: number) => {
+    const antall = vilkar - unikVilkar;
+    if (vilkar > unikVilkar) {
+        logAmplitudeEvent("Vilkår duplisert", {antall});
+    }
+};
