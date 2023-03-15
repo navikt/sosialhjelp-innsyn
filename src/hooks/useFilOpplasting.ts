@@ -116,17 +116,13 @@ const useFilOpplasting = (
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
 
-            const errorTimeout = setTimeout(
-                () => {
-                    setInnerErrors((prev) => ({...prev, [index]: _errors}));
-                },
-                _errors.length ? 500 : 0
-            );
+            const errorTimeout = setTimeout(() => {}, _errors.length ? 500 : 0);
+            setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
 
             return () => clearTimeout(errorTimeout);
         },
-        [files, setInnerErrors, setFiles]
+        [files, setInnerErrors, setFiles, metadatas]
     );
     const removeFil = useCallback(
         (index: number, fil: File) => {
@@ -135,6 +131,8 @@ const useFilOpplasting = (
         [setFiles]
     );
     const upload = useCallback(async () => {
+        // reset errors
+        setOuterErrors([]);
         if (allFiles.length === 0) {
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setOuterErrors([{feil: Feil.NO_FILES}]);
