@@ -115,12 +115,8 @@ const useFilOpplasting = (
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
 
-            const errorTimeout = setTimeout(
-                () => {
-                    setInnerErrors((prev) => ({...prev, [index]: _errors}));
-                },
-                _errors.length ? 1000 : 0
-            );
+            const errorTimeout = setTimeout(() => {}, _errors.length ? 5000 : 0);
+            setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
 
             return () => clearTimeout(errorTimeout);
