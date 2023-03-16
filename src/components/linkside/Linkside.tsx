@@ -9,7 +9,6 @@ const Linkside = () => {
 
 export const getRedirectUrl = (searchParameters: string) => {
     const queryParameters = parse(searchParameters);
-    console.log("getRedirectUrl " + queryParameters);
     let redirectURL: string = "/";
     if (queryParameters["goto"]) {
         redirectURL = queryParameters["goto"] as string;
