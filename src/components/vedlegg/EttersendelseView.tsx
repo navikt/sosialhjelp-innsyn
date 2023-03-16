@@ -39,6 +39,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
         addFiler,
         removeFil,
         mutation: {isLoading: uploadIsLoading},
+        resetErrors,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId)),
     });
@@ -63,6 +64,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
                     hasError={innerErrors[0].length > 0}
                     onChange={(files) => addFiler(0, files ? Array.from(files) : [])}
                     padTop={false}
+                    resetErrors={resetErrors}
                 >
                     <OppgaveElementUploadBox errors={errors} files={files} onDelete={(file) => removeFil(0, file)} />
                 </UploadElementView>

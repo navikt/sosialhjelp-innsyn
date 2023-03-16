@@ -69,7 +69,10 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                             beskrivelse={tilleggsinfoTekst}
                             showAddFileButton={canUploadAttachments}
                             hasError={innerErrors[index].length > 0}
-                            onChange={(files) => addFiler(index, files ? Array.from(files) : [])}
+                            onChange={(files) => {
+                                addFiler(index, files ? Array.from(files) : []);
+                            }}
+                            resetErrors={resetErrors}
                         >
                             <OppgaveElementUploadBox
                                 errors={innerErrors[index]}

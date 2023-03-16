@@ -30,9 +30,12 @@ const StyledButton = styled(Button)`
 const AddFileButton: React.FC<{
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
-}> = ({onChange, id}) => {
+    resetErrors: () => void;
+}> = ({onChange, id, resetErrors}) => {
     const {t} = useTranslation();
+
     const onClick = (event?: any): void => {
+        resetErrors();
         const uploadElement: any = document.getElementById("file_" + id);
         uploadElement.click();
         event?.preventDefault();

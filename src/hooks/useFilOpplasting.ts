@@ -82,6 +82,11 @@ const useFilOpplasting = (
     const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
+    const resetErrors = useCallback(() => {
+        setInnerErrors(recordFromMetadatas(metadatas));
+        setOuterErrors([]);
+    }, [metadatas, setInnerErrors, setOuterErrors]);
+
     const reset = useCallback(() => {
         setFiles(recordFromMetadatas(metadatas));
         setInnerErrors(recordFromMetadatas(metadatas));
@@ -99,8 +104,6 @@ const useFilOpplasting = (
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
-            // reset innererrors before adding more files
-            setInnerErrors(recordFromMetadatas(metadatas));
             logDuplicatedFiles(_files);
             _files.forEach((file) => {
                 if (file.size > maxFileSize) {
@@ -116,13 +119,10 @@ const useFilOpplasting = (
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
 
-            const errorTimeout = setTimeout(() => {}, _errors.length ? 500 : 0);
             setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
-
-            return () => clearTimeout(errorTimeout);
         },
-        [files, setInnerErrors, setFiles, metadatas]
+        [files, setInnerErrors, setFiles, resetErrors]
     );
     const removeFil = useCallback(
         (index: number, fil: File) => {
@@ -131,8 +131,6 @@ const useFilOpplasting = (
         [setFiles]
     );
     const upload = useCallback(async () => {
-        // reset errors
-        setOuterErrors([]);
         if (allFiles.length === 0) {
             logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
             setOuterErrors([{feil: Feil.NO_FILES}]);
@@ -194,6 +192,7 @@ const useFilOpplasting = (
         files,
         addFiler,
         removeFil,
+        resetErrors,
     };
 };
 

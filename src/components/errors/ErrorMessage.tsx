@@ -12,7 +12,7 @@ const ErrorMessageContext = React.createContext<ErrorMessageContextProps | null>
 
 const ErrorMessagePlaceholder = ({children}: ErrorMessageProps) => (
     <ErrorMessageContext.Provider value={{}}>
-        <div className={styles.error_placeholder} aria-atomic="true" aria-live="assertive" aria-relevant="all">
+        <div className={styles.error_placeholder} aria-live="assertive" aria-atomic="true">
             {children}
         </div>
     </ErrorMessageContext.Provider>
