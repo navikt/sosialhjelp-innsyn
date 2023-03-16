@@ -17,7 +17,6 @@ export const getRedirectUrl = (searchParameters: string) => {
         // loop calling the <Linkside> component
         redirectURL = redirectURL.replace("/link", "");
     }
-    console.log("redirectUrl: " + redirectURL);
     return redirectURL;
 };
 
