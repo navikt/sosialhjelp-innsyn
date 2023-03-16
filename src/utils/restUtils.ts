@@ -12,7 +12,7 @@ export function isLocalhost(origin: string) {
 }
 
 export function isDevSbs(origin: string): boolean {
-    return origin.indexOf("www-q") >= 0;
+    return origin.indexOf("www-q0.dev.nav.no") >= 0;
 }
 
 export function isDev(origin: string): boolean {
@@ -50,7 +50,8 @@ export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin)) {
+    }
+    if (isDevSbs(origin)) {
         if (excludeApiV1) {
             return (
                 origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
@@ -61,7 +62,8 @@ export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
         );
-    } else if (isDev(origin)) {
+    }
+    if (isDev(origin)) {
         if (excludeApiV1) {
             return (
                 origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
@@ -94,8 +96,11 @@ export function getLogoutUrl(origin: string): string {
     if (isUsingMockAlt(origin)) {
         return "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt/";
     }
-    if (isDevSbs(origin) || isDev(origin)) {
+    if (isDevSbs(origin)) {
         return "https://loginservice.dev.nav.no/slo";
+    }
+    if (isDev(origin)) {
+        return "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/logout";
     }
     return "https://loginservice.nav.no/slo";
 }
@@ -323,7 +328,9 @@ export function getRedirectPath(loginUrl: string, id: string): string {
         return "goto=" + redirectOrigin + window.location.pathname;
     } else {
         const gotoParameter = "goto=" + window.location.pathname;
+        console.log("gotoParameter: " + gotoParameter);
         const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link?" + gotoParameter;
+        console.log("redirectPath: " + redirectPath);
         return "redirect=" + redirectPath + "%26login_id=" + id;
     }
 }
