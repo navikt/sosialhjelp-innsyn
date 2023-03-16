@@ -323,6 +323,8 @@ function getRedirectOrigin() {
 
 export function getRedirectPath(loginUrl: string, id: string): string {
     const redirectOrigin = getRedirectOrigin();
+    console.log("loginUrl: " + loginUrl);
+    console.log("redirectOrigin: " + redirectOrigin);
     if (loginUrl.indexOf("loginservice") === -1) {
         // Ikke loginservice:
         return "goto=" + redirectOrigin + window.location.pathname;
