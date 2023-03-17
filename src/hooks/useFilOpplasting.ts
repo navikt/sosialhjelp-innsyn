@@ -122,7 +122,7 @@ const useFilOpplasting = (
             setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
         },
-        [files, setInnerErrors, setFiles, resetErrors]
+        [files, setInnerErrors, setFiles]
     );
     const removeFil = useCallback(
         (index: number, fil: File) => {
