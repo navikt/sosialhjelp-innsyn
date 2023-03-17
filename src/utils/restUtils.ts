@@ -325,12 +325,12 @@ export function getRedirectPath(loginUrl: string, id: string): string {
     const redirectOrigin = getRedirectOrigin();
     console.log("loginUrl: " + loginUrl);
     console.log("redirectOrigin: " + redirectOrigin);
-    if (loginUrl.indexOf("loginservice") === -1 || loginUrl.indexOf("sosialhjelp/login-api") === -1) {
-        // ikke loginservice eller login-api --> direkte-integrasjon med idporten i innsyn-api:
-        return "goto=" + redirectOrigin + window.location.pathname;
-    } else {
+    if (loginUrl.indexOf("loginservice") === 1) {
         const gotoParameter = "goto=" + window.location.pathname;
         const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link?" + gotoParameter;
         return "redirect=" + redirectPath + "%26login_id=" + id;
+    } else {
+        // ikke loginservice eller login-api --> direkte-integrasjon med idporten i innsyn-api:
+        return "goto=" + redirectOrigin + window.location.pathname;
     }
 }
