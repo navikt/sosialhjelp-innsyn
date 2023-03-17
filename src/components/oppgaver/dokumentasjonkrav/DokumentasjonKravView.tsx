@@ -41,7 +41,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
         addFiler,
         removeFil,
         mutation: {isLoading},
-        hasAnyError,
+        resetErrors,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => queryClient.invalidateQueries(getGetDokumentasjonkravQueryKey(fiksDigisosId)),
     });
@@ -52,7 +52,6 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                 logButtonOrLinkClick("Dokumentasjonkrav: Trykket på Send vedlegg");
                 return upload();
             }}
-            hasError={hasAnyError}
             errors={outerErrors.map((it) => errorStatusToMessage[it.feil])}
             frist={dokumentasjonkrav.frist}
             showUploadButton={canUploadAttachments}
@@ -67,6 +66,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                             showAddFileButton={canUploadAttachments}
                             hasError={innerErrors[index].length > 0}
                             onChange={(files) => addFiler(index, files ? Array.from(files) : [])}
+                            resetErrors={resetErrors}
                         >
                             <OppgaveElementUploadBox
                                 errors={innerErrors[index]}

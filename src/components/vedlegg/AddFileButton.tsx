@@ -26,12 +26,16 @@ export const TextAndButtonWrapper = styled.div`
 const StyledButton = styled(Button)`
     font-weight: bold;
 `;
+
 const AddFileButton: React.FC<{
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
-}> = ({onChange, id}) => {
+    resetErrors: () => void;
+}> = ({onChange, id, resetErrors}) => {
     const {t} = useTranslation();
+
     const onClick = (event?: any): void => {
+        resetErrors();
         const uploadElement: any = document.getElementById("file_" + id);
         uploadElement.click();
         event?.preventDefault();
@@ -48,7 +52,17 @@ const AddFileButton: React.FC<{
             >
                 {t("vedlegg.velg_fil")}
             </StyledButton>
-            <input type="file" id={"file_" + id} multiple={true} onChange={onChange} style={{display: "none"}} />
+            <label className={`navds-sr-only`} htmlFor={"file_" + id}>
+                {t("vedlegg.velg_fil")}
+            </label>
+            <input
+                type="file"
+                id={"file_" + id}
+                multiple={true}
+                onChange={onChange}
+                className="navds-sr-only"
+                tabIndex={-1}
+            />
         </>
     );
 };
