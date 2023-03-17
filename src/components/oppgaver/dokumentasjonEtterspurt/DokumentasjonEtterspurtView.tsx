@@ -41,6 +41,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         addFiler,
         removeFil,
         mutation: {isLoading},
+        resetErrors,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId)),
     });
