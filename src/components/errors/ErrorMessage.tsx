@@ -18,7 +18,6 @@ const ErrorMessagePlaceholder = ({children}: ErrorMessageProps) => (
     </ErrorMessageContext.Provider>
 );
 
-/*Todo restrict usage inside the errorPlaceholder-component*/
 const ErrorMessage = ({children, ...rest}: ErrorMessageProps) => {
     const context = useContext(ErrorMessageContext);
 
