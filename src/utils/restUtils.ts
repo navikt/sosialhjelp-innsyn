@@ -100,7 +100,7 @@ export function getLogoutUrl(origin: string): string {
         return "https://loginservice.dev.nav.no/slo";
     }
     if (isDev(origin)) {
-        return "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/logout";
+        return "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo";
     }
     return "https://loginservice.nav.no/slo";
 }

@@ -39,5 +39,5 @@ spec:
     - name: DEKORATOR_MILJO
       value: prod
     - name: INNSYN_API_SINGLE_LOGOUT_URL
-      value: "https://www.nav.no/sosialhjelp/innsyn-api/oauth2/logout"
+      value: "https://www.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
 

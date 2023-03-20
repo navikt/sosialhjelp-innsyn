@@ -39,4 +39,4 @@ spec:
     - name: DEKORATOR_MILJO
       value: dev
     - name: INNSYN_API_SINGLE_LOGOUT_URL
-      value: "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/logout"
+      value: "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
