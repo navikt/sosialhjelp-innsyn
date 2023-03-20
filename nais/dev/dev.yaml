@@ -26,16 +26,17 @@ spec:
     max: 2
   ingresses:
     - "https://sosialhjelp-innsyn-dev.dev.nav.no/sosialhjelp/innsyn"
-webproxy: true
-resources:
-  limits:
-    cpu: 200m
-    memory: 256Mi
-  requests:
-    cpu: 1m
-    memory: 32Mi
-vault:
-  enabled: false
-env:
-  - name: DEKORATOR_MILJO
-    value: dev
+  webproxy: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 1m
+      memory: 32Mi
+  vault:
+    enabled: false
+  env:
+    - name: DEKORATOR_MILJO
+      value: dev
+
