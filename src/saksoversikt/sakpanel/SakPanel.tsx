@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
@@ -45,6 +45,14 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
     const navigate = useNavigate();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
+    const oppdatertTittel = useMemo(() => {
+        if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {
+            return saksdetaljer.soknadTittel;
+        }
+
+        return tittel;
+    }, [saksdetaljer, tittel]);
+
     const onClick = (event: any) => {
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
             return;
@@ -77,7 +85,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                         ) : (
                             <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
                         )}
-                        <Label as="p">{tittel}</Label>
+                        <Label as="p">{oppdatertTittel}</Label>
                     </span>
                     <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
                 </StyledSaksDetaljer>
