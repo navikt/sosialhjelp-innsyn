@@ -32,7 +32,6 @@ interface Props {
     fiksDigisosId?: string;
     tittel: string;
     oppdatert: string;
-    key: string;
     url: string | undefined;
     kilde: string;
 }

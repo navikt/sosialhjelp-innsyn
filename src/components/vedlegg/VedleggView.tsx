@@ -5,11 +5,10 @@ import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Paginering from "../paginering/Paginering";
 import EttersendelseView from "./EttersendelseView";
 import {getVisningstekster} from "../../utils/vedleggUtils";
-import {Link, Select, SortState, Table} from "@navikt/ds-react";
+import {Alert, Link, Select, SortState, Table} from "@navikt/ds-react";
 import styled from "styled-components";
 import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
 import {VedleggResponse} from "../../generated/model";
-import {ErrorColored} from "@navikt/ds-icons";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "react-i18next";
 
@@ -87,16 +86,6 @@ const NoWrap = styled.div`
 
 const FilnavnHeader = styled.span`
     padding-left: 1.5rem;
-`;
-
-const FileErrorCell = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    svg {
-        flex-shrink: 0;
-    }
 `;
 
 interface Props {
@@ -261,10 +250,9 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                                 {harFeilPaVedleggFraServer(vedlegg) && (
                                     <>
                                         <Table.DataCell>
-                                            <FileErrorCell>
-                                                <ErrorColored width="1.5rem" height="1.5rem" title="Feil" />
+                                            <Alert variant="error" inline>
                                                 {vedlegg.filnavn} Filen er ikke lastet opp. Prøv å send den på nytt
-                                            </FileErrorCell>
+                                            </Alert>
                                         </Table.DataCell>
                                         <Table.DataCell></Table.DataCell>
                                         <Table.DataCell></Table.DataCell>
