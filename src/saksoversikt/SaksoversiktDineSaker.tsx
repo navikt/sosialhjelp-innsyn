@@ -15,6 +15,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {SaksListeResponse} from "../generated/model";
 import {useGetUtbetalingExists} from "../generated/utbetalinger-controller/utbetalinger-controller";
 import {logWarningMessage} from "../redux/innsynsdata/loggActions";
+import styles from "../styles/lists.module.css";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -113,16 +114,19 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                         Ny søknad
                     </Button>
                 </StyledDineSoknaderPanel>
-                {paginerteSaker.map((sak: SaksListeResponse) => (
-                    <SakPanel
-                        fiksDigisosId={sak.fiksDigisosId}
-                        tittel={sak.soknadTittel}
-                        oppdatert={sak.sistOppdatert}
-                        key={sak.fiksDigisosId ?? sak.soknadTittel}
-                        url={sak.url}
-                        kilde={sak.kilde}
-                    />
-                ))}
+                <ul className={styles.unorderedList}>
+                    {paginerteSaker.map((sak: SaksListeResponse) => (
+                        <li key={sak.fiksDigisosId ?? sak.soknadTittel}>
+                            <SakPanel
+                                fiksDigisosId={sak.fiksDigisosId}
+                                tittel={sak.soknadTittel}
+                                oppdatert={sak.sistOppdatert}
+                                url={sak.url}
+                                kilde={sak.kilde}
+                            />
+                        </li>
+                    ))}
+                </ul>
                 {saker.length > itemsPerPage && (
                     <Paginering
                         pageCount={lastPage}
