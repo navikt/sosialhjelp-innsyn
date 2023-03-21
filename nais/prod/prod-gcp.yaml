@@ -26,7 +26,6 @@ spec:
     max: 4
   ingresses:
     - "https://sosialhjelp-innsyn.prod-gcp.nais.io/sosialhjelp/innsyn"
-  webproxy: true
   resources:
     limits:
       cpu: 200m
@@ -39,4 +38,6 @@ spec:
   env:
     - name: DEKORATOR_MILJO
       value: prod
+    - name: INNSYN_API_SINGLE_LOGOUT_URL
+      value: "https://www.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
 

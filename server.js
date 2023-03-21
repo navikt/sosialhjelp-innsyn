@@ -9,6 +9,7 @@ const decoratorParams = {
     chatbot: false,
     shareScreen: false,
     utilsBackground: "white",
+    logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined
 };
 
 const app = express(); // create express app

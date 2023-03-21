@@ -26,7 +26,6 @@ spec:
     max: 2
   ingresses:
     - "https://sosialhjelp-innsyn-mock.dev.nav.no/sosialhjelp/innsyn"
-  webproxy: true
   resources:
     limits:
       cpu: 200m
@@ -39,4 +38,5 @@ spec:
   env:
     - name: DEKORATOR_MILJO
       value: dev
-
+    - name: INNSYN_API_SINGLE_LOGOUT_URL
+      value: "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
