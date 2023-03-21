@@ -3,12 +3,9 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import {useTranslation} from "react-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {soknadsStatusTittel} from "./soknadsStatusUtils";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert, BodyShort, Heading, Label, Panel, Tag} from "@navikt/ds-react";
-import {ErrorColored, PlaceFilled} from "@navikt/ds-icons";
+import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
 import styled from "styled-components/macro";
-import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import SoknadsStatusTag from "./SoknadsStatusTag";
 import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -19,72 +16,12 @@ import {
     SoknadsStatusResponseStatus,
     VedtaksfilUrl,
 } from "../../generated/model";
-
-interface ContentPanelBorderProps {
-    lightColor?: boolean;
-}
-
-const Container = styled.div`
-    padding-top: 3rem;
-`;
-
-const Spot = styled.div`
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 0;
-    left: 50%;
-    background: var(--a-surface-success-subtle);
-    border-radius: 50%;
-    height: 4rem;
-    width: 4rem;
-`;
-
-const ContentPanel = styled(Panel)<{error?: boolean}>`
-    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
-    padding-top: 2rem;
-    position: relative;
-`;
-
-const SpotIcon = styled(PlaceFilled).attrs({
-    title: "spot",
-})`
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    height: 1.5rem;
-    width: 1.5rem;
-`;
-
-const ContentPanelBody = styled.div`
-    @media screen and (min-width: 641px) {
-        padding: 1rem 3.25rem 1rem 3.25rem;
-    }
-    @media screen and (max-width: 640px) {
-        padding: 1rem 0;
-    }
-`;
-
-const StyledErrorColored = styled(ErrorColored)`
-    position: absolute;
-
-    @media screen and (min-width: 641px) {
-        top: 3rem;
-        left: 1.5rem;
-    }
-    @media screen and (max-width: 640px) {
-        top: 3.15rem;
-        left: 1rem;
-    }
-`;
+import styles from "../../styles/lists.module.css";
+import SoknadsStatusPanel from "./SoknadsStatusPanel";
+import {ContentPanelBorder} from "./SoknadsStatusHeading";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
-`;
-
-const ContentPanelBorder = styled.div<ContentPanelBorderProps>`
-    border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
-    margin: 1rem 0;
 `;
 
 const StatusBox = styled.div`
@@ -106,16 +43,6 @@ const StatusMessageVedtak = styled.div`
     margin-top: 6px;
 `;
 
-const StyledTextPlacement = styled.div`
-    @media screen and (max-width: 640px) {
-        margin-left: 2rem;
-    }
-`;
-
-const HeadingWrapper = styled.div`
-    text-align: center;
-`;
-
 const SoknadsStatus = () => {
     const fiksDigisosId = useFiksDigisosId();
 
@@ -133,47 +60,59 @@ const SoknadsStatus = () => {
 
     const soknadsStatus = soknadsStatusQuery.data?.status;
 
+    if (isLoading) {
+        return (
+            <SoknadsStatusPanel hasError={false}>
+                <Lastestriper linjer={1} />
+            </SoknadsStatusPanel>
+        );
+    }
+    if (hasError) {
+        if (soknadsStatusQuery.isError) {
+            return (
+                <SoknadsStatusPanel hasError={true}>
+                    <Alert variant="error" inline>
+                        {t("feilmelding.soknadStatus_innlasting")}
+                    </Alert>
+                </SoknadsStatusPanel>
+            );
+        }
+
+        if (saksStatusQuery.isError) {
+            return (
+                <SoknadsStatusPanel hasError={true} soknadsStatus={soknadsStatus}>
+                    <Alert variant="error" inline>
+                        {t("feilmelding.saksStatus_innlasting")}
+                    </Alert>
+                </SoknadsStatusPanel>
+            );
+        }
+    }
+
     return (
-        <Container>
-            <ContentPanel error={+hasError}>
-                <Spot>
-                    <SpotIcon aria-hidden />
-                </Spot>
-                <ContentPanelBody>
-                    {hasError && <StyledErrorColored title="Feil" />}
-                    {hasError && <StyledTextPlacement>{t("feilmelding.soknadStatus_innlasting")}</StyledTextPlacement>}
-                    {isLoading && <Lastestriper linjer={1} />}
-                    {soknadsStatus && !hasError && (
-                        <HeadingWrapper>
-                            <Heading level="2" size="large" spacing>
-                                {soknadsStatusTittel(soknadsStatus, t)}
-                            </Heading>
-                            <SoknadsStatusLenke status={soknadsStatus} />
-                            <ContentPanelBorder />
-                        </HeadingWrapper>
-                    )}
+        <SoknadsStatusPanel hasError={false} soknadsStatus={soknadsStatus}>
+            <>
+                {soknadsStatus === SoknadsStatusResponseStatus.BEHANDLES_IKKE && (
+                    <StyledAlert variant="info">{t("status.soknad_behandles_ikke_ingress")}</StyledAlert>
+                )}
 
-                    {soknadsStatus === SoknadsStatusResponseStatus.BEHANDLES_IKKE && (
-                        <StyledAlert variant="info">{t("status.soknad_behandles_ikke_ingress")}</StyledAlert>
-                    )}
+                {!hasError && soknadsStatus && saksStatusQuery.data?.length === 0 && !soknadBehandlesIkke && (
+                    <StatusBox>
+                        <StatusMessage>
+                            <Label as="p">{t("saker.default_tittel")}</Label>
+                            <SoknadsStatusTag status={soknadsStatus} />
+                        </StatusMessage>
+                    </StatusBox>
+                )}
 
-                    {!hasError && soknadsStatus && saksStatusQuery.data?.length === 0 && !soknadBehandlesIkke && (
-                        <StatusBox>
-                            <StatusMessage>
-                                <Label as="p">{t("saker.default_tittel")}</Label>
-                                <SoknadsStatusTag status={soknadsStatus} />
-                            </StatusMessage>
-                        </StatusBox>
-                    )}
-
-                    {!hasError &&
-                        saksStatusQuery.data &&
-                        saksStatusQuery.data.map((statusdetalj: SaksStatusResponse, index: number) => {
+                {!hasError && saksStatusQuery.data && (
+                    <ul className={styles.unorderedList}>
+                        {saksStatusQuery.data.map((statusdetalj: SaksStatusResponse, index: number) => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
                             return (
-                                <React.Fragment key={index}>
+                                <li key={index}>
                                     <StatusBox>
                                         <StatusMessage>
                                             <Label as="p">{statusdetalj.tittel}</Label>
@@ -219,12 +158,13 @@ const SoknadsStatus = () => {
                                             )}
                                     </StatusBox>
                                     <ContentPanelBorder lightColor />
-                                </React.Fragment>
+                                </li>
                             );
                         })}
-                </ContentPanelBody>
-            </ContentPanel>
-        </Container>
+                    </ul>
+                )}
+            </>
+        </SoknadsStatusPanel>
     );
 };
 

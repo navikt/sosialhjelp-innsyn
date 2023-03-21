@@ -1,6 +1,5 @@
 import React from "react";
 import {useTranslation} from "react-i18next";
-import {isDate} from "date-fns";
 
 /*
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
@@ -16,7 +15,7 @@ const DatoOgKlokkeslett = (props: Props) => {
     const {tidspunkt, bareDato, brukKortMaanedNavn} = props;
     const {t, i18n} = useTranslation();
 
-    if (!tidspunkt || !isDate(tidspunkt)) {
+    if (!tidspunkt) {
         return null;
     }
     const visKlokkeslett = !bareDato && new Date(tidspunkt).getHours() + new Date(tidspunkt).getMinutes() > 0;

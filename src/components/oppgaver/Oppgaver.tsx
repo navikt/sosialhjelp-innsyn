@@ -4,7 +4,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {Heading, Panel} from "@navikt/ds-react";
+import {Alert} from "@navikt/ds-react";
 import styled from "styled-components";
 import {VilkarAccordion} from "./vilkar/VilkarAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
@@ -22,43 +22,10 @@ import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbet
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
-import {ErrorColored} from "@navikt/ds-icons";
+import OppgaverPanel from "./OppgaverPanel";
 
-const StyledPanelHeader = styled.div`
-    border-bottom: 2px solid var(--a-border-default);
-`;
-
-const StyledErrorColored = styled(ErrorColored)`
-    position: absolute;
-    @media screen and (min-width: 641px) {
-        top: 5.25rem;
-        left: 1.5rem;
-    }
-    @media screen and (max-width: 640px) {
-        top: 4.25rem;
-        left: 1rem;
-    }
-`;
-
-const StyledPanel = styled(Panel)<{error?: boolean}>`
-    position: relative;
-    border-color: ${(props) => (props.error ? "var(--a-red-500)" : "transparent")};
-    @media screen and (min-width: 641px) {
-        padding: 2rem 4.25rem;
-        margin-top: 4rem;
-    }
-    @media screen and (max-width: 640px) {
-        padding: 1rem;
-        margin-top: 2rem;
-    }
-`;
-
-const StyledTextPlacement = styled.div`
+const StyledAlert = styled(Alert)`
     margin-top: 1rem;
-    margin-bottom: 1rem;
-    @media screen and (max-width: 640px) {
-        margin-left: 2rem;
-    }
 `;
 
 type Status = "STOPPET" | "ANNULLERT" | "PLANLAGT_UTBETALING" | "UTBETALT";
@@ -99,6 +66,7 @@ const Oppgaver = () => {
     const harLevertDokumentasjonskravQuery = useGetHarLevertDokumentasjonkrav(fiksDigisosId);
     const fagsystemHarDokumentasjonkravQuery = useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
     const saksStatusQuery = useHentSaksStatuser(fiksDigisosId);
+
     const hasError =
         vilkarQuery.isError ||
         dokumentasjonskravQuery.isError ||
@@ -106,6 +74,14 @@ const Oppgaver = () => {
         harLevertDokumentasjonskravQuery.isError ||
         fagsystemHarDokumentasjonkravQuery.isError ||
         saksStatusQuery.isError;
+
+    const isLoading =
+        vilkarQuery.isLoading ||
+        dokumentasjonskravQuery.isLoading ||
+        oppgaverQuery.isLoading ||
+        harLevertDokumentasjonskravQuery.isLoading ||
+        fagsystemHarDokumentasjonkravQuery.isLoading ||
+        saksStatusQuery.isLoading;
     const utbetalingerQuery = useHentUtbetalinger(
         {},
         {query: {onError: (e) => logWarningMessage(e.message, e.navCallId)}}
@@ -158,20 +134,28 @@ const Oppgaver = () => {
         harLevertDokumentasjonskravQuery.data,
     ]);
 
+    if (isLoading) {
+        return (
+            <OppgaverPanel hasError={hasError}>
+                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
+            </OppgaverPanel>
+        );
+    }
+
+    if (hasError) {
+        return (
+            <OppgaverPanel hasError={true}>
+                <StyledAlert variant="error" inline>
+                    {t("feilmelding.dineOppgaver_innlasting")}
+                </StyledAlert>
+            </OppgaverPanel>
+        );
+    }
+
     return (
-        <StyledPanel error={+hasError}>
-            <StyledPanelHeader>
-                {hasError && <StyledErrorColored title="Feil" />}
-                <Heading level="2" size="medium">
-                    {t("oppgaver.dine_oppgaver")}
-                </Heading>
-            </StyledPanelHeader>
-
-            {oppgaverQuery.isLoading && <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />}
-
-            {hasError && <StyledTextPlacement>{t("feilmelding.dineOppgaver_innlasting")}</StyledTextPlacement>}
-            {skalViseIngenOppgaverPanel && !hasError && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
-            {skalViseOppgaver && !hasError && (
+        <OppgaverPanel hasError={false}>
+            {skalViseIngenOppgaverPanel && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
+            {skalViseOppgaver && (
                 <>
                     <DokumentasjonEtterspurtAccordion
                         isLoading={oppgaverQuery.isLoading}
@@ -186,7 +170,7 @@ const Oppgaver = () => {
                 </>
             )}
             <OppgaveInformasjon dokumentasjonkrav={filtrerteDokumentasjonkrav} vilkar={filtrerteVilkar} />
-        </StyledPanel>
+        </OppgaverPanel>
     );
 };
 
