@@ -12,7 +12,7 @@ export function isLocalhost(origin: string) {
 }
 
 export function isDevSbs(origin: string): boolean {
-    return origin.indexOf("www-q") >= 0;
+    return origin.indexOf("www-q0.dev.nav.no") >= 0;
 }
 
 export function isDev(origin: string): boolean {
@@ -37,6 +37,7 @@ export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
             return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api";
         }
         return "http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1";
+        //return "http://localhost:8080/sosialhjelp/innsyn-api/api/v1";//for idporten testing
     }
     if (isUsingMockAlt(origin)) {
         if (excludeApiV1) {
@@ -49,7 +50,8 @@ export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
             "/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
         );
-    } else if (isDevSbs(origin) || isDev(origin)) {
+    }
+    if (isDevSbs(origin)) {
         if (excludeApiV1) {
             return (
                 origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
@@ -59,6 +61,18 @@ export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
         return (
             origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-login-api") +
             "/sosialhjelp/login-api/innsyn-api/api/v1"
+        );
+    }
+    if (isDev(origin)) {
+        if (excludeApiV1) {
+            return (
+                origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+                "/sosialhjelp/innsyn-api"
+            );
+        }
+        return (
+            origin.replace("/sosialhjelp/innsyn", "").replace("sosialhjelp-innsyn", "sosialhjelp-innsyn-api") +
+            "/sosialhjelp/innsyn-api/api/v1"
         );
     }
     if (excludeApiV1) {
@@ -82,8 +96,11 @@ export function getLogoutUrl(origin: string): string {
     if (isUsingMockAlt(origin)) {
         return "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt/";
     }
-    if (isDevSbs(origin) || isDev(origin)) {
+    if (isDevSbs(origin)) {
         return "https://loginservice.dev.nav.no/slo";
+    }
+    if (isDev(origin)) {
+        return "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo";
     }
     return "https://loginservice.nav.no/slo";
 }
@@ -231,7 +248,7 @@ function sjekkStatuskode(response: Response, url: string) {
         response.json().then((r) => {
             if (window.location.search.split("login_id=")[1] !== r.id) {
                 const queryDivider = r.loginUrl.includes("?") ? "&" : "?";
-                window.location.href = r.loginUrl + queryDivider + getRedirectPath() + "%26login_id=" + r.id;
+                window.location.href = r.loginUrl + queryDivider + getRedirectPath(r.loginUrl, r.id);
             } else {
                 Axios.create({
                     baseURL: getApiBaseUrl(true),
@@ -304,9 +321,14 @@ function getRedirectOrigin() {
     return window.location.origin;
 }
 
-export function getRedirectPath(): string {
+export function getRedirectPath(loginUrl: string, id: string): string {
     const redirectOrigin = getRedirectOrigin();
-    const gotoParameter = "?goto=" + window.location.pathname;
-    const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link" + gotoParameter;
-    return "redirect=" + redirectPath;
+    if (loginUrl.indexOf("digisos.dev.nav.no") === -1) {
+        const gotoParameter = "goto=" + window.location.pathname;
+        const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link?" + gotoParameter;
+        return "redirect=" + redirectPath + "%26login_id=" + id;
+    } else {
+        // ikke loginservice --> direkte-integrasjon med idporten i innsyn-api:
+        return "goto=" + redirectOrigin + window.location.pathname;
+    }
 }

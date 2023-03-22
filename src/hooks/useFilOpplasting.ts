@@ -82,6 +82,11 @@ const useFilOpplasting = (
     const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
+    const resetErrors = useCallback(() => {
+        setInnerErrors(recordFromMetadatas(metadatas));
+        setOuterErrors([]);
+    }, [metadatas, setInnerErrors, setOuterErrors]);
+
     const reset = useCallback(() => {
         setFiles(recordFromMetadatas(metadatas));
         setInnerErrors(recordFromMetadatas(metadatas));
@@ -113,6 +118,7 @@ const useFilOpplasting = (
                 _errors.push({feil: Feil.COMBINED_TOO_LARGE});
             }
             if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
+
             setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
         },
@@ -186,7 +192,7 @@ const useFilOpplasting = (
         files,
         addFiler,
         removeFil,
-        hasAnyError: Object.values(innerErrors).flat().length > 0 || outerErrors.length > 0,
+        resetErrors,
     };
 };
 

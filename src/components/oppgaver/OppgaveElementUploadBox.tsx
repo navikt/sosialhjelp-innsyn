@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 import FileItemView from "../vedlegg/FileItemView";
-import {ErrorMessage} from "../errors/ErrorMessage";
+import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import {errorStatusToMessage} from "../../hooks/useFilOpplasting";
 import {useTranslation} from "react-i18next";
 import {Error} from "../../hooks/useFilOpplasting";
@@ -20,21 +20,23 @@ const OppgaveElementUploadBox = ({files, onDelete, errors}: Props): ReactElement
     const uniqueErrors = dedupeErrorsByProp(errors, "feil");
     return (
         <>
+            <ErrorMessagePlaceholder>
+                {errors.length > 0 && (
+                    <>
+                        <ErrorMessagesSummary errors={errors} />
+                        <ul>
+                            {uniqueErrors.map((key, i) => (
+                                <li key={i}>
+                                    <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
+                                        {t(errorStatusToMessage[key.feil])}
+                                    </ErrorMessage>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </ErrorMessagePlaceholder>
             <FileItemView filer={files} onDelete={(_, fil) => onDelete(fil)} />
-            {errors.length > 0 && (
-                <div>
-                    <ErrorMessagesSummary errors={errors} />
-                    <ul>
-                        {uniqueErrors.map((key, i) => (
-                            <li key={i}>
-                                <ErrorMessage className="oppgaver_vedlegg_feilmelding_overskrift">
-                                    {t(errorStatusToMessage[key.feil])}
-                                </ErrorMessage>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
         </>
     );
 };

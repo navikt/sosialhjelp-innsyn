@@ -138,7 +138,7 @@
   "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
       "Vi kan ikke motta vedleggene dine hvis de til sammen er over 150 Mb",
   "andre_vedlegg.type": "Send andre vedlegg",
-  "andre_vedlegg.tilleggsinfo": "Hvis du noe annet du vil sende, kan du laste det opp her.",
+  "andre_vedlegg.tilleggsinfo": "Hvis du har noe annet du vil sende, kan du laste det opp her.",
   "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
 
   "forelopigSvar": "Du har fått et brev om saksbehandlingstiden for søknaden din. ",
@@ -160,6 +160,7 @@
   "timeout.overskrift": "Obs!",
   "timeout.utlopt": "Du har vært inaktiv på denne siden for lenge. Du må logge deg inn på nytt for å fortsette.",
   "feilmelding.soknadStatus_innlasting": "Vi klarte ikke å laste opp status på søknaden din",
+  "feilmelding.saksStatus_innlasting": "Vi klarte ikke å laste opp status på sakene dine",
   "feilmelding.dineOppgaver_innlasting": "Vi klarte ikke å laste opp informasjon om dine oppgaver",
   "feilmelding.historikk_innlasting": "Vi klarte ikke å laste opp historikken din",
   "feilmelding.vedlegg_innlasting": "Vi klarte ikke laste inn dine innsendte vedlegg",

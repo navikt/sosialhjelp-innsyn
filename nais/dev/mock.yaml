@@ -1,0 +1,42 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: sosialhjelp-innsyn-mock
+  namespace: teamdigisos
+  labels:
+    team: teamdigisos
+spec:
+  image: {{image}}
+  port: 8080
+  liveness:
+    path: /sosialhjelp/innsyn/internal/isAlive
+    initialDelay: 20
+    timeout: 1
+    periodSeconds: 5
+    failureThreshold: 10
+  readiness:
+    path: /sosialhjelp/innsyn/internal/isAlive
+    initialDelay: 20
+    timeout: 1
+  prometheus:
+    enabled: false
+    path: /actuator/metrics
+  replicas:
+    min: 1
+    max: 2
+  ingresses:
+    - "https://sosialhjelp-innsyn-mock.dev.nav.no/sosialhjelp/innsyn"
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 1m
+      memory: 32Mi
+  vault:
+    enabled: false
+  env:
+    - name: DEKORATOR_MILJO
+      value: dev
+    - name: INNSYN_API_SINGLE_LOGOUT_URL
+      value: "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"

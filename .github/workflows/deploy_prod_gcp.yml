@@ -24,9 +24,8 @@
 #        uses: nais/deploy/actions/deploy@v1
 #        env:
 #          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#          RESOURCE: nais.yaml
+#          RESOURCE: nais/prod/prod-gcp.yaml
 #          CLUSTER: prod-gcp
-#          VARS: nais/prod/prod-gcp.json
 #          REF: ${{ github.sha }}
 #          PRINT_PAYLOAD: true
 #          IMAGE: ${{ env.DOCKER_TAG }}

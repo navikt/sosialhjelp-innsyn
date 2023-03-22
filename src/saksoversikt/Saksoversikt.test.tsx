@@ -26,7 +26,7 @@ const success = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
         ctx.json([
             {
                 kilde: "innsyn-api",
-                soknadTittel: "Min kule søknad",
+                soknadTittel: "Default søknad",
                 url: faker.random.word(),
                 sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
                 fiksDigisosId: faker.random.alphaNumeric(5),
@@ -43,7 +43,7 @@ const saksdetaljer = rest.get("*/api/v1/innsyn/saksDetaljer", (_req, res, ctx) =
     return res(
         ctx.delay(200),
         ctx.status(200, "Mocked status"),
-        ctx.json({...getHentSaksDetaljerMock(), status: "Mottatt"})
+        ctx.json({...getHentSaksDetaljerMock(), status: "Mottatt", soknadTittel: "Min kule søknad"})
     );
 });
 

@@ -16,13 +16,14 @@ const StyledFrame = styled.div<{hasError?: boolean; padTop?: boolean}>`
 
 interface Props {
     tittel: string;
-    beskrivelse?: string;
+    beskrivelse?: string | null;
 
     hasError?: boolean;
     onChange: (files: FileList | null) => void;
     showAddFileButton?: boolean;
     children?: ReactElement;
     padTop?: boolean;
+    resetErrors: () => void;
 }
 
 const UploadElementView = ({
@@ -33,6 +34,7 @@ const UploadElementView = ({
     showAddFileButton,
     children,
     padTop = true,
+    resetErrors,
 }: Props): ReactElement => {
     const uuid = uuidv4();
     return (
@@ -50,6 +52,7 @@ const UploadElementView = ({
                             onChange(files);
                         }}
                         id={uuid}
+                        resetErrors={resetErrors}
                     />
                 )}
             </TextAndButtonWrapper>

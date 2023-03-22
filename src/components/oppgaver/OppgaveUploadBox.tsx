@@ -2,7 +2,7 @@ import React, {MouseEventHandler, ReactElement} from "react";
 import InnsendelsesFrist from "./InnsendelsesFrist";
 import {Button, Loader} from "@navikt/ds-react";
 import styled from "styled-components";
-import {ErrorMessage} from "../errors/ErrorMessage";
+import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import {useTranslation} from "react-i18next";
 
 const StyledInnerFrame = styled.div<{$hasError?: boolean}>`
@@ -24,26 +24,17 @@ const ButtonWrapper = styled.div`
 interface Props {
     frist?: string;
     children: ReactElement;
-    hasError?: boolean;
     showUploadButton?: boolean;
     isLoading?: boolean;
     onClick: MouseEventHandler<HTMLButtonElement>;
     errors: string[];
 }
 
-const OppgaveUploadBox = ({
-    frist,
-    children,
-    hasError,
-    showUploadButton,
-    isLoading,
-    onClick,
-    errors,
-}: Props): ReactElement => {
+const OppgaveUploadBox = ({frist, children, showUploadButton, isLoading, onClick, errors}: Props): ReactElement => {
     const {t} = useTranslation();
     return (
         <StyledOuterFrame>
-            <StyledInnerFrame $hasError={hasError}>
+            <StyledInnerFrame $hasError={errors.length > 0}>
                 {frist && <InnsendelsesFrist frist={frist} />}
 
                 {children}
@@ -61,11 +52,13 @@ const OppgaveUploadBox = ({
                     </ButtonWrapper>
                 )}
             </StyledInnerFrame>
-            {errors.map((error, index) => (
-                <ErrorMessage key={index} style={{marginBottom: "1rem", marginLeft: "1rem"}}>
-                    {t(error)}
-                </ErrorMessage>
-            ))}
+            <ErrorMessagePlaceholder>
+                {errors.map((error, index) => (
+                    <ErrorMessage key={index} style={{marginBottom: "1rem", marginLeft: "1rem"}}>
+                        {t(error)}
+                    </ErrorMessage>
+                ))}
+            </ErrorMessagePlaceholder>
         </StyledOuterFrame>
     );
 };
