@@ -10,6 +10,7 @@ import UploadElementView from "../oppgaver/UploadElementView";
 import OppgaveElementUploadBox from "../oppgaver/OppgaveElementUploadBox";
 import {OppgaveElementHendelsetype} from "../../generated/model";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     isLoading?: boolean;
@@ -30,6 +31,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
     const canUploadAttachments: boolean = isFileUploadAllowed(kommune);
+    const {t} = useTranslation();
 
     const {
         upload,
@@ -59,7 +61,7 @@ const EttersendelseView = ({isLoading}: Props): ReactElement => {
             <>
                 <UploadElementView
                     tittel={"Send andre vedlegg"}
-                    beskrivelse={"Hvis du noe annet du vil sende, kan du laste det opp her."}
+                    beskrivelse={t("andre_vedlegg.tilleggsinfo")}
                     showAddFileButton={canUploadAttachments}
                     hasError={innerErrors[0].length > 0}
                     onChange={(files) => addFiler(0, files ? Array.from(files) : [])}

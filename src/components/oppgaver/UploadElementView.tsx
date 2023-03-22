@@ -16,7 +16,7 @@ const StyledFrame = styled.div<{hasError?: boolean; padTop?: boolean}>`
 
 interface Props {
     tittel: string;
-    beskrivelse?: string;
+    beskrivelse?: string | null;
 
     hasError?: boolean;
     onChange: (files: FileList | null) => void;
