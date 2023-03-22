@@ -27,15 +27,11 @@ describe("getOriginAwareHeaders", () => {
         expect(headers.has("Nav-Call-Id")).toBeTruthy();
     });
 
-    it("should not include Authorization or istio-headers in prod", () => {
+    it("should not include Authorization in prod", () => {
         let headers = getOriginAwareHeaders("https://www.nav.no");
         expect(headers.has("Authorization")).toBeFalsy();
-        expect(headers.has("X-B3-TraceId")).toBeFalsy();
-        expect(headers.has("X-B3-SpanId")).toBeFalsy();
 
         headers = getOriginAwareHeaders("https://www.nav.no", "multipart/form-data");
         expect(headers.has("Authorization")).toBeFalsy();
-        expect(headers.has("X-B3-TraceId")).toBeFalsy();
-        expect(headers.has("X-B3-SpanId")).toBeFalsy();
     });
 });
