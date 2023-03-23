@@ -50,6 +50,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         return <Lastestriper linjer={3} />;
     }
 
+    // oppdater til hendelseenum-typer
     const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
         if (beskrivelse === t("forelopigSvar").trim()) {
             logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
@@ -64,7 +65,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         }
     };
 
-    const getBeskrivelse = (historikkTekstEnum: string) => {
+    const getBeskrivelse = (historikkTekstEnum: string, tekstArgument?: string) => {
         let tekstEnumElement = HistorikkTekstEnum[historikkTekstEnum];
         if (historikkTekstEnum === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
             //const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", ""); // denne endringen kan gjøres i tekstfila i stedet for string.replace?
@@ -77,7 +78,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 </BodyShort>
             );
         }
-
+        // todo:
         return <BodyShort>{t(tekstEnumElement)}</BodyShort>;
     };
 
@@ -89,12 +90,12 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         <Label as="p">
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Label>
-                        {getBeskrivelse(hendelse.beskrivelse)}
+                        {getBeskrivelse(hendelse.hendelseType, hendelse.tekstArgument)}
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
                                 onClick={() => {
-                                    onClickHendelseLenke(hendelse.beskrivelse, hendelse?.filUrl?.linkTekst);
+                                    onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
                                 }}
                             >
                                 {hendelse.filUrl.linkTekst}
