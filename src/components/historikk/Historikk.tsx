@@ -12,6 +12,7 @@ import {Collapse, Expand} from "@navikt/ds-icons";
 import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import {HendelseResponse} from "../../generated/model";
 import {Link} from "react-router-dom";
+import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -63,19 +64,21 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         }
     };
 
-    const getBeskrivelse = (beskrivelse: string) => {
-        if (beskrivelse === "Dine utbetalinger har blitt oppdatert.") {
-            const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", "");
+    const getBeskrivelse = (historikkTekstEnum: string) => {
+        let tekstEnumElement = HistorikkTekstEnum[historikkTekstEnum];
+        if (historikkTekstEnum === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
+            //const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", ""); // denne endringen kan gjøres i tekstfila i stedet for string.replace?
             return (
                 <BodyShort>
                     <NavDsLink as={Link} to="/utbetaling">
                         Dine utbetalinger
                     </NavDsLink>
-                    {beskrivelseUtenLenke}
+                    {t(tekstEnumElement)}.replace("Dine utbetalinger", "");
                 </BodyShort>
             );
         }
-        return <BodyShort>{beskrivelse}</BodyShort>;
+
+        return <BodyShort>{t(tekstEnumElement)}</BodyShort>;
     };
 
     return (
