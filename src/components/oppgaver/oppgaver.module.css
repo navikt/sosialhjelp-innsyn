@@ -1,0 +1,8 @@
+.oppgaveMedSammeFrist:not(:last-of-type) {
+    border-bottom: 1px solid var(--a-grayalpha-500);
+    margin-bottom: 8px;
+}
+
+.oppgaveElement:not(:last-child) {
+    margin-bottom: 16px;
+}

@@ -2,6 +2,7 @@ import {BodyShort} from "@navikt/ds-react";
 import {useTranslation} from "react-i18next";
 import {formatDato} from "../../utils/formatting";
 import React from "react";
+import styled from "styled-components";
 
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
@@ -11,7 +12,9 @@ export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number =>
     let frist = Math.floor(innsendelsesfrist.getTime() / (3600 * 24 * 1000)); //days as integer from..
     return now - frist;
 };
-
+const StyledBodyShort = styled(BodyShort)`
+    font-weight: bold;
+`;
 interface Props {
     frist?: string;
 }
@@ -26,14 +29,14 @@ const InnsendelsesFrist = (props: Props) => {
     return (
         <>
             {antallDagerSidenFristBlePassert <= 0 && (
-                <BodyShort spacing>
+                <StyledBodyShort spacing>
                     {t("oppgaver.innsendelsesfrist", {innsendelsesfrist: formatDato(props.frist)})}
-                </BodyShort>
+                </StyledBodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (
-                <BodyShort spacing>
+                <StyledBodyShort spacing>
                     {t("oppgaver.innsendelsesfrist_passert", {innsendelsesfrist: formatDato(props.frist)})}
-                </BodyShort>
+                </StyledBodyShort>
             )}{" "}
         </>
     );
