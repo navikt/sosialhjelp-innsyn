@@ -26,6 +26,10 @@ spec:
     max: 2
   ingresses:
     - "https://sosialhjelp-innsyn-dev.dev.nav.no/sosialhjelp/innsyn"
+  accessPolicy:
+    outbound:
+      external:
+        - host: dekoratoren.dev.nav.no
   resources:
     limits:
       cpu: 200m
