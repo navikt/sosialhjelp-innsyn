@@ -29,9 +29,11 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: "https://www.dev.nav.no"
-        - host: "https://digisos.ekstern.dev.nav.no"
-        - host: "https://dekoratoren.ekstern.dev.nav.no"
+        - host: dekoratoren.ekstern.dev.nav.no
+        - host: dekoratoren.dev.nav.no
+        - host: digisos.ekstern.dev.nav.no
+      rules:
+        - application: sosialhjelp-mock-alt-api-mock
   resources:
     limits:
       cpu: 200m
