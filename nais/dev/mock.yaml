@@ -34,6 +34,7 @@ spec:
         - host: digisos.ekstern.dev.nav.no
       rules:
         - application: sosialhjelp-mock-alt-api-mock
+        - application: sosialhjelp-proxy-mock
   resources:
     limits:
       cpu: 200m
