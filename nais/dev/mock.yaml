@@ -26,6 +26,12 @@ spec:
     max: 2
   ingresses:
     - "https://sosialhjelp-innsyn-mock.dev.nav.no/sosialhjelp/innsyn"
+  accessPolicy:
+    outbound:
+      external:
+        - host: "https://www.dev.nav.no"
+        - host: "https://digisos.ekstern.dev.nav.no"
+        - host: "https://dekoratoren.ekstern.dev.nav.no"
   resources:
     limits:
       cpu: 200m
