@@ -10,7 +10,6 @@ import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFil
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import InnsendelsesFrist from "../InnsendelsesFrist";
 import AddFileButton from "../../filopplasting/AddFileButton";
-import {BodyShort, Label} from "@navikt/ds-react";
 import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
 import styles from "../../../styles/lists.module.css";
@@ -53,7 +52,6 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
     });
 
     const onChange = (files: FileList | null, index: number) => {
-        console.log("input onChange", index, files);
         addFiler(index, files ? Array.from(files) : []);
     };
 
@@ -81,13 +79,8 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                     return (
                         <li key={element.dokumentasjonkravReferanse} className={oppgaveStyles.oppgaveElement}>
                             <FilOpplastingBlokk
-                                hasInnerErrors={innerErrors[index].length > 0}
-                                innsendelsesFrist={
-                                    <div className={"tekst-wrapping"}>
-                                        <Label as="p">{element.tittel ?? ""}</Label>
-                                        <BodyShort spacing>{element.beskrivelse}</BodyShort>
-                                    </div>
-                                }
+                                tittel={element.tittel}
+                                beskrivelse={element.beskrivelse}
                                 errors={innerErrors[index]}
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}
@@ -95,7 +88,6 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                                     canUploadAttachments ? (
                                         <AddFileButton
                                             onChange={(event) => {
-                                                console.log("onchange");
                                                 const files = event.currentTarget.files;
                                                 onChange(files, index);
                                             }}

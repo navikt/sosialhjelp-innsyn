@@ -10,7 +10,6 @@ import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
 import InnsendelsesFrist from "../InnsendelsesFrist";
 import AddFileButton from "../../filopplasting/AddFileButton";
-import {BodyShort, Label} from "@navikt/ds-react";
 import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
 import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
@@ -89,13 +88,8 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                     return (
                         <li key={element.id} className={oppgaveStyles.oppgaveElement}>
                             <FilOpplastingBlokk
-                                hasInnerErrors={innerErrors[index].length > 0}
-                                innsendelsesFrist={
-                                    <div className={"tekst-wrapping"}>
-                                        <Label as="p">{typeTekst}</Label>
-                                        <BodyShort spacing>{tilleggsinfoTekst}</BodyShort>
-                                    </div>
-                                }
+                                tittel={typeTekst}
+                                beskrivelse={tilleggsinfoTekst}
                                 errors={innerErrors[index]}
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}

@@ -8,8 +8,6 @@ import {OppgaveElementHendelsetype} from "../../generated/model";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useTranslation} from "react-i18next";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
-import {v4 as uuidv4} from "uuid";
-import {BodyShort, Label} from "@navikt/ds-react";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
 import AddFileButton from "../filopplasting/AddFileButton";
 import useFilOpplasting, {errorStatusToMessage} from "../filopplasting/useFilOpplasting";
@@ -67,14 +65,12 @@ const EttersendelseView = (props: Props) => {
         },
     });
     const files = _files[0];
-    const firstInnerError = innerErrors[0];
-    const uuid = uuidv4();
+    const outerErrorLocales = outerErrors.map((it) => errorStatusToMessage[it.feil]);
 
     const onChange = (files: FileList | null) => {
         addFiler(0, files ? Array.from(files) : []);
     };
 
-    const errors = outerErrors.map((it) => errorStatusToMessage[it.feil]);
     const onClick = () => {
         logButtonOrLinkClick("Ettersendelse: Trykket på Send vedlegg");
         return upload();
@@ -84,14 +80,9 @@ const EttersendelseView = (props: Props) => {
         <>
             <OuterErrorBorder hasError={outerErrors.length > 0}>
                 <FilOpplastingBlokk
-                    hasInnerErrors={innerErrors[0].length > 0}
-                    innsendelsesFrist={
-                        <div className={"tekst-wrapping"}>
-                            <Label as="p">{t("andre_vedlegg.type")}</Label>
-                            <BodyShort spacing>{t("andre_vedlegg.tilleggsinfo")}</BodyShort>
-                        </div>
-                    }
-                    errors={firstInnerError}
+                    tittel={t("andre_vedlegg.type")}
+                    beskrivelse={t("andre_vedlegg.tilleggsinfo")}
+                    errors={innerErrors[0]}
                     filer={files}
                     onDelete={(_, file) => removeFil(0, file)}
                     addFileButton={
@@ -101,7 +92,7 @@ const EttersendelseView = (props: Props) => {
                                     const files = event.currentTarget.files;
                                     onChange(files);
                                 }}
-                                id={uuid}
+                                id="ettersendelse_lastopp"
                                 resetStatus={resetStatus}
                             />
                         ) : undefined
@@ -109,7 +100,7 @@ const EttersendelseView = (props: Props) => {
                 />
             </OuterErrorBorder>
             <ErrorMessagePlaceholder>
-                {errors.map((error, index) => (
+                {outerErrorLocales.map((error, index) => (
                     <ErrorMessage key={index} className={styles.outerError}>
                         {t(error)}
                     </ErrorMessage>

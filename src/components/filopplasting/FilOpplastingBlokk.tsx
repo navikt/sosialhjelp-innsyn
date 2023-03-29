@@ -7,6 +7,7 @@ import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, {dedupeErrorsByProp} from "./ErrorMessagesSummary";
 import {Error, errorStatusToMessage} from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
+import {BodyShort, Label} from "@navikt/ds-react";
 
 const StyledFrame = styled.div<{hasError?: boolean}>`
     padding: 1rem;
@@ -22,26 +23,28 @@ const StyledFrame = styled.div<{hasError?: boolean}>`
 `;
 
 interface Props {
-    innsendelsesFrist?: React.ReactElement;
+    tittel?: string | null;
+    beskrivelse?: string | null;
     addFileButton?: React.ReactElement;
-    hasInnerErrors: boolean;
     filer: File[];
     onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: File) => void;
     errors: Error[];
 }
 
 const FilOpplastingBlokk = (props: Props): ReactElement => {
-    const {innsendelsesFrist, addFileButton} = props;
+    const {addFileButton} = props;
     const uniqueErrors = dedupeErrorsByProp(props.errors, "feil");
     const {t} = useTranslation();
 
     return (
-        <StyledFrame hasError={props.hasInnerErrors}>
-            {innsendelsesFrist}
-
+        <StyledFrame hasError={props.errors.length > 0}>
+            <div className="tekst-wrapping">
+                {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}
+                {props.beskrivelse ? <BodyShort spacing>{props.beskrivelse}</BodyShort> : <></>}
+            </div>
             {addFileButton}
             <ErrorMessagePlaceholder>
-                {props.errors && props.errors?.length > 0 ? (
+                {props.errors.length > 0 ? (
                     <>
                         <ErrorMessagesSummary errors={props.errors} />
                         <ul className={styles.feilListe}>
