@@ -97,5 +97,10 @@
         "moduleNameMapper": {
             "^axios$": "axios/dist/axios.js"
         }
+    },
+    "overrides": {
+      "react-scripts": {
+        "@svgr/webpack": "6.5.1"
+      }
     }
 }
