@@ -1,0 +1,18 @@
+.utbetalinger_filter {
+    margin-top: 14rem;
+    min-width: 15rem;
+}
+
+.periodevelger {
+    margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 900px) {
+    .utbetalinger_side {
+        flex-direction: column;
+    }
+
+    .utbetalinger_filter {
+        margin-top: 0;
+    }
+}

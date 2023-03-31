@@ -6,7 +6,13 @@
  */
 import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
-import type {UtbetalingerResponse, HentUtbetalingerParams, GetUtbetalingExistsParams} from ".././model";
+import type {
+    UtbetalingerResponse,
+    UtbetalteUtbetalingerResponse,
+    HentUtbetalingerParams,
+    GetUtbetalingExistsParams,
+    KommendeUtbetalingerResponse,
+} from ".././model";
 import {axiosInstance} from "../../axios-instance";
 import type {ErrorType} from "../../axios-instance";
 
@@ -52,6 +58,43 @@ export const useHentUtbetalingerForSak = <
         enabled: !!fiksDigisosId,
         ...queryOptions,
     }) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+
+    query.queryKey = queryKey;
+
+    return query;
+};
+
+export const hentUtbetalteUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
+    return axiosInstance<UtbetalteUtbetalingerResponse[]>(
+        {url: `/api/v1/innsyn/utbetalte`, method: "get", signal},
+        options
+    );
+};
+
+export const getHentUtbetalteUtbetalingerQueryKey = () => [`/api/v1/innsyn/utbetalte`];
+
+export type HentUtbetalteUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>>;
+export type HentUtbetalteUtbetalingerQueryError = ErrorType<unknown>;
+
+export const useHentUtbetalteUtbetalinger = <
+    TData = Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>,
+    TError = ErrorType<unknown>
+>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>, TError, TData>;
+    request?: SecondParameter<typeof axiosInstance>;
+}): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
+    const {query: queryOptions, request: requestOptions} = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getHentUtbetalteUtbetalingerQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>> = ({signal}) =>
+        hentUtbetalteUtbetalinger(requestOptions, signal);
+
+    const query = useQuery<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
     query.queryKey = queryKey;
 
@@ -136,6 +179,43 @@ export const useGetUtbetalingExists = <
         getUtbetalingExists(params, requestOptions, signal);
 
     const query = useQuery<Awaited<ReturnType<typeof getUtbetalingExists>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+
+    query.queryKey = queryKey;
+
+    return query;
+};
+
+export const hentKommendeUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
+    return axiosInstance<KommendeUtbetalingerResponse[]>(
+        {url: `/api/v1/innsyn/kommende`, method: "get", signal},
+        options
+    );
+};
+
+export const getHentKommendeUtbetalingerQueryKey = () => [`/api/v1/innsyn/kommende`];
+
+export type HentKommendeUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>>;
+export type HentKommendeUtbetalingerQueryError = ErrorType<unknown>;
+
+export const useHentKommendeUtbetalinger = <
+    TData = Awaited<ReturnType<typeof hentKommendeUtbetalinger>>,
+    TError = ErrorType<unknown>
+>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>, TError, TData>;
+    request?: SecondParameter<typeof axiosInstance>;
+}): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
+    const {query: queryOptions, request: requestOptions} = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getHentKommendeUtbetalingerQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>> = ({signal}) =>
+        hentKommendeUtbetalinger(requestOptions, signal);
+
+    const query = useQuery<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>, TError, TData>(
         queryKey,
         queryFn,
         queryOptions

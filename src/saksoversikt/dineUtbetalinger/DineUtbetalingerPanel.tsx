@@ -8,7 +8,7 @@ const DineUtbetalingerPanel: React.FC = () => {
     return (
         <LinkPanel className="panel-luft-over dine_utbetalinger_panel" border={false} as={Link} to="/utbetaling">
             <div className="dine_utbetalinger_innhold">
-                <HandCoinsIcon />
+                <HandCoinsIcon className="hands_coin_icon" />
                 <div>
                     <Heading level="2" size="medium" spacing>
                         Dine utbetalinger

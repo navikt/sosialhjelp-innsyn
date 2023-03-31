@@ -21,4 +21,10 @@ function formatDato(isoDate: string) {
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 
+export function getDayAndMonth(isoDate: string) {
+    const dato: Date = new Date(isoDate);
+    const formatter = new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long"});
+    return formatter.format(dato).replace(/([0-9]) /, "$1. ");
+}
+
 export {formatBytes, formatCurrency, formatDato};

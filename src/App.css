@@ -9,6 +9,7 @@ a.lenke:not(.knapp) {
 
 .informasjon-side {
     margin-bottom: 4rem;
+    margin-top: 2rem;
 }
 
 .informasjon-side .breadcrumbs_wrapper {

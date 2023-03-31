@@ -4,6 +4,7 @@
     "private": true,
     "homepage": "/sosialhjelp/innsyn/",
     "dependencies": {
+        "@navikt/aksel-icons": "^2.8.11",
         "@navikt/ds-css": "^2.0.9",
         "@navikt/ds-icons": "^2.0.9",
         "@navikt/ds-react": "^2.0.9",
@@ -99,8 +100,8 @@
         }
     },
     "overrides": {
-      "react-scripts": {
-        "@svgr/webpack": "6.5.1"
-      }
+        "react-scripts": {
+            "@svgr/webpack": "6.5.1"
+        }
     }
 }
