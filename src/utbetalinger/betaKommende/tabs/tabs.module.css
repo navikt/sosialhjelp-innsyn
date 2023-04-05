@@ -18,6 +18,10 @@
     width: 1.75rem;
 }
 
+.stoppetTekst {
+    margin-right: 8px;
+}
+
 .accordion_headerContent {
     display: flex;
     gap: 8px;

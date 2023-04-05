@@ -4,18 +4,21 @@ import TabInnhold from "./tabs/TabInnhold";
 import {BodyLong, Heading, Label, Panel, Tabs} from "@navikt/ds-react";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import {KommendeUtbetalingerResponse, UtbetalteUtbetalingerResponse} from "../../generated/model";
 import {useHentKommendeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
+import {useFilter} from "./filter/FilterContext";
+import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
+import {KommendeOgUtbetalteUtbetalingerResponse} from "../../generated/model";
 
 interface Props {
-    utbetalinger: UtbetalteUtbetalingerResponse[];
+    utbetalinger: KommendeOgUtbetalteUtbetalingerResponse[];
     lasterData: boolean;
 }
 
 const UtbetalingerPanelBeta: React.FC<Props> = ({utbetalinger, lasterData}) => {
     const [tabState, setTabState] = React.useState("utbetalt");
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
+    const {filter, oppdaterFilter} = useFilter();
 
     const {data: kommende, isLoading} = useHentKommendeUtbetalinger({
         query: {
@@ -27,30 +30,9 @@ const UtbetalingerPanelBeta: React.FC<Props> = ({utbetalinger, lasterData}) => {
             },
         },
     });
-    /*
-    const kommende = utbetalinger
-        .filter((utbetalingSak: UtbetalingerResponse) => {
-            const now = new Date();
-            const utbetaling = new Date(utbetalingSak.foersteIManeden);
-            return utbetaling.getMonth() >= now.getMonth();
-        })
-        .map((utbetalingSak: UtbetalingerResponse) => {
-            const kommendeUtbetalinger = utbetalingSak.utbetalinger.filter((utbetaling) => {
-                const now = new Date();
-                return (
-                    new Date(utbetaling.utbetalingsdato ?? 0) >= now || new Date(utbetaling.forfallsdato ?? 0) >= now
-                );
-            });
-            const kommendeSaker: UtbetalingerResponse = {
-                ...utbetalingSak,
-                utbetalinger: kommendeUtbetalinger,
-            };
-            return kommendeSaker;
-        });
+    const filtrerteUtbetalte = useFiltrerteUtbetalinger(utbetalinger);
 
-
-     */
-    console.log(kommende);
+    const filtrerteKommendde = useFiltrerteUtbetalinger(kommende ?? []);
 
     if (lasterData) {
         return (
@@ -80,18 +62,19 @@ const UtbetalingerPanelBeta: React.FC<Props> = ({utbetalinger, lasterData}) => {
                     <Tabs.Tab value="kommende" label="Kommende" />
                 </Tabs.List>
                 <Tabs.Panel value="utbetalt" className={styles.tab_panel}>
-                    {(!utbetalinger || utbetalinger.length === 0) && (
-                        <BodyLong>Vi finner ingen registrerte utbetalinger for perioden.</BodyLong>
+                    {filtrerteUtbetalte.length === 0 && <BodyLong>Vi finner ingen registrerte utbetalinger.</BodyLong>}
+                    {filtrerteUtbetalte?.map(
+                        (utbetalingSak: KommendeOgUtbetalteUtbetalingerResponse, index: number) => (
+                            <TabInnhold
+                                key={`${utbetalingSak.maned}-${utbetalingSak.ar}`}
+                                utbetalingSak={utbetalingSak}
+                            />
+                        )
                     )}
-                    {utbetalinger?.map((utbetalingSak: UtbetalteUtbetalingerResponse, index: number) => (
-                        <TabInnhold key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} utbetalingSak={utbetalingSak} />
-                    ))}
                 </Tabs.Panel>
                 <Tabs.Panel value="kommende" className={styles.tab_panel}>
-                    {(!kommende || kommende.length === 0) && (
-                        <BodyLong>Vi finner ingen registrerte utbetalinger for perioden.</BodyLong>
-                    )}
-                    {kommende?.map((utbetalingSak: KommendeUtbetalingerResponse, index: number) => (
+                    {filtrerteKommendde.length === 0 && <BodyLong>Vi finner ingen kommende utbetalinger.</BodyLong>}
+                    {filtrerteKommendde.map((utbetalingSak: KommendeOgUtbetalteUtbetalingerResponse, index: number) => (
                         <TabInnhold utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
                     ))}
                 </Tabs.Panel>

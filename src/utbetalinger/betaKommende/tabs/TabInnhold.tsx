@@ -1,18 +1,18 @@
 import React from "react";
 import {Accordion, BodyShort} from "@navikt/ds-react";
 import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
-import {KommendeUtbetalingerResponse, ManedUtbetaling, UtbetalteUtbetalingerResponse} from "../../../generated/model";
+import {ManedUtbetaling, KommendeOgUtbetalteUtbetalingerResponse} from "../../../generated/model";
 import styles from "./tabs.module.css";
 import {Link} from "react-router-dom";
 import {FileContent} from "@navikt/ds-icons";
 import {ExclamationmarkIcon} from "@navikt/aksel-icons";
 
 interface Props {
-    utbetalingSak: KommendeUtbetalingerResponse | UtbetalteUtbetalingerResponse;
+    utbetalingSak: KommendeOgUtbetalteUtbetalingerResponse;
 }
 const TabInnhold = (props: Props) => {
     const {utbetalingSak} = props;
-    console.log(utbetalingSak);
+
     return (
         <section className={styles.month_group}>
             <BodyShort className={`${styles.uthevetTekst} ${styles.capitalize} ${styles.monthYear_header}`}>
@@ -40,11 +40,8 @@ const TabInnhold = (props: Props) => {
                                         <BodyShort>
                                             {utbetalingMaaned.status === "STOPPET" ? (
                                                 <>
-                                                    <span>Stoppet</span>
-                                                    {"  "}
-                                                    <del className={styles.strikeThrough}>
-                                                        {formatCurrency(utbetalingMaaned.belop)} kr
-                                                    </del>
+                                                    <span className={styles.stoppetTekst}>Stoppet</span>
+                                                    <del>{formatCurrency(utbetalingMaaned.belop)} kr</del>
                                                 </>
                                             ) : (
                                                 <>{formatCurrency(utbetalingMaaned.belop)} kr</>

@@ -8,10 +8,9 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {
     UtbetalingerResponse,
-    UtbetalteUtbetalingerResponse,
+    KommendeOgUtbetalteUtbetalingerResponse,
     HentUtbetalingerParams,
     GetUtbetalingExistsParams,
-    KommendeUtbetalingerResponse,
 } from ".././model";
 import {axiosInstance} from "../../axios-instance";
 import type {ErrorType} from "../../axios-instance";
@@ -65,7 +64,7 @@ export const useHentUtbetalingerForSak = <
 };
 
 export const hentUtbetalteUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
-    return axiosInstance<UtbetalteUtbetalingerResponse[]>(
+    return axiosInstance<KommendeOgUtbetalteUtbetalingerResponse[]>(
         {url: `/api/v1/innsyn/utbetalte`, method: "get", signal},
         options
     );
@@ -190,7 +189,7 @@ export const useGetUtbetalingExists = <
 };
 
 export const hentKommendeUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
-    return axiosInstance<KommendeUtbetalingerResponse[]>(
+    return axiosInstance<KommendeOgUtbetalteUtbetalingerResponse[]>(
         {url: `/api/v1/innsyn/kommende`, method: "get", signal},
         options
     );

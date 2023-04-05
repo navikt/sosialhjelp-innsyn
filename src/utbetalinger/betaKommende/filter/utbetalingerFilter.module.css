@@ -1,6 +1,7 @@
 .utbetalinger_filter {
     margin-top: 14rem;
     min-width: 15rem;
+    height: fit-content;
 }
 
 .periodevelger {
