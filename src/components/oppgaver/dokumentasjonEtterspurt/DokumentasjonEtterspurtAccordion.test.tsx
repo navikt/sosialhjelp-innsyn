@@ -23,6 +23,7 @@ test("Rendrer DokumentasjonEtterspurt", async () => {
                                         dokumenttype: "",
                                         hendelsetype: OppgaveElementHendelsetype.dokumentasjonEtterspurt,
                                         hendelsereferanse: "",
+                                        id: "dummy",
                                     },
                                 ],
                             },
