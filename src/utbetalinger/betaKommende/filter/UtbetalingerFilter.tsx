@@ -1,14 +1,6 @@
 import React from "react";
 /* eslint-disable react/jsx-pascal-case */
-import {
-    Checkbox,
-    CheckboxGroup,
-    Fieldset,
-    Heading,
-    Panel,
-    UNSAFE_DatePicker,
-    UNSAFE_useDatepicker,
-} from "@navikt/ds-react";
+import {Checkbox, CheckboxGroup, Fieldset, Panel, UNSAFE_DatePicker, UNSAFE_useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
 
@@ -16,13 +8,13 @@ const UtbetalingerFilter = () => {
     const {filter, oppdaterFilter} = useFilter();
 
     const fromDatePicker = UNSAFE_useDatepicker({
-        fromDate: filter.fraDato,
+        toDate: filter.tilDato,
         onDateChange: (dato?) => {
             oppdaterFilter({...filter, fraDato: dato});
         },
     });
     const toDatePicker = UNSAFE_useDatepicker({
-        toDate: filter.tilDato,
+        fromDate: filter.fraDato,
         onDateChange: (dato?) => {
             oppdaterFilter({...filter, tilDato: dato});
         },

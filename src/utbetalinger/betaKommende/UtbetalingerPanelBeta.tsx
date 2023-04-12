@@ -1,12 +1,11 @@
 import React, {useState} from "react";
 import styles from "./utbetalinger.module.css";
 import TabInnhold from "./tabs/TabInnhold";
-import {BodyLong, Heading, Label, Panel, Tabs} from "@navikt/ds-react";
+import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import {useHentKommendeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
-import {useFilter} from "./filter/FilterContext";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import {KommendeOgUtbetalteUtbetalingerResponse} from "../../generated/model";
 
@@ -18,9 +17,8 @@ interface Props {
 const UtbetalingerPanelBeta: React.FC<Props> = ({utbetalinger, lasterData}) => {
     const [tabState, setTabState] = React.useState("utbetalt");
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    const {filter, oppdaterFilter} = useFilter();
 
-    const {data: kommende, isLoading} = useHentKommendeUtbetalinger({
+    const {data: kommende, isLoading: henterKommende} = useHentKommendeUtbetalinger({
         query: {
             onSuccess: (data) => {
                 if (!pageLoadIsLogged) {
@@ -34,7 +32,7 @@ const UtbetalingerPanelBeta: React.FC<Props> = ({utbetalinger, lasterData}) => {
 
     const filtrerteKommendde = useFiltrerteUtbetalinger(kommende ?? []);
 
-    if (lasterData) {
+    if (lasterData || henterKommende) {
         return (
             <div>
                 <Lastestriper linjer={3} />

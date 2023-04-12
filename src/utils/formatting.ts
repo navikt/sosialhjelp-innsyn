@@ -20,11 +20,13 @@ function formatDato(isoDate: string) {
     const formatter = new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long", year: "numeric"});
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
-
+// Eksempel "2022-04-11" => "11. april"
 export function getDayAndMonth(isoDate: string) {
     const dato: Date = new Date(isoDate);
     const formatter = new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long"});
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
+
+export function dateToIsoDate(date: Date) {}
 
 export {formatBytes, formatCurrency, formatDato};
