@@ -6,6 +6,8 @@ import {DokumentasjonkravResponse} from "../../../generated/model";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
+import VedleggSuccess from "../../filopplasting/VedleggSuccess";
+import oppgaveStyles from "../oppgaver.module.css";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse[];
@@ -13,6 +15,7 @@ interface Props {
 
 const DokumentasjonkravAccordion = (props: Props) => {
     const {t} = useTranslation();
+
     return (
         <Accordion>
             <Accordion.Item defaultOpen>
@@ -22,9 +25,11 @@ const DokumentasjonkravAccordion = (props: Props) => {
                 </Accordion.Header>
                 <Accordion.Content>
                     <OpplastingAvVedleggModal />
+                    <VedleggSuccess show={false} />
+
                     <ul className={styles.unorderedList}>
-                        {props.dokumentasjonkrav.map((krav: DokumentasjonkravResponse, index: number) => (
-                            <li key={index}>
+                        {props.dokumentasjonkrav.map((krav: DokumentasjonkravResponse) => (
+                            <li key={krav.dokumentasjonkravId} className={oppgaveStyles.oppgaveMedSammeFrist}>
                                 <DokumentasjonKravView dokumentasjonkrav={krav} />
                             </li>
                         ))}

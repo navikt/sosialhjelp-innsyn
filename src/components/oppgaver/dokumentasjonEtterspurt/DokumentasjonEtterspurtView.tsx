@@ -1,19 +1,23 @@
 import React, {ReactElement, useMemo} from "react";
 import {getVisningstekster} from "../../../utils/vedleggUtils";
-import {OppgaveResponse} from "../../../generated/model";
-import useFilOpplasting, {errorStatusToMessage} from "../../../hooks/useFilOpplasting";
-import OppgaveUploadBox from "../OppgaveUploadBox";
-import UploadElementView from "../UploadElementView";
 import useKommune from "../../../hooks/useKommune";
 import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import {getGetOppgaverQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
-import OppgaveElementUploadBox from "../OppgaveElementUploadBox";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
+import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
+import InnsendelsesFrist from "../InnsendelsesFrist";
+import AddFileButton from "../../filopplasting/AddFileButton";
+import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
+import SendFileButton from "../../filopplasting/SendFileButton";
+import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
+import styles from "../../../styles/lists.module.css";
+import oppgaveStyles from "../oppgaver.module.css";
 
 interface Props {
-    dokumentasjonEtterspurt: OppgaveResponse;
+    dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse;
     showFrist: boolean;
 }
 
@@ -33,6 +37,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         [dokumentasjonEtterspurt]
     );
     const queryClient = useQueryClient();
+
     const {
         upload,
         innerErrors,
@@ -41,50 +46,71 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         addFiler,
         removeFil,
         mutation: {isLoading},
-        resetErrors,
+        resetStatus,
     } = useFilOpplasting(metadatas, {
-        onSuccess: () => queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId));
+        },
     });
 
+    const onChange = (files: FileList | null, index: number) => {
+        addFiler(index, files ? Array.from(files) : []);
+    };
+
     return (
-        <OppgaveUploadBox
-            onClick={() => {
-                logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
-                return upload();
-            }}
+        <OppgaveOpplastingBlokk
             errors={outerErrors.map((it) => errorStatusToMessage[it.feil])}
-            frist={showFrist ? dokumentasjonEtterspurt.innsendelsesfrist : undefined}
-            showUploadButton={canUploadAttachments}
-            isLoading={isLoading}
+            innsendelsesFrist={
+                showFrist ? <InnsendelsesFrist frist={dokumentasjonEtterspurt.innsendelsesfrist} /> : undefined
+            }
+            sendButton={
+                <SendFileButton
+                    isVisible={canUploadAttachments}
+                    isLoading={isLoading}
+                    onClick={() => {
+                        logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
+                        return upload();
+                    }}
+                />
+            }
         >
-            <>
+            <ul className={styles.unorderedList}>
                 {dokumentasjonEtterspurt.oppgaveElementer.map((element, index) => {
+                    if (index >= Object.keys(files).length) {
+                        return <></>;
+                    }
+
                     const {typeTekst, tilleggsinfoTekst} = getVisningstekster(
                         element.dokumenttype,
                         element.tilleggsinformasjon
                     );
+
                     return (
-                        <UploadElementView
-                            key={index}
-                            tittel={typeTekst}
-                            beskrivelse={tilleggsinfoTekst}
-                            showAddFileButton={canUploadAttachments}
-                            hasError={innerErrors[index].length > 0}
-                            onChange={(files) => {
-                                addFiler(index, files ? Array.from(files) : []);
-                            }}
-                            resetErrors={resetErrors}
-                        >
-                            <OppgaveElementUploadBox
+                        <li key={element.id} className={oppgaveStyles.oppgaveElement}>
+                            <FilOpplastingBlokk
+                                tittel={typeTekst}
+                                beskrivelse={tilleggsinfoTekst}
                                 errors={innerErrors[index]}
-                                files={files[index]}
-                                onDelete={(file) => removeFil(index, file)}
+                                filer={files[index]}
+                                onDelete={(_, file) => removeFil(index, file)}
+                                addFileButton={
+                                    canUploadAttachments ? (
+                                        <AddFileButton
+                                            onChange={(event) => {
+                                                const files = event.currentTarget.files;
+                                                onChange(files, index);
+                                            }}
+                                            id={element.id}
+                                            resetStatus={resetStatus}
+                                        />
+                                    ) : undefined
+                                }
                             />
-                        </UploadElementView>
+                        </li>
                     );
                 })}
-            </>
-        </OppgaveUploadBox>
+            </ul>
+        </OppgaveOpplastingBlokk>
     );
 };
 
