@@ -8,9 +8,9 @@ import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
 import type {
     UtbetalingerResponse,
-    KommendeOgUtbetalteUtbetalingerResponse,
     HentUtbetalingerParams,
     GetUtbetalingExistsParams,
+    NyeOgTidligereUtbetalingerResponse,
 } from ".././model";
 import {axiosInstance} from "../../axios-instance";
 import type {ErrorType} from "../../axios-instance";
@@ -57,43 +57,6 @@ export const useHentUtbetalingerForSak = <
         enabled: !!fiksDigisosId,
         ...queryOptions,
     }) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
-
-    query.queryKey = queryKey;
-
-    return query;
-};
-
-export const hentUtbetalteUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
-    return axiosInstance<KommendeOgUtbetalteUtbetalingerResponse[]>(
-        {url: `/api/v1/innsyn/utbetalte`, method: "get", signal},
-        options
-    );
-};
-
-export const getHentUtbetalteUtbetalingerQueryKey = () => [`/api/v1/innsyn/utbetalte`];
-
-export type HentUtbetalteUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>>;
-export type HentUtbetalteUtbetalingerQueryError = ErrorType<unknown>;
-
-export const useHentUtbetalteUtbetalinger = <
-    TData = Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>,
-    TError = ErrorType<unknown>
->(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>, TError, TData>;
-    request?: SecondParameter<typeof axiosInstance>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getHentUtbetalteUtbetalingerQueryKey();
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>> = ({signal}) =>
-        hentUtbetalteUtbetalinger(requestOptions, signal);
-
-    const query = useQuery<Awaited<ReturnType<typeof hentUtbetalteUtbetalinger>>, TError, TData>(
-        queryKey,
-        queryFn,
-        queryOptions
-    ) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
     query.queryKey = queryKey;
 
@@ -188,33 +151,70 @@ export const useGetUtbetalingExists = <
     return query;
 };
 
-export const hentKommendeUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
-    return axiosInstance<KommendeOgUtbetalteUtbetalingerResponse[]>(
-        {url: `/api/v1/innsyn/kommende`, method: "get", signal},
+export const hentTidligereUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
+    return axiosInstance<NyeOgTidligereUtbetalingerResponse[]>(
+        {url: `/api/v1/innsyn/tidligere`, method: "get", signal},
         options
     );
 };
 
-export const getHentKommendeUtbetalingerQueryKey = () => [`/api/v1/innsyn/kommende`];
+export const getHentTidligereUtbetalingerQueryKey = () => [`/api/v1/innsyn/tidligere`];
 
-export type HentKommendeUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>>;
-export type HentKommendeUtbetalingerQueryError = ErrorType<unknown>;
+export type HentTidligereUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>>;
+export type HentTidligereUtbetalingerQueryError = ErrorType<unknown>;
 
-export const useHentKommendeUtbetalinger = <
-    TData = Awaited<ReturnType<typeof hentKommendeUtbetalinger>>,
+export const useHentTidligereUtbetalinger = <
+    TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
     TError = ErrorType<unknown>
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>, TError, TData>;
+    query?: UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
     const {query: queryOptions, request: requestOptions} = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getHentKommendeUtbetalingerQueryKey();
+    const queryKey = queryOptions?.queryKey ?? getHentTidligereUtbetalingerQueryKey();
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>> = ({signal}) =>
-        hentKommendeUtbetalinger(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>> = ({signal}) =>
+        hentTidligereUtbetalinger(requestOptions, signal);
 
-    const query = useQuery<Awaited<ReturnType<typeof hentKommendeUtbetalinger>>, TError, TData>(
+    const query = useQuery<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+
+    query.queryKey = queryKey;
+
+    return query;
+};
+
+export const hentNyeUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
+    return axiosInstance<NyeOgTidligereUtbetalingerResponse[]>(
+        {url: `/api/v1/innsyn/nye`, method: "get", signal},
+        options
+    );
+};
+
+export const getHentNyeUtbetalingerQueryKey = () => [`/api/v1/innsyn/nye`];
+
+export type HentNyeUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentNyeUtbetalinger>>>;
+export type HentNyeUtbetalingerQueryError = ErrorType<unknown>;
+
+export const useHentNyeUtbetalinger = <
+    TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
+    TError = ErrorType<unknown>
+>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>;
+    request?: SecondParameter<typeof axiosInstance>;
+}): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
+    const {query: queryOptions, request: requestOptions} = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getHentNyeUtbetalingerQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentNyeUtbetalinger>>> = ({signal}) =>
+        hentNyeUtbetalinger(requestOptions, signal);
+
+    const query = useQuery<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>(
         queryKey,
         queryFn,
         queryOptions

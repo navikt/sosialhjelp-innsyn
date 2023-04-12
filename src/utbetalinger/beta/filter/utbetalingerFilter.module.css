@@ -8,12 +8,11 @@
     margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 900px) {
-    .utbetalinger_side {
-        flex-direction: column;
-    }
-
+@media screen and (max-width: 54em) {
     .utbetalinger_filter {
         margin-top: 0;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 40px;
     }
 }

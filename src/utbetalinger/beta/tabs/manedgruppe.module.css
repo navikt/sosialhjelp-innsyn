@@ -12,12 +12,6 @@
     margin-bottom: 4px;
 }
 
-.stoppetIkon {
-    margin-right: -8px; /*revert the flex gap*/
-    height: 1.75rem;
-    width: 1.75rem;
-}
-
 .stoppetTekst {
     margin-right: 8px;
 }
@@ -28,7 +22,7 @@
     flex-direction: row;
     align-items: center;
 }
-.accordion_headerContent > *:last-child {
+.accordion_headerContent > .float_right {
     margin-left: auto;
 }
 .accordion_headerContent > *:first-child {

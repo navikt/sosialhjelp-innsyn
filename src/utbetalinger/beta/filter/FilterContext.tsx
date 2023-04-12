@@ -1,8 +1,12 @@
 import React, {PropsWithChildren, useContext, useState} from "react";
 
-export type MottakerFilter = "minKonto" | "annenMottaker";
+export enum MottakerFilter {
+    Alle = "ALLE",
+    MinKonto = "MIN_KONTO",
+    AnnenMottaker = "ANNEN_MOTTAKER",
+}
 export interface FilterKey {
-    mottaker: MottakerFilter[];
+    mottaker: MottakerFilter;
     fraDato?: Date;
     tilDato?: Date;
 }
@@ -21,7 +25,7 @@ export const useFilter = () => {
 
 export const FilterProvider = (props: PropsWithChildren<{}>) => {
     const [filter, setFilter] = useState<FilterKey>({
-        mottaker: [],
+        mottaker: MottakerFilter.Alle,
         tilDato: undefined,
         fraDato: undefined,
     });

@@ -1,16 +1,27 @@
 import React from "react";
 import {Accordion, BodyShort} from "@navikt/ds-react";
 import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
-import {ManedUtbetaling, KommendeOgUtbetalteUtbetalingerResponse} from "../../../generated/model";
-import styles from "./tabs.module.css";
+import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
+import styles from "./manedgruppe.module.css";
 import {Link} from "react-router-dom";
 import {FileContent} from "@navikt/ds-icons";
-import {ExclamationmarkIcon} from "@navikt/aksel-icons";
 
-interface Props {
-    utbetalingSak: KommendeOgUtbetalteUtbetalingerResponse;
+function statusToTekst(status: string) {
+    switch (status) {
+        case "STOPPET":
+            return "Stoppet";
+        case "PLANLAGT_UTBETALING":
+            return "Planlagt";
+        case "UTBETALT":
+            return "Utbetalt";
+        default:
+            return status.toLowerCase();
+    }
 }
-const TabInnhold = (props: Props) => {
+interface Props {
+    utbetalingSak: NyeOgTidligereUtbetalingerResponse;
+}
+const ManedGruppe = (props: Props) => {
     const {utbetalingSak} = props;
 
     return (
@@ -26,27 +37,23 @@ const TabInnhold = (props: Props) => {
                             <Accordion.Item>
                                 <Accordion.Header className={styles.accordion_header}>
                                     <div className={styles.accordion_headerContent}>
-                                        {utbetalingMaaned.status === "STOPPET" && (
-                                            <ExclamationmarkIcon title="obs!" className={styles.stoppetIkon} />
-                                        )}
                                         <BodyShort className={styles.uthevetTekst}>
                                             {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}
                                         </BodyShort>
+                                        <BodyShort>{statusToTekst(utbetalingMaaned.status)}</BodyShort>
                                         <BodyShort>
                                             {utbetalingMaaned.utbetalingsdato
                                                 ? getDayAndMonth(utbetalingMaaned.utbetalingsdato)
                                                 : "Ukjent utbetalingsdato"}
                                         </BodyShort>
-                                        <BodyShort>
-                                            {utbetalingMaaned.status === "STOPPET" ? (
-                                                <>
-                                                    <span className={styles.stoppetTekst}>Stoppet</span>
-                                                    <del>{formatCurrency(utbetalingMaaned.belop)} kr</del>
-                                                </>
-                                            ) : (
-                                                <>{formatCurrency(utbetalingMaaned.belop)} kr</>
-                                            )}
-                                        </BodyShort>
+
+                                        {utbetalingMaaned.status === "STOPPET" ? (
+                                            <></>
+                                        ) : (
+                                            <BodyShort className={styles.float_right}>
+                                                {formatCurrency(utbetalingMaaned.belop)} kr
+                                            </BodyShort>
+                                        )}
                                     </div>
                                 </Accordion.Header>
                                 <Accordion.Content>
@@ -91,4 +98,4 @@ const TabInnhold = (props: Props) => {
         </section>
     );
 };
-export default TabInnhold;
+export default ManedGruppe;

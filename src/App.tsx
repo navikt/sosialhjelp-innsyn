@@ -29,7 +29,7 @@ import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
 import Linkside from "./components/linkside/Linkside";
 import {useTranslation} from "react-i18next";
-import UtbetalingerBeta from "./utbetalinger/betaKommende/UtbetalingerBeta";
+import UtbetalingerBeta from "./utbetalinger/beta/UtbetalingerBeta";
 import Banner from "./components/banner/Banner";
 const store = configureStore();
 

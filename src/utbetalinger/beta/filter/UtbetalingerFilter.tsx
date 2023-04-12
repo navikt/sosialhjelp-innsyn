@@ -1,6 +1,6 @@
 import React from "react";
 /* eslint-disable react/jsx-pascal-case */
-import {Checkbox, CheckboxGroup, Fieldset, Panel, UNSAFE_DatePicker, UNSAFE_useDatepicker} from "@navikt/ds-react";
+import {Fieldset, Panel, Radio, RadioGroup, UNSAFE_DatePicker, UNSAFE_useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
 
@@ -20,12 +20,12 @@ const UtbetalingerFilter = () => {
         },
     });
 
-    const onMottakerCheckboxChanged = (values: MottakerFilter[]) => {
+    const onMottakerChanged = (values: MottakerFilter) => {
         oppdaterFilter({...filter, mottaker: values});
     };
     return (
-        <Panel className={styles.utbetalinger_filter}>
-            <section aria-label="Filtrer utbetalinger">
+        <Panel as="section" aria-label="Filtrer utbetalinger" className={styles.utbetalinger_filter}>
+            <>
                 <Fieldset legend="Filtrer på utbetalingsdato" className={styles.periodevelger}>
                     <UNSAFE_DatePicker {...fromDatePicker.datepickerProps}>
                         <UNSAFE_DatePicker.Input
@@ -38,11 +38,12 @@ const UtbetalingerFilter = () => {
                         <UNSAFE_DatePicker.Input {...toDatePicker.inputProps} label="Til" description="(dd.mm.åååå)" />
                     </UNSAFE_DatePicker>
                 </Fieldset>
-                <CheckboxGroup legend="Mottaker" onChange={onMottakerCheckboxChanged}>
-                    <Checkbox value="minKonto">Min konto</Checkbox>
-                    <Checkbox value="annenMottaker">Annen mottaker</Checkbox>
-                </CheckboxGroup>
-            </section>
+                <RadioGroup defaultValue={filter.mottaker} legend="Velg mottaker" onChange={onMottakerChanged}>
+                    <Radio value={MottakerFilter.Alle}>Alle</Radio>
+                    <Radio value={MottakerFilter.MinKonto}>Min konto</Radio>
+                    <Radio value={MottakerFilter.AnnenMottaker}>Annen mottaker</Radio>
+                </RadioGroup>
+            </>
         </Panel>
     );
 };
