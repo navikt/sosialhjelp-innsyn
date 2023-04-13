@@ -2,10 +2,7 @@ import React, {useState} from "react";
 import styles from "./utbetalinger.module.css";
 import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import {
-    useHentNyeUtbetalinger,
-    useHentTidligereUtbetalinger,
-} from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentNyeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
@@ -18,7 +15,6 @@ enum TAB_VALUE {
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
     const {
         data: nye,
@@ -34,24 +30,6 @@ const UtbetalingerPanelBeta = () => {
             },
         },
     });
-
-    /*Todo vent til tab er klikka*/
-    const {
-        data: tidligere,
-        isLoading: henterTidligere,
-        isError: hentTidligereFeilet,
-    } = useHentTidligereUtbetalinger({
-        query: {
-            onSuccess: (data) => {
-                if (!pageLoadIsLogged) {
-                    logAmplitudeEvent("Lastet utbetalinger", {antall: data.length});
-                    setPageLoadIsLogged(true);
-                }
-            },
-        },
-    });
-
-    const filtrerteUtbetalte = useFiltrerteUtbetalinger(tidligere ?? []);
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 
@@ -75,11 +53,7 @@ const UtbetalingerPanelBeta = () => {
                     <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
-                    <TidligereUtbetalinger
-                        lasterData={henterTidligere}
-                        error={hentTidligereFeilet}
-                        utbetalinger={filtrerteUtbetalte}
-                    />
+                    <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>
         </Panel>

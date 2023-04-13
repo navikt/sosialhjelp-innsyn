@@ -1,27 +1,38 @@
-import React from "react";
+import React, {useState} from "react";
 import {NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert, BodyLong} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
+import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {logAmplitudeEvent} from "../../../utils/amplitude";
+import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 
-interface Props {
-    lasterData: boolean;
-    error: boolean;
-    utbetalinger: NyeOgTidligereUtbetalingerResponse[];
-}
+const TidligerUtbetalingerInnhold = () => {
+    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
-const TidligerUtbetalingerInnhold = (props: Props) => {
-    if (props.lasterData) {
+    const {data, isLoading, isError} = useHentTidligereUtbetalinger({
+        query: {
+            onSuccess: (data) => {
+                if (!pageLoadIsLogged) {
+                    logAmplitudeEvent("Hentet tidligere utbetalinger", {antall: data.length});
+                    setPageLoadIsLogged(true);
+                }
+            },
+        },
+    });
+    const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
+
+    if (isLoading) {
         return <Lastestriper />;
     }
-    if (props.error) {
+    if (isError) {
         return (
             <Alert variant="error" inline>
                 Noe gikk galt da vi skulle hente utbetalingene dine. Vennligst prøv igjen senere.
             </Alert>
         );
     }
-    if (props.utbetalinger.length === 0) {
+    if (filtrerteTidligere.length === 0) {
         return (
             <Alert variant="info" inline>
                 Vi finner ingen utbetalinger
@@ -31,14 +42,14 @@ const TidligerUtbetalingerInnhold = (props: Props) => {
 
     return (
         <>
-            {props.utbetalinger.map((utbetalingSak: NyeOgTidligereUtbetalingerResponse) => (
+            {filtrerteTidligere.map((utbetalingSak: NyeOgTidligereUtbetalingerResponse) => (
                 <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
         </>
     );
 };
 
-const TidligerUtbetalinger = (props: Props) => {
+const TidligerUtbetalinger = () => {
     return (
         <>
             <BodyLong spacing>
@@ -46,7 +57,7 @@ const TidligerUtbetalinger = (props: Props) => {
                 kun vise utbetalinger for økonomisk sosialhjelp. Har du spørsmål til utbetalingene kan du ta kontakt med
                 oss på 55 55 33 33.
             </BodyLong>
-            <TidligerUtbetalingerInnhold {...props} />
+            <TidligerUtbetalingerInnhold />
         </>
     );
 };
