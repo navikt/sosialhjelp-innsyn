@@ -6,7 +6,12 @@
  */
 import {useQuery} from "@tanstack/react-query";
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@tanstack/react-query";
-import type {UtbetalingerResponse, HentUtbetalingerParams, GetUtbetalingExistsParams} from ".././model";
+import type {
+    UtbetalingerResponse,
+    HentUtbetalingerParams,
+    GetUtbetalingExistsParams,
+    NyeOgTidligereUtbetalingerResponse,
+} from ".././model";
 import {axiosInstance} from "../../axios-instance";
 import type {ErrorType} from "../../axios-instance";
 
@@ -136,6 +141,80 @@ export const useGetUtbetalingExists = <
         getUtbetalingExists(params, requestOptions, signal);
 
     const query = useQuery<Awaited<ReturnType<typeof getUtbetalingExists>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+
+    query.queryKey = queryKey;
+
+    return query;
+};
+
+export const hentTidligereUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
+    return axiosInstance<NyeOgTidligereUtbetalingerResponse[]>(
+        {url: `/api/v1/innsyn/tidligere`, method: "get", signal},
+        options
+    );
+};
+
+export const getHentTidligereUtbetalingerQueryKey = () => [`/api/v1/innsyn/tidligere`];
+
+export type HentTidligereUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>>;
+export type HentTidligereUtbetalingerQueryError = ErrorType<unknown>;
+
+export const useHentTidligereUtbetalinger = <
+    TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
+    TError = ErrorType<unknown>
+>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>;
+    request?: SecondParameter<typeof axiosInstance>;
+}): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
+    const {query: queryOptions, request: requestOptions} = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getHentTidligereUtbetalingerQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>> = ({signal}) =>
+        hentTidligereUtbetalinger(requestOptions, signal);
+
+    const query = useQuery<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>(
+        queryKey,
+        queryFn,
+        queryOptions
+    ) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+
+    query.queryKey = queryKey;
+
+    return query;
+};
+
+export const hentNyeUtbetalinger = (options?: SecondParameter<typeof axiosInstance>, signal?: AbortSignal) => {
+    return axiosInstance<NyeOgTidligereUtbetalingerResponse[]>(
+        {url: `/api/v1/innsyn/nye`, method: "get", signal},
+        options
+    );
+};
+
+export const getHentNyeUtbetalingerQueryKey = () => [`/api/v1/innsyn/nye`];
+
+export type HentNyeUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentNyeUtbetalinger>>>;
+export type HentNyeUtbetalingerQueryError = ErrorType<unknown>;
+
+export const useHentNyeUtbetalinger = <
+    TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
+    TError = ErrorType<unknown>
+>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>;
+    request?: SecondParameter<typeof axiosInstance>;
+}): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
+    const {query: queryOptions, request: requestOptions} = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getHentNyeUtbetalingerQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentNyeUtbetalinger>>> = ({signal}) =>
+        hentNyeUtbetalinger(requestOptions, signal);
+
+    const query = useQuery<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>(
         queryKey,
         queryFn,
         queryOptions

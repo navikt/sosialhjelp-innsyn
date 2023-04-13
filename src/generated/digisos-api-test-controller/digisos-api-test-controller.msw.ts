@@ -11,7 +11,8 @@ export const getFilOpplastingMock = () => faker.random.word();
 
 export const getOppdaterDigisosSakMock = () => faker.random.word();
 
-export const getGetInnsynsfilMock = () => faker.random.word();
+export const getGetInnsynsfilMock = () =>
+    Array.from({length: faker.datatype.number({min: 1, max: 10})}, () => faker.random.word());
 
 export const getDigisosApiTestControllerMSW = () => [
     rest.post("*/api/v1/digisosapi/:fiksDigisosId/filOpplasting", (_req, res, ctx) => {

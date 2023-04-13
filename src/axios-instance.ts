@@ -1,5 +1,14 @@
-import Axios, {AxiosError, AxiosRequestConfig} from "axios";
-import {generateCallId, getApiBaseUrl, isLocalhost, isUsingMockAlt} from "./utils/restUtils";
+import Axios, {AxiosError, AxiosRequestConfig, isCancel} from "axios";
+import {
+    generateCallId,
+    getApiBaseUrl,
+    getRedirectPath,
+    HttpErrorType,
+    isLocalhost,
+    isUsingMockAlt,
+    loggGotUnauthorizedDuringLoginProcess,
+} from "./utils/restUtils";
+import {logWarningMessage} from "./redux/innsynsdata/loggActions";
 
 export const AXIOS_INSTANCE = Axios.create({
     baseURL: getApiBaseUrl(true),
@@ -20,10 +29,46 @@ export const axiosInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequ
         cancelToken: source.token,
     })
         .then(({data}) => data)
-        .catch((error: AxiosError<Error>) => {
-            // @ts-ignore
-            Object.assign(error, {navCallId: error.config?.headers["Nav-Call-Id"]});
-            throw error;
+        .catch(async (e) => {
+            if (!(e instanceof AxiosError<T>)) {
+                logWarningMessage(`non-axioserror error ${e} in axiosinstance`);
+            }
+
+            if (isCancel(e)) return new Promise<T>(() => {});
+
+            if (!e.response) {
+                logWarningMessage(`Nettverksfeil i axiosInstance: ${config.method} ${config.url} ${e}`);
+                throw e;
+            }
+
+            const {status, data} = e.response;
+
+            if (loggGotUnauthorizedDuringLoginProcess(config.url ?? "", status)) {
+                // 401 ved kall mot /logg under en påloggingsloop kan føre til en uendelig loop. Sender brukeren til feilsiden.
+                throw new Error(HttpErrorType.UNAUTHORIZED_LOOP);
+            }
+
+            if (status === 401) {
+                if (window.location.search.split("login_id=")[1] !== data.id) {
+                    const queryDivider = data.loginUrl.includes("?") ? "&" : "?";
+                    window.location.href = data.loginUrl + queryDivider + getRedirectPath(data.loginUrl, data.id);
+                } else {
+                    logWarningMessage(
+                        "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
+                            data.id +
+                            "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
+                    );
+                }
+
+                throw new Error(HttpErrorType.UNAUTHORIZED);
+            }
+
+            if (status === 404) {
+                throw new Error(HttpErrorType.NOT_FOUND);
+            }
+
+            logWarningMessage(`Nettverksfeil i axiosInstance: ${config.method} ${config.url}: ${status} ${data}`);
+            throw e;
         });
 
     // @ts-ignore
