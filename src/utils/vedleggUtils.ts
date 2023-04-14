@@ -34,18 +34,16 @@ export const alertUser = (event: any) => {
 };
 
 export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
-    let typeTekst,
-        tilleggsinfoTekst,
-        sammensattType = type + "|" + tilleggsinfo,
-        erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some((val) => val === sammensattType);
+    const sammensattType = type + "|" + tilleggsinfo;
+    const erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some((val) => val === sammensattType);
 
+    let typeTekst = type;
+    let tilleggsinfoTekst = tilleggsinfo;
     if (erOriginalSoknadVedleggType) {
         let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!!;
         typeTekst = soknadVedleggSpec.tittel;
         tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
-    } else {
-        typeTekst = type;
-        tilleggsinfoTekst = tilleggsinfo;
     }
+
     return {typeTekst, tilleggsinfoTekst};
 };

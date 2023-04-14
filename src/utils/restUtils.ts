@@ -286,7 +286,7 @@ function sjekkStatuskode(response: Response, url: string) {
     throw new Error(response.statusText);
 }
 
-const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: number) => {
+export const loggGotUnauthorizedDuringLoginProcess = (restUrl: string, restStatus: number) => {
     const restUrlIsLogg = restUrl.indexOf("logg") > -1;
     const restStatusIsUnauthorized = restStatus === 401;
     const loginIsProcessing = window.location.search.indexOf("login_id") > -1;

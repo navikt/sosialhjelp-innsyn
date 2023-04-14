@@ -6,7 +6,11 @@ export function logInfoMessage(message: string, navCallId?: string) {
 }
 
 export function logWarningMessage(message: string, navCallId?: string) {
-    loggMessage(message, "WARN", navCallId);
+    if (process.env.NODE_ENV === "development") {
+        console.warn(message);
+    } else {
+        loggMessage(message, "WARN", navCallId);
+    }
 }
 
 export function logErrorMessage(message: string, navCallId?: string) {
