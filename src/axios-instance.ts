@@ -66,11 +66,10 @@ export const axiosInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequ
                 throw new Error(HttpErrorType.UNAUTHORIZED, e);
             }
 
-            if (status === 404) {
-                throw new Error(HttpErrorType.NOT_FOUND, e);
-            }
-
-            logWarningMessage(`Nettverksfeil i axiosInstance: ${config.method} ${config.url}: ${status} ${data}`);
+            logWarningMessage(
+                `Nettverksfeil i axiosInstance: ${config.method} ${config.url}: ${status} ${data}`,
+                e.navCallId
+            );
             throw e;
         });
 
