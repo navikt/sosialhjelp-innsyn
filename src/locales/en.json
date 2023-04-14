@@ -1,0 +1,145 @@
+{
+  "historikk.tittel": "History",
+  "historikk.se_vedtaksbrev": "Show letter",
+
+  "status.sendt": "Your application has been sent",
+  "status.mottatt": "Your application has been received",
+  "status.under_behandling": "Your application is being processed",
+  "status.ferdigbehandlet": "Your application has been processed",
+  "status.behandles_ikke": "Your application has been processed",
+  "soknadstatus.sendt": "Sent",
+  "soknadstatus.mottatt": "Received",
+  "soknadstatus.under_behandling": "In process",
+  "soknadstatus.ferdigbehandlet": "Completed",
+  "status.soknad_behandles_ikke_ingress":
+      "We cannot show the status of your application on nav.no. This could be because your application is being processed with another application you have submitted, or because you have withdrawn your application. If you have questions, please contact your NAV office.",
+  "status.sak_behandles_ikke_ingress":
+      "We cannot show the status of your application on nav.no. This could be because your application is being processed with another application you have submitted, or because you have withdrawn your application. If you have questions, please contact your NAV office.",
+  "status.ikke_innsyn_ingress":
+      "Your application will be processed, but we cannot show the status of your application on nav.no. If you have questions, please contact your NAV office.",
+
+  "saksStatus.under_behandling": "In process",
+  "saksStatus.ferdig_behandlet": "Completed",
+
+  "tidspunkt.klokken": "at",
+  "saker.oppgave": "You have tasks",
+  "saker.default_tittel": "Application for financial assistance",
+
+  "oppgaver.vilkar.tittel": "You may have conditions",
+  "oppgaver.vilkar.tittel.tekst":
+      "Please see your notice of decision to see if conditions apply, or if we need more information to make payments to you.",
+  "oppgaver.vilkar": "Conditions",
+  "oppgaver.vilkar.beskrivelse": "Conditions are activities you must participate in as part of your follow-up from NAV.",
+  "oppgaver.vilkar.dokumentasjonskrav": "Information related to your application",
+  "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
+      "This information may be related to your conditions, or NAV may need financial information from you in order to make payments to you. You can submit the information under “Your attachments” below.",
+
+  "oppgaver.dine_oppgaver": "Your tasks",
+  "oppgaver.maa_sende_dok_veileder": "We need additional information for your application.",
+  "oppgaver.maa_sende_dok": "Your application is missing some information",
+  "oppgaver.innsendelsesfrist": "Final date of submission is {{innsendelsesfrist}}",
+  "oppgaver.innsendelsesfrist_passert": "The final date for submission was {{innsendelsesfrist}}",
+  "oppgaver.veileder_trenger_mer":
+      "We need more information from you in order to process your application. If you have submitted this information to your NAV office, you can disregard this notice.",
+  "oppgaver.last_opp_vedlegg_ikke":
+      "Below is an overview of the information you forgot to submit with your application. We recommend that you submit this information as soon as possible, and preferably within 14 days. If you have submitted this information to your NAV office, you can disregard this notice.",
+  "oppgaver.hjelp_last_opp": "Do you need help submitting information?",
+  "oppgaver.informasjon.modal.overskrift": "Do you need help submitting information?",
+  "oppgaver.informasjon.modal.bolk1.tittel": "Submit information on paper",
+  "oppgaver.informasjon.modal.bolk1.avsnitt1":
+      "If you have information on paper, you can scan the document and submit it digitally. By scanning the document, the image quality is better and it will be easier for your NAV office to read it.",
+  "oppgaver.informasjon.modal.bolk1.avsnitt2":
+      "With a scanner app, you can use the camera on your smartphone to scan the documents. You can combine several paper pages into one digital attachment, for example a lease agreement.",
+  "oppgaver.informasjon.modal.bolk1.avsnitt3":
+      "You can also take a photo of your paper document with your smartphone. You can attach the image file when you are submitting attachments from your device. If you are on a computer, you can send the photos to yourself via e-mail first, and then upload them to nav.no.",
+  "oppgaver.informasjon.modal.bolk2.tittel": "Submit information from other websites",
+  "oppgaver.informasjon.modal.bolk2.avsnitt1":
+      "If you are submitting information from a website, we recommend downloading the page content, if possible. Your tax return, letters from the Norwegian State Educational Loan Fund, and bank statements from some banks, for example, are available for download as a PDF. We do not recommend taking a photo of your computer screen with a camera.",
+  "oppgaver.informasjon.modal.bolk3.tittel": "Make sure that the information you send is readable",
+  "oppgaver.informasjon.modal.bolk3.avsnitt1":
+      "Before uploading, check to make sure the information is complete and readable on screen. If it is difficult to read the information, you may be asked to re-submit it.",
+  "oppgaver.informasjon.modal.bolk4.tittel": "Is your attachment being rejected?",
+  "oppgaver.informasjon.modal.bolk4.avsnitt1":
+      "If you are having trouble submitting an attachment, make sure:",
+  "oppgaver.informasjon.modal.bolk4.liste1": "the file is smaller than 10 MB",
+  "oppgaver.informasjon.modal.bolk4.liste2": "the file type is PDF, JPEG or PNG",
+  "oppgaver.informasjon.modal.bolk4.liste3": "the file name only contains letters and numbers",
+  "oppgaver.neste_frist": "The next submission date is {{innsendelsesfrist}}",
+  "oppgaver.neste_frist_passert":
+      "The final date for submission was {{antall_dager}} days ago, on {{innsendelsesfrist}}",
+  "oppgaver.send_knapp_tittel": "Submit attachments",
+  "oppgaver.ingen_oppgaver": "You have no tasks.",
+  "oppgaver.beskjed": "You will be notified if we need something from you",
+  "oppgaver.andre_dokumenter": "Do you have any additional information you would like to send?",
+  "oppgaver.andre_dokumenter_beskjed": "You can send additional information under the tab \"Your attachments\" below.",
+  "vilkar.du_har_vilkar": "Conditions apply",
+  "vilkar.veileder_trenger_mer": "Conditions are activities you must participate in as part of your follow-up from NAV.",
+
+  "dokumentasjonkrav.dokumentasjon_stonad": "You must provide information",
+  "dokumentasjonkrav.veileder_trenger_mer":
+      "This information may be related to your conditions, or NAV may need financial information from you in order to make payments to you.",
+
+  "vedlegg.lovlig_format": "We only accept files that are PDF, JPG or PNG.",
+  "vedlegg.minst_ett_vedlegg": "You must first select the attachment you want to submit.",
+
+  "vedlegg.ulovlig_en_fil_feilmelding": "{{filnavn}} was not added:",
+
+  "vedlegg.ulovlig_en_filnavn_feilmelding": "{{filnavn}} uses unsupported characters and was not added:",
+  "vedlegg.ulovlig_en_filstorrelse_feilmelding": "{{filnavn}} is too big and was not added:",
+
+  "vedlegg.ulovlig_flere_fil_feilmelding":
+      "Sorry, we could not add your files. The file type {{antallFiler}} files is unsupported:",
+
+  "vedlegg.ulovlig_filnavn_feilmelding": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
+  "vedlegg.ulovlig_filstorrelse_feilmelding": "The file size must be under 10 MB.",
+  "vedlegg.ulovlig_storrelse_av_alle_valgte_filer":
+      "We cannot accept your attachments if their combined size exceeds 150 MB.",
+  "vedlegg.velg_fil": "Upload attachments",
+  "vedlegg.fjern": "Remove",
+  "vedlegg.tittel": "Your attachments",
+  "vedlegg.validering.duplikat": "The attachment {{filnavn}} already exists",
+  "vedlegg.opplasting_feilmelding": "We cannot forward your attachments. Please remove and correct the above files",
+  "vedlegg.opplasting_backend_feilmelding":
+      "Sorry, we were unable to forward your attachments. Please try again later.",
+  "vedlegg.opplasting_backend_virus_feilmelding":
+      "Your upload was stopped by our antivirus software. Please try again with a different file.",
+  "vedlegg.opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT":
+      "Sorry, we are unable to open this PDF, please try again with another file.",
+  "vedlegg.opplasting_feilmelding_PDF_IS_SIGNED": "This PDF is read-only, and we cannot process it.",
+  "vedlegg.opplasting_feilmelding_PDF_IS_ENCRYPTED": "This PDF is password-protected, and we cannot process it.",
+  "vedlegg.opplasting_feilmelding_ILLEGAL_FILE_TYPE": "The file type must be JPG, PNG or PDF.",
+  "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
+  "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "The file size must be under 10 MB",
+  "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
+      "We cannot accept your attachments if their combined size exceeds 150 MB",
+  "vedlegg.suksess": "Thank you! Your attachments has been sent.",
+  "andre_vedlegg.type": "Submit attachments",
+  "andre_vedlegg.tilleggsinfo": "If you want to submit something else, you can upload it here.",
+  "andre_vedlegg.send_knapp_tittel": "Submit attachment",
+
+
+  "forelopigSvar": "You have received a letter with information about the processing time of your application.",
+
+  "driftsmelding.innsynDeaktivert":
+      "Sorry, we cannot display the status of your application. You can still submit attachments on nav.no. If you have questions, please contact your NAV office.",
+  "driftsmelding.ettersendelseDeaktivert":
+      "Sorry, we cannot receive your attachments. Please try again later, or submit them to your NAV office.,
+  "driftsmelding.innsynOgEttersendelseDeaktivert":
+      "Sorry, we cannot display the status of your application or receive your attachmentss. Please try again later, or contact your NAV office.",
+  "driftsmelding.kanIkkeSendeVedlegg":
+      "Sorry, we are experiencing system error. Please submit your attachments to your NAV office.",
+  "feilside.finnes_ikke_overskrift": "This page does not exist",
+  "timeout.fortsett": "Continue",
+  "timeout.logginn": "Log in again",
+  "timeout.loggut": "Log out",
+  "timeout.nedtelling":
+      "Your session will expire shortly. If you remain inactive, you will be logged out. To continue, please click \"continue\".",
+  "timeout.overskrift": "Please note",
+  "timeout.utlopt": "You have been inactive on this page too long. You need to log in again to continue.",
+  "feilmelding.soknadStatus_innlasting": "We were unable to load the status of your application",
+  "feilmelding.saksStatus_innlasting": "We were unable to load the status of your cases",
+  "feilmelding.dineOppgaver_innlasting": "We were unable to load information about your tasks",
+  "feilmelding.historikk_innlasting": "We were unable to load your history",
+  "feilmelding.vedlegg_innlasting": "We were unable to load your submitted attachments",
+  "feilmelding.ressurs_innlasting": "VWe were unable to load all the information on this page. <linebreak/> Try reloading the page or try again later."
+}
