@@ -33,13 +33,13 @@ export const axiosInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequ
             Object.assign(e, {navCallId: e.config?.headers["Nav-Call-Id"]});
 
             if (!(e instanceof AxiosError<T>)) {
-                logWarningMessage(`non-axioserror error ${e} in axiosinstance`);
+                logWarningMessage(`non-axioserror error ${e} in axiosinstance`, e.navCallId);
             }
 
             if (isCancel(e)) return new Promise<T>(() => {});
 
             if (!e.response) {
-                logWarningMessage(`Nettverksfeil i axiosInstance: ${config.method} ${config.url} ${e}`);
+                logWarningMessage(`Nettverksfeil i axiosInstance: ${config.method} ${config.url} ${e}`, e.navCallId);
                 throw e;
             }
 
@@ -47,7 +47,7 @@ export const axiosInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequ
 
             if (loggGotUnauthorizedDuringLoginProcess(config.url ?? "", status)) {
                 // 401 ved kall mot /logg under en påloggingsloop kan føre til en uendelig loop. Sender brukeren til feilsiden.
-                throw new Error(HttpErrorType.UNAUTHORIZED_LOOP);
+                throw new Error(HttpErrorType.UNAUTHORIZED_LOOP, e);
             }
 
             if (status === 401) {
@@ -58,15 +58,16 @@ export const axiosInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequ
                     logWarningMessage(
                         "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
                             data.id +
-                            "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR)."
+                            "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).",
+                        e.navCallId
                     );
                 }
 
-                throw new Error(HttpErrorType.UNAUTHORIZED);
+                throw new Error(HttpErrorType.UNAUTHORIZED, e);
             }
 
             if (status === 404) {
-                throw new Error(HttpErrorType.NOT_FOUND);
+                throw new Error(HttpErrorType.NOT_FOUND, e);
             }
 
             logWarningMessage(`Nettverksfeil i axiosInstance: ${config.method} ${config.url}: ${status} ${data}`);
