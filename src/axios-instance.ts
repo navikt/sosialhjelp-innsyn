@@ -30,6 +30,8 @@ export const axiosInstance = <T>(config: AxiosRequestConfig, options?: AxiosRequ
     })
         .then(({data}) => data)
         .catch(async (e) => {
+            Object.assign(e, {navCallId: e.config?.headers["Nav-Call-Id"]});
+
             if (!(e instanceof AxiosError<T>)) {
                 logWarningMessage(`non-axioserror error ${e} in axiosinstance`);
             }
