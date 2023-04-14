@@ -9,35 +9,32 @@ import UtbetalingerPanelBeta from "./UtbetalingerPanelBeta";
 import styles from "./utbetalinger.module.css";
 import {FilterProvider} from "./filter/FilterContext";
 import UtbetalingerFilter from "./filter/UtbetalingerFilter";
+import {Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
+import {useDispatch} from "react-redux";
 
 const UtbetalingerBeta = () => {
     document.title = "Utbetalinger - Økonomisk sosialhjelp";
     const {pathname} = useLocation();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         setBreadcrumbs({title: "Utbetalinger", url: `/sosialhjelp${pathname}`});
     }, [pathname]);
 
-    const {data: alleSaker, isLoading: isAlleSakerLoading} = useHentAlleSaker();
+    const {data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError} = useHentAlleSaker();
 
     const {
         data: harSoknaderMedInnsyn,
         isLoading: isHarSoknaderMedInnsynLoading,
-        error: soknaderError,
+        isError: harSoknaderError,
     } = useHarSoknaderMedInnsyn();
 
-    /*
     useEffect(() => {
-        if (errosoknaderErrorr?.message === HttpErrorType.UNAUTHORIZED) {
-            console.log("reload");
-            window.location.reload();
-        } else if (soknaderError) {
-            console.log("", soknaderError);
+        if (harSoknaderError || harSakerError) {
             dispatch(visFeilside(Feilside.TEKNISKE_PROBLEMER));
         }
-    }, [soknaderError, dispatch]);
+    }, [harSoknaderError, harSakerError, dispatch]);
 
-
-     */
     if (!isAlleSakerLoading && !alleSaker?.length) {
         return (
             <div className="blokk-center--wide">

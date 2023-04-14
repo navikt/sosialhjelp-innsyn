@@ -9,13 +9,13 @@ import {FileContent} from "@navikt/ds-icons";
 function statusToTekst(status: string) {
     switch (status) {
         case "STOPPET":
-            return "Stoppet";
+            return "Stoppet ";
         case "PLANLAGT_UTBETALING":
-            return "Planlagt";
+            return "Planlagt ";
         case "UTBETALT":
-            return "Utbetalt";
+            return "Utbetalt ";
         default:
-            return status.toLowerCase();
+            return status.toLowerCase() + " ";
     }
 }
 interface Props {
@@ -37,15 +37,17 @@ const ManedGruppe = (props: Props) => {
                             <Accordion.Item>
                                 <Accordion.Header className={styles.accordion_header}>
                                     <div className={styles.accordion_headerContent}>
-                                        <BodyShort className={styles.uthevetTekst}>
-                                            {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}
-                                        </BodyShort>
-                                        <BodyShort>{statusToTekst(utbetalingMaaned.status)}</BodyShort>
-                                        <BodyShort>
-                                            {utbetalingMaaned.utbetalingsdato
-                                                ? getDayAndMonth(utbetalingMaaned.utbetalingsdato)
-                                                : "Ukjent utbetalingsdato"}
-                                        </BodyShort>
+                                        <div className={styles.float_left}>
+                                            <BodyShort className={styles.uthevetTekst}>
+                                                {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}
+                                            </BodyShort>
+                                            <BodyShort>
+                                                {statusToTekst(utbetalingMaaned.status)}
+                                                {utbetalingMaaned.utbetalingsdato
+                                                    ? getDayAndMonth(utbetalingMaaned.utbetalingsdato)
+                                                    : "Ukjent utbetalingsdato"}
+                                            </BodyShort>
+                                        </div>
 
                                         {utbetalingMaaned.status === "STOPPET" ? (
                                             <></>

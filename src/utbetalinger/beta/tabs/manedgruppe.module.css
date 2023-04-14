@@ -22,6 +22,11 @@
     flex-direction: row;
     align-items: center;
 }
+
+.float_left {
+    display: flex;
+    flex-wrap: wrap;
+}
 .accordion_headerContent > .float_right {
     margin-left: auto;
 }
