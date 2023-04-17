@@ -8,7 +8,7 @@ import nn from "./nn.json";
 import en from "./en.json";
 
 let language = Cookies.get("decorator-language");
-if (language === undefined || !["nb", "nn"].includes(language)) {
+if (language === undefined || !["nb", "nn", "en"].includes(language)) {
     language = "nb";
 }
 // noinspection JSIgnoredPromiseFromCall
