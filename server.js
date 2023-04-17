@@ -2,31 +2,28 @@ const express = require("express");
 const {injectDecoratorServerSide} = require("@navikt/nav-dekoratoren-moduler/ssr");
 const path = require("path");
 
-const getDecoratorParams = (language) => {
-    return {
-        env: process.env.DEKORATOR_MILJO || "prod",
-        simple: false,
-        feedback: false,
-        chatbot: false,
-        shareScreen: false,
-        utilsBackground: "white",
-        logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined,
-        language: language,
-        availableLanguages: [
-            {
-                locale: "nb",
-                handleInApp: true,
-            },
-            {
-                locale: "nn",
-                handleInApp: true,
-            },
-            {
-                locale: "en",
-                handleInApp: true,
-            },
-        ],
-    };
+const decoratorParams = {
+    env: process.env.DEKORATOR_MILJO || "prod",
+    simple: false,
+    feedback: false,
+    chatbot: false,
+    shareScreen: false,
+    utilsBackground: "white",
+    logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined,
+    availableLanguages: [
+        {
+            locale: "nb",
+            handleInApp: true,
+        },
+        {
+            locale: "nn",
+            handleInApp: true,
+        },
+        {
+            locale: "en",
+            handleInApp: true,
+        },
+    ],
 };
 
 const app = express(); // create express app
@@ -41,13 +38,9 @@ app.use(basePath, express.static(buildPath, {index: false}));
 app.get(`${basePath}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
 
 app.use(basePath, (req, res, next) => {
-    let language = req.cookies["decorator-language"];
-    if (language === undefined || !["nb", "nn", "en"].includes(language)) {
-        language = "nb";
-    }
     injectDecoratorServerSide({
         filePath: `${buildPath}/index.html`,
-        ...getDecoratorParams(language),
+        ...decoratorParams,
     })
         .then((html) => {
             res.send(html);
