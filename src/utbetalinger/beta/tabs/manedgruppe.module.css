@@ -40,6 +40,9 @@
     width: 100%;
 }
 
+.accordion_content {
+    border: 1px solid #b7b1a9;
+}
 .soknadLenke {
     align-items: center;
     gap: 8px;

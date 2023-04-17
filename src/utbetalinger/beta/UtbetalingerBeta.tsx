@@ -35,17 +35,21 @@ const UtbetalingerBeta = () => {
         }
     }, [harSoknaderError, harSakerError, dispatch]);
 
-    if (!isAlleSakerLoading && !alleSaker?.length) {
+    if (isAlleSakerLoading || isHarSoknaderMedInnsynLoading) {
+        return <></>;
+    }
+
+    if (!alleSaker || alleSaker?.length === 0) {
         return (
-            <div className="blokk-center--wide">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
                 <UtbetalingsoversiktIngenSoknader />
             </div>
         );
     }
 
-    if (!isHarSoknaderMedInnsynLoading && !harSoknaderMedInnsyn) {
+    if (!harSoknaderMedInnsyn) {
         return (
-            <div className="blokk-center--wide">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
                 <UtbetalingsoversiktIngenInnsyn />
             </div>
         );

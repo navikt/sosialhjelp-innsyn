@@ -58,7 +58,7 @@ const ManedGruppe = (props: Props) => {
                                         )}
                                     </div>
                                 </Accordion.Header>
-                                <Accordion.Content>
+                                <Accordion.Content className={styles.accordion_content}>
                                     {utbetalingMaaned.fom && utbetalingMaaned.tom && (
                                         <>
                                             <BodyShort className={styles.uthevetTekst}>Periode</BodyShort>
