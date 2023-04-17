@@ -4,6 +4,8 @@ import {onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import Cookies from "js-cookie";
 import {isLocalhost} from "../utils/restUtils";
 import nb from "./nb.json";
+import nn from "./nn.json";
+import en from "./en.json";
 
 let language = Cookies.get("decorator-language");
 if (language === undefined || !["nb", "nn"].includes(language)) {
@@ -13,11 +15,17 @@ if (language === undefined || !["nb", "nn"].includes(language)) {
 i18n.use(initReactI18next).init({
     fallbackLng: "nb",
     lng: language,
-    supportedLngs: ["nb"],
+    supportedLngs: ["nb", "nn", "en"],
     debug: isLocalhost(window.location.href),
     resources: {
         nb: {
             translation: nb,
+        },
+        nn: {
+            translation: nn,
+        },
+        en: {
+            translation: en,
         },
     },
 });
