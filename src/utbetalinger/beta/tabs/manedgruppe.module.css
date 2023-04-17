@@ -26,13 +26,13 @@
 .float_left {
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
+    max-width: 80%;
 }
 .accordion_headerContent > .float_right {
     margin-left: auto;
 }
-.accordion_headerContent > *:first-child {
-    gap: 0;
-}
+
 .accordion_header {
     align-items: center;
 }
