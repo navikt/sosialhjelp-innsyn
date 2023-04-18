@@ -4,7 +4,7 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {useTranslation} from "react-i18next";
+import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
@@ -65,21 +65,24 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         }
     };
 
-    const getBeskrivelse = (historikkTekstEnum: string, tekstArgument?: string) => {
-        let tekstEnumElement = HistorikkTekstEnum[historikkTekstEnum];
-        if (historikkTekstEnum === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
-            //const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", ""); // denne endringen kan gjøres i tekstfila i stedet for string.replace?
+    const getBeskrivelse = (historikkEnumKey: string, tekstArgument?: string) => {
+        const enumValue = HistorikkTekstEnum[historikkEnumKey];
+        if (enumValue === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
             return (
                 <BodyShort>
-                    <NavDsLink as={Link} to="/utbetaling">
-                        Dine utbetalinger
-                    </NavDsLink>
-                    {t(tekstEnumElement)}.replace("Dine utbetalinger", "");
+                    <Trans t={t} i18nKey={enumValue}>
+                        {/*Lenken finnes som <0></0> i språkfila. 0 = første children. 
+                        Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
+                        <NavDsLink as={Link} to="/utbetaling">
+                            Dine utbetalinger
+                        </NavDsLink>{" "}
+                        har blitt oppdatert
+                    </Trans>
                 </BodyShort>
             );
         }
-        // todo:
-        return <BodyShort>{t(tekstEnumElement)}</BodyShort>;
+
+        return <BodyShort>{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
     };
 
     return (

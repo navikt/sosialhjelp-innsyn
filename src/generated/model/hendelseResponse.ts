@@ -8,6 +8,7 @@ import type {UrlResponse} from "./urlResponse";
 
 export interface HendelseResponse {
     tidspunkt: string;
-    beskrivelse: string;
+    hendelseType: string;
     filUrl?: UrlResponse;
+    tekstArgument?: string;
 }

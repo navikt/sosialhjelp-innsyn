@@ -10,8 +10,9 @@ import {faker} from "@faker-js/faker";
 export const getHentHendelserMock = () =>
     Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
         tidspunkt: faker.random.word(),
-        beskrivelse: faker.random.word(),
+        hendelseType: faker.random.word(),
         filUrl: faker.helpers.arrayElement([{linkTekst: faker.random.word(), link: faker.random.word()}, undefined]),
+        tekstArgument: faker.helpers.arrayElement([faker.random.word(), undefined]),
     }));
 
 export const getHendelseControllerMSW = () => [
