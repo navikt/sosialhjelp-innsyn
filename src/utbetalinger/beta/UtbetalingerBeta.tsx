@@ -11,12 +11,13 @@ import {FilterProvider} from "./filter/FilterContext";
 import UtbetalingerFilter from "./filter/UtbetalingerFilter";
 import {Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch} from "react-redux";
+import useIsMobile from "../../utils/useIsMobile";
 
 const UtbetalingerBeta = () => {
     document.title = "Utbetalinger - Økonomisk sosialhjelp";
     const {pathname} = useLocation();
     const dispatch = useDispatch();
-
+    const isMobile = useIsMobile();
     useEffect(() => {
         setBreadcrumbs({title: "Utbetalinger", url: `/sosialhjelp${pathname}`});
     }, [pathname]);
@@ -58,7 +59,7 @@ const UtbetalingerBeta = () => {
     return (
         <FilterProvider>
             <div className={styles.utbetalinger_side}>
-                <UtbetalingerFilter />
+                {!isMobile && <UtbetalingerFilter />}
                 <UtbetalingerPanelBeta />
             </div>
         </FilterProvider>
