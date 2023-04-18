@@ -105,6 +105,7 @@
   "dokumentasjonkrav.veileder_trenger_mer":
       "Opplysningene kan være knyttet til vilkårene dine, eller det kan være økonomiske opplysninger NAV trenger for å utbetale stønaden din.",
 
+  "vedlegg.lovlig_format": "Vi godtar kun vedlegg i formatene PDF, JPG eller PNG.",
   "vedlegg.minst_ett_vedlegg": "Du må først velge vedlegg du vil sende.",
 
   "vedlegg.ulovlig_en_fil_feilmelding": "{{filnavn}} ble ikke lagt til:",
@@ -119,7 +120,7 @@
   "vedlegg.ulovlig_filstorrelse_feilmelding": "Størrelsen på filer må være under 10 Mb.",
   "vedlegg.ulovlig_storrelse_av_alle_valgte_filer":
       "Vi kan ikke motta vedleggene dine hvis de til sammen er over 150 Mb.",
-  "vedlegg.velg_fil": "Velg vedlegg",
+  "vedlegg.velg_fil": "Last opp vedlegg",
   "vedlegg.fjern": "Fjern",
   "vedlegg.tittel": "Dine vedlegg",
   "vedlegg.validering.duplikat": "Vedlegget {{filnavn}} finnes allerede.",
@@ -137,9 +138,11 @@
   "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Størrelsen på filer må være under 10 Mb",
   "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
       "Vi kan ikke motta vedleggene dine hvis de til sammen er over 150 Mb",
+  "vedlegg.suksess": "Takk! Dokumentasjonen din ble sendt inn.",
   "andre_vedlegg.type": "Send andre vedlegg",
   "andre_vedlegg.tilleggsinfo": "Hvis du har noe annet du vil sende, kan du laste det opp her.",
   "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
+
 
   "forelopigSvar": "Du har fått et brev om saksbehandlingstiden for søknaden din. ",
 

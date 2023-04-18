@@ -1,9 +1,8 @@
 import React, {useState} from "react";
-import PaperClipSlanted from "../ikoner/PaperClipSlanted";
 import {formatBytes} from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Paginering from "../paginering/Paginering";
-import EttersendelseView from "./EttersendelseView";
+import EttersendelseView from "../ettersendelse/EttersendelseView";
 import {getVisningstekster} from "../../utils/vedleggUtils";
 import {Alert, Link, Select, SortState, Table} from "@navikt/ds-react";
 import styled from "styled-components";
@@ -11,6 +10,7 @@ import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-control
 import {VedleggResponse} from "../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "react-i18next";
+import {FileCheckmarkIcon} from "@navikt/aksel-icons";
 
 const Vedleggliste = styled.div`
     margin-top: 1rem;
@@ -71,13 +71,11 @@ const StyledTable = styled(Table)`
     }
 `;
 
-const StyledPaperClipSlanted = styled(PaperClipSlanted)`
-    display: block;
+const StyledFileCheckmark = styled(FileCheckmarkIcon)`
     float: left;
-    height: 1rem;
-    width: 1rem;
     margin-right: 0.5rem;
-    margin-top: 3px;
+    height: 1.5rem;
+    width: 1.5rem;
 `;
 
 const NoWrap = styled.div`
@@ -247,7 +245,7 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                         {isLoading && <LastestripeRad />}
                         {paginerteVedlegg.map((vedlegg, index: number) => (
                             <Table.Row key={index}>
-                                {harFeilPaVedleggFraServer(vedlegg) && (
+                                {harFeilPaVedleggFraServer(vedlegg) ? (
                                     <>
                                         <Table.DataCell>
                                             <Alert variant="error" inline>
@@ -257,11 +255,11 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                                         <Table.DataCell></Table.DataCell>
                                         <Table.DataCell></Table.DataCell>
                                     </>
-                                )}
-                                {!harFeilPaVedleggFraServer(vedlegg) && (
+                                ) : (
                                     <>
                                         <Table.DataCell>
-                                            <StyledPaperClipSlanted />
+                                            <StyledFileCheckmark aria-hidden title="filikon" />
+
                                             <Link
                                                 href={vedlegg.url}
                                                 target="_blank"

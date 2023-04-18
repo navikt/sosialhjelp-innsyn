@@ -1,0 +1,16 @@
+.outerError {
+    margin: 8px 0;
+}
+
+.innerError {
+    margin-top: 16px;
+}
+
+.feilListe {
+    margin: 0;
+    list-style-type: disc;
+}
+
+.feilListe li {
+    margin: 8px 0;
+}

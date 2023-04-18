@@ -1,13 +1,17 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
-import {getHentVedleggQueryKey, sendVedlegg, useSendVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
-import useFiksDigisosId from "./useFiksDigisosId";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../generated/model";
-import {ErrorType} from "../axios-instance";
-import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../utils/vedleggUtils";
-import {logInfoMessage, logWarningMessage} from "../redux/innsynsdata/loggActions";
-import {fileUploadFailedEvent, logDuplicatedFiles} from "../utils/amplitude";
-import {getHentHendelserQueryKey} from "../generated/hendelse-controller/hendelse-controller";
+import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
+import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
+import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
+import {
+    getHentVedleggQueryKey,
+    sendVedlegg,
+    useSendVedlegg,
+} from "../../generated/vedlegg-controller/vedlegg-controller";
+import {ErrorType} from "../../axios-instance";
+import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 
 export interface Metadata {
     type: string;
@@ -82,9 +86,12 @@ const useFilOpplasting = (
     const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-    const resetErrors = useCallback(() => {
+    const [showSuccessAlert, setShowSuccessAlert] = React.useState(false);
+
+    const resetStatus = useCallback(() => {
         setInnerErrors(recordFromMetadatas(metadatas));
         setOuterErrors([]);
+        setShowSuccessAlert(false);
     }, [metadatas, setInnerErrors, setOuterErrors]);
 
     const reset = useCallback(() => {
@@ -156,6 +163,8 @@ const useFilOpplasting = (
             {
                 ...options,
                 onSuccess: async (data, variables, context) => {
+                    setShowSuccessAlert(true);
+
                     options?.onSuccess?.(data, variables, context);
                     const filerData = data.flatMap((response) => response.filer);
                     const errors: Error[] = filerData
@@ -192,7 +201,8 @@ const useFilOpplasting = (
         files,
         addFiler,
         removeFil,
-        resetErrors,
+        resetStatus,
+        showSuccessAlert,
     };
 };
 

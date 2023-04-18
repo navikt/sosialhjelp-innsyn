@@ -14,7 +14,6 @@ import {
     useGetDokumentasjonkrav,
     useGetfagsystemHarDokumentasjonkrav,
     useGetHarLevertDokumentasjonkrav,
-    useGetOppgaver,
     useGetVilkar,
 } from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -23,6 +22,7 @@ import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import OppgaverPanel from "./OppgaverPanel";
+import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -62,7 +62,7 @@ const Oppgaver = () => {
     const fiksDigisosId = useFiksDigisosId();
     const vilkarQuery = useGetVilkar(fiksDigisosId);
     const dokumentasjonskravQuery = useGetDokumentasjonkrav(fiksDigisosId);
-    const oppgaverQuery = useGetOppgaver(fiksDigisosId);
+    const oppgaverQuery = useDokumentasjonEtterspurt(fiksDigisosId);
     const harLevertDokumentasjonskravQuery = useGetHarLevertDokumentasjonkrav(fiksDigisosId);
     const fagsystemHarDokumentasjonkravQuery = useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
     const saksStatusQuery = useHentSaksStatuser(fiksDigisosId);
@@ -108,13 +108,16 @@ const Oppgaver = () => {
         [sakUtbetalinger, filtrerteUtbetalinger, dokumentasjonskravQuery.data]
     );
 
-    const brukerHarDokumentasjonEtterspurt = oppgaverQuery.data && oppgaverQuery.data.length > 0;
+    const brukerHarDokumentasjonEtterspurt =
+        oppgaverQuery.dokumentasjonEtterspurt && oppgaverQuery.dokumentasjonEtterspurt.length > 0;
 
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || filtrerteDokumentasjonkrav || filtrerteVilkar;
 
     const skalViseIngenOppgaverPanel = useMemo(() => {
         const harOppgaver = Boolean(
-            oppgaverQuery.data?.length || filtrerteDokumentasjonkrav?.length || filtrerteVilkar?.length
+            oppgaverQuery.dokumentasjonEtterspurt?.length ||
+                filtrerteDokumentasjonkrav?.length ||
+                filtrerteVilkar?.length
         );
         const harSaker = saksStatusQuery.data && saksStatusQuery.data.length > 0;
         const _harSakMedInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(saksStatusQuery.data);
@@ -126,7 +129,7 @@ const Oppgaver = () => {
                 !harSaker)
         );
     }, [
-        oppgaverQuery.data,
+        oppgaverQuery.dokumentasjonEtterspurt,
         filtrerteDokumentasjonkrav,
         filtrerteVilkar,
         saksStatusQuery.data,
@@ -159,7 +162,7 @@ const Oppgaver = () => {
                 <>
                     <DokumentasjonEtterspurtAccordion
                         isLoading={oppgaverQuery.isLoading}
-                        dokumentasjonEtterspurt={oppgaverQuery.data}
+                        dokumentasjonEtterspurt={oppgaverQuery.dokumentasjonEtterspurt}
                     />
 
                     {Boolean(filtrerteVilkar?.length) && <VilkarAccordion vilkar={filtrerteVilkar} />}
