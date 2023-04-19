@@ -7,7 +7,8 @@ import {logAmplitudeEvent} from "../../utils/amplitude";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
 import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
-
+import useIsMobile from "../../utils/useIsMobile";
+import FilterModal from "./filter/FilterModal";
 enum TAB_VALUE {
     UTBETALINGER = "Utbetalinger",
     TIDLIGERE = "Tidligere utbetalinger",
@@ -15,7 +16,6 @@ enum TAB_VALUE {
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
-
     const {
         data: nye,
         isLoading: henterNye,
@@ -33,12 +33,14 @@ const UtbetalingerPanelBeta = () => {
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 
+    const isMobile = useIsMobile();
     return (
         <Panel className={styles.utbetalinger_panel}>
             <HandCoinsIcon className={styles.utbetalinger_decoration} bgcolor="#9BD0B0" />
             <Heading size="medium" level="2" spacing>
                 Utbetalinger for sosialhjelp
             </Heading>
+            {isMobile && <FilterModal />}
             <Tabs defaultValue={TAB_VALUE.UTBETALINGER}>
                 <Tabs.List>
                     <Tabs.Tab value={TAB_VALUE.UTBETALINGER} label="Utbetalinger" />

@@ -27,6 +27,12 @@ export function getDayAndMonth(isoDate: string) {
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 
-export function dateToIsoDate(date: Date) {}
+export function dateToDDMMYYYY(language: string, dato: Date) {
+    return new Intl.DateTimeFormat(language, {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    }).format(dato);
+}
 
 export {formatBytes, formatCurrency, formatDato};
