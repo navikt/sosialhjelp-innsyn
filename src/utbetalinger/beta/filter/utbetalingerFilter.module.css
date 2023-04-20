@@ -1,20 +1,12 @@
 .utbetalinger_filter {
-    margin-top: 14rem;
+    margin-top: 2rem;
     min-width: 15rem;
     height: fit-content;
+    width: fit-content;
 }
 
 .periodevelger {
     margin-bottom: 2rem;
-}
-
-@media screen and (max-width: 54em) {
-    .utbetalinger_filter {
-        margin-top: 0;
-        display: flex;
-        flex-wrap: wrap;
-        column-gap: 40px;
-    }
 }
 
 .chips {

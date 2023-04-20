@@ -6,12 +6,6 @@
     background-color: #d4e6d8;
 }
 
-@media screen and (max-width: 54em) {
-    .utbetalinger_side {
-        flex-direction: column;
-    }
-}
-
 .utbetalinger_panel {
     position: relative;
     padding-top: 3rem;

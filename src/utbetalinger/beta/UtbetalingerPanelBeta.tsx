@@ -23,8 +23,10 @@ const UtbetalingerPanelBeta = () => {
     } = useHentNyeUtbetalinger({
         query: {
             onSuccess: (data) => {
-                if (!nyeLogged) {
-                    logAmplitudeEvent("Hentet nye utbetalinger", {antall: data.length});
+                if (!nyeLogged && data.length > 0) {
+                    const sisteManedgruppe = data[data.length - 1].utbetalingerForManed;
+                    const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
+                    logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
                     setNyeLogged(true);
                 }
             },
@@ -32,6 +34,10 @@ const UtbetalingerPanelBeta = () => {
     });
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
+
+    const onSeTidligere = () => {
+        logAmplitudeEvent("Klikket tidligere utbetalinger");
+    };
 
     const isMobile = useIsMobile();
     return (
@@ -42,7 +48,7 @@ const UtbetalingerPanelBeta = () => {
             </Heading>
             {isMobile && <FilterModal />}
             <Tabs defaultValue={TAB_VALUE.UTBETALINGER}>
-                <Tabs.List>
+                <Tabs.List className={styles.tab_list}>
                     <Tabs.Tab value={TAB_VALUE.UTBETALINGER} label="Utbetalinger" />
                     <Tabs.Tab value={TAB_VALUE.TIDLIGERE} label="Tidligere utbetalinger" />
                 </Tabs.List>
@@ -54,7 +60,7 @@ const UtbetalingerPanelBeta = () => {
                     </BodyLong>
                     <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
-                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
+                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel} onClick={onSeTidligere}>
                     <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>

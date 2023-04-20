@@ -3,6 +3,7 @@ import {NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
+import {useFilter} from "../filter/FilterContext";
 
 interface Props {
     lasterData: boolean;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const NyeUtbetalinger = (props: Props) => {
+    const {isUsingFilter} = useFilter();
     if (props.lasterData) {
         return <Lastestriper />;
     }
@@ -24,7 +26,9 @@ const NyeUtbetalinger = (props: Props) => {
     if (props.utbetalinger.length === 0) {
         return (
             <Alert variant="info" inline>
-                Vi finner ingen utbetalinger
+                {`Vi fant ingen utbetalinger ${
+                    isUsingFilter ? "for valgt filtrering." : "for nåværende eller kommende måneder."
+                }`}
             </Alert>
         );
     }

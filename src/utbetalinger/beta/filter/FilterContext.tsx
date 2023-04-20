@@ -10,7 +10,11 @@ export interface FilterKey {
     fraDato?: Date;
     tilDato?: Date;
 }
-type FilterContextType = {filter: FilterKey; oppdaterFilter: (nyttFilter: Partial<FilterKey>) => void};
+type FilterContextType = {
+    filter: FilterKey;
+    oppdaterFilter: (nyttFilter: Partial<FilterKey>) => void;
+    isUsingFilter: boolean;
+};
 
 const FilterContext = React.createContext<FilterContextType | undefined>(undefined);
 
@@ -23,12 +27,13 @@ export const useFilter = () => {
     return context;
 };
 
+const initialState: FilterKey = {
+    mottaker: MottakerFilter.Alle,
+    tilDato: undefined,
+    fraDato: undefined,
+};
 export const FilterProvider = (props: PropsWithChildren<{}>) => {
-    const [filter, setFilter] = useState<FilterKey>({
-        mottaker: MottakerFilter.Alle,
-        tilDato: undefined,
-        fraDato: undefined,
-    });
+    const [filter, setFilter] = useState<FilterKey>(initialState);
 
     const oppdaterFilter = (nyttFilter: Partial<FilterKey>) => {
         const updatedFilter = {...filter, ...nyttFilter};
@@ -40,6 +45,7 @@ export const FilterProvider = (props: PropsWithChildren<{}>) => {
             value={{
                 filter,
                 oppdaterFilter,
+                isUsingFilter: JSON.stringify(filter) !== JSON.stringify(initialState),
             }}
         >
             {props.children}

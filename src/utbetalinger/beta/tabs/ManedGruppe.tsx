@@ -29,7 +29,7 @@ const ManedGruppe = (props: Props) => {
             <BodyShort className={`${styles.uthevetTekst} ${styles.capitalize} ${styles.monthYear_header}`}>
                 <span>{utbetalingSak.maned + " " + utbetalingSak.ar}</span>
             </BodyShort>
-            {utbetalingSak.utbetalinger.map((utbetalingMaaned: ManedUtbetaling, index: number) => {
+            {utbetalingSak.utbetalingerForManed.map((utbetalingMaaned: ManedUtbetaling, index: number) => {
                 const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
                 return (
                     <div key={utbetalingMaaned.forfallsdato + "_" + index}>

@@ -1,26 +1,16 @@
-import React, {useState} from "react";
+import React from "react";
 import {NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert, BodyLong} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
 import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
-import {logAmplitudeEvent} from "../../../utils/amplitude";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
+import {useFilter} from "../filter/FilterContext";
 
 const TidligerUtbetalingerInnhold = () => {
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-
-    const {data, isLoading, isError} = useHentTidligereUtbetalinger({
-        query: {
-            onSuccess: (data) => {
-                if (!pageLoadIsLogged) {
-                    logAmplitudeEvent("Hentet tidligere utbetalinger", {antall: data.length});
-                    setPageLoadIsLogged(true);
-                }
-            },
-        },
-    });
+    const {data, isLoading, isError} = useHentTidligereUtbetalinger();
     const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
+    const {isUsingFilter} = useFilter();
 
     if (isLoading) {
         return <Lastestriper />;
@@ -35,7 +25,7 @@ const TidligerUtbetalingerInnhold = () => {
     if (filtrerteTidligere.length === 0) {
         return (
             <Alert variant="info" inline>
-                Vi finner ingen utbetalinger
+                {`Vi fant ingen utbetalinger ${isUsingFilter ? "for valgt filtrering." : "for de siste 15 måneder"}`}
             </Alert>
         );
     }
