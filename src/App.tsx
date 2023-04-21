@@ -77,10 +77,10 @@ const App = () => {
                             <ScrollToTop />
                             <div lang={i18n.language}>
                                 <SentryRoutes>
-                                    <Route path="/utbetalingerBeta" element={<UtbetalingerBeta />} />
+                                    <Route path="/utbetaling" element={<UtbetalingerBeta />} />
                                     <Route path="/" element={<MainLayout />}>
                                         <Route index element={<Saksoversikt />} />
-                                        <Route path="/utbetaling" element={<Utbetalinger />} />
+                                        <Route path="/utbetalingLegacy" element={<Utbetalinger />} />
                                         <Route path="/:soknadId/status" element={<SaksStatus />} />
                                         <Route path="/link" element={<Linkside />} />
                                         <Route path="*" element={<SideIkkeFunnet />} />
