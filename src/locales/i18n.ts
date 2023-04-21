@@ -20,11 +20,15 @@ i18n.use(initReactI18next).init({
             utbetalinger: require("./nb/utbetalinger.json"),
             global: nb,
         },
+        nn: {
+            utbetalinger: require("./nn/utbetalinger.json"),
+        },
+        en: {
+            utbetalinger: require("./en/utbetalinger.json"),
+        },
     },
     defaultNS: "global",
     ns: ["utbetalinger", "global"],
-    returnNull: false,
-    returnEmptyString: true,
 });
 
 onLanguageSelect(async (language) => {
