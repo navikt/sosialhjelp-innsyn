@@ -6,11 +6,13 @@ import ManedGruppe from "./ManedGruppe";
 import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import {useFilter} from "../filter/FilterContext";
+import {useTranslation} from "react-i18next";
 
 const TidligerUtbetalingerInnhold = () => {
     const {data, isLoading, isError} = useHentTidligereUtbetalinger();
     const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
     const {isUsingFilter} = useFilter();
+    const {t} = useTranslation("utbetalinger");
 
     if (isLoading) {
         return <Lastestriper />;
@@ -18,14 +20,14 @@ const TidligerUtbetalingerInnhold = () => {
     if (isError) {
         return (
             <Alert variant="error" inline>
-                Noe gikk galt da vi skulle hente utbetalingene dine. Vennligst prøv igjen senere.
+                {t("feil.fetch")}
             </Alert>
         );
     }
     if (filtrerteTidligere.length === 0) {
         return (
             <Alert variant="info" inline>
-                {`Vi fant ingen utbetalinger ${isUsingFilter ? "for valgt filtrering." : "for de siste 15 måneder"}`}
+                {`${t("feil.ingen")} ${isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.tidligere")}`}
             </Alert>
         );
     }
@@ -40,13 +42,11 @@ const TidligerUtbetalingerInnhold = () => {
 };
 
 const TidligerUtbetalinger = () => {
+    const {t} = useTranslation("utbetalinger");
+
     return (
         <>
-            <BodyLong spacing>
-                Her ser du utbetalingene du har mottatt. Vi kan kun vise utbetalinger 15 måneder tilbake i tid. Vi kan
-                kun vise utbetalinger for økonomisk sosialhjelp. Har du spørsmål til utbetalingene kan du ta kontakt med
-                oss på 55 55 33 33.
-            </BodyLong>
+            <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
             <TidligerUtbetalingerInnhold />
         </>
     );

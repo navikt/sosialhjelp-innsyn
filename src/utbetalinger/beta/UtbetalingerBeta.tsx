@@ -12,9 +12,12 @@ import UtbetalingerFilter from "./filter/UtbetalingerFilter";
 import {Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useDispatch} from "react-redux";
 import useIsMobile from "../../utils/useIsMobile";
+import {useTranslation} from "react-i18next";
 
 const UtbetalingerBeta = () => {
-    document.title = "Utbetalinger - Økonomisk sosialhjelp";
+    const {t} = useTranslation("utbetalinger");
+
+    document.title = t("documentTitle");
     const {pathname} = useLocation();
     const dispatch = useDispatch();
     const isMobile = useIsMobile();

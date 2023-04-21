@@ -70,8 +70,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
     if (henterData || mustLogin) {
         return (
             <div className="informasjon-side">
-                <Banner>Økonomisk sosialhjelp</Banner>
-
+                {window.location.href.includes("/utbetalingerBeta") ? <></> : <Banner>Økonomisk sosialhjelp</Banner>}
                 <ApplicationSpinner />
             </div>
         );

@@ -17,9 +17,14 @@ i18n.use(initReactI18next).init({
     debug: isLocalhost(window.location.href),
     resources: {
         nb: {
-            translation: nb,
+            utbetalinger: require("./nb/utbetalinger.json"),
+            global: nb,
         },
     },
+    defaultNS: "global",
+    ns: ["utbetalinger", "global"],
+    returnNull: false,
+    returnEmptyString: true,
 });
 
 onLanguageSelect(async (language) => {

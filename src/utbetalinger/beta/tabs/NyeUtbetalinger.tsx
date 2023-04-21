@@ -4,6 +4,7 @@ import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
 import {useFilter} from "../filter/FilterContext";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     lasterData: boolean;
@@ -13,22 +14,22 @@ interface Props {
 
 const NyeUtbetalinger = (props: Props) => {
     const {isUsingFilter} = useFilter();
+    const {t} = useTranslation("utbetalinger");
+
     if (props.lasterData) {
         return <Lastestriper />;
     }
     if (props.error) {
         return (
             <Alert variant="error" inline>
-                Noe gikk galt da vi skulle hente utbetalingene dine. Vennligst prøv igjen senere.
+                {t("feil.fetch")}
             </Alert>
         );
     }
     if (props.utbetalinger.length === 0) {
         return (
             <Alert variant="info" inline>
-                {`Vi fant ingen utbetalinger ${
-                    isUsingFilter ? "for valgt filtrering." : "for nåværende eller kommende måneder."
-                }`}
+                {`${t("feil.ingen")} ${isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.nye")}`}
             </Alert>
         );
     }

@@ -16,7 +16,8 @@ interface Props {
 }
 const UtbetalingerFilter = (props: Props) => {
     const {filter, oppdaterFilter} = useFilter();
-    const {i18n} = useTranslation();
+    const {t, i18n} = useTranslation("utbetalinger");
+
     const isMobile = useIsMobile();
     const {setDatePickerIsOpen} = props;
     const [fromDateError, setFromDateError] = useState<string | undefined>(undefined);
@@ -30,11 +31,11 @@ const UtbetalingerFilter = (props: Props) => {
             oppdaterFilter({...filter, fraDato: dato});
         },
         onValidate: (val) => {
-            if (val.isBefore) setFromDateError("Tidligste søkedato er 15 måneder tilbake");
-            else if (val.isAfter) setFromDateError("Fra-dato kan ikke være etter til-dato");
-            else if (val.isInvalid) setFromDateError("Datoen på være på format dd.mm.yyyy");
+            if (val.isBefore) setFromDateError(t("filter.tidligstFra"));
+            else if (val.isAfter) setFromDateError(t("filter.fraEtterTil"));
+            else if (val.isInvalid) setFromDateError(t("filter.ugylding"));
             else if (val.isEmpty) setFromDateError(undefined);
-            else if (!val.isValidDate) setFromDateError("Datoen på være på format dd.mm.yyyy");
+            else if (!val.isValidDate) setFromDateError(t("filter.ugylding"));
             else setFromDateError(undefined);
         },
     });
@@ -45,13 +46,10 @@ const UtbetalingerFilter = (props: Props) => {
             oppdaterFilter({...filter, tilDato: dato});
         },
         onValidate: (val) => {
-            if (val.isBefore)
-                setToDateError(
-                    filter.fraDato ? "Til-dato kan ikke være før fra-dato" : "Tidligste søkedato er 15 måneder tilbake"
-                );
-            else if (val.isInvalid) setToDateError("Datoen på være på format dd.mm.yyyy");
+            if (val.isBefore) setToDateError(filter.fraDato ? t("filter.tilEtterFra") : t("filter.tidligstFra"));
+            else if (val.isInvalid) setToDateError(t("filter.ugylding"));
             else if (val.isEmpty) setToDateError(undefined);
-            else if (!val.isValidDate) setToDateError("Datoen på være på format dd.mm.yyyy");
+            else if (!val.isValidDate) setToDateError(t("filter.ugylding"));
             else setToDateError(undefined);
         },
     });
@@ -67,9 +65,9 @@ const UtbetalingerFilter = (props: Props) => {
         oppdaterFilter({...filter, mottaker: values});
     };
     return (
-        <Panel as="section" aria-label="Filtrer utbetalinger" className={styles.utbetalinger_filter}>
+        <Panel as="section" aria-label={t("filter.section")} className={styles.utbetalinger_filter}>
             <>
-                <Fieldset legend="Filtrer på utbetalingsdato" className={styles.periodevelger}>
+                <Fieldset legend={t("filter.dato")} className={styles.periodevelger}>
                     <UNSAFE_DatePicker
                         {...fromDatePicker.datepickerProps}
                         strategy={isMobile ? "fixed" : undefined}
@@ -77,8 +75,8 @@ const UtbetalingerFilter = (props: Props) => {
                     >
                         <UNSAFE_DatePicker.Input
                             {...fromDatePicker.inputProps}
-                            label="Fra"
-                            description="(dd.mm.åååå)" // todo: språknøkkel
+                            label={t("filter.fra")}
+                            description={t("filter.format")}
                             error={fromDatePicker.datepickerProps.open ? undefined : fromDateError}
                         />
                     </UNSAFE_DatePicker>
@@ -90,16 +88,16 @@ const UtbetalingerFilter = (props: Props) => {
                     >
                         <UNSAFE_DatePicker.Input
                             {...toDatePicker.inputProps}
-                            label="Til"
-                            description="(dd.mm.åååå)"
+                            label={t("filter.til")}
+                            description={t("filter.format")}
                             error={toDatePicker.datepickerProps.open ? undefined : toDateError}
                         />
                     </UNSAFE_DatePicker>
                 </Fieldset>
-                <RadioGroup defaultValue={filter.mottaker} legend="Velg mottaker" onChange={onMottakerChanged}>
-                    <Radio value={MottakerFilter.Alle}>Alle</Radio>
-                    <Radio value={MottakerFilter.MinKonto}>Min konto</Radio>
-                    <Radio value={MottakerFilter.AnnenMottaker}>Annen mottaker</Radio>
+                <RadioGroup defaultValue={filter.mottaker} legend={t("filter.mottaker")} onChange={onMottakerChanged}>
+                    <Radio value={MottakerFilter.Alle}>{t("filter.alle")}</Radio>
+                    <Radio value={MottakerFilter.MinKonto}>{t("filter.minKonto")}</Radio>
+                    <Radio value={MottakerFilter.AnnenMottaker}>{t("filter.annen")}</Radio>
                 </RadioGroup>
             </>
         </Panel>
