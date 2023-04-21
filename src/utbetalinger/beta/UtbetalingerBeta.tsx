@@ -13,6 +13,7 @@ import {Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer"
 import {useDispatch} from "react-redux";
 import useIsMobile from "../../utils/useIsMobile";
 import {useTranslation} from "react-i18next";
+import {Panel} from "@navikt/ds-react";
 
 const UtbetalingerBeta = () => {
     const {t} = useTranslation("utbetalinger");
@@ -62,7 +63,12 @@ const UtbetalingerBeta = () => {
     return (
         <FilterProvider>
             <div className={styles.utbetalinger_side}>
-                {!isMobile && <UtbetalingerFilter />}
+                {!isMobile && (
+                    <Panel as="section" aria-label={t("filter.aria")} className={styles.filter_section}>
+                        <UtbetalingerFilter />
+                    </Panel>
+                )}
+
                 <UtbetalingerPanelBeta />
             </div>
         </FilterProvider>

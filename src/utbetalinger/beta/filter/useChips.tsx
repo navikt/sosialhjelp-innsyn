@@ -1,28 +1,34 @@
 import {useCallback, useEffect, useState} from "react";
 import {MottakerFilter, useFilter} from "./FilterContext";
 import {dateToDDMMYYYY} from "../../../utils/formatting";
-import {useTranslation} from "react-i18next";
+import i18next from "../../../locales/i18n";
 
 const mottakerFilterToChip = (value: MottakerFilter) => {
     switch (value) {
         case MottakerFilter.Alle:
             return undefined;
         case MottakerFilter.MinKonto:
-            return {label: "Min konto", filterType: "mottaker"} as ChipType;
+            return {label: i18next.t("utbetalinger:filter.minKonto"), filterType: "mottaker"} as ChipType;
         case MottakerFilter.AnnenMottaker:
-            return {label: "Annen mottaker", filterType: "mottaker"} as ChipType;
+            return {label: i18next.t("utbetalinger:filter.annen"), filterType: "mottaker"} as ChipType;
     }
 };
-const datoFilterToChip = (language: string, fom?: Date, tom?: Date) => {
+const datoFilterToChip = (fom?: Date, tom?: Date) => {
     if (fom && tom) {
         return {
-            label: `${dateToDDMMYYYY(language, fom)} - ${dateToDDMMYYYY(language, tom)}`,
+            label: `${dateToDDMMYYYY(i18next.language, fom)} - ${dateToDDMMYYYY(i18next.language, tom)}`,
             filterType: "dato",
         } as ChipType;
     } else if (fom) {
-        return {label: `Fra: ${dateToDDMMYYYY(language, fom)}`, filterType: "dato"} as ChipType;
+        return {
+            label: `${i18next.t("utbetalinger:filter.fra")}: ${dateToDDMMYYYY(i18next.language, fom)}`,
+            filterType: "dato",
+        } as ChipType;
     } else if (tom) {
-        return {label: `Til: ${dateToDDMMYYYY(language, tom)}`, filterType: "dato"} as ChipType;
+        return {
+            label: `${i18next.t("utbetalinger:filter.til")}: ${dateToDDMMYYYY(i18next.language, tom)}`,
+            filterType: "dato",
+        } as ChipType;
     }
     return undefined;
 };
@@ -35,7 +41,6 @@ interface ChipType {
 const useChips = () => {
     const [chips, setChips] = useState<ChipType[]>([]);
     const {filter, oppdaterFilter} = useFilter();
-    const {i18n} = useTranslation();
 
     const removeChip = useCallback(
         (type: FilterType) => {
@@ -49,11 +54,11 @@ const useChips = () => {
     );
     useEffect(() => {
         const mottaker: ChipType | undefined = mottakerFilterToChip(filter.mottaker);
-        const dato = datoFilterToChip(i18n.language, filter.fraDato, filter.tilDato);
+        const dato = datoFilterToChip(filter.fraDato, filter.tilDato);
 
         // remove empty string
         setChips([mottaker, dato].filter(Boolean) as ChipType[]);
-    }, [filter, i18n.language]);
+    }, [filter]);
     return {chips, removeChip};
 };
 export default useChips;

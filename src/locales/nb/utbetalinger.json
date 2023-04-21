@@ -7,7 +7,7 @@
   "soknadLenke" : "Gå til søknaden og les vedtaksbrevet for mer detaljer",
   "tab1": "Utbetalinger",
   "tab2": "Tidligere utbetalinger",
-  "filter.section":"Filtrer på utbetalinger",
+  "filter.aria":"Filtrer på utbetalinger",
   "filter.dato":"Filtrer på utbetalingsdato",
   "filter.fra":"Fra",
   "filter.til":"Til",
@@ -20,10 +20,14 @@
   "filter.tidligstFra":"Tidligste søkedato er 15 måneder tilbake",
   "filter.fraEtterTil":"Fra-dato kan ikke være etter til-dato",
   "filter.tilEtterFra.": "Til-dato kan ikke være før fra-dato",
+  "filter.knapp": "Filter",
+  "modal.avbryt": "Avbryt",
+  "modal.vis": "Vis treff",
   "feil.fetch" : "Noe gikk galt da vi skulle hente utbetalingene dine. Vennligst prøv igjen senere.",
   "feil.ingen":"Vi fant ingen utbetalinger",
   "feil.ingen.filter":"for valgt filtrering",
   "feil.ingen.default.tidligere":"for de siste 15 måneder",
   "feil.ingen.default.nye":"for nåværende eller kommende måneder"
+
 }
 

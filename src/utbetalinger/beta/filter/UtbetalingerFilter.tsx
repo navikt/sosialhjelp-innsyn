@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 /* eslint-disable react/jsx-pascal-case */
-import {Fieldset, Panel, Radio, RadioGroup, UNSAFE_DatePicker, UNSAFE_useDatepicker} from "@navikt/ds-react";
+import {Fieldset, Radio, RadioGroup, UNSAFE_DatePicker, UNSAFE_useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
 import {useTranslation} from "react-i18next";
@@ -65,42 +65,40 @@ const UtbetalingerFilter = (props: Props) => {
         oppdaterFilter({...filter, mottaker: values});
     };
     return (
-        <Panel as="section" aria-label={t("filter.section")} className={styles.utbetalinger_filter}>
-            <>
-                <Fieldset legend={t("filter.dato")} className={styles.periodevelger}>
-                    <UNSAFE_DatePicker
-                        {...fromDatePicker.datepickerProps}
-                        strategy={isMobile ? "fixed" : undefined}
-                        locale={i18n.language as "nb" | "nn" | "en"}
-                    >
-                        <UNSAFE_DatePicker.Input
-                            {...fromDatePicker.inputProps}
-                            label={t("filter.fra")}
-                            description={t("filter.format")}
-                            error={fromDatePicker.datepickerProps.open ? undefined : fromDateError}
-                        />
-                    </UNSAFE_DatePicker>
+        <div className={styles.utbetalinger_filter}>
+            <Fieldset legend={t("filter.dato")} className={styles.periodevelger}>
+                <UNSAFE_DatePicker
+                    {...fromDatePicker.datepickerProps}
+                    strategy={isMobile ? "fixed" : undefined}
+                    locale={i18n.language as "nb" | "nn" | "en"}
+                >
+                    <UNSAFE_DatePicker.Input
+                        {...fromDatePicker.inputProps}
+                        label={t("filter.fra")}
+                        description={t("filter.format")}
+                        error={fromDatePicker.datepickerProps.open ? undefined : fromDateError}
+                    />
+                </UNSAFE_DatePicker>
 
-                    <UNSAFE_DatePicker
-                        {...toDatePicker.datepickerProps}
-                        strategy={isMobile ? "fixed" : undefined}
-                        locale={i18n.language as "nb" | "nn" | "en"}
-                    >
-                        <UNSAFE_DatePicker.Input
-                            {...toDatePicker.inputProps}
-                            label={t("filter.til")}
-                            description={t("filter.format")}
-                            error={toDatePicker.datepickerProps.open ? undefined : toDateError}
-                        />
-                    </UNSAFE_DatePicker>
-                </Fieldset>
-                <RadioGroup defaultValue={filter.mottaker} legend={t("filter.mottaker")} onChange={onMottakerChanged}>
-                    <Radio value={MottakerFilter.Alle}>{t("filter.alle")}</Radio>
-                    <Radio value={MottakerFilter.MinKonto}>{t("filter.minKonto")}</Radio>
-                    <Radio value={MottakerFilter.AnnenMottaker}>{t("filter.annen")}</Radio>
-                </RadioGroup>
-            </>
-        </Panel>
+                <UNSAFE_DatePicker
+                    {...toDatePicker.datepickerProps}
+                    strategy={isMobile ? "fixed" : undefined}
+                    locale={i18n.language as "nb" | "nn" | "en"}
+                >
+                    <UNSAFE_DatePicker.Input
+                        {...toDatePicker.inputProps}
+                        label={t("filter.til")}
+                        description={t("filter.format")}
+                        error={toDatePicker.datepickerProps.open ? undefined : toDateError}
+                    />
+                </UNSAFE_DatePicker>
+            </Fieldset>
+            <RadioGroup defaultValue={filter.mottaker} legend={t("filter.mottaker")} onChange={onMottakerChanged}>
+                <Radio value={MottakerFilter.Alle}>{t("filter.alle")}</Radio>
+                <Radio value={MottakerFilter.MinKonto}>{t("filter.minKonto")}</Radio>
+                <Radio value={MottakerFilter.AnnenMottaker}>{t("filter.annen")}</Radio>
+            </RadioGroup>
+        </div>
     );
 };
 export default UtbetalingerFilter;
