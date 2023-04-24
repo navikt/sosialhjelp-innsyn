@@ -13,7 +13,7 @@ const StyledFrame = styled.div<{hasError?: boolean; hasFiler?: boolean}>`
     background-color: var(--a-gray-50);
     border-radius: 4px;
     padding: ${(props) => (props.hasError ? "0" : "16px")};
-    padding-bottom: ${(props) => (props.hasFiler ? "16px" : "10")};
+    padding-bottom: ${(props) => (props.hasFiler ? "16px" : "0")};
 
     ul:last-child {
         //FileItemView
