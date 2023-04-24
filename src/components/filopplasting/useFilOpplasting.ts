@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
-import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
+import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
@@ -101,6 +101,9 @@ const useFilOpplasting = (
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
+
+    /*
+    // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
     useEffect(() => {
         if (allFiles.length) {
             window.addEventListener("beforeunload", alertUser);
@@ -108,6 +111,7 @@ const useFilOpplasting = (
         return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
 
+     */
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
