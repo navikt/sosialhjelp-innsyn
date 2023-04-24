@@ -12,22 +12,34 @@ import {BodyShort, Label} from "@navikt/ds-react";
 const StyledFrame = styled.div<{hasError?: boolean; hasFiler?: boolean}>`
     background-color: var(--a-gray-50);
     border-radius: 4px;
-    padding: ${(props) => (props.hasError ? "0" : "16px")};
-    padding-bottom: ${(props) => (props.hasFiler ? "16px" : "0")};
 
+    ${(props) => {
+        if (props.hasError && props.hasFiler) {
+            return css`
+                padding-bottom: 16px;
+            `;
+        } else if (!props.hasError) {
+            return css`
+                padding-bottom: 16px;
+            `;
+        }
+    }}
+
+    // FileItemView
     ul:last-child {
-        //FileItemView
-        padding: 0 16px;
+        padding-inline: 16px;
     }
 
     .errorwrapper {
+        padding-inline: 16px;
+        padding-block: 16px 0;
+
         ${({hasError}) =>
             hasError &&
             css`
                 background-color: var(--a-red-50);
                 border: 1px solid var(--a-red-500);
                 border-radius: 4px;
-                padding: 16px;
             `}
     }
 `;
