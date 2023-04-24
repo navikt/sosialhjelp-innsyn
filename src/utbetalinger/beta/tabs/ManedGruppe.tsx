@@ -51,7 +51,7 @@ const ManedGruppe = (props: Props) => {
                                         </BodyShort>
                                     </div>
 
-                                    {utbetalingMaaned.status === "STOPPET" && (
+                                    {utbetalingMaaned.status !== "STOPPET" && (
                                         <BodyShort className={styles.float_right}>
                                             {formatCurrency(utbetalingMaaned.belop)} kr
                                         </BodyShort>
