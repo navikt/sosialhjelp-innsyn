@@ -9,17 +9,27 @@ import {Error, errorStatusToMessage} from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 import {BodyShort, Label} from "@navikt/ds-react";
 
-const StyledFrame = styled.div<{hasError?: boolean}>`
-    padding: 1rem;
+const StyledFrame = styled.div<{hasError?: boolean; hasFiler?: boolean}>`
     background-color: var(--a-gray-50);
     border-radius: 4px;
+    padding: ${(props) => (props.hasError ? "0" : "16px")};
+    padding-bottom: ${(props) => (props.hasFiler ? "16px" : "10")};
 
-    ${({hasError}) =>
-        hasError &&
-        css`
-            background-color: var(--a-red-50);
-            border: 1px solid var(--a-red-500);
-        `};
+    ul:last-child {
+        //FileItemView
+        padding: 0 16px;
+    }
+
+    .errorwrapper {
+        ${({hasError}) =>
+            hasError &&
+            css`
+                background-color: var(--a-red-50);
+                border: 1px solid var(--a-red-500);
+                border-radius: 4px;
+                padding: 16px;
+            `}
+    }
 `;
 
 interface Props {
@@ -37,29 +47,33 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
     const {t} = useTranslation();
 
     return (
-        <StyledFrame hasError={props.errors.length > 0}>
-            <div className="tekst-wrapping">
-                {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}
-                {props.beskrivelse ? <BodyShort spacing>{props.beskrivelse}</BodyShort> : <></>}
+        <StyledFrame hasError={props.errors.length > 0} hasFiler={props.filer.length > 0}>
+            <div className="errorwrapper">
+                <div className="tekst-wrapping">
+                    {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}
+                    {props.beskrivelse ? <BodyShort spacing>{props.beskrivelse}</BodyShort> : <></>}
+                </div>
+                {addFileButton}
+                <ErrorMessagePlaceholder>
+                    {props.errors.length > 0 ? (
+                        <>
+                            <ErrorMessagesSummary errors={props.errors} />
+                            <ul className={styles.feilListe}>
+                                {uniqueErrors.map((key, i) => (
+                                    <li key={i}>
+                                        <ErrorMessage>{t(errorStatusToMessage[key.feil])}</ErrorMessage>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                </ErrorMessagePlaceholder>
             </div>
-            {addFileButton}
-            <ErrorMessagePlaceholder>
-                {props.errors.length > 0 ? (
-                    <>
-                        <ErrorMessagesSummary errors={props.errors} />
-                        <ul className={styles.feilListe}>
-                            {uniqueErrors.map((key, i) => (
-                                <li key={i}>
-                                    <ErrorMessage>{t(errorStatusToMessage[key.feil])}</ErrorMessage>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                ) : (
-                    <></>
-                )}
-            </ErrorMessagePlaceholder>
-            <FileItemView errors={props.errors} filer={props.filer} onDelete={props.onDelete} />
+            <div className="fileItemView">
+                <FileItemView errors={props.errors} filer={props.filer} onDelete={props.onDelete} />
+            </div>
         </StyledFrame>
     );
 };
