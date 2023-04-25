@@ -83,9 +83,8 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
                     )}
                 </ErrorMessagePlaceholder>
             </div>
-            <div className="fileItemView">
-                <FileItemView errors={props.errors} filer={props.filer} onDelete={props.onDelete} />
-            </div>
+
+            <FileItemView errors={props.errors} filer={props.filer} onDelete={props.onDelete} />
         </StyledFrame>
     );
 };
