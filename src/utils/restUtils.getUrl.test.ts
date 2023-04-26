@@ -12,7 +12,7 @@ const localhostOrigins = [
 
 const devSbsOrigins = ["https://www-q0.dev.nav.no/sosialhjelp/innsyn", "https://www-q0.dev.nav.no"];
 
-const devOrigins = ["https://digisos.dev.nav.no/sosialhjelp/innsyn", "https://digisos.dev.nav.no"];
+const devOrigins = ["https://digisos.intern.dev.nav.no/sosialhjelp/innsyn", "https://digisos.intern.dev.nav.no"];
 
 const mockOrigins = ["https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn", "https://digisos.ekstern.dev.nav.no"];
 
@@ -33,7 +33,7 @@ describe("getBaseUrl", () => {
         );
         //validateGetBaseUrl(localhostOrigins, "http://localhost:8080/sosialhjelp/innsyn-api/api/v1");//for idporten testing
         validateGetBaseUrl(devSbsOrigins, "https://www-q0.dev.nav.no/sosialhjelp/login-api/innsyn-api/api/v1");
-        validateGetBaseUrl(devOrigins, "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
+        validateGetBaseUrl(devOrigins, "https://digisos.intern.dev.nav.no/sosialhjelp/innsyn-api/api/v1");
         validateGetBaseUrl(
             mockOrigins,
             "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api/v1"
