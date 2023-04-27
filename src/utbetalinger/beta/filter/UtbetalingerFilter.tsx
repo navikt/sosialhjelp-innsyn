@@ -5,6 +5,7 @@ import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
 import {useTranslation} from "react-i18next";
 import useIsMobile from "../../../utils/useIsMobile";
+import {logAmplitudeEvent} from "../../../utils/amplitude";
 
 function subtractMonths(date: Date, months: number) {
     date.setMonth(date.getMonth() - months);
@@ -29,6 +30,7 @@ const UtbetalingerFilter = (props: Props) => {
         defaultSelected: filter.fraDato,
         onDateChange: (dato?) => {
             oppdaterFilter({...filter, fraDato: dato});
+            logAmplitudeEvent("filtervalg", {kategori: "fraDato", filternavn: dato});
         },
         onValidate: (val) => {
             if (val.isBefore) setFromDateError(t("filter.tidligstFra"));
@@ -44,6 +46,7 @@ const UtbetalingerFilter = (props: Props) => {
         defaultSelected: filter.tilDato,
         onDateChange: (dato?) => {
             oppdaterFilter({...filter, tilDato: dato});
+            logAmplitudeEvent("filtervalg", {kategori: "tilDato", filternavn: dato});
         },
         onValidate: (val) => {
             if (val.isBefore) setToDateError(filter.fraDato ? t("filter.tilEtterFra") : t("filter.tidligstFra"));
@@ -61,8 +64,9 @@ const UtbetalingerFilter = (props: Props) => {
         }
     }, [isOpen, setDatePickerIsOpen]);
 
-    const onMottakerChanged = (values: MottakerFilter) => {
-        oppdaterFilter({...filter, mottaker: values});
+    const onMottakerChanged = (value: MottakerFilter) => {
+        oppdaterFilter({...filter, mottaker: value});
+        logAmplitudeEvent("filtervalg", {kategori: "mottaker", filternavn: value});
     };
     return (
         <div className={styles.utbetalinger_filter}>

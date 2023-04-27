@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Accordion, BodyShort} from "@navikt/ds-react";
 import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
 import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {FileContent} from "@navikt/ds-icons";
 import {useTranslation} from "react-i18next";
 import i18next from "../../../locales/i18n";
+import {logAmplitudeEvent} from "../../../utils/amplitude";
 
 function statusToTekst(status: string) {
     switch (status) {
@@ -26,6 +27,7 @@ interface Props {
 const ManedGruppe = (props: Props) => {
     const {utbetalingSak} = props;
     const {t} = useTranslation("utbetalinger");
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <section className={styles.month_group}>
@@ -36,8 +38,16 @@ const ManedGruppe = (props: Props) => {
                 const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
                 return (
                     <Accordion key={utbetalingMaaned.forfallsdato + "_" + index}>
-                        <Accordion.Item>
-                            <Accordion.Header className={styles.accordion_header}>
+                        <Accordion.Item open={isOpen}>
+                            <Accordion.Header
+                                className={styles.accordion_header}
+                                onClick={(e) => {
+                                    logAmplitudeEvent(isOpen ? "accordion lukket" : "accordion åpnet", {
+                                        tekst: "Utbetaling",
+                                    });
+                                    setIsOpen((isOpen) => !isOpen);
+                                }}
+                            >
                                 <div className={styles.accordion_headerContent}>
                                     <div className={styles.float_left}>
                                         <BodyShort className={styles.uthevetTekst}>

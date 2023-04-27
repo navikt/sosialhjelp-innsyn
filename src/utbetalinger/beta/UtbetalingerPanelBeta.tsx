@@ -37,8 +37,8 @@ const UtbetalingerPanelBeta = () => {
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 
-    const onSeTidligere = () => {
-        logAmplitudeEvent("Klikket tidligere utbetalinger");
+    const logTabChange = (tabPath: string) => {
+        logAmplitudeEvent("Klikket tab", {tab: tabPath});
     };
 
     const isMobile = useIsMobile();
@@ -49,7 +49,7 @@ const UtbetalingerPanelBeta = () => {
                 {t("tittel")}
             </Heading>
             {isMobile && <FilterModal />}
-            <Tabs defaultValue={TAB_VALUE.UTBETALINGER}>
+            <Tabs defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)}>
                 <Tabs.List className={styles.tab_list}>
                     <Tabs.Tab value={TAB_VALUE.UTBETALINGER} label={t("tab1")} />
                     <Tabs.Tab value={TAB_VALUE.TIDLIGERE} label={t("tab2")} />
@@ -58,7 +58,7 @@ const UtbetalingerPanelBeta = () => {
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
                     <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
-                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel} onClick={onSeTidligere}>
+                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
                     <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>
