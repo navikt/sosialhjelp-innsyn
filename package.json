@@ -78,7 +78,7 @@
         "@types/react-redux": "^7.1.9",
         "@types/styled-components": "^5.1.15",
         "@types/uuid": "^8.0.0",
-        "husky": "^4.2.5",
+        "husky": "^8.0.3",
         "lint-staged": "^10.2.9",
         "msw": "^0.49.2",
         "orval": "^6.11.0",
