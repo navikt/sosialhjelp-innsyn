@@ -3,7 +3,7 @@
     "info": {"title": "OpenAPI definition", "version": "v0"},
     "servers": [
         {
-            "url": "https://sosialhjelp-innsyn-api-mock.dev.nav.no/sosialhjelp/innsyn-api",
+            "url": "https://sosialhjelp-innsyn-api-mock.ekestern.dev.nav.no/sosialhjelp/innsyn-api",
             "description": "Generated server url"
         }
     ],
