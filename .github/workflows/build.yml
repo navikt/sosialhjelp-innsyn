@@ -1,5 +1,9 @@
 name: Build image
 on:
+  workflow_call:
+    secrets:
+      READER_TOKEN:
+        required: true
   push:
     branches:
       - '**'      # Build all branches
@@ -44,7 +48,6 @@ jobs:
       - name: Build docker image
         run: docker build -t ${{ env.DOCKER_TAG }} .
       - name: Push docker image
-        secrets: inherit
         run: |
           docker push ${{ env.DOCKER_TAG }}
       - name: Create tag and release
