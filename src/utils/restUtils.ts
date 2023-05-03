@@ -16,7 +16,7 @@ export function isDevSbs(origin: string): boolean {
 }
 
 export function isDev(origin: string): boolean {
-    return origin.indexOf("digisos.dev.nav.no") >= 0;
+    return origin.indexOf("digisos.intern.dev.nav.no") >= 0;
 }
 
 export function isMock(origin: string): boolean {
@@ -100,7 +100,7 @@ export function getLogoutUrl(origin: string): string {
         return "https://loginservice.dev.nav.no/slo";
     }
     if (isDev(origin)) {
-        return "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo";
+        return "https://digisos.intern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo";
     }
     return "https://loginservice.nav.no/slo";
 }
@@ -323,7 +323,7 @@ function getRedirectOrigin() {
 
 export function getRedirectPath(loginUrl: string, id: string): string {
     const redirectOrigin = getRedirectOrigin();
-    if (loginUrl.indexOf("digisos.dev.nav.no") === -1) {
+    if (loginUrl.indexOf("digisos.intern.dev.nav.no") === -1) {
         const gotoParameter = "goto=" + window.location.pathname;
         const redirectPath = redirectOrigin + "/sosialhjelp/innsyn/link?" + gotoParameter;
         return "redirect=" + redirectPath + "%26login_id=" + id;

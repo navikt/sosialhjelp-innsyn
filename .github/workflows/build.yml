@@ -1,5 +1,9 @@
 name: Build image
 on:
+  workflow_call:
+    secrets:
+      READER_TOKEN:
+        required: true
   push:
     branches:
       - '**'      # Build all branches
