@@ -25,12 +25,11 @@ spec:
     min: 1
     max: 2
   ingresses:
-    - "https://sosialhjelp-innsyn-dev.dev.nav.no/sosialhjelp/innsyn"
+    - "https://sosialhjelp-innsyn-dev.intern.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       external:
-        - host: dekoratoren.dev.nav.no
-        - host: dekoratoren.ekstern.dev.nav.no
+        - host: dekoratoren.intern.dev.nav.no
         - host: digisos.intern.dev.nav.no
   resources:
     limits:
