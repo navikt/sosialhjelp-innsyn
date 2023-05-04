@@ -81,14 +81,6 @@ export function getBaseUrl(origin: string, excludeApiV1?: boolean): string {
     return "https://www.nav.no/sosialhjelp/login-api/innsyn-api/api/v1";
 }
 
-export function getNavUrl(origin: string): string {
-    if (isLocalhost(origin) || isUsingMockAlt(origin) || isDevSbs(origin) || isDev(origin)) {
-        return "https://www.dev.nav.no/person/dittnav/";
-    } else {
-        return "https://www.nav.no/person/dittnav/";
-    }
-}
-
 export function getLogoutUrl(origin: string): string {
     if (isLocalhost(origin)) {
         return "http://localhost:3000/sosialhjelp/mock-alt/";
@@ -97,7 +89,7 @@ export function getLogoutUrl(origin: string): string {
         return "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt/";
     }
     if (isDevSbs(origin)) {
-        return "https://loginservice.dev.nav.no/slo";
+        return "https://loginservice.intern.dev.nav.no/slo";
     }
     if (isDev(origin)) {
         return "https://digisos.intern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo";
