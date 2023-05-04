@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
-import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
+import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
@@ -107,17 +107,17 @@ const useFilOpplasting = (
     // TODO: timeout, trykk på "logg inn på nytt" produserer "stay on page....", "leave...."
     // TODO: havner i loop her når trykker på "stay..." eller "leave..." mens vedlegg er usendt
     // TODO: problemet ser ut til å være primært i firefox, i chrome havner man ikke i en loop
-    useEffect(() => {
-        if (allFiles.length) {
-            window.addEventListener("beforeunload", alertUser);
-            //window.addEventListener("onbeforeunload", alertUser);
-            //window.onbeforeunload = function (e) {
-            //    return "waaaaaat";
-            //}
-        }
-        return () => window.removeEventListener("beforeunload", alertUser);
-        //return () => window.removeEventListener("onbeforeunload", alertUser);
-    }, [allFiles]);
+    //useEffect(() => {
+    //    if (allFiles.length) {
+    //        window.addEventListener("beforeunload", alertUser);
+    //        //window.addEventListener("onbeforeunload", alertUser);
+    //        //window.onbeforeunload = function (e) {
+    //        //    return "waaaaaat";
+    //        //}
+    //    }
+    //    return () => window.removeEventListener("beforeunload", alertUser);
+    //    //return () => window.removeEventListener("onbeforeunload", alertUser);
+    //}, [allFiles]);
 
     /**
      *
