@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useEffect} from "react";
 import Nedtelling from "./Nedtelling";
 import LoggetUt from "./LoggetUt";
 import {now} from "../../utils/timeoutUtils";
@@ -6,9 +7,8 @@ import useInterval from "../../hooks/useInterval";
 import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 import {getLogoutUrl} from "../../utils/restUtils";
-import {useEffect} from "react";
 
-const ONE_MINUTE_IN_MS = 60 * 1000;
+const ONE_MINUTE_IN_MS = 60 * 10;
 
 interface Props {
     sessionDurationInMinutes: number;
@@ -49,8 +49,13 @@ const TimeoutBox = (props: Props) => {
         setShowLoggedOut(tidIgjenAvSesjon < 0);
     }, ONE_MINUTE_IN_MS);
 
+    //problemmet ligger her
     const onLoginAgainClick = () => {
         window.location.reload();
+        //window.history.go(0);
+        //window.location.href = window.location.href;
+        //setTimeout(() => window.location.reload());
+        //setTimeout(function(){window.location.reload()},100);
     };
 
     const onContinueClick = () => {

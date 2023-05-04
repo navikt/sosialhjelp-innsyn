@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
-import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
+import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
@@ -102,16 +102,40 @@ const useFilOpplasting = (
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
-    /*
     // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
+    //
+    // TODO: timeout, trykk på "logg inn på nytt" produserer "stay on page....", "leave...."
+    // TODO: havner i loop her når trykker på "stay..." eller "leave..." mens vedlegg er usendt
+    // TODO: problemet ser ut til å være primært i firefox, i chrome havner man ikke i en loop
     useEffect(() => {
         if (allFiles.length) {
             window.addEventListener("beforeunload", alertUser);
+            //window.addEventListener("onbeforeunload", alertUser);
+            //window.onbeforeunload = function (e) {
+            //    return "waaaaaat";
+            //}
         }
         return () => window.removeEventListener("beforeunload", alertUser);
+        //return () => window.removeEventListener("onbeforeunload", alertUser);
     }, [allFiles]);
 
-     */
+    /**
+     *
+     *
+     *     useEffect(() => {
+     *         if (filer && filer.length > 0) {
+     *             window.addEventListener("beforeunload", alertUser);
+     *         }
+     *         return function unload() {
+     *             window.removeEventListener("beforeunload", alertUser);
+     *         };
+     *     }, [filer]);
+     *
+     *
+     *
+     *
+     *
+     * */
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
