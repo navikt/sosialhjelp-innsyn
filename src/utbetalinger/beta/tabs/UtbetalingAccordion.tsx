@@ -5,9 +5,9 @@ import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatt
 import {Link} from "react-router-dom";
 import {FileContent} from "@navikt/ds-icons";
 import React, {useState} from "react";
-import {ManedUtbetaling} from "../../../generated/model";
 import {useTranslation} from "react-i18next";
 import i18next from "../../../locales/i18n";
+import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
 
 function statusToTekst(status: string) {
     switch (status) {
@@ -21,8 +21,11 @@ function statusToTekst(status: string) {
             return status.toLowerCase() + " ";
     }
 }
+interface Props {
+    utbetalingManed: UtbetalingMedId;
+}
 
-const UtbetalingAccordion = ({utbetalingManed}: {utbetalingManed: ManedUtbetaling}) => {
+const UtbetalingAccordion = ({utbetalingManed}: Props) => {
     const {t} = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(false);
 

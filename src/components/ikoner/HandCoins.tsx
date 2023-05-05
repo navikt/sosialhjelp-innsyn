@@ -2,6 +2,7 @@ import React, {SVGProps} from "react";
 
 interface Props {
     bgcolor?: string;
+    className?: string;
 }
 
 const HandCoinsIcon = (props: SVGProps<SVGSVGElement> & Props) => {

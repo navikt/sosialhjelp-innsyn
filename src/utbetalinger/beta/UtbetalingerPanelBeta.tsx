@@ -10,9 +10,19 @@ import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
 import useIsMobile from "../../utils/useIsMobile";
 import FilterModal from "./filter/FilterModal";
 import {useTranslation} from "react-i18next";
+import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
+
 enum TAB_VALUE {
     UTBETALINGER = "Utbetalinger",
     TIDLIGERE = "Tidligere utbetalinger",
+}
+
+export interface UtbetalingMedId extends ManedUtbetaling {
+    id: string;
+}
+
+export interface UtbetalingerResponse extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
+    utbetalingerForManed: UtbetalingMedId[];
 }
 
 const UtbetalingerPanelBeta = () => {
@@ -24,13 +34,27 @@ const UtbetalingerPanelBeta = () => {
         isError: hentNyeFeilet,
     } = useHentNyeUtbetalinger({
         query: {
-            onSuccess: (data) => {
+            onSuccess: (data: UtbetalingerResponse[]) => {
                 if (!nyeLogged && data.length > 0) {
                     const sisteManedgruppe = data[data.length - 1].utbetalingerForManed;
                     const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
                     logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
                     setNyeLogged(true);
                 }
+            },
+            select: (data) => {
+                // Legg på en id på hver utbetaling
+                return data.map((item) => {
+                    return {
+                        ...item,
+                        utbetalingerForManed: item.utbetalingerForManed.map((utbetaling: ManedUtbetaling) => {
+                            return {
+                                ...utbetaling,
+                                id: crypto.randomUUID(),
+                            };
+                        }),
+                    };
+                });
             },
         },
     });

@@ -17,7 +17,6 @@ import {Panel} from "@navikt/ds-react";
 
 const UtbetalingerBeta = () => {
     const {t} = useTranslation("utbetalinger");
-
     document.title = t("documentTitle");
     const {pathname} = useLocation();
     const dispatch = useDispatch();

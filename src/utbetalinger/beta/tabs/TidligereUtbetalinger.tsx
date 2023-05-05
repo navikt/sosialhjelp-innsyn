@@ -1,5 +1,4 @@
 import React from "react";
-import {NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert, BodyLong} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
@@ -7,9 +6,28 @@ import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-cont
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import {useFilter} from "../filter/FilterContext";
 import {useTranslation} from "react-i18next";
+import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
+import {ManedUtbetaling} from "../../../generated/model";
 
 const TidligerUtbetalingerInnhold = () => {
-    const {data, isLoading, isError} = useHentTidligereUtbetalinger();
+    const {data, isLoading, isError} = useHentTidligereUtbetalinger({
+        query: {
+            select: (data) => {
+                // Legg på en id på hver utbetaling
+                return data.map((item) => {
+                    return {
+                        ...item,
+                        utbetalingerForManed: item.utbetalingerForManed.map((utbetaling: ManedUtbetaling) => {
+                            return {
+                                ...utbetaling,
+                                id: crypto.randomUUID(),
+                            };
+                        }),
+                    };
+                });
+            },
+        },
+    });
     const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
     const {isUsingFilter} = useFilter();
     const {t} = useTranslation("utbetalinger");
@@ -34,7 +52,7 @@ const TidligerUtbetalingerInnhold = () => {
 
     return (
         <>
-            {filtrerteTidligere.map((utbetalingSak: NyeOgTidligereUtbetalingerResponse) => (
+            {filtrerteTidligere.map((utbetalingSak: UtbetalingerResponse) => (
                 <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
         </>

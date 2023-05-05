@@ -1,15 +1,15 @@
 import React from "react";
-import {NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
 import {useFilter} from "../filter/FilterContext";
 import {useTranslation} from "react-i18next";
+import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
 
 interface Props {
     lasterData: boolean;
     error: boolean;
-    utbetalinger: NyeOgTidligereUtbetalingerResponse[];
+    utbetalinger: UtbetalingerResponse[];
 }
 
 const NyeUtbetalinger = (props: Props) => {
@@ -36,7 +36,7 @@ const NyeUtbetalinger = (props: Props) => {
 
     return (
         <>
-            {props.utbetalinger.map((utbetalingSak: NyeOgTidligereUtbetalingerResponse) => (
+            {props.utbetalinger.map((utbetalingSak: UtbetalingerResponse) => (
                 <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
         </>
