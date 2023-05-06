@@ -8,7 +8,7 @@ import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 import {getLogoutUrl} from "../../utils/restUtils";
 
-const ONE_MINUTE_IN_MS = 60 * 10;
+const ONE_MINUTE_IN_MS = 60 * 1000;
 
 interface Props {
     sessionDurationInMinutes: number;
@@ -49,13 +49,8 @@ const TimeoutBox = (props: Props) => {
         setShowLoggedOut(tidIgjenAvSesjon < 0);
     }, ONE_MINUTE_IN_MS);
 
-    //problemmet ligger her
     const onLoginAgainClick = () => {
         window.location.reload();
-        //window.history.go(0);
-        //window.location.href = window.location.href;
-        //setTimeout(() => window.location.reload());
-        //setTimeout(function(){window.location.reload()},100);
     };
 
     const onContinueClick = () => {
