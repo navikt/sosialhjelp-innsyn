@@ -49,7 +49,8 @@
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
         "orval": "rm -rf ./src/generated && orval --prettier",
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
-        "tsc": "tsc"
+        "tsc": "tsc",
+        "prepare": "husky install"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -87,8 +88,8 @@
         "typescript": "^4.9.4"
     },
     "lint-staged": {
-      "*.{js,jsx,ts,tsx,css,md}": "prettier --write",
-      "*.{js,jsx,ts,tsx}": "eslint --max-warnings=0 src/"
+        "*.{js,jsx,ts,tsx,css,md}": "prettier --write",
+        "*.{js,jsx,ts,tsx}": "eslint --max-warnings=0 src/"
     },
     "jest": {
         "moduleNameMapper": {
