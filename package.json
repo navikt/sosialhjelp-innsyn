@@ -43,13 +43,13 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --watchAll=false",
         "eject": "react-scripts eject",
-        "lint": "eslint --ext js,ts,tsx --fix ./src",
+        "lintStaged": "lint-staged",
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
         "orval": "rm -rf ./src/generated && orval --prettier",
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
-        "tsc": "tsc",
+        "typeCheck": "tsc",
         "prepare": "husky install"
     },
     "eslintConfig": {
