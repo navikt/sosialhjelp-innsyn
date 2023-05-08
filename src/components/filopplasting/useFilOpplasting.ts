@@ -104,7 +104,6 @@ const useFilOpplasting = (
 
     // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
     useEffect(() => {
-        console.log("wat is here");
         if (allFiles.length) {
             window.addEventListener("beforeunload", alertUser);
             //window.addEventListener("onbeforeunload", alertUser);
@@ -115,23 +114,6 @@ const useFilOpplasting = (
         //return () => window.removeEventListener("onbeforeunload", alertUser);
     }, [allFiles]);
 
-    /**
-     *
-     *
-     *     useEffect(() => {
-     *         if (filer && filer.length > 0) {
-     *             window.addEventListener("beforeunload", alertUser);
-     *         }
-     *         return function unload() {
-     *             window.removeEventListener("beforeunload", alertUser);
-     *         };
-     *     }, [filer]);
-     *
-     *
-     *
-     *
-     *
-     * */
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
