@@ -29,7 +29,7 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: dekoratoren.intern.dev.nav.no
+        - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.intern.dev.nav.no
   resources:
     limits:
