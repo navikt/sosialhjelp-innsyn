@@ -7,8 +7,6 @@ import VedleggView from "../components/vedlegg/VedleggView";
 import {useTranslation} from "react-i18next";
 import ForelopigSvarAlertstripe from "../components/forelopigSvar/ForelopigSvar";
 import DriftsmeldingAlertstripe from "../components/driftsmelding/Driftsmelding";
-import {SoknadHotjarTrigger} from "../components/hotjarTrigger/HotjarTrigger";
-import {isKommuneMedInnsyn, isKommuneUtenInnsyn} from "./saksStatusUtils";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
@@ -81,23 +79,9 @@ const SaksStatusView = () => {
 
     useBannerTittel(statusTittel);
 
-    const getHotjarTriggerIfValid = () => {
-        const shouldShowHotjarTrigger =
-            soknadsStatus &&
-            kommune &&
-            (soknadsStatus.tidspunktSendt == null || (soknadsStatus.soknadsalderIMinutter ?? 0) > 60);
-        if (!shouldShowHotjarTrigger) return null;
-        if (isKommuneMedInnsyn(kommune, soknadsStatus.status)) return "digisos_innsyn";
-        if (isKommuneUtenInnsyn(kommune)) return "digisos_ikke_innsyn";
-    };
-
     return (
         <>
             <LoadingResourcesFailedAlert />
-
-            <SoknadHotjarTrigger trigger={getHotjarTriggerIfValid()}>
-                <div />
-            </SoknadHotjarTrigger>
 
             {mustLogin && <ApplicationSpinner />}
 

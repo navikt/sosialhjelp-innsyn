@@ -1,5 +1,4 @@
 import React, {useMemo} from "react";
-import "./oppgaver.css";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";

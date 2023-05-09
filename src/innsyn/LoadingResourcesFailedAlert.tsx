@@ -70,8 +70,8 @@ export const LoadingResourcesFailedAlert = () => {
 
     return (
         <StyledWrapper>
-            {hasError && (
-                <Alert variant="error" className="luft_over_16px">
+            {true && (
+                <Alert variant="error">
                     <Trans t={t} i18nKey="feilmelding.ressurs_innlasting" components={{linebreak: <br />}} />
                 </Alert>
             )}

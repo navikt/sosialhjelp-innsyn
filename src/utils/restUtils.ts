@@ -1,4 +1,3 @@
-import "whatwg-fetch";
 import {v4 as uuidv4} from "uuid";
 import {createLogEntry, LOG_URL} from "./logUtils";
 import Axios from "axios";

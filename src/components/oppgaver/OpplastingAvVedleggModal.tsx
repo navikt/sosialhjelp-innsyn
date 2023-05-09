@@ -2,6 +2,7 @@ import React, {MouseEvent, useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
+import styles from "./oppgaver.module.css";
 
 const StyledModal = styled(Modal)`
     max-width: 600px;
@@ -23,7 +24,7 @@ export const OpplastingAvVedleggModal = () => {
 
     return (
         <>
-            <Link href="#" onClick={handleOnClick} className="luft_over_10px luft_under_1rem">
+            <Link href="#" onClick={handleOnClick} className={styles.lastOppHjelp}>
                 {t("oppgaver.hjelp_last_opp")}
             </Link>
             <StyledModal

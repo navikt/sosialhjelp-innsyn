@@ -64,10 +64,6 @@ code {
     }
 }
 
-.maincontent .side-innhold {
-    padding-top: 0;
-}
-
 /* Hack for å skjule del-skjerm knappen  */
 .footer-bottom-content__personvern-lenker > li:last-child {
     display: none;
