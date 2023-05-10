@@ -62,7 +62,7 @@
     "devDependencies": {
         "@faker-js/faker": "^7.6.0",
         "@testing-library/jest-dom": "^5.16.2",
-        "@testing-library/react": "^13.4.0",
+        "@testing-library/react": "^14.0.0",
         "@types/amplitude-js": "^8.9.5",
         "@types/js-cookie": "^3.0.3",
         "@types/react": "^18.0.26",
