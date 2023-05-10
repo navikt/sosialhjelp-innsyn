@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Alert, BodyShort} from "@navikt/ds-react";
-import "./saksoversikt.css";
 import SaksoversiktDineSaker from "./SaksoversiktDineSaker";
 import {useBannerTittel} from "../redux/navigasjon/navigasjonUtils";
 import SaksoversiktIngenSoknader from "./SaksoversiktIngenSoknader";
@@ -39,7 +38,7 @@ const Saksoversikt: React.FC = () => {
             {!isLoading && (
                 <>
                     {error && (
-                        <Alert variant="warning" className="luft_over_16px">
+                        <Alert variant="warning">
                             <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
                             <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
                         </Alert>

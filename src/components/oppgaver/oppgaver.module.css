@@ -6,3 +6,8 @@
 .oppgaveElement:not(:last-child) {
     margin-bottom: 16px;
 }
+
+.lastOppHjelp {
+    margin-bottom: 16px;
+    margin-top: 10px;
+}

@@ -61,7 +61,7 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
     return (
         <StyledFrame hasError={props.errors.length > 0} hasFiler={props.filer.length > 0}>
             <div className="errorwrapper">
-                <div className="tekst-wrapping">
+                <div className={styles.tekstWrapping}>
                     {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}
                     {props.beskrivelse ? <BodyShort spacing>{props.beskrivelse}</BodyShort> : <></>}
                 </div>
