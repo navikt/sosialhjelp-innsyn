@@ -47,18 +47,26 @@ const UtbetalingAccordion = ({utbetalingManed}: Props) => {
                                 {utbetalingManed.tittel ? utbetalingManed.tittel : t("utbetaling")}
                             </BodyShort>
                             <BodyShort>
-                                {statusToTekst(utbetalingManed.status)}
-                                {utbetalingManed.utbetalingsdato
-                                    ? getDayAndMonth(utbetalingManed.utbetalingsdato)
-                                    : t("ukjentDato")}
+                                {utbetalingManed.status === "STOPPET" ? (
+                                    <>{i18next.t("utbetalinger:stoppet")}</>
+                                ) : (
+                                    <>
+                                        {statusToTekst(utbetalingManed.status)}
+                                        {utbetalingManed.utbetalingsdato
+                                            ? getDayAndMonth(utbetalingManed.utbetalingsdato)
+                                            : t("ukjentDato")}
+                                    </>
+                                )}
                             </BodyShort>
                         </div>
 
-                        {utbetalingManed.status !== "STOPPET" && (
-                            <BodyShort className={styles.float_right}>
-                                {formatCurrency(utbetalingManed.belop)} kr
-                            </BodyShort>
-                        )}
+                        <BodyShort className={styles.float_right}>
+                            {utbetalingManed.status === "STOPPET" ? (
+                                <del>{formatCurrency(utbetalingManed.belop)} kr</del>
+                            ) : (
+                                <>{formatCurrency(utbetalingManed.belop)} kr</>
+                            )}
+                        </BodyShort>
                     </div>
                 </Accordion.Header>
                 <Accordion.Content className={styles.accordion_content}>
