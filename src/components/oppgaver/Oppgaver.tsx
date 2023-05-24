@@ -3,7 +3,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {Alert} from "@navikt/ds-react";
+import {Accordion, Alert} from "@navikt/ds-react";
 import styled from "styled-components";
 import {VilkarAccordion} from "./vilkar/VilkarAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
@@ -61,10 +61,17 @@ const Oppgaver = () => {
     const fiksDigisosId = useFiksDigisosId();
     const vilkarQuery = useGetVilkar(fiksDigisosId);
     const dokumentasjonskravQuery = useGetDokumentasjonkrav(fiksDigisosId);
-    const oppgaverQuery = useDokumentasjonEtterspurt(fiksDigisosId);
-    const harLevertDokumentasjonskravQuery = useGetHarLevertDokumentasjonkrav(fiksDigisosId);
-    const fagsystemHarDokumentasjonkravQuery = useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
-    const saksStatusQuery = useHentSaksStatuser(fiksDigisosId);
+    const {dokumentasjonEtterspurt, ...oppgaverQuery} = useDokumentasjonEtterspurt(fiksDigisosId);
+    const {data: harLevertDokumentasjonskrav, ...harLevertDokumentasjonskravQuery} =
+        useGetHarLevertDokumentasjonkrav(fiksDigisosId);
+    const {data: fagsystemHarDokumentasjonkrav, ...fagsystemHarDokumentasjonkravQuery} =
+        useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
+
+    const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
+    const utbetalingerQuery = useHentUtbetalinger(
+        {},
+        {query: {onError: (e) => logWarningMessage(e.message, e.navCallId)}}
+    );
 
     const hasError =
         vilkarQuery.isError ||
@@ -81,10 +88,7 @@ const Oppgaver = () => {
         harLevertDokumentasjonskravQuery.isLoading ||
         fagsystemHarDokumentasjonkravQuery.isLoading ||
         saksStatusQuery.isLoading;
-    const utbetalingerQuery = useHentUtbetalinger(
-        {},
-        {query: {onError: (e) => logWarningMessage(e.message, e.navCallId)}}
-    );
+
     const sakUtbetalinger = useMemo(
         () =>
             utbetalingerQuery.data?.flatMap((utbetaling) =>
@@ -108,32 +112,38 @@ const Oppgaver = () => {
     );
 
     const brukerHarDokumentasjonEtterspurt =
-        oppgaverQuery.dokumentasjonEtterspurt && oppgaverQuery.dokumentasjonEtterspurt.length > 0;
+        Array.isArray(dokumentasjonEtterspurt) && dokumentasjonEtterspurt.length > 0;
 
     const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || filtrerteDokumentasjonkrav || filtrerteVilkar;
 
-    const skalViseIngenOppgaverPanel = useMemo(() => {
+    const [skalViseIngenOppgaverPanel, skalViseOppgaveInformasjon] = useMemo(() => {
         const harOppgaver = Boolean(
-            oppgaverQuery.dokumentasjonEtterspurt?.length ||
-                filtrerteDokumentasjonkrav?.length ||
-                filtrerteVilkar?.length
+            dokumentasjonEtterspurt?.length || filtrerteDokumentasjonkrav?.length || filtrerteVilkar?.length
         );
-        const harSaker = saksStatusQuery.data && saksStatusQuery.data.length > 0;
-        const _harSakMedInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(saksStatusQuery.data);
-        return (
+        const harSaker = Array.isArray(saksStatuser) && saksStatuser.length > 0;
+        const _harSakMedInnvilgetEllerDelvisInnvilget = harSakMedInnvilgetEllerDelvisInnvilget(saksStatuser);
+
+        const skalViseOppgaveInformasjon =
+            _harSakMedInnvilgetEllerDelvisInnvilget &&
+            filtrerteVilkar?.length === 0 &&
+            filtrerteDokumentasjonkrav?.length === 0 &&
+            !fagsystemHarDokumentasjonkrav &&
+            !harLevertDokumentasjonskrav;
+
+        const skalViseIngenOppgaverPanel =
             !harOppgaver &&
-            ((harLevertDokumentasjonskravQuery.data && _harSakMedInnvilgetEllerDelvisInnvilget) ||
-                (fagsystemHarDokumentasjonkravQuery.data && _harSakMedInnvilgetEllerDelvisInnvilget) ||
+            ((harLevertDokumentasjonskrav && _harSakMedInnvilgetEllerDelvisInnvilget) ||
+                (fagsystemHarDokumentasjonkrav && _harSakMedInnvilgetEllerDelvisInnvilget) ||
                 !_harSakMedInnvilgetEllerDelvisInnvilget ||
-                !harSaker)
-        );
+                !harSaker);
+        return [skalViseIngenOppgaverPanel, skalViseOppgaveInformasjon];
     }, [
-        oppgaverQuery.dokumentasjonEtterspurt,
+        dokumentasjonEtterspurt,
         filtrerteDokumentasjonkrav,
         filtrerteVilkar,
-        saksStatusQuery.data,
-        fagsystemHarDokumentasjonkravQuery.data,
-        harLevertDokumentasjonskravQuery.data,
+        saksStatuser,
+        fagsystemHarDokumentasjonkrav,
+        harLevertDokumentasjonskrav,
     ]);
 
     if (isLoading) {
@@ -157,21 +167,18 @@ const Oppgaver = () => {
     return (
         <OppgaverPanel hasError={false}>
             {skalViseIngenOppgaverPanel && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
-            {skalViseOppgaver && (
-                <>
-                    <DokumentasjonEtterspurtAccordion
-                        isLoading={oppgaverQuery.isLoading}
-                        dokumentasjonEtterspurt={oppgaverQuery.dokumentasjonEtterspurt}
-                    />
-
-                    {Boolean(filtrerteVilkar?.length) && <VilkarAccordion vilkar={filtrerteVilkar} />}
-
-                    {Boolean(filtrerteDokumentasjonkrav?.length) && (
-                        <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav!} />
+            {(skalViseOppgaver || skalViseOppgaveInformasjon) && (
+                <Accordion>
+                    {skalViseOppgaver && (
+                        <>
+                            <DokumentasjonEtterspurtAccordion dokumentasjonEtterspurt={dokumentasjonEtterspurt} />
+                            <VilkarAccordion vilkar={filtrerteVilkar} />
+                            <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav} />
+                        </>
                     )}
-                </>
+                    {skalViseOppgaveInformasjon && <OppgaveInformasjon />}
+                </Accordion>
             )}
-            <OppgaveInformasjon dokumentasjonkrav={filtrerteDokumentasjonkrav} vilkar={filtrerteVilkar} />
         </OppgaverPanel>
     );
 };

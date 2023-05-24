@@ -20,7 +20,6 @@ function foersteInnsendelsesfrist(dokumentasjonEtterspurt: OppgaveResponse[] | u
 }
 
 interface Props {
-    isLoading: boolean;
     dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse[] | undefined;
 }
 
@@ -35,7 +34,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
         OppgaveElementHendelsetype.dokumentasjonEtterspurt;
 
     return (
-        <Accordion>
+        <>
             <Accordion.Item defaultOpen>
                 <Accordion.Header
                     onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
@@ -53,7 +52,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
 
                     <OpplastingAvVedleggModal />
 
-                    <DriftsmeldingVedlegg leserData={props.isLoading} />
+                    <DriftsmeldingVedlegg />
 
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt?.map(
@@ -69,6 +68,6 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                     </ul>
                 </Accordion.Content>
             </Accordion.Item>
-        </Accordion>
+        </>
     );
 };
