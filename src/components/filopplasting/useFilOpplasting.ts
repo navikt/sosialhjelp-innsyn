@@ -171,15 +171,15 @@ const useFilOpplasting = (
             {
                 ...options,
                 onSuccess: async (data, variables, context) => {
-                    setShowSuccessAlert(true);
-
                     options?.onSuccess?.(data, variables, context);
                     const filerData = data.flatMap((response) => response.filer);
                     const errors: Error[] = filerData
                         .filter((it) => it.status !== "OK")
                         .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
-                    if (!errors.length) {
+                    if (errors.length === 0) {
                         reset();
+                        setShowSuccessAlert(true);
+
                         await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
                         await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
                     }
