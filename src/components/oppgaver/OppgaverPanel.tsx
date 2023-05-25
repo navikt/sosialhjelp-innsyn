@@ -20,11 +20,9 @@ const OppgaverPanel = ({hasError, children}: {hasError: boolean; children: React
 
     return (
         <StyledPanel $error={hasError}>
-            <>
-                <Heading level="2" size="medium">
-                    {t("oppgaver.dine_oppgaver")}
-                </Heading>
-            </>
+            <Heading level="2" size="medium">
+                {t("oppgaver.dine_oppgaver")}
+            </Heading>
             {children}
         </StyledPanel>
     );
