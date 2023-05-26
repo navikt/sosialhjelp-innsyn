@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import "./saksoversikt.css";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";

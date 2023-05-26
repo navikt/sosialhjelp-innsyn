@@ -14,3 +14,7 @@
 .feilListe li {
     margin: 8px 0;
 }
+
+.tekstWrapping {
+    word-wrap: break-word;
+}

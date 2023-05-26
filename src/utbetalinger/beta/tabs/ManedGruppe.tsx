@@ -1,7 +1,7 @@
 import React from "react";
-import {BodyShort} from "@navikt/ds-react";
+import {Accordion, BodyShort} from "@navikt/ds-react";
 import styles from "./manedgruppe.module.css";
-import UtbetalingAccordion from "./UtbetalingAccordion";
+import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
 import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
 
 interface Props {
@@ -15,9 +15,11 @@ const ManedGruppe = (props: Props) => {
             <BodyShort className={`${styles.uthevetTekst} ${styles.capitalize} ${styles.monthYear_header}`}>
                 <span>{utbetalingSak.maned + " " + utbetalingSak.ar}</span>
             </BodyShort>
-            {utbetalingSak.utbetalingerForManed.map((utbetalingManed) => (
-                <UtbetalingAccordion key={utbetalingManed.id} utbetalingManed={utbetalingManed} />
-            ))}
+            <Accordion>
+                {utbetalingSak.utbetalingerForManed.map((utbetalingManed) => (
+                    <UtbetalingAccordionItem key={utbetalingManed.id} utbetalingManed={utbetalingManed} />
+                ))}
+            </Accordion>
         </section>
     );
 };

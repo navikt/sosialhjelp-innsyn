@@ -25,12 +25,12 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
-const UtbetalingAccordion = ({utbetalingManed}: Props) => {
+const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t} = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <Accordion>
+        <>
             <Accordion.Item open={isOpen}>
                 <Accordion.Header
                     className={styles.accordion_header}
@@ -62,7 +62,10 @@ const UtbetalingAccordion = ({utbetalingManed}: Props) => {
 
                         <BodyShort className={styles.float_right}>
                             {utbetalingManed.status === "STOPPET" ? (
-                                <del>{formatCurrency(utbetalingManed.belop)} kr</del>
+                                <s>
+                                    <span className="navds-sr-only">Opprinnelig sum: </span>
+                                    {formatCurrency(utbetalingManed.belop)} kr
+                                </s>
                             ) : (
                                 <>{formatCurrency(utbetalingManed.belop)} kr</>
                             )}
@@ -103,7 +106,7 @@ const UtbetalingAccordion = ({utbetalingManed}: Props) => {
                     </Link>
                 </Accordion.Content>
             </Accordion.Item>
-        </Accordion>
+        </>
     );
 };
-export default UtbetalingAccordion;
+export default UtbetalingAccordionItem;

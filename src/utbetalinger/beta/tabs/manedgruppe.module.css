@@ -33,6 +33,10 @@
     margin-left: auto;
 }
 
+.accordion_headerContent s {
+    color: var(--a-text-subtle);
+}
+
 .accordion_header {
     align-items: center;
 }
@@ -41,7 +45,7 @@
 }
 
 .accordion_content {
-    border: 1px solid #b7b1a9;
+    padding-top: 8px;
 }
 .soknadLenke {
     align-items: center;

@@ -12,7 +12,6 @@ test("Rendrer DokumentasjonEtterspurt", async () => {
                 path="/:soknadId/status"
                 element={
                     <DokumentasjonEtterspurtAccordion
-                        isLoading={false}
                         dokumentasjonEtterspurt={[
                             {
                                 innsendelsesfrist: undefined,
