@@ -10,14 +10,16 @@ import VedleggSuccess from "../../filopplasting/VedleggSuccess";
 import oppgaveStyles from "../oppgaver.module.css";
 
 interface Props {
-    dokumentasjonkrav: DokumentasjonkravResponse[];
+    dokumentasjonkrav?: DokumentasjonkravResponse[];
 }
 
 const DokumentasjonkravAccordion = (props: Props) => {
     const {t} = useTranslation();
 
+    if (!props.dokumentasjonkrav || props.dokumentasjonkrav.length === 0) return null;
+
     return (
-        <Accordion>
+        <>
             <Accordion.Item defaultOpen>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}>
                     <Label as="p">{t("dokumentasjonkrav.dokumentasjon_stonad")}</Label>
@@ -36,7 +38,7 @@ const DokumentasjonkravAccordion = (props: Props) => {
                     </ul>
                 </Accordion.Content>
             </Accordion.Item>
-        </Accordion>
+        </>
     );
 };
 
