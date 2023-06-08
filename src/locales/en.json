@@ -25,14 +25,14 @@
   "saker.oppgave": "You have tasks",
   "saker.default_tittel": "Application for financial assistance",
 
-  "oppgaver.vilkar.tittel": "You may have conditions",
+  "oppgaver.vilkar.tittel": "You may have requirements",
   "oppgaver.vilkar.tittel.tekst":
-      "Please see your notice of decision to see if conditions apply, or if we need more information to make payments to you.",
-  "oppgaver.vilkar": "Conditions",
-  "oppgaver.vilkar.beskrivelse": "Conditions are activities you must participate in as part of your follow-up from NAV.",
+      "Please see your notice of decision to see if requirements apply, or if we need more information to make payments to you.",
+  "oppgaver.vilkar": "Requirements",
+  "oppgaver.vilkar.beskrivelse": "Requirements are activities you must participate in as part of your follow-up from NAV.",
   "oppgaver.vilkar.dokumentasjonskrav": "Information related to your application",
   "oppgaver.vilkar.dokumentasjonskrav.beskrivelse":
-      "This information may be related to your conditions, or NAV may need financial information from you in order to make payments to you. You can submit the information under “Your attachments” below.",
+      "This information may be related to your requirements, or NAV may need financial information from you in order to make payments to you. You can submit the information under “Your attachments” below.",
 
   "oppgaver.dine_oppgaver": "Your tasks",
   "oppgaver.maa_sende_dok_veileder": "We need additional information for your application.",
@@ -72,12 +72,12 @@
   "oppgaver.beskjed": "You will be notified if we need something from you",
   "oppgaver.andre_dokumenter": "Do you have any additional information you would like to send?",
   "oppgaver.andre_dokumenter_beskjed": "You can send additional information under the tab \"Your attachments\" below.",
-  "vilkar.du_har_vilkar": "Conditions apply",
-  "vilkar.veileder_trenger_mer": "Conditions are activities you must participate in as part of your follow-up from NAV.",
+  "vilkar.du_har_vilkar": "Requirements apply",
+  "vilkar.veileder_trenger_mer": "Requirements are activities you must participate in as part of your follow-up from NAV.",
 
   "dokumentasjonkrav.dokumentasjon_stonad": "You must provide information",
   "dokumentasjonkrav.veileder_trenger_mer":
-      "This information may be related to your conditions, or NAV may need financial information from you in order to make payments to you.",
+      "This information may be related to your requirements, or NAV may need financial information from you in order to make payments to you.",
 
   "vedlegg.lovlig_format": "We only accept files that are PDF, JPG or PNG.",
   "vedlegg.minst_ett_vedlegg": "You must first select the attachment you want to submit.",
