@@ -8,6 +8,7 @@ import {erDevMiljo} from "../utils/ServiceHookTypes";
 import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components/macro";
 import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     utbetalinger: UtbetalingerResponse[];
@@ -63,6 +64,8 @@ const MottakerWrapper = styled.div`
 `;
 
 const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
+    const {t} = useTranslation("utbetalinger");
+
     if (lasterData) {
         return (
             <div className="utbetalinger_detaljer">
@@ -73,9 +76,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
 
     return (
         <div className="utbetalinger_detaljer">
-            {(!utbetalinger || utbetalinger.length === 0) && (
-                <Label as="p">Vi finner ingen registrerte utbetalinger for perioden.</Label>
-            )}
+            {(!utbetalinger || utbetalinger.length === 0) && <Label as="p">{t("ingenUtbetalinger")}</Label>}
             {utbetalinger?.map((utbetalingSak: UtbetalingerResponse, index: number) => (
                 <React.Fragment key={`${utbetalingSak.foersteIManeden}-${utbetalingSak.maned}-${utbetalingSak.ar}`}>
                     {index > 0 && utbetalinger[index - 1].ar !== utbetalingSak.ar && (
@@ -98,7 +99,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                 >
                                     <StyledUtbetalingHeader>
                                         <Heading level="3" size="small">
-                                            {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : "Utbetaling"}{" "}
+                                            {utbetalingMaaned.tittel ? utbetalingMaaned.tittel : t("default.tittel")}{" "}
                                         </Heading>
                                         <Label as="p">{formatCurrency(utbetalingMaaned.belop)} kr</Label>
                                     </StyledUtbetalingHeader>
@@ -106,20 +107,20 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                         // TODO: Hvordan håndtere undefined utbetalingsdato?
                                         tittel={
                                             !!utbetalingMaaned.utbetalingsdato
-                                                ? "Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)
-                                                : "Ukjent utbetalingsdato"
+                                                ? t("utbetalt") + " " + formatDato(utbetalingMaaned.utbetalingsdato)
+                                                : t("ukjentDato")
                                         }
                                         defaultOpen={erDevMiljo()}
                                     >
                                         <MottakerWrapper>
-                                            <Detail>Mottaker</Detail>
+                                            <Detail>{t("mottaker")}</Detail>
                                             {annenMottaker ? (
                                                 <Label as="p" style={{textTransform: "capitalize"}}>
                                                     {utbetalingMaaned.mottaker}
                                                 </Label>
                                             ) : (
                                                 <Label as="p">
-                                                    Til deg (
+                                                    {t("tilDeg")} + (
                                                     {utbetalingMaaned.utbetalingsmetode && (
                                                         <>{utbetalingMaaned.utbetalingsmetode} </>
                                                     )}
@@ -129,7 +130,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                         </MottakerWrapper>
                                         {utbetalingMaaned.fom && utbetalingMaaned.tom && (
                                             <>
-                                                <Detail>Periode</Detail>
+                                                <Detail>{t("periode")}</Detail>
                                                 <Label as="p" spacing>
                                                     {formatDato(utbetalingMaaned.fom)} -{" "}
                                                     {formatDato(utbetalingMaaned.tom)}

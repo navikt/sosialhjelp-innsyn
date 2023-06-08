@@ -19,6 +19,7 @@ import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-overs
 import {useHarSoknaderMedInnsyn} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "./UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "./UtbetalingsoversiktIngenInnsyn";
+import {useTranslation} from "react-i18next";
 
 let DEFAULT_ANTALL_MND_VIST: number = 3;
 
@@ -53,8 +54,9 @@ const StyledUtbetalingerFilter = styled.div`
 
 const Utbetalinger: React.FC = () => {
     const dispatch = useDispatch();
+    const {t} = useTranslation("utbetalinger");
+    document.title = t("documentTitle");
 
-    document.title = "Utbetalingsoversikt - Økonomisk sosialhjelp";
     const [visAntallMnd, setVisAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [hentetAntallMnd, setHentetAntallMnd] = useState<number>(DEFAULT_ANTALL_MND_VIST);
     const [tilBrukersKonto, setTilBrukersKonto] = useState<boolean>(true);

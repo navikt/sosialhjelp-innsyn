@@ -3,6 +3,7 @@ import Collapsible from "react-collapsible";
 import {BodyShort, Button} from "@navikt/ds-react";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     tittel: string;
@@ -32,6 +33,7 @@ const StyledExpanderbarHeader = styled.div`
 `;
 const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen}) => {
     const [open, setOpen] = useState(defaultOpen ? defaultOpen : false);
+    const {t} = useTranslation("utbetalinger");
 
     return (
         <>
@@ -46,7 +48,7 @@ const UtbetalingEkspanderbart: React.FC<Props> = ({tittel, children, defaultOpen
                     icon={open ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Mer informasjon" />}
                     iconPosition="right"
                 >
-                    {open ? "Lukk" : "Mer informasjon"}
+                    {open ? t("lukk") : t("mer.informasjon")}
                 </Button>
             </StyledExpanderbarHeader>
 
