@@ -1,11 +1,8 @@
-import "core-js";
 import "@navikt/ds-css";
 import React from "react";
 import {createRoot} from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import "formdata-polyfill";
-import Modal from "react-modal";
 import {injectDecoratorClientSide} from "@navikt/nav-dekoratoren-moduler";
 import "./locales/i18n";
 
@@ -15,7 +12,6 @@ window.onerror = (errorMessage, url, line, column, error) => {
     console.warn("TODO: Implementer clientlogger");
 };
 
-Modal.setAppElement("#root");
 const init = async () => {
     /* Dersom appen bygges og deployes med docker-image vil dekoratøren bli lagt på serverside med express i Docker
      (eks ved deploy til miljø). Når den injectes clientside legges den utenfor body, slik at stylingen som

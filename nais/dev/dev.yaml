@@ -25,13 +25,12 @@ spec:
     min: 1
     max: 2
   ingresses:
-    - "https://sosialhjelp-innsyn-dev.dev.nav.no/sosialhjelp/innsyn"
+    - "https://sosialhjelp-innsyn-dev.intern.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       external:
-        - host: dekoratoren.dev.nav.no
         - host: dekoratoren.ekstern.dev.nav.no
-        - host: digisos.dev.nav.no
+        - host: digisos.intern.dev.nav.no
   resources:
     limits:
       cpu: 200m
@@ -45,4 +44,4 @@ spec:
     - name: DEKORATOR_MILJO
       value: dev
     - name: INNSYN_API_SINGLE_LOGOUT_URL
-      value: "https://digisos.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
+      value: "https://digisos.intern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"

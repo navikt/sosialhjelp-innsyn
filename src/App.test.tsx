@@ -1,10 +1,12 @@
-import React from "react";
-// import ReactDOM from 'react-dom';
-// import App from './App';
+import * as React from "react";
+import App from "./App";
+import {createRoot} from "react-dom/client";
+import {act} from "@testing-library/react";
 
 it("renders without crashing", () => {
-    expect(1).toBe(1);
-    // const div = document.createElement('div');
-    // ReactDOM.render(<App/>, div);
-    // ReactDOM.unmountComponentAtNode(div);
+    act(() => {
+        const root = createRoot(document.createElement("div"));
+        root.render(<App />);
+        root.unmount();
+    });
 });
