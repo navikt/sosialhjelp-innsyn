@@ -120,7 +120,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 </Label>
                                             ) : (
                                                 <Label as="p">
-                                                    {t("tilDeg")} + (
+                                                    {t("tilDeg")} (
                                                     {utbetalingMaaned.utbetalingsmetode && (
                                                         <>{utbetalingMaaned.utbetalingsmetode} </>
                                                     )}

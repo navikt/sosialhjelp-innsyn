@@ -3,6 +3,7 @@ import React from "react";
 import {BodyLong, Heading} from "@navikt/ds-react";
 import {StyledGuidePanel} from "../styles/styledGuidePanel";
 import styled from "styled-components";
+import {useTranslation} from "react-i18next";
 
 const StyledGuidePanelContent = styled.div`
     display: flex;
@@ -16,17 +17,16 @@ const Wrapper = styled.div`
 `;
 
 const UtbetalingsoversiktIngenInnsyn: React.FC = () => {
+    const {t} = useTranslation("utbetalinger");
+
     return (
         <Wrapper>
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        Vi kan ikke vise dine utbetalinger for økonomisk sosialhjelp
+                        {t("ikkeInnsyn")}
                     </Heading>
-                    <BodyLong>
-                        Oversikten over utbetalinger for økonomisk sosialhjelp er dessverre ikke tilgjengelig i alle
-                        kommuner. Du kan se dine utbetalinger i brevet med svar på søknaden din.
-                    </BodyLong>
+                    <BodyLong>{t("ikkeInnsyn.info")}</BodyLong>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
         </Wrapper>
