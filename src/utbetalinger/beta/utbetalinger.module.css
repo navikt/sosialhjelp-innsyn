@@ -2,6 +2,7 @@
     padding: 4rem 2rem 2rem;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     gap: 2rem;
     background-color: #d4e6d8;
 }
@@ -9,7 +10,7 @@
 .utbetalinger_panel {
     position: relative;
     padding-top: 3rem;
-    max-width: 50rem;
+    max-width: 40rem;
 }
 
 .utbetalinger_panel h2 {
