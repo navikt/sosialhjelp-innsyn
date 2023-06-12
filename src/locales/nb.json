@@ -141,5 +141,9 @@
   "feilmelding.dineOppgaver_innlasting": "Vi klarte ikke å laste opp informasjon om dine oppgaver",
   "feilmelding.historikk_innlasting": "Vi klarte ikke å laste opp historikken din",
   "feilmelding.vedlegg_innlasting": "Vi klarte ikke laste inn dine innsendte vedlegg",
-  "feilmelding.ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. <linebreak/> Du kan forsøke å oppdatere siden, eller prøve igjen senere."
+  "feilmelding.ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. <linebreak/> Du kan forsøke å oppdatere siden, eller prøve igjen senere.",
+  "lesMer": "Les mer om økonomisk sosialhjelp",
+  "sok": "Søk om økonomisk sosialhjelp",
+  "ingenSoknad": "Vi finner ingen søknader fra deg",
+  "ingenSoknad.ingress": "Dette kan være fordi kommunen din ikke kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 måneder."
 }

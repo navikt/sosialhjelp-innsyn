@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `;
 
 const UtbetalingsoversiktIngenSoknader: React.FC = () => {
-    const {t} = useTranslation("utbetalinger");
+    const {t} = useTranslation(["utbetalinger", "global"]);
 
     return (
         <Wrapper>
@@ -26,10 +26,10 @@ const UtbetalingsoversiktIngenSoknader: React.FC = () => {
 
             <StyledLenkePanelWrapper>
                 <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp"} border={false}>
-                    <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
+                    <LinkPanel.Title>{t("lesMer", {ns: "global"})}</LinkPanel.Title>
                 </LinkPanel>
                 <LinkPanel href={"https://www.nav.no/sosialhjelp/soknad"} border={false}>
-                    <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
+                    <LinkPanel.Title>{t("sok", {ns: "global"})}</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>
         </Wrapper>

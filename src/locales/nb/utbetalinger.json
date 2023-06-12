@@ -28,5 +28,6 @@
   "ikkeInnsyn": "Vi kan ikke vise dine utbetalinger for økonomisk sosialhjelp",
   "ikkeInnsyn.info": "Oversikten over utbetalinger for økonomisk sosialhjelp er dessverre ikke tilgjengelig i alle kommuner. Du kan se dine utbetalinger i brevet med svar på søknaden din.",
   "ingenSoknad": "Vi finner ingen utbetalinger for økonomisk sosialhjelp",
-  "ingenSoknad.info": "Dette kan være fordi kommunen din ikke kan vise utbetalinger for søknader sendt på papir, eller at utbetalingene er eldre enn 15 måneder."
+  "ingenSoknad.info": "Dette kan være fordi kommunen din ikke kan vise utbetalinger for søknader sendt på papir, eller at utbetalingene er eldre enn 15 måneder.",
+  "soknadenDin": "Søknaden din"
 }

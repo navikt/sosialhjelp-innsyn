@@ -8,6 +8,7 @@ import {Detail, Label, LinkPanel} from "@navikt/ds-react";
 import OppgaverTag from "../components/sakspanel/OppgaverTag";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import styled from "styled-components";
+import {useTranslation} from "react-i18next";
 
 const StyledLinkPanel = styled(LinkPanel)`
     &:focus {
@@ -26,6 +27,8 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
     const {data: sak, isLoading: sakIsLoading} = useHentSaksDetaljer({id: fiksDigisosId});
     const {data: alleSaker, isLoading: isAlleSakerLoading} = useHentAlleSaker();
 
+    const {t} = useTranslation("utbetalinger");
+
     const merOmSaken = alleSaker?.find((sak: SaksListeResponse) => {
         if (sak.fiksDigisosId === fiksDigisosId) {
             return sak;
@@ -41,7 +44,7 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
         <>
             {sak && merOmSaken && (
                 <>
-                    <StyledDetail>Søknaden din</StyledDetail>
+                    <StyledDetail>{t("soknadenDin")} </StyledDetail>
                     <StyledLinkPanel border to={"/" + fiksDigisosId + "/status"} forwardedAs={Link}>
                         <StyledLinkPanelDescription>
                             <StyledFileIcon aria-hidden />
