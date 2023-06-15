@@ -17,11 +17,11 @@ interface Props {
 }
 export const VilkarAccordion = (props: Props) => {
     const {t} = useTranslation();
-    if (!props.vilkar) return null;
+    if (!props.vilkar || props.vilkar.length === 0) return null;
     const unikeVilkar = getUnikeVilkar(props.vilkar);
     logVilkarDuplications(props.vilkar.length, unikeVilkar.length);
     return (
-        <Accordion>
+        <>
             <Accordion.Item defaultOpen>
                 <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
                     <Label as="p">{t("vilkar.du_har_vilkar")}</Label>
@@ -31,6 +31,6 @@ export const VilkarAccordion = (props: Props) => {
                     <VilkarView vilkar={unikeVilkar} />
                 </Accordion.Content>
             </Accordion.Item>
-        </Accordion>
+        </>
     );
 };

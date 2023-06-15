@@ -5,20 +5,16 @@ import {Alert} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import useKommune from "../../hooks/useKommune";
 
-interface Props {
-    leserData: undefined | boolean;
-}
-
 const Bold = styled.span`
     font-weight: bold;
 `;
 
-const DriftsmeldingVedlegg: React.FC<Props> = (props: Props) => {
+const DriftsmeldingVedlegg = () => {
     const {kommune, isLoading} = useKommune();
     const {t} = useTranslation();
     const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
 
-    if (!kanLasteOppVedlegg && !props.leserData && !isLoading) {
+    if (!kanLasteOppVedlegg && !isLoading) {
         return (
             <Alert variant="error" size="medium" inline>
                 <Bold>{t("driftsmelding.kanIkkeSendeVedlegg")}</Bold>

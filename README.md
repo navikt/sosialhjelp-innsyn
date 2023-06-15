@@ -37,6 +37,19 @@ npm test # Kjør enhetstestene
 
 Se også [utviklerdokumentasjonen](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling/#frontend) vår.
 
+## Ved endringer i innsyn-api
+
+```shell
+npm run fetch-api-docs # Hent OpenAPI definition for innsyn-api fra mock-miljø og lagrer i innsyn-api.json
+npm run orval # genererer typer fra innsyn-api.json
+```
+
+Eventuelt kan innsyn-api.json genereres fra lokal backend ved å kjøre
+
+```shell
+npm run fetch-api-docs-local
+```
+
 ## How-to
 
 For å teste innsynsløsning, kan man laste opp innsynsdata som JSON til API via swaggersidene slik:

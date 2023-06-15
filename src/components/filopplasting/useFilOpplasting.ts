@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
-import {alertUser, containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
+import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
@@ -101,6 +101,9 @@ const useFilOpplasting = (
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
+
+    /*
+    // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
     useEffect(() => {
         if (allFiles.length) {
             window.addEventListener("beforeunload", alertUser);
@@ -108,23 +111,28 @@ const useFilOpplasting = (
         return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
 
+     */
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
             logDuplicatedFiles(_files);
-            _files.forEach((file) => {
+            const validFiles = _files.filter((file) => {
+                let valid = true;
                 if (file.size > maxFileSize) {
                     _errors.push({fil: file, feil: Feil.FILE_TOO_LARGE});
+                    valid = false;
                 }
                 if (containsIllegalCharacters(file.name)) {
                     _errors.push({fil: file, feil: Feil.ILLEGAL_FILE_NAME});
+                    valid = false;
                 }
+                return valid;
             });
 
             if (_files.concat(files[index]).reduce((acc, curr) => acc + curr.size, 0) > maxCombinedFileSize) {
                 _errors.push({feil: Feil.COMBINED_TOO_LARGE});
             }
-            if (!_errors.length) setFiles((prev) => ({...prev, [index]: [...prev[index], ..._files]}));
+            setFiles((prev) => ({...prev, [index]: [...prev[index], ...validFiles]}));
 
             setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
@@ -163,15 +171,15 @@ const useFilOpplasting = (
             {
                 ...options,
                 onSuccess: async (data, variables, context) => {
-                    setShowSuccessAlert(true);
-
                     options?.onSuccess?.(data, variables, context);
                     const filerData = data.flatMap((response) => response.filer);
                     const errors: Error[] = filerData
                         .filter((it) => it.status !== "OK")
                         .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
-                    if (!errors.length) {
+                    if (errors.length === 0) {
                         reset();
+                        setShowSuccessAlert(true);
+
                         await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
                         await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
                     }
