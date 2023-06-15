@@ -6,6 +6,11 @@
     --ac-guide-panel-illustration-bg: #cde7d8;
 }
 
+[data-theme="utbetalinger-beta"] {
+    --ac-guide-panel-border: none;
+    --ac-guide-panel-illustration-bg: #9bd0b0;
+}
+
 body {
     margin: 0;
     -webkit-font-smoothing: antialiased;

@@ -1,0 +1,38 @@
+.utbetalinger_side {
+    padding: 4rem 2rem 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    background-color: #d4e6d8;
+}
+
+.utbetalinger_panel {
+    position: relative;
+    padding-top: 3rem;
+    max-width: 40rem;
+}
+
+.utbetalinger_panel h2 {
+    text-align: center;
+}
+
+.utbetalinger_decoration {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 50%;
+    background: #9bd0b0;
+    border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+}
+
+.filter_section {
+    height: fit-content;
+    padding: 1.5rem 1.5rem 0;
+}
+
+.tab_panel {
+    padding: 16px 0;
+}

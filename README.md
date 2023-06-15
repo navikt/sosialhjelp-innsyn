@@ -35,6 +35,12 @@ npm run start #  starter dev-server
 npm test # Kjør enhetstestene
 ```
 
+Hvis det er skjedd endringer i apiet må man også oppdatere typegenerering fra swagger-dokumentasjon. Dette gjøres via  
+`npm run orval`
+
+Swagger-docs hentes inn fra mock-miljø via kommonadoen  
+`npm run fetch-api-docs`
+
 Se også [utviklerdokumentasjonen](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling/#frontend) vår.
 
 ## How-to
