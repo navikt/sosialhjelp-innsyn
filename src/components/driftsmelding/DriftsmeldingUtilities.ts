@@ -1,4 +1,5 @@
 import {KommuneResponse} from "../../generated/model";
+import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
 
 export enum DriftsmeldingTypeKeys {
     DRIFTSMELDING_INGEN = "DRIFTSMELDING_INGEN",
@@ -65,12 +66,15 @@ export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneRespon
     } as Driftsmelding;
 };
 
-export const isFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined): boolean => {
+export const isFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId?: string | undefined): boolean => {
     if (!kommuneInfo) {
         return false;
     }
     if (kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert) {
         return false;
+    }
+    if (fiksDigisosId && listeOverFeiledeIder.includes(fiksDigisosId)) {
+        return false
     }
     return !kommuneInfo.erInnsendingEttersendelseDeaktivert;
 };

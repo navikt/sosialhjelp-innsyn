@@ -46,7 +46,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
-    const canUploadAttachments: boolean = isFileUploadAllowed(kommune);
+    const canUploadAttachments: boolean = isFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
 
     const {

@@ -24,7 +24,7 @@ interface Props {
 export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
-    const canUploadAttachments: boolean = isFileUploadAllowed(kommune);
+    const canUploadAttachments: boolean = isFileUploadAllowed(kommune, fiksDigisosId);
     const metadatas = useMemo(
         () =>
             dokumentasjonEtterspurt.oppgaveElementer.map((element) => ({

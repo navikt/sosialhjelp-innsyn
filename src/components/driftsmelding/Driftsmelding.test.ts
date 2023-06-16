@@ -73,6 +73,6 @@ it("viser driftsmelding for riktig kommune state", () => {
 });
 
 it("Opplasting av vedlegg er disabled ved riktige caser", () => {
-    expect(isFileUploadAllowed(kommuneResponse_innsyn_deaktivert)).toEqual(true);
-    expect(isFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert)).toEqual(false);
+    expect(isFileUploadAllowed(kommuneResponse_innsyn_deaktivert, fiksDigisosId)).toEqual(true);
+    expect(isFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert, fiksDigisosId)).toEqual(false);
 });
