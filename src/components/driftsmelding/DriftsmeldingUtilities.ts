@@ -63,15 +63,17 @@ export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefin
         kommuneInfo.erInnsendingEttersendelseDeaktivert
     );
 };
-export const isFileUploadAllowed = (
-    kommuneInfo: KommuneResponse | undefined,
-    fiksDigisosId?: string | undefined
-): boolean => {
+
+export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId?: string | undefined) => {
+    let kanLasteOppVedlegg = true;
+    let textKey = "";
     if (digisosIdHasFailed(fiksDigisosId)) {
-        return false;
+        kanLasteOppVedlegg = false;
+        textKey = "driftsmelding.vedlegg.feiledeDigisosIder";
     } else if (ettersendelseErDeaktivert(kommuneInfo)) {
-        return false;
+        kanLasteOppVedlegg = false;
+        textKey = "driftsmelding.kanIkkeSendeVedlegg";
     }
 
-    return true;
+    return {kanLasteOppVedlegg, textKey};
 };

@@ -128,6 +128,8 @@
       "Vi kan dessverre ikke vise deg nyeste status for søknaden din, eller motta vedlegg fra deg. Du kan enten prøve igjen senere, eller ta kontakt med NAV-kontoret ditt.",
   "driftsmelding.kanIkkeSendeVedlegg":
       "Vi har dessverre problemer med systemet, og ber deg levere vedlegg på ditt NAV kontor",
+  "driftsmelding.vedlegg.feiledeDigisosIder":
+      "Du kan dessverre ikke sende inn opplysninger til denne søknaden digitalt. Du kan levere opplysninger til NAV-kontoret du har sendt søknaden til.",
   "driftsmelding.feiledeDigisosIder":
       "Vi kan dessverre ikke oppdatere statusen på denne søknaden og du kan ikke sende inn opplysninger digitalt. Du kan levere opplysninger til NAV-kontoret du har sendt søknaden til.",
   "feilside.finnes_ikke_overskrift": "Denne siden finnes ikke",

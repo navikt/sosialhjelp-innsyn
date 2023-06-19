@@ -1,6 +1,6 @@
 import React from "react";
 import useKommune from "../../hooks/useKommune";
-import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
@@ -47,7 +47,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
-    const canUploadAttachments = isFileUploadAllowed(kommune, fiksDigisosId);
+    const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
 
     const {
@@ -78,8 +78,8 @@ const EttersendelseView = (props: Props) => {
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
 
-    return !canUploadAttachments && !showLoadingState ? (
-        <DriftsmeldingVedleggComponent className={styles.driftsmelding} />
+    return !kanLasteOppVedlegg && !showLoadingState ? (
+        <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
     ) : (
         <>
             <OuterErrorBorder hasError={outerErrors.length > 0}>
@@ -90,7 +90,7 @@ const EttersendelseView = (props: Props) => {
                     filer={files}
                     onDelete={(_, file) => removeFil(0, file)}
                     addFileButton={
-                        canUploadAttachments ? (
+                        kanLasteOppVedlegg ? (
                             <AddFileButton
                                 onChange={(event) => {
                                     const files = event.currentTarget.files;
@@ -113,7 +113,7 @@ const EttersendelseView = (props: Props) => {
             </ErrorMessagePlaceholder>
             <VedleggSuccess show={showSuccessAlert} />
 
-            <SendFileButton isVisible={canUploadAttachments} isLoading={showLoadingState} onClick={onClick} />
+            <SendFileButton isVisible={kanLasteOppVedlegg} isLoading={showLoadingState} onClick={onClick} />
         </>
     );
 };

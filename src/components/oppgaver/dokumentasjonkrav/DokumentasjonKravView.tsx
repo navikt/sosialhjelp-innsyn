@@ -1,7 +1,7 @@
 import React, {ReactElement, useMemo} from "react";
 import {DokumentasjonkravResponse} from "../../../generated/model";
 import useKommune from "../../../hooks/useKommune";
-import {isFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
+import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import {getGetDokumentasjonkravQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
@@ -23,7 +23,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
     const {kommune} = useKommune();
-    const canUploadAttachments: boolean = isFileUploadAllowed(kommune, fiksDigisosId);
+    const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
     const metadatas = useMemo(
         () =>
             dokumentasjonkrav.dokumentasjonkravElementer.map((element) => ({
@@ -61,7 +61,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
             innsendelsesFrist={<InnsendelsesFrist frist={dokumentasjonkrav.frist} />}
             sendButton={
                 <SendFileButton
-                    isVisible={canUploadAttachments}
+                    isVisible={kanLasteOppVedlegg}
                     isLoading={isLoading}
                     onClick={() => {
                         logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
@@ -85,7 +85,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}
                                 addFileButton={
-                                    canUploadAttachments ? (
+                                    kanLasteOppVedlegg ? (
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;

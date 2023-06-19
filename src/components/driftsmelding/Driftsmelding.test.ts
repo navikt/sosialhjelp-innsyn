@@ -1,7 +1,7 @@
 import {
     Driftsmelding,
-    isFileUploadAllowed,
     getDriftsmeldingByKommuneResponseOrDigisosId,
+    useFileUploadAllowed,
 } from "./DriftsmeldingUtilities";
 import {KommuneResponse} from "../../generated/model";
 
@@ -73,6 +73,10 @@ it("viser driftsmelding for riktig kommune state", () => {
 });
 
 it("Opplasting av vedlegg er disabled ved riktige caser", () => {
-    expect(isFileUploadAllowed(kommuneResponse_innsyn_deaktivert)).toEqual(true);
-    expect(isFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert)).toEqual(false);
+    expect(useFileUploadAllowed(kommuneResponse_innsyn_deaktivert).kanLasteOppVedlegg).toEqual(true);
+    expect(useFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert).kanLasteOppVedlegg).toEqual(false);
+    expect(useFileUploadAllowed(kommuneResponse_innsyn_deaktivert).textKey).toEqual("");
+    expect(useFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert).textKey).toEqual(
+        "driftsmelding.kanIkkeSendeVedlegg"
+    );
 });
