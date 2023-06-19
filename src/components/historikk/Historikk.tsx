@@ -44,16 +44,6 @@ interface HistorikkListeProps {
     leserData: boolean;
 }
 
-const toTitleCase = (tekstArgument: string) => {
-    return tekstArgument
-        .toLowerCase()
-        .split(" ")
-        .map(function (word) {
-            return word.charAt(0).toUpperCase().concat(word.substring(1));
-        })
-        .join(" ");
-};
-
 const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
     const {t} = useTranslation();
     if (leserData) {
@@ -92,7 +82,11 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             );
         }
         if (historikkEnumKey === "hendelse.sak_under_behandling_med_tittel" && tekstArgument) {
-            return <BodyShort>{t(enumValue, {tekstArgument: toTitleCase(tekstArgument)})}</BodyShort>;
+            return (
+                <BodyShort>
+                    {t(enumValue, {tekstArgument: tekstArgument.charAt(0).toUpperCase() + tekstArgument.slice(1)})}
+                </BodyShort>
+            );
         }
         return <BodyShort>{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
     };
