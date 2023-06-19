@@ -1,6 +1,6 @@
 import React from "react";
 import useKommune from "../../hooks/useKommune";
-import {isFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
@@ -16,6 +16,7 @@ import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import styles from "../filopplasting/filopplasting.module.css";
 import styled from "styled-components";
 import {css} from "styled-components/macro";
+import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 
 const metadatas = [
     {
@@ -46,7 +47,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
-    const canUploadAttachments: boolean = isFileUploadAllowed(kommune, fiksDigisosId);
+    const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
 
     const {
@@ -76,7 +77,10 @@ const EttersendelseView = (props: Props) => {
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
-    return (
+
+    return !kanLasteOppVedlegg && !showLoadingState ? (
+        <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
+    ) : (
         <>
             <OuterErrorBorder hasError={outerErrors.length > 0}>
                 <FilOpplastingBlokk
@@ -86,7 +90,7 @@ const EttersendelseView = (props: Props) => {
                     filer={files}
                     onDelete={(_, file) => removeFil(0, file)}
                     addFileButton={
-                        canUploadAttachments ? (
+                        kanLasteOppVedlegg ? (
                             <AddFileButton
                                 onChange={(event) => {
                                     const files = event.currentTarget.files;
@@ -99,6 +103,7 @@ const EttersendelseView = (props: Props) => {
                     }
                 />
             </OuterErrorBorder>
+
             <ErrorMessagePlaceholder>
                 {outerErrorLocales.map((error, index) => (
                     <ErrorMessage key={index} className={styles.outerError}>
@@ -108,7 +113,7 @@ const EttersendelseView = (props: Props) => {
             </ErrorMessagePlaceholder>
             <VedleggSuccess show={showSuccessAlert} />
 
-            <SendFileButton isVisible={canUploadAttachments} isLoading={showLoadingState} onClick={onClick} />
+            <SendFileButton isVisible={kanLasteOppVedlegg} isLoading={showLoadingState} onClick={onClick} />
         </>
     );
 };

@@ -1,25 +1,38 @@
 import * as React from "react";
 import {useTranslation} from "react-i18next";
-import {isFileUploadAllowed} from "./DriftsmeldingUtilities";
+import {useFileUploadAllowed} from "./DriftsmeldingUtilities";
 import {Alert} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import useKommune from "../../hooks/useKommune";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 const Bold = styled.span`
     font-weight: bold;
 `;
 
-const DriftsmeldingVedlegg = () => {
-    const {kommune, isLoading} = useKommune();
+interface Props {
+    textKey: string;
+    className?: string;
+}
+
+export const DriftsmeldingVedleggComponent = ({textKey, className}: Props) => {
     const {t} = useTranslation();
-    const kanLasteOppVedlegg: boolean = isFileUploadAllowed(kommune);
+
+    return (
+        <Alert variant="error" size="medium" inline className={className}>
+            <Bold>{t(textKey)}</Bold>
+        </Alert>
+    );
+};
+
+const DriftsmeldingVedlegg = ({className}: {className?: string}) => {
+    const {kommune, isLoading} = useKommune();
+    const fiksDigisosId = useFiksDigisosId();
+
+    const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
 
     if (!kanLasteOppVedlegg && !isLoading) {
-        return (
-            <Alert variant="error" size="medium" inline>
-                <Bold>{t("driftsmelding.kanIkkeSendeVedlegg")}</Bold>
-            </Alert>
-        );
+        return <DriftsmeldingVedleggComponent className={className} textKey={textKey} />;
     }
     return null;
 };
