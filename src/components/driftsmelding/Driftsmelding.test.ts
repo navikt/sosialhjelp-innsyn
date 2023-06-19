@@ -1,8 +1,7 @@
 import {
     Driftsmelding,
-    DriftsmeldingTypeKeys,
     isFileUploadAllowed,
-    getDriftsmeldingByKommuneResponse,
+    getDriftsmeldingByKommuneResponseOrDigisosId,
 } from "./DriftsmeldingUtilities";
 import {KommuneResponse} from "../../generated/model";
 
@@ -47,27 +46,28 @@ const kommuneResponse_litt_diverse: KommuneResponse = {
 };
 
 it("viser driftsmelding for riktig kommune state", () => {
-    expect(getDriftsmeldingByKommuneResponse(kommuneResponse_ok)).toEqual({
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN,
-    } as Driftsmelding);
+    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_ok)).toEqual(undefined);
 
-    expect(getDriftsmeldingByKommuneResponse(kommuneResponse_innsyn_deaktivert)).toEqual({
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT,
+    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_innsyn_deaktivert)).toEqual({
+        type: "InnsynDeaktivert",
         textKey: "driftsmelding.innsynDeaktivert",
     } as Driftsmelding);
 
-    expect(getDriftsmeldingByKommuneResponse(kommuneResponse_ettersendelse_deaktivert)).toEqual({
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT,
+    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_ettersendelse_deaktivert)).toEqual({
+        type: "EttersendelseDeaktivert",
+
         textKey: "driftsmelding.ettersendelseDeaktivert",
     } as Driftsmelding);
 
-    expect(getDriftsmeldingByKommuneResponse(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual({
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT,
+    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual({
+        type: "InnsynOgEttersendelseDeaktivert",
+
         textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
     } as Driftsmelding);
 
-    expect(getDriftsmeldingByKommuneResponse(kommuneResponse_litt_diverse)).toEqual({
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT,
+    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_litt_diverse)).toEqual({
+        type: "EttersendelseDeaktivert",
+
         textKey: "driftsmelding.ettersendelseDeaktivert",
     } as Driftsmelding);
 });

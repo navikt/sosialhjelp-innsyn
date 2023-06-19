@@ -1,7 +1,6 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
-import DriftsmeldingVedlegg from "../../driftsmelding/DriftsmeldingVedlegg";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
@@ -51,9 +50,6 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                     <BodyShort>Vi godtar kun vedlegg i formatene PDF, JPG eller PNG</BodyShort>
 
                     <OpplastingAvVedleggModal />
-
-                    <DriftsmeldingVedlegg />
-
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt?.map(
                             (dokumentasjon: DokumentasjonEtterspurtResponse, index: number) => (

@@ -22,6 +22,8 @@ import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-s
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
+import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
+import styles from "./oppgaver.module.css";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -171,6 +173,8 @@ const Oppgaver = () => {
                 <Accordion>
                     {skalViseOppgaver && (
                         <>
+                            <DriftsmeldingVedlegg className={styles.driftsmelding} />
+
                             <DokumentasjonEtterspurtAccordion dokumentasjonEtterspurt={dokumentasjonEtterspurt} />
                             <VilkarAccordion vilkar={filtrerteVilkar} />
                             <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav} />
