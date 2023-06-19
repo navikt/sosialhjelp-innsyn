@@ -18,6 +18,7 @@ export * from "./hentUtbetalingerParams";
 export * from "./kommuneResponse";
 export * from "./logg";
 export * from "./manedUtbetaling";
+export * from "./nyeOgTidligereUtbetalingerResponse";
 export * from "./oppdaterDigisosSakParams";
 export * from "./oppgaveElement";
 export * from "./oppgaveElementHendelsetype";

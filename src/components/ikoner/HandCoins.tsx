@@ -1,17 +1,23 @@
-import React from "react";
+import React, {SVGProps} from "react";
 
-const HandCoinsIcon: React.FC<{}> = () => {
+interface Props {
+    bgcolor?: string;
+    className?: string;
+}
+
+const HandCoinsIcon = (props: SVGProps<SVGSVGElement> & Props) => {
     return (
         <svg
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 100"
-            className="hands_coin_icon"
             pointerEvents="none"
+            color="red"
+            {...props}
         >
             <title>Hånd med penger</title>
             <g fill="none" fillRule="evenodd">
-                <circle cx="50" cy="50" r="50" fill="#CDE7D8" />
+                <circle cx="50" cy="50" r="50" fill={props.bgcolor ?? "#CDE7D8"} />
                 <path fill="#B36D14" d="M48 44h4v8h-4zm12-18h4v9h-4z" />
                 <path
                     fill="#669DB3"

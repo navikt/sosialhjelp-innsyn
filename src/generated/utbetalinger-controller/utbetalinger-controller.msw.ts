@@ -51,6 +51,50 @@ export const getHentUtbetalingerMock = () =>
 
 export const getGetUtbetalingExistsMock = () => faker.datatype.boolean();
 
+export const getHentTidligereUtbetalingerMock = () =>
+    Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+        utbetalingerForManed: Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(
+            () => ({
+                tittel: faker.random.word(),
+                belop: faker.datatype.number({min: undefined, max: undefined}),
+                utbetalingsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                status: faker.random.word(),
+                fiksDigisosId: faker.random.word(),
+                fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                tom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                mottaker: faker.helpers.arrayElement([faker.random.word(), undefined]),
+                annenMottaker: faker.datatype.boolean(),
+                kontonummer: faker.helpers.arrayElement([faker.random.word(), undefined]),
+                utbetalingsmetode: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            })
+        ),
+        ar: faker.datatype.number({min: undefined, max: undefined}),
+        maned: faker.random.word(),
+    }));
+
+export const getHentNyeUtbetalingerMock = () =>
+    Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+        utbetalingerForManed: Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(
+            () => ({
+                tittel: faker.random.word(),
+                belop: faker.datatype.number({min: undefined, max: undefined}),
+                utbetalingsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                status: faker.random.word(),
+                fiksDigisosId: faker.random.word(),
+                fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                tom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                mottaker: faker.helpers.arrayElement([faker.random.word(), undefined]),
+                annenMottaker: faker.datatype.boolean(),
+                kontonummer: faker.helpers.arrayElement([faker.random.word(), undefined]),
+                utbetalingsmetode: faker.helpers.arrayElement([faker.random.word(), undefined]),
+            })
+        ),
+        ar: faker.datatype.number({min: undefined, max: undefined}),
+        maned: faker.random.word(),
+    }));
+
 export const getUtbetalingerControllerMSW = () => [
     rest.get("*/api/v1/innsyn/:fiksDigisosId/utbetalinger", (_req, res, ctx) => {
         return res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getHentUtbetalingerForSakMock()));
@@ -60,5 +104,11 @@ export const getUtbetalingerControllerMSW = () => [
     }),
     rest.get("*/api/v1/innsyn/utbetalinger/exists", (_req, res, ctx) => {
         return res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getGetUtbetalingExistsMock()));
+    }),
+    rest.get("*/api/v1/innsyn/tidligere", (_req, res, ctx) => {
+        return res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getHentTidligereUtbetalingerMock()));
+    }),
+    rest.get("*/api/v1/innsyn/nye", (_req, res, ctx) => {
+        return res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getHentNyeUtbetalingerMock()));
     }),
 ];

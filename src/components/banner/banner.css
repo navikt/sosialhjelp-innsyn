@@ -5,6 +5,7 @@
     height: 3.75rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     border-bottom: 4px solid #38a161;
     margin-bottom: 2rem;
 }
