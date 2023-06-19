@@ -81,7 +81,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 </BodyShort>
             );
         }
-        if (historikkEnumKey === HistorikkTekstEnum.SAK_UNDER_BEHANDLING_MED_TITTEL && tekstArgument) {
+        if (enumValue === HistorikkTekstEnum.SAK_UNDER_BEHANDLING_MED_TITTEL && tekstArgument) {
             return (
                 <BodyShort>
                     {t(enumValue, {tekstArgument: tekstArgument.charAt(0).toUpperCase() + tekstArgument.slice(1)})}
