@@ -4,7 +4,7 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {useTranslation} from "react-i18next";
+import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
@@ -12,6 +12,7 @@ import {Collapse, Expand} from "@navikt/ds-icons";
 import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import {HendelseResponse} from "../../generated/model";
 import {Link} from "react-router-dom";
+import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -49,6 +50,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         return <Lastestriper linjer={3} />;
     }
 
+    // oppdater til hendelseenum-typer
     const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
         if (beskrivelse === t("forelopigSvar").trim()) {
             logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
@@ -63,19 +65,34 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         }
     };
 
-    const getBeskrivelse = (beskrivelse: string) => {
-        if (beskrivelse === "Dine utbetalinger har blitt oppdatert.") {
-            const beskrivelseUtenLenke = beskrivelse.replace("Dine utbetalinger", "");
+    const getBeskrivelse = (historikkEnumKey: string, tekstArgument?: string) => {
+        const enumValue = HistorikkTekstEnum[historikkEnumKey];
+        if (enumValue === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
             return (
                 <BodyShort>
-                    <NavDsLink as={Link} to="/utbetaling">
-                        Dine utbetalinger
-                    </NavDsLink>
-                    {beskrivelseUtenLenke}
+                    <Trans t={t} i18nKey={enumValue}>
+                        {/*Lenken finnes som <0></0> i språkfila. 0 = første children. 
+                        Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
+                        <NavDsLink as={Link} to="/utbetaling">
+                            Dine utbetalinger
+                        </NavDsLink>{" "}
+                        har blitt oppdatert
+                    </Trans>
                 </BodyShort>
             );
         }
-        return <BodyShort>{beskrivelse}</BodyShort>;
+        if (
+            (enumValue === HistorikkTekstEnum.SAK_UNDER_BEHANDLING_MED_TITTEL ||
+                enumValue === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_MED_TITTEL) &&
+            tekstArgument
+        ) {
+            return (
+                <BodyShort>
+                    {t(enumValue, {tekstArgument: tekstArgument.charAt(0).toUpperCase() + tekstArgument.slice(1)})}
+                </BodyShort>
+            );
+        }
+        return <BodyShort>{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
     };
 
     return (
@@ -86,12 +103,12 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         <Label as="p">
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Label>
-                        {getBeskrivelse(hendelse.beskrivelse)}
+                        {getBeskrivelse(hendelse.hendelseType, hendelse.tekstArgument)}
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}
                                 onClick={() => {
-                                    onClickHendelseLenke(hendelse.beskrivelse, hendelse?.filUrl?.linkTekst);
+                                    onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
                                 }}
                             >
                                 {hendelse.filUrl.linkTekst}

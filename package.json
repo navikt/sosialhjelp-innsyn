@@ -40,6 +40,7 @@
         "eject": "react-scripts eject",
         "lintStaged": "lint-staged",
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
+        "fetch-api-docs-local": "curl -o ./innsyn-api.json  http://localhost:8080/sosialhjelp/innsyn-api/v3/api-docs  && prettier --write innsyn-api.json",
         "orval": "rm -rf ./src/generated && orval --prettier",
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
         "typeCheck": "tsc",

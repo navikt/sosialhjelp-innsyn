@@ -1,12 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {"title": "OpenAPI definition", "version": "v0"},
-    "servers": [
-        {
-            "url": "https://sosialhjelp-innsyn-api-mock.ekstern.dev.nav.no/sosialhjelp/innsyn-api",
-            "description": "Generated server url"
-        }
-    ],
+    "servers": [{"url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url"}],
     "paths": {
         "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
@@ -720,12 +715,13 @@
                 }
             },
             "HendelseResponse": {
-                "required": ["beskrivelse", "tidspunkt"],
+                "required": ["hendelseType", "tidspunkt"],
                 "type": "object",
                 "properties": {
                     "tidspunkt": {"type": "string"},
-                    "beskrivelse": {"type": "string"},
-                    "filUrl": {"$ref": "#/components/schemas/UrlResponse"}
+                    "hendelseType": {"type": "string"},
+                    "filUrl": {"$ref": "#/components/schemas/UrlResponse"},
+                    "tekstArgument": {"type": "string"}
                 }
             },
             "ForelopigSvarResponse": {
