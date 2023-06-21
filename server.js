@@ -9,8 +9,10 @@ const decoratorParams = {
     chatbot: false,
     shareScreen: false,
     utilsBackground: "white",
-    logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined
+    logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined,
 };
+
+console.log("starter fra docker-image", process.env.NAIS_APP_IMAGE);
 
 const app = express(); // create express app
 app.disable("x-powered-by");
