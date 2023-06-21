@@ -12,7 +12,9 @@ const decoratorParams = {
     logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined,
 };
 
-console.log("starter fra docker-image", process.env.IMAGE);
+const dockerImage = process.env.IMAGE || process.env.NAIS_APP_IMAGE;
+
+console.log("starter fra docker image: ", dockerImage);
 
 const app = express(); // create express app
 app.disable("x-powered-by");
