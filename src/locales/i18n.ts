@@ -24,15 +24,11 @@ i18n.use(initReactI18next).init({
         },
         nn: {
             utbetalinger: require("./nn/utbetalinger.json"),
+            global: nn,
         },
         en: {
             utbetalinger: require("./en/utbetalinger.json"),
-        },
-        nn: {
-            translation: nn,
-        },
-        en: {
-            translation: en,
+            global: en,
         },
     },
     defaultNS: "global",

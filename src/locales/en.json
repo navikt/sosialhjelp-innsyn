@@ -16,7 +16,7 @@
   "hendelse.soknad_kan_ikke_vise_status_uten_tittel": "We cannot show the status of your application on nav.no.",
   "hendelse.sak_under_behandling_med_tittel": "{{tekstArgument}} is being processed.",
   "hendelse.sak_under_behandling_uten_tittel": "Your case is being processed.",
-  "hendelse.sak_ferdigbehandlet_med_tittel": "{{tekstArgument}} has been processed".,
+  "hendelse.sak_ferdigbehandlet_med_tittel": "{{tekstArgument}} has been processed.",
   "hendelse.sak_ferdigbehandlet_uten_tittel": "Financial assistance has been processed.",
   "hendelse.sak_kan_ikke_vises_status_med_tittel": "We cannot show the status of your application for {{tekstArgument}} on nav.no.",
   "hendelse.sak_kan_ikke_vises_status_uten_tittel": "We cannot show the status of your application on nav.no.",
