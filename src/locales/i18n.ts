@@ -3,9 +3,9 @@ import {initReactI18next} from "react-i18next";
 import {onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import Cookies from "js-cookie";
 import {isLocalhost} from "../utils/restUtils";
-import nb from "./nb.json";
-import nn from "./nn.json";
-import en from "./en.json";
+import nb from "./nb/nb.json";
+import nn from "./nn/nn.json";
+import en from "./en/en.json";
 
 let language = Cookies.get("decorator-language");
 if (language === undefined || !["nb", "nn", "en"].includes(language)) {
