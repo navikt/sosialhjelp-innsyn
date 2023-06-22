@@ -35,7 +35,26 @@ npm run start #  starter dev-server
 npm test # Kjør enhetstestene
 ```
 
+Hvis det er skjedd endringer i apiet må man også oppdatere typegenerering fra swagger-dokumentasjon. Dette gjøres via  
+`npm run orval`
+
+Swagger-docs hentes inn fra mock-miljø via kommonadoen  
+`npm run fetch-api-docs`
+
 Se også [utviklerdokumentasjonen](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling/#frontend) vår.
+
+## Ved endringer i innsyn-api
+
+```shell
+npm run fetch-api-docs # Hent OpenAPI definition for innsyn-api fra mock-miljø og lagrer i innsyn-api.json
+npm run orval # genererer typer fra innsyn-api.json
+```
+
+Eventuelt kan innsyn-api.json genereres fra lokal backend ved å kjøre
+
+```shell
+npm run fetch-api-docs-local
+```
 
 ## How-to
 

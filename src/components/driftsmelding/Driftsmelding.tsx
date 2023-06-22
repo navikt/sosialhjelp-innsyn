@@ -1,10 +1,11 @@
 import * as React from "react";
 import {useTranslation} from "react-i18next";
-import {Driftsmelding, DriftsmeldingTypeKeys, getDriftsmeldingByKommuneResponse} from "./DriftsmeldingUtilities";
+import {getDriftsmeldingByKommuneResponseOrDigisosId} from "./DriftsmeldingUtilities";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {Alert, Label} from "@navikt/ds-react";
 import styled from "styled-components";
 import useKommune from "../../hooks/useKommune";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
@@ -12,9 +13,11 @@ const StyledAlert = styled(Alert)`
 
 const DriftsmeldingAlertstripe: React.FC = () => {
     const {kommune} = useKommune();
+    const fiksDigisosId = useFiksDigisosId();
+
     const {t} = useTranslation();
 
-    const driftsmelding: Driftsmelding = getDriftsmeldingByKommuneResponse(kommune);
+    const driftsmelding = getDriftsmeldingByKommuneResponseOrDigisosId(kommune, fiksDigisosId);
     const Tidspunkt = () => (
         <Label as="p">
             <DatoOgKlokkeslett
@@ -24,17 +27,18 @@ const DriftsmeldingAlertstripe: React.FC = () => {
         </Label>
     );
 
-    switch (driftsmelding.type) {
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT:
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT:
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT:
+    switch (driftsmelding?.type) {
+        case "InnsynDeaktivert":
+        case "EttersendelseDeaktivert":
+        case "InnsynOgEttersendelseDeaktivert":
             return (
                 <StyledAlert variant="error">
                     <Tidspunkt />
                     {t(driftsmelding.textKey)}
                 </StyledAlert>
             );
-        case DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN:
+        case "FeiledeDigisosIder":
+            return <StyledAlert variant="error">{t(driftsmelding.textKey)}</StyledAlert>;
         default:
             return null;
     }

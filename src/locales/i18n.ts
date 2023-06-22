@@ -19,7 +19,14 @@ i18n.use(initReactI18next).init({
     debug: isLocalhost(window.location.href),
     resources: {
         nb: {
-            translation: nb,
+            utbetalinger: require("./nb/utbetalinger.json"),
+            global: nb,
+        },
+        nn: {
+            utbetalinger: require("./nn/utbetalinger.json"),
+        },
+        en: {
+            utbetalinger: require("./en/utbetalinger.json"),
         },
         nn: {
             translation: nn,
@@ -28,6 +35,8 @@ i18n.use(initReactI18next).init({
             translation: en,
         },
     },
+    defaultNS: "global",
+    ns: ["utbetalinger", "global"],
 });
 
 onLanguageSelect(async (language) => {

@@ -1,12 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {"title": "OpenAPI definition", "version": "v0"},
-    "servers": [
-        {
-            "url": "https://sosialhjelp-innsyn-api-mock.ekstern.dev.nav.no/sosialhjelp/innsyn-api",
-            "description": "Generated server url"
-        }
-    ],
+    "servers": [{"url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url"}],
     "paths": {
         "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
@@ -421,6 +416,28 @@
                 }
             }
         },
+        "/api/v1/innsyn/tidligere": {
+            "get": {
+                "tags": ["utbetalinger-controller"],
+                "operationId": "hentTidligereUtbetalinger",
+                "parameters": [
+                    {"name": "Authorization", "in": "header", "required": true, "schema": {"type": "string"}}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {"$ref": "#/components/schemas/NyeOgTidligereUtbetalingerResponse"}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/saksDetaljer": {
             "get": {
                 "tags": ["saks-oversikt-controller"],
@@ -450,6 +467,28 @@
                         "content": {
                             "*/*": {
                                 "schema": {"type": "array", "items": {"$ref": "#/components/schemas/SaksListeResponse"}}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/innsyn/nye": {
+            "get": {
+                "tags": ["utbetalinger-controller"],
+                "operationId": "hentNyeUtbetalinger",
+                "parameters": [
+                    {"name": "Authorization", "in": "header", "required": true, "schema": {"type": "string"}}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {"$ref": "#/components/schemas/NyeOgTidligereUtbetalingerResponse"}
+                                }
                             }
                         }
                     }
@@ -676,12 +715,13 @@
                 }
             },
             "HendelseResponse": {
-                "required": ["beskrivelse", "tidspunkt"],
+                "required": ["hendelseType", "tidspunkt"],
                 "type": "object",
                 "properties": {
                     "tidspunkt": {"type": "string"},
-                    "beskrivelse": {"type": "string"},
-                    "filUrl": {"$ref": "#/components/schemas/UrlResponse"}
+                    "hendelseType": {"type": "string"},
+                    "filUrl": {"$ref": "#/components/schemas/UrlResponse"},
+                    "tekstArgument": {"type": "string"}
                 }
             },
             "ForelopigSvarResponse": {
@@ -724,6 +764,18 @@
                 "required": ["fornavn", "harTilgang"],
                 "type": "object",
                 "properties": {"harTilgang": {"type": "boolean"}, "fornavn": {"type": "string"}}
+            },
+            "NyeOgTidligereUtbetalingerResponse": {
+                "required": ["ar", "maned", "utbetalingerForManed"],
+                "type": "object",
+                "properties": {
+                    "utbetalingerForManed": {
+                        "type": "array",
+                        "items": {"$ref": "#/components/schemas/ManedUtbetaling"}
+                    },
+                    "ar": {"type": "integer", "format": "int32"},
+                    "maned": {"type": "string"}
+                }
             },
             "SaksDetaljerResponse": {
                 "required": ["fiksDigisosId", "soknadTittel", "status"],

@@ -1,13 +1,14 @@
 import {Heading} from "@navikt/ds-react";
 import * as React from "react";
 import "./banner.css";
+import {PropsWithChildren} from "react";
 
-const Banner: React.FC<{children: React.ReactNode} & {}> = ({children}) => {
+const Banner = (props: PropsWithChildren<{}>) => {
     return (
         <div className="banner">
             <div className="blokk-center">
                 <Heading level="1" size="medium">
-                    {children}
+                    {props.children}
                 </Heading>
             </div>
         </div>

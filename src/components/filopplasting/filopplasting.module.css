@@ -18,3 +18,7 @@
 .tekstWrapping {
     word-wrap: break-word;
 }
+
+.driftsmelding {
+    margin-bottom: 8px;
+}

@@ -1,38 +1,21 @@
 import {KommuneResponse} from "../../generated/model";
+import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
 
-export enum DriftsmeldingTypeKeys {
-    DRIFTSMELDING_INGEN = "DRIFTSMELDING_INGEN",
-    DRIFTSMELDING_INNSYN_DEAKTIVERT = "DRIFTSMELDING_INNSYN_DEAKTIVERT",
-    DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT = "DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT",
-    DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT = "DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT",
-}
-
-export interface DriftsmeldingIngen {
-    type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN;
-}
-
-export interface DriftsmeldingInnsynDeaktivert {
-    type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT;
+export interface Driftsmelding {
+    type: DriftsmeldingType;
     textKey: string;
 }
 
-export interface DriftsmeldingEttersendelseDeaktivert {
-    type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT;
-    textKey: string;
-}
+export type DriftsmeldingType =
+    | "InnsynDeaktivert"
+    | "EttersendelseDeaktivert"
+    | "InnsynOgEttersendelseDeaktivert"
+    | "FeiledeDigisosIder";
 
-export interface DriftsmeldingInnsynOgEttersendelseDeaktivert {
-    type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT;
-    textKey: string;
-}
-
-export type Driftsmelding =
-    | DriftsmeldingIngen
-    | DriftsmeldingInnsynDeaktivert
-    | DriftsmeldingEttersendelseDeaktivert
-    | DriftsmeldingInnsynOgEttersendelseDeaktivert;
-
-export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneResponse | undefined) => {
+export const getDriftsmeldingByKommuneResponseOrDigisosId = (
+    kommuneResponse: KommuneResponse | undefined,
+    fiksDigisosId?: string | undefined
+): Driftsmelding | undefined => {
     if (kommuneResponse) {
         if (
             kommuneResponse.erInnsynMidlertidigDeaktivert &&
@@ -40,37 +23,57 @@ export const getDriftsmeldingByKommuneResponse = (kommuneResponse: KommuneRespon
                 kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert)
         ) {
             return {
-                type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_OG_ETTERSENDELSE_DEAKTIVERT,
+                type: "InnsynOgEttersendelseDeaktivert",
                 textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
-            } as Driftsmelding;
+            };
         }
         if (kommuneResponse.erInnsynMidlertidigDeaktivert) {
             return {
-                type: DriftsmeldingTypeKeys.DRIFTSMELDING_INNSYN_DEAKTIVERT,
+                type: "InnsynDeaktivert",
                 textKey: "driftsmelding.innsynDeaktivert",
-            } as Driftsmelding;
+            };
         }
         if (
             kommuneResponse.erInnsendingEttersendelseDeaktivert ||
             kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert
         ) {
             return {
-                type: DriftsmeldingTypeKeys.DRIFTSMELDING_ETTERSENDELSE_DEAKTIVERT,
+                type: "EttersendelseDeaktivert",
                 textKey: "driftsmelding.ettersendelseDeaktivert",
-            } as Driftsmelding;
+            };
+        }
+        if (fiksDigisosId && listeOverFeiledeIder.includes(fiksDigisosId)) {
+            return {
+                type: "FeiledeDigisosIder",
+                textKey: "driftsmelding.feiledeDigisosIder",
+            };
         }
     }
-    return {
-        type: DriftsmeldingTypeKeys.DRIFTSMELDING_INGEN,
-    } as Driftsmelding;
+    return undefined;
 };
 
-export const isFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined): boolean => {
-    if (!kommuneInfo) {
-        return false;
+export const digisosIdHasFailed = (fiksDigisosId?: string | undefined) => {
+    return fiksDigisosId && listeOverFeiledeIder.includes(fiksDigisosId);
+};
+
+export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefined) => {
+    return (
+        !kommuneInfo ||
+        kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert ||
+        kommuneInfo.erInnsendingEttersendelseDeaktivert
+    );
+};
+
+export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId?: string | undefined) => {
+    let kanLasteOppVedlegg = true;
+    let textKey = "";
+    if (digisosIdHasFailed(fiksDigisosId)) {
+        kanLasteOppVedlegg = false;
+        textKey = "driftsmelding.vedlegg.feiledeDigisosIder";
+    } else if (ettersendelseErDeaktivert(kommuneInfo)) {
+        kanLasteOppVedlegg = false;
+        textKey = "driftsmelding.kanIkkeSendeVedlegg";
     }
-    if (kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert) {
-        return false;
-    }
-    return !kommuneInfo.erInnsendingEttersendelseDeaktivert;
+
+    return {kanLasteOppVedlegg, textKey};
 };

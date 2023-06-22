@@ -9,6 +9,7 @@ import {
     useNavigationType,
     createRoutesFromChildren,
     matchRoutes,
+    Outlet,
 } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
@@ -22,12 +23,12 @@ import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskont
 import {initAmplitude} from "./utils/amplitude";
 import {isProd} from "./utils/restUtils";
 import ScrollToTop from "./utils/ScrollToTop";
-
 import AppBanner from "./components/appBanner/AppBanner";
 import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
 import Linkside from "./components/linkside/Linkside";
 import {useTranslation} from "react-i18next";
+import UtbetalingerBeta from "./utbetalinger/beta/UtbetalingerBeta";
 const store = configureStore();
 
 if (process.env.NODE_ENV === "production") {
@@ -55,6 +56,15 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 const queryClient = new QueryClient();
 
+const MainLayout = () => (
+    <>
+        <AppBanner />
+        <div className="blokk-center informasjon-side">
+            <Outlet />
+        </div>
+    </>
+);
+
 const App = () => {
     const {i18n} = useTranslation();
 
@@ -66,16 +76,16 @@ const App = () => {
                         <QueryClientProvider client={queryClient}>
                             <ScrollToTop />
                             <div lang={i18n.language}>
-                                <AppBanner />
-                                <div className="blokk-center informasjon-side">
-                                    <SentryRoutes>
-                                        <Route path="/" element={<Saksoversikt />} />
-                                        <Route path="/utbetaling" element={<Utbetalinger />} />
+                                <SentryRoutes>
+                                    <Route path="/utbetaling" element={<UtbetalingerBeta />} />
+                                    <Route path="/" element={<MainLayout />}>
+                                        <Route index element={<Saksoversikt />} />
+                                        <Route path="/utbetalingLegacy" element={<Utbetalinger />} />
                                         <Route path="/:soknadId/status" element={<SaksStatus />} />
                                         <Route path="/link" element={<Linkside />} />
                                         <Route path="*" element={<SideIkkeFunnet />} />
-                                    </SentryRoutes>
-                                </div>
+                                    </Route>
+                                </SentryRoutes>
                             </div>
                         </QueryClientProvider>
                     </BrowserRouter>
