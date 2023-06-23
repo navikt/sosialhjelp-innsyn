@@ -8,6 +8,7 @@ import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import i18next from "../../../locales/i18n";
 import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
+import {hentUtbetalingTittel} from "../../utbetalingerUtils";
 
 function statusToTekst(status: string) {
     switch (status) {
@@ -44,7 +45,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                     <div className={styles.accordion_headerContent}>
                         <div className={styles.float_left}>
                             <BodyShort className={styles.uthevetTekst}>
-                                {utbetalingManed.tittel ? utbetalingManed.tittel : t("utbetaling")}
+                                {hentUtbetalingTittel(utbetalingManed.tittel)}
                             </BodyShort>
                             <BodyShort>
                                 {utbetalingManed.status === "STOPPET" ? (
