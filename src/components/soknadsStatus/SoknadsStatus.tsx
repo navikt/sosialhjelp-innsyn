@@ -62,10 +62,7 @@ const SoknadsStatus = () => {
     const soknadsStatus = soknadsStatusQuery.data?.status;
 
     const hentSakstittel = (tittel: string) => {
-        if (tittel === DEFAULT_SAK_TITTEL) {
-            return t(tittel);
-        }
-        return tittel;
+        return tittel && tittel !== DEFAULT_SAK_TITTEL ? tittel : t(DEFAULT_SAK_TITTEL);
     };
 
     if (isLoading) {
