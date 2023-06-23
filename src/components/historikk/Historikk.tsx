@@ -56,9 +56,9 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
         } else if (beskrivelse === t("oppgaver.maa_sende_dok_veileder")) {
             logButtonOrLinkClick(`Historikk: åpnet etterspørsel av dokumentasjon`);
-        } else if (lenketekst === "Vis søknaden") {
+        } else if (lenketekst === HistorikkTekstEnum.SOKNAD_SEND_TIL_KONTOR_LENKETEKST) {
             logButtonOrLinkClick(`Historikk: åpnet søknaden`);
-        } else if (beskrivelse.includes("er ferdig behandlet") && lenketekst === "Vis brevet") {
+        } else if (beskrivelse.includes("er ferdig behandlet") && lenketekst === HistorikkTekstEnum.VIS_BREVET) {
             logButtonOrLinkClick(`Historikk: åpnet vedtak fattet`);
         } else {
             logButtonOrLinkClick(`Historikk: ukjent hendelse`);
@@ -111,7 +111,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                                     onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
                                 }}
                             >
-                                {hendelse.filUrl.linkTekst}
+                                {t(hendelse.filUrl.linkTekst)}
                             </EksternLenke>
                         )}
                     </li>

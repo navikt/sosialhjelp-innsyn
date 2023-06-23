@@ -28,4 +28,6 @@ export const HistorikkTekstEnum: HistorikkTekst = {
     ETTERSPOR_MER_DOKUMENTASJON: "hendelse.etterspor_mer_dokumentasjon",
     ETTERSPOR_IKKE_MER_DOKUMENTASJON: "hendelse.etterspor_ikke_mer_dokumentasjon",
     DOKUMENTASJONKRAV: "hendelse.dokumentasjonkrav",
+    SOKNAD_SEND_TIL_KONTOR_LENKETEKST: "hendelse.soknad_sendt_til_kontor_lenketekst",
+    VIS_BREVET_LENKETEKST: "hendelse.vis_brevet_lenketekst",
 };
