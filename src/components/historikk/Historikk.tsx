@@ -116,7 +116,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                                     onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
                                 }}
                             >
-                                {t(hendelse.filUrl.linkTekst)}
+                                {t(HistorikkTekstEnum[hendelse.filUrl.linkTekst])}
                             </EksternLenke>
                         )}
                     </li>
