@@ -19,6 +19,7 @@ import {
 import styles from "../../styles/lists.module.css";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
 import {ContentPanelBorder} from "./SoknadsStatusHeading";
+import {DEFAULT_SAK_TITTEL} from "./soknadsStatusUtils";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
@@ -59,6 +60,13 @@ const SoknadsStatus = () => {
     };
 
     const soknadsStatus = soknadsStatusQuery.data?.status;
+
+    const hentSakstittel = (tittel: string) => {
+        if (tittel === DEFAULT_SAK_TITTEL) {
+            return t(tittel);
+        }
+        return tittel;
+    };
 
     if (isLoading) {
         return (
@@ -111,11 +119,12 @@ const SoknadsStatus = () => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
+
                             return (
                                 <li key={index}>
                                     <StatusBox>
                                         <StatusMessage>
-                                            <Label as="p">{statusdetalj.tittel}</Label>
+                                            <Label as="p">{hentSakstittel(statusdetalj.tittel)}</Label>
                                             {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
                                                 <Tag variant="success">{t("saksStatus.ferdig_behandlet")}</Tag>
                                             )}
