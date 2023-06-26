@@ -1,6 +1,8 @@
 {
   "historikk.tittel": "Historikk",
   "historikk.se_vedtaksbrev": "Vis brevet",
+  "historikk.vis_alle": "Vis alle",
+  "historikk.lukk": "Lukk",
 
   "hendelse.soknad_sendt_til_kontor": "Søknaden med vedlegg er sendt til {{tekstArgument}} kommune.",
   "hendelse.soknad_mottatt_hos_kommune": "Søknaden med vedlegg er mottatt hos {{tekstArgument}} kommune.",
@@ -147,6 +149,9 @@
   "andre_vedlegg.type": "Send andre vedlegg",
   "andre_vedlegg.tilleggsinfo": "Hvis du har noe annet du vil sende, kan du laste det opp her.",
   "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
+  "vedlegg.tabell.filnavn": "Filnavn",
+  "vedlegg.tabell.beskrivelse": "Beskrivelse",
+  "vedlegg.tabell.dato": "Dato lagt til",
 
 
   "forelopigSvar": "Du har fått et brev om saksbehandlingstiden for søknaden din. ",
@@ -176,5 +181,19 @@
   "feilmelding.dineOppgaver_innlasting": "Vi klarte ikke å laste opp informasjon om dine oppgaver",
   "feilmelding.historikk_innlasting": "Vi klarte ikke å laste opp historikken din",
   "feilmelding.vedlegg_innlasting": "Vi klarte ikke laste inn dine innsendte vedlegg",
-  "feilmelding.ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. <linebreak/> Du kan forsøke å oppdatere siden, eller prøve igjen senere."
+  "feilmelding.ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. <linebreak/> Du kan forsøke å oppdatere siden, eller prøve igjen senere.",
+
+  "dineSoknader": "Dine søknader",
+  "nySoknad": "Ny søknad",
+  "relatertInfo": "Relatert informasjon",
+  "endringer.tittel": "Meld fra om endringer",
+  "endringer.detaljer": "Du må melde fra dersom din økonomiske situasjon endres.",
+  "klage.tittel": "Klagerettigheter",
+  "klage.detaljer": "Har du fått et vedtak fra oss som du mener er feil, kan du klage.",
+  "personopplysninger.tittel": "Personopplysninger",
+  "personopplysninger.detaljer": "Hvordan vi behandler dine personopplysninger",
+  "soknadStatus.tittel": "Status på søknaden din",
+  "ekstern_lenke": "(åpnes i en ny fane)",
+  "vedtak": "Vedtak"
+
 }

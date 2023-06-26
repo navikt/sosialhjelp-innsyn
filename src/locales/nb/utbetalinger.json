@@ -36,7 +36,8 @@
   "bankkonto": "Bankkonto",
   "soknadLenke" : "Gå til søknaden og les vedtaksbrevet for mer detaljer",
   "utbetaling" : "Utbetaling",
-  "ukjentDato": "Ukjent utbetalingsdato"
+  "ukjentDato": "Ukjent utbetalingsdato",
+  "opprinneligSum": "Opprinnelig sum:"
 
 }
 
