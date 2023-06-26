@@ -49,8 +49,9 @@ const SaksStatusView = () => {
 
     const {pathname} = useLocation();
     useEffect(() => {
-        setBreadcrumbs({title: "Status på søknaden din", url: `/sosialhjelp${pathname}`});
-    }, [pathname]);
+        console.log("test");
+        setBreadcrumbs({title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}`});
+    }, [pathname, t]);
 
     useEffect(() => {
         function createAmplitudeData() {
@@ -74,10 +75,9 @@ const SaksStatusView = () => {
 
     const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
 
-    const statusTittel = "Status på søknaden din";
-    document.title = `${statusTittel} - Økonomisk sosialhjelp`;
+    document.title = `${t("soknadStatus.tittel")} - Økonomisk sosialhjelp`;
 
-    useBannerTittel(statusTittel);
+    useBannerTittel(t("soknadStatus.tittel"));
 
     return (
         <>

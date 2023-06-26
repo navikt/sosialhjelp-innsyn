@@ -8,6 +8,7 @@ import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import i18next from "../../../locales/i18n";
 import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
+import {hentUtbetalingTittel} from "../../utbetalingerUtils";
 
 function statusToTekst(status: string) {
     switch (status) {
@@ -44,7 +45,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                     <div className={styles.accordion_headerContent}>
                         <div className={styles.float_left}>
                             <BodyShort className={styles.uthevetTekst}>
-                                {utbetalingManed.tittel ? utbetalingManed.tittel : t("utbetaling")}
+                                {hentUtbetalingTittel(utbetalingManed.tittel)}
                             </BodyShort>
                             <BodyShort>
                                 {utbetalingManed.status === "STOPPET" ? (
@@ -63,7 +64,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                         <BodyShort className={styles.float_right}>
                             {utbetalingManed.status === "STOPPET" ? (
                                 <s>
-                                    <span className="navds-sr-only">Opprinnelig sum: </span>
+                                    <span className="navds-sr-only">{t("opprinneligSum")}</span>
                                     {formatCurrency(utbetalingManed.belop)} kr
                                 </s>
                             ) : (

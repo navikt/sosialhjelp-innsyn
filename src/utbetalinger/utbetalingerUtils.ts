@@ -1,4 +1,5 @@
 import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
+import {t} from "i18next";
 
 const diffInMonths = (d1: Date, d2: Date) => {
     var d1Y = d1.getFullYear();
@@ -44,9 +45,14 @@ const filtrerMaanederUtenUtbetalinger = (utbetalinger: UtbetalingerResponse[]): 
     });
 };
 
+const hentUtbetalingTittel = (tittel: string) => {
+    return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : t("default_utbetalinger_tittel");
+};
+
 export {
     filtrerUtbetalingerPaaMottaker,
     filtrerUtbetalingerForTidsinterval,
     filtrerMaanederUtenUtbetalinger,
     diffInMonths,
+    hentUtbetalingTittel,
 };

@@ -56,9 +56,14 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
         } else if (beskrivelse === t("oppgaver.maa_sende_dok_veileder")) {
             logButtonOrLinkClick(`Historikk: åpnet etterspørsel av dokumentasjon`);
-        } else if (lenketekst === "Vis søknaden") {
+        } else if (lenketekst === HistorikkTekstEnum.SOKNAD_SEND_TIL_KONTOR_LENKETEKST) {
             logButtonOrLinkClick(`Historikk: åpnet søknaden`);
-        } else if (beskrivelse.includes("er ferdig behandlet") && lenketekst === "Vis brevet") {
+        } else if (
+            (beskrivelse === HistorikkTekstEnum.SOKNAD_FERDIGBEHADNLET ||
+                beskrivelse === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_MED_TITTEL ||
+                beskrivelse === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_UTEN_TITTEL) &&
+            lenketekst === HistorikkTekstEnum.VIS_BREVET
+        ) {
             logButtonOrLinkClick(`Historikk: åpnet vedtak fattet`);
         } else {
             logButtonOrLinkClick(`Historikk: ukjent hendelse`);
@@ -111,7 +116,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                                     onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
                                 }}
                             >
-                                {hendelse.filUrl.linkTekst}
+                                {t(HistorikkTekstEnum[hendelse.filUrl.linkTekst])}
                             </EksternLenke>
                         )}
                     </li>
@@ -128,7 +133,7 @@ const KortHistorikk: React.FC<{hendelser: HendelseResponse[]; leserData: boolean
 const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) => {
     const [apen, setApen] = useState(false);
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
-
+    const {t} = useTranslation();
     const toggleOpen = () => {
         setApen(!apen);
     };
@@ -153,7 +158,7 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
                 iconPosition={"right"}
                 icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
             >
-                {apen ? "Lukk" : `Vis alle (${hendelser.length})`}
+                {apen ? t("historikk.lukk") : `${t("historikk.vis_alle")} (${hendelser.length})`}
             </CenteredButton>
         </FlexContainer>
     );

@@ -60,6 +60,10 @@ const SoknadsStatus = () => {
 
     const soknadsStatus = soknadsStatusQuery.data?.status;
 
+    const hentSakstittel = (tittel: string) => {
+        return tittel && tittel !== "default_sak_tittel" ? tittel : t("default_sak_tittel");
+    };
+
     if (isLoading) {
         return (
             <SoknadsStatusPanel hasError={false}>
@@ -111,11 +115,12 @@ const SoknadsStatus = () => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
+
                             return (
                                 <li key={index}>
                                     <StatusBox>
                                         <StatusMessage>
-                                            <Label as="p">{statusdetalj.tittel}</Label>
+                                            <Label as="p">{hentSakstittel(statusdetalj.tittel)}</Label>
                                             {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
                                                 <Tag variant="success">{t("saksStatus.ferdig_behandlet")}</Tag>
                                             )}
@@ -144,7 +149,7 @@ const SoknadsStatus = () => {
                                                                 href={"" + hendelse.vedtaksfilUrl}
                                                                 onClick={onVisVedtak}
                                                             >
-                                                                Vedtak (
+                                                                {t("vedtak")} (
                                                                 <DatoOgKlokkeslett
                                                                     bareDato={true}
                                                                     // TODO: Kan denne faktisk være null?

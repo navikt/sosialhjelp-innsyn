@@ -26,6 +26,10 @@ const decoratorParams = {
     ],
 };
 
+const dockerImage = process.env.IMAGE || process.env.NAIS_APP_IMAGE;
+
+console.log("starter innsyn fra docker image: ", dockerImage);
+
 const app = express(); // create express app
 app.disable("x-powered-by");
 
