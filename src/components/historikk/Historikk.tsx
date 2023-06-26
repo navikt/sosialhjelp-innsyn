@@ -133,7 +133,7 @@ const KortHistorikk: React.FC<{hendelser: HendelseResponse[]; leserData: boolean
 const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) => {
     const [apen, setApen] = useState(false);
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
-
+    const {t} = useTranslation();
     const toggleOpen = () => {
         setApen(!apen);
     };
@@ -158,7 +158,7 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
                 iconPosition={"right"}
                 icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
             >
-                {apen ? "Lukk" : `Vis alle (${hendelser.length})`}
+                {apen ? t("historikk.lukk") : `${t("historikk.vis_alle")} (${hendelser.length})`}
             </CenteredButton>
         </FlexContainer>
     );

@@ -144,7 +144,7 @@ const SoknadsStatus = () => {
                                                                 href={"" + hendelse.vedtaksfilUrl}
                                                                 onClick={onVisVedtak}
                                                             >
-                                                                Vedtak (
+                                                                {t("vedtak")} (
                                                                 <DatoOgKlokkeslett
                                                                     bareDato={true}
                                                                     // TODO: Kan denne faktisk være null?

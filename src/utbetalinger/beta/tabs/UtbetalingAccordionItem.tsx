@@ -63,7 +63,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                         <BodyShort className={styles.float_right}>
                             {utbetalingManed.status === "STOPPET" ? (
                                 <s>
-                                    <span className="navds-sr-only">Opprinnelig sum: </span>
+                                    <span className="navds-sr-only">{t("opprinneligSum")}</span>
                                     {formatCurrency(utbetalingManed.belop)} kr
                                 </s>
                             ) : (

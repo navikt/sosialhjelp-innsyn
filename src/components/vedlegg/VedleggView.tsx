@@ -231,13 +231,13 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                     <Table.Header>
                         <Table.Row>
                             <Table.ColumnHeader sortKey={Kolonne.FILNAVN} sortable>
-                                <FilnavnHeader>Filnavn</FilnavnHeader>
+                                <FilnavnHeader>{t("vedlegg.tabell.filnavn")}</FilnavnHeader>
                             </Table.ColumnHeader>
                             <Table.ColumnHeader sortKey={Kolonne.BESKRIVELSE} sortable>
-                                Beskrivelse
+                                {t("vedlegg.tabell.beskrivelse")}
                             </Table.ColumnHeader>
                             <Table.ColumnHeader sortKey={Kolonne.DATO} sortable>
-                                Dato lagt til
+                                {t("vedlegg.tabell.dato")}
                             </Table.ColumnHeader>
                         </Table.Row>
                     </Table.Header>
@@ -258,8 +258,7 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                                 ) : (
                                     <>
                                         <Table.DataCell>
-                                            <StyledFileCheckmark aria-hidden title="filikon" />
-
+                                            <StyledFileCheckmark aria-hidden title="fil" />
                                             <Link
                                                 href={vedlegg.url}
                                                 target="_blank"

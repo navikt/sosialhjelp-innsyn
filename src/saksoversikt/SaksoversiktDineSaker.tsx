@@ -15,6 +15,7 @@ import {SaksListeResponse} from "../generated/model";
 import {useGetUtbetalingExists} from "../generated/utbetalinger-controller/utbetalinger-controller";
 import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 import styles from "../styles/lists.module.css";
+import {useTranslation} from "react-i18next";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -37,6 +38,7 @@ const StyledHeading = styled(Heading)`
 const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const {t} = useTranslation();
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const {data} = useGetUtbetalingExists(
         {month: 15},
@@ -102,7 +104,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
             <section aria-labelledby="dine-soknader">
                 <StyledDineSoknaderPanel>
                     <StyledHeading level="2" size="medium" id="dine-soknader">
-                        Dine søknader
+                        {t("dineSoknader")}
                     </StyledHeading>
                     <Button
                         onClick={() => logButtonOrLinkClick("Ny søknad")}
@@ -110,7 +112,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                         variant="primary"
                         href="/sosialhjelp/soknad/informasjon"
                     >
-                        Ny søknad
+                        {t("nySoknad")}
                     </Button>
                 </StyledDineSoknaderPanel>
                 <ul className={styles.unorderedList}>
@@ -140,24 +142,25 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
             <section aria-labelledby="relatert-informasjon">
                 <Subheader className="panel-luft-over">
                     <Heading level="2" size="small" id="relatert-informasjon">
-                        Relatert informasjon
+                        {t("relatertInfo")}
                     </Heading>
                 </Subheader>
 
                 <InfoPanelWrapper>
                     <InfoPanel
-                        tittel={"Meld fra om endringer"}
+                        tittel={t("endringer.tittel")}
                         href={"https://www.nav.no/okonomisk-sosialhjelp#meld-fra-ved-endring"}
                     >
-                        Du må melde fra dersom din økonomiske situasjon endres.
+                        {t("endringer.detaljer")}
                     </InfoPanel>
-
-                    <InfoPanel tittel={"Klagerettigheter"} href={"https://www.nav.no/okonomisk-sosialhjelp#klage"}>
-                        Har du fått et vedtak fra oss som du mener er feil, kan du klage.
+                    <InfoPanel tittel={t("klage.tittel")} href={"https://www.nav.no/okonomisk-sosialhjelp#klage"}>
+                        {t("klage.detaljer")}
                     </InfoPanel>
-
-                    <InfoPanel tittel={"Personopplysninger"} href={"https://www.nav.no/personopplysninger-sosialhjelp"}>
-                        Hvordan vi behandler dine personopplysninger
+                    <InfoPanel
+                        tittel={t("personopplysninger.tittel")}
+                        href={"https://www.nav.no/personopplysninger-sosialhjelp"}
+                    >
+                        {t("personopplysninger.detaljer")}
                     </InfoPanel>
                 </InfoPanelWrapper>
             </section>
