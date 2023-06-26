@@ -45,10 +45,8 @@ const filtrerMaanederUtenUtbetalinger = (utbetalinger: UtbetalingerResponse[]): 
     });
 };
 
-const DEFAULT_UTBETALINGER_TITTEL = "default_utbetalinger_tittel";
-
 const hentUtbetalingTittel = (tittel: string) => {
-    return tittel && tittel !== DEFAULT_UTBETALINGER_TITTEL ? tittel : t(DEFAULT_UTBETALINGER_TITTEL);
+    return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : t("default_utbetalinger_tittel");
 };
 
 export {

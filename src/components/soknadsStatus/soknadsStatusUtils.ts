@@ -18,5 +18,3 @@ const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t:
 };
 
 export {soknadsStatusTittel};
-
-export const DEFAULT_SAK_TITTEL = "default_sak_tittel";

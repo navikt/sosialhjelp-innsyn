@@ -19,7 +19,6 @@ import {
 import styles from "../../styles/lists.module.css";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
 import {ContentPanelBorder} from "./SoknadsStatusHeading";
-import {DEFAULT_SAK_TITTEL} from "./soknadsStatusUtils";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
@@ -62,7 +61,7 @@ const SoknadsStatus = () => {
     const soknadsStatus = soknadsStatusQuery.data?.status;
 
     const hentSakstittel = (tittel: string) => {
-        return tittel && tittel !== DEFAULT_SAK_TITTEL ? tittel : t(DEFAULT_SAK_TITTEL);
+        return tittel && tittel !== "default_sak_tittel" ? tittel : t("default_sak_tittel");
     };
 
     if (isLoading) {
