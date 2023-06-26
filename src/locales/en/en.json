@@ -29,6 +29,8 @@
   "hendelse.etterspor_mer_dokumentasjon": "We need more information to process your application.",
   "hendelse.etterspor_ikke_mer_dokumentasjon": "We have reviewed your information and will let you know if we need anything else from you.",
   "hendelse.dokumentasjonkrav": "Your tasks have been updated; please see the notice of decision for more information.",
+  "hendelse.soknad_sendt_til_kontor_lenketekst": "Show application",
+  "hendelse.vis_brevet_lenketekst": "Show letter",
 
   "status.sendt": "Your application has been sent",
   "status.mottatt": "Your application has been received",

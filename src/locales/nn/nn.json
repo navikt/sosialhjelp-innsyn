@@ -29,7 +29,9 @@
   "hendelse.etterspor_mer_dokumentasjon": "Vi treng fleire opplysningar til søknaden din.",
   "hendelse.etterspor_ikke_mer_dokumentasjon": "Vi har sett på opplysningane dine, og vil gi beskjed dersom vi treng noko meir frå deg.",
   "hendelse.dokumentasjonkrav": "Dine oppgåver har blitt oppdaterte. Les meir i vedtaket.",
-  
+  "hendelse.soknad_sendt_til_kontor_lenketekst": "Vis søknaden",
+  "hendelse.vis_brevet_lenketekst": "Vis brevet",
+
   "status.sendt": "Søknaden er send",
   "status.mottatt": "Søknaden er motteken",
   "status.under_behandling": "Søknaden er under behandling",
