@@ -12,6 +12,7 @@ import {setBreadcrumbs} from "../../utils/breadcrumbs";
 import {InnsynAppState} from "../../redux/reduxTypes";
 import styled from "styled-components";
 import Banner from "../banner/Banner";
+import {useTranslation} from "react-i18next";
 
 const StyledElla = styled.div`
     display: flex;
@@ -27,6 +28,7 @@ export interface TilgangskontrollsideProps {
 }
 
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) => {
+    const {t} = useTranslation();
     const restkallHarGittForbidden =
         useSelector((state: InnsynAppState) => state.innsynsdata.feilside) === Feilside.IKKE_TILGANG;
     const fornavn = useSelector((state: InnsynAppState) => state.innsynsdata.fornavn);
@@ -70,7 +72,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
     if (henterData || mustLogin) {
         return (
             <div className="informasjon-side">
-                {!window.location.href.includes("/utbetaling") && <Banner>Økonomisk sosialhjelp</Banner>}
+                {!window.location.href.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
                 <ApplicationSpinner />
             </div>
         );
@@ -82,20 +84,18 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) =
 
             return (
                 <div className="informasjon-side">
-                    <Banner>Økonomisk sosialhjelp</Banner>
-
+                    <Banner>{t("app.tittel")}</Banner>
                     <Wrapper className={"blokk-center"}>
                         <UthevetPanel className="panel-glippe-over">
                             <StyledElla>
                                 <EllaBlunk size={"175"} />
                             </StyledElla>
                             <Heading as="p" size="large" spacing>
-                                Hei {fornavn}
+                                {t("tilgang.header", {
+                                    fornavn,
+                                })}
                             </Heading>
-                            <BodyLong spacing>
-                                Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt
-                                med ditt lokale NAV-kontor for å få hjelp til å søke.
-                            </BodyLong>
+                            <BodyLong spacing>{t("tilgang.info")}</BodyLong>
                         </UthevetPanel>
                     </Wrapper>
                 </div>
