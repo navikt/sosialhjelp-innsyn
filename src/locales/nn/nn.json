@@ -1,6 +1,8 @@
 {
   "historikk.tittel": "Historikk",
   "historikk.se_vedtaksbrev": "Vis brevet",
+  "historikk.vis_alle": "Vis alle",
+  "historikk.lukk": "Lukk",
 
   "hendelse.soknad_sendt_til_kontor": "Søknaden med vedlegg er send til {{tekstArgument}} kommune.",
   "hendelse.soknad_mottatt_hos_kommune": "Søknaden med vedlegg er motteken hos {{tekstArgument}} kommune.",
@@ -22,7 +24,7 @@
   "hendelse.sak_kan_ikke_vises_status_uten_tittel": "Vi kan ikkje vise status for saken din på nav.no.",
   "hendelse.antalle_sendte_vedlegg": "Du har sendt {{tekstArgument}} vedlegg til NAV.",
   "hendelse.vilkar_oppdatert": "Vilkåra dine har blitt oppdaterte. Les vedtaket for nærmare detaljar. ",
-  "hendelse.utbetalinger_oppdatert": "<0>Dine utbetalinger</0> har blitt oppdaterte.",
+  "hendelse.utbetalinger_oppdatert": "<0>Dine utbetalingar</0> har blitt oppdaterte.",
   "hendelse.brev_om_saksbehandlingstid": "Du har fått eit brev om saksbehandlingstida for søknaden din.",
   "hendelse.etterspor_mer_dokumentasjon": "Vi treng fleire opplysningar til søknaden din.",
   "hendelse.etterspor_ikke_mer_dokumentasjon": "Vi har sett på opplysningane dine, og vil gi beskjed dersom vi treng noko meir frå deg.",
@@ -142,7 +144,9 @@
   "andre_vedlegg.type": "Send andre vedlegg",
   "andre_vedlegg.tilleggsinfo": "Dersom du har anna du vil sende, kan du laste det opp her.",
   "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
-
+  "vedlegg.tabell.filnavn": "Filnamn",
+  "vedlegg.tabell.beskrivelse": "Beskriving",
+  "vedlegg.tabell.dato": "Dato lagt til",
 
   "forelopigSvar": "Du har fått eit brev om saksbehandlingstida for søknaden din.",
 
@@ -167,5 +171,18 @@
   "feilmelding.dineOppgaver_innlasting": "Vi klarte ikkje å laste opp informasjon om oppgåvene dine",
   "feilmelding.historikk_innlasting": "Vi klarte ikkje å laste opp historikken din",
   "feilmelding.vedlegg_innlasting": "Vi klarte ikkje å laste inn dei innsende vedlegga dine",
-  "feilmelding.ressurs_innlasting": "Vi klarte ikkje å laste inn all informasjon på sida. Du kan prøve å oppdatere sida, eller vente og gjere eit nytt forsøk seinare."
+  "feilmelding.ressurs_innlasting": "Vi klarte ikkje å laste inn all informasjon på sida. Du kan prøve å oppdatere sida, eller vente og gjere eit nytt forsøk seinare.",
+
+  "dineSoknader": "Dine søknader",
+  "nySoknad": "Ny søknad",
+  "relatertInfo": "Relatert informasjon",
+  "endringer.tittel": "Meld fra om endringer",
+  "endringer.detaljer": "Du må melde fra dersom din økonomiske situasjon endres.",
+  "klage.tittel": "Klagerettigheter",
+  "klage.detaljer": "Har du fått eit vedtak fra oss som du meiner er feil, kan du klaga.",
+  "personopplysninger.tittel": "Personopplysninger",
+  "personopplysninger.detaljer": "Hvordan vi behandlar personopplysningane dine",
+  "soknadStatus.tittel": "Status på søknaden din",
+  "ekstern_lenke": "(opna i ei ny fane)",
+  "vedtak": "Vedtak"
 }

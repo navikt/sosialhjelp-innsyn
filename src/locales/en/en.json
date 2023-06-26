@@ -1,6 +1,8 @@
 {
   "historikk.tittel": "History",
   "historikk.se_vedtaksbrev": "Show letter",
+  "historikk.vis_alle": "Show all",
+  "historikk.lukk": "Close",
 
   "hendelse.soknad_sendt_til_kontor": "The application with attachments has been sent to {{tekstArgument}} municipality.",
   "hendelse.soknad_mottatt_hos_kommune": "The application with attachments has been received by {{tekstArgument}} municipality.",
@@ -22,7 +24,7 @@
   "hendelse.sak_kan_ikke_vises_status_uten_tittel": "We cannot show the status of your application on nav.no.",
   "hendelse.antalle_sendte_vedlegg": "You have submitted {{tekstArgument}} attachments to NAV.",
   "hendelse.vilkar_oppdatert": "Your conditions have been updated; please see the notice of decision for more information.",
-  "hendelse.utbetalinger_oppdatert": "<0>Dine utbetalinger</0> have been updated..",
+  "hendelse.utbetalinger_oppdatert": "<0>Your payments</0> have been updated.",
   "hendelse.brev_om_saksbehandlingstid": "You have received a letter with information about the processing time of your application.",
   "hendelse.etterspor_mer_dokumentasjon": "We need more information to process your application.",
   "hendelse.etterspor_ikke_mer_dokumentasjon": "We have reviewed your information and will let you know if we need anything else from you.",
@@ -120,12 +122,15 @@
   "andre_vedlegg.type": "Submit attachments",
   "andre_vedlegg.tilleggsinfo": "If you want to submit something else, you can upload it here.",
   "andre_vedlegg.send_knapp_tittel": "Submit attachment",
+  "vedlegg.tabell.filnavn": "Filename",
+  "vedlegg.tabell.beskrivelse": "Description",
+  "vedlegg.tabell.dato": "Date added",
 
   "forelopigSvar": "You have received a letter with information about the processing time of your application.",
 
   "driftsmelding.innsynDeaktivert": "Sorry, we cannot display the status of your application. You can still submit attachments on nav.no. If you have questions, please contact your NAV office.",
   "driftsmelding.ettersendelseDeaktivert": "Sorry, we cannot receive your attachments. Please try again later, or submit them to your NAV office.",
-  "driftsmelding.innsynOgEttersendelseDeaktivert": "Sorry, we cannot display the status of your application or receive your attachmentss. Please try again later, or contact your NAV office.",
+  "driftsmelding.innsynOgEttersendelseDeaktivert": "Sorry, we cannot display the status of your application or receive your attachments. Please try again later, or contact your NAV office.",
   "driftsmelding.kanIkkeSendeVedlegg": "Sorry, we are experiencing system error. Please submit your attachments to your NAV office.",
   "feilside.finnes_ikke_overskrift": "This page does not exist",
   "timeout.fortsett": "Continue",
@@ -139,5 +144,18 @@
   "feilmelding.dineOppgaver_innlasting": "We were unable to load information about your tasks",
   "feilmelding.historikk_innlasting": "We were unable to load your history",
   "feilmelding.vedlegg_innlasting": "We were unable to load your submitted attachments",
-  "feilmelding.ressurs_innlasting": "VWe were unable to load all the information on this page. <linebreak/> Try reloading the page or try again later."
+  "feilmelding.ressurs_innlasting": "VWe were unable to load all the information on this page. <linebreak/> Try reloading the page or try again later.",
+
+  "dineSoknader": "Your applications",
+  "nySoknad": "New application",
+  "relatertInfo": "Related information",
+  "endringer.tittel": "Report changes",
+  "endringer.detaljer": "Tell us if your financial situation changes.",
+  "klage.tittel": "Right to complain",
+  "klage.detaljer": "If you have received a notice of decision that you believe is wrong, you can complain.",
+  "personopplysninger.tittel": "Personal data",
+  "personopplysninger.detaljer": "How we process your personal data",
+  "soknadStatus.tittel": "Status of your application",
+  "ekstern_lenke": "(open in a new tab)",
+  "vedtak": "Notice of decision"
 }
