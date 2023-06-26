@@ -53,6 +53,9 @@
   "saker.oppgave": "Du har oppgaver",
   "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
+  "default_sak_tittel": "Økonomisk sosialhjelp",
+  "default_utbetalinger_tittel": "Utbetaling",
+
   "oppgaver.vilkar.tittel": "Du kan ha vilkår",
   "oppgaver.vilkar.tittel.tekst":
       "Les svaret på søknaden din for å se om du har vilkår, eller om vi trenger opplysninger for å utbetale stønaden din.",
