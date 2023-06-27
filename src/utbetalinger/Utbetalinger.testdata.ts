@@ -17,7 +17,7 @@ const summerAntallUtbetalinger = (utbetalingerMaaned: UtbetalingerResponse[]) =>
 const mockUtbetalinger: (UtbetalingerResponse & {sum: number})[] = [
     {
         ar: 2019,
-        maned: "oktober",
+        maned: 10,
         foersteIManeden: "2019-10-01",
         sum: 13234.0,
         utbetalinger: [
@@ -50,7 +50,7 @@ const mockUtbetalinger: (UtbetalingerResponse & {sum: number})[] = [
     },
     {
         ar: 2019,
-        maned: "september",
+        maned: 9,
         foersteIManeden: "2019-09-01",
         sum: 0.0,
         utbetalinger: [
@@ -71,7 +71,7 @@ const mockUtbetalinger: (UtbetalingerResponse & {sum: number})[] = [
     },
     {
         ar: 2018,
-        maned: "august",
+        maned: 8,
         foersteIManeden: "2019-08-01",
         sum: 13234.0,
         utbetalinger: [

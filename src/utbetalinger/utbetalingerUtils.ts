@@ -1,5 +1,6 @@
 import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
 import {t} from "i18next";
+import i18n from "../locales/i18n";
 
 const diffInMonths = (d1: Date, d2: Date) => {
     var d1Y = d1.getFullYear();
@@ -49,10 +50,15 @@ const hentUtbetalingTittel = (tittel: string) => {
     return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : t("default_utbetalinger_tittel");
 };
 
+const hentMaanedString = (maaned: number) => {
+    return new Date().setMonth(maaned).toLocaleString(i18n.language);
+};
+
 export {
     filtrerUtbetalingerPaaMottaker,
     filtrerUtbetalingerForTidsinterval,
     filtrerMaanederUtenUtbetalinger,
     diffInMonths,
     hentUtbetalingTittel,
+    hentMaanedString,
 };

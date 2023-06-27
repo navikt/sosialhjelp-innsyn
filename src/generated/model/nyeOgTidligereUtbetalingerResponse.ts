@@ -9,5 +9,5 @@ import type {ManedUtbetaling} from "./manedUtbetaling";
 export interface NyeOgTidligereUtbetalingerResponse {
     utbetalingerForManed: ManedUtbetaling[];
     ar: number;
-    maned: string;
+    maned: number;
 }
