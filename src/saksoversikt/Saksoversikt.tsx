@@ -7,9 +7,12 @@ import {logAmplitudeEvent} from "../utils/amplitude";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import {setBreadcrumbs} from "../utils/breadcrumbs";
 import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useTranslation} from "react-i18next";
 
 const Saksoversikt: React.FC = () => {
-    document.title = "Dine søknader - Økonomisk sosialhjelp";
+    const {t} = useTranslation();
+    document.title = `${t("dineSoknader")} - ${t("app.tittel")}`;
+
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const {
         data: saker,
@@ -31,7 +34,7 @@ const Saksoversikt: React.FC = () => {
         setBreadcrumbs();
     }, []);
 
-    useBannerTittel("Økonomisk sosialhjelp");
+    useBannerTittel(t("app.tittel"));
     return (
         <>
             {(isLoading || error?.status === 401) && <ApplicationSpinner />}
@@ -39,8 +42,8 @@ const Saksoversikt: React.FC = () => {
                 <>
                     {error && (
                         <Alert variant="warning">
-                            <BodyShort>Vi klarte ikke å hente inn all informasjonen på siden.</BodyShort>
-                            <BodyShort>Du kan forsøke å oppdatere siden, eller prøve igjen senere.</BodyShort>
+                            <BodyShort>{t("feilmelding.saksOversikt")}</BodyShort>
+                            <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
                         </Alert>
                     )}
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}

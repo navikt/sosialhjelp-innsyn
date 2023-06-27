@@ -1,17 +1,17 @@
 import {setBreadcrumbs as setDekoratorBreadcrumbs} from "@navikt/nav-dekoratoren-moduler";
-
-const sosialhjelpPage = {
-    title: "Økonomisk sosialhjelp",
-    url: "/sosialhjelp/innsyn",
-};
-
-const dittNavPage = {
-    url: "https://www.nav.no/minside",
-    title: "Min side",
-};
+import i18next from "i18next";
 
 export const setBreadcrumbs = (page?: {title: string; url: string}) => {
-    const crumbs = [dittNavPage, sosialhjelpPage];
+    const crumbs = [
+        {
+            url: "https://www.nav.no/minside",
+            title: i18next.t("min_side"),
+        },
+        {
+            title: i18next.t("app.tittel"),
+            url: "/sosialhjelp/innsyn",
+        },
+    ];
     if (page) {
         crumbs.push(page);
     }
