@@ -1,4 +1,5 @@
 {
+  "app.tittel": "Økonomisk sosialhjelp",
   "historikk.tittel": "Historikk",
   "historikk.se_vedtaksbrev": "Vis brevet",
   "historikk.vis_alle": "Vis alle",
@@ -182,6 +183,8 @@
   "feilmelding.historikk_innlasting": "Vi klarte ikke å laste opp historikken din",
   "feilmelding.vedlegg_innlasting": "Vi klarte ikke laste inn dine innsendte vedlegg",
   "feilmelding.ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. <linebreak/> Du kan forsøke å oppdatere siden, eller prøve igjen senere.",
+  "feilmelding.saksOversikt":"Vi klarte ikke å hente inn all informasjonen på siden.",
+  "feilmelding.saksOversikt2":"Du kan forsøke å oppdatere siden, eller prøve igjen senere.",
 
   "dineSoknader": "Dine søknader",
   "nySoknad": "Ny søknad",
@@ -194,6 +197,13 @@
   "personopplysninger.detaljer": "Hvordan vi behandler dine personopplysninger",
   "soknadStatus.tittel": "Status på søknaden din",
   "ekstern_lenke": "(åpnes i en ny fane)",
-  "vedtak": "Vedtak"
+  "vedtak": "Vedtak",
+  "tilgang.header": "Hei {{fornavn}}",
+  "tilgang.info": "Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt med ditt lokale NAV-kontor for å få hjelp til å søke.",
+  "min_side": "Min side",
+  "ingen_soknad.tittel": "Vi finner ingen søknader fra deg",
+  "ingen_soknad.info": "Dette kan være fordi kommunen din ikke kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 måneder.",
+  "lenke.les_mer": "Les mer om økonomisk sosialhjelp",
+  "lenke.sok": "Søk om økonomisk sosialhjelp"
 
 }
