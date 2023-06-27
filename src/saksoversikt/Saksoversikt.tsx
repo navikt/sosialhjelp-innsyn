@@ -42,8 +42,8 @@ const Saksoversikt: React.FC = () => {
                 <>
                     {error && (
                         <Alert variant="warning">
-                            <BodyShort>{t("feilmelding.saksoversikt")}</BodyShort>
-                            <BodyShort>{t("feilmelding.saksoversikt2")}</BodyShort>
+                            <BodyShort>{t("feilmelding.saksOversikt")}</BodyShort>
+                            <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
                         </Alert>
                     )}
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
