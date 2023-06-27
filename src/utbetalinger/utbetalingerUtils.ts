@@ -51,7 +51,9 @@ const hentUtbetalingTittel = (tittel: string) => {
 };
 
 const hentMaanedString = (maaned: number) => {
-    return new Date().setMonth(maaned).toLocaleString(i18n.language);
+    const date = new Date();
+    date.setMonth(maaned - 1);
+    return date.toLocaleString(i18n.language, {month: "long"});
 };
 
 export {
