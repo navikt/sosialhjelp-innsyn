@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 
 const Saksoversikt: React.FC = () => {
     const {t} = useTranslation();
-    document.title = `${t("dineSoknader")} -${t("app.tittel")}`;
+    document.title = `${t("dineSoknader")} - ${t("app.tittel")}`;
 
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const {

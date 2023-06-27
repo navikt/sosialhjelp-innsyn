@@ -75,7 +75,7 @@ const SaksStatusView = () => {
 
     const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
 
-    document.title = `${t("soknadStatus.tittel")} -${t("app.tittel")}`;
+    document.title = `${t("soknadStatus.tittel")} - ${t("app.tittel")}`;
 
     useBannerTittel(t("soknadStatus.tittel"));
 
