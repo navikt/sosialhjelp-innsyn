@@ -6,7 +6,7 @@ on:
         required: true
   push:
     branches:
-      - 'master'      # Build all branches
+      - 'master'
     tags-ignore:
       - '**'      # Don't build any tags
   pull_request:
