@@ -20,11 +20,13 @@ const init = async () => {
     if (process.env.NODE_ENV !== "production") {
         injectDecoratorClientSide({
             env: "dev",
-            simple: false,
-            feedback: false,
-            chatbot: false,
-            shareScreen: false,
-            utilsBackground: "white",
+            params: {
+                simple: false,
+                feedback: false,
+                chatbot: false,
+                shareScreen: false,
+                utilsBackground: "white",
+            },
         });
     }
 
