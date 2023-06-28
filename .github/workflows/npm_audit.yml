@@ -2,9 +2,10 @@ name: npm audit
 on:
   push:
     branches:
-      - "**" # Build all branches
+      - 'master'
     tags-ignore:
-      - "**" # Don't build any tags
+      - '**'      # Don't build any tags
+  pull_request:
 
 env:
   CI: true
