@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
@@ -6,14 +6,12 @@ import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
 import {parse} from "query-string";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../utils/amplitude";
+import {logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components/macro";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
 import {useLocation, useNavigate} from "react-router-dom";
 import {SaksListeResponse} from "../generated/model";
-import {useGetUtbetalingExists} from "../generated/utbetalinger-controller/utbetalinger-controller";
-import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 import styles from "../styles/lists.module.css";
 import {useTranslation} from "react-i18next";
 
@@ -39,27 +37,6 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     const navigate = useNavigate();
     const location = useLocation();
     const {t} = useTranslation();
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    const {data} = useGetUtbetalingExists(
-        {month: 15},
-        {
-            query: {
-                onError: (error) => {
-                    logWarningMessage(error.message, error.navCallId);
-                },
-                onSuccess: (data) => {
-                    if (!pageLoadIsLogged) {
-                        logAmplitudeEvent("Hentet innsynsdata", {
-                            harUtbetalinger: data,
-                        });
-                        setPageLoadIsLogged(true);
-                    }
-                },
-            },
-        }
-    );
-
-    const utbetalingerExists = !!data;
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
@@ -101,6 +78,8 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     // noinspection HtmlUnknownTarget
     return (
         <>
+            <DineUtbetalingerPanel />
+
             <section aria-labelledby="dine-soknader">
                 <StyledDineSoknaderPanel>
                     <StyledHeading level="2" size="medium" id="dine-soknader">
@@ -136,8 +115,6 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                     />
                 )}
             </section>
-
-            {utbetalingerExists && <DineUtbetalingerPanel />}
 
             <section aria-labelledby="relatert-informasjon">
                 <Subheader className="panel-luft-over">
