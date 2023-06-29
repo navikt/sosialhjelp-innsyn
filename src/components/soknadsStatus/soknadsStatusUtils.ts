@@ -14,7 +14,7 @@ const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t:
         case SoknadsStatusResponseStatus.BEHANDLES_IKKE:
             return t("status.behandles_ikke");
     }
-    return "Søknadstatus";
+    return "";
 };
 
 export {soknadsStatusTittel};
