@@ -8,7 +8,7 @@ import type {ManedUtbetaling} from "./manedUtbetaling";
 
 export interface UtbetalingerResponse {
     ar: number;
-    maned: string;
+    maned: number;
     foersteIManeden: string;
     utbetalinger: ManedUtbetaling[];
 }

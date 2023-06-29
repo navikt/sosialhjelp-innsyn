@@ -8,7 +8,7 @@ import {erDevMiljo} from "../utils/ServiceHookTypes";
 import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components/macro";
 import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
-import {hentUtbetalingTittel} from "./utbetalingerUtils";
+import {hentMaanedString, hentUtbetalingTittel} from "./utbetalingerUtils";
 
 interface Props {
     utbetalinger: UtbetalingerResponse[];
@@ -86,7 +86,7 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                     )}
                     <StyledPanel forwardedAs="section" key={utbetalingSak.foersteIManeden + "_" + index}>
                         <StyledHeading level="2" size="medium">
-                            <span>{utbetalingSak.maned + " " + utbetalingSak.ar}</span>
+                            <span>{hentMaanedString(utbetalingSak.maned) + " " + utbetalingSak.ar}</span>
                             <span>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</span>
                         </StyledHeading>
                         {utbetalingSak.utbetalinger.map((utbetalingMaaned: ManedUtbetaling, index: number) => {

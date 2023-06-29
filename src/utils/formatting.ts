@@ -1,4 +1,6 @@
 // formatBytes(12345, 2) => "12,34 kb"
+import i18n from "../locales/i18n";
+
 function formatBytes(bytes: number, decimals: number = 2): string {
     if (bytes === 0) return "0 bytes";
     const k = 1024;
@@ -11,19 +13,19 @@ function formatBytes(bytes: number, decimals: number = 2): string {
 
 // Eksempel: formatCurrency(12345) => 12.345
 function formatCurrency(amount: number, decimals: number = 0): string {
-    return new Intl.NumberFormat("no-NB").format(amount);
+    return new Intl.NumberFormat(i18n.language).format(amount);
 }
 
 // Eksempel: "2019-08-01" => "01. august 2019"
 function formatDato(isoDate: string) {
     const dato: Date = new Date(isoDate);
-    const formatter = new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long", year: "numeric"});
+    const formatter = new Intl.DateTimeFormat(i18n.language, {day: "numeric", month: "long", year: "numeric"});
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 // Eksempel "2022-04-11" => "11. april"
 export function getDayAndMonth(isoDate: string) {
     const dato: Date = new Date(isoDate);
-    const formatter = new Intl.DateTimeFormat("nb-NO", {day: "numeric", month: "long"});
+    const formatter = new Intl.DateTimeFormat(i18n.language, {day: "numeric", month: "long"});
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 
