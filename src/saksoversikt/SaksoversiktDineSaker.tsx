@@ -37,27 +37,6 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     const navigate = useNavigate();
     const location = useLocation();
     const {t} = useTranslation();
-    //const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    //const {data} = useGetUtbetalingExists(
-    //    {month: 15},
-    //    {
-    //        query: {
-    //            onError: (error) => {
-    //                logWarningMessage(error.message, error.navCallId);
-    //            },
-    //            onSuccess: (data) => {
-    //                if (!pageLoadIsLogged) {
-    //                    logAmplitudeEvent("Hentet innsynsdata", {
-    //                        harUtbetalinger: data,
-    //                    });
-    //                    setPageLoadIsLogged(true);
-    //                }
-    //            },
-    //        },
-    //    }
-    //);
-    //
-    //const utbetalingerExists = !!data;
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
