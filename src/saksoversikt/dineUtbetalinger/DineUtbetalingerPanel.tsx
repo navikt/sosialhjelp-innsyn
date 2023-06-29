@@ -13,7 +13,7 @@ const DineUtbetalingerPanel: React.FC = () => {
             <div className="dine_utbetalinger_innhold">
                 <HandCoinsIcon className="hands_coin_icon" />
                 <div>
-                    <Heading level="2" size="medium" spacing>
+                    <Heading level="2" size="medium">
                         {t("tittel")}
                     </Heading>
                     <BodyShort>{t("inngang")}</BodyShort>
