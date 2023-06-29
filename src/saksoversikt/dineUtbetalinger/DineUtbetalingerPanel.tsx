@@ -9,7 +9,7 @@ const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
 
     return (
-        <LinkPanel className="panel-luft-over dine_utbetalinger_panel" border={false} as={Link} to="/utbetaling">
+        <LinkPanel className="dine_utbetalinger_panel" border={false} as={Link} to="/utbetaling">
             <div className="dine_utbetalinger_innhold">
                 <HandCoinsIcon className="hands_coin_icon" />
                 <div>
