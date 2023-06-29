@@ -41,6 +41,7 @@
   "soknadstatus.mottatt": "Motteken",
   "soknadstatus.under_behandling": "Under behandling",
   "soknadstatus.ferdigbehandlet": "Ferdigbehandla",
+  "oppdatert": "oppdatert",
   "status.soknad_behandles_ikke_ingress":
       "Vi kan ikkje vise status for søknaden din på nav.no. Det kan vere fordi søknaden din blir behandla saman med ein annan søknad du har sendt, eller fordi du har trekt tilbake søknaden. Viss du har spørsmål, kan du kontakte NAV-kontoret ditt.",
   "status.sak_behandles_ikke_ingress":
