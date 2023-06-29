@@ -25,6 +25,21 @@ const init = async () => {
             chatbot: false,
             shareScreen: false,
             utilsBackground: "white",
+            language: "nb",
+            availableLanguages: [
+                {
+                    locale: "nb",
+                    handleInApp: true,
+                },
+                {
+                    locale: "nn",
+                    handleInApp: true,
+                },
+                {
+                    locale: "en",
+                    handleInApp: true,
+                },
+            ],
         });
     }
 
