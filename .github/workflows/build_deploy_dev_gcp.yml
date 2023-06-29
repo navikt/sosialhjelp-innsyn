@@ -46,7 +46,7 @@ jobs:
         id: artifact-version
         uses: navikt/sosialhjelp-ci/actions/create-and-release-tag@master
         with:
-          prefix: ${{ github.event.inputs.config-file-name }}-$( date +%s )-
+          prefix: ${{ github.event.inputs.config-file-name }}-
 
       - name: Build and push Docker Image
         uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@master
