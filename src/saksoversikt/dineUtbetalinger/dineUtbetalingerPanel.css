@@ -1,11 +1,11 @@
 .hands_coin_icon {
-    width: 100px;
-    height: 100px;
+    width: 56px;
+    height: 56px;
     margin-right: 24px;
 }
 
 .dine_utbetalinger_panel {
-    padding: 1.5rem 1rem 1.5rem 2rem;
+    padding: 1rem 1rem 1rem 2rem;
 }
 
 @media screen and (max-width: 640px) {
