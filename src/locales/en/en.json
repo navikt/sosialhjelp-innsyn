@@ -42,6 +42,7 @@
   "soknadstatus.mottatt": "Received",
   "soknadstatus.under_behandling": "In process",
   "soknadstatus.ferdigbehandlet": "Completed",
+  "soknadstatus.behandles_ikke": "Ferdigbehandlet",
   "oppdatert": "updated",
   "status.soknad_behandles_ikke_ingress": 
       "We cannot show the status of your application on nav.no. This could be because your application is being processed with another application you have submitted, or because you have withdrawn your application. If you have questions, please contact your NAV office.",
