@@ -12,6 +12,7 @@ import {
 } from "../../components/sakspanel/sakspanelStyles";
 import {useNavigate} from "react-router-dom";
 import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useTranslation} from "react-i18next";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -42,15 +43,15 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
         {query: {enabled: kilde === "innsyn-api" && !!fiksDigisosId}}
     );
     const navigate = useNavigate();
+    const {t} = useTranslation();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
     const oppdatertTittel = useMemo(() => {
         if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {
             return saksdetaljer.soknadTittel;
         }
-
-        return tittel;
-    }, [saksdetaljer, tittel]);
+        return tittel && tittel !== "saker.default_tittel" ? tittel : t("saker.default_tittel");
+    }, [saksdetaljer, tittel, t]);
 
     const onClick = (event: any) => {
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {

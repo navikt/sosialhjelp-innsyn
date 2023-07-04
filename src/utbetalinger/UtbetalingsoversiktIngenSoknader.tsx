@@ -4,32 +4,31 @@ import {BodyLong, Heading, LinkPanel} from "@navikt/ds-react";
 import {StyledGuidePanel, StyledGuidePanelContent} from "../styles/styledGuidePanel";
 import {StyledLenkePanelWrapper} from "../styles/LenkePanelWrapper";
 import styled from "styled-components";
+import {useTranslation} from "react-i18next";
 
 const Wrapper = styled.div`
     padding-top: 1rem;
 `;
 
 const UtbetalingsoversiktIngenSoknader: React.FC = () => {
+    const {t} = useTranslation();
     return (
         <Wrapper>
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        Vi finner ingen utbetalinger for økonomisk sosialhjelp
+                        {t("utbetalinger.ingen-utbetalinger.tittel")}
                     </Heading>
-                    <BodyLong>
-                        Dette kan være fordi kommunen din ikke kan vise utbetalinger for søknader sendt på papir, eller
-                        at utbetalingene er eldre enn 15 måneder.
-                    </BodyLong>
+                    <BodyLong>{t("utbetalinger.ingen-utbetalinger.body")}</BodyLong>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
 
             <StyledLenkePanelWrapper>
                 <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp"} border={false}>
-                    <LinkPanel.Title>Les mer om økonomisk sosialhjelp</LinkPanel.Title>
+                    <LinkPanel.Title>{t("lenke.les_mer")}</LinkPanel.Title>
                 </LinkPanel>
                 <LinkPanel href={"https://www.nav.no/sosialhjelp/soknad"} border={false}>
-                    <LinkPanel.Title>Søk om økonomisk sosialhjelp</LinkPanel.Title>
+                    <LinkPanel.Title>{t("lenke.sok")}</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>
         </Wrapper>
