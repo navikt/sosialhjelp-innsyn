@@ -200,7 +200,7 @@
   "soknadStatus.tittel": "Status på søknaden din",
   "ekstern_lenke": "(opna i ei ny fane)",
   "vedtak": "Vedtak"
-    "tilgang.header": "Hei, {{fornavn}}",
+  "tilgang.header": "Hei, {{fornavn}}",
   "tilgang.info": "Du kan diverre ikkje bruke den digitale søknaden om økonomisk sosialhjelp. Kontakt det lokale NAV-kontoret for å få hjelp til å søkje.",
   "min_side": "Min side",
   "ingen_soknad.tittel": "Vi finn ingen søknader frå deg ",
