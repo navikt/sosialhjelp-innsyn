@@ -1,4 +1,5 @@
 {
+  "app.tittel": "Økonomisk sosialhjelp",
   "historikk.tittel": "Historikk",
   "historikk.se_vedtaksbrev": "Vis brevet",
   "historikk.vis_alle": "Vis alle",
@@ -41,6 +42,7 @@
   "soknadstatus.mottatt": "Motteken",
   "soknadstatus.under_behandling": "Under behandling",
   "soknadstatus.ferdigbehandlet": "Ferdigbehandla",
+  "soknadstatus.behandles_ikke": "Ferdigbehandla",
   "oppdatert": "oppdatert",
   "status.soknad_behandles_ikke_ingress":
       "Vi kan ikkje vise status for søknaden din på nav.no. Det kan vere fordi søknaden din blir behandla saman med ein annan søknad du har sendt, eller fordi du har trekt tilbake søknaden. Viss du har spørsmål, kan du kontakte NAV-kontoret ditt.",
@@ -56,6 +58,9 @@
   "saker.oppgave": "Du har oppgåver",
   "saker.default_tittel": "Søknad om økonomisk sosialhjelp",
 
+  "default_sak_tittel": "Økonomisk sosialhjelp",
+  "default_utbetalinger_tittel": "Utbetaling",
+  
   "oppgaver.vilkar.tittel": "Du kan ha vilkår",
   "oppgaver.vilkar.tittel.tekst":
       "Les svaret på søknaden din for å sjå om du har vilkår, eller om vi treng opplysningar for å utbetale stønad til deg.",
@@ -151,6 +156,7 @@
   "vedlegg.tabell.beskrivelse": "Beskriving",
   "vedlegg.tabell.dato": "Dato lagt til",
 
+
   "forelopigSvar": "Du har fått eit brev om saksbehandlingstida for søknaden din.",
 
   "driftsmelding.innsynDeaktivert":
@@ -161,6 +167,10 @@
       "Vi kan diverre ikkje vise siste status for søknaden din, eller ta imot vedlegg frå deg. Prøv på nytt seinare eller kontakt NAV-kontoret ditt.",
   "driftsmelding.kanIkkeSendeVedlegg":
       "Vi har diverre problem med systemet, og ber om at du i staden leverer vedlegga til NAV-kontoret ditt",
+  "driftsmelding.vedlegg.feiledeDigisosIder":
+      "Du kan diverre ikkje sende inn opplysningar til denne søknaden digitalt. Du kan levere vedlegga til NAV-kontoret ditt.",
+  "driftsmelding.feiledeDigisosIder":
+      "Vi kan diverre ikkje vise siste status for søknaden din, eller ta imot vedlegg frå deg. Du kan levere opplysningane til NAV-kontoret du har sendt søknaden til.", 
   "feilside.finnes_ikke_overskrift": "Denne sida finst ikkje",
   "timeout.fortsett": "Fortsett",
   "timeout.logginn": "Logg inn på nytt",
@@ -175,7 +185,9 @@
   "feilmelding.historikk_innlasting": "Vi klarte ikkje å laste opp historikken din",
   "feilmelding.vedlegg_innlasting": "Vi klarte ikkje å laste inn dei innsende vedlegga dine",
   "feilmelding.ressurs_innlasting": "Vi klarte ikkje å laste inn all informasjon på sida. Du kan prøve å oppdatere sida, eller vente og gjere eit nytt forsøk seinare.",
-
+  "feilmelding.saksOversikt":"Vi klarte ikkje å laste inn all informasjon på sida.",
+  "feilmelding.saksOversikt2":"Du kan prøve å oppdatere sida, eller vente og gjere eit nytt forsøk seinare.",
+  
   "dineSoknader": "Dine søknader",
   "nySoknad": "Ny søknad",
   "relatertInfo": "Relatert informasjon",
@@ -188,4 +200,13 @@
   "soknadStatus.tittel": "Status på søknaden din",
   "ekstern_lenke": "(opna i ei ny fane)",
   "vedtak": "Vedtak"
+    "tilgang.header": "Hei, {{fornavn}}",
+  "tilgang.info": "Du kan diverre ikkje bruke den digitale søknaden om økonomisk sosialhjelp. Kontakt det lokale NAV-kontoret for å få hjelp til å søkje.",
+  "min_side": "Min side",
+  "ingen_soknad.tittel": "Vi finn ingen søknader frå deg ",
+  "ingen_soknad.info": "Dette kan vere fordi kommunen din ikkje kan vise søknader som er sende på papir, eller at søknaden din er eldre enn 15 månader.",
+  "lenke.les_mer": "Les meir om økonomisk sosialhjelp",
+  "lenke.sok": "Søk om økonomisk sosialhjelp",
+  "lenke.saksbehandling": "Kor lang tid tek det å behandle søknaden?",
+  "lenke.klage": "Korleis sende klage?"
 }
