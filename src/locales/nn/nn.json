@@ -209,4 +209,7 @@
   "lenke.sok": "Søk om økonomisk sosialhjelp",
   "lenke.saksbehandling": "Kor lang tid tek det å behandle søknaden?",
   "lenke.klage": "Korleis sende klage?"
+
+  "utbetalinger.ingen-utbetalinger.tittel": "Vi finn ingen utbetalingar for økonomisk sosialhjelp",
+  "utbetalinger.ingen-utbetalinger.body": "Dette kan vere fordi du ikkje har søkt om økonomisk sosialhjelp, kommunen din ikkje kan vise utbetalingar<linebreak/> for søknader sende på papir, eller at utbetalingane er eldre enn 15 månader."
 }
