@@ -10,6 +10,20 @@ const decoratorParams = {
     shareScreen: false,
     utilsBackground: "white",
     logoutUrl: process.env.INNSYN_API_SINGLE_LOGOUT_URL || undefined,
+    availableLanguages: [
+        {
+            locale: "nb",
+            handleInApp: true,
+        },
+        {
+            locale: "nn",
+            handleInApp: true,
+        },
+        {
+            locale: "en",
+            handleInApp: true,
+        },
+    ],
 };
 
 const dockerImage = process.env.IMAGE || process.env.NAIS_APP_IMAGE;
