@@ -199,7 +199,7 @@
   "personopplysninger.detaljer": "Hvordan vi behandlar personopplysningane dine",
   "soknadStatus.tittel": "Status på søknaden din",
   "ekstern_lenke": "(opna i ei ny fane)",
-  "vedtak": "Vedtak"
+  "vedtak": "Vedtak",
   "tilgang.header": "Hei, {{fornavn}}",
   "tilgang.info": "Du kan diverre ikkje bruke den digitale søknaden om økonomisk sosialhjelp. Kontakt det lokale NAV-kontoret for å få hjelp til å søkje.",
   "min_side": "Min side",
@@ -208,7 +208,7 @@
   "lenke.les_mer": "Les meir om økonomisk sosialhjelp",
   "lenke.sok": "Søk om økonomisk sosialhjelp",
   "lenke.saksbehandling": "Kor lang tid tek det å behandle søknaden?",
-  "lenke.klage": "Korleis sende klage?"
+  "lenke.klage": "Korleis sende klage?",
 
   "utbetalinger.ingen-utbetalinger.tittel": "Vi finn ingen utbetalingar for økonomisk sosialhjelp",
   "utbetalinger.ingen-utbetalinger.body": "Dette kan vere fordi du ikkje har søkt om økonomisk sosialhjelp, kommunen din ikkje kan vise utbetalingar<linebreak/> for søknader sende på papir, eller at utbetalingane er eldre enn 15 månader."
