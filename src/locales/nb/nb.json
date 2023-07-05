@@ -220,6 +220,7 @@
   "utbetalingsmetode.rekvisisjon": "Rekvisisjon",
   "utbetalingsmetode.kontantkort": "Kontantkort",
   "utbetalingsmetode.kontant/sjekk": "Kontant/Sjekk",
+  "utbetalingsmetode.kronekort": "Kronekort",
   "utbetalingsmetode.giro": "Giro",
   "utbetalingsmetode.postgiro": "Postgiro",
   "utbetalingsmetode.garanti": "Garanti"
