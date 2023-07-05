@@ -6,6 +6,7 @@ import React from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
+import dokumentasjonEtterspurtStyles from "./dokumentasjonetterspurt.module.css";
 import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../generated/model";
 import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
 import {useTranslation} from "react-i18next";
@@ -49,7 +50,9 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                 </Accordion.Header>
                 <Accordion.Content>
                     <InfoOmOppgaver dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
-                    <BodyShort>{t("vedlegg.lovlig_format")}</BodyShort>
+                    <BodyShort className={dokumentasjonEtterspurtStyles.lovligFormat}>
+                        {t("vedlegg.lovlig_format")}
+                    </BodyShort>
 
                     <OpplastingAvVedleggModal />
                     <ul className={styles.unorderedList}>
