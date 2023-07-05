@@ -8,7 +8,7 @@ import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import i18next from "../../../locales/i18n";
 import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
-import {hentUtbetalingTittel} from "../../utbetalingerUtils";
+import {hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "../../utbetalingerUtils";
 
 function statusToTekst(status: string) {
     switch (status) {
@@ -90,9 +90,9 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                             </BodyShort>
                         ) : (
                             <BodyShort spacing>
-                                {`${t("tilDeg")} (${utbetalingManed.utbetalingsmetode ?? ""} ${
-                                    utbetalingManed.kontonummer
-                                })
+                                {`${t("tilDeg")} (${hentTekstForUtbetalingsmetode(
+                                    utbetalingManed.utbetalingsmetode ?? ""
+                                )} ${utbetalingManed.kontonummer})
                                             `}
                             </BodyShort>
                         )}
