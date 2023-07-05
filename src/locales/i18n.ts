@@ -3,17 +3,19 @@ import {initReactI18next} from "react-i18next";
 import {onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import Cookies from "js-cookie";
 import {isLocalhost} from "../utils/restUtils";
-import nb from "./nb.json";
+import nb from "./nb/nb.json";
+import nn from "./nn/nn.json";
+import en from "./en/en.json";
 
 let language = Cookies.get("decorator-language");
-if (language === undefined || !["nb", "nn"].includes(language)) {
+if (language === undefined || !["nb", "nn", "en"].includes(language)) {
     language = "nb";
 }
 // noinspection JSIgnoredPromiseFromCall
 i18n.use(initReactI18next).init({
     fallbackLng: "nb",
     lng: language,
-    supportedLngs: ["nb"],
+    supportedLngs: ["nb", "nn", "en"],
     debug: isLocalhost(window.location.href),
     resources: {
         nb: {
@@ -22,9 +24,11 @@ i18n.use(initReactI18next).init({
         },
         nn: {
             utbetalinger: require("./nn/utbetalinger.json"),
+            global: nn,
         },
         en: {
             utbetalinger: require("./en/utbetalinger.json"),
+            global: en,
         },
     },
     defaultNS: "global",
