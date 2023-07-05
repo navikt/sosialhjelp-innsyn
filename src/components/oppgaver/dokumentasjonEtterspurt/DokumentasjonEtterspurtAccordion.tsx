@@ -8,6 +8,7 @@ import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
 import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../generated/model";
 import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
+import {useTranslation} from "react-i18next";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: OppgaveResponse[] | undefined): Date | null {
     if (dokumentasjonEtterspurt?.length) {
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const DokumentasjonEtterspurtAccordion = (props: Props) => {
+    const {t} = useTranslation();
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
     if (!brukerHarDokumentasjonEtterspurt) {
@@ -47,7 +49,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                 </Accordion.Header>
                 <Accordion.Content>
                     <InfoOmOppgaver dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
-                    <BodyShort>Vi godtar kun vedlegg i formatene PDF, JPG eller PNG</BodyShort>
+                    <BodyShort>{t("vedlegg.lovlig_format")}</BodyShort>
 
                     <OpplastingAvVedleggModal />
                     <ul className={styles.unorderedList}>
