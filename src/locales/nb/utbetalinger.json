@@ -37,7 +37,13 @@
   "soknadLenke" : "Gå til søknaden og les vedtaksbrevet for mer detaljer",
   "utbetaling" : "Utbetaling",
   "ukjentDato": "Ukjent utbetalingsdato",
-  "opprinneligSum": "Opprinnelig sum:"
+  "opprinneligSum": "Opprinnelig sum:",
+  "ingen.utbetalinger.tittel": "Vi finner ingen utbetalinger for økonomisk sosialhjelp",
+  "ingen.utbetalinger.nøkkelpunt.tittel" : "Dette kan være fordi:",
+  "ingen.utbetalinger.nøkkelpunkt1" : "søknaden din ikke er ferdigbehandlet",
+  "ingen.utbetalinger.nøkkelpunkt2" : "du fikk ikke innvilget det du søkte om støtte til",
+  "ingen.utbetalinger.nøkkelpunkt3" : "kommunen din ikke kan vise utbetalinger for søknader sendt på papir"
+
 
 }
 
