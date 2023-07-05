@@ -52,7 +52,7 @@ const hentUtbetalingTittel = (tittel: string) => {
 
 const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string) => {
     return i18next.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
-        ? t(`utbetalingsmetode.${utbetalingsmetode}`)
+        ? t(`utbetalingsmetode.${utbetalingsmetode.toLowerCase}`)
         : utbetalingsmetode;
 };
 
