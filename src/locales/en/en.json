@@ -211,5 +211,17 @@
   "lenke.klage": "How do I complain?",
 
   "utbetalinger.ingen-utbetalinger.tittel": "We cannot find any payments for financial assistance",
-  "utbetalinger.ingen-utbetalinger.body": "This could be because you have not applied for financial assistance, your municipality cannot show payments<linebreak/> for applications submitted on paper, or your payments are older than 15 months."
+  "utbetalinger.ingen-utbetalinger.body": "This could be because you have not applied for financial assistance, your municipality cannot show payments<linebreak/> for applications submitted on paper, or your payments are older than 15 months.",
+  "utbetalingsmetode.bank": "Bank",
+  "utbetalingsmetode.bankoverføring": "Bank transfer",
+  "utbetalingsmetode.bankkonto": "Bank account",
+  "utbetalingsmetode.bankgiro": "Bank giro transfer",
+  "utbetalingsmetode.lønn": "Salary",
+  "utbetalingsmetode.rekvisisjon": "Payment Requisition",
+  "utbetalingsmetode.kontantkort": "Payment card",
+  "utbetalingsmetode.kontant/sjekk": "Cash/Check payment",
+  "utbetalingsmetode.kronekort": "Payment card",
+  "utbetalingsmetode.giro": "Bank giro transfer",
+  "utbetalingsmetode.postgiro": "Postal giro",
+  "utbetalingsmetode.garanti": "Guarantee"
 }
