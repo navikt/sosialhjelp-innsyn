@@ -1,5 +1,5 @@
 import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
-import {t} from "i18next";
+import i18next, {t} from "i18next";
 import i18n from "../locales/i18n";
 
 const diffInMonths = (d1: Date, d2: Date) => {
@@ -50,6 +50,12 @@ const hentUtbetalingTittel = (tittel: string) => {
     return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : t("default_utbetalinger_tittel");
 };
 
+const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string) => {
+    return i18next.exists(`utbetalingsmetode.${utbetalingsmetode}`)
+        ? t(`utbetalingsmetode.${utbetalingsmetode}`)
+        : utbetalingsmetode;
+};
+
 const hentMaanedString = (maaned: number) => {
     const date = new Date();
     date.setMonth(maaned - 1);
@@ -63,4 +69,5 @@ export {
     diffInMonths,
     hentUtbetalingTittel,
     hentMaanedString,
+    hentTekstForUtbetalingsmetode,
 };
