@@ -36,6 +36,10 @@
   "bankkonto": "Bank account",
   "soknadLenke" : "Go to the application and read the decision letter for more details",
   "utbetaling" : "Payment",
-  "ukjentDato": "Unknown payment date"
-
+  "ukjentDato": "Unknown payment date",
+  "ingen.utbetalinger.tittel": "We cannot find any payments for financial assistance",
+  "ingen.utbetalinger.nøkkelpunt.tittel" : "This could be because:",
+  "ingen.utbetalinger.nøkkelpunkt1" : "your application is still being processed",
+  "ingen.utbetalinger.nøkkelpunkt2" : "you were not granted what you applied for support for",
+  "ingen.utbetalinger.nøkkelpunkt3" : "your municipality cannot show payments for application submitted on paper"
 }
