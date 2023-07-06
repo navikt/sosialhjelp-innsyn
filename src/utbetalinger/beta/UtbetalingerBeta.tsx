@@ -14,6 +14,8 @@ import {useDispatch} from "react-redux";
 import useIsMobile from "../../utils/useIsMobile";
 import {useTranslation} from "react-i18next";
 import {Panel} from "@navikt/ds-react";
+import {IngenUtbetalinger} from "../IngenUtbetalinger";
+import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 
 const UtbetalingerBeta = () => {
     const {t} = useTranslation("utbetalinger");
@@ -26,6 +28,7 @@ const UtbetalingerBeta = () => {
     }, [pathname]);
 
     const {data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError} = useHentAlleSaker();
+    const {data: utbetalingerData} = useHentUtbetalinger();
 
     const {
         data: harSoknaderMedInnsyn,
@@ -59,6 +62,14 @@ const UtbetalingerBeta = () => {
         );
     }
 
+    if (!utbetalingerData || utbetalingerData?.length === 0) {
+        return (
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+                <IngenUtbetalinger />
+            </div>
+        );
+    }
+
     return (
         <FilterProvider>
             <div className={styles.utbetalinger_side}>
@@ -67,7 +78,6 @@ const UtbetalingerBeta = () => {
                         <UtbetalingerFilter />
                     </Panel>
                 )}
-
                 <UtbetalingerPanelBeta />
             </div>
         </FilterProvider>
