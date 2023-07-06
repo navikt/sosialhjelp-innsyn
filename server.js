@@ -4,6 +4,7 @@ const path = require("path");
 
 const decoratorParams = {
     env: process.env.DEKORATOR_MILJO || "prod",
+    params: {
     simple: false,
     feedback: false,
     chatbot: false,

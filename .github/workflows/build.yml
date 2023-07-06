@@ -9,7 +9,6 @@ on:
       - 'master'
     tags-ignore:
       - '**'      # Don't build any tags
-  pull_request:
   workflow_dispatch:
 
 # FIXME: Legg til docker layer caching, f.eks. https://github.com/marketplace/actions/build-docker-images-using-cache
@@ -23,7 +22,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18"
           registry-url: "https://npm.pkg.github.com"
           cache: 'npm'
       - name: Install dependencies
