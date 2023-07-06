@@ -37,6 +37,8 @@
   "soknadLenke" : "Gå til søknaden og les vedtaksbrevet for meir detaljar",
   "utbetaling" : "Utbetaling",
   "ukjentDato": "Ukjend utbetalingsdato",
+  "opprinneligSum": "Opphavleg sum:",
+  
   "ingen.utbetalinger.tittel": "Vi finn ingen utbetalingar for økonomisk sosialhjelp",
   "ingen.utbetalinger.nøkkelpunt.tittel" : "Dette kan vere fordi:",
   "ingen.utbetalinger.nøkkelpunkt1" : "søknaden din ikkje er ferdigbehandla",
