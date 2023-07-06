@@ -38,6 +38,14 @@ export const logServerfeil = (eventData?: Record<string, unknown>) => {
     logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
 };
 
+export const logBrukerDefaultLanguage = (language: string) => {
+    logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
+};
+
+export const logBrukerSpraakChange = (language: string) => {
+    logAmplitudeEvent("Bruker har endret språk til: ", {language});
+};
+
 export const logDuplicatedFiles = (files: File[]) => {
     if (files.length > 1) {
         let duplikerteFiler: File[] = [];

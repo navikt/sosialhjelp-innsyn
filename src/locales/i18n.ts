@@ -6,10 +6,14 @@ import {isLocalhost} from "../utils/restUtils";
 import nb from "./nb/nb.json";
 import nn from "./nn/nn.json";
 import en from "./en/en.json";
+import {logBrukerDefaultLanguage, logBrukerSpraakChange} from "../utils/amplitude";
 
 let language = Cookies.get("decorator-language");
 if (language === undefined || !["nb", "nn", "en"].includes(language)) {
     language = "nb";
+}
+if (["nb", "nn", "en"].includes(language)) {
+    logBrukerDefaultLanguage(language);
 }
 // noinspection JSIgnoredPromiseFromCall
 i18n.use(initReactI18next).init({
@@ -36,6 +40,7 @@ i18n.use(initReactI18next).init({
 });
 
 onLanguageSelect(async (language) => {
+    logBrukerSpraakChange(language.locale);
     const handleError = (err: unknown) => {
         if (err) {
             console.error(err);
