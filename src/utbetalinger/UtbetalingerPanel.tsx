@@ -8,7 +8,7 @@ import {erDevMiljo} from "../utils/ServiceHookTypes";
 import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components/macro";
 import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
-import {hentMaanedString, hentUtbetalingTittel} from "./utbetalingerUtils";
+import {hentMaanedString, hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "./utbetalingerUtils";
 
 interface Props {
     utbetalinger: UtbetalingerResponse[];
@@ -122,7 +122,11 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                 <Label as="p">
                                                     Til deg (
                                                     {utbetalingMaaned.utbetalingsmetode && (
-                                                        <>{utbetalingMaaned.utbetalingsmetode} </>
+                                                        <>
+                                                            {hentTekstForUtbetalingsmetode(
+                                                                utbetalingMaaned.utbetalingsmetode
+                                                            )}{" "}
+                                                        </>
                                                     )}
                                                     {utbetalingMaaned.kontonummer})
                                                 </Label>
