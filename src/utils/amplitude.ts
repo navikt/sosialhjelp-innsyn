@@ -38,11 +38,24 @@ export const logServerfeil = (eventData?: Record<string, unknown>) => {
     logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
 };
 
-export const logBrukerDefaultLanguage = (language: string) => {
+const fullFormLanguageString = (language: string) => {
+    switch (language) {
+        case "nb":
+            return "Norsk bokmål";
+        case "nn":
+            return "Nynorsk";
+        case "en":
+            return "Engelsk";
+    }
+};
+
+export const logBrukerDefaultLanguage = (lang: string) => {
+    const language = fullFormLanguageString(lang);
     logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
 };
 
-export const logBrukerSpraakChange = (language: string) => {
+export const logBrukerSpraakChange = (lang: string) => {
+    const language = fullFormLanguageString(lang);
     logAmplitudeEvent("Bruker har endret språk til: ", {language});
 };
 
