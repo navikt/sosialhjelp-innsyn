@@ -38,6 +38,27 @@ export const logServerfeil = (eventData?: Record<string, unknown>) => {
     logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
 };
 
+const fullFormLanguageString = (language: string) => {
+    switch (language) {
+        case "nb":
+            return "Norsk bokmål";
+        case "nn":
+            return "Nynorsk";
+        case "en":
+            return "Engelsk";
+    }
+};
+
+export const logBrukerDefaultLanguage = (lang: string) => {
+    const language = fullFormLanguageString(lang);
+    logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
+};
+
+export const logBrukerSpraakChange = (lang: string) => {
+    const language = fullFormLanguageString(lang);
+    logAmplitudeEvent("Bruker har endret språk til: ", {language});
+};
+
 export const logDuplicatedFiles = (files: File[]) => {
     if (files.length > 1) {
         let duplikerteFiler: File[] = [];
