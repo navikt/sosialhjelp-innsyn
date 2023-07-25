@@ -20,7 +20,7 @@ export const getHarSoknaderMedInnsynQueryKey = () => [`/api/v1/innsyn/harSoknade
 
 export const getHarSoknaderMedInnsynQueryOptions = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
@@ -40,7 +40,7 @@ export type HarSoknaderMedInnsynQueryError = ErrorType<unknown>;
 
 export const useHarSoknaderMedInnsyn = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;

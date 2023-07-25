@@ -29,7 +29,7 @@ export const getHentSaksDetaljerQueryKey = (params: HentSaksDetaljerParams) =>
 
 export const getHentSaksDetaljerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentSaksDetaljer>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     params: HentSaksDetaljerParams,
     options?: {
@@ -74,7 +74,7 @@ export const getHentAlleSakerQueryKey = () => [`/api/v1/innsyn/saker`] as const;
 
 export const getHentAlleSakerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
@@ -94,7 +94,7 @@ export type HentAlleSakerQueryError = ErrorType<unknown>;
 
 export const useHentAlleSaker = <
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;

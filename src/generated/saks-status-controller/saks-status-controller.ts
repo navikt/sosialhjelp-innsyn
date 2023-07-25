@@ -29,7 +29,7 @@ export const getHentSaksStatuserQueryKey = (fiksDigisosId: string) =>
 
 export const getHentSaksStatuserQueryOptions = <
     TData = Awaited<ReturnType<typeof hentSaksStatuser>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

@@ -158,7 +158,7 @@ export const getGetInnsynsfilQueryKey = (digisosId: string) => [`/api/v1/digisos
 
 export const getGetInnsynsfilQueryOptions = <
     TData = Awaited<ReturnType<typeof getInnsynsfil>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     digisosId: string,
     options?: {
