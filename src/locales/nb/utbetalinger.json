@@ -15,7 +15,7 @@
   "filter.alle":"Alle",
   "filter.minKonto":"Til meg",
   "filter.annen":"Til andre mottakere",
-  "filter.ugylding":"Datoen må være i formatet dd.mm.yyyy",
+  "filter.ugylding":"Datoen må være i formatet dd.mm.åååå",
   "filter.tidligstFra":"Tidligste søkedato er 15 måneder tilbake i tid",
   "filter.fraEtterTil":"Fra-dato kan ikke være etter til-dato",
   "filter.tilEtterFra.": "Til-dato kan ikke være før fra-dato",
