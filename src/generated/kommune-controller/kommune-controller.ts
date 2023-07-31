@@ -29,7 +29,7 @@ export const getHentKommuneInfoQueryKey = (fiksDigisosId: string) =>
 
 export const getHentKommuneInfoQueryOptions = <
     TData = Awaited<ReturnType<typeof hentKommuneInfo>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

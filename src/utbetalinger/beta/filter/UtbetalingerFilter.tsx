@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 /* eslint-disable react/jsx-pascal-case */
-import {Fieldset, Radio, RadioGroup, UNSAFE_DatePicker, UNSAFE_useDatepicker} from "@navikt/ds-react";
+import {Fieldset, Radio, RadioGroup, DatePicker, useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
 import {useTranslation} from "react-i18next";
@@ -24,7 +24,7 @@ const UtbetalingerFilter = (props: Props) => {
     const [fromDateError, setFromDateError] = useState<string | undefined>(undefined);
     const [toDateError, setToDateError] = useState<string | undefined>(undefined);
 
-    const fromDatePicker = UNSAFE_useDatepicker({
+    const fromDatePicker = useDatepicker({
         fromDate: subtractMonths(new Date(), 15),
         toDate: filter.tilDato,
         defaultSelected: filter.fraDato,
@@ -41,7 +41,7 @@ const UtbetalingerFilter = (props: Props) => {
             else setFromDateError(undefined);
         },
     });
-    const toDatePicker = UNSAFE_useDatepicker({
+    const toDatePicker = useDatepicker({
         fromDate: filter.fraDato ? filter.fraDato : subtractMonths(new Date(), 15),
         defaultSelected: filter.tilDato,
         onDateChange: (dato?) => {
@@ -71,31 +71,31 @@ const UtbetalingerFilter = (props: Props) => {
     return (
         <div className={styles.utbetalinger_filter}>
             <Fieldset legend={t("filter.dato")} className={styles.periodevelger}>
-                <UNSAFE_DatePicker
+                <DatePicker
                     {...fromDatePicker.datepickerProps}
                     strategy={isMobile ? "fixed" : undefined}
                     locale={i18n.language as "nb" | "nn" | "en"}
                 >
-                    <UNSAFE_DatePicker.Input
+                    <DatePicker.Input
                         {...fromDatePicker.inputProps}
                         label={t("filter.fra")}
                         description={t("filter.format")}
                         error={fromDatePicker.datepickerProps.open ? undefined : fromDateError}
                     />
-                </UNSAFE_DatePicker>
+                </DatePicker>
 
-                <UNSAFE_DatePicker
+                <DatePicker
                     {...toDatePicker.datepickerProps}
                     strategy={isMobile ? "fixed" : undefined}
                     locale={i18n.language as "nb" | "nn" | "en"}
                 >
-                    <UNSAFE_DatePicker.Input
+                    <DatePicker.Input
                         {...toDatePicker.inputProps}
                         label={t("filter.til")}
                         description={t("filter.format")}
                         error={toDatePicker.datepickerProps.open ? undefined : toDateError}
                     />
-                </UNSAFE_DatePicker>
+                </DatePicker>
             </Fieldset>
             <RadioGroup defaultValue={filter.mottaker} legend={t("filter.mottaker")} onChange={onMottakerChanged}>
                 <Radio value={MottakerFilter.Alle}>{t("filter.alle")}</Radio>

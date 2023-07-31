@@ -29,7 +29,7 @@ export const getHentHendelserQueryKey = (fiksDigisosId: string) =>
 
 export const getHentHendelserQueryOptions = <
     TData = Awaited<ReturnType<typeof hentHendelser>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

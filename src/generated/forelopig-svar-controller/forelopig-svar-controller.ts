@@ -29,7 +29,7 @@ export const getHentForelopigSvarStatusQueryKey = (fiksDigisosId: string) =>
 
 export const getHentForelopigSvarStatusQueryOptions = <
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -52,7 +52,7 @@ export type HentForelopigSvarStatusQueryError = ErrorType<unknown>;
 
 export const useHentForelopigSvarStatus = <
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

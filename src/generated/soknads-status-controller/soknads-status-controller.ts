@@ -29,7 +29,7 @@ export const getHentSoknadsStatusQueryKey = (fiksDigisosId: string) =>
 
 export const getHentSoknadsStatusQueryOptions = <
     TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -52,7 +52,7 @@ export type HentSoknadsStatusQueryError = ErrorType<unknown>;
 
 export const useHentSoknadsStatus = <
     TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

@@ -21,7 +21,7 @@ export const getHarTilgangQueryKey = () => [`/api/v1/innsyn/tilgang`] as const;
 
 export const getHarTilgangQueryOptions = <
     TData = Awaited<ReturnType<typeof harTilgang>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;

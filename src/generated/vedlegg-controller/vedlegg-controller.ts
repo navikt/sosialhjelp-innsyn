@@ -35,7 +35,7 @@ export const getHentVedleggQueryKey = (fiksDigisosId: string) => [`/api/v1/innsy
 
 export const getHentVedleggQueryOptions = <
     TData = Awaited<ReturnType<typeof hentVedlegg>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

@@ -77,7 +77,7 @@ export const getGetOppgaverQueryKey = (fiksDigisosId: string) => [`/api/v1/innsy
 
 export const getGetOppgaverQueryOptions = <
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -131,7 +131,7 @@ export const getGetOppgaveMedIdQueryKey = (fiksDigisosId: string, oppgaveId: str
 
 export const getGetOppgaveMedIdQueryOptions = <
     TData = Awaited<ReturnType<typeof getOppgaveMedId>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     oppgaveId: string,
@@ -186,7 +186,7 @@ export const getGetHarLevertDokumentasjonkravQueryKey = (fiksDigisosId: string) 
 
 export const getGetHarLevertDokumentasjonkravQueryOptions = <
     TData = Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -211,7 +211,7 @@ export type GetHarLevertDokumentasjonkravQueryError = ErrorType<unknown>;
 
 export const useGetHarLevertDokumentasjonkrav = <
     TData = Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -244,7 +244,7 @@ export const getGetfagsystemHarDokumentasjonkravQueryKey = (fiksDigisosId: strin
 
 export const getGetfagsystemHarDokumentasjonkravQueryOptions = <
     TData = Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -271,7 +271,7 @@ export type GetfagsystemHarDokumentasjonkravQueryError = ErrorType<unknown>;
 
 export const useGetfagsystemHarDokumentasjonkrav = <
     TData = Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -304,7 +304,7 @@ export const getGetDokumentasjonkravQueryKey = (fiksDigisosId: string) =>
 
 export const getGetDokumentasjonkravQueryOptions = <
     TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -327,7 +327,7 @@ export type GetDokumentasjonkravQueryError = ErrorType<unknown>;
 
 export const useGetDokumentasjonkrav = <
     TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -361,7 +361,7 @@ export const getGetDokumentasjonkravMedIdQueryKey = (fiksDigisosId: string, doku
 
 export const getGetDokumentasjonkravMedIdQueryOptions = <
     TData = Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     dokumentasjonkravId: string,
@@ -385,7 +385,7 @@ export type GetDokumentasjonkravMedIdQueryError = ErrorType<unknown>;
 
 export const useGetDokumentasjonkravMedId = <
     TData = Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     dokumentasjonkravId: string,

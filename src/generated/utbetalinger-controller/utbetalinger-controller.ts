@@ -34,7 +34,7 @@ export const getHentUtbetalingerForSakQueryKey = (fiksDigisosId: string) =>
 
 export const getHentUtbetalingerForSakQueryOptions = <
     TData = Awaited<ReturnType<typeof hentUtbetalingerForSak>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -57,7 +57,7 @@ export type HentUtbetalingerForSakQueryError = ErrorType<unknown>;
 
 export const useHentUtbetalingerForSak = <
     TData = Awaited<ReturnType<typeof hentUtbetalingerForSak>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -90,7 +90,7 @@ export const getHentUtbetalingerQueryKey = (params?: HentUtbetalingerParams) =>
 
 export const getHentUtbetalingerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentUtbetalinger>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     params?: HentUtbetalingerParams,
     options?: {
@@ -140,7 +140,7 @@ export const getGetUtbetalingExistsQueryKey = (params?: GetUtbetalingExistsParam
 
 export const getGetUtbetalingExistsQueryOptions = <
     TData = Awaited<ReturnType<typeof getUtbetalingExists>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     params?: GetUtbetalingExistsParams,
     options?: {
@@ -163,7 +163,7 @@ export type GetUtbetalingExistsQueryError = ErrorType<unknown>;
 
 export const useGetUtbetalingExists = <
     TData = Awaited<ReturnType<typeof getUtbetalingExists>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(
     params?: GetUtbetalingExistsParams,
     options?: {
@@ -194,7 +194,7 @@ export type HentTidligereUtbetalingerQueryError = ErrorType<unknown>;
 
 export const useHentTidligereUtbetalinger = <
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
@@ -231,7 +231,7 @@ export type HentNyeUtbetalingerQueryError = ErrorType<unknown>;
 
 export const useHentNyeUtbetalinger = <
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
-    TError = ErrorType<unknown>
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>;
     request?: SecondParameter<typeof axiosInstance>;
