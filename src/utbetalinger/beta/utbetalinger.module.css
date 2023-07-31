@@ -7,6 +7,10 @@
     background-color: #d4e6d8;
 }
 
+.utbetalinger_loader {
+    margin: 100px;
+}
+
 .utbetalinger_panel {
     position: relative;
     padding-top: 3rem;

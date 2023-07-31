@@ -13,7 +13,7 @@ import {Feilside, visFeilside} from "../../redux/innsynsdata/innsynsdataReducer"
 import {useDispatch} from "react-redux";
 import useIsMobile from "../../utils/useIsMobile";
 import {useTranslation} from "react-i18next";
-import {Panel} from "@navikt/ds-react";
+import {Loader, Panel} from "@navikt/ds-react";
 import {IngenUtbetalinger} from "../IngenUtbetalinger";
 import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 
@@ -43,7 +43,11 @@ const UtbetalingerBeta = () => {
     }, [harSoknaderError, harSakerError, dispatch]);
 
     if (isAlleSakerLoading || isHarSoknaderMedInnsynLoading) {
-        return <></>;
+        return (
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+                <Loader className={styles.utbetalinger_loader} size="3xlarge" title="venter..." />
+            </div>
+        );
     }
 
     if (!alleSaker || alleSaker?.length === 0) {
