@@ -15,7 +15,7 @@
   "filter.alle":"Alle",
   "filter.minKonto":"Til meg",
   "filter.annen":"Til andre mottakarar",
-  "filter.ugylding":"Datoen må vere i formatet dd.mm.yyyy",
+  "filter.ugylding":"Datoen må vere i formatet dd.mm.åååå",
   "filter.tidligstFra":"Tidlegaste søkjedato er 15 månader bak i tid",
   "filter.fraEtterTil":"Frå-datoen kan ikkje vere etter til-datoen",
   "filter.tilEtterFra.": "Til-datoen kan ikkje vere før frå-datoen",
@@ -38,7 +38,7 @@
   "utbetaling" : "Utbetaling",
   "ukjentDato": "Ukjend utbetalingsdato",
   "opprinneligSum": "Opphavleg sum:",
-  
+
   "ingen.utbetalinger.tittel": "Vi finn ingen utbetalingar for økonomisk sosialhjelp",
   "ingen.utbetalinger.nøkkelpunt.tittel" : "Dette kan vere fordi:",
   "ingen.utbetalinger.nøkkelpunkt1" : "søknaden din ikkje er ferdigbehandla",
