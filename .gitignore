@@ -23,3 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+
+.next
+next-env.d.ts
+
+tsconfig.tsbuildinfo
+.swc
