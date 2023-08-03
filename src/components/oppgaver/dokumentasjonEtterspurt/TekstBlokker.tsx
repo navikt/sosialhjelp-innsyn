@@ -1,5 +1,5 @@
 import {BodyShort, Label} from "@navikt/ds-react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import {formatDato} from "../../../utils/formatting";
 import React from "react";
 import {antallDagerEtterFrist} from "../InnsendelsesFrist";
@@ -15,20 +15,20 @@ interface NesteInnsendelsesFristProps {
 }
 export const NesteInnsendelsesFrist = (props: NesteInnsendelsesFristProps) => {
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(props.innsendelsesfrist);
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
 
     return (
         <BodyShort>
             {antallDagerSidenFristBlePassert <= 0
                 ? t("oppgaver.neste_frist", {
                       innsendelsesfrist: props.innsendelsesfrist
-                          ? formatDato(props.innsendelsesfrist.toISOString())
+                          ? formatDato(props.innsendelsesfrist.toISOString(), i18n.language)
                           : "",
                   })
                 : t("oppgaver.neste_frist_passert", {
                       antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
                       innsendelsesfrist: props.innsendelsesfrist
-                          ? formatDato(props.innsendelsesfrist.toISOString())
+                          ? formatDato(props.innsendelsesfrist.toISOString(), i18n.language)
                           : "",
                   })}
         </BodyShort>

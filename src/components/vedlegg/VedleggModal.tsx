@@ -1,6 +1,7 @@
 import {BodyLong, Heading, Modal} from "@navikt/ds-react";
 import React from "react";
 import styles from "./vedlegg.module.css";
+import Image from "next/image";
 
 const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose: () => void}> = ({
     file,
@@ -22,7 +23,7 @@ const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose
                 <BodyLong spacing className={styles.filnavn}>
                     {file.name}
                 </BodyLong>
-                {isImage && <img src={URL.createObjectURL(file)} alt={file.name} />}
+                {isImage && <Image src={URL.createObjectURL(file)} alt={file.name} />}
             </Modal.Content>
         </Modal>
     );

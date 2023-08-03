@@ -7,15 +7,15 @@ metadata:
     team: teamdigisos
 spec:
   image: {{image}}
-  port: 8080
+  port: 3000
   liveness:
-    path: /sosialhjelp/innsyn/internal/isAlive
+    path: /sosialhjelp/innsyn/api/internal/isAlive
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sosialhjelp/innsyn/internal/isAlive
+    path: /sosialhjelp/innsyn/api/internal/isReady
     initialDelay: 20
     timeout: 1
   prometheus:
@@ -28,9 +28,13 @@ spec:
     - "https://sosialhjelp-innsyn-mock.ekstern.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
+      rules:
+        - application: nav-dekoratoren
+          namespace: personbruker
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.ekstern.dev.nav.no
+
   resources:
     limits:
       cpu: 200m
@@ -41,7 +45,11 @@ spec:
   vault:
     enabled: false
   env:
-    - name: DEKORATOR_MILJO
+    - name: NEXT_PUBLIC_DEKORATOR_MILJO
       value: dev
-    - name: INNSYN_API_SINGLE_LOGOUT_URL
+    - name: NEXT_PUBLIC_RUNTIME_ENVIRONMENT
+      value: mock
+    - name: NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL
       value: "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
+    - name: NEXT_PUBLIC_INNSYN_API_BASE_URL
+      value: "https://digisos.ekstern.dev.nav.no/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api/api"
