@@ -6,10 +6,10 @@ import EttersendelseView from "../ettersendelse/EttersendelseView";
 import {getVisningstekster} from "../../utils/vedleggUtils";
 import {Alert, Link, Select, SortState, Table} from "@navikt/ds-react";
 import styled from "styled-components";
-import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
-import {VedleggResponse} from "../../generated/model";
+import {useHentVedlegg} from "../../../generated/vedlegg-controller/vedlegg-controller";
+import {VedleggResponse} from "../../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next"
 import {FileCheckmarkIcon} from "@navikt/aksel-icons";
 
 const Vedleggliste = styled.div`

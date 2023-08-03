@@ -2,12 +2,12 @@ import React from "react";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert, BodyLong} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
-import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentTidligereUtbetalinger} from "../../../../generated/utbetalinger-controller/utbetalinger-controller";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import {useFilter} from "../filter/FilterContext";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next"
 import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
-import {ManedUtbetaling} from "../../../generated/model";
+import {ManedUtbetaling} from "../../../../generated/model";
 
 const TidligerUtbetalingerInnhold = () => {
     const {data, isLoading, isError} = useHentTidligereUtbetalinger({
