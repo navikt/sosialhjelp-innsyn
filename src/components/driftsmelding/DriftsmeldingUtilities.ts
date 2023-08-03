@@ -1,4 +1,4 @@
-import {KommuneResponse} from "../../generated/model";
+import {KommuneResponse} from "../../../generated/model";
 import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
 
 export interface Driftsmelding {
