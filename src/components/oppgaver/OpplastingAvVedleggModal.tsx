@@ -1,5 +1,5 @@
 import React, {MouseEvent, useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
 import styles from "./oppgaver.module.css";
@@ -14,7 +14,7 @@ export const OpplastingAvVedleggModal = () => {
     const {t} = useTranslation();
 
     useEffect(() => {
-        if (process.env.NODE_ENV !== "test") Modal.setAppElement("#root");
+        if (process.env.NODE_ENV !== "test") Modal.setAppElement("#__next");
     }, []);
 
     const handleOnClick = (event: MouseEvent) => {
