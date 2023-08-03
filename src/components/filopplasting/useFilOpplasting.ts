@@ -1,17 +1,17 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
+import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
     useSendVedlegg,
-} from "../../generated/vedlegg-controller/vedlegg-controller";
+} from "../../../generated/vedlegg-controller/vedlegg-controller";
 import {ErrorType} from "../../axios-instance";
-import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
+import {logger} from "@navikt/next-logger";
 
 export interface Metadata {
     type: string;
@@ -147,7 +147,7 @@ const useFilOpplasting = (
     );
     const upload = useCallback(async () => {
         if (allFiles.length === 0) {
-            logInfoMessage("Validering vedlegg feilet: Ingen filer valgt");
+            logger.info("Validering vedlegg feilet: Ingen filer valgt");
             setOuterErrors([{feil: Feil.NO_FILES}]);
             return;
         }
@@ -188,7 +188,7 @@ const useFilOpplasting = (
                 onError: (error, variables, context) => {
                     options?.onError?.(error, variables, context);
                     fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-                    logWarningMessage("Feil med opplasting av vedlegg: " + error.message);
+                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
                     if (error.message === "Mulig virus funnet") {
                         fileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
                         setOuterErrors([{feil: Feil.VIRUS}]);

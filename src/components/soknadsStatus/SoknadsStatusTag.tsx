@@ -1,7 +1,7 @@
 import React from "react";
 import {Tag} from "@navikt/ds-react";
-import {useTranslation} from "react-i18next";
-import {SoknadsStatusResponseStatus} from "../../generated/model";
+import {useTranslation} from "next-i18next"
+import {SoknadsStatusResponseStatus} from "../../../generated/model";
 
 interface Props {
     status: SoknadsStatusResponseStatus | undefined;
