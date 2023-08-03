@@ -1,25 +1,27 @@
 import React from "react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import "./dineUtbetalingerPanel.css";
+import styles from "./dineUtbetalingerPanel.module.css";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
-import {Link} from "react-router-dom";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
+import Link from "next/link";
 
 const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
 
     return (
-        <LinkPanel className="dine_utbetalinger_panel" border={false} as={Link} to="/utbetaling">
-            <div className="dine_utbetalinger_innhold">
-                <HandCoinsIcon className="hands_coin_icon" />
-                <div>
-                    <Heading level="2" size="medium">
-                        {t("tittel")}
-                    </Heading>
-                    <BodyShort>{t("inngang")}</BodyShort>
+        <Link href="/utbetaling" legacyBehavior passHref>
+            <LinkPanel className={styles.dine_utbetalinger_panel} border={false}>
+                <div className={styles.dine_utbetalinger_innhold}>
+                    <HandCoinsIcon className={styles.hands_coin_icon} />
+                    <div>
+                        <Heading level="2" size="medium">
+                            {t("tittel")}
+                        </Heading>
+                        <BodyShort>{t("inngang")}</BodyShort>
+                    </div>
                 </div>
-            </div>
-        </LinkPanel>
+            </LinkPanel>
+        </Link>
     );
 };
 
