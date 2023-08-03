@@ -1,5 +1,5 @@
 import {BodyShort} from "@navikt/ds-react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import {formatDato} from "../../utils/formatting";
 import React from "react";
 import styled from "styled-components";
@@ -19,7 +19,7 @@ interface Props {
     frist?: string;
 }
 const InnsendelsesFrist = (props: Props) => {
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
 
     if (!props.frist) {
         return null;
@@ -30,12 +30,14 @@ const InnsendelsesFrist = (props: Props) => {
         <>
             {antallDagerSidenFristBlePassert <= 0 && (
                 <StyledBodyShort spacing>
-                    {t("oppgaver.innsendelsesfrist", {innsendelsesfrist: formatDato(props.frist)})}
+                    {t("oppgaver.innsendelsesfrist", {innsendelsesfrist: formatDato(props.frist, i18n.language)})}
                 </StyledBodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (
                 <StyledBodyShort spacing>
-                    {t("oppgaver.innsendelsesfrist_passert", {innsendelsesfrist: formatDato(props.frist)})}
+                    {t("oppgaver.innsendelsesfrist_passert", {
+                        innsendelsesfrist: formatDato(props.frist, i18n.language),
+                    })}
                 </StyledBodyShort>
             )}{" "}
         </>

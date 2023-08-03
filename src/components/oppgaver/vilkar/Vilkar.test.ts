@@ -1,5 +1,5 @@
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./VilkarUtils";
-import {SaksStatusResponse, SaksStatusResponseStatus} from "../../../generated/model";
+import {SaksStatusResponse, SaksStatusResponseStatus} from "../../../../generated/model";
 
 const saksStatus1: SaksStatusResponse = {
     tittel: "Saksstatus 1",

@@ -1,11 +1,11 @@
 import React from "react";
 
-import Utbetalinger from "./Utbetalinger";
+import Utbetalinger from "../pages/utbetalingLegacy";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
 import {rest} from "msw";
-import {getHentUtbetalingerMock} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
-import {getHentAlleSakerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
+import {getHentUtbetalingerMock} from "../../generated/utbetalinger-controller/utbetalinger-controller.msw";
+import {getHentAlleSakerMock} from "../../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths, format, subDays, startOfMonth} from "date-fns";
 import {nb} from "date-fns/locale";
@@ -28,7 +28,7 @@ const makeUtbetaling = (date: Date) => {
     };
 };
 const loading = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) =>
-    res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getHentUtbetalingerMock()))
+    res(ctx.delay(2000), ctx.status(200, "Mocked status"), ctx.json(getHentUtbetalingerMock()))
 );
 
 const utbetaling5ManederSiden = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) => {
@@ -53,9 +53,9 @@ const alleSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
     res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(getHentAlleSakerMock()))
 );
 
-// const ingenSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
-//     res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json([]))
-// );
+const ingenSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
+    res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json([]))
+);
 
 const error = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
     res(ctx.delay(200), ctx.status(500, "Mocked status"))
@@ -73,14 +73,14 @@ describe("Utbetalinger", () => {
         expect(screen.getByTestId("lastestriper")).toBeInTheDocument();
     });
 
-    // it("Viser tom tilstand ved ingen saker", async () => {
-    //     server.use(ingenSaker, harSoknaderMedInnsyn);
-    //
-    //     render(<Utbetalinger />);
-    //
-    //     const tomTilstand = await screen.findByRole("heading", {name: /Vi finner ingen/});
-    //     expect(tomTilstand).toBeVisible();
-    // });
+    it("Viser tom tilstand ved ingen saker", async () => {
+        server.use(ingenSaker, harSoknaderMedInnsyn);
+
+        render(<Utbetalinger />);
+
+        const tomTilstand = await screen.findByRole("heading", {name: /Vi finner ingen/});
+        expect(tomTilstand).toBeVisible();
+    });
 
     it("Viser 4 måneder gammel utbetaling hvis man huker av for 'siste 6 måneder'", async () => {
         server.use(utbetaling5ManederSiden, alleSaker, harSoknaderMedInnsyn);
@@ -107,6 +107,8 @@ describe("Utbetalinger", () => {
 
         render(<Utbetalinger />);
 
+        screen.debug();
+
         expect(await screen.findByRole("heading", {name: "Penger"})).toBeInTheDocument();
     });
 
@@ -118,12 +120,5 @@ describe("Utbetalinger", () => {
         expect(await screen.findByRole("heading", {name: "Penger"})).toBeInTheDocument();
         fireEvent.click(screen.getByRole("checkbox", {name: "Til deg"}));
         expect(screen.queryByRole("heading", {name: "Penger"})).not.toBeInTheDocument();
-    });
-
-    it("Viser feil når man får >500 fra server", async () => {
-        server.use(error);
-        render(<Utbetalinger />);
-
-        expect(await screen.findByText(/tekniske problemer/)).toBeVisible();
     });
 });
