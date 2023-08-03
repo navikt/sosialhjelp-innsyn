@@ -2,22 +2,21 @@ import {Accordion, BodyShort} from "@navikt/ds-react";
 import styles from "./manedgruppe.module.css";
 import {logAmplitudeEvent} from "../../../utils/amplitude";
 import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
-import {Link} from "react-router-dom";
 import {FileContent} from "@navikt/ds-icons";
 import React, {useState} from "react";
-import {useTranslation} from "react-i18next";
-import i18next from "../../../locales/i18n";
+import {useTranslation} from "next-i18next";
 import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
 import {hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "../../utbetalingerUtils";
+import Link from "next/link";
 
-function statusToTekst(status: string) {
+function statusToTekst(status: string, t: (key: string) => string) {
     switch (status) {
         case "STOPPET":
-            return i18next.t("utbetalinger:stoppet") + " ";
+            return t("utbetalinger:stoppet") + " ";
         case "PLANLAGT_UTBETALING":
-            return i18next.t("utbetalinger:planlagt") + " ";
+            return t("utbetalinger:planlagt") + " ";
         case "UTBETALT":
-            return i18next.t("utbetalinger:utbetalt") + " ";
+            return t("utbetalinger:utbetalt") + " ";
         default:
             return status.toLowerCase() + " ";
     }
@@ -27,7 +26,7 @@ interface Props {
 }
 
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
-    const {t} = useTranslation("utbetalinger");
+    const {t, i18n} = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -45,16 +44,16 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                     <div className={styles.accordion_headerContent}>
                         <div className={styles.float_left}>
                             <BodyShort className={styles.uthevetTekst}>
-                                {hentUtbetalingTittel(utbetalingManed.tittel)}
+                                {hentUtbetalingTittel(utbetalingManed.tittel, t("default_utbetalinger_tittel"))}
                             </BodyShort>
                             <BodyShort>
                                 {utbetalingManed.status === "STOPPET" ? (
-                                    <>{i18next.t("utbetalinger:stoppet")}</>
+                                    <>{t("utbetalinger:stoppet")}</>
                                 ) : (
                                     <>
-                                        {statusToTekst(utbetalingManed.status)}
+                                        {statusToTekst(utbetalingManed.status, t)}
                                         {utbetalingManed.utbetalingsdato
-                                            ? getDayAndMonth(utbetalingManed.utbetalingsdato)
+                                            ? getDayAndMonth(utbetalingManed.utbetalingsdato, i18n.language)
                                             : t("ukjentDato")}
                                     </>
                                 )}
@@ -65,10 +64,10 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                             {utbetalingManed.status === "STOPPET" ? (
                                 <s>
                                     <span className="navds-sr-only">{t("opprinneligSum")}</span>
-                                    {formatCurrency(utbetalingManed.belop)} kr
+                                    {formatCurrency(utbetalingManed.belop, i18n.language)} kr
                                 </s>
                             ) : (
-                                <>{formatCurrency(utbetalingManed.belop)} kr</>
+                                <>{formatCurrency(utbetalingManed.belop, i18n.language)} kr</>
                             )}
                         </BodyShort>
                     </div>
@@ -78,7 +77,8 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                         <>
                             <BodyShort className={styles.uthevetTekst}>{t("periode")}</BodyShort>
                             <BodyShort spacing>
-                                {formatDato(utbetalingManed.fom)} - {formatDato(utbetalingManed.tom)}
+                                {formatDato(utbetalingManed.fom, i18n.language)} -{" "}
+                                {formatDato(utbetalingManed.tom, i18n.language)}
                             </BodyShort>
                         </>
                     )}
@@ -91,7 +91,8 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                         ) : (
                             <BodyShort spacing>
                                 {`${t("tilDeg")} (${hentTekstForUtbetalingsmetode(
-                                    utbetalingManed.utbetalingsmetode ?? ""
+                                    utbetalingManed.utbetalingsmetode ?? "",
+                                    i18n
                                 )} ${utbetalingManed.kontonummer})
                                             `}
                             </BodyShort>
@@ -99,7 +100,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                     </>
 
                     <Link
-                        to={"/" + utbetalingManed.fiksDigisosId + "/status"}
+                        href={"/" + utbetalingManed.fiksDigisosId + "/status"}
                         className={`navds-link ${styles.soknadLenke} `}
                     >
                         <FileContent aria-hidden width="1.5rem" height="1.5rem" />
