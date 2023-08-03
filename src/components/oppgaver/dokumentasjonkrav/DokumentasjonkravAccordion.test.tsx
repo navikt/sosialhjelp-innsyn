@@ -3,7 +3,7 @@ import React from "react";
 import {render, screen} from "../../../test/test-utils";
 import DokumentasjonkravAccordion from "./DokumentasjonkravAccordion";
 
-jest.mock("./DokumentasjonKravView", () => () => <div>Mocked View</div>);
+jest.mock("./DokumentasjonKravView", () => Object.assign(() => <div>Mocked View</div>, {displayName: "HeyHey"}));
 
 test("Rendrer Dokumentasjonkrav", async () => {
     render(
