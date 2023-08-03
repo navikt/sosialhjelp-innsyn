@@ -9,13 +9,13 @@ spec:
   image: {{image}}
   port: 8080
   liveness:
-    path: /sosialhjelp/innsyn/internal/isAlive
+    path: /sosialhjelp/innsyn/api/internal/isAlive
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sosialhjelp/innsyn/internal/isAlive
+    path: /sosialhjelp/innsyn/api/internal/isAlive
     initialDelay: 20
     timeout: 1
   prometheus:
@@ -41,7 +41,11 @@ spec:
   vault:
     enabled: false
   env:
-    - name: DEKORATOR_MILJO
+    - name: NEXT_PUBLIC_DEKORATOR_MILJO
       value: dev
-    - name: INNSYN_API_SINGLE_LOGOUT_URL
+    - name: NEXT_PUBLIC_RUNTIME_ENVIRONMENT
+      value: dev
+    - name: NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL
       value: "https://digisos.intern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
+    - name: NEXT_PUBLIC_INNSYN_API_BASE_URL
+      value: "https://digisos.intern.dev.nav.no/login-api/sosialhjelp/innsyn-api"
