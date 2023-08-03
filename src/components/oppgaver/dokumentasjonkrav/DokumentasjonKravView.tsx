@@ -1,9 +1,9 @@
 import React, {ReactElement, useMemo} from "react";
-import {DokumentasjonkravResponse} from "../../../generated/model";
+import {DokumentasjonkravResponse} from "../../../../generated/model";
 import useKommune from "../../../hooks/useKommune";
 import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
-import {getGetDokumentasjonkravQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
+import {getGetDokumentasjonkravQueryKey} from "../../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
