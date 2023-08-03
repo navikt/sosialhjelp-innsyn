@@ -1,4 +1,4 @@
-import {UtbetalingerResponse} from "../generated/model";
+import {UtbetalingerResponse} from "../../generated/model";
 
 // Example: getRandomInt(3) => expected output: 0, 1 or 2
 const getRandomInt = (max: number): number => {

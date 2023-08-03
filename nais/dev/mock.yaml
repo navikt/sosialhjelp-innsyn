@@ -41,7 +41,11 @@ spec:
   vault:
     enabled: false
   env:
-    - name: DEKORATOR_MILJO
+    - name: NEXT_PUBLIC_DEKORATOR_MILJO
       value: dev
-    - name: INNSYN_API_SINGLE_LOGOUT_URL
+    - name: NEXT_PUBLIC_RUNTIME_ENVIRONMENT
+      value: mock
+    - name: NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL
       value: "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/oauth2/slo"
+    - name: NEXT_PUBLIC_INNSYN_API_BASE_URL
+      value: "https://digisos.ekstern.dev.nav.no/login-api/sosialhjelp/innsyn-api"
