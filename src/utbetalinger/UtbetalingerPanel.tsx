@@ -4,11 +4,11 @@ import UtbetalingEkspanderbart from "./UtbetalingEkspanderbart";
 import {formatCurrency, formatDato} from "../utils/formatting";
 import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
-import {erDevMiljo} from "../utils/ServiceHookTypes";
 import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
-import styled, {css} from "styled-components/macro";
-import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
+import styled, {css} from "styled-components";
+import {ManedUtbetaling, UtbetalingerResponse} from "../../generated/model";
 import {hentMaanedString, hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "./utbetalingerUtils";
+import {useTranslation} from "next-i18next";
 
 interface Props {
     utbetalinger: UtbetalingerResponse[];
@@ -64,6 +64,7 @@ const MottakerWrapper = styled.div`
 `;
 
 const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
+    const {t, i18n} = useTranslation();
     if (lasterData) {
         return (
             <div className="utbetalinger_detaljer">
@@ -86,8 +87,8 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                     )}
                     <StyledPanel forwardedAs="section" key={utbetalingSak.foersteIManeden + "_" + index}>
                         <StyledHeading level="2" size="medium">
-                            <span>{hentMaanedString(utbetalingSak.maned) + " " + utbetalingSak.ar}</span>
-                            <span>{formatCurrency(sumUtbetalinger(utbetalingSak))} kr</span>
+                            <span>{hentMaanedString(utbetalingSak.maned, i18n) + " " + utbetalingSak.ar}</span>
+                            <span>{formatCurrency(sumUtbetalinger(utbetalingSak), i18n.language)} kr</span>
                         </StyledHeading>
                         {utbetalingSak.utbetalinger.map((utbetalingMaaned: ManedUtbetaling, index: number) => {
                             const annenMottaker: boolean = utbetalingMaaned.annenMottaker;
@@ -99,18 +100,22 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                 >
                                     <StyledUtbetalingHeader>
                                         <Heading level="3" size="small">
-                                            {hentUtbetalingTittel(utbetalingMaaned.tittel)}{" "}
+                                            {hentUtbetalingTittel(
+                                                utbetalingMaaned.tittel,
+                                                t("default_utbetalinger_tittel")
+                                            )}{" "}
                                         </Heading>
-                                        <Label as="p">{formatCurrency(utbetalingMaaned.belop)} kr</Label>
+                                        <Label as="p">{formatCurrency(utbetalingMaaned.belop, i18n.language)} kr</Label>
                                     </StyledUtbetalingHeader>
                                     <UtbetalingEkspanderbart
                                         // TODO: Hvordan håndtere undefined utbetalingsdato?
                                         tittel={
                                             !!utbetalingMaaned.utbetalingsdato
-                                                ? "Utbetalt " + formatDato(utbetalingMaaned.utbetalingsdato)
+                                                ? "Utbetalt " +
+                                                  formatDato(utbetalingMaaned.utbetalingsdato, i18n.language)
                                                 : "Ukjent utbetalingsdato"
                                         }
-                                        defaultOpen={erDevMiljo()}
+                                        defaultOpen={process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local"}
                                     >
                                         <MottakerWrapper>
                                             <Detail>Mottaker</Detail>
@@ -124,7 +129,8 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                                     {utbetalingMaaned.utbetalingsmetode && (
                                                         <>
                                                             {hentTekstForUtbetalingsmetode(
-                                                                utbetalingMaaned.utbetalingsmetode
+                                                                utbetalingMaaned.utbetalingsmetode,
+                                                                i18n
                                                             )}{" "}
                                                         </>
                                                     )}
@@ -136,8 +142,8 @@ const UtbetalingerPanel: React.FC<Props> = ({utbetalinger, lasterData}) => {
                                             <>
                                                 <Detail>Periode</Detail>
                                                 <Label as="p" spacing>
-                                                    {formatDato(utbetalingMaaned.fom)} -{" "}
-                                                    {formatDato(utbetalingMaaned.tom)}
+                                                    {formatDato(utbetalingMaaned.fom, i18n.language)} -{" "}
+                                                    {formatDato(utbetalingMaaned.tom, i18n.language)}
                                                 </Label>
                                             </>
                                         )}
