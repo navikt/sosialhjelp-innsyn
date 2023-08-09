@@ -22,7 +22,7 @@ const StyledPanel = styled(Panel)<{$hasError: boolean}>`
     @media screen and (min-width: 641px) {
         padding-left: 60px;
         padding-right: 80px;
-        margin-top: 4rem;
+        margin-top: 3rem;
     }
 `;
 
