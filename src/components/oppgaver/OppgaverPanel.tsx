@@ -8,7 +8,7 @@ const StyledPanel = styled(Panel)<{$error?: boolean}>`
     border-color: ${(props) => (props.$error ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
-        margin-top: 4rem;
+        margin-top: 3rem;
     }
     @media screen and (max-width: 640px) {
         padding: 1rem;

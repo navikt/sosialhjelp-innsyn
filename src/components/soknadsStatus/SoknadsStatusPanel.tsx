@@ -13,8 +13,8 @@ const StyledPanel = styled(Panel)<{$error?: boolean}>`
         margin-top: 4rem;
     }
     @media screen and (max-width: 640px) {
-        padding: 1rem;
-        margin-top: 2rem;
+        padding: 2rem 4.25rem;
+        margin-top: 2.5rem;
     }
 `;
 
