@@ -15,7 +15,7 @@ const DineUtbetalingerPanel: React.FC = () => {
             border={false}
             as={Link}
             to="/utbetaling"
-            onClick={() => logButtonOrLinkClick("Bruker åpnet Dine utbetalinger")}
+            onClick={() => logButtonOrLinkClick("Åpnet Dine utbetalinger")}
         >
             <div className="dine_utbetalinger_innhold">
                 <HandCoinsIcon className="hands_coin_icon" />
