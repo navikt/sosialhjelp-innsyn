@@ -3,13 +3,13 @@ import configureStore from "./configureStore";
 import {Provider} from "react-redux";
 import {
     BrowserRouter,
+    createRoutesFromChildren,
+    matchRoutes,
+    Outlet,
     Route,
     Routes,
     useLocation,
     useNavigationType,
-    createRoutesFromChildren,
-    matchRoutes,
-    Outlet,
 } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
@@ -20,7 +20,6 @@ import Saksoversikt from "./saksoversikt/Saksoversikt";
 import SideIkkeFunnet from "./components/sideIkkeFunnet/SideIkkeFunnet";
 import Feilside from "./components/feilside/Feilside";
 import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskontrollside";
-import {initAmplitude} from "./utils/amplitude";
 import {isProd} from "./utils/restUtils";
 import ScrollToTop from "./utils/ScrollToTop";
 import AppBanner from "./components/appBanner/AppBanner";
@@ -29,6 +28,7 @@ import SaksStatus from "./innsyn/SaksStatus";
 import Linkside from "./components/linkside/Linkside";
 import {useTranslation} from "react-i18next";
 import UtbetalingerBeta from "./utbetalinger/beta/UtbetalingerBeta";
+
 const store = configureStore();
 
 if (process.env.NODE_ENV === "production") {
@@ -49,8 +49,6 @@ if (process.env.NODE_ENV === "production") {
         tracesSampleRate: 1.0,
     });
 }
-
-initAmplitude();
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
