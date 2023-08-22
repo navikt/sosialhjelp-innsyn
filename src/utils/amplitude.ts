@@ -1,27 +1,16 @@
-import amplitude from "amplitude-js";
+import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
+import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 
-export const initAmplitude = () => {
-    if (amplitude) {
-        amplitude.getInstance().init("default", "", {
-            apiEndpoint: "amplitude.nav.no/collect-auto",
-            saveEvents: false,
-            includeUtm: true,
-            includeReferrer: true,
-            platform: window.location.toString(),
+export function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
+    try {
+        logDekoratoren({
+            origin: "sosialhjelpInnsyn",
+            eventName,
+            eventData: {...eventData, skjemaId: "sosialhjelpInnsyn"},
         });
+    } catch (error) {
+        logWarningMessage(`Kunne ikke logge til amplitude: " ${error}`);
     }
-};
-
-export function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>): void {
-    setTimeout(() => {
-        try {
-            if (amplitude && process.env.NODE_ENV !== "test") {
-                amplitude.getInstance().logEvent(eventName, eventData);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    });
 }
 
 export function fileUploadFailedEvent(errorMessage: string) {
