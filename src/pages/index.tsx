@@ -52,7 +52,7 @@ const Saksoversikt: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale}) => {
+export const getServerSideProps: GetServerSideProps = async ({locale, req: {cookies}}) => {
     const translations = await serverSideTranslations(locale ?? "nb", ["common", "utbetalinger"]);
     return {props: {...translations}};
 };
