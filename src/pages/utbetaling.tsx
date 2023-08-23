@@ -50,7 +50,6 @@ const UtbetalingerBeta: NextPage = () => {
 
     useEffect(() => {
         if (harSoknaderError || harSakerError) {
-            console.log(harSoknaderError, harSakerError);
             throw new Error("Kunne ikke laste inn søknader eller saker");
         }
     }, [harSoknaderError, harSakerError, router]);
