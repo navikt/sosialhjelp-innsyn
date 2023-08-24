@@ -44,22 +44,6 @@ export const axiosInstance = <T>(
 
             const {status, data} = e.response;
 
-            if (!options?.isServerSide && status === 401) {
-                if (window.location.search.split("login_id=")[1] !== data.id) {
-                    const queryDivider = data.loginUrl.includes("?") ? "&" : "?";
-                    window.location.href = data.loginUrl + queryDivider + getRedirectPath(data.loginUrl, data.id);
-                } else {
-                    logger.warn(
-                        "Fetch ga 401-error-id selv om kallet ble sendt fra URL med samme login_id (" +
-                            data.id +
-                            "). Dette kan komme av en påloggingsloop (UNAUTHORIZED_LOOP_ERROR).",
-                        e.navCallId
-                    );
-                }
-
-                throw new Error(HttpErrorType.UNAUTHORIZED, e);
-            }
-
             logger.warn(
                 `Nettverksfeil i axiosInstance: ${config.method} ${config.url}: ${status} ${data}`,
                 e.navCallId
