@@ -9,7 +9,6 @@ import "../index.css";
 import {onBreadcrumbClick, onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import {configureLogger} from "@navikt/next-logger";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
-import Cookies from "js-cookie";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
