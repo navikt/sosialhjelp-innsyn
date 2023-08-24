@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {AppProps} from "next/app";
 import {QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useTranslation} from "next-i18next";
 import {appWithTranslation} from "next-i18next";
-import {initAmplitude, logBrukerSpraakChange} from "../utils/amplitude";
+import {logBrukerSpraakChange} from "../utils/amplitude";
 import {useRouter} from "next/router";
 import "../index.css";
 import {onBreadcrumbClick, onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import {configureLogger} from "@navikt/next-logger";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
-import Cookies from "js-cookie";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
@@ -27,11 +26,6 @@ configureLogger({
 const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
     const {i18n} = useTranslation();
     const router = useRouter();
-    useEffect(() => {
-        if (router.isReady) {
-            initAmplitude();
-        }
-    }, [router.isReady]);
     const [queryHas403, setQueryHas403] = useState(false);
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
