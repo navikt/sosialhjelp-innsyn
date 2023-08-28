@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
             return next;
         }
         const url = new URL(
-            `${request.nextUrl.origin}${process.env.NEXT_PUBLIC_BASE_PATH}/${
+            `${process.env.NEXT_INNSYN_REDIRECT_ORIGIN}${process.env.NEXT_PUBLIC_BASE_PATH}/${
                 decoratorLocale === "nb" ? "" : decoratorLocale
             }${pathname.replace("/sosialhjelp/innsyn", "")}`
         );
