@@ -29,9 +29,24 @@ For å kunne kjøre `npm install` lokalt må du logge inn mot Github package reg
 
 ### Frontend
 
+#### Miljøvariabler
+
+Lag `.env.local` på rot for miljøvariabler. Eksempel:
+
+```
+NEXT_PUBLIC_BASE_PATH=/sosialhjelp/innsyn
+NEXT_PUBLIC_RUNTIME_ENVIRONMENT=local
+NEXT_PUBLIC_DEKORATOR_MILJO=local
+NEXT_PUBLIC_INNSYN_API_BASE_URL=http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api
+NEXT_INNSYN_API_BASE_URL=http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api
+NEXT_INNSYN_REDIRECT_ORIGIN=http://localhost:8989
+```
+
+#### Lokal server
+
 ```shell
 npm install # Hent avhengigheter
-npm run start #  starter dev-server
+npm run dev #  starter dev-server
 npm test # Kjør enhetstestene
 ```
 
