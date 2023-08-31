@@ -43,26 +43,26 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(url);
     }
 
-    // // Router bruker til login hvis vi får 401
-    // try {
-    //     logger.info("Kaller /tilgang i innsyn-api");
-    //     const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
-    //         headers: new Headers(request.headers),
-    //         credentials: "include",
-    //     });
-    //     logger.info(`Fikk ${harTilgangResponse.status} på kall til /tilgang`);
-    //     if (harTilgangResponse.status === 401) {
-    //         const json: AzureAdAuthenticationError = await harTilgangResponse.json();
-    //         const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
-    //
-    //         const redirectUrl = getRedirect(json.loginUrl, pathname, process.env.NEXT_INNSYN_REDIRECT_ORIGIN!, json.id);
-    //         logger.info(`Sender bruker til login: ${json.loginUrl + queryDivider + redirectUrl}`);
-    //         return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
-    //     }
-    // } catch (e) {
-    //     logger.warn("Feil i middleware fetch, sender bruker til 500");
-    //     return NextResponse.redirect(process.env.NEXT_INNSYN_REDIRECT_ORIGIN + "/sosialhjelp/innsyn/500");
-    // }
+    // Router bruker til login hvis vi får 401
+    try {
+        logger.info("Kaller /tilgang i innsyn-api");
+        const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
+            headers: new Headers(request.headers),
+            credentials: "include",
+        });
+        logger.info(`Fikk ${harTilgangResponse.status} på kall til /tilgang`);
+        if (harTilgangResponse.status === 401) {
+            const json: AzureAdAuthenticationError = await harTilgangResponse.json();
+            const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
+
+            const redirectUrl = getRedirect(json.loginUrl, pathname, process.env.NEXT_INNSYN_REDIRECT_ORIGIN!, json.id);
+            logger.info(`Sender bruker til login: ${json.loginUrl + queryDivider + redirectUrl}`);
+            return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
+        }
+    } catch (e) {
+        logger.warn("Feil i middleware fetch, sender bruker til 500");
+        return NextResponse.redirect(process.env.NEXT_INNSYN_REDIRECT_ORIGIN + "/sosialhjelp/innsyn/500");
+    }
 }
 
 const getRedirect = (loginUrl: string, pathname: string, origin: string, id: string) => {
