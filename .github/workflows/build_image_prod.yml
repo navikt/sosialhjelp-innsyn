@@ -1,0 +1,50 @@
+name: 'Build Production Image - HUSK MANUELL DEPLOY TIL PROD!'
+on:
+  workflow_run:
+    workflows: ['Build code and run test']
+    branches: [master]
+    types:
+      - completed
+env:
+  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-production
+jobs:
+  build-image:
+    name: 'Build and Push image'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Copy appropriate env file to root'
+        shell: bash
+        run: |
+          echo "Copying nais/envs/.env.production..."
+          cp nais/envs/.env.production .env.production
+
+      - name: 'Build npm project'
+        uses: navikt/sosialhjelp-ci/actions/build-npm@v2-beta
+        with:
+          reader-token: ${{ secrets.READER_TOKEN }}
+          run-test: 'false'
+
+      - name: 'Create artifact version'
+        id: artifact-version
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
+
+      - name: 'Release Tag'
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        with:
+          tag: ${{ steps.artifact-version.outputs.version }}
+          commit: ${{ github.sha }}
+          allowUpdates: true
+
+      - name: 'Build and Push Docker Image'
+        uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@v2-beta
+        with:
+          artifact-version: ${{ steps.artifact-version.outputs.version }}
+          image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
+          github-token: ${{ env.GITHUB_TOKEN }}
