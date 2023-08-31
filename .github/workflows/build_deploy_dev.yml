@@ -61,8 +61,9 @@ jobs:
           image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
           github-token: ${{ env.GITHUB_TOKEN }}
 
-  deploy:
+  deploy-gcp:
     name: 'Deploy to development'
+    if: ${{ inputs.config-file-name != 'q0' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
