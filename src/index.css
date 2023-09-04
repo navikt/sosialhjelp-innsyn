@@ -1,14 +1,5 @@
-@import "@navikt/ds-css";
 @import "./components/paneler/paneler.css";
 @import "./components/timeoutbox/timeoutbox.css";
-@import "./components/historikk/historikk.css";
-@import "./components/paginering/paginering.css";
-@import "./components/banner/banner.css";
-@import "./components/paneler/paneler.css";
-@import "./components/ellaBlunk/EllaBlunk.css";
-@import "./saksoversikt/banner/saksoversiktBanner.css";
-@import "./utbetalinger/utbetalinger.css";
-@import "./App.css";
 
 [data-theme="sosialhjelp-innsyn"] {
     --ac-guide-panel-border: none;
@@ -35,7 +26,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-#__next {
+#root {
     flex: 1 0 auto;
 }
 header,

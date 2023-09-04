@@ -3,7 +3,7 @@ import {Panel} from "@navikt/ds-react";
 import React from "react";
 import SoknadsStatusDecoration from "./SoknadsStatusDecoration";
 import SoknadsStatusHeading from "./SoknadsStatusHeading";
-import {SoknadsStatusResponseStatus} from "../../../generated/model";
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
 const StyledPanel = styled(Panel)<{$error?: boolean}>`
     position: relative;

@@ -1,14 +1,12 @@
 import * as React from "react";
 import Banner from "../banner/Banner";
-import {useTranslation} from "next-i18next";
+import {useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
 
-interface Props {
-    title: string;
-}
-
-const AppBanner = ({title}: Props): React.JSX.Element => {
+const AppBanner: React.FC<{}> = () => {
+    const tittel = useSelector((state: any) => state.navigasjon.bannerTittel);
     const {t} = useTranslation();
-    return <Banner>{title}</Banner>;
+    return <Banner>{tittel ? tittel : t("app.tittel")}</Banner>;
 };
 
 export default AppBanner;

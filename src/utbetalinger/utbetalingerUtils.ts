@@ -1,5 +1,6 @@
-import {ManedUtbetaling, UtbetalingerResponse} from "../../generated/model";
-import {i18n} from "i18next";
+import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
+import i18next, {t} from "i18next";
+import i18n from "../locales/i18n";
 
 const diffInMonths = (d1: Date, d2: Date) => {
     var d1Y = d1.getFullYear();
@@ -45,17 +46,17 @@ const filtrerMaanederUtenUtbetalinger = (utbetalinger: UtbetalingerResponse[]): 
     });
 };
 
-const hentUtbetalingTittel = (tittel: string, defaultTittel: string) => {
-    return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : defaultTittel;
+const hentUtbetalingTittel = (tittel: string) => {
+    return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : t("default_utbetalinger_tittel");
 };
 
-const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string, i18n: i18n) => {
-    return i18n.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
-        ? i18n.t(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
+const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string) => {
+    return i18next.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
+        ? t(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
         : utbetalingsmetode;
 };
 
-const hentMaanedString = (maaned: number, i18n: i18n) => {
+const hentMaanedString = (maaned: number) => {
     const date = new Date();
     date.setMonth(maaned - 1);
     return date.toLocaleString(i18n.language, {month: "long"});

@@ -7,9 +7,9 @@ import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstB
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
 import dokumentasjonEtterspurtStyles from "./dokumentasjonetterspurt.module.css";
-import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../../generated/model";
+import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../generated/model";
 import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: OppgaveResponse[] | undefined): Date | null {
     if (dokumentasjonEtterspurt?.length) {
@@ -57,7 +57,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                     <OpplastingAvVedleggModal />
                     <ul className={styles.unorderedList}>
                         {props.dokumentasjonEtterspurt?.map(
-                            (dokumentasjon: DokumentasjonEtterspurtResponse) => (
+                            (dokumentasjon: DokumentasjonEtterspurtResponse, index: number) => (
                                 <li key={dokumentasjon.oppgaveId} className={oppgaveStyles.oppgaveMedSammeFrist}>
                                     <DokumentasjonEtterspurtView
                                         showFrist={dokumentasjonEtterspurtErFraInnsyn}

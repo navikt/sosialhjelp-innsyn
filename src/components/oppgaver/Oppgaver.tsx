@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "react-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {Accordion, Alert} from "@navikt/ds-react";
@@ -8,22 +8,22 @@ import styled from "styled-components";
 import {VilkarAccordion} from "./vilkar/VilkarAccordion";
 import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
 import {add, isBefore} from "date-fns";
+import {logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import {
     useGetDokumentasjonkrav,
     useGetfagsystemHarDokumentasjonkrav,
     useGetHarLevertDokumentasjonkrav,
     useGetVilkar,
-} from "../../../generated/oppgave-controller/oppgave-controller";
+} from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import styles from "./oppgaver.module.css";
-import {logger} from "@navikt/next-logger";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -70,7 +70,10 @@ const Oppgaver = () => {
         useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
     const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
-    const utbetalingerQuery = useHentUtbetalinger({}, {query: {onError: (e) => logger.warn(e.message, e.navCallId)}});
+    const utbetalingerQuery = useHentUtbetalinger(
+        {},
+        {query: {onError: (e) => logWarningMessage(e.message, e.navCallId)}}
+    );
 
     const hasError =
         vilkarQuery.isError ||

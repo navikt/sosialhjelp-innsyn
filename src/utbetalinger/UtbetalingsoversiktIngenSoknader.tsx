@@ -4,7 +4,7 @@ import {BodyLong, Heading, LinkPanel} from "@navikt/ds-react";
 import {StyledGuidePanel, StyledGuidePanelContent} from "../styles/styledGuidePanel";
 import {StyledLenkePanelWrapper} from "../styles/LenkePanelWrapper";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 
 const Wrapper = styled.div`
     padding-top: 1rem;

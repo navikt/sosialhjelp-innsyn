@@ -3,10 +3,10 @@ import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentVedleggQueryKey} from "../../../generated/vedlegg-controller/vedlegg-controller";
-import {OppgaveElementHendelsetype} from "../../../generated/model";
+import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
+import {OppgaveElementHendelsetype} from "../../generated/model";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "react-i18next";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
 import AddFileButton from "../filopplasting/AddFileButton";
@@ -15,7 +15,7 @@ import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import styles from "../filopplasting/filopplasting.module.css";
 import styled from "styled-components";
-import {css} from "styled-components";
+import {css} from "styled-components/macro";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 
 const metadatas = [
@@ -28,11 +28,11 @@ const metadatas = [
     },
 ];
 
-const OuterErrorBorder = styled.div<{$hasError?: boolean}>`
+const OuterErrorBorder = styled.div<{hasError?: boolean}>`
     margin-bottom: 1rem;
 
-    ${({$hasError}) =>
-        $hasError &&
+    ${({hasError}) =>
+        hasError &&
         css`
             border-radius: 4px;
             border: 1px solid var(--a-red-500);
@@ -61,7 +61,9 @@ const EttersendelseView = (props: Props) => {
         resetStatus,
         showSuccessAlert,
     } = useFilOpplasting(metadatas, {
-        onSuccess: () => queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
+        },
     });
     const files = _files[0];
     const outerErrorLocales = outerErrors.map((it) => errorStatusToMessage[it.feil]);
@@ -80,7 +82,7 @@ const EttersendelseView = (props: Props) => {
         <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
     ) : (
         <>
-            <OuterErrorBorder $hasError={outerErrors.length > 0}>
+            <OuterErrorBorder hasError={outerErrors.length > 0}>
                 <FilOpplastingBlokk
                     tittel={t("andre_vedlegg.type")}
                     beskrivelse={t("andre_vedlegg.tilleggsinfo")}

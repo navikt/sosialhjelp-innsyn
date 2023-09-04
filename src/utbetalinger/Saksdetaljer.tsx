@@ -1,13 +1,13 @@
 import React from "react";
-import {useHentAlleSaker, useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {SaksListeResponse} from "../../generated/model";
+import {useHentAlleSaker, useHentSaksDetaljer} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {SaksListeResponse} from "../generated/model";
+import {Link} from "react-router-dom";
 import {StyledFileIcon, StyledLinkPanelDescription, StyledSaksDetaljer} from "../components/sakspanel/sakspanelStyles";
 import SaksMetaData from "../components/sakspanel/SaksMetaData";
 import {Detail, Label, LinkPanel} from "@navikt/ds-react";
 import OppgaverTag from "../components/sakspanel/OppgaverTag";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import styled from "styled-components";
-import Link from "next/link";
 
 const StyledLinkPanel = styled(LinkPanel)`
     &:focus {
@@ -42,20 +42,18 @@ const Saksdetaljer: React.FC<{fiksDigisosId: string}> = ({fiksDigisosId}) => {
             {sak && merOmSaken && (
                 <>
                     <StyledDetail>Søknaden din</StyledDetail>
-                    <Link href={"/" + fiksDigisosId + "/status"} legacyBehavior passHref>
-                        <StyledLinkPanel border>
-                            <StyledLinkPanelDescription>
-                                <StyledFileIcon aria-hidden />
-                                <StyledSaksDetaljer>
-                                    <span>
-                                        <SaksMetaData oppdatert={merOmSaken.sistOppdatert} status={sak.status} />
-                                        <Label as="p">{sak.soknadTittel}</Label>
-                                    </span>
-                                    <OppgaverTag antallNyeOppgaver={sak.antallNyeOppgaver} />
-                                </StyledSaksDetaljer>
-                            </StyledLinkPanelDescription>
-                        </StyledLinkPanel>
-                    </Link>
+                    <StyledLinkPanel border to={"/" + fiksDigisosId + "/status"} forwardedAs={Link}>
+                        <StyledLinkPanelDescription>
+                            <StyledFileIcon aria-hidden />
+                            <StyledSaksDetaljer>
+                                <span>
+                                    <SaksMetaData oppdatert={merOmSaken.sistOppdatert} status={sak.status} />
+                                    <Label as="p">{sak.soknadTittel}</Label>
+                                </span>
+                                <OppgaverTag antallNyeOppgaver={sak.antallNyeOppgaver} />
+                            </StyledSaksDetaljer>
+                        </StyledLinkPanelDescription>
+                    </StyledLinkPanel>
                 </>
             )}
         </>

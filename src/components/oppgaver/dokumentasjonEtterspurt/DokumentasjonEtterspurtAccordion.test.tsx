@@ -2,30 +2,36 @@ import "@testing-library/jest-dom";
 import React from "react";
 import {render, fireEvent, screen} from "../../../test/test-utils";
 import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
-import {OppgaveElementHendelsetype} from "../../../../generated/model";
-import mockRouter from "next-router-mock";
+import {Route, Routes} from "react-router-dom";
+import {OppgaveElementHendelsetype} from "../../../generated/model";
 
 test("Rendrer DokumentasjonEtterspurt", async () => {
-    await mockRouter.push("/test-id/status");
-
     render(
-        <DokumentasjonEtterspurtAccordion
-            dokumentasjonEtterspurt={[
-                {
-                    innsendelsesfrist: undefined,
-                    oppgaveId: "",
-                    oppgaveElementer: [
-                        {
-                            erFraInnsyn: true,
-                            dokumenttype: "",
-                            hendelsetype: OppgaveElementHendelsetype.dokumentasjonEtterspurt,
-                            hendelsereferanse: "",
-                            id: "dummy",
-                        },
-                    ],
-                },
-            ]}
-        />
+        <Routes>
+            <Route
+                path="/:soknadId/status"
+                element={
+                    <DokumentasjonEtterspurtAccordion
+                        dokumentasjonEtterspurt={[
+                            {
+                                innsendelsesfrist: undefined,
+                                oppgaveId: "",
+                                oppgaveElementer: [
+                                    {
+                                        erFraInnsyn: true,
+                                        dokumenttype: "",
+                                        hendelsetype: OppgaveElementHendelsetype.dokumentasjonEtterspurt,
+                                        hendelsereferanse: "",
+                                        id: "dummy",
+                                    },
+                                ],
+                            },
+                        ]}
+                    />
+                }
+            />
+        </Routes>,
+        {route: "/test-id/status"}
     );
     expect(screen.getByText("Du må levere opplysninger til søknaden din")).toBeVisible();
     fireEvent.click(screen.getByText("Du må levere opplysninger til søknaden din"));

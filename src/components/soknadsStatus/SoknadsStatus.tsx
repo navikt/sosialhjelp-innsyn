@@ -1,21 +1,21 @@
 import React from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import SoknadsStatusTag from "./SoknadsStatusTag";
-import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
+import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {
     SaksStatusResponse,
     SaksStatusResponseStatus,
     SoknadsStatusResponseStatus,
     VedtaksfilUrl,
-} from "../../../generated/model";
+} from "../../generated/model";
 import styles from "../../styles/lists.module.css";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
 import {ContentPanelBorder} from "./SoknadsStatusHeading";
@@ -129,6 +129,10 @@ const SoknadsStatus = () => {
                                                     <Tag variant="warning">{t("saksStatus.under_behandling")}</Tag>
                                                 )}
                                         </StatusMessage>
+                                        {/* TODO: Finnes denne her enkly? */}
+                                        {/*{statusdetalj.melding && statusdetalj.melding.length > 0 && (*/}
+                                        {/*    <BodyShort>{statusdetalj.melding}</BodyShort>*/}
+                                        {/*)}*/}
                                         {sakBehandlesIkke && !soknadBehandlesIkke && (
                                             <BodyShort>{t("status.sak_behandles_ikke_ingress")}</BodyShort>
                                         )}

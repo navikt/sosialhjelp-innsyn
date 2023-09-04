@@ -24,7 +24,7 @@ jobs:
         uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
       - name: Sett env variabler
         run: |
-          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}-${{inputs.config-file-name}}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
+          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
       - name: Deploy til dev
         uses: nais/deploy/actions/deploy@v1
         env:

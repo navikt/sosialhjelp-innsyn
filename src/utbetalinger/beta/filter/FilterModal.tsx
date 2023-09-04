@@ -5,7 +5,7 @@ import UtbetalingerFilter from "./UtbetalingerFilter";
 import {MottakerFilter, useFilter} from "./FilterContext";
 import useChips from "./useChips";
 import styles from "./utbetalingerFilter.module.css";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "react-i18next";
 
 const FilterModal = () => {
     const [open, setOpen] = useState(false);
@@ -15,7 +15,7 @@ const FilterModal = () => {
     const {t} = useTranslation("utbetalinger");
 
     useEffect(() => {
-        Modal.setAppElement("#__next");
+        Modal.setAppElement("#root");
     }, []);
 
     const onCancel = () => {

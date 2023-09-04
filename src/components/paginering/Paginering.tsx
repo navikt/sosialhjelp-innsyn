@@ -1,5 +1,6 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
+import "./paginering.css";
 
 interface Props {
     pageCount: number;

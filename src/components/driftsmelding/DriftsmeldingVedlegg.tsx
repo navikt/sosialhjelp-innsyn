@@ -1,8 +1,8 @@
 import * as React from "react";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 import {useFileUploadAllowed} from "./DriftsmeldingUtilities";
 import {Alert} from "@navikt/ds-react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import useKommune from "../../hooks/useKommune";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 

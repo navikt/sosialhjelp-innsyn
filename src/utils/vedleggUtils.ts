@@ -1,6 +1,6 @@
+import {logInfoMessage} from "../redux/innsynsdata/loggActions";
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
-import {logger} from "@navikt/next-logger";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
@@ -22,10 +22,15 @@ export const containsIllegalCharacters = (filename: string) => {
     const fixedFilename = filename.replace("a\u030A", "å").replace("A\u030A", "Å");
     const match = fixedFilename.match(new RegExp("[^a-zæøåA-ZÆØÅ0-9 (),._–-]")); // FIKS takler ikke *, :, <, >, |, ?, \, /. Fonten Helvetica takler færre tegn. Denne brukes til generering av ettersendelse.pdf
     if (match != null) {
-        logger.info(`Filnavn inneholdt ugyldige tegn. Det første var ${match[0]}`);
+        logInfoMessage(`Filnavn inneholdt ugyldige tegn. Det første var ${match[0]}`);
         return true;
     }
     return false;
+};
+
+export const alertUser = (event: any) => {
+    event.preventDefault();
+    event.returnValue = "";
 };
 
 export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {

@@ -1,14 +1,11 @@
-import {useRouter} from "next/router";
+import {useParams} from "react-router-dom";
 
 const useFiksDigososId = () => {
-    const {
-        query: {id},
-    } = useRouter();
-
-    if (!id || Array.isArray(id)) {
+    const {soknadId} = useParams<{soknadId: string}>();
+    if (!soknadId) {
         throw Error("Kunne ikke finne søknadId i parametere");
     }
-    return id;
+    return soknadId;
 };
 
 export default useFiksDigososId;

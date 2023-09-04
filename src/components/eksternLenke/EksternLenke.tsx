@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     href: string;

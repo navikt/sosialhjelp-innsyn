@@ -1,5 +1,5 @@
 import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
-import {logger} from "@navikt/next-logger";
+import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 
 export function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
@@ -9,7 +9,7 @@ export function logAmplitudeEvent(eventName: string, eventData?: Record<string, 
             eventData: {...eventData, skjemaId: "sosialhjelpInnsyn"},
         });
     } catch (error) {
-        logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
+        logWarningMessage(`Kunne ikke logge til amplitude: " ${error}`);
     }
 }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 import {BodyShort, Label, Panel} from "@navikt/ds-react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {Attachment, Task} from "@navikt/ds-icons";
 
 const StyledPanel = styled(Panel)`

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const lasterstriperMork = "#ddd9d6";
 const lasterstriperLys = "#e9e7e7";

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import "./historikk.css";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -8,10 +9,10 @@ import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
-import {useHentHendelser} from "../../../generated/hendelse-controller/hendelse-controller";
-import {HendelseResponse} from "../../../generated/model";
+import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
+import {HendelseResponse} from "../../generated/model";
+import {Link} from "react-router-dom";
 import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
-import Link from "next/link";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -75,11 +76,11 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             return (
                 <BodyShort>
                     <Trans t={t} i18nKey={enumValue}>
-                        {/*Lenken finnes som <0></0> i språkfila. 0 = første children.
+                        {/*Lenken finnes som <0></0> i språkfila. 0 = første children. 
                         Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
-                        <Link href="/utbetaling">
-                            <NavDsLink>Dine utbetalinger</NavDsLink>
-                        </Link>{" "}
+                        <NavDsLink as={Link} to="/utbetaling">
+                            Dine utbetalinger
+                        </NavDsLink>{" "}
                         har blitt oppdatert
                     </Trans>
                 </BodyShort>

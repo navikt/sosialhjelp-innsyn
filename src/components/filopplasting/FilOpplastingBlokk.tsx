@@ -1,24 +1,24 @@
 import React, {ReactElement} from "react";
 import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "react-i18next";
 import styled from "styled-components";
-import {css} from "styled-components";
+import {css} from "styled-components/macro";
 import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, {dedupeErrorsByProp} from "./ErrorMessagesSummary";
 import {Error, errorStatusToMessage} from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 import {BodyShort, Label} from "@navikt/ds-react";
 
-const StyledFrame = styled.div<{$hasError?: boolean; $hasFiler?: boolean}>`
+const StyledFrame = styled.div<{hasError?: boolean; hasFiler?: boolean}>`
     background-color: var(--a-gray-50);
     border-radius: 4px;
 
     ${(props) => {
-        if (props.$hasError && props.$hasFiler) {
+        if (props.hasError && props.hasFiler) {
             return css`
                 padding-bottom: 16px;
             `;
-        } else if (!props.$hasError) {
+        } else if (!props.hasError) {
             return css`
                 padding-bottom: 16px;
             `;
@@ -34,8 +34,8 @@ const StyledFrame = styled.div<{$hasError?: boolean; $hasFiler?: boolean}>`
         padding-inline: 16px;
         padding-block: 16px 0;
 
-        ${({$hasError}) =>
-            $hasError &&
+        ${({hasError}) =>
+            hasError &&
             css`
                 background-color: var(--a-red-50);
                 border: 1px solid var(--a-red-500);
@@ -59,7 +59,7 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
     const {t} = useTranslation();
 
     return (
-        <StyledFrame $hasError={props.errors.length > 0} $hasFiler={props.filer.length > 0}>
+        <StyledFrame hasError={props.errors.length > 0} hasFiler={props.filer.length > 0}>
             <div className="errorwrapper">
                 <div className={styles.tekstWrapping}>
                     {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}

@@ -1,6 +1,6 @@
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "react-i18next";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {Tag} from "@navikt/ds-react";
 
 const StyledTag = styled(Tag)`
