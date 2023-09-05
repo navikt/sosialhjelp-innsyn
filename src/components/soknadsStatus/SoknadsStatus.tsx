@@ -5,7 +5,7 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import SoknadsStatusTag from "./SoknadsStatusTag";
 import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";

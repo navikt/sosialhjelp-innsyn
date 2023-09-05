@@ -23,7 +23,6 @@ import Tilgangskontrollside from "./components/Tilgangskontrollside/Tilgangskont
 import {isProd} from "./utils/restUtils";
 import ScrollToTop from "./utils/ScrollToTop";
 import AppBanner from "./components/appBanner/AppBanner";
-import Utbetalinger from "./utbetalinger/Utbetalinger";
 import SaksStatus from "./innsyn/SaksStatus";
 import Linkside from "./components/linkside/Linkside";
 import {useTranslation} from "react-i18next";
@@ -78,7 +77,6 @@ const App = () => {
                                     <Route path="/utbetaling" element={<UtbetalingerBeta />} />
                                     <Route path="/" element={<MainLayout />}>
                                         <Route index element={<Saksoversikt />} />
-                                        <Route path="/utbetalingLegacy" element={<Utbetalinger />} />
                                         <Route path="/:soknadId/status" element={<SaksStatus />} />
                                         <Route path="/link" element={<Linkside />} />
                                         <Route path="*" element={<SideIkkeFunnet />} />

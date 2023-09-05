@@ -7,7 +7,7 @@ import {BodyLong, Heading, Link} from "@navikt/ds-react";
 import {UthevetPanel} from "../paneler/UthevetPanel";
 import {Feilside as FeilsideEnum} from "../../redux/innsynsdata/innsynsdataReducer";
 import {useTranslation} from "react-i18next";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import {setBreadcrumbs} from "../../utils/breadcrumbs";
 
 const FeilsideWrapper = styled.div.attrs({className: "blokk-center"})`

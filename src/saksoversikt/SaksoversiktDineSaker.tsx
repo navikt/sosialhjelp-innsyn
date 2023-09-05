@@ -8,7 +8,7 @@ import {parse} from "query-string";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import {logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
 import {useLocation, useNavigate} from "react-router-dom";
 import {SaksListeResponse} from "../generated/model";

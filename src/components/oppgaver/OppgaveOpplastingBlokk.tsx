@@ -2,7 +2,7 @@ import {useTranslation} from "react-i18next";
 import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import React, {ReactElement} from "react";
 import styled from "styled-components";
-import {css} from "styled-components/macro";
+import {css} from "styled-components";
 
 const OuterFrame = styled.div`
     padding: 8px;

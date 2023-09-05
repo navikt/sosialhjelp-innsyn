@@ -1,6 +1,6 @@
 import React from "react";
 
-import Utbetalinger from "./Utbetalinger";
+import Utbetalinger from "./beta/UtbetalingerBeta";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
 import {rest} from "msw";

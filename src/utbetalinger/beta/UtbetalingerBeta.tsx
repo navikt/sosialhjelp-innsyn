@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import UtbetalingsoversiktIngenInnsyn from "../UtbetalingsoversiktIngenInnsyn";
 import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {useLocation} from "react-router-dom";
@@ -14,9 +14,6 @@ import {useDispatch} from "react-redux";
 import useIsMobile from "../../utils/useIsMobile";
 import {useTranslation} from "react-i18next";
 import {Loader, Panel} from "@navikt/ds-react";
-import {IngenUtbetalinger} from "../IngenUtbetalinger";
-import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {logAmplitudeEvent} from "../../utils/amplitude";
 
 const UtbetalingerBeta = () => {
     const {t} = useTranslation("utbetalinger");
@@ -24,26 +21,11 @@ const UtbetalingerBeta = () => {
     const {pathname} = useLocation();
     const dispatch = useDispatch();
     const isMobile = useIsMobile();
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     useEffect(() => {
         setBreadcrumbs({title: "Utbetalinger", url: `/sosialhjelp${pathname}`});
     }, [pathname]);
 
     const {data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError} = useHentAlleSaker();
-    const {data: utbetalingerData} = useHentUtbetalinger(
-        {},
-        {
-            query: {
-                onSuccess: (data) => {
-                    const antall = data.reduce((acc, curr) => acc + curr.utbetalinger.length, 0);
-                    if (!pageLoadIsLogged) {
-                        logAmplitudeEvent("Lastet utbetalinger", {antall: antall});
-                        setPageLoadIsLogged(true);
-                    }
-                },
-            },
-        }
-    );
 
     const {
         data: harSoknaderMedInnsyn,
@@ -77,14 +59,6 @@ const UtbetalingerBeta = () => {
         return (
             <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
                 <UtbetalingsoversiktIngenInnsyn />
-            </div>
-        );
-    }
-
-    if (!utbetalingerData || utbetalingerData?.length === 0) {
-        return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
-                <IngenUtbetalinger />
             </div>
         );
     }

@@ -15,7 +15,7 @@ import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import styles from "../filopplasting/filopplasting.module.css";
 import styled from "styled-components";
-import {css} from "styled-components/macro";
+import {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 
 const metadatas = [

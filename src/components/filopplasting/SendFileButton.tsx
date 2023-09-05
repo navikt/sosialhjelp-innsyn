@@ -1,6 +1,6 @@
 import {Button, Loader} from "@navikt/ds-react";
 import React, {MouseEventHandler} from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 
 const ButtonWrapper = styled.div`

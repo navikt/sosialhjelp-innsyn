@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
-import styled, {css} from "styled-components/macro";
+import styled, {css} from "styled-components";
 import OppgaverTag from "../../components/sakspanel/OppgaverTag";
 import SaksMetaData from "../../components/sakspanel/SaksMetaData";
 import {
