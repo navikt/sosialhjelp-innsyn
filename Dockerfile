@@ -1,12 +1,21 @@
-FROM node:18-alpine
-
-ENV NODE_ENV production
+FROM gcr.io/distroless/nodejs:18 as runtime
 
 WORKDIR /app
-COPY package.json .
-COPY package-lock.json .
-COPY node_modules/ node_modules/
-COPY server.js server.js
-COPY build build/
 
-CMD ["node", "./server.js"]
+COPY package.json /app/
+COPY next-logger.config.js /app/
+COPY sentry.*.config.ts /app/
+COPY generated /app/
+COPY .env /app/
+COPY .env.production /app/
+COPY .next/standalone /app/
+COPY .next/static /app/.next/static
+COPY public /app/public/
+
+EXPOSE 8080
+
+ENV NODE_ENV=production
+ENV PORT=8080
+#ENV NODE_OPTIONS '-r next-logger'
+
+CMD ["server.js"]

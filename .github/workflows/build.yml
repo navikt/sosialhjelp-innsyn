@@ -10,6 +10,17 @@ on:
     tags-ignore:
       - '**'      # Don't build any tags
   workflow_dispatch:
+    inputs:
+      env:
+        description: 'Miljø'
+        required: true
+        default: 'mock'
+        type: choice
+        options:
+          - 'dev'
+          - 'mock'
+          - 'production'
+          - 'q0'
 
 # FIXME: Legg til docker layer caching, f.eks. https://github.com/marketplace/actions/build-docker-images-using-cache
 jobs:
@@ -21,6 +32,7 @@ jobs:
       packages: write
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}
+      environment: ${{ inputs.env || 'production' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -34,6 +46,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Run tests
         run: npm run test
+      - name: Copy appropriate env file to root
+        shell: bash
+        run: |
+          echo "Copying nais/envs/.env.${{ env.environment }}..."
+          cp nais/envs/.env.${{ env.environment }} .env.production
       - name: Build application
         run: npm run build
       - name: Create artifact version
@@ -47,7 +64,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create docker image tags
         run: |
-          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
+          echo "DOCKER_TAG=${{ env.DOCKER_IMAGE }}-${{env.environment}}:${{ steps.artifact-version.outputs.version }}" >> $GITHUB_ENV
       - name: Build docker image
         run: docker build -t ${{ env.DOCKER_TAG }} .
       - name: Push docker image
@@ -60,4 +77,3 @@ jobs:
         with:
           tag: ${{ steps.artifact-version.outputs.version }}
           commit: ${{ github.sha }}
-      
