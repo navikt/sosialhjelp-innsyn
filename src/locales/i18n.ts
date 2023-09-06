@@ -20,7 +20,7 @@ i18n.use(initReactI18next).init({
     fallbackLng: "nb",
     lng: language,
     supportedLngs: ["nb", "nn", "en"],
-    debug: isLocalhost(window.location.href),
+    debug: isLocalhost(window.location.href) && process.env.NODE_ENV !== "test",
     resources: {
         nb: {
             utbetalinger: require("./nb/utbetalinger.json"),

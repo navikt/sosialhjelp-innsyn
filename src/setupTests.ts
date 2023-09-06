@@ -1,5 +1,5 @@
 import {server} from "./mocks/server";
-import {queryClient} from "./test/test-utils";
+import {queryCache, queryClient} from "./test/test-utils";
 import "@testing-library/jest-dom";
 
 // Establish API mocking before all tests.
@@ -11,6 +11,7 @@ afterEach(async () => {
     await queryClient.cancelQueries();
     queryClient.clear();
     server.resetHandlers();
+    queryCache.clear();
 });
 
 // Clean up after the tests are finished.

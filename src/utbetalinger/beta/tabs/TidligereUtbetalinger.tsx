@@ -6,7 +6,7 @@ import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-cont
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import {useFilter} from "../filter/FilterContext";
 import {useTranslation} from "react-i18next";
-import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
+import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 import {ManedUtbetaling} from "../../../generated/model";
 
 const TidligerUtbetalingerInnhold = () => {
@@ -52,7 +52,7 @@ const TidligerUtbetalingerInnhold = () => {
 
     return (
         <>
-            {filtrerteTidligere.map((utbetalingSak: UtbetalingerResponse) => (
+            {filtrerteTidligere.map((utbetalingSak: UtbetalingerResponseMedId) => (
                 <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
         </>

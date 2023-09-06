@@ -2,7 +2,7 @@ import React from "react";
 import {FilterKey, MottakerFilter, useFilter} from "./FilterContext";
 import {ManedUtbetaling} from "../../../generated/model";
 import {isAfter, isBefore, isEqual} from "date-fns";
-import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
+import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 
 const stringToDateWithoutTimezone = (datoString: string) => {
     const dateWithTimesone = new Date(datoString);
@@ -32,7 +32,7 @@ export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
 
     return matchMottaker && matchTil && matchFra;
 };
-const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponse[]) => {
+const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponseMedId[]) => {
     const {filter} = useFilter();
 
     const filtrerteUtbetalte = React.useMemo(() => {

@@ -2,11 +2,11 @@ import React from "react";
 import {Accordion, BodyShort} from "@navikt/ds-react";
 import styles from "./manedgruppe.module.css";
 import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
-import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
+import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 import {hentMaanedString} from "../../utbetalingerUtils";
 
 interface Props {
-    utbetalingSak: UtbetalingerResponse;
+    utbetalingSak: UtbetalingerResponseMedId;
 }
 const ManedGruppe = (props: Props) => {
     const {utbetalingSak} = props;

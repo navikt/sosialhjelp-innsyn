@@ -3,7 +3,7 @@ import React, {ReactElement} from "react";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
 import rootReducer from "../rootReducer";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {BrowserRouter} from "react-router-dom";
 import Feilside from "../components/feilside/Feilside";
 import {I18nextProvider} from "react-i18next";
@@ -15,6 +15,7 @@ interface Props {
     children: React.ReactNode;
 }
 
+export const queryCache = new QueryCache();
 export const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
 const Wrapper = ({children}: Props) => (
     <BrowserRouter>
