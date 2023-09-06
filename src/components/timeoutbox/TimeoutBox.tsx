@@ -5,7 +5,6 @@ import {now} from "../../utils/timeoutUtils";
 import useInterval from "../../hooks/useInterval";
 import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
-import {getLogoutUrl} from "../../utils/restUtils";
 import {useEffect} from "react";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
@@ -39,7 +38,7 @@ const TimeoutBox = (props: Props) => {
         beregnVisAdvarseTidspunkt(props.showWarningerAfterMinutes)
     );
     useEffect(() => {
-        Modal.setAppElement("#root");
+        Modal.setAppElement("#__next");
     }, []);
 
     useInterval(() => {
@@ -73,7 +72,7 @@ const TimeoutBox = (props: Props) => {
                             onContinueClick={() => {
                                 onContinueClick();
                             }}
-                            logoutUrl={getLogoutUrl(window.location.origin)}
+                            logoutUrl={process.env.NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL!}
                         />
                     )}
                     {showLoggedOut && (

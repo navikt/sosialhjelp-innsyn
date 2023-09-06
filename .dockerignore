@@ -4,12 +4,17 @@
 # White list only the required files
 
 #!build/
-!src/
 !public/
+!.next/standalone
+!.next/static
+!generated/
 
 !package.json
 !package-lock.json
-!node_modules
 !nais.yaml
-!build
-!server.js
+!next.config.js
+!next-i18next.config.js
+!next-logger.config.js
+!sentry.*.config.ts
+!.env
+!.env.production

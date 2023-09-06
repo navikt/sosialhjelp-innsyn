@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Alert} from "@navikt/ds-react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next"
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
