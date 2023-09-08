@@ -30,6 +30,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}
       environment: ${{ inputs.env || 'production' }}
@@ -53,6 +54,15 @@ jobs:
           cp nais/envs/.env.${{ env.environment }} .env.production
       - name: Build application
         run: npm run build
+      - name: Upload static files to cdn
+        id: upload
+        uses: navikt/frontend/actions/cdn-upload/v1@main
+        with:
+          cdn-team-name: teamdigisos
+          source: ./.next/static
+          destination: "/sosialhjelp-innsyn/_next"
+      - run: echo uploaded file ${{ steps.upload.outputs.uploaded }}
+        shell: bash
       - name: Create artifact version
         id: artifact-version
         uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
