@@ -9,7 +9,6 @@ COPY generated /app/
 COPY .env /app/
 COPY .env.production /app/
 COPY .next/standalone /app/
-COPY .next/static /app/.next/static
 COPY public /app/public/
 
 EXPOSE 8080
