@@ -1,9 +1,9 @@
 import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
 import {logWarningMessage} from "../redux/innsynsdata/loggActions";
 
-export function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
+export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
-        logDekoratoren({
+        await logDekoratoren({
             origin: "sosialhjelpInnsyn",
             eventName,
             eventData: {...eventData, skjemaId: "sosialhjelpInnsyn"},

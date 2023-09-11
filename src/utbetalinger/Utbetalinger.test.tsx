@@ -65,11 +65,6 @@ jest.mock("../utils/useIsMobile", () => {
         isMobile: false,
     }));
 });
-jest.mock("@navikt/nav-dekoratoren-moduler", () => {
-    return jest.fn(() => ({
-        logAmplitudeEvent: () => null,
-    }));
-});
 
 beforeAll(() =>
     Object.defineProperty(window, "crypto", {
