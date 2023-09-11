@@ -24,6 +24,8 @@ import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import styles from "./oppgaver.module.css";
+import VedleggSuccess from "../filopplasting/VedleggSuccess";
+import {FilUploadSuccessfulContext} from "../filopplasting/FilUploadSuccessfulContext";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -174,7 +176,6 @@ const Oppgaver = () => {
                     {skalViseOppgaver && (
                         <>
                             <DriftsmeldingVedlegg className={styles.driftsmelding} />
-
                             <DokumentasjonEtterspurtAccordion dokumentasjonEtterspurt={dokumentasjonEtterspurt} />
                             <VilkarAccordion vilkar={filtrerteVilkar} />
                             <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav} />
@@ -183,6 +184,9 @@ const Oppgaver = () => {
                     {skalViseOppgaveInformasjon && <OppgaveInformasjon />}
                 </Accordion>
             )}
+            <FilUploadSuccessfulContext.Consumer>
+                {(value) => <VedleggSuccess show={value.uploadSuccess} />}
+            </FilUploadSuccessfulContext.Consumer>
         </OppgaverPanel>
     );
 };

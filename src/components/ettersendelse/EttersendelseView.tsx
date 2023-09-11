@@ -111,9 +111,8 @@ const EttersendelseView = (props: Props) => {
                     </ErrorMessage>
                 ))}
             </ErrorMessagePlaceholder>
-            <VedleggSuccess show={showSuccessAlert} />
-
             <SendFileButton isVisible={kanLasteOppVedlegg} isLoading={showLoadingState} onClick={onClick} />
+            <VedleggSuccess show={showSuccessAlert} />
         </>
     );
 };

@@ -12,6 +12,7 @@ import {ErrorType} from "../../axios-instance";
 import {logInfoMessage, logWarningMessage} from "../../redux/innsynsdata/loggActions";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
+import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
 
 export interface Metadata {
     type: string;
@@ -101,6 +102,7 @@ const useFilOpplasting = (
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
+    const {setUploadSuccessful} = useFilUploadSuccessful();
 
     /*
     // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
@@ -179,6 +181,7 @@ const useFilOpplasting = (
                     if (errors.length === 0) {
                         reset();
                         setShowSuccessAlert(true);
+                        setUploadSuccessful(true);
 
                         await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
                         await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
@@ -199,7 +202,7 @@ const useFilOpplasting = (
                 },
             }
         );
-    }, [mutate, fiksDigisosId, allFiles, metadatas, files, options, queryClient, reset]);
+    }, [mutate, fiksDigisosId, allFiles, metadatas, files, options, queryClient, reset, setUploadSuccessful]);
 
     return {
         mutation: {isLoading, isError, error, data},

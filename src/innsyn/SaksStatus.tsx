@@ -23,6 +23,7 @@ import {useHentSoknadsStatus} from "../generated/soknads-status-controller/sokna
 import {useHentForelopigSvarStatus} from "../generated/forelopig-svar-controller/forelopig-svar-controller";
 import {useHentSaksStatuser} from "../generated/saks-status-controller/saks-status-controller";
 import {HttpStatusCode} from "axios";
+import {FilUploadSuccesfulProvider} from "../components/filopplasting/FilUploadSuccessfulContext";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -81,41 +82,43 @@ const SaksStatusView = () => {
 
     return (
         <>
-            <LoadingResourcesFailedAlert />
+            <FilUploadSuccesfulProvider>
+                <LoadingResourcesFailedAlert />
 
-            {mustLogin && <ApplicationSpinner />}
+                {mustLogin && <ApplicationSpinner />}
 
-            {!mustLogin && (
-                <>
-                    <DriftsmeldingAlertstripe />
+                {!mustLogin && (
+                    <>
+                        <DriftsmeldingAlertstripe />
 
-                    <ForelopigSvarAlertstripe />
+                        <ForelopigSvarAlertstripe />
 
-                    <SoknadsStatus />
+                        <SoknadsStatus />
 
-                    {erPaInnsyn && <Oppgaver />}
+                        {erPaInnsyn && <Oppgaver />}
 
-                    {kommune != null && kommune.erInnsynDeaktivert && (
-                        <>
-                            <StyledPanel className="panel-luft-over">
-                                <Heading level="2" size="medium">
-                                    {t("vedlegg.tittel")}
-                                </Heading>
-                            </StyledPanel>
-                            <StyledPanel className="panel-glippe-over">
-                                <VedleggView fiksDigisosId={fiksDigisosId} />
-                            </StyledPanel>
-                        </>
-                    )}
-                    {(kommune == null || !kommune.erInnsynDeaktivert) && (
-                        <ArkfanePanel
-                            historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
-                            vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
-                        />
-                    )}
-                </>
-            )}
-            <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
+                        {kommune != null && kommune.erInnsynDeaktivert && (
+                            <>
+                                <StyledPanel className="panel-luft-over">
+                                    <Heading level="2" size="medium">
+                                        {t("vedlegg.tittel")}
+                                    </Heading>
+                                </StyledPanel>
+                                <StyledPanel className="panel-glippe-over">
+                                    <VedleggView fiksDigisosId={fiksDigisosId} />
+                                </StyledPanel>
+                            </>
+                        )}
+                        {(kommune == null || !kommune.erInnsynDeaktivert) && (
+                            <ArkfanePanel
+                                historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
+                                vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
+                            />
+                        )}
+                    </>
+                )}
+                <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
+            </FilUploadSuccesfulProvider>
         </>
     );
 };
