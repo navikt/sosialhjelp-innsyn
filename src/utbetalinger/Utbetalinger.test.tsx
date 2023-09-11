@@ -60,6 +60,8 @@ const error = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) 
     res(ctx.status(500, "Mocked status"))
 );
 
+const amplitude = rest.post("https://amplitude.nav.no/collect-auto", async (req, res, ctx) => res(ctx.status(200)));
+
 jest.mock("../utils/useIsMobile", () => {
     return jest.fn(() => ({
         isMobile: false,
@@ -143,7 +145,7 @@ describe("Utbetalinger", () => {
     });
 
     it("Viser feil når man får >500 fra server", async () => {
-        server.use(error);
+        server.use(amplitude, error);
         render(<Utbetalinger />);
 
         expect(await screen.findByText(/tekniske problemer/)).toBeVisible();
