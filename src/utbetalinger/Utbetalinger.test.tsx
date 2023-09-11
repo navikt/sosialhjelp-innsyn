@@ -57,7 +57,7 @@ const ingenSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
 );
 
 const error = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
-    res(ctx.delay(200), ctx.status(500, "Mocked status"))
+    res(ctx.status(500, "Mocked status"))
 );
 
 jest.mock("../utils/useIsMobile", () => {
