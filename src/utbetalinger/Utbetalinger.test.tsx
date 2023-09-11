@@ -147,7 +147,8 @@ describe("Utbetalinger", () => {
     it("Viser feil når man får >500 fra server", async () => {
         server.use(amplitude, error);
         render(<Utbetalinger />);
-
-        expect(await screen.findByText(/tekniske problemer/)).toBeVisible();
+        expect(
+            await screen.findByRole("heading", {name: "Beklager, vi har dessverre tekniske problemer."})
+        ).toBeInTheDocument();
     });
 });
