@@ -12,12 +12,13 @@ import {Loader, Panel} from "@navikt/ds-react";
 import UtbetalingerFilter from "../utbetalinger/beta/filter/UtbetalingerFilter";
 import UtbetalingerPanelBeta from "../utbetalinger/beta/UtbetalingerPanelBeta";
 import styles from "../utbetalinger/beta/utbetalinger.module.css";
-import {GetServerSideProps, NextPage} from "next";
+import {NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import {useRouter} from "next/router";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {withAuthenticatedPage} from "../auth/withAuth";
 
 const UtbetalingerBeta: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
@@ -105,9 +106,9 @@ const UtbetalingerBeta: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale}) => {
+export const getServerSideProps = withAuthenticatedPage(async ({locale}) => {
     const translations = await serverSideTranslations(locale ?? "nb", ["utbetalinger", "common"]);
     return {props: {...translations}};
-};
+});
 
 export default UtbetalingerBeta;
