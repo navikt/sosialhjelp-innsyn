@@ -17,6 +17,7 @@ import styles from "../filopplasting/filopplasting.module.css";
 import styled from "styled-components";
 import {css} from "styled-components/macro";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
+import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 
 const metadatas = [
     {
@@ -59,7 +60,9 @@ const EttersendelseView = (props: Props) => {
         removeFil,
         mutation: {isLoading: uploadIsLoading},
         resetStatus,
+        /*
         showSuccessAlert,
+*/
     } = useFilOpplasting(metadatas, {
         onSuccess: () => {
             queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
@@ -77,6 +80,7 @@ const EttersendelseView = (props: Props) => {
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
+    const {uploadSuccess} = useFilUploadSuccessful();
 
     return !kanLasteOppVedlegg && !showLoadingState ? (
         <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
@@ -112,7 +116,7 @@ const EttersendelseView = (props: Props) => {
                 ))}
             </ErrorMessagePlaceholder>
             <SendFileButton isVisible={kanLasteOppVedlegg} isLoading={showLoadingState} onClick={onClick} />
-            <VedleggSuccess show={showSuccessAlert} />
+            <VedleggSuccess show={uploadSuccess} />
         </>
     );
 };

@@ -25,7 +25,7 @@ import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import styles from "./oppgaver.module.css";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
-import {FilUploadSuccessfulContext} from "../filopplasting/FilUploadSuccessfulContext";
+import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -76,6 +76,7 @@ const Oppgaver = () => {
         {},
         {query: {onError: (e) => logWarningMessage(e.message, e.navCallId)}}
     );
+    const {uploadSuccess} = useFilUploadSuccessful();
 
     const hasError =
         vilkarQuery.isError ||
@@ -184,9 +185,7 @@ const Oppgaver = () => {
                     {skalViseOppgaveInformasjon && <OppgaveInformasjon />}
                 </Accordion>
             )}
-            <FilUploadSuccessfulContext.Consumer>
-                {(value) => <VedleggSuccess show={value.uploadSuccess} />}
-            </FilUploadSuccessfulContext.Consumer>
+            <VedleggSuccess show={uploadSuccess} />
         </OppgaverPanel>
     );
 };
