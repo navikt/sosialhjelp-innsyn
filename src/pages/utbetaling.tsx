@@ -1,6 +1,6 @@
 import {useTranslation} from "next-i18next";
 import useIsMobile from "../utils/useIsMobile";
-import React, {useEffect} from "react";
+import React from "react";
 import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {useHarSoknaderMedInnsyn} from "../../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
@@ -15,8 +15,8 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import {useRouter} from "next/router";
-
-const UtbetalingerBeta: NextPage = () => {
+import Error from "./_error";
+const Utbetalinger: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
     useUpdateBreadcrumbs(() => [{url: "/utbetaling", title: t("utbetaling")}]);
     const isMobile = useIsMobile();
@@ -30,11 +30,9 @@ const UtbetalingerBeta: NextPage = () => {
         isError: harSoknaderError,
     } = useHarSoknaderMedInnsyn();
 
-    useEffect(() => {
-        if (harSoknaderError || harSakerError) {
-            router.push("/500");
-        }
-    }, [harSoknaderError, harSakerError, router]);
+    if (harSoknaderError || harSakerError) {
+        return <Error statusCode={500} />;
+    }
 
     if (isAlleSakerLoading || isHarSoknaderMedInnsynLoading) {
         return (
@@ -84,4 +82,4 @@ export const getServerSideProps: GetServerSideProps = async ({locale}) => {
     return {props: {...translations}};
 };
 
-export default UtbetalingerBeta;
+export default Utbetalinger;

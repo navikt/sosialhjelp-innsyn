@@ -8,7 +8,7 @@ import {getHentAlleSakerMock} from "../../generated/saks-oversikt-controller/sak
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths} from "date-fns";
 import {randomUUID} from "node:crypto";
-import {NyeOgTidligereUtbetalingerResponse} from "../generated/model";
+import {NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
 
 const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     return {
@@ -61,9 +61,7 @@ const error = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) 
 );
 
 jest.mock("../utils/useIsMobile", () => {
-    return jest.fn(() => ({
-        isMobile: false,
-    }));
+    return jest.fn(() => false);
 });
 
 beforeAll(() =>
