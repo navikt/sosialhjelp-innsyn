@@ -22,9 +22,10 @@ import Historikk from "../../components/historikk/Historikk";
 import TimeoutBox from "../../components/timeoutbox/TimeoutBox";
 import {usePathname} from "next/navigation";
 import MainLayout from "../../components/MainLayout";
-import {GetServerSideProps, NextPage} from "next";
+import {NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
+import {withAuthenticatedPage} from "../../auth/withAuth";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -115,9 +116,9 @@ const SaksStatusView: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale}) => {
+export const getServerSideProps = withAuthenticatedPage(async ({locale}) => {
     const translations = await serverSideTranslations(locale ?? "nb", ["common"]);
     return {props: {...translations}};
-};
+});
 
 export default SaksStatusView;

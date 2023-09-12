@@ -38,7 +38,7 @@ export const axiosInstance = <T>(
             if (isCancel(e)) return new Promise<T>(() => {});
 
             if (!e.response) {
-                logger.warn(`Nettverksfeil i axiosInstance: ${config.method} ${config.url} ${e}`, e.navCallId);
+                logger.error(e, `Nettverksfeil i axiosInstance: ${config.method} ${config.url} ${e}`, e.navCallId);
                 throw e;
             }
 
@@ -60,7 +60,8 @@ export const axiosInstance = <T>(
                 throw new Error(HttpErrorType.UNAUTHORIZED, e);
             }
 
-            logger.warn(
+            logger.error(
+                data,
                 `Nettverksfeil i axiosInstance: ${config.method} ${config.url}: ${status} ${data}`,
                 e.navCallId
             );

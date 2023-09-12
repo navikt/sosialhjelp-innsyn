@@ -25,12 +25,20 @@ spec:
     min: 1
     max: 2
   ingresses:
-    - "https://sosialhjelp-innsyn-dev.intern.dev.nav.no/sosialhjelp/innsyn"
+    - "https://digisos.intern.dev.nav.no/sosialhjelp/innsyn"
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
+      autoLogin: true
+  tokenx:
+    enabled: true
   accessPolicy:
     outbound:
       rules:
         - application: nav-dekoratoren
           namespace: personbruker
+        - application: sosialhjelp-innsyn-api-dev
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.intern.dev.nav.no

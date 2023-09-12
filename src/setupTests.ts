@@ -11,6 +11,7 @@ import commonNb from "../public/locales/nb/common.json";
 import utbetalingerNb from "../public/locales/nb/utbetalinger.json";
 
 jest.mock("next/router", () => require("next-router-mock"));
+jest.mock("@navikt/next-auth-wonderwall", jest.fn());
 
 mockRouter.useParser(
     createDynamicRouteParser([
