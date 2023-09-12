@@ -4,7 +4,7 @@ import {getHentSaksDetaljerMock} from "../../generated/saks-oversikt-controller/
 import {rest} from "msw";
 import {server} from "../mocks/server";
 import {render, screen} from "../test/test-utils";
-import {findAllByRole, getByRole, waitForElementToBeRemoved} from "@testing-library/react";
+import {findAllByRole, waitForElementToBeRemoved} from "@testing-library/react";
 import {faker} from "@faker-js/faker";
 import {SaksListeResponse} from "../../generated/model";
 
