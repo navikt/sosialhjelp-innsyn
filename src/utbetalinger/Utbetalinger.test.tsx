@@ -1,10 +1,10 @@
 import React from "react";
-import Utbetalinger from "./beta/UtbetalingerBeta";
+import Utbetalinger from "../pages/utbetaling";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
 import {rest} from "msw";
-import {getHentNyeUtbetalingerMock} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
-import {getHentAlleSakerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
+import {getHentNyeUtbetalingerMock} from "../../generated/utbetalinger-controller/utbetalinger-controller.msw";
+import {getHentAlleSakerMock} from "../../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths} from "date-fns";
 import {randomUUID} from "node:crypto";
@@ -27,7 +27,7 @@ const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     };
 };
 const loading = rest.get("*/api/v1/innsyn/nye", (_req, res, ctx) =>
-    res(ctx.delay(1000), ctx.status(200, "Mocked status"), ctx.json(getHentNyeUtbetalingerMock()))
+    res(ctx.delay(2000), ctx.status(200, "Mocked status"), ctx.json(getHentNyeUtbetalingerMock()))
 );
 
 const utbetaling5ManederSiden = rest.get("*/api/v1/innsyn/tidligere", (_req, res, ctx) => {

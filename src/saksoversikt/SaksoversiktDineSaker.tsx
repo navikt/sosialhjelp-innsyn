@@ -4,16 +4,15 @@ import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import Paginering from "../components/paginering/Paginering";
-import {parse} from "query-string";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import {logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
-import {useLocation, useNavigate} from "react-router-dom";
-import {SaksListeResponse} from "../generated/model";
+import {SaksListeResponse} from "../../generated/model";
 import styles from "../styles/lists.module.css";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
+import {useRouter} from "next/router";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -34,8 +33,7 @@ const StyledHeading = styled(Heading)`
 `;
 
 const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
-    const navigate = useNavigate();
-    const location = useLocation();
+    const router = useRouter();
     const {t} = useTranslation();
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
@@ -56,7 +54,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     /* Paginering */
     const itemsPerPage = 10;
     let currentPage = 0;
-    const pageParam = parse(location.search)["side"];
+    const pageParam = router.query["side"];
     if (pageParam) {
         let parsedPageNumber = parseInt(pageParam.toString(), 10);
         if (!isNaN(parsedPageNumber)) {
@@ -65,7 +63,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     }
     const lastPage = Math.ceil(saker.length / itemsPerPage);
     if (currentPage >= lastPage) {
-        navigate({search: "?side=" + lastPage});
+        router.push({search: "?side=" + lastPage});
     }
     const paginerteSaker: SaksListeResponse[] = saker.slice(
         currentPage * itemsPerPage,
@@ -73,7 +71,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     );
 
     const handlePageClick = (page: number) => {
-        navigate({search: "?side=" + (page + 1)});
+        router.push({search: "?side=" + (page + 1)});
     };
     // noinspection HtmlUnknownTarget
     return (

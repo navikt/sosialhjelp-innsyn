@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {Fieldset, Radio, RadioGroup, DatePicker, useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import useIsMobile from "../../../utils/useIsMobile";
 import {logAmplitudeEvent} from "../../../utils/amplitude";
 

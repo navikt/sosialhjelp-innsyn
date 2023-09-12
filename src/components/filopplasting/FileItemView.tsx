@@ -5,7 +5,7 @@ import {BodyShort, Button} from "@navikt/ds-react";
 import styled from "styled-components";
 import {Delete} from "@navikt/ds-icons";
 import styles from "../../styles/lists.module.css";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import LinkButton from "../linkButton/LinkButton";
 import {Error} from "../filopplasting/useFilOpplasting";
 import {FileCheckmarkIcon} from "@navikt/aksel-icons";

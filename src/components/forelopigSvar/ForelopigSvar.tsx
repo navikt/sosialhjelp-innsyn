@@ -1,18 +1,18 @@
 import * as React from "react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert} from "@navikt/ds-react";
-import {useHentForelopigSvarStatus} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
-import {useParams} from "react-router";
-import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+import {useHentForelopigSvarStatus} from "../../../generated/forelopig-svar-controller/forelopig-svar-controller";
+import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 const ForelopigSvarAlertstripe: React.FC = () => {
-    const {soknadId} = useParams<{soknadId: string}>();
+    const soknadId = useFiksDigisosId();
     const {t} = useTranslation();
 
-    const {data: forelopigSvar} = useHentForelopigSvarStatus(soknadId!);
-    const {data: soknadsStatus} = useHentSoknadsStatus(soknadId!);
+    const {data: forelopigSvar} = useHentForelopigSvarStatus(soknadId as string);
+    const {data: soknadsStatus} = useHentSoknadsStatus(soknadId as string);
 
     const onVisForelopigSvar = () => {
         logButtonOrLinkClick("Vis foreløpig svar");
