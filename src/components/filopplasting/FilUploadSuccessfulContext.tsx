@@ -1,12 +1,12 @@
 import React, {createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState} from "react";
 
-interface boolskType {
+interface UploadType {
     oppgaverUploadSuccess: boolean;
     setOppgaverUploadSuccess: Dispatch<SetStateAction<boolean>>;
     ettersendelseUploadSuccess: boolean;
     setEttersendelseUploadSuccess: Dispatch<SetStateAction<boolean>>;
 }
-const initState: boolskType = {
+const initState: UploadType = {
     oppgaverUploadSuccess: false,
     setOppgaverUploadSuccess: () => false,
     ettersendelseUploadSuccess: false,
