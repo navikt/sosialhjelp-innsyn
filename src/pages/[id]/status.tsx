@@ -25,7 +25,7 @@ import MainLayout from "../../components/MainLayout";
 import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
-import {FilUploadSuccesfulProvider} from "../components/filopplasting/FilUploadSuccessfulContext";
+import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUploadSuccessfulContext";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
