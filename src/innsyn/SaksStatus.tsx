@@ -50,7 +50,6 @@ const SaksStatusView = () => {
 
     const {pathname} = useLocation();
     useEffect(() => {
-        console.log("test");
         setBreadcrumbs({title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}`});
     }, [pathname, t]);
 
@@ -82,13 +81,13 @@ const SaksStatusView = () => {
 
     return (
         <>
-            <FilUploadSuccesfulProvider>
-                <LoadingResourcesFailedAlert />
+            <LoadingResourcesFailedAlert />
 
-                {mustLogin && <ApplicationSpinner />}
+            {mustLogin && <ApplicationSpinner />}
 
-                {!mustLogin && (
-                    <>
+            {!mustLogin && (
+                <>
+                    <FilUploadSuccesfulProvider>
                         <DriftsmeldingAlertstripe />
 
                         <ForelopigSvarAlertstripe />
@@ -115,10 +114,10 @@ const SaksStatusView = () => {
                                 vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
                             />
                         )}
-                    </>
-                )}
-                <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
-            </FilUploadSuccesfulProvider>
+                    </FilUploadSuccesfulProvider>
+                </>
+            )}
+            <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
         </>
     );
 };
