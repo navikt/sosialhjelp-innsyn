@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from "react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 import {Button} from "@navikt/ds-react";
 
 const AddFileButton: React.FC<{

@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
-import styled, {css} from "styled-components/macro";
+import styled, {css} from "styled-components";
 import OppgaverTag from "../../components/sakspanel/OppgaverTag";
 import SaksMetaData from "../../components/sakspanel/SaksMetaData";
 import {
@@ -10,9 +10,9 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
-import {useNavigate} from "react-router-dom";
-import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {useTranslation} from "react-i18next";
+import {useHentSaksDetaljer} from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useTranslation} from "next-i18next";
+import {useRouter} from "next/router";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -42,7 +42,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
         {id: fiksDigisosId!},
         {query: {enabled: kilde === "innsyn-api" && !!fiksDigisosId}}
     );
-    const navigate = useNavigate();
+    const router = useRouter();
     const {t} = useTranslation();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
@@ -53,14 +53,14 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
         return tittel && tittel !== "saker.default_tittel" ? tittel : t("saker.default_tittel");
     }, [saksdetaljer, tittel, t]);
 
-    const onClick = (event: any) => {
+    const onClick = async (event: any) => {
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
             return;
         }
         if (kilde === "soknad-api") {
             window.location.href = url!;
         } else if (kilde === "innsyn-api") {
-            navigate(`/${fiksDigisosId}/status`);
+            await router.push(`/${fiksDigisosId}/status`);
             event.preventDefault();
         }
     };

@@ -15,7 +15,7 @@ jobs:
       packages: read
       contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: 'Build npm project and run Tests'
         uses: navikt/sosialhjelp-ci/actions/build-npm@v2-beta

@@ -1,7 +1,7 @@
 import {Button, Loader} from "@navikt/ds-react";
 import React, {MouseEventHandler} from "react";
-import styled from "styled-components/macro";
-import {useTranslation} from "react-i18next";
+import styled from "styled-components";
+import {useTranslation} from "next-i18next";
 
 const ButtonWrapper = styled.div`
     margin-top: 1rem;

@@ -1,7 +1,7 @@
 import {Detail} from "@navikt/ds-react";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {useTranslation} from "next-i18next";
 
 interface Props {
     status: string;
