@@ -1,19 +1,34 @@
 import React, {createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState} from "react";
 
 interface boolskType {
-    uploadSuccess: boolean;
-    setUploadSuccessful: Dispatch<SetStateAction<boolean>>;
+    oppgaverUploadSuccess: boolean;
+    setOppgaverUploadSuccess: Dispatch<SetStateAction<boolean>>;
+    ettersendelseUploadSuccess: boolean;
+    setEttersendelseUploadSuccess: Dispatch<SetStateAction<boolean>>;
 }
-const initState: boolskType = {uploadSuccess: false, setUploadSuccessful: () => false};
+const initState: boolskType = {
+    oppgaverUploadSuccess: false,
+    setOppgaverUploadSuccess: () => false,
+    ettersendelseUploadSuccess: false,
+    setEttersendelseUploadSuccess: () => false,
+};
 
 export const FilUploadSuccessfulContext = createContext(initState);
 
 export const useFilUploadSuccessful = () => useContext(FilUploadSuccessfulContext);
 
 export const FilUploadSuccesfulProvider = (props: PropsWithChildren<{}>) => {
-    const [uploadSuccess, setUploadSuccessful] = useState<boolean>(false);
+    const [oppgaverUploadSuccess, setOppgaverUploadSuccess] = useState<boolean>(false);
+    const [ettersendelseUploadSuccess, setEttersendelseUploadSuccess] = useState<boolean>(false);
     return (
-        <FilUploadSuccessfulContext.Provider value={{uploadSuccess, setUploadSuccessful}}>
+        <FilUploadSuccessfulContext.Provider
+            value={{
+                oppgaverUploadSuccess,
+                setOppgaverUploadSuccess,
+                ettersendelseUploadSuccess,
+                setEttersendelseUploadSuccess,
+            }}
+        >
             {props.children}
         </FilUploadSuccessfulContext.Provider>
     );

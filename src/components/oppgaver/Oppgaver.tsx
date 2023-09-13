@@ -76,7 +76,7 @@ const Oppgaver = () => {
         {},
         {query: {onError: (e) => logWarningMessage(e.message, e.navCallId)}}
     );
-    const {uploadSuccess} = useFilUploadSuccessful();
+    const {oppgaverUploadSuccess} = useFilUploadSuccessful();
 
     const hasError =
         vilkarQuery.isError ||
@@ -185,7 +185,7 @@ const Oppgaver = () => {
                     {skalViseOppgaveInformasjon && <OppgaveInformasjon />}
                 </Accordion>
             )}
-            <VedleggSuccess show={uploadSuccess} />
+            <VedleggSuccess show={oppgaverUploadSuccess} />
         </OppgaverPanel>
     );
 };
