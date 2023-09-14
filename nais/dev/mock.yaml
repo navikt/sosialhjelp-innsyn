@@ -38,10 +38,10 @@ spec:
 
   resources:
     limits:
-      cpu: 200m
+      cpu: 300m
       memory: 256Mi
     requests:
-      cpu: 1m
-      memory: 32Mi
+      cpu: 10m
+      memory: 64Mi
   vault:
     enabled: false
