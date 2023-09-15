@@ -73,13 +73,10 @@ jobs:
   deploy-gcp:
     name: 'Deploy to development'
     if: ${{ inputs.config-file-name != 'q0' }}
+    needs: build-image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - id: create-docker-tag
-        run: |
-          echo "docker-tag=${{ env.DOCKER_IMAGE_POSTFIX }}:${{ needs.build-image.outputs.image-tag }}" >> $GITHUB_OUTPUT
 
       - name: 'Deploy til dev'
         uses: nais/deploy/actions/deploy@v1
@@ -89,4 +86,4 @@ jobs:
           CLUSTER: dev-gcp
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
-          IMAGE: ${{ steps.create-docker-tag.outputs.docker-tag }}
+          IMAGE: ${{ env.DOCKER_IMAGE_POSTFIX }}:${{ needs.build-image.outputs.image-tag }}
