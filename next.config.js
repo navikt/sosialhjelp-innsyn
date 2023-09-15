@@ -51,6 +51,7 @@ const nextConfig = {
             return [
                 {
                     source: "/:path*",
+                    headers: [],
                 },
             ];
         }
