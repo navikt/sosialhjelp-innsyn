@@ -1,5 +1,5 @@
 name: 'Build Image and Deploy to Dev'
-run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inputs.config-file.name }}
+run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inputs.config-file-name }}
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
           - 'q0'
 
 env:
-  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file.name }}
+  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file-name }}
 
 jobs:
   build-image:
