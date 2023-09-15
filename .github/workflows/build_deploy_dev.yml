@@ -1,5 +1,5 @@
 name: 'Build Image and Deploy to Dev'
-run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inpus.config-file.name }}
+run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inputs.config-file-name }}'
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
           - 'q0'
 
 env:
-  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file.name }}
+  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file-name }}
 
 jobs:
   build-image:
@@ -33,8 +33,8 @@ jobs:
       - name: 'Copy appropriate env file to root'
         shell: bash
         run: |
-          echo "Copying nais/envs/.env.production..."
-          cp nais/envs/.env.production .env.production
+          echo "Copying nais/envs/.env.${{ inputs.config-file-name }}..."
+          cp nais/envs/.env.${{ inputs.config-file-name }} .env.production
 
       - name: 'Build npm project'
         uses: navikt/sosialhjelp-ci/actions/build-npm@v2-beta
@@ -68,11 +68,12 @@ jobs:
         with:
           artifact-version: ${{ steps.artifact-version.outputs.version }}
           image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-gcp:
     name: 'Deploy to development'
     if: ${{ inputs.config-file-name != 'q0' }}
+    needs: build-image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
