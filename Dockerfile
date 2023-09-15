@@ -18,4 +18,4 @@ ENV PORT=8080
 ENV HOSTNAME=0.0.0.0
 #ENV NODE_OPTIONS '-r next-logger'
 
-CMD ["server.js"]
+CMD ["node","server.js"]
