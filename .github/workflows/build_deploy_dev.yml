@@ -1,5 +1,5 @@
 name: 'Build Image and Deploy to Dev'
-run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inputs.config-file-name }}
+run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inputs.config-file-name }}'
 
 on:
   workflow_dispatch:
@@ -77,6 +77,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - id: create-docker-tag
+        run: |
+          echo "docker-tag=${{ env.DOCKER_IMAGE_POSTFIX }}:${{ needs.build-image.outputs.image-tag }}" >> $GITHUB_OUTPUT
+
       - name: 'Deploy til dev'
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -85,4 +89,4 @@ jobs:
           CLUSTER: dev-gcp
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
-          IMAGE: ${{ env.DOCKER_IMAGE_POSTFIX }}:${{ needs.build-image.outputs.image-tag }}
+          IMAGE: ${{ steps.create-docker-tag.outputs.docker-tag }}
