@@ -1,0 +1,80 @@
+name: 'Build Image and Deploy to Dev'
+run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inpus.config-file.name }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      config-file-name:
+        description: 'Config-fil som skal deployes'
+        required: true
+        default: 'mock'
+        type: choice
+        options:
+          - 'dev'
+          - 'mock'
+          - 'q0'
+
+env:
+  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file.name }}
+
+jobs:
+  build-image:
+    name: 'Build Image for Deploy'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    outputs:
+      image-tag: ${{ steps.artifact-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Copy appropriate env file to root'
+        shell: bash
+        run: |
+          echo "Copying nais/envs/.env.production..."
+          cp nais/envs/.env.production .env.production
+
+      - name: 'Build npm project'
+        uses: navikt/sosialhjelp-ci/actions/build-npm@v2-beta
+        with:
+          reader-token: ${{ secrets.READER_TOKEN }}
+          run-test: 'false'
+          node-version: '18'
+
+      - name: 'Create artifact version'
+        id: artifact-version
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
+
+      - name: 'Release Tag'
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        with:
+          tag: ${{ steps.artifact-version.outputs.version }}
+          commit: ${{ github.sha }}
+          allowUpdates: true
+
+      - name: 'Build and Push Docker Image'
+        uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@v2-beta
+        with:
+          artifact-version: ${{ steps.artifact-version.outputs.version }}
+          image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
+          github-token: ${{ env.GITHUB_TOKEN }}
+
+  deploy-gcp:
+    name: 'Deploy to development'
+    if: ${{ inputs.config-file-name != 'q0' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Deploy til dev'
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          RESOURCE: nais/dev/${{ github.event.inputs.config-file-name }}.yaml
+          CLUSTER: dev-gcp
+          REF: ${{ github.sha }}
+          PRINT_PAYLOAD: true
+          IMAGE: ${{ env.DOCKER_IMAGE_POSTFIX }}:${{ needs.build-image.outputs.image-tag }}
