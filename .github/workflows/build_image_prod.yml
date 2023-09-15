@@ -56,4 +56,4 @@ jobs:
         with:
           artifact-version: ${{ steps.artifact-version.outputs.version }}
           image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
