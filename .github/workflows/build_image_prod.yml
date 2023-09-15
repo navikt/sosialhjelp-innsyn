@@ -29,6 +29,14 @@ jobs:
           reader-token: ${{ secrets.READER_TOKEN }}
           run-test: 'false'
 
+      - name: 'Upload static files to cdn'
+        id: upload
+        uses: navikt/frontend/actions/cdn-upload/v1@main
+        with:
+          cdn-team-name: teamdigisos
+          source: ./.next/static
+          destination: "/sosialhjelp-innsyn/_next"
+
       - name: 'Create artifact version'
         id: artifact-version
         uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
