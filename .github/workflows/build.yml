@@ -4,11 +4,11 @@ on:
     secrets:
       READER_TOKEN:
         required: true
-  push:
-    branches:
-      - 'master'
-    tags-ignore:
-      - '**'      # Don't build any tags
+#  push:
+#    branches:
+#      - 'master'
+#    tags-ignore:
+#      - '**'      # Don't build any tags
   workflow_dispatch:
     inputs:
       env:
