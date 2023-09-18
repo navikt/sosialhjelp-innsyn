@@ -83,3 +83,7 @@ const getRedirect = (loginUrl: string, pathname: string, origin: string, id: str
         return "goto=" + origin + _pathname;
     }
 };
+
+export const config = {
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};
