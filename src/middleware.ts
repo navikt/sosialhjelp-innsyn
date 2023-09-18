@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
         }
     } catch (e) {
-        logger.warn("Feil i middleware fetch, sender bruker til 500");
+        logger.warn("Feil i middleware fetch, sender bruker til 500", e);
         return NextResponse.redirect(process.env.NEXT_INNSYN_REDIRECT_ORIGIN + "/sosialhjelp/innsyn/500");
     }
 }

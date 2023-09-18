@@ -47,9 +47,7 @@ const nextConfig = {
     async headers() {
         const environment = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod" ? "prod" : "dev";
         const cspValue = await buildCspHeader(appDirectives, {env: environment});
-        if (process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "mock") {
-            return [];
-        }
+
         return [
             {
                 source: "/:path*",
