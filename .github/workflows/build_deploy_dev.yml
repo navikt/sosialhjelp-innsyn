@@ -13,6 +13,11 @@ on:
           - 'dev'
           - 'mock'
           - 'q0'
+  workflow_call:
+    inputs:
+      config-file-name:
+        required: true
+        type: string
 
 env:
   DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file-name }}
