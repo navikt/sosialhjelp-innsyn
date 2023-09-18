@@ -19,6 +19,5 @@ EXPOSE 8080
 
 
 #ENV NODE_OPTIONS '-r next-logger'
-USER node
 
-CMD ["node","server.js"]
+CMD ["server.js"]
