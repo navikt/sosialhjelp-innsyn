@@ -62,10 +62,13 @@ const Forbidden = (): React.JSX.Element => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => ({
-    props: {
-        ...(await serverSideTranslations(ctx.locale ?? "nb", ["common"])),
-    },
-});
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    logger.info("Henter server side props på /403");
+    return {
+        props: {
+            ...(await serverSideTranslations(ctx.locale ?? "nb", ["common"])),
+        },
+    };
+};
 
 export default Forbidden;

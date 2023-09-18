@@ -11,28 +11,34 @@ interface AzureAdAuthenticationError {
 }
 
 export async function middleware(request: NextRequest) {
+    logger.info("Starter middleware");
     const pathname = request.nextUrl.pathname;
-
     // Ikke gjør noe med requests til /api eller statiske filer
     if (pathname.startsWith("/_next") || pathname.includes("/api") || PUBLIC_FILE.test(pathname)) {
+        logger.info("Middleware gjorde ingenting pga. pathname: " + pathname);
         return;
     }
 
     // Reroute ved kall til /link. Brukes for redirect fra login-api
     if (pathname.startsWith("/link")) {
+        logger.info("Fant /link, sender til goto");
         const searchParams = request.nextUrl.searchParams;
         if (!searchParams.has("goto")) {
             throw new Error("redirect mangler goto-parameter");
         }
-        return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_INNSYN_REDIRECT_ORIGIN));
+        const url = new URL(searchParams.get("goto")!, process.env.NEXT_INNSYN_REDIRECT_ORIGIN);
+        logger.info("goto url: " + url + ", redirecter...");
+        return NextResponse.redirect(url);
     }
 
     // Sett språk basert på decorator-language cookien
     const decoratorLocale = request.cookies.get("decorator-language")?.value ?? "nb";
     if (decoratorLocale !== request.nextUrl.locale) {
+        logger.info("Fant feil språk");
         if (request.nextUrl.locale !== "nb") {
             const next = NextResponse.next();
             next.cookies.set("decorator-language", request.nextUrl.locale);
+            logger.info("Setter decorator-language til " + request.nextUrl.locale);
             return next;
         }
         const url = new URL(
@@ -40,6 +46,7 @@ export async function middleware(request: NextRequest) {
                 decoratorLocale === "nb" ? "" : decoratorLocale
             }${pathname.replace("/sosialhjelp/innsyn", "")}`
         );
+        logger.info("Redirecter til " + url);
         return NextResponse.redirect(url);
     }
 

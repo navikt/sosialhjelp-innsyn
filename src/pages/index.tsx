@@ -10,6 +10,7 @@ import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
+import {logger} from "@navikt/next-logger";
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
@@ -52,7 +53,8 @@ const Saksoversikt: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale, req: {cookies}}) => {
+export const getServerSideProps: GetServerSideProps = async ({locale}) => {
+    logger.info("Henter server side props på /");
     const translations = await serverSideTranslations(locale ?? "nb", ["common", "utbetalinger"]);
     return {props: {...translations}};
 };

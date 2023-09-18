@@ -4,6 +4,7 @@ import {DecoratorComponents, DecoratorFetchProps, fetchDecoratorReact} from "@na
 import {DecoratorLocale} from "@navikt/nav-dekoratoren-moduler";
 import {getBreadcrumbs} from "../hooks/useUpdateBreadcrumbs";
 import {isDev, isLocalhost, isMock} from "../utils/restUtils";
+import {logger} from "@navikt/next-logger";
 
 // The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
 const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
@@ -65,6 +66,7 @@ interface Props {
 
 class MyDocument extends Document<Props> {
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps & Props> {
+        logger.info("Henter initial props på _document");
         const initialProps = await Document.getInitialProps(ctx);
 
         const language = getDocumentParameter(initialProps, "lang");

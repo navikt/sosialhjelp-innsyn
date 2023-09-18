@@ -6,6 +6,7 @@ import MainLayout from "../components/MainLayout";
 import {useTranslation} from "next-i18next";
 import {GetStaticProps} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {logger} from "@navikt/next-logger";
 
 const PageWrapper = styled(Panel)`
     margin: 2rem auto;
@@ -53,6 +54,7 @@ const SideIkkeFunnet: React.FC<{}> = () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({locale}) => {
+    logger.info("Henter static props på /403");
     return {
         props: {
             ...(await serverSideTranslations(locale ?? "nb", ["common"])),

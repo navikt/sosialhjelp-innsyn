@@ -18,6 +18,7 @@ import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import {useRouter} from "next/router";
 import {logAmplitudeEvent} from "../utils/amplitude";
+import {logger} from "@navikt/next-logger";
 
 const UtbetalingerBeta: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
@@ -106,6 +107,7 @@ const UtbetalingerBeta: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({locale}) => {
+    logger.info("Henter server side props på /utbetaling");
     const translations = await serverSideTranslations(locale ?? "nb", ["utbetalinger", "common"]);
     return {props: {...translations}};
 };
