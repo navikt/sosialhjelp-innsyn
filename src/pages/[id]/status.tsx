@@ -83,13 +83,12 @@ const SaksStatusView: NextPage = () => {
 
             {!mustLogin && (
                 <>
+                    <DriftsmeldingAlertstripe />
+
+                    <ForelopigSvarAlertstripe />
+
+                    <SoknadsStatus />
                     <FilUploadSuccesfulProvider>
-                        <DriftsmeldingAlertstripe />
-
-                        <ForelopigSvarAlertstripe />
-
-                        <SoknadsStatus />
-
                         {erPaInnsyn && <Oppgaver />}
 
                         {kommune != null && kommune.erInnsynDeaktivert && (
