@@ -69,7 +69,9 @@ const getRedirect = (loginUrl: string, pathname: string, origin: string, id: str
     const _pathname = pathname.includes("/sosialhjelp/innsyn") ? pathname : "/sosialhjelp/innsyn" + pathname;
     if (loginUrl.indexOf("digisos.intern.dev.nav.no") === -1) {
         const gotoParameter = "goto=" + _pathname;
-        const redirectPath = origin + "/sosialhjelp/innsyn/link?" + gotoParameter;
+        const redirectPath = origin + "/sosialhjelp/innsyn?" + gotoParameter;
+        console.log("redirect til: ", "redirect=" + redirectPath + "%26login_id=" + id);
+
         return "redirect=" + redirectPath + "%26login_id=" + id;
     } else {
         // ikke loginservice --> direkte-integrasjon med idporten i innsyn-api:
