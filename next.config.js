@@ -72,7 +72,6 @@ const nextConfig = {
         dirs: ["src"],
     },
     trailingSlash: true,
-    compress: true,
     productionBrowserSourceMaps: true,
 };
 
