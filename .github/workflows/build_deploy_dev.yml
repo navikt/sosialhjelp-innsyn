@@ -13,6 +13,11 @@ on:
           - 'dev'
           - 'mock'
           - 'q0'
+  workflow_call:
+    inputs:
+      config-file-name:
+        required: true
+        type: string
 
 env:
   DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file-name }}
@@ -82,7 +87,7 @@ jobs:
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          RESOURCE: nais/dev/${{ github.event.inputs.config-file-name }}.yaml
+          RESOURCE: nais/dev/${{ inputs.config-file-name }}.yaml
           CLUSTER: dev-gcp
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
