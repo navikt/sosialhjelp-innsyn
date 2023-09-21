@@ -46,11 +46,12 @@ export async function middleware(request: NextRequest) {
     // Router bruker til login hvis vi får 401
     try {
         logger.info("Kaller /tilgang i innsyn-api");
-        const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
+        const tilgangUrl = process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang";
+        const harTilgangResponse = await fetch(tilgangUrl, {
             headers: new Headers(request.headers),
             credentials: "include",
         });
-        logger.info(`Fikk ${harTilgangResponse.status} på kall til /tilgang`);
+        logger.info(`Fikk ${harTilgangResponse.status} på kall til ${tilgangUrl}`);
         if (harTilgangResponse.status === 401) {
             const json: AzureAdAuthenticationError = await harTilgangResponse.json();
             const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
