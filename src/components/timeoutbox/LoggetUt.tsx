@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {BodyLong, Button, Heading} from "@navikt/ds-react";
 
 interface Props {

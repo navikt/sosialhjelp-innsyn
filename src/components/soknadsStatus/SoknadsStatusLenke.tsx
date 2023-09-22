@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "@navikt/ds-react";
 import {SoknadsStatusResponseStatus} from "../../../generated/model";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 
 const SoknadsStatusLenke = (props: {status: SoknadsStatusResponseStatus | undefined}) => {
     const {t} = useTranslation();

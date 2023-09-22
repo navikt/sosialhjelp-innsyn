@@ -3,7 +3,7 @@ import React from "react";
 import {BodyLong, Heading} from "@navikt/ds-react";
 import {StyledGuidePanel} from "../styles/styledGuidePanel";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 
 const StyledGuidePanelContent = styled.div`
     display: flex;

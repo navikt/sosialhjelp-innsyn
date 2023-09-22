@@ -9,7 +9,7 @@ import styled from "styled-components";
 import {useHentVedlegg} from "../../../generated/vedlegg-controller/vedlegg-controller";
 import {VedleggResponse} from "../../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {FileCheckmarkIcon} from "@navikt/aksel-icons";
 
 const Vedleggliste = styled.div`

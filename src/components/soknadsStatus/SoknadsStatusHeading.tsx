@@ -3,7 +3,7 @@ import {soknadsStatusTittel} from "./soknadsStatusUtils";
 import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import React from "react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {SoknadsStatusResponseStatus} from "../../../generated/model";
 
 const HeadingWrapper = styled.div`

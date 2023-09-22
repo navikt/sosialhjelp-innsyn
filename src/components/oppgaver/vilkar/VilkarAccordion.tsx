@@ -1,6 +1,6 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import React from "react";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {logButtonOrLinkClick, logVilkarDuplications} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
 import {VilkarResponse} from "../../../../generated/model";

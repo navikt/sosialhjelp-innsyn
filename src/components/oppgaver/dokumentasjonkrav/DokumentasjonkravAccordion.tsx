@@ -1,6 +1,6 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import React from "react";
 import {DokumentasjonkravResponse} from "../../../../generated/model";
 import DokumentasjonKravView from "./DokumentasjonKravView";
