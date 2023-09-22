@@ -1,6 +1,6 @@
 import React from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {logButtonOrLinkClick} from "../../utils/amplitude";

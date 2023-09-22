@@ -9,7 +9,7 @@ import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
 import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
 import useIsMobile from "../../utils/useIsMobile";
 import FilterModal from "./filter/FilterModal";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
 
 enum TAB_VALUE {

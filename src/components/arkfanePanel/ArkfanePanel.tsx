@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {ErrorColored} from "@navikt/ds-icons";
 import {useHentHendelser} from "../../../generated/hendelse-controller/hendelse-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";

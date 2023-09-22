@@ -1,5 +1,5 @@
 import React from "react";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 
 /*
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")

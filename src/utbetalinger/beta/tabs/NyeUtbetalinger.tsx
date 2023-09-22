@@ -3,7 +3,7 @@ import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
 import {useFilter} from "../filter/FilterContext";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
 
 interface Props {

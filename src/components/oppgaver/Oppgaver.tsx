@@ -23,6 +23,8 @@ import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import styles from "./oppgaver.module.css";
+import VedleggSuccess from "../filopplasting/VedleggSuccess";
+import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 import {logger} from "@navikt/next-logger";
 
 const StyledAlert = styled(Alert)`
@@ -71,6 +73,7 @@ const Oppgaver = () => {
 
     const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
     const utbetalingerQuery = useHentUtbetalinger({}, {query: {onError: (e) => logger.warn(e.message, e.navCallId)}});
+    const {oppgaverUploadSuccess} = useFilUploadSuccessful();
 
     const hasError =
         vilkarQuery.isError ||
@@ -171,7 +174,6 @@ const Oppgaver = () => {
                     {skalViseOppgaver && (
                         <>
                             <DriftsmeldingVedlegg className={styles.driftsmelding} />
-
                             <DokumentasjonEtterspurtAccordion dokumentasjonEtterspurt={dokumentasjonEtterspurt} />
                             <VilkarAccordion vilkar={filtrerteVilkar} />
                             <DokumentasjonkravAccordion dokumentasjonkrav={filtrerteDokumentasjonkrav} />
@@ -180,6 +182,7 @@ const Oppgaver = () => {
                     {skalViseOppgaveInformasjon && <OppgaveInformasjon />}
                 </Accordion>
             )}
+            <VedleggSuccess show={oppgaverUploadSuccess} />
         </OppgaverPanel>
     );
 };

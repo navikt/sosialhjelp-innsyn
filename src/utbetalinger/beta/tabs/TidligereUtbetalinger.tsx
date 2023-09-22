@@ -5,7 +5,7 @@ import ManedGruppe from "./ManedGruppe";
 import {useHentTidligereUtbetalinger} from "../../../../generated/utbetalinger-controller/utbetalinger-controller";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import {useFilter} from "../filter/FilterContext";
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import {UtbetalingerResponse} from "../UtbetalingerPanelBeta";
 import {ManedUtbetaling} from "../../../../generated/model";
 

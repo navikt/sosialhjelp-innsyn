@@ -1,4 +1,4 @@
-import {useTranslation} from "next-i18next"
+import {useTranslation} from "next-i18next";
 import React from "react";
 import styled from "styled-components";
 import {Tag} from "@navikt/ds-react";
