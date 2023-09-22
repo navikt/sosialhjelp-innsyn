@@ -30,12 +30,9 @@ const SideIkkeFunnet: React.FC<{}> = () => {
                     Beklager, siden kan være slettet eller flyttet, eller det var en feil i lenken som førte deg hit.
                 </BodyLong>
                 <BodyLong spacing>
-                    Bruk gjerne søket, menyen eller <Link href="https://www.nav.no/">gå til forsiden </Link>.
-                </BodyLong>
-
-                <BodyLong spacing>
-                    <Link href="https://www.nav.no/person/kontakt-oss/nb/tilbakemeldinger/feil-og-mangler">
-                        Meld gjerne fra om denne lenken
+                    Bruk gjerne søket, menyen eller{" "}
+                    <Link href={`${process.env.NEXT_PUBLIC_INNSYN_ORIGIN}/sosialhjelp/innsyn`}>
+                        gå til søknadsoversikten din
                     </Link>
                     .
                 </BodyLong>
@@ -45,7 +42,9 @@ const SideIkkeFunnet: React.FC<{}> = () => {
                 </Heading>
                 <BodyLong spacing>The page you requested cannot be found.</BodyLong>
                 <BodyLong spacing>
-                    Go to the <Link href="https://www.nav.no/">front page</Link>, or use one of the links in the menu.
+                    Go to{" "}
+                    <Link href={`${process.env.NEXT_PUBLIC_INNSYN_ORIGIN}/sosialhjelp/innsyn`}>your applications</Link>,
+                    or use one of the links in the menu.
                 </BodyLong>
             </PageWrapper>
         </MainLayout>
