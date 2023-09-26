@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
@@ -12,6 +12,7 @@ import {ErrorType} from "../../axios-instance";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
+import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
 
 export interface Metadata {
     type: string;
@@ -86,13 +87,14 @@ const useFilOpplasting = (
     const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-    const [showSuccessAlert, setShowSuccessAlert] = React.useState(false);
+    const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
 
     const resetStatus = useCallback(() => {
         setInnerErrors(recordFromMetadatas(metadatas));
         setOuterErrors([]);
-        setShowSuccessAlert(false);
-    }, [metadatas, setInnerErrors, setOuterErrors]);
+        setEttersendelseUploadSuccess(false);
+        setOppgaverUploadSuccess(false);
+    }, [metadatas, setInnerErrors, setOuterErrors, setOppgaverUploadSuccess, setEttersendelseUploadSuccess]);
 
     const reset = useCallback(() => {
         setFiles(recordFromMetadatas(metadatas));
@@ -177,8 +179,18 @@ const useFilOpplasting = (
                         .filter((it) => it.status !== "OK")
                         .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
                     if (errors.length === 0) {
+                        const innsendelseType = data.flatMap((response) => response.hendelsetype);
                         reset();
-                        setShowSuccessAlert(true);
+
+                        if (
+                            innsendelseType.includes("dokumentasjonEtterspurt") ||
+                            innsendelseType.includes("dokumentasjonkrav")
+                        ) {
+                            setOppgaverUploadSuccess(true);
+                        }
+                        if (innsendelseType.includes("bruker")) {
+                            setEttersendelseUploadSuccess(true);
+                        }
 
                         await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
                         await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
@@ -199,7 +211,18 @@ const useFilOpplasting = (
                 },
             }
         );
-    }, [mutate, fiksDigisosId, allFiles, metadatas, files, options, queryClient, reset]);
+    }, [
+        mutate,
+        fiksDigisosId,
+        allFiles,
+        metadatas,
+        files,
+        options,
+        queryClient,
+        reset,
+        setOppgaverUploadSuccess,
+        setEttersendelseUploadSuccess,
+    ]);
 
     return {
         mutation: {isLoading, isError, error, data},
@@ -210,7 +233,6 @@ const useFilOpplasting = (
         addFiler,
         removeFil,
         resetStatus,
-        showSuccessAlert,
     };
 };
 

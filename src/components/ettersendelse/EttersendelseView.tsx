@@ -17,6 +17,7 @@ import styles from "../filopplasting/filopplasting.module.css";
 import styled from "styled-components";
 import {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
+import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 
 const metadatas = [
     {
@@ -59,10 +60,10 @@ const EttersendelseView = (props: Props) => {
         removeFil,
         mutation: {isLoading: uploadIsLoading},
         resetStatus,
-        showSuccessAlert,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId)),
     });
+    const {ettersendelseUploadSuccess, setOppgaverUploadSuccess} = useFilUploadSuccessful();
     const files = _files[0];
     const outerErrorLocales = outerErrors.map((it) => errorStatusToMessage[it.feil]);
 
@@ -72,6 +73,7 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         logButtonOrLinkClick("Ettersendelse: Trykket på Send vedlegg");
+        setOppgaverUploadSuccess(false);
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
@@ -109,9 +111,8 @@ const EttersendelseView = (props: Props) => {
                     </ErrorMessage>
                 ))}
             </ErrorMessagePlaceholder>
-            <VedleggSuccess show={showSuccessAlert} />
-
             <SendFileButton isVisible={kanLasteOppVedlegg} isLoading={showLoadingState} onClick={onClick} />
+            <VedleggSuccess show={ettersendelseUploadSuccess} />
         </>
     );
 };

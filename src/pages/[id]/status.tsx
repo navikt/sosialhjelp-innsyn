@@ -25,6 +25,7 @@ import MainLayout from "../../components/MainLayout";
 import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
+import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUploadSuccessfulContext";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -87,27 +88,28 @@ const SaksStatusView: NextPage = () => {
                     <ForelopigSvarAlertstripe />
 
                     <SoknadsStatus />
+                    <FilUploadSuccesfulProvider>
+                        {erPaInnsyn && <Oppgaver />}
 
-                    {erPaInnsyn && <Oppgaver />}
-
-                    {kommune != null && kommune.erInnsynDeaktivert && (
-                        <>
-                            <StyledPanel className="panel-luft-over">
-                                <Heading level="2" size="medium">
-                                    {t("vedlegg.tittel")}
-                                </Heading>
-                            </StyledPanel>
-                            <StyledPanel className="panel-glippe-over">
-                                <VedleggView fiksDigisosId={fiksDigisosId} />
-                            </StyledPanel>
-                        </>
-                    )}
-                    {(kommune == null || !kommune.erInnsynDeaktivert) && (
-                        <ArkfanePanel
-                            historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
-                            vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
-                        />
-                    )}
+                        {kommune != null && kommune.erInnsynDeaktivert && (
+                            <>
+                                <StyledPanel className="panel-luft-over">
+                                    <Heading level="2" size="medium">
+                                        {t("vedlegg.tittel")}
+                                    </Heading>
+                                </StyledPanel>
+                                <StyledPanel className="panel-glippe-over">
+                                    <VedleggView fiksDigisosId={fiksDigisosId} />
+                                </StyledPanel>
+                            </>
+                        )}
+                        {(kommune == null || !kommune.erInnsynDeaktivert) && (
+                            <ArkfanePanel
+                                historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
+                                vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
+                            />
+                        )}
+                    </FilUploadSuccesfulProvider>
                 </>
             )}
             <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
