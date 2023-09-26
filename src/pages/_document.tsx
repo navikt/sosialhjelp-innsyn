@@ -40,17 +40,11 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
 });
 
 function createDecoratorEnv(ctx: DocumentContext): "dev" | "prod" {
-    if (ctx.pathname === "/500" || ctx.pathname === "/404" || process.env.NODE_ENV === "development") {
-        // Blir statisk kompilert i GHA så må hentes defra
-        return "dev";
-    }
-
     switch (process.env.NEXT_PUBLIC_DEKORATOR_MILJO) {
         case "local":
         case "test":
         case "dev":
             return "dev";
-        case "demo":
         case "prod":
             return "prod";
         default:
