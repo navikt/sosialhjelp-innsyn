@@ -8,6 +8,8 @@ import {useTranslation} from "next-i18next";
 
 const Wrapper = styled.div`
     padding-top: 1rem;
+    padding-bottom: 40px;
+    max-width: 50rem;
 `;
 
 const UtbetalingsoversiktIngenSoknader: React.FC = () => {

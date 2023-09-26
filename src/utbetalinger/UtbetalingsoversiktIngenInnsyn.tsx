@@ -10,10 +10,12 @@ const StyledGuidePanelContent = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 0 3rem;
+    max-width: 45rem;
 `;
 
 const Wrapper = styled.div`
     padding-top: 1rem;
+    padding-bottom: 50px;
 `;
 
 const UtbetalingsoversiktIngenInnsyn: React.FC = () => {

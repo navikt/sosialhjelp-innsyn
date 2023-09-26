@@ -20,7 +20,6 @@ const Utbetalinger: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
     useUpdateBreadcrumbs(() => [{url: "/utbetaling", title: t("utbetaling")}]);
     const isMobile = useIsMobile();
-    const router = useRouter();
 
     const {data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError} = useHentAlleSaker();
 
