@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
         if (!searchParams.has("goto")) {
             throw new Error("redirect mangler goto-parameter");
         }
-        return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_INNSYN_REDIRECT_ORIGIN));
+        return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
     }
 
     // Sett språk basert på decorator-language cookien
@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
             return next;
         }
         const url = new URL(
-            `${process.env.NEXT_INNSYN_REDIRECT_ORIGIN}${process.env.NEXT_PUBLIC_BASE_PATH}/${
+            `${process.env.NEXT_PUBLIC_INNSYN_ORIGIN}${process.env.NEXT_PUBLIC_BASE_PATH}/${
                 decoratorLocale === "nb" ? "" : decoratorLocale
             }${pathname.replace("/sosialhjelp/innsyn", "")}`
         );
@@ -53,12 +53,12 @@ export async function middleware(request: NextRequest) {
             const json: AzureAdAuthenticationError = await harTilgangResponse.json();
             const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
 
-            const redirectUrl = getRedirect(json.loginUrl, pathname, process.env.NEXT_INNSYN_REDIRECT_ORIGIN!, json.id);
+            const redirectUrl = getRedirect(json.loginUrl, pathname, process.env.NEXT_PUBLIC_INNSYN_ORIGIN!, json.id);
             return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
         }
     } catch (e) {
         logger.warn("Feil i middleware fetch, sender bruker til 500", e);
-        return NextResponse.redirect(process.env.NEXT_INNSYN_REDIRECT_ORIGIN + "/sosialhjelp/innsyn/500");
+        return NextResponse.redirect(process.env.NEXT_PUBLIC_INNSYN_ORIGIN + "/sosialhjelp/innsyn/500");
     }
 }
 
