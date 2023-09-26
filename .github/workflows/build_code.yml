@@ -17,6 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 'Copy prod env file to root'
+        shell: bash
+        run: |
+          echo "Copying nais/envs/.env.production..."
+          cp nais/envs/.env.production .env.production
+
       - name: 'Build npm project and run Tests'
         uses: navikt/sosialhjelp-ci/actions/build-npm@v2-beta
         with:
