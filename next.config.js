@@ -1,10 +1,6 @@
 const {buildCspHeader} = require("@navikt/nav-dekoratoren-moduler/ssr");
 const {i18n} = require("./next-i18next.config");
 
-/**
- * @type {import('next').NextConfig}
- */
-
 const appDirectives = {
     "default-src": ["'self'"],
     "script-src": ["'self'", "'unsafe-eval'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
@@ -43,7 +39,26 @@ const sentryWebpackPluginOptions = {
     // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
 
+/**
+ * @type {import('next').NextConfig}
+ */
+
 const nextConfig = {
+    async headers() {
+        const environment = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod" ? "prod" : "dev";
+        const cspValue = await buildCspHeader(appDirectives, {env: environment});
+        return [
+            {
+                source: "/:path*",
+                headers: [
+                    {
+                        key: "Content-Security-Policy",
+                        value: cspValue,
+                    },
+                ],
+            },
+        ];
+    },
     output: "standalone",
     assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     reactStrictMode: true,
