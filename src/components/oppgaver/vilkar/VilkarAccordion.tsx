@@ -1,7 +1,7 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import React from "react";
 import {useTranslation} from "next-i18next";
-import {logButtonOrLinkClick, logVilkarDuplications} from "../../../utils/amplitude";
+import {logVilkarDuplications} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
 import {VilkarResponse} from "../../../../generated/model";
 
@@ -23,7 +23,7 @@ export const VilkarAccordion = (props: Props) => {
     return (
         <>
             <Accordion.Item defaultOpen>
-                <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet vilkår")}>
+                <Accordion.Header>
                     <Label as="p">{t("vilkar.du_har_vilkar")}</Label>
                     <BodyShort>{t("vilkar.veileder_trenger_mer")}</BodyShort>
                 </Accordion.Header>

@@ -23,10 +23,6 @@ export const logButtonOrLinkClick = (tittel: string) => {
     });
 };
 
-export const logServerfeil = (eventData?: Record<string, unknown>) => {
-    logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
-};
-
 const fullFormLanguageString = (language: string) => {
     switch (language) {
         case "nb":
