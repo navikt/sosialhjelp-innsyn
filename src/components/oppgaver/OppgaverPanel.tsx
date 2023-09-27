@@ -8,11 +8,11 @@ const StyledPanel = styled(Panel)<{$error?: boolean}>`
     border-color: ${(props) => (props.$error ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
-        margin-top: 3rem;
+        margin-top: 1.5rem;
     }
     @media screen and (max-width: 640px) {
         padding: 1rem;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
     }
 `;
 const OppgaverPanel = ({hasError, children}: {hasError: boolean; children: React.ReactNode}) => {

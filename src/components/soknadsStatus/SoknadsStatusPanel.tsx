@@ -27,7 +27,7 @@ interface Props {
 const SoknadsStatusPanel = ({hasError, children, soknadsStatus}: Props) => {
     return (
         <StyledPanel $error={hasError}>
-            <SoknadsStatusDecoration />
+            <SoknadsStatusDecoration soknadsStatus={soknadsStatus} />
             <SoknadsStatusHeading soknadsStatus={soknadsStatus} />
 
             {children}

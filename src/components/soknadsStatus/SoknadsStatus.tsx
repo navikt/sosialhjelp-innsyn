@@ -43,6 +43,10 @@ const StatusMessageVedtak = styled.div`
     margin-top: 6px;
 `;
 
+const StyledAlertTag = styled(Tag)`
+    border-radius: 5px;
+`;
+
 const SoknadsStatus = () => {
     const fiksDigisosId = useFiksDigisosId();
 
@@ -122,7 +126,9 @@ const SoknadsStatus = () => {
                                         <StatusMessage>
                                             <Label as="p">{hentSakstittel(statusdetalj.tittel)}</Label>
                                             {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
-                                                <Tag variant="success">{t("saksStatus.ferdig_behandlet")}</Tag>
+                                                <StyledAlertTag variant="success">
+                                                    {t("saksStatus.ferdig_behandlet")}
+                                                </StyledAlertTag>
                                             )}
                                             {saksStatus === SaksStatusResponseStatus.UNDER_BEHANDLING &&
                                                 !soknadBehandlesIkke && (

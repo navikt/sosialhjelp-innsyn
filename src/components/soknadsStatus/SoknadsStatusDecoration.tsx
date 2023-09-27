@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {PlaceFilled} from "@navikt/ds-icons";
+import {EmailFilled, EmailOpenedFilled, SandglassFilled, SuccessFilled} from "@navikt/ds-icons";
+import {SoknadsStatusResponseStatus} from "../../../generated/model";
 
 const Circle = styled.div`
     position: absolute;
@@ -13,9 +14,7 @@ const Circle = styled.div`
     width: 4rem;
 `;
 
-const SpotIcon = styled(PlaceFilled).attrs({
-    title: "spot",
-})`
+const StyledEmailFilled = styled(EmailFilled)`
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
@@ -24,10 +23,47 @@ const SpotIcon = styled(PlaceFilled).attrs({
     width: 1.5rem;
 `;
 
-const SoknadsStatusDecoration = () => {
+const StyledEmailOpenedFilled = styled(EmailOpenedFilled)`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+`;
+
+const StyledSandglassFilled = styled(SandglassFilled)`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+`;
+
+const StyledSuccessFilled = styled(SuccessFilled)`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+`;
+
+interface Props {
+    soknadsStatus?: SoknadsStatusResponseStatus;
+}
+
+const SoknadsStatusDecoration = (props: Props) => {
+    console.log("props soknadStatus", props.soknadsStatus);
+
     return (
         <Circle>
-            <SpotIcon aria-hidden />
+            {props.soknadsStatus === "SENDT" && <StyledEmailFilled />}
+            {props.soknadsStatus === "MOTTATT" && <StyledEmailOpenedFilled />}
+            {props.soknadsStatus === "UNDER_BEHANDLING" && <StyledSandglassFilled />}
+            {props.soknadsStatus === "BEHANDLES_IKKE" && <StyledSuccessFilled />}
+            {props.soknadsStatus === "FERDIGBEHANDLET" && <StyledSuccessFilled />}
         </Circle>
     );
 };
