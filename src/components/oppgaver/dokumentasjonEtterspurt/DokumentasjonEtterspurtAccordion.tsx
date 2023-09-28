@@ -28,18 +28,20 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     const {t} = useTranslation();
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
-    if (!brukerHarDokumentasjonEtterspurt) {
-        return null;
-    }
     const dokumentasjonEtterspurtErFraInnsyn =
         props.dokumentasjonEtterspurt?.[0].oppgaveElementer[0].hendelsetype ===
         OppgaveElementHendelsetype.dokumentasjonEtterspurt;
 
     useEffect(() => {
-        if (dokumentasjonEtterspurtErFraInnsyn) {
+        if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn) {
             veilederBerOmDokumentasjonEvent();
         }
-    }, [dokumentasjonEtterspurtErFraInnsyn]);
+    }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt]);
+
+    if (!brukerHarDokumentasjonEtterspurt) {
+        return null;
+    }
+
     return (
         <>
             <Accordion.Item defaultOpen>
