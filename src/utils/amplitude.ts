@@ -17,6 +17,10 @@ export function veilederBerOmDokumentasjonEvent() {
     logAmplitudeEvent("Veileder ber om dokumentasjon");
 }
 
+export function sokerFaarVilkaar() {
+    logAmplitudeEvent("Søker får vilkår");
+}
+
 export function fileUploadFailedEvent(errorMessage: string) {
     logAmplitudeEvent("Filopplasting feilet", {errorMessage});
 }
