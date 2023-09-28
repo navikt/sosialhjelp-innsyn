@@ -3,7 +3,6 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import {useTranslation} from "next-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 import SoknadsStatusTag from "./SoknadsStatusTag";
@@ -53,10 +52,6 @@ const SoknadsStatus = () => {
     const soknadBehandlesIkke = soknadsStatusQuery.data?.status === SoknadsStatusResponseStatus.BEHANDLES_IKKE;
     const hasError = soknadsStatusQuery.isError || saksStatusQuery.isError;
     const isLoading = soknadsStatusQuery.isLoading || saksStatusQuery.isLoading;
-
-    const onVisVedtak = () => {
-        logButtonOrLinkClick("Åpnet vedtaksbrev");
-    };
 
     const soknadsStatus = soknadsStatusQuery.data?.status;
 
@@ -141,10 +136,7 @@ const SoknadsStatus = () => {
                                                 (hendelse: VedtaksfilUrl, id: number) => (
                                                     <StatusMessage key={id}>
                                                         <StatusMessageVedtak>
-                                                            <EksternLenke
-                                                                href={"" + hendelse.vedtaksfilUrl}
-                                                                onClick={onVisVedtak}
-                                                            >
+                                                            <EksternLenke href={"" + hendelse.vedtaksfilUrl}>
                                                                 {t("vedtak")} (
                                                                 <DatoOgKlokkeslett
                                                                     bareDato={true}

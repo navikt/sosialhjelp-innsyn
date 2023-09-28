@@ -3,7 +3,6 @@ import {useTranslation} from "next-i18next";
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {Attachment, List} from "@navikt/ds-icons";
 import styled from "styled-components";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
 
 const StyledContainer = styled.div`
     display: grid;
@@ -18,7 +17,7 @@ const OppgaveInformasjon = () => {
     return (
         <>
             <Accordion.Item>
-                <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet informasjons boks")}>
+                <Accordion.Header>
                     <Label as="p">{t("oppgaver.vilkar.tittel")}</Label>
                     <BodyShort>{t("oppgaver.vilkar.tittel.tekst")}</BodyShort>
                 </Accordion.Header>
