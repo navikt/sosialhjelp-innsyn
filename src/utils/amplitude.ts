@@ -13,6 +13,10 @@ export function logAmplitudeEvent(eventName: string, eventData?: Record<string, 
     }
 }
 
+export function veilederBerOmDokumentasjonEvent() {
+    logAmplitudeEvent("Veileder ber om dokumentasjon");
+}
+
 export function fileUploadFailedEvent(errorMessage: string) {
     logAmplitudeEvent("Filopplasting feilet", {errorMessage});
 }

@@ -1,8 +1,8 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import {logButtonOrLinkClick, veilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import React from "react";
+import React, {useEffect} from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
@@ -35,6 +35,11 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
         props.dokumentasjonEtterspurt?.[0].oppgaveElementer[0].hendelsetype ===
         OppgaveElementHendelsetype.dokumentasjonEtterspurt;
 
+    useEffect(() => {
+        if (dokumentasjonEtterspurtErFraInnsyn) {
+            veilederBerOmDokumentasjonEvent();
+        }
+    }, [dokumentasjonEtterspurtErFraInnsyn]);
     return (
         <>
             <Accordion.Item defaultOpen>
