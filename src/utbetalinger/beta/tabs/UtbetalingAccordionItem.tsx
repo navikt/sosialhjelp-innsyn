@@ -1,6 +1,6 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
 import styles from "./manedgruppe.module.css";
-import {logAmplitudeEvent} from "../../../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../../../utils/amplitude";
 import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
 import {FileContent} from "@navikt/ds-icons";
 import React, {useState} from "react";
@@ -28,6 +28,10 @@ interface Props {
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(false);
+
+    const gaaFraUtbetalingTilSoknad = () => {
+        logButtonOrLinkClick("Åpner søknaden fra utbetalingen");
+    };
 
     return (
         <>
@@ -102,6 +106,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                     <Link
                         href={"/" + utbetalingManed.fiksDigisosId + "/status"}
                         className={`navds-link ${styles.soknadLenke} `}
+                        onClick={gaaFraUtbetalingTilSoknad}
                     >
                         <FileContent aria-hidden width="1.5rem" height="1.5rem" />
                         {t("soknadLenke")}
