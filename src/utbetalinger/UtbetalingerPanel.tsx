@@ -6,7 +6,7 @@ import Saksdetaljer from "./Saksdetaljer";
 import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {Detail, Heading, Label, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components";
-import {ManedUtbetaling, UtbetalingerResponse} from "../../generated/model";
+import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
 import {hentMaanedString, hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "./utbetalingerUtils";
 import {useTranslation} from "next-i18next";
 

@@ -1,7 +1,7 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import React from "react";
-import {DokumentasjonkravResponse} from "../../../../generated/model";
+import {DokumentasjonkravResponse} from "../../../generated/model";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";

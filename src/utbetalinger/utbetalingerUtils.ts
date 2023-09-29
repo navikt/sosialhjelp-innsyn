@@ -1,4 +1,4 @@
-import {ManedUtbetaling, UtbetalingerResponse} from "../../generated/model";
+import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
 import {i18n} from "i18next";
 
 const diffInMonths = (d1: Date, d2: Date) => {

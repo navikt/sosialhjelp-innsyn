@@ -1,22 +1,8 @@
-import styled from "styled-components";
-import {Panel} from "@navikt/ds-react";
 import React from "react";
 import SoknadsStatusDecoration from "./SoknadsStatusDecoration";
 import SoknadsStatusHeading from "./SoknadsStatusHeading";
-import {SoknadsStatusResponseStatus} from "../../../generated/model";
-
-const StyledPanel = styled(Panel)<{$error?: boolean}>`
-    position: relative;
-    border-color: ${(props) => (props.$error ? "var(--a-red-500)" : "transparent")};
-    @media screen and (min-width: 641px) {
-        padding: 2rem 4.25rem;
-        margin-top: 4rem;
-    }
-    @media screen and (max-width: 640px) {
-        padding: 2rem 4.25rem;
-        margin-top: 2.5rem;
-    }
-`;
+import Panel from "../panel/Panel";
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
 interface Props {
     hasError: boolean;
@@ -26,12 +12,10 @@ interface Props {
 
 const SoknadsStatusPanel = ({hasError, children, soknadsStatus}: Props) => {
     return (
-        <StyledPanel $error={hasError}>
+        <Panel header={<SoknadsStatusHeading soknadsStatus={soknadsStatus} />} hasError={hasError}>
             <SoknadsStatusDecoration />
-            <SoknadsStatusHeading soknadsStatus={soknadsStatus} />
-
             {children}
-        </StyledPanel>
+        </Panel>
     );
 };
 export default SoknadsStatusPanel;

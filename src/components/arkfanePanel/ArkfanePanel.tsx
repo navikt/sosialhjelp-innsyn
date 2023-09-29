@@ -1,29 +1,17 @@
 import React from "react";
-import {Panel, Tabs} from "@navikt/ds-react";
+import {Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
 import {useTranslation} from "next-i18next";
 import {ErrorColored} from "@navikt/ds-icons";
-import {useHentHendelser} from "../../../generated/hendelse-controller/hendelse-controller";
+import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentVedlegg} from "../../../generated/vedlegg-controller/vedlegg-controller";
+import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
+import Panel from "../panel/Panel";
 
 enum ARKFANER {
     HISTORIKK = "Historikk",
     VEDLEGG = "Vedlegg",
 }
-
-const StyledPanel = styled(Panel)<{$hasError: boolean}>`
-    position: relative;
-    margin-top: 2rem;
-    padding: 1rem 0 1rem 0;
-    border-color: ${(props) => (props.$hasError ? "var(--a-red-500)" : "transparent")};
-
-    @media screen and (min-width: 641px) {
-        padding-left: 60px;
-        padding-right: 80px;
-        margin-top: 3rem;
-    }
-`;
 
 const StyledErrorColored = styled(ErrorColored)`
     position: absolute;
@@ -52,7 +40,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
         (valgtFane === ARKFANER.HISTORIKK && hendelserHasError) || (valgtFane === ARKFANER.VEDLEGG && vedleggHasError);
 
     return (
-        <StyledPanel $hasError={hasError}>
+        <Panel hasError={hasError}>
             {hasError && <StyledErrorColored title="Feil" />}
             <Tabs onChange={setValgtFane} value={valgtFane}>
                 <Tabs.List>
@@ -66,7 +54,7 @@ const ArkfanePanel: React.FC<Props> = (props) => {
                     {props.vedleggChildren}
                 </Tabs.Panel>
             </Tabs>
-        </StyledPanel>
+        </Panel>
     );
 };
 

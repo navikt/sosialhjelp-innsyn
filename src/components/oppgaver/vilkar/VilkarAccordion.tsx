@@ -3,7 +3,7 @@ import React from "react";
 import {useTranslation} from "next-i18next";
 import {logVilkarDuplications} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
-import {VilkarResponse} from "../../../../generated/model";
+import {VilkarResponse} from "../../../generated/model";
 
 export const getUnikeVilkar = (vilkar: VilkarResponse[]) =>
     vilkar.filter(

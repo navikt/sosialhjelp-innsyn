@@ -1,9 +1,9 @@
 import {useTranslation} from "next-i18next";
 import useIsMobile from "../utils/useIsMobile";
 import React, {useEffect, useState} from "react";
-import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {useHarSoknaderMedInnsyn} from "../../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
+import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useHentUtbetalinger} from "../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHarSoknaderMedInnsyn} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
 import {IngenUtbetalinger} from "../utbetalinger/IngenUtbetalinger";

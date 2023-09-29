@@ -1,6 +1,6 @@
 import React from "react";
-import {useHentAlleSaker, useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {SaksListeResponse} from "../../generated/model";
+import {useHentAlleSaker, useHentSaksDetaljer} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {SaksListeResponse} from "../generated/model";
 import {StyledFileIcon, StyledLinkPanelDescription, StyledSaksDetaljer} from "../components/sakspanel/sakspanelStyles";
 import SaksMetaData from "../components/sakspanel/SaksMetaData";
 import {Detail, Label, LinkPanel} from "@navikt/ds-react";
