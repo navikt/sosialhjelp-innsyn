@@ -1,6 +1,6 @@
 import React from "react";
 import {FilterKey, MottakerFilter, useFilter} from "./FilterContext";
-import {ManedUtbetaling} from "../../../../generated/model";
+import {ManedUtbetaling} from "../../../generated/model";
 import {isAfter, isBefore, isEqual} from "date-fns";
 import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 

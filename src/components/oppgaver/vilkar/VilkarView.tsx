@@ -1,7 +1,7 @@
 import React from "react";
 import {BodyShort, Label} from "@navikt/ds-react";
 import styles from "./vilkar.module.css";
-import {VilkarResponse} from "../../../../generated/model";
+import {VilkarResponse} from "../../../generated/model";
 
 interface Props {
     vilkar: VilkarResponse[];

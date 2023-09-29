@@ -60,7 +60,7 @@ const nextConfig = {
         ];
     },
     output: "standalone",
-    assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
+    assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
     reactStrictMode: true,
     basePath: process.env.NEXT_PUBLIC_BASE_PATH,
     experimental: {

@@ -8,17 +8,17 @@ import {
     getGetDokumentasjonkravQueryKey,
     getGetOppgaverQueryKey,
     getOppgaver,
-} from "../../generated/oppgave-controller/oppgave-controller";
-import {getHentHendelserQueryKey, hentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
-import {getHentVedleggQueryKey, hentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
+} from "../generated/oppgave-controller/oppgave-controller";
+import {getHentHendelserQueryKey, hentHendelser} from "../generated/hendelse-controller/hendelse-controller";
+import {getHentVedleggQueryKey, hentVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
 import {
     getHentSaksStatuserQueryKey,
     hentSaksStatuser,
-} from "../../generated/saks-status-controller/saks-status-controller";
+} from "../generated/saks-status-controller/saks-status-controller";
 import {
     getHentSoknadsStatusQueryKey,
     hentSoknadsStatus,
-} from "../../generated/soknads-status-controller/soknads-status-controller";
+} from "../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../hooks/useFiksDigisosId";
 
 const StyledWrapper = styled.div`

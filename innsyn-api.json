@@ -57,6 +57,43 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/klage": {
+            "get": {
+                "tags": ["klage-controller"],
+                "operationId": "hentKlager",
+                "parameters": [
+                    {"name": "fiksDigisosId", "in": "path", "required": true, "schema": {"type": "string"}},
+                    {"name": "Authorization", "in": "header", "required": true, "schema": {"type": "string"}}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json;charset=UTF-8": {
+                                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/KlageDto"}}
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["klage-controller"],
+                "operationId": "sendKlage",
+                "parameters": [
+                    {"name": "fiksDigisosId", "in": "path", "required": true, "schema": {"type": "string"}},
+                    {"name": "Authorization", "in": "header", "required": true, "schema": {"type": "string"}}
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json;charset=UTF-8": {"schema": {"$ref": "#/components/schemas/InputKlage"}}
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {"description": "OK", "content": {"*/*": {"schema": {"$ref": "#/components/schemas/Unit"}}}}
+                }
+            }
+        },
         "/api/v1/info/logg": {
             "post": {
                 "tags": ["info-controller"],
@@ -523,6 +560,16 @@
                     }
                 }
             },
+            "InputKlage": {
+                "required": ["fiksDigisosId", "klageTekst", "vedtaksIds"],
+                "type": "object",
+                "properties": {
+                    "fiksDigisosId": {"type": "string"},
+                    "klageTekst": {"type": "string"},
+                    "vedtaksIds": {"type": "array", "items": {"type": "string"}}
+                }
+            },
+            "Unit": {"type": "object"},
             "Logg": {
                 "required": ["columnNumber", "jsFileUrl", "level", "lineNumber", "message", "url", "userAgent"],
                 "type": "object",
@@ -603,7 +650,6 @@
                             "SAK_KAN_IKKE_VISE_STATUS_MED_TITTEL",
                             "SAK_KAN_IKKE_VISE_STATUS_UTEN_TITTEL",
                             "ANTALL_SENDTE_VEDLEGG",
-                            "VILKAR_OPPDATERT",
                             "UTBETALINGER_OPPDATERT",
                             "BREV_OM_SAKSBEANDLINGSTID",
                             "ETTERSPOR_MER_DOKUMENTASJON",
@@ -614,6 +660,15 @@
                         ]
                     },
                     "link": {"type": "string"}
+                }
+            },
+            "FilUrl": {
+                "required": ["id", "url"],
+                "type": "object",
+                "properties": {
+                    "dato": {"type": "string", "format": "date"},
+                    "url": {"type": "string"},
+                    "id": {"type": "string"}
                 }
             },
             "SaksStatusResponse": {
@@ -632,13 +687,8 @@
                         ]
                     },
                     "skalViseVedtakInfoPanel": {"type": "boolean"},
-                    "vedtaksfilUrlList": {"type": "array", "items": {"$ref": "#/components/schemas/VedtaksfilUrl"}}
+                    "vedtaksfilUrlList": {"type": "array", "items": {"$ref": "#/components/schemas/FilUrl"}}
                 }
-            },
-            "VedtaksfilUrl": {
-                "required": ["vedtaksfilUrl"],
-                "type": "object",
-                "properties": {"dato": {"type": "string", "format": "date"}, "vedtaksfilUrl": {"type": "string"}}
             },
             "OppgaveElement": {
                 "required": ["dokumenttype", "erFraInnsyn"],
@@ -679,6 +729,18 @@
                     "erInnsendingEttersendelseMidlertidigDeaktivert": {"type": "boolean"},
                     "tidspunkt": {"type": "string", "format": "date-time"},
                     "kommunenummer": {"type": "string"}
+                }
+            },
+            "KlageDto": {
+                "required": ["klageUrl", "status"],
+                "type": "object",
+                "properties": {
+                    "klageUrl": {"$ref": "#/components/schemas/FilUrl"},
+                    "status": {
+                        "type": "string",
+                        "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIG_BEHANDLET", "HOS_STATSFORVALTER"]
+                    },
+                    "nyttVedtakUrl": {"$ref": "#/components/schemas/FilUrl"}
                 }
             },
             "HendelseResponse": {
