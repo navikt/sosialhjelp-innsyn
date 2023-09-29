@@ -7,9 +7,8 @@ import {useTranslation} from "next-i18next";
 import styled from "styled-components";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {GetServerSideProps} from "next";
-import {harTilgang, useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
+import {useHarTilgang} from "../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
-import Lastestriper from "../components/lastestriper/Lasterstriper";
 import {useRouter} from "next/router";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 

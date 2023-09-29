@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Alert, BodyShort} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
-import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";

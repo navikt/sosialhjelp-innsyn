@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import React from "react";
 import {render, fireEvent, screen} from "../../../test/test-utils";
 import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
-import {OppgaveElementHendelsetype} from "../../../../generated/model";
+import {OppgaveElementHendelsetype} from "../../../generated/model";
 import mockRouter from "next-router-mock";
 
 test("Rendrer DokumentasjonEtterspurt", async () => {

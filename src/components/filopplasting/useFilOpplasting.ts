@@ -1,25 +1,25 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
 import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
+import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
     useSendVedlegg,
-} from "../../../generated/vedlegg-controller/vedlegg-controller";
+} from "../../generated/vedlegg-controller/vedlegg-controller";
 import {ErrorType} from "../../axios-instance";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
 
 export interface Metadata {
     type: string;
-    tilleggsinfo: string | undefined;
-    innsendelsesfrist: string | undefined;
-    hendelsetype: string | undefined;
-    hendelsereferanse: string | undefined;
+    tilleggsinfo?: string;
+    innsendelsesfrist?: string;
+    hendelsetype?: string;
+    hendelsereferanse?: string;
 }
 
 export interface Error {

@@ -66,6 +66,7 @@ enum SsrPathVariants {
     Root = "/",
     Utbetaling = "/utbetaling",
     Soknad = "/[id]/status",
+    NyKlage = "/[id]/klage/skjema",
     Error = "/_error",
 }
 
@@ -84,6 +85,8 @@ export const getBreadcrumbs = (pathname: SsrPathVariants | string): Breadcrumb[]
             return [...getBaseCrumbs(), {title: "Feil: Fant ikke siden", url: "/404"}];
         case SsrPathVariants.Forbidden:
             return [...getBaseCrumbs(), {title: "Ikke tilgang", url: "/403"}];
+        case SsrPathVariants.NyKlage:
+            return [...getBaseCrumbs(), {title: "Status", url: "/status"}, {title: "Send klage", url: "/klage/skjema"}];
         default:
             throw new Error("Unknown path");
     }

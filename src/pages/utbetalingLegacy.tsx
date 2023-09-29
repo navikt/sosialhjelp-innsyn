@@ -8,9 +8,9 @@ import {
 } from "../utbetalinger/utbetalingerUtils";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import styled from "styled-components";
-import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {useHarSoknaderMedInnsyn} from "../../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
+import {useHentUtbetalinger} from "../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useHarSoknaderMedInnsyn} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
 import {usePathname} from "next/navigation";

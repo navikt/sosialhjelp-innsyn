@@ -3,7 +3,7 @@ import {
     getDriftsmeldingByKommuneResponseOrDigisosId,
     useFileUploadAllowed,
 } from "./DriftsmeldingUtilities";
-import {KommuneResponse} from "../../../generated/model";
+import {KommuneResponse} from "../../generated/model";
 
 const kommuneResponse_ok: KommuneResponse = {
     erInnsynDeaktivert: false,

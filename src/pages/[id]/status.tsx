@@ -3,10 +3,10 @@ import {Heading, Panel} from "@navikt/ds-react";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useTranslation} from "next-i18next";
 import useKommune from "../../hooks/useKommune";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
-import {useGetOppgaver} from "../../../generated/oppgave-controller/oppgave-controller";
-import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
-import {useHentForelopigSvarStatus} from "../../../generated/forelopig-svar-controller/forelopig-svar-controller";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
+import {useGetOppgaver} from "../../generated/oppgave-controller/oppgave-controller";
+import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+import {useHentForelopigSvarStatus} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import React, {useEffect, useState} from "react";
 import {logAmplitudeEvent} from "../../utils/amplitude";
 import {HttpStatusCode} from "axios";
@@ -26,6 +26,8 @@ import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUploadSuccessfulContext";
+import KlageSection from "../../components/klage/KlageSection";
+import {SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -75,6 +77,10 @@ const SaksStatusView: NextPage = () => {
 
     const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
 
+    const skalViseKlage =
+        // soknadsStatus?.status === SoknadsStatusResponseStatus.FERDIGBEHANDLET &&
+        // saksStatuser?.some((status) => status.status === SaksStatusResponseStatus.FERDIGBEHANDLET);
+        true;
     return (
         <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`} bannerTitle={t("soknadStatus.tittel")}>
             <LoadingResourcesFailedAlert />
@@ -103,6 +109,7 @@ const SaksStatusView: NextPage = () => {
                                 </StyledPanel>
                             </>
                         )}
+                        {skalViseKlage && <KlageSection />}
                         {(kommune == null || !kommune.erInnsynDeaktivert) && (
                             <ArkfanePanel
                                 historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}

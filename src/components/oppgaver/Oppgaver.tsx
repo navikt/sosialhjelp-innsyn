@@ -13,11 +13,11 @@ import {
     useGetfagsystemHarDokumentasjonkrav,
     useGetHarLevertDokumentasjonkrav,
     useGetVilkar,
-} from "../../../generated/oppgave-controller/oppgave-controller";
+} from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";

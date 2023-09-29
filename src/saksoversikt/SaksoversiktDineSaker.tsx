@@ -9,7 +9,7 @@ import {logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
-import {SaksListeResponse} from "../../generated/model";
+import {SaksListeResponse} from "../generated/model";
 import styles from "../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
