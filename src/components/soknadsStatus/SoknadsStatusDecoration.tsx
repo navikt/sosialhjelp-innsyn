@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import {EmailFilled, EmailOpenedFilled, SandglassFilled, SuccessFilled} from "@navikt/ds-icons";
 import {SoknadsStatusResponseStatus} from "../../../generated/model";
+import AapnetBrev from "../ikoner/AapnetBrev";
+import GodkjentMerke from "../ikoner/GodkjentMerke";
+import Timeglass from "../ikoner/Timeglass";
+import Dokument from "../ikoner/Dokument";
+import LukketBrev from "../ikoner/LukketBrev";
 
 const Circle = styled.div`
     position: absolute;
@@ -14,40 +18,34 @@ const Circle = styled.div`
     width: 4rem;
 `;
 
-const StyledEmailFilled = styled(EmailFilled)`
+const StyledLukketBrev = styled.div`
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    height: 1.5rem;
-    width: 1.5rem;
+    top: 30%;
+    left: 20%;
 `;
 
-const StyledEmailOpenedFilled = styled(EmailOpenedFilled)`
+const StyledAApnetBrev = styled.div`
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    height: 1.5rem;
-    width: 1.5rem;
+    top: 15%;
+    left: 20%;
 `;
 
-const StyledSandglassFilled = styled(SandglassFilled)`
+const StyledDokument = styled.div`
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    height: 1.5rem;
-    width: 1.5rem;
+    top: 23%;
+    left: 25%;
 `;
 
-const StyledSuccessFilled = styled(SuccessFilled)`
+const StyledTimeglass = styled.div`
     position: absolute;
-    transform: translate(-50%, -50%);
+    top: 16%;
+    left: 82%;
+`;
+
+const StyledGodkjentMerke = styled.div`
+    position: absolute;
     top: 50%;
-    left: 50%;
-    height: 1.5rem;
-    width: 1.5rem;
+    left: 60%;
 `;
 
 interface Props {
@@ -59,11 +57,40 @@ const SoknadsStatusDecoration = (props: Props) => {
 
     return (
         <Circle>
-            {props.soknadsStatus === "SENDT" && <StyledEmailFilled />}
-            {props.soknadsStatus === "MOTTATT" && <StyledEmailOpenedFilled />}
-            {props.soknadsStatus === "UNDER_BEHANDLING" && <StyledSandglassFilled />}
-            {props.soknadsStatus === "BEHANDLES_IKKE" && <StyledSuccessFilled />}
-            {props.soknadsStatus === "FERDIGBEHANDLET" && <StyledSuccessFilled />}
+            {props.soknadsStatus === "SENDT" && (
+                <StyledLukketBrev>
+                    <LukketBrev />
+                </StyledLukketBrev>
+            )}
+            {props.soknadsStatus === "MOTTATT" && (
+                <StyledAApnetBrev>
+                    <AapnetBrev />
+                </StyledAApnetBrev>
+            )}
+            {props.soknadsStatus === "UNDER_BEHANDLING" && (
+                <StyledDokument>
+                    <Dokument />
+                    <StyledTimeglass>
+                        <Timeglass />
+                    </StyledTimeglass>
+                </StyledDokument>
+            )}
+            {props.soknadsStatus === "BEHANDLES_IKKE" && (
+                <StyledDokument>
+                    <Dokument />
+                    <StyledGodkjentMerke>
+                        <GodkjentMerke />
+                    </StyledGodkjentMerke>
+                </StyledDokument>
+            )}
+            {props.soknadsStatus === "FERDIGBEHANDLET" && (
+                <StyledDokument>
+                    <Dokument />
+                    <StyledGodkjentMerke>
+                        <GodkjentMerke />
+                    </StyledGodkjentMerke>
+                </StyledDokument>
+            )}
         </Circle>
     );
 };
