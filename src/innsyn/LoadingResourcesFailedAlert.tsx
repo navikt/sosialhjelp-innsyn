@@ -1,9 +1,8 @@
 import {Alert} from "@navikt/ds-react";
-import React, {useEffect} from "react";
+import React from "react";
 import {Trans, useTranslation} from "react-i18next";
 import styled from "styled-components";
 import {useQueries} from "@tanstack/react-query";
-import {logServerfeil} from "../utils/amplitude";
 import {
     getDokumentasjonkrav,
     getGetDokumentasjonkravQueryKey,
@@ -59,14 +58,6 @@ export const LoadingResourcesFailedAlert = () => {
     const queriesWithError = queries.filter((query) => query.isError);
 
     const hasError = queriesWithError.length > 0;
-
-    useEffect(() => {
-        if (hasError) {
-            /* Gjør dette for bakoverkompabilitet i amplitude. Burde skrives om så dette kan gjøres der dataen hentes */
-            const queryToStatus = _queries.map(({tag}, index) => [tag, queries[index].isError ? "FEILET" : "OK"]);
-            logServerfeil(Object.fromEntries(queryToStatus));
-        }
-    }, [queries, _queries, hasError]);
 
     return (
         <StyledWrapper>

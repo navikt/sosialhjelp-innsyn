@@ -5,7 +5,6 @@ import {useQueryClient} from "@tanstack/react-query";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentVedleggQueryKey} from "../../../generated/vedlegg-controller/vedlegg-controller";
 import {OppgaveElementHendelsetype} from "../../../generated/model";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useTranslation} from "next-i18next";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
@@ -14,8 +13,7 @@ import useFilOpplasting, {errorStatusToMessage} from "../filopplasting/useFilOpp
 import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import styles from "../filopplasting/filopplasting.module.css";
-import styled from "styled-components";
-import {css} from "styled-components";
+import styled, {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 
@@ -72,7 +70,6 @@ const EttersendelseView = (props: Props) => {
     };
 
     const onClick = () => {
-        logButtonOrLinkClick("Ettersendelse: Trykket på Send vedlegg");
         setOppgaverUploadSuccess(false);
         return upload();
     };

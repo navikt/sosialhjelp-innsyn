@@ -1,5 +1,4 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React from "react";
@@ -38,9 +37,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     return (
         <>
             <Accordion.Item defaultOpen>
-                <Accordion.Header
-                    onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
-                >
+                <Accordion.Header>
                     <MaaSendeDokTekst dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     {dokumentasjonEtterspurtErFraInnsyn && (
                         <NesteInnsendelsesFrist
