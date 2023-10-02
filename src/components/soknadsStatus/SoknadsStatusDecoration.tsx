@@ -53,8 +53,6 @@ interface Props {
 }
 
 const SoknadsStatusDecoration = (props: Props) => {
-    console.log("props soknadStatus", props.soknadsStatus);
-
     return (
         <Circle>
             {props.soknadsStatus === "SENDT" && (
