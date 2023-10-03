@@ -4,10 +4,11 @@ import styles from "./dineUtbetalingerPanel.module.css";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import Link from "next/link";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 
 const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
+    logAmplitudeEvent("Dine utbetalinger panel vises");
 
     return (
         <Link href="/utbetaling" legacyBehavior passHref>
