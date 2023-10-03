@@ -43,7 +43,7 @@ const StatusMessageVedtak = styled.div`
 `;
 
 const StyledAlertTag = styled(Tag)`
-    border-radius: 5px;
+    border-radius: 6px;
 `;
 
 const SoknadsStatus = () => {
@@ -127,7 +127,9 @@ const SoknadsStatus = () => {
                                             )}
                                             {saksStatus === SaksStatusResponseStatus.UNDER_BEHANDLING &&
                                                 !soknadBehandlesIkke && (
-                                                    <Tag variant="warning">{t("saksStatus.under_behandling")}</Tag>
+                                                    <StyledAlertTag variant="warning">
+                                                        {t("saksStatus.under_behandling")}
+                                                    </StyledAlertTag>
                                                 )}
                                         </StatusMessage>
                                         {sakBehandlesIkke && !soknadBehandlesIkke && (
