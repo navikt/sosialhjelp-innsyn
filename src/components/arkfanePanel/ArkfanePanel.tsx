@@ -14,14 +14,14 @@ enum ARKFANER {
 
 const StyledPanel = styled(Panel)<{$hasError: boolean}>`
     position: relative;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     padding: 1rem 0 1rem 0;
     border-color: ${(props) => (props.$hasError ? "var(--a-red-500)" : "transparent")};
 
     @media screen and (min-width: 641px) {
         padding-left: 60px;
         padding-right: 80px;
-        margin-top: 3rem;
+        margin-top: 1.5rem;
     }
 `;
 
