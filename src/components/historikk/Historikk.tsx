@@ -48,20 +48,18 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
-
-    // oppdater til hendelseenum-typer
     const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
-        if (beskrivelse === t("forelopigSvar").trim()) {
+        if (beskrivelse === "BREV_OM_SAKSBEANDLINGSTID") {
             logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
-        } else if (beskrivelse === t("oppgaver.maa_sende_dok_veileder")) {
+        } else if (beskrivelse === "ETTERSPOR_MER_DOKUMENTASJON") {
             logButtonOrLinkClick(`Historikk: åpnet etterspørsel av dokumentasjon`);
-        } else if (lenketekst === HistorikkTekstEnum.SOKNAD_SEND_TIL_KONTOR_LENKETEKST) {
+        } else if (lenketekst === "SOKNAD_SEND_TIL_KONTOR_LENKETEKST") {
             logButtonOrLinkClick(`Historikk: åpnet søknaden`);
         } else if (
-            (beskrivelse === HistorikkTekstEnum.SOKNAD_FERDIGBEHADNLET ||
-                beskrivelse === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_MED_TITTEL ||
-                beskrivelse === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_UTEN_TITTEL) &&
-            lenketekst === HistorikkTekstEnum.VIS_BREVET
+            (beskrivelse === "SOKNAD_FERDIGBEHADNLET" ||
+                beskrivelse === "SAK_FERDIGBEHANDLET_MED_TITTEL" ||
+                beskrivelse === "SAK_FERDIGBEHANDLET_UTEN_TITTEL") &&
+            lenketekst === "VIS_BREVET_LENKETEKST"
         ) {
             logButtonOrLinkClick(`Historikk: åpnet vedtak fattet`);
         } else {
