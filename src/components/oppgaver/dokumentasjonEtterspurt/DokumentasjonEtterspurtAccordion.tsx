@@ -1,5 +1,5 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import {logButtonOrLinkClick, veilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
+import {logButtonOrLinkClick, loggVeilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React, {useEffect} from "react";
@@ -34,7 +34,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
 
     useEffect(() => {
         if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn) {
-            veilederBerOmDokumentasjonEvent();
+            loggVeilederBerOmDokumentasjonEvent();
         }
     }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt]);
 

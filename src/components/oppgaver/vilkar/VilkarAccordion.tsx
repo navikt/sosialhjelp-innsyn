@@ -1,7 +1,7 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import React from "react";
 import {useTranslation} from "next-i18next";
-import {logButtonOrLinkClick, logVilkarDuplications, sokerFaarVilkaar} from "../../../utils/amplitude";
+import {logButtonOrLinkClick, loggSokerFaarVilkaar, logVilkarDuplications} from "../../../utils/amplitude";
 import {VilkarView} from "./VilkarView";
 import {VilkarResponse} from "../../../../generated/model";
 
@@ -20,7 +20,7 @@ export const VilkarAccordion = (props: Props) => {
     if (!props.vilkar || props.vilkar.length === 0) return null;
     const unikeVilkar = getUnikeVilkar(props.vilkar);
     logVilkarDuplications(props.vilkar.length, unikeVilkar.length);
-    sokerFaarVilkaar();
+    loggSokerFaarVilkaar();
     return (
         <>
             <Accordion.Item defaultOpen>
