@@ -13,15 +13,15 @@ export function logAmplitudeEvent(eventName: string, eventData?: Record<string, 
     }
 }
 
-export function loggVeilederBerOmDokumentasjonEvent() {
+export function logVeilederBerOmDokumentasjonEvent() {
     logAmplitudeEvent("Veileder ber om dokumentasjon");
 }
 
-export function loggSokerFaarVilkaar() {
+export function logSokerFaarVilkaar() {
     logAmplitudeEvent("Søker får vilkår");
 }
 
-export function loggFileUploadFailedEvent(errorMessage: string) {
+export function logFileUploadFailedEvent(errorMessage: string) {
     logAmplitudeEvent("Filopplasting feilet", {errorMessage});
 }
 
