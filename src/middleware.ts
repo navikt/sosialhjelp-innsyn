@@ -1,6 +1,7 @@
-import {NextResponse} from "next/server";
 import type {NextRequest} from "next/server";
+import {NextResponse} from "next/server";
 import {logger} from "@navikt/next-logger";
+import {logBrukerDefaultLanguage} from "./utils/amplitude";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -29,6 +30,7 @@ export async function middleware(request: NextRequest) {
 
     // Sett språk basert på decorator-language cookien
     const decoratorLocale = request.cookies.get("decorator-language")?.value ?? "nb";
+    logBrukerDefaultLanguage(decoratorLocale);
     if (decoratorLocale !== request.nextUrl.locale) {
         if (request.nextUrl.locale !== "nb") {
             const next = NextResponse.next();
