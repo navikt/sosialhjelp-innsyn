@@ -64,7 +64,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                     isVisible={kanLasteOppVedlegg}
                     isLoading={isLoading}
                     onClick={() => {
-                        logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
+                        logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
                         return upload();
                     }}
                 />

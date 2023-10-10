@@ -14,9 +14,11 @@ export function logAmplitudeEvent(eventName: string, eventData?: Record<string, 
 }
 
 export function logVeilederBerOmDokumentasjonEvent() {
-    logAmplitudeEvent("Veileder ber om dokumentasjon");
+    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden");
 }
-
+export function logVeilederBerOmDokumentasjonkravEvent() {
+    logAmplitudeEvent("Veileder ber om dokumentasjon til stønad/vilkår");
+}
 export function logSokerFaarVilkaar() {
     logAmplitudeEvent("Søker får vilkår");
 }

@@ -68,7 +68,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                     isVisible={kanLasteOppVedlegg}
                     isLoading={isLoading}
                     onClick={() => {
-                        logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
+                        logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
                         return upload();
                     }}
                 />
