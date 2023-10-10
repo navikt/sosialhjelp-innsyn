@@ -5,11 +5,12 @@ import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-ov
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";
-import {logAmplitudeEvent} from "../utils/amplitude";
+import {logAmplitudeEvent, logBrukerDefaultLanguage} from "../utils/amplitude";
 import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
+import Cookies from "js-cookie";
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
@@ -25,6 +26,7 @@ const Saksoversikt: NextPage = () => {
         query: {
             onSuccess: (data) => {
                 if (!pageLoadIsLogged) {
+                    logBrukerDefaultLanguage(Cookies.get("decorator-language"));
                     logAmplitudeEvent("Hentet innsynsdata", {
                         antallSoknader: data?.length,
                     });
