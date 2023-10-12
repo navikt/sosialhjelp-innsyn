@@ -1,7 +1,6 @@
 import * as React from "react";
 import {useTranslation} from "next-i18next";
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert} from "@navikt/ds-react";
 import {useHentForelopigSvarStatus} from "../../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
@@ -14,10 +13,6 @@ const ForelopigSvarAlertstripe: React.FC = () => {
     const {data: forelopigSvar} = useHentForelopigSvarStatus(soknadId as string);
     const {data: soknadsStatus} = useHentSoknadsStatus(soknadId as string);
 
-    const onVisForelopigSvar = () => {
-        logButtonOrLinkClick("Vis foreløpig svar");
-    };
-
     if (!forelopigSvar || !soknadsStatus) {
         return null;
     }
@@ -27,7 +22,7 @@ const ForelopigSvarAlertstripe: React.FC = () => {
             <Alert variant="info">
                 {t("forelopigSvar")}
                 {forelopigSvar.link && (
-                    <EksternLenke href={forelopigSvar.link} onClick={onVisForelopigSvar}>
+                    <EksternLenke href={forelopigSvar.link}>
                         <b>{t("historikk.se_vedtaksbrev")}</b>
                     </EksternLenke>
                 )}

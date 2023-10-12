@@ -8,6 +8,7 @@ import {useTranslation} from "next-i18next";
 
 const Wrapper = styled.div`
     padding-top: 1rem;
+    white-space: pre-line;
     padding-bottom: 40px;
     max-width: 50rem;
 `;

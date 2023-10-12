@@ -5,7 +5,6 @@ import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import {getGetOppgaverQueryKey} from "../../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
 import InnsendelsesFrist from "../InnsendelsesFrist";
@@ -68,7 +67,6 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                     isVisible={kanLasteOppVedlegg}
                     isLoading={isLoading}
                     onClick={() => {
-                        logButtonOrLinkClick("Dine oppgaver: Trykket på Send vedlegg");
                         return upload();
                     }}
                 />
