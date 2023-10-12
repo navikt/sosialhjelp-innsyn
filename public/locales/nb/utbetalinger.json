@@ -42,8 +42,21 @@
   "ingen.utbetalinger.nøkkelpunt.tittel" : "Dette kan være fordi:",
   "ingen.utbetalinger.nøkkelpunkt1" : "søknaden din ikke er ferdigbehandlet",
   "ingen.utbetalinger.nøkkelpunkt2" : "du fikk ikke innvilget det du søkte om støtte til",
-  "ingen.utbetalinger.nøkkelpunkt3" : "kommunen din ikke kan vise utbetalinger for søknader sendt på papir"
-
+  "ingen.utbetalinger.nøkkelpunkt3" : "kommunen din ikke kan vise utbetalinger for søknader sendt på papir",
+  "utbetalinger.ingen-utbetalinger.tittel": "Vi finner ingen utbetalinger for økonomisk sosialhjelp",
+  "utbetalinger.ingen-utbetalinger.body": "Dette kan være fordi du ikke har søkt om økonomisk sosialhjelp, kommunen din ikke kan vise utbetalinger\nfor søknader sendt på papir, eller at utbetalingene er eldre enn 15 måneder.",
+  "utbetalingsmetode.bank": "Bank",
+  "utbetalingsmetode.bankoverføring": "Bankoverføring",
+  "utbetalingsmetode.bankkonto": "Bankkonto",
+  "utbetalingsmetode.bankgiro": "Bankgiro",
+  "utbetalingsmetode.lønn": "Lønn",
+  "utbetalingsmetode.rekvisisjon": "Rekvisisjon",
+  "utbetalingsmetode.kontantkort": "Kontantkort",
+  "utbetalingsmetode.kontant/sjekk": "Kontant/Sjekk",
+  "utbetalingsmetode.kronekort": "Kronekort",
+  "utbetalingsmetode.giro": "Giro",
+  "utbetalingsmetode.postgiro": "Postgiro",
+  "utbetalingsmetode.garanti": "Garanti"
 
 }
 
