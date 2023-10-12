@@ -1,12 +1,10 @@
 import {useTranslation} from "next-i18next";
 import useIsMobile from "../utils/useIsMobile";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {useHarSoknaderMedInnsyn} from "../../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
-import {IngenUtbetalinger} from "../utbetalinger/IngenUtbetalinger";
 import {FilterProvider} from "../utbetalinger/beta/filter/FilterContext";
 import {Loader, Panel} from "@navikt/ds-react";
 import UtbetalingerFilter from "../utbetalinger/beta/filter/UtbetalingerFilter";
@@ -16,31 +14,13 @@ import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
-import {useRouter} from "next/router";
-import {logAmplitudeEvent} from "../utils/amplitude";
-
-const UtbetalingerBeta: NextPage = () => {
+import Error from "./_error";
+const Utbetalinger: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
     useUpdateBreadcrumbs(() => [{url: "/utbetaling", title: t("utbetaling")}]);
     const isMobile = useIsMobile();
-    const router = useRouter();
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
 
-    const {data: alleSaker, isLoading: isAlleSakerLoading, error: harSakerError} = useHentAlleSaker();
-    const {data: utbetalingerData} = useHentUtbetalinger(
-        {},
-        {
-            query: {
-                onSuccess: (data) => {
-                    const antall = data.reduce((acc, curr) => acc + curr.utbetalinger.length, 0);
-                    if (!pageLoadIsLogged) {
-                        logAmplitudeEvent("Lastet utbetalinger", {antall: antall});
-                        setPageLoadIsLogged(true);
-                    }
-                },
-            },
-        }
-    );
+    const {data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError} = useHentAlleSaker();
 
     const {
         data: harSoknaderMedInnsyn,
@@ -48,15 +28,13 @@ const UtbetalingerBeta: NextPage = () => {
         isError: harSoknaderError,
     } = useHarSoknaderMedInnsyn();
 
-    useEffect(() => {
-        if (harSoknaderError || harSakerError) {
-            router.push("/500");
-        }
-    }, [harSoknaderError, harSakerError, router]);
+    if (harSoknaderError || harSakerError) {
+        return <Error statusCode={500} />;
+    }
 
     if (isAlleSakerLoading || isHarSoknaderMedInnsynLoading) {
         return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <Loader className={styles.utbetalinger_loader} size="3xlarge" title="venter..." />
             </div>
         );
@@ -64,7 +42,7 @@ const UtbetalingerBeta: NextPage = () => {
 
     if (!alleSaker || alleSaker?.length === 0) {
         return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <UtbetalingsoversiktIngenSoknader />
             </div>
         );
@@ -72,16 +50,8 @@ const UtbetalingerBeta: NextPage = () => {
 
     if (!harSoknaderMedInnsyn) {
         return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <UtbetalingsoversiktIngenInnsyn />
-            </div>
-        );
-    }
-
-    if (!utbetalingerData || utbetalingerData?.length === 0) {
-        return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
-                <IngenUtbetalinger />
             </div>
         );
     }
@@ -110,4 +80,4 @@ export const getServerSideProps: GetServerSideProps = async ({locale}) => {
     return {props: {...translations}};
 };
 
-export default UtbetalingerBeta;
+export default Utbetalinger;

@@ -1,9 +1,9 @@
 import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
 import {logger} from "@navikt/next-logger";
 
-export function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
+export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
-        logDekoratoren({
+        await logDekoratoren({
             origin: "sosialhjelpInnsyn",
             eventName,
             eventData: {...eventData, skjemaId: "sosialhjelpInnsyn"},

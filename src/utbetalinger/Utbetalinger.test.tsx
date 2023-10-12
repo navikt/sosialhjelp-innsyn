@@ -1,53 +1,52 @@
 import React from "react";
-
-import Utbetalinger from "../pages/utbetalingLegacy";
+import Utbetalinger from "../pages/utbetaling";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
 import {rest} from "msw";
-import {getHentUtbetalingerMock} from "../../generated/utbetalinger-controller/utbetalinger-controller.msw";
+import {getHentNyeUtbetalingerMock} from "../../generated/utbetalinger-controller/utbetalinger-controller.msw";
 import {getHentAlleSakerMock} from "../../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
-import {subMonths, format, subDays, startOfMonth} from "date-fns";
-import {nb} from "date-fns/locale";
+import {subMonths} from "date-fns";
+import {randomUUID} from "node:crypto";
+import {NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
 
-const makeUtbetaling = (date: Date) => {
+const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     return {
-        maned: format(date, "LLLL", {locale: nb}),
+        maned: date.getMonth() + 1,
         ar: date.getFullYear(),
-        foersteIManeden: startOfMonth(date).toISOString(),
-        utbetalinger: [
+        utbetalingerForManed: [
             {
                 utbetalingsdato: date.toString(),
-                status: "utbetalt",
+                status: "UTBETALT",
                 fiksDigisosId: "123",
-                tittel: "Penger",
+                tittel: "Penger til husleie",
                 belop: 1000,
                 annenMottaker: false,
             },
         ],
     };
 };
-const loading = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) =>
-    res(ctx.delay(2000), ctx.status(200, "Mocked status"), ctx.json(getHentUtbetalingerMock()))
+const loading = rest.get("*/api/v1/innsyn/nye", (_req, res, ctx) =>
+    res(ctx.delay(2000), ctx.status(200, "Mocked status"), ctx.json(getHentNyeUtbetalingerMock()))
 );
 
-const utbetaling5ManederSiden = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) => {
+const utbetaling5ManederSiden = rest.get("*/api/v1/innsyn/tidligere", (_req, res, ctx) => {
     const utbetaling5ManederSiden = makeUtbetaling(subMonths(new Date(), 5));
-    return res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json([utbetaling5ManederSiden]));
+    return res(ctx.status(200, "Mocked status"), ctx.json([utbetaling5ManederSiden]));
 });
 
-const utbetalingYesterday = rest.get("*/api/v1/innsyn/utbetalinger", (_req, res, ctx) => {
-    const utbetalingYesterday = makeUtbetaling(subDays(new Date(), 1));
-    return res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json([utbetalingYesterday]));
+const utbetalingToday = rest.get("*/api/v1/innsyn/nye", (_req, res, ctx) => {
+    const utbetalingToday = makeUtbetaling(new Date());
+    return res(ctx.status(200, "Mocked status"), ctx.json([utbetalingToday]));
 });
 
 const harSoknaderMedInnsyn = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
     res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(true))
 );
 
-// const harIkkeSoknaderMedInnsyn = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
-//     res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(false))
-// );
+const harIkkeSoknaderMedInnsyn = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
+    res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(false))
+);
 
 const alleSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
     res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(getHentAlleSakerMock()))
@@ -58,10 +57,31 @@ const ingenSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
 );
 
 const error = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
-    res(ctx.delay(200), ctx.status(500, "Mocked status"))
+    res(ctx.status(500, "Mocked status"))
+);
+
+jest.mock("../utils/useIsMobile", () => {
+    return jest.fn(() => false);
+});
+
+beforeAll(() =>
+    Object.defineProperty(window, "crypto", {
+        value: {randomUUID: randomUUID},
+    })
 );
 
 describe("Utbetalinger", () => {
+    it("Viser utbetalinger ved suksess", async () => {
+        server.use(utbetalingToday, alleSaker, harSoknaderMedInnsyn);
+
+        render(<Utbetalinger />);
+
+        await waitFor(async () => {
+            const utbetaling = screen.getByText("Penger til husleie");
+            expect(utbetaling).toBeInTheDocument();
+        });
+    });
+
     it("Viser lastestripe under innlasting", async () => {
         server.use(loading, alleSaker, harSoknaderMedInnsyn);
 
@@ -82,41 +102,49 @@ describe("Utbetalinger", () => {
         expect(tomTilstand).toBeVisible();
     });
 
-    it("Viser 4 måneder gammel utbetaling hvis man huker av for 'siste 6 måneder'", async () => {
-        server.use(utbetaling5ManederSiden, alleSaker, harSoknaderMedInnsyn);
+    it("Viser 4 måneder gammel utbetaling hvis man huker av for 'tidligere utbetalinger'", async () => {
+        server.use(utbetalingToday, utbetaling5ManederSiden, alleSaker, harSoknaderMedInnsyn);
 
         render(<Utbetalinger />);
 
-        await waitFor(() => screen.queryByRole("group", {name: "Velg mottaker"}));
-        expect(screen.queryByRole("heading", {name: "Penger"})).not.toBeInTheDocument();
-        fireEvent.click(await screen.findByRole("radio", {name: "Siste 6 måneder"}));
-        expect(await screen.findByRole("heading", {name: "Penger"})).toBeInTheDocument();
+        await waitFor(() => expect(screen.queryByText("Penger til husleie")).not.toBeInTheDocument());
+        fireEvent.click(await screen.findByRole("tab", {name: "Tidligere utbetalinger"}));
+
+        await waitFor(async () => {
+            const utbetaling = screen.getByText("Penger til husleie");
+            expect(utbetaling).toBeInTheDocument();
+        });
     });
 
-    // it("Viser tom tilstand ved ingen søknader med innsyn", async () => {
-    //     server.use(alleSaker, harIkkeSoknaderMedInnsyn);
-    //
-    //     render(<Utbetalinger />);
-    //
-    //     const tomTilstand = await screen.findByRole("heading", {name: /Vi kan ikke vise dine utbetalinger/});
-    //     expect(tomTilstand).toBeVisible();
-    // });
-
-    it("Viser utbetalinger ved suksess", async () => {
-        server.use(utbetalingYesterday, alleSaker, harSoknaderMedInnsyn);
+    it("Viser tom tilstand ved ingen søknader med innsyn", async () => {
+        server.use(alleSaker, harIkkeSoknaderMedInnsyn);
 
         render(<Utbetalinger />);
-
-        expect(await screen.findByRole("heading", {name: "Penger"})).toBeInTheDocument();
+        expect(await screen.findByRole("heading", {name: "Vi finner ingen søknader fra deg"})).toBeInTheDocument();
     });
 
-    it("Viser ikke utbetaling hvis man fjerner 'til deg'", async () => {
-        server.use(utbetalingYesterday, alleSaker, harSoknaderMedInnsyn);
+    it("Viser ikke utbetaling hvis man velger 'til andre mottakere'", async () => {
+        server.use(utbetalingToday, alleSaker, harSoknaderMedInnsyn);
 
         render(<Utbetalinger />);
+        await waitFor(async () => {
+            const utbetaling = screen.getByText("Penger til husleie");
+            expect(utbetaling).toBeInTheDocument();
+        });
 
-        expect(await screen.findByRole("heading", {name: "Penger"})).toBeInTheDocument();
-        fireEvent.click(screen.getByRole("checkbox", {name: "Til deg"}));
-        expect(screen.queryByRole("heading", {name: "Penger"})).not.toBeInTheDocument();
+        const radio = await screen.getByRole("radio", {name: "Til andre mottakere"});
+        fireEvent.click(radio);
+        await waitFor(async () => {
+            const utbetaling = screen.queryByText("Penger til husleie");
+            expect(utbetaling).not.toBeInTheDocument();
+        });
+    });
+
+    it("Viser feil når man får >500 fra server", async () => {
+        server.use(error);
+        render(<Utbetalinger />);
+        expect(
+            await screen.findByRole("heading", {name: "Beklager, vi har dessverre tekniske problemer."})
+        ).toBeInTheDocument();
     });
 });
