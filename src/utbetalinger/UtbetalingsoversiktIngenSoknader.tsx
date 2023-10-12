@@ -20,9 +20,9 @@ const UtbetalingsoversiktIngenSoknader: React.FC = () => {
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        {t("utbetalinger.ingen-utbetalinger.tittel")}
+                        {t("utbetalinger.ingen-utbetalinger.tittel", {ns: "utbetalinger"})}
                     </Heading>
-                    <BodyLong>{t("utbetalinger.ingen-utbetalinger.body")}</BodyLong>
+                    <BodyLong>{t("utbetalinger.ingen-utbetalinger.body", {ns: "utbetalinger"})}</BodyLong>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
 
