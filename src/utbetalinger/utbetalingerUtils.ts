@@ -49,9 +49,10 @@ const hentUtbetalingTittel = (tittel: string, defaultTittel: string) => {
     return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : defaultTittel;
 };
 
-const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string, i18n: i18n) => {
-    return i18n.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
-        ? i18n.t(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
+const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string, _i18n: i18n) => {
+    console.log("debug", utbetalingsmetode, _i18n);
+    return _i18n?.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
+        ? _i18n.t(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
         : utbetalingsmetode;
 };
 
