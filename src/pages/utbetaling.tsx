@@ -14,7 +14,6 @@ import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
-import {useRouter} from "next/router";
 import Error from "./_error";
 const Utbetalinger: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
@@ -35,7 +34,7 @@ const Utbetalinger: NextPage = () => {
 
     if (isAlleSakerLoading || isHarSoknaderMedInnsynLoading) {
         return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <Loader className={styles.utbetalinger_loader} size="3xlarge" title="venter..." />
             </div>
         );
@@ -43,7 +42,7 @@ const Utbetalinger: NextPage = () => {
 
     if (!alleSaker || alleSaker?.length === 0) {
         return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <UtbetalingsoversiktIngenSoknader />
             </div>
         );
@@ -51,7 +50,7 @@ const Utbetalinger: NextPage = () => {
 
     if (!harSoknaderMedInnsyn) {
         return (
-            <div className={styles.utbetalinger_side} data-theme="utbetalinger-beta">
+            <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <UtbetalingsoversiktIngenInnsyn />
             </div>
         );
