@@ -51,7 +51,7 @@ const hentUtbetalingTittel = (tittel: string, defaultTittel: string) => {
 
 const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string, _i18n: i18n) => {
     console.log("debug", utbetalingsmetode, _i18n);
-    return _i18n?.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
+    return _i18n.exists(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
         ? _i18n.t(`utbetalingsmetode.${utbetalingsmetode.toLowerCase()}`)
         : utbetalingsmetode;
 };
