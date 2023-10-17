@@ -31,7 +31,7 @@ export const axiosInstance = <T>(
         .catch(async (e) => {
             Object.assign(e, {navCallId: e.config?.headers["Nav-Call-Id"]});
 
-            if (!(e instanceof AxiosError<T>)) {
+            if (!e.isAxiosError) {
                 logger.warn(`non-axioserror error ${e} in axiosinstance`, e.navCallId);
             }
 
