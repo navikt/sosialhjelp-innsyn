@@ -6,9 +6,9 @@ export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste 
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 
 export const hentFileExtension = (filnavn: string) => {
-    var filetternavn = "ukjent";
+    let filetternavn = "ukjent";
     if (filnavn.length >= 5) {
-        var testSteng = filnavn.substr(filnavn.length - 5, 5);
+        let testSteng = filnavn.substr(filnavn.length - 5, 5);
         const punktumPosisjon = testSteng.indexOf(".");
         if (punktumPosisjon > -1) {
             filetternavn = testSteng.substr(punktumPosisjon + 1, 4 - punktumPosisjon);
