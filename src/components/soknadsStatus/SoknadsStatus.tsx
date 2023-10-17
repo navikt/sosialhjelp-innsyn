@@ -3,7 +3,7 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import {useTranslation} from "next-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 import SoknadsStatusTag from "./SoknadsStatusTag";
@@ -115,7 +115,12 @@ const SoknadsStatus = () => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
-
+                            logAmplitudeEvent("vedtak per sak", {
+                                sak: index,
+                                antallVedtak: statusdetalj.vedtaksfilUrlList
+                                    ? statusdetalj.vedtaksfilUrlList.length
+                                    : 0,
+                            });
                             return (
                                 <li key={index}>
                                     <StatusBox>
@@ -135,7 +140,6 @@ const SoknadsStatus = () => {
                                         {sakIkkeInnsyn && !soknadBehandlesIkke && (
                                             <BodyShort>{t("status.ikke_innsyn_ingress")}</BodyShort>
                                         )}
-
                                         {statusdetalj.vedtaksfilUrlList &&
                                             statusdetalj.vedtaksfilUrlList.map(
                                                 (hendelse: VedtaksfilUrl, id: number) => (
