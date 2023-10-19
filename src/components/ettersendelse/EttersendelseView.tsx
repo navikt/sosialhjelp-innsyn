@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
@@ -49,6 +49,9 @@ const EttersendelseView = (props: Props) => {
     const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
 
+    const [pressedAddFile, setPressedAddFile] = useState(false);
+    const [pressedSendFile, setPressedSendFile] = useState(false);
+
     const {
         upload,
         innerErrors,
@@ -66,6 +69,7 @@ const EttersendelseView = (props: Props) => {
     const outerErrorLocales = outerErrors.map((it) => errorStatusToMessage[it.feil]);
 
     const onChange = (files: FileList | null) => {
+        console.log("files", files);
         addFiler(0, files ? Array.from(files) : []);
     };
 

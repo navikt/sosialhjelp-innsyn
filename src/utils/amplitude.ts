@@ -45,6 +45,8 @@ const fullFormLanguageString = (language: string | undefined) => {
             return "Nynorsk";
         case "en":
             return "Engelsk";
+        case undefined:
+            return "Ukjent språk";
     }
 };
 

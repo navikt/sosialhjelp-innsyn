@@ -3,7 +3,7 @@ import EksternLenke from "../eksternLenke/EksternLenke";
 import {useTranslation} from "next-i18next";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {logAmplitudeEvent} from "../../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 import SoknadsStatusTag from "./SoknadsStatusTag";
@@ -92,6 +92,9 @@ const SoknadsStatus = () => {
             );
         }
     }
+    const aapnerVedtak = () => {
+        logButtonOrLinkClick("Åpner et vedtak");
+    };
 
     return (
         <SoknadsStatusPanel hasError={false} soknadsStatus={soknadsStatus}>
@@ -115,6 +118,9 @@ const SoknadsStatus = () => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
+                            if (statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.length > 0) {
+                                logAmplitudeEvent("Søker har vedtak");
+                            }
                             logAmplitudeEvent("vedtak per sak", {
                                 sak: index + 1,
                                 antallVedtak: statusdetalj.vedtaksfilUrlList
@@ -149,7 +155,10 @@ const SoknadsStatus = () => {
                                                 (hendelse: VedtaksfilUrl, id: number) => (
                                                     <StatusMessage key={id}>
                                                         <StatusMessageVedtak>
-                                                            <EksternLenke href={"" + hendelse.vedtaksfilUrl}>
+                                                            <EksternLenke
+                                                                href={"" + hendelse.vedtaksfilUrl}
+                                                                onClick={aapnerVedtak}
+                                                            >
                                                                 {t("vedtak")} (
                                                                 <DatoOgKlokkeslett
                                                                     bareDato={true}

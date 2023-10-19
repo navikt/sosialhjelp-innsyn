@@ -23,25 +23,14 @@ configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
 
-let language = Cookies.get("decorator-language");
-if (language === undefined || !["nb", "nn", "en"].includes(language)) {
-    language = "nb";
-}
-if (["nb", "nn", "en"].includes(language)) {
-    logBrukerDefaultLanguage(language);
-}
+/** ikke optimalt plassering, bør egentlig bare kjøres den ene gangen søker kommer inn på sosialhjelp-innsyn*/
+logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
     const {i18n} = useTranslation();
     const router = useRouter();
     const [queryHas403, setQueryHas403] = useState(false);
-    let language = Cookies.get("decorator-language");
-    if (language === undefined || !["nb", "nn", "en"].includes(language)) {
-        language = "nb";
-    }
-    if (["nb", "nn", "en"].includes(language)) {
-        logBrukerDefaultLanguage(language);
-    }
+
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, {locale: option.locale});
