@@ -1,5 +1,4 @@
-import React, {useEffect} from "react";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
+import React from "react";
 import {Panel, Tabs} from "@navikt/ds-react";
 import styled from "styled-components";
 import {useTranslation} from "next-i18next";
@@ -15,14 +14,14 @@ enum ARKFANER {
 
 const StyledPanel = styled(Panel)<{$hasError: boolean}>`
     position: relative;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     padding: 1rem 0 1rem 0;
     border-color: ${(props) => (props.$hasError ? "var(--a-red-500)" : "transparent")};
 
     @media screen and (min-width: 641px) {
         padding-left: 60px;
         padding-right: 80px;
-        margin-top: 3rem;
+        margin-top: 1.5rem;
     }
 `;
 
@@ -49,15 +48,8 @@ const ArkfanePanel: React.FC<Props> = (props) => {
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
     const hendelserHasError = useHentHendelser(fiksDigisosId).isError;
     const vedleggHasError = useHentVedlegg(fiksDigisosId).isError;
-
     const hasError =
         (valgtFane === ARKFANER.HISTORIKK && hendelserHasError) || (valgtFane === ARKFANER.VEDLEGG && vedleggHasError);
-    useEffect(() => {
-        // Logg til amplitude når "dine vedlegg" blir trykket
-        if (valgtFane === ARKFANER.VEDLEGG) {
-            logButtonOrLinkClick("Dine vedlegg");
-        }
-    }, [valgtFane]);
 
     return (
         <StyledPanel $hasError={hasError}>

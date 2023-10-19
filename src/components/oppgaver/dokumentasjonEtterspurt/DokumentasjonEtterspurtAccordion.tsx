@@ -45,9 +45,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     return (
         <>
             <Accordion.Item defaultOpen>
-                <Accordion.Header
-                    onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet etterspørsel av dokumentasjon")}
-                >
+                <Accordion.Header>
                     <MaaSendeDokTekst dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     {dokumentasjonEtterspurtErFraInnsyn && (
                         <NesteInnsendelsesFrist

@@ -27,7 +27,7 @@ const DokumentasjonkravAccordion = (props: Props) => {
     return (
         <>
             <Accordion.Item defaultOpen>
-                <Accordion.Header onClick={() => logButtonOrLinkClick("Dine oppgaver: Åpnet dokumentasjonkrav")}>
+                <Accordion.Header>
                     <Label as="p">{t("dokumentasjonkrav.dokumentasjon_stonad")}</Label>
                     <BodyShort>{t("dokumentasjonkrav.veileder_trenger_mer")}</BodyShort>
                 </Accordion.Header>

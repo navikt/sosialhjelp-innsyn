@@ -1,5 +1,5 @@
 import {server} from "./mocks/server";
-import {queryClient} from "./test/test-utils";
+import {queryCache, queryClient} from "./test/test-utils";
 import "@testing-library/jest-dom";
 import "@testing-library/jest-dom/extend-expect";
 import mockRouter from "next-router-mock";
@@ -62,6 +62,7 @@ afterEach(async () => {
     await queryClient.cancelQueries();
     queryClient.clear();
     server.resetHandlers();
+    queryCache.clear();
 });
 
 // Clean up after the tests are finished.

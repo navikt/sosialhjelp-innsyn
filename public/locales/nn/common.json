@@ -208,20 +208,5 @@
   "lenke.les_mer": "Les meir om økonomisk sosialhjelp",
   "lenke.sok": "Søk om økonomisk sosialhjelp",
   "lenke.saksbehandling": "Kor lang tid tek det å behandle søknaden?",
-  "lenke.klage": "Korleis sende klage?",
-
-  "utbetalinger.ingen-utbetalinger.tittel": "Vi finn ingen utbetalingar for økonomisk sosialhjelp",
-  "utbetalinger.ingen-utbetalinger.body": "Dette kan vere fordi du ikkje har søkt om økonomisk sosialhjelp, kommunen din ikkje kan vise utbetalingar<linebreak/> for søknader sende på papir, eller at utbetalingane er eldre enn 15 månader.",
-  "utbetalingsmetode.bank": "Bank",
-  "utbetalingsmetode.bankoverføring": "Bankoverføring",
-  "utbetalingsmetode.bankkonto": "Bankkonto",
-  "utbetalingsmetode.bankgiro": "Bankgiro",
-  "utbetalingsmetode.lønn": "Lønn",
-  "utbetalingsmetode.rekvisisjon": "Rekvisisjon",
-  "utbetalingsmetode.kontantkort": "Kontantkort",
-  "utbetalingsmetode.kontant/sjekk": "Kontant/Sjekk",
-  "utbetalingsmetode.kronekort": "Kronekort",
-  "utbetalingsmetode.giro": "Giro",
-  "utbetalingsmetode.postgiro": "Postgiro",
-  "utbetalingsmetode.garanti": "Garanti"
+  "lenke.klage": "Korleis sende klage?"
 }

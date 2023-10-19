@@ -7,7 +7,6 @@
 @import "./components/paneler/paneler.css";
 @import "./components/ellaBlunk/EllaBlunk.css";
 @import "./saksoversikt/banner/saksoversiktBanner.css";
-@import "./utbetalinger/utbetalinger.css";
 @import "./App.css";
 
 [data-theme="sosialhjelp-innsyn"] {
@@ -15,7 +14,7 @@
     --ac-guide-panel-illustration-bg: #cde7d8;
 }
 
-[data-theme="utbetalinger-beta"] {
+[data-theme="utbetalinger"] {
     --ac-guide-panel-border: none;
     --ac-guide-panel-illustration-bg: #9bd0b0;
 }

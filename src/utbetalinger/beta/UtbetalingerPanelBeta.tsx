@@ -21,7 +21,7 @@ export interface UtbetalingMedId extends ManedUtbetaling {
     id: string;
 }
 
-export interface UtbetalingerResponse extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
+export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
     utbetalingerForManed: UtbetalingMedId[];
 }
 
@@ -34,8 +34,8 @@ const UtbetalingerPanelBeta = () => {
         isError: hentNyeFeilet,
     } = useHentNyeUtbetalinger({
         query: {
-            onSuccess: (data: UtbetalingerResponse[]) => {
-                if (!nyeLogged && data.length > 0) {
+            onSuccess: (data: UtbetalingerResponseMedId[]) => {
+                if (!nyeLogged && data?.length > 0) {
                     const sisteManedgruppe = data[data.length - 1].utbetalingerForManed;
                     const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
                     logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});

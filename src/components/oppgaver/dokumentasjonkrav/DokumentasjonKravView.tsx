@@ -5,7 +5,6 @@ import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import {getGetDokumentasjonkravQueryKey} from "../../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import InnsendelsesFrist from "../InnsendelsesFrist";

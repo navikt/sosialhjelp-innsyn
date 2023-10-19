@@ -3,8 +3,8 @@ export default {
         input: "./innsyn-api.json",
         output: {
             mode: "tags-split",
-            target: "src/generated/innsyn-api.ts",
-            schemas: "src/generated/model",
+            target: "generated/innsyn-api.ts",
+            schemas: "generated/model",
             client: "react-query",
             override: {
                 mutator: {

@@ -1,10 +1,11 @@
 .utbetalinger_side {
-    padding: 4rem 2rem 2rem;
+    padding: 32px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 2rem;
     background-color: #d4e6d8;
+    min-height: 40vh;
 }
 
 .utbetalinger_loader {

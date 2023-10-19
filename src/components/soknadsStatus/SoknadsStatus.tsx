@@ -43,6 +43,10 @@ const StatusMessageVedtak = styled.div`
     margin-top: 6px;
 `;
 
+const StyledAlertTag = styled(Tag)`
+    border-radius: 6px;
+`;
+
 const SoknadsStatus = () => {
     const fiksDigisosId = useFiksDigisosId();
 
@@ -53,10 +57,6 @@ const SoknadsStatus = () => {
     const soknadBehandlesIkke = soknadsStatusQuery.data?.status === SoknadsStatusResponseStatus.BEHANDLES_IKKE;
     const hasError = soknadsStatusQuery.isError || saksStatusQuery.isError;
     const isLoading = soknadsStatusQuery.isLoading || saksStatusQuery.isLoading;
-
-    const onVisVedtak = () => {
-        logButtonOrLinkClick("Åpnet vedtaksbrev");
-    };
 
     const soknadsStatus = soknadsStatusQuery.data?.status;
 
@@ -127,11 +127,15 @@ const SoknadsStatus = () => {
                                         <StatusMessage>
                                             <Label as="p">{hentSakstittel(statusdetalj.tittel)}</Label>
                                             {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
-                                                <Tag variant="success">{t("saksStatus.ferdig_behandlet")}</Tag>
+                                                <StyledAlertTag variant="success">
+                                                    {t("saksStatus.ferdig_behandlet")}
+                                                </StyledAlertTag>
                                             )}
                                             {saksStatus === SaksStatusResponseStatus.UNDER_BEHANDLING &&
                                                 !soknadBehandlesIkke && (
-                                                    <Tag variant="warning">{t("saksStatus.under_behandling")}</Tag>
+                                                    <StyledAlertTag variant="warning">
+                                                        {t("saksStatus.under_behandling")}
+                                                    </StyledAlertTag>
                                                 )}
                                         </StatusMessage>
                                         {sakBehandlesIkke && !soknadBehandlesIkke && (
@@ -145,10 +149,7 @@ const SoknadsStatus = () => {
                                                 (hendelse: VedtaksfilUrl, id: number) => (
                                                     <StatusMessage key={id}>
                                                         <StatusMessageVedtak>
-                                                            <EksternLenke
-                                                                href={"" + hendelse.vedtaksfilUrl}
-                                                                onClick={onVisVedtak}
-                                                            >
+                                                            <EksternLenke href={"" + hendelse.vedtaksfilUrl}>
                                                                 {t("vedtak")} (
                                                                 <DatoOgKlokkeslett
                                                                     bareDato={true}
