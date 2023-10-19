@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import {AppProps} from "next/app";
 import {QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {useTranslation} from "next-i18next";
-import {appWithTranslation} from "next-i18next";
-import {logBrukerSpraakChange} from "../utils/amplitude";
+import {appWithTranslation, useTranslation} from "next-i18next";
+import {logBrukerDefaultLanguage, logBrukerSpraakChange} from "../utils/amplitude";
 import {useRouter} from "next/router";
 import "../index.css";
 import {onBreadcrumbClick, onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import {configureLogger} from "@navikt/next-logger";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
+import Cookies from "js-cookie";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
@@ -23,10 +23,25 @@ configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
 
+let language = Cookies.get("decorator-language");
+if (language === undefined || !["nb", "nn", "en"].includes(language)) {
+    language = "nb";
+}
+if (["nb", "nn", "en"].includes(language)) {
+    logBrukerDefaultLanguage(language);
+}
+
 const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
     const {i18n} = useTranslation();
     const router = useRouter();
     const [queryHas403, setQueryHas403] = useState(false);
+    let language = Cookies.get("decorator-language");
+    if (language === undefined || !["nb", "nn", "en"].includes(language)) {
+        language = "nb";
+    }
+    if (["nb", "nn", "en"].includes(language)) {
+        logBrukerDefaultLanguage(language);
+    }
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, {locale: option.locale});
