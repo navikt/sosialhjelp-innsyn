@@ -69,7 +69,6 @@ const EttersendelseView = (props: Props) => {
     const outerErrorLocales = outerErrors.map((it) => errorStatusToMessage[it.feil]);
 
     const onChange = (files: FileList | null) => {
-        console.log("files", files);
         addFiler(0, files ? Array.from(files) : []);
     };
 
