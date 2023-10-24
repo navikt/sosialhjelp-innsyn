@@ -92,9 +92,6 @@ const SoknadsStatus = () => {
             );
         }
     }
-    const aapnerVedtak = () => {
-        logButtonOrLinkClick("Åpner et vedtak");
-    };
 
     return (
         <SoknadsStatusPanel hasError={false} soknadsStatus={soknadsStatus}>
@@ -119,7 +116,7 @@ const SoknadsStatus = () => {
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
                             if (statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.length > 0) {
-                                logAmplitudeEvent("Søker har vedtak");
+                                logAmplitudeEvent("Søker får vedtak");
                             }
                             logAmplitudeEvent("vedtak per sak", {
                                 sak: index + 1,
@@ -157,7 +154,7 @@ const SoknadsStatus = () => {
                                                         <StatusMessageVedtak>
                                                             <EksternLenke
                                                                 href={"" + hendelse.vedtaksfilUrl}
-                                                                onClick={aapnerVedtak}
+                                                                onClick={() => logButtonOrLinkClick("Åpner et vedtak")}
                                                             >
                                                                 {t("vedtak")} (
                                                                 <DatoOgKlokkeslett
