@@ -9,10 +9,10 @@ import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
 
-    // TODO: finn en mer optimal løsning, uten useEffect kjøres dette flere ganger når det hovedsaklig kjøre en gang når søker kommer inn på sosialhjelp-innsyn
+    // TODO: Uten useEffect blir denne log kjørt mange ganger. Sånn som den står når blir den kjørt 2 men skal kjøres 1 gang.
     useEffect(() => {
         logAmplitudeEvent("Dine utbetalinger panel vises");
-    });
+    }, []);
 
     return (
         <Link href="/utbetaling" legacyBehavior passHref>

@@ -23,16 +23,13 @@ configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
 
-// TODO: finn en mer optimal plassering, foreløpig kjøres dette hele tiden når det egentlig skal bare kjøres den ene gangen søker kommer inn på sosialhjelp-innsyn
-const brukerDefaultLanguage = () => {
-    logBrukerDefaultLanguage(Cookies.get("decorator-language"));
-};
+// TODO: Dette er kanskje ikke den beste plassering
+logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
     const {i18n} = useTranslation();
     const router = useRouter();
     const [queryHas403, setQueryHas403] = useState(false);
-
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, {locale: option.locale});
