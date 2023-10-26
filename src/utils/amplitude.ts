@@ -41,10 +41,12 @@ const fullFormLanguageString = (language: string | undefined) => {
             return "Nynorsk";
         case "en":
             return "Engelsk";
+        case undefined:
+            return "Ukjent språk";
     }
 };
 
-export const logBrukerDefaultLanguage = (lang: string) => {
+export const logBrukerDefaultLanguage = (lang: string | undefined) => {
     const language = fullFormLanguageString(lang);
     logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
 };
