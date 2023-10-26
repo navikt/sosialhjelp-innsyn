@@ -29,10 +29,6 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(false);
 
-    const gaaFraUtbetalingTilSoknad = () => {
-        logButtonOrLinkClick("Åpner søknaden fra utbetalingen");
-    };
-
     return (
         <>
             <Accordion.Item open={isOpen}>
@@ -106,7 +102,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                     <Link
                         href={"/" + utbetalingManed.fiksDigisosId + "/status"}
                         className={`navds-link ${styles.soknadLenke} `}
-                        onClick={gaaFraUtbetalingTilSoknad}
+                        onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
                     >
                         <FileContent aria-hidden width="1.5rem" height="1.5rem" />
                         {t("soknadLenke")}

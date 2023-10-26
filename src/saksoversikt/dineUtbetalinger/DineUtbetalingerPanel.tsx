@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import styles from "./dineUtbetalingerPanel.module.css";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
@@ -6,14 +6,10 @@ import {useTranslation} from "next-i18next";
 import Link from "next/link";
 import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 
+logAmplitudeEvent("Dine utbetalinger panel vises");
+
 const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
-
-    // TODO: Uten useEffect blir denne log kjørt mange ganger. Sånn som den står når blir den kjørt 2 men skal kjøres 1 gang.
-    useEffect(() => {
-        logAmplitudeEvent("Dine utbetalinger panel vises");
-    }, []);
-
     return (
         <Link href="/utbetaling" legacyBehavior passHref>
             <LinkPanel
