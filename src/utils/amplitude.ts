@@ -33,10 +33,6 @@ export const logButtonOrLinkClick = (tittel: string) => {
     });
 };
 
-export const logServerfeil = (eventData?: Record<string, unknown>) => {
-    logAmplitudeEvent("Serverfeil ved lasting av ressurs", eventData);
-};
-
 const fullFormLanguageString = (language: string | undefined) => {
     switch (language) {
         case "nb":
@@ -45,12 +41,10 @@ const fullFormLanguageString = (language: string | undefined) => {
             return "Nynorsk";
         case "en":
             return "Engelsk";
-        case undefined:
-            return "Ukjent språk";
     }
 };
 
-export const logBrukerDefaultLanguage = (lang: string | undefined) => {
+export const logBrukerDefaultLanguage = (lang: string) => {
     const language = fullFormLanguageString(lang);
     logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
 };
