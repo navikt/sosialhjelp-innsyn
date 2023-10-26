@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {fileUploadFailedEvent, logDuplicatedFiles} from "../../utils/amplitude";
+import {logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -199,13 +199,13 @@ const useFilOpplasting = (
                 },
                 onError: (error, variables, context) => {
                     options?.onError?.(error, variables, context);
-                    fileUploadFailedEvent("vedlegg.opplasting_feilmelding");
+                    logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
                     logger.warn("Feil med opplasting av vedlegg: " + error.message);
                     if (error.message === "Mulig virus funnet") {
-                        fileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
+                        logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
                         setOuterErrors([{feil: Feil.VIRUS}]);
                     } else {
-                        fileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
+                        logFileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
                         setOuterErrors([{feil: Feil.KLIENTFEIL}]);
                     }
                 },

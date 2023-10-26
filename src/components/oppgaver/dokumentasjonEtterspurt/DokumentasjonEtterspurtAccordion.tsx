@@ -1,7 +1,8 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
+import {logButtonOrLinkClick, logVeilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import React from "react";
+import React, {useEffect} from "react";
 import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
@@ -27,12 +28,19 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     const {t} = useTranslation();
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
-    if (!brukerHarDokumentasjonEtterspurt) {
-        return null;
-    }
     const dokumentasjonEtterspurtErFraInnsyn =
         props.dokumentasjonEtterspurt?.[0].oppgaveElementer[0].hendelsetype ===
         OppgaveElementHendelsetype.dokumentasjonEtterspurt;
+
+    useEffect(() => {
+        if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn) {
+            logVeilederBerOmDokumentasjonEvent();
+        }
+    }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt]);
+
+    if (!brukerHarDokumentasjonEtterspurt) {
+        return null;
+    }
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 /* eslint-disable react/jsx-pascal-case */
-import {Fieldset, Radio, RadioGroup, DatePicker, useDatepicker} from "@navikt/ds-react";
+import {DatePicker, Fieldset, Radio, RadioGroup, useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
 import {useTranslation} from "next-i18next";
@@ -83,7 +83,6 @@ const UtbetalingerFilter = (props: Props) => {
                         error={fromDatePicker.datepickerProps.open ? undefined : fromDateError}
                     />
                 </DatePicker>
-
                 <DatePicker
                     {...toDatePicker.datepickerProps}
                     strategy={isMobile ? "fixed" : undefined}

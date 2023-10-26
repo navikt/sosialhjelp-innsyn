@@ -6,10 +6,10 @@ import {useTranslation} from "next-i18next";
 import Link from "next/link";
 import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 
+logAmplitudeEvent("Dine utbetalinger panel vises");
+
 const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
-    logAmplitudeEvent("Dine utbetalinger panel vises");
-
     return (
         <Link href="/utbetaling" legacyBehavior passHref>
             <LinkPanel

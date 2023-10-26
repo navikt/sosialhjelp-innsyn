@@ -13,7 +13,17 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
     }
 }
 
-export function fileUploadFailedEvent(errorMessage: string) {
+export function logVeilederBerOmDokumentasjonEvent() {
+    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden");
+}
+export function logVeilederBerOmDokumentasjonkravEvent() {
+    logAmplitudeEvent("Veileder ber om dokumentasjon til stønad/vilkår");
+}
+export function logSokerFaarVilkaar() {
+    logAmplitudeEvent("Søker får vilkår");
+}
+
+export function logFileUploadFailedEvent(errorMessage: string) {
     logAmplitudeEvent("Filopplasting feilet", {errorMessage});
 }
 
@@ -23,7 +33,7 @@ export const logButtonOrLinkClick = (tittel: string) => {
     });
 };
 
-const fullFormLanguageString = (language: string) => {
+const fullFormLanguageString = (language: string | undefined) => {
     switch (language) {
         case "nb":
             return "Norsk bokmål";
@@ -31,10 +41,12 @@ const fullFormLanguageString = (language: string) => {
             return "Nynorsk";
         case "en":
             return "Engelsk";
+        case undefined:
+            return "Ukjent språk";
     }
 };
 
-export const logBrukerDefaultLanguage = (lang: string) => {
+export const logBrukerDefaultLanguage = (lang: string | undefined) => {
     const language = fullFormLanguageString(lang);
     logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
 };

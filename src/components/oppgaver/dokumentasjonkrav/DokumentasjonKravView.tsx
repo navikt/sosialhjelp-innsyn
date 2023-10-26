@@ -13,6 +13,7 @@ import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
+import {logButtonOrLinkClick} from "../../../utils/amplitude";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse;
@@ -63,6 +64,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                     isVisible={kanLasteOppVedlegg}
                     isLoading={isLoading}
                     onClick={() => {
+                        logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
                         return upload();
                     }}
                 />

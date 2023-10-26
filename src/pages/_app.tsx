@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import {AppProps} from "next/app";
 import {QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {useTranslation} from "next-i18next";
-import {appWithTranslation} from "next-i18next";
-import {logBrukerSpraakChange} from "../utils/amplitude";
+import {appWithTranslation, useTranslation} from "next-i18next";
+import {logBrukerDefaultLanguage, logBrukerSpraakChange} from "../utils/amplitude";
 import {useRouter} from "next/router";
 import "../index.css";
 import {onBreadcrumbClick, onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
 import {configureLogger} from "@navikt/next-logger";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
+import Cookies from "js-cookie";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
@@ -22,6 +22,9 @@ const queryClient = (onError: QueryCache["config"]["onError"]) => {
 configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
+
+// TODO: Dette er kanskje ikke den beste plassering
+logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
     const {i18n} = useTranslation();
