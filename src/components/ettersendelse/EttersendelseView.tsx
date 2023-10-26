@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
@@ -48,9 +48,6 @@ const EttersendelseView = (props: Props) => {
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
-
-    const [pressedAddFile, setPressedAddFile] = useState(false);
-    const [pressedSendFile, setPressedSendFile] = useState(false);
 
     const {
         upload,
