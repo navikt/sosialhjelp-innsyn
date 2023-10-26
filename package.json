@@ -14,6 +14,7 @@
         "@sentry/react": "^7.77.0",
         "@sentry/tracing": "^7.77.0",
         "@tanstack/react-query": "^5.8.1",
+        "@unleash/nextjs": "^1.2.0",
         "axios": "^1.6.0",
         "date-fns": "^2.29.2",
         "i18next": "^23.6.0",
