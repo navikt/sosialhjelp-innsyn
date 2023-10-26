@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import styles from "./dineUtbetalingerPanel.module.css";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
@@ -8,7 +8,11 @@ import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 
 const DineUtbetalingerPanel: React.FC = () => {
     const {t} = useTranslation("utbetalinger");
-    logAmplitudeEvent("Dine utbetalinger panel vises");
+
+    // TODO: finn en mer optimal løsning, uten useEffect kjøres dette flere ganger når det hovedsaklig kjøre en gang når søker kommer inn på sosialhjelp-innsyn
+    useEffect(() => {
+        logAmplitudeEvent("Dine utbetalinger panel vises");
+    });
 
     return (
         <Link href="/utbetaling" legacyBehavior passHref>

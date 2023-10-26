@@ -23,8 +23,10 @@ configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
 
-/** ikke optimalt plassering, bør egentlig bare kjøres den ene gangen søker kommer inn på sosialhjelp-innsyn*/
-logBrukerDefaultLanguage(Cookies.get("decorator-language"));
+// TODO: finn en mer optimal plassering, foreløpig kjøres dette hele tiden når det egentlig skal bare kjøres den ene gangen søker kommer inn på sosialhjelp-innsyn
+const brukerDefaultLanguage = () => {
+    logBrukerDefaultLanguage(Cookies.get("decorator-language"));
+};
 
 const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
     const {i18n} = useTranslation();
