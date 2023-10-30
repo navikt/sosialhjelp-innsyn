@@ -41,6 +41,9 @@ const UtbetalingerPanelBeta = () => {
                     logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
                     setNyeLogged(true);
                 }
+                logAmplitudeEvent("Lastet utbetalinger", {
+                    antall: data[0]?.utbetalingerForManed.length ? data[0].utbetalingerForManed.length : 0,
+                });
             },
             select: (data) => {
                 // Legg på en id på hver utbetaling
