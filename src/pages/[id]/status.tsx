@@ -19,7 +19,6 @@ import Oppgaver from "../../components/oppgaver/Oppgaver";
 import VedleggView from "../../components/vedlegg/VedleggView";
 import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
 import Historikk from "../../components/historikk/Historikk";
-import TimeoutBox from "../../components/timeoutbox/TimeoutBox";
 import {usePathname} from "next/navigation";
 import MainLayout from "../../components/MainLayout";
 import {GetServerSideProps, NextPage} from "next";
@@ -112,7 +111,6 @@ const SaksStatusView: NextPage = () => {
                     </FilUploadSuccesfulProvider>
                 </>
             )}
-            <TimeoutBox sessionDurationInMinutes={30} showWarningerAfterMinutes={25} />
         </MainLayout>
     );
 };
