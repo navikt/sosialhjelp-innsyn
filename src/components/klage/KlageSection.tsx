@@ -43,6 +43,7 @@ const statusToText: Record<KlageDtoStatus, string> = {
 const KlageSection: NextPage = (): React.JSX.Element => {
     const fiksDigisosId = useFiksDigisosId();
     const {data, isLoading, error} = useHentKlager(fiksDigisosId);
+    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
     if (isLoading) {
         return (
             <Panel header="Dine klager">
@@ -50,6 +51,26 @@ const KlageSection: NextPage = (): React.JSX.Element => {
             </Panel>
         );
     }
+
+    if (!klageEnabled) {
+        return (
+            <Panel header="Klage">
+                <p>
+                    Hvis du har fått svar på søknaden din og er uenig i vedtaket, kan du klage innen 3 uker etter at du
+                    fikk svar.
+                </p>
+                <p>
+                    <span>Det er ikke mulig å klage digitalt. Du kan </span>
+                    <Link href="/papirskjema_klage.pdf">skrive ut et klageskjema (pdf)</Link>
+                    <span> som du kan sende som vedlegg til din søknad under “Dine vedlegg”.</span>
+                </p>
+                <p>
+                    <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Her kan du lese mer om klage</Link>
+                </p>
+            </Panel>
+        );
+    }
+
     return (
         <Panel header="Dine klager">
             {data && data.length > 0 && (

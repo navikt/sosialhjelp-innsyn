@@ -77,10 +77,6 @@ const SaksStatusView: NextPage = () => {
 
     const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
 
-    const skalViseKlage =
-        soknadsStatus?.status === SoknadsStatusResponseStatus.FERDIGBEHANDLET &&
-        saksStatuser?.some((status) => status.status === SaksStatusResponseStatus.FERDIGBEHANDLET);
-
     return (
         <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`} bannerTitle={t("soknadStatus.tittel")}>
             <LoadingResourcesFailedAlert />
@@ -109,7 +105,7 @@ const SaksStatusView: NextPage = () => {
                                 </StyledPanel>
                             </>
                         )}
-                        {skalViseKlage && <KlageSection />}
+                        <KlageSection />
                         {(kommune == null || !kommune.erInnsynDeaktivert) && (
                             <ArkfanePanel
                                 historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}

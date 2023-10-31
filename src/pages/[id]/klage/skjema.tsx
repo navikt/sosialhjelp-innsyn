@@ -53,8 +53,10 @@ const dummyMetadata = [
 const KlageSkjema: NextPage = () => {
     const fiksDigisosId = useFiksDigisosId();
     const router = useRouter();
+    if (!["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
+        router.replace({pathname: "/[id]/status", query: {id: fiksDigisosId}});
+    }
     const {t} = useTranslation();
-    //const vedtak = useHentAlleSaker();
     useUpdateBreadcrumbs(() => [
         {title: t("soknadStatus.tittel"), url: `/${fiksDigisosId}/status`},
         {title: "Send klage"},
