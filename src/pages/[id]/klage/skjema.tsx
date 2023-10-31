@@ -77,7 +77,7 @@ const KlageSkjema: NextPage = () => {
         mutation: {
             onSuccess: async () => {
                 await queryClient.invalidateQueries(getHentKlagerQueryKey(fiksDigisosId));
-                await router.push(`/${fiksDigisosId}/status`);
+                await router.push({pathname: "/[id]/status", query: {id: fiksDigisosId}});
             },
         },
     });
@@ -112,7 +112,11 @@ const KlageSkjema: NextPage = () => {
                             >
                                 {urls.map((url) => (
                                     <Checkbox key={url.id} value={url.id}>
-                                        <Link href={url.url}>Vedtaksbrev{url.dato ? ` (${url.dato})` : ""}</Link>
+                                        {url.url ? (
+                                            <Link href={url.url}>Vedtaksbrev{url.dato ? ` (${url.dato})` : ""}</Link>
+                                        ) : (
+                                            <div>Vedtaksbrev{url.dato ? ` (${url.dato})` : ""}</div>
+                                        )}
                                     </Checkbox>
                                 ))}
                             </CheckboxGroup>

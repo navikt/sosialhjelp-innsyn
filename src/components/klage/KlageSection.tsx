@@ -9,8 +9,6 @@ import {Button, Heading, List, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 import {KlageDtoStatus} from "../../generated/model";
 
-interface Props {}
-
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
     padding-bottom: 1rem;
@@ -42,7 +40,7 @@ const statusToText: Record<KlageDtoStatus, string> = {
     [KlageDtoStatus.HOS_STATSFORVALTER]: "Hos statsforvalter",
 };
 
-const KlageSection: NextPage<Props> = ({}: Props): React.JSX.Element => {
+const KlageSection: NextPage = (): React.JSX.Element => {
     const fiksDigisosId = useFiksDigisosId();
     const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     if (isLoading) {
@@ -85,7 +83,7 @@ const KlageSection: NextPage<Props> = ({}: Props): React.JSX.Element => {
                 <AntallKlagerSendt antallKlager={data?.length ?? 0} />
                 <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Les mer om klageprosessen her</Link>
             </InfoBoks>
-            <Link href={`/${fiksDigisosId}/klage/skjema`}>
+            <Link href={{pathname: "/[id]/klage/skjema", query: {id: fiksDigisosId}}}>
                 <Button>Start klage</Button>
             </Link>
         </Panel>
