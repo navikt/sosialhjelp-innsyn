@@ -1,7 +1,5 @@
 import {IToggle} from "@unleash/nextjs";
 
-import {browserEnv} from "../utils/env";
-
 import {EXPECTED_TOGGLES} from "./toggles";
 
 export function localDevelopmentToggles(): IToggle[] {
@@ -18,8 +16,7 @@ export function localDevelopmentToggles(): IToggle[] {
     );
 }
 
-export function getUnleashEnvironment(): "development" | "production" {
-    // hmm
+export function getUnleashEnvironment(): "development" | "production" | undefined {
     switch (process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT) {
         case "dev":
         case "dev-sbs":
