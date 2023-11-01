@@ -9,6 +9,10 @@ import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from "@ta
 import {axiosInstance} from "../../axios-instance";
 import type {ErrorType} from "../../axios-instance";
 
+type AwaitedInput<T> = PromiseLike<T> | T;
+
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (config: any, args: infer P) => any ? P : never;
 

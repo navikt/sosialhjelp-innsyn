@@ -29,6 +29,9 @@ export const getHentKlagerMock = () =>
             },
             undefined,
         ]),
+        paaklagetVedtakRefs: Array.from({length: faker.datatype.number({min: 1, max: 10})}, (_, i) => i + 1).map(() =>
+            faker.random.word()
+        ),
     }));
 
 export const getSendKlageMock = () => ({});

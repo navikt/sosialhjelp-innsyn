@@ -1,4 +1,5 @@
 import React from "react";
+import * as R from "remeda";
 import {useHentKlager} from "../../generated/klage-controller/klage-controller";
 import {NextPage} from "next";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -7,7 +8,8 @@ import Lastestriper from "../lastestriper/Lasterstriper";
 import Link from "next/link";
 import {Button, Heading, List, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
-import {KlageDtoStatus} from "../../generated/model";
+import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -40,18 +42,11 @@ const statusToText: Record<KlageDtoStatus, string> = {
     [KlageDtoStatus.HOS_STATSFORVALTER]: "Hos statsforvalter",
 };
 
-const KlageSection: NextPage = (): React.JSX.Element => {
-    const fiksDigisosId = useFiksDigisosId();
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
-    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
-    if (isLoading) {
-        return (
-            <Panel header="Dine klager">
-                <Lastestriper />
-            </Panel>
-        );
-    }
+const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
+    Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
+const KlageSection: NextPage = (): React.JSX.Element => {
+    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
     if (!klageEnabled) {
         return (
             <Panel header="Klage">
@@ -71,29 +66,57 @@ const KlageSection: NextPage = (): React.JSX.Element => {
         );
     }
 
+    const fiksDigisosId = useFiksDigisosId();
+
+    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
+
+    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
+    if (isLoading || saksStatuserIsLoading) {
+        return (
+            <Panel header="Dine klager">
+                <Lastestriper />
+            </Panel>
+        );
+    }
+
+    const vedtak = R.isArray(saksStatuser)
+        ? saksStatuser
+              ?.filter((status) => status.status === SaksStatusResponseStatus.FERDIGBEHANDLET)
+              ?.flatMap((saksStatus) => saksStatus.vedtaksfilUrlList) ?? []
+        : [];
+    const kanKlage = vedtak.length > 0;
     return (
         <Panel header="Dine klager">
             {data && data.length > 0 && (
                 <>
                     <StyledKlageList as="ul">
-                        {data.map((klage) => (
-                            <React.Fragment key={klage.klageUrl.id}>
-                                <KlageHeader>
-                                    <Heading level="4" size="small">
-                                        Et eller annet
-                                    </Heading>
-                                    <Tag variant="info">{statusToText[klage.status]}</Tag>
-                                </KlageHeader>
-                                <FilUrlBoks>
-                                    <Link href={klage.klageUrl.url}>Kvittering på klage ({klage.klageUrl.dato})</Link>
-                                    {klage.nyttVedtakUrl && (
-                                        <Link href={klage.nyttVedtakUrl.url}>
-                                            Nytt vedtak ({klage.nyttVedtakUrl.dato})
+                        {data.map((klage) => {
+                            const paaklagetVedtak = R.pipe(
+                                saksStatuser ?? [],
+                                R.intersectionWith(klage.paaklagetVedtakRefs, sakHasMatchingVedtak),
+                                R.first()
+                            );
+                            return (
+                                <React.Fragment key={klage.klageUrl.id}>
+                                    <KlageHeader>
+                                        <Heading level="4" size="small">
+                                            {paaklagetVedtak?.tittel ?? "Ingen tittel"}
+                                        </Heading>
+                                        <Tag variant="info">{statusToText[klage.status]}</Tag>
+                                    </KlageHeader>
+                                    <FilUrlBoks>
+                                        <Link href={klage.klageUrl.url}>
+                                            Kvittering på klage ({klage.klageUrl.dato})
                                         </Link>
-                                    )}
-                                </FilUrlBoks>
-                            </React.Fragment>
-                        ))}
+                                        {klage.nyttVedtakUrl && (
+                                            <Link href={klage.nyttVedtakUrl.url}>
+                                                Nytt vedtak ({klage.nyttVedtakUrl.dato})
+                                            </Link>
+                                        )}
+                                    </FilUrlBoks>
+                                </React.Fragment>
+                            );
+                        })}
                     </StyledKlageList>
                     {data.some((klage) => klage.status === KlageDtoStatus.UNDER_BEHANDLING) && (
                         <p>Kommunene kan ha ulik svartid, men du skal få svar innen rimelig tid.</p>
@@ -105,7 +128,9 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Les mer om klageprosessen her</Link>
             </InfoBoks>
             <Link href={{pathname: "/[id]/klage/skjema", query: {id: fiksDigisosId}}}>
-                <Button>Start klage</Button>
+                <Button variant="secondary" disabled={!kanKlage}>
+                    Start klage
+                </Button>
             </Link>
         </Panel>
     );

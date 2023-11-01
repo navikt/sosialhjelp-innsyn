@@ -11,4 +11,5 @@ export interface KlageDto {
     klageUrl: FilUrl;
     status: KlageDtoStatus;
     nyttVedtakUrl?: FilUrl;
+    paaklagetVedtakRefs: string[];
 }

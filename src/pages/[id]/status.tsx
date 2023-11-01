@@ -77,6 +77,14 @@ const SaksStatusView: NextPage = () => {
 
     const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
 
+    const sakErPaaklagbar =
+        soknadsStatus?.status !== SoknadsStatusResponseStatus.BEHANDLES_IKKE &&
+        saksStatuser?.some(
+            (it) =>
+                it.status !== SaksStatusResponseStatus.BEHANDLES_IKKE &&
+                it.status !== SaksStatusResponseStatus.IKKE_INNSYN
+        );
+
     return (
         <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`} bannerTitle={t("soknadStatus.tittel")}>
             <LoadingResourcesFailedAlert />
@@ -105,7 +113,7 @@ const SaksStatusView: NextPage = () => {
                                 </StyledPanel>
                             </>
                         )}
-                        <KlageSection />
+                        {sakErPaaklagbar && <KlageSection />}
                         {(kommune == null || !kommune.erInnsynDeaktivert) && (
                             <ArkfanePanel
                                 historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}

@@ -732,7 +732,7 @@
                 }
             },
             "KlageDto": {
-                "required": ["klageUrl", "status"],
+                "required": ["klageUrl", "paaklagetVedtakRefs", "status"],
                 "type": "object",
                 "properties": {
                     "klageUrl": {"$ref": "#/components/schemas/FilUrl"},
@@ -740,7 +740,8 @@
                         "type": "string",
                         "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIG_BEHANDLET", "HOS_STATSFORVALTER"]
                     },
-                    "nyttVedtakUrl": {"$ref": "#/components/schemas/FilUrl"}
+                    "nyttVedtakUrl": {"$ref": "#/components/schemas/FilUrl"},
+                    "paaklagetVedtakRefs": {"type": "array", "items": {"type": "string"}}
                 }
             },
             "HendelseResponse": {
