@@ -79,11 +79,10 @@ const KlageSection: NextPage = (): React.JSX.Element => {
         );
     }
 
-    const vedtak = R.isArray(saksStatuser)
-        ? saksStatuser
-              ?.filter((status) => status.status === SaksStatusResponseStatus.FERDIGBEHANDLET)
-              ?.flatMap((saksStatus) => saksStatus.vedtaksfilUrlList) ?? []
-        : [];
+    const vedtak =
+        saksStatuser
+            ?.filter((status) => status.status === SaksStatusResponseStatus.FERDIGBEHANDLET)
+            ?.flatMap((saksStatus) => saksStatus.vedtaksfilUrlList) ?? [];
     const kanKlage = vedtak.length > 0;
     return (
         <Panel header="Dine klager">
@@ -91,16 +90,22 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <>
                     <StyledKlageList as="ul">
                         {data.map((klage) => {
-                            const paaklagetVedtak = R.pipe(
+                            console.log("saksstatuser inni klage: ", saksStatuser);
+                            const paaklagetSaker = R.pipe(
                                 saksStatuser ?? [],
                                 R.intersectionWith(klage.paaklagetVedtakRefs, sakHasMatchingVedtak),
-                                R.first()
+                                R.uniqBy((it) => it.tittel)
+                            );
+                            console.log("paaklagetSaker: ", paaklagetSaker);
+                            console.log(
+                                "intersection: ",
+                                R.intersectionWith(klage.paaklagetVedtakRefs, sakHasMatchingVedtak)(saksStatuser ?? [])
                             );
                             return (
                                 <React.Fragment key={klage.klageUrl.id}>
                                     <KlageHeader>
                                         <Heading level="4" size="small">
-                                            {paaklagetVedtak?.tittel ?? "Ingen tittel"}
+                                            {paaklagetSaker.join(", ")}
                                         </Heading>
                                         <Tag variant="info">{statusToText[klage.status]}</Tag>
                                     </KlageHeader>
