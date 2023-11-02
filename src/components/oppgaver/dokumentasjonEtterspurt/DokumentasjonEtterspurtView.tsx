@@ -49,7 +49,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         resetStatus,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => {
-            queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId));
+            queryClient.invalidateQueries({queryKey: getGetOppgaverQueryKey(fiksDigisosId)});
         },
     });
 

@@ -41,7 +41,7 @@ export const getHentVedleggQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -65,7 +65,7 @@ export type HentVedleggQueryError = ErrorType<unknown>;
 export const useHentVedlegg = <TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

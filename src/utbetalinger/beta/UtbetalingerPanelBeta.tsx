@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./utbetalinger.module.css";
 import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
@@ -34,17 +34,6 @@ const UtbetalingerPanelBeta = () => {
         isError: hentNyeFeilet,
     } = useHentNyeUtbetalinger({
         query: {
-            onSuccess: (data: UtbetalingerResponseMedId[]) => {
-                if (!nyeLogged && data?.length > 0) {
-                    const sisteManedgruppe = data[data.length - 1].utbetalingerForManed;
-                    const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
-                    logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
-                    setNyeLogged(true);
-                }
-                logAmplitudeEvent("Lastet utbetalinger", {
-                    antall: data[0]?.utbetalingerForManed.length ? data[0].utbetalingerForManed.length : 0,
-                });
-            },
             select: (data) => {
                 // Legg på en id på hver utbetaling
                 return data.map((item) => {
@@ -61,6 +50,18 @@ const UtbetalingerPanelBeta = () => {
             },
         },
     });
+
+    useEffect(() => {
+        if (!nyeLogged && nye && nye.length > 0) {
+            const sisteManedgruppe = nye[nye.length - 1].utbetalingerForManed;
+            const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
+            logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
+            setNyeLogged(true);
+        }
+        logAmplitudeEvent("Lastet utbetalinger", {
+            antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
+        });
+    }, [nye, nyeLogged]);
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 

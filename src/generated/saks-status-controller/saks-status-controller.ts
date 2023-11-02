@@ -34,7 +34,7 @@ export const getHentSaksStatuserQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -58,7 +58,7 @@ export type HentSaksStatuserQueryError = ErrorType<unknown>;
 export const useHentSaksStatuser = <TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

@@ -34,7 +34,7 @@ export const getHentSaksDetaljerQueryOptions = <
 >(
     params: HentSaksDetaljerParams,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -58,7 +58,7 @@ export type HentSaksDetaljerQueryError = ErrorType<unknown>;
 export const useHentSaksDetaljer = <TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -83,7 +83,7 @@ export const getHentAlleSakerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }) => {
     const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -107,7 +107,7 @@ export const useHentAlleSaker = <
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
     const queryOptions = getHentAlleSakerQueryOptions(options);

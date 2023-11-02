@@ -35,7 +35,7 @@ export const getHentKlagerQueryKey = (fiksDigisosId: string) => {
 export const getHentKlagerQueryOptions = <TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -59,7 +59,7 @@ export type HentKlagerQueryError = ErrorType<unknown>;
 export const useHentKlager = <TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

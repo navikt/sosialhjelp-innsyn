@@ -13,7 +13,7 @@
         "@sentry/nextjs": "^7.77.0",
         "@sentry/react": "^7.77.0",
         "@sentry/tracing": "^7.77.0",
-        "@tanstack/react-query": "^4.32.0",
+        "@tanstack/react-query": "^5.4.3",
         "axios": "^1.6.0",
         "date-fns": "^2.29.2",
         "express": "^4.17.1",

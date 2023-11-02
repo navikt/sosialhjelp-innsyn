@@ -164,7 +164,7 @@ export const getGetInnsynsfilQueryOptions = <
 >(
     digisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -188,7 +188,7 @@ export type GetInnsynsfilQueryError = ErrorType<unknown>;
 export const useGetInnsynsfil = <TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = ErrorType<unknown>>(
     digisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

@@ -34,7 +34,7 @@ export const getHentUtbetalingerQueryOptions = <
 >(
     params?: HentUtbetalingerParams,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -58,7 +58,7 @@ export type HentUtbetalingerQueryError = ErrorType<unknown>;
 export const useHentUtbetalinger = <TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = ErrorType<unknown>>(
     params?: HentUtbetalingerParams,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -86,7 +86,7 @@ export const getHentTidligereUtbetalingerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }) => {
     const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -110,7 +110,7 @@ export const useHentTidligereUtbetalinger = <
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
     const queryOptions = getHentTidligereUtbetalingerQueryOptions(options);
@@ -137,7 +137,7 @@ export const getHentNyeUtbetalingerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }) => {
     const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -161,7 +161,7 @@ export const useHentNyeUtbetalinger = <
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
     const queryOptions = getHentNyeUtbetalingerQueryOptions(options);

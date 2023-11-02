@@ -25,7 +25,7 @@ export const getHarTilgangQueryOptions = <
     TData = Awaited<ReturnType<typeof harTilgang>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }) => {
     const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -46,7 +46,7 @@ export type HarTilgangQueryResult = NonNullable<Awaited<ReturnType<typeof harTil
 export type HarTilgangQueryError = ErrorType<unknown>;
 
 export const useHarTilgang = <TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
     const queryOptions = getHarTilgangQueryOptions(options);

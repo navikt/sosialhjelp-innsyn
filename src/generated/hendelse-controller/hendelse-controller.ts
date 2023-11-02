@@ -34,7 +34,7 @@ export const getHentHendelserQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -58,7 +58,7 @@ export type HentHendelserQueryError = ErrorType<unknown>;
 export const useHentHendelser = <TData = Awaited<ReturnType<typeof hentHendelser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

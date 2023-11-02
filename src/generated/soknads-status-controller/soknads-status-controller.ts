@@ -34,7 +34,7 @@ export const getHentSoknadsStatusQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -61,7 +61,7 @@ export const useHentSoknadsStatus = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

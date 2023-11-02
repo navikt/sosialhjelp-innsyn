@@ -31,7 +31,7 @@ export const getGetVilkarQueryKey = (fiksDigisosId: string) => {
 export const getGetVilkarQueryOptions = <TData = Awaited<ReturnType<typeof getVilkar>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -55,7 +55,7 @@ export type GetVilkarQueryError = ErrorType<unknown>;
 export const useGetVilkar = <TData = Awaited<ReturnType<typeof getVilkar>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -89,7 +89,7 @@ export const getGetOppgaverQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -113,7 +113,7 @@ export type GetOppgaverQueryError = ErrorType<unknown>;
 export const useGetOppgaver = <TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -149,7 +149,7 @@ export const getGetOppgaveMedIdQueryOptions = <
     fiksDigisosId: string,
     oppgaveId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -174,7 +174,7 @@ export const useGetOppgaveMedId = <TData = Awaited<ReturnType<typeof getOppgaveM
     fiksDigisosId: string,
     oppgaveId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -208,7 +208,7 @@ export const getGetHarLevertDokumentasjonkravQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -237,7 +237,7 @@ export const useGetHarLevertDokumentasjonkrav = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -271,7 +271,7 @@ export const getGetfagsystemHarDokumentasjonkravQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -300,7 +300,7 @@ export const useGetfagsystemHarDokumentasjonkrav = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -334,7 +334,7 @@ export const getGetDokumentasjonkravQueryOptions = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -361,7 +361,7 @@ export const useGetDokumentasjonkrav = <
 >(
     fiksDigisosId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
@@ -397,7 +397,7 @@ export const getGetDokumentasjonkravMedIdQueryOptions = <
     fiksDigisosId: string,
     dokumentasjonkravId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ) => {
@@ -425,7 +425,7 @@ export const useGetDokumentasjonkravMedId = <
     fiksDigisosId: string,
     dokumentasjonkravId: string,
     options?: {
-        query?: UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>, TError, TData>;
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>, TError, TData>>;
         request?: SecondParameter<typeof axiosInstance>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {

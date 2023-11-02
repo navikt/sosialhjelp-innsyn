@@ -75,10 +75,10 @@ const KlageSkjema: NextPage = () => {
         isLoading: saksStatuserIsLoading,
         error: saksStatuserError,
     } = useHentSaksStatuser(fiksDigisosId);
-    const {mutate, isLoading: sendKlageIsLoading} = useSendKlage({
+    const {mutate, isPending: sendKlageIsLoading} = useSendKlage({
         mutation: {
             onSuccess: async () => {
-                await queryClient.invalidateQueries(getHentKlagerQueryKey(fiksDigisosId));
+                await queryClient.invalidateQueries({queryKey: getHentKlagerQueryKey(fiksDigisosId)});
                 await router.push({pathname: "/[id]/status", query: {id: fiksDigisosId}});
             },
         },

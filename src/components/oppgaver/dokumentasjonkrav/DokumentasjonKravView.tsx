@@ -47,7 +47,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
         resetStatus,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => {
-            queryClient.invalidateQueries(getGetDokumentasjonkravQueryKey(fiksDigisosId));
+            queryClient.invalidateQueries({queryKey: getGetDokumentasjonkravQueryKey(fiksDigisosId)});
         },
     });
 

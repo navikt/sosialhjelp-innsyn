@@ -24,7 +24,7 @@ export const getHarSoknaderMedInnsynQueryOptions = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }) => {
     const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -48,7 +48,7 @@ export const useHarSoknaderMedInnsyn = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
     TError = ErrorType<unknown>,
 >(options?: {
-    query?: UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>;
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} => {
     const queryOptions = getHarSoknaderMedInnsynQueryOptions(options);

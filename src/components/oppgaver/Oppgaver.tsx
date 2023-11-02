@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo} from "react";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "next-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
@@ -72,7 +72,15 @@ const Oppgaver = () => {
         useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
     const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
-    const utbetalingerQuery = useHentUtbetalinger({}, {query: {onError: (e) => logger.warn(e.message, e.navCallId)}});
+    const utbetalingerQuery = useHentUtbetalinger();
+
+    useEffect(() => {
+        const {error} = utbetalingerQuery;
+        if (error) {
+            logger.warn(error.message, error.navCallId);
+        }
+    }, [utbetalingerQuery.error]);
+
     const {oppgaverUploadSuccess} = useFilUploadSuccessful();
 
     const hasError =
