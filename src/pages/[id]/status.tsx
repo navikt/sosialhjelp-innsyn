@@ -79,11 +79,12 @@ const SaksStatusView: NextPage = () => {
 
     const sakErPaaklagbar =
         soknadsStatus?.status !== SoknadsStatusResponseStatus.BEHANDLES_IKKE &&
-        saksStatuser?.some(
-            (it) =>
-                it.status !== SaksStatusResponseStatus.BEHANDLES_IKKE &&
-                it.status !== SaksStatusResponseStatus.IKKE_INNSYN
-        );
+        (!saksStatuser ||
+            saksStatuser?.some(
+                (it) =>
+                    it.status !== SaksStatusResponseStatus.BEHANDLES_IKKE &&
+                    it.status !== SaksStatusResponseStatus.IKKE_INNSYN
+            ));
 
     return (
         <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`} bannerTitle={t("soknadStatus.tittel")}>
