@@ -1,12 +1,12 @@
 import React from "react";
 import Saksoversikt from "../pages/index";
-import {getHentSaksDetaljerMock} from "../../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
+import {getHentSaksDetaljerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {rest} from "msw";
 import {server} from "../mocks/server";
 import {render, screen} from "../test/test-utils";
 import {findAllByRole, getByRole, waitForElementToBeRemoved} from "@testing-library/react";
 import {faker} from "@faker-js/faker";
-import {SaksListeResponse} from "../../generated/model";
+import {SaksListeResponse} from "../generated/model";
 
 const notFound = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
     return res(ctx.delay(200), ctx.status(404, "Unauthorized"));

@@ -1,4 +1,4 @@
-import {useHentKommuneInfo} from "../../generated/kommune-controller/kommune-controller";
+import {useHentKommuneInfo} from "../generated/kommune-controller/kommune-controller";
 import useFiksDigisosId from "./useFiksDigisosId";
 
 const useKommune = () => {
