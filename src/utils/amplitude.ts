@@ -13,6 +13,10 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
     }
 }
 
+export const logVedlegg = () => {
+    logAmplitudeEvent("ulagret vedlegg");
+};
+
 export function logVeilederBerOmDokumentasjonEvent() {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden");
 }

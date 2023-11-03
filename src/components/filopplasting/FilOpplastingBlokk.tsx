@@ -1,8 +1,7 @@
 import React, {ReactElement} from "react";
 import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import {useTranslation} from "next-i18next";
-import styled from "styled-components";
-import {css} from "styled-components";
+import styled, {css} from "styled-components";
 import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, {dedupeErrorsByProp} from "./ErrorMessagesSummary";
 import {Error, errorStatusToMessage} from "./useFilOpplasting";

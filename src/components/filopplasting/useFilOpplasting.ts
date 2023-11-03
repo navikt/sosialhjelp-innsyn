@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
+import {logAmplitudeEvent, logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -104,16 +104,39 @@ const useFilOpplasting = (
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
-    /*
-    // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
+    //const [isUnsavedChanges, setIsUnsavedChanges] = useState(false);
+    const alertUser = (event: any) => {
+        event.preventDefault();
+        event.returnValue = "bleh";
+    };
     useEffect(() => {
-        if (allFiles.length) {
-            window.addEventListener("beforeunload", alertUser);
+        if (allFiles) {
+            window.onbeforeunload = () => {
+                console.log("You have unsaved changes. Are you sure you want to leave?");
+            };
+        } else {
+            window.onbeforeunload = null; // Remove the event handler when there are no unsaved changes
         }
-        return () => window.removeEventListener("beforeunload", alertUser);
+
+        // Cleanup the event handler when the component is unmounted
+        return () => {
+            window.onbeforeunload = null;
+        };
     }, [allFiles]);
 
+    // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
+    //useEffect(() => {
+    //    if (allFiles.length) {
+    //        window.addEventListener("beforeunload", logVedlegg);
+    //    }
+    //    return () => window.removeEventListener("beforeunload", logVedlegg);
+    //}, [allFiles]);
+
+    /***
+     if alleFiles.length > 0 and sendVedlegg not pressed BEFORE page change
+        logAmplitude
      */
+
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
@@ -150,6 +173,7 @@ const useFilOpplasting = (
     const upload = useCallback(async () => {
         if (allFiles.length === 0) {
             logger.info("Validering vedlegg feilet: Ingen filer valgt");
+            logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
             setOuterErrors([{feil: Feil.NO_FILES}]);
             return;
         }
