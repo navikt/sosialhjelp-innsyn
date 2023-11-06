@@ -14,10 +14,6 @@ const FilterModal = () => {
     const {chips, removeChip} = useChips();
     const {t} = useTranslation("utbetalinger");
 
-    useEffect(() => {
-        Modal.setAppElement("#__next");
-    }, []);
-
     const onCancel = () => {
         oppdaterFilter({mottaker: MottakerFilter.Alle, fraDato: undefined, tilDato: undefined});
         setOpen((x) => !x);
@@ -39,16 +35,15 @@ const FilterModal = () => {
                 open={open}
                 aria-label={t("filter.aria")}
                 onClose={() => setOpen((x: boolean) => !x)}
-                shouldCloseOnEsc={!datePickerIsOpen}
                 className={styles.modal}
             >
-                <Modal.Content className={styles.modal_content}>
+                <Modal.Body className={styles.modal_content}>
                     <UtbetalingerFilter setDatePickerIsOpen={setDatePickerIsOpen} />
                     <Button onClick={() => setOpen(false)}>{t("modal.vis")}</Button>
                     <Button variant="tertiary" onClick={onCancel}>
                         {t("modal.avbryt")}
                     </Button>
-                </Modal.Content>
+                </Modal.Body>
             </Modal>
         </>
     );
