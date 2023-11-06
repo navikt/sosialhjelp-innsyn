@@ -1,5 +1,5 @@
 import {Button, Chips, Modal} from "@navikt/ds-react";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {FilterIcon} from "@navikt/aksel-icons";
 import UtbetalingerFilter from "./UtbetalingerFilter";
 import {MottakerFilter, useFilter} from "./FilterContext";
@@ -16,7 +16,7 @@ const FilterModal = () => {
 
     const onCancel = () => {
         oppdaterFilter({mottaker: MottakerFilter.Alle, fraDato: undefined, tilDato: undefined});
-        setOpen((x) => !x);
+        setOpen(false);
     };
 
     return (
@@ -33,7 +33,7 @@ const FilterModal = () => {
             </Chips>
             <Modal open={open} aria-label={t("filter.aria")} onClose={() => setOpen(false)} className={styles.modal}>
                 <Modal.Body className={styles.modal_content}>
-                    <UtbetalingerFilter setDatePickerIsOpen={setDatePickerIsOpen} />
+                    <UtbetalingerFilter />
                     <Button onClick={() => setOpen(false)}>{t("modal.vis")}</Button>
                     <Button variant="tertiary" onClick={onCancel}>
                         {t("modal.avbryt")}
