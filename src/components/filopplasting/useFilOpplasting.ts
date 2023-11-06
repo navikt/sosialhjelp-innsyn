@@ -107,7 +107,7 @@ const useFilOpplasting = (
     //const [isUnsavedChanges, setIsUnsavedChanges] = useState(false);
     const alertUser = (event: any) => {
         event.preventDefault();
-        event.returnValue = "bleh";
+        event.returnValue = "";
     };
     useEffect(() => {
         if (allFiles) {

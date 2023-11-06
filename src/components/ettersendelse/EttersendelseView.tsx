@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
@@ -16,6 +16,7 @@ import styles from "../filopplasting/filopplasting.module.css";
 import styled, {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
+import {logAmplitudeEvent} from "../../utils/amplitude";
 
 const metadatas = [
     {
@@ -71,9 +72,12 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         setOppgaverUploadSuccess(false);
+        logAmplitudeEvent("Antall vedlegg som lastes opp under Dine vedlegg", {antallVedlegg: files.length});
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
+
+    useEffect(() => {}, [innerErrors, outerErrors]);
 
     return !kanLasteOppVedlegg && !showLoadingState ? (
         <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
