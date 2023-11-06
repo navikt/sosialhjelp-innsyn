@@ -85,7 +85,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                         ) : (
                             <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
                         )}
-                        <Label as="p">{oppdatertTittel}</Label>
+                        <Label as="p">{t(oppdatertTittel)}</Label>
                     </span>
                     <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
                 </StyledSaksDetaljer>
