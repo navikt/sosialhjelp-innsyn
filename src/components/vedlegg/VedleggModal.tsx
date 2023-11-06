@@ -16,7 +16,7 @@ const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose
 
     return (
         <Modal open={synlig} onClose={() => onRequestClose()} className={styles.vedleggModal}>
-            <Modal.Content>
+            <Modal.Body>
                 <Heading level="1" size="small">
                     Fil:
                 </Heading>
@@ -24,7 +24,7 @@ const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose
                     {file.name}
                 </BodyLong>
                 {isImage && <Image src={URL.createObjectURL(file)} alt={file.name} />}
-            </Modal.Content>
+            </Modal.Body>
         </Modal>
     );
 };

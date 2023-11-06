@@ -13,10 +13,6 @@ export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
     const {t} = useTranslation();
 
-    useEffect(() => {
-        if (process.env.NODE_ENV !== "test") Modal.setAppElement("#__next");
-    }, []);
-
     const handleOnClick = (event: MouseEvent) => {
         event.preventDefault();
         setModalSynlig(true);
@@ -33,7 +29,7 @@ export const OpplastingAvVedleggModal = () => {
                     setModalSynlig(false);
                 }}
             >
-                <Modal.Content>
+                <Modal.Body>
                     <Heading level="2" size="medium" spacing>
                         {t("oppgaver.informasjon.modal.overskrift")}
                     </Heading>
@@ -70,7 +66,7 @@ export const OpplastingAvVedleggModal = () => {
                             <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste3")}</BodyShort>
                         </li>
                     </ul>
-                </Modal.Content>
+                </Modal.Body>
             </StyledModal>
         </>
     );
