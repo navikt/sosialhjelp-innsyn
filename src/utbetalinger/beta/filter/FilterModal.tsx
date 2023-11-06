@@ -31,12 +31,7 @@ const FilterModal = () => {
                     </Chips.Removable>
                 ))}
             </Chips>
-            <Modal
-                open={open}
-                aria-label={t("filter.aria")}
-                onClose={() => setOpen((x: boolean) => !x)}
-                className={styles.modal}
-            >
+            <Modal open={open} aria-label={t("filter.aria")} onClose={() => setOpen(false)} className={styles.modal}>
                 <Modal.Body className={styles.modal_content}>
                     <UtbetalingerFilter setDatePickerIsOpen={setDatePickerIsOpen} />
                     <Button onClick={() => setOpen(false)}>{t("modal.vis")}</Button>

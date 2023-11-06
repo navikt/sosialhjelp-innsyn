@@ -28,12 +28,9 @@ export const OpplastingAvVedleggModal = () => {
                 onClose={() => {
                     setModalSynlig(false);
                 }}
+                header={{heading: t("oppgaver.informasjon.modal.overskrift")}}
             >
                 <Modal.Body>
-                    <Heading level="2" size="medium" spacing>
-                        {t("oppgaver.informasjon.modal.overskrift")}
-                    </Heading>
-
                     <Heading level="3" size="small" spacing>
                         {t("oppgaver.informasjon.modal.bolk1.tittel")}
                     </Heading>

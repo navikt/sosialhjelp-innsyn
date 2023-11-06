@@ -5,7 +5,6 @@ import {now} from "../../utils/timeoutUtils";
 import useInterval from "../../hooks/useInterval";
 import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
-import {useEffect} from "react";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -62,9 +61,7 @@ const TimeoutBox = (props: Props) => {
                 <div className="timeoutbox">
                     {showWarning && (
                         <Nedtelling
-                            onContinueClick={() => {
-                                onContinueClick();
-                            }}
+                            onContinueClick={onContinueClick}
                             logoutUrl={process.env.NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL!}
                         />
                     )}

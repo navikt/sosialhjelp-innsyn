@@ -15,11 +15,13 @@ const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose
     const isImage = fileExtension.match(/jpe?g|png/i) !== null;
 
     return (
-        <Modal open={synlig} onClose={() => onRequestClose()} className={styles.vedleggModal}>
+        <Modal
+            open={synlig}
+            onClose={() => onRequestClose()}
+            className={styles.vedleggModal}
+            header={{heading: "Fil:"}}
+        >
             <Modal.Body>
-                <Heading level="1" size="small">
-                    Fil:
-                </Heading>
                 <BodyLong spacing className={styles.filnavn}>
                     {file.name}
                 </BodyLong>
