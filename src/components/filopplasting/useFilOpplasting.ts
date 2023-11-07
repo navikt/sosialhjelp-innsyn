@@ -1,6 +1,11 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {logAmplitudeEvent, logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
+import {
+    logAmplitudeEvent,
+    logBrukerNavigererBortFraUlagretVedlegg,
+    logDuplicatedFiles,
+    logFileUploadFailedEvent,
+} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -106,14 +111,14 @@ const useFilOpplasting = (
 
     //const [isUnsavedChanges, setIsUnsavedChanges] = useState(false);
     const alertUser = (event: any) => {
+        //logVedlegg;
+        logBrukerNavigererBortFraUlagretVedlegg();
         event.preventDefault();
         event.returnValue = "";
     };
     useEffect(() => {
-        if (allFiles) {
-            window.onbeforeunload = () => {
-                console.log("You have unsaved changes. Are you sure you want to leave?");
-            };
+        if (allFiles.length > 0) {
+            window.addEventListener("beforeunload", alertUser);
         } else {
             window.onbeforeunload = null; // Remove the event handler when there are no unsaved changes
         }
@@ -126,10 +131,10 @@ const useFilOpplasting = (
 
     // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
     //useEffect(() => {
-    //    if (allFiles.length) {
-    //        window.addEventListener("beforeunload", logVedlegg);
+    //    if (allFiles.length > 0) {
+    //        window.addEventListener("beforeunload", alertUser);
     //    }
-    //    return () => window.removeEventListener("beforeunload", logVedlegg);
+    //    return () => window.removeEventListener("beforeunload", alertUser);
     //}, [allFiles]);
 
     /***
