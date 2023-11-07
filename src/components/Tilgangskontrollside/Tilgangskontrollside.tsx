@@ -6,7 +6,7 @@ import {UthevetPanel} from "../paneler/UthevetPanel";
 import styled from "styled-components";
 import Banner from "../banner/Banner";
 import {useTranslation} from "next-i18next";
-import {useHarTilgang} from "../../../generated/tilgang-controller/tilgang-controller";
+import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
 import {useRouter} from "next/router";
 

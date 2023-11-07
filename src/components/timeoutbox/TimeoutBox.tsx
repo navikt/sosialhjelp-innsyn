@@ -5,7 +5,6 @@ import {now} from "../../utils/timeoutUtils";
 import useInterval from "../../hooks/useInterval";
 import {Modal} from "@navikt/ds-react";
 import styled from "styled-components";
-import {useEffect} from "react";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -37,9 +36,6 @@ const TimeoutBox = (props: Props) => {
     const [showWarningTime, setShowWarningTime] = React.useState(
         beregnVisAdvarseTidspunkt(props.showWarningerAfterMinutes)
     );
-    useEffect(() => {
-        Modal.setAppElement("#__next");
-    }, []);
 
     useInterval(() => {
         const tidIgjenAvSesjon = logoutTime - now();
@@ -60,18 +56,12 @@ const TimeoutBox = (props: Props) => {
     };
 
     return (
-        <ModalWithoutCloseButton
-            open={showWarning || showLoggedOut}
-            onClose={() => null}
-            shouldCloseOnOverlayClick={false}
-        >
-            <Modal.Content>
+        <ModalWithoutCloseButton open={showWarning || showLoggedOut} onClose={() => null}>
+            <Modal.Body>
                 <div className="timeoutbox">
                     {showWarning && (
                         <Nedtelling
-                            onContinueClick={() => {
-                                onContinueClick();
-                            }}
+                            onContinueClick={onContinueClick}
                             logoutUrl={process.env.NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL!}
                         />
                     )}
@@ -83,7 +73,7 @@ const TimeoutBox = (props: Props) => {
                         />
                     )}
                 </div>
-            </Modal.Content>
+            </Modal.Body>
         </ModalWithoutCloseButton>
     );
 };

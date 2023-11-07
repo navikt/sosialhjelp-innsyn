@@ -2,7 +2,7 @@ import {Accordion, BodyShort, Label} from "@navikt/ds-react";
 import {logButtonOrLinkClick, logVeilederBerOmDokumentasjonkravEvent} from "../../../utils/amplitude";
 import {useTranslation} from "next-i18next";
 import React, {useEffect} from "react";
-import {DokumentasjonkravResponse} from "../../../../generated/model";
+import {DokumentasjonkravResponse} from "../../../generated/model";
 import DokumentasjonKravView from "./DokumentasjonKravView";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";

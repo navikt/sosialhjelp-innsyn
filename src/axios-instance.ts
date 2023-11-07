@@ -27,7 +27,12 @@ export const axiosInstance = <T>(
         ...options,
         cancelToken: source.token,
     })
-        .then(({data}) => data)
+        .then(({data, status}) => {
+            if (status === 204 && data === "") {
+                return null;
+            }
+            return data;
+        })
         .catch(async (e) => {
             Object.assign(e, {navCallId: e.config?.headers["Nav-Call-Id"]});
 

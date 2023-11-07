@@ -10,7 +10,7 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
-import {useHentSaksDetaljer} from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
 

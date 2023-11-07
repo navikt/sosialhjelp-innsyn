@@ -8,8 +8,8 @@ import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
-import {useHentHendelser} from "../../../generated/hendelse-controller/hendelse-controller";
-import {HendelseResponse} from "../../../generated/model";
+import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
+import {HendelseResponse} from "../../generated/model";
 import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
 import Link from "next/link";
 

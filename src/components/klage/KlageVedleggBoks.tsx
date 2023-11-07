@@ -1,0 +1,32 @@
+import React from "react";
+import AddFileButton from "../filopplasting/AddFileButton";
+import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
+import {Error} from "../filopplasting/useFilOpplasting";
+
+interface Props {
+    files: File[];
+    removeFil: (fil: File) => void;
+    errors: Error[];
+    addFiler: (files: File[]) => void;
+    resetStatus: () => void;
+}
+
+const KlageVedleggBoks = ({files, removeFil, errors, addFiler, resetStatus}: Props): React.JSX.Element => (
+    <FilOpplastingBlokk
+        tittel="Legg ved vedlegg"
+        beskrivelse="Legg gjerne med vedlegg som kan vise NAV hvorfor du er uenig"
+        filer={files}
+        onDelete={(_, fil) => removeFil(fil)}
+        errors={errors}
+        addFileButton={
+            <AddFileButton
+                onChange={(event) => addFiler(event.currentTarget.files ? Array.from(event.currentTarget.files) : [])}
+                id="abc"
+                resetStatus={resetStatus}
+            />
+        }
+        key={"abc"}
+    />
+);
+
+export default KlageVedleggBoks;

@@ -3,7 +3,7 @@ import {getVisningstekster} from "../../../utils/vedleggUtils";
 import useKommune from "../../../hooks/useKommune";
 import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
-import {getGetOppgaverQueryKey} from "../../../../generated/oppgave-controller/oppgave-controller";
+import {getGetOppgaverQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
@@ -49,7 +49,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         resetStatus,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => {
-            queryClient.invalidateQueries(getGetOppgaverQueryKey(fiksDigisosId));
+            queryClient.invalidateQueries({queryKey: getGetOppgaverQueryKey(fiksDigisosId)});
         },
     });
 
