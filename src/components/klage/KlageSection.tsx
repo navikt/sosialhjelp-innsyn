@@ -10,6 +10,7 @@ import {Button, Heading, List, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
+import {useTranslation} from "next-i18next";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -47,20 +48,20 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
 
 const KlageSection: NextPage = (): React.JSX.Element => {
     const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
+    const {t} = useTranslation();
     if (!klageEnabled) {
         return (
-            <Panel header="Klage">
+            <Panel header={t("klage.papirskjema.header")}>
+                <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
-                    Hvis du har fått svar på søknaden din og er uenig i vedtaket, kan du klage innen 3 uker etter at du
-                    fikk svar.
+                    <span>{t("klage.papirskjema.beskrivelse_1")}</span>
+                    <Link href="/papirskjema_klage.pdf">{t("klage.papirskjema.skjema_url_tekst")}</Link>
+                    <span>{t("klage.papirskjema.beskrivelse_2")}</span>
                 </p>
                 <p>
-                    <span>Det er ikke mulig å klage digitalt. Du kan </span>
-                    <Link href="/papirskjema_klage.pdf">skrive ut et klageskjema (pdf)</Link>
-                    <span> som du kan sende som vedlegg til din søknad under “Dine vedlegg”.</span>
-                </p>
-                <p>
-                    <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Her kan du lese mer om klage</Link>
+                    <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">
+                        {t("klage.papirskjema.mer_info_url_tekst")}
+                    </Link>
                 </p>
             </Panel>
         );

@@ -59,7 +59,7 @@ const EttersendelseView = (props: Props) => {
         mutation: {isLoading: uploadIsLoading},
         resetStatus,
     } = useFilOpplasting(metadatas, {
-        onSuccess: () => queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId)),
+        onSuccess: () => queryClient.invalidateQueries({queryKey: getHentVedleggQueryKey(fiksDigisosId)}),
     });
     const {ettersendelseUploadSuccess, setOppgaverUploadSuccess} = useFilUploadSuccessful();
     const files = _files[0];

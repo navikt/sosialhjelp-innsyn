@@ -82,7 +82,7 @@ const useFilOpplasting = (
 ) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const {isLoading, mutate, error, isError, data} = useSendVedlegg();
+    const {isPending, mutate, error, isError, data} = useSendVedlegg();
 
     const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
@@ -192,8 +192,8 @@ const useFilOpplasting = (
                             setEttersendelseUploadSuccess(true);
                         }
 
-                        await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
-                        await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
+                        await queryClient.invalidateQueries({queryKey: getHentVedleggQueryKey(fiksDigisosId)});
+                        await queryClient.invalidateQueries({queryKey: getHentHendelserQueryKey(fiksDigisosId)});
                     }
                     setOuterErrors(errors);
                 },
@@ -225,7 +225,7 @@ const useFilOpplasting = (
     ]);
 
     return {
-        mutation: {isLoading, isError, error, data},
+        mutation: {isLoading: isPending, isError, error, data},
         innerErrors,
         outerErrors,
         upload,
