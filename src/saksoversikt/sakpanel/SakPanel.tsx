@@ -48,7 +48,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
 
     const oppdatertTittel = useMemo(() => {
         if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {
-            return saksdetaljer.soknadTittel;
+            return saksdetaljer.soknadTittel.replaceAll("saker.default_tittel", t("saker.default_tittel"));
         }
         return tittel && tittel !== "saker.default_tittel" ? tittel : t("saker.default_tittel");
     }, [saksdetaljer, tittel, t]);
@@ -85,7 +85,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                         ) : (
                             <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
                         )}
-                        <Label as="p">{t(oppdatertTittel)}</Label>
+                        <Label as="p">{oppdatertTittel}</Label>
                     </span>
                     <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
                 </StyledSaksDetaljer>
