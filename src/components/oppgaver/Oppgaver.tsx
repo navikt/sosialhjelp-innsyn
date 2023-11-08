@@ -158,7 +158,7 @@ const Oppgaver = () => {
 
     if (isLoading) {
         return (
-            <OppgaverPanel hasError={hasError}>
+            <OppgaverPanel hasError={hasError} harOppgaver={false}>
                 <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
             </OppgaverPanel>
         );
@@ -166,7 +166,7 @@ const Oppgaver = () => {
 
     if (hasError) {
         return (
-            <OppgaverPanel hasError={true}>
+            <OppgaverPanel hasError={true} harOppgaver={false}>
                 <StyledAlert variant="error" inline>
                     {t("feilmelding.dineOppgaver_innlasting")}
                 </StyledAlert>
@@ -175,7 +175,7 @@ const Oppgaver = () => {
     }
 
     return (
-        <OppgaverPanel hasError={false}>
+        <OppgaverPanel hasError={false} harOppgaver={skalViseOppgaveInformasjon}>
             {skalViseIngenOppgaverPanel && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
             {(skalViseOppgaver || skalViseOppgaveInformasjon) && (
                 <Accordion>

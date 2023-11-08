@@ -15,18 +15,20 @@ const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
     }
 `;
 
-const StyledHeading = styled(Heading)`
-    border-bottom: 1px solid black;
+const StyledHeading = styled(Heading)<{$harOppgaver?: boolean}>`
+    //border-bottom: 1px solid black;
+    border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
     padding-bottom: 5px;
 `;
 
 interface Props {
     hasError?: boolean;
+    harOppgaver?: boolean;
     header?: React.ReactNode | string;
     children: React.ReactNode;
 }
 
-const Panel = ({hasError, header, children}: Props): React.JSX.Element => (
+const Panel = ({hasError, harOppgaver, header, children}: Props): React.JSX.Element => (
     <StyledPanel $error={hasError}>
         {header && typeof header === "string" ? (
             <StyledHeading level="2" size="medium">
