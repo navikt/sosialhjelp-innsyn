@@ -25,3 +25,8 @@ updates:
         update-types: [ "version-update:semver-patch" ]
     registries:
       - npm-github
+    groups:
+      minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
