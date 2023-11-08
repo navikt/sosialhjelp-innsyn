@@ -1,5 +1,5 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import {logButtonOrLinkClick, logVeilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
+import {logVeilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React, {useEffect} from "react";
@@ -44,7 +44,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
 
     return (
         <>
-            <Accordion.Item defaultOpen>
+            <Accordion.Item defaultOpen style={{borderTop: "--a-blue-300"}}>
                 <Accordion.Header>
                     <MaaSendeDokTekst dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     {dokumentasjonEtterspurtErFraInnsyn && (

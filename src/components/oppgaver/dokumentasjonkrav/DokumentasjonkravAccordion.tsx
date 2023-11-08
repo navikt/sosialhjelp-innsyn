@@ -1,5 +1,5 @@
 import {Accordion, BodyShort, Label} from "@navikt/ds-react";
-import {logButtonOrLinkClick, logVeilederBerOmDokumentasjonkravEvent} from "../../../utils/amplitude";
+import {logVeilederBerOmDokumentasjonkravEvent} from "../../../utils/amplitude";
 import {useTranslation} from "next-i18next";
 import React, {useEffect} from "react";
 import {DokumentasjonkravResponse} from "../../../generated/model";
@@ -26,7 +26,7 @@ const DokumentasjonkravAccordion = (props: Props) => {
 
     return (
         <>
-            <Accordion.Item defaultOpen>
+            <Accordion.Item defaultOpen style={{borderTop: "--a-transparent"}}>
                 <Accordion.Header>
                     <Label as="p">{t("dokumentasjonkrav.dokumentasjon_stonad")}</Label>
                     <BodyShort>{t("dokumentasjonkrav.veileder_trenger_mer")}</BodyShort>

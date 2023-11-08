@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {Heading, Panel as DsPanel} from "@navikt/ds-react";
 import React from "react";
+import {useTranslation} from "next-i18next";
 
 const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
     position: relative;
@@ -17,7 +18,7 @@ const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
 
 const StyledHeading = styled(Heading)<{$harOppgaver?: boolean}>`
     //border-bottom: 1px solid black;
-    border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
+    border-bottom: 2px solid var(${(props) => (props.$erOppgaver ? "--a-transparent" : "--a-red-300")});
     padding-bottom: 5px;
 `;
 
@@ -28,15 +29,34 @@ interface Props {
     children: React.ReactNode;
 }
 
+/*        {header && typeof header === "string"
+            ?
+            headinger(header, harOppgaver)
+            :
+            header
+        }
+        */
+const headinger = (header: string, harOppgaver: boolean): React.JSX.Element => {
+    console.log("harOppgaver", harOppgaver);
+    const {t} = useTranslation();
+    return (
+        <>
+            {header && typeof header === t("oppgaver.dine_oppgaver") ? (
+                <StyledHeading level="2" size="medium" harOppgaver={harOppgaver}>
+                    {header}
+                </StyledHeading>
+            ) : (
+                <StyledHeading level="2" size="medium" harOppgaver={false}>
+                    {header}
+                </StyledHeading>
+            )}
+        </>
+    );
+};
+
 const Panel = ({hasError, harOppgaver, header, children}: Props): React.JSX.Element => (
     <StyledPanel $error={hasError}>
-        {header && typeof header === "string" ? (
-            <StyledHeading level="2" size="medium">
-                {header}
-            </StyledHeading>
-        ) : (
-            header
-        )}
+        {header && typeof header === "string" ? headinger(header, harOppgaver) : header}
         {children}
     </StyledPanel>
 );
