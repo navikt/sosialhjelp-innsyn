@@ -1,5 +1,3 @@
-import {getRandomValues} from "crypto";
-
 import {IToggle, getDefinitions, evaluateFlags} from "@unleash/nextjs";
 import {logger} from "@navikt/next-logger";
 import {GetServerSidePropsContext} from "next/types";
@@ -7,27 +5,20 @@ import * as R from "remeda";
 
 import {getUnleashEnvironment, localDevelopmentToggles} from "./utils";
 import {EXPECTED_TOGGLES} from "./toggles";
-import {isLocalhost} from "../utils/restUtils";
+import {isLocalhost, isMock} from "../utils/restUtils";
 
 export async function getFlagsServerSide(
     req: GetServerSidePropsContext["req"],
     res: GetServerSidePropsContext["res"]
 ): Promise<{toggles: IToggle[]}> {
-    if (isLocalhost()) {
+    if (isLocalhost() || isMock()) {
         logger.warn("Running in local or demo mode, falling back to development toggles.");
         return {toggles: localDevelopmentToggles()};
     }
 
     try {
-        const existingHeader = safeCoerceHeader(res.getHeader("set-cookie"));
-        const existingUnleashId = req.cookies["unleash-session-id"];
-        let sessionId;
-        if (existingUnleashId == null) {
-            const newId = `${getRandomValues(new Uint32Array(16)).join("")}}`;
-            res.setHeader("set-cookie", [...existingHeader, `unleash-session-id=${newId}; path=/;`]);
-            sessionId = newId;
-        }
-
+        const sessionId = req.cookies["unleash-session-id"] || `${Math.floor(Math.random() * 1_000_000_000)}`;
+        res.setHeader("set-cookie", `unleash-session-id=${sessionId}; path=/;`);
         const definitions = await getAndValidateDefinitions();
         return evaluateFlags(definitions, {
             sessionId,
@@ -77,17 +68,4 @@ async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinit
     );
 
     return definitions;
-}
-
-function safeCoerceHeader(header: string | string[] | number | undefined | null): string[] {
-    if (header == null) {
-        return [];
-    }
-    if (typeof header === "string") {
-        return [header];
-    }
-    if (typeof header === "number") {
-        return [header.toString()];
-    }
-    return header;
 }

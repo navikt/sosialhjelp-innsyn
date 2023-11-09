@@ -10,6 +10,7 @@ import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
+import pageHandler from "../pagehandler/pageHandler";
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
@@ -46,9 +47,6 @@ const Saksoversikt: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale, req: {cookies}}) => {
-    const translations = await serverSideTranslations(locale ?? "nb", ["common", "utbetalinger"]);
-    return {props: {...translations}};
-};
+export const getServerSideProps: GetServerSideProps = (context) => pageHandler(context, ["common", "utbetalinger"]);
 
 export default Saksoversikt;

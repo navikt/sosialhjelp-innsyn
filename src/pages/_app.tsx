@@ -9,6 +9,8 @@ import {onBreadcrumbClick, onLanguageSelect} from "@navikt/nav-dekoratoren-modul
 import {configureLogger} from "@navikt/next-logger";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import Cookies from "js-cookie";
+import {FlagProvider} from "../featuretoggles/context";
+import {IToggle} from "@unleash/nextjs";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
@@ -26,7 +28,7 @@ configureLogger({
 // TODO: Dette er kanskje ikke den beste plassering
 logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
-const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
+const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.Element => {
     const {i18n} = useTranslation();
     const router = useRouter();
     const [queryHas403, setQueryHas403] = useState(false);
@@ -43,11 +45,13 @@ const App = ({Component, pageProps}: AppProps): React.JSX.Element => {
                 }
             })}
         >
-            <Tilgangskontrollside queryHas403={queryHas403}>
-                <div lang={i18n.language}>
-                    <Component {...pageProps}></Component>
-                </div>
-            </Tilgangskontrollside>
+            <FlagProvider toggles={pageProps.toggles}>
+                <Tilgangskontrollside queryHas403={queryHas403}>
+                    <div lang={i18n.language}>
+                        <Component {...pageProps}></Component>
+                    </div>
+                </Tilgangskontrollside>
+            </FlagProvider>
         </QueryClientProvider>
     );
 };
