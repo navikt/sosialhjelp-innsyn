@@ -27,6 +27,9 @@ import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUploadSuccessfulContext";
 import KlageSection from "../../components/klage/KlageSection";
 import {SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
+import {flagsClient, getFrontendFlags, IMutableContext} from "@unleash/nextjs";
+import {getFlagsServerSide} from "../../featuretoggles/ssr";
+import pageHandler from "../../pagehandler/pageHandler";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -127,9 +130,6 @@ const SaksStatusView: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale}) => {
-    const translations = await serverSideTranslations(locale ?? "nb", ["common"]);
-    return {props: {...translations}};
-};
+export const getServerSideProps: GetServerSideProps = pageHandler;
 
 export default SaksStatusView;

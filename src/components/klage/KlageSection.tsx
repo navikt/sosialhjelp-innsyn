@@ -11,6 +11,7 @@ import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useTranslation} from "next-i18next";
+import {useFlag} from "../../featuretoggles/context";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -47,9 +48,9 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
+    const klageFlag = useFlag("KLAGE_ENABLED");
     const {t} = useTranslation();
-    if (!klageEnabled) {
+    if (!klageFlag.enabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
                 <p>{t("klage.papirskjema.sammendrag")}</p>
