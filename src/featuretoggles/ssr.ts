@@ -11,7 +11,7 @@ export async function getFlagsServerSide(
     req: GetServerSidePropsContext["req"],
     res: GetServerSidePropsContext["res"]
 ): Promise<{toggles: IToggle[]}> {
-    if (isLocalhost() || isMock()) {
+    if (isLocalhost()) {
         logger.warn("Running in local or demo mode, falling back to development toggles.");
         return {toggles: localDevelopmentToggles()};
     }
