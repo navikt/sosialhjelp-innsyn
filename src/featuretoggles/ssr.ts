@@ -50,6 +50,10 @@ async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinit
         appName: "sosialhjelp-innsyn",
     });
 
+    if (!definitions?.features?.length) {
+        logger.error("Couldn't fetch toggles or no toggles");
+    }
+
     const diff = R.difference(
         EXPECTED_TOGGLES,
         R.map(definitions.features, (it) => it.name)
