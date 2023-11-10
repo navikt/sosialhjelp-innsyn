@@ -44,7 +44,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
 
     return (
         <>
-            <Accordion.Item defaultOpen style={{borderTop: "--a-blue-300"}}>
+            <Accordion.Item defaultOpen>
                 <Accordion.Header>
                     <MaaSendeDokTekst dokumentasjonEtterspurtErFraInnsyn={dokumentasjonEtterspurtErFraInnsyn} />
                     {dokumentasjonEtterspurtErFraInnsyn && (

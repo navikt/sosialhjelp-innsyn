@@ -26,7 +26,7 @@ const DokumentasjonkravAccordion = (props: Props) => {
 
     return (
         <>
-            <Accordion.Item defaultOpen style={{borderTop: "--a-transparent"}}>
+            <Accordion.Item defaultOpen>
                 <Accordion.Header>
                     <Label as="p">{t("dokumentasjonkrav.dokumentasjon_stonad")}</Label>
                     <BodyShort>{t("dokumentasjonkrav.veileder_trenger_mer")}</BodyShort>

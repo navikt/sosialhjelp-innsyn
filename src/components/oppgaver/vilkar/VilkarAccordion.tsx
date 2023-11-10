@@ -23,7 +23,7 @@ export const VilkarAccordion = (props: Props) => {
     logSokerFaarVilkaar();
     return (
         <>
-            <Accordion.Item defaultOpen style={{borderTop: "--a-transparent"}}>
+            <Accordion.Item defaultOpen>
                 <Accordion.Header>
                     <Label as="p">{t("vilkar.du_har_vilkar")}</Label>
                     <BodyShort>{t("vilkar.veileder_trenger_mer")}</BodyShort>
