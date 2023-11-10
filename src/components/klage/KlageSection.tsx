@@ -11,6 +11,7 @@ import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useTranslation} from "next-i18next";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -58,7 +59,12 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
-                    <Link href="/papirskjema_klage.pdf">{t("klage.papirskjema.skjema_url_tekst")}</Link>
+                    <Link
+                        href="/papirskjema_klage.pdf"
+                        onClick={() => logButtonOrLinkClick("Trykker på klageskjema pdf")}
+                    >
+                        {t("klage.papirskjema.skjema_url_tekst")}
+                    </Link>
                     <span>{t("klage.papirskjema.beskrivelse_2")}</span>
                 </p>
                 <p>
