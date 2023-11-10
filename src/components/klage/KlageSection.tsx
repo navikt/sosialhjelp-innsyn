@@ -48,7 +48,7 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const klageFlag = useFlag("KLAGE_ENABLED");
+    const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
     const {t} = useTranslation();
     if (!klageFlag.enabled) {
         return (

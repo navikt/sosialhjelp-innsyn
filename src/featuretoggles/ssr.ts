@@ -5,7 +5,7 @@ import * as R from "remeda";
 
 import {getUnleashEnvironment, localDevelopmentToggles} from "./utils";
 import {EXPECTED_TOGGLES} from "./toggles";
-import {isLocalhost, isMock} from "../utils/restUtils";
+import {isLocalhost} from "../utils/restUtils";
 
 export async function getFlagsServerSide(
     req: GetServerSidePropsContext["req"],

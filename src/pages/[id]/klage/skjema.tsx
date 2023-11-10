@@ -19,7 +19,6 @@ import {useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/router";
 import useFilOpplasting from "../../../components/filopplasting/useFilOpplasting";
 import pageHandler from "../../../pagehandler/pageHandler";
-import {useFlag} from "../../../featuretoggles/context";
 import {getFlagsServerSide} from "../../../featuretoggles/ssr";
 
 const StyledHeading = styled(Heading)`
@@ -161,7 +160,7 @@ const KlageSkjema: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const flags = await getFlagsServerSide(context.req, context.res);
-    const klageToggle = flags.toggles.find((toggle) => toggle.name === "KLAGE_ENABLED");
+    const klageToggle = flags.toggles.find((toggle) => toggle.name === "sosialhjelp.innsyn.klage_enabled");
     if (klageToggle && !klageToggle.enabled) {
         return {notFound: true};
     }
