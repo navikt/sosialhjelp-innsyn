@@ -15,8 +15,6 @@ export async function getFlagsServerSide(
         logger.warn("Running in local or demo mode, falling back to development toggles.");
         return {toggles: localDevelopmentToggles()};
     }
-    logger.info("url: " + process.env.UNLEASH_SERVER_API_URL);
-    logger.info("token: " + process.env.UNLEASH_SERVER_API_TOKEN);
 
     try {
         const sessionId = req.cookies["unleash-session-id"] || `${Math.floor(Math.random() * 1_000_000_000)}`;
@@ -50,6 +48,7 @@ export async function getFlagsServerSide(
 async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinitions>> {
     const definitions = await getDefinitions({
         appName: "sosialhjelp-innsyn",
+        url: `${process.env.UNLEASH_SERVER_API_URL}/api`,
     });
 
     if (!definitions?.features?.length) {
