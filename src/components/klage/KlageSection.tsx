@@ -47,8 +47,11 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
     const {t} = useTranslation();
+    const fiksDigisosId = useFiksDigisosId();
+    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
+    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
+    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
     if (!klageEnabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
@@ -66,12 +69,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
             </Panel>
         );
     }
-
-    const fiksDigisosId = useFiksDigisosId();
-
-    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
-
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">
