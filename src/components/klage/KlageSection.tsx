@@ -54,7 +54,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const fiksDigisosId = useFiksDigisosId();
     const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
     const {data, isLoading, error} = useHentKlager(fiksDigisosId);
-    const klageFlag = useFlag("KLAGE_ENABLED");
+    const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
     if (!klageFlag.enabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
