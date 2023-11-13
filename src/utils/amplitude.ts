@@ -90,3 +90,15 @@ export const logVilkarDuplications = (vilkar: number, unikVilkar: number) => {
         logAmplitudeEvent("Vilkår duplisert", {antall});
     }
 };
+
+export const logBrukerAapnerKlageskjema = (tittel: string, spraak: string) => {
+    if (spraak.includes("et")) {
+        logAmplitudeEvent(tittel, {spraakVersjon: "Norsk bokmål"});
+    }
+    if (spraak.includes("eit")) {
+        logAmplitudeEvent(tittel, {spraakVersjon: "Nynorsk"});
+    }
+    if (spraak.includes("out")) {
+        logAmplitudeEvent(tittel, {spraakVersjon: "Engelsk"});
+    }
+};

@@ -11,6 +11,7 @@ import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useTranslation} from "next-i18next";
+import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -47,15 +48,28 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
     const {t} = useTranslation();
+    const fiksDigisosId = useFiksDigisosId();
+    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
+    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
+    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
     if (!klageEnabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
                 <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
-                    <Link href="/papirskjema_klage.pdf">{t("klage.papirskjema.skjema_url_tekst")}</Link>
+                    <Link
+                        href="/papirskjema_klage.pdf"
+                        onClick={() =>
+                            logBrukerAapnerKlageskjema(
+                                "Bruker åpner klageskjema: ",
+                                t("klage.papirskjema.skjema_url_tekst")
+                            )
+                        }
+                    >
+                        {t("klage.papirskjema.skjema_url_tekst")}
+                    </Link>
                     <span>{t("klage.papirskjema.beskrivelse_2")}</span>
                 </p>
                 <p>
@@ -66,12 +80,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
             </Panel>
         );
     }
-
-    const fiksDigisosId = useFiksDigisosId();
-
-    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
-
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">
