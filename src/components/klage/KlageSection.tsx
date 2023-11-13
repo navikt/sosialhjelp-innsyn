@@ -11,7 +11,7 @@ import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useTranslation} from "next-i18next";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -53,7 +53,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
     const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
-    if (!klageEnabled) {
+    if (klageEnabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
                 <p>{t("klage.papirskjema.sammendrag")}</p>
@@ -61,7 +61,12 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
                     <Link
                         href="/papirskjema_klage.pdf"
-                        onClick={() => logButtonOrLinkClick("Trykker på klageskjema pdf")}
+                        onClick={() =>
+                            logBrukerAapnerKlageskjema(
+                                "Bruker åpner klageskjema: ",
+                                t("klage.papirskjema.skjema_url_tekst")
+                            )
+                        }
                     >
                         {t("klage.papirskjema.skjema_url_tekst")}
                     </Link>
@@ -90,7 +95,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const kanKlage = vedtak.length > 0;
     return (
         <Panel header="Dine klager">
-            {data && data.length > 0 && (
+            {!data && data.length == 0 && (
                 <>
                     <StyledKlageList as="ul">
                         {data.map((klage) => {
