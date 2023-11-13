@@ -1,7 +1,6 @@
 import {server} from "./mocks/server";
 import {queryCache, queryClient} from "./test/test-utils";
 import "@testing-library/jest-dom";
-import "@testing-library/jest-dom/extend-expect";
 import mockRouter from "next-router-mock";
 import {createDynamicRouteParser} from "next-router-mock/dynamic-routes";
 import {initReactI18next} from "react-i18next";

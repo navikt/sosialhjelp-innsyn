@@ -3,8 +3,8 @@ import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentVedleggQueryKey} from "../../../generated/vedlegg-controller/vedlegg-controller";
-import {OppgaveElementHendelsetype} from "../../../generated/model";
+import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
+import {OppgaveElementHendelsetype} from "../../generated/model";
 import {useTranslation} from "next-i18next";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
@@ -60,7 +60,7 @@ const EttersendelseView = (props: Props) => {
         mutation: {isLoading: uploadIsLoading},
         resetStatus,
     } = useFilOpplasting(metadatas, {
-        onSuccess: () => queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId)),
+        onSuccess: () => queryClient.invalidateQueries({queryKey: getHentVedleggQueryKey(fiksDigisosId)}),
     });
     const {ettersendelseUploadSuccess, setOppgaverUploadSuccess} = useFilUploadSuccessful();
     const files = _files[0];

@@ -1,5 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
+import {logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
+import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {
     logAmplitudeEvent,
     logBrukerNavigererBortFraUlagretVedlegg,
@@ -12,19 +14,19 @@ import {
     getHentVedleggQueryKey,
     sendVedlegg,
     useSendVedlegg,
-} from "../../../generated/vedlegg-controller/vedlegg-controller";
+} from "../../generated/vedlegg-controller/vedlegg-controller";
 import {ErrorType} from "../../axios-instance";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentHendelserQueryKey} from "../../../generated/hendelse-controller/hendelse-controller";
+import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
 
 export interface Metadata {
     type: string;
-    tilleggsinfo: string | undefined;
-    innsendelsesfrist: string | undefined;
-    hendelsetype: string | undefined;
-    hendelsereferanse: string | undefined;
+    tilleggsinfo?: string;
+    innsendelsesfrist?: string;
+    hendelsetype?: string;
+    hendelsereferanse?: string;
 }
 
 export interface Error {
@@ -87,7 +89,7 @@ const useFilOpplasting = (
 ) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const {isLoading, mutate, error, isError, data} = useSendVedlegg();
+    const {isPending, mutate, error, isError, data} = useSendVedlegg();
 
     const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
@@ -221,8 +223,8 @@ const useFilOpplasting = (
                             setEttersendelseUploadSuccess(true);
                         }
 
-                        await queryClient.invalidateQueries(getHentVedleggQueryKey(fiksDigisosId));
-                        await queryClient.invalidateQueries(getHentHendelserQueryKey(fiksDigisosId));
+                        await queryClient.invalidateQueries({queryKey: getHentVedleggQueryKey(fiksDigisosId)});
+                        await queryClient.invalidateQueries({queryKey: getHentHendelserQueryKey(fiksDigisosId)});
                     }
                     setOuterErrors(errors);
                 },
@@ -254,7 +256,7 @@ const useFilOpplasting = (
     ]);
 
     return {
-        mutation: {isLoading, isError, error, data},
+        mutation: {isLoading: isPending, isError, error, data},
         innerErrors,
         outerErrors,
         upload,

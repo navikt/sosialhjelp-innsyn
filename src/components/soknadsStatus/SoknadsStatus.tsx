@@ -7,15 +7,10 @@ import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
 import SoknadsStatusTag from "./SoknadsStatusTag";
-import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
+import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
-import {
-    SaksStatusResponse,
-    SaksStatusResponseStatus,
-    SoknadsStatusResponseStatus,
-    VedtaksfilUrl,
-} from "../../../generated/model";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
+import {FilUrl, SaksStatusResponse, SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
 import styles from "../../styles/lists.module.css";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
 import {ContentPanelBorder} from "./SoknadsStatusHeading";
@@ -148,26 +143,24 @@ const SoknadsStatus = () => {
                                             <BodyShort>{t("status.ikke_innsyn_ingress")}</BodyShort>
                                         )}
                                         {statusdetalj.vedtaksfilUrlList &&
-                                            statusdetalj.vedtaksfilUrlList.map(
-                                                (hendelse: VedtaksfilUrl, id: number) => (
-                                                    <StatusMessage key={id}>
-                                                        <StatusMessageVedtak>
-                                                            <EksternLenke
-                                                                href={"" + hendelse.vedtaksfilUrl}
-                                                                onClick={() => logButtonOrLinkClick("Åpner et vedtak")}
-                                                            >
-                                                                {t("vedtak")} (
-                                                                <DatoOgKlokkeslett
-                                                                    bareDato={true}
-                                                                    // TODO: Kan denne faktisk være null?
-                                                                    tidspunkt={hendelse.dato!}
-                                                                />
-                                                                )
-                                                            </EksternLenke>
-                                                        </StatusMessageVedtak>
-                                                    </StatusMessage>
-                                                )
-                                            )}
+                                            statusdetalj.vedtaksfilUrlList.map((hendelse: FilUrl, id: number) => (
+                                                <StatusMessage key={id}>
+                                                    <StatusMessageVedtak>
+                                                        <EksternLenke
+                                                            href={"" + hendelse.url}
+                                                            onClick={() => logButtonOrLinkClick("Åpner et vedtak")}
+                                                        >
+                                                            {t("vedtak")} (
+                                                            <DatoOgKlokkeslett
+                                                                bareDato={true}
+                                                                // TODO: Kan denne faktisk være null?
+                                                                tidspunkt={hendelse.dato!}
+                                                            />
+                                                            )
+                                                        </EksternLenke>
+                                                    </StatusMessageVedtak>
+                                                </StatusMessage>
+                                            ))}
                                     </StatusBox>
                                     <ContentPanelBorder lightColor />
                                 </li>

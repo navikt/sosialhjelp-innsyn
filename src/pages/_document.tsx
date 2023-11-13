@@ -3,7 +3,7 @@ import Document, {DocumentContext, DocumentInitialProps, Head, Html, Main, NextS
 import {DecoratorComponents, DecoratorFetchProps, fetchDecoratorReact} from "@navikt/nav-dekoratoren-moduler/ssr";
 import {DecoratorLocale} from "@navikt/nav-dekoratoren-moduler";
 import {getBreadcrumbs} from "../hooks/useUpdateBreadcrumbs";
-import {isDev, isLocalhost, isMock} from "../utils/restUtils";
+import {isDev, isMock} from "../utils/restUtils";
 
 // The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
 const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
@@ -36,6 +36,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
         ],
         language: ctx.locale as DecoratorLocale,
         breadcrumbs: getBreadcrumbs(ctx.pathname),
+        logoutWarning: true,
     },
 });
 

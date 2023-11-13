@@ -10,7 +10,7 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
-import {useHentSaksDetaljer} from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
 
@@ -48,7 +48,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
 
     const oppdatertTittel = useMemo(() => {
         if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {
-            return saksdetaljer.soknadTittel;
+            return saksdetaljer.soknadTittel.replaceAll("default_sak_tittel", t("saker.default_tittel"));
         }
         return tittel && tittel !== "saker.default_tittel" ? tittel : t("saker.default_tittel");
     }, [saksdetaljer, tittel, t]);

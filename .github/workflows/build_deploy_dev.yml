@@ -1,5 +1,5 @@
 name: 'Build Image and Deploy to Dev'
-run-name: Deploying (if !q0) '${{ github.ref_name }}' to '${{ github.event.inputs.config-file-name }}'
+run-name: Deploying ${{ github.ref_name }} to ${{ github.event.inputs.config-file-name }}
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ jobs:
     outputs:
       image-tag: ${{ steps.artifact-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: 'Copy appropriate env file to root'
         shell: bash
@@ -81,7 +81,7 @@ jobs:
     needs: build-image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: 'Deploy til dev'
         uses: nais/deploy/actions/deploy@v1

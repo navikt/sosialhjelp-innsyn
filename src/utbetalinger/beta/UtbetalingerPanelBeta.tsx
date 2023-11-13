@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./utbetalinger.module.css";
 import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import {useHentNyeUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentNyeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
@@ -10,7 +10,7 @@ import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
 import useIsMobile from "../../utils/useIsMobile";
 import FilterModal from "./filter/FilterModal";
 import {useTranslation} from "next-i18next";
-import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../../generated/model";
+import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
 
 enum TAB_VALUE {
     UTBETALINGER = "Utbetalinger",
@@ -34,17 +34,6 @@ const UtbetalingerPanelBeta = () => {
         isError: hentNyeFeilet,
     } = useHentNyeUtbetalinger({
         query: {
-            onSuccess: (data: UtbetalingerResponseMedId[]) => {
-                if (!nyeLogged && data?.length > 0) {
-                    const sisteManedgruppe = data[data.length - 1].utbetalingerForManed;
-                    const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
-                    logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
-                    setNyeLogged(true);
-                }
-                logAmplitudeEvent("Lastet utbetalinger", {
-                    antall: data[0]?.utbetalingerForManed.length ? data[0].utbetalingerForManed.length : 0,
-                });
-            },
             select: (data) => {
                 // Legg på en id på hver utbetaling
                 return data.map((item) => {
@@ -61,6 +50,18 @@ const UtbetalingerPanelBeta = () => {
             },
         },
     });
+
+    useEffect(() => {
+        if (!nyeLogged && nye && nye.length > 0) {
+            const sisteManedgruppe = nye[nye.length - 1].utbetalingerForManed;
+            const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
+            logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
+            setNyeLogged(true);
+        }
+        logAmplitudeEvent("Lastet utbetalinger", {
+            antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
+        });
+    }, [nye, nyeLogged]);
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 

@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo} from "react";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "next-i18next";
 import OppgaveInformasjon from "./OppgaveInformasjon";
@@ -13,11 +13,11 @@ import {
     useGetfagsystemHarDokumentasjonkrav,
     useGetHarLevertDokumentasjonkrav,
     useGetVilkar,
-} from "../../../generated/oppgave-controller/oppgave-controller";
+} from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
+import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
@@ -72,7 +72,15 @@ const Oppgaver = () => {
         useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
     const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
-    const utbetalingerQuery = useHentUtbetalinger({}, {query: {onError: (e) => logger.warn(e.message, e.navCallId)}});
+    const utbetalingerQuery = useHentUtbetalinger();
+
+    useEffect(() => {
+        const {error} = utbetalingerQuery;
+        if (error) {
+            logger.warn(error.message, error.navCallId);
+        }
+    }, [utbetalingerQuery.error]);
+
     const {oppgaverUploadSuccess} = useFilUploadSuccessful();
 
     const hasError =

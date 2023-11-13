@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from "react";
-/* eslint-disable react/jsx-pascal-case */
+import React, {useState} from "react";
 import {DatePicker, Fieldset, Radio, RadioGroup, useDatepicker} from "@navikt/ds-react";
 import styles from "./utbetalingerFilter.module.css";
 import {MottakerFilter, useFilter} from "./FilterContext";
@@ -12,15 +11,11 @@ function subtractMonths(date: Date, months: number) {
     return date;
 }
 
-interface Props {
-    setDatePickerIsOpen?: (value: boolean) => void;
-}
-const UtbetalingerFilter = (props: Props) => {
+const UtbetalingerFilter = () => {
     const {filter, oppdaterFilter} = useFilter();
     const {t, i18n} = useTranslation("utbetalinger");
 
     const isMobile = useIsMobile();
-    const {setDatePickerIsOpen} = props;
     const [fromDateError, setFromDateError] = useState<string | undefined>(undefined);
     const [toDateError, setToDateError] = useState<string | undefined>(undefined);
 
@@ -56,13 +51,6 @@ const UtbetalingerFilter = (props: Props) => {
             else setToDateError(undefined);
         },
     });
-
-    const isOpen = fromDatePicker.datepickerProps.open || toDatePicker.datepickerProps.open;
-    useEffect(() => {
-        if (setDatePickerIsOpen) {
-            setDatePickerIsOpen(!!isOpen);
-        }
-    }, [isOpen, setDatePickerIsOpen]);
 
     const onMottakerChanged = (value: MottakerFilter) => {
         oppdaterFilter({...filter, mottaker: value});
