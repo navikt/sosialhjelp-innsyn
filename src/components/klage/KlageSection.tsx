@@ -1,12 +1,11 @@
 import React from "react";
-import * as R from "remeda";
 import {useHentKlager} from "../../generated/klage-controller/klage-controller";
 import {NextPage} from "next";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import Panel from "../panel/Panel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import Link from "next/link";
-import {Button, Heading, List, Tag} from "@navikt/ds-react";
+import {Button, List} from "@navikt/ds-react";
 import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
@@ -95,43 +94,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const kanKlage = vedtak.length > 0;
     return (
         <Panel header="Dine klager">
-            {!data && (
-                <>
-                    <StyledKlageList as="ul">
-                        {data.map((klage) => {
-                            const paaklagetSaker = R.pipe(
-                                saksStatuser ?? [],
-                                R.intersectionWith(klage.paaklagetVedtakRefs, sakHasMatchingVedtak),
-                                R.map((it) => it.tittel),
-                                R.uniq()
-                            );
-                            return (
-                                <React.Fragment key={klage.klageUrl.id}>
-                                    <KlageHeader>
-                                        <Heading level="4" size="small">
-                                            {paaklagetSaker.join(", ")}
-                                        </Heading>
-                                        <Tag variant="info">{statusToText[klage.status]}</Tag>
-                                    </KlageHeader>
-                                    <FilUrlBoks>
-                                        <Link href={klage.klageUrl.url}>
-                                            Kvittering på klage ({klage.klageUrl.dato})
-                                        </Link>
-                                        {klage.nyttVedtakUrl && (
-                                            <Link href={klage.nyttVedtakUrl.url}>
-                                                Nytt vedtak ({klage.nyttVedtakUrl.dato})
-                                            </Link>
-                                        )}
-                                    </FilUrlBoks>
-                                </React.Fragment>
-                            );
-                        })}
-                    </StyledKlageList>
-                    {data.some((klage) => klage.status === KlageDtoStatus.UNDER_BEHANDLING) && (
-                        <p>Kommunene kan ha ulik svartid, men du skal få svar innen rimelig tid.</p>
-                    )}
-                </>
-            )}
             <InfoBoks>
                 <AntallKlagerSendt antallKlager={data?.length ?? 0} />
                 <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Les mer om klageprosessen her</Link>
