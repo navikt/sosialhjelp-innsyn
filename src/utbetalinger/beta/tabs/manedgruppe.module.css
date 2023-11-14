@@ -39,8 +39,6 @@
 
 .accordion_header {
     align-items: center;
-}
-.accordion_header > span {
     width: 100%;
 }
 
