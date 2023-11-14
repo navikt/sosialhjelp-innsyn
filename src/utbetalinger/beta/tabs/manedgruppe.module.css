@@ -40,7 +40,7 @@
 .accordion_header {
     align-items: center;
 }
-.accordion_header {
+.accordion_header > span {
     width: 100%;
 }
 
