@@ -1,14 +1,12 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {
     logAmplitudeEvent,
     logBrukerNavigererBortFraUlagretVedlegg,
     logDuplicatedFiles,
     logFileUploadFailedEvent,
 } from "../../utils/amplitude";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../../generated/model";
+import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
