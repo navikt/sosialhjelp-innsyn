@@ -59,6 +59,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                                 )}
                             </BodyShort>
                         </div>
+
                         <BodyShort className={styles.float_right}>
                             {utbetalingManed.status === "STOPPET" ? (
                                 <s>
