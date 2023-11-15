@@ -17,23 +17,20 @@
 }
 
 .accordion_headerContent {
-    border: 1px solid black;
     display: flex;
     gap: 8px;
     flex-direction: row;
     align-items: center;
+    width: 100%;
 }
 
-.accordion_headerContent > .float_left {
-    border: 1px solid red;
+.float_left {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     max-width: 80%;
 }
 .accordion_headerContent > .float_right {
-    display: flex;
-    border: 1px solid green;
     margin-left: auto;
 }
 
@@ -43,13 +40,8 @@
 
 .accordion_header {
     align-items: center;
-    border: 1px solid magenta;
-    margin: 0;
-    padding: 0;
 }
-.accordion_header > span > .accordion_headerContent {
-    display: flex;
-    border: 1px solid black;
+.accordion_header > span:nth-child(2) {
     width: 100%;
 }
 
