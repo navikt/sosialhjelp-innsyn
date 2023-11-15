@@ -16,6 +16,7 @@ const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
 `;
 
 const StyledHeading = styled(Heading)<{$harOppgaver?: boolean}>`
+    border-bottom: 1px solid black;
     padding-bottom: 5px;
 `;
 

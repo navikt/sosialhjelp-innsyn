@@ -124,10 +124,7 @@ const Oppgaver = () => {
     const brukerHarDokumentasjonEtterspurt =
         Array.isArray(dokumentasjonEtterspurt) && dokumentasjonEtterspurt.length > 0;
 
-    const skalViseOppgaver =
-        brukerHarDokumentasjonEtterspurt ||
-        (filtrerteDokumentasjonkrav && filtrerteDokumentasjonkrav.length > 0) ||
-        (filtrerteVilkar && filtrerteVilkar.length > 0);
+    const skalViseOppgaver = brukerHarDokumentasjonEtterspurt || filtrerteDokumentasjonkrav || filtrerteVilkar;
 
     const [skalViseIngenOppgaverPanel, skalViseOppgaveInformasjon] = useMemo(() => {
         const harOppgaver = Boolean(

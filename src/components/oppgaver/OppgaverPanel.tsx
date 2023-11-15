@@ -6,11 +6,9 @@ const OppgaverPanel = ({hasError, children}: {hasError: boolean; children: React
     const {t} = useTranslation();
 
     return (
-        <>
-            <Panel hasError={hasError} header={t("oppgaver.dine_oppgaver")}>
-                {children}
-            </Panel>
-        </>
+        <Panel hasError={hasError} header={t("oppgaver.dine_oppgaver")}>
+            {children}
+        </Panel>
     );
 };
 
