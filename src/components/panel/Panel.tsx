@@ -16,8 +16,6 @@ const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
 `;
 
 const StyledHeading = styled(Heading)<{$harOppgaver?: boolean}>`
-    //border-bottom: 1px solid black;
-    //border-bottom: 2px solid var(${(props) => (props.$erOppgaver ? "--a-blue-300" : "--a-red-300")});
     padding-bottom: 5px;
 `;
 
