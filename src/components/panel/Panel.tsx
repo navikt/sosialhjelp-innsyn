@@ -15,14 +15,13 @@ const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
     }
 `;
 
-const StyledHeading = styled(Heading)<{$harOppgaver?: boolean}>`
+const StyledHeading = styled(Heading)`
     border-bottom: 1px solid black;
     padding-bottom: 5px;
 `;
 
 interface Props {
     hasError?: boolean;
-    harOppgaver?: boolean;
     header?: React.ReactNode | string;
     children: React.ReactNode;
 }
