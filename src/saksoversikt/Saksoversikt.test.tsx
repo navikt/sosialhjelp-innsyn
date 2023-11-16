@@ -1,54 +1,53 @@
 import React from "react";
 import Saksoversikt from "../pages/index";
 import {getHentSaksDetaljerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
-import {rest} from "msw";
+import {delay, http, HttpResponse} from "msw";
 import {server} from "../mocks/server";
 import {render, screen} from "../test/test-utils";
-import {findAllByRole, getByRole, waitForElementToBeRemoved} from "@testing-library/react";
+import {findAllByRole, waitForElementToBeRemoved} from "@testing-library/react";
 import {faker} from "@faker-js/faker";
 import {SaksListeResponse} from "../generated/model";
 
-const notFound = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
-    return res(ctx.delay(200), ctx.status(404, "Unauthorized"));
+const notFound = http.get("*/api/v1/innsyn/saker", async () => {
+    await delay(200);
+    return new HttpResponse("Not found", {status: 404});
 });
 
-const unauthorized = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
-    return res(ctx.delay(200), ctx.status(401, "Unauthorized"));
+const unauthorized = http.get("*/api/v1/innsyn/saker", async () => {
+    await delay(200);
+    return new HttpResponse("Unauthorized", {status: 401});
 });
 
-const loading = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
-    return res(ctx.delay(1000), ctx.status(200, "Laster"));
+const loading = http.get("*/api/v1/innsyn/saker", async () => {
+    await delay("infinite");
+    return new HttpResponse("Laster");
 });
 
-const success = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
-    return res(
-        ctx.status(200, "Mocked status"),
-        ctx.json([
-            {
-                kilde: "innsyn-api",
-                soknadTittel: "Default søknad",
-                url: faker.random.word(),
-                sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
-                fiksDigisosId: faker.random.alphaNumeric(5),
-            } as SaksListeResponse,
-        ])
-    );
+const success = http.get("*/api/v1/innsyn/saker", () => {
+    return HttpResponse.json([
+        {
+            kilde: "innsyn-api",
+            soknadTittel: "Default søknad",
+            url: faker.internet.url(),
+            sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
+            fiksDigisosId: faker.string.alphanumeric(5),
+        } as SaksListeResponse,
+    ]);
 });
 
-const utbetalingerDoesntExist = rest.get("*/api/v1/innsyn/utbetalinger/exists", (_req, res, ctx) => {
-    return res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(false));
+const utbetalingerDoesntExist = http.get("*/api/v1/innsyn/utbetalinger/exists", async () => {
+    await delay(200);
+    return HttpResponse.json(false);
 });
 
-const saksdetaljer = rest.get("*/api/v1/innsyn/saksDetaljer", (_req, res, ctx) => {
-    return res(
-        ctx.delay(200),
-        ctx.status(200, "Mocked status"),
-        ctx.json({...getHentSaksDetaljerMock(), status: "Mottatt", soknadTittel: "Min kule søknad"})
-    );
+const saksdetaljer = http.get("*/api/v1/innsyn/saksDetaljer", async () => {
+    await delay(200);
+    return HttpResponse.json({...getHentSaksDetaljerMock(), status: "Mottatt", soknadTittel: "Min kule søknad"});
 });
 
-const empty = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) => {
-    return res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json([]));
+const empty = http.get("*/api/v1/innsyn/saker", async () => {
+    await delay(200);
+    return HttpResponse.json([]);
 });
 
 describe("Saksoversikt", () => {
