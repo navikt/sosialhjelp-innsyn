@@ -12,6 +12,7 @@ import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../.
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useTranslation} from "next-i18next";
 import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
+import {ContentPanelBorder} from "../soknadsStatus/SoknadsStatusHeading";
 
 const StyledKlageList = styled(List)`
     border-bottom: 1px solid black;
@@ -56,6 +57,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     if (!klageEnabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
+                <ContentPanelBorder test={"green"} />
                 <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>

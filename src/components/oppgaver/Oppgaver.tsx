@@ -26,6 +26,7 @@ import styles from "./oppgaver.module.css";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 import {logger} from "@navikt/next-logger";
+import {ContentPanelBorder} from "../soknadsStatus/SoknadsStatusHeading";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -159,6 +160,7 @@ const Oppgaver = () => {
     if (isLoading) {
         return (
             <OppgaverPanel hasError={hasError}>
+                <ContentPanelBorder test={"green"} />
                 <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
             </OppgaverPanel>
         );
@@ -167,6 +169,7 @@ const Oppgaver = () => {
     if (hasError) {
         return (
             <OppgaverPanel hasError={true}>
+                <ContentPanelBorder test={"blue"} />
                 <StyledAlert variant="error" inline>
                     {t("feilmelding.dineOppgaver_innlasting")}
                 </StyledAlert>
@@ -176,6 +179,7 @@ const Oppgaver = () => {
 
     return (
         <OppgaverPanel hasError={false}>
+            <ContentPanelBorder test={"green"} />
             {skalViseIngenOppgaverPanel && <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />}
             {(skalViseOppgaver || skalViseOppgaveInformasjon) && (
                 <Accordion>
