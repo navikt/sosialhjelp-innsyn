@@ -147,9 +147,9 @@ const SoknadsStatus = () => {
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
                                                         <EksternLenke
-                                                                href={"" + hendelse.url}
-                                                                onClick={() => logButtonOrLinkClick("Åpner et vedtak")}
-                                                            >
+                                                            href={"" + hendelse.url}
+                                                            onClick={() => logButtonOrLinkClick("Åpner et vedtak")}
+                                                        >
                                                             {t("vedtak")} (
                                                             <DatoOgKlokkeslett
                                                                 bareDato={true}
@@ -162,7 +162,7 @@ const SoknadsStatus = () => {
                                                 </StatusMessage>
                                             ))}
                                     </StatusBox>
-                                    <ContentPanelBorder lightColor />
+                                    <ContentPanelBorder borderspace="1rem 0" bordercolor="var(--a-border-divider)" />
                                 </li>
                             );
                         })}
