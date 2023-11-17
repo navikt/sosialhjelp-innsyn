@@ -2,13 +2,13 @@ import React from "react";
 import Utbetalinger from "../pages/utbetaling";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
-import {rest} from "msw";
+import {delay, http} from "msw";
 import {getHentNyeUtbetalingerMock} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
 import {getHentAlleSakerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths} from "date-fns";
-import {randomUUID} from "node:crypto";
-import {NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
+import {NyeOgTidligereUtbetalingerResponse} from "../generated/model";
+import {HttpHandler, HttpResponse} from "msw";
 
 const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     return {
@@ -26,49 +26,45 @@ const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
         ],
     };
 };
-const loading = rest.get("*/api/v1/innsyn/nye", (_req, res, ctx) =>
-    res(ctx.delay(2000), ctx.status(200, "Mocked status"), ctx.json(getHentNyeUtbetalingerMock()))
-);
+const loading = http.get("*/api/v1/innsyn/nye", async (info) => {
+    await delay("infinite");
+    return HttpResponse.json(getHentNyeUtbetalingerMock());
+});
 
-const utbetaling5ManederSiden = rest.get("*/api/v1/innsyn/tidligere", (_req, res, ctx) => {
+const utbetaling5ManederSiden = http.get("*/api/v1/innsyn/tidligere", async () => {
     const utbetaling5ManederSiden = makeUtbetaling(subMonths(new Date(), 5));
-    return res(ctx.status(200, "Mocked status"), ctx.json([utbetaling5ManederSiden]));
+    return HttpResponse.json([utbetaling5ManederSiden]);
 });
 
-const utbetalingToday = rest.get("*/api/v1/innsyn/nye", (_req, res, ctx) => {
-    const utbetalingToday = makeUtbetaling(new Date());
-    return res(ctx.status(200, "Mocked status"), ctx.json([utbetalingToday]));
+const utbetalingToday = http.get("*/api/v1/innsyn/nye", (info) => {
+    return HttpResponse.json([makeUtbetaling(new Date())]);
 });
 
-const harSoknaderMedInnsyn = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
-    res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(true))
-);
+const harSoknaderMedInnsyn = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", async () => {
+    await delay();
+    return HttpResponse.json(true);
+});
 
-const harIkkeSoknaderMedInnsyn = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
-    res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(false))
-);
+const harIkkeSoknaderMedInnsyn = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", async () => {
+    await delay(100);
+    return HttpResponse.json(false);
+});
 
-const alleSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
-    res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json(getHentAlleSakerMock()))
-);
+const alleSaker = http.get("*/api/v1/innsyn/saker", async () => {
+    await delay(100);
+    return HttpResponse.json(getHentAlleSakerMock());
+});
 
-const ingenSaker = rest.get("*/api/v1/innsyn/saker", (_req, res, ctx) =>
-    res(ctx.delay(200), ctx.status(200, "Mocked status"), ctx.json([]))
-);
+const ingenSaker = http.get("*/api/v1/innsyn/saker", async () => {
+    await delay();
+    return HttpResponse.json([]);
+});
 
-const error = rest.get("*/api/v1/innsyn/harSoknaderMedInnsyn", (_req, res, ctx) =>
-    res(ctx.status(500, "Mocked status"))
-);
+const error = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", () => HttpResponse.error());
 
 jest.mock("../utils/useIsMobile", () => {
     return jest.fn(() => false);
 });
-
-beforeAll(() =>
-    Object.defineProperty(window, "crypto", {
-        value: {randomUUID: randomUUID},
-    })
-);
 
 describe("Utbetalinger", () => {
     it("Viser utbetalinger ved suksess", async () => {
