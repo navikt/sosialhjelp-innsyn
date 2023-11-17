@@ -26,6 +26,7 @@ const Utbetalinger: NextPage = () => {
         data: harSoknaderMedInnsyn,
         isLoading: isHarSoknaderMedInnsynLoading,
         isError: harSoknaderError,
+        error,
     } = useHarSoknaderMedInnsyn();
 
     if (harSoknaderError || harSakerError) {

@@ -52,6 +52,10 @@ Object.defineProperty(window, "matchMedia", {
     })),
 });
 
+Object.defineProperty(crypto, "randomUUID", {
+    value: jest.fn().mockImplementation(() => "72b12f47-cd7f-4eed-b791-9cfae155dda3"),
+});
+
 // Establish API mocking before all tests.
 beforeAll(() => server.listen());
 

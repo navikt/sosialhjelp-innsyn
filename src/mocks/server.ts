@@ -12,7 +12,7 @@ import {getSoknadMedInnsynControllerMSW} from "../generated/soknad-med-innsyn-co
 import {getSoknadsStatusControllerMSW} from "../generated/soknads-status-controller/soknads-status-controller.msw";
 import {getUtbetalingerControllerMSW} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
 import {getVedleggControllerMSW} from "../generated/vedlegg-controller/vedlegg-controller.msw";
-import {rest} from "msw";
+import {http} from "msw";
 
 export const server = setupServer(
     ...getHendelseControllerMSW(),
@@ -28,8 +28,7 @@ export const server = setupServer(
     ...getSoknadsStatusControllerMSW(),
     ...getUtbetalingerControllerMSW(),
     ...getVedleggControllerMSW(),
-    rest.post("https://amplitude.nav.no/collect-auto", async (req, res, ctx) => {
-        await ctx.fetch(req);
-        return res(ctx.status(200));
+    http.post("https://amplitude.nav.no/collect-auto", async (info) => {
+        return new Response(null, {status: 200});
     })
 );

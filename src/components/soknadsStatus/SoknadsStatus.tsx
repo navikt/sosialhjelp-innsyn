@@ -162,7 +162,7 @@ const SoknadsStatus = () => {
                                                 </StatusMessage>
                                             ))}
                                     </StatusBox>
-                                    <ContentPanelBorder lightColor />
+                                    <ContentPanelBorder borderspace="1rem 0" bordercolor="var(--a-border-divider)" />
                                 </li>
                             );
                         })}

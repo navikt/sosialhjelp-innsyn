@@ -11,10 +11,11 @@ const HeadingWrapper = styled.div`
 `;
 
 export const ContentPanelBorder = styled.div<{
-    lightColor?: boolean;
+    borderspace?: string;
+    bordercolor?: string;
 }>`
-    border-bottom: 2px solid var(${(props) => (props.lightColor ? "--a-border-on-inverted" : "--a-border-default")});
-    margin: 1rem 0;
+    border-bottom: 2px solid ${(props) => props.bordercolor};
+    margin: ${(props) => props.borderspace};
 `;
 
 interface Props {
@@ -29,7 +30,7 @@ const SoknadsStatusHeading = (props: Props) => {
                 {soknadsStatusTittel(props.soknadsStatus, t)}
             </Heading>
             <SoknadsStatusLenke status={props.soknadsStatus} />
-            <ContentPanelBorder />
+            <ContentPanelBorder borderspace="1rem 0" bordercolor="var(--a-border-divider)" />
         </HeadingWrapper>
     );
 };

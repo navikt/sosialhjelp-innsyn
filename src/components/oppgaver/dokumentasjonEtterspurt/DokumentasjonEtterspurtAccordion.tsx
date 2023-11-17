@@ -1,5 +1,5 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import {logButtonOrLinkClick, logVeilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
+import {logVeilederBerOmDokumentasjonEvent} from "../../../utils/amplitude";
 import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 import React, {useEffect} from "react";
