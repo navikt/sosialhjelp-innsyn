@@ -160,7 +160,7 @@ const Oppgaver = () => {
     if (isLoading) {
         return (
             <OppgaverPanel hasError={hasError}>
-                <ContentPanelBorder borderColor="var(--a-border-divider)" />
+                <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                 <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
             </OppgaverPanel>
         );
@@ -169,7 +169,7 @@ const Oppgaver = () => {
     if (hasError) {
         return (
             <OppgaverPanel hasError={true}>
-                <ContentPanelBorder borderColor="var(--a-border-divider)" />
+                <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                 <StyledAlert variant="error" inline>
                     {t("feilmelding.dineOppgaver_innlasting")}
                 </StyledAlert>
@@ -179,10 +179,10 @@ const Oppgaver = () => {
 
     return (
         <OppgaverPanel hasError={false}>
-            <ContentPanelBorder borderColor="transparent" />
+            <ContentPanelBorder borderspace="0" bordercolor="transparent" />
             {skalViseIngenOppgaverPanel && (
                 <>
-                    <ContentPanelBorder borderColor="var(--a-border-divider)" />
+                    <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                     <IngenOppgaverPanel leserData={oppgaverQuery.isLoading} />
                 </>
             )}

@@ -57,7 +57,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     if (!klageEnabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
-                <ContentPanelBorder borderColor="var(--a-border-divider)" />
+                <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                 <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
@@ -85,7 +85,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">
-                <ContentPanelBorder borderColor="var(--a-border-divider)" />
+                <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                 <Lastestriper />
             </Panel>
         );
@@ -98,8 +98,8 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const kanKlage = vedtak.length > 0;
     return (
         <Panel header="Dine klager">
-            <ContentPanelBorder borderColor="var(--a-border-divider)" />
-            {data && data.length > 0 && (
+            <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
+            {data && data?.length > 0 && (
                 <>
                     <StyledKlageList as="ul">
                         {data.map((klage) => {
