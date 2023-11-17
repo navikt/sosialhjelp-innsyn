@@ -98,7 +98,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     return (
         <Panel header="Dine klager">
             <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
-            {data && data?.length > 0 && (
+            {data && data.length > 0 && (
                 <>
                     <StyledKlageList as="ul">
                         {data.map((klage) => {
