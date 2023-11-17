@@ -15,6 +15,7 @@ import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
 import {ContentPanelBorder} from "../soknadsStatus/SoknadsStatusHeading";
 
 const StyledKlageList = styled(List)`
+    border-bottom: 2px solid var(--a-border-divider);
     padding-bottom: 1rem;
 `;
 
