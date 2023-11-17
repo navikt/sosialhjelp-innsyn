@@ -116,6 +116,7 @@ const useFilOpplasting = (
         event.preventDefault();
         event.returnValue = "";
     };
+    //fungerer ikke i firefox
     useEffect(() => {
         if (allFiles.length > 0) {
             window.addEventListener("beforeunload", alertUser);
