@@ -24,6 +24,8 @@ export async function getFlagsServerSide(
         return evaluateFlags(definitions, {
             sessionId,
             environment: getUnleashEnvironment(),
+            // Brukes for a skille på mock/q0/dev/osv
+            appName: `sosialhjelp-innsyn-${process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT}`,
         });
     } catch (e) {
         logger.error(new Error("Failed to get flags from Unleash. Falling back to default flags.", {cause: e}));
