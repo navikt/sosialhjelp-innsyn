@@ -10,6 +10,7 @@ export const AXIOS_INSTANCE = Axios.create({
         Accept: "application/json, text/plain, */*",
     },
     withCredentials: isLocalhost() || isUsingMockAlt(),
+    withXSRFToken: isLocalhost() || isUsingMockAlt(),
     baseURL: process.env.NEXT_PUBLIC_INNSYN_API_BASE_URL,
 });
 
