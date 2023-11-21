@@ -10,7 +10,7 @@ const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
         margin-top: 1.5rem;
     }
     @media screen and (max-width: 640px) {
-        padding: 1rem;
+        padding: 2rem;
         margin-top: 1.5rem;
     }
 `;
