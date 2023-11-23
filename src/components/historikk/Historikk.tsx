@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
 import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
@@ -12,6 +12,7 @@ import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-con
 import {HendelseResponse} from "../../generated/model";
 import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
 import Link from "next/link";
+import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -45,6 +46,7 @@ interface HistorikkListeProps {
 
 const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
     const {t} = useTranslation();
+    console.log("what", hendelser);
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
@@ -170,7 +172,18 @@ const StyledTextPlacement = styled.div`
 
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
+    const {dokumentasjonEtterspurt} = useDokumentasjonEtterspurt(fiksDigisosId);
     const {t} = useTranslation();
+
+    logAmplitudeEvent("Lastet utbetalinger", {
+        antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
+    });
+
+    logAmplitudeEvent("vedtak per sak", {
+        sak: index + 1,
+        antallVedtak: statusdetalj.vedtaksfilUrlList ? statusdetalj.vedtaksfilUrlList.length : 0,
+    });
+
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
     }
