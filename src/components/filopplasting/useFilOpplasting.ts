@@ -1,11 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {
-    logAmplitudeEvent,
-    logBrukerNavigererBortFraUlagretVedlegg,
-    logDuplicatedFiles,
-    logFileUploadFailedEvent,
-} from "../../utils/amplitude";
+import {logAmplitudeEvent, logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -141,24 +136,26 @@ const useFilOpplasting = (
     //        router.events.off("routeChangeStart", exitingFUnction);
     //    };
     //}, []);
-    const btn = document.querySelector("button");
+    //const btn = document.querySelector("button");
 
-    useEffect(() => {
-        if (allFiles && allFiles.length > 0) {
-            //window.addEventListener("visibilitychange", () => {
-            //window.addEventListener("beforeunload", () => {console.log("heiheihei");return logBrukerNavigererBortFraUlagretVedlegg();})
-            window.addEventListener("beforeunload", () => {
-                console.log("waaaaaat");
-                logBrukerNavigererBortFraUlagretVedlegg();
-                return "heu";
-            });
-            window.removeEventListener("beforeunload", () => {
-                logBrukerNavigererBortFraUlagretVedlegg();
-                return null;
-            });
-        }
-        return;
-    }, [allFiles]);
+    //useEffect(() => {
+    //    if (allFiles && allFiles.length > 0) {
+    //        //window.addEventListener("visibilitychange", () => {
+    //        //window.addEventListener("beforeunload", () => {console.log("heiheihei");return logBrukerNavigererBortFraUlagretVedlegg();})
+    //        window.addEventListener("beforeunload", () => {
+    //            console.log("waaaaaat");
+    //            logBrukerNavigererBortFraUlagretVedlegg();
+    //            return "heu";
+    //        });
+    //        window.removeEventListener("beforeunload", () => {
+    //            logBrukerNavigererBortFraUlagretVedlegg();
+    //            return null;
+    //        });
+    //    }
+    //    return;
+    //}, [allFiles]);
+
+    useEffect(() => {}, []);
 
     // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
     //useEffect(() => {
