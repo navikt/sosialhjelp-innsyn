@@ -35,6 +35,7 @@ spec:
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.ekstern.dev.nav.no
+        - host: teamdigisos-unleash-api.nav.cloud.nais.io
 
   resources:
     limits:
@@ -45,3 +46,8 @@ spec:
       memory: 32Mi
   vault:
     enabled: false
+  env:
+    - name: UNLEASH_SERVER_API_URL
+      value: 'https://teamdigisos-unleash-api.nav.cloud.nais.io/api'
+  envFrom:
+    - secret: sosialhjelp-innsyn-unleash-api-token

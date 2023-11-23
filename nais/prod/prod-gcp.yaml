@@ -33,6 +33,7 @@ spec:
                   namespace: personbruker
             external:
                 - host: "https://www.nav.no"
+                - host: teamdigisos-unleash-api.nav.cloud.nais.io
     resources:
         limits:
             cpu: 200m
@@ -42,3 +43,5 @@ spec:
             memory: 64Mi
     vault:
         enabled: false
+    envFrom:
+        - secret: sosialhjelp-innsyn-unleash-api-token
