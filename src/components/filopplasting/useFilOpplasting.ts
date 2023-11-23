@@ -113,18 +113,15 @@ const useFilOpplasting = (
     //    //event.returnValue = "";
     //};
 
-    //useEffect(() => {
-    //    if(allFiles && allFiles.length > 0){
-    //    //window.addEventListener("visibilitychange", () => {
-    //    window.addEventListener("beforeunload", (event) => {
-    //        logBrukerNavigererBortFraUlagretVedlegg();
-    //        console.log("is thiiiiiis working")
-    //            event.preventDefault();
-    //             event.returnValue = "";
-    //    }
-    //    )
-    //    }
-    //}, [allFiles]);
+    useEffect(() => {
+        if (allFiles && allFiles.length > 0) {
+            //window.addEventListener("visibilitychange", () => {
+            window.addEventListener("beforeunload", (event) => {
+                event.preventDefault();
+                event.returnValue = "";
+            });
+        }
+    }, [allFiles]);
 
     //useEffect(() => {
     //    const exitingFUnction = () => {
