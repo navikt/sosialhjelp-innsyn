@@ -13,7 +13,6 @@ import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
-import {useRouter} from "next/router";
 
 export interface Metadata {
     type: string;
@@ -90,8 +89,6 @@ const useFilOpplasting = (
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
     const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
 
-    const router = useRouter();
-
     const resetStatus = useCallback(() => {
         setInnerErrors(recordFromMetadatas(metadatas));
         setOuterErrors([]);
@@ -107,60 +104,17 @@ const useFilOpplasting = (
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
-    //const alertUser = (event: any) => {
-    //    //logBrukerNavigererBortFraUlagretVedlegg();
-    //    //event.preventDefault();
-    //    //event.returnValue = "";
-    //};
-
     useEffect(() => {
-        if (allFiles && allFiles.length > 0) {
-            //window.addEventListener("visibilitychange", () => {
-            window.addEventListener("beforeunload", (event) => {
-                event.preventDefault();
-                event.returnValue = "";
-            });
-        }
+        const alertUser = (event: WindowEventMap["beforeunload"]) => {
+            if (!allFiles.length) return;
+            event.preventDefault();
+            event.returnValue = "";
+        };
+
+        window.addEventListener("beforeunload", alertUser);
+
+        return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
-
-    //useEffect(() => {
-    //    const exitingFUnction = () => {
-    //        console.log("offfff");
-    //    };
-    //    router.events.on("routeChangeStart", exitingFUnction);
-    //    return () => {
-    //        console.log("turning");
-    //        router.events.off("routeChangeStart", exitingFUnction);
-    //    };
-    //}, []);
-    //const btn = document.querySelector("button");
-
-    //useEffect(() => {
-    //    if (allFiles && allFiles.length > 0) {
-    //        //window.addEventListener("visibilitychange", () => {
-    //        //window.addEventListener("beforeunload", () => {console.log("heiheihei");return logBrukerNavigererBortFraUlagretVedlegg();})
-    //        window.addEventListener("beforeunload", () => {
-    //            console.log("waaaaaat");
-    //            logBrukerNavigererBortFraUlagretVedlegg();
-    //            return "heu";
-    //        });
-    //        window.removeEventListener("beforeunload", () => {
-    //            logBrukerNavigererBortFraUlagretVedlegg();
-    //            return null;
-    //        });
-    //    }
-    //    return;
-    //}, [allFiles]);
-
-    useEffect(() => {}, []);
-
-    // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
-    //useEffect(() => {
-    //    if (allFiles.length > 0) {
-    //        window.addEventListener("beforeunload", alertUser);
-    //    }
-    //    return () => window.removeEventListener("beforeunload", alertUser);
-    //}, [allFiles]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
@@ -189,12 +143,14 @@ const useFilOpplasting = (
         },
         [files, setInnerErrors, setFiles]
     );
+
     const removeFil = useCallback(
         (index: number, fil: File) => {
             setFiles((prev) => ({...prev, [index]: prev[index].filter((it) => it !== fil)}));
         },
         [setFiles]
     );
+
     const upload = useCallback(async () => {
         if (allFiles.length === 0) {
             logger.info("Validering vedlegg feilet: Ingen filer valgt");
@@ -202,12 +158,14 @@ const useFilOpplasting = (
             setOuterErrors([{feil: Feil.NO_FILES}]);
             return;
         }
+
         const _metadatas = Object.entries(files)
             .filter(([_, filer]) => Boolean(filer.length))
             .map(([index, filer]) => {
                 const _metadata = metadatas[+index]!;
                 return {..._metadata, filer: filer.map((fil) => ({filnavn: fil.name}))};
             });
+
         const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
             type: "application/json",
         });

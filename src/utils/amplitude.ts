@@ -2,9 +2,7 @@ import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-modul
 import {logger} from "@navikt/next-logger";
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
-    //console.log("logAmplitudeEvent")
     try {
-        //console.log("logAmplitudeEvent i try")
         await logDekoratoren({
             origin: "sosialhjelpInnsyn",
             eventName,
@@ -14,11 +12,9 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
         console.log(`Kunne ikke logge til amplitude: " ${error}`);
         logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
     }
-    //console.log("logAmplitudeEvent etter try")
 }
 
 export const logBrukerNavigererBortFraUlagretVedlegg = () => {
-    //console.log("logBrukerNavigererBortFraUlagretVedlegg")
     logAmplitudeEvent("Søker navigerer bort med usendte vedlegg");
 };
 
