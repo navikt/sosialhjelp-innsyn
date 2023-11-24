@@ -13,10 +13,6 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
     }
 }
 
-export const logBrukerNavigererBortFraUlagretVedlegg = () => {
-    logAmplitudeEvent("Søker navigerer bort med usendte vedlegg");
-};
-
 export function logVeilederBerOmDokumentasjonEvent() {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden");
 }
