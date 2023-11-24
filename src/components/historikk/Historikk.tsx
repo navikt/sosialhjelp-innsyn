@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
@@ -46,7 +46,6 @@ interface HistorikkListeProps {
 
 const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
     const {t} = useTranslation();
-    console.log("what", hendelser);
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
@@ -175,14 +174,36 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {dokumentasjonEtterspurt} = useDokumentasjonEtterspurt(fiksDigisosId);
     const {t} = useTranslation();
 
-    logAmplitudeEvent("Lastet utbetalinger", {
-        antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
-    });
+    //console.log("what", hendelser);
+    //logAmplitudeEvent("Lastet utbetalinger", {
+    //    antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
+    //});
+    //
+    //logAmplitudeEvent("vedtak per sak", {
+    //    sak: index + 1,
+    //    antallVedtak: statusdetalj.vedtaksfilUrlList ? statusdetalj.vedtaksfilUrlList.length : 0,
+    //});
 
-    logAmplitudeEvent("vedtak per sak", {
-        sak: index + 1,
-        antallVedtak: statusdetalj.vedtaksfilUrlList ? statusdetalj.vedtaksfilUrlList.length : 0,
-    });
+    //logAmplitudeEvent("saksbehandlingstiden er: ",{
+    //    tid: hendelser?.filter((user) => {
+    //        user.hendelseType !== "SOKNAD_SEND_TIL_KONTOR";
+    //    })
+    //});
+
+    //const errors: Error[] = filerData
+    //    .filter((it) => it.status !== "OK")
+    //    .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
+
+    const test = hendelser
+        ?.filter((user) => {
+            return user.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || user.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+        })
+        .map((it) => {
+            return;
+        });
+    console.log("test", test);
+
+    //const test1 = test.map((hei))
 
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
