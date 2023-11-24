@@ -9,7 +9,6 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
             eventData: {...eventData, skjemaId: "sosialhjelpInnsyn"},
         });
     } catch (error) {
-        console.log(`Kunne ikke logge til amplitude: " ${error}`);
         logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
     }
 }

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
 import {useQueryClient} from "@tanstack/react-query";
@@ -76,8 +76,6 @@ const EttersendelseView = (props: Props) => {
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
-
-    useEffect(() => {}, [innerErrors, outerErrors]);
 
     return !kanLasteOppVedlegg && !showLoadingState ? (
         <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
