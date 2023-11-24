@@ -82,7 +82,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: 'Deploy til dev'
         uses: nais/deploy/actions/deploy@v1
         env:

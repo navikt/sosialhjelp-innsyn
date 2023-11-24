@@ -15,6 +15,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import Error from "./_error";
+import pageHandler from "../pagehandler/pageHandler";
 const Utbetalinger: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
     useUpdateBreadcrumbs(() => [{url: "/utbetaling", title: t("utbetaling")}]);
@@ -76,9 +77,6 @@ const Utbetalinger: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale}) => {
-    const translations = await serverSideTranslations(locale ?? "nb", ["utbetalinger", "common"]);
-    return {props: {...translations}};
-};
+export const getServerSideProps: GetServerSideProps = (context) => pageHandler(context, ["common", "utbetalinger"]);
 
 export default Utbetalinger;

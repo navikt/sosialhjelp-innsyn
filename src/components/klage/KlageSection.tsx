@@ -11,6 +11,7 @@ import styled from "styled-components";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useTranslation} from "next-i18next";
+import {useFlag} from "../../featuretoggles/context";
 import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
 import {ContentPanelBorder} from "../soknadsStatus/SoknadsStatusHeading";
 
@@ -51,10 +52,8 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
 const KlageSection: NextPage = (): React.JSX.Element => {
     const {t} = useTranslation();
     const fiksDigisosId = useFiksDigisosId();
-    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
-    const klageEnabled = ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
-    if (!klageEnabled) {
+    const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
+    if (!klageFlag.enabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
                 <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
@@ -82,6 +81,9 @@ const KlageSection: NextPage = (): React.JSX.Element => {
             </Panel>
         );
     }
+
+    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
+    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">

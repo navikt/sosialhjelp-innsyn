@@ -18,6 +18,8 @@ import {getHentKlagerQueryKey, useSendKlage} from "../../../generated/klage-cont
 import {useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/router";
 import useFilOpplasting from "../../../components/filopplasting/useFilOpplasting";
+import pageHandler from "../../../pagehandler/pageHandler";
+import {getFlagsServerSide} from "../../../featuretoggles/ssr";
 
 const StyledHeading = styled(Heading)`
     //padding-bottom: 5px;
@@ -53,9 +55,6 @@ const dummyMetadata = [
 const KlageSkjema: NextPage = () => {
     const fiksDigisosId = useFiksDigisosId();
     const router = useRouter();
-    if (!["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
-        router.replace({pathname: "/[id]/status", query: {id: fiksDigisosId}});
-    }
     const {t} = useTranslation();
     useUpdateBreadcrumbs(() => [
         {title: t("soknadStatus.tittel"), url: `/${fiksDigisosId}/status`},
@@ -159,9 +158,13 @@ const KlageSkjema: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({locale, req: {cookies}}) => {
-    const translations = await serverSideTranslations(locale ?? "nb", ["common"]);
-    return {props: {...translations}};
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const flags = await getFlagsServerSide(context.req, context.res);
+    const klageToggle = flags.toggles.find((toggle) => toggle.name === "sosialhjelp.innsyn.klage_enabled");
+    if (klageToggle && !klageToggle.enabled) {
+        return {notFound: true};
+    }
+    return pageHandler(context);
 };
 
 export default KlageSkjema;
