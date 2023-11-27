@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
+import {logAmplitudeEvent, logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -104,16 +104,18 @@ const useFilOpplasting = (
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
-    /*
-    // TODO: denne endte opp i en loop så kommenterer ut intill vi har funnet en løsning
     useEffect(() => {
-        if (allFiles.length) {
-            window.addEventListener("beforeunload", alertUser);
-        }
+        const alertUser = (event: WindowEventMap["beforeunload"]) => {
+            if (!allFiles.length) return;
+            event.preventDefault();
+            event.returnValue = "";
+        };
+
+        window.addEventListener("beforeunload", alertUser);
+
         return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
 
-     */
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: Error[] = [];
@@ -141,24 +143,29 @@ const useFilOpplasting = (
         },
         [files, setInnerErrors, setFiles]
     );
+
     const removeFil = useCallback(
         (index: number, fil: File) => {
             setFiles((prev) => ({...prev, [index]: prev[index].filter((it) => it !== fil)}));
         },
         [setFiles]
     );
+
     const upload = useCallback(async () => {
         if (allFiles.length === 0) {
             logger.info("Validering vedlegg feilet: Ingen filer valgt");
+            logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
             setOuterErrors([{feil: Feil.NO_FILES}]);
             return;
         }
+
         const _metadatas = Object.entries(files)
             .filter(([_, filer]) => Boolean(filer.length))
             .map(([index, filer]) => {
                 const _metadata = metadatas[+index]!;
                 return {..._metadata, filer: filer.map((fil) => ({filnavn: fil.name}))};
             });
+
         const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
             type: "application/json",
         });
