@@ -16,6 +16,7 @@ import styles from "../filopplasting/filopplasting.module.css";
 import styled, {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
+import {logAmplitudeEvent} from "../../utils/amplitude";
 
 const metadatas = [
     {
@@ -71,6 +72,7 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         setOppgaverUploadSuccess(false);
+        logAmplitudeEvent("Antall vedlegg som lastes opp under Dine vedlegg", {antallVedlegg: files.length});
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;

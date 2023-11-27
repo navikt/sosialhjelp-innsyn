@@ -52,8 +52,6 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
 const KlageSection: NextPage = (): React.JSX.Element => {
     const {t} = useTranslation();
     const fiksDigisosId = useFiksDigisosId();
-    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
     if (!klageFlag.enabled) {
         return (
@@ -83,6 +81,9 @@ const KlageSection: NextPage = (): React.JSX.Element => {
             </Panel>
         );
     }
+
+    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
+    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">
