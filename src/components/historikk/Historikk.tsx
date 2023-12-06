@@ -362,23 +362,23 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
         );
         console.log("testHend", testHend);
 
-        const wat = testHend.forEach((el1, i1) => {
-            testHend.forEach((el2, i2) => {
-                console.log("el1", el1[i1]);
-                console.log("el2", el2[i2]);
-
-                ///if(i1 === i2){
-                ///    console.log("wwwwaaaaaaa");
-                ///    return null;
-                ///}
-                ///if(el1 && el1.tekstArgument === el2.tekstArgument){
-                ///    console.log("waaaaaya")
-                ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
-                ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
-                ///    }
-                ///}
-            });
-        });
+        //const wat = testHend.forEach((el1, i1) => {
+        //    testHend.forEach((el2, i2) => {
+        //        console.log("el1", el1[i1]);
+        //        console.log("el2", el2[i2]);
+        //
+        //        ///if(i1 === i2){
+        //        ///    console.log("wwwwaaaaaaa");
+        //        ///    return null;
+        //        ///}
+        //        ///if(el1 && el1.tekstArgument === el2.tekstArgument){
+        //        ///    console.log("waaaaaya")
+        //        ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
+        //        ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
+        //        ///    }
+        //        ///}
+        //    });
+        //});
         //console.log("wat", wat);
         console.log("-------");
     }
