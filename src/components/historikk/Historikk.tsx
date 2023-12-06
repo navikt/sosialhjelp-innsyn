@@ -322,66 +322,66 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //    );
     //}
 
-    if (hendelser) {
-        //console.log("hendelser", hendelser);
+    //if (hendelser) {
+    //    //console.log("hendelser", hendelser);
+    //
+    //    const testHend = hendelser.filter(
+    //        (it) =>
+    //            it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+    //            it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+    //    );
+    //    console.log("testHend", testHend);
+    //
+    //    const result: HendelseResponse[] = Object.values(
+    //        testHend.reduce(function (returnValue, originalValue) {
+    //            returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
+    //            returnValue[originalValue.tekstArgument].push(originalValue);
+    //            return returnValue;
+    //        }, {})
+    //    );
+    //    console.log("result", result);
+    //
+    //    //const wat = result[0].
+    //}
 
-        const testHend = hendelser.filter(
-            (it) =>
-                it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-                it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-        );
-        console.log("testHend", testHend);
-
-        const result: HendelseResponse[] = Object.values(
-            testHend.reduce(function (returnValue, originalValue) {
-                returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
-                returnValue[originalValue.tekstArgument].push(originalValue);
-                return returnValue;
-            }, {})
-        );
-        console.log("result", result);
-
-        //const wat = result[0].
-    }
-
-    if (hendelser) {
-        //console.log("hendelser", hendelser);
-
-        const testHend: HendelseResponse[] = Object.values(
-            hendelser
-                .filter(
-                    (it) =>
-                        it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-                        it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-                )
-                .reduce((returnValue, originalValue) => {
-                    returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
-                    returnValue[originalValue.tekstArgument].push(originalValue);
-                    return returnValue;
-                }, {})
-        );
-        console.log("testHend", testHend);
-
-        //const wat = testHend.forEach((el1, i1) => {
-        //    testHend.forEach((el2, i2) => {
-        //        console.log("el1", el1[i1]);
-        //        console.log("el2", el2[i2]);
-        //
-        //        ///if(i1 === i2){
-        //        ///    console.log("wwwwaaaaaaa");
-        //        ///    return null;
-        //        ///}
-        //        ///if(el1 && el1.tekstArgument === el2.tekstArgument){
-        //        ///    console.log("waaaaaya")
-        //        ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
-        //        ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
-        //        ///    }
-        //        ///}
-        //    });
-        //});
-        //console.log("wat", wat);
-        console.log("-------");
-    }
+    //if (hendelser) {
+    //    //console.log("hendelser", hendelser);
+    //
+    //    const testHend: HendelseResponse[] = Object.values(
+    //        hendelser
+    //            .filter(
+    //                (it) =>
+    //                    it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+    //                    it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+    //            )
+    //            .reduce((returnValue, originalValue) => {
+    //                returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
+    //                returnValue[originalValue.tekstArgument].push(originalValue);
+    //                return returnValue;
+    //            }, {})
+    //    );
+    //    console.log("testHend", testHend);
+    //
+    //    //const wat = testHend.forEach((el1, i1) => {
+    //    //    testHend.forEach((el2, i2) => {
+    //    //        console.log("el1", el1[i1]);
+    //    //        console.log("el2", el2[i2]);
+    //    //
+    //    //        ///if(i1 === i2){
+    //    //        ///    console.log("wwwwaaaaaaa");
+    //    //        ///    return null;
+    //    //        ///}
+    //    //        ///if(el1 && el1.tekstArgument === el2.tekstArgument){
+    //    //        ///    console.log("waaaaaya")
+    //    //        ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
+    //    //        ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
+    //    //        ///    }
+    //    //        ///}
+    //    //    });
+    //    //});
+    //    //console.log("wat", wat);
+    //    console.log("-------");
+    //}
 
     //let mili;
     //if (sakHendelser) {
