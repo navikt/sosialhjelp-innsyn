@@ -177,8 +177,6 @@ const Oppgaver = () => {
         );
     }
 
-    console.log("wat", dokumentasjonEtterspurt);
-
     return (
         <OppgaverPanel hasError={false}>
             <ContentPanelBorder borderspace="0" bordercolor="transparent" />

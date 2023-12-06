@@ -12,7 +12,6 @@ import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-con
 import {HendelseResponse} from "../../generated/model";
 import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
 import Link from "next/link";
-import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -171,10 +170,11 @@ const StyledTextPlacement = styled.div`
 
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
-    const {dokumentasjonEtterspurt} = useDokumentasjonEtterspurt(fiksDigisosId);
     const {t} = useTranslation();
 
-    //console.log("what", hendelser);
+    //console.log("hendelser", hendelser);
+    //console.log("-------");
+
     //logAmplitudeEvent("Lastet utbetalinger", {
     //    antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
     //});
@@ -194,16 +194,244 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //    .filter((it) => it.status !== "OK")
     //    .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
 
-    const test = hendelser
-        ?.filter((user) => {
-            return user.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || user.hendelseType === "SOKNAD_FERDIGBEHANDLET";
-        })
-        .map((it) => {
-            return;
-        });
-    console.log("test", test);
+    //const soknadHendelser = hendelser?.filter((type) => {
+    //   return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+    //});
+    //.map((it) => {
+    //    return;
+    //});
+    //console.log("soknadHendelser", soknadHendelser);
+    //console.log("-------");
+    //const tester = test?.map((user) => {
+    //    const event = new Date(Date.parse(user.tidspunkt)).valueOf();
+    //    return event;
+    //})
+    //console.log("tester", tester);
 
-    //const test1 = test.map((hei))
+    //const testeras = () => { return Math.abs(Date.parse(test[0]?.tidspunkt).valueOf() - Date.parse(test[test.length - 1]?.tidspunkt).valueOf())};
+    //const testeras = Math.abs(Date.parse(test[0]?.tidspunkt).valueOf() - Date.parse(test[test.length - 1]?.tidspunkt).valueOf());
+    //const testeras = test?.map((user) => {
+    //    const event = Math.abs(Date.parse(user[0]?.tidspunkt).valueOf() - Date.parse(user[user.length - 1]?.tidspunkt).valueOf());
+    //    return event;
+    //})
+    //let miliseconds;
+    //if (soknadHendelser) {
+    //    miliseconds = Math.abs(
+    //        Date.parse(soknadHendelser[0]?.tidspunkt).valueOf() -
+    //            Date.parse(soknadHendelser[soknadHendelser.length - 1]?.tidspunkt).valueOf()
+    //    );
+    //}
+    //d * m * s * ms
+    //24 * 60 * 60 * 1000
+
+    //console.log("miliseconds", miliseconds);
+    // console.log("-------");
+
+    //const seconds = Math.floor(miliseconds / 1000);
+    //console.log("seconds", seconds);
+    //console.log("-------");
+
+    //const minutes = Math.floor(seconds / 60);
+    //if (minutes >= 1) {
+    //    console.log("minutes", minutes);
+    //    console.log("-------");
+    //}
+
+    //const hours = Math.floor(minutes / 60);
+    //if (hours >= 1) {
+    //    console.log("hours", hours);
+    //    console.log("-------");
+    //}
+
+    //const days = Math.floor(hours / 24);
+    //if (days >= 1) {
+    //    console.log("days", days);
+    //    console.log("-------");
+    //}
+
+    //if (soknadHendelser) {
+    //    console.log(
+    //        "Det tok søknaden",
+    //        days,
+    //        "dag(er)",
+    //        hours - days * 24,
+    //        "time(r)",
+    //        minutes - days * 24 * 60,
+    //        "minutt(er) og",
+    //        seconds - days * 24 * 60 * 60,
+    //        "sekund(er)",
+    //        "før søknaden fikk status ferdigbehandlet"
+    //    );
+    //}
+
+    /**
+     *
+     * Det er ønskelig å måle saksbehandlingstid fra søknad er sendt inn, til den har fått status ferdigbehandlet.
+     * Vi bør også måle på når saker er ferdigbehandlet.
+     *
+     * Det er ønskelig at vi stanser telling av dager når vi mottar hendelse dokumentasjon_etterspurt,
+     * og starter telling når bruker ikke har oppgaver lenger.
+     *
+     * Dette er fordi at saksbehandlingstiden stopper å gå når veileder etterspør mer dokumentasjon.
+     *
+     * */
+
+    //const sakHendelser = hendelser?.filter((type) => {
+    //    return (
+    //        type.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+    //        type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+    //    );
+    //});
+    //console.log("sakHendelser", sakHendelser);
+
+    //const groupObjectsBasedOnTekstArgument = sakHendelser?.reduce(
+    //    (group: {[key: string]: HendelseResponse[]}, item, hei) => {
+    //        if (!group[item.tekstArgument]) {
+    //            group[item.tekstArgument] = [];
+    //        }
+    //        group[item.tekstArgument].push(item);
+    //        return group;
+    //    },
+    //    {}
+    //);
+
+    ////metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {});
+    ////console.log("groupObjectsBasedOnTekstArgument", groupObjectsBasedOnTekstArgument);
+
+    ////const filterAway = groupObjectsBasedOnTekstArgument.filter((hei) => {
+    ////    return (hei.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && hei.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL");
+    ////})
+
+    //    const result = sakHendelser?.reduce(function (r, a) {
+    //        r[a.tekstArgument] = r[a.tekstArgument] || [];
+    //        r[a.tekstArgument].push(a);
+    //        return r;
+    //    }, Object.create(null));
+    //
+    //console.log(result);
+    //console.log("hei", Object.entries(result));
+
+    //const heI = result.map((hallo) => {return hallo.tekstArgument});
+    //console.log("heiheiheih", heI)
+
+    //let mili;
+    //if (result) {
+    //    mili = Math.abs(
+    //        Date.parse(result[0]?.tidspunkt).valueOf() -
+    //        Date.parse(result[result.length - 1]?.tidspunkt).valueOf()
+    //    );
+    //}
+
+    if (hendelser) {
+        //console.log("hendelser", hendelser);
+
+        const testHend = hendelser.filter(
+            (it) =>
+                it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+                it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+        );
+        console.log("testHend", testHend);
+
+        const result: HendelseResponse[] = Object.values(
+            testHend.reduce(function (returnValue, originalValue) {
+                returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
+                returnValue[originalValue.tekstArgument].push(originalValue);
+                return returnValue;
+            }, {})
+        );
+        console.log("result", result);
+
+        //const wat = result[0].
+    }
+
+    if (hendelser) {
+        //console.log("hendelser", hendelser);
+
+        const testHend: HendelseResponse[] = Object.values(
+            hendelser
+                .filter(
+                    (it) =>
+                        it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+                        it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+                )
+                .reduce((returnValue, originalValue) => {
+                    returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
+                    returnValue[originalValue.tekstArgument].push(originalValue);
+                    return returnValue;
+                }, {})
+        );
+        console.log("testHend", testHend);
+
+        const wat = testHend.forEach((el1, i1) => {
+            testHend.forEach((el2, i2) => {
+                console.log("el1", el1[i1]);
+                console.log("el2", el2[i2]);
+
+                ///if(i1 === i2){
+                ///    console.log("wwwwaaaaaaa");
+                ///    return null;
+                ///}
+                ///if(el1 && el1.tekstArgument === el2.tekstArgument){
+                ///    console.log("waaaaaya")
+                ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
+                ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
+                ///    }
+                ///}
+            });
+        });
+        //console.log("wat", wat);
+        console.log("-------");
+    }
+
+    //let mili;
+    //if (sakHendelser) {
+    //    mili = Math.abs(
+    //        Date.parse(sakHendelser[0]?.tidspunkt).valueOf() -
+    //            Date.parse(sakHendelser[sakHendelser.length - 1]?.tidspunkt).valueOf()
+    //    );
+    //}
+    //d * m * s * ms
+    //24 * 60 * 60 * 1000
+
+    //console.log("miliseconds", mili);
+    //console.log("-------");
+
+    //const sec = Math.floor(mili / 1000);
+    //console.log("seconds", sec);
+    //console.log("-------");
+
+    //const min = Math.floor(sec / 60);
+    //if (minutes >= 1) {
+    //    console.log("minutes", minutes);
+    //    console.log("-------");
+    //}
+
+    //const hou = Math.floor(min / 60);
+    //if (hours >= 1) {
+    //    console.log("hours", hours);
+    //    console.log("-------");
+    //}
+
+    //const day = Math.floor(hou / 24);
+    //if (days >= 1) {
+    //    console.log("days", days);
+    //    console.log("-------");
+    //}
+
+    //if (soknadHendelser) {
+    //    console.log(
+    //        "Det tok saken",
+    //        day,
+    //        "dag(er)",
+    //        hou - day * 24,
+    //        "time(r)",
+    //        min - day * 24 * 60,
+    //        "minutt(er) og",
+    //        sec - day * 24 * 60 * 60,
+    //        "sekund(er)",
+    //        "før saken fikk status ferdigbehandlet"
+    //    );
+    //}
 
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
