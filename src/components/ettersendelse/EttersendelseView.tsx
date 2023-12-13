@@ -97,6 +97,7 @@ const EttersendelseView = (props: Props) => {
                                 }}
                                 id="ettersendelse_lastopp"
                                 resetStatus={resetStatus}
+                                hasError={innerErrors[0]?.length + outerErrors.length > 0}
                             />
                         ) : undefined
                     }

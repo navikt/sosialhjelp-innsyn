@@ -93,6 +93,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                                             }}
                                             id={element.dokumentasjonkravReferanse}
                                             resetStatus={resetStatus}
+                                            hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                         />
                                     ) : undefined
                                 }

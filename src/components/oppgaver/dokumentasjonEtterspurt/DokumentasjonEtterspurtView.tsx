@@ -102,6 +102,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                                             }}
                                             id={element.id}
                                             resetStatus={resetStatus}
+                                            hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                         />
                                     ) : undefined
                                 }
