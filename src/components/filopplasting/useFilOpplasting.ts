@@ -13,6 +13,7 @@ import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
+import {useRouter} from "next/router";
 
 export interface Metadata {
     type: string;
@@ -88,6 +89,7 @@ const useFilOpplasting = (
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
     const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
+    const router = useRouter();
 
     const resetStatus = useCallback(() => {
         setInnerErrors(recordFromMetadatas(metadatas));
@@ -105,16 +107,28 @@ const useFilOpplasting = (
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
     useEffect(() => {
-        const alertUser = (event: WindowEventMap["beforeunload"]) => {
+        const confirmationMessage = "Midlertidig melding";
+        const beforeUnloadHandler = (event: WindowEventMap["beforeunload"]) => {
             if (!allFiles.length) return;
             event.preventDefault();
             event.returnValue = "";
         };
+        const beforeRouteHandler = (url: string) => {
+            if (!allFiles.length) return;
+            if (router.pathname !== url && !confirm(confirmationMessage)) {
+                //if ((router.basePath + router.asPath) !== url) {
+                router.events.emit("routeChangeError");
+                throw `Route change to "${url}" was aborted (this error can be safely ignored)`;
+            }
+        };
+        window.addEventListener("beforeunload", beforeUnloadHandler);
+        router.events.on("routeChangeStart", beforeRouteHandler);
 
-        window.addEventListener("beforeunload", alertUser);
-
-        return () => window.removeEventListener("beforeunload", alertUser);
-    }, [allFiles]);
+        return () => {
+            window.removeEventListener("beforeunload", beforeUnloadHandler);
+            router.events.off("routeChangeStart", beforeRouteHandler);
+        };
+    }, [allFiles, router.events, router.pathname]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
