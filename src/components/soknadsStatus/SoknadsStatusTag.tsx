@@ -1,10 +1,10 @@
 import React from "react";
-import {Tag} from "@navikt/ds-react";
+import {Tag as DS_Tag, TagProps} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import {SoknadsStatusResponseStatus} from "../../generated/model";
 import styled from "styled-components";
 
-const StyledAlertTag = styled(Tag)`
+const StyledAlertTag = styled(DS_Tag)`
     border-radius: 6px;
 `;
 interface Props {
@@ -15,16 +15,27 @@ const SoknadsStatusTag = ({status}: Props) => {
 
     switch (status) {
         case SoknadsStatusResponseStatus.SENDT:
-            return <StyledAlertTag variant="info">{t("soknadstatus.sendt")}</StyledAlertTag>;
+            return <Tag variant="info">{t("soknadstatus.sendt")}</Tag>;
         case SoknadsStatusResponseStatus.MOTTATT:
-            return <StyledAlertTag variant="info">{t("soknadstatus.mottatt")}</StyledAlertTag>;
+            return <Tag variant="info">{t("soknadstatus.mottatt")}</Tag>;
 
         case SoknadsStatusResponseStatus.UNDER_BEHANDLING:
-            return <StyledAlertTag variant="info">{t("soknadstatus.under_behandling")}</StyledAlertTag>;
+            return <Tag variant="info">{t("soknadstatus.under_behandling")}</Tag>;
 
         case SoknadsStatusResponseStatus.FERDIGBEHANDLET:
-            return <StyledAlertTag variant="success">{t("soknadstatus.ferdigbehandlet")}</StyledAlertTag>;
+            return <Tag variant="success">{t("soknadstatus.ferdigbehandlet")}</Tag>;
     }
     return null;
 };
+
+const Tag = ({children, ...rest}: TagProps): React.JSX.Element => {
+    const {t} = useTranslation();
+    return (
+        <StyledAlertTag {...rest}>
+            <span className="sr-only">{t("status")}: </span>
+            {children}
+        </StyledAlertTag>
+    );
+};
+
 export default SoknadsStatusTag;

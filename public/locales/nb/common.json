@@ -33,6 +33,7 @@
   "hendelse.soknad_sendt_til_kontor_lenketekst": "Vis søknaden",
   "hendelse.vis_brevet_lenketekst": "Vis brevet",
 
+  "status": "Søknadsstatus",
   "status.sendt": "Søknaden er sendt",
   "status.mottatt": "Søknaden er mottatt",
   "status.under_behandling": "Søknaden er under behandling",

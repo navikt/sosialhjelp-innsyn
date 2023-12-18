@@ -58,7 +58,11 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
     const {t} = useTranslation();
 
     return (
-        <StyledFrame $hasError={props.errors.length > 0} $hasFiler={props.filer.length > 0}>
+        <StyledFrame
+            $hasError={props.errors.length > 0}
+            $hasFiler={props.filer.length > 0}
+            aria-invalid={props.errors.length > 0}
+        >
             <div className="errorwrapper">
                 <div className={styles.tekstWrapping}>
                     {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}

@@ -2,11 +2,14 @@ import React, {ChangeEvent} from "react";
 import {useTranslation} from "next-i18next";
 import {Button} from "@navikt/ds-react";
 
-const AddFileButton: React.FC<{
+interface Props {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
     resetStatus: () => void;
-}> = ({onChange, id, resetStatus}) => {
+    hasError?: boolean;
+}
+
+const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError}) => {
     const {t} = useTranslation();
 
     const onClick = (event?: any): void => {
@@ -36,6 +39,7 @@ const AddFileButton: React.FC<{
                 className="navds-sr-only"
                 tabIndex={-1}
                 accept="image/jpeg,image/png,application/pdf,impage/jpg"
+                aria-invalid={hasError}
             />
         </>
     );
