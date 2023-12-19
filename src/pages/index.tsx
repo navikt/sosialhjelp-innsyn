@@ -7,10 +7,10 @@ import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";
 import {logAmplitudeEvent} from "../utils/amplitude";
 import {GetServerSideProps, NextPage} from "next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
+import {NewYearNewNumbers} from "../components/appBanner/Downtime";
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
@@ -40,6 +40,7 @@ const Saksoversikt: NextPage = () => {
                             <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
                         </Alert>
                     )}
+                    <NewYearNewNumbers />
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>
             )}
