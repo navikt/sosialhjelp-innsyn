@@ -6,7 +6,8 @@ const AddFileButton: React.FC<{
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
     resetStatus: () => void;
-}> = ({onChange, id, resetStatus}) => {
+    disabled?: boolean;
+}> = ({onChange, id, resetStatus, disabled}) => {
     const {t} = useTranslation();
 
     const onClick = (event?: any): void => {
@@ -21,7 +22,7 @@ const AddFileButton: React.FC<{
 
     return (
         <>
-            <Button variant="secondary" size="small" onClick={onClick}>
+            <Button variant="secondary" size="small" onClick={onClick} disabled={disabled}>
                 <span aria-hidden>{`+ `}</span> {t("vedlegg.velg_fil")}
             </Button>
             <label className={`navds-sr-only`} htmlFor={"file_" + id}>

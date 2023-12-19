@@ -15,6 +15,7 @@ import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEt
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse;
@@ -25,6 +26,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
+    const isAalesundBlocked = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
             dokumentasjonEtterspurt.oppgaveElementer.map((element) => ({
@@ -71,6 +73,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
                         return upload();
                     }}
+                    disabled={isAalesundBlocked}
                 />
             }
         >
@@ -102,6 +105,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                                             }}
                                             id={element.id}
                                             resetStatus={resetStatus}
+                                            disabled={isAalesundBlocked}
                                         />
                                     ) : undefined
                                 }

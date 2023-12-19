@@ -30,6 +30,7 @@ import {SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../gener
 import {flagsClient, getFrontendFlags, IMutableContext} from "@unleash/nextjs";
 import {getFlagsServerSide} from "../../featuretoggles/ssr";
 import pageHandler from "../../pagehandler/pageHandler";
+import EttersendelseDowntime from "../../components/appBanner/EttersendelseDowntime";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -99,6 +100,8 @@ const SaksStatusView: NextPage = () => {
                     <DriftsmeldingAlertstripe />
 
                     <ForelopigSvarAlertstripe />
+
+                    {soknadsStatus?.kommunenummer === "1507" && <EttersendelseDowntime />}
 
                     <SoknadsStatus />
                     <FilUploadSuccesfulProvider>

@@ -151,7 +151,7 @@ export const getInnsynsfil = (
     options?: SecondParameter<typeof axiosInstance>,
     signal?: AbortSignal
 ) => {
-    return axiosInstance<string[]>({url: `/api/v1/digisosapi/${digisosId}/innsynsfil`, method: "get", signal}, options);
+    return axiosInstance<string>({url: `/api/v1/digisosapi/${digisosId}/innsynsfil`, method: "get", signal}, options);
 };
 
 export const getGetInnsynsfilQueryKey = (digisosId: string) => {
