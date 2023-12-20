@@ -7,9 +7,10 @@ interface Props {
     id: string;
     resetStatus: () => void;
     hasError?: boolean;
+    disabled?: boolean;
 }
 
-const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError}) => {
+const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError, disabled}) => {
     const {t} = useTranslation();
 
     const onClick = (event?: any): void => {
@@ -24,7 +25,7 @@ const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError}) =
 
     return (
         <>
-            <Button variant="secondary" size="small" onClick={onClick}>
+            <Button variant="secondary" size="small" onClick={onClick} disabled={disabled}>
                 <span aria-hidden>{`+ `}</span> {t("vedlegg.velg_fil")}
             </Button>
             <label className={`navds-sr-only`} htmlFor={"file_" + id}>
