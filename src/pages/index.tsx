@@ -10,7 +10,7 @@ import {GetServerSideProps, NextPage} from "next";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
-import {NewYearNewNumbers} from "../components/appBanner/Downtime";
+import {NewYearNewNumbers} from "../components/driftsmelding/Downtime";
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
@@ -40,7 +40,6 @@ const Saksoversikt: NextPage = () => {
                             <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
                         </Alert>
                     )}
-                    <NewYearNewNumbers />
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>
             )}

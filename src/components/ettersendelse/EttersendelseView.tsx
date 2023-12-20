@@ -50,7 +50,7 @@ const EttersendelseView = (props: Props) => {
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
-    const isAalesundBlocked = useIsAalesundBlocked();
+    const {disableUpload} = useIsAalesundBlocked();
 
     const {
         upload,
@@ -99,7 +99,7 @@ const EttersendelseView = (props: Props) => {
                                 }}
                                 id="ettersendelse_lastopp"
                                 resetStatus={resetStatus}
-                                disabled={isAalesundBlocked}
+                                disabled={disableUpload}
                                 hasError={innerErrors[0]?.length + outerErrors.length > 0}
                             />
                         ) : undefined
@@ -118,7 +118,7 @@ const EttersendelseView = (props: Props) => {
                 isVisible={kanLasteOppVedlegg}
                 isLoading={showLoadingState}
                 onClick={onClick}
-                disabled={isAalesundBlocked}
+                disabled={disableUpload}
             />
             <VedleggSuccess show={ettersendelseUploadSuccess} />
         </>

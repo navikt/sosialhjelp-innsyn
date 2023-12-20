@@ -1,6 +1,7 @@
 import React, {PropsWithChildren} from "react";
 import AppBanner from "./appBanner/AppBanner";
 import Head from "next/head";
+import {NewYearNewNumbers} from "./driftsmelding/Downtime";
 
 interface Props {
     title: string;
@@ -13,7 +14,10 @@ const MainLayout = ({title, bannerTitle, children}: PropsWithChildren<Props>) =>
             <title>{title}</title>
         </Head>
         {bannerTitle && <AppBanner title={bannerTitle} />}
-        <div className="blokk-center informasjon-side">{children}</div>
+        <div className="blokk-center informasjon-side">
+            <NewYearNewNumbers />
+            {children}
+        </div>
     </>
 );
 

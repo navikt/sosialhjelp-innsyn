@@ -844,14 +844,15 @@
                 }
             },
             "SaksListeResponse": {
-                "required": ["kilde", "sistOppdatert", "soknadTittel"],
+                "required": ["kilde", "kommunenummer", "sistOppdatert", "soknadTittel"],
                 "type": "object",
                 "properties": {
                     "fiksDigisosId": {"type": "string"},
                     "soknadTittel": {"type": "string"},
                     "sistOppdatert": {"type": "string", "format": "date-time"},
                     "kilde": {"type": "string"},
-                    "url": {"type": "string"}
+                    "url": {"type": "string"},
+                    "kommunenummer": {"type": "string"}
                 }
             }
         }

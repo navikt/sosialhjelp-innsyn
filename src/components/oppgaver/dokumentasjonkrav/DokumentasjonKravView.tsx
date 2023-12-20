@@ -25,7 +25,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
     const queryClient = useQueryClient();
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
-    const isAalesundBlocked = useIsAalesundBlocked();
+    const {disableUpload} = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
             dokumentasjonkrav.dokumentasjonkravElementer.map((element) => ({
@@ -69,7 +69,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
                         return upload();
                     }}
-                    disabled={isAalesundBlocked}
+                    disabled={disableUpload}
                 />
             }
         >
@@ -96,7 +96,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                                             }}
                                             id={element.dokumentasjonkravReferanse}
                                             resetStatus={resetStatus}
-                                            disabled={isAalesundBlocked}
+                                            disabled={disableUpload}
                                             hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                         />
                                     ) : undefined
