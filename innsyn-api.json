@@ -608,7 +608,7 @@
                 }
             },
             "SoknadsStatusResponse": {
-                "required": ["kommunenummer", "status"],
+                "required": ["status"],
                 "type": "object",
                 "properties": {
                     "status": {
@@ -844,7 +844,7 @@
                 }
             },
             "SaksListeResponse": {
-                "required": ["kilde", "kommunenummer", "sistOppdatert", "soknadTittel"],
+                "required": ["kilde", "sistOppdatert", "soknadTittel"],
                 "type": "object",
                 "properties": {
                     "fiksDigisosId": {"type": "string"},

@@ -9,7 +9,7 @@ import type {SoknadsStatusResponseStatus} from "./soknadsStatusResponseStatus";
 
 export interface SoknadsStatusResponse {
     filUrl?: UrlResponse;
-    kommunenummer: string;
+    kommunenummer?: string;
     navKontor?: string;
     soknadsalderIMinutter?: number;
     status: SoknadsStatusResponseStatus;
