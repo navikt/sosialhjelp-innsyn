@@ -11,15 +11,16 @@ interface Props {
     isVisible: boolean;
     isLoading: boolean;
     onClick: MouseEventHandler<HTMLButtonElement>;
+    disabled?: boolean;
 }
-const SendFileButton = ({isVisible, isLoading, onClick}: Props) => {
+const SendFileButton = ({isVisible, isLoading, onClick, disabled}: Props) => {
     const {t} = useTranslation();
 
     return isVisible ? (
         <ButtonWrapper>
             <Button
                 variant="primary"
-                disabled={isLoading}
+                disabled={isLoading || disabled}
                 onClick={onClick}
                 iconPosition="right"
                 icon={isLoading && <Loader />}

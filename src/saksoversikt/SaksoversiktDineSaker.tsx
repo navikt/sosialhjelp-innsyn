@@ -13,6 +13,7 @@ import {SaksListeResponse} from "../generated/model";
 import styles from "../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;

@@ -74,7 +74,7 @@ describe("Saksoversikt", () => {
         server.use(empty);
         render(<Saksoversikt />);
         await waitForElementToBeRemoved(() => screen.queryByText("venter..."));
-        expect(screen.getAllByRole("heading")[1]).toHaveTextContent("Vi finner ingen søknader fra deg");
+        expect(screen.getAllByRole("heading")[2]).toHaveTextContent("Vi finner ingen søknader fra deg");
     });
 
     it("Skal vise innhold ved resultat", async () => {
