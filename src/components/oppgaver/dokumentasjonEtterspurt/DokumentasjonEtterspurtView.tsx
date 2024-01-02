@@ -26,7 +26,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
     const fiksDigisosId = useFiksDigisosId();
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
-    const {disableUpload} = useIsAalesundBlocked();
+    const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
             dokumentasjonEtterspurt.oppgaveElementer.map((element) => ({
@@ -73,7 +73,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
                         return upload();
                     }}
-                    disabled={disableUpload}
+                    disabled={isAalesund}
                 />
             }
         >
@@ -105,7 +105,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                                             }}
                                             id={element.id}
                                             resetStatus={resetStatus}
-                                            disabled={disableUpload}
+                                            disabled={isAalesund}
                                             hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                         />
                                     ) : undefined
