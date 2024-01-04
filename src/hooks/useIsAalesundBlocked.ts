@@ -15,7 +15,6 @@ const useIsAalesundBlocked = (): boolean => {
         return !!data?.some((sak) => sak.kommunenummer === "1507");
     }
 
-    const now = new Date();
     return soknadsStatus?.kommunenummer === "1507";
 };
 

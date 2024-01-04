@@ -16,6 +16,7 @@ import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
+import * as R from "remeda";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse;
@@ -73,7 +74,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
                         return upload();
                     }}
-                    disabled={isAalesund}
+                    disabled={isAalesund || R.flatten(Object.values(files)).length === 0}
                 />
             }
         >
