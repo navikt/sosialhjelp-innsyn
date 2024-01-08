@@ -118,7 +118,7 @@ const EttersendelseView = (props: Props) => {
                 isVisible={kanLasteOppVedlegg}
                 isLoading={showLoadingState}
                 onClick={onClick}
-                disabled={isAalesund}
+                disabled={isAalesund || files?.length === 0}
             />
             <VedleggSuccess show={ettersendelseUploadSuccess} />
         </>

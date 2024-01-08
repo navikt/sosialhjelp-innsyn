@@ -10,7 +10,6 @@ import {GetServerSideProps, NextPage} from "next";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
-import {NewYearNewNumbers} from "../components/driftsmelding/Downtime";
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
