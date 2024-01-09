@@ -117,7 +117,6 @@ const useFilOpplasting = (
         const beforeRouteHandler = (url: string) => {
             if (!allFiles.length) return;
             if (router.pathname !== url && !window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
-                //if ((router.basePath + router.asPath) !== url) {
                 router.events.emit("routeChangeError");
                 throw new Error(`Route change to "${url}" was aborted (this error can be safely ignored)`);
             }
