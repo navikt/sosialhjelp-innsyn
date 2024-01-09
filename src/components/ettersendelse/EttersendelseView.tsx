@@ -17,6 +17,7 @@ import styled, {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 import {logAmplitudeEvent} from "../../utils/amplitude";
+import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
 
 const metadatas = [
     {
@@ -49,6 +50,7 @@ const EttersendelseView = (props: Props) => {
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
     const {t} = useTranslation();
+    const isAalesund = useIsAalesundBlocked();
 
     const {
         upload,
@@ -97,6 +99,8 @@ const EttersendelseView = (props: Props) => {
                                 }}
                                 id="ettersendelse_lastopp"
                                 resetStatus={resetStatus}
+                                disabled={isAalesund}
+                                hasError={innerErrors[0]?.length + outerErrors.length > 0}
                             />
                         ) : undefined
                     }
@@ -110,7 +114,12 @@ const EttersendelseView = (props: Props) => {
                     </ErrorMessage>
                 ))}
             </ErrorMessagePlaceholder>
-            <SendFileButton isVisible={kanLasteOppVedlegg} isLoading={showLoadingState} onClick={onClick} />
+            <SendFileButton
+                isVisible={kanLasteOppVedlegg}
+                isLoading={showLoadingState}
+                onClick={onClick}
+                disabled={isAalesund || files?.length === 0}
+            />
             <VedleggSuccess show={ettersendelseUploadSuccess} />
         </>
     );

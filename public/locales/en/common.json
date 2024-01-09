@@ -34,6 +34,7 @@
   "hendelse.soknad_sendt_til_kontor_lenketekst": "Show application",
   "hendelse.vis_brevet_lenketekst": "Show letter",
 
+  "status": "Application status",
   "status.sendt": "Your application has been sent",
   "status.mottatt": "Your application has been received",
   "status.under_behandling": "Your application is being processed",

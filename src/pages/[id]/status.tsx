@@ -22,13 +22,10 @@ import Historikk from "../../components/historikk/Historikk";
 import {usePathname} from "next/navigation";
 import MainLayout from "../../components/MainLayout";
 import {GetServerSideProps, NextPage} from "next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUploadSuccessfulContext";
 import KlageSection from "../../components/klage/KlageSection";
 import {SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
-import {flagsClient, getFrontendFlags, IMutableContext} from "@unleash/nextjs";
-import {getFlagsServerSide} from "../../featuretoggles/ssr";
 import pageHandler from "../../pagehandler/pageHandler";
 
 const StyledPanel = styled(Panel)`

@@ -53,6 +53,14 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const {t} = useTranslation();
     const fiksDigisosId = useFiksDigisosId();
     const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
+
+    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId, {
+        query: {enabled: klageFlag.enabled},
+    });
+    const {data, isLoading, error} = useHentKlager(fiksDigisosId, {
+        query: {enabled: klageFlag.enabled},
+    });
+
     if (!klageFlag.enabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
@@ -82,8 +90,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
         );
     }
 
-    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId);
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId);
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">

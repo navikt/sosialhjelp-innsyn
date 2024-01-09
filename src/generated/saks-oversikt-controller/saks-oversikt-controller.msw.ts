@@ -18,6 +18,7 @@ export const getHentAlleSakerMock = () =>
     Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
         fiksDigisosId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         kilde: faker.word.sample(),
+        kommunenummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
         soknadTittel: faker.word.sample(),
         url: faker.helpers.arrayElement([faker.word.sample(), undefined]),

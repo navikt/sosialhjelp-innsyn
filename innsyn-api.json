@@ -517,10 +517,7 @@
                     {"name": "Authorization", "in": "header", "required": false, "schema": {"type": "string"}}
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {"*/*": {"schema": {"type": "array", "items": {"type": "string", "format": "byte"}}}}
-                    }
+                    "200": {"description": "OK", "content": {"*/*": {"schema": {"type": "string", "format": "byte"}}}}
                 }
             }
         }
@@ -618,6 +615,7 @@
                         "type": "string",
                         "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIGBEHANDLET", "BEHANDLES_IKKE"]
                     },
+                    "kommunenummer": {"type": "string"},
                     "tidspunktSendt": {"type": "string", "format": "date-time"},
                     "soknadsalderIMinutter": {"type": "integer", "format": "int64"},
                     "navKontor": {"type": "string"},
@@ -853,7 +851,8 @@
                     "soknadTittel": {"type": "string"},
                     "sistOppdatert": {"type": "string", "format": "date-time"},
                     "kilde": {"type": "string"},
-                    "url": {"type": "string"}
+                    "url": {"type": "string"},
+                    "kommunenummer": {"type": "string"}
                 }
             }
         }

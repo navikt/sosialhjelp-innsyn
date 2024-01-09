@@ -14,6 +14,8 @@ import SendFileButton from "../../filopplasting/SendFileButton";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
+import * as R from "remeda";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse;
@@ -24,6 +26,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
     const queryClient = useQueryClient();
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
+    const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
             dokumentasjonkrav.dokumentasjonkravElementer.map((element) => ({
@@ -67,6 +70,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
                         return upload();
                     }}
+                    disabled={isAalesund || R.flatten(Object.values(files)).length === 0}
                 />
             }
         >
@@ -93,6 +97,8 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                                             }}
                                             id={element.dokumentasjonkravReferanse}
                                             resetStatus={resetStatus}
+                                            disabled={isAalesund}
+                                            hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                         />
                                     ) : undefined
                                 }
