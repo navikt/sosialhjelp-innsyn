@@ -14,6 +14,7 @@ import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hend
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 export interface Metadata {
     type: string;
@@ -81,6 +82,7 @@ const useFilOpplasting = (
         {fiksDigisosId: string; data: SendVedleggBody}
     >
 ) => {
+    const {t} = useTranslation();
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const {isPending, mutate, error, isError, data} = useSendVedlegg();
@@ -107,7 +109,6 @@ const useFilOpplasting = (
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
     useEffect(() => {
-        const confirmationMessage = "Midlertidig melding";
         const beforeUnloadHandler = (event: WindowEventMap["beforeunload"]) => {
             if (!allFiles.length) return;
             event.preventDefault();
@@ -115,10 +116,10 @@ const useFilOpplasting = (
         };
         const beforeRouteHandler = (url: string) => {
             if (!allFiles.length) return;
-            if (router.pathname !== url && !confirm(confirmationMessage)) {
+            if (router.pathname !== url && !window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
                 //if ((router.basePath + router.asPath) !== url) {
                 router.events.emit("routeChangeError");
-                throw `Route change to "${url}" was aborted (this error can be safely ignored)`;
+                throw new Error(`Route change to "${url}" was aborted (this error can be safely ignored)`);
             }
         };
         window.addEventListener("beforeunload", beforeUnloadHandler);
@@ -128,7 +129,7 @@ const useFilOpplasting = (
             window.removeEventListener("beforeunload", beforeUnloadHandler);
             router.events.off("routeChangeStart", beforeRouteHandler);
         };
-    }, [allFiles, router.events, router.pathname]);
+    }, [allFiles, router.events, router.pathname, t]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
