@@ -10,6 +10,7 @@ interface Props {
     lasterData: boolean;
     error: boolean;
     utbetalinger: UtbetalingerResponseMedId[];
+    open: boolean;
 }
 
 const NyeUtbetalinger = (props: Props) => {
@@ -37,7 +38,11 @@ const NyeUtbetalinger = (props: Props) => {
     return (
         <>
             {props.utbetalinger.map((utbetalingSak: UtbetalingerResponseMedId) => (
-                <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
+                <ManedGruppe
+                    utbetalingSak={utbetalingSak}
+                    key={`${utbetalingSak.maned}-${utbetalingSak.ar}`}
+                    open={props.open}
+                />
             ))}
         </>
     );

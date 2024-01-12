@@ -50,7 +50,6 @@ const UtbetalingerPanelBeta = () => {
             },
         },
     });
-
     useEffect(() => {
         if (!nyeLogged && nye && nye.length > 0) {
             const sisteManedgruppe = nye[nye.length - 1].utbetalingerForManed;
@@ -84,10 +83,17 @@ const UtbetalingerPanelBeta = () => {
                 </Tabs.List>
                 <Tabs.Panel value={TAB_VALUE.UTBETALINGER} className={styles.tab_panel}>
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
-                    <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
+                    <NyeUtbetalinger
+                        lasterData={henterNye}
+                        error={hentNyeFeilet}
+                        utbetalinger={filtrerteNye}
+                        open={true}
+                    />
+                    <TidligereUtbetalinger open={true} />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
-                    <TidligereUtbetalinger />
+                    <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
+                    <TidligereUtbetalinger open={false} />
                 </Tabs.Panel>
             </Tabs>
         </Panel>

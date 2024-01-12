@@ -23,11 +23,12 @@ function statusToTekst(status: string, t: (key: string) => string) {
 }
 interface Props {
     utbetalingManed: UtbetalingMedId;
+    open: boolean;
 }
 
-const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
+const UtbetalingAccordionItem = ({utbetalingManed, open}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(open ? open : false);
 
     return (
         <>
