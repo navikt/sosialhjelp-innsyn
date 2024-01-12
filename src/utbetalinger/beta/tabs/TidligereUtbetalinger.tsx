@@ -9,11 +9,7 @@ import {useTranslation} from "next-i18next";
 import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 import {ManedUtbetaling} from "../../../generated/model";
 
-interface Props {
-    open: boolean;
-}
-
-const TidligerUtbetalinger = (props: Props) => {
+const TidligerUtbetalinger = () => {
     const {data, isLoading, isError} = useHentTidligereUtbetalinger({
         query: {
             select: (data) => {
@@ -57,11 +53,7 @@ const TidligerUtbetalinger = (props: Props) => {
     return (
         <>
             {filtrerteTidligere.map((utbetalingSak: UtbetalingerResponseMedId) => (
-                <ManedGruppe
-                    utbetalingSak={utbetalingSak}
-                    key={`${utbetalingSak.maned}-${utbetalingSak.ar}`}
-                    open={props.open}
-                />
+                <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
         </>
     );

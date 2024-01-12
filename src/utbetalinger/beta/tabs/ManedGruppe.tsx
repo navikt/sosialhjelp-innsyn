@@ -8,10 +8,9 @@ import {useTranslation} from "next-i18next";
 
 interface Props {
     utbetalingSak: UtbetalingerResponseMedId;
-    open: boolean;
 }
 const ManedGruppe = (props: Props) => {
-    const {utbetalingSak, open} = props;
+    const {utbetalingSak} = props;
     const {i18n} = useTranslation();
 
     return (
@@ -21,7 +20,7 @@ const ManedGruppe = (props: Props) => {
             </BodyShort>
             <Accordion>
                 {utbetalingSak.utbetalingerForManed.map((utbetalingManed) => (
-                    <UtbetalingAccordionItem key={utbetalingManed.id} utbetalingManed={utbetalingManed} open={open} />
+                    <UtbetalingAccordionItem key={utbetalingManed.id} utbetalingManed={utbetalingManed} />
                 ))}
             </Accordion>
         </section>

@@ -23,12 +23,29 @@ function statusToTekst(status: string, t: (key: string) => string) {
 }
 interface Props {
     utbetalingManed: UtbetalingMedId;
-    open: boolean;
 }
 
-const UtbetalingAccordionItem = ({utbetalingManed, open}: Props) => {
+const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(open ? open : false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    ///TODO: her skal det ryddes opp;
+    /*
+    const utbetalingsDato: Date = new Date(utbetalingManed.utbetalingsdato);
+
+    const femtenDagerSideDate: Date = new Date();
+    femtenDagerSideDate.setDate(femtenDagerSideDate.getDate() - 16);
+
+    const femtenDagertilDate: Date = new Date();
+    femtenDagertilDate.setDate(femtenDagertilDate.getDate() + 15);
+
+    const [isOpen, setIsOpen] = useState(utbetalingsDato > femtenDagerSideDate && utbetalingsDato < femtenDagertilDate);
+
+    console.log("femtenDagertilDate", femtenDagertilDate.toDateString());
+    console.log("femtenDagerSideDate", femtenDagerSideDate.toDateString());
+    console.log("utbetalingsDato", utbetalingsDato.toDateString());
+    console.log("isOpen", isOpen);
+    */
 
     return (
         <>
