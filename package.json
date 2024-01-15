@@ -16,7 +16,7 @@
         "@tanstack/react-query": "^5.8.1",
         "@unleash/nextjs": "^1.2.0",
         "axios": "^1.6.2",
-        "date-fns": "^2.29.2",
+        "date-fns": "^3.2.0",
         "i18next": "^23.7.6",
         "js-cookie": "^3.0.1",
         "next": "^14.0.1",
