@@ -128,7 +128,7 @@ const useFilOpplasting = (
             window.removeEventListener("beforeunload", beforeUnloadHandler);
             router.events.off("routeChangeStart", beforeRouteHandler);
         };
-    }, [allFiles, router.events, router.pathname, t]);
+    }, [allFiles, router, t]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
