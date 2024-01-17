@@ -107,28 +107,34 @@ const useFilOpplasting = (
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
+    const [leaveConfirmed, setLeaveConfirmed] = useState(false);
 
     useEffect(() => {
         const beforeUnloadHandler = (event: WindowEventMap["beforeunload"]) => {
             if (!allFiles.length) return;
             event.preventDefault();
             event.returnValue = "";
+            return "";
         };
-        const beforeRouteHandler = (url: string) => {
+        const beforeRouteHandler = () => {
             if (!allFiles.length) return;
-            if (router.pathname !== url && !confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
+            if (leaveConfirmed) return;
+            if (window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
+                setLeaveConfirmed(true);
+            } else {
                 router.events.emit("routeChangeError");
-                throw `Route change to "${url}" was aborted (this error can be safely ignored)`;
+                throw `Route change was aborted (this error can be safely ignored)`;
             }
         };
         window.addEventListener("beforeunload", beforeUnloadHandler);
         router.events.on("routeChangeStart", beforeRouteHandler);
 
         return () => {
+            setLeaveConfirmed(false);
             window.removeEventListener("beforeunload", beforeUnloadHandler);
             router.events.off("routeChangeStart", beforeRouteHandler);
         };
-    }, [allFiles, router, t]);
+    }, [allFiles]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
