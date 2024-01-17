@@ -34,7 +34,6 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
     const [queryHas403, setQueryHas403] = useState(false);
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
-        console.log("dont mind if i change");
         return router.replace(router.asPath, undefined, {locale: option.locale});
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
