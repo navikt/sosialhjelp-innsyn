@@ -194,9 +194,9 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //    .filter((it) => it.status !== "OK")
     //    .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
 
-    //const soknadHendelser = hendelser?.filter((type) => {
-    //   return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
-    //});
+    /*const soknadHendelser = hendelser?.filter((type) => {
+       return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+    });*/
     //.map((it) => {
     //    return;
     //});
@@ -276,13 +276,14 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
      *
      * */
 
-    //const sakHendelser = hendelser?.filter((type) => {
-    //    return (
-    //        type.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-    //        type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-    //    );
-    //});
-    //console.log("sakHendelser", sakHendelser);
+    /*
+    const sakHendelser = hendelser?.filter((type) => {
+        return (
+            type.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+            type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+        );
+    });
+    console.log("sakHendelser", sakHendelser);*/
 
     //const groupObjectsBasedOnTekstArgument = sakHendelser?.reduce(
     //    (group: {[key: string]: HendelseResponse[]}, item, hei) => {
@@ -323,115 +324,117 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //}
 
     //if (hendelser) {
-    //    //console.log("hendelser", hendelser);
-    //
-    //    const testHend = hendelser.filter(
-    //        (it) =>
-    //            it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-    //            it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-    //    );
-    //    console.log("testHend", testHend);
-    //
-    //    const result: HendelseResponse[] = Object.values(
-    //        testHend.reduce(function (returnValue, originalValue) {
-    //            returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
-    //            returnValue[originalValue.tekstArgument].push(originalValue);
-    //            return returnValue;
-    //        }, {})
-    //    );
-    //    console.log("result", result);
-    //
-    //    //const wat = result[0].
-    //}
+    //console.log("hendelser", hendelser);
 
-    //if (hendelser) {
-    //    //console.log("hendelser", hendelser);
-    //
-    //    const testHend: HendelseResponse[] = Object.values(
-    //        hendelser
-    //            .filter(
-    //                (it) =>
-    //                    it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-    //                    it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-    //            )
-    //            .reduce((returnValue, originalValue) => {
-    //                returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
-    //                returnValue[originalValue.tekstArgument].push(originalValue);
-    //                return returnValue;
-    //            }, {})
-    //    );
-    //    console.log("testHend", testHend);
-    //
-    //    //const wat = testHend.forEach((el1, i1) => {
-    //    //    testHend.forEach((el2, i2) => {
-    //    //        console.log("el1", el1[i1]);
-    //    //        console.log("el2", el2[i2]);
-    //    //
-    //    //        ///if(i1 === i2){
-    //    //        ///    console.log("wwwwaaaaaaa");
-    //    //        ///    return null;
-    //    //        ///}
-    //    //        ///if(el1 && el1.tekstArgument === el2.tekstArgument){
-    //    //        ///    console.log("waaaaaya")
-    //    //        ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
-    //    //        ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
-    //    //        ///    }
-    //    //        ///}
-    //    //    });
-    //    //});
-    //    //console.log("wat", wat);
-    //    console.log("-------");
-    //}
+    //const testHend = hendelser.filter(
+    //    (it) =>
+    //        it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+    //        it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+    //);
+    //console.log("testHend", testHend);
 
-    //let mili;
-    //if (sakHendelser) {
-    //    mili = Math.abs(
-    //        Date.parse(sakHendelser[0]?.tidspunkt).valueOf() -
-    //            Date.parse(sakHendelser[sakHendelser.length - 1]?.tidspunkt).valueOf()
-    //    );
+    //const result: HendelseResponse[] = Object.values(
+    //    testHend.reduce(function (returnValue, originalValue) {
+    //        returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
+    //        returnValue[originalValue.tekstArgument].push(originalValue);
+    //        return returnValue;
+    //    }, {})
+    //);
+    //console.log("result", result);
+
+    //const wat = result[0].
     //}
+    /*
+    if (hendelser) {
+        //console.log("hendelser", hendelser);
+
+        const testHend: HendelseResponse[] = Object.values(
+            hendelser
+                .filter(
+                    (it) =>
+                        it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+                        it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+                )
+                .reduce((returnValue, originalValue) => {
+                    returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
+                    returnValue[originalValue.tekstArgument].push(originalValue);
+                    return returnValue;
+                }, {})
+        );
+        console.log("testHend", testHend);
+
+        //const wat = testHend.forEach((el1, i1) => {
+        //    testHend.forEach((el2, i2) => {
+        //        console.log("el1", el1[i1]);
+        //        console.log("el2", el2[i2]);
+        //
+        //        ///if(i1 === i2){
+        //        ///    console.log("wwwwaaaaaaa");
+        //        ///    return null;
+        //        ///}
+        //        ///if(el1 && el1.tekstArgument === el2.tekstArgument){
+        //        ///    console.log("waaaaaya")
+        //        ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
+        //        ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
+        //        ///    }
+        //        ///}
+        //    });
+        //});
+        //console.log("wat", wat);
+        console.log("-------");
+    }
+
+     let mili;
+     if (sakHendelser) {
+         mili = Math.abs(
+             Date.parse(sakHendelser[0]?.tidspunkt).valueOf() -
+                 Date.parse(sakHendelser[sakHendelser.length - 1]?.tidspunkt).valueOf()
+         );
+     }
     //d * m * s * ms
     //24 * 60 * 60 * 1000
+    */
+    /*
+     console.log("miliseconds", mili);
+     console.log("-------");
 
-    //console.log("miliseconds", mili);
-    //console.log("-------");
+     const sec = Math.floor(mili / 1000);
+     console.log("seconds", sec);
+     console.log("-------");
 
-    //const sec = Math.floor(mili / 1000);
-    //console.log("seconds", sec);
-    //console.log("-------");
+    const min = Math.floor(sec / 60);
+    if (min >= 1) {
+        console.log("minutes", min);
+        console.log("-------");
+    }
 
-    //const min = Math.floor(sec / 60);
-    //if (minutes >= 1) {
-    //    console.log("minutes", minutes);
-    //    console.log("-------");
-    //}
+     const hou = Math.floor(min / 60);
+     if (hou >= 1) {
+         console.log("hours", hou);
+         console.log("-------");
+     }
 
-    //const hou = Math.floor(min / 60);
-    //if (hours >= 1) {
-    //    console.log("hours", hours);
-    //    console.log("-------");
-    //}
+     const day = Math.floor(hou / 24);
+     if (day >= 1) {
+         console.log("days", day);
+         console.log("-------");
+     }
 
-    //const day = Math.floor(hou / 24);
-    //if (days >= 1) {
-    //    console.log("days", days);
-    //    console.log("-------");
-    //}
-
-    //if (soknadHendelser) {
-    //    console.log(
-    //        "Det tok saken",
-    //        day,
-    //        "dag(er)",
-    //        hou - day * 24,
-    //        "time(r)",
-    //        min - day * 24 * 60,
-    //        "minutt(er) og",
-    //        sec - day * 24 * 60 * 60,
-    //        "sekund(er)",
-    //        "før saken fikk status ferdigbehandlet"
-    //    );
-    //}
+     if (soknadHendelser) {
+         console.log(
+             "Det tok saken",
+             day,
+             "dag(er)",
+             hou - day * 24,
+             "time(r)",
+             min - day * 24 * 60,
+             "minutt(er) og",
+             sec - day * 24 * 60 * 60,
+             "sekund(er)",
+             "før saken fikk status ferdigbehandlet"
+         );
+     }
+*/
 
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
