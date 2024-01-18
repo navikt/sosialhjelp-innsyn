@@ -78,6 +78,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                 <StyledFileIcon width="2rem" aria-hidden />
                 <StyledSaksDetaljer>
                     <span>
+                        <Label as="p">{oppdatertTittel}</Label>
                         {!saksdetaljer ? (
                             <Detail>
                                 SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
@@ -85,7 +86,6 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                         ) : (
                             <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
                         )}
-                        <Label as="p">{oppdatertTittel}</Label>
                     </span>
                     <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
                 </StyledSaksDetaljer>

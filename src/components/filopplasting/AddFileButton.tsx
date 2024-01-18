@@ -2,11 +2,15 @@ import React, {ChangeEvent} from "react";
 import {useTranslation} from "next-i18next";
 import {Button} from "@navikt/ds-react";
 
-const AddFileButton: React.FC<{
+interface Props {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
     resetStatus: () => void;
-}> = ({onChange, id, resetStatus}) => {
+    hasError?: boolean;
+    disabled?: boolean;
+}
+
+const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError, disabled}) => {
     const {t} = useTranslation();
 
     const onClick = (event?: any): void => {
@@ -21,7 +25,7 @@ const AddFileButton: React.FC<{
 
     return (
         <>
-            <Button variant="secondary" size="small" onClick={onClick}>
+            <Button variant="secondary" size="small" onClick={onClick} disabled={disabled}>
                 <span aria-hidden>{`+ `}</span> {t("vedlegg.velg_fil")}
             </Button>
             <label className={`navds-sr-only`} htmlFor={"file_" + id}>
@@ -36,6 +40,7 @@ const AddFileButton: React.FC<{
                 className="navds-sr-only"
                 tabIndex={-1}
                 accept="image/jpeg,image/png,application/pdf,impage/jpg"
+                aria-invalid={hasError}
             />
         </>
     );

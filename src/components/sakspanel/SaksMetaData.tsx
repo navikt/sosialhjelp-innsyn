@@ -13,6 +13,7 @@ const SaksMetaData = (props: Props) => {
         <>
             <Detail as="span">{t(`soknadstatus.${props.status.toLowerCase()}`)}</Detail>
             <span aria-hidden="true"> ● </span>
+            <span className="sr-only"></span>
             <Detail as="span">
                 {t("oppdatert")} <DatoOgKlokkeslett tidspunkt={props.oppdatert} bareDato={true} />
             </Detail>

@@ -47,7 +47,7 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
         >
             <FlagProvider toggles={pageProps.toggles}>
                 <Tilgangskontrollside queryHas403={queryHas403}>
-                    <div lang={i18n.language}>
+                    <div role="main" tabIndex={-1} id="maincontent">
                         <Component {...pageProps}></Component>
                     </div>
                 </Tilgangskontrollside>

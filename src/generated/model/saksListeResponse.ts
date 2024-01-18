@@ -8,6 +8,7 @@
 export interface SaksListeResponse {
     fiksDigisosId?: string;
     kilde: string;
+    kommunenummer?: string;
     sistOppdatert: string;
     soknadTittel: string;
     url?: string;
