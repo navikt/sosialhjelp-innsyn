@@ -25,27 +25,24 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
+export const erDetteAapnet = (dagensDato: Date, utbetalingsDato: Date) => {
+    console.log("dagensDato:", dagensDato);
+    console.log("utbetalingsDato:", utbetalingsDato);
+
+    const femtenDagerSideDate: Date = dagensDato;
+    femtenDagerSideDate.setDate(femtenDagerSideDate.getDate() - 15);
+    console.log("femtenDagerSideDate:", femtenDagerSideDate);
+
+    const femtenDagertilDate: Date = dagensDato;
+    femtenDagertilDate.setDate(femtenDagertilDate.getDate() + 15);
+    console.log("femtenDagertilDate:", femtenDagertilDate);
+
+    return utbetalingsDato >= femtenDagerSideDate && utbetalingsDato <= femtenDagertilDate;
+};
+
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(false);
-
-    ///TODO: her skal det ryddes opp;
-    /*
-    const utbetalingsDato: Date = new Date(utbetalingManed.utbetalingsdato);
-
-    const femtenDagerSideDate: Date = new Date();
-    femtenDagerSideDate.setDate(femtenDagerSideDate.getDate() - 16);
-
-    const femtenDagertilDate: Date = new Date();
-    femtenDagertilDate.setDate(femtenDagertilDate.getDate() + 15);
-
-    const [isOpen, setIsOpen] = useState(utbetalingsDato > femtenDagerSideDate && utbetalingsDato < femtenDagertilDate);
-
-    console.log("femtenDagertilDate", femtenDagertilDate.toDateString());
-    console.log("femtenDagerSideDate", femtenDagerSideDate.toDateString());
-    console.log("utbetalingsDato", utbetalingsDato.toDateString());
-    console.log("isOpen", isOpen);
-    */
+    const [isOpen, setIsOpen] = useState(erDetteAapnet(new Date(), new Date(utbetalingManed.utbetalingsdato)));
 
     return (
         <>
