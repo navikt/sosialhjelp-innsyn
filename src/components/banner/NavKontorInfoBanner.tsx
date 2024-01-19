@@ -48,7 +48,7 @@ const BarePaginerte = (paginerteSaker: SaksListeResponse[]) => {
     //console.log("paginerteSaker", paginerteSaker);
 
     //paginerteSaker.map(item => console.log("map item", item));
-    const hey = paginerteSaker.map((item) => {
+    const hey = paginerteSaker?.map((item) => {
         return Bare(item.fiksDigisosId);
     });
 
