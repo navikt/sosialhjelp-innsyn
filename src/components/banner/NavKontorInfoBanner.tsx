@@ -49,7 +49,7 @@ const BarePaginerte = (paginerteSaker: SaksListeResponse[]) => {
 
     //paginerteSaker.map(item => console.log("map item", item));
     const hey = paginerteSaker?.map((item) => {
-        return Bare(item.fiksDigisosId);
+        return Bare(item.fiksDigisosId as string);
     });
 
     if (hey.find((e) => e?.tekstArgument === "NAV Årstad, Årstad kommune")) {
