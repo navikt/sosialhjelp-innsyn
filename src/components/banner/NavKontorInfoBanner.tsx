@@ -2,6 +2,7 @@ import {Alert} from "@navikt/ds-react";
 import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import {SaksListeResponse} from "../../generated/model";
 import React from "react";
+import {useHentAlleSaker} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 interface Props {
     paginerteSaker?: SaksListeResponse[];
@@ -131,10 +132,50 @@ const BarePaginerte = (paginerteSaker: SaksListeResponse[]) => {
     //}
 };
 
+const TesterSaker = (paginerteSaker: SaksListeResponse[], fiksid: string) => {
+    console.log("fiksid", fiksid);
+
+    if (fiksid) {
+        console.log("hey");
+        const test = paginerteSaker.map((item) => item.fiksDigisosId);
+        if (test.includes(fiksid)) {
+            console.log("yes?");
+            return (
+                <div style={{marginBottom: "2rem"}}>
+                    <Alert variant="info">
+                        Har du lyst til å hjelpe oss med å lage gode digitale løsninger? Tirsdag 23. januar kl
+                        09.00-15.00 er vi hos NAV Ullern for å teste en ny løsning for digital klage. Kom gjerne innom!
+                    </Alert>
+                </div>
+            );
+        }
+    } else {
+        const hey = paginerteSaker?.map((item) => {
+            return Bare(item.fiksDigisosId as string);
+        });
+
+        if (hey.find((e) => e?.tekstArgument === "NAV Årstad, Årstad kommune")) {
+            console.log("hey", hey);
+
+            return (
+                <div style={{marginBottom: "2rem"}}>
+                    <Alert variant="info">
+                        Har du lyst til å hjelpe oss med å lage gode digitale løsninger? Tirsdag 23. januar kl
+                        09.00-15.00 er vi hos NAV Ullern for å teste en ny løsning for digital klage. Kom gjerne innom!
+                    </Alert>
+                </div>
+            );
+        }
+    }
+};
+
 export const NavKontorInfoBanner = (props: Props) => {
     //const fiksDigisosId = useFiksDigisosId();
-    //const {data: saker} = useHentAlleSaker();
-
+    const {data: saker} = useHentAlleSaker();
+    //console.log("saker", saker)
+    if (saker) {
+        return TesterSaker(saker, props.fiksDigisosId);
+    }
     //if(saker !== undefined){
     //return (BarePaginerte(saker));
     //paginerteSaker.map(item => console.log("map item", item));
@@ -158,14 +199,14 @@ export const NavKontorInfoBanner = (props: Props) => {
     //    //}
     //}
     //}
-
     //return (console.log("saker", saker));
-    if (props.fiksDigisosId) {
-        return BareFiks(props.fiksDigisosId);
-    }
-    if (props.paginerteSaker) {
-        return BarePaginerte(props.paginerteSaker);
-    }
+
+    //if (props.fiksDigisosId) {
+    //    return BareFiks(props.fiksDigisosId);
+    //}
+    //if (props.paginerteSaker) {
+    //    return BarePaginerte(props.paginerteSaker);
+    //}
 };
 
 /***
