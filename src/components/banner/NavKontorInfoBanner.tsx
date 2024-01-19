@@ -132,7 +132,7 @@ const BarePaginerte = (paginerteSaker: SaksListeResponse[]) => {
     //}
 };
 
-const TesterSaker = (paginerteSaker: SaksListeResponse[], fiksid: string) => {
+const TesterSaker = (paginerteSaker: SaksListeResponse[], fiksid?: string) => {
     console.log("fiksid", fiksid);
 
     if (fiksid) {
@@ -174,7 +174,7 @@ export const NavKontorInfoBanner = (props: Props) => {
     const {data: saker} = useHentAlleSaker();
     //console.log("saker", saker)
     if (saker) {
-        return TesterSaker(saker, props.fiksDigisosId);
+        return TesterSaker(saker, props?.fiksDigisosId);
     }
     //if(saker !== undefined){
     //return (BarePaginerte(saker));
