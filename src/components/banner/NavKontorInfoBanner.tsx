@@ -160,10 +160,10 @@ export const NavKontorInfoBanner = (props: Props) => {
     //}
 
     //return (console.log("saker", saker));
-    if (props.fiksDigisosId !== undefined) {
+    if (props.fiksDigisosId) {
         return BareFiks(props.fiksDigisosId);
     }
-    if (props.paginerteSaker !== undefined) {
+    if (props.paginerteSaker) {
         return BarePaginerte(props.paginerteSaker);
     }
 };
