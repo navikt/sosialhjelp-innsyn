@@ -1,4 +1,4 @@
-import {Alert} from "@navikt/ds-react";
+/*import {Alert} from "@navikt/ds-react";
 import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import {SaksListeResponse} from "../../generated/model";
 import React from "react";
@@ -11,15 +11,17 @@ interface Props {
 
 const Bare = (fiksDigisosId: string) => {
     const {data: hendelser} = useHentHendelser(fiksDigisosId);
-    return hendelser?.find(
-        (tekst) => tekst.tekstArgument === "NAV Årstad, Årstad" || tekst.tekstArgument === "NAV Årstad, Årstad kommune"
-    );
+    return hendelser?.find((tekst) => tekst.tekstArgument.includes("NAV Bergenhus"));
 };
 
 const TesterSaker = (paginerteSaker: SaksListeResponse[], fiksid?: string) => {
-    if (fiksid) {
+    if (fiksid !== undefined) {
         const test = paginerteSaker.map((item) => item.fiksDigisosId);
+        //console.log("wat",test.find((tekst) => tekst.includes(fiksid)));
         if (test.includes(fiksid)) {
+            const hey = paginerteSaker?.find((tekst) => (tekst.fiksDigisosId.includes(fiksid)));
+            //console.log("ja", hey);
+            //console.log("bah", Bare(hey.fiksDigisosId));
             return (
                 <div style={{marginBottom: "2rem"}}>
                     <Alert variant="info">
@@ -34,11 +36,7 @@ const TesterSaker = (paginerteSaker: SaksListeResponse[], fiksid?: string) => {
             return Bare(item.fiksDigisosId as string);
         });
 
-        if (
-            hey.find(
-                (e) => e?.tekstArgument === "NAV Årstad, Årstad kommune" || e?.tekstArgument === "NAV Årstad, Årstad"
-            )
-        ) {
+        if (hey.find((e) => e?.tekstArgument.includes("NAV Bergenhus"))) {
             return (
                 <div style={{marginBottom: "2rem"}}>
                     <Alert variant="info">
@@ -51,9 +49,24 @@ const TesterSaker = (paginerteSaker: SaksListeResponse[], fiksid?: string) => {
     }
 };
 
+//export const NavKontorInfoBanner = (props: Props) => {
+//    const {data: saker} = useHentAlleSaker();
+//    console.log("saker", saker)
+//    const hey = saker?.map((item) => item.fiksDigisosId);
+//    console.log("hey", hey);
+//    Array.from(hey).forEach((e,i) => console.log("e",e));
+//    console.log("wata", wat);
+//    const {data: hendelser} = useHentHendelser();
+//
+//};
+
+
+
+
+
 export const NavKontorInfoBanner = (props: Props) => {
     const {data: saker} = useHentAlleSaker();
     if (saker) {
         return TesterSaker(saker, props?.fiksDigisosId);
     }
-};
+};*/

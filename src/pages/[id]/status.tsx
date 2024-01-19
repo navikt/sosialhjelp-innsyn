@@ -86,6 +86,24 @@ const SaksStatusView: NextPage = () => {
                     it.status !== SaksStatusResponseStatus.IKKE_INNSYN
             ));
 
+    /*
+    *     const {data: saker} = useHentAlleSaker();
+    //const {data: hendelser} = useHentHendelser(fiksDigisosId);
+    console.log("saker", saker);
+    //console.log("hendelser", hendelser);
+    let sak;
+    if(saker){
+        //saker.map((item) => {return console.log("ok", item.fiksDigisosId)});
+        sak = saker.map((item) => item.fiksDigisosId);
+    }
+    console.log("sak", sak);
+    const {data: hendelser} = useHentHendelser(fiksDigisosId);
+    const wat = hendelser.filter((item) => item.tekstArgument.includes("Mock bydel, mock"))
+    console.log("wat", wat);
+    *
+    *
+    *
+    * */
     return (
         <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`} bannerTitle={t("soknadStatus.tittel")}>
             <LoadingResourcesFailedAlert />
