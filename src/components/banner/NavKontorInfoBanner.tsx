@@ -8,7 +8,7 @@ interface Props {
     fiksDigisosId?: string;
 }
 
-const UsingFiksId = (fiksId: string) => {
+const UsingFiksId = (fiksId?: string) => {
     const {data: hendelser} = useHentHendelser(fiksId);
     const ble = hendelser?.find((tekst) => tekst?.tekstArgument.includes("NAV Årstad"));
     if (ble) {
@@ -23,17 +23,17 @@ const UsingFiksId = (fiksId: string) => {
     }
 };
 
-const UsingFiksDigisosIdFromPaginerteSaker = (fiksDigisosId: string) => {
+const UsingFiksDigisosIdFromPaginerteSaker = (fiksDigisosId?: string) => {
     const {data: hendelser} = useHentHendelser(fiksDigisosId);
     return hendelser && hendelser?.find((tekst) => tekst?.tekstArgument.includes("NAV Årstad"));
 };
 
-const UsingPaginerteSaker = (paginerteSaker: SaksListeResponse[]) => {
+const UsingPaginerteSaker = (paginerteSaker?: SaksListeResponse[]) => {
     const hey = paginerteSaker?.map((item) => {
-        return UsingFiksDigisosIdFromPaginerteSaker(item.fiksDigisosId as string);
+        return UsingFiksDigisosIdFromPaginerteSaker(item?.fiksDigisosId as string);
     });
 
-    if (hey && hey.find((e) => e?.tekstArgument.includes("NAV Årstad"))) {
+    if (hey && hey?.find((e) => e?.tekstArgument.includes("NAV Årstad"))) {
         return (
             <div style={{marginBottom: "2rem"}}>
                 <Alert variant="info">
