@@ -10,8 +10,8 @@ interface Props {
 
 const UsingFiksId = (fiksId: string) => {
     const {data: hendelser} = useHentHendelser(fiksId);
-    const ble = hendelser?.find((tekst) => tekst?.tekstArgument?.includes("NAV Årstad"));
-    if (ble) {
+    const isNavUllern = hendelser?.find((tekst) => tekst?.tekstArgument?.includes("NAV Ullern"));
+    if (isNavUllern) {
         return (
             <div style={{marginBottom: "2rem"}}>
                 <Alert variant="info">
@@ -25,15 +25,15 @@ const UsingFiksId = (fiksId: string) => {
 
 const UsingFiksDigisosIdFromPaginerteSaker = (fiksDigisosId: string) => {
     const {data: hendelser} = useHentHendelser(fiksDigisosId);
-    return hendelser?.find((tekst) => tekst?.tekstArgument?.includes("NAV Årstad"));
+    return hendelser?.find((tekst) => tekst?.tekstArgument?.includes("NAV Ullern"));
 };
 
 const UsingPaginerteSaker = (paginerteSaker: SaksListeResponse[]) => {
-    const hey = paginerteSaker.map((item) => {
+    const isNavUllern = paginerteSaker.map((item) => {
         return UsingFiksDigisosIdFromPaginerteSaker(item.fiksDigisosId as string);
     });
 
-    if (hey.find((e) => e?.tekstArgument?.includes("NAV Årstad"))) {
+    if (isNavUllern.find((e) => e?.tekstArgument?.includes("NAV Ullern"))) {
         return (
             <div style={{marginBottom: "2rem"}}>
                 <Alert variant="info">
