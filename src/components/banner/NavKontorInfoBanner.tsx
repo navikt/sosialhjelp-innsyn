@@ -8,9 +8,9 @@ interface Props {
     fiksDigisosId?: string;
 }
 
-const BareFiks = (fiksId: string) => {
+const UsingFiksId = (fiksId: string) => {
     const {data: hendelser} = useHentHendelser(fiksId);
-    const ble = hendelser?.find((tekst) => tekst.tekstArgument === "NAV Årstad, Årstad kommune");
+    const ble = hendelser?.find((tekst) => tekst.tekstArgument.includes("NAV Årstad"));
     if (ble) {
         return (
             <div style={{marginBottom: "2rem"}}>
@@ -23,17 +23,17 @@ const BareFiks = (fiksId: string) => {
     }
 };
 
-const Bare = (fiksDigisosId: string) => {
+const UsingFiksDigisosIdFromPaginerteSaker = (fiksDigisosId: string) => {
     const {data: hendelser} = useHentHendelser(fiksDigisosId);
-    return hendelser?.find((tekst) => tekst.tekstArgument === "NAV Årstad, Årstad kommune");
+    return hendelser?.find((tekst) => tekst.tekstArgument.includes("NAV Årstad"));
 };
 
-const BarePaginerte = (paginerteSaker: SaksListeResponse[]) => {
+const UsingPaginerteSaker = (paginerteSaker: SaksListeResponse[]) => {
     const hey = paginerteSaker?.map((item) => {
-        return Bare(item.fiksDigisosId as string);
+        return UsingFiksDigisosIdFromPaginerteSaker(item.fiksDigisosId as string);
     });
 
-    if (hey.find((e) => e?.tekstArgument === "NAV Årstad, Årstad kommune")) {
+    if (hey.find((e) => e?.tekstArgument.includes("NAV Årstad"))) {
         return (
             <div style={{marginBottom: "2rem"}}>
                 <Alert variant="info">
@@ -48,9 +48,9 @@ const BarePaginerte = (paginerteSaker: SaksListeResponse[]) => {
 
 export const NavKontorInfoBanner = (props: Props) => {
     if (props.fiksDigisosId) {
-        return BareFiks(props.fiksDigisosId);
+        return UsingFiksId(props.fiksDigisosId);
     }
     if (props.paginerteSaker) {
-        return BarePaginerte(props.paginerteSaker);
+        return UsingPaginerteSaker(props.paginerteSaker);
     }
 };
