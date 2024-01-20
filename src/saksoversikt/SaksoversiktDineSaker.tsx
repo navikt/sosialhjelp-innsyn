@@ -13,7 +13,7 @@ import {SaksListeResponse} from "../generated/model";
 import styles from "../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
-import Link from "next/link";
+import {NavKontorInfoBanner} from "../components/banner/NavKontorInfoBanner";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -77,8 +77,8 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     // noinspection HtmlUnknownTarget
     return (
         <>
+            <NavKontorInfoBanner paginerteSaker={paginerteSaker} />
             <DineUtbetalingerPanel />
-
             <section aria-labelledby="dine-soknader">
                 <StyledDineSoknaderPanel>
                     <StyledHeading level="2" size="medium" id="dine-soknader">
