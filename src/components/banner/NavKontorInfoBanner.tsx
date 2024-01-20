@@ -33,7 +33,7 @@ const UsingPaginerteSaker = (paginerteSaker: SaksListeResponse[]) => {
         return UsingFiksDigisosIdFromPaginerteSaker(item.fiksDigisosId as string);
     });
 
-    if (hey.find((e) => e?.tekstArgument.includes("NAV Årstad"))) {
+    if (hey && hey.find((e) => e?.tekstArgument.includes("NAV Årstad"))) {
         return (
             <div style={{marginBottom: "2rem"}}>
                 <Alert variant="info">
