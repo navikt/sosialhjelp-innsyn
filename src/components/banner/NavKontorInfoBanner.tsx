@@ -25,7 +25,7 @@ const UsingFiksId = (fiksId: string) => {
 
 const UsingFiksDigisosIdFromPaginerteSaker = (fiksDigisosId: string) => {
     const {data: hendelser} = useHentHendelser(fiksDigisosId);
-    return hendelser?.find((tekst) => tekst?.tekstArgument.includes("NAV Årstad"));
+    return hendelser && hendelser?.find((tekst) => tekst?.tekstArgument.includes("NAV Årstad"));
 };
 
 const UsingPaginerteSaker = (paginerteSaker: SaksListeResponse[]) => {
