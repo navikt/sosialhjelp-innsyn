@@ -14,7 +14,6 @@ import styles from "../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
 import {NavKontorInfoBanner} from "../components/banner/NavKontorInfoBanner";
-//import {NavKontorInfoBanner} from "../components/banner/NavKontorInfoBanner";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
