@@ -90,11 +90,15 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         ) {
             return (
                 <BodyShort>
-                    {t(enumValue, {tekstArgument: tekstArgument.charAt(0).toUpperCase() + tekstArgument.slice(1)})}
+                    {t(enumValue, {
+                        tekstArgument: (
+                            <span lang="no">tekstArgument.charAt(0).toUpperCase() + tekstArgument.slice(1)</span>
+                        ),
+                    })}
                 </BodyShort>
             );
         }
-        return <BodyShort>{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
+        return <BodyShort>{t(enumValue, {tekstArgument: <span lang="no">tekstArgument</span>})}</BodyShort>;
     };
 
     return (
