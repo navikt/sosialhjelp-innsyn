@@ -67,7 +67,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         }
     };
 
-    const getBeskrivelse = (historikkEnumKey: string, tekstArgument?: string) => {
+    const getBeskrivelse = (historikkEnumKey: keyof typeof HistorikkTekstEnum, tekstArgument?: string) => {
         const enumValue = HistorikkTekstEnum[historikkEnumKey];
         if (enumValue === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
             return (
@@ -90,7 +90,27 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         ) {
             return (
                 <BodyShort>
-                    {t(enumValue, {tekstArgument: tekstArgument.charAt(0).toUpperCase() + tekstArgument.slice(1)})}
+                    <Trans i18nKey={enumValue} t={t}>
+                        <span lang="no">{{tekstArgument}}</span> er under behandling.
+                    </Trans>
+                </BodyShort>
+            );
+        }
+        if (
+            [
+                HistorikkTekstEnum.SOKNAD_SEND_TIL_KONTOR,
+                HistorikkTekstEnum.SOKNAD_MOTTATT_MED_KOMMUNENAVN,
+                HistorikkTekstEnum.SOKNAD_VIDERESENDT_MED_NORG_ENHET,
+                HistorikkTekstEnum.SOKNAD_VIDERESENDT_PAPIRSOKNAD_MED_NORG_ENHET,
+                HistorikkTekstEnum.SOKNAD_KAN_IKKE_VISE_STATUS_MED_TITTEL,
+                HistorikkTekstEnum.SAK_KAN_IKKE_VISE_STATUS_MED_TITTEL,
+            ].includes(enumValue)
+        ) {
+            return (
+                <BodyShort>
+                    <Trans i18nKey={enumValue} t={t}>
+                        whatever <span lang="no">{{tekstArgument}}</span>
+                    </Trans>
                 </BodyShort>
             );
         }
@@ -105,7 +125,10 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                         <Label as="p">
                             <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                         </Label>
-                        {getBeskrivelse(hendelse.hendelseType, hendelse.tekstArgument)}
+                        {getBeskrivelse(
+                            hendelse.hendelseType as keyof typeof HistorikkTekstEnum,
+                            hendelse.tekstArgument
+                        )}
                         {hendelse.filUrl && (
                             <EksternLenke
                                 href={hendelse.filUrl.link}

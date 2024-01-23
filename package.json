@@ -43,7 +43,7 @@
         "fetch-api-docs-local": "curl -o ./innsyn-api.json  http://localhost:8080/sosialhjelp/innsyn-api/v3/api-docs  && prettier --write innsyn-api.json",
         "orval": "rm -rf src/generated && orval --prettier",
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
-        "typeCheck": "tsc",
+        "tsc": "tsc",
         "prepare": "husky install"
     },
     "browserslist": {
@@ -79,7 +79,7 @@
         "orval": "^6.20.0",
         "pino-pretty": "^10.2.3",
         "prettier": "^3.1.0",
-        "typescript": "^5.2.2",
+        "typescript": "^5.3.3",
         "undici": "^5.27.2"
     },
     "lint-staged": {
