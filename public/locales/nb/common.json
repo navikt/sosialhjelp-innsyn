@@ -215,5 +215,7 @@
   "klage.papirskjema.beskrivelse_1": "Det er ikke mulig å klage digitalt. Du kan ",
   "klage.papirskjema.skjema_url_tekst": "skrive ut et klageskjema (pdf)",
   "klage.papirskjema.beskrivelse_2": " som du kan sende som vedlegg til din søknad under \"Dine vedlegg\".",
-  "klage.papirskjema.mer_info_url_tekst": "Her kan du lese mer om klage"
+  "klage.papirskjema.mer_info_url_tekst": "Her kan du lese mer om klage",
+
+  "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "Denne siden ber deg bekrefte at du ønsker å forlate siden — informasjon som du allerede har skrevet inn vil kanskje ikke lagres."
 }
