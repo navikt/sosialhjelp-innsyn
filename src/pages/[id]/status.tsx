@@ -27,7 +27,6 @@ import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUplo
 import KlageSection from "../../components/klage/KlageSection";
 import {SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
 import pageHandler from "../../pagehandler/pageHandler";
-import {NavKontorInfoBanner} from "../../components/banner/NavKontorInfoBanner";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -94,7 +93,6 @@ const SaksStatusView: NextPage = () => {
 
             {!mustLogin && (
                 <>
-                    <NavKontorInfoBanner fiksDigisosId={fiksDigisosId} />
                     <DriftsmeldingAlertstripe />
 
                     <ForelopigSvarAlertstripe />
