@@ -88,6 +88,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 enumValue === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_MED_TITTEL) &&
             tekstArgument
         ) {
+            // Dette er bare placeholder. Blir erstatta av faktisk oversatt tekst runtime. <span> må være child nummer 1 (index 0), for at det skal bli riktig
             return (
                 <BodyShort>
                     <Trans i18nKey={enumValue} t={t}>
@@ -95,8 +96,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                     </Trans>
                 </BodyShort>
             );
-        }
-        if (
+        } else if (
             [
                 HistorikkTekstEnum.SOKNAD_SEND_TIL_KONTOR,
                 HistorikkTekstEnum.SOKNAD_MOTTATT_MED_KOMMUNENAVN,
@@ -106,6 +106,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 HistorikkTekstEnum.SAK_KAN_IKKE_VISE_STATUS_MED_TITTEL,
             ].includes(enumValue)
         ) {
+            // Dette er bare placeholder. Blir erstatta av faktisk oversatt tekst runtime. <span> må være child nummer 2 (index 1), for at det skal bli riktig
             return (
                 <BodyShort>
                     <Trans i18nKey={enumValue} t={t}>
