@@ -1,8 +1,4 @@
-interface HistorikkTekst {
-    [key: string]: string;
-}
-
-export const HistorikkTekstEnum: HistorikkTekst = {
+export const HistorikkTekstEnum = {
     SOKNAD_SEND_TIL_KONTOR: "hendelse.soknad_sendt_til_kontor",
     SOKNAD_MOTTATT_MED_KOMMUNENAVN: "hendelse.soknad_mottatt_hos_kommune",
     SOKNAD_MOTTATT_UTEN_KOMMUNENAVN: "hendelse.soknad_mottatt",

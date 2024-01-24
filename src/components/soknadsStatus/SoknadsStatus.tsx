@@ -123,7 +123,9 @@ const SoknadsStatus = () => {
                                 <li key={index}>
                                     <StatusBox>
                                         <StatusMessage>
-                                            <Label as="p">{hentSakstittel(statusdetalj.tittel)}</Label>
+                                            <Label as="p" lang="no">
+                                                {hentSakstittel(statusdetalj.tittel)}
+                                            </Label>
                                             {saksStatus === SaksStatusResponseStatus.FERDIGBEHANDLET && (
                                                 <StyledAlertTag variant="success">
                                                     {t("saksStatus.ferdig_behandlet")}
