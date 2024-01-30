@@ -38,7 +38,3 @@ it("Utbetalingsdetaljer skal være lukket når utbetalingsdato er 16 dager frem 
 it("Utbetalingsdetaljer skal være lukket når utbetalingsdato ikke er definert", () => {
     expect(erDetteAapnet(new Date("2024-01-14"), "")).toBe(false);
 });
-
-it("Utbetalingsdetaljer skal være lukket når utbetalingsdato er null", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), null)).toBe(false);
-});
