@@ -1,38 +1,34 @@
-import React from "react";
-import ReactPaginate from "react-paginate";
+import React, {useState} from "react";
+import {Pagination} from "@navikt/ds-react";
 
 interface Props {
     pageCount: number;
-    initialPage?: number;
-    forcePage?: number;
+    page: number;
     onPageChange: (page: number) => void;
 }
 
-const Paginering: React.FC<Props> = ({pageCount, initialPage = 0, onPageChange, forcePage}) => {
-    const handlePageClick = (value: any) => {
-        onPageChange(value.selected);
-    };
-
-    const buildHref = (value: any) => {
-        return "?side=" + value;
-    };
-
+const Paginering: React.FC<Props> = ({pageCount, page, onPageChange}) => {
     return (
-        <ReactPaginate
-            initialPage={initialPage}
-            pageCount={pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={3}
-            disableInitialCallback={true}
-            onPageChange={(value: any) => handlePageClick(value)}
-            previousLabel={"<"}
-            nextLabel={">"}
-            breakLabel={"..."}
+        <Pagination
+            page={page}
+            count={pageCount}
+            onPageChange={onPageChange}
+            boundaryCount={2}
+            siblingCount={3}
+            // initialPage={initialPage}
+            // pageCount={pageCount}
+            // marginPagesDisplayed={2}
+            // pageRangeDisplayed={3}
+            // disableInitialCallback={true}
+            // onPageChange={(value: any) => handlePageClick(value)}
+            // previousLabel={"<"}
+            // nextLabel={">"}
+            // breakLabel={"..."}
             // breakClassName={'break-me'}
-            containerClassName={"pagination"}
-            activeClassName={"active"}
-            forcePage={forcePage}
-            hrefBuilder={(value: any) => buildHref(value)}
+            // containerClassName={"pagination"}
+            // activeClassName={"active"}
+            // forcePage={forcePage}
+            // hrefBuilder={(value: any) => buildHref(value)}
             // extraAriaContext={"Side"} // Deprecated
             // Prop 'ariaLabelBuilder' mangler i d.ts filen:
             // Erstatt 'extraAriaContext' med dette når det eventuelt kommer:

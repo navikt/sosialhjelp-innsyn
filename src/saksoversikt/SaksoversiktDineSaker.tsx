@@ -1,18 +1,18 @@
-import React from "react";
+import React, {useMemo, useState} from "react";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
-import Paginering from "../components/paginering/Paginering";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import {logButtonOrLinkClick} from "../utils/amplitude";
-import {Button, Heading, Panel} from "@navikt/ds-react";
+import {Box, Button, Heading, Pagination, Panel, VStack} from "@navikt/ds-react";
 import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
 import {SaksListeResponse} from "../generated/model";
 import styles from "../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
-import {useRouter} from "next/router";
+import useIsMobile from "../utils/useIsMobile";
+import {chunk} from "remeda";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -32,48 +32,44 @@ const StyledHeading = styled(Heading)`
     white-space: nowrap;
 `;
 
-const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
-    const router = useRouter();
-    const {t} = useTranslation();
+const StyledBox = styled(Box)`
+    max-width: 100%;
+`;
 
+const StyledPagination = styled(Pagination)`
+    max-width: 100%;
+`;
+
+const itemsPerPage = 10;
+
+const sammenlignSaksTidspunkt = (a: SaksListeResponse, b: SaksListeResponse) => {
+    if (isAfter(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
+        return -1;
+    }
+    if (isBefore(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
+        return 1;
+    }
+    return 0;
+};
+
+const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
+    const {t} = useTranslation();
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
+
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
-    function sammenlignSaksTidspunkt(a: SaksListeResponse, b: SaksListeResponse) {
-        if (isAfter(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
-            return -1;
-        }
-        if (isBefore(Date.parse(a.sistOppdatert), Date.parse(b.sistOppdatert))) {
-            return 1;
-        }
-        return 0;
-    }
-    saker.sort(sammenlignSaksTidspunkt);
-
+    const sorterteSaker = useMemo(() => saker.toSorted(sammenlignSaksTidspunkt), [saker]);
     /* Paginering */
-    const itemsPerPage = 10;
-    let currentPage = 0;
-    const pageParam = router.query["side"];
-    if (pageParam) {
-        let parsedPageNumber = parseInt(pageParam.toString(), 10);
-        if (!isNaN(parsedPageNumber)) {
-            currentPage = parsedPageNumber - 1;
-        }
-    }
-    const lastPage = Math.ceil(saker.length / itemsPerPage);
-    if (currentPage >= lastPage) {
-        router.push({search: "?side=" + lastPage});
-    }
-    const paginerteSaker: SaksListeResponse[] = saker.slice(
-        currentPage * itemsPerPage,
-        currentPage * itemsPerPage + itemsPerPage
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageCount = Math.ceil(saker.length / itemsPerPage);
+
+    const paginerteSaker: SaksListeResponse[] = useMemo(
+        () => chunk(sorterteSaker, itemsPerPage)[currentPage - 1],
+        [sorterteSaker, itemsPerPage, currentPage]
     );
 
-    const handlePageClick = (page: number) => {
-        router.push({search: "?side=" + (page + 1)});
-    };
-    // noinspection HtmlUnknownTarget
+    const isMobile = useIsMobile();
     return (
         <>
             <DineUtbetalingerPanel />
@@ -105,11 +101,18 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                     ))}
                 </ul>
                 {saker.length > itemsPerPage && (
-                    <Paginering
-                        pageCount={lastPage}
-                        forcePage={currentPage}
-                        onPageChange={(page: number) => handlePageClick(page)}
-                    />
+                    <VStack align="center" justify="center">
+                        <StyledBox padding="4">
+                            <StyledPagination
+                                size={isMobile ? "small" : undefined}
+                                page={currentPage}
+                                count={pageCount}
+                                onPageChange={(x) => setCurrentPage(x)}
+                                siblingCount={isMobile ? 0 : 1}
+                                boundaryCount={1}
+                            />
+                        </StyledBox>
+                    </VStack>
                 )}
             </section>
 
