@@ -25,7 +25,10 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
-export const erDetteAapnet = (dagensDato: Date, utbetalingsDato: Date) => {
+export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
+    const utbetalingsDato: Date = new Date(utbetalingsdato ?? "");
+    if (utbetalingsdato == "") return false;
+
     let femtenDagerSidenDate: Date = new Date();
     femtenDagerSidenDate.setDate(new Date(dagensDato).getDate() - 15);
     femtenDagerSidenDate.setHours(0, 0, 0, 0);
@@ -45,7 +48,7 @@ export const erDetteAapnet = (dagensDato: Date, utbetalingsDato: Date) => {
 
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(erDetteAapnet(new Date(), new Date(utbetalingManed.utbetalingsdato)));
+    const [isOpen, setIsOpen] = useState(erDetteAapnet(new Date(), utbetalingManed.utbetalingsdato));
 
     return (
         <>

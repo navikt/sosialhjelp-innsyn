@@ -20,17 +20,25 @@ it("should filter by receiver of money", () => {
 });
 
 it("Utbetalingsdetaljer skal være lukket når utbetalingsdato er 16 dager tilbake i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), new Date("2023-12-29"))).toBe(false);
+    expect(erDetteAapnet(new Date("2024-01-14"), "2023-12-29")).toBe(false);
 });
 
 it("Utbetalingsdetaljer skal være åpnet når utbetalingsdato er 15 dager tilbake i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), new Date("2023-12-30"))).toBe(true);
+    expect(erDetteAapnet(new Date("2024-01-14"), "2023-12-30")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være åpnet når utbetalingsdato er 15 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), new Date("2024-01-29"))).toBe(true);
+    expect(erDetteAapnet(new Date("2024-01-14"), "2024-01-29")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være lukket når utbetalingsdato er 16 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), new Date("2024-01-30"))).toBe(false);
+    expect(erDetteAapnet(new Date("2024-01-14"), "2024-01-30")).toBe(false);
+});
+
+it("Utbetalingsdetaljer skal være lukket når utbetalingsdato ikke er definert", () => {
+    expect(erDetteAapnet(new Date("2024-01-14"), "")).toBe(false);
+});
+
+it("Utbetalingsdetaljer skal være lukket når utbetalingsdato er null", () => {
+    expect(erDetteAapnet(new Date("2024-01-14"), null)).toBe(false);
 });
