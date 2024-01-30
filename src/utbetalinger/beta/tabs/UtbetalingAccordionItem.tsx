@@ -26,18 +26,21 @@ interface Props {
 }
 
 export const erDetteAapnet = (dagensDato: Date, utbetalingsDato: Date) => {
-    console.log("dagensDato:", dagensDato);
-    console.log("utbetalingsDato:", utbetalingsDato);
+    let femtenDagerSidenDate: Date = new Date();
+    femtenDagerSidenDate.setDate(new Date(dagensDato).getDate() - 15);
+    femtenDagerSidenDate.setHours(0, 0, 0, 0);
 
-    const femtenDagerSideDate: Date = dagensDato;
-    femtenDagerSideDate.setDate(femtenDagerSideDate.getDate() - 15);
-    console.log("femtenDagerSideDate:", femtenDagerSideDate);
+    let femtenDagertilDate: Date = new Date();
+    femtenDagertilDate.setDate(new Date(dagensDato).getDate() + 15);
+    femtenDagertilDate.setHours(1, 0, 0, 0);
 
-    const femtenDagertilDate: Date = dagensDato;
-    femtenDagertilDate.setDate(femtenDagertilDate.getDate() + 15);
-    console.log("femtenDagertilDate:", femtenDagertilDate);
+    const erUtbetalingsdatoInnenDeSisteFemtenDagene =
+        utbetalingsDato >= femtenDagerSidenDate && utbetalingsDato <= dagensDato;
 
-    return utbetalingsDato >= femtenDagerSideDate && utbetalingsDato <= femtenDagertilDate;
+    const erUtbetalingsdatoInnenDeNesteFemtenDagene =
+        utbetalingsDato <= femtenDagertilDate && utbetalingsDato >= dagensDato;
+
+    return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
 };
 
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
