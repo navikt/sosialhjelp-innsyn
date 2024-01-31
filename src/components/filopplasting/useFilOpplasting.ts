@@ -13,8 +13,6 @@ import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
-import {useRouter} from "next/router";
-import {useTranslation} from "next-i18next";
 
 export interface Metadata {
     type: string;
@@ -82,7 +80,6 @@ const useFilOpplasting = (
         {fiksDigisosId: string; data: SendVedleggBody}
     >
 ) => {
-    const {t} = useTranslation();
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const {isPending, mutate, error, isError, data} = useSendVedlegg();
@@ -91,7 +88,6 @@ const useFilOpplasting = (
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
     const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
-    const router = useRouter();
 
     const resetStatus = useCallback(() => {
         setInnerErrors(recordFromMetadatas(metadatas));
@@ -107,33 +103,17 @@ const useFilOpplasting = (
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
-    const [leaveConfirmed, setLeaveConfirmed] = useState(false);
 
     useEffect(() => {
-        const beforeUnloadHandler = (event: WindowEventMap["beforeunload"]) => {
+        const alertUser = (event: WindowEventMap["beforeunload"]) => {
             if (!allFiles.length) return;
             event.preventDefault();
             event.returnValue = "";
-            return "";
         };
-        const beforeRouteHandler = () => {
-            if (!allFiles.length) return;
-            if (leaveConfirmed) return;
-            if (window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
-                setLeaveConfirmed(true);
-            } else {
-                router.events.emit("routeChangeError");
-                throw `Route change was aborted (this error can be safely ignored)`;
-            }
-        };
-        window.addEventListener("beforeunload", beforeUnloadHandler);
-        router.events.on("routeChangeStart", beforeRouteHandler);
 
-        return () => {
-            setLeaveConfirmed(false);
-            window.removeEventListener("beforeunload", beforeUnloadHandler);
-            router.events.off("routeChangeStart", beforeRouteHandler);
-        };
+        window.addEventListener("beforeunload", alertUser);
+
+        return () => window.removeEventListener("beforeunload", alertUser);
     }, [allFiles]);
 
     const addFiler = useCallback(
