@@ -17,6 +17,6 @@
         "noFallthroughCasesInSwitch": true,
         "incremental": true
     },
-    "include": ["./src", "./src/pages"],
+    "include": ["./src", "./src/pages", "@types/i18next.d.ts"],
     "exclude": ["node_modules"]
 }
