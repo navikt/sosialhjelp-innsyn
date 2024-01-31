@@ -1,18 +1,18 @@
-import React, {useMemo, useState} from "react";
+import React, {useMemo} from "react";
 import {isAfter, isBefore} from "date-fns";
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import {logButtonOrLinkClick} from "../utils/amplitude";
-import {Box, Button, Heading, Pagination, Panel, VStack} from "@navikt/ds-react";
+import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
 import {SaksListeResponse} from "../generated/model";
-import styles from "../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
 import useIsMobile from "../utils/useIsMobile";
-import {chunk} from "remeda";
+import PaginertListe from "../components/paginering/PaginertListe";
+import {sort} from "remeda";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -30,14 +30,6 @@ const StyledDineSoknaderPanel = styled(Panel)`
 
 const StyledHeading = styled(Heading)`
     white-space: nowrap;
-`;
-
-const StyledBox = styled(Box)`
-    max-width: 100%;
-`;
-
-const StyledPagination = styled(Pagination)`
-    max-width: 100%;
 `;
 
 const itemsPerPage = 10;
@@ -59,16 +51,8 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
 
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
-    const sorterteSaker = useMemo(() => saker.toSorted(sammenlignSaksTidspunkt), [saker]);
+    const sorterteSaker = useMemo(() => sort(saker, sammenlignSaksTidspunkt), [saker]);
     /* Paginering */
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageCount = Math.ceil(saker.length / itemsPerPage);
-
-    const paginerteSaker: SaksListeResponse[] = useMemo(
-        () => chunk(sorterteSaker, itemsPerPage)[currentPage - 1],
-        [sorterteSaker, itemsPerPage, currentPage]
-    );
-
     const isMobile = useIsMobile();
     return (
         <>
@@ -87,8 +71,8 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                         {t("nySoknad")}
                     </Button>
                 </StyledDineSoknaderPanel>
-                <ul className={styles.unorderedList}>
-                    {paginerteSaker.map((sak: SaksListeResponse) => (
+                <PaginertListe countPerPage={itemsPerPage} variant={isMobile ? "last_flere" : "paginert"}>
+                    {sorterteSaker.map((sak: SaksListeResponse) => (
                         <li key={sak.fiksDigisosId ?? sak.soknadTittel}>
                             <SakPanel
                                 fiksDigisosId={sak.fiksDigisosId}
@@ -99,21 +83,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                             />
                         </li>
                     ))}
-                </ul>
-                {saker.length > itemsPerPage && (
-                    <VStack align="center" justify="center">
-                        <StyledBox padding="4">
-                            <StyledPagination
-                                size={isMobile ? "small" : undefined}
-                                page={currentPage}
-                                count={pageCount}
-                                onPageChange={(x) => setCurrentPage(x)}
-                                siblingCount={isMobile ? 0 : 1}
-                                boundaryCount={1}
-                            />
-                        </StyledBox>
-                    </VStack>
-                )}
+                </PaginertListe>
             </section>
 
             <section aria-labelledby="relatert-informasjon">
