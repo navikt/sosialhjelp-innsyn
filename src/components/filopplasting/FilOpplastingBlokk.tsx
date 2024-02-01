@@ -65,8 +65,20 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
         >
             <div className="errorwrapper">
                 <div className={styles.tekstWrapping}>
-                    {props.tittel ? <Label as="p">{props.tittel}</Label> : <></>}
-                    {props.beskrivelse ? <BodyShort spacing>{props.beskrivelse}</BodyShort> : <></>}
+                    {props.tittel ? (
+                        <Label as="p" lang="no">
+                            {props.tittel}
+                        </Label>
+                    ) : (
+                        <></>
+                    )}
+                    {props.beskrivelse ? (
+                        <BodyShort spacing lang="no">
+                            {props.beskrivelse}
+                        </BodyShort>
+                    ) : (
+                        <></>
+                    )}
                 </div>
                 {addFileButton}
                 <ErrorMessagePlaceholder>

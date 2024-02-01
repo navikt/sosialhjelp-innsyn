@@ -78,9 +78,11 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                 <StyledFileIcon width="2rem" aria-hidden />
                 <StyledSaksDetaljer>
                     <span>
-                        <Label as="p">{oppdatertTittel}</Label>
+                        <Label as="p" lang="no">
+                            {oppdatertTittel}
+                        </Label>
                         {!saksdetaljer ? (
-                            <Detail>
+                            <Detail lang="no">
                                 SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                             </Detail>
                         ) : (
