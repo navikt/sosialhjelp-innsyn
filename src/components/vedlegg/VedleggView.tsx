@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 import {formatBytes} from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import Paginering from "../paginering/Paginering";
 import EttersendelseView from "../ettersendelse/EttersendelseView";
 import {getVisningstekster} from "../../utils/vedleggUtils";
-import {Alert, Link, Select, SortState, Table} from "@navikt/ds-react";
+import {Alert, Box, Button, Link, Pagination, Select, SortState, Table, VStack} from "@navikt/ds-react";
 import styled from "styled-components";
 import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
 import {VedleggResponse} from "../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "next-i18next";
 import {FileCheckmarkIcon} from "@navikt/aksel-icons";
+import {chunk, sort, take} from "remeda";
+import useIsMobile from "../../utils/useIsMobile";
 
 const Vedleggliste = styled.div`
     margin-top: 1rem;
@@ -129,17 +130,17 @@ const strCompare = (a: string, b: string) => {
 const sorterVedlegg = (vedlegg: VedleggResponse[], kolonne: string, descending: boolean) => {
     switch (kolonne) {
         case Kolonne.DATO:
-            return [].slice.call(vedlegg).sort((a: VedleggResponse, b: VedleggResponse) => {
+            return sort(vedlegg, (a: VedleggResponse, b: VedleggResponse) => {
                 return descending
                     ? Date.parse(b.datoLagtTil) - Date.parse(a.datoLagtTil)
                     : Date.parse(a.datoLagtTil) - Date.parse(b.datoLagtTil);
             });
         case Kolonne.FILNAVN:
-            return [].slice.call(vedlegg).sort((a: VedleggResponse, b: VedleggResponse) => {
+            return sort(vedlegg, (a: VedleggResponse, b: VedleggResponse) => {
                 return descending ? strCompare(a.filnavn, b.filnavn) : strCompare(b.filnavn, a.filnavn);
             });
         case Kolonne.BESKRIVELSE:
-            return [].slice.call(vedlegg).sort((a: VedleggResponse, b: VedleggResponse) => {
+            return sort(vedlegg, (a: VedleggResponse, b: VedleggResponse) => {
                 return descending ? strCompare(a.type, b.type) : strCompare(b.type, a.type);
             });
         default:
@@ -156,25 +157,26 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
+const itemsPerPage = 10;
+
 const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
     const {t} = useTranslation();
+    const isMobile = useIsMobile();
     const {data: vedlegg, isLoading, isError} = useHentVedlegg(fiksDigisosId);
-    const [currentPage, setCurrentPage] = useState<number>(0);
-    const [sortState, setSortState] = useState<SortState | undefined>(defaultSortState);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
+    const [sortState, setSortState] = useState<SortState | undefined>(defaultSortState);
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.vedlegg_innlasting")}</StyledTextPlacement>;
     }
     if (isLoading && !vedlegg) {
         return <Lastestriper />;
     }
-
     const onSortChange = (sortKey?: string) => {
         if (!sortKey) {
             console.error("should not get here");
             return;
         }
-
         setSortState(
             sortState && sortKey === sortState.orderBy && sortState.direction === "descending"
                 ? undefined
@@ -187,7 +189,6 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                   }
         );
     };
-
     const selectSort = (event: any) => {
         const sortDirection = event.target.value === Kolonne.DATO ? "descending" : "ascending";
         setSortState({orderBy: event.target.value, direction: sortDirection});
@@ -197,15 +198,11 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
     const sorterteVedlegg = sortState
         ? sorterVedlegg(vedlegg ?? [], sortState.orderBy, sortState.direction === "descending")
         : sorterVedlegg(vedlegg ?? [], defaultSortState.orderBy, defaultSortState.direction === "descending");
-
     /* Paginering */
-    const itemsPerPage = 10;
-    const lastPage = Math.ceil(sorterteVedlegg.length / itemsPerPage);
-    const paginerteVedlegg = sorterteVedlegg.slice(currentPage * 10, currentPage * 10 + 10);
-
-    const handlePageClick = (page: number) => {
-        setCurrentPage(page);
-    };
+    const pageCount = Math.ceil(sorterteVedlegg.length / itemsPerPage);
+    const paginerteVedlegg = isMobile
+        ? take(sorterteVedlegg, itemsPerPage * currentPage)
+        : chunk(sorterteVedlegg, itemsPerPage)[currentPage - 1] ?? [];
 
     function harFeilPaVedleggFraServer(vedlegg: VedleggResponse) {
         return vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1;
@@ -286,13 +283,24 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
                         ))}
                     </Table.Body>
                 </StyledTable>
-                {sorterteVedlegg.length > itemsPerPage && (
-                    <Paginering
-                        initialPage={0}
-                        pageCount={lastPage}
-                        onPageChange={(page: number) => handlePageClick(page)}
-                    />
-                )}
+                <VStack align="center" justify="center">
+                    <Box padding="4">
+                        {isMobile && currentPage < pageCount && (
+                            <Button variant="tertiary" onClick={() => setCurrentPage((prev) => prev + 1)}>
+                                Last inn flere
+                            </Button>
+                        )}
+                        {!isMobile && sorterteVedlegg.length > itemsPerPage && (
+                            <Pagination
+                                page={currentPage}
+                                count={pageCount}
+                                onPageChange={(x) => setCurrentPage(x)}
+                                siblingCount={isMobile ? 0 : 1}
+                                boundaryCount={1}
+                            />
+                        )}
+                    </Box>
+                </VStack>
             </Vedleggliste>
         </>
     );
