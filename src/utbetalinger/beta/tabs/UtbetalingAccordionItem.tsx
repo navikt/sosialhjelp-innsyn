@@ -26,16 +26,49 @@ interface Props {
 }
 
 export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
+    /** feb -         02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 - dato fremover - feb */
+    //                00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 - dager
+    /** feb til jan - 02 01 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 - dato tilbake - feb til jan*/
+    //console.log("start dagens dato", dagensDato);
+    //console.log("start utbetalingsdato", utbetalingsdato);
     const utbetalingsDato: Date = new Date(utbetalingsdato ?? "");
     if (utbetalingsdato == "") return false;
 
     let femtenDagerSidenDate: Date = new Date();
     femtenDagerSidenDate.setDate(new Date(dagensDato).getDate() - 15);
     femtenDagerSidenDate.setHours(0, 0, 0, 0);
+    console.log(
+        "utbetalingsdato",
+        utbetalingsdato,
+        "\n",
+        "dagensdato",
+        dagensDato,
+        "\n",
+        "femten dager siden",
+        femtenDagerSidenDate,
+        "\n",
+        "femten dager siden utregning",
+        new Date(dagensDato).getDate() - 15
+    );
 
     let femtenDagertilDate: Date = new Date();
     femtenDagertilDate.setDate(new Date(dagensDato).getDate() + 15);
     femtenDagertilDate.setHours(1, 0, 0, 0);
+    console.log(
+        "utbetalingsdato",
+        utbetalingsdato,
+        "\n",
+        "dagensdato",
+        dagensDato,
+        "\n",
+        "femten dager fremover",
+        femtenDagertilDate,
+        "\n",
+        "femten dager til utregning",
+        new Date(dagensDato).getDate() + 15
+    );
+
+    console.log("new Date(dagensDato).getDate()", new Date(dagensDato).getDate());
 
     const erUtbetalingsdatoInnenDeSisteFemtenDagene =
         utbetalingsDato >= femtenDagerSidenDate && utbetalingsDato <= dagensDato;
