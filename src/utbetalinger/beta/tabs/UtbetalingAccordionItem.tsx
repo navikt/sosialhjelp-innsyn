@@ -34,7 +34,7 @@ export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
 
     if (utbetalingsdato == "") return false;
     //const utbetalingsDato: Date = new Date(new Date(utbetalingsdato).getTime());
-    const utbetalingsDato: Date = new Date(utbetalingsdato);
+    const utbetalingsDato: Date = utbetalingsdato && new Date(utbetalingsdato);
 
     const femtenDagerSidenDate: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
     femtenDagerSidenDate.setHours(0, 0, 0, 0);
