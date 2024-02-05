@@ -26,38 +26,43 @@ interface Props {
 }
 
 export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
-    ///** feb -         02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 - dato fremover - feb */
-    ////                00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 - dager
-    ///** feb til jan - 02 01 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 - dato tilbake - feb til jan*/
-    //
-    //console.log("new Date()", new Date());
-    //
-    //if (utbetalingsdato == "") return false;
-    ////const utbetalingsDato: Date = new Date(new Date(utbetalingsdato).getTime());
+    /** feb -         02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 - dato fremover - feb */
+    //                00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 - dager
+    /** feb til jan - 02 01 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 - dato tilbake - feb til jan*/
+
+    if (utbetalingsdato == "") return false;
+    const utbetalingsDato: Date = utbetalingsdato && new Date(new Date(utbetalingsdato).getTime());
     //const utbetalingsDato: Date = utbetalingsdato && new Date(utbetalingsdato);
-    //
-    //const femtenDagerSidenDate: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
-    //femtenDagerSidenDate.setHours(0, 0, 0, 0);
-    //console.log("femtendagersiden før setDate", femtenDagerSidenDate);
-    //console.log("utbetalingsdato", utbetalingsdato);
-    //console.log("dagensdato", dagensDato);
-    ////05 04 03 02 01 31 30 29 28 27 26 25 24 23 22 21 20 19
-    ////00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17
-    //
-    //let femtenDagertilDate: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
-    //femtenDagertilDate.setHours(0, 0, 0, 0);
-    //console.log("femtenDagertilDate før setDate", femtenDagertilDate);
-    //console.log("utbetalingsdato", utbetalingsdato);
-    //console.log("dagensdato", dagensDato);
-    //
-    //const erUtbetalingsdatoInnenDeSisteFemtenDagene =
-    //    utbetalingsDato >= femtenDagerSidenDate && utbetalingsDato <= dagensDato;
-    //
-    //const erUtbetalingsdatoInnenDeNesteFemtenDagene =
-    //    utbetalingsDato <= femtenDagertilDate && utbetalingsDato >= dagensDato;
-    //
-    //return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
-    return false;
+
+    const femtenDagerSidenDate: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
+    femtenDagerSidenDate.setHours(0, 0, 0, 0);
+    //05 04 03 02 01 31 30 29 28 27 26 25 24 23 22 21 20 19
+    //00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17
+
+    let femtenDagertilDate: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
+    femtenDagertilDate.setHours(1, 0, 0, 0);
+
+    const erUtbetalingsdatoInnenDeSisteFemtenDagene =
+        utbetalingsDato >= femtenDagerSidenDate && utbetalingsDato <= dagensDato;
+
+    const erUtbetalingsdatoInnenDeNesteFemtenDagene =
+        utbetalingsDato <= femtenDagertilDate && utbetalingsDato >= dagensDato;
+
+    console.log("dagensDato", dagensDato);
+    console.log("utbetalingsDato", utbetalingsDato);
+    console.log("femtenDagerSidenDate", femtenDagerSidenDate);
+    console.log("utbetalingsDato", utbetalingsDato);
+    console.log("femtenDagertilDate", femtenDagertilDate);
+    console.log("erUtbetalingsdatoInnenDeSisteFemtenDagene", erUtbetalingsdatoInnenDeSisteFemtenDagene);
+    console.log("erUtbetalingsdatoInnenDeNesteFemtenDagene", erUtbetalingsdatoInnenDeNesteFemtenDagene);
+    console.log(
+        "erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene",
+        erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene
+    );
+    console.log("-------------------------------------------------------");
+
+    return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
+    //return false;
 };
 
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
