@@ -31,7 +31,8 @@ export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
     /** feb til jan - 05 04 03 02 01 31 30 29 28 27 26 25 24 23 22 |21| 20 19 18 - dato tilbake - feb til jan*/
 
     if (utbetalingsdato == "") return false;
-    const utbetalingsDato: Date = new Date(new Date(utbetalingsdato).getTime()) as Date;
+    const utbetalingsDato: Date = new Date(utbetalingsdato ?? "");
+    //const utb: Date = new Date(utbetalingsDato.getTime());
     //const utbetalingsDato: Date = utbetalingsdato && new Date(utbetalingsdato);
 
     const femtenDagerSidenDate: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
@@ -50,6 +51,7 @@ export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
 
     console.log("dagensDato", dagensDato);
     console.log("utbetalingsDato", utbetalingsDato);
+    //console.log("utb", utb);
     console.log("femtenDagerSidenDate", femtenDagerSidenDate);
     console.log("utbetalingsDato", utbetalingsDato);
     console.log("femtenDagertilDate", femtenDagertilDate);
