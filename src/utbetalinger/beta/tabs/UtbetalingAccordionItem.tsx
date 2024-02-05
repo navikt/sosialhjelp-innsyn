@@ -25,7 +25,7 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
-export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
+export const erDetteAapnet = (dagensDato: Date, utbetalingsdato: string) => {
     /** feb -         02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 - dato fremover - feb */
     //                00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 - dager
     /** feb til jan - 02 01 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 - dato tilbake - feb til jan*/
