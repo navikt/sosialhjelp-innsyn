@@ -7,6 +7,7 @@ import {useTranslation} from "next-i18next";
 import {SoknadsStatusResponseStatus} from "../../generated/model";
 
 const HeadingWrapper = styled.div`
+    margin-bottom: 2rem;
     text-align: center;
 `;
 
@@ -30,7 +31,6 @@ const SoknadsStatusHeading = (props: Props) => {
                 {soknadsStatusTittel(props.soknadsStatus, t)}
             </Heading>
             <SoknadsStatusLenke status={props.soknadsStatus} />
-            <ContentPanelBorder borderspace="1rem 0" bordercolor="var(--a-border-divider)" />
         </HeadingWrapper>
     );
 };

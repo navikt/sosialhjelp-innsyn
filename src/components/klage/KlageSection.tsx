@@ -13,7 +13,6 @@ import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-s
 import {useTranslation} from "next-i18next";
 import {useFlag} from "../../featuretoggles/context";
 import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
-import {ContentPanelBorder} from "../soknadsStatus/SoknadsStatusHeading";
 
 const StyledKlageList = styled(List)`
     border-bottom: 2px solid var(--a-border-divider);
@@ -21,7 +20,6 @@ const StyledKlageList = styled(List)`
 `;
 
 const InfoBoks = styled("p")`
-    padding-top: 1rem;
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -64,7 +62,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     if (!klageFlag.enabled) {
         return (
             <Panel header={t("klage.papirskjema.header")}>
-                <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                 <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
@@ -93,7 +90,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     if (isLoading || saksStatuserIsLoading) {
         return (
             <Panel header="Dine klager">
-                <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
                 <Lastestriper />
             </Panel>
         );
@@ -106,7 +102,6 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const kanKlage = vedtak.length > 0;
     return (
         <Panel header="Dine klager">
-            <ContentPanelBorder borderspace="0" bordercolor="var(--a-border-divider)" />
             {data && data.length > 0 && (
                 <>
                     <StyledKlageList as="ul">

@@ -1,8 +1,9 @@
 {
   "app.tittel": "Økonomisk sosialhjelp",
-  "historikk.tittel": "Historikk",
+  "historikk.tittel": "Dette har skjedd i saka",
   "historikk.se_vedtaksbrev": "Vis brevet",
   "historikk.vis_alle": "Vis alle",
+  "historikk.se_hele_prosessen" : "Sjå hela prosessen",
   "historikk.lukk": "Lukk",
 
   "hendelse.soknad_sendt_til_kontor": "Søknaden med vedlegg er send til <1>{{tekstArgument}}</1> kommune.",

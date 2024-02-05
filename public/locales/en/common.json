@@ -1,9 +1,10 @@
 
 {
   "app.tittel": "Financial assistance",
-  "historikk.tittel": "History",
+  "historikk.tittel": "This has happened in the case",
   "historikk.se_vedtaksbrev": "Show letter",
   "historikk.vis_alle": "Show all",
+  "historikk.se_hele_prosessen" : "See the whole process",
   "historikk.lukk": "Close",
 
   "hendelse.soknad_sendt_til_kontor": "The application with attachments has been sent to <1>{{tekstArgument}}</1> municipality.",
