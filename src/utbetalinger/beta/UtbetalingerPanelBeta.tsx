@@ -86,7 +86,6 @@ const UtbetalingerPanelBeta = () => {
                     <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
-                    <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
                     <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>

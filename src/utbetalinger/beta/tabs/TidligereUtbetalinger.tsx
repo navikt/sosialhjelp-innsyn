@@ -1,6 +1,6 @@
 import React from "react";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
-import {Alert} from "@navikt/ds-react";
+import {Alert, BodyLong} from "@navikt/ds-react";
 import ManedGruppe from "./ManedGruppe";
 import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
@@ -9,7 +9,7 @@ import {useTranslation} from "next-i18next";
 import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 import {ManedUtbetaling} from "../../../generated/model";
 
-const TidligerUtbetalinger = () => {
+const TidligerUtbetalingerInnhold = () => {
     const {data, isLoading, isError} = useHentTidligereUtbetalinger({
         query: {
             select: (data) => {
@@ -55,6 +55,16 @@ const TidligerUtbetalinger = () => {
             {filtrerteTidligere.map((utbetalingSak: UtbetalingerResponseMedId) => (
                 <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
+        </>
+    );
+};
+const TidligerUtbetalinger = () => {
+    const {t} = useTranslation("utbetalinger");
+
+    return (
+        <>
+            <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
+            <TidligerUtbetalingerInnhold />
         </>
     );
 };
