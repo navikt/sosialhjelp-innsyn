@@ -58,6 +58,7 @@ const TidligerUtbetalingerInnhold = () => {
         </>
     );
 };
+
 const TidligerUtbetalinger = () => {
     const {t} = useTranslation("utbetalinger");
 

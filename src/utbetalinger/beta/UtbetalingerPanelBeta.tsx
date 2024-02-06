@@ -50,6 +50,7 @@ const UtbetalingerPanelBeta = () => {
             },
         },
     });
+
     useEffect(() => {
         if (!nyeLogged && nye && nye.length > 0) {
             const sisteManedgruppe = nye[nye.length - 1].utbetalingerForManed;
