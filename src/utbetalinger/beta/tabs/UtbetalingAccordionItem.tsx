@@ -25,28 +25,28 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
-export const erDetteAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
+export const utbetalingsdetaljerDefaultAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
     if (utbetalingsdato == "") return false;
     const utbetalingsDato: Date = new Date(utbetalingsdato ?? "");
 
-    const femtenDagerSidenDate: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
-    femtenDagerSidenDate.setHours(0, 0, 0, 0);
+    const femtenDagerSiden: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
+    femtenDagerSiden.setHours(0, 0, 0, 0);
 
-    let femtenDagertilDate: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
-    femtenDagertilDate.setHours(1, 0, 0, 0);
+    let femtenDagerTil: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
+    femtenDagerTil.setHours(1, 0, 0, 0);
 
     const erUtbetalingsdatoInnenDeSisteFemtenDagene =
-        utbetalingsDato >= femtenDagerSidenDate && utbetalingsDato <= dagensDato;
+        utbetalingsDato >= femtenDagerSiden && utbetalingsDato <= dagensDato;
 
     const erUtbetalingsdatoInnenDeNesteFemtenDagene =
-        utbetalingsDato <= femtenDagertilDate && utbetalingsDato >= dagensDato;
+        utbetalingsDato <= femtenDagerTil && utbetalingsDato >= dagensDato;
 
     return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
 };
 
 const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
     const {t, i18n} = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(erDetteAapnet(new Date(), utbetalingManed.utbetalingsdato));
+    const [isOpen, setIsOpen] = useState(utbetalingsdetaljerDefaultAapnet(new Date(), utbetalingManed.utbetalingsdato));
 
     return (
         <>

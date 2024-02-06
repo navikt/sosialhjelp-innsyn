@@ -2,7 +2,7 @@
 import {mockUtbetalinger, summerAntallUtbetalinger} from "./Utbetalinger.testdata";
 import {UtbetalingerResponse} from "../generated/model";
 import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
-import {erDetteAapnet} from "./beta/tabs/UtbetalingAccordionItem";
+import {utbetalingsdetaljerDefaultAapnet} from "./beta/tabs/UtbetalingAccordionItem";
 
 it("should filter by time interval", () => {
     const utbetalingerMaaned: UtbetalingerResponse[] = mockUtbetalinger;
@@ -20,44 +20,44 @@ it("should filter by receiver of money", () => {
 });
 /**/
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 18 dager tilbake i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2023-12-27")).toBe(false);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-27")).toBe(false);
 });
 
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 16 dager tilbake i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2023-12-29")).toBe(false);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-29")).toBe(false);
 });
 
 it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er 15 dager tilbake i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2023-12-30")).toBe(true);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-30")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er 14 dager tilbake i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2023-12-31")).toBe(true);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-31")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er dags dato", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2024-01-14")).toBe(true);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2024-01-14")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er 14 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2024-01-28")).toBe(true);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2024-01-28")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er 15 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2024-01-29")).toBe(true);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2024-01-29")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 16 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2024-01-30")).toBe(false);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2024-01-30")).toBe(false);
 });
 
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 18 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2024-02-02")).toBe(false);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2024-02-02")).toBe(false);
 });
 
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 18 dager frem i tid", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "2024-02-02")).toBe(false);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2024-02-02")).toBe(false);
 });
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato ikke er definert", () => {
-    expect(erDetteAapnet(new Date("2024-01-14"), "")).toBe(false);
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "")).toBe(false);
 });
