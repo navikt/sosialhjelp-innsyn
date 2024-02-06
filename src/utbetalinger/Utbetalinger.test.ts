@@ -18,13 +18,21 @@ it("should filter by receiver of money", () => {
     expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, false))).toBe(0);
     expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, true))).toBe(2);
 });
-/**/
+
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 18 dager tilbake i tid", () => {
     expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-27")).toBe(false);
 });
 
+it("Utbetalingsdetaljer skal være lukket når utbetalingsdato er 16 dager tilbake i tid, datoer samme måned", () => {
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-20"), "2024-01-04")).toBe(false);
+});
+
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 16 dager tilbake i tid", () => {
     expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-29")).toBe(false);
+});
+
+it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er 15 dager tilbake i tid, datoer samme måned", () => {
+    expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-20"), "2024-01-05")).toBe(true);
 });
 
 it("Utbetalingsdetaljer skal være åpen når utbetalingsdato er 15 dager tilbake i tid", () => {
