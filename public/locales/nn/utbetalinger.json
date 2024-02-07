@@ -57,5 +57,7 @@
   "utbetalingsmetode.kronekort": "Kronekort",
   "utbetalingsmetode.giro": "Giro",
   "utbetalingsmetode.postgiro": "Postgiro",
-  "utbetalingsmetode.garanti": "Garanti"
+  "utbetalingsmetode.garanti": "Garanti",
+
+  "varsling.kommende.utbetalinger": "Vi har for tida problema med å vise planlagte utbetalingar. Du kan se desse i vedtaksbrevet ditt, eller få informasjon om dei ved å kontakte oss på telefon 55 55 33 33."
 }
