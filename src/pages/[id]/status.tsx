@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Alert, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useTranslation} from "next-i18next";
 import useKommune from "../../hooks/useKommune";
@@ -96,9 +96,6 @@ const SaksStatusView: NextPage = () => {
                     <DriftsmeldingAlertstripe />
 
                     <ForelopigSvarAlertstripe />
-                    <Alert variant={"warning"} style={{marginBottom: "4rem"}}>
-                        {t("varsling.kommende.utbetalinger")}
-                    </Alert>
 
                     <SoknadsStatus />
                     <FilUploadSuccesfulProvider>
