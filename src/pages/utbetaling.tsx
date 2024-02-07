@@ -65,7 +65,7 @@ const Utbetalinger: NextPage = () => {
             </Head>
             <FilterProvider>
                 <div className={styles.utbetalinger_side}>
-                    <Alert variant={"warning"} style={{marginBottom: "3rem"}}>
+                    <Alert variant={"warning"} style={{marginBottom: "3rem", marginLeft: "auto", marginRight: "auto"}}>
                         {t("varsling.kommende.utbetalinger")}
                     </Alert>
                     <div className={styles.utbetalinger_side_innhold}>
