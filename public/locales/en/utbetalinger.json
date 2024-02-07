@@ -57,5 +57,7 @@
   "utbetalingsmetode.kronekort": "Payment card",
   "utbetalingsmetode.giro": "Bank giro transfer",
   "utbetalingsmetode.postgiro": "Postal giro",
-  "utbetalingsmetode.garanti": "Guarantee"
+  "utbetalingsmetode.garanti": "Guarantee",
+
+  "varsling.kommende.utbetalinger": "We are currently having problems displaying scheduled payouts. You can see these in your decision letter, or get information about them by contacting us on 55 55 33 33."
 }

@@ -6,16 +6,16 @@ import {useHarSoknaderMedInnsyn} from "../generated/soknad-med-innsyn-controller
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
 import {FilterProvider} from "../utbetalinger/beta/filter/FilterContext";
-import {Loader, Panel} from "@navikt/ds-react";
+import {Alert, Loader, Panel} from "@navikt/ds-react";
 import UtbetalingerFilter from "../utbetalinger/beta/filter/UtbetalingerFilter";
 import UtbetalingerPanelBeta from "../utbetalinger/beta/UtbetalingerPanelBeta";
 import styles from "../utbetalinger/beta/utbetalinger.module.css";
 import {GetServerSideProps, NextPage} from "next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import Error from "./_error";
 import pageHandler from "../pagehandler/pageHandler";
+
 const Utbetalinger: NextPage = () => {
     const {t} = useTranslation("utbetalinger");
     useUpdateBreadcrumbs(() => [{url: "/utbetaling", title: t("utbetaling")}]);
@@ -65,12 +65,17 @@ const Utbetalinger: NextPage = () => {
             </Head>
             <FilterProvider>
                 <div className={styles.utbetalinger_side}>
-                    {!isMobile && (
-                        <Panel as="section" aria-label={t("filter.aria")} className={styles.filter_section}>
-                            <UtbetalingerFilter />
-                        </Panel>
-                    )}
-                    <UtbetalingerPanelBeta />
+                    <Alert variant={"warning"} style={{marginBottom: "3rem"}}>
+                        {t("varsling.kommende.utbetalinger")}
+                    </Alert>
+                    <div className={styles.utbetalinger_side_innhold}>
+                        {!isMobile && (
+                            <Panel as="section" aria-label={t("filter.aria")} className={styles.filter_section}>
+                                <UtbetalingerFilter />
+                            </Panel>
+                        )}
+                        <UtbetalingerPanelBeta />
+                    </div>
                 </div>
             </FilterProvider>
         </>
