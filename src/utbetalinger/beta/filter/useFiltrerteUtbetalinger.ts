@@ -19,16 +19,13 @@ export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
         matchMottaker = !utbetaling.annenMottaker;
     }
 
-    // Hvis vi ikke har dato-filter eller utbetalingsdato, trenger vi ikke sjekke datofilteret.
-    if (!utbetaling.utbetalingsdato || (!filter.tilDato && !filter.fraDato)) return matchMottaker;
+    // Hvis vi ikke har dato-filter eller utbetalingsdato/forfallsdato, trenger vi ikke sjekke datofilteret.
+    if ((!utbetaling.utbetalingsdato && !utbetaling.forfallsdato) || (!filter.tilDato && !filter.fraDato))
+        return matchMottaker;
 
-    const utbetalingsDato = stringToDateWithoutTimezone(utbetaling.utbetalingsdato);
-    let matchFra = filter.fraDato
-        ? isAfter(utbetalingsDato, filter.fraDato) || isEqual(utbetalingsDato, filter.fraDato)
-        : true;
-    let matchTil = filter.tilDato
-        ? isBefore(utbetalingsDato, filter.tilDato) || isEqual(utbetalingsDato, filter.tilDato)
-        : true;
+    const dato = stringToDateWithoutTimezone(utbetaling.utbetalingsdato ?? utbetaling.forfallsdato!);
+    let matchFra = filter.fraDato ? isAfter(dato, filter.fraDato) || isEqual(dato, filter.fraDato) : true;
+    let matchTil = filter.tilDato ? isBefore(dato, filter.tilDato) || isEqual(dato, filter.tilDato) : true;
 
     return matchMottaker && matchTil && matchFra;
 };

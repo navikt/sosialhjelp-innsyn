@@ -54,7 +54,9 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                                         {statusToTekst(utbetalingManed.status, t)}
                                         {utbetalingManed.utbetalingsdato
                                             ? getDayAndMonth(utbetalingManed.utbetalingsdato, i18n.language)
-                                            : t("ukjentDato")}
+                                            : utbetalingManed.forfallsdato
+                                              ? getDayAndMonth(utbetalingManed.forfallsdato, i18n.language)
+                                              : t("ukjentDato")}
                                     </>
                                 )}
                             </BodyShort>
