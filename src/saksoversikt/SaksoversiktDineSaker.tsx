@@ -5,7 +5,7 @@ import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import {logButtonOrLinkClick} from "../utils/amplitude";
-import {Button, Heading, Panel} from "@navikt/ds-react";
+import {Alert, Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
 import {SaksListeResponse} from "../generated/model";
@@ -46,6 +46,7 @@ const sammenlignSaksTidspunkt = (a: SaksListeResponse, b: SaksListeResponse) => 
 
 const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
     const {t} = useTranslation();
+
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
 
@@ -56,6 +57,9 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
     const isMobile = useIsMobile();
     return (
         <>
+            <Alert variant={"warning"} style={{marginBottom: "2rem"}}>
+                {t("varsling.kommende.utbetalinger")}
+            </Alert>
             <DineUtbetalingerPanel />
             <section aria-labelledby="dine-soknader">
                 <StyledDineSoknaderPanel>
