@@ -32,7 +32,7 @@ export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
 const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponseMedId[]) => {
     const {filter} = useFilter();
 
-    const filtrerteUtbetalte = React.useMemo(() => {
+    return React.useMemo(() => {
         return utbetalinger
             .map((response) => {
                 const filtrertPerManed = response.utbetalingerForManed.filter((utbetaling) => {
@@ -42,8 +42,6 @@ const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponseMedId[]) => 
             })
             .filter((response) => response.utbetalingerForManed.length > 0);
     }, [utbetalinger, filter]);
-
-    return filtrerteUtbetalte;
 };
 
 export default useFiltrerteUtbetalinger;
