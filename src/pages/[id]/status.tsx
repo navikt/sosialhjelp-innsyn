@@ -35,6 +35,10 @@ const StyledPanel = styled(Panel)`
     }
 `;
 
+const StyledSpace = styled.div`
+    padding: 2rem 0 2rem 0;
+`;
+
 const SaksStatusView: NextPage = () => {
     const fiksDigisosId = useFiksDigisosId();
     const {t} = useTranslation();
@@ -86,7 +90,8 @@ const SaksStatusView: NextPage = () => {
             ));
 
     return (
-        <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`} bannerTitle={t("soknadStatus.tittel")}>
+        <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`}>
+            <StyledSpace />
             <LoadingResourcesFailedAlert />
 
             {mustLogin && <ApplicationSpinner />}

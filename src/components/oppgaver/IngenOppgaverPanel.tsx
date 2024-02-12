@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {Attachment, Task} from "@navikt/ds-icons";
 
 const StyledPanel = styled(Panel)`
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
     margin-bottom: 0 !important;
     display: grid;
     grid-template-columns: auto 1fr;
