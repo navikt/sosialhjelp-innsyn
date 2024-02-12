@@ -3,3 +3,18 @@
     padding-inline-start: 0;
     margin: 0;
 }
+
+.saksList {
+    list-style: none;
+    padding-inline-start: 0;
+    margin: 0;
+}
+
+.saksList li {
+    padding: 1rem 0 1rem 0;
+    border-bottom: 2px solid var(--a-border-divider);
+}
+
+.saksList li:last-child {
+    border-bottom: var(--a-transparent);
+}
