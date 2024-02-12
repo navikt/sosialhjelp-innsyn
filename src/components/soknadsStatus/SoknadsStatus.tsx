@@ -13,7 +13,6 @@ import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-s
 import {FilUrl, SaksStatusResponse, SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
 import styles from "../../styles/lists.module.css";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
-import {ContentPanelBorder} from "./SoknadsStatusHeading";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
@@ -105,7 +104,7 @@ const SoknadsStatus = () => {
                 )}
 
                 {!hasError && saksStatusQuery.data && (
-                    <ul className={styles.unorderedList}>
+                    <ul className={styles.saksList}>
                         {saksStatusQuery.data.map((statusdetalj: SaksStatusResponse, index: number) => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
@@ -164,7 +163,6 @@ const SoknadsStatus = () => {
                                                 </StatusMessage>
                                             ))}
                                     </StatusBox>
-                                    <ContentPanelBorder borderspace="1rem 0" bordercolor="var(--a-border-divider)" />
                                 </li>
                             );
                         })}
