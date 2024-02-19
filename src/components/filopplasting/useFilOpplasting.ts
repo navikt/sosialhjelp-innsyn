@@ -130,7 +130,7 @@ const useFilOpplasting = (
             logBrukerLeavingBeforeSubmitting();
             return "";
         };
-        const beforeRouteHandler = (url) => {
+        const beforeRouteHandler = (url: string) => {
             if (!allFiles.length) {
                 return;
             }
