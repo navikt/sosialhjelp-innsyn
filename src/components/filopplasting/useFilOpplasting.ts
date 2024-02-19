@@ -1,6 +1,11 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {logAmplitudeEvent, logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
+import {
+    logAmplitudeEvent,
+    logBrukerLeavingBeforeSubmitting,
+    logDuplicatedFiles,
+    logFileUploadFailedEvent,
+} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -122,9 +127,10 @@ const useFilOpplasting = (
             if (!allFiles.length) return;
             event.preventDefault();
             event.returnValue = "";
+            logBrukerLeavingBeforeSubmitting();
             return "";
         };
-        const beforeRouteHandler = (url: string) => {
+        const beforeRouteHandler = (url) => {
             if (!allFiles.length) {
                 return;
             }
@@ -137,6 +143,7 @@ const useFilOpplasting = (
                 return;
             }
 
+            logBrukerLeavingBeforeSubmitting();
             if (window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
                 setLeaveConfirmed(true);
             } else {
@@ -145,17 +152,13 @@ const useFilOpplasting = (
             }
         };
 
-        const handleRouteChangeStart = (url: string) => {
-            beforeRouteHandler(url);
-        };
-
         window.addEventListener("beforeunload", beforeUnloadHandler);
-        router.events.on("routeChangeStart", handleRouteChangeStart);
+        router.events.on("routeChangeStart", beforeRouteHandler);
 
         return () => {
             setLeaveConfirmed(false);
             window.removeEventListener("beforeunload", beforeUnloadHandler);
-            router.events.off("routeChangeStart", handleRouteChangeStart);
+            router.events.off("routeChangeStart", beforeRouteHandler);
         };
     }, [allFiles]);
 

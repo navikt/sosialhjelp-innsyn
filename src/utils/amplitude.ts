@@ -56,6 +56,10 @@ export const logBrukerSpraakChange = (lang: string) => {
     logAmplitudeEvent("Bruker har endret språk til: ", {language});
 };
 
+export const logBrukerLeavingBeforeSubmitting = () => {
+    logAmplitudeEvent("Bruker prøver å forlate siden etter de har lagt til vedlegg uten å sende det inn");
+};
+
 export const logDuplicatedFiles = (files: File[]) => {
     if (files.length > 1) {
         let duplikerteFiler: File[] = [];
