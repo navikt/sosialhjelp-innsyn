@@ -237,7 +237,8 @@ const useFilOpplasting = (
 
                         if (
                             innsendelseType.includes("dokumentasjonEtterspurt") ||
-                            innsendelseType.includes("dokumentasjonkrav")
+                            innsendelseType.includes("dokumentasjonkrav") ||
+                            innsendelseType.includes("soknad")
                         ) {
                             setOppgaverUploadSuccess(true);
                         }

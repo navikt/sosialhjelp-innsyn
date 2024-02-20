@@ -151,7 +151,7 @@
   "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "The file size must be under 10 MB",
   "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
       "We cannot accept your attachments if their combined size exceeds 150 MB",
-  "vedlegg.suksess": "Thank you! Your attachments has been sent.",
+  "vedlegg.suksess": "Thank you! Your information have been submitted.",
   "andre_vedlegg.type": "Submit attachments",
   "andre_vedlegg.tilleggsinfo": "If you want to submit something else, you can upload it here.",
   "andre_vedlegg.send_knapp_tittel": "Submit attachment",
@@ -219,5 +219,6 @@
   "klage.papirskjema.beskrivelse_2": "which you can send as an attachment to your application under \"Your attachments\".",
   "klage.papirskjema.mer_info_url_tekst": "You can read more about complaints here",
 
-  "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved."
+  "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.",
+  "varsling.generell_feilmelding" : "We are currently experiencing technical issues and are working to fix them."
 }
