@@ -54,7 +54,9 @@ const UtbetalingerPanelBeta = () => {
     useEffect(() => {
         if (!nyeLogged && nye && nye.length > 0) {
             const sisteManedgruppe = nye[nye.length - 1].utbetalingerForManed;
-            const sisteDatoVist = sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato;
+            const sisteDatoVist =
+                sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato ??
+                sisteManedgruppe[sisteManedgruppe.length - 1].forfallsdato;
             logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
             setNyeLogged(true);
         }

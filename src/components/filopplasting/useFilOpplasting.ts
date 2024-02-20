@@ -1,6 +1,11 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
-import {logAmplitudeEvent, logDuplicatedFiles, logFileUploadFailedEvent} from "../../utils/amplitude";
+import {
+    logAmplitudeEvent,
+    logBrukerLeavingBeforeSubmitting,
+    logDuplicatedFiles,
+    logFileUploadFailedEvent,
+} from "../../utils/amplitude";
 import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
@@ -13,6 +18,8 @@ import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
+import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 export interface Metadata {
     type: string;
@@ -72,6 +79,14 @@ function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | und
 const recordFromMetadatas = (metadatas: Metadata[]) =>
     metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {});
 
+const isSpraakChanging = (url: string, fiksDigisosId: string) => {
+    return (
+        (url.startsWith("/sosialhjelp/innsyn/") && url.includes(fiksDigisosId)) ||
+        (url.startsWith("/sosialhjelp/innsyn/nn") && url.includes(fiksDigisosId)) ||
+        (url.startsWith("/sosialhjelp/innsyn/en") && url.includes(fiksDigisosId))
+    );
+};
+
 const useFilOpplasting = (
     metadatas: Metadata[],
     options?: UseMutationOptions<
@@ -80,6 +95,7 @@ const useFilOpplasting = (
         {fiksDigisosId: string; data: SendVedleggBody}
     >
 ) => {
+    const {t} = useTranslation();
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const {isPending, mutate, error, isError, data} = useSendVedlegg();
@@ -88,6 +104,7 @@ const useFilOpplasting = (
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
     const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
+    const router = useRouter();
 
     const resetStatus = useCallback(() => {
         setInnerErrors(recordFromMetadatas(metadatas));
@@ -103,17 +120,46 @@ const useFilOpplasting = (
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
+    const [leaveConfirmed, setLeaveConfirmed] = useState(false);
 
     useEffect(() => {
-        const alertUser = (event: WindowEventMap["beforeunload"]) => {
+        const beforeUnloadHandler = (event: WindowEventMap["beforeunload"]) => {
             if (!allFiles.length) return;
             event.preventDefault();
             event.returnValue = "";
+            logBrukerLeavingBeforeSubmitting();
+            return "";
+        };
+        const beforeRouteHandler = (url: string) => {
+            if (!allFiles.length) {
+                return;
+            }
+
+            if (isSpraakChanging(url, fiksDigisosId)) {
+                return;
+            }
+
+            if (leaveConfirmed) {
+                return;
+            }
+
+            logBrukerLeavingBeforeSubmitting();
+            if (window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
+                setLeaveConfirmed(true);
+            } else {
+                router.events.emit("routeChangeError", url);
+                throw `Route change was aborted (this error can be safely ignored)`;
+            }
         };
 
-        window.addEventListener("beforeunload", alertUser);
+        window.addEventListener("beforeunload", beforeUnloadHandler);
+        router.events.on("routeChangeStart", beforeRouteHandler);
 
-        return () => window.removeEventListener("beforeunload", alertUser);
+        return () => {
+            setLeaveConfirmed(false);
+            window.removeEventListener("beforeunload", beforeUnloadHandler);
+            router.events.off("routeChangeStart", beforeRouteHandler);
+        };
     }, [allFiles]);
 
     const addFiler = useCallback(

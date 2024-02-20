@@ -1,8 +1,9 @@
 {
   "app.tittel": "Økonomisk sosialhjelp",
-  "historikk.tittel": "Historikk",
+  "historikk.tittel": "Dette har skjedd i saka",
   "historikk.se_vedtaksbrev": "Vis brevet",
   "historikk.vis_alle": "Vis alle",
+  "historikk.se_hele_prosessen" : "Sjå hela prosessen",
   "historikk.lukk": "Lukk",
 
   "hendelse.soknad_sendt_til_kontor": "Søknaden med vedlegg er send til <1>{{tekstArgument}}</1> kommune.",
@@ -215,5 +216,7 @@
   "klage.papirskjema.beskrivelse_1": "Det er ikkje mogleg å klage digitalt. Du kan ",
   "klage.papirskjema.skjema_url_tekst": "skrive ut eit klageskjema (pdf)",
   "klage.papirskjema.beskrivelse_2": " som du kan senda som vedlegg til søknaden din under \"Dine vedlegg\".",
-  "klage.papirskjema.mer_info_url_tekst": "Her kan du lesa meir om klage"
+  "klage.papirskjema.mer_info_url_tekst": "Her kan du lesa meir om klage",
+
+  "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast."
 }

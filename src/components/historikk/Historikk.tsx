@@ -20,8 +20,9 @@ interface Props {
 }
 
 const CenteredButton = styled(Button)`
+    margin: 20px 0 0 -5.5px;
     width: fit-content;
-    align-self: center;
+    align-self: left;
 `;
 
 const FlexContainer = styled.div`
@@ -71,7 +72,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         const enumValue = HistorikkTekstEnum[historikkEnumKey];
         if (enumValue === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
             return (
-                <BodyShort>
+                <BodyShort weight="semibold">
                     <Trans t={t} i18nKey={enumValue}>
                         {/*Lenken finnes som <0></0> i språkfila. 0 = første children.
                         Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
@@ -90,7 +91,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         ) {
             // Dette er bare placeholder. Blir erstatta av faktisk oversatt tekst runtime. <span> må være child nummer 1 (index 0), for at det skal bli riktig
             return (
-                <BodyShort>
+                <BodyShort weight="semibold">
                     <Trans i18nKey={enumValue} t={t}>
                         <span lang="no">{{tekstArgument}}</span> er under behandling.
                     </Trans>
@@ -108,14 +109,14 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
         ) {
             // Dette er bare placeholder. Blir erstatta av faktisk oversatt tekst runtime. <span> må være child nummer 2 (index 1), for at det skal bli riktig
             return (
-                <BodyShort>
+                <BodyShort weight="semibold">
                     <Trans i18nKey={enumValue} t={t}>
-                        whatever <span lang="no">{{tekstArgument}}</span>
+                        <span lang="no">{{tekstArgument}}</span>
                     </Trans>
                 </BodyShort>
             );
         }
-        return <BodyShort>{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
+        return <BodyShort weight="semibold">{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
     };
 
     return (
@@ -124,22 +125,22 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 return (
                     <li key={index}>
                         <Label as="p">
-                            <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
+                            {getBeskrivelse(
+                                hendelse.hendelseType as keyof typeof HistorikkTekstEnum,
+                                hendelse.tekstArgument
+                            )}
+                            {hendelse.filUrl && (
+                                <EksternLenke
+                                    href={hendelse.filUrl.link}
+                                    onClick={() => {
+                                        onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
+                                    }}
+                                >
+                                    {t(HistorikkTekstEnum[hendelse.filUrl.linkTekst])}
+                                </EksternLenke>
+                            )}
                         </Label>
-                        {getBeskrivelse(
-                            hendelse.hendelseType as keyof typeof HistorikkTekstEnum,
-                            hendelse.tekstArgument
-                        )}
-                        {hendelse.filUrl && (
-                            <EksternLenke
-                                href={hendelse.filUrl.link}
-                                onClick={() => {
-                                    onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
-                                }}
-                            >
-                                {t(HistorikkTekstEnum[hendelse.filUrl.linkTekst])}
-                            </EksternLenke>
-                        )}
+                        <DatoOgKlokkeslett tidspunkt={hendelse.tidspunkt} />
                     </li>
                 );
             })}
@@ -176,10 +177,11 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
             <CenteredButton
                 variant="tertiary"
                 onClick={toggleOpen}
-                iconPosition={"right"}
+                size={"xsmall"}
+                iconPosition={"left"}
                 icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
             >
-                {apen ? t("historikk.lukk") : `${t("historikk.vis_alle")} (${hendelser.length})`}
+                {apen ? t("historikk.lukk") : `${t("historikk.se_hele_prosessen")}`}
             </CenteredButton>
         </FlexContainer>
     );
