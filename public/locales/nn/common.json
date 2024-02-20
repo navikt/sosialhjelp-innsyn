@@ -150,7 +150,7 @@
   "vedlegg.opplasting_feilmelding_FILE_TOO_LARGE": "Filen må vere på under 10 MB",
   "vedlegg.opplasting_feilmelding_COMBINED_FILES_TOO_LARGE":
       "Vi kan ikkje ta imot vedlegga dine viss dei til saman er på over 150 MB",
-  "vedlegg.suksess": "Takk! Dokumentasjonen din vart sendt inn.",
+  "vedlegg.suksess": "Takk! Opplysningane dine vart sendt inn.",
   "andre_vedlegg.type": "Send andre vedlegg",
   "andre_vedlegg.tilleggsinfo": "Dersom du har anna du vil sende, kan du laste det opp her.",
   "andre_vedlegg.send_knapp_tittel": "Send vedlegg",
