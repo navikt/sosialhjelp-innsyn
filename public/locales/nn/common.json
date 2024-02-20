@@ -218,5 +218,7 @@
   "klage.papirskjema.beskrivelse_2": " som du kan senda som vedlegg til søknaden din under \"Dine vedlegg\".",
   "klage.papirskjema.mer_info_url_tekst": "Her kan du lesa meir om klage",
 
-  "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast."
+  "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",
+  "varsling.generell_feilmelding" : "Vi har for tida tekniske problema og prøver å rette desse."
+
 }
