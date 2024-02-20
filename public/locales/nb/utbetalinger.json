@@ -57,6 +57,7 @@
   "utbetalingsmetode.kronekort": "Kronekort",
   "utbetalingsmetode.giro": "Giro",
   "utbetalingsmetode.postgiro": "Postgiro",
-  "utbetalingsmetode.garanti": "Garanti"
+  "utbetalingsmetode.garanti": "Garanti",
+  "varsling.generell_feilmelding" : "Vi har for tiden tekniske problemer og prøver å rette disse."
 }
 
