@@ -198,8 +198,11 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
     const {t} = useTranslation();
 
+    /** code thats worked on*/
     //console.log("hendelser", hendelser);
     //console.log("-------");
+
+    /** code thats worked on*/
 
     //logAmplitudeEvent("Lastet utbetalinger", {
     //    antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
