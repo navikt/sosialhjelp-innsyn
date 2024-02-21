@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Alert, Heading, Panel} from "@navikt/ds-react";
+import {Heading, Panel} from "@navikt/ds-react";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useTranslation} from "next-i18next";
 import useKommune from "../../hooks/useKommune";
@@ -92,9 +92,6 @@ const SaksStatusView: NextPage = () => {
     return (
         <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`}>
             <StyledSpace />
-            <Alert variant={"warning"} style={{marginBottom: "3rem"}}>
-                {t("varsling.generell_feilmelding")}
-            </Alert>
             <LoadingResourcesFailedAlert />
 
             {mustLogin && <ApplicationSpinner />}

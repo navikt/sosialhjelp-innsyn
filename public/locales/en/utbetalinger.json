@@ -57,6 +57,5 @@
   "utbetalingsmetode.kronekort": "Payment card",
   "utbetalingsmetode.giro": "Bank giro transfer",
   "utbetalingsmetode.postgiro": "Postal giro",
-  "utbetalingsmetode.garanti": "Guarantee",
-  "varsling.generell_feilmelding" : "We are currently experiencing technical issues and are working to fix them."
+  "utbetalingsmetode.garanti": "Guarantee"
 }

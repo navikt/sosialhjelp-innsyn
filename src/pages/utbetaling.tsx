@@ -6,7 +6,7 @@ import {useHarSoknaderMedInnsyn} from "../generated/soknad-med-innsyn-controller
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
 import {FilterProvider} from "../utbetalinger/beta/filter/FilterContext";
-import {Alert, Loader, Panel} from "@navikt/ds-react";
+import {Loader, Panel} from "@navikt/ds-react";
 import UtbetalingerFilter from "../utbetalinger/beta/filter/UtbetalingerFilter";
 import UtbetalingerPanelBeta from "../utbetalinger/beta/UtbetalingerPanelBeta";
 import styles from "../utbetalinger/beta/utbetalinger.module.css";
@@ -64,9 +64,6 @@ const Utbetalinger: NextPage = () => {
             </Head>
             <FilterProvider>
                 <div className={styles.utbetalinger_side}>
-                    <Alert variant={"warning"} style={{marginBottom: "3rem", marginLeft: "auto", marginRight: "auto"}}>
-                        {t("varsling.generell_feilmelding")}
-                    </Alert>
                     <div className={styles.utbetalinger_side_innhold}>
                         {!isMobile && (
                             <Panel as="section" aria-label={t("filter.aria")} className={styles.filter_section}>
