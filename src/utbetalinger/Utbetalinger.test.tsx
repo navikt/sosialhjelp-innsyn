@@ -2,13 +2,12 @@ import React from "react";
 import Utbetalinger from "../pages/utbetaling";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
-import {delay, http} from "msw";
+import {delay, http, HttpResponse} from "msw";
 import {getHentNyeUtbetalingerMock} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
 import {getHentAlleSakerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths} from "date-fns";
 import {NyeOgTidligereUtbetalingerResponse} from "../generated/model";
-import {HttpHandler, HttpResponse} from "msw";
 
 const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     return {
@@ -104,7 +103,7 @@ describe("Utbetalinger", () => {
         render(<Utbetalinger />);
 
         await waitFor(() => expect(screen.queryByText("Penger til husleie")).not.toBeInTheDocument());
-        fireEvent.click(await screen.findByRole("tab", {name: "Tidligere utbetalinger"}));
+        fireEvent.click(await screen.findByRole("radio", {name: "Tidligere utbetalinger"}));
 
         await waitFor(async () => {
             const utbetaling = screen.getByText("Penger til husleie");
