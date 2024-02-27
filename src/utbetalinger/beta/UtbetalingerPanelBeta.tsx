@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./utbetalinger.module.css";
-import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
+import {BodyLong, Heading, Panel, ToggleGroup} from "@navikt/ds-react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import {useHentNyeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
@@ -27,6 +27,9 @@ export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetaling
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
+
+    const [tabClicked, setTabClicked] = useState(TAB_VALUE.UTBETALINGER);
+
     const {t} = useTranslation("utbetalinger");
     const {
         data: nye,
@@ -79,19 +82,37 @@ const UtbetalingerPanelBeta = () => {
                 {t("tittel")}
             </Heading>
             {isMobile && <FilterModal />}
-            <Tabs defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)}>
-                <Tabs.List className={styles.tab_list}>
-                    <Tabs.Tab value={TAB_VALUE.UTBETALINGER} label={t("tab1")} />
-                    <Tabs.Tab value={TAB_VALUE.TIDLIGERE} label={t("tab2")} />
-                </Tabs.List>
-                <Tabs.Panel value={TAB_VALUE.UTBETALINGER} className={styles.tab_panel}>
-                    <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
-                    <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
-                </Tabs.Panel>
-                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
-                    <TidligereUtbetalinger />
-                </Tabs.Panel>
-            </Tabs>
+            <ToggleGroup defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)} size="medium">
+                <ToggleGroup.Item
+                    value={TAB_VALUE.UTBETALINGER}
+                    onClick={() => {
+                        setTabClicked(TAB_VALUE.UTBETALINGER);
+                    }}
+                >
+                    {t("tab1")}
+                </ToggleGroup.Item>
+                <ToggleGroup.Item
+                    value={TAB_VALUE.TIDLIGERE}
+                    onClick={() => {
+                        setTabClicked(TAB_VALUE.TIDLIGERE);
+                    }}
+                >
+                    {t("tab2")}
+                </ToggleGroup.Item>
+            </ToggleGroup>
+            <div className={styles.tab_panel}>
+                {tabClicked === TAB_VALUE.UTBETALINGER && (
+                    <>
+                        <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
+                        <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
+                    </>
+                )}
+                {tabClicked === TAB_VALUE.TIDLIGERE && (
+                    <>
+                        <TidligereUtbetalinger />
+                    </>
+                )}
+            </div>
         </Panel>
     );
 };
