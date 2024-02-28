@@ -103,7 +103,7 @@ describe("Utbetalinger", () => {
         render(<Utbetalinger />);
 
         await waitFor(() => expect(screen.queryByText("Penger til husleie")).not.toBeInTheDocument());
-        fireEvent.click(await screen.findByRole("radio", {name: "Tidligere utbetalinger"}));
+        fireEvent.click(await screen.findByRole("tab", {name: "Tidligere utbetalinger"}));
 
         await waitFor(async () => {
             const utbetaling = screen.getByText("Penger til husleie");
