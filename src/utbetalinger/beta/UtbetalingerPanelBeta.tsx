@@ -27,7 +27,7 @@ export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetaling
 }
 const StyledSpace = styled.div`
     @media screen and (max-width: 769px) {
-        padding: 0;
+        padding: 1rem 0 0 0;
     }
 
     @media screen and (min-width: 769px) {
