@@ -45,7 +45,6 @@
 
 .tab_list_blue {
     background-color: var(--a-blue-500);
-    color: var(--a-text-on-neutral);
 }
 
 .tab_list_blue span {
