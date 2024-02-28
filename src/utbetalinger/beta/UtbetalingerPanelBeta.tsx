@@ -26,7 +26,13 @@ export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetaling
     utbetalingerForManed: UtbetalingMedId[];
 }
 const StyledSpace = styled.div`
-    padding: 1rem 0 0 0;
+    @media screen and (max-width: 769px) {
+        padding: 0;
+    }
+
+    @media screen and (min-width: 769px) {
+        padding: 3rem 0 0 0;
+    }
 `;
 
 const UtbetalingerPanelBeta = () => {
@@ -81,13 +87,13 @@ const UtbetalingerPanelBeta = () => {
     return (
         <Panel className={styles.utbetalinger_panel}>
             <HandCoinsIcon className={styles.utbetalinger_decoration} bgcolor="#9BD0B0" />
-            <Heading size="medium" level="2" spacing>
+            <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
             <StyledSpace />
             {isMobile && <FilterModal />}
             <Tabs defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)}>
-                <Tabs.List className={styles.tab_list}>
+                <Tabs.List>
                     <Tabs.Tab
                         value={TAB_VALUE.UTBETALINGER}
                         label={t("tab1")}
