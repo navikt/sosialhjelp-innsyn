@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./utbetalinger.module.css";
-import {BodyLong, Heading, Panel, ToggleGroup} from "@navikt/ds-react";
+import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import {useHentNyeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
@@ -11,6 +11,7 @@ import useIsMobile from "../../utils/useIsMobile";
 import FilterModal from "./filter/FilterModal";
 import {useTranslation} from "next-i18next";
 import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
+import styled from "styled-components";
 
 enum TAB_VALUE {
     UTBETALINGER = "Utbetalinger",
@@ -24,6 +25,9 @@ export interface UtbetalingMedId extends ManedUtbetaling {
 export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
     utbetalingerForManed: UtbetalingMedId[];
 }
+const StyledSpace = styled.div`
+    padding: 1rem 0 0 0;
+`;
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
@@ -73,7 +77,6 @@ const UtbetalingerPanelBeta = () => {
     const logTabChange = (tabPath: string) => {
         logAmplitudeEvent("Klikket tab", {tab: tabPath});
     };
-
     const isMobile = useIsMobile();
     return (
         <Panel className={styles.utbetalinger_panel}>
@@ -81,38 +84,40 @@ const UtbetalingerPanelBeta = () => {
             <Heading size="medium" level="2" spacing>
                 {t("tittel")}
             </Heading>
+            <StyledSpace />
             {isMobile && <FilterModal />}
-            <ToggleGroup defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)} size="medium">
-                <ToggleGroup.Item
-                    value={TAB_VALUE.UTBETALINGER}
-                    onClick={() => {
-                        setTabClicked(TAB_VALUE.UTBETALINGER);
-                    }}
-                >
-                    {t("tab1")}
-                </ToggleGroup.Item>
-                <ToggleGroup.Item
-                    value={TAB_VALUE.TIDLIGERE}
-                    onClick={() => {
-                        setTabClicked(TAB_VALUE.TIDLIGERE);
-                    }}
-                >
-                    {t("tab2")}
-                </ToggleGroup.Item>
-            </ToggleGroup>
-            <div className={styles.tab_panel}>
-                {tabClicked === TAB_VALUE.UTBETALINGER && (
-                    <>
-                        <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
-                        <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
-                    </>
-                )}
-                {tabClicked === TAB_VALUE.TIDLIGERE && (
-                    <>
-                        <TidligereUtbetalinger />
-                    </>
-                )}
-            </div>
+            <Tabs defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)}>
+                <Tabs.List className={styles.tab_list}>
+                    <Tabs.Tab
+                        value={TAB_VALUE.UTBETALINGER}
+                        label={t("tab1")}
+                        onClick={() => {
+                            setTabClicked(TAB_VALUE.UTBETALINGER);
+                        }}
+                        className={`${
+                            tabClicked === TAB_VALUE.UTBETALINGER ? styles.tab_list_blue : styles.tab_list_transparent
+                        }`}
+                    />
+
+                    <Tabs.Tab
+                        value={TAB_VALUE.TIDLIGERE}
+                        label={t("tab2")}
+                        onClick={() => {
+                            setTabClicked(TAB_VALUE.TIDLIGERE);
+                        }}
+                        className={`${
+                            tabClicked === TAB_VALUE.TIDLIGERE ? styles.tab_list_blue : styles.tab_list_transparent
+                        }`}
+                    />
+                </Tabs.List>
+                <Tabs.Panel value={TAB_VALUE.UTBETALINGER} className={styles.tab_panel}>
+                    <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
+                    <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
+                </Tabs.Panel>
+                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
+                    <TidligereUtbetalinger />
+                </Tabs.Panel>
+            </Tabs>
         </Panel>
     );
 };
