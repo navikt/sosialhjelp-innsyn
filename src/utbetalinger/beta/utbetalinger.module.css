@@ -43,6 +43,18 @@
     padding: 1.5rem 1.5rem 0;
 }
 
+.tab_list_blue {
+    background-color: var(--a-blue-500);
+}
+
+.tab_list_blue span {
+    color: var(--a-text-on-neutral);
+}
+
+.tab_list_transparent {
+    background-color: transparent;
+}
+
 .tab_panel {
     padding: 16px 0;
 }
