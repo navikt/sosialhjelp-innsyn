@@ -1,7 +1,8 @@
 {
   "documentTitle" : "Payments – Financial Social Assistance",
   "inngang" : "See your financial social assistance payments",
-  "tittel": "Your payments from financial social assistance",
+  "tittel" : "Your payments",
+  "tittel.inne": "Your payments from financial social assistance",
   "utbetalingerIngress" : "You may have tasks related to your follow-up from NAV. If you have applied on paper, we cannot always show your payments. Read more in the decision letter you receive from NAV. If you have any questions, please contact us by phone at 55 55 33 33.",
   "tidligereIngress" : "You can see your payments for the last 15 months here. If you have applied on paper, we cannot always show your payments. If you have any questions, please contact us by phone at 55 55 33 33.",
   "tab1": "Payments",

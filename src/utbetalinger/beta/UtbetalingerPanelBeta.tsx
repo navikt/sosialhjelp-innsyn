@@ -88,7 +88,7 @@ const UtbetalingerPanelBeta = () => {
         <Panel className={styles.utbetalinger_panel}>
             <HandCoinsIcon className={styles.utbetalinger_decoration} bgcolor="#9BD0B0" />
             <Heading size="medium" level="2">
-                {t("tittel")}
+                {t("tittel.inne")}
             </Heading>
             <StyledSpace />
             {isMobile && <FilterModal />}
