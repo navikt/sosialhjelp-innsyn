@@ -11,6 +11,7 @@ import useIsMobile from "../../utils/useIsMobile";
 import FilterModal from "./filter/FilterModal";
 import {useTranslation} from "next-i18next";
 import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
+import styled from "styled-components";
 
 enum TAB_VALUE {
     UTBETALINGER = "Utbetalinger",
@@ -24,9 +25,21 @@ export interface UtbetalingMedId extends ManedUtbetaling {
 export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
     utbetalingerForManed: UtbetalingMedId[];
 }
+const StyledSpace = styled.div`
+    @media screen and (max-width: 769px) {
+        padding: 1rem 0 0 0;
+    }
+
+    @media screen and (min-width: 769px) {
+        padding: 3rem 0 0 0;
+    }
+`;
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
+
+    const [tabClicked, setTabClicked] = useState(TAB_VALUE.UTBETALINGER);
+
     const {t} = useTranslation("utbetalinger");
     const {
         data: nye,
@@ -70,19 +83,38 @@ const UtbetalingerPanelBeta = () => {
     const logTabChange = (tabPath: string) => {
         logAmplitudeEvent("Klikket tab", {tab: tabPath});
     };
-
     const isMobile = useIsMobile();
     return (
         <Panel className={styles.utbetalinger_panel}>
             <HandCoinsIcon className={styles.utbetalinger_decoration} bgcolor="#9BD0B0" />
-            <Heading size="medium" level="2" spacing>
-                {t("tittel")}
+            <Heading size="medium" level="2">
+                {t("tittel.inne")}
             </Heading>
+            <StyledSpace />
             {isMobile && <FilterModal />}
             <Tabs defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)}>
-                <Tabs.List className={styles.tab_list}>
-                    <Tabs.Tab value={TAB_VALUE.UTBETALINGER} label={t("tab1")} />
-                    <Tabs.Tab value={TAB_VALUE.TIDLIGERE} label={t("tab2")} />
+                <Tabs.List>
+                    <Tabs.Tab
+                        value={TAB_VALUE.UTBETALINGER}
+                        label={t("tab1")}
+                        onClick={() => {
+                            setTabClicked(TAB_VALUE.UTBETALINGER);
+                        }}
+                        className={`${
+                            tabClicked === TAB_VALUE.UTBETALINGER ? styles.tab_list_blue : styles.tab_list_transparent
+                        }`}
+                    />
+
+                    <Tabs.Tab
+                        value={TAB_VALUE.TIDLIGERE}
+                        label={t("tab2")}
+                        onClick={() => {
+                            setTabClicked(TAB_VALUE.TIDLIGERE);
+                        }}
+                        className={`${
+                            tabClicked === TAB_VALUE.TIDLIGERE ? styles.tab_list_blue : styles.tab_list_transparent
+                        }`}
+                    />
                 </Tabs.List>
                 <Tabs.Panel value={TAB_VALUE.UTBETALINGER} className={styles.tab_panel}>
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
