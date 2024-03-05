@@ -269,10 +269,11 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
 
     if (filterHendelserSoknadBehandlet && filterHendelserSoknadBehandlet?.length > 0) {
         //const soknadHendelser = filterBasedOnSoknadHendelser;
-        const soknadFerdigbehandlet = Date.parse(filterBasedOnSoknadHendelser[0]?.tidspunkt).valueOf();
-        const soknadSendtTilKontor = Date.parse(
-            filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser?.length - 1]?.tidspunkt
-        ).valueOf();
+        const soknadFerdigbehandlet =
+            filterBasedOnSoknadHendelser && Date.parse(filterBasedOnSoknadHendelser[0]?.tidspunkt).valueOf();
+        const soknadSendtTilKontor =
+            filterBasedOnSoknadHendelser &&
+            Date.parse(filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser?.length - 1]?.tidspunkt).valueOf();
 
         test(soknadFerdigbehandlet, soknadSendtTilKontor);
     }
