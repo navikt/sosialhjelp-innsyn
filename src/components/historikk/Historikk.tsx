@@ -259,9 +259,11 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
             return type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
         });
 
-    const filterBasedOnSoknadHendelser = hendelser.filter((type) => {
-        return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
-    });
+    const filterBasedOnSoknadHendelser =
+        hendelser &&
+        hendelser?.filter((type) => {
+            return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+        });
     console.log("filterBasedOnSoknadHendelser", filterBasedOnSoknadHendelser);
     console.log("-------");
 
