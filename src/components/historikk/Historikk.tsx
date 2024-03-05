@@ -194,8 +194,8 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
-const test = (firstElementDate?: number, lastElementDate?: number) => {
-    const sokMiliseconds = firstElementDate && lastElementDate && Math.abs(firstElementDate - lastElementDate);
+const test = (firstElementDate: number, lastElementDate: number) => {
+    const sokMiliseconds = Math.abs(firstElementDate - lastElementDate);
 
     console.log("sokMiliseconds", sokMiliseconds);
     console.log("-------");
@@ -259,21 +259,20 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
             return type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
         });
 
-    const filterBasedOnSoknadHendelser =
-        hendelser &&
-        hendelser?.filter((type) => {
-            return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
-        });
+    const filterBasedOnSoknadHendelser = hendelser.filter((type) => {
+        return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+    });
     console.log("filterBasedOnSoknadHendelser", filterBasedOnSoknadHendelser);
     console.log("-------");
 
     if (filterHendelserSoknadBehandlet && filterHendelserSoknadBehandlet?.length > 0) {
         //const soknadHendelser = filterBasedOnSoknadHendelser;
-        const soknadFerdigbehandlet =
-            filterBasedOnSoknadHendelser && Date.parse(filterBasedOnSoknadHendelser[0]?.tidspunkt).valueOf();
-        const soknadSendtTilKontor =
-            filterBasedOnSoknadHendelser &&
-            Date.parse(filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser?.length - 1]?.tidspunkt).valueOf();
+        const soknadFerdigbehandlet = filterBasedOnSoknadHendelser
+            ? Date.parse(filterBasedOnSoknadHendelser[0].tidspunkt).valueOf()
+            : 0;
+        const soknadSendtTilKontor = filterBasedOnSoknadHendelser
+            ? Date.parse(filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser.length - 1].tidspunkt).valueOf()
+            : 0;
 
         test(soknadFerdigbehandlet, soknadSendtTilKontor);
     }
