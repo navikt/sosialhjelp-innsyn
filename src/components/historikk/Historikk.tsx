@@ -194,7 +194,7 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
-const test = (firstElementDate?: number, lastElementDate?: number) => {
+const test = (firstElementDate: number, lastElementDate: number) => {
     const sokMiliseconds = Math.abs(firstElementDate - lastElementDate);
 
     console.log("sokMiliseconds", sokMiliseconds);
@@ -264,10 +264,10 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     console.log("-------");
 
     if (filterHendelserSoknadBehandlet?.length > 0) {
-        const soknadHendelser = filterBasedOnSoknadHendelser;
-        const soknadFerdigbehandlet = Date.parse(soknadHendelser[0]?.tidspunkt).valueOf();
+        //const soknadHendelser = filterBasedOnSoknadHendelser;
+        const soknadFerdigbehandlet = Date.parse(filterBasedOnSoknadHendelser[0]?.tidspunkt).valueOf();
         const soknadSendtTilKontor = Date.parse(
-            filterBasedOnSoknadHendelser[soknadHendelser.length - 1]?.tidspunkt
+            filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser.length - 1]?.tidspunkt
         ).valueOf();
 
         test(soknadFerdigbehandlet, soknadSendtTilKontor);
