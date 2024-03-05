@@ -194,15 +194,178 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
+const test = (firstElementDate: number, lastElementDate: number) => {
+    const sokMiliseconds = Math.abs(firstElementDate - lastElementDate);
+
+    console.log("sokMiliseconds", sokMiliseconds);
+    console.log("-------");
+
+    const msDay = 24 * 60 * 60 * 1000;
+    const msHours = 60 * 60 * 1000;
+    const msMinutes = 60 * 1000;
+
+    const sokDays = Math.floor(sokMiliseconds / msDay);
+    if (sokDays >= 1) {
+        console.log("sokdays", sokDays);
+        console.log("-------");
+    }
+
+    //25 timer
+    //1 dag og 1 time
+    //140 min
+    //2 timer og 20 min
+
+    const sokHours = Math.floor((sokMiliseconds - sokDays * msDay) / msHours);
+    if (sokHours >= 1) {
+        console.log("sokhours", sokHours);
+        console.log("-------");
+    }
+
+    //sokMiliseconds=sokMiliseconds-(sokHours*msHours);
+
+    const sokMinutes = Math.floor((sokMiliseconds - sokHours * msHours - sokDays * msDay) / msMinutes);
+    if (sokMinutes >= 1) {
+        console.log("sokMinutes", sokMinutes);
+        console.log("-------");
+    }
+
+    return null;
+};
+
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
     const {t} = useTranslation();
 
-    /** code thats worked on*/
-    //console.log("hendelser", hendelser);
-    //console.log("-------");
+    /**
+     *                      (søknadsbehandlingstiden)
+     * Det er ønskelig å måle saksbehandlingstid fra søknad er sendt inn, til den har fått status ferdigbehandlet.
+     *
+     * Vi bør også måle på når saker er ferdigbehandlet.
+     *
+     * Det er ønskelig at vi stanser telling av dager når vi mottar hendelse dokumentasjon_etterspurt,
+     * og starter telling når bruker ikke har oppgaver lenger.
+     *
+     * Dette er fordi at saksbehandlingstiden stopper å gå når veileder etterspør mer dokumentasjon.
+     *
+     * */
 
-    /** code thats worked on*/
+    /** CODE THAT IS WORKED ON */
+    console.log("hendelser", hendelser);
+    console.log("-------");
+
+    const filterHendelserSoknadBehandlet = hendelser?.filter((type) => {
+        return type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+    });
+
+    const filterBasedOnSoknadHendelser = hendelser?.filter((type) => {
+        return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
+    });
+    console.log("filterBasedOnSoknadHendelser", filterBasedOnSoknadHendelser);
+    console.log("-------");
+
+    if (filterHendelserSoknadBehandlet?.length > 0) {
+        const soknadHendelser = filterBasedOnSoknadHendelser;
+        const soknadFerdigbehandlet = Date.parse(soknadHendelser[0]?.tidspunkt).valueOf();
+        const soknadSendtTilKontor = Date.parse(
+            filterBasedOnSoknadHendelser[soknadHendelser.length - 1]?.tidspunkt
+        ).valueOf();
+
+        test(soknadFerdigbehandlet, soknadSendtTilKontor);
+    }
+
+    //const sokMinutes = Math.floor(sokMiliseconds / 60);
+    //if (sokMinutes >= 1) {
+    //    console.log("sokminutes", sokMinutes);
+    //    console.log("-------");
+    //}
+    //
+    //if (filterBasedOnSoknadHendelser) {
+    //    console.log(
+    //        "Det tok søknaden",
+    //        sokDays,
+    //        "dag(er)",
+    //        //sokHours - sokDays * 24,
+    //        "time(r)",
+    //        //sokMinutes - sokDays * 24 * 60,
+    //        "minutt(er) og",
+    //        "før søknaden fikk status ferdigbehandlet"
+    //    );
+    //}
+
+    /**
+    const groupObjectsBasedOnSakHendelser = hendelser?.filter((type) => {
+        return (
+            type.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
+            type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+        );
+    });
+    console.log("sakHendelser", groupObjectsBasedOnSakHendelser);
+    console.log("-------");
+
+
+    const groupSaksBasedOnTekstArgument = groupObjectsBasedOnSakHendelser?.reduce(
+        (group: {[key: string]: HendelseResponse[]}, item, hei) => {
+            if (!group[item.tekstArgument]) {
+                group[item.tekstArgument] = [];
+            }
+            group[item.tekstArgument].push(item);
+            return group;
+        },
+        {}
+    );
+    console.log("groupSaksBasedOnTekstArgument", groupSaksBasedOnTekstArgument);
+    console.log("-------");
+
+
+    let sakMiliseconds;
+    if (groupObjectsBasedOnSakHendelser) {
+        sakMiliseconds = Math.abs(
+            Date.parse(groupObjectsBasedOnSakHendelser[0]?.tidspunkt).valueOf() -
+            Date.parse(groupObjectsBasedOnSakHendelser[groupObjectsBasedOnSakHendelser.length - 1]?.tidspunkt).valueOf()
+        );
+    }
+    //d * m * s * ms
+    //24 * 60 * 60 * 1000
+    console.log("sakMiliseconds", sakMiliseconds);
+    console.log("-------");
+
+    const sakSeconds = Math.floor(sakMiliseconds / 1000);
+    console.log("sakseconds", sakSeconds);
+    console.log("-------");
+
+    const sakMinutes = Math.floor(sakSeconds / 60);
+    if (sakMinutes >= 1) {
+        console.log("sakminutes", sakMinutes);
+        console.log("-------");
+    }
+
+    const sakHours = Math.floor(sakMinutes / 60);
+    if (sakHours >= 1) {
+        console.log("sakhours", sokHours);
+        console.log("-------");
+    }
+
+    const sakDays = Math.floor(sakHours / 24);
+    if (sakDays >= 1) {
+        console.log("sakdays", sakDays);
+        console.log("-------");
+    }
+
+    if (groupObjectsBasedOnSakHendelser) {
+        console.log(
+            "Det tok saken",
+            sakDays,
+            "dag(er)",
+            sakHours - sakDays * 24,
+            "time(r)",
+            sakMinutes - sakDays * 24 * 60,
+            "minutt(er) og",
+            sakSeconds - sakDays * 24 * 60 * 60,
+            "sekund(er)",
+            "før saken fikk status ferdigbehandlet"
+        );
+    }*/
+    /** CODE THAT IS WORKED ON */
 
     //logAmplitudeEvent("Lastet utbetalinger", {
     //    antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
@@ -243,6 +406,7 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //    const event = Math.abs(Date.parse(user[0]?.tidspunkt).valueOf() - Date.parse(user[user.length - 1]?.tidspunkt).valueOf());
     //    return event;
     //})
+
     //let miliseconds;
     //if (soknadHendelser) {
     //    miliseconds = Math.abs(
@@ -293,17 +457,7 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //    );
     //}
 
-    /**
-     *
-     * Det er ønskelig å måle saksbehandlingstid fra søknad er sendt inn, til den har fått status ferdigbehandlet.
-     * Vi bør også måle på når saker er ferdigbehandlet.
-     *
-     * Det er ønskelig at vi stanser telling av dager når vi mottar hendelse dokumentasjon_etterspurt,
-     * og starter telling når bruker ikke har oppgaver lenger.
-     *
-     * Dette er fordi at saksbehandlingstiden stopper å gå når veileder etterspør mer dokumentasjon.
-     *
-     * */
+    /**----------------------------**/
 
     /*
     const sakHendelser = hendelser?.filter((type) => {
