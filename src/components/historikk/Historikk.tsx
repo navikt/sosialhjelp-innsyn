@@ -195,7 +195,7 @@ const StyledTextPlacement = styled.div`
 `;
 
 const test = (firstElementDate?: number, lastElementDate?: number) => {
-    const sokMiliseconds = Math.abs(firstElementDate - lastElementDate);
+    const sokMiliseconds = firstElementDate && lastElementDate && Math.abs(firstElementDate - lastElementDate);
 
     console.log("sokMiliseconds", sokMiliseconds);
     console.log("-------");
