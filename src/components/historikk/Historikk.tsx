@@ -194,42 +194,29 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
-const test = (firstElementDate: number, lastElementDate: number) => {
-    const sokMiliseconds = Math.abs(firstElementDate - lastElementDate);
-
-    console.log("sokMiliseconds", sokMiliseconds);
-    console.log("-------");
+const beregnBehandlingstid = (firstElementDate: number, lastElementDate: number, tekst: string) => {
+    const sakMiliseconds = Math.abs(firstElementDate - lastElementDate);
 
     const msDay = 24 * 60 * 60 * 1000;
     const msHours = 60 * 60 * 1000;
     const msMinutes = 60 * 1000;
 
-    const sokDays = Math.floor(sokMiliseconds / msDay);
-    if (sokDays >= 1) {
-        console.log("sokdays", sokDays);
-        console.log("-------");
-    }
+    const sakDays = Math.floor(sakMiliseconds / msDay);
+    const sakHours = Math.floor((sakMiliseconds - sakDays * msDay) / msHours);
+    const sakMinutes = Math.floor((sakMiliseconds - sakHours * msHours - sakDays * msDay) / msMinutes);
 
-    //25 timer
-    //1 dag og 1 time
-    //140 min
-    //2 timer og 20 min
-
-    const sokHours = Math.floor((sokMiliseconds - sokDays * msDay) / msHours);
-    if (sokHours >= 1) {
-        console.log("sokhours", sokHours);
-        console.log("-------");
-    }
-
-    //sokMiliseconds=sokMiliseconds-(sokHours*msHours);
-
-    const sokMinutes = Math.floor((sokMiliseconds - sokHours * msHours - sokDays * msDay) / msMinutes);
-    if (sokMinutes >= 1) {
-        console.log("sokMinutes", sokMinutes);
-        console.log("-------");
-    }
-
-    return null;
+    return (
+        "Det tok " +
+        sakDays +
+        " dag(er) " +
+        sakHours +
+        " time(r) og " +
+        sakMinutes +
+        " minutt(er) " +
+        "før " +
+        tekst +
+        " fikk status ferdigbehandlet"
+    );
 };
 
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
@@ -250,8 +237,8 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
      * */
 
     /** CODE THAT IS WORKED ON */
-    console.log("hendelser", hendelser);
-    console.log("-------");
+    //console.log("hendelser", hendelser);
+    //console.log("-------");
 
     const filterHendelserSoknadBehandlet =
         hendelser &&
@@ -264,11 +251,8 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
         hendelser?.filter((type) => {
             return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
         });
-    console.log("filterBasedOnSoknadHendelser", filterBasedOnSoknadHendelser);
-    console.log("-------");
 
     if (filterHendelserSoknadBehandlet && filterHendelserSoknadBehandlet?.length > 0) {
-        //const soknadHendelser = filterBasedOnSoknadHendelser;
         const soknadFerdigbehandlet = filterBasedOnSoknadHendelser
             ? Date.parse(filterBasedOnSoknadHendelser[0].tidspunkt).valueOf()
             : 0;
@@ -276,53 +260,121 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
             ? Date.parse(filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser.length - 1].tidspunkt).valueOf()
             : 0;
 
-        test(soknadFerdigbehandlet, soknadSendtTilKontor);
+        console.log(beregnBehandlingstid(soknadFerdigbehandlet, soknadSendtTilKontor, "søknaden"));
+        //amplitude(beregnSoknadsBehandlingstid(soknadFerdigbehandlet, soknadSendtTilKontor));
     }
 
-    //const sokMinutes = Math.floor(sokMiliseconds / 60);
-    //if (sokMinutes >= 1) {
-    //    console.log("sokminutes", sokMinutes);
-    //    console.log("-------");
-    //}
-    //
-    //if (filterBasedOnSoknadHendelser) {
-    //    console.log(
-    //        "Det tok søknaden",
-    //        sokDays,
-    //        "dag(er)",
-    //        //sokHours - sokDays * 24,
-    //        "time(r)",
-    //        //sokMinutes - sokDays * 24 * 60,
-    //        "minutt(er) og",
-    //        "før søknaden fikk status ferdigbehandlet"
-    //    );
-    //}
+    const filterHendelserSakBehandlet =
+        hendelser &&
+        hendelser?.filter((type) => {
+            return type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL";
+        });
 
-    /**
-    const groupObjectsBasedOnSakHendelser = hendelser?.filter((type) => {
+    const filterBasedOnSakHendelser = hendelser?.filter((type) => {
         return (
             type.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
             type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
         );
     });
-    console.log("sakHendelser", groupObjectsBasedOnSakHendelser);
-    console.log("-------");
 
+    let groupSaksBasedOnTekstArgument;
+    if (filterHendelserSakBehandlet && Object.keys(filterHendelserSakBehandlet).length > 0) {
+        groupSaksBasedOnTekstArgument = filterBasedOnSakHendelser?.reduce(
+            (group: {[key: string]: HendelseResponse[]}, item, num) => {
+                if (!group[item.tekstArgument]) {
+                    group[item.tekstArgument] = [];
+                }
+                group[item.tekstArgument].push(item);
+                return group;
+            },
+            {}
+        );
 
-    const groupSaksBasedOnTekstArgument = groupObjectsBasedOnSakHendelser?.reduce(
-        (group: {[key: string]: HendelseResponse[]}, item, hei) => {
-            if (!group[item.tekstArgument]) {
-                group[item.tekstArgument] = [];
+        //}
+        //console.log("group", groupSaksBasedOnTekstArgument);
+        //Object { "test 7": (2) […], "test 8": (3) […] }
+        //"test 7": Array [ {…}, {…} ]
+        //0: Object { tidspunkt: "2024-03-05T13:23:58.916", hendelseType: "SAK_FERDIGBEHANDLET_MED_TITTEL", tekstArgument: "test 7", … }
+        //1: Object { tidspunkt: "2024-03-05T13:20:12.426", hendelseType: "SAK_UNDER_BEHANDLING_MED_TITTEL", tekstArgument: "test 7", … } length: 2
+        //"test 8": Array(3) [ {…}, {…}, {…} ]
+        //0: Object { tidspunkt: "2024-03-05T13:22:57.854", hendelseType: "SAK_FERDIGBEHANDLET_MED_TITTEL", tekstArgument: "test 8", … }
+        //1: Object { tidspunkt: "2024-03-05T13:20:23.230", hendelseType: "SAK_FERDIGBEHANDLET_MED_TITTEL", tekstArgument: "test 8", … }
+        //2: Object { tidspunkt: "2024-03-05T13:20:17.046", hendelseType: "SAK_UNDER_BEHANDLING_MED_TITTEL", tekstArgument: "test 8", … } length: 3
+
+        if (groupSaksBasedOnTekstArgument && Object.keys(groupSaksBasedOnTekstArgument).length > 0) {
+            const firstElement = filterBasedOnSakHendelser
+                ? Date.parse(filterBasedOnSoknadHendelser[0].tidspunkt).valueOf()
+                : 0;
+            const lastElement = filterBasedOnSakHendelser
+                ? Date.parse(filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser.length - 1].tidspunkt).valueOf()
+                : 0;
+
+            console.log(beregnBehandlingstid(firstElement, lastElement, "saken"));
+
+            for (let i = 0; i < Object.keys(groupSaksBasedOnTekstArgument).length; i++) {
+                console.log("wat ", i);
+                console.log("wattttttt ", groupSaksBasedOnTekstArgument[i].tekstArgument);
             }
-            group[item.tekstArgument].push(item);
-            return group;
-        },
-        {}
-    );
-    console.log("groupSaksBasedOnTekstArgument", groupSaksBasedOnTekstArgument);
-    console.log("-------");
+
+            Object.keys(groupSaksBasedOnTekstArgument).forEach((element) => {
+                console.log("element", element);
+            });
+
+            /*
+        for (const key in groupSaksBasedOnTekstArgument) {
+
+            //console.log("-----------!!-----------")
+            //console.log("groupSaksBasedOnTekstArgument[key][0]: " + (groupSaksBasedOnTekstArgument[key][0]?.tidspunkt).valueOf());
+            //console.log("filterBasedOnsakHendelser[groupSaksBasedOnTekstArgument[key].length - 1]: " + (groupSaksBasedOnTekstArgument[key][groupSaksBasedOnTekstArgument]?.tidspunkt).valueOf());
+
+            //const firstElement = groupSaksBasedOnTekstArgument[key]
+            //    ? Date.parse(groupSaksBasedOnTekstArgument[key][0]?.tidspunkt).valueOf()
+            //    : 0;
+            //const lastElement = groupSaksBasedOnTekstArgument[key]
+            //    ? Date.parse(filterBasedOnsakHendelser[groupSaksBasedOnTekstArgument[key].length - 1]?.tidspunkt).valueOf()
+            //    : 0;
+
+            //const firstElement = groupSaksBasedOnTekstArgument[key]
+            //    ? Date.parse(groupSaksBasedOnTekstArgument[0]?.tidspunkt).valueOf()
+            //    : 0;
+            //const lastElement = groupSaksBasedOnTekstArgument[key]
+            //    ? Date.parse(filterBasedOnsakHendelser[groupSaksBasedOnTekstArgument[key].length - 1]?.tidspunkt).valueOf()
+            //    : 0;
+
+            const firstElement = filterBasedOnSoknadHendelser
+                ? Date.parse(filterBasedOnSoknadHendelser[0].tidspunkt).valueOf()
+                : 0;
+            const lastElement = filterBasedOnSoknadHendelser
+                ? Date.parse(filterBasedOnSoknadHendelser[filterBasedOnSoknadHendelser.length - 1].tidspunkt).valueOf()
+                : 0;
 
 
+            console.log(beregnBehandlingstid(firstElement, lastElement, "saken"));
+        }*/
+        }
+    }
+    //console.log("object ", groupSaksBasedOnTekstArgument);
+    //console.log("-------");
+
+    //if (filterHendelserSakBehandlet && Object.keys(filterHendelserSakBehandlet).length > 0) {
+    //    groupSaksBasedOnTekstArgument = filterBasedOnsakHendelser?.reduce(
+    //        (group: HendelseResponse[][], item, num) => {
+    //            if (!group[item.tekstArgument]) {
+    //                group[item.tekstArgument] = [];
+    //            }
+    //            group[item.tekstArgument].push(item);
+    //            return group;
+    //        },
+    //        []
+    //    );
+    //}
+    //console.log("array ", groupSaksBasedOnTekstArgument);
+    //console.log("-------");
+
+    //console.log("sakMiliseconds", sakMiliseconds);
+    //console.log("-------");
+
+    /**
     let sakMiliseconds;
     if (groupObjectsBasedOnSakHendelser) {
         sakMiliseconds = Math.abs(
@@ -391,239 +443,6 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     //const errors: Error[] = filerData
     //    .filter((it) => it.status !== "OK")
     //    .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
-
-    /*const soknadHendelser = hendelser?.filter((type) => {
-       return type.hendelseType === "SOKNAD_SEND_TIL_KONTOR" || type.hendelseType === "SOKNAD_FERDIGBEHANDLET";
-    });*/
-    //.map((it) => {
-    //    return;
-    //});
-    //console.log("soknadHendelser", soknadHendelser);
-    //console.log("-------");
-    //const tester = test?.map((user) => {
-    //    const event = new Date(Date.parse(user.tidspunkt)).valueOf();
-    //    return event;
-    //})
-    //console.log("tester", tester);
-
-    //const testeras = () => { return Math.abs(Date.parse(test[0]?.tidspunkt).valueOf() - Date.parse(test[test.length - 1]?.tidspunkt).valueOf())};
-    //const testeras = Math.abs(Date.parse(test[0]?.tidspunkt).valueOf() - Date.parse(test[test.length - 1]?.tidspunkt).valueOf());
-    //const testeras = test?.map((user) => {
-    //    const event = Math.abs(Date.parse(user[0]?.tidspunkt).valueOf() - Date.parse(user[user.length - 1]?.tidspunkt).valueOf());
-    //    return event;
-    //})
-
-    //let miliseconds;
-    //if (soknadHendelser) {
-    //    miliseconds = Math.abs(
-    //        Date.parse(soknadHendelser[0]?.tidspunkt).valueOf() -
-    //            Date.parse(soknadHendelser[soknadHendelser.length - 1]?.tidspunkt).valueOf()
-    //    );
-    //}
-    //d * m * s * ms
-    //24 * 60 * 60 * 1000
-
-    //console.log("miliseconds", miliseconds);
-    // console.log("-------");
-
-    //const seconds = Math.floor(miliseconds / 1000);
-    //console.log("seconds", seconds);
-    //console.log("-------");
-
-    //const minutes = Math.floor(seconds / 60);
-    //if (minutes >= 1) {
-    //    console.log("minutes", minutes);
-    //    console.log("-------");
-    //}
-
-    //const hours = Math.floor(minutes / 60);
-    //if (hours >= 1) {
-    //    console.log("hours", hours);
-    //    console.log("-------");
-    //}
-
-    //const days = Math.floor(hours / 24);
-    //if (days >= 1) {
-    //    console.log("days", days);
-    //    console.log("-------");
-    //}
-
-    //if (soknadHendelser) {
-    //    console.log(
-    //        "Det tok søknaden",
-    //        days,
-    //        "dag(er)",
-    //        hours - days * 24,
-    //        "time(r)",
-    //        minutes - days * 24 * 60,
-    //        "minutt(er) og",
-    //        seconds - days * 24 * 60 * 60,
-    //        "sekund(er)",
-    //        "før søknaden fikk status ferdigbehandlet"
-    //    );
-    //}
-
-    /**----------------------------**/
-
-    /*
-    const sakHendelser = hendelser?.filter((type) => {
-        return (
-            type.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-            type.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-        );
-    });
-    console.log("sakHendelser", sakHendelser);*/
-
-    //const groupObjectsBasedOnTekstArgument = sakHendelser?.reduce(
-    //    (group: {[key: string]: HendelseResponse[]}, item, hei) => {
-    //        if (!group[item.tekstArgument]) {
-    //            group[item.tekstArgument] = [];
-    //        }
-    //        group[item.tekstArgument].push(item);
-    //        return group;
-    //    },
-    //    {}
-    //);
-
-    ////metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {});
-    ////console.log("groupObjectsBasedOnTekstArgument", groupObjectsBasedOnTekstArgument);
-
-    ////const filterAway = groupObjectsBasedOnTekstArgument.filter((hei) => {
-    ////    return (hei.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && hei.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL");
-    ////})
-
-    //    const result = sakHendelser?.reduce(function (r, a) {
-    //        r[a.tekstArgument] = r[a.tekstArgument] || [];
-    //        r[a.tekstArgument].push(a);
-    //        return r;
-    //    }, Object.create(null));
-    //
-    //console.log(result);
-    //console.log("hei", Object.entries(result));
-
-    //const heI = result.map((hallo) => {return hallo.tekstArgument});
-    //console.log("heiheiheih", heI)
-
-    //let mili;
-    //if (result) {
-    //    mili = Math.abs(
-    //        Date.parse(result[0]?.tidspunkt).valueOf() -
-    //        Date.parse(result[result.length - 1]?.tidspunkt).valueOf()
-    //    );
-    //}
-
-    //if (hendelser) {
-    //console.log("hendelser", hendelser);
-
-    //const testHend = hendelser.filter(
-    //    (it) =>
-    //        it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-    //        it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-    //);
-    //console.log("testHend", testHend);
-
-    //const result: HendelseResponse[] = Object.values(
-    //    testHend.reduce(function (returnValue, originalValue) {
-    //        returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
-    //        returnValue[originalValue.tekstArgument].push(originalValue);
-    //        return returnValue;
-    //    }, {})
-    //);
-    //console.log("result", result);
-
-    //const wat = result[0].
-    //}
-    /*
-    if (hendelser) {
-        //console.log("hendelser", hendelser);
-
-        const testHend: HendelseResponse[] = Object.values(
-            hendelser
-                .filter(
-                    (it) =>
-                        it.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" ||
-                        it.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-                )
-                .reduce((returnValue, originalValue) => {
-                    returnValue[originalValue.tekstArgument] = returnValue[originalValue.tekstArgument] || [];
-                    returnValue[originalValue.tekstArgument].push(originalValue);
-                    return returnValue;
-                }, {})
-        );
-        console.log("testHend", testHend);
-
-        //const wat = testHend.forEach((el1, i1) => {
-        //    testHend.forEach((el2, i2) => {
-        //        console.log("el1", el1[i1]);
-        //        console.log("el2", el2[i2]);
-        //
-        //        ///if(i1 === i2){
-        //        ///    console.log("wwwwaaaaaaa");
-        //        ///    return null;
-        //        ///}
-        //        ///if(el1 && el1.tekstArgument === el2.tekstArgument){
-        //        ///    console.log("waaaaaya")
-        //        ///    if(el1[0].hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL" && el2.hendelseType ==="SAK_FERDIGBEHANDLET_MED_TITTEL"){
-        //        ///        return Math.abs(Date.parse(el1[0]?.tidspunkt).valueOf() - Date.parse(el1[el1.length - 1]?.tidspunkt).valueOf());
-        //        ///    }
-        //        ///}
-        //    });
-        //});
-        //console.log("wat", wat);
-        console.log("-------");
-    }
-
-     let mili;
-     if (sakHendelser) {
-         mili = Math.abs(
-             Date.parse(sakHendelser[0]?.tidspunkt).valueOf() -
-                 Date.parse(sakHendelser[sakHendelser.length - 1]?.tidspunkt).valueOf()
-         );
-     }
-    //d * m * s * ms
-    //24 * 60 * 60 * 1000
-    */
-    /*
-     console.log("miliseconds", mili);
-     console.log("-------");
-
-     const sec = Math.floor(mili / 1000);
-     console.log("seconds", sec);
-     console.log("-------");
-
-    const min = Math.floor(sec / 60);
-    if (min >= 1) {
-        console.log("minutes", min);
-        console.log("-------");
-    }
-
-     const hou = Math.floor(min / 60);
-     if (hou >= 1) {
-         console.log("hours", hou);
-         console.log("-------");
-     }
-
-     const day = Math.floor(hou / 24);
-     if (day >= 1) {
-         console.log("days", day);
-         console.log("-------");
-     }
-
-     if (soknadHendelser) {
-         console.log(
-             "Det tok saken",
-             day,
-             "dag(er)",
-             hou - day * 24,
-             "time(r)",
-             min - day * 24 * 60,
-             "minutt(er) og",
-             sec - day * 24 * 60 * 60,
-             "sekund(er)",
-             "før saken fikk status ferdigbehandlet"
-         );
-     }
-*/
 
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
