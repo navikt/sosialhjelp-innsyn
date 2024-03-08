@@ -8,7 +8,7 @@
         "@navikt/ds-css": "^5.17.1",
         "@navikt/ds-icons": "^3.4.3",
         "@navikt/ds-react": "^5.17.1",
-        "@navikt/nav-dekoratoren-moduler": "^2.1.5",
+        "@navikt/nav-dekoratoren-moduler": "^2.1.6",
         "@navikt/next-logger": "^1.21.0",
         "@sentry/nextjs": "^7.80.1",
         "@sentry/react": "^7.77.0",

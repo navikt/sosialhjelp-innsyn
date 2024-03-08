@@ -1,11 +1,11 @@
 import React from "react";
 import AddFileButton from "../filopplasting/AddFileButton";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
-import {Error} from "../filopplasting/useFilOpplasting";
+import {Error, FancyFile} from "../filopplasting/useFilOpplasting";
 
 interface Props {
-    files: File[];
-    removeFil: (fil: File) => void;
+    files: FancyFile[];
+    removeFil: (fil: FancyFile) => void;
     errors: Error[];
     addFiler: (files: File[]) => void;
     resetStatus: () => void;
