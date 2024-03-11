@@ -1,5 +1,6 @@
 import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
 import {logger} from "@navikt/next-logger";
+import {HendelseResponse} from "../generated/model";
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
@@ -33,6 +34,28 @@ export const logButtonOrLinkClick = (tittel: string) => {
     });
 };
 
+export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
+    const soknadSendTilKontor = hendelser?.find((item) => item.hendelseType === "SOKNAD_SEND_TIL_KONTOR");
+    const soknadFerdigbehandlet = hendelser?.find((item) => item.hendelseType === "SOKNAD_FERDIGBEHANDLET");
+
+    console.log("hendelser", hendelser);
+
+    if (soknadSendTilKontor && soknadFerdigbehandlet) {
+        const msDay = 24 * 60 * 60 * 1000;
+
+        const soknadSendTilKontorTid: Date = new Date(soknadSendTilKontor?.tidspunkt ?? "");
+        const soknadFerdigbehandletTid: Date = new Date(soknadFerdigbehandlet?.tidspunkt ?? "");
+        console.log(
+            "(ferdig-sendt)/msday",
+            Math.ceil((soknadFerdigbehandletTid?.getTime() - soknadSendTilKontorTid?.getTime()) / msDay)
+        );
+
+        //TODO: VI MÅ INKLUDERE KOMMUNENUMMER I log
+        //logAmplitudeEvent("Klikk på knapp eller lenke", {
+        //    msDay,
+        //});
+    }
+};
 const fullFormLanguageString = (language: string | undefined) => {
     switch (language) {
         case "nb":
