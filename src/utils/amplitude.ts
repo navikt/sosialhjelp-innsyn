@@ -34,7 +34,7 @@ export const logButtonOrLinkClick = (tittel: string) => {
     });
 };
 
-export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
+export const logSoknadBehandlingsTid = (hendelser?: HendelseResponse[]) => {
     const soknadSendTilKontor = hendelser?.find((item) => item.hendelseType === "SOKNAD_SEND_TIL_KONTOR");
     const soknadFerdigbehandlet = hendelser?.find((item) => item.hendelseType === "SOKNAD_FERDIGBEHANDLET");
 
