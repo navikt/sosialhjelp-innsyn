@@ -170,16 +170,6 @@ const useFilOpplasting = (
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
-            console.log("Legger til filer");
-            console.log(
-                _files.map(
-                    (it) =>
-                        new File([it], "roflmao", {
-                            type: it.type,
-                            lastModified: it.lastModified,
-                        })
-                )
-            );
             const _errors: Error[] = [];
             logDuplicatedFiles(_files);
             const validFiles = _files.filter((file) => {
