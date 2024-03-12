@@ -7,8 +7,8 @@ import {Delete} from "@navikt/ds-icons";
 import styles from "../../styles/lists.module.css";
 import {useTranslation} from "next-i18next";
 import LinkButton from "../linkButton/LinkButton";
-import {Error} from "../filopplasting/useFilOpplasting";
 import {FileCheckmarkIcon} from "@navikt/aksel-icons";
+import {FancyFile, Error} from "./useFilOpplasting";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -62,21 +62,17 @@ const StyledDeleteButton = styled(Button)`
     }
 `;
 
-function fileToString(file: File) {
-    return file.lastModified + file.size + file.name.replace(".", "") + file.type.replace("/", "");
-}
-
 interface Props {
-    filer: File[];
-    onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: File) => void;
+    filer: FancyFile[];
+    onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: FancyFile) => void;
     errors: Error[];
 }
 
 const FileItemView = (props: Props) => {
-    const [openFile, setOpenFile] = useState<File | null>(null);
+    const [openFile, setOpenFile] = useState<FancyFile | null>(null);
     const {t} = useTranslation();
 
-    const onVisVedlegg = (event: ClickEvent, file: File): void => {
+    const onVisVedlegg = (event: ClickEvent, file: FancyFile): void => {
         setOpenFile(file);
         event.preventDefault();
     };
@@ -85,9 +81,9 @@ const FileItemView = (props: Props) => {
         <>
             {props.filer.length > 0 ? (
                 <ul className={styles.unorderedList}>
-                    <VedleggModal file={openFile} onRequestClose={() => setOpenFile(null)} synlig={!!openFile} />
-                    {props.filer.map((fil: File) => (
-                        <StyledLiTag key={fileToString(fil)}>
+                    <VedleggModal file={openFile?.file} onRequestClose={() => setOpenFile(null)} synlig={!!openFile} />
+                    {props.filer.map((fil: FancyFile) => (
+                        <StyledLiTag key={fil.uuid}>
                             <StyledFilInfoOgKnapp>
                                 <StyledFilInfo>
                                     <LinkButton
@@ -98,10 +94,10 @@ const FileItemView = (props: Props) => {
                                     >
                                         <FileCheckmarkIcon aria-hidden title="filikon" className="filikon" />
 
-                                        {fil.name}
+                                        {fil.file.name}
                                     </LinkButton>
                                     <BodyShort as="span" className="filstorrelse">
-                                        ({formatBytes(fil ? fil.size : 0)})
+                                        ({formatBytes(fil ? fil.file.size : 0)})
                                     </BodyShort>
                                 </StyledFilInfo>
                                 <StyledDeleteButton
@@ -110,7 +106,7 @@ const FileItemView = (props: Props) => {
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.onDelete(event, fil)}
                                     iconPosition="right"
                                     icon={<Delete aria-hidden title="fjern" />}
-                                    aria-label={`${t("vedlegg.fjern")} ${fil.name}`}
+                                    aria-label={`${t("vedlegg.fjern")} ${fil.file.name}`}
                                 >
                                     {t("vedlegg.fjern")}
                                 </StyledDeleteButton>

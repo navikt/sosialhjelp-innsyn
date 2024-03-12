@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {useTranslation} from "next-i18next";
 import {GetServerSideProps, NextPage} from "next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
@@ -17,7 +16,7 @@ import {FilUrl, SoknadsStatusResponseStatus} from "../../../generated/model";
 import {getHentKlagerQueryKey, useSendKlage} from "../../../generated/klage-controller/klage-controller";
 import {useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next/router";
-import useFilOpplasting from "../../../components/filopplasting/useFilOpplasting";
+import useFilOpplasting, {FancyFile} from "../../../components/filopplasting/useFilOpplasting";
 import pageHandler from "../../../pagehandler/pageHandler";
 import {getFlagsServerSide} from "../../../featuretoggles/ssr";
 
@@ -137,7 +136,7 @@ const KlageSkjema: NextPage = () => {
                 <KlageVedleggBoks
                     resetStatus={resetStatus}
                     errors={innerErrors[0]}
-                    removeFil={(fil: File) => removeFil(0, fil)}
+                    removeFil={(fil: FancyFile) => removeFil(0, fil)}
                     files={files[0]}
                     addFiler={(files: File[]) => addFiler(0, files)}
                 />

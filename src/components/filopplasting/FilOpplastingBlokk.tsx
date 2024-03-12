@@ -4,7 +4,7 @@ import {useTranslation} from "next-i18next";
 import styled, {css} from "styled-components";
 import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, {dedupeErrorsByProp} from "./ErrorMessagesSummary";
-import {Error, errorStatusToMessage} from "./useFilOpplasting";
+import {Error, errorStatusToMessage, FancyFile} from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 import {BodyShort, Label} from "@navikt/ds-react";
 
@@ -47,8 +47,8 @@ interface Props {
     tittel?: string | null;
     beskrivelse?: string | null;
     addFileButton?: React.ReactElement;
-    filer: File[];
-    onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: File) => void;
+    filer: FancyFile[];
+    onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: FancyFile) => void;
     errors: Error[];
 }
 
