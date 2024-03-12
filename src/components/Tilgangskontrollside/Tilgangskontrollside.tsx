@@ -58,6 +58,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
                             })}
                         </Heading>
                         <BodyLong spacing>{t("tilgang.info")}</BodyLong>
+                        <BodyLong spacing>{t("tilgang.cookietip")}</BodyLong>
                     </UthevetPanel>
                 </Wrapper>
             </div>
