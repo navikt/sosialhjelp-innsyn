@@ -9,6 +9,8 @@ import type {UrlResponse} from "./urlResponse";
 export interface HendelseResponse {
     filUrl?: UrlResponse;
     hendelseType: string;
+    navEnhetsNummer?: string;
+    saksReferanse?: string;
     tekstArgument?: string;
     tidspunkt: string;
 }

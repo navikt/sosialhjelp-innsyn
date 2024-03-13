@@ -5,7 +5,7 @@
  * OpenAPI spec version: v0
  */
 import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
+import {delay, http, HttpResponse} from "msw";
 
 export const getHentHendelserMock = () =>
     Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
@@ -44,6 +44,8 @@ export const getHentHendelserMock = () =>
             undefined,
         ]),
         hendelseType: faker.word.sample(),
+        navEnhetsNummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        saksReferanse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         tekstArgument: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         tidspunkt: faker.word.sample(),
     }));

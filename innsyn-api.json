@@ -670,7 +670,7 @@
                 }
             },
             "SaksStatusResponse": {
-                "required": ["skalViseVedtakInfoPanel", "tittel"],
+                "required": ["navEnhetsNummer", "saksReferanse", "skalViseVedtakInfoPanel", "tittel"],
                 "type": "object",
                 "properties": {
                     "tittel": {"type": "string"},
@@ -685,7 +685,9 @@
                         ]
                     },
                     "skalViseVedtakInfoPanel": {"type": "boolean"},
-                    "vedtaksfilUrlList": {"type": "array", "items": {"$ref": "#/components/schemas/FilUrl"}}
+                    "vedtaksfilUrlList": {"type": "array", "items": {"$ref": "#/components/schemas/FilUrl"}},
+                    "saksReferanse": {"type": "string"},
+                    "navEnhetsNummer": {"type": "string"}
                 }
             },
             "OppgaveElement": {
@@ -749,7 +751,9 @@
                     "tidspunkt": {"type": "string"},
                     "hendelseType": {"type": "string"},
                     "filUrl": {"$ref": "#/components/schemas/UrlResponse"},
-                    "tekstArgument": {"type": "string"}
+                    "tekstArgument": {"type": "string"},
+                    "saksReferanse": {"type": "string"},
+                    "navEnhetsNummer": {"type": "string"}
                 }
             },
             "ForelopigSvarResponse": {
