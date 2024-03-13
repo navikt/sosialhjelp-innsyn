@@ -124,7 +124,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             {hendelser.map((hendelse: HendelseResponse, index: number) => {
                 return (
                     <li key={index}>
-                        <Label as="p">
+                        <Label as="div">
                             {getBeskrivelse(
                                 hendelse.hendelseType as keyof typeof HistorikkTekstEnum,
                                 hendelse.tekstArgument

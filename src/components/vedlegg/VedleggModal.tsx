@@ -3,11 +3,13 @@ import React from "react";
 import styles from "./vedlegg.module.css";
 import Image from "next/image";
 
-const VedleggModal: React.FC<{file: File | null; synlig: boolean; onRequestClose: () => void}> = ({
-    file,
-    synlig,
-    onRequestClose,
-}) => {
+interface Props {
+    file: File | undefined;
+    synlig: boolean;
+    onRequestClose: () => void;
+}
+
+const VedleggModal: React.FC<Props> = ({file, synlig, onRequestClose}) => {
     if (!file) {
         return null;
     }

@@ -203,6 +203,7 @@
   "ekstern_lenke": "(åpnes i en ny fane)",
   "vedtak": "Vedtak",
   "tilgang.header": "Hei {{fornavn}}",
+  "tilgang.cookietip": "Vi opplever for tiden teknisk feil og enkelte søkere får derfor ikke tilgang til den digitale søknaden. Du kan prøve å slette cookies/informasjonskapsler i nettleseren din, og forsøke å starte søknad igjen.",
   "tilgang.info": "Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt med ditt lokale NAV-kontor for å få hjelp til å søke.",
   "min_side": "Min side",
   "ingen_soknad.tittel": "Vi finner ingen søknader fra deg",

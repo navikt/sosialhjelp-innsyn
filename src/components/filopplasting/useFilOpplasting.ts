@@ -20,6 +20,12 @@ import {logger} from "@navikt/next-logger";
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
+import path from "path";
+
+export interface FancyFile {
+    file: File;
+    uuid: string;
+}
 
 export interface Metadata {
     type: string;
@@ -100,7 +106,7 @@ const useFilOpplasting = (
     const fiksDigisosId = useFiksDigisosId();
     const {isPending, mutate, error, isError, data} = useSendVedlegg();
 
-    const [files, setFiles] = useState<Record<number, File[]>>(recordFromMetadatas(metadatas));
+    const [files, setFiles] = useState<Record<number, FancyFile[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
     const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
@@ -179,10 +185,16 @@ const useFilOpplasting = (
                 return valid;
             });
 
-            if (_files.concat(files[index]).reduce((acc, curr) => acc + curr.size, 0) > maxCombinedFileSize) {
+            if (
+                _files.concat(files[index].map((it) => it.file)).reduce((acc, curr) => acc + curr.size, 0) >
+                maxCombinedFileSize
+            ) {
                 _errors.push({feil: Feil.COMBINED_TOO_LARGE});
             }
-            setFiles((prev) => ({...prev, [index]: [...prev[index], ...validFiles]}));
+            setFiles((prev) => ({
+                ...prev,
+                [index]: [...prev[index], ...validFiles.map((it) => ({file: it, uuid: crypto.randomUUID()}))],
+            }));
 
             setInnerErrors((prev) => ({...prev, [index]: _errors}));
             setOuterErrors([]);
@@ -191,8 +203,8 @@ const useFilOpplasting = (
     );
 
     const removeFil = useCallback(
-        (index: number, fil: File) => {
-            setFiles((prev) => ({...prev, [index]: prev[index].filter((it) => it !== fil)}));
+        (index: number, fil: FancyFile) => {
+            setFiles((prev) => ({...prev, [index]: prev[index].filter((it) => it.uuid !== fil.uuid)}));
         },
         [setFiles]
     );
@@ -209,7 +221,7 @@ const useFilOpplasting = (
             .filter(([_, filer]) => Boolean(filer.length))
             .map(([index, filer]) => {
                 const _metadata = metadatas[+index]!;
-                return {..._metadata, filer: filer.map((fil) => ({filnavn: fil.name}))};
+                return {..._metadata, filer: filer.map((fil) => ({uuid: fil.uuid, filnavn: fil.file.name}))};
             });
 
         const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
@@ -220,7 +232,16 @@ const useFilOpplasting = (
             {
                 fiksDigisosId,
                 data: {
-                    files: [metadataFil, ...allFiles],
+                    files: [
+                        metadataFil,
+                        ...allFiles.map((file) => {
+                            const ext = path.extname(file.file.name);
+                            return new File([file.file], file.uuid + ext, {
+                                type: file.file.type,
+                                lastModified: file.file.lastModified,
+                            });
+                        }),
+                    ],
                 },
             },
             {
