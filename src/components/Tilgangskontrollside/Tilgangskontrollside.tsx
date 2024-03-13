@@ -41,8 +41,12 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     if (!data?.harTilgang || queryHas403) {
         const fornavn = data?.fornavn ?? "";
         fornavn === ""
-            ? logger.warn("Viser tilgangskontrollside uten fornavn")
-            : logger.warn("Viser tilgangskontrollside med fornavn");
+            ? logger.warn(
+                  `Viser tilgangskontrollside uten fornavn, queryHas403: ${queryHas403}, harTilgang: ${data?.harTilgang}`
+              )
+            : logger.warn(
+                  `Viser tilgangskontrollside med fornavn, queryHas403: ${queryHas403}, harTilgang: ${data?.harTilgang}`
+              );
 
         return (
             <div className="informasjon-side">
