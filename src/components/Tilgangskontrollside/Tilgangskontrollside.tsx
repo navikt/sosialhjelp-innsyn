@@ -39,7 +39,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     }
 
     if (error) {
-        logger.error("Fikk feilmelding fra harTilgang", error);
+        logger.error(`harTilgang error: ${error}`);
     }
     if (!data?.harTilgang || queryHas403) {
         const fornavn = data?.fornavn ?? "";
