@@ -83,7 +83,7 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
 export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) => {
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
-        groupSaksBasedOnSaksReferanse = hendelser?.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+        groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
             if (!group[item.saksReferanse]) {
                 group[item.saksReferanse] = [];
             }
@@ -129,7 +129,7 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
 export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => {
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
-        groupSaksBasedOnSaksReferanse = hendelser?.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+        groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
             if (!group[item.saksReferanse]) {
                 group[item.saksReferanse] = [];
             }
