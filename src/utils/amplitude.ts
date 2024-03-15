@@ -35,19 +35,42 @@ export const logButtonOrLinkClick = (tittel: string) => {
 };
 
 export const logSoknadBehandlingsTid = (hendelser?: HendelseResponse[]) => {
-    const soknadSendTilKontor = hendelser?.find((item) => item.hendelseType === "SOKNAD_SEND_TIL_KONTOR");
-    const soknadFerdigbehandlet = hendelser?.find((item) => item.hendelseType === "SOKNAD_FERDIGBEHANDLET");
-
     console.log("hendelser", hendelser);
 
-    if (soknadSendTilKontor && soknadFerdigbehandlet) {
+    let newestSoknadFerdigbehandlet;
+    let newestSoknadUnderBehandling;
+    const soknadUnderBehandling = hendelser?.filter(
+        (item) =>
+            item.hendelseType === "SOKNAD_UNDER_BEHANDLING_UTEN_TITTEL" ||
+            "SOKNAD_MOTTATT_MED_KOMMUNENAVN" ||
+            "SOKNAD_SEND_TIL_KONTOR"
+    );
+    if (soknadUnderBehandling && soknadUnderBehandling.length > 0) {
+        newestSoknadUnderBehandling = soknadUnderBehandling.reduce((a, b) =>
+            new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+        );
+    }
+
+    const soknadFerdigbehandlet = hendelser?.filter(
+        (item) =>
+            item.hendelseType === "SOKNAD_UNDER_BEHANDLING_UTEN_TITTEL" ||
+            "SOKNAD_MOTTATT_MED_KOMMUNENAVN" ||
+            "SOKNAD_SEND_TIL_KONTOR"
+    );
+    if (soknadFerdigbehandlet && soknadFerdigbehandlet.length > 0) {
+        newestSoknadFerdigbehandlet = soknadFerdigbehandlet.reduce((a, b) =>
+            new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+        );
+    }
+
+    if (soknadUnderBehandling && soknadFerdigbehandlet) {
         const msDay = 24 * 60 * 60 * 1000;
 
-        const soknadSendTilKontorTid: Date = new Date(soknadSendTilKontor?.tidspunkt ?? "");
-        const soknadFerdigbehandletTid: Date = new Date(soknadFerdigbehandlet?.tidspunkt ?? "");
+        const soknadUnderBehandling: Date = new Date(newestSoknadUnderBehandling?.tidspunkt ?? "");
+        const soknadFerdigbehandletTid: Date = new Date(newestSoknadFerdigbehandlet?.tidspunkt ?? "");
         console.log(
             "(ferdig-sendt)/msday",
-            Math.ceil((soknadFerdigbehandletTid?.getTime() - soknadSendTilKontorTid?.getTime()) / msDay)
+            Math.ceil((soknadFerdigbehandletTid?.getTime() - soknadUnderBehandling?.getTime()) / msDay)
         );
 
         //TODO: VI MÅ INKLUDERE KOMMUNENUMMER I log
@@ -56,6 +79,94 @@ export const logSoknadBehandlingsTid = (hendelser?: HendelseResponse[]) => {
         //});
     }
 };
+
+export const logSakBehandlingsTidUtenTittel = (hendelser?: HendelseResponse[]) => {
+    let groupSaksBasedOnSaksReferanse;
+    if (hendelser && Object.keys(hendelser).length > 0) {
+        groupSaksBasedOnSaksReferanse = hendelser?.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+            if (!group[item.saksReferanse]) {
+                group[item.saksReferanse] = [];
+            }
+            group[item.saksReferanse].push(item);
+            return group;
+        }, {});
+    }
+
+    let newestSakFerdigbehandletUtenTittel;
+    let newestSakUnderBehandlingUtenTittel;
+    for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
+        const events = groupSaksBasedOnSaksReferanse[saksReferanse];
+
+        const sakUnderBehandlingUtenTittel = events.filter(
+            (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_UTEN_TITTEL"
+        );
+        if (sakUnderBehandlingUtenTittel.length > 0) {
+            newestSakUnderBehandlingUtenTittel = sakUnderBehandlingUtenTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        const sakFerdigbehandletUtenTittel = events.filter(
+            (event) => event.hendelseType === "SAK_FERDIGBEHANDLET_UTEN_TITTEL"
+        );
+        if (sakFerdigbehandletUtenTittel.length > 0) {
+            newestSakFerdigbehandletUtenTittel = sakFerdigbehandletUtenTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        if (newestSakFerdigbehandletUtenTittel && newestSakFerdigbehandletUtenTittel) {
+            const tidspunkt1 = new Date(newestSakFerdigbehandletUtenTittel.tidspunkt);
+            const tidspunkt2 = new Date(newestSakFerdigbehandletUtenTittel.tidspunkt);
+            const msDay = 24 * 60 * 60 * 1000;
+
+            const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msDay);
+            console.log("Time difference in days:", timeDifferenceInDays);
+        }
+    }
+};
+
+export const logSakBehandlingsTidMedTittel = (hendelser?: HendelseResponse[]) => {
+    let groupSaksBasedOnSaksReferanse;
+    if (hendelser && Object.keys(hendelser).length > 0) {
+        groupSaksBasedOnSaksReferanse = hendelser?.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+            if (!group[item.saksReferanse]) {
+                group[item.saksReferanse] = [];
+            }
+            group[item.saksReferanse].push(item);
+            return group;
+        }, {});
+    }
+    console.log("groupSaksBasedOnSaksReferanse", groupSaksBasedOnSaksReferanse);
+
+    let newestSakFerdigbehandletMedTittel;
+    for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
+        const events = groupSaksBasedOnSaksReferanse[saksReferanse];
+
+        const sakUnderBehandlingMedTittel = events.find(
+            (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL"
+        );
+
+        const sakFerdigbehandletMedTittel = events.filter(
+            (event) => event.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+        );
+        if (sakFerdigbehandletMedTittel.length > 0) {
+            newestSakFerdigbehandletMedTittel = sakFerdigbehandletMedTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        if (newestSakFerdigbehandletMedTittel && sakUnderBehandlingMedTittel) {
+            const tidspunkt1 = new Date(sakUnderBehandlingMedTittel.tidspunkt);
+            const tidspunkt2 = new Date(newestSakFerdigbehandletMedTittel.tidspunkt);
+            const msDay = 24 * 60 * 60 * 1000;
+
+            const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msDay);
+            console.log("time diff", timeDifferenceInDays);
+        }
+    }
+};
+
 const fullFormLanguageString = (language: string | undefined) => {
     switch (language) {
         case "nb":

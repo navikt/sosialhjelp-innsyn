@@ -2,7 +2,12 @@ import React, {useState} from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {logButtonOrLinkClick, logSoknadBehandlingsTid} from "../../utils/amplitude";
+import {
+    logButtonOrLinkClick,
+    logSakBehandlingsTidMedTittel,
+    logSakBehandlingsTidUtenTittel,
+    logSoknadBehandlingsTid,
+} from "../../utils/amplitude";
 import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
@@ -198,64 +203,10 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
     const {t} = useTranslation();
     logSoknadBehandlingsTid(hendelser);
+    logSakBehandlingsTidUtenTittel(hendelser);
+    logSakBehandlingsTidMedTittel(hendelser);
 
     console.log("hendelser", hendelser);
-
-    const soknadSendTilKontor = hendelser?.find((item) => item.hendelseType === "SOKNAD_SEND_TIL_KONTOR");
-    const soknadFerdigbehandlet = hendelser?.find((item) => item.hendelseType === "SOKNAD_FERDIGBEHANDLET");
-
-    const sakUnderBehandlingMedTittel = hendelser?.find(
-        (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL"
-    );
-    const sakFerdigbehandletMedTittel = hendelser?.find(
-        (item) => item.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
-    );
-    const sakUnderBehandlingUtenTittel = hendelser?.find(
-        (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_UTEN_TITTEL"
-    );
-    const sakFerdigbehandletUtenTittel = hendelser?.find(
-        (item) => item.hendelseType === "SAK_FERDIGBEHANDLET_UTEN_TITTEL"
-    );
-
-    if (sakUnderBehandlingMedTittel && sakFerdigbehandletMedTittel) {
-        const msDay = 24 * 60 * 60 * 1000;
-
-        const sakUnderBehandlingMedTittelTid: Date = new Date(sakUnderBehandlingMedTittel?.tidspunkt ?? "");
-        const sakFerdigbehandletMedMedTittelTid: Date = new Date(sakFerdigbehandletMedTittel?.tidspunkt ?? "");
-        console.log(
-            "(tittelFerdig-tittelSendt)/msday",
-            Math.ceil(
-                (sakFerdigbehandletMedMedTittelTid?.getTime() - sakUnderBehandlingMedTittelTid?.getTime()) / msDay
-            )
-        );
-
-        /**TODO: Trenger ikke å ha kommunenummer med tanke på at dette er en sak*/
-        //logAmplitudeEvent("Klikk på knapp eller lenke", {
-        //    msDay,
-        //});
-    }
-
-    if (sakUnderBehandlingUtenTittel && sakFerdigbehandletUtenTittel) {
-        const msDay = 24 * 60 * 60 * 1000;
-
-        const sakUnderBehandlingUtenTittelTid: Date = new Date(sakUnderBehandlingUtenTittel?.tidspunkt ?? "");
-        const sakFerdigbehandletUtenTittelTid: Date = new Date(sakFerdigbehandletUtenTittel?.tidspunkt ?? "");
-        console.log(
-            "(utenFerdig-utenSendt)/msday",
-            Math.ceil((sakFerdigbehandletUtenTittelTid?.getTime() - sakUnderBehandlingUtenTittelTid?.getTime()) / msDay)
-        );
-    }
-
-    if (sakUnderBehandlingUtenTittel && sakFerdigbehandletMedTittel) {
-        const msDay = 24 * 60 * 60 * 1000;
-
-        const sakUnderBehandlingUtenTittelTid: Date = new Date(sakUnderBehandlingUtenTittel?.tidspunkt ?? "");
-        const sakFerdigbehandletMedTittelTid: Date = new Date(sakFerdigbehandletMedTittel?.tidspunkt ?? "");
-        console.log(
-            "(utenFerdig-utenSendt)/msday",
-            Math.ceil((sakFerdigbehandletMedTittelTid?.getTime() - sakUnderBehandlingUtenTittelTid?.getTime()) / msDay)
-        );
-    }
 
     /**
      *                      (søknadsbehandlingstiden)
