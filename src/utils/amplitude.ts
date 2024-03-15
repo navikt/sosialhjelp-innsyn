@@ -35,6 +35,7 @@ export const logButtonOrLinkClick = (tittel: string) => {
 };
 
 export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
+    /**
     console.log("hendelser", hendelser);
 
     let newestSoknadFerdigbehandlet;
@@ -77,10 +78,11 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
         //logAmplitudeEvent("Klikk på knapp eller lenke", {
         //    msDay,
         //});
-    }
+    }*/
 };
 
 export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) => {
+    /**
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
@@ -123,10 +125,11 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
             const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msDay);
             console.log("Time difference in days:", timeDifferenceInDays);
         }
-    }
+    }*/
 };
 
 export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => {
+    /**
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
@@ -164,7 +167,7 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
             const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msDay);
             console.log("time diff", timeDifferenceInDays);
         }
-    }
+    }*/
 };
 
 const fullFormLanguageString = (language: string | undefined) => {
