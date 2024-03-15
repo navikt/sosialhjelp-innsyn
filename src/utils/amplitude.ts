@@ -34,7 +34,7 @@ export const logButtonOrLinkClick = (tittel: string) => {
     });
 };
 
-export const logSoknadBehandlingsTid = (hendelser?: HendelseResponse[]) => {
+export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
     console.log("hendelser", hendelser);
 
     let newestSoknadFerdigbehandlet;
@@ -80,7 +80,7 @@ export const logSoknadBehandlingsTid = (hendelser?: HendelseResponse[]) => {
     }
 };
 
-export const logSakBehandlingsTidUtenTittel = (hendelser?: HendelseResponse[]) => {
+export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) => {
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser?.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
@@ -126,7 +126,7 @@ export const logSakBehandlingsTidUtenTittel = (hendelser?: HendelseResponse[]) =
     }
 };
 
-export const logSakBehandlingsTidMedTittel = (hendelser?: HendelseResponse[]) => {
+export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => {
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser?.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
