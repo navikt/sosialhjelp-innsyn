@@ -8,8 +8,10 @@ import type {SaksStatusResponseStatus} from "./saksStatusResponseStatus";
 import type {FilUrl} from "./filUrl";
 
 export interface SaksStatusResponse {
-    navEnhetsNummer?: string;
-    saksReferanse?: string;
+    kommuneNummer: string;
+    navEnhetsNavn: string;
+    navEnhetsNummer: string;
+    saksReferanse: string;
     skalViseVedtakInfoPanel: boolean;
     status?: SaksStatusResponseStatus;
     tittel: string;

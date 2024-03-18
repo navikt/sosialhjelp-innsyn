@@ -44,6 +44,8 @@ export const getHentHendelserMock = () =>
             undefined,
         ]),
         hendelseType: faker.word.sample(),
+        kommuneNummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        navEnhetsNavn: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         navEnhetsNummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         saksReferanse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         tekstArgument: faker.helpers.arrayElement([faker.word.sample(), undefined]),
