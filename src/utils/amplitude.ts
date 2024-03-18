@@ -56,6 +56,8 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
         (item) => item.hendelseType === "SOKNAD_FERDIGBEHANDLET" || "SOKNAD_BEHANDLES_IKKE"
     );
 
+    console.log("soknadFerdigbehandlet", soknadFerdigbehandlet);
+
     if (soknadFerdigbehandlet && soknadFerdigbehandlet.length > 0) {
         newestSoknadFerdigbehandlet = soknadFerdigbehandlet.reduce((a, b) =>
             new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
@@ -94,8 +96,7 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
         }, {});
     }
 
-    let newestSakFerdigbehandletUtenTittel;
-    let newestSakUnderBehandlingUtenTittel;
+    let newestSakFerdigbehandletUtenTittel, newestSakUnderBehandlingUtenTittel;
     for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
         const events = groupSaksBasedOnSaksReferanse[saksReferanse];
 
