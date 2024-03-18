@@ -86,10 +86,10 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
-            if (!group[item.saksReferanse]) {
+            if (item && !group[item.saksReferanse]) {
                 group[item.saksReferanse] = [];
             }
-            group[item.saksReferanse].push(item);
+            item && group[item.saksReferanse].push(item);
             return group;
         }, {});
     }
@@ -138,10 +138,10 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
-            if (!group[item.saksReferanse]) {
+            if (item && !group[item.saksReferanse]) {
                 group[item.saksReferanse] = [];
             }
-            group[item.saksReferanse].push(item);
+            item && group[item.saksReferanse].push(item);
             return group;
         }, {});
     }
