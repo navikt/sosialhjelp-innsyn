@@ -86,7 +86,7 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
         groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
-            if (item) {
+            if (item.saksReferanse) {
                 if (!group[item.saksReferanse]) {
                     group[item.saksReferanse] = [];
                 }
