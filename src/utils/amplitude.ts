@@ -87,13 +87,15 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
     const msDay = 24 * 60 * 60 * 1000;
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
-        groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
-            if (!group[item.saksReferanse!]) {
-                group[item.saksReferanse!] = [];
-            }
-            group[item.saksReferanse!].push(item);
-            return group;
-        }, {});
+        groupSaksBasedOnSaksReferanse = hendelser
+            .filter((x) => x.saksReferanse !== null || undefined)
+            .reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+                if (!group[item.saksReferanse]) {
+                    group[item.saksReferanse] = [];
+                }
+                group[item.saksReferanse].push(item);
+                return group;
+            }, {});
     }
 
     let newestSakFerdigbehandletUtenTittel, newestSakUnderBehandlingUtenTittel;
@@ -138,14 +140,18 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
     const msDay = 24 * 60 * 60 * 1000;
     let groupSaksBasedOnSaksReferanse;
     if (hendelser && Object.keys(hendelser).length > 0) {
-        groupSaksBasedOnSaksReferanse = hendelser.reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
-            if (!group[item.saksReferanse]) {
-                group[item.saksReferanse] = [];
-            }
-            group[item.saksReferanse].push(item);
-            return group;
-        }, {});
+        groupSaksBasedOnSaksReferanse = hendelser
+            .filter((x) => x.saksReferanse !== null || undefined)
+            .reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+                if (!group[item.saksReferanse]) {
+                    group[item.saksReferanse] = [];
+                }
+                group[item.saksReferanse].push(item);
+                return group;
+            }, {});
     }
+
+    console.log("groupSaksBasedOnSaksReferanse", groupSaksBasedOnSaksReferanse);
 
     let newestSakFerdigbehandletMedTittel;
     for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
