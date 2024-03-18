@@ -202,9 +202,12 @@ const StyledTextPlacement = styled.div`
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
     const {t} = useTranslation();
-    logSoknadBehandlingsTid(hendelser);
-    logSakBehandlingsTidUtenTittel(hendelser);
-    logSakBehandlingsTidMedTittel(hendelser);
+
+    if (hendelser) {
+        logSoknadBehandlingsTid(hendelser);
+        logSakBehandlingsTidUtenTittel(hendelser);
+        logSakBehandlingsTidMedTittel(hendelser);
+    }
 
     console.log("hendelser", hendelser);
 
