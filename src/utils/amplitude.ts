@@ -62,7 +62,7 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
         );
     }
 
-    if (soknadUnderBehandling && soknadFerdigbehandlet) {
+    if (newestSoknadUnderBehandling && newestSoknadFerdigbehandlet) {
         const msDay = 24 * 60 * 60 * 1000;
 
         const soknadUnderBehandling: Date = new Date(newestSoknadUnderBehandling?.tidspunkt ?? "");
