@@ -64,6 +64,16 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
         );
     }
 
+    //TODO:
+    //er det kun en gang per søknad at det kan etterspørres dokumentasjon,
+    // eller må vi håndere en historikk der det kan ha skjedd flere ganger?
+
+    const timeWaitingForResponse = 0;
+
+    //hendelser - dokumentasjon etterspurt
+
+    //ettersendelse vedlegg - skal IKKEp påvirke tellingen
+
     if (newestSoknadUnderBehandling && newestSoknadFerdigbehandlet) {
         const msDay = 24 * 60 * 60 * 1000;
 
