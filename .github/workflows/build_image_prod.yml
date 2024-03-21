@@ -37,6 +37,7 @@ jobs:
           team: teamdigisos
           source: ./.next/static
           destination: "/sosialhjelp-innsyn/_next"
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
       - name: 'Create artifact version'
