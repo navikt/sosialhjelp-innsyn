@@ -39,17 +39,14 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     }
 
     if (error) {
-        logger.error(`harTilgang error: ${error}`);
+        logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
     }
+
     if (!data?.harTilgang || queryHas403) {
         const fornavn = data?.fornavn ?? "";
         fornavn === ""
-            ? logger.warn(
-                  `Viser tilgangskontrollside uten fornavn, queryHas403: ${queryHas403}, harTilgang: ${data?.harTilgang}`
-              )
-            : logger.warn(
-                  `Viser tilgangskontrollside med fornavn, queryHas403: ${queryHas403}, harTilgang: ${data?.harTilgang}`
-              );
+            ? logger.warn(`Viser tilgangskontrollside uten fornavn`)
+            : logger.warn(`Viser tilgangskontrollside med fornavn`);
 
         return (
             <div className="informasjon-side">
@@ -65,7 +62,6 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
                             })}
                         </Heading>
                         <BodyLong spacing>{t("tilgang.info")}</BodyLong>
-                        <BodyLong spacing>{t("tilgang.cookietip")}</BodyLong>
                     </UthevetPanel>
                 </Wrapper>
             </div>
