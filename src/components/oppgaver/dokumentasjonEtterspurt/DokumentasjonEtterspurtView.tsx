@@ -28,10 +28,6 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
     const {kommune} = useKommune();
     const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
-    console.log(
-        "wat wat",
-        dokumentasjonEtterspurt.oppgaveElementer.find((value) => value.hendelsereferanse)
-    );
     const metadatas = useMemo(
         () =>
             dokumentasjonEtterspurt.oppgaveElementer.map((element) => ({

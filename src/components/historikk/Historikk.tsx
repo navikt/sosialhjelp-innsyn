@@ -209,8 +209,6 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
         logSakBehandlingsTidMedTittel(hendelser);
     }
 
-    console.log("hendelser", hendelser);
-
     /**
      *                      (søknadsbehandlingstiden)
      * Det er ønskelig å måle saksbehandlingstid fra søknad er sendt inn, til den har fått status ferdigbehandlet.
