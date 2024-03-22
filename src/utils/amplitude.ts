@@ -37,7 +37,7 @@ export const logButtonOrLinkClick = (tittel: string) => {
 const msInADay = 24 * 60 * 60 * 1000;
 
 export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
-    let newestSoknadFerdigbehandlet, newestSoknadUnderBehandling;
+    let newestSoknadFerdigbehandlet, oldestSoknadUnderBehandling;
 
     const soknadUnderBehandling = hendelser?.filter(
         (item) =>
@@ -48,7 +48,7 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
     );
 
     if (soknadUnderBehandling && soknadUnderBehandling.length > 0) {
-        newestSoknadUnderBehandling = soknadUnderBehandling.reduce((a, b) =>
+        oldestSoknadUnderBehandling = soknadUnderBehandling.reduce((a, b) =>
             new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
         );
     }
@@ -64,18 +64,12 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
         );
     }
 
-    if (newestSoknadUnderBehandling && newestSoknadFerdigbehandlet) {
-        const soknadUnderBehandling: Date = new Date(newestSoknadUnderBehandling?.tidspunkt ?? "");
+    if (oldestSoknadUnderBehandling && newestSoknadFerdigbehandlet) {
+        const soknadUnderBehandling: Date = new Date(oldestSoknadUnderBehandling?.tidspunkt ?? "");
         const soknadFerdigbehandletTid: Date = new Date(newestSoknadFerdigbehandlet?.tidspunkt ?? "");
         const timeDifferenceInDays = Math.ceil(
             (soknadFerdigbehandletTid?.getTime() - soknadUnderBehandling?.getTime()) / msInADay
         );
-        //console.log("------------------");
-        //console.log("SØKNAD");
-        //console.log("antallDager: ", timeDifferenceInDays);
-        //console.log("kommuneNummer: ", newestSoknadFerdigbehandlet.kommuneNummer);
-        //console.log("navEnhetsNavn: ", newestSoknadFerdigbehandlet.navEnhetsNavn);
-        //console.log("navEnhetsNummer: ", newestSoknadFerdigbehandlet.navEnhetsNummer);
 
         logAmplitudeEvent("Behandlingstid for søknad", {
             antallDager: timeDifferenceInDays,
@@ -129,13 +123,6 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
             const tidspunkt2 = new Date(newestSakFerdigbehandletUtenTittel.tidspunkt);
             const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msInADay);
 
-            //console.log("------------------");
-            //console.log("SAK UTEN TITTEL");
-            //console.log("antallDager: ", timeDifferenceInDays);
-            //console.log("kommuneNummer: ", newestSakFerdigbehandletUtenTittel.kommuneNummer);
-            //console.log("navEnhetsNavn: ", newestSakFerdigbehandletUtenTittel.navEnhetsNavn);
-            //console.log("navEnhetsNummer: ", newestSakFerdigbehandletUtenTittel.navEnhetsNummer);
-
             logAmplitudeEvent("Behandlingstid for sak", {
                 antallDager: timeDifferenceInDays,
                 kommuneNummer: newestSakFerdigbehandletUtenTittel.kommuneNummer,
@@ -164,13 +151,13 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
     for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
         const events = groupSaksBasedOnSaksReferanse[saksReferanse];
 
-        const sakUnderBehandlingMedTittel = events.find(
+        const sakUnderBehandlingMedTittel = events.filter(
             (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL"
         );
 
         if (sakUnderBehandlingMedTittel && sakUnderBehandlingMedTittel.length > 0) {
-            oldestSakUnderBehandlingMedTittel = sakUnderBehandlingMedTittel.reduce(
-                (a: HendelseResponse, b: HendelseResponse) => (new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b)
+            oldestSakUnderBehandlingMedTittel = sakUnderBehandlingMedTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
             );
         }
 
@@ -189,12 +176,6 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
             const tidspunkt2 = new Date(newestSakFerdigbehandletMedTittel.tidspunkt);
             const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msInADay);
 
-            //console.log("------------------");
-            //console.log("SAK MED TITTEL");
-            //console.log("antallDager: ", timeDifferenceInDays);
-            //console.log("kommuneNummer: ", newestSakFerdigbehandletMedTittel.kommuneNummer);
-            //console.log("navEnhetsNavn: ", newestSakFerdigbehandletMedTittel.navEnhetsNavn);
-            //console.log("navEnhetsNummer: ", newestSakFerdigbehandletMedTittel.navEnhetsNummer);
             logAmplitudeEvent("Behandlingstid for sak", {
                 antallDager: timeDifferenceInDays,
                 kommuneNummer: newestSakFerdigbehandletMedTittel.kommuneNummer,
