@@ -169,8 +169,8 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
         );
 
         if (sakUnderBehandlingMedTittel && sakUnderBehandlingMedTittel.length > 0) {
-            oldestSakUnderBehandlingMedTittel = sakUnderBehandlingMedTittel.reduce((a, b) =>
-                new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
+            oldestSakUnderBehandlingMedTittel = sakUnderBehandlingMedTittel.reduce(
+                (a: HendelseResponse, b: HendelseResponse) => (new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b)
             );
         }
 
