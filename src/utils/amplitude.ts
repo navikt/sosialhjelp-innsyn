@@ -70,12 +70,12 @@ export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
         const timeDifferenceInDays = Math.ceil(
             (soknadFerdigbehandletTid?.getTime() - soknadUnderBehandling?.getTime()) / msInADay
         );
-        console.log("------------------");
-        console.log("SØKNAD");
-        console.log("antallDager: ", timeDifferenceInDays);
-        console.log("kommuneNummer: ", newestSoknadFerdigbehandlet.kommuneNummer);
-        console.log("navEnhetsNavn: ", newestSoknadFerdigbehandlet.navEnhetsNavn);
-        console.log("navEnhetsNummer: ", newestSoknadFerdigbehandlet.navEnhetsNummer);
+        //console.log("------------------");
+        //console.log("SØKNAD");
+        //console.log("antallDager: ", timeDifferenceInDays);
+        //console.log("kommuneNummer: ", newestSoknadFerdigbehandlet.kommuneNummer);
+        //console.log("navEnhetsNavn: ", newestSoknadFerdigbehandlet.navEnhetsNavn);
+        //console.log("navEnhetsNummer: ", newestSoknadFerdigbehandlet.navEnhetsNummer);
 
         logAmplitudeEvent("Behandlingstid for søknad", {
             antallDager: timeDifferenceInDays,
@@ -109,7 +109,6 @@ export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) =>
         );
 
         if (sakUnderBehandlingUtenTittel && sakUnderBehandlingUtenTittel.length > 0) {
-            console.log("her2");
             oldestSakUnderBehandlingUtenTittel = sakUnderBehandlingUtenTittel.reduce((a, b) =>
                 new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
             );
@@ -170,9 +169,8 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
         );
 
         if (sakUnderBehandlingMedTittel && sakUnderBehandlingMedTittel.length > 0) {
-            console.log("her2");
             oldestSakUnderBehandlingMedTittel = sakUnderBehandlingMedTittel.reduce((a, b) =>
-                new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+                new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
             );
         }
 
@@ -180,7 +178,7 @@ export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => 
             (event) => event.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
         );
 
-        if (sakFerdigbehandletMedTittel.length > 0) {
+        if (sakFerdigbehandletMedTittel && sakFerdigbehandletMedTittel.length > 0) {
             newestSakFerdigbehandletMedTittel = sakFerdigbehandletMedTittel.reduce((a, b) =>
                 new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
             );
