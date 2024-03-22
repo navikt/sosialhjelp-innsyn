@@ -209,41 +209,6 @@ const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
         logSakBehandlingsTidMedTittel(hendelser);
     }
 
-    /**
-     *                      (søknadsbehandlingstiden)
-     * Det er ønskelig å måle saksbehandlingstid fra søknad er sendt inn, til den har fått status ferdigbehandlet.
-     *
-     * Vi bør også måle på når saker er ferdigbehandlet.
-     *
-     * Det er ønskelig at vi stanser telling av dager når vi mottar hendelse dokumentasjon_etterspurt,
-     * og starter telling når bruker ikke har oppgaver lenger.
-     *
-     * Dette er fordi at saksbehandlingstiden stopper å gå når veileder etterspør mer dokumentasjon.
-     *
-     * alt under 24 timer = 1 dag
-     * alt over er x dag
-     * vi må også ha kommunenummer med
-     * */
-
-    //logAmplitudeEvent("Lastet utbetalinger", {
-    //    antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
-    //});
-    //
-    //logAmplitudeEvent("vedtak per sak", {
-    //    sak: index + 1,
-    //    antallVedtak: statusdetalj.vedtaksfilUrlList ? statusdetalj.vedtaksfilUrlList.length : 0,
-    //});
-
-    //logAmplitudeEvent("saksbehandlingstiden er: ",{
-    //    tid: hendelser?.filter((user) => {
-    //        user.hendelseType !== "SOKNAD_SEND_TIL_KONTOR";
-    //    })
-    //});
-
-    //const errors: Error[] = filerData
-    //    .filter((it) => it.status !== "OK")
-    //    .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
-
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
     }
