@@ -15,30 +15,18 @@ const saksStatus2: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.UNDER_BEHANDLING,
     skalViseVedtakInfoPanel: false,
-    saksReferanse: "",
-    navEnhetsNavn: "",
-    navEnhetsNummer: "",
-    kommuneNummer: "",
     vedtaksfilUrlList: [],
 };
 const saksStatus3: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.FERDIGBEHANDLET,
     skalViseVedtakInfoPanel: false,
-    saksReferanse: "",
-    navEnhetsNavn: "",
-    navEnhetsNummer: "",
-    kommuneNummer: "",
     vedtaksfilUrlList: [],
 };
 const saksStatus4: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.FERDIGBEHANDLET,
     skalViseVedtakInfoPanel: true,
-    saksReferanse: "",
-    navEnhetsNavn: "",
-    navEnhetsNummer: "",
-    kommuneNummer: "",
     vedtaksfilUrlList: [],
 };
 
