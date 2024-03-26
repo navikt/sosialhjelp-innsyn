@@ -9,10 +9,6 @@ import {delay, http, HttpResponse} from "msw";
 
 export const getHentSaksStatuserMock = () =>
     Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        kommuneNummer: faker.word.sample(),
-        navEnhetsNavn: faker.word.sample(),
-        navEnhetsNummer: faker.word.sample(),
-        saksReferanse: faker.word.sample(),
         skalViseVedtakInfoPanel: faker.datatype.boolean(),
         status: faker.helpers.arrayElement([
             faker.helpers.arrayElement([

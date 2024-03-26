@@ -670,14 +670,7 @@
                 }
             },
             "SaksStatusResponse": {
-                "required": [
-                    "kommuneNummer",
-                    "navEnhetsNavn",
-                    "navEnhetsNummer",
-                    "saksReferanse",
-                    "skalViseVedtakInfoPanel",
-                    "tittel"
-                ],
+                "required": ["skalViseVedtakInfoPanel", "tittel"],
                 "type": "object",
                 "properties": {
                     "tittel": {"type": "string"},
@@ -692,11 +685,7 @@
                         ]
                     },
                     "skalViseVedtakInfoPanel": {"type": "boolean"},
-                    "vedtaksfilUrlList": {"type": "array", "items": {"$ref": "#/components/schemas/FilUrl"}},
-                    "saksReferanse": {"type": "string"},
-                    "navEnhetsNummer": {"type": "string"},
-                    "navEnhetsNavn": {"type": "string"},
-                    "kommuneNummer": {"type": "string"}
+                    "vedtaksfilUrlList": {"type": "array", "items": {"$ref": "#/components/schemas/FilUrl"}}
                 }
             },
             "OppgaveElement": {
