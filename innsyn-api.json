@@ -749,7 +749,11 @@
                     "tidspunkt": {"type": "string"},
                     "hendelseType": {"type": "string"},
                     "filUrl": {"$ref": "#/components/schemas/UrlResponse"},
-                    "tekstArgument": {"type": "string"}
+                    "tekstArgument": {"type": "string"},
+                    "saksReferanse": {"type": "string"},
+                    "navEnhetsNummer": {"type": "string"},
+                    "navEnhetsNavn": {"type": "string"},
+                    "kommuneNummer": {"type": "string"}
                 }
             },
             "ForelopigSvarResponse": {

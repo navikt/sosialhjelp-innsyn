@@ -2,7 +2,12 @@ import React, {useState} from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
+import {
+    logButtonOrLinkClick,
+    logSakBehandlingsTidMedTittel,
+    logSakBehandlingsTidUtenTittel,
+    logSoknadBehandlingsTid,
+} from "../../utils/amplitude";
 import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
@@ -197,6 +202,13 @@ const StyledTextPlacement = styled.div`
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
     const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
     const {t} = useTranslation();
+
+    if (hendelser) {
+        logSoknadBehandlingsTid(hendelser);
+        logSakBehandlingsTidUtenTittel(hendelser);
+        logSakBehandlingsTidMedTittel(hendelser);
+    }
+
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;
     }
