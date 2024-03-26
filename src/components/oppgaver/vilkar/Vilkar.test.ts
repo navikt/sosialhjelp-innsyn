@@ -5,10 +5,6 @@ const saksStatus1: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.UNDER_BEHANDLING,
     skalViseVedtakInfoPanel: false,
-    saksReferanse: "",
-    navEnhetsNavn: "",
-    navEnhetsNummer: "",
-    kommuneNummer: "",
     vedtaksfilUrlList: [],
 };
 const saksStatus2: SaksStatusResponse = {
