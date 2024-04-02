@@ -1,5 +1,6 @@
 import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
 import {logger} from "@navikt/next-logger";
+import {HendelseResponse} from "../generated/model";
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
@@ -31,6 +32,158 @@ export const logButtonOrLinkClick = (tittel: string) => {
     logAmplitudeEvent("Klikk på knapp eller lenke", {
         tittel,
     });
+};
+
+const msInADay = 24 * 60 * 60 * 1000;
+
+export const logSoknadBehandlingsTid = (hendelser: HendelseResponse[]) => {
+    let newestSoknadFerdigbehandlet, oldestSoknadUnderBehandling;
+
+    const soknadUnderBehandling = hendelser?.filter(
+        (item) =>
+            item.hendelseType.includes("SOKNAD_SEND_TIL_KONTOR") ||
+            item.hendelseType.includes("SOKNAD_UNDER_BEHANDLING") ||
+            item.hendelseType.includes("SOKNAD_MOTTATT_MED_KOMMUNENAVN") ||
+            item.hendelseType.includes("SOKNAD_MOTTATT_UTEN_KOMMUNENAVN")
+    );
+
+    if (soknadUnderBehandling && soknadUnderBehandling.length > 0) {
+        oldestSoknadUnderBehandling = soknadUnderBehandling.reduce((a, b) =>
+            new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
+        );
+    }
+
+    const soknadFerdigbehandlet = hendelser?.filter(
+        (item) =>
+            item.hendelseType.includes("SOKNAD_FERDIGBEHANDLET") || item.hendelseType.includes("SOKNAD_BEHANDLES_IKKE")
+    );
+
+    if (soknadFerdigbehandlet && soknadFerdigbehandlet.length > 0) {
+        newestSoknadFerdigbehandlet = soknadFerdigbehandlet.reduce((a, b) =>
+            new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+        );
+    }
+
+    if (oldestSoknadUnderBehandling && newestSoknadFerdigbehandlet) {
+        const soknadUnderBehandling: Date = new Date(oldestSoknadUnderBehandling?.tidspunkt ?? "");
+        const soknadFerdigbehandletTid: Date = new Date(newestSoknadFerdigbehandlet?.tidspunkt ?? "");
+        const timeDifferenceInDays = Math.ceil(
+            (soknadFerdigbehandletTid?.getTime() - soknadUnderBehandling?.getTime()) / msInADay
+        );
+
+        logAmplitudeEvent("Behandlingstid for søknad", {
+            antallDager: timeDifferenceInDays,
+            kommuneNummer: newestSoknadFerdigbehandlet.kommuneNummer,
+            navEnhetsNavn: newestSoknadFerdigbehandlet.navEnhetsNavn,
+            navEnhetsNummer: newestSoknadFerdigbehandlet.navEnhetsNummer,
+        });
+    }
+};
+
+export const logSakBehandlingsTidUtenTittel = (hendelser: HendelseResponse[]) => {
+    let groupSaksBasedOnSaksReferanse;
+    if (hendelser && Object.keys(hendelser).length > 0) {
+        groupSaksBasedOnSaksReferanse = hendelser
+            .filter((hendelse) => hendelse.saksReferanse !== null || undefined)
+            .reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+                if (!group[item.saksReferanse!]) {
+                    group[item.saksReferanse!] = [];
+                }
+                group[item.saksReferanse!].push(item);
+                return group;
+            }, {});
+    }
+
+    let newestSakFerdigbehandletUtenTittel, oldestSakUnderBehandlingUtenTittel;
+    for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
+        const events = groupSaksBasedOnSaksReferanse[saksReferanse];
+
+        const sakUnderBehandlingUtenTittel = events.filter(
+            (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_UTEN_TITTEL"
+        );
+
+        if (sakUnderBehandlingUtenTittel && sakUnderBehandlingUtenTittel.length > 0) {
+            oldestSakUnderBehandlingUtenTittel = sakUnderBehandlingUtenTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        const sakFerdigbehandletUtenTittel = events.filter(
+            (event) => event.hendelseType === "SAK_FERDIGBEHANDLET_UTEN_TITTEL"
+        );
+
+        if (sakFerdigbehandletUtenTittel && sakFerdigbehandletUtenTittel.length > 0) {
+            newestSakFerdigbehandletUtenTittel = sakFerdigbehandletUtenTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        if (oldestSakUnderBehandlingUtenTittel && newestSakFerdigbehandletUtenTittel) {
+            const tidspunkt1 = new Date(oldestSakUnderBehandlingUtenTittel.tidspunkt);
+            const tidspunkt2 = new Date(newestSakFerdigbehandletUtenTittel.tidspunkt);
+            const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msInADay);
+
+            logAmplitudeEvent("Behandlingstid for sak", {
+                antallDager: timeDifferenceInDays,
+                kommuneNummer: newestSakFerdigbehandletUtenTittel.kommuneNummer,
+                navEnhetsNavn: newestSakFerdigbehandletUtenTittel.navEnhetsNavn,
+                navEnhetsNummer: newestSakFerdigbehandletUtenTittel.navEnhetsNummer,
+            });
+        }
+    }
+};
+
+export const logSakBehandlingsTidMedTittel = (hendelser: HendelseResponse[]) => {
+    let groupSaksBasedOnSaksReferanse;
+    if (hendelser && Object.keys(hendelser).length > 0) {
+        groupSaksBasedOnSaksReferanse = hendelser
+            .filter((hendelse) => hendelse.saksReferanse !== null || undefined)
+            .reduce((group: {[key: string]: HendelseResponse[]}, item, num) => {
+                if (!group[item.saksReferanse!]) {
+                    group[item.saksReferanse!] = [];
+                }
+                group[item.saksReferanse!].push(item);
+                return group;
+            }, {});
+    }
+
+    let newestSakFerdigbehandletMedTittel, oldestSakUnderBehandlingMedTittel;
+    for (const saksReferanse in groupSaksBasedOnSaksReferanse) {
+        const events = groupSaksBasedOnSaksReferanse[saksReferanse];
+
+        const sakUnderBehandlingMedTittel = events.filter(
+            (item) => item.hendelseType === "SAK_UNDER_BEHANDLING_MED_TITTEL"
+        );
+
+        if (sakUnderBehandlingMedTittel && sakUnderBehandlingMedTittel.length > 0) {
+            oldestSakUnderBehandlingMedTittel = sakUnderBehandlingMedTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) < new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        const sakFerdigbehandletMedTittel = events.filter(
+            (event) => event.hendelseType === "SAK_FERDIGBEHANDLET_MED_TITTEL"
+        );
+
+        if (sakFerdigbehandletMedTittel && sakFerdigbehandletMedTittel.length > 0) {
+            newestSakFerdigbehandletMedTittel = sakFerdigbehandletMedTittel.reduce((a, b) =>
+                new Date(a.tidspunkt) > new Date(b.tidspunkt) ? a : b
+            );
+        }
+
+        if (oldestSakUnderBehandlingMedTittel && newestSakFerdigbehandletMedTittel) {
+            const tidspunkt1 = new Date(oldestSakUnderBehandlingMedTittel.tidspunkt);
+            const tidspunkt2 = new Date(newestSakFerdigbehandletMedTittel.tidspunkt);
+            const timeDifferenceInDays = Math.ceil((tidspunkt2.getTime() - tidspunkt1.getTime()) / msInADay);
+
+            logAmplitudeEvent("Behandlingstid for sak", {
+                antallDager: timeDifferenceInDays,
+                kommuneNummer: newestSakFerdigbehandletMedTittel.kommuneNummer,
+                navEnhetsNavn: newestSakFerdigbehandletMedTittel.navEnhetsNavn,
+                navEnhetsNummer: newestSakFerdigbehandletMedTittel.navEnhetsNummer,
+            });
+        }
+    }
 };
 
 const fullFormLanguageString = (language: string | undefined) => {
