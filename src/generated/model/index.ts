@@ -32,7 +32,7 @@ export * from "./saksDetaljerResponse";
 export * from "./saksListeResponse";
 export * from "./saksStatusResponse";
 export * from "./saksStatusResponseStatus";
-export * from "./sendVedleggBody";
+export * from "./sendVedleggParams";
 export * from "./soknadsStatusResponse";
 export * from "./soknadsStatusResponseStatus";
 export * from "./tilgangResponse";

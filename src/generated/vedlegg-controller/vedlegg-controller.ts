@@ -14,7 +14,7 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import type {OppgaveOpplastingResponse} from "../model/oppgaveOpplastingResponse";
-import type {SendVedleggBody} from "../model/sendVedleggBody";
+import type {SendVedleggParams} from "../model/sendVedleggParams";
 import type {VedleggResponse} from "../model/vedleggResponse";
 import {axiosInstance} from "../../axios-instance";
 import type {ErrorType} from "../../axios-instance";
@@ -82,19 +82,11 @@ export const useHentVedlegg = <TData = Awaited<ReturnType<typeof hentVedlegg>>, 
 
 export const sendVedlegg = (
     fiksDigisosId: string,
-    sendVedleggBody: SendVedleggBody,
+    params: SendVedleggParams,
     options?: SecondParameter<typeof axiosInstance>
 ) => {
-    const formData = new FormData();
-    sendVedleggBody.files.forEach((value) => formData.append("files", value));
-
     return axiosInstance<OppgaveOpplastingResponse[]>(
-        {
-            url: `/api/v1/innsyn/${fiksDigisosId}/vedlegg`,
-            method: "POST",
-            headers: {"Content-Type": "multipart/form-data"},
-            data: formData,
-        },
+        {url: `/api/v1/innsyn/${fiksDigisosId}/vedlegg`, method: "POST", params},
         options
     );
 };
@@ -103,39 +95,39 @@ export const getSendVedleggMutationOptions = <TError = ErrorType<unknown>, TCont
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,
-        {fiksDigisosId: string; data: SendVedleggBody},
+        {fiksDigisosId: string; params: SendVedleggParams},
         TContext
     >;
     request?: SecondParameter<typeof axiosInstance>;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof sendVedlegg>>,
     TError,
-    {fiksDigisosId: string; data: SendVedleggBody},
+    {fiksDigisosId: string; params: SendVedleggParams},
     TContext
 > => {
     const {mutation: mutationOptions, request: requestOptions} = options ?? {};
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof sendVedlegg>>,
-        {fiksDigisosId: string; data: SendVedleggBody}
+        {fiksDigisosId: string; params: SendVedleggParams}
     > = (props) => {
-        const {fiksDigisosId, data} = props ?? {};
+        const {fiksDigisosId, params} = props ?? {};
 
-        return sendVedlegg(fiksDigisosId, data, requestOptions);
+        return sendVedlegg(fiksDigisosId, params, requestOptions);
     };
 
     return {mutationFn, ...mutationOptions};
 };
 
 export type SendVedleggMutationResult = NonNullable<Awaited<ReturnType<typeof sendVedlegg>>>;
-export type SendVedleggMutationBody = SendVedleggBody;
+
 export type SendVedleggMutationError = ErrorType<unknown>;
 
 export const useSendVedlegg = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,
-        {fiksDigisosId: string; data: SendVedleggBody},
+        {fiksDigisosId: string; params: SendVedleggParams},
         TContext
     >;
     request?: SecondParameter<typeof axiosInstance>;

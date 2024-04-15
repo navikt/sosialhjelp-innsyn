@@ -6,7 +6,7 @@ import {
     logDuplicatedFiles,
     logFileUploadFailedEvent,
 } from "../../utils/amplitude";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
+import {SendVedleggParams, VedleggOpplastingResponseStatus} from "../../generated/model";
 import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
@@ -98,7 +98,7 @@ const useFilOpplasting = (
     options?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         ErrorType<unknown>,
-        {fiksDigisosId: string; data: SendVedleggBody}
+        {fiksDigisosId: string; params: SendVedleggParams}
     >
 ) => {
     const {t} = useTranslation();
@@ -231,7 +231,7 @@ const useFilOpplasting = (
         mutate(
             {
                 fiksDigisosId,
-                data: {
+                params: {
                     files: [
                         metadataFil,
                         ...allFiles.map((file) => {

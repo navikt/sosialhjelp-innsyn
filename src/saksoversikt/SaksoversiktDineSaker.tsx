@@ -81,6 +81,7 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                                 oppdatert={sak.sistOppdatert}
                                 url={sak.url}
                                 kilde={sak.kilde}
+                                isBroken={sak.isBrokenSoknad}
                             />
                         </li>
                     ))}

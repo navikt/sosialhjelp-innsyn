@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Heading, Panel} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useTranslation} from "next-i18next";
 import useKommune from "../../hooks/useKommune";
@@ -37,6 +37,10 @@ const StyledPanel = styled(Panel)`
 
 const StyledSpace = styled.div`
     padding: 2rem 0 2rem 0;
+`;
+
+const StyledAlert = styled(Alert)`
+    margin-bottom: 3rem;
 `;
 
 const SaksStatusView: NextPage = () => {
@@ -99,6 +103,12 @@ const SaksStatusView: NextPage = () => {
             {!mustLogin && (
                 <>
                     <DriftsmeldingAlertstripe />
+
+                    {soknadsStatus?.isBroken && (
+                        <StyledAlert variant="warning">
+                            <BodyShort>{t("soknaderUtenVedlegg.statusside")}</BodyShort>
+                        </StyledAlert>
+                    )}
 
                     <ForelopigSvarAlertstripe />
 

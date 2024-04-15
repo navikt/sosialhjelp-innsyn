@@ -1,5 +1,6 @@
 import {KommuneResponse} from "../../generated/model";
 import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
+import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 
 export interface Driftsmelding {
     type: DriftsmeldingType;
@@ -64,10 +65,14 @@ export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefin
     );
 };
 
-export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId?: string | undefined) => {
+export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
     let kanLasteOppVedlegg = true;
     let textKey = "";
-    if (digisosIdHasFailed(fiksDigisosId)) {
+    const {data} = useHentSoknadsStatus(fiksDigisosId);
+    if (data && data.isBroken) {
+        kanLasteOppVedlegg = false;
+        textKey = "driftsmelding.vedlegg.vedleggMangler";
+    } else if (digisosIdHasFailed(fiksDigisosId)) {
         kanLasteOppVedlegg = false;
         textKey = "driftsmelding.vedlegg.feiledeDigisosIder";
     } else if (ettersendelseErDeaktivert(kommuneInfo)) {
