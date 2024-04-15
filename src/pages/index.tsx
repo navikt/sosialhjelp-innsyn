@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert, BodyShort} from "@navikt/ds-react";
+import {Alert, BodyShort, Box} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
@@ -10,6 +10,11 @@ import {GetServerSideProps, NextPage} from "next";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
+import styled from "styled-components";
+
+const StyledAlert = styled(Alert)`
+    margin-bottom: 1.5rem;
+`;
 
 const Saksoversikt: NextPage = () => {
     const {t} = useTranslation();
@@ -38,6 +43,11 @@ const Saksoversikt: NextPage = () => {
                             <BodyShort>{t("feilmelding.saksOversikt")}</BodyShort>
                             <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
                         </Alert>
+                    )}
+                    {saker?.some((it) => it.isBrokenSoknad) && (
+                        <StyledAlert variant="warning">
+                            <BodyShort>{t("soknaderUtenVedlegg.forside")}</BodyShort>
+                        </StyledAlert>
                     )}
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>

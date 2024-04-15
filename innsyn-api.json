@@ -27,21 +27,14 @@
                 "operationId": "sendVedlegg",
                 "parameters": [
                     {"name": "fiksDigisosId", "in": "path", "required": true, "schema": {"type": "string"}},
+                    {
+                        "name": "files",
+                        "in": "query",
+                        "required": true,
+                        "schema": {"type": "array", "items": {"type": "string", "format": "binary"}}
+                    },
                     {"name": "Authorization", "in": "header", "required": true, "schema": {"type": "string"}}
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": ["files"],
-                                "type": "object",
-                                "properties": {
-                                    "files": {"type": "array", "items": {"type": "string", "format": "binary"}}
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -608,7 +601,7 @@
                 }
             },
             "SoknadsStatusResponse": {
-                "required": ["status"],
+                "required": ["isBroken", "status"],
                 "type": "object",
                 "properties": {
                     "status": {
@@ -619,7 +612,8 @@
                     "tidspunktSendt": {"type": "string", "format": "date-time"},
                     "soknadsalderIMinutter": {"type": "integer", "format": "int64"},
                     "navKontor": {"type": "string"},
-                    "filUrl": {"$ref": "#/components/schemas/UrlResponse"}
+                    "filUrl": {"$ref": "#/components/schemas/UrlResponse"},
+                    "isBroken": {"type": "boolean"}
                 }
             },
             "UrlResponse": {
@@ -848,7 +842,7 @@
                 }
             },
             "SaksListeResponse": {
-                "required": ["kilde", "sistOppdatert", "soknadTittel"],
+                "required": ["isBrokenSoknad", "kilde", "sistOppdatert", "soknadTittel"],
                 "type": "object",
                 "properties": {
                     "fiksDigisosId": {"type": "string"},
@@ -856,7 +850,8 @@
                     "sistOppdatert": {"type": "string", "format": "date-time"},
                     "kilde": {"type": "string"},
                     "url": {"type": "string"},
-                    "kommunenummer": {"type": "string"}
+                    "kommunenummer": {"type": "string"},
+                    "isBrokenSoknad": {"type": "boolean"}
                 }
             }
         }

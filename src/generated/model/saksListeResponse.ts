@@ -7,6 +7,7 @@
 
 export interface SaksListeResponse {
     fiksDigisosId?: string;
+    isBrokenSoknad: boolean;
     kilde: string;
     kommunenummer?: string;
     sistOppdatert: string;

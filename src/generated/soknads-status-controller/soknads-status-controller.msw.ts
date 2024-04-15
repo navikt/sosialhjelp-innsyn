@@ -42,6 +42,7 @@ export const getHentSoknadsStatusMock = () => ({
         },
         undefined,
     ]),
+    isBroken: faker.datatype.boolean(),
     kommunenummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     navKontor: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     soknadsalderIMinutter: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]),

@@ -5,7 +5,7 @@
  * OpenAPI spec version: v0
  */
 import {faker} from "@faker-js/faker";
-import {delay, http, HttpResponse} from "msw";
+import {HttpResponse, delay, http} from "msw";
 
 export const getHentSaksStatuserMock = () =>
     Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
