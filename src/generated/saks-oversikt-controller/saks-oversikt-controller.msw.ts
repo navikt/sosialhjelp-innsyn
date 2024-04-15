@@ -17,6 +17,7 @@ export const getHentSaksDetaljerMock = () => ({
 export const getHentAlleSakerMock = () =>
     Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
         fiksDigisosId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        isBrokenSoknad: faker.datatype.boolean(),
         kilde: faker.word.sample(),
         kommunenummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,

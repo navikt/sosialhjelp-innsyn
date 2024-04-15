@@ -5,6 +5,6 @@
  * OpenAPI spec version: v0
  */
 
-export type SendVedleggBody = {
+export type SendVedleggParams = {
     files: Blob[];
 };

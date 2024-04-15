@@ -13,6 +13,7 @@ import {
 import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {useTranslation} from "next-i18next";
 import {useRouter} from "next/router";
+import {ExclamationmarkIcon, ExclamationmarkTriangleFillIcon, ExclamationmarkTriangleIcon} from "@navikt/aksel-icons";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -29,15 +30,22 @@ const StyledLinkPanel = styled(LinkPanel)`
     ${PanelStyle};
 `;
 
+const VarselTrekant = styled(ExclamationmarkTriangleIcon)`
+    color: var(--a-icon-warning);
+    height: 1.5rem;
+    width: 1.5rem;
+`;
+
 interface Props {
     fiksDigisosId?: string;
     tittel: string;
     oppdatert: string;
     url: string | undefined;
     kilde: string;
+    isBroken: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde}) => {
+const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde, isBroken}) => {
     const {data: saksdetaljer, isInitialLoading} = useHentSaksDetaljer(
         {id: fiksDigisosId!},
         {query: {enabled: kilde === "innsyn-api" && !!fiksDigisosId}}
@@ -90,6 +98,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                         )}
                     </span>
                     <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
+                    {isBroken && <VarselTrekant />}
                 </StyledSaksDetaljer>
             </StyledLinkPanelDescription>
         </StyledLinkPanel>
