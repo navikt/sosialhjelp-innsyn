@@ -27,14 +27,21 @@
                 "operationId": "sendVedlegg",
                 "parameters": [
                     {"name": "fiksDigisosId", "in": "path", "required": true, "schema": {"type": "string"}},
-                    {
-                        "name": "files",
-                        "in": "query",
-                        "required": true,
-                        "schema": {"type": "array", "items": {"type": "string", "format": "binary"}}
-                    },
                     {"name": "Authorization", "in": "header", "required": true, "schema": {"type": "string"}}
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": ["files"],
+                                "type": "object",
+                                "properties": {
+                                    "files": {"type": "array", "items": {"type": "string", "format": "binary"}}
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK",

@@ -3,11 +3,20 @@ import Utbetalinger from "../pages/utbetaling";
 import {render, screen} from "../test/test-utils";
 import {server} from "../mocks/server";
 import {delay, http, HttpResponse} from "msw";
-import {getHentNyeUtbetalingerMock} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
-import {getHentAlleSakerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths} from "date-fns";
 import {NyeOgTidligereUtbetalingerResponse} from "../generated/model";
+import {
+    getHentNyeUtbetalingerMockHandler,
+    getHentNyeUtbetalingerResponseMock,
+    getHentTidligereUtbetalingerMockHandler,
+    getHentTidligereUtbetalingerResponseMock,
+} from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
+import {
+    getHarSoknaderMedInnsynMockHandler,
+    getHarSoknaderMedInnsynResponseMock,
+} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller.msw";
+import {getHentAlleSakerMockHandler} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 
 const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     return {
@@ -27,37 +36,23 @@ const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
 };
 const loading = http.get("*/api/v1/innsyn/nye", async (info) => {
     await delay("infinite");
-    return HttpResponse.json(getHentNyeUtbetalingerMock());
+    return HttpResponse.json(getHentNyeUtbetalingerResponseMock());
 });
 
-const utbetaling5ManederSiden = http.get("*/api/v1/innsyn/tidligere", async () => {
-    const utbetaling5ManederSiden = makeUtbetaling(subMonths(new Date(), 5));
-    return HttpResponse.json([utbetaling5ManederSiden]);
-});
+const utbetaling5ManederSiden = getHentTidligereUtbetalingerMockHandler([makeUtbetaling(subMonths(new Date(), 5))]);
 
-const utbetalingToday = http.get("*/api/v1/innsyn/nye", (info) => {
-    return HttpResponse.json([makeUtbetaling(new Date())]);
-});
+const utbetalingToday = getHentNyeUtbetalingerMockHandler([makeUtbetaling(new Date())]);
 
-const harSoknaderMedInnsyn = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", async () => {
-    await delay();
-    return HttpResponse.json(true);
-});
+const harSoknaderMedInnsyn = getHarSoknaderMedInnsynMockHandler(true);
 
 const harIkkeSoknaderMedInnsyn = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", async () => {
-    await delay(100);
-    return HttpResponse.json(false);
+    await delay(1000);
+    return HttpResponse.text("false");
 });
 
-const alleSaker = http.get("*/api/v1/innsyn/saker", async () => {
-    await delay(100);
-    return HttpResponse.json(getHentAlleSakerMock());
-});
+const alleSaker = getHentAlleSakerMockHandler();
 
-const ingenSaker = http.get("*/api/v1/innsyn/saker", async () => {
-    await delay();
-    return HttpResponse.json([]);
-});
+const ingenSaker = getHentAlleSakerMockHandler([]);
 
 const error = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", () => HttpResponse.error());
 
