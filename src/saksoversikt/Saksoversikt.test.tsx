@@ -1,12 +1,16 @@
 import React from "react";
 import Saksoversikt from "../pages/index";
-import {getHentSaksDetaljerMock} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 import {delay, http, HttpResponse} from "msw";
 import {server} from "../mocks/server";
 import {render, screen} from "../test/test-utils";
 import {findAllByRole, waitForElementToBeRemoved} from "@testing-library/react";
 import {faker} from "@faker-js/faker";
 import {SaksListeResponse} from "../generated/model";
+import {
+    getHentAlleSakerMockHandler,
+    getHentSaksDetaljerMockHandler,
+    getHentSaksDetaljerResponseMock,
+} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 
 const notFound = http.get("*/api/v1/innsyn/saker", async () => {
     await delay(200);
@@ -23,32 +27,28 @@ const loading = http.get("*/api/v1/innsyn/saker", async () => {
     return new HttpResponse("Laster");
 });
 
-const success = http.get("*/api/v1/innsyn/saker", () => {
-    return HttpResponse.json([
-        {
-            kilde: "innsyn-api",
-            soknadTittel: "Default søknad",
-            url: faker.internet.url(),
-            sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
-            fiksDigisosId: faker.string.alphanumeric(5),
-        } as SaksListeResponse,
-    ]);
-});
+const success = getHentAlleSakerMockHandler([
+    {
+        kilde: "innsyn-api",
+        soknadTittel: "Default søknad",
+        url: faker.internet.url(),
+        sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
+        fiksDigisosId: faker.string.alphanumeric(5),
+    } as SaksListeResponse,
+]);
 
 const utbetalingerDoesntExist = http.get("*/api/v1/innsyn/utbetalinger/exists", async () => {
     await delay(200);
     return HttpResponse.json(false);
 });
 
-const saksdetaljer = http.get("*/api/v1/innsyn/saksDetaljer", async () => {
-    await delay(200);
-    return HttpResponse.json({...getHentSaksDetaljerMock(), status: "Mottatt", soknadTittel: "Min kule søknad"});
+const saksdetaljer = getHentSaksDetaljerMockHandler({
+    ...getHentSaksDetaljerResponseMock(),
+    status: "Mottatt",
+    soknadTittel: "Min kule søknad",
 });
 
-const empty = http.get("*/api/v1/innsyn/saker", async () => {
-    await delay(200);
-    return HttpResponse.json([]);
-});
+const empty = getHentAlleSakerMockHandler([]);
 
 describe("Saksoversikt", () => {
     it("Skal vise feil ved server-feil", async () => {

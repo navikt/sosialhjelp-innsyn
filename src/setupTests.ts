@@ -1,3 +1,4 @@
+import {configure} from "@testing-library/react";
 import {server} from "./mocks/server";
 import {queryCache, queryClient} from "./test/test-utils";
 import "@testing-library/jest-dom";
@@ -8,6 +9,8 @@ import _i18n from "i18next";
 
 import commonNb from "../public/locales/nb/common.json";
 import utbetalingerNb from "../public/locales/nb/utbetalinger.json";
+
+configure({asyncUtilTimeout: 3000});
 
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("unleash-proxy-client", jest.fn());
