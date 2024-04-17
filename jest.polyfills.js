@@ -8,10 +8,11 @@
  * you don't want to deal with this.
  */
 
-const {TextDecoder, TextEncoder} = require("node:util");
+const {TextDecoder, TextEncoder, ReadableStream} = require("node:util");
 
 Object.defineProperties(globalThis, {
     TextDecoder: {value: TextDecoder},
+    ReadableStream: {value: ReadableStream},
     TextEncoder: {value: TextEncoder},
 });
 

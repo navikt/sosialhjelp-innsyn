@@ -25,8 +25,10 @@ jobs:
           cp nais/envs/.env.production .env.production
 
       - name: 'Build npm project'
-        uses: navikt/sosialhjelp-ci/actions/build-npm@v2-beta
+        uses: navikt/sosialhjelp-ci/actions/build-npm@main
         with:
+          node-version: 20
+          build-less: 'false'
           reader-token: ${{ secrets.READER_TOKEN }}
           run-test: 'false'
 
@@ -42,7 +44,7 @@ jobs:
 
       - name: 'Create artifact version'
         id: artifact-version
-        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@main
 
       - name: 'Release Tag'
         uses: ncipollo/release-action@v1
@@ -54,7 +56,7 @@ jobs:
           allowUpdates: true
 
       - name: 'Build and Push Docker Image'
-        uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@v2-beta
+        uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@main
         with:
           artifact-version: ${{ steps.artifact-version.outputs.version }}
           image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}

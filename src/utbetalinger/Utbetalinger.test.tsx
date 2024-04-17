@@ -10,12 +10,8 @@ import {
     getHentNyeUtbetalingerMockHandler,
     getHentNyeUtbetalingerResponseMock,
     getHentTidligereUtbetalingerMockHandler,
-    getHentTidligereUtbetalingerResponseMock,
 } from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
-import {
-    getHarSoknaderMedInnsynMockHandler,
-    getHarSoknaderMedInnsynResponseMock,
-} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller.msw";
+import {getHarSoknaderMedInnsynMockHandler} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller.msw";
 import {getHentAlleSakerMockHandler} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 
 const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
