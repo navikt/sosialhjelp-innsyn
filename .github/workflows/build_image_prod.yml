@@ -28,7 +28,7 @@ jobs:
         uses: navikt/sosialhjelp-ci/actions/build-npm@main
         with:
           node-version: 20
-          build-css: 'false'
+          build-less: 'false'
           reader-token: ${{ secrets.READER_TOKEN }}
           run-test: 'false'
 
