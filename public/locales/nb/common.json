@@ -185,5 +185,6 @@
     "klage.papirskjema.mer_info_url_tekst": "Her kan du lese mer om klage",
     "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "Denne siden ber deg bekrefte at du ønsker å forlate siden — informasjon som du allerede har skrevet inn vil kanskje ikke lagres.",
     "soknaderUtenVedlegg.forside": "I tidsrommet 11.4.24 kl. 15.00 - 12.4.24. kl. 12.15 hadde vi tekniske problemer. Søknader som ble sendt i dette tidsrommet og hadde vedlegg har feilet i mottaket til kommunen. Det vil ikke være mulig å laste opp nye vedlegg på denne søknaden. Ta kontakt med ditt lokale NAV-kontor for hjelp. Vi beklager ulempene dette medfører.",
-    "soknaderUtenVedlegg.statusside": "Pga. teknisk feil har denne søknaden feilet. Det vil ikke være mulig å laste opp vedlegg på denne søknaden. Ta kontakt med ditt NAV-kontor for hjelp. Vi beklager ulempene dette medfører."
+    "soknaderUtenVedlegg.statusside": "Pga. teknisk feil har denne søknaden feilet. Det vil ikke være mulig å laste opp vedlegg på denne søknaden. Ta kontakt med ditt NAV-kontor for hjelp. Vi beklager ulempene dette medfører.",
+    "varslings.planlagt.vedlikehold": "På grunn av planlagt vedlikehold kan løsningene være litt ustabile mellom kl 07.00 - kl 10.00. Opplever du problemer, prøv igjen senere."
 }
