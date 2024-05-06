@@ -186,6 +186,7 @@
 
     "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.",
     "soknaderUtenVedlegg.forside": "During the period from 11.4.24 at 15:00 to 12.4.24 at 12:15, we experienced technical problems. Applications that were sent during this period and had attachments have failed in the reception to the municipality. It will not be possible to upload new attachments to this application. Please contact your local NAV office for help. We apologize for the inconvenience this causes.",
-    "soknaderUtenVedlegg.statusside": "Due to a technical error, this application has failed. It will not be possible to upload attachments to this application. Please contact your local NAV office for help. We apologize for the inconvenience this causes."
+    "soknaderUtenVedlegg.statusside": "Due to a technical error, this application has failed. It will not be possible to upload attachments to this application. Please contact your local NAV office for help. We apologize for the inconvenience this causes.",
+    "varslings.planlagt.vedlikehold": "Due to scheduled maintenance, the solutions may be slightly unstable between 07:00 and 10:00. If you experience problems, try again later."
 
 }

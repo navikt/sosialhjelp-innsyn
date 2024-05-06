@@ -58,6 +58,7 @@
   "utbetalingsmetode.kronekort": "Kronekort",
   "utbetalingsmetode.giro": "Giro",
   "utbetalingsmetode.postgiro": "Postgiro",
-  "utbetalingsmetode.garanti": "Garanti"
+  "utbetalingsmetode.garanti": "Garanti",
+  "varslings.planlagt.vedlikehold": "På grunn av planlagt vedlikehold kan løsningene være litt ustabile mellom kl 07.00 - kl 10.00. Opplever du problemer, prøv igjen senere."
 }
 
