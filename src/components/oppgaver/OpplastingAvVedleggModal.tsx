@@ -35,8 +35,6 @@ export const OpplastingAvVedleggModal = () => {
                         {t("oppgaver.informasjon.modal.bolk1.tittel")}
                     </Heading>
                     <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk1.avsnitt1")}</BodyShort>
-                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk1.avsnitt2")}</BodyShort>
-                    <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk1.avsnitt3")}</BodyShort>
 
                     <Heading level="3" size="small" spacing>
                         {t("oppgaver.informasjon.modal.bolk2.tittel")}
@@ -53,15 +51,7 @@ export const OpplastingAvVedleggModal = () => {
                     </Heading>
                     <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk4.avsnitt1")}</BodyShort>
                     <ul>
-                        <li>
-                            <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste1")}</BodyShort>
-                        </li>
-                        <li>
-                            <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste2")}</BodyShort>
-                        </li>
-                        <li>
-                            <BodyShort>{t("oppgaver.informasjon.modal.bolk4.liste3")}</BodyShort>
-                        </li>
+
                     </ul>
                 </Modal.Body>
             </StyledModal>
