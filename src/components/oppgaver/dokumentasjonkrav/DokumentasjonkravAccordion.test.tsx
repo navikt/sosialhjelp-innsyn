@@ -17,5 +17,5 @@ test("Rendrer Dokumentasjonkrav", async () => {
         />
     );
 
-    expect(screen.getByText("Du må levere opplysninger")).toBeVisible();
+    expect(screen.getByText("Du må levere dokumentasjon")).toBeVisible();
 });

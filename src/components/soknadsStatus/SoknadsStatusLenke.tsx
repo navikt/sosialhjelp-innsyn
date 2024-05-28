@@ -10,7 +10,7 @@ const SoknadsStatusLenke = (props: {status: SoknadsStatusResponseStatus | undefi
         case SoknadsStatusResponseStatus.MOTTATT:
         case SoknadsStatusResponseStatus.UNDER_BEHANDLING:
             return (
-                <Link href="https://www.nav.no/okonomisk-sosialhjelp#saksbehandlingstider">
+                <Link href="https://www.nav.no/okonomisk-sosialhjelp#status-saksbehandlingstider">
                     {t("lenke.saksbehandling")}
                 </Link>
             );
