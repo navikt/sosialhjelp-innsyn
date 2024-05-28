@@ -50,7 +50,6 @@ export const OpplastingAvVedleggModal = () => {
                         {t("oppgaver.informasjon.modal.bolk4.tittel")}
                     </Heading>
                     <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk4.avsnitt1")}</BodyShort>
-                    <ul>
 
                 </Modal.Body>
             </StyledModal>
