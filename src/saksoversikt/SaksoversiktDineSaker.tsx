@@ -4,7 +4,7 @@ import Subheader from "../components/subheader/Subheader";
 import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
 import SakPanel from "./sakpanel/SakPanel";
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
-import {logButtonOrLinkClick} from "../utils/amplitude";
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../utils/amplitude";
 import {Button, Heading, Panel} from "@navikt/ds-react";
 import styled from "styled-components";
 import {SakspanelMaxBreakpoint} from "../styles/constants";
@@ -52,6 +52,9 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
 
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
+    logAmplitudeEvent("Hentet innsynsdata", {
+        antallSoknader: saker.length,
+    });
     const sorterteSaker = useMemo(() => sort(saker, sammenlignSaksTidspunkt), [saker]);
     /* Paginering */
     const isMobile = useIsMobile();
