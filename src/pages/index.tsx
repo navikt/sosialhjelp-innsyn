@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {Alert, BodyShort, Box} from "@navikt/ds-react";
+import React from "react";
+import {Alert, BodyShort} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";
-import {logAmplitudeEvent} from "../utils/amplitude";
 import {GetServerSideProps, NextPage} from "next";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
@@ -21,17 +20,7 @@ const Saksoversikt: NextPage = () => {
 
     useUpdateBreadcrumbs(() => []);
 
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const {data: saker, isLoading, error} = useHentAlleSaker();
-
-    useEffect(() => {
-        if (!pageLoadIsLogged) {
-            logAmplitudeEvent("Hentet innsynsdata", {
-                antallSoknader: saker?.length,
-            });
-            setPageLoadIsLogged(true);
-        }
-    }, [saker, pageLoadIsLogged]);
 
     return (
         <MainLayout title={`${t("dineSoknader")} - ${t("app.tittel")}`} bannerTitle={t("app.tittel")}>
