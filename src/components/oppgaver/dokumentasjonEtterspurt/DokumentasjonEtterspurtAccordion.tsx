@@ -33,9 +33,9 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
         OppgaveElementHendelsetype.dokumentasjonEtterspurt;
 
     useEffect(() => {
-        if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn) {
+        if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn && props.dokumentasjonEtterspurt) {
             logVeilederBerOmDokumentasjonEvent(
-                props?.dokumentasjonEtterspurt?.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
+                props.dokumentasjonEtterspurt.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
             );
         }
     }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt]);
