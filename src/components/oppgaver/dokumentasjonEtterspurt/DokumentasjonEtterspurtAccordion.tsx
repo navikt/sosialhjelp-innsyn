@@ -37,7 +37,9 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
 
     useEffect(() => {
         if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn && props.dokumentasjonEtterspurt) {
-            logVeilederBerOmDokumentasjonEvent();
+            logVeilederBerOmDokumentasjonEvent(
+                props.dokumentasjonEtterspurt.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
+            );
             logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent(
                 props.dokumentasjonEtterspurt.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
             );
