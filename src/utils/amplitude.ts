@@ -13,8 +13,13 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
     }
 }
 
-export function logVeilederBerOmDokumentasjonEvent(vedleggAntallet: number) {
-    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", {AntallVedleggForesporsel: vedleggAntallet});
+export function logVeilederBerOmDokumentasjonEvent() {
+    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden");
+}
+export function logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent(vedleggAntallet: number) {
+    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden, og hvor mange vedlegg som må lastes opp", {
+        AntallVedleggForesporsel: vedleggAntallet,
+    });
 }
 export function logVeilederBerOmDokumentasjonkravEvent() {
     logAmplitudeEvent("Veileder ber om dokumentasjon til stønad/vilkår");
