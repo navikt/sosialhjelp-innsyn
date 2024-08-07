@@ -11,7 +11,7 @@
         "@navikt/nav-dekoratoren-moduler": "^2.1.6",
         "@navikt/next-logger": "^1.25.0",
         "@sentry/nextjs": "^7.110.1",
-        "@sentry/react": "^8.21.0",
+        "@sentry/react": "^8.24.0",
         "@sentry/tracing": "^7.114.0",
         "@tanstack/react-query": "^5.51.5",
         "@unleash/nextjs": "^1.4.2",
