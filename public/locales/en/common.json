@@ -25,6 +25,8 @@
     "hendelse.sak_kan_ikke_vises_status_med_tittel": "We cannot show the status of your application for <1>{{tekstArgument}}</1> on nav.no.",
     "hendelse.sak_kan_ikke_vises_status_uten_tittel": "We cannot show the status of your application on nav.no.",
     "hendelse.antalle_sendte_vedlegg": "You have submitted {{tekstArgument}} document to NAV.",
+    "hendelse.sendt_en_vedlegg": "You have submitted {{tekstArgument}} document to NAV.",
+    "hendelse.sendt_flere_vedlegg": "You have submitted {{tekstArgument}} documents to NAV.",
     "hendelse.vilkar_oppdatert": "Your conditions have been updated; please see the notice of decision for more information.",
     "hendelse.utbetalinger_oppdatert": "<0>Your payments</0> have been updated.",
     "hendelse.brev_om_saksbehandlingstid": "You have received a letter with information about the processing time of your application.",
