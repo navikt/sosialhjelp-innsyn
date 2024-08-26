@@ -25,6 +25,8 @@
     "hendelse.sak_kan_ikke_vises_status_med_tittel": "Vi kan ikke vise status på søknaden din om <1>{{tekstArgument}}</1> på nav.no.",
     "hendelse.sak_kan_ikke_vises_status_uten_tittel": "Vi kan ikke vise status på søknaden din om saken din på nav.no.",
     "hendelse.antalle_sendte_vedlegg": "Du har sendt {{tekstArgument}} dokument til NAV.",
+    "hendelse.sendt_en_vedlegg": "Du har sendt {{tekstArgument}} dokument til NAV.",
+    "hendelse.sendt_flere_vedlegg": "Du har sendt {{tekstArgument}} dokumenter til NAV.",
     "hendelse.vilkar_oppdatert": "Vilkårene dine er oppdatert, les vedtaket for mer detaljer.",
     "hendelse.utbetalinger_oppdatert": "<0>Dine utbetalinger</0> har blitt oppdatert.",
     "hendelse.brev_om_saksbehandlingstid": "Du har fått et brev om saksbehandlingstiden for søknaden din.",

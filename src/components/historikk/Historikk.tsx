@@ -84,6 +84,33 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
                 </BodyShort>
             );
         }
+
+        if(enumValue === HistorikkTekstEnum.ANTALL_SENDTE_VEDLEGG){
+            if(tekstArgument === "1"){
+                return (
+                    <BodyShort weight="semibold">
+                        <Trans t={t}>
+                         <span lang="no">
+                            {t("hendelse.sendt_en_vedlegg", {
+                                tekstArgument,
+                            })}</span>
+                        </Trans>
+                    </BodyShort>
+                )
+            } else {
+                return (
+                    <BodyShort weight="semibold">
+                        <Trans t={t}>
+                         <span lang="no">
+                            {t("hendelse.sendt_flere_vedlegg", {
+                                tekstArgument,
+                            })}</span>
+                     </Trans>
+                 </BodyShort>
+                )
+            }
+        }
+
         if (
             (enumValue === HistorikkTekstEnum.SAK_UNDER_BEHANDLING_MED_TITTEL ||
                 enumValue === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_MED_TITTEL) &&
