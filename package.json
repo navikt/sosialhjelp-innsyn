@@ -40,6 +40,7 @@
         "lint": "next lint",
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
         "fetch-api-docs-local": "curl -o ./innsyn-api.json  http://localhost:8080/sosialhjelp/innsyn-api/v3/api-docs  && prettier --write innsyn-api.json",
+        "fetch-driftsmelding-api-docs-local": "curl -o ./driftsmelding-api.json http://localhost:3005/sosialhjelp/driftsmeldinger/api/api-doc && prettier --write driftsmelding-api.json",
         "orval": "rm -rf src/generated && orval --prettier",
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
         "tsc": "tsc",
