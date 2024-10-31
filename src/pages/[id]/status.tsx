@@ -19,7 +19,7 @@ import Oppgaver from "../../components/oppgaver/Oppgaver";
 import VedleggView from "../../components/vedlegg/VedleggView";
 import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
 import Historikk from "../../components/historikk/Historikk";
-import {usePathname} from "next/navigation";
+import {usePathname, useSearchParams} from "next/navigation";
 import MainLayout from "../../components/MainLayout";
 import {GetServerSideProps, NextPage} from "next";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
@@ -27,6 +27,7 @@ import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUplo
 import KlageSection from "../../components/klage/KlageSection";
 import {SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
 import pageHandler from "../../pagehandler/pageHandler";
+import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -61,6 +62,8 @@ const SaksStatusView: NextPage = () => {
     const dataErKlare = Boolean(
         !pageLoadIsLogged && erPaInnsyn && saksStatuser && oppgaver && soknadsStatus && forelopigSvar
     );
+    const searchParams = useSearchParams();
+    const showUxSignalsWidget = Boolean(searchParams.get("kortSoknad"));
 
     useEffect(() => {
         function createAmplitudeData() {
@@ -114,8 +117,8 @@ const SaksStatusView: NextPage = () => {
 
                     <SoknadsStatus />
                     <FilUploadSuccesfulProvider>
+                        <UxSignalsWidget enabled={showUxSignalsWidget} />
                         {erPaInnsyn && <Oppgaver />}
-
                         {kommune != null && kommune.erInnsynDeaktivert && (
                             <>
                                 <StyledPanel className="panel-luft-over">

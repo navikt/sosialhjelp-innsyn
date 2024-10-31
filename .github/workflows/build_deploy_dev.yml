@@ -20,7 +20,7 @@ on:
         type: string
 
 env:
-  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file-name }}
+  DOCKER_IMAGE_POSTFIX: -${{ inputs.config-file-name }}
 
 jobs:
   build-image:
@@ -31,7 +31,7 @@ jobs:
       contents: write
       id-token: write
     outputs:
-      image-tag: ${{ steps.artifact-version.outputs.version }}
+      image: ${{ steps.docker-build-push.outputs.image }}
     steps:
       - uses: actions/checkout@v4
 
@@ -59,25 +59,13 @@ jobs:
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
 
-      - name: 'Create artifact version'
-        id: artifact-version
-        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@main
-
-      - name: 'Release Tag'
-        uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+      - uses: nais/docker-build-push@v0
+        id: docker-build-push
         with:
-          tag: ${{ steps.artifact-version.outputs.version }}
-          commit: ${{ github.sha }}
-          allowUpdates: true
-
-      - name: 'Build and Push Docker Image'
-        uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@main
-        with:
-          artifact-version: ${{ steps.artifact-version.outputs.version }}
-          image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          team: teamdigisos
+          image_suffix: ${{ env.DOCKER_IMAGE_POSTFIX }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
 
   deploy-gcp:
     name: 'Deploy to development'
@@ -86,12 +74,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 'Deploy til dev'
+
+      - name: "Deploy til dev"
         uses: nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: nais/dev/${{ inputs.config-file-name }}.yaml
+          VAR: image=${{ needs.build-image.outputs.image }}
           CLUSTER: dev-gcp
           REF: ${{ github.sha }}
           PRINT_PAYLOAD: true
-          IMAGE: ${{ env.DOCKER_IMAGE_POSTFIX }}:${{ needs.build-image.outputs.image-tag }}
