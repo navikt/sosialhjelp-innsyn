@@ -4,6 +4,7 @@ import {ReactElement} from "react";
 import styles from "./UxSignalsWidget.module.css";
 import {isProd} from "../../utils/restUtils";
 import {useFlag} from "../../featuretoggles/context";
+import {logger} from "@navikt/next-logger";
 
 interface Props {
     enabled: boolean;
@@ -12,6 +13,7 @@ interface Props {
 function UxSignalsWidget({enabled}: Props): ReactElement | null {
     const flag = useFlag("sosialhjelp.innsyn.uxsignals_kort_soknad");
     if (!enabled || !flag.enabled) return null;
+    logger.info("Viser ux signals for kort søknad");
     return (
         <>
             <Script
