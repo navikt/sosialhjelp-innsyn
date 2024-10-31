@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  DOCKER_IMAGE_POSTFIX: production
+  DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-production
 jobs:
   build-image:
     name: 'Build and Push image'
@@ -42,11 +42,28 @@ jobs:
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
-      - uses: nais/docker-build-push@v0
-        id: docker-build-push
-        with:
-          team: teamdigisos
-          image_suffix: ${{ env.DOCKER_IMAGE_POSTFIX }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+      - name: 'Create artifact version'
+        id: artifact-version
+        uses: navikt/sosialhjelp-ci/actions/create-artifact-version@v2
 
+      - name: 'Release Tag'
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        with:
+          tag: ${{ steps.artifact-version.outputs.version }}
+          commit: ${{ github.sha }}
+          allowUpdates: true
+
+      - name: 'Login to GitHub Docker Registry if GitHub Token Provided'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Build and Push Docker Image'
+        uses: navikt/sosialhjelp-ci/actions/build-and-push-docker-image@v2
+        with:
+          artifact-version: ${{ steps.artifact-version.outputs.version }}
+          image-name: ${{ env.DOCKER_IMAGE_POSTFIX }}
