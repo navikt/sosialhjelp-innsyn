@@ -20,7 +20,7 @@ on:
         type: string
 
 env:
-  DOCKER_IMAGE_POSTFIX: -${{ inputs.config-file-name }}
+  DOCKER_IMAGE_POSTFIX: ${{ inputs.config-file-name }}
 
 jobs:
   build-image:

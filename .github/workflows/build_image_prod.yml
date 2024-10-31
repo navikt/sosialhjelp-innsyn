@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  DOCKER_IMAGE_POSTFIX: -production
+  DOCKER_IMAGE_POSTFIX: production
 jobs:
   build-image:
     name: 'Build and Push image'
