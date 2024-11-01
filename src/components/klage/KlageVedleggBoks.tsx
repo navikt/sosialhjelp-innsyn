@@ -14,7 +14,7 @@ interface Props {
 const KlageVedleggBoks = ({files, removeFil, errors, addFiler, resetStatus}: Props): React.JSX.Element => (
     <FilOpplastingBlokk
         tittel="Legg ved vedlegg"
-        beskrivelse="Legg gjerne med vedlegg som kan vise NAV hvorfor du er uenig"
+        beskrivelse="Legg gjerne med vedlegg som kan vise Nav hvorfor du er uenig"
         filer={files}
         onDelete={(_, fil) => removeFil(fil)}
         errors={errors}
