@@ -9,6 +9,9 @@ import {useTranslation} from "next-i18next";
 import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
 import {useRouter} from "next/router";
+import Forbidden from "../../pages/403";
+import NotFound from "next/dist/client/components/not-found-error";
+import ServerError from "../../pages/500";
 
 const StyledElla = styled.div`
     display: flex;
@@ -22,9 +25,10 @@ const Wrapper = styled.div`
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
     queryHas403: boolean;
+    queryHasStatusCode: string;
 }
 
-const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, queryHas403}) => {
+const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, queryHas403, queryHasStatusCode}) => {
     const {data, isLoading, error} = useHarTilgang();
     const router = useRouter();
     const {t} = useTranslation();
@@ -41,6 +45,19 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     if (error) {
         logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
     }
+
+    if(queryHasStatusCode === "403") {
+        return <Forbidden />
+    }
+    if(queryHasStatusCode === "404") {
+        return <NotFound />
+    }
+    if(queryHasStatusCode === "500") {
+        return <ServerError />
+    }
+
+
+
 
     if (!data?.harTilgang || queryHas403) {
         const fornavn = data?.fornavn ?? "";

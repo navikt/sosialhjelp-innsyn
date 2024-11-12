@@ -11,6 +11,9 @@ import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskon
 import Cookies from "js-cookie";
 import {FlagProvider} from "../featuretoggles/context";
 import {IToggle} from "@unleash/nextjs";
+import Forbidden from "./403";
+import NotFound from "next/dist/client/components/not-found-error";
+import ServerError from "./500";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
@@ -32,6 +35,7 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
     const {i18n} = useTranslation();
     const router = useRouter();
     const [queryHas403, setQueryHas403] = useState(false);
+    const [queryHasStatus, setQueryHasStatus] = useState("");
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, {locale: option.locale});
@@ -41,12 +45,15 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
         <QueryClientProvider
             client={queryClient((e: any) => {
                 if (e?.response?.status === 403) {
-                    setQueryHas403(true);
+                    setQueryHasStatus("403");
+                }
+                if (e?.response?.status === 404) {
+                    setQueryHasStatus("404");
                 }
             })}
         >
             <FlagProvider toggles={pageProps.toggles}>
-                <Tilgangskontrollside queryHas403={queryHas403}>
+                <Tilgangskontrollside queryHas403={queryHas403} queryHasStatusCode={queryHasStatus}>
                     <div role="main" tabIndex={-1} id="maincontent">
                         <Component {...pageProps}></Component>
                     </div>
