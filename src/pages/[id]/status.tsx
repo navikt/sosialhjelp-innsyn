@@ -53,7 +53,7 @@ const SaksStatusView: NextPage = () => {
     const {kommune} = useKommune();
 
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
-    const {data: saksStatuser, error: saksStatuserError} = useHentSaksStatuser(fiksDigisosId);
+    const {data: saksStatuser, error: saksStatuserError, isFetching, isPending} = useHentSaksStatuser(fiksDigisosId);
     const {data: oppgaver} = useGetOppgaver(fiksDigisosId);
     const {data: soknadsStatus} = useHentSoknadsStatus(fiksDigisosId);
     const {data: forelopigSvar} = useHentForelopigSvarStatus(fiksDigisosId);
@@ -85,7 +85,7 @@ const SaksStatusView: NextPage = () => {
         }
     }, [dataErKlare, oppgaver?.length, forelopigSvar?.harMottattForelopigSvar, saksStatuser, soknadsStatus?.status]);
 
-    const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
+    const isNotLoggedIn: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
 
     const sakErPaaklagbar =
         soknadsStatus?.status !== SoknadsStatusResponseStatus.BEHANDLES_IKKE &&
@@ -101,9 +101,9 @@ const SaksStatusView: NextPage = () => {
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
-            {mustLogin && <ApplicationSpinner />}
+            {isNotLoggedIn && pageLoadIsLogged && <ApplicationSpinner />}
 
-            {!mustLogin && (
+            {!isNotLoggedIn && !pageLoadIsLogged && (
                 <>
                     <DriftsmeldingAlertstripe />
 
