@@ -46,16 +46,16 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
         logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
     }
 
-    if(queryHasStatusCode === "403") {
-        return <Forbidden />
+
+    if(queryHasStatusCode === "500") {
+        return <ServerError />
     }
     if(queryHasStatusCode === "404") {
         return <NotFound />
     }
-    if(queryHasStatusCode === "500") {
-        return <ServerError />
+    if(queryHasStatusCode === "403") {
+        return <Forbidden />
     }
-
 
 
 

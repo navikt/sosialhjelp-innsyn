@@ -50,6 +50,9 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
                 if (e?.response?.status === 404) {
                     setQueryHasStatus("404");
                 }
+                if (e?.response?.status === 500) {
+                    setQueryHasStatus("500");
+                }
             })}
         >
             <FlagProvider toggles={pageProps.toggles}>
