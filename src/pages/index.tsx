@@ -23,7 +23,7 @@ const Saksoversikt: NextPage = () => {
     const {data: saker, isLoading, error} = useHentAlleSaker();
 
     return (
-        <MainLayout title={`${t("dineSoknader")} - ${t("app.tittel")}`} bannerTitle={t("app.tittel")}>
+        <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
             {(isLoading || error?.status === 401) && <ApplicationSpinner />}
             {!isLoading && (
                 <>

@@ -99,6 +99,7 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
                                             resetStatus={resetStatus}
                                             disabled={isAalesund}
                                             hasError={innerErrors[0]?.length + outerErrors.length > 0}
+                                            title={element.tittel}
                                         />
                                     ) : undefined
                                 }

@@ -1,4 +1,4 @@
-import {Button, Chips, Modal} from "@navikt/ds-react";
+import {Box, Button, Chips, Modal} from "@navikt/ds-react";
 import React, {useState} from "react";
 import {FilterIcon} from "@navikt/aksel-icons";
 import UtbetalingerFilter from "./UtbetalingerFilter";
@@ -24,13 +24,17 @@ const FilterModal = () => {
             <Button onClick={() => setOpen(true)} icon={<FilterIcon aria-hidden />} variant="secondary">
                 {t("filter.knapp")}
             </Button>
-            <Chips className={styles.chips}>
-                {chips.map((c) => (
-                    <Chips.Removable key={c.label} onClick={() => removeChip(c.filterType)}>
-                        {c.label}
-                    </Chips.Removable>
-                ))}
-            </Chips>
+            {chips.length > 0 ? (
+                <Chips className={styles.chips}>
+                    {chips.map((c) => (
+                        <Chips.Removable key={c.label} onClick={() => removeChip(c.filterType)}>
+                            {c.label}
+                        </Chips.Removable>
+                    ))}
+                </Chips>
+            ) : (
+                <Box padding="2" />
+            )}
             <Modal open={open} aria-label={t("filter.aria")} onClose={() => setOpen(false)} className={styles.modal}>
                 <Modal.Body className={styles.modal_content}>
                     <UtbetalingerFilter />

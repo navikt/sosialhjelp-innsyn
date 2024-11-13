@@ -23,6 +23,7 @@ const KlageVedleggBoks = ({files, removeFil, errors, addFiler, resetStatus}: Pro
                 onChange={(event) => addFiler(event.currentTarget.files ? Array.from(event.currentTarget.files) : [])}
                 id="abc"
                 resetStatus={resetStatus}
+                title={"vedlegg"}
             />
         }
         key={"abc"}
