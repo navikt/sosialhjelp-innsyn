@@ -9,6 +9,8 @@ import {useTranslation} from "next-i18next";
 import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
 import {useRouter} from "next/router";
+import {NextResponse} from "next/server";
+import {useEffect} from "react";
 
 const StyledElla = styled.div`
     display: flex;
@@ -39,7 +41,9 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     }
 
     if (error) {
-        logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
+        logger.error(
+            `Fikk feilmelding fra harTilgang. Code: ${(error as any).code}, message: ${(error as any).message}`
+        );
     }
 
     if (!data?.harTilgang || queryHas403) {
