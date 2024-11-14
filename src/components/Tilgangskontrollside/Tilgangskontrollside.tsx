@@ -9,6 +9,9 @@ import {useTranslation} from "next-i18next";
 import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
 import {useRouter} from "next/router";
+import {NextResponse} from "next/server";
+import {useEffect} from "react";
+import {useQuery} from "@tanstack/react-query";
 
 const StyledElla = styled.div`
     display: flex;
@@ -24,12 +27,29 @@ export interface TilgangskontrollsideProps {
     queryHas403: boolean;
 }
 
+const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
+const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
+
+const useDekoratorLogin = () => {
+    const query = useQuery({
+        queryKey: ["dekorator-login"],
+        queryFn: async () => {
+            const result = await fetch(sessionUrl, {
+                method: "get",
+            });
+            const data: {active: boolean} | undefined = result.status === 200 ? await result.json() : undefined;
+            return {status: result.status, ...data};
+        },
+    });
+    return query;
+};
+
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, queryHas403}) => {
     const {data, isLoading, error} = useHarTilgang();
     const router = useRouter();
     const {t} = useTranslation();
-
-    if (isLoading) {
+    const sessionQuery = useDekoratorLogin();
+    if (isLoading || sessionQuery.isLoading) {
         return (
             <div className="informasjon-side">
                 {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
@@ -38,8 +58,16 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
         );
     }
 
+    useEffect(() => {
+        if (sessionQuery.data?.status === 401 || sessionQuery.data?.active === false) {
+            router.replace(loginUrl + "?redirect=" + window.location.href);
+        }
+    }, [sessionQuery.data, router]);
+
     if (error) {
-        logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
+        logger.error(
+            `Fikk feilmelding fra harTilgang. Code: ${(error as any).code}, message: ${(error as any).message}`
+        );
     }
 
     if (!data?.harTilgang || queryHas403) {

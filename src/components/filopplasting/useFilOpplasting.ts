@@ -13,7 +13,6 @@ import {
     sendVedlegg,
     useSendVedlegg,
 } from "../../generated/vedlegg-controller/vedlegg-controller";
-import {ErrorType} from "../../axios-instance";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
 import {logger} from "@navikt/next-logger";
@@ -97,7 +96,7 @@ const useFilOpplasting = (
     metadatas: Metadata[],
     options?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
-        ErrorType<unknown>,
+        unknown,
         {fiksDigisosId: string; data: SendVedleggBody}
     >
 ) => {
@@ -275,8 +274,8 @@ const useFilOpplasting = (
                 onError: (error, variables, context) => {
                     options?.onError?.(error, variables, context);
                     logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
-                    if (error.message === "Mulig virus funnet") {
+                    logger.warn("Feil med opplasting av vedlegg: " + (error as any).message);
+                    if ((error as any).message === "Mulig virus funnet") {
                         logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
                         setOuterErrors([{feil: Feil.VIRUS}]);
                     } else {
