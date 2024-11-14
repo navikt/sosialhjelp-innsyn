@@ -29,7 +29,6 @@ configureLogger({
 logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.Element => {
-    const {i18n} = useTranslation();
     const router = useRouter();
     const [queryHas403, setQueryHas403] = useState(false);
     onLanguageSelect(async (option) => {
