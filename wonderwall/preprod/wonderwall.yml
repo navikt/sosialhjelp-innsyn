@@ -1,0 +1,69 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: wonderwall-innsyn
+  namespace: teamdigisos
+  labels:
+    team: teamdigisos
+spec:
+  image: europe-north1-docker.pkg.dev/nais-io/nais/images/wonderwall:latest
+  port: 8080
+  ingresses:
+    - "https://www.ekstern.dev.nav.no/sosialhjelp/innsyn"
+  accessPolicy:
+    outbound:
+      external:
+        - host: test.idporten.no
+      rules:
+        - application: sosialhjelp-innsyn
+  resources:
+    limits:
+      cpu: "2"
+      memory: 256Mi
+    requests:
+      cpu: "20m"
+      memory: 50Mi
+  redis:
+    - access: readwrite
+      instance: wonderwall
+  liveness:
+    initialDelay: 20
+    path: /sosialhjelp/innsyn/oauth2/ping
+  readiness:
+    initialDelay: 20
+    path: /sosialhjelp/innsyn/oauth2/ping
+  replicas:
+    min: 1
+    max: 2
+  envFrom:
+    - secret: idporten-innsyn
+    - secret: wonderwall-redis
+  env:
+    - name: WONDERWALL_AUTO_LOGIN
+      value: "true"
+    - name: WONDERWALL_OPENID_PROVIDER
+      value: idporten
+    - name: WONDERWALL_OPENID_SCOPES
+      value: ks:fiks
+    - name: WONDERWALL_INGRESS
+      value: https://www.ekstern.dev.nav.no/sosialhjelp/innsyn
+    - name: WONDERWALL_UPSTREAM_HOST
+      value: sosialhjelp-innsyn:80
+    - name: WONDERWALL_BIND_ADDRESS
+      value: 0.0.0.0:8080
+    - name: WONDERWALL_COOKIE_PREFIX
+      value: "sosialhjelp.innsyn.wonderwall"
+    - name: WONDERWALL_METRICS_BIND_ADDRESS
+      value: 0.0.0.0:7565
+    - name: WONDERWALL_SHUTDOWN_GRACEFUL_PERIOD
+      value: 30s
+    - name: WONDERWALL_SHUTDOWN_WAIT_BEFORE_PERIOD
+      value: 7s
+    - name: WONDERWALL_LOG_LEVEL
+      value: debug
+    - name: WONDERWALL_REDIS_URI
+      value: $(REDIS_URI_WONDERWALL)
+    - name: WONDERWALL_REDIS_USERNAME
+      value: $(REDIS_USERNAME_WONDERWALL)
+    - name: WONDERWALL_REDIS_PASSWORD
+      value: $(REDIS_PASSWORD_WONDERWALL)
