@@ -13,52 +13,66 @@ interface AzureAdAuthenticationError {
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
+    if (!pathname.includes("api/internal")) {
+        console.log("Detta er middleware");
+        console.log("hva skjer hera ", pathname);
+        console.log("her ere no cookies: ", request.cookies);
+        console.log("Ere no auth header a?", request.headers.get("Authorization"));
+    }
     // Ikke gjør noe med requests til /api eller statiske filer
     if (pathname.startsWith("/_next") || pathname.includes("/api") || PUBLIC_FILE.test(pathname)) {
         return;
     }
 
-    // Reroute ved kall til /link. Brukes for redirect fra login-api
-    if (pathname.startsWith("/link")) {
-        const searchParams = request.nextUrl.searchParams;
-        if (!searchParams.has("goto")) {
-            throw new Error("redirect mangler goto-parameter");
-        }
-        return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
-    }
-
     // Sett språk basert på decorator-language cookien
-    const decoratorLocale = request.cookies.get("decorator-language")?.value ?? "nb";
-    if (decoratorLocale !== request.nextUrl.locale) {
-        if (request.nextUrl.locale !== "nb") {
-            const next = NextResponse.next();
-            next.cookies.set("decorator-language", request.nextUrl.locale);
-            return next;
-        }
-        const url = new URL(
-            `${process.env.NEXT_PUBLIC_INNSYN_ORIGIN}${process.env.NEXT_PUBLIC_BASE_PATH}/${
-                decoratorLocale === "nb" ? "" : decoratorLocale
-            }${pathname.replace("/sosialhjelp/innsyn", "")}`
-        );
-        return NextResponse.redirect(url);
-    }
+    // const decoratorLocale = request.cookies.get("decorator-language")?.value ?? "nb";
+    // if (decoratorLocale !== request.nextUrl.locale) {
+    //     if (request.nextUrl.locale !== "nb") {
+    //         const next = NextResponse.next();
+    //         next.cookies.set("decorator-language", request.nextUrl.locale);
+    //         return next;
+    //     }
+    //     const url = new URL(
+    //         `${process.env.NEXT_PUBLIC_INNSYN_ORIGIN}${process.env.NEXT_PUBLIC_BASE_PATH}/${
+    //             decoratorLocale === "nb" ? "" : decoratorLocale
+    //         }${pathname.replace("/sosialhjelp/innsyn", "")}`
+    //     );
+    //     return NextResponse.redirect(url);
+    // }
 
-    // Router bruker til login hvis vi får 401
-    try {
-        const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
-            headers: new Headers(request.headers),
-            credentials: "include",
-        });
-        if (harTilgangResponse.status === 401) {
-            const json: AzureAdAuthenticationError = await harTilgangResponse.json();
-            const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
-
-            const redirectUrl = getRedirect(json.loginUrl, pathname, process.env.NEXT_PUBLIC_INNSYN_ORIGIN!, json.id);
-            return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
+    // Router bruker til login hvis vi får 401. Dette gjelder bare for auth gjennom mock-alt. I prod/preprod gjelder dette for "vanlig" innlogging på login.nav.no
+    if (["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
+        // Reroute ved kall til /link. Brukes for redirect fra login-api
+        if (pathname.startsWith("/link")) {
+            const searchParams = request.nextUrl.searchParams;
+            if (!searchParams.has("goto")) {
+                throw new Error("redirect mangler goto-parameter");
+            }
+            return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
         }
-    } catch (e) {
-        logger.warn("Feil i middleware fetch, sender bruker til 500", e);
-        return NextResponse.redirect(process.env.NEXT_PUBLIC_INNSYN_ORIGIN + "/sosialhjelp/innsyn/500");
+        try {
+            const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
+                headers: new Headers({
+                    ...request.headers,
+                    Authorization: `Bearer ${request.cookies.get("localhost-idtoken")?.value}`,
+                }),
+            });
+            if (harTilgangResponse.status === 401) {
+                const json: AzureAdAuthenticationError = await harTilgangResponse.json();
+                const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
+
+                const redirectUrl = getRedirect(
+                    json.loginUrl,
+                    pathname,
+                    process.env.NEXT_PUBLIC_INNSYN_ORIGIN!,
+                    json.id
+                );
+                return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
+            }
+        } catch (e) {
+            logger.warn("Feil i middleware fetch, sender bruker til 500", e);
+            return NextResponse.redirect(process.env.NEXT_PUBLIC_INNSYN_ORIGIN + "/sosialhjelp/innsyn/500");
+        }
     }
 }
 
