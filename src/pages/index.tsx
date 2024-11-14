@@ -21,10 +21,9 @@ const Saksoversikt: NextPage = () => {
     useUpdateBreadcrumbs(() => []);
 
     const {data: saker, isLoading, error} = useHentAlleSaker();
-
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
-            {(isLoading || error?.status === 401) && <ApplicationSpinner />}
+            {isLoading && <ApplicationSpinner />}
             {!isLoading && (
                 <>
                     {error && (
