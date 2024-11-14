@@ -6,13 +6,13 @@ export default {
             target: "src/generated/innsyn-api.ts",
             schemas: "src/generated/model",
             client: "react-query",
+            httpClient: "fetch",
+            mock: true,
             override: {
-                mutator: {
-                    path: "./src/axios-instance.ts",
-                    name: "axiosInstance",
+                fetch: {
+                    includeHttpStatusReturnType: false,
                 },
             },
-            mock: true,
         },
         hooks: {
             afterAllFilesWrite: "prettier --write",
