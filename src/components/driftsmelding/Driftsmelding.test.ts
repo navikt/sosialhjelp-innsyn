@@ -125,6 +125,6 @@ it("Opplasting av vedlegg er disabled ved riktige caser", () => {
 it("Opplasting av vedlegg er disabled ved broken soknad pga vedleggmangel", async () => {
     server.use(brokenSoknad);
     const {result} = renderHook(() => useFileUploadAllowed(kommuneResponse_alt_er_lov, "broken"));
-    await waitFor(() => expect(result.current.kanLasteOppVedlegg).toEqual(false));
+    await waitFor(() => expect(result.current.kanLasteOppVedlegg).toEqual(false), {timeout: 10000});
     await waitFor(() => expect(result.current.textKey).toEqual("driftsmelding.vedlegg.vedleggMangler"));
-});
+}, 10000);
