@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: sosialhjelp-innsyn-dev
+  name: sosialhjelp-innsyn
   namespace: teamdigisos
   labels:
     team: teamdigisos
@@ -24,17 +24,19 @@ spec:
   replicas:
     min: 1
     max: 2
-  ingresses:
-    - "https://sosialhjelp-innsyn-dev.intern.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       rules:
         - application: nav-dekoratoren
           namespace: personbruker
+        - application: sosialhjelp-innsyn-api
       external:
         - host: dekoratoren.ekstern.dev.nav.no
-        - host: digisos.intern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
+        - host: login.ekstern.dev.nav.no
+    inbound:
+      rules:
+        - application: wonderwall-innsyn
   resources:
     limits:
       cpu: 200m
