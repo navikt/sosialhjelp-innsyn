@@ -9,7 +9,6 @@ import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/so
 import {useHentForelopigSvarStatus} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import React, {useEffect, useState} from "react";
 import {logAmplitudeEvent} from "../../utils/amplitude";
-import {HttpStatusCode} from "axios";
 import {LoadingResourcesFailedAlert} from "../../innsyn/LoadingResourcesFailedAlert";
 import {ApplicationSpinner} from "../../components/applicationSpinner/ApplicationSpinner";
 import DriftsmeldingAlertstripe from "../../components/driftsmelding/Driftsmelding";
@@ -85,8 +84,6 @@ const SaksStatusView: NextPage = () => {
         }
     }, [dataErKlare, oppgaver?.length, forelopigSvar?.harMottattForelopigSvar, saksStatuser, soknadsStatus?.status]);
 
-    const mustLogin: boolean = saksStatuserError?.status === HttpStatusCode.Unauthorized;
-
     const sakErPaaklagbar =
         soknadsStatus?.status !== SoknadsStatusResponseStatus.BEHANDLES_IKKE &&
         (!saksStatuser ||
@@ -101,46 +98,40 @@ const SaksStatusView: NextPage = () => {
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
-            {mustLogin && <ApplicationSpinner />}
+            <DriftsmeldingAlertstripe />
 
-            {!mustLogin && (
-                <>
-                    <DriftsmeldingAlertstripe />
-
-                    {soknadsStatus?.isBroken && (
-                        <StyledAlert variant="warning">
-                            <BodyShort>{t("soknaderUtenVedlegg.statusside")}</BodyShort>
-                        </StyledAlert>
-                    )}
-
-                    <ForelopigSvarAlertstripe />
-
-                    <SoknadsStatus />
-                    <FilUploadSuccesfulProvider>
-                        <UxSignalsWidget enabled={showUxSignalsWidget} />
-                        {erPaInnsyn && <Oppgaver />}
-                        {kommune != null && kommune.erInnsynDeaktivert && (
-                            <>
-                                <StyledPanel className="panel-luft-over">
-                                    <Heading level="2" size="medium">
-                                        {t("vedlegg.tittel")}
-                                    </Heading>
-                                </StyledPanel>
-                                <StyledPanel className="panel-glippe-over">
-                                    <VedleggView fiksDigisosId={fiksDigisosId} />
-                                </StyledPanel>
-                            </>
-                        )}
-                        {sakErPaaklagbar && <KlageSection />}
-                        {(kommune == null || !kommune.erInnsynDeaktivert) && (
-                            <ArkfanePanel
-                                historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
-                                vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
-                            />
-                        )}
-                    </FilUploadSuccesfulProvider>
-                </>
+            {soknadsStatus?.isBroken && (
+                <StyledAlert variant="warning">
+                    <BodyShort>{t("soknaderUtenVedlegg.statusside")}</BodyShort>
+                </StyledAlert>
             )}
+
+            <ForelopigSvarAlertstripe />
+
+            <SoknadsStatus />
+            <FilUploadSuccesfulProvider>
+                <UxSignalsWidget enabled={showUxSignalsWidget} />
+                {erPaInnsyn && <Oppgaver />}
+                {kommune != null && kommune.erInnsynDeaktivert && (
+                    <>
+                        <StyledPanel className="panel-luft-over">
+                            <Heading level="2" size="medium">
+                                {t("vedlegg.tittel")}
+                            </Heading>
+                        </StyledPanel>
+                        <StyledPanel className="panel-glippe-over">
+                            <VedleggView fiksDigisosId={fiksDigisosId} />
+                        </StyledPanel>
+                    </>
+                )}
+                {sakErPaaklagbar && <KlageSection />}
+                {(kommune == null || !kommune.erInnsynDeaktivert) && (
+                    <ArkfanePanel
+                        historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
+                        vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
+                    />
+                )}
+            </FilUploadSuccesfulProvider>
         </MainLayout>
     );
 };
