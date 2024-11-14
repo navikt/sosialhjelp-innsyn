@@ -6,13 +6,14 @@ export default {
             target: "src/generated/innsyn-api.ts",
             schemas: "src/generated/model",
             client: "react-query",
+            baseUrl: "/sosialhjelp/innsyn/api/innsyn-api",
+            httpClient: "fetch",
+            mock: true,
             override: {
-                mutator: {
-                    path: "./src/axios-instance.ts",
-                    name: "axiosInstance",
+                fetch: {
+                    includeHttpStatusReturnType: false,
                 },
             },
-            mock: true,
         },
         hooks: {
             afterAllFilesWrite: "prettier --write",
