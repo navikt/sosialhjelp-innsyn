@@ -39,7 +39,9 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     }
 
     if (error) {
-        logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
+        logger.error(
+            `Fikk feilmelding fra harTilgang. Code: ${(error as any).code}, message: ${(error as any).message}`
+        );
     }
 
     if (!data?.harTilgang || queryHas403) {

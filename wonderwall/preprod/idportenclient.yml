@@ -1,0 +1,21 @@
+apiVersion: nais.io/v1
+kind: IDPortenClient
+metadata:
+  labels:
+    team: teamdigisos
+  name: idporten-innsyn
+  namespace: teamdigisos
+spec:
+  accessTokenLifetime: 3600
+  clientURI: https://www.nav.no/okonomisk-sosialhjelp
+  frontchannelLogoutURI: https://www.ekstern.dev.nav.no/sosialhjelp/wonderwall-innsyn/oauth2/logout/frontchannel
+  integrationType: api_klient
+  postLogoutRedirectURIs:
+    - https://www.ekstern.dev.nav.no/sosialhjelp/wonderwall-innsyn/oauth2/logout/callback
+  redirectURIs:
+    - https://www.ekstern.dev.nav.no/sosialhjelp/wonderwall-innsyn/oauth2/callback
+  scopes:
+    - openid
+    - ks:fiks
+  secretName: idporten-innsyn
+  sessionLifetime: 21600
