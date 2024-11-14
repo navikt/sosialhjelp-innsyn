@@ -1,13 +1,15 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: sosialhjelp-innsyn-dev
+  name: sosialhjelp-innsyn
   namespace: teamdigisos
   labels:
     team: teamdigisos
 spec:
   image: {{image}}
   port: 8080
+  ingresses:
+    - "https://www.ekstern.dev.nav.no/sosialhjelp/innsyn/idporten"
   liveness:
     path: /sosialhjelp/innsyn/api/internal/isAlive
     initialDelay: 20
@@ -21,19 +23,25 @@ spec:
   prometheus:
     enabled: false
     path: /actuator/metrics
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
+      autoLogin: true
   replicas:
     min: 1
     max: 2
-  ingresses:
-    - "https://sosialhjelp-innsyn-dev.intern.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
+    inbound:
+      rules:
+        - application: wonderwall-innsyn
     outbound:
       rules:
         - application: nav-dekoratoren
           namespace: personbruker
+        - application: sosialhjelp-innsyn-api
       external:
         - host: dekoratoren.ekstern.dev.nav.no
-        - host: digisos.intern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
   resources:
     limits:
