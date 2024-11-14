@@ -39,9 +39,13 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     }
 
     if (error) {
-        logger.error(`Fikk feilmelding fra harTilgang. Code: ${error.code}, message: ${error.message}`);
+        logger.error(
+            `Fikk feilmelding fra harTilgang. Code: ${(error as any).code}, message: ${(error as any).message}`
+        );
     }
-
+    if (data?.status === 401) {
+        router.push((process.env.NEXT_PUBLIC_INNSYN_API_BASE_URL ?? "") + data.location ?? "");
+    }
     if (!data?.harTilgang || queryHas403) {
         const fornavn = data?.fornavn ?? "";
         fornavn === ""
