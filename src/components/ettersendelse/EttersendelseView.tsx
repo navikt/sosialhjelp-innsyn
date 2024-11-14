@@ -101,6 +101,7 @@ const EttersendelseView = (props: Props) => {
                                 resetStatus={resetStatus}
                                 disabled={isAalesund}
                                 hasError={innerErrors[0]?.length + outerErrors.length > 0}
+                                title={t("annen_dokumentasjon")}
                             />
                         ) : undefined
                     }

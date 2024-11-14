@@ -107,6 +107,8 @@ const UtbetalingerPanelBeta = () => {
 
                     <Tabs.Tab
                         value={TAB_VALUE.TIDLIGERE}
+                        id="tidligere-utbetalinger"
+                        aria-controls="tidligere-utbetalinger-panel"
                         label={t("tab2")}
                         onClick={() => {
                             setTabClicked(TAB_VALUE.TIDLIGERE);
@@ -120,7 +122,7 @@ const UtbetalingerPanelBeta = () => {
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
                     <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
-                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} className={styles.tab_panel}>
+                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} id="tidligere-utbetalinger-panel" className={styles.tab_panel}>
                     <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>

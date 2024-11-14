@@ -108,6 +108,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                                             resetStatus={resetStatus}
                                             disabled={isAalesund}
                                             hasError={innerErrors[0]?.length + outerErrors.length > 0}
+                                            title={typeTekst}
                                         />
                                     ) : undefined
                                 }

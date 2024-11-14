@@ -97,7 +97,7 @@ const SaksStatusView: NextPage = () => {
             ));
 
     return (
-        <MainLayout title={`${t("soknadStatus.tittel")} - ${t("app.tittel")}`}>
+        <MainLayout title={t("app.tittel")}>
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
