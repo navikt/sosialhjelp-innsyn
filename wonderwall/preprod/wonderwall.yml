@@ -13,7 +13,7 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: test.idporten.no
+        - host: www.ekstern.dev.nav.no
       rules:
         - application: sosialhjelp-innsyn
   resources:
@@ -24,7 +24,7 @@ spec:
       cpu: "20m"
       memory: 50Mi
   redis:
-    - access: readwrite
+    - access: read
       instance: wonderwall
   liveness:
     initialDelay: 20
@@ -36,23 +36,20 @@ spec:
     min: 1
     max: 2
   envFrom:
-    - secret: idporten-innsyn
     - secret: wonderwall-redis
   env:
+    - name: WONDERWALL_SSO_ENABLED
+      value: "true"
+    - name: WONDERWALL_SSO_MODE
+      value: proxy
     - name: WONDERWALL_AUTO_LOGIN
       value: "true"
-    - name: WONDERWALL_OPENID_PROVIDER
-      value: idporten
-    - name: WONDERWALL_OPENID_SCOPES
-      value: ks:fiks
     - name: WONDERWALL_INGRESS
       value: https://www.ekstern.dev.nav.no/sosialhjelp/innsyn
     - name: WONDERWALL_UPSTREAM_HOST
       value: sosialhjelp-innsyn:80
     - name: WONDERWALL_BIND_ADDRESS
       value: 0.0.0.0:8080
-    - name: WONDERWALL_COOKIE_PREFIX
-      value: "sosialhjelp.innsyn.wonderwall"
     - name: WONDERWALL_METRICS_BIND_ADDRESS
       value: 0.0.0.0:7565
     - name: WONDERWALL_SHUTDOWN_GRACEFUL_PERIOD
@@ -67,3 +64,9 @@ spec:
       value: $(REDIS_USERNAME_WONDERWALL)
     - name: WONDERWALL_REDIS_PASSWORD
       value: $(REDIS_PASSWORD_WONDERWALL)
+    - name: WONDERWALL_SSO_SESSION_COOKIE_NAME
+      value: no.sosialhjelp.wonderwall.session
+    - name: WONDERWALL_SSO_SERVER_URL
+      value: https://www.ekstern.dev.nav.no/sosialhjelp/wonderwall
+    - name: WONDERWALL_SESSION_REFRESH_AUTO
+      value: "false"
