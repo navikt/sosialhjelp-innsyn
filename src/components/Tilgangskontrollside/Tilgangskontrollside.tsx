@@ -47,18 +47,9 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     // const {data, isLoading, error} = useHarTilgang();
     const router = useRouter();
     const {t} = useTranslation();
-    const sessionQuery = useDekoratorLogin();
-    const {
-        error,
-        isPending,
-        data: harTilgangData,
-    } = useHarTilgang({query: {enabled: sessionQuery.status === "success"}});
+    const {error, isPending, data: harTilgangData} = useHarTilgang();
 
-    console.log("sessionQuery.isLoading: ", sessionQuery.isPending);
-    console.log("sessionQuery.error: ", sessionQuery.error);
-    console.log("harTilgang.error: ", error);
-    console.log("harTilgang.isLoading", isPending);
-    console.log("harTilgang.data", harTilgangData);
+    const sessionQuery = useDekoratorLogin();
     useEffect(() => {
         if (
             !sessionQuery.isPending &&
@@ -83,7 +74,8 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
         );
     }
 
-    if (!harTilgangData?.data.harTilgang || queryHas403) {
+    const isAuthError = harTilgangData?.status === 401 || harTilgangData?.status === 403;
+    if (isAuthError || queryHas403 || (harTilgangData && harTilgangData.data.harTilgang)) {
         const fornavn = harTilgangData?.data.fornavn ?? "";
         fornavn === ""
             ? logger.warn(`Viser tilgangskontrollside uten fornavn`)
