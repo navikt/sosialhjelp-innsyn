@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const Forbidden = (): React.JSX.Element => {
     const {t} = useTranslation();
     const router = useRouter();
-    const {data, isLoading, error} = useHarTilgang();
+    const {data, isLoading} = useHarTilgang();
     if (isLoading) {
         return (
             <div className="informasjon-side">
@@ -35,9 +35,9 @@ const Forbidden = (): React.JSX.Element => {
         );
     }
 
-    if (!data?.harTilgang) {
+    if (!data?.data.harTilgang) {
         logger.info(
-            data?.fornavn ? "Viser tilgangskontrollside med fornavn" : "Viser tilgangskontrollside uten fornavn"
+            data?.data.fornavn ? "Viser tilgangskontrollside med fornavn" : "Viser tilgangskontrollside uten fornavn"
         );
     }
 
@@ -51,7 +51,7 @@ const Forbidden = (): React.JSX.Element => {
                     </StyledElla>
                     <Heading as="p" size="large" spacing>
                         {t("tilgang.header", {
-                            fornavn: data?.fornavn,
+                            fornavn: data?.data.fornavn,
                         })}
                     </Heading>
                     <BodyLong spacing>{t("tilgang.info")}</BodyLong>
