@@ -48,12 +48,12 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     const router = useRouter();
     const {t} = useTranslation();
     const sessionQuery = useDekoratorLogin();
-    const {error, isLoading, data: harTilgangData} = useHarTilgang();
+    const {error, isPending, data: harTilgangData} = useHarTilgang();
 
-    console.log("sessionQuery.isLoading: ", sessionQuery.isLoading);
+    console.log("sessionQuery.isLoading: ", sessionQuery.isPending);
     console.log("sessionQuery.error: ", sessionQuery.error);
     console.log("harTilgang.error: ", error);
-    console.log("harTilgang.isLoading", isLoading);
+    console.log("harTilgang.isLoading", isPending);
     console.log("harTilgang.data", harTilgangData);
     useEffect(() => {
         if (
@@ -64,7 +64,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
         }
     }, [sessionQuery.data, sessionQuery.isPending, router]);
 
-    if (sessionQuery.isLoading || isLoading) {
+    if (sessionQuery.isPending || isPending) {
         return (
             <div className="informasjon-side">
                 {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
