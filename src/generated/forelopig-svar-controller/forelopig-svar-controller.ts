@@ -15,6 +15,9 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import type {ForelopigSvarResponse} from ".././model";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getHentForelopigSvarStatusUrl = (fiksDigisosId: string) => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/forelopigSvar`;
@@ -24,13 +27,10 @@ export const hentForelopigSvarStatus = async (
     fiksDigisosId: string,
     options?: RequestInit
 ): Promise<ForelopigSvarResponse> => {
-    const res = await fetch(getHentForelopigSvarStatusUrl(fiksDigisosId), {
+    return customFetch<Promise<ForelopigSvarResponse>>(getHentForelopigSvarStatusUrl(fiksDigisosId), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as ForelopigSvarResponse;
 };
 
 export const getHentForelopigSvarStatusQueryKey = (fiksDigisosId: string) => {
@@ -44,15 +44,15 @@ export const getHentForelopigSvarStatusQueryOptions = <
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentForelopigSvarStatus>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentForelopigSvarStatusQueryKey(fiksDigisosId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentForelopigSvarStatus>>> = ({signal}) =>
-        hentForelopigSvarStatus(fiksDigisosId, {signal, ...fetchOptions});
+        hentForelopigSvarStatus(fiksDigisosId, {signal, ...requestOptions});
 
     return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
@@ -75,7 +75,7 @@ export function useHentForelopigSvarStatus<
                 DefinedInitialDataOptions<Awaited<ReturnType<typeof hentForelopigSvarStatus>>, TError, TData>,
                 "initialData"
             >;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentForelopigSvarStatus<
@@ -89,7 +89,7 @@ export function useHentForelopigSvarStatus<
                 UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentForelopigSvarStatus>>, TError, TData>,
                 "initialData"
             >;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentForelopigSvarStatus<
@@ -99,7 +99,7 @@ export function useHentForelopigSvarStatus<
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentForelopigSvarStatus>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
@@ -110,7 +110,7 @@ export function useHentForelopigSvarStatus<
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentForelopigSvarStatus>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentForelopigSvarStatusQueryOptions(fiksDigisosId, options);

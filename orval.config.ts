@@ -10,6 +10,10 @@ export default {
             httpClient: "fetch",
             mock: true,
             override: {
+                mutator: {
+                    path: "src/custom-fetch.ts",
+                    name: "customFetch",
+                },
                 operations: {
                     harTilgang: {
                         fetch: {

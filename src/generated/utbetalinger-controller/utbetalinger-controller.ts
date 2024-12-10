@@ -15,6 +15,9 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import type {HentUtbetalingerParams, NyeOgTidligereUtbetalingerResponse, UtbetalingerResponse} from ".././model";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getHentUtbetalingerUrl = (params?: HentUtbetalingerParams) => {
     const normalizedParams = new URLSearchParams();
@@ -34,13 +37,10 @@ export const hentUtbetalinger = async (
     params?: HentUtbetalingerParams,
     options?: RequestInit
 ): Promise<UtbetalingerResponse[]> => {
-    const res = await fetch(getHentUtbetalingerUrl(params), {
+    return customFetch<Promise<UtbetalingerResponse[]>>(getHentUtbetalingerUrl(params), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as UtbetalingerResponse[];
 };
 
 export const getHentUtbetalingerQueryKey = (params?: HentUtbetalingerParams) => {
@@ -51,15 +51,15 @@ export const getHentUtbetalingerQueryOptions = <TData = Awaited<ReturnType<typeo
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentUtbetalingerQueryKey(params);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentUtbetalinger>>> = ({signal}) =>
-        hentUtbetalinger(params, {signal, ...fetchOptions});
+        hentUtbetalinger(params, {signal, ...requestOptions});
 
     return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentUtbetalinger>>,
@@ -76,7 +76,7 @@ export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbeta
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>> &
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
@@ -87,14 +87,14 @@ export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbeta
                 UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>,
                 "initialData"
             >;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
@@ -102,7 +102,7 @@ export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbeta
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentUtbetalingerQueryOptions(params, options);
@@ -121,13 +121,10 @@ export const getHentTidligereUtbetalingerUrl = () => {
 export const hentTidligereUtbetalinger = async (
     options?: RequestInit
 ): Promise<NyeOgTidligereUtbetalingerResponse[]> => {
-    const res = await fetch(getHentTidligereUtbetalingerUrl(), {
+    return customFetch<Promise<NyeOgTidligereUtbetalingerResponse[]>>(getHentTidligereUtbetalingerUrl(), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as NyeOgTidligereUtbetalingerResponse[];
 };
 
 export const getHentTidligereUtbetalingerQueryKey = () => {
@@ -139,14 +136,14 @@ export const getHentTidligereUtbetalingerQueryOptions = <
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentTidligereUtbetalingerQueryKey();
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>> = ({signal}) =>
-        hentTidligereUtbetalinger({signal, ...fetchOptions});
+        hentTidligereUtbetalinger({signal, ...requestOptions});
 
     return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
@@ -167,7 +164,7 @@ export function useHentTidligereUtbetalinger<
             DefinedInitialDataOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>,
             "initialData"
         >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentTidligereUtbetalinger<
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
@@ -178,14 +175,14 @@ export function useHentTidligereUtbetalinger<
             UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>,
             "initialData"
         >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentTidligereUtbetalinger<
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
 export function useHentTidligereUtbetalinger<
@@ -193,7 +190,7 @@ export function useHentTidligereUtbetalinger<
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentTidligereUtbetalingerQueryOptions(options);
 
@@ -209,13 +206,10 @@ export const getHentNyeUtbetalingerUrl = () => {
 };
 
 export const hentNyeUtbetalinger = async (options?: RequestInit): Promise<NyeOgTidligereUtbetalingerResponse[]> => {
-    const res = await fetch(getHentNyeUtbetalingerUrl(), {
+    return customFetch<Promise<NyeOgTidligereUtbetalingerResponse[]>>(getHentNyeUtbetalingerUrl(), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as NyeOgTidligereUtbetalingerResponse[];
 };
 
 export const getHentNyeUtbetalingerQueryKey = () => {
@@ -227,14 +221,14 @@ export const getHentNyeUtbetalingerQueryOptions = <
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentNyeUtbetalingerQueryKey();
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentNyeUtbetalinger>>> = ({signal}) =>
-        hentNyeUtbetalinger({signal, ...fetchOptions});
+        hentNyeUtbetalinger({signal, ...requestOptions});
 
     return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
@@ -252,7 +246,7 @@ export function useHentNyeUtbetalinger<
 >(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>, "initialData">;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentNyeUtbetalinger<
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
@@ -263,14 +257,14 @@ export function useHentNyeUtbetalinger<
             UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>,
             "initialData"
         >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentNyeUtbetalinger<
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
 export function useHentNyeUtbetalinger<
@@ -278,7 +272,7 @@ export function useHentNyeUtbetalinger<
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentNyeUtbetalingerQueryOptions(options);
 
