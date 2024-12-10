@@ -10,6 +10,13 @@ export default {
             httpClient: "fetch",
             mock: true,
             override: {
+                operations: {
+                    harTilgang: {
+                        fetch: {
+                            includeHttpStatusReturnType: true,
+                        },
+                    },
+                },
                 fetch: {
                     includeHttpStatusReturnType: false,
                 },
