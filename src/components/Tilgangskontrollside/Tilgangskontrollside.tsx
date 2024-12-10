@@ -48,7 +48,11 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     const router = useRouter();
     const {t} = useTranslation();
     const sessionQuery = useDekoratorLogin();
-    const {error, isPending, data: harTilgangData} = useHarTilgang();
+    const {
+        error,
+        isPending,
+        data: harTilgangData,
+    } = useHarTilgang({query: {enabled: sessionQuery.status === "success"}});
 
     console.log("sessionQuery.isLoading: ", sessionQuery.isPending);
     console.log("sessionQuery.error: ", sessionQuery.error);
