@@ -7,33 +7,33 @@
 import {useMutation} from "@tanstack/react-query";
 import type {MutationFunction, UseMutationOptions, UseMutationResult} from "@tanstack/react-query";
 import type {Logg} from ".././model";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getPostKlientloggUrl = () => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/info/logg`;
 };
 
 export const postKlientlogg = async (logg: Logg, options?: RequestInit): Promise<void> => {
-    const res = await fetch(getPostKlientloggUrl(), {
+    return customFetch<Promise<void>>(getPostKlientloggUrl(), {
         ...options,
         method: "POST",
         headers: {"Content-Type": "application/json", ...options?.headers},
         body: JSON.stringify(logg),
     });
-    const data = await res.json();
-
-    return data as void;
 };
 
 export const getPostKlientloggMutationOptions = <TError = unknown, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext> => {
-    const {mutation: mutationOptions, fetch: fetchOptions} = options ?? {};
+    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
 
     const mutationFn: MutationFunction<Awaited<ReturnType<typeof postKlientlogg>>, {data: Logg}> = (props) => {
         const {data} = props ?? {};
 
-        return postKlientlogg(data, fetchOptions);
+        return postKlientlogg(data, requestOptions);
     };
 
     return {mutationFn, ...mutationOptions};
@@ -45,7 +45,7 @@ export type PostKlientloggMutationError = unknown;
 
 export const usePostKlientlogg = <TError = unknown, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext> => {
     const mutationOptions = getPostKlientloggMutationOptions(options);
 
