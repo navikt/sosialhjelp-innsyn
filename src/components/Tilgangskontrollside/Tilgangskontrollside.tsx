@@ -50,6 +50,11 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     const sessionQuery = useDekoratorLogin();
     const {error, isLoading, data: harTilgangData} = useHarTilgang();
 
+    console.log("sessionQuery.isLoading: ", sessionQuery.isLoading);
+    console.log("sessionQuery.error: ", sessionQuery.error);
+    console.log("harTilgang.error: ", error);
+    console.log("harTilgang.isLoading", isLoading);
+    console.log("harTilgang.data", harTilgangData);
     useEffect(() => {
         if (
             !sessionQuery.isPending &&
