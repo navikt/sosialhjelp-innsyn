@@ -115,7 +115,7 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
 }
 
 export const getHentAlleSakerUrl = () => {
-    return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/saker/`;
+    return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/saker`;
 };
 
 export const hentAlleSaker = async (options?: RequestInit): Promise<SaksListeResponse[]> => {

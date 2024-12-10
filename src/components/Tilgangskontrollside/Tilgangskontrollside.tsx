@@ -9,7 +9,6 @@ import {useTranslation} from "next-i18next";
 import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
 import {useRouter} from "next/router";
-import {NextResponse} from "next/server";
 import {useEffect} from "react";
 import {useQuery} from "@tanstack/react-query";
 
@@ -30,8 +29,8 @@ export interface TilgangskontrollsideProps {
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
 const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
 
-const useDekoratorLogin = () => {
-    const query = useQuery({
+const useDekoratorLogin = () =>
+    useQuery({
         queryKey: ["dekorator-login"],
         queryFn: async () => {
             const result = await fetch(sessionUrl, {
@@ -43,17 +42,15 @@ const useDekoratorLogin = () => {
             return {status: result.status, ...data};
         },
     });
-    return query;
-};
 
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, queryHas403}) => {
     // const {data, isLoading, error} = useHarTilgang();
     const router = useRouter();
     const {t} = useTranslation();
     const sessionQuery = useDekoratorLogin();
+    const {error, isLoading, data: harTilgangData} = useHarTilgang();
 
     useEffect(() => {
-        console.log("status: ", sessionQuery.data?.status, ", active: ", sessionQuery.data?.session?.active);
         if (
             !sessionQuery.isPending &&
             (sessionQuery.data?.status === 401 || sessionQuery.data?.session?.active === false)
@@ -62,7 +59,7 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
         }
     }, [sessionQuery.data, sessionQuery.isPending, router]);
 
-    if (sessionQuery.isLoading) {
+    if (sessionQuery.isLoading || isLoading) {
         return (
             <div className="informasjon-side">
                 {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
@@ -71,37 +68,37 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
         );
     }
 
-    // if (error) {
-    //     logger.error(
-    //         `Fikk feilmelding fra harTilgang. Code: ${(error as any).code}, message: ${(error as any).message}`
-    //     );
-    // // }
-    //
-    // if (!data?.harTilgang || queryHas403) {
-    //     const fornavn = data?.fornavn ?? "";
-    //     fornavn === ""
-    //         ? logger.warn(`Viser tilgangskontrollside uten fornavn`)
-    //         : logger.warn(`Viser tilgangskontrollside med fornavn`);
-    //
-    //     return (
-    //         <div className="informasjon-side">
-    //             <Banner>{t("app.tittel")}</Banner>
-    //             <Wrapper className={"blokk-center"}>
-    //                 <UthevetPanel className="panel-glippe-over">
-    //                     <StyledElla>
-    //                         <EllaBlunk size={"175"} />
-    //                     </StyledElla>
-    //                     <Heading as="p" size="large" spacing>
-    //                         {t("tilgang.header", {
-    //                             fornavn,
-    //                         })}
-    //                     </Heading>
-    //                     <BodyLong spacing>{t("tilgang.info")}</BodyLong>
-    //                 </UthevetPanel>
-    //             </Wrapper>
-    //         </div>
-    //     );
-    // }
+    if (error) {
+        logger.error(
+            `Fikk feilmelding fra harTilgang. Code: ${harTilgangData?.status}, message: ${(error as any | undefined)?.message}`
+        );
+    }
+
+    if (!harTilgangData?.data.harTilgang || queryHas403) {
+        const fornavn = harTilgangData?.data.fornavn ?? "";
+        fornavn === ""
+            ? logger.warn(`Viser tilgangskontrollside uten fornavn`)
+            : logger.warn(`Viser tilgangskontrollside med fornavn`);
+
+        return (
+            <div className="informasjon-side">
+                <Banner>{t("app.tittel")}</Banner>
+                <Wrapper className={"blokk-center"}>
+                    <UthevetPanel className="panel-glippe-over">
+                        <StyledElla>
+                            <EllaBlunk size={"175"} />
+                        </StyledElla>
+                        <Heading as="p" size="large" spacing>
+                            {t("tilgang.header", {
+                                fornavn,
+                            })}
+                        </Heading>
+                        <BodyLong spacing>{t("tilgang.info")}</BodyLong>
+                    </UthevetPanel>
+                </Wrapper>
+            </div>
+        );
+    }
 
     return <>{children}</>;
 };

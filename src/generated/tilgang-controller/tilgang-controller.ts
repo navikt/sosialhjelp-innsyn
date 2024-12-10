@@ -16,18 +16,23 @@ import type {
 } from "@tanstack/react-query";
 import type {TilgangResponse} from ".././model";
 
+export type harTilgangResponse = {
+    data: TilgangResponse;
+    status: number;
+};
+
 export const getHarTilgangUrl = () => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/tilgang`;
 };
 
-export const harTilgang = async (options?: RequestInit): Promise<TilgangResponse> => {
+export const harTilgang = async (options?: RequestInit): Promise<harTilgangResponse> => {
     const res = await fetch(getHarTilgangUrl(), {
         ...options,
         method: "GET",
     });
     const data = await res.json();
 
-    return data as TilgangResponse;
+    return {status: res.status, data};
 };
 
 export const getHarTilgangQueryKey = () => {
