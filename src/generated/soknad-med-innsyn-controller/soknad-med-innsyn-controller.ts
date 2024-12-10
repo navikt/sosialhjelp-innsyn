@@ -14,19 +14,19 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getHarSoknaderMedInnsynUrl = () => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/harSoknaderMedInnsyn`;
 };
 
 export const harSoknaderMedInnsyn = async (options?: RequestInit): Promise<boolean> => {
-    const res = await fetch(getHarSoknaderMedInnsynUrl(), {
+    return customFetch<Promise<boolean>>(getHarSoknaderMedInnsynUrl(), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as boolean;
 };
 
 export const getHarSoknaderMedInnsynQueryKey = () => {
@@ -38,14 +38,14 @@ export const getHarSoknaderMedInnsynQueryOptions = <
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHarSoknaderMedInnsynQueryKey();
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>> = ({signal}) =>
-        harSoknaderMedInnsyn({signal, ...fetchOptions});
+        harSoknaderMedInnsyn({signal, ...requestOptions});
 
     return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
@@ -63,7 +63,7 @@ export function useHarSoknaderMedInnsyn<
 >(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>, "initialData">;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
@@ -74,14 +74,14 @@ export function useHarSoknaderMedInnsyn<
             UndefinedInitialDataOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>,
             "initialData"
         >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
 export function useHarSoknaderMedInnsyn<
@@ -89,7 +89,7 @@ export function useHarSoknaderMedInnsyn<
     TError = unknown,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHarSoknaderMedInnsynQueryOptions(options);
 

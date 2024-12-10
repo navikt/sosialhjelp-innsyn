@@ -18,19 +18,19 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import type {OppgaveOpplastingResponse, SendVedleggBody, VedleggResponse} from ".././model";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getHentVedleggUrl = (fiksDigisosId: string) => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/vedlegg`;
 };
 
 export const hentVedlegg = async (fiksDigisosId: string, options?: RequestInit): Promise<VedleggResponse[]> => {
-    const res = await fetch(getHentVedleggUrl(fiksDigisosId), {
+    return customFetch<Promise<VedleggResponse[]>>(getHentVedleggUrl(fiksDigisosId), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as VedleggResponse[];
 };
 
 export const getHentVedleggQueryKey = (fiksDigisosId: string) => {
@@ -41,15 +41,15 @@ export const getHentVedleggQueryOptions = <TData = Awaited<ReturnType<typeof hen
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentVedleggQueryKey(fiksDigisosId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentVedlegg>>> = ({signal}) =>
-        hentVedlegg(fiksDigisosId, {signal, ...fetchOptions});
+        hentVedlegg(fiksDigisosId, {signal, ...requestOptions});
 
     return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentVedlegg>>,
@@ -66,7 +66,7 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>> &
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
@@ -74,14 +74,14 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>> &
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
@@ -89,7 +89,7 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentVedleggQueryOptions(fiksDigisosId, options);
@@ -113,14 +113,11 @@ export const sendVedlegg = async (
     const formData = new FormData();
     sendVedleggBody.files.forEach((value) => formData.append("files", value));
 
-    const res = await fetch(getSendVedleggUrl(fiksDigisosId), {
+    return customFetch<Promise<OppgaveOpplastingResponse[]>>(getSendVedleggUrl(fiksDigisosId), {
         ...options,
         method: "POST",
         body: formData,
     });
-    const data = await res.json();
-
-    return data as OppgaveOpplastingResponse[];
 };
 
 export const getSendVedleggMutationOptions = <TError = unknown, TContext = unknown>(options?: {
@@ -130,14 +127,14 @@ export const getSendVedleggMutationOptions = <TError = unknown, TContext = unkno
         {fiksDigisosId: string; data: SendVedleggBody},
         TContext
     >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof sendVedlegg>>,
     TError,
     {fiksDigisosId: string; data: SendVedleggBody},
     TContext
 > => {
-    const {mutation: mutationOptions, fetch: fetchOptions} = options ?? {};
+    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof sendVedlegg>>,
@@ -145,7 +142,7 @@ export const getSendVedleggMutationOptions = <TError = unknown, TContext = unkno
     > = (props) => {
         const {fiksDigisosId, data} = props ?? {};
 
-        return sendVedlegg(fiksDigisosId, data, fetchOptions);
+        return sendVedlegg(fiksDigisosId, data, requestOptions);
     };
 
     return {mutationFn, ...mutationOptions};
@@ -162,7 +159,7 @@ export const useSendVedlegg = <TError = unknown, TContext = unknown>(options?: {
         {fiksDigisosId: string; data: SendVedleggBody},
         TContext
     >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<
     Awaited<ReturnType<typeof sendVedlegg>>,
     TError,

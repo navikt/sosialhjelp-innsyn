@@ -18,19 +18,19 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import type {InputKlage, KlageDto, Unit} from ".././model";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getHentKlagerUrl = (fiksDigisosId: string) => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/klage`;
 };
 
 export const hentKlager = async (fiksDigisosId: string, options?: RequestInit): Promise<KlageDto[]> => {
-    const res = await fetch(getHentKlagerUrl(fiksDigisosId), {
+    return customFetch<Promise<KlageDto[]>>(getHentKlagerUrl(fiksDigisosId), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as KlageDto[];
 };
 
 export const getHentKlagerQueryKey = (fiksDigisosId: string) => {
@@ -41,15 +41,15 @@ export const getHentKlagerQueryOptions = <TData = Awaited<ReturnType<typeof hent
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentKlagerQueryKey(fiksDigisosId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentKlager>>> = ({signal}) =>
-        hentKlager(fiksDigisosId, {signal, ...fetchOptions});
+        hentKlager(fiksDigisosId, {signal, ...requestOptions});
 
     return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentKlager>>,
@@ -66,7 +66,7 @@ export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TE
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>> &
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
@@ -74,14 +74,14 @@ export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TE
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>> &
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
@@ -89,7 +89,7 @@ export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TE
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentKlagerQueryOptions(fiksDigisosId, options);
@@ -110,15 +110,12 @@ export const sendKlage = async (
     inputKlage: InputKlage,
     options?: RequestInit
 ): Promise<Unit> => {
-    const res = await fetch(getSendKlageUrl(fiksDigisosId), {
+    return customFetch<Promise<Unit>>(getSendKlageUrl(fiksDigisosId), {
         ...options,
         method: "POST",
         headers: {"Content-Type": "application/json;charset=UTF-8", ...options?.headers},
         body: JSON.stringify(inputKlage),
     });
-    const data = await res.json();
-
-    return data as Unit;
 };
 
 export const getSendKlageMutationOptions = <TError = unknown, TContext = unknown>(options?: {
@@ -128,14 +125,14 @@ export const getSendKlageMutationOptions = <TError = unknown, TContext = unknown
         {fiksDigisosId: string; data: InputKlage},
         TContext
     >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof sendKlage>>,
     TError,
     {fiksDigisosId: string; data: InputKlage},
     TContext
 > => {
-    const {mutation: mutationOptions, fetch: fetchOptions} = options ?? {};
+    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof sendKlage>>,
@@ -143,7 +140,7 @@ export const getSendKlageMutationOptions = <TError = unknown, TContext = unknown
     > = (props) => {
         const {fiksDigisosId, data} = props ?? {};
 
-        return sendKlage(fiksDigisosId, data, fetchOptions);
+        return sendKlage(fiksDigisosId, data, requestOptions);
     };
 
     return {mutationFn, ...mutationOptions};
@@ -160,7 +157,7 @@ export const useSendKlage = <TError = unknown, TContext = unknown>(options?: {
         {fiksDigisosId: string; data: InputKlage},
         TContext
     >;
-    fetch?: RequestInit;
+    request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<
     Awaited<ReturnType<typeof sendKlage>>,
     TError,
