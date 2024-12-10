@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: wonderwall-soknad
+  name: wonderwall-innsyn
   namespace: teamdigisos
   labels:
     team: teamdigisos
@@ -9,13 +9,13 @@ spec:
   image: europe-north1-docker.pkg.dev/nais-io/nais/images/wonderwall:latest
   port: 8080
   ingresses:
-    - "https://www.ansatt.nav.no/sosialhjelp/soknad"
+    - "https://www.ansatt.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       external:
-        - host: idporten.no
+        - host: www.nav.no
       rules:
-        - application: sosialhjelp-soknad
+        - application: sosialhjelp-innsyn
   resources:
     limits:
       cpu: "2"
@@ -24,31 +24,30 @@ spec:
       cpu: "20m"
       memory: 50Mi
   redis:
-    - access: readwrite
+    - access: read
       instance: wonderwall
   liveness:
     initialDelay: 20
-    path: /sosialhjelp/soknad/oauth2/ping
+    path: /sosialhjelp/innsyn/oauth2/ping
   readiness:
     initialDelay: 20
-    path: /sosialhjelp/soknad/oauth2/ping
+    path: /sosialhjelp/innsyn/oauth2/ping
   replicas:
-    min: 1
-    max: 2
+    min: 2
+    max: 3
   envFrom:
-    - secret: idporten-soknad
     - secret: wonderwall-redis
   env:
+    - name: WONDERWALL_SSO_ENABLED
+      value: "true"
+    - name: WONDERWALL_SSO_MODE
+      value: proxy
     - name: WONDERWALL_AUTO_LOGIN
       value: "true"
-    - name: WONDERWALL_OPENID_PROVIDER
-      value: idporten
-    - name: WONDERWALL_OPENID_SCOPES
-      value: ks:fiks,husbanken:minbostotte
     - name: WONDERWALL_INGRESS
-      value: https://www.ansatt.nav.no/sosialhjelp/soknad
+      value: https://www.ansatt.nav.no/sosialhjelp/innsyn
     - name: WONDERWALL_UPSTREAM_HOST
-      value: sosialhjelp-soknad:80
+      value: sosialhjelp-innsyn:80
     - name: WONDERWALL_BIND_ADDRESS
       value: 0.0.0.0:8080
     - name: WONDERWALL_METRICS_BIND_ADDRESS
@@ -65,3 +64,11 @@ spec:
       value: $(REDIS_USERNAME_WONDERWALL)
     - name: WONDERWALL_REDIS_PASSWORD
       value: $(REDIS_PASSWORD_WONDERWALL)
+    - name: WONDERWALL_SESSION_MAX_LIFETIME
+      value: 59m
+    - name: WONDERWALL_SESSION_REFRESH_AUTO
+      value: "false"
+    - name: WONDERWALL_SSO_SESSION_COOKIE_NAME
+      value: no.sosialhjelp.wonderwall.session
+    - name: WONDERWALL_SSO_SERVER_URL
+      value: https://www.nav.no/sosialhjelp/wonderwall
