@@ -64,6 +64,7 @@ const SaksStatusView: NextPage = () => {
     const searchParams = useSearchParams();
     const showUxSignalsWidget = Boolean(searchParams.get("kortSoknad"));
 
+    console.log("saksstatuser: ", saksStatuser);
     useEffect(() => {
         function createAmplitudeData() {
             const harVedtaksbrev = saksStatuser && saksStatuser.some((item) => item.vedtaksfilUrlList?.length);
