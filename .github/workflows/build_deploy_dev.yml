@@ -22,7 +22,6 @@ on:
 
 env:
   DOCKER_IMAGE_POSTFIX: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-${{ inputs.config-file-name }}
-
 jobs:
   build-image:
     name: 'Build Image for Deploy'
@@ -89,6 +88,8 @@ jobs:
 
   deploy-gcp:
     name: 'Deploy to development'
+    permissions:
+      id-token: write
     if: ${{ inputs.config-file-name != 'q0' }}
     needs: build-image
     runs-on: ubuntu-latest
