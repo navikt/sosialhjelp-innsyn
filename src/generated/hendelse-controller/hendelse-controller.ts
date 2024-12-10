@@ -15,19 +15,19 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import type {HendelseResponse} from ".././model";
+import {customFetch} from "../../custom-fetch";
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getHentHendelserUrl = (fiksDigisosId: string) => {
     return `/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/hendelser`;
 };
 
 export const hentHendelser = async (fiksDigisosId: string, options?: RequestInit): Promise<HendelseResponse[]> => {
-    const res = await fetch(getHentHendelserUrl(fiksDigisosId), {
+    return customFetch<Promise<HendelseResponse[]>>(getHentHendelserUrl(fiksDigisosId), {
         ...options,
         method: "GET",
     });
-    const data = await res.json();
-
-    return data as HendelseResponse[];
 };
 
 export const getHentHendelserQueryKey = (fiksDigisosId: string) => {
@@ -38,15 +38,15 @@ export const getHentHendelserQueryOptions = <TData = Awaited<ReturnType<typeof h
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+    const {query: queryOptions, request: requestOptions} = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentHendelserQueryKey(fiksDigisosId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof hentHendelser>>> = ({signal}) =>
-        hentHendelser(fiksDigisosId, {signal, ...fetchOptions});
+        hentHendelser(fiksDigisosId, {signal, ...requestOptions});
 
     return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
         Awaited<ReturnType<typeof hentHendelser>>,
@@ -63,7 +63,7 @@ export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>> &
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
@@ -71,14 +71,14 @@ export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>> &
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>, "initialData">;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
@@ -86,7 +86,7 @@ export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
-        fetch?: RequestInit;
+        request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
     const queryOptions = getHentHendelserQueryOptions(fiksDigisosId, options);
