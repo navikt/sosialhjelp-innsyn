@@ -73,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 'Deploy til dev'
-        uses: nais/deploy/actions/deploy@v3
+        uses: nais/deploy/actions/deploy@v2
         env:
           RESOURCE: nais/dev/${{ inputs.config-file-name }}.yaml
           CLUSTER: dev-gcp

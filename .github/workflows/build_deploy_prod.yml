@@ -1,4 +1,4 @@
-name: 'Build Production Image - HUSK MANUELL DEPLOY TIL PROD!'
+name: 'Build image and deploy to production'
 on:
   workflow_call:
   workflow_run:
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 'Deploy til prod'
-        uses: nais/deploy/actions/deploy@v3
+        uses: nais/deploy/actions/deploy@v2
         env:
           RESOURCE: nais/prod/prod.yaml
           CLUSTER: prod-gcp
