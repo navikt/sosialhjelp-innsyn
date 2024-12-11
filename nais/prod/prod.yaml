@@ -1,49 +1,49 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-    name: sosialhjelp-innsyn
-    namespace: teamdigisos
-    labels:
-        team: teamdigisos
+  name: sosialhjelp-innsyn
+  namespace: teamdigisos
+  labels:
+    team: teamdigisos
 spec:
-    image: {{image}}
-    port: 8080
-    liveness:
-        path: /sosialhjelp/innsyn/api/internal/isAlive
-        initialDelay: 20
-        timeout: 1
-        periodSeconds: 5
-        failureThreshold: 10
-    readiness:
-        path: /sosialhjelp/innsyn/api/internal/isAlive
-        initialDelay: 20
-        timeout: 1
-    prometheus:
-        enabled: true
-        path: /actuator/metrics
-    replicas:
-        min: 2
-        max: 4
-    accessPolicy:
-        outbound:
-            rules:
-                - application: sosialhjelp-innsyn-api
-                - application: nav-dekoratoren
-                  namespace: personbruker
-            external:
-                - host: dekoratoren.nav.no
-                - host: teamdigisos-unleash-api.nav.cloud.nais.io
+  image: {{image}}
+  port: 8080
+  liveness:
+    path: /sosialhjelp/innsyn/api/internal/isAlive
+    initialDelay: 20
+    timeout: 1
+    periodSeconds: 5
+    failureThreshold: 10
+  readiness:
+    path: /sosialhjelp/innsyn/api/internal/isAlive
+    initialDelay: 20
+    timeout: 1
+  prometheus:
+    enabled: true
+    path: /actuator/metrics
+  replicas:
+    min: 2
+    max: 4
+  accessPolicy:
+    outbound:
+      rules:
+        - application: sosialhjelp-innsyn-api
+        - application: nav-dekoratoren
+          namespace: personbruker
+      external:
+        - host: dekoratoren.nav.no
+        - host: teamdigisos-unleash-api.nav.cloud.nais.io
     inbound:
-        rules:
-            - application: wonderwall-innsyn
-    resources:
-        limits:
-            cpu: 200m
-            memory: 256Mi
-        requests:
-            cpu: 10m
-            memory: 64Mi
-    vault:
-        enabled: false
-    envFrom:
-        - secret: sosialhjelp-innsyn-unleash-api-token
+      rules:
+        - application: wonderwall-innsyn
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+  vault:
+    enabled: false
+  envFrom:
+    - secret: sosialhjelp-innsyn-unleash-api-token
