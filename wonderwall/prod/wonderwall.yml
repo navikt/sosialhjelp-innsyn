@@ -5,6 +5,8 @@ metadata:
   namespace: teamdigisos
   labels:
     team: teamdigisos
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "150M"
 spec:
   image: europe-north1-docker.pkg.dev/nais-io/nais/images/wonderwall:latest
   port: 8080
@@ -45,7 +47,7 @@ spec:
     - name: WONDERWALL_AUTO_LOGIN
       value: "true"
     - name: WONDERWALL_INGRESS
-      value: https://www.ansatt.nav.no/sosialhjelp/innsyn
+      value: https://www.nav.no/sosialhjelp/innsyn
     - name: WONDERWALL_UPSTREAM_HOST
       value: sosialhjelp-innsyn:80
     - name: WONDERWALL_BIND_ADDRESS

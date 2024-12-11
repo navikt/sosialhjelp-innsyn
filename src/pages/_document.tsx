@@ -19,7 +19,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
         chatbot: false,
         shareScreen: false,
         utilsBackground: "white",
-        logoutUrl: process.env.NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL || undefined,
+        logoutUrl: process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL || undefined,
         availableLanguages: [
             {
                 locale: "nb",

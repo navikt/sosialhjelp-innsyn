@@ -24,16 +24,18 @@ spec:
     replicas:
         min: 2
         max: 4
-    ingresses:
-        - "https://sosialhjelp-innsyn.prod-gcp.nais.io/sosialhjelp/innsyn"
     accessPolicy:
         outbound:
             rules:
+                - application: sosialhjelp-innsyn-api
                 - application: nav-dekoratoren
                   namespace: personbruker
             external:
-                - host: "https://www.nav.no"
+                - host: dekoratoren.nav.no
                 - host: teamdigisos-unleash-api.nav.cloud.nais.io
+    inbound:
+        rules:
+            - application: wonderwall-innsyn
     resources:
         limits:
             cpu: 200m

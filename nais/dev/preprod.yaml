@@ -5,6 +5,8 @@ metadata:
   namespace: teamdigisos
   labels:
     team: teamdigisos
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "150M"
 spec:
   image: {{image}}
   port: 8080
@@ -33,7 +35,6 @@ spec:
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
-        - host: login.ekstern.dev.nav.no
     inbound:
       rules:
         - application: wonderwall-innsyn
