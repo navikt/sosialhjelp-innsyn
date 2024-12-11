@@ -9,7 +9,7 @@ spec:
   image: europe-north1-docker.pkg.dev/nais-io/nais/images/wonderwall:latest
   port: 8080
   ingresses:
-    - "https://www.ansatt.nav.no/sosialhjelp/innsyn"
+    - "https://www.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       external:
