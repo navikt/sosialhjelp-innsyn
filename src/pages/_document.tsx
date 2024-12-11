@@ -19,7 +19,6 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
         chatbot: false,
         shareScreen: false,
         utilsBackground: "white",
-        redirectToUrl: process.env.NEXT_PUBLIC_INNSYN_API_REDIRECT_TO_URL || undefined,
         logoutUrl: process.env.NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL || undefined,
         availableLanguages: [
             {

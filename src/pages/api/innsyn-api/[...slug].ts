@@ -4,7 +4,6 @@ import {getToken} from "@navikt/oasis";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
     const {slug, ...params} = req.query;
-    console.log("hallo i luken");
     let token = getToken(req);
 
     if (["local", "mock"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
@@ -29,7 +28,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         "/sosialhjelp/innsyn-api/" +
         (Array.isArray(slug) ? slug.join("/") : slug) +
         (queryString !== "" ? `?${queryString}` : "");
-    console.log("proxyer request til", path);
     await proxyApiRouteRequest({
         req,
         res,
@@ -39,7 +37,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         https: false,
         port: process.env.NEXT_PUBLIG_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
     });
-    console.log("statuscode etter proxy ", res.statusCode);
 };
 
 export const config = {

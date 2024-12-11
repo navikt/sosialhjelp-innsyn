@@ -10,7 +10,6 @@ import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
 import styled from "styled-components";
-import {log} from "next/dist/server/typescript/utils";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1.5rem;
@@ -22,7 +21,6 @@ const Saksoversikt: NextPage = () => {
     useUpdateBreadcrumbs(() => []);
 
     const {data: saker, isLoading, error} = useHentAlleSaker();
-    console.log("saker: ", saker);
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
             {isLoading && <ApplicationSpinner />}

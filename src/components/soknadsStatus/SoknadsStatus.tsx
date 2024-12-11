@@ -13,7 +13,6 @@ import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-s
 import {FilUrl, SaksStatusResponse, SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
 import styles from "../../styles/lists.module.css";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
-import {logger} from "@navikt/next-logger";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
@@ -67,8 +66,6 @@ const SoknadsStatus = () => {
         );
     }
     if (hasError) {
-        logger.info("soknadsStatusError: ", soknadsStatusQuery.error);
-        logger.info("saksStatusError: ", saksStatusQuery.error);
         if (soknadsStatusQuery.isError) {
             return (
                 <SoknadsStatusPanel hasError={true}>

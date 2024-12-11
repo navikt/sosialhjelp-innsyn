@@ -5,9 +5,8 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
     }
     const data: T = await response.json();
 
-    console.log("custom fetch url: ", url);
+    // Trenger å få med statuskode på /tilgang
     if (url.includes("/tilgang")) {
-        console.log("returnerer custom boio", {data, status: response.status});
         return {data, status: response.status} as T;
     }
 
