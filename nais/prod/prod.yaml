@@ -18,9 +18,6 @@ spec:
     path: /sosialhjelp/innsyn/api/internal/isAlive
     initialDelay: 20
     timeout: 1
-  prometheus:
-    enabled: true
-    path: /actuator/metrics
   replicas:
     min: 2
     max: 4
@@ -43,7 +40,5 @@ spec:
     requests:
       cpu: 10m
       memory: 64Mi
-  vault:
-    enabled: false
   envFrom:
     - secret: sosialhjelp-innsyn-unleash-api-token
