@@ -1,0 +1,27 @@
+name: 'Auto-deploy unleash api token to dev'
+on:
+  push: # Deploys automatically to dev-gcp if there are any changes to api-token config
+    paths:
+      - "nais/prod/unleash-api-token.yaml"
+      - ".github/workflows/autodeploy_prod_unleash_api_token.yml"
+    branches:
+      - 'master'
+      - 'feature-toggle'
+    tags-ignore:
+      - "**" # Don't build any tags
+
+jobs:
+  deploy:
+    name: 'Deploy unleash api token'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Deploy unleash-api-token til prod'
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          RESOURCE: nais/prod/unleash-api-token.yaml
+          CLUSTER: prod-gcp
+          REF: ${{ github.sha }}
+          PRINT_PAYLOAD: true
