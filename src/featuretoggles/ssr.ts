@@ -49,13 +49,14 @@ export async function getFlagsServerSide(
  * If there are any toggles defined in EXPECTED_TOGGLES that are not returned by Unleash, something is out of sync.
  */
 async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinitions>> {
+    logger.info("Fetching flags from unleash on url: " + process.env.UNLEASH_SERVER_API_URL + "/api");
     const definitions = await getDefinitions({
         appName: "sosialhjelp-innsyn",
         url: process.env.UNLEASH_SERVER_API_URL + "/api",
     });
 
     if (!definitions?.features?.length) {
-        logger.error("Couldn't fetch toggles or no toggles");
+        logger.error("Couldn't fetch toggles or no toggles. definitions: " + JSON.stringify(definitions));
     }
 
     const diff = R.difference(
