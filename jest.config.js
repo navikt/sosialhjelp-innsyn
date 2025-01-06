@@ -9,7 +9,7 @@ const createJestConfig = nextJest({
 const customJestConfig = {
     setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
     setupFiles: ["<rootDir>/jest.polyfills.js"],
-    testEnvironment: "jest-environment-jsdom",
+    testEnvironment: "jest-fixed-jsdom",
     testEnvironmentOptions: {
         customExportConditions: [""],
     },

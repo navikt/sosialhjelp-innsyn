@@ -20,13 +20,13 @@ const Saksoversikt: NextPage = () => {
 
     useUpdateBreadcrumbs(() => []);
 
-    const {data: saker, isLoading, error} = useHentAlleSaker();
+    const {data: saker, isLoading, isError} = useHentAlleSaker();
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
             {isLoading && <ApplicationSpinner />}
             {!isLoading && (
                 <>
-                    {error && (
+                    {isError && (
                         <Alert variant="warning">
                             <BodyShort>{t("feilmelding.saksOversikt")}</BodyShort>
                             <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
