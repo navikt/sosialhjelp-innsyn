@@ -51,6 +51,7 @@ export async function getFlagsServerSide(
 async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinitions>> {
     const definitions = await getDefinitions({
         appName: "sosialhjelp-innsyn",
+        url: process.env.UNLEASH_SERVER_API_URL + "/api",
     });
 
     if (!definitions?.features?.length) {
