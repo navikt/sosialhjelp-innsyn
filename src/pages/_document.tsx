@@ -12,7 +12,7 @@ const getDocumentParameter = (initialProps: DocumentInitialProps, name: string):
 
 const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
     env: createDecoratorEnv(ctx),
-    serviceDiscovery: isDev() || isMock(),
+    serviceDiscovery: true,
     params: {
         simple: false,
         feedback: false,
