@@ -1,7 +1,7 @@
 apiVersion: unleash.nais.io/v1
 kind: ApiToken
 metadata:
-  name: sosialhjelp-innsyn
+  name: sosialhjelp-innsyn-unleash-api-token
   namespace: teamdigisos
   labels:
     team: teamdigisos
