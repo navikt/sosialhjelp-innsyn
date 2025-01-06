@@ -51,7 +51,7 @@ export async function getFlagsServerSide(
 async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinitions>> {
     logger.info("Fetching flags from unleash on url: " + process.env.UNLEASH_SERVER_API_URL + "/api");
     const definitions = await getDefinitions({
-        appName: "sosialhjelp-innsyn",
+        appName: "sosialhjelp-innsyn-unleash-api-token-prod-gcp",
         url: process.env.UNLEASH_SERVER_API_URL + "/api",
     });
 
