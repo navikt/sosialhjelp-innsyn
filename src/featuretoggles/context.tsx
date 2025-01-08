@@ -1,6 +1,5 @@
 import {IToggle} from "@unleash/nextjs";
 import {createContext, PropsWithChildren, useContext, useEffect} from "react";
-import {logger} from "@navikt/next-logger";
 
 import {ExpectedToggles} from "./toggles";
 
@@ -9,7 +8,8 @@ const FlagContext = createContext<{toggles: IToggle[]}>({toggles: []});
 export function FlagProvider({toggles, children}: PropsWithChildren<{toggles: IToggle[]}>): JSX.Element {
     useEffect(() => {
         if (toggles == null) {
-            logger.error("Toggles are not SSR'd, falling back to default toggles.");
+            // TODO: Disabler denne foreløpig, siden den logger for hvert sidebesøk når unleash ikke fungerer
+            // logger.error("Toggles are not SSR'd, falling back to default toggles.");
         }
     }, [toggles]);
 
