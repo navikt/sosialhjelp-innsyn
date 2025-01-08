@@ -17,32 +17,47 @@ export async function getFlagsServerSide(
         return {toggles: localDevelopmentToggles()};
     }
 
-    try {
-        const sessionId = req.cookies["unleash-session-id"] || `${getRandomValues(new Uint32Array(2)).join("")}`;
-        res.setHeader("set-cookie", `unleash-session-id=${sessionId}; path=/;`);
-        const definitions = await getAndValidateDefinitions();
-        return evaluateFlags(definitions, {
-            sessionId,
-            environment: getUnleashEnvironment(),
-            // Brukes for a skille på mock/q0/dev/osv
-            appName: `sosialhjelp-innsyn-${process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT}`,
-        });
-    } catch (e) {
-        logger.error(new Error("Failed to get flags from Unleash. Falling back to default flags.", {cause: e}));
-        return {
-            toggles: EXPECTED_TOGGLES.map(
-                (it): IToggle => ({
-                    name: it,
-                    variant: {
-                        name: "default",
-                        enabled: false,
-                    },
-                    impressionData: false,
+    // TODO: Returnerer default toggles, siden vi ikke får kontakt med unleash i prod-gcp. Finn ut hvorfor!
+    return {
+        toggles: EXPECTED_TOGGLES.map(
+            (it): IToggle => ({
+                name: it,
+                variant: {
+                    name: "default",
                     enabled: false,
-                })
-            ),
-        };
-    }
+                },
+                impressionData: false,
+                enabled: false,
+            })
+        ),
+    };
+
+    // try {
+    //     const sessionId = req.cookies["unleash-session-id"] || `${getRandomValues(new Uint32Array(2)).join("")}`;
+    //     res.setHeader("set-cookie", `unleash-session-id=${sessionId}; path=/;`);
+    //     const definitions = await getAndValidateDefinitions();
+    //     return evaluateFlags(definitions, {
+    //         sessionId,
+    //         environment: getUnleashEnvironment(),
+    //         // Brukes for a skille på mock/q0/dev/osv
+    //         appName: `sosialhjelp-innsyn-${process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT}`,
+    //     });
+    // } catch (e) {
+    //     logger.error(new Error("Failed to get flags from Unleash. Falling back to default flags.", {cause: e}));
+    //     return {
+    //         toggles: EXPECTED_TOGGLES.map(
+    //             (it): IToggle => ({
+    //                 name: it,
+    //                 variant: {
+    //                     name: "default",
+    //                     enabled: false,
+    //                 },
+    //                 impressionData: false,
+    //                 enabled: false,
+    //             })
+    //         ),
+    //     };
+    // }
 }
 
 /**
