@@ -31,6 +31,10 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
     const {t} = useTranslation();
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
+    if (!brukerHarDokumentasjonEtterspurt) {
+        return null;
+    }
+
     const dokumentasjonEtterspurtErFraInnsyn =
         props.dokumentasjonEtterspurt?.[0].oppgaveElementer[0].hendelsetype ===
         OppgaveElementHendelsetype.dokumentasjonEtterspurt;
@@ -45,10 +49,6 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
             );
         }
     }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt]);
-
-    if (!brukerHarDokumentasjonEtterspurt) {
-        return null;
-    }
 
     return (
         <>
