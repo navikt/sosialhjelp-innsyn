@@ -47,10 +47,10 @@ export async function middleware(request: NextRequest) {
         try {
             logger.info("localhost-idtoken: " + request.cookies.get("localhost-idtoken")?.value);
             const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
-                headers: new Headers({
+                headers: {
                     ...request.headers,
                     Authorization: `Bearer ${request.cookies.get("localhost-idtoken")?.value}`,
-                }),
+                },
             });
             logger.info("harTilgangResponse. Status: " + harTilgangResponse.status);
             if (harTilgangResponse.status === 401) {
