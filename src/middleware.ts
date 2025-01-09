@@ -45,6 +45,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
         }
         try {
+            logger.info("localhost-idtoken: " + request.cookies.get("localhost-idtoken")?.value);
             const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
                 headers: new Headers({
                     ...request.headers,
