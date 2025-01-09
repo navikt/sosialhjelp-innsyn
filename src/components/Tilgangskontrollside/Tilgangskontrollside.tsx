@@ -44,7 +44,6 @@ const useDekoratorLogin = () =>
     });
 
 const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, queryHas403}) => {
-    // const {data, isLoading, error} = useHarTilgang();
     const router = useRouter();
     const {t} = useTranslation();
     const {error, isPending, data: harTilgangData} = useHarTilgang();

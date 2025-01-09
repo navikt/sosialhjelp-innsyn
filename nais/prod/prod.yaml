@@ -35,10 +35,9 @@ spec:
         - application: wonderwall-innsyn
   resources:
     limits:
-      cpu: 200m
-      memory: 256Mi
+      memory: 512Gi
     requests:
-      cpu: 10m
-      memory: 64Mi
+      cpu: 22m
+      memory: 256Mi
   envFrom:
     - secret: sosialhjelp-innsyn-unleash-api-token
