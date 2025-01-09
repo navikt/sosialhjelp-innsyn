@@ -18,6 +18,18 @@ export async function middleware(request: NextRequest) {
         return;
     }
 
+    // Router bruker til login hvis vi får 401. Dette gjelder bare for auth gjennom mock-alt. I prod/preprod gjelder dette for "vanlig" innlogging på login.nav.no
+    if (["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
+        // Reroute ved kall til /link. Brukes for redirect fra login-api
+        if (pathname.startsWith("/link")) {
+            const searchParams = request.nextUrl.searchParams;
+            if (!searchParams.has("goto")) {
+                throw new Error("redirect mangler goto-parameter");
+            }
+            return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
+        }
+    }
+
     // Sett språk basert på decorator-language cookien
     const decoratorLocale = request.cookies.get("decorator-language")?.value ?? "nb";
     if (decoratorLocale !== request.nextUrl.locale) {
@@ -36,14 +48,6 @@ export async function middleware(request: NextRequest) {
 
     // Router bruker til login hvis vi får 401. Dette gjelder bare for auth gjennom mock-alt. I prod/preprod gjelder dette for "vanlig" innlogging på login.nav.no
     if (["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
-        // Reroute ved kall til /link. Brukes for redirect fra login-api
-        if (pathname.startsWith("/link")) {
-            const searchParams = request.nextUrl.searchParams;
-            if (!searchParams.has("goto")) {
-                throw new Error("redirect mangler goto-parameter");
-            }
-            return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
-        }
         try {
             const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
                 headers: new Headers({
