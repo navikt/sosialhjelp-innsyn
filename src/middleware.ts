@@ -52,8 +52,11 @@ export async function middleware(request: NextRequest) {
                     Authorization: `Bearer ${request.cookies.get("localhost-idtoken")?.value}`,
                 }),
             });
+            logger.info("harTilgangResponse. Status: " + harTilgangResponse.status);
             if (harTilgangResponse.status === 401) {
+                logger.info("401, redirect til login");
                 const json: AzureAdAuthenticationError = await harTilgangResponse.json();
+                logger.info("loginUrl: " + json.loginUrl);
                 const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
 
                 const redirectUrl = getRedirect(
@@ -62,6 +65,7 @@ export async function middleware(request: NextRequest) {
                     process.env.NEXT_PUBLIC_INNSYN_ORIGIN!,
                     json.id
                 );
+                logger.info("redirecter til: " + json.loginUrl + queryDivider + redirectUrl);
                 return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
             }
         } catch (e) {
