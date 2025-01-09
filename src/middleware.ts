@@ -48,8 +48,8 @@ export async function middleware(request: NextRequest) {
             const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
                 headers: new Headers({
                     ...request.headers,
-                    Authorization: `Bearer ${request.cookies.get("localhost-idtoken")?.value}`,
                 }),
+                credentials: "include",
             });
             if (harTilgangResponse.status === 401) {
                 const json: AzureAdAuthenticationError = await harTilgangResponse.json();
