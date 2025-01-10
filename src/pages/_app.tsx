@@ -38,15 +38,15 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
     return (
-        <ErrorBoundary>
-            <QueryClientProvider
-                client={queryClient((e: any) => {
-                    if (e?.response?.status === 403) {
-                        logger.info("Møtte på en 403 i _app");
-                        setQueryHas403(true);
-                    }
-                })}
-            >
+        <QueryClientProvider
+            client={queryClient((e: any) => {
+                if (e?.response?.status === 403) {
+                    logger.info("Møtte på en 403 i _app");
+                    setQueryHas403(true);
+                }
+            })}
+        >
+            <ErrorBoundary>
                 <FlagProvider toggles={pageProps.toggles}>
                     <Tilgangskontrollside queryHas403={queryHas403}>
                         <div role="main" tabIndex={-1} id="maincontent">
@@ -54,8 +54,8 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
                         </div>
                     </Tilgangskontrollside>
                 </FlagProvider>
-            </QueryClientProvider>
-        </ErrorBoundary>
+            </ErrorBoundary>
+        </QueryClientProvider>
     );
 };
 
