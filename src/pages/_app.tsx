@@ -6,7 +6,7 @@ import {logBrukerDefaultLanguage, logBrukerSpraakChange} from "../utils/amplitud
 import {useRouter} from "next/router";
 import "../index.css";
 import {onBreadcrumbClick, onLanguageSelect} from "@navikt/nav-dekoratoren-moduler";
-import {configureLogger} from "@navikt/next-logger";
+import {configureLogger, logger} from "@navikt/next-logger";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import Cookies from "js-cookie";
 import {FlagProvider} from "../featuretoggles/context";
@@ -40,6 +40,7 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
         <QueryClientProvider
             client={queryClient((e: any) => {
                 if (e?.response?.status === 403) {
+                    logger.info("Møtte på en 403 i _app");
                     setQueryHas403(true);
                 }
             })}
