@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
@@ -12,6 +12,8 @@ import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-con
 import {HendelseResponse} from "../../generated/model";
 import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
 import Link from "next/link";
+import {logger} from "@navikt/next-logger";
+import {useQuery} from "@tanstack/react-query";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -85,29 +87,31 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             );
         }
 
-        if(enumValue === HistorikkTekstEnum.ANTALL_SENDTE_VEDLEGG){
-            if(tekstArgument === "1"){
+        if (enumValue === HistorikkTekstEnum.ANTALL_SENDTE_VEDLEGG) {
+            if (tekstArgument === "1") {
                 return (
                     <BodyShort weight="semibold">
                         <Trans t={t}>
-                         <span lang="no">
-                            {t("hendelse.sendt_en_vedlegg", {
-                                tekstArgument,
-                            })}</span>
+                            <span lang="no">
+                                {t("hendelse.sendt_en_vedlegg", {
+                                    tekstArgument,
+                                })}
+                            </span>
                         </Trans>
                     </BodyShort>
-                )
+                );
             } else {
                 return (
                     <BodyShort weight="semibold">
                         <Trans t={t}>
-                         <span lang="no">
-                            {t("hendelse.sendt_flere_vedlegg", {
-                                tekstArgument,
-                            })}</span>
-                     </Trans>
-                 </BodyShort>
-                )
+                            <span lang="no">
+                                {t("hendelse.sendt_flere_vedlegg", {
+                                    tekstArgument,
+                                })}
+                            </span>
+                        </Trans>
+                    </BodyShort>
+                );
             }
         }
 
@@ -222,7 +226,14 @@ const StyledTextPlacement = styled.div`
 `;
 
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
-    const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
+    const {data: hendelser, isLoading, isError, error} = useHentHendelser(fiksDigisosId);
+    useEffect(() => {
+        if (hendelser && !hendelser.sort) {
+            logger.error(
+                `Hendelser er ikke en liste i Historikk? hendelser: ${JSON.stringify(hendelser)}\nerror: ${JSON.stringify(error)}`
+            );
+        }
+    }, [error, hendelser]);
     const {t} = useTranslation();
 
     if (isError) {
