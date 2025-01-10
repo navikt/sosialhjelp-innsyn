@@ -3,7 +3,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { BodyShort, Button, Label, Link as NavDsLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";
 import styled from "styled-components";
-import { Collapse, Expand } from "@navikt/ds-icons";
+import { ChevronUpIcon, ChevronDownIcon } from "@navikt/aksel-icons";
 import Link from "next/link";
 
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -210,7 +210,9 @@ const LangHistorikk: React.FC<{ hendelser: HendelseResponse[] }> = ({ hendelser 
                 onClick={toggleOpen}
                 size="xsmall"
                 iconPosition="left"
-                icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
+                icon={
+                    apen ? <ChevronUpIcon aria-hidden title="Lukk" /> : <ChevronDownIcon aria-hidden title="Vis alle" />
+                }
             >
                 {apen ? t("historikk.lukk") : `${t("historikk.se_hele_prosessen")}`}
             </CenteredButton>

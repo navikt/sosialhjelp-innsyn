@@ -1,6 +1,10 @@
 import React from "react";
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
-import { DecoratorComponents, DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
+import {
+    DecoratorComponentsReact,
+    DecoratorFetchProps,
+    fetchDecoratorReact,
+} from "@navikt/nav-dekoratoren-moduler/ssr";
 import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 
 import { getBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
@@ -54,7 +58,7 @@ function createDecoratorEnv(): "dev" | "prod" {
 }
 
 interface Props {
-    Decorator: DecoratorComponents;
+    Decorator: DecoratorComponentsReact;
     language: string;
 }
 
@@ -74,7 +78,7 @@ class MyDocument extends Document<Props> {
         return (
             <Html lang={language || "no"}>
                 <Head>
-                    <Decorator.Styles />
+                    <Decorator.HeadAssets />
                     <link
                         rel="preload"
                         href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"

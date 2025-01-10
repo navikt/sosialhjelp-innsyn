@@ -8,7 +8,7 @@ interface Props {
     className?: string;
 }
 
-const LinkButton = ({ onClick, className, children }: PropsWithChildren<Props>): JSX.Element => {
+const LinkButton = ({ onClick, className, children }: PropsWithChildren<Props>): React.JSX.Element => {
     return (
         <Link className={styles.linkButton + ` ${className}`} as="button" onClick={onClick}>
             {children}

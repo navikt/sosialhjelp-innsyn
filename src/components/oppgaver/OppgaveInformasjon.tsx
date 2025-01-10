@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Accordion, BodyShort, Label } from "@navikt/ds-react";
-import { Attachment, List } from "@navikt/ds-icons";
+import { PaperclipIcon, BulletListIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -24,7 +24,7 @@ const OppgaveInformasjon = () => {
                 <Accordion.Content>
                     <StyledContainer>
                         <>
-                            <List
+                            <BulletListIcon
                                 width="1.5rem"
                                 height="1.5rem"
                                 style={{ marginTop: "6px" }}
@@ -37,7 +37,7 @@ const OppgaveInformasjon = () => {
                             </div>
                         </>
                         <>
-                            <Attachment
+                            <PaperclipIcon
                                 width="1.5rem"
                                 height="1.5rem"
                                 style={{ marginTop: "6px" }}

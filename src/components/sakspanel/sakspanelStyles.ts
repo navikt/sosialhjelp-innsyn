@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { LinkPanel } from "@navikt/ds-react";
-import { FileContent } from "@navikt/ds-icons";
+import { FileTextIcon } from "@navikt/aksel-icons";
 
 export const StyledLinkPanelDescription = styled(LinkPanel.Description)`
     display: grid;
@@ -8,7 +8,7 @@ export const StyledLinkPanelDescription = styled(LinkPanel.Description)`
     align-items: center;
 `;
 
-export const StyledFileIcon = styled(FileContent).attrs({
+export const StyledFileIcon = styled(FileTextIcon).attrs({
     title: "dokument",
 })`
     margin-right: 1rem;

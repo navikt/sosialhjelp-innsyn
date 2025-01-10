@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { BodyShort, Label, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
-import { Attachment, Task } from "@navikt/ds-icons";
+import { PaperclipIcon, TasklistIcon } from "@navikt/aksel-icons";
 
 const StyledPanel = styled(Panel)`
     margin-top: 0.5rem;
@@ -25,14 +25,20 @@ const IngenOppgaverPanel: React.FC<Props> = ({ leserData }) => {
     return (
         <StyledPanel>
             <>
-                <Task width="1.5rem" height="1.5rem" style={{ marginTop: "6px" }} aria-hidden title="oppgave" />
+                <TasklistIcon width="1.5rem" height="1.5rem" style={{ marginTop: "6px" }} aria-hidden title="oppgave" />
                 <div>
                     <Label as="p">{t("oppgaver.ingen_oppgaver")}</Label>
                     <BodyShort>{t("oppgaver.beskjed")}</BodyShort>
                 </div>
             </>
             <>
-                <Attachment width="1.5rem" height="1.5rem" style={{ marginTop: "6px" }} aria-hidden title="vedlegg" />
+                <PaperclipIcon
+                    width="1.5rem"
+                    height="1.5rem"
+                    style={{ marginTop: "6px" }}
+                    aria-hidden
+                    title="vedlegg"
+                />
                 <div>
                     <Label as="p">{t("oppgaver.andre_dokumenter")}</Label>
                     <BodyShort>{t("oppgaver.andre_dokumenter_beskjed")}</BodyShort>

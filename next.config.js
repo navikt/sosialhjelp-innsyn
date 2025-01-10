@@ -43,6 +43,7 @@ const nextConfig = {
     basePath: process.env.NEXT_PUBLIC_BASE_PATH,
     experimental: {
         scrollRestoration: true,
+        optimizePackageImports: ["@navikt/ds-react", "@navikt/aksel-icons"],
     },
     eslint: {
         ignoreDuringBuilds: true,

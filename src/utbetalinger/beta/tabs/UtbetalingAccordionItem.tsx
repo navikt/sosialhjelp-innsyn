@@ -1,5 +1,5 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
-import { FileContent } from "@navikt/ds-icons";
+import { FileTextIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
@@ -131,7 +131,7 @@ const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
                         className={`navds-link ${styles.soknadLenke} `}
                         onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
                     >
-                        <FileContent aria-hidden width="1.5rem" height="1.5rem" />
+                        <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
                         {t("soknadLenke")}
                     </Link>
                 </Accordion.Content>

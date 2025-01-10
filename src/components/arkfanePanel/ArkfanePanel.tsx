@@ -2,7 +2,7 @@ import React from "react";
 import { Tabs } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next";
-import { ErrorColored } from "@navikt/ds-icons";
+import { XMarkOctagonIcon } from "@navikt/aksel-icons";
 
 import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -14,8 +14,9 @@ enum ARKFANER {
     VEDLEGG = "Vedlegg",
 }
 
-const StyledErrorColored = styled(ErrorColored)`
+const StyledErrorColored = styled(XMarkOctagonIcon)`
     position: absolute;
+    color: var(--a-red-100);
     @media screen and (min-width: 641px) {
         top: 5.15rem;
         left: 1.5rem;

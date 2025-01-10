@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BodyShort, Button } from "@navikt/ds-react";
 import styled from "styled-components";
-import { Delete } from "@navikt/ds-icons";
+import { TrashIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 import { FileCheckmarkIcon } from "@navikt/aksel-icons";
 
@@ -107,7 +107,7 @@ const FileItemView = (props: Props) => {
                                     size="small"
                                     onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.onDelete(event, fil)}
                                     iconPosition="right"
-                                    icon={<Delete aria-hidden title="fjern" />}
+                                    icon={<TrashIcon aria-hidden title="fjern" />}
                                     aria-label={`${t("vedlegg.fjern")} ${fil.file.name}`}
                                 >
                                     {t("vedlegg.fjern")}

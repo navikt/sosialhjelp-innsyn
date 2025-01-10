@@ -1,11 +1,11 @@
 import { IToggle } from "@unleash/nextjs";
-import { createContext, PropsWithChildren, useContext, useEffect } from "react";
+import React, { createContext, PropsWithChildren, useContext, useEffect } from "react";
 
 import { ExpectedToggles } from "./toggles";
 
 const FlagContext = createContext<{ toggles: IToggle[] }>({ toggles: [] });
 
-export function FlagProvider({ toggles, children }: PropsWithChildren<{ toggles: IToggle[] }>): JSX.Element {
+export function FlagProvider({ toggles, children }: PropsWithChildren<{ toggles: IToggle[] }>): React.JSX.Element {
     useEffect(() => {
         if (toggles == null) {
             // TODO: Disabler denne foreløpig, siden den logger for hvert sidebesøk når unleash ikke fungerer
