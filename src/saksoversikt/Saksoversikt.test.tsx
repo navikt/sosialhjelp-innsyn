@@ -62,19 +62,19 @@ describe("Saksoversikt", () => {
     it("Skal vise lasteindikator under innlasting", async () => {
         server.use(loading);
         render(<Saksoversikt />);
-        expect(screen.getByText("venter...")).toBeInTheDocument();
+        expect(screen.getByText("Venter", { exact: false })).toBeInTheDocument();
     });
 
     it("Skal vise lasteindikator ved 401 unauthorized", async () => {
         server.use(unauthorized);
         render(<Saksoversikt />);
-        expect(screen.getByText("venter...")).toBeInTheDocument();
+        expect(screen.getByText("Venter", { exact: false })).toBeInTheDocument();
     });
 
     it("Skal vise tom tilstand ved ingen saker", async () => {
         server.use(empty);
         render(<Saksoversikt />);
-        await waitForElementToBeRemoved(() => screen.queryByText("venter..."));
+        await waitForElementToBeRemoved(() => screen.queryByText("Venter", { exact: false }));
         expect(screen.getAllByRole("heading")[1]).toHaveTextContent("Vi finner ingen søknader fra deg");
     });
 
