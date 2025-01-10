@@ -1,5 +1,5 @@
-const {buildCspHeader} = require("@navikt/nav-dekoratoren-moduler/ssr");
-const {i18n} = require("./next-i18next.config");
+const { buildCspHeader } = require("@navikt/nav-dekoratoren-moduler/ssr");
+const { i18n } = require("./next-i18next.config");
 
 const appDirectives = {
     "default-src": ["'self'"],
@@ -17,28 +17,6 @@ const appDirectives = {
     ],
 };
 
-const {withSentryConfig} = require("@sentry/nextjs");
-
-const sentryWebpackPluginOptions = {
-    // Additional config options for the Sentry Webpack plugin. Keep in mind that
-    // the following options are set automatically, and overriding them is not
-    // recommended:
-    //   release, url, configFile, stripPrefix, urlPrefix, include, ignore
-
-    org: "nav",
-    project: "sosialhjelp-innsyn",
-
-    // An auth token is required for uploading source maps.
-    // You can get an auth token from https://sentry.io/settings/account/api/auth-tokens/
-    // The token must have `project:releases` and `org:read` scopes for uploading source maps
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-
-    silent: true, // Suppresses all logs
-
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options.
-};
-
 /**
  * @type {import('next').NextConfig}
  */
@@ -46,7 +24,7 @@ const sentryWebpackPluginOptions = {
 const nextConfig = {
     async headers() {
         const environment = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod" ? "prod" : "dev";
-        const cspValue = await buildCspHeader(appDirectives, {env: environment});
+        const cspValue = await buildCspHeader(appDirectives, { env: environment });
         return [
             {
                 source: "/:path*",
@@ -77,12 +55,12 @@ const nextConfig = {
 module.exports = {
     compiler: {
         // see https://styled-components.com/docs/tooling#babel-plugin for more info on the options.
-        styledComponents: {ssr: true, displayName: true},
+        styledComponents: { ssr: true, displayName: true },
     },
-    ...withSentryConfig(nextConfig, sentryWebpackPluginOptions),
+    ...nextConfig,
     webpack: (config) => {
         // Unset client-side javascript that only works server-side
-        config.resolve.fallback = {fs: false, module: false, path: false};
+        config.resolve.fallback = { fs: false, module: false, path: false };
         return config;
     },
     i18n,
