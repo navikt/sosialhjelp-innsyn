@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,9 +14,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {HentSaksDetaljerParams, SaksDetaljerResponse, SaksListeResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
-import type {ErrorType} from "../../custom-fetch";
+import type { HentSaksDetaljerParams, SaksDetaljerResponse, SaksListeResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -58,18 +58,18 @@ export const getHentSaksDetaljerQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentSaksDetaljerQueryKey(params);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentSaksDetaljer>>> = ({signal}) =>
-        hentSaksDetaljer(params, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentSaksDetaljer>>> = ({ signal }) =>
+        hentSaksDetaljer(params, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof hentSaksDetaljer>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HentSaksDetaljerQueryResult = NonNullable<Awaited<ReturnType<typeof hentSaksDetaljer>>>;
@@ -82,7 +82,7 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
@@ -93,14 +93,14 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
@@ -108,10 +108,10 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHentSaksDetaljerQueryOptions(params, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -140,18 +140,18 @@ export const getHentAlleSakerQueryOptions = <
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentAlleSakerQueryKey();
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentAlleSaker>>> = ({signal}) =>
-        hentAlleSaker({signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentAlleSaker>>> = ({ signal }) =>
+        hentAlleSaker({ signal, ...requestOptions });
 
-    return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof hentAlleSaker>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HentAlleSakerQueryResult = NonNullable<Awaited<ReturnType<typeof hentAlleSaker>>>;
@@ -164,7 +164,7 @@ export function useHentAlleSaker<
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
-}): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentAlleSaker<
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
     TError = ErrorType<unknown>,
@@ -172,14 +172,14 @@ export function useHentAlleSaker<
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>> &
         Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentAlleSaker<
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
     TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useHentAlleSaker<
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
@@ -187,10 +187,10 @@ export function useHentAlleSaker<
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHentAlleSakerQueryOptions(options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

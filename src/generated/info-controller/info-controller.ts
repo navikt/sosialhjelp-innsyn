@@ -4,11 +4,11 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useMutation} from "@tanstack/react-query";
-import type {MutationFunction, UseMutationOptions, UseMutationResult} from "@tanstack/react-query";
-import type {Logg} from ".././model";
-import {customFetch} from "../../custom-fetch";
-import type {ErrorType} from "../../custom-fetch";
+import { useMutation } from "@tanstack/react-query";
+import type { MutationFunction, UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
+import type { Logg } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -20,24 +20,24 @@ export const postKlientlogg = async (logg: Logg, options?: RequestInit): Promise
     return customFetch<Promise<void>>(getPostKlientloggUrl(), {
         ...options,
         method: "POST",
-        headers: {"Content-Type": "application/json", ...options?.headers},
+        headers: { "Content-Type": "application/json", ...options?.headers },
         body: JSON.stringify(logg),
     });
 };
 
 export const getPostKlientloggMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, { data: Logg }, TContext>;
     request?: SecondParameter<typeof customFetch>;
-}): UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext> => {
-    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+}): UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, { data: Logg }, TContext> => {
+    const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
-    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postKlientlogg>>, {data: Logg}> = (props) => {
-        const {data} = props ?? {};
+    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postKlientlogg>>, { data: Logg }> = (props) => {
+        const { data } = props ?? {};
 
         return postKlientlogg(data, requestOptions);
     };
 
-    return {mutationFn, ...mutationOptions};
+    return { mutationFn, ...mutationOptions };
 };
 
 export type PostKlientloggMutationResult = NonNullable<Awaited<ReturnType<typeof postKlientlogg>>>;
@@ -45,9 +45,9 @@ export type PostKlientloggMutationBody = Logg;
 export type PostKlientloggMutationError = ErrorType<unknown>;
 
 export const usePostKlientlogg = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, { data: Logg }, TContext>;
     request?: SecondParameter<typeof customFetch>;
-}): UseMutationResult<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext> => {
+}): UseMutationResult<Awaited<ReturnType<typeof postKlientlogg>>, TError, { data: Logg }, TContext> => {
     const mutationOptions = getPostKlientloggMutationOptions(options);
 
     return useMutation(mutationOptions);

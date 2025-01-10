@@ -1,10 +1,10 @@
-import {Radio, RadioGroup} from "@navikt/ds-react";
+import { Radio, RadioGroup } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 
 const MOBILE_WIDTH = "500px";
 
-const ZebraContainer = styled.div<{zebra?: boolean}>`
+const ZebraContainer = styled.div<{ zebra?: boolean }>`
     background-color: ${(props) => (props.zebra ? "#f1f1f1" : "inherit")};
     padding: 1rem 1rem 0.5rem 1rem;
 
@@ -61,7 +61,7 @@ const VerticalLine = styled.div`
     }
 `;
 
-export const RadioGruppe = (props: {zebra?: boolean; legend: string; onChange(value: string): void}) => {
+export const RadioGruppe = (props: { zebra?: boolean; legend: string; onChange(value: string): void }) => {
     return (
         <ZebraContainer zebra={props.zebra}>
             <RadioGroup legend={props.legend} onChange={(value) => props.onChange(value)}>

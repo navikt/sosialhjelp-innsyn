@@ -1,12 +1,12 @@
 import * as React from "react";
-import {useTranslation} from "next-i18next";
-import {Alert} from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+import { Alert } from "@navikt/ds-react";
 import styled from "styled-components";
 
 import useKommune from "../../hooks/useKommune";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
-import {useFileUploadAllowed} from "./DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "./DriftsmeldingUtilities";
 
 const Bold = styled.span`
     font-weight: bold;
@@ -17,8 +17,8 @@ interface Props {
     className?: string;
 }
 
-export const DriftsmeldingVedleggComponent = ({textKey, className}: Props) => {
-    const {t} = useTranslation();
+export const DriftsmeldingVedleggComponent = ({ textKey, className }: Props) => {
+    const { t } = useTranslation();
 
     return (
         <Alert variant="error" size="medium" inline className={className}>
@@ -27,11 +27,11 @@ export const DriftsmeldingVedleggComponent = ({textKey, className}: Props) => {
     );
 };
 
-const DriftsmeldingVedlegg = ({className}: {className?: string}) => {
-    const {kommune, isLoading} = useKommune();
+const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
+    const { kommune, isLoading } = useKommune();
     const fiksDigisosId = useFiksDigisosId();
 
-    const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { kanLasteOppVedlegg, textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
 
     if (!kanLasteOppVedlegg && !isLoading) {
         return <DriftsmeldingVedleggComponent className={className} textKey={textKey} />;

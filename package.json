@@ -39,6 +39,7 @@
         "test": "jest",
         "lintStaged": "lint-staged",
         "lint": "next lint",
+        "eslint": "eslint",
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
         "fetch-api-docs-local": "curl -o ./innsyn-api.json  http://localhost:8080/sosialhjelp/innsyn-api/v3/api-docs  && prettier --write innsyn-api.json",
         "orval": "rm -rf src/generated && orval --prettier",
@@ -87,7 +88,7 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,css,md}": "prettier --write",
-        "*.{js,jsx,ts,tsx}": "eslint --max-warnings=0 --fix"
+        "*.{js,jsx,ts,tsx}": "eslint --no-warn-ignored --max-warnings=0 --fix"
     },
     "overrides": {
         "semver": "7.5.3",

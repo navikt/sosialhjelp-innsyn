@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Panel} from "@navikt/ds-react";
+import { Panel } from "@navikt/ds-react";
 
 export const UthevetPanel = styled(Panel)`
     border-radius: 8px;

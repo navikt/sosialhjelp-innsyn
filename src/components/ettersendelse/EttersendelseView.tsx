@@ -1,24 +1,24 @@
 import React from "react";
-import {useQueryClient} from "@tanstack/react-query";
-import {useTranslation} from "next-i18next";
-import styled, {css} from "styled-components";
-import {ErrorMessage} from "@navikt/ds-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "next-i18next";
+import styled, { css } from "styled-components";
+import { ErrorMessage } from "@navikt/ds-react";
 
 import useKommune from "../../hooks/useKommune";
-import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "../driftsmelding/DriftsmeldingUtilities";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
-import {OppgaveElementHendelsetype} from "../../generated/model";
+import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
+import { OppgaveElementHendelsetype } from "../../generated/model";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
 import AddFileButton from "../filopplasting/AddFileButton";
-import useFilOpplasting, {errorStatusToMessage} from "../filopplasting/useFilOpplasting";
+import useFilOpplasting, { errorStatusToMessage } from "../filopplasting/useFilOpplasting";
 import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 import styles from "../filopplasting/filopplasting.module.css";
-import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
-import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
-import {logAmplitudeEvent} from "../../utils/amplitude";
+import { DriftsmeldingVedleggComponent } from "../driftsmelding/DriftsmeldingVedlegg";
+import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
+import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
 
 const metadatas = [
@@ -31,10 +31,10 @@ const metadatas = [
     },
 ];
 
-const OuterErrorBorder = styled.div<{$hasError?: boolean}>`
+const OuterErrorBorder = styled.div<{ $hasError?: boolean }>`
     margin-bottom: 1rem;
 
-    ${({$hasError}) =>
+    ${({ $hasError }) =>
         $hasError &&
         css`
             border-radius: 4px;
@@ -49,9 +49,9 @@ interface Props {
 const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const {kommune} = useKommune();
-    const {kanLasteOppVedlegg, textKey} = useFileUploadAllowed(kommune, fiksDigisosId);
-    const {t} = useTranslation();
+    const { kommune } = useKommune();
+    const { kanLasteOppVedlegg, textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 
     const {
@@ -61,12 +61,12 @@ const EttersendelseView = (props: Props) => {
         files: _files,
         addFiler,
         removeFil,
-        mutation: {isLoading: uploadIsLoading},
+        mutation: { isLoading: uploadIsLoading },
         resetStatus,
     } = useFilOpplasting(metadatas, {
-        onSuccess: () => queryClient.invalidateQueries({queryKey: getHentVedleggQueryKey(fiksDigisosId)}),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) }),
     });
-    const {ettersendelseUploadSuccess, setOppgaverUploadSuccess} = useFilUploadSuccessful();
+    const { ettersendelseUploadSuccess, setOppgaverUploadSuccess } = useFilUploadSuccessful();
     const files = _files[0];
     const outerErrorLocales = outerErrors.map((it) => errorStatusToMessage[it.feil]);
 
@@ -76,7 +76,7 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         setOppgaverUploadSuccess(false);
-        logAmplitudeEvent("Antall vedlegg som lastes opp under Dine vedlegg", {antallVedlegg: files.length});
+        logAmplitudeEvent("Antall vedlegg som lastes opp under Dine vedlegg", { antallVedlegg: files.length });
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;

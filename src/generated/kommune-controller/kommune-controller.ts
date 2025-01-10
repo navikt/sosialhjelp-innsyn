@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,9 +14,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {KommuneResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
-import type {ErrorType} from "../../custom-fetch";
+import type { KommuneResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -45,18 +45,18 @@ export const getHentKommuneInfoQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentKommuneInfoQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentKommuneInfo>>> = ({signal}) =>
-        hentKommuneInfo(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentKommuneInfo>>> = ({ signal }) =>
+        hentKommuneInfo(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof hentKommuneInfo>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HentKommuneInfoQueryResult = NonNullable<Awaited<ReturnType<typeof hentKommuneInfo>>>;
@@ -69,7 +69,7 @@ export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommune
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
@@ -80,14 +80,14 @@ export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommune
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
@@ -95,10 +95,10 @@ export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommune
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHentKommuneInfoQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

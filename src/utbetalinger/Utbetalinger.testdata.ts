@@ -1,4 +1,4 @@
-import {UtbetalingerResponse} from "../generated/model";
+import { UtbetalingerResponse } from "../generated/model";
 
 // Example: getRandomInt(3) => expected output: 0, 1 or 2
 const getRandomInt = (max: number): number => {
@@ -14,7 +14,7 @@ const summerAntallUtbetalinger = (utbetalingerMaaned: UtbetalingerResponse[]) =>
     return antallUtbetalinger;
 };
 
-const mockUtbetalinger: (UtbetalingerResponse & {sum: number})[] = [
+const mockUtbetalinger: (UtbetalingerResponse & { sum: number })[] = [
     {
         ar: 2019,
         maned: 10,
@@ -104,4 +104,4 @@ const mockUtbetalinger: (UtbetalingerResponse & {sum: number})[] = [
     },
 ];
 
-export {mockUtbetalinger, getRandomInt, summerAntallUtbetalinger};
+export { mockUtbetalinger, getRandomInt, summerAntallUtbetalinger };

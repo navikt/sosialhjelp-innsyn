@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Loader} from "@navikt/ds-react";
+import { Loader } from "@navikt/ds-react";
 import * as React from "react";
 
 const StyledSpinner = styled.div`

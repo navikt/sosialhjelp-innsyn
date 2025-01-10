@@ -4,12 +4,12 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {SaksStatusResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { SaksStatusResponse } from ".././model";
 
 export const getHentSaksStatuserResponseMock = (): SaksStatusResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         skalViseVedtakInfoPanel: faker.datatype.boolean(),
         status: faker.helpers.arrayElement([
             faker.helpers.arrayElement([
@@ -23,7 +23,7 @@ export const getHentSaksStatuserResponseMock = (): SaksStatusResponse[] =>
         ]),
         tittel: faker.word.sample(),
         vedtaksfilUrlList: faker.helpers.arrayElement([
-            Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+            Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
                 dato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
                 id: faker.word.sample(),
                 url: faker.word.sample(),
@@ -50,7 +50,7 @@ export const getHentSaksStatuserMockHandler = (
                         : overrideResponse
                     : getHentSaksStatuserResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

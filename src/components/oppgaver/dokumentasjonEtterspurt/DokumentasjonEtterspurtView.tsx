@@ -1,22 +1,22 @@
-import React, {ReactElement, useMemo} from "react";
-import {useQueryClient} from "@tanstack/react-query";
+import React, { ReactElement, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
-import {getVisningstekster} from "../../../utils/vedleggUtils";
+import { getVisningstekster } from "../../../utils/vedleggUtils";
 import useKommune from "../../../hooks/useKommune";
-import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {getGetOppgaverQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
+import { useFileUploadAllowed } from "../../driftsmelding/DriftsmeldingUtilities";
+import { getGetOppgaverQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
-import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
+import useFilOpplasting, { errorStatusToMessage } from "../../filopplasting/useFilOpplasting";
 import InnsendelsesFrist from "../InnsendelsesFrist";
 import AddFileButton from "../../filopplasting/AddFileButton";
 import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
-import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
+import { DokumentasjonEtterspurtResponse } from "../../../hooks/useDokumentasjonEtterspurt";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import { logButtonOrLinkClick } from "../../../utils/amplitude";
 import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
 
 interface Props {
@@ -24,10 +24,10 @@ interface Props {
     showFrist: boolean;
 }
 
-export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}: Props): ReactElement => {
+export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
-    const {kommune} = useKommune();
-    const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { kommune } = useKommune();
+    const { kanLasteOppVedlegg } = useFileUploadAllowed(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
@@ -49,11 +49,11 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
         files,
         addFiler,
         removeFil,
-        mutation: {isLoading},
+        mutation: { isLoading },
         resetStatus,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: getGetOppgaverQueryKey(fiksDigisosId)});
+            queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey(fiksDigisosId) });
         },
     });
 
@@ -85,7 +85,7 @@ export const DokumentasjonEtterspurtView = ({dokumentasjonEtterspurt, showFrist}
                         return <></>;
                     }
 
-                    const {typeTekst, tilleggsinfoTekst} = getVisningstekster(
+                    const { typeTekst, tilleggsinfoTekst } = getVisningstekster(
                         element.dokumenttype,
                         element.tilleggsinformasjon
                     );

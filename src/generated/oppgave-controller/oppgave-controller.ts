@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,9 +14,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {DokumentasjonkravResponse, OppgaveResponse, VilkarResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
-import type {ErrorType} from "../../custom-fetch";
+import type { DokumentasjonkravResponse, OppgaveResponse, VilkarResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -42,18 +42,18 @@ export const getGetVilkarQueryOptions = <TData = Awaited<ReturnType<typeof getVi
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetVilkarQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getVilkar>>> = ({signal}) =>
-        getVilkar(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getVilkar>>> = ({ signal }) =>
+        getVilkar(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getVilkar>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetVilkarQueryResult = NonNullable<Awaited<ReturnType<typeof getVilkar>>>;
@@ -66,7 +66,7 @@ export function useGetVilkar<TData = Awaited<ReturnType<typeof getVilkar>>, TErr
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetVilkar<TData = Awaited<ReturnType<typeof getVilkar>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
@@ -74,14 +74,14 @@ export function useGetVilkar<TData = Awaited<ReturnType<typeof getVilkar>>, TErr
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetVilkar<TData = Awaited<ReturnType<typeof getVilkar>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetVilkar<TData = Awaited<ReturnType<typeof getVilkar>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
@@ -89,10 +89,10 @@ export function useGetVilkar<TData = Awaited<ReturnType<typeof getVilkar>>, TErr
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVilkar>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetVilkarQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -124,18 +124,18 @@ export const getGetOppgaverQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetOppgaverQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOppgaver>>> = ({signal}) =>
-        getOppgaver(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOppgaver>>> = ({ signal }) =>
+        getOppgaver(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getOppgaver>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getOppgaver>>>;
@@ -148,7 +148,7 @@ export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, 
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
@@ -156,14 +156,14 @@ export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, 
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
@@ -171,10 +171,10 @@ export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, 
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetOppgaverQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -211,18 +211,18 @@ export const getGetOppgaveMedIdQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetOppgaveMedIdQueryKey(fiksDigisosId, oppgaveId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOppgaveMedId>>> = ({signal}) =>
-        getOppgaveMedId(fiksDigisosId, oppgaveId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOppgaveMedId>>> = ({ signal }) =>
+        getOppgaveMedId(fiksDigisosId, oppgaveId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!(fiksDigisosId && oppgaveId), ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!(fiksDigisosId && oppgaveId), ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getOppgaveMedId>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetOppgaveMedIdQueryResult = NonNullable<Awaited<ReturnType<typeof getOppgaveMedId>>>;
@@ -236,7 +236,7 @@ export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveM
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveMedId>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     oppgaveId: string,
@@ -248,7 +248,7 @@ export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveM
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveMedId>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     oppgaveId: string,
@@ -256,7 +256,7 @@ export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveM
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveMedId>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
@@ -265,10 +265,10 @@ export function useGetOppgaveMedId<TData = Awaited<ReturnType<typeof getOppgaveM
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaveMedId>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetOppgaveMedIdQueryOptions(fiksDigisosId, oppgaveId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -300,18 +300,18 @@ export const getGetHarLevertDokumentasjonkravQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetHarLevertDokumentasjonkravQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>> = ({signal}) =>
-        getHarLevertDokumentasjonkrav(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>> = ({ signal }) =>
+        getHarLevertDokumentasjonkrav(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetHarLevertDokumentasjonkravQueryResult = NonNullable<
@@ -332,7 +332,7 @@ export function useGetHarLevertDokumentasjonkrav<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetHarLevertDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
     TError = ErrorType<unknown>,
@@ -346,7 +346,7 @@ export function useGetHarLevertDokumentasjonkrav<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetHarLevertDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
     TError = ErrorType<unknown>,
@@ -356,7 +356,7 @@ export function useGetHarLevertDokumentasjonkrav<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetHarLevertDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>,
@@ -367,10 +367,10 @@ export function useGetHarLevertDokumentasjonkrav<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHarLevertDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetHarLevertDokumentasjonkravQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -405,18 +405,18 @@ export const getGetfagsystemHarDokumentasjonkravQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetfagsystemHarDokumentasjonkravQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>> = ({signal}) =>
-        getfagsystemHarDokumentasjonkrav(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>> = ({ signal }) =>
+        getfagsystemHarDokumentasjonkrav(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetfagsystemHarDokumentasjonkravQueryResult = NonNullable<
@@ -437,7 +437,7 @@ export function useGetfagsystemHarDokumentasjonkrav<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetfagsystemHarDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
     TError = ErrorType<unknown>,
@@ -455,7 +455,7 @@ export function useGetfagsystemHarDokumentasjonkrav<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetfagsystemHarDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
     TError = ErrorType<unknown>,
@@ -465,7 +465,7 @@ export function useGetfagsystemHarDokumentasjonkrav<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetfagsystemHarDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>,
@@ -476,10 +476,10 @@ export function useGetfagsystemHarDokumentasjonkrav<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getfagsystemHarDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetfagsystemHarDokumentasjonkravQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -514,18 +514,18 @@ export const getGetDokumentasjonkravQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetDokumentasjonkravQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDokumentasjonkrav>>> = ({signal}) =>
-        getDokumentasjonkrav(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDokumentasjonkrav>>> = ({ signal }) =>
+        getDokumentasjonkrav(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getDokumentasjonkrav>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetDokumentasjonkravQueryResult = NonNullable<Awaited<ReturnType<typeof getDokumentasjonkrav>>>;
@@ -544,7 +544,7 @@ export function useGetDokumentasjonkrav<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>,
     TError = ErrorType<unknown>,
@@ -558,7 +558,7 @@ export function useGetDokumentasjonkrav<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>,
     TError = ErrorType<unknown>,
@@ -568,7 +568,7 @@ export function useGetDokumentasjonkrav<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetDokumentasjonkrav<
     TData = Awaited<ReturnType<typeof getDokumentasjonkrav>>,
@@ -579,10 +579,10 @@ export function useGetDokumentasjonkrav<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkrav>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetDokumentasjonkravQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -624,18 +624,18 @@ export const getGetDokumentasjonkravMedIdQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetDokumentasjonkravMedIdQueryKey(fiksDigisosId, dokumentasjonkravId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>> = ({signal}) =>
-        getDokumentasjonkravMedId(fiksDigisosId, dokumentasjonkravId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>> = ({ signal }) =>
+        getDokumentasjonkravMedId(fiksDigisosId, dokumentasjonkravId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!(fiksDigisosId && dokumentasjonkravId), ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!(fiksDigisosId && dokumentasjonkravId), ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetDokumentasjonkravMedIdQueryResult = NonNullable<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>>;
@@ -655,7 +655,7 @@ export function useGetDokumentasjonkravMedId<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetDokumentasjonkravMedId<
     TData = Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
     TError = ErrorType<unknown>,
@@ -670,7 +670,7 @@ export function useGetDokumentasjonkravMedId<
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useGetDokumentasjonkravMedId<
     TData = Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
     TError = ErrorType<unknown>,
@@ -681,7 +681,7 @@ export function useGetDokumentasjonkravMedId<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useGetDokumentasjonkravMedId<
     TData = Awaited<ReturnType<typeof getDokumentasjonkravMedId>>,
@@ -693,10 +693,10 @@ export function useGetDokumentasjonkravMedId<
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDokumentasjonkravMedId>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetDokumentasjonkravMedIdQueryOptions(fiksDigisosId, dokumentasjonkravId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

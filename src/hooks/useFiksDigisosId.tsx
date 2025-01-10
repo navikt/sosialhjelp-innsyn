@@ -1,8 +1,8 @@
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const useFiksDigososId = () => {
     const {
-        query: {id},
+        query: { id },
     } = useRouter();
 
     if (!id || Array.isArray(id)) {

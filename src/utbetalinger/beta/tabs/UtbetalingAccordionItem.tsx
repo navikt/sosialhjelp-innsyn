@@ -1,13 +1,13 @@
-import {Accordion, BodyShort} from "@navikt/ds-react";
-import {FileContent} from "@navikt/ds-icons";
-import React, {useState} from "react";
-import {useTranslation} from "next-i18next";
+import { Accordion, BodyShort } from "@navikt/ds-react";
+import { FileContent } from "@navikt/ds-icons";
+import React, { useState } from "react";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../../../utils/amplitude";
-import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
-import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
-import {hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "../../utbetalingerUtils";
+import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
+import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
+import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
+import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
 
 import styles from "./manedgruppe.module.css";
 import {logger} from "@navikt/next-logger";
@@ -50,8 +50,8 @@ export const utbetalingsdetaljerDefaultAapnet = (dagensDato: Date, utbetalingsda
     return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
 };
 
-const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
-    const {t, i18n} = useTranslation("utbetalinger");
+const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
+    const { t, i18n } = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(utbetalingsdetaljerDefaultAapnet(new Date(), utbetalingManed.utbetalingsdato));
 
     return (

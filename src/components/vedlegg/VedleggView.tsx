@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import {Alert, Box, Button, Link, Pagination, Select, SortState, Table, VStack} from "@navikt/ds-react";
+import React, { useState } from "react";
+import { Alert, Box, Button, Link, Pagination, Select, SortState, Table, VStack } from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
-import {FileCheckmarkIcon} from "@navikt/aksel-icons";
-import {chunk, sort, take} from "remeda";
+import { useTranslation } from "next-i18next";
+import { FileCheckmarkIcon } from "@navikt/aksel-icons";
+import { chunk, sort, take } from "remeda";
 
-import {formatBytes} from "../../utils/formatting";
+import { formatBytes } from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import EttersendelseView from "../ettersendelse/EttersendelseView";
-import {getVisningstekster} from "../../utils/vedleggUtils";
-import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
-import {VedleggResponse} from "../../generated/model";
+import { getVisningstekster } from "../../utils/vedleggUtils";
+import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
+import { VedleggResponse } from "../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import useIsMobile from "../../utils/useIsMobile";
 
@@ -149,7 +149,7 @@ const sorterVedlegg = (vedlegg: VedleggResponse[], kolonne: string, descending: 
     }
 };
 
-const defaultSortState: SortState = {orderBy: Kolonne.DATO, direction: "descending"};
+const defaultSortState: SortState = { orderBy: Kolonne.DATO, direction: "descending" };
 
 const StyledTextPlacement = styled.div`
     margin-bottom: 1rem;
@@ -160,10 +160,10 @@ const StyledTextPlacement = styled.div`
 
 const itemsPerPage = 10;
 
-const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
-    const {t} = useTranslation();
+const VedleggView: React.FC<Props> = ({ fiksDigisosId }) => {
+    const { t } = useTranslation();
     const isMobile = useIsMobile();
-    const {data: vedlegg, isLoading, isError} = useHentVedlegg(fiksDigisosId);
+    const { data: vedlegg, isLoading, isError } = useHentVedlegg(fiksDigisosId);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const [sortState, setSortState] = useState<SortState | undefined>(defaultSortState);
@@ -191,7 +191,7 @@ const VedleggView: React.FC<Props> = ({fiksDigisosId}) => {
     };
     const selectSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const sortDirection = event.target.value === Kolonne.DATO ? "descending" : "ascending";
-        setSortState({orderBy: event.target.value, direction: sortDirection});
+        setSortState({ orderBy: event.target.value, direction: sortDirection });
         event.preventDefault();
     };
 

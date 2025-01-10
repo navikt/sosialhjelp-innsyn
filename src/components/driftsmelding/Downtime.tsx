@@ -1,5 +1,5 @@
-import {useTranslation} from "next-i18next";
-import {Alert, BodyShort, Heading} from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+import { Alert, BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
@@ -37,7 +37,7 @@ const NewYearNorsk = () => {
 export const NewYearNewNumbers = () => {
     const isAalesund = useIsAalesundBlocked();
     const {
-        i18n: {language},
+        i18n: { language },
     } = useTranslation();
 
     if (!isAalesund) {

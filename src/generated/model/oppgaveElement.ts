@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {OppgaveElementHendelsetype} from "./oppgaveElementHendelsetype";
+import type { OppgaveElementHendelsetype } from "./oppgaveElementHendelsetype";
 
 export interface OppgaveElement {
     dokumenttype: string;

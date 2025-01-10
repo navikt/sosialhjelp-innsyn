@@ -1,6 +1,6 @@
-import type {NextRequest} from "next/server";
-import {NextResponse} from "next/server";
-import {logger} from "@navikt/next-logger";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { logger } from "@navikt/next-logger";
 
 const PUBLIC_FILE = /\.(.*)$/;
 

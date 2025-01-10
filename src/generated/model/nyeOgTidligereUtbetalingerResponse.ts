@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {ManedUtbetaling} from "./manedUtbetaling";
+import type { ManedUtbetaling } from "./manedUtbetaling";
 
 export interface NyeOgTidligereUtbetalingerResponse {
     ar: number;

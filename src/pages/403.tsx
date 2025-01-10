@@ -1,17 +1,17 @@
 import React from "react";
-import {BodyLong, Heading} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { BodyLong, Heading } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 import styled from "styled-components";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {GetServerSideProps} from "next";
-import {logger} from "@navikt/next-logger";
-import {useRouter} from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSideProps } from "next";
+import { logger } from "@navikt/next-logger";
+import { useRouter } from "next/router";
 
-import {useHarTilgang} from "../generated/tilgang-controller/tilgang-controller";
+import { useHarTilgang } from "../generated/tilgang-controller/tilgang-controller";
 import EllaBlunk from "../components/ellaBlunk";
-import {UthevetPanel} from "../components/paneler/UthevetPanel";
+import { UthevetPanel } from "../components/paneler/UthevetPanel";
 import Banner from "../components/banner/Banner";
-import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
+import { ApplicationSpinner } from "../components/applicationSpinner/ApplicationSpinner";
 
 const StyledElla = styled.div`
     display: flex;
@@ -24,9 +24,9 @@ const Wrapper = styled.div`
 `;
 
 const Forbidden = (): React.JSX.Element => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const router = useRouter();
-    const {data, isLoading} = useHarTilgang();
+    const { data, isLoading } = useHarTilgang();
     if (isLoading) {
         return (
             <div className="informasjon-side">

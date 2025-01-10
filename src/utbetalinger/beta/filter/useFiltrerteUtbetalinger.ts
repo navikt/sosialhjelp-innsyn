@@ -1,10 +1,10 @@
 import React from "react";
-import {isAfter, isBefore, isEqual} from "date-fns";
+import { isAfter, isBefore, isEqual } from "date-fns";
 
-import {ManedUtbetaling} from "../../../generated/model";
-import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
+import { ManedUtbetaling } from "../../../generated/model";
+import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
 
-import {FilterKey, MottakerFilter, useFilter} from "./FilterContext";
+import { FilterKey, MottakerFilter, useFilter } from "./FilterContext";
 
 const stringToDateWithoutTimezone = (datoString: string) => {
     const dateWithTimesone = new Date(datoString);
@@ -32,7 +32,7 @@ export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
     return matchMottaker && matchTil && matchFra;
 };
 const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponseMedId[]) => {
-    const {filter} = useFilter();
+    const { filter } = useFilter();
 
     return React.useMemo(() => {
         return utbetalinger
@@ -40,7 +40,7 @@ const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponseMedId[]) => 
                 const filtrertPerManed = response.utbetalingerForManed.filter((utbetaling) => {
                     return filterMatch(utbetaling, filter);
                 });
-                return {...response, utbetalingerForManed: filtrertPerManed};
+                return { ...response, utbetalingerForManed: filtrertPerManed };
             })
             .filter((response) => response.utbetalingerForManed.length > 0);
     }, [utbetalinger, filter]);

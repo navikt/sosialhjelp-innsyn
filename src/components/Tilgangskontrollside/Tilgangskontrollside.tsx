@@ -1,16 +1,16 @@
 import * as React from "react";
-import {BodyLong, Heading} from "@navikt/ds-react";
+import { BodyLong, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
-import {logger} from "@navikt/next-logger";
-import {useRouter} from "next/router";
-import {useEffect} from "react";
-import {useQuery} from "@tanstack/react-query";
+import { useTranslation } from "next-i18next";
+import { logger } from "@navikt/next-logger";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
+import { useHarTilgang } from "../../generated/tilgang-controller/tilgang-controller";
 import Banner from "../banner/Banner";
-import {UthevetPanel} from "../paneler/UthevetPanel";
-import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
+import { UthevetPanel } from "../paneler/UthevetPanel";
+import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
 
 const StyledElla = styled.div`
@@ -37,16 +37,16 @@ const useDekoratorLogin = () =>
                 method: "get",
                 credentials: "include",
             });
-            const data: {session: {active: boolean}} | undefined =
+            const data: { session: { active: boolean } } | undefined =
                 result.status === 200 ? await result.json() : undefined;
-            return {status: result.status, ...data};
+            return { status: result.status, ...data };
         },
     });
 
-const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children}) => {
+const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({ children }) => {
     const router = useRouter();
-    const {t} = useTranslation();
-    const {error, isPending, data: harTilgangData} = useHarTilgang();
+    const { t } = useTranslation();
+    const { error, isPending, data: harTilgangData } = useHarTilgang();
 
     const sessionQuery = useDekoratorLogin();
     useEffect(() => {

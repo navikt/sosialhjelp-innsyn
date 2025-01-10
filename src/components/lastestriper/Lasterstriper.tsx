@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {StyledLastestriper} from "./lastestriper";
+import { StyledLastestriper } from "./lastestriper";
 
 export interface NavFrontendLastestriperProps {
     /**
@@ -38,7 +38,7 @@ const lastestriper = (linjer: number): React.ReactNode[] => {
     return divs;
 };
 
-const Lastestriper: React.FC<NavFrontendLastestriperProps> = ({linjer = 3, style}) => (
+const Lastestriper: React.FC<NavFrontendLastestriperProps> = ({ linjer = 3, style }) => (
     <StyledLastestriper style={style} data-testid="lastestriper">
         {lastestriper(linjer)}
     </StyledLastestriper>

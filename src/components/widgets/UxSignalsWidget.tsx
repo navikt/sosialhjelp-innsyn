@@ -1,9 +1,9 @@
 import Script from "next/script";
-import {ReactElement} from "react";
-import {logger} from "@navikt/next-logger";
+import { ReactElement } from "react";
+import { logger } from "@navikt/next-logger";
 
-import {isProd} from "../../utils/restUtils";
-import {useFlag} from "../../featuretoggles/context";
+import { isProd } from "../../utils/restUtils";
+import { useFlag } from "../../featuretoggles/context";
 
 import styles from "./UxSignalsWidget.module.css";
 
@@ -11,7 +11,7 @@ interface Props {
     enabled: boolean;
 }
 
-function UxSignalsWidget({enabled}: Props): ReactElement | null {
+function UxSignalsWidget({ enabled }: Props): ReactElement | null {
     const flag = useFlag("sosialhjelp.innsyn.uxsignals_kort_soknad");
     if (!enabled || !flag.enabled) return null;
     logger.info("Viser ux signals for kort søknad");

@@ -1,11 +1,11 @@
 import React from "react";
-import {Alert, BodyShort} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
-import {GetServerSideProps, NextPage} from "next";
+import { Alert, BodyShort } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+import { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
 
-import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
+import { useHentAlleSaker } from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import { ApplicationSpinner } from "../components/applicationSpinner/ApplicationSpinner";
 import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";
 import MainLayout from "../components/MainLayout";
@@ -17,11 +17,11 @@ const StyledAlert = styled(Alert)`
 `;
 
 const Saksoversikt: NextPage = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     useUpdateBreadcrumbs(() => []);
 
-    const {data: saker, isLoading, error} = useHentAlleSaker();
+    const { data: saker, isLoading, error } = useHentAlleSaker();
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
             {isLoading && <ApplicationSpinner />}

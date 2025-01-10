@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {HttpResponse, delay, http} from "msw";
+import { HttpResponse, delay, http } from "msw";
 
 export const getPostKlientloggMockHandler = (
     overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void)
@@ -14,7 +14,7 @@ export const getPostKlientloggMockHandler = (
         if (typeof overrideResponse === "function") {
             await overrideResponse(info);
         }
-        return new HttpResponse(null, {status: 204});
+        return new HttpResponse(null, { status: 204 });
     });
 };
 export const getInfoControllerMock = () => [getPostKlientloggMockHandler()];

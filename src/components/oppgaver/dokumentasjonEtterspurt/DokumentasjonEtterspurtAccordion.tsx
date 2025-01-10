@@ -1,19 +1,19 @@
-import {Accordion, BodyShort} from "@navikt/ds-react";
-import React, {useEffect} from "react";
-import {useTranslation} from "next-i18next";
+import { Accordion, BodyShort } from "@navikt/ds-react";
+import React, { useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 import {
     logVeilederBerOmDokumentasjonEvent,
     logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent,
 } from "../../../utils/amplitude";
-import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
+import { OpplastingAvVedleggModal } from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
-import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../generated/model";
-import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
+import { OppgaveElementHendelsetype, OppgaveResponse } from "../../../generated/model";
+import { DokumentasjonEtterspurtResponse } from "../../../hooks/useDokumentasjonEtterspurt";
 
 import dokumentasjonEtterspurtStyles from "./dokumentasjonetterspurt.module.css";
-import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
+import { InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist } from "./TekstBlokker";
 import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: OppgaveResponse[] | undefined): Date | null {
@@ -30,7 +30,7 @@ interface Props {
 }
 
 export const DokumentasjonEtterspurtAccordion = (props: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
     const dokumentasjonEtterspurtErFraInnsyn =

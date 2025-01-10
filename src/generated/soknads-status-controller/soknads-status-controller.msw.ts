@@ -4,9 +4,9 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {SoknadsStatusResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { SoknadsStatusResponse } from ".././model";
 
 export const getHentSoknadsStatusResponseMock = (
     overrideResponse: Partial<SoknadsStatusResponse> = {}
@@ -48,7 +48,10 @@ export const getHentSoknadsStatusResponseMock = (
     isBroken: faker.datatype.boolean(),
     kommunenummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     navKontor: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    soknadsalderIMinutter: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]),
+    soknadsalderIMinutter: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
     status: faker.helpers.arrayElement([
         "SENDT",
         "MOTTATT",
@@ -78,7 +81,7 @@ export const getHentSoknadsStatusMockHandler = (
                         : overrideResponse
                     : getHentSoknadsStatusResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

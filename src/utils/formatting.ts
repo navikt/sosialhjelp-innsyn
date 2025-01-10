@@ -17,13 +17,13 @@ function formatCurrency(amount: number, language: string): string {
 // Eksempel: "2019-08-01" => "01. august 2019"
 function formatDato(isoDate: string, language: string) {
     const dato: Date = new Date(isoDate);
-    const formatter = new Intl.DateTimeFormat(language, {day: "numeric", month: "long", year: "numeric"});
+    const formatter = new Intl.DateTimeFormat(language, { day: "numeric", month: "long", year: "numeric" });
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 // Eksempel "2022-04-11" => "11. april"
 export function getDayAndMonth(isoDate: string, language: string) {
     const dato: Date = new Date(isoDate);
-    const formatter = new Intl.DateTimeFormat(language, {day: "numeric", month: "long"});
+    const formatter = new Intl.DateTimeFormat(language, { day: "numeric", month: "long" });
     return formatter.format(dato).replace(/([0-9]) /, "$1. ");
 }
 
@@ -35,4 +35,4 @@ export function dateToDDMMYYYY(language: string, dato: Date) {
     }).format(dato);
 }
 
-export {formatBytes, formatCurrency, formatDato};
+export { formatBytes, formatCurrency, formatDato };

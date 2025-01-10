@@ -1,5 +1,5 @@
 import React from "react";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
 /*
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
@@ -12,8 +12,8 @@ interface Props {
     brukKortMaanedNavn?: boolean;
 }
 const DatoOgKlokkeslett = (props: Props) => {
-    const {tidspunkt, bareDato, brukKortMaanedNavn} = props;
-    const {t, i18n} = useTranslation();
+    const { tidspunkt, bareDato, brukKortMaanedNavn } = props;
+    const { t, i18n } = useTranslation();
 
     if (!tidspunkt) {
         return null;

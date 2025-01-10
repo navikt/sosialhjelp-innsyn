@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import {BodyShort, Button} from "@navikt/ds-react";
+import React, { useState } from "react";
+import { BodyShort, Button } from "@navikt/ds-react";
 import styled from "styled-components";
-import {Delete} from "@navikt/ds-icons";
-import {useTranslation} from "next-i18next";
-import {FileCheckmarkIcon} from "@navikt/aksel-icons";
+import { Delete } from "@navikt/ds-icons";
+import { useTranslation } from "next-i18next";
+import { FileCheckmarkIcon } from "@navikt/aksel-icons";
 
 import styles from "../../styles/lists.module.css";
 import LinkButton from "../linkButton/LinkButton";
 import VedleggModal from "../vedlegg/VedleggModal";
-import {formatBytes} from "../../utils/formatting";
+import { formatBytes } from "../../utils/formatting";
 
-import {FancyFile, Error} from "./useFilOpplasting";
+import { FancyFile, Error } from "./useFilOpplasting";
 
 type ClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
@@ -72,7 +72,7 @@ interface Props {
 
 const FileItemView = (props: Props) => {
     const [openFile, setOpenFile] = useState<FancyFile | null>(null);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const onVisVedlegg = (event: ClickEvent, file: FancyFile): void => {
         setOpenFile(file);

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import {BodyLong, Heading} from "@navikt/ds-react";
+import { BodyLong, Heading } from "@navikt/ds-react";
 
-import {UthevetPanel} from "../components/paneler/UthevetPanel";
+import { UthevetPanel } from "../components/paneler/UthevetPanel";
 import MainLayout from "../components/MainLayout";
 
-const FeilsideWrapper = styled.div.attrs({className: "blokk-center"})`
+const FeilsideWrapper = styled.div.attrs({ className: "blokk-center" })`
     margin-top: 2rem;
 `;
 

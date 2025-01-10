@@ -4,14 +4,14 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {SaksDetaljerResponse, SaksListeResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { SaksDetaljerResponse, SaksListeResponse } from ".././model";
 
 export const getHentSaksDetaljerResponseMock = (
     overrideResponse: Partial<SaksDetaljerResponse> = {}
 ): SaksDetaljerResponse => ({
-    antallNyeOppgaver: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]),
+    antallNyeOppgaver: faker.helpers.arrayElement([faker.number.int({ min: undefined, max: undefined }), undefined]),
     fiksDigisosId: faker.word.sample(),
     soknadTittel: faker.word.sample(),
     status: faker.word.sample(),
@@ -19,7 +19,7 @@ export const getHentSaksDetaljerResponseMock = (
 });
 
 export const getHentAlleSakerResponseMock = (): SaksListeResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         fiksDigisosId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         isBrokenSoknad: faker.datatype.boolean(),
         kilde: faker.word.sample(),
@@ -47,7 +47,7 @@ export const getHentSaksDetaljerMockHandler = (
                         : overrideResponse
                     : getHentSaksDetaljerResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -68,7 +68,7 @@ export const getHentAlleSakerMockHandler = (
                         : overrideResponse
                     : getHentAlleSakerResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

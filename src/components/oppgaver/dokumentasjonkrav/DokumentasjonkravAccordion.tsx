@@ -1,10 +1,10 @@
-import {Accordion, BodyShort, Label} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
-import React, {useEffect} from "react";
+import { Accordion, BodyShort, Label } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+import React, { useEffect } from "react";
 
-import {logVeilederBerOmDokumentasjonkravEvent} from "../../../utils/amplitude";
-import {DokumentasjonkravResponse} from "../../../generated/model";
-import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
+import { logVeilederBerOmDokumentasjonkravEvent } from "../../../utils/amplitude";
+import { DokumentasjonkravResponse } from "../../../generated/model";
+import { OpplastingAvVedleggModal } from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
 import VedleggSuccess from "../../filopplasting/VedleggSuccess";
 import oppgaveStyles from "../oppgaver.module.css";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const DokumentasjonkravAccordion = (props: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (props.dokumentasjonkrav && props.dokumentasjonkrav.length > 0) {

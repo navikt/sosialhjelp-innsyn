@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {UrlResponseLinkTekst} from "./urlResponseLinkTekst";
+import type { UrlResponseLinkTekst } from "./urlResponseLinkTekst";
 
 export interface UrlResponse {
     link: string;

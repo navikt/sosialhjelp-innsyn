@@ -1,9 +1,9 @@
-import React, {useEffect, useMemo} from "react";
-import {useTranslation} from "next-i18next";
-import {Accordion, Alert} from "@navikt/ds-react";
+import React, { useEffect, useMemo } from "react";
+import { useTranslation } from "next-i18next";
+import { Accordion, Alert } from "@navikt/ds-react";
 import styled from "styled-components";
-import {add, isBefore} from "date-fns";
-import {logger} from "@navikt/next-logger";
+import { add, isBefore } from "date-fns";
+import { logger } from "@navikt/next-logger";
 
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {
@@ -13,18 +13,18 @@ import {
     useGetVilkar,
 } from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
+import { useHentUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
-import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
+import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
 
 import OppgaveInformasjon from "./OppgaveInformasjon";
 import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {VilkarAccordion} from "./vilkar/VilkarAccordion";
-import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
+import { VilkarAccordion } from "./vilkar/VilkarAccordion";
+import { DokumentasjonEtterspurtAccordion } from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
+import { harSakMedInnvilgetEllerDelvisInnvilget } from "./vilkar/VilkarUtils";
 import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
 import OppgaverPanel from "./OppgaverPanel";
 import styles from "./oppgaver.module.css";
@@ -63,27 +63,27 @@ export const skalSkjuleVilkarOgDokKrav = (
 const DAGER_SIDEN_UTBETALINGSPERIODEN_ER_FORBIGAATT = 21;
 
 const Oppgaver = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const fiksDigisosId = useFiksDigisosId();
     const vilkarQuery = useGetVilkar(fiksDigisosId);
     const dokumentasjonskravQuery = useGetDokumentasjonkrav(fiksDigisosId);
-    const {dokumentasjonEtterspurt, ...oppgaverQuery} = useDokumentasjonEtterspurt(fiksDigisosId);
-    const {data: harLevertDokumentasjonskrav, ...harLevertDokumentasjonskravQuery} =
+    const { dokumentasjonEtterspurt, ...oppgaverQuery } = useDokumentasjonEtterspurt(fiksDigisosId);
+    const { data: harLevertDokumentasjonskrav, ...harLevertDokumentasjonskravQuery } =
         useGetHarLevertDokumentasjonkrav(fiksDigisosId);
-    const {data: fagsystemHarDokumentasjonkrav, ...fagsystemHarDokumentasjonkravQuery} =
+    const { data: fagsystemHarDokumentasjonkrav, ...fagsystemHarDokumentasjonkravQuery } =
         useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
-    const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
+    const { data: saksStatuser, ...saksStatusQuery } = useHentSaksStatuser(fiksDigisosId);
     const utbetalingerQuery = useHentUtbetalinger();
 
     useEffect(() => {
-        const {error} = utbetalingerQuery;
+        const { error } = utbetalingerQuery;
         if (error) {
             logger.warn(error.message, error.navCallId);
         }
     }, [utbetalingerQuery, utbetalingerQuery.error]);
 
-    const {oppgaverUploadSuccess} = useFilUploadSuccessful();
+    const { oppgaverUploadSuccess } = useFilUploadSuccessful();
 
     const hasError =
         vilkarQuery.isError ||
@@ -161,7 +161,7 @@ const Oppgaver = () => {
     if (isLoading) {
         return (
             <OppgaverPanel hasError={hasError}>
-                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
+                <Lastestriper linjer={1} style={{ paddingTop: "1.5rem" }} />
             </OppgaverPanel>
         );
     }

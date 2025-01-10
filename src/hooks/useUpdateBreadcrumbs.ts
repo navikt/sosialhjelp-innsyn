@@ -1,10 +1,10 @@
-import {setBreadcrumbs} from "@navikt/nav-dekoratoren-moduler";
-import {DependencyList, useEffect, useRef} from "react";
-import {useTranslation} from "next-i18next";
-import {logger} from "@navikt/next-logger";
+import { setBreadcrumbs } from "@navikt/nav-dekoratoren-moduler";
+import { DependencyList, useEffect, useRef } from "react";
+import { useTranslation } from "next-i18next";
+import { logger } from "@navikt/next-logger";
 
-type Breadcrumb = {title: string; url: string; analyticsTitle?: string};
-type LastCrumb = {title: string};
+type Breadcrumb = { title: string; url: string; analyticsTitle?: string };
+type LastCrumb = { title: string };
 type CompleteCrumb = Parameters<typeof setBreadcrumbs>[0][0];
 
 const getBaseCrumbs = (t?: (t: string) => string): [CompleteCrumb, CompleteCrumb] => [
@@ -38,7 +38,7 @@ function createCompleteCrumbs(
 }
 
 export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCrumb] | [], deps?: DependencyList): void {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const makeCrumbsRef = useRef(makeCrumbs);
     useEffect(() => {
         makeCrumbsRef.current = makeCrumbs;
@@ -75,18 +75,22 @@ export const getBreadcrumbs = (pathname: SsrPathVariants | string): Breadcrumb[]
         case SsrPathVariants.Root:
             return [...getBaseCrumbs()];
         case SsrPathVariants.Utbetaling:
-            return [...getBaseCrumbs(), {title: "Utbetalinger", url: "/utbetaling"}];
+            return [...getBaseCrumbs(), { title: "Utbetalinger", url: "/utbetaling" }];
         case SsrPathVariants.Soknad:
-            return [...getBaseCrumbs(), {title: "Status på søknaden din", url: "/status"}];
+            return [...getBaseCrumbs(), { title: "Status på søknaden din", url: "/status" }];
         case SsrPathVariants.Error:
         case SsrPathVariants.ServerError:
-            return [...getBaseCrumbs(), {title: "Feil: Tekniske problemer", url: "/500"}];
+            return [...getBaseCrumbs(), { title: "Feil: Tekniske problemer", url: "/500" }];
         case SsrPathVariants.NotFound:
-            return [...getBaseCrumbs(), {title: "Feil: Fant ikke siden", url: "/404"}];
+            return [...getBaseCrumbs(), { title: "Feil: Fant ikke siden", url: "/404" }];
         case SsrPathVariants.Forbidden:
-            return [...getBaseCrumbs(), {title: "Ikke tilgang", url: "/403"}];
+            return [...getBaseCrumbs(), { title: "Ikke tilgang", url: "/403" }];
         case SsrPathVariants.NyKlage:
-            return [...getBaseCrumbs(), {title: "Status", url: "/status"}, {title: "Send klage", url: "/klage/skjema"}];
+            return [
+                ...getBaseCrumbs(),
+                { title: "Status", url: "/status" },
+                { title: "Send klage", url: "/klage/skjema" },
+            ];
         default:
             throw new Error("Unknown path");
     }

@@ -1,17 +1,17 @@
 import React from "react";
-import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { BodyShort, Heading, LinkPanel } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
+import { logAmplitudeEvent, logButtonOrLinkClick } from "../../utils/amplitude";
 
 import styles from "./dineUtbetalingerPanel.module.css";
 
 logAmplitudeEvent("Dine utbetalinger panel vises");
 
 const DineUtbetalingerPanel: React.FC = () => {
-    const {t} = useTranslation("utbetalinger");
+    const { t } = useTranslation("utbetalinger");
     return (
         <Link href="/utbetaling" legacyBehavior passHref>
             <LinkPanel

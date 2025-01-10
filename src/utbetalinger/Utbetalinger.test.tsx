@@ -1,19 +1,19 @@
 import React from "react";
-import {delay, http, HttpResponse} from "msw";
-import {fireEvent, waitFor} from "@testing-library/react";
-import {subMonths} from "date-fns";
+import { delay, http, HttpResponse } from "msw";
+import { fireEvent, waitFor } from "@testing-library/react";
+import { subMonths } from "date-fns";
 
 import Utbetalinger from "../pages/utbetaling";
-import {render, screen} from "../test/test-utils";
-import {server} from "../mocks/server";
-import {NyeOgTidligereUtbetalingerResponse} from "../generated/model";
+import { render, screen } from "../test/test-utils";
+import { server } from "../mocks/server";
+import { NyeOgTidligereUtbetalingerResponse } from "../generated/model";
 import {
     getHentNyeUtbetalingerMockHandler,
     getHentNyeUtbetalingerResponseMock,
     getHentTidligereUtbetalingerMockHandler,
 } from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
-import {getHarSoknaderMedInnsynMockHandler} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller.msw";
-import {getHentAlleSakerMockHandler} from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
+import { getHarSoknaderMedInnsynMockHandler } from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller.msw";
+import { getHentAlleSakerMockHandler } from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 
 const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
     return {
@@ -74,9 +74,9 @@ describe("Utbetalinger", () => {
 
         render(<Utbetalinger />);
 
-        const periodeVelger = await screen.findByRole("group", {name: "Velg periode"});
+        const periodeVelger = await screen.findByRole("group", { name: "Velg periode" });
         expect(periodeVelger).toBeInTheDocument();
-        expect(screen.getByRole("group", {name: "Velg mottaker"})).toBeInTheDocument();
+        expect(screen.getByRole("group", { name: "Velg mottaker" })).toBeInTheDocument();
         expect(screen.getByTestId("lastestriper")).toBeInTheDocument();
     });
 
@@ -85,7 +85,7 @@ describe("Utbetalinger", () => {
 
         render(<Utbetalinger />);
 
-        const tomTilstand = await screen.findByRole("heading", {name: /Vi finner ingen/});
+        const tomTilstand = await screen.findByRole("heading", { name: /Vi finner ingen/ });
         expect(tomTilstand).toBeVisible();
     });
 
@@ -95,7 +95,7 @@ describe("Utbetalinger", () => {
         render(<Utbetalinger />);
 
         await waitFor(() => expect(screen.queryByText("Penger til husleie")).not.toBeInTheDocument());
-        fireEvent.click(await screen.findByRole("tab", {name: "Tidligere utbetalinger"}));
+        fireEvent.click(await screen.findByRole("tab", { name: "Tidligere utbetalinger" }));
 
         await waitFor(async () => {
             const utbetaling = screen.getByText("Penger til husleie");
@@ -107,7 +107,7 @@ describe("Utbetalinger", () => {
         server.use(alleSaker, harIkkeSoknaderMedInnsyn);
 
         render(<Utbetalinger />);
-        expect(await screen.findByRole("heading", {name: "Vi finner ingen søknader fra deg"})).toBeInTheDocument();
+        expect(await screen.findByRole("heading", { name: "Vi finner ingen søknader fra deg" })).toBeInTheDocument();
     });
 
     it("Viser ikke utbetaling hvis man velger 'til andre mottakere'", async () => {
@@ -119,7 +119,7 @@ describe("Utbetalinger", () => {
             expect(utbetaling).toBeInTheDocument();
         });
 
-        const radio = screen.getByRole("radio", {name: "Til andre mottakere"});
+        const radio = screen.getByRole("radio", { name: "Til andre mottakere" });
         fireEvent.click(radio);
         await waitFor(async () => {
             const utbetaling = screen.queryByText("Penger til husleie");
@@ -131,7 +131,7 @@ describe("Utbetalinger", () => {
         server.use(error);
         render(<Utbetalinger />);
         expect(
-            await screen.findByRole("heading", {name: "Beklager, vi har dessverre tekniske problemer."})
+            await screen.findByRole("heading", { name: "Beklager, vi har dessverre tekniske problemer." })
         ).toBeInTheDocument();
     });
 });

@@ -1,9 +1,9 @@
-import {BodyShort} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { BodyShort } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 import React from "react";
 import styled from "styled-components";
 
-import {formatDato} from "../../utils/formatting";
+import { formatDato } from "../../utils/formatting";
 
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
@@ -20,7 +20,7 @@ interface Props {
     frist?: string;
 }
 const InnsendelsesFrist = (props: Props) => {
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
 
     if (!props.frist) {
         return null;
@@ -31,7 +31,7 @@ const InnsendelsesFrist = (props: Props) => {
         <>
             {antallDagerSidenFristBlePassert <= 0 && (
                 <StyledBodyShort spacing>
-                    {t("oppgaver.innsendelsesfrist", {innsendelsesfrist: formatDato(props.frist, i18n.language)})}
+                    {t("oppgaver.innsendelsesfrist", { innsendelsesfrist: formatDato(props.frist, i18n.language) })}
                 </StyledBodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (

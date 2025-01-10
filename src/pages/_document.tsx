@@ -1,9 +1,9 @@
 import React from "react";
-import Document, {DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript} from "next/document";
-import {DecoratorComponents, DecoratorFetchProps, fetchDecoratorReact} from "@navikt/nav-dekoratoren-moduler/ssr";
-import {DecoratorLocale} from "@navikt/nav-dekoratoren-moduler";
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
+import { DecoratorComponents, DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
+import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 
-import {getBreadcrumbs} from "../hooks/useUpdateBreadcrumbs";
+import { getBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
 
 // The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
 const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
@@ -66,11 +66,11 @@ class MyDocument extends Document<Props> {
         const props = decoratorParams(ctx);
         const Decorator = await fetchDecoratorReact(props);
 
-        return {...initialProps, Decorator, language};
+        return { ...initialProps, Decorator, language };
     }
 
     render(): React.JSX.Element {
-        const {Decorator, language} = this.props;
+        const { Decorator, language } = this.props;
         return (
             <Html lang={language || "no"}>
                 <Head>

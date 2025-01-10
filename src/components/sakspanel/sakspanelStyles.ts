@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {LinkPanel} from "@navikt/ds-react";
-import {FileContent} from "@navikt/ds-icons";
+import { LinkPanel } from "@navikt/ds-react";
+import { FileContent } from "@navikt/ds-icons";
 
 export const StyledLinkPanelDescription = styled(LinkPanel.Description)`
     display: grid;

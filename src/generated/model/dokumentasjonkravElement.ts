@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {DokumentasjonkravElementHendelsetype} from "./dokumentasjonkravElementHendelsetype";
-import type {DokumentasjonkravElementStatus} from "./dokumentasjonkravElementStatus";
+import type { DokumentasjonkravElementHendelsetype } from "./dokumentasjonkravElementHendelsetype";
+import type { DokumentasjonkravElementStatus } from "./dokumentasjonkravElementStatus";
 
 export interface DokumentasjonkravElement {
     beskrivelse?: string;

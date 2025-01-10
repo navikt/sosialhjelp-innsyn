@@ -1,7 +1,7 @@
 import * as React from "react";
-import {useTranslation} from "next-i18next";
-import {Accordion, BodyShort, Label} from "@navikt/ds-react";
-import {Attachment, List} from "@navikt/ds-icons";
+import { useTranslation } from "next-i18next";
+import { Accordion, BodyShort, Label } from "@navikt/ds-react";
+import { Attachment, List } from "@navikt/ds-icons";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -12,7 +12,7 @@ const StyledContainer = styled.div`
 `;
 
 const OppgaveInformasjon = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <>
@@ -24,7 +24,13 @@ const OppgaveInformasjon = () => {
                 <Accordion.Content>
                     <StyledContainer>
                         <>
-                            <List width="1.5rem" height="1.5rem" style={{marginTop: "6px"}} aria-hidden title="liste" />
+                            <List
+                                width="1.5rem"
+                                height="1.5rem"
+                                style={{ marginTop: "6px" }}
+                                aria-hidden
+                                title="liste"
+                            />
                             <div>
                                 <Label as="p">{t("oppgaver.vilkar")}</Label>
                                 <BodyShort>{t("oppgaver.vilkar.beskrivelse")}</BodyShort>
@@ -34,7 +40,7 @@ const OppgaveInformasjon = () => {
                             <Attachment
                                 width="1.5rem"
                                 height="1.5rem"
-                                style={{marginTop: "6px"}}
+                                style={{ marginTop: "6px" }}
                                 aria-hidden
                                 title="vedlegg"
                             />

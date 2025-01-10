@@ -1,18 +1,18 @@
 import React from "react";
-import {Alert, BodyLong} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { Alert, BodyLong } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 
-import {useHentTidligereUtbetalinger} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import { useHentTidligereUtbetalinger } from "../../../generated/utbetalinger-controller/utbetalinger-controller";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
-import {useFilter} from "../filter/FilterContext";
+import { useFilter } from "../filter/FilterContext";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
-import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
-import {ManedUtbetaling} from "../../../generated/model";
+import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
+import { ManedUtbetaling } from "../../../generated/model";
 
 import ManedGruppe from "./ManedGruppe";
 
 const TidligerUtbetalingerInnhold = () => {
-    const {data, isLoading, isError} = useHentTidligereUtbetalinger({
+    const { data, isLoading, isError } = useHentTidligereUtbetalinger({
         query: {
             select: (data) => {
                 // Legg på en id på hver utbetaling
@@ -31,8 +31,8 @@ const TidligerUtbetalingerInnhold = () => {
         },
     });
     const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
-    const {isUsingFilter} = useFilter();
-    const {t} = useTranslation("utbetalinger");
+    const { isUsingFilter } = useFilter();
+    const { t } = useTranslation("utbetalinger");
 
     if (isLoading) {
         return <Lastestriper />;
@@ -62,7 +62,7 @@ const TidligerUtbetalingerInnhold = () => {
 };
 
 const TidligerUtbetalinger = () => {
-    const {t} = useTranslation("utbetalinger");
+    const { t } = useTranslation("utbetalinger");
 
     return (
         <>

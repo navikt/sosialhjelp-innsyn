@@ -1,19 +1,19 @@
 import React from "react";
 import * as R from "remeda";
-import {NextPage} from "next";
+import { NextPage } from "next";
 import Link from "next/link";
-import {Button, Heading, List, Tag} from "@navikt/ds-react";
+import { Button, Heading, List, Tag } from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
-import {useHentKlager} from "../../generated/klage-controller/klage-controller";
+import { useHentKlager } from "../../generated/klage-controller/klage-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import Panel from "../panel/Panel";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
-import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
-import {useFlag} from "../../featuretoggles/context";
-import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
+import { KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus } from "../../generated/model";
+import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
+import { useFlag } from "../../featuretoggles/context";
+import { logBrukerAapnerKlageskjema } from "../../utils/amplitude";
 
 const StyledKlageList = styled(List)`
     border-bottom: 2px solid var(--a-border-divider);
@@ -49,15 +49,15 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const fiksDigisosId = useFiksDigisosId();
     const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
 
-    const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId, {
-        query: {enabled: klageFlag.enabled},
+    const { data: saksStatuser, isLoading: saksStatuserIsLoading } = useHentSaksStatuser(fiksDigisosId, {
+        query: { enabled: klageFlag.enabled },
     });
-    const {data, isLoading} = useHentKlager(fiksDigisosId, {
-        query: {enabled: klageFlag.enabled},
+    const { data, isLoading } = useHentKlager(fiksDigisosId, {
+        query: { enabled: klageFlag.enabled },
     });
 
     if (!klageFlag.enabled) {
@@ -144,7 +144,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <AntallKlagerSendt antallKlager={data?.length ?? 0} />
                 <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Les mer om klageprosessen her</Link>
             </InfoBoks>
-            <Link href={{pathname: "/[id]/klage/skjema", query: {id: fiksDigisosId}}}>
+            <Link href={{ pathname: "/[id]/klage/skjema", query: { id: fiksDigisosId } }}>
                 <Button variant="secondary" disabled={!kanKlage}>
                     Start klage
                 </Button>
@@ -153,7 +153,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     );
 };
 
-const AntallKlagerSendt = ({antallKlager}: {antallKlager: number}): React.JSX.Element => {
+const AntallKlagerSendt = ({ antallKlager }: { antallKlager: number }): React.JSX.Element => {
     let tekst: string;
     if (antallKlager === 0) {
         tekst = "Ingen klage sendt";

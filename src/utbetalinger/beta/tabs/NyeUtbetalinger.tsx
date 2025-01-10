@@ -1,10 +1,10 @@
 import React from "react";
-import {Alert} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { Alert } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 
-import {useFilter} from "../filter/FilterContext";
+import { useFilter } from "../filter/FilterContext";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
-import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
+import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
 
 import ManedGruppe from "./ManedGruppe";
 
@@ -15,8 +15,8 @@ interface Props {
 }
 
 const NyeUtbetalinger = (props: Props) => {
-    const {isUsingFilter} = useFilter();
-    const {t} = useTranslation("utbetalinger");
+    const { isUsingFilter } = useFilter();
+    const { t } = useTranslation("utbetalinger");
 
     if (props.lasterData) {
         return <Lastestriper />;

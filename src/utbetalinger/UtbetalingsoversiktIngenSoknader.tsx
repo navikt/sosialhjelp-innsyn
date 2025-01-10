@@ -1,10 +1,10 @@
 import React from "react";
-import {BodyLong, Heading, LinkPanel} from "@navikt/ds-react";
+import { BodyLong, Heading, LinkPanel } from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
-import {StyledGuidePanel, StyledGuidePanelContent} from "../styles/styledGuidePanel";
-import {StyledLenkePanelWrapper} from "../styles/LenkePanelWrapper";
+import { StyledGuidePanel, StyledGuidePanelContent } from "../styles/styledGuidePanel";
+import { StyledLenkePanelWrapper } from "../styles/LenkePanelWrapper";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const Wrapper = styled.div`
@@ -15,15 +15,15 @@ const Wrapper = styled.div`
 `;
 
 const UtbetalingsoversiktIngenSoknader: React.FC = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
         <Wrapper>
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        {t("utbetalinger.ingen-utbetalinger.tittel", {ns: "utbetalinger"})}
+                        {t("utbetalinger.ingen-utbetalinger.tittel", { ns: "utbetalinger" })}
                     </Heading>
-                    <BodyLong>{t("utbetalinger.ingen-utbetalinger.body", {ns: "utbetalinger"})}</BodyLong>
+                    <BodyLong>{t("utbetalinger.ingen-utbetalinger.body", { ns: "utbetalinger" })}</BodyLong>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
 

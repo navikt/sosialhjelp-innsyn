@@ -1,6 +1,6 @@
-import React, {MouseEvent, useState} from "react";
-import {useTranslation} from "next-i18next";
-import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
+import React, { MouseEvent, useState } from "react";
+import { useTranslation } from "next-i18next";
+import { BodyShort, Heading, Link, Modal } from "@navikt/ds-react";
 import styled from "styled-components";
 
 import styles from "./oppgaver.module.css";
@@ -12,7 +12,7 @@ const StyledModal = styled(Modal)`
 
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const handleOnClick = (event: MouseEvent) => {
         event.preventDefault();
@@ -29,7 +29,7 @@ export const OpplastingAvVedleggModal = () => {
                 onClose={() => {
                     setModalSynlig(false);
                 }}
-                header={{heading: t("oppgaver.informasjon.modal.overskrift")}}
+                header={{ heading: t("oppgaver.informasjon.modal.overskrift") }}
             >
                 <Modal.Body>
                     <Heading level="3" size="small" spacing>

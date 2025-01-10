@@ -1,15 +1,15 @@
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 import React from "react";
-import {Loader, Panel} from "@navikt/ds-react";
-import {GetServerSideProps, NextPage} from "next";
+import { Loader, Panel } from "@navikt/ds-react";
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
 import useIsMobile from "../utils/useIsMobile";
-import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {useHarSoknaderMedInnsyn} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
+import { useHentAlleSaker } from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+import { useHarSoknaderMedInnsyn } from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
-import {FilterProvider} from "../utbetalinger/beta/filter/FilterContext";
+import { FilterProvider } from "../utbetalinger/beta/filter/FilterContext";
 import UtbetalingerFilter from "../utbetalinger/beta/filter/UtbetalingerFilter";
 import UtbetalingerPanelBeta from "../utbetalinger/beta/UtbetalingerPanelBeta";
 import styles from "../utbetalinger/beta/utbetalinger.module.css";
@@ -19,11 +19,11 @@ import pageHandler from "../pagehandler/pageHandler";
 import Error from "./_error";
 
 const Utbetalinger: NextPage = () => {
-    const {t} = useTranslation("utbetalinger");
-    useUpdateBreadcrumbs(() => [{url: "/utbetaling", title: t("utbetaling")}]);
+    const { t } = useTranslation("utbetalinger");
+    useUpdateBreadcrumbs(() => [{ url: "/utbetaling", title: t("utbetaling") }]);
     const isMobile = useIsMobile();
 
-    const {data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError} = useHentAlleSaker();
+    const { data: alleSaker, isLoading: isAlleSakerLoading, isError: harSakerError } = useHentAlleSaker();
 
     const {
         data: harSoknaderMedInnsyn,

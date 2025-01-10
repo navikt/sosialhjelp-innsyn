@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import {Alert} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { Alert } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 
-import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
+import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
 `;
 
-const VedleggSuccess = ({show}: {show: boolean}) => {
-    const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
-    const {t} = useTranslation();
+const VedleggSuccess = ({ show }: { show: boolean }) => {
+    const { setOppgaverUploadSuccess, setEttersendelseUploadSuccess } = useFilUploadSuccessful();
+    const { t } = useTranslation();
     return show ? (
         <StyledAlert
             variant="success"

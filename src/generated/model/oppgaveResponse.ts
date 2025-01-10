@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {OppgaveElement} from "./oppgaveElement";
+import type { OppgaveElement } from "./oppgaveElement";
 
 export interface OppgaveResponse {
     innsendelsesfrist?: string;

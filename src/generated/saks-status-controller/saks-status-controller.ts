@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,9 +14,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {SaksStatusResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
-import type {ErrorType} from "../../custom-fetch";
+import type { SaksStatusResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -45,18 +45,18 @@ export const getHentSaksStatuserQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentSaksStatuserQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentSaksStatuser>>> = ({signal}) =>
-        hentSaksStatuser(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentSaksStatuser>>> = ({ signal }) =>
+        hentSaksStatuser(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof hentSaksStatuser>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HentSaksStatuserQueryResult = NonNullable<Awaited<ReturnType<typeof hentSaksStatuser>>>;
@@ -69,7 +69,7 @@ export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksSt
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
@@ -80,14 +80,14 @@ export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksSt
             >;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
@@ -95,10 +95,10 @@ export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksSt
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHentSaksStatuserQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

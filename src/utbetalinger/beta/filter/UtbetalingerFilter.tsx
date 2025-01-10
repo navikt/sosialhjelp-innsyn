@@ -1,11 +1,11 @@
-import React, {useState} from "react";
-import {DatePicker, Fieldset, Radio, RadioGroup, useDatepicker} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import React, { useState } from "react";
+import { DatePicker, Fieldset, Radio, RadioGroup, useDatepicker } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 
 import useIsMobile from "../../../utils/useIsMobile";
-import {logAmplitudeEvent} from "../../../utils/amplitude";
+import { logAmplitudeEvent } from "../../../utils/amplitude";
 
-import {MottakerFilter, useFilter} from "./FilterContext";
+import { MottakerFilter, useFilter } from "./FilterContext";
 import styles from "./utbetalingerFilter.module.css";
 
 function subtractMonths(date: Date, months: number) {
@@ -14,8 +14,8 @@ function subtractMonths(date: Date, months: number) {
 }
 
 const UtbetalingerFilter = () => {
-    const {filter, oppdaterFilter} = useFilter();
-    const {t, i18n} = useTranslation("utbetalinger");
+    const { filter, oppdaterFilter } = useFilter();
+    const { t, i18n } = useTranslation("utbetalinger");
 
     const isMobile = useIsMobile();
     const [fromDateError, setFromDateError] = useState<string | undefined>(undefined);
@@ -26,8 +26,8 @@ const UtbetalingerFilter = () => {
         toDate: filter.tilDato,
         defaultSelected: filter.fraDato,
         onDateChange: (dato?) => {
-            oppdaterFilter({...filter, fraDato: dato});
-            logAmplitudeEvent("filtervalg", {kategori: "fraDato", filternavn: dato});
+            oppdaterFilter({ ...filter, fraDato: dato });
+            logAmplitudeEvent("filtervalg", { kategori: "fraDato", filternavn: dato });
         },
         onValidate: (val) => {
             if (val.isBefore) setFromDateError(t("filter.tidligstFra"));
@@ -42,8 +42,8 @@ const UtbetalingerFilter = () => {
         fromDate: filter.fraDato ? filter.fraDato : subtractMonths(new Date(), 15),
         defaultSelected: filter.tilDato,
         onDateChange: (dato?) => {
-            oppdaterFilter({...filter, tilDato: dato});
-            logAmplitudeEvent("filtervalg", {kategori: "tilDato", filternavn: dato});
+            oppdaterFilter({ ...filter, tilDato: dato });
+            logAmplitudeEvent("filtervalg", { kategori: "tilDato", filternavn: dato });
         },
         onValidate: (val) => {
             if (val.isBefore) setToDateError(filter.fraDato ? t("filter.tilEtterFra") : t("filter.tidligstFra"));
@@ -55,8 +55,8 @@ const UtbetalingerFilter = () => {
     });
 
     const onMottakerChanged = (value: MottakerFilter) => {
-        oppdaterFilter({...filter, mottaker: value});
-        logAmplitudeEvent("filtervalg", {kategori: "mottaker", filternavn: value});
+        oppdaterFilter({ ...filter, mottaker: value });
+        logAmplitudeEvent("filtervalg", { kategori: "mottaker", filternavn: value });
     };
     return (
         <div className={styles.utbetalinger_filter}>

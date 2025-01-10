@@ -1,11 +1,11 @@
-import {Accordion, BodyShort, Label} from "@navikt/ds-react";
+import { Accordion, BodyShort, Label } from "@navikt/ds-react";
 import React from "react";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
-import {logSokerFaarVilkaar, logVilkarDuplications} from "../../../utils/amplitude";
-import {VilkarResponse} from "../../../generated/model";
+import { logSokerFaarVilkaar, logVilkarDuplications } from "../../../utils/amplitude";
+import { VilkarResponse } from "../../../generated/model";
 
-import {VilkarView} from "./VilkarView";
+import { VilkarView } from "./VilkarView";
 
 export const getUnikeVilkar = (vilkar: VilkarResponse[]) =>
     vilkar.filter(
@@ -18,7 +18,7 @@ interface Props {
     vilkar: VilkarResponse[] | undefined;
 }
 export const VilkarAccordion = (props: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     if (!props.vilkar || props.vilkar.length === 0) return null;
     const unikeVilkar = getUnikeVilkar(props.vilkar);
     logVilkarDuplications(props.vilkar.length, unikeVilkar.length);

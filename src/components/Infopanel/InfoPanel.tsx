@@ -1,5 +1,5 @@
 import React from "react";
-import {LinkPanel} from "@navikt/ds-react";
+import { LinkPanel } from "@navikt/ds-react";
 import styled from "styled-components";
 
 const WRAP_WIDTH = "42em";
@@ -36,7 +36,7 @@ type Props = {
     href: string;
 };
 
-const InfoPanel: React.FC<Props> = ({children, tittel, href}) => {
+const InfoPanel: React.FC<Props> = ({ children, tittel, href }) => {
     return (
         <StyledLinkPanel href={href} border={false}>
             <LinkPanel.Title as="h3">{tittel}</LinkPanel.Title>

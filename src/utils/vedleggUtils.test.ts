@@ -1,4 +1,4 @@
-import {containsIllegalCharacters, hentFileExtension} from "./vedleggUtils";
+import { containsIllegalCharacters, hentFileExtension } from "./vedleggUtils";
 
 describe("VedleggUtilsTest", () => {
     it("should find file extension", () => {

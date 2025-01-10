@@ -1,4 +1,4 @@
-import {SaksStatusResponse} from "../../../generated/model";
+import { SaksStatusResponse } from "../../../generated/model";
 
 export const harSakMedInnvilgetEllerDelvisInnvilget = (
     innsynSaksStatusStateListe: SaksStatusResponse[] | undefined

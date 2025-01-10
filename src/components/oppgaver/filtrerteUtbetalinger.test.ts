@@ -1,4 +1,4 @@
-import {filterUtbetalinger, skalSkjuleVilkarOgDokKrav, UtbetalingerResponse} from "./Oppgaver";
+import { filterUtbetalinger, skalSkjuleVilkarOgDokKrav, UtbetalingerResponse } from "./Oppgaver";
 
 const utbetaltOver21Dager: UtbetalingerResponse = {
     tom: "2022-01-30",

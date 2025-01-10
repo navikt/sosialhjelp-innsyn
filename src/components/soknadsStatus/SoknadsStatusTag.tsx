@@ -1,9 +1,9 @@
 import React from "react";
-import {Tag as DS_Tag, TagProps} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import { Tag as DS_Tag, TagProps } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 import styled from "styled-components";
 
-import {SoknadsStatusResponseStatus} from "../../generated/model";
+import { SoknadsStatusResponseStatus } from "../../generated/model";
 
 const StyledAlertTag = styled(DS_Tag)`
     border-radius: 6px;
@@ -11,8 +11,8 @@ const StyledAlertTag = styled(DS_Tag)`
 interface Props {
     status: SoknadsStatusResponseStatus | undefined;
 }
-const SoknadsStatusTag = ({status}: Props) => {
-    const {t} = useTranslation();
+const SoknadsStatusTag = ({ status }: Props) => {
+    const { t } = useTranslation();
 
     switch (status) {
         case SoknadsStatusResponseStatus.SENDT:
@@ -29,8 +29,8 @@ const SoknadsStatusTag = ({status}: Props) => {
     return null;
 };
 
-const Tag = ({children, ...rest}: TagProps): React.JSX.Element => {
-    const {t} = useTranslation();
+const Tag = ({ children, ...rest }: TagProps): React.JSX.Element => {
+    const { t } = useTranslation();
     return (
         <StyledAlertTag {...rest}>
             <span className="sr-only">{t("status")}: </span>

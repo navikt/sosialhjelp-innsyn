@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
+import React, { useEffect, useState } from "react";
+import { BodyLong, Heading, Panel, Tabs } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 import styled from "styled-components";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import {useHentNyeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {logAmplitudeEvent} from "../../utils/amplitude";
+import { useHentNyeUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsMobile from "../../utils/useIsMobile";
-import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
+import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
 
 import styles from "./utbetalinger.module.css";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
@@ -42,7 +42,7 @@ const UtbetalingerPanelBeta = () => {
 
     const [tabClicked, setTabClicked] = useState(TAB_VALUE.UTBETALINGER);
 
-    const {t} = useTranslation("utbetalinger");
+    const { t } = useTranslation("utbetalinger");
     const {
         data: nye,
         isLoading: henterNye,
@@ -72,7 +72,7 @@ const UtbetalingerPanelBeta = () => {
             const sisteDatoVist =
                 sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato ??
                 sisteManedgruppe[sisteManedgruppe.length - 1].forfallsdato;
-            logAmplitudeEvent("Hentet nye utbetalinger", {sisteDatoVist});
+            logAmplitudeEvent("Hentet nye utbetalinger", { sisteDatoVist });
             setNyeLogged(true);
         }
         logAmplitudeEvent("Lastet utbetalinger", {
@@ -83,7 +83,7 @@ const UtbetalingerPanelBeta = () => {
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 
     const logTabChange = (tabPath: string) => {
-        logAmplitudeEvent("Klikket tab", {tab: tabPath});
+        logAmplitudeEvent("Klikket tab", { tab: tabPath });
     };
     const isMobile = useIsMobile();
     return (

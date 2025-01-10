@@ -1,16 +1,16 @@
-import React, {ReactElement} from "react";
-import {useTranslation} from "next-i18next";
-import styled, {css} from "styled-components";
-import {BodyShort, Label, ErrorMessage} from "@navikt/ds-react";
+import React, { ReactElement } from "react";
+import { useTranslation } from "next-i18next";
+import styled, { css } from "styled-components";
+import { BodyShort, Label, ErrorMessage } from "@navikt/ds-react";
 
 import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 
 import FileItemView from "./FileItemView";
-import ErrorMessagesSummary, {dedupeErrorsByProp} from "./ErrorMessagesSummary";
-import {Error, errorStatusToMessage, FancyFile} from "./useFilOpplasting";
+import ErrorMessagesSummary, { dedupeErrorsByProp } from "./ErrorMessagesSummary";
+import { Error, errorStatusToMessage, FancyFile } from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 
-const StyledFrame = styled.div<{$hasError?: boolean; $hasFiler?: boolean}>`
+const StyledFrame = styled.div<{ $hasError?: boolean; $hasFiler?: boolean }>`
     background-color: var(--a-gray-50);
     border-radius: 4px;
 
@@ -35,7 +35,7 @@ const StyledFrame = styled.div<{$hasError?: boolean; $hasFiler?: boolean}>`
         padding-inline: 16px;
         padding-block: 16px 0;
 
-        ${({$hasError}) =>
+        ${({ $hasError }) =>
             $hasError &&
             css`
                 background-color: var(--a-red-50);
@@ -55,9 +55,9 @@ interface Props {
 }
 
 const FilOpplastingBlokk = (props: Props): ReactElement => {
-    const {addFileButton} = props;
+    const { addFileButton } = props;
     const uniqueErrors = dedupeErrorsByProp(props.errors, "feil");
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <StyledFrame

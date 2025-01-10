@@ -1,4 +1,4 @@
-import React, {createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState} from "react";
+import React, { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react";
 
 interface UploadType {
     oppgaverUploadSuccess: boolean;

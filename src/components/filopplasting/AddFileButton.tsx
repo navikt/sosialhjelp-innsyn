@@ -1,6 +1,6 @@
-import React, {ChangeEvent} from "react";
-import {useTranslation} from "next-i18next";
-import {Button} from "@navikt/ds-react";
+import React, { ChangeEvent } from "react";
+import { useTranslation } from "next-i18next";
+import { Button } from "@navikt/ds-react";
 
 interface Props {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -11,8 +11,8 @@ interface Props {
     title?: string;
 }
 
-const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError, disabled, title}) => {
-    const {t} = useTranslation();
+const AddFileButton: React.FC<Props> = ({ onChange, id, resetStatus, hasError, disabled, title }) => {
+    const { t } = useTranslation();
 
     const onClick = (event?: React.MouseEvent<HTMLButtonElement>): void => {
         resetStatus();

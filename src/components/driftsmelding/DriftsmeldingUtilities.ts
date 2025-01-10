@@ -1,7 +1,7 @@
-import {KommuneResponse} from "../../generated/model";
-import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+import { KommuneResponse } from "../../generated/model";
+import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
 
-import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
+import { listeOverFeiledeIder } from "./StoppedeFiksDigisosIder";
 
 export interface Driftsmelding {
     type: DriftsmeldingType;
@@ -69,7 +69,7 @@ export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefin
 export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
     let kanLasteOppVedlegg = true;
     let textKey = "";
-    const {data} = useHentSoknadsStatus(fiksDigisosId);
+    const { data } = useHentSoknadsStatus(fiksDigisosId);
     if (data && data.isBroken) {
         kanLasteOppVedlegg = false;
         textKey = "driftsmelding.vedlegg.vedleggMangler";
@@ -81,5 +81,5 @@ export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, f
         textKey = "driftsmelding.kanIkkeSendeVedlegg";
     }
 
-    return {kanLasteOppVedlegg, textKey};
+    return { kanLasteOppVedlegg, textKey };
 };

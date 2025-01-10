@@ -1,12 +1,12 @@
 import React from "react";
-import {delay, http, HttpResponse} from "msw";
-import {waitForElementToBeRemoved, within} from "@testing-library/react";
-import {faker} from "@faker-js/faker";
+import { delay, http, HttpResponse } from "msw";
+import { waitForElementToBeRemoved, within } from "@testing-library/react";
+import { faker } from "@faker-js/faker";
 
 import Saksoversikt from "../pages/index";
-import {server} from "../mocks/server";
-import {render, screen} from "../test/test-utils";
-import {SaksListeResponse} from "../generated/model";
+import { server } from "../mocks/server";
+import { render, screen } from "../test/test-utils";
+import { SaksListeResponse } from "../generated/model";
 import {
     getHentAlleSakerMockHandler,
     getHentSaksDetaljerMockHandler,
@@ -15,12 +15,12 @@ import {
 
 const notFound = http.get("*/api/v1/innsyn/saker", async () => {
     await delay(200);
-    return new HttpResponse("Not found", {status: 404});
+    return new HttpResponse("Not found", { status: 404 });
 });
 
 const unauthorized = http.get("*/api/v1/innsyn/saker", async () => {
     await delay(200);
-    return new HttpResponse("Unauthorized", {status: 401});
+    return new HttpResponse("Unauthorized", { status: 401 });
 });
 
 const loading = http.get("*/api/v1/innsyn/saker", async () => {
@@ -81,9 +81,9 @@ describe("Saksoversikt", () => {
     it("Skal vise innhold ved resultat", async () => {
         server.use(success, saksdetaljer, utbetalingerDoesntExist);
         render(<Saksoversikt />);
-        const soknadSection = await screen.findByRole("region", {name: "Dine søknader"});
+        const soknadSection = await screen.findByRole("region", { name: "Dine søknader" });
         expect(soknadSection).toBeVisible();
-        const links = await within(soknadSection).findAllByRole("link", {name: /Min kule søknad/});
+        const links = await within(soknadSection).findAllByRole("link", { name: /Min kule søknad/ });
         expect(links.length).toBeGreaterThan(0);
     });
 });

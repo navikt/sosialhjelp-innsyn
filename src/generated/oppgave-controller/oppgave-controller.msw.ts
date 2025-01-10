@@ -4,12 +4,12 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {DokumentasjonkravResponse, OppgaveResponse, VilkarResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { DokumentasjonkravResponse, OppgaveResponse, VilkarResponse } from ".././model";
 
 export const getGetVilkarResponseMock = (): VilkarResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         beskrivelse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         hendelsetidspunkt: faker.date.past().toISOString().split("T")[0],
         status: faker.helpers.arrayElement([
@@ -21,16 +21,18 @@ export const getGetVilkarResponseMock = (): VilkarResponse[] =>
         ] as const),
         tittel: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         utbetalingsReferanse: faker.helpers.arrayElement([
-            Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => faker.word.sample()),
+            Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
+                faker.word.sample()
+            ),
             undefined,
         ]),
         vilkarReferanse: faker.word.sample(),
     }));
 
 export const getGetOppgaverResponseMock = (): OppgaveResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         innsendelsesfrist: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-        oppgaveElementer: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+        oppgaveElementer: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
             dokumenttype: faker.word.sample(),
             erFraInnsyn: faker.datatype.boolean(),
             hendelsereferanse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -49,9 +51,9 @@ export const getGetOppgaverResponseMock = (): OppgaveResponse[] =>
     }));
 
 export const getGetOppgaveMedIdResponseMock = (): OppgaveResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         innsendelsesfrist: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-        oppgaveElementer: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+        oppgaveElementer: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
             dokumenttype: faker.word.sample(),
             erFraInnsyn: faker.datatype.boolean(),
             hendelsereferanse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -74,8 +76,8 @@ export const getGetHarLevertDokumentasjonkravResponseMock = (): boolean => faker
 export const getGetfagsystemHarDokumentasjonkravResponseMock = (): boolean => faker.datatype.boolean();
 
 export const getGetDokumentasjonkravResponseMock = (): DokumentasjonkravResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        dokumentasjonkravElementer: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        dokumentasjonkravElementer: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(
             () => ({
                 beskrivelse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
                 dokumentasjonkravReferanse: faker.word.sample(),
@@ -98,7 +100,7 @@ export const getGetDokumentasjonkravResponseMock = (): DokumentasjonkravResponse
                 ] as const),
                 tittel: faker.helpers.arrayElement([faker.word.sample(), undefined]),
                 utbetalingsReferanse: faker.helpers.arrayElement([
-                    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() =>
+                    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
                         faker.word.sample()
                     ),
                     undefined,
@@ -110,8 +112,8 @@ export const getGetDokumentasjonkravResponseMock = (): DokumentasjonkravResponse
     }));
 
 export const getGetDokumentasjonkravMedIdResponseMock = (): DokumentasjonkravResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        dokumentasjonkravElementer: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        dokumentasjonkravElementer: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(
             () => ({
                 beskrivelse: faker.helpers.arrayElement([faker.word.sample(), undefined]),
                 dokumentasjonkravReferanse: faker.word.sample(),
@@ -134,7 +136,7 @@ export const getGetDokumentasjonkravMedIdResponseMock = (): DokumentasjonkravRes
                 ] as const),
                 tittel: faker.helpers.arrayElement([faker.word.sample(), undefined]),
                 utbetalingsReferanse: faker.helpers.arrayElement([
-                    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() =>
+                    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
                         faker.word.sample()
                     ),
                     undefined,
@@ -161,7 +163,7 @@ export const getGetVilkarMockHandler = (
                         : overrideResponse
                     : getGetVilkarResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -182,7 +184,7 @@ export const getGetOppgaverMockHandler = (
                         : overrideResponse
                     : getGetOppgaverResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -203,7 +205,7 @@ export const getGetOppgaveMedIdMockHandler = (
                         : overrideResponse
                     : getGetOppgaveMedIdResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -222,7 +224,7 @@ export const getGetHarLevertDokumentasjonkravMockHandler = (
                         : overrideResponse
                     : getGetHarLevertDokumentasjonkravResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -241,7 +243,7 @@ export const getGetfagsystemHarDokumentasjonkravMockHandler = (
                         : overrideResponse
                     : getGetfagsystemHarDokumentasjonkravResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -264,7 +266,7 @@ export const getGetDokumentasjonkravMockHandler = (
                         : overrideResponse
                     : getGetDokumentasjonkravResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -287,7 +289,7 @@ export const getGetDokumentasjonkravMedIdMockHandler = (
                         : overrideResponse
                     : getGetDokumentasjonkravMedIdResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

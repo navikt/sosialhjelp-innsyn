@@ -1,25 +1,25 @@
-import React, {useState} from "react";
-import {useTranslation} from "next-i18next";
-import {GetServerSideProps, NextPage} from "next";
+import React, { useState } from "react";
+import { useTranslation } from "next-i18next";
+import { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
-import {Button, Checkbox, CheckboxGroup, Heading, Textarea} from "@navikt/ds-react";
+import { Button, Checkbox, CheckboxGroup, Heading, Textarea } from "@navikt/ds-react";
 import Link from "next/link";
-import {useQueryClient} from "@tanstack/react-query";
-import {useRouter} from "next/router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import Panel from "../../../components/panel/Panel";
 import KlageVedleggBoks from "../../../components/klage/KlageVedleggBoks";
-import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
+import { useHentSoknadsStatus } from "../../../generated/soknads-status-controller/soknads-status-controller";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
-import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
-import {FilUrl, SoknadsStatusResponseStatus} from "../../../generated/model";
-import {getHentKlagerQueryKey, useSendKlage} from "../../../generated/klage-controller/klage-controller";
-import useFilOpplasting, {FancyFile} from "../../../components/filopplasting/useFilOpplasting";
+import { useHentSaksStatuser } from "../../../generated/saks-status-controller/saks-status-controller";
+import { FilUrl, SoknadsStatusResponseStatus } from "../../../generated/model";
+import { getHentKlagerQueryKey, useSendKlage } from "../../../generated/klage-controller/klage-controller";
+import useFilOpplasting, { FancyFile } from "../../../components/filopplasting/useFilOpplasting";
 import pageHandler from "../../../pagehandler/pageHandler";
-import {getFlagsServerSide} from "../../../featuretoggles/ssr";
+import { getFlagsServerSide } from "../../../featuretoggles/ssr";
 
 const StyledHeading = styled(Heading)`
     //padding-bottom: 5px;
@@ -55,15 +55,15 @@ const dummyMetadata = [
 const KlageSkjema: NextPage = () => {
     const fiksDigisosId = useFiksDigisosId();
     const router = useRouter();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     useUpdateBreadcrumbs(() => [
-        {title: t("soknadStatus.tittel"), url: `/${fiksDigisosId}/status`},
-        {title: "Send klage"},
+        { title: t("soknadStatus.tittel"), url: `/${fiksDigisosId}/status` },
+        { title: "Send klage" },
     ]);
     const queryClient = useQueryClient();
     const [klageTekst, setKlageTekst] = useState<string>("");
     const [selectedVedtak, setSelectedVedtak] = useState<string[]>([]);
-    const {files, removeFil, addFiler, innerErrors, resetStatus} = useFilOpplasting(dummyMetadata);
+    const { files, removeFil, addFiler, innerErrors, resetStatus } = useFilOpplasting(dummyMetadata);
     const {
         data: soknadsStatus,
         isLoading: soknadsStatusIsLoading,
@@ -74,11 +74,11 @@ const KlageSkjema: NextPage = () => {
         isLoading: saksStatuserIsLoading,
         error: saksStatuserError,
     } = useHentSaksStatuser(fiksDigisosId);
-    const {mutate, isPending: sendKlageIsLoading} = useSendKlage({
+    const { mutate, isPending: sendKlageIsLoading } = useSendKlage({
         mutation: {
             onSuccess: async () => {
-                await queryClient.invalidateQueries({queryKey: getHentKlagerQueryKey(fiksDigisosId)});
-                await router.push({pathname: "/[id]/status", query: {id: fiksDigisosId}});
+                await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
+                await router.push({ pathname: "/[id]/status", query: { id: fiksDigisosId } });
             },
         },
     });
@@ -145,7 +145,7 @@ const KlageSkjema: NextPage = () => {
                     onClick={() => {
                         mutate({
                             fiksDigisosId: fiksDigisosId,
-                            data: {fiksDigisosId, klageTekst, vedtaksIds: selectedVedtak},
+                            data: { fiksDigisosId, klageTekst, vedtaksIds: selectedVedtak },
                         });
                     }}
                     disabled={sendKlageIsLoading}
@@ -162,7 +162,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const flags = await getFlagsServerSide(context.req, context.res);
     const klageToggle = flags.toggles.find((toggle) => toggle.name === "sosialhjelp.innsyn.klage_enabled");
     if (klageToggle && !klageToggle.enabled) {
-        return {notFound: true};
+        return { notFound: true };
     }
     return pageHandler(context);
 };

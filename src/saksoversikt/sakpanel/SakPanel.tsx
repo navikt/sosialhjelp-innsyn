@@ -1,9 +1,9 @@
-import React, {useMemo} from "react";
-import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
-import styled, {css} from "styled-components";
-import {useTranslation} from "next-i18next";
-import {useRouter} from "next/router";
-import {ExclamationmarkTriangleIcon} from "@navikt/aksel-icons";
+import React, { useMemo } from "react";
+import { Detail, Label, LinkPanel, Panel } from "@navikt/ds-react";
+import styled, { css } from "styled-components";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { ExclamationmarkTriangleIcon } from "@navikt/aksel-icons";
 
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
@@ -14,7 +14,7 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
-import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import { useHentSaksDetaljer } from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -46,13 +46,13 @@ interface Props {
     isBroken: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde, isBroken}) => {
-    const {data: saksdetaljer, isLoading} = useHentSaksDetaljer(
-        {id: fiksDigisosId!},
-        {query: {enabled: kilde === "innsyn-api" && !!fiksDigisosId}}
+const SakPanel: React.FC<Props> = ({ fiksDigisosId, tittel, oppdatert, url, kilde, isBroken }) => {
+    const { data: saksdetaljer, isLoading } = useHentSaksDetaljer(
+        { id: fiksDigisosId! },
+        { query: { enabled: kilde === "innsyn-api" && !!fiksDigisosId } }
     );
     const router = useRouter();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
     const oppdatertTittel = useMemo(() => {

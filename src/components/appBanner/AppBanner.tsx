@@ -6,7 +6,7 @@ interface Props {
     title: string;
 }
 
-const AppBanner = ({title}: Props): React.JSX.Element => {
+const AppBanner = ({ title }: Props): React.JSX.Element => {
     return <Banner>{title}</Banner>;
 };
 

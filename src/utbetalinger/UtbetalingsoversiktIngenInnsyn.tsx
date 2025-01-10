@@ -1,9 +1,9 @@
 import React from "react";
-import {BodyLong, Heading} from "@navikt/ds-react";
+import { BodyLong, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
-import {StyledGuidePanel} from "../styles/styledGuidePanel";
+import { StyledGuidePanel } from "../styles/styledGuidePanel";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const StyledGuidePanelContent = styled.div`
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const UtbetalingsoversiktIngenInnsyn: React.FC = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <Wrapper>

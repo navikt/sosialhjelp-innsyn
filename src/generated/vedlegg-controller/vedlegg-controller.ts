@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useMutation, useQuery} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -17,9 +17,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {OppgaveOpplastingResponse, SendVedleggBody, VedleggResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
-import type {ErrorType} from "../../custom-fetch";
+import type { OppgaveOpplastingResponse, SendVedleggBody, VedleggResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -48,18 +48,18 @@ export const getHentVedleggQueryOptions = <
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentVedleggQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentVedlegg>>> = ({signal}) =>
-        hentVedlegg(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentVedlegg>>> = ({ signal }) =>
+        hentVedlegg(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof hentVedlegg>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HentVedleggQueryResult = NonNullable<Awaited<ReturnType<typeof hentVedlegg>>>;
@@ -72,7 +72,7 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
@@ -80,14 +80,14 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
@@ -95,10 +95,10 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHentVedleggQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 
@@ -128,28 +128,28 @@ export const getSendVedleggMutationOptions = <TError = ErrorType<unknown>, TCont
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,
-        {fiksDigisosId: string; data: SendVedleggBody},
+        { fiksDigisosId: string; data: SendVedleggBody },
         TContext
     >;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof sendVedlegg>>,
     TError,
-    {fiksDigisosId: string; data: SendVedleggBody},
+    { fiksDigisosId: string; data: SendVedleggBody },
     TContext
 > => {
-    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+    const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof sendVedlegg>>,
-        {fiksDigisosId: string; data: SendVedleggBody}
+        { fiksDigisosId: string; data: SendVedleggBody }
     > = (props) => {
-        const {fiksDigisosId, data} = props ?? {};
+        const { fiksDigisosId, data } = props ?? {};
 
         return sendVedlegg(fiksDigisosId, data, requestOptions);
     };
 
-    return {mutationFn, ...mutationOptions};
+    return { mutationFn, ...mutationOptions };
 };
 
 export type SendVedleggMutationResult = NonNullable<Awaited<ReturnType<typeof sendVedlegg>>>;
@@ -160,14 +160,14 @@ export const useSendVedlegg = <TError = ErrorType<unknown>, TContext = unknown>(
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,
-        {fiksDigisosId: string; data: SendVedleggBody},
+        { fiksDigisosId: string; data: SendVedleggBody },
         TContext
     >;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<
     Awaited<ReturnType<typeof sendVedlegg>>,
     TError,
-    {fiksDigisosId: string; data: SendVedleggBody},
+    { fiksDigisosId: string; data: SendVedleggBody },
     TContext
 > => {
     const mutationOptions = getSendVedleggMutationOptions(options);

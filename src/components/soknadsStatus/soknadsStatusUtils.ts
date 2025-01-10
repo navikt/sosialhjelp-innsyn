@@ -1,6 +1,6 @@
-import {TFunction} from "i18next";
+import { TFunction } from "i18next";
 
-import {SoknadsStatusResponseStatus} from "../../generated/model";
+import { SoknadsStatusResponseStatus } from "../../generated/model";
 
 const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t: TFunction): string => {
     switch (status) {
@@ -18,4 +18,4 @@ const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t:
     return "";
 };
 
-export {soknadsStatusTittel};
+export { soknadsStatusTittel };
