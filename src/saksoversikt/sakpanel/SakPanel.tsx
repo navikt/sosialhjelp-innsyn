@@ -46,7 +46,7 @@ interface Props {
 }
 
 const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde, isBroken}) => {
-    const {data: saksdetaljer, isInitialLoading} = useHentSaksDetaljer(
+    const {data: saksdetaljer, isLoading} = useHentSaksDetaljer(
         {id: fiksDigisosId!},
         {query: {enabled: kilde === "innsyn-api" && !!fiksDigisosId}}
     );
@@ -72,7 +72,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
             event.preventDefault();
         }
     };
-    if (isInitialLoading) {
+    if (isLoading) {
         return (
             <StyledLastestripeWrapper>
                 <Lastestriper linjer={2} />
@@ -89,7 +89,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
                         <Label as="p" lang="no">
                             {oppdatertTittel}
                         </Label>
-                        {!saksdetaljer ? (
+                        {!saksdetaljer || !saksdetaljer.status ? (
                             <Detail lang="no">
                                 SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
                             </Detail>

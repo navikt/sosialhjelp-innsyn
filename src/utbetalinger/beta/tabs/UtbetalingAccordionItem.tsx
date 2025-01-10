@@ -18,7 +18,7 @@ function statusToTekst(status: string, t: (key: string) => string) {
         case "UTBETALT":
             return t("utbetalinger:utbetalt") + " ";
         default:
-            return status.toLowerCase() + " ";
+            return status?.toLowerCase() + " " ?? "Ingen status";
     }
 }
 interface Props {
