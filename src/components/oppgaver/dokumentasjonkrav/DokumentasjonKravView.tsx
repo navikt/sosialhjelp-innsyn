@@ -1,8 +1,10 @@
 import React, {ReactElement, useMemo} from "react";
+import {useQueryClient} from "@tanstack/react-query";
+import * as R from "remeda";
+
 import {DokumentasjonkravResponse} from "../../../generated/model";
 import useKommune from "../../../hooks/useKommune";
 import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {useQueryClient} from "@tanstack/react-query";
 import {getGetDokumentasjonkravQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
@@ -15,7 +17,6 @@ import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
-import * as R from "remeda";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse;

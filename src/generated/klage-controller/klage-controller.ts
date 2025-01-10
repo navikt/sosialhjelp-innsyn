@@ -19,6 +19,7 @@ import type {
 } from "@tanstack/react-query";
 import type {InputKlage, KlageDto, Unit} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -37,7 +38,7 @@ export const getHentKlagerQueryKey = (fiksDigisosId: string) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/klage`] as const;
 };
 
-export const getHentKlagerQueryOptions = <TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
+export const getHentKlagerQueryOptions = <TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
@@ -59,9 +60,9 @@ export const getHentKlagerQueryOptions = <TData = Awaited<ReturnType<typeof hent
 };
 
 export type HentKlagerQueryResult = NonNullable<Awaited<ReturnType<typeof hentKlager>>>;
-export type HentKlagerQueryError = unknown;
+export type HentKlagerQueryError = ErrorType<unknown>;
 
-export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
+export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>> &
@@ -69,7 +70,7 @@ export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TE
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
+export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>> &
@@ -77,7 +78,7 @@ export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TE
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
+export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
@@ -85,7 +86,7 @@ export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TE
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = unknown>(
+export function useHentKlager<TData = Awaited<ReturnType<typeof hentKlager>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKlager>>, TError, TData>>;
@@ -118,7 +119,7 @@ export const sendKlage = async (
     });
 };
 
-export const getSendKlageMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+export const getSendKlageMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendKlage>>,
         TError,
@@ -148,9 +149,9 @@ export const getSendKlageMutationOptions = <TError = unknown, TContext = unknown
 
 export type SendKlageMutationResult = NonNullable<Awaited<ReturnType<typeof sendKlage>>>;
 export type SendKlageMutationBody = InputKlage;
-export type SendKlageMutationError = unknown;
+export type SendKlageMutationError = ErrorType<unknown>;
 
-export const useSendKlage = <TError = unknown, TContext = unknown>(options?: {
+export const useSendKlage = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendKlage>>,
         TError,

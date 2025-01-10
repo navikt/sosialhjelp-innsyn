@@ -1,6 +1,8 @@
 import "@testing-library/jest-dom";
 import React from "react";
+
 import {render, screen} from "../../../test/test-utils";
+
 import DokumentasjonkravAccordion from "./DokumentasjonkravAccordion";
 
 jest.mock("./DokumentasjonKravView", () => Object.assign(() => <div>Mocked View</div>, {displayName: "HeyHey"}));

@@ -2,8 +2,8 @@ import React from "react";
 import Document, {DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript} from "next/document";
 import {DecoratorComponents, DecoratorFetchProps, fetchDecoratorReact} from "@navikt/nav-dekoratoren-moduler/ssr";
 import {DecoratorLocale} from "@navikt/nav-dekoratoren-moduler";
+
 import {getBreadcrumbs} from "../hooks/useUpdateBreadcrumbs";
-import {isDev, isMock} from "../utils/restUtils";
 
 // The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
 const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
@@ -11,7 +11,7 @@ const getDocumentParameter = (initialProps: DocumentInitialProps, name: string):
 };
 
 const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
-    env: createDecoratorEnv(ctx),
+    env: createDecoratorEnv(),
     serviceDiscovery: true,
     params: {
         simple: false,
@@ -40,7 +40,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
     },
 });
 
-function createDecoratorEnv(ctx: DocumentContext): "dev" | "prod" {
+function createDecoratorEnv(): "dev" | "prod" {
     switch (process.env.NEXT_PUBLIC_DEKORATOR_MILJO ?? "dev") {
         case "local":
         case "test":

@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {HentUtbetalingerParams, NyeOgTidligereUtbetalingerResponse, UtbetalingerResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -47,7 +48,10 @@ export const getHentUtbetalingerQueryKey = (params?: HentUtbetalingerParams) => 
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/utbetalinger`, ...(params ? [params] : [])] as const;
 };
 
-export const getHentUtbetalingerQueryOptions = <TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
+export const getHentUtbetalingerQueryOptions = <
+    TData = Awaited<ReturnType<typeof hentUtbetalinger>>,
+    TError = ErrorType<unknown>,
+>(
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
@@ -69,9 +73,9 @@ export const getHentUtbetalingerQueryOptions = <TData = Awaited<ReturnType<typeo
 };
 
 export type HentUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentUtbetalinger>>>;
-export type HentUtbetalingerQueryError = unknown;
+export type HentUtbetalingerQueryError = ErrorType<unknown>;
 
-export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
+export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = ErrorType<unknown>>(
     params: undefined | HentUtbetalingerParams,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>> &
@@ -79,7 +83,7 @@ export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbeta
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
+export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = ErrorType<unknown>>(
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>> &
@@ -90,7 +94,7 @@ export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbeta
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
+export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = ErrorType<unknown>>(
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
@@ -98,7 +102,7 @@ export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbeta
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = unknown>(
+export function useHentUtbetalinger<TData = Awaited<ReturnType<typeof hentUtbetalinger>>, TError = ErrorType<unknown>>(
     params?: HentUtbetalingerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentUtbetalinger>>, TError, TData>>;
@@ -133,7 +137,7 @@ export const getHentTidligereUtbetalingerQueryKey = () => {
 
 export const getHentTidligereUtbetalingerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -153,11 +157,11 @@ export const getHentTidligereUtbetalingerQueryOptions = <
 };
 
 export type HentTidligereUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>>;
-export type HentTidligereUtbetalingerQueryError = unknown;
+export type HentTidligereUtbetalingerQueryError = ErrorType<unknown>;
 
 export function useHentTidligereUtbetalinger<
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>> &
         Pick<
@@ -168,7 +172,7 @@ export function useHentTidligereUtbetalinger<
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentTidligereUtbetalinger<
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>> &
         Pick<
@@ -179,7 +183,7 @@ export function useHentTidligereUtbetalinger<
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentTidligereUtbetalinger<
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -187,7 +191,7 @@ export function useHentTidligereUtbetalinger<
 
 export function useHentTidligereUtbetalinger<
     TData = Awaited<ReturnType<typeof hentTidligereUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentTidligereUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -218,7 +222,7 @@ export const getHentNyeUtbetalingerQueryKey = () => {
 
 export const getHentNyeUtbetalingerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -238,11 +242,11 @@ export const getHentNyeUtbetalingerQueryOptions = <
 };
 
 export type HentNyeUtbetalingerQueryResult = NonNullable<Awaited<ReturnType<typeof hentNyeUtbetalinger>>>;
-export type HentNyeUtbetalingerQueryError = unknown;
+export type HentNyeUtbetalingerQueryError = ErrorType<unknown>;
 
 export function useHentNyeUtbetalinger<
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>, "initialData">;
@@ -250,7 +254,7 @@ export function useHentNyeUtbetalinger<
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentNyeUtbetalinger<
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>> &
         Pick<
@@ -261,7 +265,7 @@ export function useHentNyeUtbetalinger<
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentNyeUtbetalinger<
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -269,7 +273,7 @@ export function useHentNyeUtbetalinger<
 
 export function useHentNyeUtbetalinger<
     TData = Awaited<ReturnType<typeof hentNyeUtbetalinger>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentNyeUtbetalinger>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;

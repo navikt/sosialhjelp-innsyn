@@ -1,5 +1,6 @@
-import {useHentSoknadsStatus} from "../generated/soknads-status-controller/soknads-status-controller";
 import {useRouter} from "next/router";
+
+import {useHentSoknadsStatus} from "../generated/soknads-status-controller/soknads-status-controller";
 import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const useIsAalesundBlocked = (): boolean => {

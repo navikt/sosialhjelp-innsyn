@@ -87,7 +87,7 @@
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,css,md}": "prettier --write",
-        "*.{js,jsx,ts,tsx}": "next lint --max-warnings=0"
+        "*.{js,jsx,ts,tsx}": "eslint --max-warnings=0 --fix"
     },
     "overrides": {
         "semver": "7.5.3",

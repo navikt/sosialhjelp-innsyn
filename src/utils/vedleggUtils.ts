@@ -1,14 +1,15 @@
+import {logger} from "@navikt/next-logger";
+
 import {OriginalSoknadVedleggType} from "../redux/soknadsdata/vedleggTypes";
 import {originalSoknadVedleggTekstVisning} from "../redux/soknadsdata/vedleggskravVisningConfig";
-import {logger} from "@navikt/next-logger";
 
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 
 export const hentFileExtension = (filnavn: string) => {
-    var filetternavn = "ukjent";
+    let filetternavn = "ukjent";
     if (filnavn.length >= 5) {
-        var testSteng = filnavn.substr(filnavn.length - 5, 5);
+        const testSteng = filnavn.substr(filnavn.length - 5, 5);
         const punktumPosisjon = testSteng.indexOf(".");
         if (punktumPosisjon > -1) {
             filetternavn = testSteng.substr(punktumPosisjon + 1, 4 - punktumPosisjon);
@@ -35,7 +36,7 @@ export const getVisningstekster = (type: string, tilleggsinfo: string | undefine
     let typeTekst = type;
     let tilleggsinfoTekst = tilleggsinfo;
     if (erOriginalSoknadVedleggType) {
-        let soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!!;
+        const soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!;
         typeTekst = soknadVedleggSpec.tittel;
         tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
     }

@@ -1,13 +1,15 @@
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import styles from "./manedgruppe.module.css";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../../../utils/amplitude";
-import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
 import {FileContent} from "@navikt/ds-icons";
 import React, {useState} from "react";
 import {useTranslation} from "next-i18next";
+import Link from "next/link";
+
+import {logAmplitudeEvent, logButtonOrLinkClick} from "../../../utils/amplitude";
+import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
 import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
 import {hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "../../utbetalingerUtils";
-import Link from "next/link";
+
+import styles from "./manedgruppe.module.css";
 import {logger} from "@navikt/next-logger";
 
 function statusToTekst(t: (key: string) => string, status?: string) {
@@ -36,7 +38,7 @@ export const utbetalingsdetaljerDefaultAapnet = (dagensDato: Date, utbetalingsda
     const femtenDagerSiden: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
     femtenDagerSiden.setHours(0, 0, 0, 0);
 
-    let femtenDagerTil: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
+    const femtenDagerTil: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
     femtenDagerTil.setHours(1, 0, 0, 0);
 
     const erUtbetalingsdatoInnenDeSisteFemtenDagene =
@@ -57,7 +59,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
             <Accordion.Item open={isOpen}>
                 <Accordion.Header
                     className={styles.accordion_header}
-                    onClick={(e) => {
+                    onClick={() => {
                         logAmplitudeEvent(isOpen ? "accordion lukket" : "accordion åpnet", {
                             tekst: "Utbetaling",
                         });

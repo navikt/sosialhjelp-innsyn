@@ -1,11 +1,13 @@
 import * as React from "react";
 import {useTranslation} from "next-i18next";
-import {getDriftsmeldingByKommuneResponseOrDigisosId} from "./DriftsmeldingUtilities";
-import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import {Alert, Label} from "@navikt/ds-react";
 import styled from "styled-components";
+
+import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import useKommune from "../../hooks/useKommune";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+
+import {getDriftsmeldingByKommuneResponseOrDigisosId} from "./DriftsmeldingUtilities";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;

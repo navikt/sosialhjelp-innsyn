@@ -1,4 +1,5 @@
 import {TFunction} from "i18next";
+
 import {SoknadsStatusResponseStatus} from "../../generated/model";
 
 const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t: TFunction): string => {

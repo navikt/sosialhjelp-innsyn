@@ -1,10 +1,12 @@
 import React from "react";
 import {Accordion, BodyShort} from "@navikt/ds-react";
-import styles from "./manedgruppe.module.css";
-import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
+import {useTranslation} from "next-i18next";
+
 import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 import {hentMaanedString} from "../../utbetalingerUtils";
-import {useTranslation} from "next-i18next";
+
+import styles from "./manedgruppe.module.css";
+import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
 
 interface Props {
     utbetalingSak: UtbetalingerResponseMedId;

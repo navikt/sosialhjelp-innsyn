@@ -1,4 +1,5 @@
 import {ManedUtbetaling} from "../../../generated/model";
+
 import {filterMatch} from "./useFiltrerteUtbetalinger";
 import {MottakerFilter} from "./FilterContext";
 

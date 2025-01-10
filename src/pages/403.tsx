@@ -1,15 +1,16 @@
 import React from "react";
-import Banner from "../components/banner/Banner";
-import {UthevetPanel} from "../components/paneler/UthevetPanel";
-import EllaBlunk from "../components/ellaBlunk";
 import {BodyLong, Heading} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import styled from "styled-components";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {GetServerSideProps} from "next";
-import {useHarTilgang} from "../generated/tilgang-controller/tilgang-controller";
 import {logger} from "@navikt/next-logger";
 import {useRouter} from "next/router";
+
+import {useHarTilgang} from "../generated/tilgang-controller/tilgang-controller";
+import EllaBlunk from "../components/ellaBlunk";
+import {UthevetPanel} from "../components/paneler/UthevetPanel";
+import Banner from "../components/banner/Banner";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 
 const StyledElla = styled.div`
@@ -44,10 +45,10 @@ const Forbidden = (): React.JSX.Element => {
     return (
         <div className="informasjon-side">
             <Banner>{t("app.tittel")}</Banner>
-            <Wrapper className={"blokk-center"}>
+            <Wrapper className="blokk-center">
                 <UthevetPanel className="panel-glippe-over">
                     <StyledElla>
-                        <EllaBlunk size={"175"} />
+                        <EllaBlunk size="175" />
                     </StyledElla>
                     <Heading as="p" size="large" spacing>
                         {t("tilgang.header", {

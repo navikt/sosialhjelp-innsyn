@@ -14,14 +14,14 @@ interface Props {
 const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError, disabled, title}) => {
     const {t} = useTranslation();
 
-    const onClick = (event?: any): void => {
+    const onClick = (event?: React.MouseEvent<HTMLButtonElement>): void => {
         resetStatus();
-        const uploadElement: any = document.getElementById("file_" + id);
-        uploadElement.click();
+        const uploadElement = document.getElementById("file_" + id);
+        uploadElement?.click();
         event?.preventDefault();
     };
-    const resetInputValue = (event: any) => {
-        event.target.value = "";
+    const resetInputValue = (event: React.MouseEvent<HTMLInputElement>) => {
+        event.currentTarget.value = "";
     };
 
     return (
@@ -29,7 +29,7 @@ const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError, di
             <Button variant="secondary" size="small" onClick={onClick} disabled={disabled}>
                 <span aria-hidden>{`+ `}</span> {t("vedlegg.velg_fil")}
             </Button>
-            <label className={`navds-sr-only`} htmlFor={"file_" + id}>
+            <label className="navds-sr-only" htmlFor={"file_" + id}>
                 {`${t("vedlegg.velg_fil")} ${title}`}
             </label>
             <input
@@ -37,7 +37,7 @@ const AddFileButton: React.FC<Props> = ({onChange, id, resetStatus, hasError, di
                 id={"file_" + id}
                 multiple={true}
                 onChange={onChange}
-                onClick={(event) => resetInputValue(event)}
+                onClick={resetInputValue}
                 className="navds-sr-only"
                 tabIndex={-1}
                 accept="image/jpeg,image/png,application/pdf,impage/jpg"

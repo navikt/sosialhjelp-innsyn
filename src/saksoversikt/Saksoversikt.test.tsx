@@ -1,10 +1,11 @@
 import React from "react";
-import Saksoversikt from "../pages/index";
 import {delay, http, HttpResponse} from "msw";
+import {waitForElementToBeRemoved, within} from "@testing-library/react";
+import {faker} from "@faker-js/faker";
+
+import Saksoversikt from "../pages/index";
 import {server} from "../mocks/server";
 import {render, screen} from "../test/test-utils";
-import {findAllByRole, waitForElementToBeRemoved} from "@testing-library/react";
-import {faker} from "@faker-js/faker";
 import {SaksListeResponse} from "../generated/model";
 import {
     getHentAlleSakerMockHandler,
@@ -82,7 +83,7 @@ describe("Saksoversikt", () => {
         render(<Saksoversikt />);
         const soknadSection = await screen.findByRole("region", {name: "Dine søknader"});
         expect(soknadSection).toBeVisible();
-        const links = await findAllByRole(soknadSection, "link", {name: /Min kule søknad/});
+        const links = await within(soknadSection).findAllByRole("link", {name: /Min kule søknad/});
         expect(links.length).toBeGreaterThan(0);
     });
 });

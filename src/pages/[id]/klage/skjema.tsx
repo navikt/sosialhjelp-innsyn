@@ -1,21 +1,22 @@
 import React, {useState} from "react";
 import {useTranslation} from "next-i18next";
 import {GetServerSideProps, NextPage} from "next";
+import styled from "styled-components";
+import {Button, Checkbox, CheckboxGroup, Heading, Textarea} from "@navikt/ds-react";
+import Link from "next/link";
+import {useQueryClient} from "@tanstack/react-query";
+import {useRouter} from "next/router";
+
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import Panel from "../../../components/panel/Panel";
-import styled from "styled-components";
-import {Button, Checkbox, CheckboxGroup, Heading, Textarea} from "@navikt/ds-react";
-import Link from "next/link";
 import KlageVedleggBoks from "../../../components/klage/KlageVedleggBoks";
 import {useHentSoknadsStatus} from "../../../generated/soknads-status-controller/soknads-status-controller";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {useHentSaksStatuser} from "../../../generated/saks-status-controller/saks-status-controller";
 import {FilUrl, SoknadsStatusResponseStatus} from "../../../generated/model";
 import {getHentKlagerQueryKey, useSendKlage} from "../../../generated/klage-controller/klage-controller";
-import {useQueryClient} from "@tanstack/react-query";
-import {useRouter} from "next/router";
 import useFilOpplasting, {FancyFile} from "../../../components/filopplasting/useFilOpplasting";
 import pageHandler from "../../../pagehandler/pageHandler";
 import {getFlagsServerSide} from "../../../featuretoggles/ssr";
@@ -62,7 +63,7 @@ const KlageSkjema: NextPage = () => {
     const queryClient = useQueryClient();
     const [klageTekst, setKlageTekst] = useState<string>("");
     const [selectedVedtak, setSelectedVedtak] = useState<string[]>([]);
-    const {files, removeFil, addFiler, outerErrors, innerErrors, resetStatus} = useFilOpplasting(dummyMetadata);
+    const {files, removeFil, addFiler, innerErrors, resetStatus} = useFilOpplasting(dummyMetadata);
     const {
         data: soknadsStatus,
         isLoading: soknadsStatusIsLoading,

@@ -1,8 +1,12 @@
 import React, {useMemo} from "react";
-import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
-import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import {Detail, Label, LinkPanel, Panel} from "@navikt/ds-react";
 import styled, {css} from "styled-components";
+import {useTranslation} from "next-i18next";
+import {useRouter} from "next/router";
+import {ExclamationmarkTriangleIcon} from "@navikt/aksel-icons";
+
+import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
+import Lastestriper from "../../components/lastestriper/Lasterstriper";
 import OppgaverTag from "../../components/sakspanel/OppgaverTag";
 import SaksMetaData from "../../components/sakspanel/SaksMetaData";
 import {
@@ -11,9 +15,6 @@ import {
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
 import {useHentSaksDetaljer} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import {useTranslation} from "next-i18next";
-import {useRouter} from "next/router";
-import {ExclamationmarkIcon, ExclamationmarkTriangleFillIcon, ExclamationmarkTriangleIcon} from "@navikt/aksel-icons";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -61,7 +62,7 @@ const SakPanel: React.FC<Props> = ({fiksDigisosId, tittel, oppdatert, url, kilde
         return tittel && tittel !== "saker.default_tittel" ? tittel : t("saker.default_tittel");
     }, [saksdetaljer, tittel, t]);
 
-    const onClick = async (event: any) => {
+    const onClick = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
             return;
         }

@@ -1,7 +1,8 @@
 import * as React from "react";
 import {useTranslation} from "next-i18next";
-import EksternLenke from "../eksternLenke/EksternLenke";
 import {Alert} from "@navikt/ds-react";
+
+import EksternLenke from "../eksternLenke/EksternLenke";
 import {useHentForelopigSvarStatus} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";

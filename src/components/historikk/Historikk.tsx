@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from "react";
-import EksternLenke from "../eksternLenke/EksternLenke";
-import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import Lastestriper from "../lastestriper/Lasterstriper";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {Trans, useTranslation} from "react-i18next";
 import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
 import {UnmountClosed} from "react-collapse";
 import styled from "styled-components";
 import {Collapse, Expand} from "@navikt/ds-icons";
+import Link from "next/link";
+
+import EksternLenke from "../eksternLenke/EksternLenke";
+import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
+import Lastestriper from "../lastestriper/Lasterstriper";
+import {logButtonOrLinkClick} from "../../utils/amplitude";
 import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
 import {HendelseResponse} from "../../generated/model";
+
 import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
-import Link from "next/link";
-import {logger} from "@navikt/next-logger";
-import {useQuery} from "@tanstack/react-query";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -34,8 +34,8 @@ const FlexContainer = styled.div`
 
 function sorterHendelserKronologisk(hendelser: HendelseResponse[]): HendelseResponse[] {
     return hendelser.sort((a: HendelseResponse, b: HendelseResponse) => {
-        let c = new Date(a.tidspunkt);
-        let d = new Date(b.tidspunkt);
+        const c = new Date(a.tidspunkt);
+        const d = new Date(b.tidspunkt);
         return c > d ? -1 : c < d ? 1 : 0;
     });
 }
@@ -208,8 +208,8 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
             <CenteredButton
                 variant="tertiary"
                 onClick={toggleOpen}
-                size={"xsmall"}
-                iconPosition={"left"}
+                size="xsmall"
+                iconPosition="left"
                 icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
             >
                 {apen ? t("historikk.lukk") : `${t("historikk.se_hele_prosessen")}`}
@@ -226,14 +226,7 @@ const StyledTextPlacement = styled.div`
 `;
 
 const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
-    const {data: hendelser, isLoading, isError, error} = useHentHendelser(fiksDigisosId);
-    useEffect(() => {
-        if (hendelser && !hendelser.sort) {
-            logger.error(
-                `Hendelser er ikke en liste i Historikk? hendelser: ${JSON.stringify(hendelser)}\nerror: ${JSON.stringify(error)}`
-            );
-        }
-    }, [error, hendelser]);
+    const {data: hendelser, isLoading, isError} = useHentHendelser(fiksDigisosId);
     const {t} = useTranslation();
 
     if (isError) {

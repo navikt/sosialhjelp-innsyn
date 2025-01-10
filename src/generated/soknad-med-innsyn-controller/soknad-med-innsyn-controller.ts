@@ -15,6 +15,7 @@ import type {
     UseQueryResult,
 } from "@tanstack/react-query";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -35,7 +36,7 @@ export const getHarSoknaderMedInnsynQueryKey = () => {
 
 export const getHarSoknaderMedInnsynQueryOptions = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -55,11 +56,11 @@ export const getHarSoknaderMedInnsynQueryOptions = <
 };
 
 export type HarSoknaderMedInnsynQueryResult = NonNullable<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>>;
-export type HarSoknaderMedInnsynQueryError = unknown;
+export type HarSoknaderMedInnsynQueryError = ErrorType<unknown>;
 
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>, "initialData">;
@@ -67,7 +68,7 @@ export function useHarSoknaderMedInnsyn<
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>> &
         Pick<
@@ -78,7 +79,7 @@ export function useHarSoknaderMedInnsyn<
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -86,7 +87,7 @@ export function useHarSoknaderMedInnsyn<
 
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;

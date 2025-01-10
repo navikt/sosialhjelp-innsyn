@@ -1,8 +1,10 @@
 import {useCallback, useEffect, useState} from "react";
-import {MottakerFilter, useFilter} from "./FilterContext";
-import {dateToDDMMYYYY} from "../../../utils/formatting";
 import {useTranslation} from "next-i18next";
 import {i18n} from "i18next";
+
+import {dateToDDMMYYYY} from "../../../utils/formatting";
+
+import {MottakerFilter, useFilter} from "./FilterContext";
 
 const mottakerFilterToChip = (value: MottakerFilter, t: (key: string) => string) => {
     switch (value) {
@@ -60,7 +62,7 @@ const useChips = () => {
 
         // remove empty string
         setChips([mottaker, dato].filter(Boolean) as ChipType[]);
-    }, [filter]);
+    }, [filter, i18n, t]);
     return {chips, removeChip};
 };
 export default useChips;

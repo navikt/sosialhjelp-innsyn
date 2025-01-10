@@ -19,6 +19,7 @@ import type {
 } from "@tanstack/react-query";
 import type {OppgaveOpplastingResponse, SendVedleggBody, VedleggResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -37,7 +38,10 @@ export const getHentVedleggQueryKey = (fiksDigisosId: string) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/vedlegg`] as const;
 };
 
-export const getHentVedleggQueryOptions = <TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
+export const getHentVedleggQueryOptions = <
+    TData = Awaited<ReturnType<typeof hentVedlegg>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
@@ -59,9 +63,9 @@ export const getHentVedleggQueryOptions = <TData = Awaited<ReturnType<typeof hen
 };
 
 export type HentVedleggQueryResult = NonNullable<Awaited<ReturnType<typeof hentVedlegg>>>;
-export type HentVedleggQueryError = unknown;
+export type HentVedleggQueryError = ErrorType<unknown>;
 
-export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
+export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>> &
@@ -69,7 +73,7 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
+export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>> &
@@ -77,7 +81,7 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
+export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
@@ -85,7 +89,7 @@ export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, 
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = unknown>(
+export function useHentVedlegg<TData = Awaited<ReturnType<typeof hentVedlegg>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentVedlegg>>, TError, TData>>;
@@ -120,7 +124,7 @@ export const sendVedlegg = async (
     });
 };
 
-export const getSendVedleggMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+export const getSendVedleggMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,
@@ -150,9 +154,9 @@ export const getSendVedleggMutationOptions = <TError = unknown, TContext = unkno
 
 export type SendVedleggMutationResult = NonNullable<Awaited<ReturnType<typeof sendVedlegg>>>;
 export type SendVedleggMutationBody = SendVedleggBody;
-export type SendVedleggMutationError = unknown;
+export type SendVedleggMutationError = ErrorType<unknown>;
 
-export const useSendVedlegg = <TError = unknown, TContext = unknown>(options?: {
+export const useSendVedlegg = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         TError,

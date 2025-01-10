@@ -67,7 +67,7 @@ export const logBrukerLeavingBeforeSubmitting = () => {
 
 export const logDuplicatedFiles = (files: File[]) => {
     if (files.length > 1) {
-        let duplikerteFiler: File[] = [];
+        const duplikerteFiler: File[] = [];
         files.forEach((el, i) => {
             files.forEach((element, index) => {
                 if (i === index) {

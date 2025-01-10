@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import styles from "../../styles/lists.module.css";
 import {Box, Button, Pagination, VStack} from "@navikt/ds-react";
 import {chunk, take} from "remeda";
+
+import styles from "../../styles/lists.module.css";
 
 interface Props {
     children: React.JSX.Element[];

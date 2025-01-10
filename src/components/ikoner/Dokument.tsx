@@ -13,14 +13,14 @@ const Dokument: React.FC = () => {
             <title>Dokument</title>
             <g fill="evenodd" fillRule="evenodd">
                 <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M0 6V33.2313C0 34.2081 0.785359 35 1.75455 35H25.2464C26.2146 35 27 34.2081 27 33.2313V1.76871C27 0.791923 26.2146 0 25.2464 0H6.5L0 6Z"
                     fill="#E7E9E9"
                 />
                 <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M6.5 0V4.17865C6.5 5.18474 5.66396 6 4.63223 6H0L6.5 0Z"
                     fill="#C6C2BF"
                 />

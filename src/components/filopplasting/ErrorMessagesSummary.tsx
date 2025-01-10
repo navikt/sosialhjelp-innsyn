@@ -1,6 +1,7 @@
 import React from "react";
-import {ErrorMessage} from "../errors/ErrorMessage";
 import {useTranslation} from "next-i18next";
+import {ErrorMessage} from "@navikt/ds-react";
+
 import {Error} from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 

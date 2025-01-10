@@ -1,10 +1,12 @@
 import React from "react";
-import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import styles from "./dineUtbetalingerPanel.module.css";
 import {BodyShort, Heading, LinkPanel} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
 import Link from "next/link";
+
+import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
+
+import styles from "./dineUtbetalingerPanel.module.css";
 
 logAmplitudeEvent("Dine utbetalinger panel vises");
 

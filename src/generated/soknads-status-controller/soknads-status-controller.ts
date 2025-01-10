@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {SoknadsStatusResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -39,7 +40,7 @@ export const getHentSoknadsStatusQueryKey = (fiksDigisosId: string) => {
 
 export const getHentSoknadsStatusQueryOptions = <
     TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -62,9 +63,12 @@ export const getHentSoknadsStatusQueryOptions = <
 };
 
 export type HentSoknadsStatusQueryResult = NonNullable<Awaited<ReturnType<typeof hentSoknadsStatus>>>;
-export type HentSoknadsStatusQueryError = unknown;
+export type HentSoknadsStatusQueryError = ErrorType<unknown>;
 
-export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSoknadsStatus>>, TError = unknown>(
+export function useHentSoknadsStatus<
+    TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>> &
@@ -75,7 +79,10 @@ export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSokna
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSoknadsStatus>>, TError = unknown>(
+export function useHentSoknadsStatus<
+    TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>> &
@@ -86,7 +93,10 @@ export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSokna
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSoknadsStatus>>, TError = unknown>(
+export function useHentSoknadsStatus<
+    TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>>;
@@ -94,7 +104,10 @@ export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSokna
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentSoknadsStatus<TData = Awaited<ReturnType<typeof hentSoknadsStatus>>, TError = unknown>(
+export function useHentSoknadsStatus<
+    TData = Awaited<ReturnType<typeof hentSoknadsStatus>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSoknadsStatus>>, TError, TData>>;

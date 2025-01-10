@@ -10,7 +10,7 @@ function formatBytes(bytes: number, decimals: number = 2): string {
 }
 
 // Eksempel: formatCurrency(12345) => 12.345
-function formatCurrency(amount: number, language: string, decimals: number = 0): string {
+function formatCurrency(amount: number, language: string): string {
     return new Intl.NumberFormat(language).format(amount);
 }
 

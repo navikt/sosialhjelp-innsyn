@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {TilgangResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -39,7 +40,10 @@ export const getHarTilgangQueryKey = () => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/tilgang`] as const;
 };
 
-export const getHarTilgangQueryOptions = <TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export const getHarTilgangQueryOptions = <
+    TData = Awaited<ReturnType<typeof harTilgang>>,
+    TError = ErrorType<unknown>,
+>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }) => {
@@ -58,24 +62,24 @@ export const getHarTilgangQueryOptions = <TData = Awaited<ReturnType<typeof harT
 };
 
 export type HarTilgangQueryResult = NonNullable<Awaited<ReturnType<typeof harTilgang>>>;
-export type HarTilgangQueryError = unknown;
+export type HarTilgangQueryError = ErrorType<unknown>;
 
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options: {
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>> &
         Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} {

@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {HentSaksDetaljerParams, SaksDetaljerResponse, SaksListeResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -47,7 +48,10 @@ export const getHentSaksDetaljerQueryKey = (params: HentSaksDetaljerParams) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/saksDetaljer`, ...(params ? [params] : [])] as const;
 };
 
-export const getHentSaksDetaljerQueryOptions = <TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = unknown>(
+export const getHentSaksDetaljerQueryOptions = <
+    TData = Awaited<ReturnType<typeof hentSaksDetaljer>>,
+    TError = ErrorType<unknown>,
+>(
     params: HentSaksDetaljerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
@@ -69,9 +73,9 @@ export const getHentSaksDetaljerQueryOptions = <TData = Awaited<ReturnType<typeo
 };
 
 export type HentSaksDetaljerQueryResult = NonNullable<Awaited<ReturnType<typeof hentSaksDetaljer>>>;
-export type HentSaksDetaljerQueryError = unknown;
+export type HentSaksDetaljerQueryError = ErrorType<unknown>;
 
-export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = unknown>(
+export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>> &
@@ -79,7 +83,7 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = unknown>(
+export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>> &
@@ -90,7 +94,7 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = unknown>(
+export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
@@ -98,7 +102,7 @@ export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDe
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = unknown>(
+export function useHentSaksDetaljer<TData = Awaited<ReturnType<typeof hentSaksDetaljer>>, TError = ErrorType<unknown>>(
     params: HentSaksDetaljerParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksDetaljer>>, TError, TData>>;
@@ -131,7 +135,7 @@ export const getHentAlleSakerQueryKey = () => {
 
 export const getHentAlleSakerQueryOptions = <
     TData = Awaited<ReturnType<typeof hentAlleSaker>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
@@ -151,24 +155,36 @@ export const getHentAlleSakerQueryOptions = <
 };
 
 export type HentAlleSakerQueryResult = NonNullable<Awaited<ReturnType<typeof hentAlleSaker>>>;
-export type HentAlleSakerQueryError = unknown;
+export type HentAlleSakerQueryError = ErrorType<unknown>;
 
-export function useHentAlleSaker<TData = Awaited<ReturnType<typeof hentAlleSaker>>, TError = unknown>(options: {
+export function useHentAlleSaker<
+    TData = Awaited<ReturnType<typeof hentAlleSaker>>,
+    TError = ErrorType<unknown>,
+>(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
 }): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentAlleSaker<TData = Awaited<ReturnType<typeof hentAlleSaker>>, TError = unknown>(options?: {
+export function useHentAlleSaker<
+    TData = Awaited<ReturnType<typeof hentAlleSaker>>,
+    TError = ErrorType<unknown>,
+>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>> &
         Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentAlleSaker<TData = Awaited<ReturnType<typeof hentAlleSaker>>, TError = unknown>(options?: {
+export function useHentAlleSaker<
+    TData = Awaited<ReturnType<typeof hentAlleSaker>>,
+    TError = ErrorType<unknown>,
+>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentAlleSaker<TData = Awaited<ReturnType<typeof hentAlleSaker>>, TError = unknown>(options?: {
+export function useHentAlleSaker<
+    TData = Awaited<ReturnType<typeof hentAlleSaker>>,
+    TError = ErrorType<unknown>,
+>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentAlleSaker>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {queryKey: QueryKey} {

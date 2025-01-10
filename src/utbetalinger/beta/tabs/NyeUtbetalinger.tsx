@@ -1,10 +1,12 @@
 import React from "react";
-import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {Alert} from "@navikt/ds-react";
-import ManedGruppe from "./ManedGruppe";
-import {useFilter} from "../filter/FilterContext";
 import {useTranslation} from "next-i18next";
+
+import {useFilter} from "../filter/FilterContext";
+import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
+
+import ManedGruppe from "./ManedGruppe";
 
 interface Props {
     lasterData: boolean;

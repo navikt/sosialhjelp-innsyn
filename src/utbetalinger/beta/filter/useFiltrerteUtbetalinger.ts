@@ -1,8 +1,10 @@
 import React from "react";
-import {FilterKey, MottakerFilter, useFilter} from "./FilterContext";
-import {ManedUtbetaling} from "../../../generated/model";
 import {isAfter, isBefore, isEqual} from "date-fns";
+
+import {ManedUtbetaling} from "../../../generated/model";
 import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
+
+import {FilterKey, MottakerFilter, useFilter} from "./FilterContext";
 
 const stringToDateWithoutTimezone = (datoString: string) => {
     const dateWithTimesone = new Date(datoString);
@@ -24,8 +26,8 @@ export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
         return matchMottaker;
 
     const dato = stringToDateWithoutTimezone(utbetaling.utbetalingsdato ?? utbetaling.forfallsdato!);
-    let matchFra = filter.fraDato ? isAfter(dato, filter.fraDato) || isEqual(dato, filter.fraDato) : true;
-    let matchTil = filter.tilDato ? isBefore(dato, filter.tilDato) || isEqual(dato, filter.tilDato) : true;
+    const matchFra = filter.fraDato ? isAfter(dato, filter.fraDato) || isEqual(dato, filter.fraDato) : true;
+    const matchTil = filter.tilDato ? isBefore(dato, filter.tilDato) || isEqual(dato, filter.tilDato) : true;
 
     return matchMottaker && matchTil && matchFra;
 };

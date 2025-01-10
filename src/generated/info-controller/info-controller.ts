@@ -8,6 +8,7 @@ import {useMutation} from "@tanstack/react-query";
 import type {MutationFunction, UseMutationOptions, UseMutationResult} from "@tanstack/react-query";
 import type {Logg} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -24,7 +25,7 @@ export const postKlientlogg = async (logg: Logg, options?: RequestInit): Promise
     });
 };
 
-export const getPostKlientloggMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+export const getPostKlientloggMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext> => {
@@ -41,9 +42,9 @@ export const getPostKlientloggMutationOptions = <TError = unknown, TContext = un
 
 export type PostKlientloggMutationResult = NonNullable<Awaited<ReturnType<typeof postKlientlogg>>>;
 export type PostKlientloggMutationBody = Logg;
-export type PostKlientloggMutationError = unknown;
+export type PostKlientloggMutationError = ErrorType<unknown>;
 
-export const usePostKlientlogg = <TError = unknown, TContext = unknown>(options?: {
+export const usePostKlientlogg = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext>;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<Awaited<ReturnType<typeof postKlientlogg>>, TError, {data: Logg}, TContext> => {

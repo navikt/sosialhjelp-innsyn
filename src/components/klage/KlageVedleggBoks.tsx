@@ -1,4 +1,5 @@
 import React from "react";
+
 import AddFileButton from "../filopplasting/AddFileButton";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
 import {Error, FancyFile} from "../filopplasting/useFilOpplasting";
@@ -23,10 +24,10 @@ const KlageVedleggBoks = ({files, removeFil, errors, addFiler, resetStatus}: Pro
                 onChange={(event) => addFiler(event.currentTarget.files ? Array.from(event.currentTarget.files) : [])}
                 id="abc"
                 resetStatus={resetStatus}
-                title={"vedlegg"}
+                title="vedlegg"
             />
         }
-        key={"abc"}
+        key="abc"
     />
 );
 

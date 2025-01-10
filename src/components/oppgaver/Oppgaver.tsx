@@ -1,13 +1,11 @@
 import React, {useEffect, useMemo} from "react";
-import Lastestriper from "../lastestriper/Lasterstriper";
 import {useTranslation} from "next-i18next";
-import OppgaveInformasjon from "./OppgaveInformasjon";
-import IngenOppgaverPanel from "./IngenOppgaverPanel";
 import {Accordion, Alert} from "@navikt/ds-react";
 import styled from "styled-components";
-import {VilkarAccordion} from "./vilkar/VilkarAccordion";
-import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
 import {add, isBefore} from "date-fns";
+import {logger} from "@navikt/next-logger";
+
+import Lastestriper from "../lastestriper/Lasterstriper";
 import {
     useGetDokumentasjonkrav,
     useGetfagsystemHarDokumentasjonkrav,
@@ -16,16 +14,20 @@ import {
 } from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
-import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
-import OppgaverPanel from "./OppgaverPanel";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import styles from "./oppgaver.module.css";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
-import {logger} from "@navikt/next-logger";
+
+import OppgaveInformasjon from "./OppgaveInformasjon";
+import IngenOppgaverPanel from "./IngenOppgaverPanel";
+import {VilkarAccordion} from "./vilkar/VilkarAccordion";
+import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
+import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
+import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
+import OppgaverPanel from "./OppgaverPanel";
+import styles from "./oppgaver.module.css";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -77,9 +79,9 @@ const Oppgaver = () => {
     useEffect(() => {
         const {error} = utbetalingerQuery;
         if (error) {
-            logger.warn((error as any).message, (error as any).navCallId);
+            logger.warn(error.message, error.navCallId);
         }
-    }, [utbetalingerQuery.error]);
+    }, [utbetalingerQuery, utbetalingerQuery.error]);
 
     const {oppgaverUploadSuccess} = useFilUploadSuccessful();
 

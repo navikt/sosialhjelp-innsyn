@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {KommuneResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -34,7 +35,10 @@ export const getHentKommuneInfoQueryKey = (fiksDigisosId: string) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/kommune`] as const;
 };
 
-export const getHentKommuneInfoQueryOptions = <TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = unknown>(
+export const getHentKommuneInfoQueryOptions = <
+    TData = Awaited<ReturnType<typeof hentKommuneInfo>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>>;
@@ -56,9 +60,9 @@ export const getHentKommuneInfoQueryOptions = <TData = Awaited<ReturnType<typeof
 };
 
 export type HentKommuneInfoQueryResult = NonNullable<Awaited<ReturnType<typeof hentKommuneInfo>>>;
-export type HentKommuneInfoQueryError = unknown;
+export type HentKommuneInfoQueryError = ErrorType<unknown>;
 
-export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = unknown>(
+export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>> &
@@ -66,7 +70,7 @@ export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommune
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = unknown>(
+export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>> &
@@ -77,7 +81,7 @@ export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommune
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = unknown>(
+export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>>;
@@ -85,7 +89,7 @@ export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommune
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = unknown>(
+export function useHentKommuneInfo<TData = Awaited<ReturnType<typeof hentKommuneInfo>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentKommuneInfo>>, TError, TData>>;

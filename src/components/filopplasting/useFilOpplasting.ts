@@ -1,5 +1,11 @@
+import path from "path";
+
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
+import {logger} from "@navikt/next-logger";
+import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
+
 import {
     logAmplitudeEvent,
     logBrukerLeavingBeforeSubmitting,
@@ -15,11 +21,8 @@ import {
 } from "../../generated/vedlegg-controller/vedlegg-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
-import {logger} from "@navikt/next-logger";
+
 import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
-import {useRouter} from "next/router";
-import {useTranslation} from "next-i18next";
-import path from "path";
 
 export interface FancyFile {
     file: File;
@@ -165,7 +168,7 @@ const useFilOpplasting = (
             window.removeEventListener("beforeunload", beforeUnloadHandler);
             router.events.off("routeChangeStart", beforeRouteHandler);
         };
-    }, [allFiles]);
+    }, [allFiles, fiksDigisosId, leaveConfirmed, router.events, t]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
@@ -217,7 +220,7 @@ const useFilOpplasting = (
         }
 
         const _metadatas = Object.entries(files)
-            .filter(([_, filer]) => Boolean(filer.length))
+            .filter((entry) => Boolean(entry[1].length))
             .map(([index, filer]) => {
                 const _metadata = metadatas[+index]!;
                 return {..._metadata, filer: filer.map((fil) => ({uuid: fil.uuid, filnavn: fil.file.name}))};
@@ -274,8 +277,8 @@ const useFilOpplasting = (
                 onError: (error, variables, context) => {
                     options?.onError?.(error, variables, context);
                     logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-                    logger.warn("Feil med opplasting av vedlegg: " + (error as any).message);
-                    if ((error as any).message === "Mulig virus funnet") {
+                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
+                    if (error.message === "Mulig virus funnet") {
                         logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
                         setOuterErrors([{feil: Feil.VIRUS}]);
                     } else {

@@ -1,18 +1,15 @@
+import {http, HttpResponse} from "msw";
+import {waitFor} from "@testing-library/react";
+
+import {KommuneResponse, SoknadsStatusResponse, SoknadsStatusResponseStatus} from "../../generated/model";
+import {server} from "../../mocks/server";
+import {renderHook} from "../../test/test-utils";
+
 import {
     Driftsmelding,
     getDriftsmeldingByKommuneResponseOrDigisosId,
     useFileUploadAllowed,
 } from "./DriftsmeldingUtilities";
-import {
-    KommuneResponse,
-    SaksListeResponse,
-    SoknadsStatusResponse,
-    SoknadsStatusResponseStatus,
-} from "../../generated/model";
-import {http, HttpResponse} from "msw";
-import {server} from "../../mocks/server";
-import {renderHook} from "../../test/test-utils";
-import {waitFor} from "@testing-library/react";
 
 const kommuneResponse_ok: KommuneResponse = {
     erInnsynDeaktivert: false,

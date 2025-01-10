@@ -1,9 +1,10 @@
-import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 import React from "react";
 import {BodyLong, Heading} from "@navikt/ds-react";
-import {StyledGuidePanel} from "../styles/styledGuidePanel";
 import styled from "styled-components";
 import {useTranslation} from "next-i18next";
+
+import {StyledGuidePanel} from "../styles/styledGuidePanel";
+import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const StyledGuidePanelContent = styled.div`
     display: flex;

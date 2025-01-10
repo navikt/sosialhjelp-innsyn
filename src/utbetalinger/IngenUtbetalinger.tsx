@@ -1,9 +1,9 @@
 import {useTranslation} from "next-i18next";
 import {BodyLong, Heading} from "@navikt/ds-react";
-import {StyledGuidePanel} from "../styles/styledGuidePanel";
-
 import React from "react";
 import styled from "styled-components";
+
+import {StyledGuidePanel} from "../styles/styledGuidePanel";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const StyledGuidePanelContent = styled.div`

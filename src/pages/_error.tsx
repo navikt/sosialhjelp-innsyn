@@ -1,7 +1,8 @@
-import {NextPage, NextPageContext} from "next";
+import {NextPageContext} from "next";
+import NextErrorComponent from "next/error";
+
 import SideIkkeFunnet from "./404";
 import ServerError from "./500";
-import NextErrorComponent from "next/error";
 
 const Error = ({statusCode}: {statusCode: number}) => {
     if (statusCode === 500) return <ServerError />;

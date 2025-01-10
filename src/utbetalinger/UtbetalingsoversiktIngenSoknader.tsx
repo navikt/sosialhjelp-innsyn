@@ -1,10 +1,11 @@
-import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 import React from "react";
 import {BodyLong, Heading, LinkPanel} from "@navikt/ds-react";
-import {StyledGuidePanel, StyledGuidePanelContent} from "../styles/styledGuidePanel";
-import {StyledLenkePanelWrapper} from "../styles/LenkePanelWrapper";
 import styled from "styled-components";
 import {useTranslation} from "next-i18next";
+
+import {StyledGuidePanel, StyledGuidePanelContent} from "../styles/styledGuidePanel";
+import {StyledLenkePanelWrapper} from "../styles/LenkePanelWrapper";
+import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const Wrapper = styled.div`
     padding-top: 1rem;
@@ -27,10 +28,10 @@ const UtbetalingsoversiktIngenSoknader: React.FC = () => {
             </StyledGuidePanel>
 
             <StyledLenkePanelWrapper>
-                <LinkPanel href={"https://www.nav.no/okonomisk-sosialhjelp"} border={false}>
+                <LinkPanel href="https://www.nav.no/okonomisk-sosialhjelp" border={false}>
                     <LinkPanel.Title>{t("lenke.les_mer")}</LinkPanel.Title>
                 </LinkPanel>
-                <LinkPanel href={"https://www.nav.no/sosialhjelp/soknad"} border={false}>
+                <LinkPanel href="https://www.nav.no/sosialhjelp/soknad" border={false}>
                     <LinkPanel.Title>{t("lenke.sok")}</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>

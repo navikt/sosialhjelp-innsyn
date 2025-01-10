@@ -1,6 +1,7 @@
 import {KommuneResponse} from "../../generated/model";
-import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
 import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+
+import {listeOverFeiledeIder} from "./StoppedeFiksDigisosIder";
 
 export interface Driftsmelding {
     type: DriftsmeldingType;

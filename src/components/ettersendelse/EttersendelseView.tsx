@@ -1,19 +1,21 @@
 import React from "react";
+import {useQueryClient} from "@tanstack/react-query";
+import {useTranslation} from "next-i18next";
+import styled, {css} from "styled-components";
+import {ErrorMessage} from "@navikt/ds-react";
+
 import useKommune from "../../hooks/useKommune";
 import {useFileUploadAllowed} from "../driftsmelding/DriftsmeldingUtilities";
-import {useQueryClient} from "@tanstack/react-query";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {getHentVedleggQueryKey} from "../../generated/vedlegg-controller/vedlegg-controller";
 import {OppgaveElementHendelsetype} from "../../generated/model";
-import {useTranslation} from "next-i18next";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
 import AddFileButton from "../filopplasting/AddFileButton";
 import useFilOpplasting, {errorStatusToMessage} from "../filopplasting/useFilOpplasting";
 import SendFileButton from "../filopplasting/SendFileButton";
-import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
+import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 import styles from "../filopplasting/filopplasting.module.css";
-import styled, {css} from "styled-components";
 import {DriftsmeldingVedleggComponent} from "../driftsmelding/DriftsmeldingVedlegg";
 import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
 import {logAmplitudeEvent} from "../../utils/amplitude";
@@ -108,13 +110,13 @@ const EttersendelseView = (props: Props) => {
                 />
             </OuterErrorBorder>
 
-            <ErrorMessagePlaceholder>
+            <ErrorMessageWrapper>
                 {outerErrorLocales.map((error, index) => (
                     <ErrorMessage key={index} className={styles.outerError}>
                         {t(error)}
                     </ErrorMessage>
                 ))}
-            </ErrorMessagePlaceholder>
+            </ErrorMessageWrapper>
             <SendFileButton
                 isVisible={kanLasteOppVedlegg}
                 isLoading={showLoadingState}

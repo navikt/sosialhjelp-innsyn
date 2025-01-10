@@ -1,15 +1,16 @@
 import React from "react";
 import {Alert, BodyShort} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
+import {GetServerSideProps, NextPage} from "next";
+import styled from "styled-components";
+
 import {useHentAlleSaker} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {ApplicationSpinner} from "../components/applicationSpinner/ApplicationSpinner";
 import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";
-import {GetServerSideProps, NextPage} from "next";
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
-import styled from "styled-components";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1.5rem;

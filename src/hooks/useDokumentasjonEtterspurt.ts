@@ -1,5 +1,6 @@
-import {useGetOppgaver} from "../generated/oppgave-controller/oppgave-controller";
 import React from "react";
+
+import {useGetOppgaver} from "../generated/oppgave-controller/oppgave-controller";
 import {OppgaveElement, OppgaveResponse} from "../generated/model";
 
 interface DokumentasjonEtterspurElement extends OppgaveElement {

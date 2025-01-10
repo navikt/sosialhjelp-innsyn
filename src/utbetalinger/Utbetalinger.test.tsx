@@ -1,10 +1,11 @@
 import React from "react";
-import Utbetalinger from "../pages/utbetaling";
-import {render, screen} from "../test/test-utils";
-import {server} from "../mocks/server";
 import {delay, http, HttpResponse} from "msw";
 import {fireEvent, waitFor} from "@testing-library/react";
 import {subMonths} from "date-fns";
+
+import Utbetalinger from "../pages/utbetaling";
+import {render, screen} from "../test/test-utils";
+import {server} from "../mocks/server";
 import {NyeOgTidligereUtbetalingerResponse} from "../generated/model";
 import {
     getHentNyeUtbetalingerMockHandler,
@@ -30,7 +31,7 @@ const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
         ],
     };
 };
-const loading = http.get("*/api/v1/innsyn/nye", async (info) => {
+const loading = http.get("*/api/v1/innsyn/nye", async () => {
     await delay("infinite");
     return HttpResponse.json(getHentNyeUtbetalingerResponseMock());
 });
@@ -118,7 +119,7 @@ describe("Utbetalinger", () => {
             expect(utbetaling).toBeInTheDocument();
         });
 
-        const radio = await screen.getByRole("radio", {name: "Til andre mottakere"});
+        const radio = screen.getByRole("radio", {name: "Til andre mottakere"});
         fireEvent.click(radio);
         await waitFor(async () => {
             const utbetaling = screen.queryByText("Penger til husleie");

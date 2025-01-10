@@ -1,9 +1,11 @@
 import "@testing-library/jest-dom";
 import React from "react";
-import {render, fireEvent, screen} from "../../../test/test-utils";
-import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
-import {OppgaveElementHendelsetype} from "../../../generated/model";
 import mockRouter from "next-router-mock";
+
+import {render, fireEvent, screen} from "../../../test/test-utils";
+import {OppgaveElementHendelsetype} from "../../../generated/model";
+
+import {DokumentasjonEtterspurtAccordion} from "./DokumentasjonEtterspurtAccordion";
 
 test("Rendrer DokumentasjonEtterspurt", async () => {
     await mockRouter.push("/test-id/status");

@@ -1,8 +1,10 @@
 import React, {ReactElement, useMemo} from "react";
+import {useQueryClient} from "@tanstack/react-query";
+import * as R from "remeda";
+
 import {getVisningstekster} from "../../../utils/vedleggUtils";
 import useKommune from "../../../hooks/useKommune";
 import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {useQueryClient} from "@tanstack/react-query";
 import {getGetOppgaverQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
@@ -16,7 +18,6 @@ import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
 import {logButtonOrLinkClick} from "../../../utils/amplitude";
 import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
-import * as R from "remeda";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse;

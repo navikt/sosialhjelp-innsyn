@@ -1,16 +1,18 @@
 import styled from "styled-components";
 import {Alert, BodyShort, Heading, Panel} from "@navikt/ds-react";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {useTranslation} from "next-i18next";
+import React, {useEffect, useState} from "react";
+import {usePathname, useSearchParams} from "next/navigation";
+import {GetServerSideProps, NextPage} from "next";
+
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import useKommune from "../../hooks/useKommune";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
 import {useGetOppgaver} from "../../generated/oppgave-controller/oppgave-controller";
 import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
 import {useHentForelopigSvarStatus} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
-import React, {useEffect, useState} from "react";
 import {logAmplitudeEvent} from "../../utils/amplitude";
 import {LoadingResourcesFailedAlert} from "../../innsyn/LoadingResourcesFailedAlert";
-import {ApplicationSpinner} from "../../components/applicationSpinner/ApplicationSpinner";
 import DriftsmeldingAlertstripe from "../../components/driftsmelding/Driftsmelding";
 import ForelopigSvarAlertstripe from "../../components/forelopigSvar/ForelopigSvar";
 import SoknadsStatus from "../../components/soknadsStatus/SoknadsStatus";
@@ -18,9 +20,7 @@ import Oppgaver from "../../components/oppgaver/Oppgaver";
 import VedleggView from "../../components/vedlegg/VedleggView";
 import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
 import Historikk from "../../components/historikk/Historikk";
-import {usePathname, useSearchParams} from "next/navigation";
 import MainLayout from "../../components/MainLayout";
-import {GetServerSideProps, NextPage} from "next";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import {FilUploadSuccesfulProvider} from "../../components/filopplasting/FilUploadSuccessfulContext";
 import KlageSection from "../../components/klage/KlageSection";
@@ -52,7 +52,7 @@ const SaksStatusView: NextPage = () => {
     const {kommune} = useKommune();
 
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
-    const {data: saksStatuser, error: saksStatuserError} = useHentSaksStatuser(fiksDigisosId);
+    const {data: saksStatuser} = useHentSaksStatuser(fiksDigisosId);
     const {data: oppgaver} = useGetOppgaver(fiksDigisosId);
     const {data: soknadsStatus} = useHentSoknadsStatus(fiksDigisosId);
     const {data: forelopigSvar} = useHentForelopigSvarStatus(fiksDigisosId);

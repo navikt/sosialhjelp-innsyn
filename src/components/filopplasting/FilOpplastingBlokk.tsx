@@ -1,12 +1,14 @@
 import React, {ReactElement} from "react";
-import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import {useTranslation} from "next-i18next";
 import styled, {css} from "styled-components";
+import {BodyShort, Label, ErrorMessage} from "@navikt/ds-react";
+
+import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
+
 import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, {dedupeErrorsByProp} from "./ErrorMessagesSummary";
 import {Error, errorStatusToMessage, FancyFile} from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
-import {BodyShort, Label} from "@navikt/ds-react";
 
 const StyledFrame = styled.div<{$hasError?: boolean; $hasFiler?: boolean}>`
     background-color: var(--a-gray-50);
@@ -81,7 +83,7 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
                     )}
                 </div>
                 {addFileButton}
-                <ErrorMessagePlaceholder>
+                <ErrorMessageWrapper>
                     {props.errors.length > 0 ? (
                         <>
                             <ErrorMessagesSummary errors={props.errors} />
@@ -96,7 +98,7 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
                     ) : (
                         <></>
                     )}
-                </ErrorMessagePlaceholder>
+                </ErrorMessageWrapper>
             </div>
 
             <FileItemView errors={props.errors} filer={props.filer} onDelete={props.onDelete} />

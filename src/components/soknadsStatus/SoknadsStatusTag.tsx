@@ -1,8 +1,9 @@
 import React from "react";
 import {Tag as DS_Tag, TagProps} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
-import {SoknadsStatusResponseStatus} from "../../generated/model";
 import styled from "styled-components";
+
+import {SoknadsStatusResponseStatus} from "../../generated/model";
 
 const StyledAlertTag = styled(DS_Tag)`
     border-radius: 6px;

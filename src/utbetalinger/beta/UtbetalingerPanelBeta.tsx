@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from "react";
-import styles from "./utbetalinger.module.css";
 import {BodyLong, Heading, Panel, Tabs} from "@navikt/ds-react";
+import {useTranslation} from "next-i18next";
+import styled from "styled-components";
+
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import {useHentNyeUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import {logAmplitudeEvent} from "../../utils/amplitude";
+import useIsMobile from "../../utils/useIsMobile";
+import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
+
+import styles from "./utbetalinger.module.css";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
 import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
-import useIsMobile from "../../utils/useIsMobile";
 import FilterModal from "./filter/FilterModal";
-import {useTranslation} from "next-i18next";
-import {ManedUtbetaling, NyeOgTidligereUtbetalingerResponse} from "../../generated/model";
-import styled from "styled-components";
 
 enum TAB_VALUE {
     UTBETALINGER = "Utbetalinger",

@@ -1,10 +1,12 @@
 import {Heading} from "@navikt/ds-react";
-import {soknadsStatusTittel} from "./soknadsStatusUtils";
-import SoknadsStatusLenke from "./SoknadsStatusLenke";
 import React from "react";
 import styled from "styled-components";
 import {useTranslation} from "next-i18next";
+
 import {SoknadsStatusResponseStatus} from "../../generated/model";
+
+import SoknadsStatusLenke from "./SoknadsStatusLenke";
+import {soknadsStatusTittel} from "./soknadsStatusUtils";
 
 const HeadingWrapper = styled.div`
     margin-bottom: 2rem;

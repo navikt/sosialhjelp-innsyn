@@ -17,7 +17,7 @@ export const FilUploadSuccessfulContext = createContext(initState);
 
 export const useFilUploadSuccessful = () => useContext(FilUploadSuccessfulContext);
 
-export const FilUploadSuccesfulProvider = (props: PropsWithChildren<{}>) => {
+export const FilUploadSuccesfulProvider = (props: PropsWithChildren) => {
     const [oppgaverUploadSuccess, setOppgaverUploadSuccess] = useState<boolean>(false);
     const [ettersendelseUploadSuccess, setEttersendelseUploadSuccess] = useState<boolean>(false);
     return (

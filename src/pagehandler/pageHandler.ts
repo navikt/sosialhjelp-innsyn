@@ -1,6 +1,7 @@
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {getFlagsServerSide} from "../featuretoggles/ssr";
 import {GetServerSidePropsContext} from "next/types";
+
+import {getFlagsServerSide} from "../featuretoggles/ssr";
 
 const pageHandler = async (
     {locale, req, res}: GetServerSidePropsContext,

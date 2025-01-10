@@ -1,7 +1,8 @@
-import {BodyLong, Heading, Modal} from "@navikt/ds-react";
+import {BodyLong, Modal} from "@navikt/ds-react";
 import React from "react";
-import styles from "./vedlegg.module.css";
 import Image from "next/image";
+
+import styles from "./vedlegg.module.css";
 
 interface Props {
     file: File | undefined;

@@ -1,8 +1,10 @@
 import {useTranslation} from "next-i18next";
-import ErrorMessagePlaceholder, {ErrorMessage} from "../errors/ErrorMessage";
 import React, {ReactElement} from "react";
 import styled from "styled-components";
 import {css} from "styled-components";
+import {ErrorMessage} from "@navikt/ds-react";
+
+import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 
 const OuterFrame = styled.div`
     padding: 8px;
@@ -31,13 +33,13 @@ const OppgaveOpplastingBlokk = (props: Props) => {
             {innsendelsesFrist}
 
             <ChildrenFrame $hasError={errors.length > 0}>{children}</ChildrenFrame>
-            <ErrorMessagePlaceholder>
+            <ErrorMessageWrapper>
                 {errors.map((error, index) => (
                     <ErrorMessage key={index} style={{marginBottom: "1rem"}}>
                         {t(error)}
                     </ErrorMessage>
                 ))}
-            </ErrorMessagePlaceholder>
+            </ErrorMessageWrapper>
             {sendButton}
         </OuterFrame>
     );

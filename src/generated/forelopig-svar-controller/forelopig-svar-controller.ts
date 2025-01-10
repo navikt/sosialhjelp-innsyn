@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {ForelopigSvarResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -39,7 +40,7 @@ export const getHentForelopigSvarStatusQueryKey = (fiksDigisosId: string) => {
 
 export const getHentForelopigSvarStatusQueryOptions = <
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -62,11 +63,11 @@ export const getHentForelopigSvarStatusQueryOptions = <
 };
 
 export type HentForelopigSvarStatusQueryResult = NonNullable<Awaited<ReturnType<typeof hentForelopigSvarStatus>>>;
-export type HentForelopigSvarStatusQueryError = unknown;
+export type HentForelopigSvarStatusQueryError = ErrorType<unknown>;
 
 export function useHentForelopigSvarStatus<
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options: {
@@ -80,7 +81,7 @@ export function useHentForelopigSvarStatus<
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentForelopigSvarStatus<
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -94,7 +95,7 @@ export function useHentForelopigSvarStatus<
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 export function useHentForelopigSvarStatus<
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {
@@ -105,7 +106,7 @@ export function useHentForelopigSvarStatus<
 
 export function useHentForelopigSvarStatus<
     TData = Awaited<ReturnType<typeof hentForelopigSvarStatus>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(
     fiksDigisosId: string,
     options?: {

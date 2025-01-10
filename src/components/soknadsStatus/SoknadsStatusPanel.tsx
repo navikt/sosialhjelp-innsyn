@@ -1,8 +1,10 @@
 import React from "react";
-import SoknadsStatusDecoration from "./SoknadsStatusDecoration";
-import SoknadsStatusHeading from "./SoknadsStatusHeading";
+
 import Panel from "../panel/Panel";
 import {SoknadsStatusResponseStatus} from "../../generated/model";
+
+import SoknadsStatusDecoration from "./SoknadsStatusDecoration";
+import SoknadsStatusHeading from "./SoknadsStatusHeading";
 
 interface Props {
     hasError: boolean;

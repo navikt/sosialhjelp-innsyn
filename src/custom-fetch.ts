@@ -59,3 +59,8 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
         throw new Error(`error trying to get body from response.`);
     }
 };
+
+export type ErrorType<Error> = Error & {
+    message?: string;
+    navCallId?: string;
+};

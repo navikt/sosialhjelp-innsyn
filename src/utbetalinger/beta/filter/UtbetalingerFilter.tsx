@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import {DatePicker, Fieldset, Radio, RadioGroup, useDatepicker} from "@navikt/ds-react";
-import styles from "./utbetalingerFilter.module.css";
-import {MottakerFilter, useFilter} from "./FilterContext";
 import {useTranslation} from "next-i18next";
+
 import useIsMobile from "../../../utils/useIsMobile";
 import {logAmplitudeEvent} from "../../../utils/amplitude";
+
+import {MottakerFilter, useFilter} from "./FilterContext";
+import styles from "./utbetalingerFilter.module.css";
 
 function subtractMonths(date: Date, months: number) {
     date.setMonth(date.getMonth() - months);

@@ -32,7 +32,7 @@ const initialState: FilterKey = {
     tilDato: undefined,
     fraDato: undefined,
 };
-export const FilterProvider = (props: PropsWithChildren<{}>) => {
+export const FilterProvider = (props: PropsWithChildren) => {
     const [filter, setFilter] = useState<FilterKey>(initialState);
 
     const oppdaterFilter = (nyttFilter: Partial<FilterKey>) => {

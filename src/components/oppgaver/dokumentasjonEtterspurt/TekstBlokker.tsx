@@ -1,7 +1,8 @@
 import {BodyShort, Label} from "@navikt/ds-react";
 import {useTranslation} from "next-i18next";
-import {formatDato} from "../../../utils/formatting";
 import React from "react";
+
+import {formatDato} from "../../../utils/formatting";
 import {antallDagerEtterFrist} from "../InnsendelsesFrist";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {

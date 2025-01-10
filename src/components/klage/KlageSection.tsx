@@ -1,16 +1,17 @@
 import React from "react";
 import * as R from "remeda";
-import {useHentKlager} from "../../generated/klage-controller/klage-controller";
 import {NextPage} from "next";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import Panel from "../panel/Panel";
-import Lastestriper from "../lastestriper/Lasterstriper";
 import Link from "next/link";
 import {Button, Heading, List, Tag} from "@navikt/ds-react";
 import styled from "styled-components";
+import {useTranslation} from "next-i18next";
+
+import {useHentKlager} from "../../generated/klage-controller/klage-controller";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import Panel from "../panel/Panel";
+import Lastestriper from "../lastestriper/Lasterstriper";
 import {KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus} from "../../generated/model";
 import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
-import {useTranslation} from "next-i18next";
 import {useFlag} from "../../featuretoggles/context";
 import {logBrukerAapnerKlageskjema} from "../../utils/amplitude";
 
@@ -55,7 +56,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
     const {data: saksStatuser, isLoading: saksStatuserIsLoading} = useHentSaksStatuser(fiksDigisosId, {
         query: {enabled: klageFlag.enabled},
     });
-    const {data, isLoading, error} = useHentKlager(fiksDigisosId, {
+    const {data, isLoading} = useHentKlager(fiksDigisosId, {
         query: {enabled: klageFlag.enabled},
     });
 

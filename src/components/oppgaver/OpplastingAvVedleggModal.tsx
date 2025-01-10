@@ -1,7 +1,8 @@
-import React, {MouseEvent, useEffect, useState} from "react";
+import React, {MouseEvent, useState} from "react";
 import {useTranslation} from "next-i18next";
 import {BodyShort, Heading, Link, Modal} from "@navikt/ds-react";
 import styled from "styled-components";
+
 import styles from "./oppgaver.module.css";
 
 const StyledModal = styled(Modal)`
@@ -50,7 +51,6 @@ export const OpplastingAvVedleggModal = () => {
                         {t("oppgaver.informasjon.modal.bolk4.tittel")}
                     </Heading>
                     <BodyShort spacing>{t("oppgaver.informasjon.modal.bolk4.avsnitt1")}</BodyShort>
-
                 </Modal.Body>
             </StyledModal>
         </>

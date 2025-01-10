@@ -1,12 +1,17 @@
+// TODO: Ta bort denne når vi får unleash til å funke igjen
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {getRandomValues} from "crypto";
+
 import {IToggle, getDefinitions, evaluateFlags} from "@unleash/nextjs";
 import {logger} from "@navikt/next-logger";
 import {GetServerSidePropsContext} from "next/types";
 import * as R from "remeda";
 
+import {isLocalhost} from "../utils/restUtils";
+
 import {getUnleashEnvironment, localDevelopmentToggles} from "./utils";
 import {EXPECTED_TOGGLES} from "./toggles";
-import {isLocalhost} from "../utils/restUtils";
 
 export async function getFlagsServerSide(
     req: GetServerSidePropsContext["req"],

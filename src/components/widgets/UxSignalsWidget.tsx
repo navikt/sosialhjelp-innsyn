@@ -1,10 +1,11 @@
 import Script from "next/script";
 import {ReactElement} from "react";
+import {logger} from "@navikt/next-logger";
 
-import styles from "./UxSignalsWidget.module.css";
 import {isProd} from "../../utils/restUtils";
 import {useFlag} from "../../featuretoggles/context";
-import {logger} from "@navikt/next-logger";
+
+import styles from "./UxSignalsWidget.module.css";
 
 interface Props {
     enabled: boolean;
@@ -23,7 +24,7 @@ function UxSignalsWidget({enabled}: Props): ReactElement | null {
             />
             <div
                 data-uxsignals-mode={!isProd() ? "demo" : ""}
-                data-uxsignals-embed={"panel-gwdfo3en3x"}
+                data-uxsignals-embed="panel-gwdfo3en3x"
                 className={styles.uxSignalsContainer}
             />
         </>

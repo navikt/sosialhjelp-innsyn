@@ -16,6 +16,7 @@ import type {
 } from "@tanstack/react-query";
 import type {SaksStatusResponse} from ".././model";
 import {customFetch} from "../../custom-fetch";
+import type {ErrorType} from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -34,7 +35,10 @@ export const getHentSaksStatuserQueryKey = (fiksDigisosId: string) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/saksStatus`] as const;
 };
 
-export const getHentSaksStatuserQueryOptions = <TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = unknown>(
+export const getHentSaksStatuserQueryOptions = <
+    TData = Awaited<ReturnType<typeof hentSaksStatuser>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;
@@ -56,9 +60,9 @@ export const getHentSaksStatuserQueryOptions = <TData = Awaited<ReturnType<typeo
 };
 
 export type HentSaksStatuserQueryResult = NonNullable<Awaited<ReturnType<typeof hentSaksStatuser>>>;
-export type HentSaksStatuserQueryError = unknown;
+export type HentSaksStatuserQueryError = ErrorType<unknown>;
 
-export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = unknown>(
+export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>> &
@@ -66,7 +70,7 @@ export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksSt
         request?: SecondParameter<typeof customFetch>;
     }
 ): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = unknown>(
+export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>> &
@@ -77,7 +81,7 @@ export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksSt
         request?: SecondParameter<typeof customFetch>;
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = unknown>(
+export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;
@@ -85,7 +89,7 @@ export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksSt
     }
 ): UseQueryResult<TData, TError> & {queryKey: QueryKey};
 
-export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = unknown>(
+export function useHentSaksStatuser<TData = Awaited<ReturnType<typeof hentSaksStatuser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentSaksStatuser>>, TError, TData>>;

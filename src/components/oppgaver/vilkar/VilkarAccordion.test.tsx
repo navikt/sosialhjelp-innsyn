@@ -1,8 +1,10 @@
 import "@testing-library/jest-dom";
 import React from "react";
+
 import {render, fireEvent, screen} from "../../../test/test-utils";
-import {getUnikeVilkar, VilkarAccordion} from "./VilkarAccordion";
 import {VilkarResponse} from "../../../generated/model";
+
+import {getUnikeVilkar, VilkarAccordion} from "./VilkarAccordion";
 
 const vilkar: VilkarResponse[] = [
     {
