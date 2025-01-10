@@ -8,8 +8,9 @@ import {useTranslation} from "next-i18next";
 import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
 import {hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "../../utbetalingerUtils";
 import Link from "next/link";
+import {logger} from "@navikt/next-logger";
 
-function statusToTekst(status: string, t: (key: string) => string) {
+function statusToTekst(t: (key: string) => string, status?: string) {
     switch (status) {
         case "STOPPET":
             return t("utbetalinger:stoppet") + " ";
@@ -18,7 +19,10 @@ function statusToTekst(status: string, t: (key: string) => string) {
         case "UTBETALT":
             return t("utbetalinger:utbetalt") + " ";
         default:
-            return status?.toLowerCase() + " " ?? "Ingen status";
+            if (!status?.toLowerCase) {
+                logger.error("Status is not a string in statusToTekst? Status: " + status);
+            }
+            return status?.toLowerCase?.() + " " ?? "Ingen status";
     }
 }
 interface Props {
@@ -70,7 +74,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                                     <>{t("utbetalinger:stoppet")}</>
                                 ) : (
                                     <>
-                                        {statusToTekst(utbetalingManed.status, t)}
+                                        {statusToTekst(t, utbetalingManed.status)}
                                         {utbetalingManed.utbetalingsdato
                                             ? getDayAndMonth(utbetalingManed.utbetalingsdato, i18n.language)
                                             : utbetalingManed.forfallsdato
