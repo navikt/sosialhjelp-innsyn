@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component<Props, State> {
         return {hasError: true};
     }
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        logger.child({error, errorInfo}).error("Uncaught clientside error:");
+        logger.error(`Uncaught clientside error: ${error}, errorInfo: ${errorInfo}`);
     }
 
     public render() {
