@@ -11,6 +11,7 @@ import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskon
 import Cookies from "js-cookie";
 import {FlagProvider} from "../featuretoggles/context";
 import {IToggle} from "@unleash/nextjs";
+import ErrorBoundary from "../components/errors/ErrorBoundary";
 
 const queryClient = (onError: QueryCache["config"]["onError"]) => {
     return new QueryClient({
@@ -37,22 +38,24 @@ const App = ({Component, pageProps}: AppProps<{toggles: IToggle[]}>): React.JSX.
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
     return (
-        <QueryClientProvider
-            client={queryClient((e: any) => {
-                if (e?.response?.status === 403) {
-                    logger.info("Møtte på en 403 i _app");
-                    setQueryHas403(true);
-                }
-            })}
-        >
-            <FlagProvider toggles={pageProps.toggles}>
-                <Tilgangskontrollside queryHas403={queryHas403}>
-                    <div role="main" tabIndex={-1} id="maincontent">
-                        <Component {...pageProps}></Component>
-                    </div>
-                </Tilgangskontrollside>
-            </FlagProvider>
-        </QueryClientProvider>
+        <ErrorBoundary>
+            <QueryClientProvider
+                client={queryClient((e: any) => {
+                    if (e?.response?.status === 403) {
+                        logger.info("Møtte på en 403 i _app");
+                        setQueryHas403(true);
+                    }
+                })}
+            >
+                <FlagProvider toggles={pageProps.toggles}>
+                    <Tilgangskontrollside queryHas403={queryHas403}>
+                        <div role="main" tabIndex={-1} id="maincontent">
+                            <Component {...pageProps}></Component>
+                        </div>
+                    </Tilgangskontrollside>
+                </FlagProvider>
+            </QueryClientProvider>
+        </ErrorBoundary>
     );
 };
 
