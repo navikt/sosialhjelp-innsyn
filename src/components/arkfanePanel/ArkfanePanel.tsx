@@ -16,7 +16,7 @@ enum ARKFANER {
 
 const StyledErrorColored = styled(XMarkOctagonIcon)`
     position: absolute;
-    color: var(--a-red-100);
+    color: var(--a-red-500);
     @media screen and (min-width: 641px) {
         top: 5.15rem;
         left: 1.5rem;
