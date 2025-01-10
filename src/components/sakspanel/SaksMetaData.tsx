@@ -12,7 +12,7 @@ const SaksMetaData = (props: Props) => {
     const {t} = useTranslation();
     useEffect(() => {
         if (!props.status?.toLowerCase) {
-            logger.error("status is not a string in SaksMetaData? Status: " + props.status);
+            logger.warn("status is not a string in SaksMetaData? Status: " + props.status);
         }
     }, [props.status]);
     return (
