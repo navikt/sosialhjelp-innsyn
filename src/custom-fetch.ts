@@ -10,11 +10,13 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
     if (response.status === 204) {
         return [] as T;
     }
+    if (response.status >= 400) {
+        logger.error(`Error fetching ${url}: ${response.status} ${response.statusText}`);
+    }
     const data: T = await response.json();
 
     // Trenger å få med statuskode på /tilgang
     if (url.includes("/tilgang")) {
-        logger.info("Setter status på responsen til " + url + ". Status: " + response.status);
         return {data, status: response.status} as T;
     }
 
