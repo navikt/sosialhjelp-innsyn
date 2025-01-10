@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         hostname: process.env.NEXT_INNSYN_API_HOSTNAME ?? "",
         path,
         https: false,
-        port: process.env.NEXT_PUBLIG_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
+        port: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
     });
 };
 
