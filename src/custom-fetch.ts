@@ -33,10 +33,9 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
             );
         } catch (e) {
             logger.error(
-                `error trying to get body from non-ok response from ${url}: ${response.status} ${response.statusText}`,
-                e
+                `error trying to get body from non-ok response from ${url}: ${response.status} ${response.statusText}. Exception: ${e}`
             );
-            throw new Error(`error trying to get body from non-ok response. Exception: ${e}`);
+            throw new Error(`error trying to get body from non-ok response.`);
         }
         throw new Error(`Non-ok response from ${url}: ${response.status} ${response.statusText}`);
     }
@@ -55,8 +54,8 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
         return data as T;
     } catch (e) {
         logger.error(
-            `error trying to get body from ok response from ${url}: ${response.status} ${response.statusText}`
+            `error trying to get body from ok response from ${url}: ${response.status} ${response.statusText}. Exception: ${e}`
         );
-        throw new Error(`error trying to get body from response. Exception: ${e}`);
+        throw new Error(`error trying to get body from response.`);
     }
 };
