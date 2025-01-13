@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {Heading, Panel as DsPanel} from "@navikt/ds-react";
+import { Heading, Panel as DsPanel } from "@navikt/ds-react";
 import React from "react";
 
-const StyledPanel = styled(DsPanel)<{$error?: boolean}>`
+const StyledPanel = styled(DsPanel)<{ $error?: boolean }>`
     position: relative;
     border-color: ${(props) => (props.$error ? "var(--a-red-500)" : "transparent")};
     @media screen and (min-width: 641px) {
@@ -25,7 +25,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const Panel = ({hasError, header, children}: Props): React.JSX.Element => (
+const Panel = ({ hasError, header, children }: Props): React.JSX.Element => (
     <StyledPanel $error={hasError}>
         {header && typeof header === "string" ? (
             <StyledHeading level="2" size="medium">

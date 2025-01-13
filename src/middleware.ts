@@ -1,6 +1,6 @@
-import type {NextRequest} from "next/server";
-import {NextResponse} from "next/server";
-import {logger} from "@navikt/next-logger";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { logger } from "@navikt/next-logger";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -45,19 +45,14 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(searchParams.get("goto")!, process.env.NEXT_PUBLIC_INNSYN_ORIGIN));
         }
         try {
-            logger.info("localhost-idtoken: " + request.cookies.get("localhost-idtoken")?.value);
             const headers = new Headers(request.headers);
             headers.append("Authorization", `Bearer ${request.cookies.get("localhost-idtoken")?.value}`);
-            logger.info("headers: " + headers);
             const harTilgangResponse = await fetch(process.env.NEXT_INNSYN_API_BASE_URL + "/api/v1/innsyn/tilgang", {
                 headers,
                 credentials: "include",
             });
-            logger.info("harTilgangResponse. Status: " + harTilgangResponse.status);
             if (harTilgangResponse.status === 401) {
-                logger.info("401, redirect til login");
                 const json: AzureAdAuthenticationError = await harTilgangResponse.json();
-                logger.info("loginUrl: " + json.loginUrl);
                 const queryDivider = json.loginUrl.includes("?") ? "&" : "?";
 
                 const redirectUrl = getRedirect(
@@ -66,7 +61,6 @@ export async function middleware(request: NextRequest) {
                     process.env.NEXT_PUBLIC_INNSYN_ORIGIN!,
                     json.id
                 );
-                logger.info("redirecter til: " + json.loginUrl + queryDivider + redirectUrl);
                 return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
             }
         } catch (e) {

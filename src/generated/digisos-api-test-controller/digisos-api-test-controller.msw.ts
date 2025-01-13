@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
 
 export const getFilOpplastingResponseMock = (): string => faker.word.sample();
 
@@ -27,7 +27,7 @@ export const getFilOpplastingMockHandler = (
                         : overrideResponse
                     : getFilOpplastingResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -46,7 +46,7 @@ export const getOppdaterDigisosSakMockHandler = (
                         : overrideResponse
                     : getOppdaterDigisosSakResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -65,7 +65,7 @@ export const getGetInnsynsfilMockHandler = (
                         : overrideResponse
                     : getGetInnsynsfilResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

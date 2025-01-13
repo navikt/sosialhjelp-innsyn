@@ -1,10 +1,12 @@
-import {Heading} from "@navikt/ds-react";
-import {soknadsStatusTittel} from "./soknadsStatusUtils";
-import SoknadsStatusLenke from "./SoknadsStatusLenke";
+import { Heading } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
-import {SoknadsStatusResponseStatus} from "../../generated/model";
+import { useTranslation } from "next-i18next";
+
+import { SoknadsStatusResponseStatus } from "../../generated/model";
+
+import SoknadsStatusLenke from "./SoknadsStatusLenke";
+import { soknadsStatusTittel } from "./soknadsStatusUtils";
 
 const HeadingWrapper = styled.div`
     margin-bottom: 2rem;
@@ -23,7 +25,7 @@ interface Props {
     soknadsStatus?: SoknadsStatusResponseStatus;
 }
 const SoknadsStatusHeading = (props: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <HeadingWrapper>

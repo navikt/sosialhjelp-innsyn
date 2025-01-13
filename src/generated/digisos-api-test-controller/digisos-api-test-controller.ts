@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useMutation, useQuery} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -17,8 +17,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {FilOpplastingBody, OppdaterDigisosSakParams} from ".././model";
-import {customFetch} from "../../custom-fetch";
+import type { FilOpplastingBody, OppdaterDigisosSakParams } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -41,50 +42,50 @@ export const filOpplasting = async (
     });
 };
 
-export const getFilOpplastingMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+export const getFilOpplastingMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof filOpplasting>>,
         TError,
-        {fiksDigisosId: string; data: FilOpplastingBody},
+        { fiksDigisosId: string; data: FilOpplastingBody },
         TContext
     >;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof filOpplasting>>,
     TError,
-    {fiksDigisosId: string; data: FilOpplastingBody},
+    { fiksDigisosId: string; data: FilOpplastingBody },
     TContext
 > => {
-    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+    const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof filOpplasting>>,
-        {fiksDigisosId: string; data: FilOpplastingBody}
+        { fiksDigisosId: string; data: FilOpplastingBody }
     > = (props) => {
-        const {fiksDigisosId, data} = props ?? {};
+        const { fiksDigisosId, data } = props ?? {};
 
         return filOpplasting(fiksDigisosId, data, requestOptions);
     };
 
-    return {mutationFn, ...mutationOptions};
+    return { mutationFn, ...mutationOptions };
 };
 
 export type FilOpplastingMutationResult = NonNullable<Awaited<ReturnType<typeof filOpplasting>>>;
 export type FilOpplastingMutationBody = FilOpplastingBody;
-export type FilOpplastingMutationError = unknown;
+export type FilOpplastingMutationError = ErrorType<unknown>;
 
-export const useFilOpplasting = <TError = unknown, TContext = unknown>(options?: {
+export const useFilOpplasting = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof filOpplasting>>,
         TError,
-        {fiksDigisosId: string; data: FilOpplastingBody},
+        { fiksDigisosId: string; data: FilOpplastingBody },
         TContext
     >;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<
     Awaited<ReturnType<typeof filOpplasting>>,
     TError,
-    {fiksDigisosId: string; data: FilOpplastingBody},
+    { fiksDigisosId: string; data: FilOpplastingBody },
     TContext
 > => {
     const mutationOptions = getFilOpplastingMutationOptions(options);
@@ -113,55 +114,55 @@ export const oppdaterDigisosSak = async (
     return customFetch<Promise<string>>(getOppdaterDigisosSakUrl(params), {
         ...options,
         method: "POST",
-        headers: {"Content-Type": "application/json", ...options?.headers},
+        headers: { "Content-Type": "application/json", ...options?.headers },
         body: JSON.stringify(oppdaterDigisosSakBody),
     });
 };
 
-export const getOppdaterDigisosSakMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+export const getOppdaterDigisosSakMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof oppdaterDigisosSak>>,
         TError,
-        {data: string; params?: OppdaterDigisosSakParams},
+        { data: string; params?: OppdaterDigisosSakParams },
         TContext
     >;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof oppdaterDigisosSak>>,
     TError,
-    {data: string; params?: OppdaterDigisosSakParams},
+    { data: string; params?: OppdaterDigisosSakParams },
     TContext
 > => {
-    const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+    const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof oppdaterDigisosSak>>,
-        {data: string; params?: OppdaterDigisosSakParams}
+        { data: string; params?: OppdaterDigisosSakParams }
     > = (props) => {
-        const {data, params} = props ?? {};
+        const { data, params } = props ?? {};
 
         return oppdaterDigisosSak(data, params, requestOptions);
     };
 
-    return {mutationFn, ...mutationOptions};
+    return { mutationFn, ...mutationOptions };
 };
 
 export type OppdaterDigisosSakMutationResult = NonNullable<Awaited<ReturnType<typeof oppdaterDigisosSak>>>;
 export type OppdaterDigisosSakMutationBody = string;
-export type OppdaterDigisosSakMutationError = unknown;
+export type OppdaterDigisosSakMutationError = ErrorType<unknown>;
 
-export const useOppdaterDigisosSak = <TError = unknown, TContext = unknown>(options?: {
+export const useOppdaterDigisosSak = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof oppdaterDigisosSak>>,
         TError,
-        {data: string; params?: OppdaterDigisosSakParams},
+        { data: string; params?: OppdaterDigisosSakParams },
         TContext
     >;
     request?: SecondParameter<typeof customFetch>;
 }): UseMutationResult<
     Awaited<ReturnType<typeof oppdaterDigisosSak>>,
     TError,
-    {data: string; params?: OppdaterDigisosSakParams},
+    { data: string; params?: OppdaterDigisosSakParams },
     TContext
 > => {
     const mutationOptions = getOppdaterDigisosSakMutationOptions(options);
@@ -183,64 +184,67 @@ export const getGetInnsynsfilQueryKey = (digisosId: string) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/digisosapi/${digisosId}/innsynsfil`] as const;
 };
 
-export const getGetInnsynsfilQueryOptions = <TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = unknown>(
+export const getGetInnsynsfilQueryOptions = <
+    TData = Awaited<ReturnType<typeof getInnsynsfil>>,
+    TError = ErrorType<unknown>,
+>(
     digisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getGetInnsynsfilQueryKey(digisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInnsynsfil>>> = ({signal}) =>
-        getInnsynsfil(digisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInnsynsfil>>> = ({ signal }) =>
+        getInnsynsfil(digisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!digisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!digisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof getInnsynsfil>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type GetInnsynsfilQueryResult = NonNullable<Awaited<ReturnType<typeof getInnsynsfil>>>;
-export type GetInnsynsfilQueryError = unknown;
+export type GetInnsynsfilQueryError = ErrorType<unknown>;
 
-export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = unknown>(
+export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = ErrorType<unknown>>(
     digisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>> &
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = unknown>(
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = ErrorType<unknown>>(
     digisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>> &
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = unknown>(
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = ErrorType<unknown>>(
     digisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = unknown>(
+export function useGetInnsynsfil<TData = Awaited<ReturnType<typeof getInnsynsfil>>, TError = ErrorType<unknown>>(
     digisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInnsynsfil>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getGetInnsynsfilQueryOptions(digisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

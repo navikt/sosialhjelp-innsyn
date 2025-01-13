@@ -1,17 +1,24 @@
 import React from "react";
-import EksternLenke from "../eksternLenke/EksternLenke";
-import {useTranslation} from "next-i18next";
-import Lastestriper from "../lastestriper/Lasterstriper";
-import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../../utils/amplitude";
-import {Alert, BodyShort, Label, Tag} from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+import { Alert, BodyShort, Label, Tag } from "@navikt/ds-react";
 import styled from "styled-components";
-import SoknadsStatusTag from "./SoknadsStatusTag";
-import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+
+import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
+import { logAmplitudeEvent, logButtonOrLinkClick } from "../../utils/amplitude";
+import Lastestriper from "../lastestriper/Lasterstriper";
+import EksternLenke from "../eksternLenke/EksternLenke";
+import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
-import {FilUrl, SaksStatusResponse, SaksStatusResponseStatus, SoknadsStatusResponseStatus} from "../../generated/model";
+import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
+import {
+    FilUrl,
+    SaksStatusResponse,
+    SaksStatusResponseStatus,
+    SoknadsStatusResponseStatus,
+} from "../../generated/model";
 import styles from "../../styles/lists.module.css";
+
+import SoknadsStatusTag from "./SoknadsStatusTag";
 import SoknadsStatusPanel from "./SoknadsStatusPanel";
 
 const StyledAlert = styled(Alert)`
@@ -46,7 +53,7 @@ const SoknadsStatus = () => {
 
     const soknadsStatusQuery = useHentSoknadsStatus(fiksDigisosId);
     const saksStatusQuery = useHentSaksStatuser(fiksDigisosId);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const soknadBehandlesIkke = soknadsStatusQuery.data?.status === SoknadsStatusResponseStatus.BEHANDLES_IKKE;
     const hasError = soknadsStatusQuery.isError || saksStatusQuery.isError;

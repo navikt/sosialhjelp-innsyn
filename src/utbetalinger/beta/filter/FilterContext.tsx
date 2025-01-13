@@ -1,4 +1,4 @@
-import React, {PropsWithChildren, useContext, useState} from "react";
+import React, { PropsWithChildren, useContext, useState } from "react";
 
 export enum MottakerFilter {
     Alle = "ALLE",
@@ -32,11 +32,11 @@ const initialState: FilterKey = {
     tilDato: undefined,
     fraDato: undefined,
 };
-export const FilterProvider = (props: PropsWithChildren<{}>) => {
+export const FilterProvider = (props: PropsWithChildren) => {
     const [filter, setFilter] = useState<FilterKey>(initialState);
 
     const oppdaterFilter = (nyttFilter: Partial<FilterKey>) => {
-        const updatedFilter = {...filter, ...nyttFilter};
+        const updatedFilter = { ...filter, ...nyttFilter };
         setFilter(updatedFilter);
     };
 

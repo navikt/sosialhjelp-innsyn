@@ -1,7 +1,8 @@
 import React from "react";
-import {ErrorMessage} from "../errors/ErrorMessage";
-import {useTranslation} from "next-i18next";
-import {Error} from "./useFilOpplasting";
+import { useTranslation } from "next-i18next";
+import { ErrorMessage } from "@navikt/ds-react";
+
+import { Error } from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 
 export const dedupeErrorsByProp = (errors: Error[], prop: "fil" | "feil") => {
@@ -11,11 +12,11 @@ export const dedupeErrorsByProp = (errors: Error[], prop: "fil" | "feil") => {
 interface Props {
     errors: Error[];
 }
-const ErrorMessagesSummary = ({errors}: Props) => {
+const ErrorMessagesSummary = ({ errors }: Props) => {
     const errorsWithFile = errors.filter((error) => error.fil);
 
     const uniqueFilesWithError = dedupeErrorsByProp(errorsWithFile, "fil");
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     if (uniqueFilesWithError.length > 1) {
         return (

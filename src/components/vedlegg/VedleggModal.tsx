@@ -1,7 +1,8 @@
-import {BodyLong, Heading, Modal} from "@navikt/ds-react";
+import { BodyLong, Modal } from "@navikt/ds-react";
 import React from "react";
-import styles from "./vedlegg.module.css";
 import Image from "next/image";
+
+import styles from "./vedlegg.module.css";
 
 interface Props {
     file: File | undefined;
@@ -9,7 +10,7 @@ interface Props {
     onRequestClose: () => void;
 }
 
-const VedleggModal: React.FC<Props> = ({file, synlig, onRequestClose}) => {
+const VedleggModal: React.FC<Props> = ({ file, synlig, onRequestClose }) => {
     if (!file) {
         return null;
     }
@@ -21,7 +22,7 @@ const VedleggModal: React.FC<Props> = ({file, synlig, onRequestClose}) => {
             open={synlig}
             onClose={() => onRequestClose()}
             className={styles.vedleggModal}
-            header={{heading: "Fil:"}}
+            header={{ heading: "Fil:" }}
         >
             <Modal.Body>
                 <BodyLong spacing className={styles.filnavn}>

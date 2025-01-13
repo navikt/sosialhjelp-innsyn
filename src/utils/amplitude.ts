@@ -1,12 +1,12 @@
-import {logAmplitudeEvent as logDekoratoren} from "@navikt/nav-dekoratoren-moduler";
-import {logger} from "@navikt/next-logger";
+import { logAmplitudeEvent as logDekoratoren } from "@navikt/nav-dekoratoren-moduler";
+import { logger } from "@navikt/next-logger";
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
         await logDekoratoren({
             origin: "sosialhjelpInnsyn",
             eventName,
-            eventData: {...eventData, skjemaId: "sosialhjelpInnsyn"},
+            eventData: { ...eventData, skjemaId: "sosialhjelpInnsyn" },
         });
     } catch (error) {
         logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
@@ -14,7 +14,7 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
 }
 
 export function logVeilederBerOmDokumentasjonEvent(vedleggAntallet: number) {
-    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", {AntallVedleggForesporsel: vedleggAntallet});
+    logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", { AntallVedleggForesporsel: vedleggAntallet });
 }
 export function logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent(vedleggAntallet: number) {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden, og hvor mange vedlegg som må lastes opp", {
@@ -29,7 +29,7 @@ export function logSokerFaarVilkaar() {
 }
 
 export function logFileUploadFailedEvent(errorMessage: string) {
-    logAmplitudeEvent("Filopplasting feilet", {errorMessage});
+    logAmplitudeEvent("Filopplasting feilet", { errorMessage });
 }
 
 export const logButtonOrLinkClick = (tittel: string) => {
@@ -53,12 +53,12 @@ const fullFormLanguageString = (language: string | undefined) => {
 
 export const logBrukerDefaultLanguage = (lang: string | undefined) => {
     const language = fullFormLanguageString(lang);
-    logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", {language});
+    logAmplitudeEvent("Bruker sin valgte språk før de kommer innom innsyn", { language });
 };
 
 export const logBrukerSpraakChange = (lang: string) => {
     const language = fullFormLanguageString(lang);
-    logAmplitudeEvent("Bruker har endret språk til: ", {language});
+    logAmplitudeEvent("Bruker har endret språk til: ", { language });
 };
 
 export const logBrukerLeavingBeforeSubmitting = () => {
@@ -67,7 +67,7 @@ export const logBrukerLeavingBeforeSubmitting = () => {
 
 export const logDuplicatedFiles = (files: File[]) => {
     if (files.length > 1) {
-        let duplikerteFiler: File[] = [];
+        const duplikerteFiler: File[] = [];
         files.forEach((el, i) => {
             files.forEach((element, index) => {
                 if (i === index) {
@@ -96,18 +96,18 @@ export const logDuplicatedFiles = (files: File[]) => {
 export const logVilkarDuplications = (vilkar: number, unikVilkar: number) => {
     const antall = vilkar - unikVilkar;
     if (vilkar > unikVilkar) {
-        logAmplitudeEvent("Vilkår duplisert", {antall});
+        logAmplitudeEvent("Vilkår duplisert", { antall });
     }
 };
 
 export const logBrukerAapnerKlageskjema = (tittel: string, spraak: string) => {
     if (spraak.includes("et")) {
-        logAmplitudeEvent(tittel, {spraakVersjon: "Norsk bokmål"});
+        logAmplitudeEvent(tittel, { spraakVersjon: "Norsk bokmål" });
     }
     if (spraak.includes("eit")) {
-        logAmplitudeEvent(tittel, {spraakVersjon: "Nynorsk"});
+        logAmplitudeEvent(tittel, { spraakVersjon: "Nynorsk" });
     }
     if (spraak.includes("out")) {
-        logAmplitudeEvent(tittel, {spraakVersjon: "Engelsk"});
+        logAmplitudeEvent(tittel, { spraakVersjon: "Engelsk" });
     }
 };

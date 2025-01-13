@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {UrlResponse} from "./urlResponse";
-import type {SoknadsStatusResponseStatus} from "./soknadsStatusResponseStatus";
+import type { UrlResponse } from "./urlResponse";
+import type { SoknadsStatusResponseStatus } from "./soknadsStatusResponseStatus";
 
 export interface SoknadsStatusResponse {
     filUrl?: UrlResponse;

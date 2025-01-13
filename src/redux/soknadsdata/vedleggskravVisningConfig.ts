@@ -1,4 +1,4 @@
-import {OriginalSoknadVedleggSpec, OriginalSoknadVedleggType} from "./vedleggTypes";
+import { OriginalSoknadVedleggSpec, OriginalSoknadVedleggType } from "./vedleggTypes";
 
 export const originalSoknadVedleggTekstVisning: OriginalSoknadVedleggSpec[] = [
     {
@@ -161,5 +161,5 @@ export const originalSoknadVedleggTekstVisning: OriginalSoknadVedleggSpec[] = [
         tittel: "Registreringsbevis eller oppholdstillatelse",
         tilleggsinfo: "Kopi av ditt registreringsbevis eller din oppholdstillatelse",
     },
-    {type: OriginalSoknadVedleggType.ANNET_ANNET, tittel: "Annen dokumentasjon", tilleggsinfo: ""},
+    { type: OriginalSoknadVedleggType.ANNET_ANNET, tittel: "Annen dokumentasjon", tilleggsinfo: "" },
 ];

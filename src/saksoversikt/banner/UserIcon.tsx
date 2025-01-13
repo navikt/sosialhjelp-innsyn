@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserIcon: React.FC<{}> = () => {
+const UserIcon: React.FC = () => {
     return (
         <svg
             aria-hidden="true"

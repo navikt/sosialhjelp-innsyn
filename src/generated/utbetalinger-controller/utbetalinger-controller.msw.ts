@@ -4,18 +4,18 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {NyeOgTidligereUtbetalingerResponse, UtbetalingerResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { NyeOgTidligereUtbetalingerResponse, UtbetalingerResponse } from ".././model";
 
 export const getHentUtbetalingerResponseMock = (): UtbetalingerResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        ar: faker.number.int({min: undefined, max: undefined}),
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        ar: faker.number.int({ min: undefined, max: undefined }),
         foersteIManeden: faker.date.past().toISOString().split("T")[0],
-        maned: faker.number.int({min: undefined, max: undefined}),
-        utbetalinger: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+        maned: faker.number.int({ min: undefined, max: undefined }),
+        utbetalinger: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
             annenMottaker: faker.datatype.boolean(),
-            belop: faker.number.int({min: undefined, max: undefined}),
+            belop: faker.number.int({ min: undefined, max: undefined }),
             fiksDigisosId: faker.word.sample(),
             fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
             forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
@@ -30,43 +30,47 @@ export const getHentUtbetalingerResponseMock = (): UtbetalingerResponse[] =>
     }));
 
 export const getHentTidligereUtbetalingerResponseMock = (): NyeOgTidligereUtbetalingerResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        ar: faker.number.int({min: undefined, max: undefined}),
-        maned: faker.number.int({min: undefined, max: undefined}),
-        utbetalingerForManed: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-            annenMottaker: faker.datatype.boolean(),
-            belop: faker.number.int({min: undefined, max: undefined}),
-            fiksDigisosId: faker.word.sample(),
-            fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            kontonummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            mottaker: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            status: faker.word.sample(),
-            tittel: faker.word.sample(),
-            tom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            utbetalingsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            utbetalingsmetode: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        })),
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        ar: faker.number.int({ min: undefined, max: undefined }),
+        maned: faker.number.int({ min: undefined, max: undefined }),
+        utbetalingerForManed: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(
+            () => ({
+                annenMottaker: faker.datatype.boolean(),
+                belop: faker.number.int({ min: undefined, max: undefined }),
+                fiksDigisosId: faker.word.sample(),
+                fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                kontonummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+                mottaker: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+                status: faker.word.sample(),
+                tittel: faker.word.sample(),
+                tom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                utbetalingsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                utbetalingsmetode: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+            })
+        ),
     }));
 
 export const getHentNyeUtbetalingerResponseMock = (): NyeOgTidligereUtbetalingerResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        ar: faker.number.int({min: undefined, max: undefined}),
-        maned: faker.number.int({min: undefined, max: undefined}),
-        utbetalingerForManed: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-            annenMottaker: faker.datatype.boolean(),
-            belop: faker.number.int({min: undefined, max: undefined}),
-            fiksDigisosId: faker.word.sample(),
-            fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            kontonummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            mottaker: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-            status: faker.word.sample(),
-            tittel: faker.word.sample(),
-            tom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            utbetalingsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
-            utbetalingsmetode: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        })),
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        ar: faker.number.int({ min: undefined, max: undefined }),
+        maned: faker.number.int({ min: undefined, max: undefined }),
+        utbetalingerForManed: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(
+            () => ({
+                annenMottaker: faker.datatype.boolean(),
+                belop: faker.number.int({ min: undefined, max: undefined }),
+                fiksDigisosId: faker.word.sample(),
+                fom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                forfallsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                kontonummer: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+                mottaker: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+                status: faker.word.sample(),
+                tittel: faker.word.sample(),
+                tom: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                utbetalingsdato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
+                utbetalingsmetode: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+            })
+        ),
     }));
 
 export const getHentUtbetalingerMockHandler = (
@@ -87,7 +91,7 @@ export const getHentUtbetalingerMockHandler = (
                         : overrideResponse
                     : getHentUtbetalingerResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -110,7 +114,7 @@ export const getHentTidligereUtbetalingerMockHandler = (
                         : overrideResponse
                     : getHentTidligereUtbetalingerResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -133,7 +137,7 @@ export const getHentNyeUtbetalingerMockHandler = (
                         : overrideResponse
                     : getHentNyeUtbetalingerResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

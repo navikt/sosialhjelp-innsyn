@@ -1,6 +1,7 @@
-import {useGetOppgaver} from "../generated/oppgave-controller/oppgave-controller";
 import React from "react";
-import {OppgaveElement, OppgaveResponse} from "../generated/model";
+
+import { useGetOppgaver } from "../generated/oppgave-controller/oppgave-controller";
+import { OppgaveElement, OppgaveResponse } from "../generated/model";
 
 interface DokumentasjonEtterspurElement extends OppgaveElement {
     id: string;
@@ -12,7 +13,7 @@ export interface DokumentasjonEtterspurtResponse extends OppgaveResponse {
 const useDokumentasjonEtterspurt = (fiksDigisosId: string) => {
     const [dataWithId, setDataWithId] = React.useState<DokumentasjonEtterspurtResponse[] | undefined>(undefined);
 
-    const {data, isLoading, isError} = useGetOppgaver(fiksDigisosId);
+    const { data, isLoading, isError } = useGetOppgaver(fiksDigisosId);
 
     React.useEffect(() => {
         if (data) {
@@ -33,7 +34,7 @@ const useDokumentasjonEtterspurt = (fiksDigisosId: string) => {
         // Then we update the state with
         // this augmented data:
     }, [data]);
-    return {dokumentasjonEtterspurt: dataWithId, isLoading, isError};
+    return { dokumentasjonEtterspurt: dataWithId, isLoading, isError };
 };
 
 export default useDokumentasjonEtterspurt;

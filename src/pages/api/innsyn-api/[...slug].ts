@@ -1,9 +1,9 @@
-import type {NextApiRequest, NextApiResponse} from "next";
-import {proxyApiRouteRequest} from "@navikt/next-api-proxy";
-import {getToken} from "@navikt/oasis";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { proxyApiRouteRequest } from "@navikt/next-api-proxy";
+import { getToken } from "@navikt/oasis";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
-    const {slug, ...params} = req.query;
+    const { slug, ...params } = req.query;
     let token = getToken(req);
 
     if (["local", "mock"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         return res.status(401);
     }
     if (!slug) {
-        res.status(400).json({message: "Manglende path"});
+        res.status(400).json({ message: "Manglende path" });
         return;
     }
     const queryParams = Object.entries(params);

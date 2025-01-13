@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
 
 export const getHarSoknaderMedInnsynResponseMock = (): boolean => faker.datatype.boolean();
 
@@ -23,7 +23,7 @@ export const getHarSoknaderMedInnsynMockHandler = (
                         : overrideResponse
                     : getHarSoknaderMedInnsynResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

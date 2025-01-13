@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {VedleggOpplastingResponse} from "./vedleggOpplastingResponse";
-import type {OppgaveOpplastingResponseHendelsetype} from "./oppgaveOpplastingResponseHendelsetype";
+import type { VedleggOpplastingResponse } from "./vedleggOpplastingResponse";
+import type { OppgaveOpplastingResponseHendelsetype } from "./oppgaveOpplastingResponseHendelsetype";
 
 export interface OppgaveOpplastingResponse {
     filer: VedleggOpplastingResponse[];

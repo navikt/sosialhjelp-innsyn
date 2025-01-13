@@ -1,8 +1,8 @@
-// @ts-ignore
-import {mockUtbetalinger, summerAntallUtbetalinger} from "./Utbetalinger.testdata";
-import {UtbetalingerResponse} from "../generated/model";
-import {filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker} from "./utbetalingerUtils";
-import {utbetalingsdetaljerDefaultAapnet} from "./beta/tabs/UtbetalingAccordionItem";
+import { UtbetalingerResponse } from "../generated/model";
+
+import { mockUtbetalinger, summerAntallUtbetalinger } from "./Utbetalinger.testdata";
+import { filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker } from "./utbetalingerUtils";
+import { utbetalingsdetaljerDefaultAapnet } from "./beta/tabs/UtbetalingAccordionItem";
 
 it("should filter by time interval", () => {
     const utbetalingerMaaned: UtbetalingerResponse[] = mockUtbetalinger;

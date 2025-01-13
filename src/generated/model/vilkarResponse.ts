@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {VilkarResponseStatus} from "./vilkarResponseStatus";
+import type { VilkarResponseStatus } from "./vilkarResponseStatus";
 
 export interface VilkarResponse {
     beskrivelse?: string;

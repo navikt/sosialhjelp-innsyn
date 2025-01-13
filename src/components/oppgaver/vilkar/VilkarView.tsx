@@ -1,13 +1,15 @@
 import React from "react";
-import {BodyShort, Label} from "@navikt/ds-react";
+import { BodyShort, Label } from "@navikt/ds-react";
+
+import { VilkarResponse } from "../../../generated/model";
+
 import styles from "./vilkar.module.css";
-import {VilkarResponse} from "../../../generated/model";
 
 interface Props {
     vilkar: VilkarResponse[];
 }
 
-export const VilkarView: React.FC<Props> = ({vilkar}) => {
+export const VilkarView: React.FC<Props> = ({ vilkar }) => {
     return (
         <ul className={styles.vilkar_liste}>
             {vilkar.map((element) => (

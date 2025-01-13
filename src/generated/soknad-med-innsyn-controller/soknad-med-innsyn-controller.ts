@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,7 +14,8 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import {customFetch} from "../../custom-fetch";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -35,39 +36,39 @@ export const getHarSoknaderMedInnsynQueryKey = () => {
 
 export const getHarSoknaderMedInnsynQueryOptions = <
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHarSoknaderMedInnsynQueryKey();
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>> = ({signal}) =>
-        harSoknaderMedInnsyn({signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>> = ({ signal }) =>
+        harSoknaderMedInnsyn({ signal, ...requestOptions });
 
-    return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HarSoknaderMedInnsynQueryResult = NonNullable<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>>;
-export type HarSoknaderMedInnsynQueryError = unknown;
+export type HarSoknaderMedInnsynQueryError = ErrorType<unknown>;
 
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
-}): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>> &
         Pick<
@@ -75,25 +76,25 @@ export function useHarSoknaderMedInnsyn<
             "initialData"
         >;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useHarSoknaderMedInnsyn<
     TData = Awaited<ReturnType<typeof harSoknaderMedInnsyn>>,
-    TError = unknown,
+    TError = ErrorType<unknown>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harSoknaderMedInnsyn>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHarSoknaderMedInnsynQueryOptions(options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

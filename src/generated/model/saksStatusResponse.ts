@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {SaksStatusResponseStatus} from "./saksStatusResponseStatus";
-import type {FilUrl} from "./filUrl";
+import type { SaksStatusResponseStatus } from "./saksStatusResponseStatus";
+import type { FilUrl } from "./filUrl";
 
 export interface SaksStatusResponse {
     skalViseVedtakInfoPanel: boolean;

@@ -1,16 +1,17 @@
 import * as React from "react";
-import EllaBlunk from "../ellaBlunk";
-import {ApplicationSpinner} from "../applicationSpinner/ApplicationSpinner";
-import {BodyLong, Heading} from "@navikt/ds-react";
-import {UthevetPanel} from "../paneler/UthevetPanel";
+import { BodyLong, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
+import { useTranslation } from "next-i18next";
+import { logger } from "@navikt/next-logger";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import { useHarTilgang } from "../../generated/tilgang-controller/tilgang-controller";
 import Banner from "../banner/Banner";
-import {useTranslation} from "next-i18next";
-import {useHarTilgang} from "../../generated/tilgang-controller/tilgang-controller";
-import {logger} from "@navikt/next-logger";
-import {useRouter} from "next/router";
-import {useEffect} from "react";
-import {useQuery} from "@tanstack/react-query";
+import { UthevetPanel } from "../paneler/UthevetPanel";
+import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
+import EllaBlunk from "../ellaBlunk";
 
 const StyledElla = styled.div`
     display: flex;
@@ -23,7 +24,6 @@ const Wrapper = styled.div`
 `;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
-    queryHas403: boolean;
 }
 
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
@@ -37,16 +37,16 @@ const useDekoratorLogin = () =>
                 method: "get",
                 credentials: "include",
             });
-            const data: {session: {active: boolean}} | undefined =
+            const data: { session: { active: boolean } } | undefined =
                 result.status === 200 ? await result.json() : undefined;
-            return {status: result.status, ...data};
+            return { status: result.status, ...data };
         },
     });
 
-const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, queryHas403}) => {
+const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({ children }) => {
     const router = useRouter();
-    const {t} = useTranslation();
-    const {error, isPending, data: harTilgangData} = useHarTilgang();
+    const { t } = useTranslation();
+    const { error, isPending, data: harTilgangData } = useHarTilgang();
 
     const sessionQuery = useDekoratorLogin();
     useEffect(() => {
@@ -68,25 +68,25 @@ const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({children, qu
     }
 
     if (error) {
-        logger.error(
-            `Fikk feilmelding fra harTilgang. Code: ${harTilgangData?.status}, message: ${(error as any | undefined)?.message}`
-        );
+        logger.error(`Fikk feilmelding fra harTilgang. Code: ${harTilgangData?.status}, message: ${error.message}`);
     }
 
     const isAuthError = harTilgangData?.status === 401 || harTilgangData?.status === 403;
-    if (isAuthError || queryHas403 || (harTilgangData && !harTilgangData.data.harTilgang)) {
+    if (isAuthError || (harTilgangData && !harTilgangData.data.harTilgang)) {
         const fornavn = harTilgangData?.data.fornavn;
-        fornavn === ""
-            ? logger.warn(`Viser tilgangskontrollside uten fornavn`)
-            : logger.warn(`Viser tilgangskontrollside med fornavn`);
+        if (fornavn === "") {
+            logger.warn(`Viser tilgangskontrollside uten fornavn`);
+        } else {
+            logger.warn(`Viser tilgangskontrollside med fornavn`);
+        }
 
         return (
             <div className="informasjon-side">
                 <Banner>{t("app.tittel")}</Banner>
-                <Wrapper className={"blokk-center"}>
+                <Wrapper className="blokk-center">
                     <UthevetPanel className="panel-glippe-over">
                         <StyledElla>
-                            <EllaBlunk size={"175"} />
+                            <EllaBlunk size="175" />
                         </StyledElla>
                         <Heading as="p" size="large" spacing>
                             {t("tilgang.header", {

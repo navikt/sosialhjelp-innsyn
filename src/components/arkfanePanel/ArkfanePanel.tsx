@@ -1,11 +1,12 @@
 import React from "react";
-import {Tabs} from "@navikt/ds-react";
+import { Tabs } from "@navikt/ds-react";
 import styled from "styled-components";
-import {useTranslation} from "next-i18next";
-import {ErrorColored} from "@navikt/ds-icons";
-import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
+import { useTranslation } from "next-i18next";
+import { XMarkOctagonIcon } from "@navikt/aksel-icons";
+
+import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentVedlegg} from "../../generated/vedlegg-controller/vedlegg-controller";
+import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import Panel from "../panel/Panel";
 
 enum ARKFANER {
@@ -13,8 +14,9 @@ enum ARKFANER {
     VEDLEGG = "Vedlegg",
 }
 
-const StyledErrorColored = styled(ErrorColored)`
+const StyledErrorColored = styled(XMarkOctagonIcon)`
     position: absolute;
+    color: var(--a-red-500);
     @media screen and (min-width: 641px) {
         top: 5.15rem;
         left: 1.5rem;
@@ -32,7 +34,7 @@ interface Props {
 
 const ArkfanePanel: React.FC<Props> = (props) => {
     const fiksDigisosId = useFiksDigisosId();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
     const hendelserHasError = useHentHendelser(fiksDigisosId).isError;
     const vedleggHasError = useHentVedlegg(fiksDigisosId).isError;

@@ -1,14 +1,15 @@
-import React, {PropsWithChildren} from "react";
-import AppBanner from "./appBanner/AppBanner";
+import React, { PropsWithChildren } from "react";
 import Head from "next/head";
-import {NewYearNewNumbers} from "./driftsmelding/Downtime";
+
+import AppBanner from "./appBanner/AppBanner";
+import { NewYearNewNumbers } from "./driftsmelding/Downtime";
 
 interface Props {
     title: string;
     bannerTitle?: string;
 }
 
-const MainLayout = ({title, bannerTitle, children}: PropsWithChildren<Props>) => (
+const MainLayout = ({ title, bannerTitle, children }: PropsWithChildren<Props>) => (
     <>
         <Head>
             <title>{title}</title>

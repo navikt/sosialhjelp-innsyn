@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {SoknadsStatusResponseStatus} from "../../generated/model";
+
+import { SoknadsStatusResponseStatus } from "../../generated/model";
 import AapnetBrev from "../ikoner/AapnetBrev";
 import GodkjentMerke from "../ikoner/GodkjentMerke";
 import Timeglass from "../ikoner/Timeglass";

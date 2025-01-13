@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY package.json /app/
 COPY next-logger.config.js /app/
-COPY sentry.*.config.ts /app/
 COPY .env /app/
 COPY .env.production /app/
 COPY .next/standalone /app/

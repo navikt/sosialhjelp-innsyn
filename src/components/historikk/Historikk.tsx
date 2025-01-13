@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { BodyShort, Button, Label, Link as NavDsLink } from "@navikt/ds-react";
+import { UnmountClosed } from "react-collapse";
+import styled from "styled-components";
+import { ChevronUpIcon, ChevronDownIcon } from "@navikt/aksel-icons";
+import Link from "next/link";
+
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import {logButtonOrLinkClick} from "../../utils/amplitude";
-import {Trans, useTranslation} from "react-i18next";
-import {BodyShort, Button, Label, Link as NavDsLink} from "@navikt/ds-react";
-import {UnmountClosed} from "react-collapse";
-import styled from "styled-components";
-import {Collapse, Expand} from "@navikt/ds-icons";
-import {useHentHendelser} from "../../generated/hendelse-controller/hendelse-controller";
-import {HendelseResponse} from "../../generated/model";
-import {HistorikkTekstEnum} from "./HistorikkTekstEnum";
-import Link from "next/link";
-import {logger} from "@navikt/next-logger";
-import {useQuery} from "@tanstack/react-query";
+import { logButtonOrLinkClick } from "../../utils/amplitude";
+import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-controller";
+import { HendelseResponse } from "../../generated/model";
+
+import { HistorikkTekstEnum } from "./HistorikkTekstEnum";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -34,8 +34,8 @@ const FlexContainer = styled.div`
 
 function sorterHendelserKronologisk(hendelser: HendelseResponse[]): HendelseResponse[] {
     return hendelser.sort((a: HendelseResponse, b: HendelseResponse) => {
-        let c = new Date(a.tidspunkt);
-        let d = new Date(b.tidspunkt);
+        const c = new Date(a.tidspunkt);
+        const d = new Date(b.tidspunkt);
         return c > d ? -1 : c < d ? 1 : 0;
     });
 }
@@ -46,8 +46,8 @@ interface HistorikkListeProps {
     leserData: boolean;
 }
 
-const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, leserData}) => {
-    const {t} = useTranslation();
+const HistorikkListe: React.FC<HistorikkListeProps> = ({ hendelser, className, leserData }) => {
+    const { t } = useTranslation();
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
@@ -124,7 +124,7 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             return (
                 <BodyShort weight="semibold">
                     <Trans i18nKey={enumValue} t={t}>
-                        <span lang="no">{{tekstArgument}}</span> er under behandling.
+                        <span lang="no">{{ tekstArgument }}</span> er under behandling.
                     </Trans>
                 </BodyShort>
             );
@@ -142,12 +142,12 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
             return (
                 <BodyShort weight="semibold">
                     <Trans i18nKey={enumValue} t={t}>
-                        <span lang="no">{{tekstArgument}}</span>
+                        <span lang="no">{{ tekstArgument }}</span>
                     </Trans>
                 </BodyShort>
             );
         }
-        return <BodyShort weight="semibold">{t(enumValue, {tekstArgument: tekstArgument})}</BodyShort>;
+        return <BodyShort weight="semibold">{t(enumValue, { tekstArgument: tekstArgument })}</BodyShort>;
     };
 
     return (
@@ -179,14 +179,14 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({hendelser, className, le
     );
 };
 
-const KortHistorikk: React.FC<{hendelser: HendelseResponse[]; leserData: boolean}> = ({hendelser, leserData}) => {
+const KortHistorikk: React.FC<{ hendelser: HendelseResponse[]; leserData: boolean }> = ({ hendelser, leserData }) => {
     return <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />;
 };
 
-const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) => {
+const LangHistorikk: React.FC<{ hendelser: HendelseResponse[] }> = ({ hendelser }) => {
     const [apen, setApen] = useState(false);
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const toggleOpen = () => {
         setApen(!apen);
     };
@@ -208,9 +208,11 @@ const LangHistorikk: React.FC<{hendelser: HendelseResponse[]}> = ({hendelser}) =
             <CenteredButton
                 variant="tertiary"
                 onClick={toggleOpen}
-                size={"xsmall"}
-                iconPosition={"left"}
-                icon={apen ? <Collapse aria-hidden title="Lukk" /> : <Expand aria-hidden title="Vis alle" />}
+                size="xsmall"
+                iconPosition="left"
+                icon={
+                    apen ? <ChevronUpIcon aria-hidden title="Lukk" /> : <ChevronDownIcon aria-hidden title="Vis alle" />
+                }
             >
                 {apen ? t("historikk.lukk") : `${t("historikk.se_hele_prosessen")}`}
             </CenteredButton>
@@ -225,16 +227,9 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
-const Historikk: React.FC<Props> = ({fiksDigisosId}) => {
-    const {data: hendelser, isLoading, isError, error} = useHentHendelser(fiksDigisosId);
-    useEffect(() => {
-        if (hendelser && !hendelser.sort) {
-            logger.error(
-                `Hendelser er ikke en liste i Historikk? hendelser: ${JSON.stringify(hendelser)}\nerror: ${JSON.stringify(error)}`
-            );
-        }
-    }, [error, hendelser]);
-    const {t} = useTranslation();
+const Historikk: React.FC<Props> = ({ fiksDigisosId }) => {
+    const { data: hendelser, isLoading, isError } = useHentHendelser(fiksDigisosId);
+    const { t } = useTranslation();
 
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;

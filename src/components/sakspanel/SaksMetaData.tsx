@@ -1,15 +1,16 @@
-import {Detail} from "@navikt/ds-react";
+import { Detail } from "@navikt/ds-react";
+import React, { useEffect } from "react";
+import { useTranslation } from "next-i18next";
+import { logger } from "@navikt/next-logger";
+
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import React, {useEffect} from "react";
-import {useTranslation} from "next-i18next";
-import {logger} from "@navikt/next-logger";
 
 interface Props {
     status?: string;
     oppdatert: string;
 }
 const SaksMetaData = (props: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     useEffect(() => {
         if (!props.status?.toLowerCase) {
             logger.warn("status is not a string in SaksMetaData? Status: " + props.status);

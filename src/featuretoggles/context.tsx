@@ -1,11 +1,11 @@
-import {IToggle} from "@unleash/nextjs";
-import {createContext, PropsWithChildren, useContext, useEffect} from "react";
+import { IToggle } from "@unleash/nextjs";
+import React, { createContext, PropsWithChildren, useContext, useEffect } from "react";
 
-import {ExpectedToggles} from "./toggles";
+import { ExpectedToggles } from "./toggles";
 
-const FlagContext = createContext<{toggles: IToggle[]}>({toggles: []});
+const FlagContext = createContext<{ toggles: IToggle[] }>({ toggles: [] });
 
-export function FlagProvider({toggles, children}: PropsWithChildren<{toggles: IToggle[]}>): JSX.Element {
+export function FlagProvider({ toggles, children }: PropsWithChildren<{ toggles: IToggle[] }>): React.JSX.Element {
     useEffect(() => {
         if (toggles == null) {
             // TODO: Disabler denne foreløpig, siden den logger for hvert sidebesøk når unleash ikke fungerer
@@ -13,7 +13,7 @@ export function FlagProvider({toggles, children}: PropsWithChildren<{toggles: IT
         }
     }, [toggles]);
 
-    return <FlagContext.Provider value={{toggles: toggles ?? []}}>{children}</FlagContext.Provider>;
+    return <FlagContext.Provider value={{ toggles: toggles ?? [] }}>{children}</FlagContext.Provider>;
 }
 
 export function useFlag(name: ExpectedToggles): IToggle {
@@ -21,7 +21,7 @@ export function useFlag(name: ExpectedToggles): IToggle {
     const toggle = context.toggles.find((toggle) => toggle.name === name);
 
     if (toggle == null) {
-        return {name, enabled: false, impressionData: false, variant: {name: "disabled", enabled: false}};
+        return { name, enabled: false, impressionData: false, variant: { name: "disabled", enabled: false } };
     }
 
     return toggle;

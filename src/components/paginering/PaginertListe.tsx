@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { Box, Button, Pagination, VStack } from "@navikt/ds-react";
+import { chunk, take } from "remeda";
+
 import styles from "../../styles/lists.module.css";
-import {Box, Button, Pagination, VStack} from "@navikt/ds-react";
-import {chunk, take} from "remeda";
 
 interface Props {
     children: React.JSX.Element[];
@@ -9,7 +10,7 @@ interface Props {
     variant?: "paginert" | "last_flere";
 }
 
-const PaginertListe = ({children, countPerPage, variant = "paginert"}: Props): React.JSX.Element => {
+const PaginertListe = ({ children, countPerPage, variant = "paginert" }: Props): React.JSX.Element => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const pageCount = Math.ceil(children.length / countPerPage);

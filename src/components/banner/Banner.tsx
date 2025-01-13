@@ -1,8 +1,8 @@
-import {Heading} from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
 import * as React from "react";
-import {PropsWithChildren} from "react";
+import { PropsWithChildren } from "react";
 
-const Banner = (props: PropsWithChildren<{}>) => {
+const Banner = (props: PropsWithChildren) => {
     return (
         <div className="banner">
             <div className="blokk-center">

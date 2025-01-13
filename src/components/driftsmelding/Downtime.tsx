@@ -1,6 +1,7 @@
-import {useTranslation} from "next-i18next";
-import {Alert, BodyShort, Heading} from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+import { Alert, BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
+
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
 
 const StyledAlert = styled(Alert)`
@@ -9,7 +10,7 @@ const StyledAlert = styled(Alert)`
 `;
 
 const NewYearEngelsk = () => (
-    <StyledAlert variant={"warning"}>
+    <StyledAlert variant="warning">
         <Heading size="small" level="2" spacing>
             Ålesund: forwarding of attachments is not possible.
         </Heading>
@@ -21,7 +22,7 @@ const NewYearEngelsk = () => (
 );
 const NewYearNorsk = () => {
     return (
-        <StyledAlert variant={"warning"}>
+        <StyledAlert variant="warning">
             <Heading size="small" level="2">
                 Ålesund: ettersending av vedlegg blir ikke mulig
             </Heading>
@@ -36,7 +37,7 @@ const NewYearNorsk = () => {
 export const NewYearNewNumbers = () => {
     const isAalesund = useIsAalesundBlocked();
     const {
-        i18n: {language},
+        i18n: { language },
     } = useTranslation();
 
     if (!isAalesund) {

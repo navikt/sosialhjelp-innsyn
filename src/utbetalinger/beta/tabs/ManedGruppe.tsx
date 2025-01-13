@@ -1,17 +1,19 @@
 import React from "react";
-import {Accordion, BodyShort} from "@navikt/ds-react";
+import { Accordion, BodyShort } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+
+import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
+import { hentMaanedString } from "../../utbetalingerUtils";
+
 import styles from "./manedgruppe.module.css";
 import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
-import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
-import {hentMaanedString} from "../../utbetalingerUtils";
-import {useTranslation} from "next-i18next";
 
 interface Props {
     utbetalingSak: UtbetalingerResponseMedId;
 }
 const ManedGruppe = (props: Props) => {
-    const {utbetalingSak} = props;
-    const {i18n} = useTranslation();
+    const { utbetalingSak } = props;
+    const { i18n } = useTranslation();
 
     return (
         <section className={styles.month_group}>

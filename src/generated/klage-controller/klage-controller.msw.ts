@@ -4,12 +4,12 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {KlageDto, Unit} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { KlageDto, Unit } from ".././model";
 
 export const getHentKlagerResponseMock = (): KlageDto[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         klageUrl: {
             dato: faker.helpers.arrayElement([faker.date.past().toISOString().split("T")[0], undefined]),
             id: faker.word.sample(),
@@ -23,7 +23,7 @@ export const getHentKlagerResponseMock = (): KlageDto[] =>
             },
             undefined,
         ]),
-        paaklagetVedtakRefs: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() =>
+        paaklagetVedtakRefs: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() =>
             faker.word.sample()
         ),
         status: faker.helpers.arrayElement([
@@ -53,7 +53,7 @@ export const getHentKlagerMockHandler = (
                         : overrideResponse
                     : getHentKlagerResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -72,7 +72,7 @@ export const getSendKlageMockHandler = (
                         : overrideResponse
                     : getSendKlageResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

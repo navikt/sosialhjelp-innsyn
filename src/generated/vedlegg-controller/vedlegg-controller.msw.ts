@@ -4,23 +4,23 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {OppgaveOpplastingResponse, VedleggResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { OppgaveOpplastingResponse, VedleggResponse } from ".././model";
 
 export const getHentVedleggResponseMock = (): VedleggResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
         datoLagtTil: `${faker.date.past().toISOString().split(".")[0]}Z`,
         filnavn: faker.word.sample(),
-        storrelse: faker.number.int({min: undefined, max: undefined}),
+        storrelse: faker.number.int({ min: undefined, max: undefined }),
         tilleggsinfo: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         type: faker.word.sample(),
         url: faker.word.sample(),
     }));
 
 export const getSendVedleggResponseMock = (): OppgaveOpplastingResponse[] =>
-    Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
-        filer: Array.from({length: faker.number.int({min: 1, max: 10})}, (_, i) => i + 1).map(() => ({
+    Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+        filer: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
             filnavn: faker.helpers.arrayElement([faker.word.sample(), undefined]),
             status: faker.helpers.arrayElement([
                 "OK",
@@ -57,7 +57,7 @@ export const getHentVedleggMockHandler = (
                         : overrideResponse
                     : getHentVedleggResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };
@@ -80,7 +80,7 @@ export const getSendVedleggMockHandler = (
                         : overrideResponse
                     : getSendVedleggResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

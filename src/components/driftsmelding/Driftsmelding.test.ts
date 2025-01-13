@@ -1,18 +1,15 @@
+import { http, HttpResponse } from "msw";
+import { waitFor } from "@testing-library/react";
+
+import { KommuneResponse, SoknadsStatusResponse, SoknadsStatusResponseStatus } from "../../generated/model";
+import { server } from "../../mocks/server";
+import { renderHook } from "../../test/test-utils";
+
 import {
     Driftsmelding,
     getDriftsmeldingByKommuneResponseOrDigisosId,
     useFileUploadAllowed,
 } from "./DriftsmeldingUtilities";
-import {
-    KommuneResponse,
-    SaksListeResponse,
-    SoknadsStatusResponse,
-    SoknadsStatusResponseStatus,
-} from "../../generated/model";
-import {http, HttpResponse} from "msw";
-import {server} from "../../mocks/server";
-import {renderHook} from "../../test/test-utils";
-import {waitFor} from "@testing-library/react";
 
 const kommuneResponse_ok: KommuneResponse = {
     erInnsynDeaktivert: false,
@@ -124,7 +121,7 @@ it("Opplasting av vedlegg er disabled ved riktige caser", () => {
 
 it.skip("Opplasting av vedlegg er disabled ved broken soknad pga vedleggmangel", async () => {
     server.use(brokenSoknad);
-    const {result} = renderHook(() => useFileUploadAllowed(kommuneResponse_alt_er_lov, "broken"));
-    await waitFor(() => expect(result.current.kanLasteOppVedlegg).toEqual(false), {timeout: 99999});
+    const { result } = renderHook(() => useFileUploadAllowed(kommuneResponse_alt_er_lov, "broken"));
+    await waitFor(() => expect(result.current.kanLasteOppVedlegg).toEqual(false), { timeout: 99999 });
     await waitFor(() => expect(result.current.textKey).toEqual("driftsmelding.vedlegg.vedleggMangler"));
 }, 99999);

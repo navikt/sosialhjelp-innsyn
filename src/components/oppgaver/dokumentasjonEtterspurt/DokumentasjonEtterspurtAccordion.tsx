@@ -1,18 +1,20 @@
-import {Accordion, BodyShort} from "@navikt/ds-react";
+import { Accordion, BodyShort } from "@navikt/ds-react";
+import React, { useEffect } from "react";
+import { useTranslation } from "next-i18next";
+
 import {
     logVeilederBerOmDokumentasjonEvent,
     logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent,
 } from "../../../utils/amplitude";
-import {OpplastingAvVedleggModal} from "../OpplastingAvVedleggModal";
-import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
-import React, {useEffect} from "react";
-import {InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist} from "./TekstBlokker";
+import { OpplastingAvVedleggModal } from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
+import { OppgaveElementHendelsetype, OppgaveResponse } from "../../../generated/model";
+import { DokumentasjonEtterspurtResponse } from "../../../hooks/useDokumentasjonEtterspurt";
+
 import dokumentasjonEtterspurtStyles from "./dokumentasjonetterspurt.module.css";
-import {OppgaveElementHendelsetype, OppgaveResponse} from "../../../generated/model";
-import {DokumentasjonEtterspurtResponse} from "../../../hooks/useDokumentasjonEtterspurt";
-import {useTranslation} from "next-i18next";
+import { InfoOmOppgaver, MaaSendeDokTekst, NesteInnsendelsesFrist } from "./TekstBlokker";
+import DokumentasjonEtterspurtView from "./DokumentasjonEtterspurtView";
 
 function foersteInnsendelsesfrist(dokumentasjonEtterspurt: OppgaveResponse[] | undefined): Date | null {
     if (dokumentasjonEtterspurt?.length) {
@@ -28,7 +30,7 @@ interface Props {
 }
 
 export const DokumentasjonEtterspurtAccordion = (props: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
     const dokumentasjonEtterspurtErFraInnsyn =
@@ -45,7 +47,7 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
                 props.dokumentasjonEtterspurt.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
             );
         }
-    }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt]);
+    }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt, props.dokumentasjonEtterspurt]);
 
     if (!brukerHarDokumentasjonEtterspurt) {
         return null;

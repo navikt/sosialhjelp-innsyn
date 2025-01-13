@@ -1,18 +1,20 @@
-import React, {useMemo} from "react";
-import {isAfter, isBefore} from "date-fns";
-import Subheader from "../components/subheader/Subheader";
-import InfoPanel, {InfoPanelWrapper} from "../components/Infopanel/InfoPanel";
-import SakPanel from "./sakpanel/SakPanel";
-import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../utils/amplitude";
-import {Button, Heading, Panel} from "@navikt/ds-react";
+import React, { useMemo } from "react";
+import { isAfter, isBefore } from "date-fns";
+import { Button, Heading, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
-import {SakspanelMaxBreakpoint} from "../styles/constants";
-import {SaksListeResponse} from "../generated/model";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
+import { sort } from "remeda";
+
+import Subheader from "../components/subheader/Subheader";
+import InfoPanel, { InfoPanelWrapper } from "../components/Infopanel/InfoPanel";
+import { logAmplitudeEvent, logButtonOrLinkClick } from "../utils/amplitude";
+import { SakspanelMaxBreakpoint } from "../styles/constants";
+import { SaksListeResponse } from "../generated/model";
 import useIsMobile from "../utils/useIsMobile";
 import PaginertListe from "../components/paginering/PaginertListe";
-import {sort} from "remeda";
+
+import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
+import SakPanel from "./sakpanel/SakPanel";
 
 const StyledDineSoknaderPanel = styled(Panel)`
     margin-top: 1rem;
@@ -44,8 +46,8 @@ const sammenlignSaksTidspunkt = (a: SaksListeResponse, b: SaksListeResponse) => 
     return 0;
 };
 
-const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) => {
-    const {t} = useTranslation();
+const SaksoversiktDineSaker: React.FC<{ saker: SaksListeResponse[] }> = ({ saker }) => {
+    const { t } = useTranslation();
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...
@@ -101,16 +103,16 @@ const SaksoversiktDineSaker: React.FC<{saker: SaksListeResponse[]}> = ({saker}) 
                 <InfoPanelWrapper>
                     <InfoPanel
                         tittel={t("endringer.tittel")}
-                        href={"https://www.nav.no/okonomisk-sosialhjelp#meld-fra-ved-endring"}
+                        href="https://www.nav.no/okonomisk-sosialhjelp#meld-fra-ved-endring"
                     >
                         {t("endringer.detaljer")}
                     </InfoPanel>
-                    <InfoPanel tittel={t("klage.tittel")} href={"https://www.nav.no/okonomisk-sosialhjelp#klage"}>
+                    <InfoPanel tittel={t("klage.tittel")} href="https://www.nav.no/okonomisk-sosialhjelp#klage">
                         {t("klage.detaljer")}
                     </InfoPanel>
                     <InfoPanel
                         tittel={t("personopplysninger.tittel")}
-                        href={"https://www.nav.no/personopplysninger-sosialhjelp"}
+                        href="https://www.nav.no/personopplysninger-sosialhjelp"
                     >
                         {t("personopplysninger.detaljer")}
                     </InfoPanel>

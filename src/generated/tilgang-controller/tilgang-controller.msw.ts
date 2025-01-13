@@ -4,9 +4,9 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {TilgangResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { TilgangResponse } from ".././model";
 
 export const getHarTilgangResponseMock = (overrideResponse: Partial<TilgangResponse> = {}): TilgangResponse => ({
     fornavn: faker.word.sample(),
@@ -30,7 +30,7 @@ export const getHarTilgangMockHandler = (
                         : overrideResponse
                     : getHarTilgangResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

@@ -1,14 +1,16 @@
-import {Accordion, BodyShort} from "@navikt/ds-react";
-import styles from "./manedgruppe.module.css";
-import {logAmplitudeEvent, logButtonOrLinkClick} from "../../../utils/amplitude";
-import {formatCurrency, formatDato, getDayAndMonth} from "../../../utils/formatting";
-import {FileContent} from "@navikt/ds-icons";
-import React, {useState} from "react";
-import {useTranslation} from "next-i18next";
-import {UtbetalingMedId} from "../UtbetalingerPanelBeta";
-import {hentTekstForUtbetalingsmetode, hentUtbetalingTittel} from "../../utbetalingerUtils";
+import { Accordion, BodyShort } from "@navikt/ds-react";
+import { FileTextIcon } from "@navikt/aksel-icons";
+import React, { useState } from "react";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import {logger} from "@navikt/next-logger";
+import { logger } from "@navikt/next-logger";
+
+import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
+import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
+import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
+import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
+
+import styles from "./manedgruppe.module.css";
 
 function statusToTekst(t: (key: string) => string, status?: string) {
     switch (status) {
@@ -36,7 +38,7 @@ export const utbetalingsdetaljerDefaultAapnet = (dagensDato: Date, utbetalingsda
     const femtenDagerSiden: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
     femtenDagerSiden.setHours(0, 0, 0, 0);
 
-    let femtenDagerTil: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
+    const femtenDagerTil: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
     femtenDagerTil.setHours(1, 0, 0, 0);
 
     const erUtbetalingsdatoInnenDeSisteFemtenDagene =
@@ -48,8 +50,8 @@ export const utbetalingsdetaljerDefaultAapnet = (dagensDato: Date, utbetalingsda
     return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
 };
 
-const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
-    const {t, i18n} = useTranslation("utbetalinger");
+const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
+    const { t, i18n } = useTranslation("utbetalinger");
     const [isOpen, setIsOpen] = useState(utbetalingsdetaljerDefaultAapnet(new Date(), utbetalingManed.utbetalingsdato));
 
     return (
@@ -57,7 +59,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
             <Accordion.Item open={isOpen}>
                 <Accordion.Header
                     className={styles.accordion_header}
-                    onClick={(e) => {
+                    onClick={() => {
                         logAmplitudeEvent(isOpen ? "accordion lukket" : "accordion åpnet", {
                             tekst: "Utbetaling",
                         });
@@ -129,7 +131,7 @@ const UtbetalingAccordionItem = ({utbetalingManed}: Props) => {
                         className={`navds-link ${styles.soknadLenke} `}
                         onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
                     >
-                        <FileContent aria-hidden width="1.5rem" height="1.5rem" />
+                        <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
                         {t("soknadLenke")}
                     </Link>
                 </Accordion.Content>

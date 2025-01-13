@@ -1,8 +1,9 @@
-import {BodyShort, Label} from "@navikt/ds-react";
-import {useTranslation} from "next-i18next";
-import {formatDato} from "../../../utils/formatting";
+import { BodyShort, Label } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
 import React from "react";
-import {antallDagerEtterFrist} from "../InnsendelsesFrist";
+
+import { formatDato } from "../../../utils/formatting";
+import { antallDagerEtterFrist } from "../InnsendelsesFrist";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
     return antallDagerSidenFristBlePassert > 1
@@ -15,7 +16,7 @@ interface NesteInnsendelsesFristProps {
 }
 export const NesteInnsendelsesFrist = (props: NesteInnsendelsesFristProps) => {
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(props.innsendelsesfrist);
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
 
     return (
         <BodyShort>
@@ -34,8 +35,8 @@ export const NesteInnsendelsesFrist = (props: NesteInnsendelsesFristProps) => {
         </BodyShort>
     );
 };
-export const MaaSendeDokTekst = (props: {dokumentasjonEtterspurtErFraInnsyn: boolean}) => {
-    const {t} = useTranslation();
+export const MaaSendeDokTekst = (props: { dokumentasjonEtterspurtErFraInnsyn: boolean }) => {
+    const { t } = useTranslation();
 
     return (
         <Label as="p">
@@ -45,8 +46,8 @@ export const MaaSendeDokTekst = (props: {dokumentasjonEtterspurtErFraInnsyn: boo
         </Label>
     );
 };
-export const InfoOmOppgaver = (props: {dokumentasjonEtterspurtErFraInnsyn: boolean}) => {
-    const {t} = useTranslation();
+export const InfoOmOppgaver = (props: { dokumentasjonEtterspurtErFraInnsyn: boolean }) => {
+    const { t } = useTranslation();
 
     return props.dokumentasjonEtterspurtErFraInnsyn ? (
         <BodyShort>{t("oppgaver.veileder_trenger_mer")}</BodyShort>

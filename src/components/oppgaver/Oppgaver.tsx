@@ -1,13 +1,11 @@
-import React, {useEffect, useMemo} from "react";
-import Lastestriper from "../lastestriper/Lasterstriper";
-import {useTranslation} from "next-i18next";
-import OppgaveInformasjon from "./OppgaveInformasjon";
-import IngenOppgaverPanel from "./IngenOppgaverPanel";
-import {Accordion, Alert} from "@navikt/ds-react";
+import React, { useEffect, useMemo } from "react";
+import { useTranslation } from "next-i18next";
+import { Accordion, Alert } from "@navikt/ds-react";
 import styled from "styled-components";
-import {VilkarAccordion} from "./vilkar/VilkarAccordion";
-import {DokumentasjonEtterspurtAccordion} from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
-import {add, isBefore} from "date-fns";
+import { add, isBefore } from "date-fns";
+import { logger } from "@navikt/next-logger";
+
+import Lastestriper from "../lastestriper/Lasterstriper";
 import {
     useGetDokumentasjonkrav,
     useGetfagsystemHarDokumentasjonkrav,
@@ -15,17 +13,21 @@ import {
     useGetVilkar,
 } from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {useHentUtbetalinger} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import {harSakMedInnvilgetEllerDelvisInnvilget} from "./vilkar/VilkarUtils";
-import {useHentSaksStatuser} from "../../generated/saks-status-controller/saks-status-controller";
-import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
-import OppgaverPanel from "./OppgaverPanel";
+import { useHentUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
-import styles from "./oppgaver.module.css";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";
-import {useFilUploadSuccessful} from "../filopplasting/FilUploadSuccessfulContext";
-import {logger} from "@navikt/next-logger";
+import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
+
+import OppgaveInformasjon from "./OppgaveInformasjon";
+import IngenOppgaverPanel from "./IngenOppgaverPanel";
+import { VilkarAccordion } from "./vilkar/VilkarAccordion";
+import { DokumentasjonEtterspurtAccordion } from "./dokumentasjonEtterspurt/DokumentasjonEtterspurtAccordion";
+import { harSakMedInnvilgetEllerDelvisInnvilget } from "./vilkar/VilkarUtils";
+import DokumentasjonkravAccordion from "./dokumentasjonkrav/DokumentasjonkravAccordion";
+import OppgaverPanel from "./OppgaverPanel";
+import styles from "./oppgaver.module.css";
 
 const StyledAlert = styled(Alert)`
     margin-top: 1rem;
@@ -61,27 +63,27 @@ export const skalSkjuleVilkarOgDokKrav = (
 const DAGER_SIDEN_UTBETALINGSPERIODEN_ER_FORBIGAATT = 21;
 
 const Oppgaver = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const fiksDigisosId = useFiksDigisosId();
     const vilkarQuery = useGetVilkar(fiksDigisosId);
     const dokumentasjonskravQuery = useGetDokumentasjonkrav(fiksDigisosId);
-    const {dokumentasjonEtterspurt, ...oppgaverQuery} = useDokumentasjonEtterspurt(fiksDigisosId);
-    const {data: harLevertDokumentasjonskrav, ...harLevertDokumentasjonskravQuery} =
+    const { dokumentasjonEtterspurt, ...oppgaverQuery } = useDokumentasjonEtterspurt(fiksDigisosId);
+    const { data: harLevertDokumentasjonskrav, ...harLevertDokumentasjonskravQuery } =
         useGetHarLevertDokumentasjonkrav(fiksDigisosId);
-    const {data: fagsystemHarDokumentasjonkrav, ...fagsystemHarDokumentasjonkravQuery} =
+    const { data: fagsystemHarDokumentasjonkrav, ...fagsystemHarDokumentasjonkravQuery } =
         useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
-    const {data: saksStatuser, ...saksStatusQuery} = useHentSaksStatuser(fiksDigisosId);
+    const { data: saksStatuser, ...saksStatusQuery } = useHentSaksStatuser(fiksDigisosId);
     const utbetalingerQuery = useHentUtbetalinger();
 
     useEffect(() => {
-        const {error} = utbetalingerQuery;
+        const { error } = utbetalingerQuery;
         if (error) {
-            logger.warn((error as any).message, (error as any).navCallId);
+            logger.warn(error.message, error.navCallId);
         }
-    }, [utbetalingerQuery.error]);
+    }, [utbetalingerQuery, utbetalingerQuery.error]);
 
-    const {oppgaverUploadSuccess} = useFilUploadSuccessful();
+    const { oppgaverUploadSuccess } = useFilUploadSuccessful();
 
     const hasError =
         vilkarQuery.isError ||
@@ -159,7 +161,7 @@ const Oppgaver = () => {
     if (isLoading) {
         return (
             <OppgaverPanel hasError={hasError}>
-                <Lastestriper linjer={1} style={{paddingTop: "1.5rem"}} />
+                <Lastestriper linjer={1} style={{ paddingTop: "1.5rem" }} />
             </OppgaverPanel>
         );
     }

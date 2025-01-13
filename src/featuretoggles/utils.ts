@@ -1,6 +1,6 @@
-import {IToggle} from "@unleash/nextjs";
+import { IToggle } from "@unleash/nextjs";
 
-import {EXPECTED_TOGGLES} from "./toggles";
+import { EXPECTED_TOGGLES } from "./toggles";
 
 export function localDevelopmentToggles(): IToggle[] {
     return EXPECTED_TOGGLES.map(

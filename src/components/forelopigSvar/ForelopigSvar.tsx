@@ -1,17 +1,18 @@
 import * as React from "react";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
+import { Alert } from "@navikt/ds-react";
+
 import EksternLenke from "../eksternLenke/EksternLenke";
-import {Alert} from "@navikt/ds-react";
-import {useHentForelopigSvarStatus} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
-import {useHentSoknadsStatus} from "../../generated/soknads-status-controller/soknads-status-controller";
+import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
+import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 const ForelopigSvarAlertstripe: React.FC = () => {
     const soknadId = useFiksDigisosId();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
-    const {data: forelopigSvar} = useHentForelopigSvarStatus(soknadId as string);
-    const {data: soknadsStatus} = useHentSoknadsStatus(soknadId as string);
+    const { data: forelopigSvar } = useHentForelopigSvarStatus(soknadId as string);
+    const { data: soknadsStatus } = useHentSoknadsStatus(soknadId as string);
 
     if (!forelopigSvar || !soknadsStatus) {
         return null;

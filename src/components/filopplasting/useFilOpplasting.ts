@@ -1,25 +1,28 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
-import {UseMutationOptions, useQueryClient} from "@tanstack/react-query";
+import path from "path";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { logger } from "@navikt/next-logger";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+
 import {
     logAmplitudeEvent,
     logBrukerLeavingBeforeSubmitting,
     logDuplicatedFiles,
     logFileUploadFailedEvent,
 } from "../../utils/amplitude";
-import {SendVedleggBody, VedleggOpplastingResponseStatus} from "../../generated/model";
-import {containsIllegalCharacters, maxCombinedFileSize, maxFileSize} from "../../utils/vedleggUtils";
+import { SendVedleggBody, VedleggOpplastingResponseStatus } from "../../generated/model";
+import { containsIllegalCharacters, maxCombinedFileSize, maxFileSize } from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
     useSendVedlegg,
 } from "../../generated/vedlegg-controller/vedlegg-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {getHentHendelserQueryKey} from "../../generated/hendelse-controller/hendelse-controller";
-import {logger} from "@navikt/next-logger";
-import {useFilUploadSuccessful} from "./FilUploadSuccessfulContext";
-import {useRouter} from "next/router";
-import {useTranslation} from "next-i18next";
-import path from "path";
+import { getHentHendelserQueryKey } from "../../generated/hendelse-controller/hendelse-controller";
+
+import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
 
 export interface FancyFile {
     file: File;
@@ -82,7 +85,7 @@ function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | und
 }
 
 const recordFromMetadatas = (metadatas: Metadata[]) =>
-    metadatas.reduce((acc, curr, currentIndex) => ({...acc, [currentIndex]: []}), {});
+    metadatas.reduce((acc, curr, currentIndex) => ({ ...acc, [currentIndex]: [] }), {});
 
 const isSpraakChanging = (url: string, fiksDigisosId: string) => {
     return (
@@ -97,18 +100,18 @@ const useFilOpplasting = (
     options?: UseMutationOptions<
         Awaited<ReturnType<typeof sendVedlegg>>,
         unknown,
-        {fiksDigisosId: string; data: SendVedleggBody}
+        { fiksDigisosId: string; data: SendVedleggBody }
     >
 ) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const {isPending, mutate, error, isError, data} = useSendVedlegg();
+    const { isPending, mutate, error, isError, data } = useSendVedlegg();
 
     const [files, setFiles] = useState<Record<number, FancyFile[]>>(recordFromMetadatas(metadatas));
     const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-    const {setOppgaverUploadSuccess, setEttersendelseUploadSuccess} = useFilUploadSuccessful();
+    const { setOppgaverUploadSuccess, setEttersendelseUploadSuccess } = useFilUploadSuccessful();
     const router = useRouter();
 
     const resetStatus = useCallback(() => {
@@ -165,7 +168,7 @@ const useFilOpplasting = (
             window.removeEventListener("beforeunload", beforeUnloadHandler);
             router.events.off("routeChangeStart", beforeRouteHandler);
         };
-    }, [allFiles]);
+    }, [allFiles, fiksDigisosId, leaveConfirmed, router.events, t]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
@@ -174,11 +177,11 @@ const useFilOpplasting = (
             const validFiles = _files.filter((file) => {
                 let valid = true;
                 if (file.size > maxFileSize) {
-                    _errors.push({fil: file, feil: Feil.FILE_TOO_LARGE});
+                    _errors.push({ fil: file, feil: Feil.FILE_TOO_LARGE });
                     valid = false;
                 }
                 if (containsIllegalCharacters(file.name)) {
-                    _errors.push({fil: file, feil: Feil.ILLEGAL_FILE_NAME});
+                    _errors.push({ fil: file, feil: Feil.ILLEGAL_FILE_NAME });
                     valid = false;
                 }
                 return valid;
@@ -188,14 +191,14 @@ const useFilOpplasting = (
                 _files.concat(files[index].map((it) => it.file)).reduce((acc, curr) => acc + curr.size, 0) >
                 maxCombinedFileSize
             ) {
-                _errors.push({feil: Feil.COMBINED_TOO_LARGE});
+                _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
             }
             setFiles((prev) => ({
                 ...prev,
-                [index]: [...prev[index], ...validFiles.map((it) => ({file: it, uuid: crypto.randomUUID()}))],
+                [index]: [...prev[index], ...validFiles.map((it) => ({ file: it, uuid: crypto.randomUUID() }))],
             }));
 
-            setInnerErrors((prev) => ({...prev, [index]: _errors}));
+            setInnerErrors((prev) => ({ ...prev, [index]: _errors }));
             setOuterErrors([]);
         },
         [files, setInnerErrors, setFiles]
@@ -203,7 +206,7 @@ const useFilOpplasting = (
 
     const removeFil = useCallback(
         (index: number, fil: FancyFile) => {
-            setFiles((prev) => ({...prev, [index]: prev[index].filter((it) => it.uuid !== fil.uuid)}));
+            setFiles((prev) => ({ ...prev, [index]: prev[index].filter((it) => it.uuid !== fil.uuid) }));
         },
         [setFiles]
     );
@@ -212,15 +215,15 @@ const useFilOpplasting = (
         if (allFiles.length === 0) {
             logger.info("Validering vedlegg feilet: Ingen filer valgt");
             logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
-            setOuterErrors([{feil: Feil.NO_FILES}]);
+            setOuterErrors([{ feil: Feil.NO_FILES }]);
             return;
         }
 
         const _metadatas = Object.entries(files)
-            .filter(([_, filer]) => Boolean(filer.length))
+            .filter((entry) => Boolean(entry[1].length))
             .map(([index, filer]) => {
                 const _metadata = metadatas[+index]!;
-                return {..._metadata, filer: filer.map((fil) => ({uuid: fil.uuid, filnavn: fil.file.name}))};
+                return { ..._metadata, filer: filer.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) };
             });
 
         const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
@@ -250,7 +253,7 @@ const useFilOpplasting = (
                     const filerData = data.flatMap((response) => response.filer);
                     const errors: Error[] = filerData
                         .filter((it) => it.status !== "OK")
-                        .map((it) => ({feil: determineErrorType(it.status)!, filnavn: it.filnavn}));
+                        .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
                     if (errors.length === 0) {
                         const innsendelseType = data.flatMap((response) => response.hendelsetype);
                         reset();
@@ -266,21 +269,21 @@ const useFilOpplasting = (
                             setEttersendelseUploadSuccess(true);
                         }
 
-                        await queryClient.invalidateQueries({queryKey: getHentVedleggQueryKey(fiksDigisosId)});
-                        await queryClient.invalidateQueries({queryKey: getHentHendelserQueryKey(fiksDigisosId)});
+                        await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
+                        await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
                     }
                     setOuterErrors(errors);
                 },
                 onError: (error, variables, context) => {
                     options?.onError?.(error, variables, context);
                     logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-                    logger.warn("Feil med opplasting av vedlegg: " + (error as any).message);
-                    if ((error as any).message === "Mulig virus funnet") {
+                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
+                    if (error.message === "Mulig virus funnet") {
                         logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
-                        setOuterErrors([{feil: Feil.VIRUS}]);
+                        setOuterErrors([{ feil: Feil.VIRUS }]);
                     } else {
                         logFileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
-                        setOuterErrors([{feil: Feil.KLIENTFEIL}]);
+                        setOuterErrors([{ feil: Feil.KLIENTFEIL }]);
                     }
                 },
             }
@@ -299,7 +302,7 @@ const useFilOpplasting = (
     ]);
 
     return {
-        mutation: {isLoading: isPending, isError, error, data},
+        mutation: { isLoading: isPending, isError, error, data },
         innerErrors,
         outerErrors,
         upload,

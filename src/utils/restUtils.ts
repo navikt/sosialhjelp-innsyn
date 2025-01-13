@@ -1,5 +1,3 @@
-import {randomUUID} from "node:crypto";
-
 export function isProd() {
     return process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod";
 }
@@ -25,8 +23,8 @@ export function isUsingMockAlt(): boolean {
 }
 
 export function generateCallId(): string {
-    let randomNr = crypto.randomUUID();
-    let systemTime = Date.now();
+    const randomNr = crypto.randomUUID();
+    const systemTime = Date.now();
 
     return `CallId_${systemTime}_${randomNr}`;
 }

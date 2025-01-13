@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {VedleggOpplastingResponseStatus} from "./vedleggOpplastingResponseStatus";
+import type { VedleggOpplastingResponseStatus } from "./vedleggOpplastingResponseStatus";
 
 export interface VedleggOpplastingResponse {
     filnavn?: string;

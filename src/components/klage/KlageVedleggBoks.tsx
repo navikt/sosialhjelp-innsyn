@@ -1,7 +1,8 @@
 import React from "react";
+
 import AddFileButton from "../filopplasting/AddFileButton";
 import FilOpplastingBlokk from "../filopplasting/FilOpplastingBlokk";
-import {Error, FancyFile} from "../filopplasting/useFilOpplasting";
+import { Error, FancyFile } from "../filopplasting/useFilOpplasting";
 
 interface Props {
     files: FancyFile[];
@@ -11,7 +12,7 @@ interface Props {
     resetStatus: () => void;
 }
 
-const KlageVedleggBoks = ({files, removeFil, errors, addFiler, resetStatus}: Props): React.JSX.Element => (
+const KlageVedleggBoks = ({ files, removeFil, errors, addFiler, resetStatus }: Props): React.JSX.Element => (
     <FilOpplastingBlokk
         tittel="Legg ved vedlegg"
         beskrivelse="Legg gjerne med vedlegg som kan vise Nav hvorfor du er uenig"
@@ -23,10 +24,10 @@ const KlageVedleggBoks = ({files, removeFil, errors, addFiler, resetStatus}: Pro
                 onChange={(event) => addFiler(event.currentTarget.files ? Array.from(event.currentTarget.files) : [])}
                 id="abc"
                 resetStatus={resetStatus}
-                title={"vedlegg"}
+                title="vedlegg"
             />
         }
-        key={"abc"}
+        key="abc"
     />
 );
 

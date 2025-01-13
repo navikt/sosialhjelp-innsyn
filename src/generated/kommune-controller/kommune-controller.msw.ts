@@ -4,9 +4,9 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {KommuneResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { KommuneResponse } from ".././model";
 
 export const getHentKommuneInfoResponseMock = (overrideResponse: Partial<KommuneResponse> = {}): KommuneResponse => ({
     erInnsendingEttersendelseDeaktivert: faker.datatype.boolean(),
@@ -34,7 +34,7 @@ export const getHentKommuneInfoMockHandler = (
                         : overrideResponse
                     : getHentKommuneInfoResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

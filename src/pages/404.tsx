@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import {BodyLong, Heading, Link, Panel} from "@navikt/ds-react";
+import { BodyLong, Heading, Link, Panel } from "@navikt/ds-react";
 import * as React from "react";
-import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
+import { useTranslation } from "next-i18next";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import MainLayout from "../components/MainLayout";
-import {useTranslation} from "next-i18next";
-import {GetStaticProps} from "next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 
 const PageWrapper = styled(Panel)`
     margin: 2rem auto;
@@ -15,9 +16,9 @@ const PageWrapper = styled(Panel)`
     }
 `;
 
-const SideIkkeFunnet: React.FC<{}> = () => {
-    const {t} = useTranslation();
-    useUpdateBreadcrumbs(() => [{title: "Feil: Fant ikke siden  ", url: "/"}]);
+const SideIkkeFunnet: React.FC = () => {
+    const { t } = useTranslation();
+    useUpdateBreadcrumbs(() => [{ title: "Feil: Fant ikke siden  ", url: "/" }]);
 
     const appTitle = t("app.tittel");
     return (
@@ -51,7 +52,7 @@ const SideIkkeFunnet: React.FC<{}> = () => {
     );
 };
 
-export const getStaticProps: GetStaticProps = async ({locale}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
         props: {
             ...(await serverSideTranslations(locale ?? "nb", ["common"])),

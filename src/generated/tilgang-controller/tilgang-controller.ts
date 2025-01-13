@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,8 +14,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {TilgangResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
+import type { TilgangResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -39,49 +40,52 @@ export const getHarTilgangQueryKey = () => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/tilgang`] as const;
 };
 
-export const getHarTilgangQueryOptions = <TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export const getHarTilgangQueryOptions = <
+    TData = Awaited<ReturnType<typeof harTilgang>>,
+    TError = ErrorType<unknown>,
+>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
 }) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHarTilgangQueryKey();
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof harTilgang>>> = ({signal}) =>
-        harTilgang({signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof harTilgang>>> = ({ signal }) =>
+        harTilgang({ signal, ...requestOptions });
 
-    return {queryKey, queryFn, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof harTilgang>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HarTilgangQueryResult = NonNullable<Awaited<ReturnType<typeof harTilgang>>>;
-export type HarTilgangQueryError = unknown;
+export type HarTilgangQueryError = ErrorType<unknown>;
 
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options: {
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options: {
     query: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>> &
         Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
-}): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>> &
         Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>, "initialData">;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = unknown>(options?: {
+export function useHarTilgang<TData = Awaited<ReturnType<typeof harTilgang>>, TError = ErrorType<unknown>>(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof harTilgang>>, TError, TData>>;
     request?: SecondParameter<typeof customFetch>;
-}): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHarTilgangQueryOptions(options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

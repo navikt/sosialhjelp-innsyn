@@ -4,8 +4,8 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type {FilUrl} from "./filUrl";
-import type {KlageDtoStatus} from "./klageDtoStatus";
+import type { FilUrl } from "./filUrl";
+import type { KlageDtoStatus } from "./klageDtoStatus";
 
 export interface KlageDto {
     klageUrl: FilUrl;

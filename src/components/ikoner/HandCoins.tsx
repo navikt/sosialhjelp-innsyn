@@ -1,4 +1,4 @@
-import React, {SVGProps} from "react";
+import React, { SVGProps } from "react";
 
 interface Props {
     bgcolor?: string;

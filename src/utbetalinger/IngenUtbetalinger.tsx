@@ -1,9 +1,9 @@
-import {useTranslation} from "next-i18next";
-import {BodyLong, Heading} from "@navikt/ds-react";
-import {StyledGuidePanel} from "../styles/styledGuidePanel";
-
+import { useTranslation } from "next-i18next";
+import { BodyLong, Heading } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
+
+import { StyledGuidePanel } from "../styles/styledGuidePanel";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const StyledGuidePanelContent = styled.div`
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 export const IngenUtbetalinger = () => {
-    const {t} = useTranslation("utbetalinger");
+    const { t } = useTranslation("utbetalinger");
 
     return (
         <Wrapper>
@@ -37,7 +37,7 @@ export const IngenUtbetalinger = () => {
                         <dt>
                             <BodyLong>{t("ingen.utbetalinger.nøkkelpunt.tittel")}</BodyLong>
                         </dt>
-                        <dd style={{display: "list-item"}}>
+                        <dd style={{ display: "list-item" }}>
                             <BodyLong>{t("ingen.utbetalinger.nøkkelpunkt1")}</BodyLong>
                         </dd>
                         <dd>

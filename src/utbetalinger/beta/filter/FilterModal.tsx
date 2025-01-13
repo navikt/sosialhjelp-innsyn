@@ -1,21 +1,21 @@
-import {Box, Button, Chips, Modal} from "@navikt/ds-react";
-import React, {useState} from "react";
-import {FilterIcon} from "@navikt/aksel-icons";
+import { Box, Button, Chips, Modal } from "@navikt/ds-react";
+import React, { useState } from "react";
+import { FilterIcon } from "@navikt/aksel-icons";
+import { useTranslation } from "next-i18next";
+
 import UtbetalingerFilter from "./UtbetalingerFilter";
-import {MottakerFilter, useFilter} from "./FilterContext";
+import { MottakerFilter, useFilter } from "./FilterContext";
 import useChips from "./useChips";
 import styles from "./utbetalingerFilter.module.css";
-import {useTranslation} from "next-i18next";
 
 const FilterModal = () => {
     const [open, setOpen] = useState(false);
-    const [datePickerIsOpen, setDatePickerIsOpen] = useState(false);
-    const {oppdaterFilter} = useFilter();
-    const {chips, removeChip} = useChips();
-    const {t} = useTranslation("utbetalinger");
+    const { oppdaterFilter } = useFilter();
+    const { chips, removeChip } = useChips();
+    const { t } = useTranslation("utbetalinger");
 
     const onCancel = () => {
-        oppdaterFilter({mottaker: MottakerFilter.Alle, fraDato: undefined, tilDato: undefined});
+        oppdaterFilter({ mottaker: MottakerFilter.Alle, fraDato: undefined, tilDato: undefined });
         setOpen(false);
     };
 

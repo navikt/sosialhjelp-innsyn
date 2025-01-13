@@ -1,5 +1,6 @@
-import React, {ErrorInfo, ReactNode} from "react";
-import {logger} from "@navikt/next-logger";
+import React, { ErrorInfo, ReactNode } from "react";
+import { logger } from "@navikt/next-logger";
+
 import ServerError from "../../pages/500";
 
 interface Props {
@@ -15,12 +16,14 @@ class ErrorBoundary extends React.Component<Props, State> {
         super(props);
 
         // Define a state variable to track whether is an error or not
-        this.state = {hasError: false};
+        this.state = { hasError: false };
     }
+
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     static getDerivedStateFromError(_: Error) {
         // Update state so the next render will show the fallback UI
 
-        return {hasError: true};
+        return { hasError: true };
     }
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         logger.error(`Uncaught clientside error: ${error}, errorInfo: ${JSON.stringify(errorInfo)}`);

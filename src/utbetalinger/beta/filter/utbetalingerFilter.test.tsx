@@ -1,6 +1,7 @@
-import {ManedUtbetaling} from "../../../generated/model";
-import {filterMatch} from "./useFiltrerteUtbetalinger";
-import {MottakerFilter} from "./FilterContext";
+import { ManedUtbetaling } from "../../../generated/model";
+
+import { filterMatch } from "./useFiltrerteUtbetalinger";
+import { MottakerFilter } from "./FilterContext";
 
 describe("filtrering på utbetalinger fungerer", () => {
     it("skal filtrere dato på fom og tom", () => {

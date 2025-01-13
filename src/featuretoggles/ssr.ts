@@ -1,20 +1,25 @@
-import {getRandomValues} from "crypto";
-import {IToggle, getDefinitions, evaluateFlags} from "@unleash/nextjs";
-import {logger} from "@navikt/next-logger";
-import {GetServerSidePropsContext} from "next/types";
+// TODO: Ta bort denne når vi får unleash til å funke igjen
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { getRandomValues } from "crypto";
+
+import { IToggle, getDefinitions, evaluateFlags } from "@unleash/nextjs";
+import { logger } from "@navikt/next-logger";
+import { GetServerSidePropsContext } from "next/types";
 import * as R from "remeda";
 
-import {getUnleashEnvironment, localDevelopmentToggles} from "./utils";
-import {EXPECTED_TOGGLES} from "./toggles";
-import {isLocalhost} from "../utils/restUtils";
+import { isLocalhost } from "../utils/restUtils";
+
+import { getUnleashEnvironment, localDevelopmentToggles } from "./utils";
+import { EXPECTED_TOGGLES } from "./toggles";
 
 export async function getFlagsServerSide(
     req: GetServerSidePropsContext["req"],
     res: GetServerSidePropsContext["res"]
-): Promise<{toggles: IToggle[]}> {
+): Promise<{ toggles: IToggle[] }> {
     if (isLocalhost()) {
         logger.warn("Running in local or demo mode, falling back to development toggles.");
-        return {toggles: localDevelopmentToggles()};
+        return { toggles: localDevelopmentToggles() };
     }
 
     // TODO: Returnerer default toggles, siden vi ikke får kontakt med unleash i prod-gcp. Finn ut hvorfor!

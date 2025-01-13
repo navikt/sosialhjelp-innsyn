@@ -15,6 +15,5 @@
 !next.config.js
 !next-i18next.config.js
 !next-logger.config.js
-!sentry.*.config.ts
 !.env
 !.env.production

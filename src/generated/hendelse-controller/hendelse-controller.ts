@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type {
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
@@ -14,8 +14,9 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from "@tanstack/react-query";
-import type {HendelseResponse} from ".././model";
-import {customFetch} from "../../custom-fetch";
+import type { HendelseResponse } from ".././model";
+import { customFetch } from "../../custom-fetch";
+import type { ErrorType } from "../../custom-fetch";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -34,64 +35,67 @@ export const getHentHendelserQueryKey = (fiksDigisosId: string) => {
     return [`/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/${fiksDigisosId}/hendelser`] as const;
 };
 
-export const getHentHendelserQueryOptions = <TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
+export const getHentHendelserQueryOptions = <
+    TData = Awaited<ReturnType<typeof hentHendelser>>,
+    TError = ErrorType<unknown>,
+>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
 ) => {
-    const {query: queryOptions, request: requestOptions} = options ?? {};
+    const { query: queryOptions, request: requestOptions } = options ?? {};
 
     const queryKey = queryOptions?.queryKey ?? getHentHendelserQueryKey(fiksDigisosId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentHendelser>>> = ({signal}) =>
-        hentHendelser(fiksDigisosId, {signal, ...requestOptions});
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof hentHendelser>>> = ({ signal }) =>
+        hentHendelser(fiksDigisosId, { signal, ...requestOptions });
 
-    return {queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions} as UseQueryOptions<
+    return { queryKey, queryFn, enabled: !!fiksDigisosId, ...queryOptions } as UseQueryOptions<
         Awaited<ReturnType<typeof hentHendelser>>,
         TError,
         TData
-    > & {queryKey: QueryKey};
+    > & { queryKey: QueryKey };
 };
 
 export type HentHendelserQueryResult = NonNullable<Awaited<ReturnType<typeof hentHendelser>>>;
-export type HentHendelserQueryError = unknown;
+export type HentHendelserQueryError = ErrorType<unknown>;
 
-export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
+export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>> &
             Pick<DefinedInitialDataOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): DefinedUseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>> &
             Pick<UndefinedInitialDataOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>, "initialData">;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
-export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey};
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = unknown>(
+export function useHentHendelser<TData = Awaited<ReturnType<typeof hentHendelser>>, TError = ErrorType<unknown>>(
     fiksDigisosId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof hentHendelser>>, TError, TData>>;
         request?: SecondParameter<typeof customFetch>;
     }
-): UseQueryResult<TData, TError> & {queryKey: QueryKey} {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
     const queryOptions = getHentHendelserQueryOptions(fiksDigisosId, options);
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {queryKey: QueryKey};
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
     query.queryKey = queryOptions.queryKey;
 

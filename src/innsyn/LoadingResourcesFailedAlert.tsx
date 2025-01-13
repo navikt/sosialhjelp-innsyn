@@ -1,16 +1,17 @@
-import {Alert} from "@navikt/ds-react";
+import { Alert } from "@navikt/ds-react";
 import React from "react";
-import {Trans, useTranslation} from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import styled from "styled-components";
-import {useQueries} from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
+
 import {
     getDokumentasjonkrav,
     getGetDokumentasjonkravQueryKey,
     getGetOppgaverQueryKey,
     getOppgaver,
 } from "../generated/oppgave-controller/oppgave-controller";
-import {getHentHendelserQueryKey, hentHendelser} from "../generated/hendelse-controller/hendelse-controller";
-import {getHentVedleggQueryKey, hentVedlegg} from "../generated/vedlegg-controller/vedlegg-controller";
+import { getHentHendelserQueryKey, hentHendelser } from "../generated/hendelse-controller/hendelse-controller";
+import { getHentVedleggQueryKey, hentVedlegg } from "../generated/vedlegg-controller/vedlegg-controller";
 import {
     getHentSaksStatuserQueryKey,
     hentSaksStatuser,
@@ -28,14 +29,18 @@ const StyledWrapper = styled.div`
 `;
 
 const getQueries = (fiksDigisosId: string) => [
-    {tag: "hendelser", queryKey: getHentHendelserQueryKey(fiksDigisosId), queryFn: () => hentHendelser(fiksDigisosId)},
-    {tag: "vedlegg", queryKey: getHentVedleggQueryKey(fiksDigisosId), queryFn: () => hentVedlegg(fiksDigisosId)},
+    {
+        tag: "hendelser",
+        queryKey: getHentHendelserQueryKey(fiksDigisosId),
+        queryFn: () => hentHendelser(fiksDigisosId),
+    },
+    { tag: "vedlegg", queryKey: getHentVedleggQueryKey(fiksDigisosId), queryFn: () => hentVedlegg(fiksDigisosId) },
     {
         tag: "saksStatus",
         queryKey: getHentSaksStatuserQueryKey(fiksDigisosId),
         queryFn: () => hentSaksStatuser(fiksDigisosId),
     },
-    {tag: "oppgaver", queryKey: getGetOppgaverQueryKey(fiksDigisosId), queryFn: () => getOppgaver(fiksDigisosId)},
+    { tag: "oppgaver", queryKey: getGetOppgaverQueryKey(fiksDigisosId), queryFn: () => getOppgaver(fiksDigisosId) },
     {
         tag: "soknadsStatus",
         queryKey: getHentSoknadsStatusQueryKey(fiksDigisosId),
@@ -49,11 +54,11 @@ const getQueries = (fiksDigisosId: string) => [
 ];
 
 export const LoadingResourcesFailedAlert = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const fiksDigisosId = useFiksDigisosId();
     const _queries = getQueries(fiksDigisosId);
-    const queries = useQueries({queries: _queries});
+    const queries = useQueries({ queries: _queries });
 
     const queriesWithError = queries.filter((query) => query.isError);
 
@@ -63,7 +68,7 @@ export const LoadingResourcesFailedAlert = () => {
         <StyledWrapper>
             {hasError && (
                 <Alert variant="error">
-                    <Trans t={t} i18nKey="feilmelding.ressurs_innlasting" components={{linebreak: <br />}} />
+                    <Trans t={t} i18nKey="feilmelding.ressurs_innlasting" components={{ linebreak: <br /> }} />
                 </Alert>
             )}
         </StyledWrapper>

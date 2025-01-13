@@ -1,11 +1,13 @@
-import React, {ReactElement, useMemo} from "react";
-import {DokumentasjonkravResponse} from "../../../generated/model";
+import React, { ReactElement, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import * as R from "remeda";
+
+import { DokumentasjonkravResponse } from "../../../generated/model";
 import useKommune from "../../../hooks/useKommune";
-import {useFileUploadAllowed} from "../../driftsmelding/DriftsmeldingUtilities";
-import {useQueryClient} from "@tanstack/react-query";
-import {getGetDokumentasjonkravQueryKey} from "../../../generated/oppgave-controller/oppgave-controller";
+import { useFileUploadAllowed } from "../../driftsmelding/DriftsmeldingUtilities";
+import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
-import useFilOpplasting, {errorStatusToMessage} from "../../filopplasting/useFilOpplasting";
+import useFilOpplasting, { errorStatusToMessage } from "../../filopplasting/useFilOpplasting";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import InnsendelsesFrist from "../InnsendelsesFrist";
 import AddFileButton from "../../filopplasting/AddFileButton";
@@ -13,19 +15,18 @@ import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
-import {logButtonOrLinkClick} from "../../../utils/amplitude";
+import { logButtonOrLinkClick } from "../../../utils/amplitude";
 import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
-import * as R from "remeda";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse;
 }
 
-export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement => {
+export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
-    const {kommune} = useKommune();
-    const {kanLasteOppVedlegg} = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { kommune } = useKommune();
+    const { kanLasteOppVedlegg } = useFileUploadAllowed(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
@@ -46,11 +47,11 @@ export const DokumentasjonKravView = ({dokumentasjonkrav}: Props): ReactElement 
         files,
         addFiler,
         removeFil,
-        mutation: {isLoading},
+        mutation: { isLoading },
         resetStatus,
     } = useFilOpplasting(metadatas, {
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: getGetDokumentasjonkravQueryKey(fiksDigisosId)});
+            queryClient.invalidateQueries({ queryKey: getGetDokumentasjonkravQueryKey(fiksDigisosId) });
         },
     });
 

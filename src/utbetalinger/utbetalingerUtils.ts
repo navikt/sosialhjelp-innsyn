@@ -1,11 +1,12 @@
-import {ManedUtbetaling, UtbetalingerResponse} from "../generated/model";
-import {i18n} from "i18next";
+import { i18n } from "i18next";
+
+import { ManedUtbetaling, UtbetalingerResponse } from "../generated/model";
 
 const diffInMonths = (d1: Date, d2: Date) => {
-    var d1Y = d1.getFullYear();
-    var d2Y = d2.getFullYear();
-    var d1M = d1.getMonth();
-    var d2M = d2.getMonth();
+    const d1Y = d1.getFullYear();
+    const d2Y = d2.getFullYear();
+    const d1M = d1.getMonth();
+    const d2M = d2.getMonth();
     return d2M + 12 * d2Y - (d1M + 12 * d1Y);
 };
 const filtrerUtbetalingerForTidsinterval = (
@@ -58,7 +59,7 @@ const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string, i18n: i18n) =>
 const hentMaanedString = (maaned: number, i18n: i18n) => {
     const date = new Date();
     date.setMonth(maaned - 1);
-    return date.toLocaleString(i18n.language, {month: "long"});
+    return date.toLocaleString(i18n.language, { month: "long" });
 };
 
 export {

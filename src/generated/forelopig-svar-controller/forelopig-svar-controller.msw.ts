@@ -4,9 +4,9 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {faker} from "@faker-js/faker";
-import {HttpResponse, delay, http} from "msw";
-import type {ForelopigSvarResponse} from ".././model";
+import { faker } from "@faker-js/faker";
+import { HttpResponse, delay, http } from "msw";
+import type { ForelopigSvarResponse } from ".././model";
 
 export const getHentForelopigSvarStatusResponseMock = (
     overrideResponse: Partial<ForelopigSvarResponse> = {}
@@ -34,7 +34,7 @@ export const getHentForelopigSvarStatusMockHandler = (
                         : overrideResponse
                     : getHentForelopigSvarStatusResponseMock()
             ),
-            {status: 200, headers: {"Content-Type": "application/json"}}
+            { status: 200, headers: { "Content-Type": "application/json" } }
         );
     });
 };

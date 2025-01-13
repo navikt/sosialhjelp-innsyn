@@ -1,17 +1,19 @@
-import {useCallback, useEffect, useState} from "react";
-import {MottakerFilter, useFilter} from "./FilterContext";
-import {dateToDDMMYYYY} from "../../../utils/formatting";
-import {useTranslation} from "next-i18next";
-import {i18n} from "i18next";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import { i18n } from "i18next";
+
+import { dateToDDMMYYYY } from "../../../utils/formatting";
+
+import { MottakerFilter, useFilter } from "./FilterContext";
 
 const mottakerFilterToChip = (value: MottakerFilter, t: (key: string) => string) => {
     switch (value) {
         case MottakerFilter.Alle:
             return undefined;
         case MottakerFilter.MinKonto:
-            return {label: t("utbetalinger:filter.minKonto"), filterType: "mottaker"} as ChipType;
+            return { label: t("utbetalinger:filter.minKonto"), filterType: "mottaker" } as ChipType;
         case MottakerFilter.AnnenMottaker:
-            return {label: t("utbetalinger:filter.annen"), filterType: "mottaker"} as ChipType;
+            return { label: t("utbetalinger:filter.annen"), filterType: "mottaker" } as ChipType;
     }
 };
 const datoFilterToChip = (i18n: i18n, fom?: Date, tom?: Date) => {
@@ -41,15 +43,15 @@ interface ChipType {
 }
 const useChips = () => {
     const [chips, setChips] = useState<ChipType[]>([]);
-    const {filter, oppdaterFilter} = useFilter();
-    const {t, i18n} = useTranslation();
+    const { filter, oppdaterFilter } = useFilter();
+    const { t, i18n } = useTranslation();
 
     const removeChip = useCallback(
         (type: FilterType) => {
             if (type === "mottaker") {
-                oppdaterFilter({...filter, mottaker: MottakerFilter.Alle});
+                oppdaterFilter({ ...filter, mottaker: MottakerFilter.Alle });
             } else if (type === "dato") {
-                oppdaterFilter({...filter, tilDato: undefined, fraDato: undefined});
+                oppdaterFilter({ ...filter, tilDato: undefined, fraDato: undefined });
             }
         },
         [filter, oppdaterFilter]
@@ -60,7 +62,7 @@ const useChips = () => {
 
         // remove empty string
         setChips([mottaker, dato].filter(Boolean) as ChipType[]);
-    }, [filter]);
-    return {chips, removeChip};
+    }, [filter, i18n, t]);
+    return { chips, removeChip };
 };
 export default useChips;

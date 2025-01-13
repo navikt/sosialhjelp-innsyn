@@ -1,10 +1,12 @@
 import React from "react";
+import { Alert } from "@navikt/ds-react";
+import { useTranslation } from "next-i18next";
+
+import { useFilter } from "../filter/FilterContext";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
-import {Alert} from "@navikt/ds-react";
+import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
+
 import ManedGruppe from "./ManedGruppe";
-import {useFilter} from "../filter/FilterContext";
-import {useTranslation} from "next-i18next";
-import {UtbetalingerResponseMedId} from "../UtbetalingerPanelBeta";
 
 interface Props {
     lasterData: boolean;
@@ -13,8 +15,8 @@ interface Props {
 }
 
 const NyeUtbetalinger = (props: Props) => {
-    const {isUsingFilter} = useFilter();
-    const {t} = useTranslation("utbetalinger");
+    const { isUsingFilter } = useFilter();
+    const { t } = useTranslation("utbetalinger");
 
     if (props.lasterData) {
         return <Lastestriper />;

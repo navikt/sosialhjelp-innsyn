@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {GuidePanel} from "@navikt/ds-react";
+import { GuidePanel } from "@navikt/ds-react";
 
 export const StyledGuidePanel = styled(GuidePanel)`
     svg {
