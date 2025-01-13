@@ -8,8 +8,8 @@ import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-mod
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
-import ErrorBoundary from "../components/errors/ErrorBoundary";
 
+import ErrorBoundary from "../components/errors/ErrorBoundary";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import { FlagProvider } from "../featuretoggles/context";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";

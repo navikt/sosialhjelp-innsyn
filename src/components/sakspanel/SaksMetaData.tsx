@@ -1,7 +1,7 @@
 import { Detail } from "@navikt/ds-react";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
-import {logger} from "@navikt/next-logger";
+import { logger } from "@navikt/next-logger";
 
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 

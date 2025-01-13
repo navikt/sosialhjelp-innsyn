@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { BodyShort, Button, Label, Link as NavDsLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";

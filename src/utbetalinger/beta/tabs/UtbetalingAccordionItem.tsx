@@ -3,6 +3,7 @@ import { FileTextIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { logger } from "@navikt/next-logger";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
 import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
@@ -10,7 +11,6 @@ import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
 import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
 
 import styles from "./manedgruppe.module.css";
-import {logger} from "@navikt/next-logger";
 
 function statusToTekst(t: (key: string) => string, status?: string) {
     switch (status) {

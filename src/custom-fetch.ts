@@ -1,4 +1,4 @@
-import {logger} from "@navikt/next-logger";
+import { logger } from "@navikt/next-logger";
 
 const getBody = <T>(c: Response | Request): Promise<T> => {
     const contentType = c.headers.get("content-type");
@@ -26,7 +26,7 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
     }
     if (!response.ok && !response.redirected) {
         try {
-            const body = await getBody<string | any>(response);
+            const body = await getBody<string | unknown>(response);
             const message = typeof body === "string" ? body : JSON.stringify(body);
             logger.error(
                 `Non-ok response from ${url}: ${response.status} ${response.statusText}. Response: ${message}`
