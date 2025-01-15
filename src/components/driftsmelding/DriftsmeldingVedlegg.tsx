@@ -6,7 +6,7 @@ import styled from "styled-components";
 import useKommune from "../../hooks/useKommune";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
-import { useFileUploadAllowed } from "./DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "./useFileUploadAllowed";
 
 const Bold = styled.span`
     font-weight: bold;

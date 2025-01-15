@@ -4,7 +4,7 @@ import * as R from "remeda";
 
 import { DokumentasjonkravResponse } from "../../../generated/model";
 import useKommune from "../../../hooks/useKommune";
-import { useFileUploadAllowed } from "../../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "../../driftsmelding/useFileUploadAllowed";
 import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useFilOpplasting, { errorStatusToMessage } from "../../filopplasting/useFilOpplasting";

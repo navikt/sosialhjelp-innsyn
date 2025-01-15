@@ -4,7 +4,7 @@ import * as R from "remeda";
 
 import { getVisningstekster } from "../../../utils/vedleggUtils";
 import useKommune from "../../../hooks/useKommune";
-import { useFileUploadAllowed } from "../../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "../../driftsmelding/useFileUploadAllowed";
 import { getGetOppgaverQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";

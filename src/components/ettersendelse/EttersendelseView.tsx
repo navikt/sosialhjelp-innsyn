@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { ErrorMessage } from "@navikt/ds-react";
 
 import useKommune from "../../hooks/useKommune";
-import { useFileUploadAllowed } from "../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "../driftsmelding/useFileUploadAllowed";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { OppgaveElementHendelsetype } from "../../generated/model";

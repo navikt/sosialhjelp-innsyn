@@ -5,11 +5,8 @@ import { KommuneResponse, SoknadsStatusResponse, SoknadsStatusResponseStatus } f
 import { server } from "../../mocks/server";
 import { renderHook } from "../../test/test-utils";
 
-import {
-    Driftsmelding,
-    getDriftsmeldingByKommuneResponseOrDigisosId,
-    useFileUploadAllowed,
-} from "./DriftsmeldingUtilities";
+import { Driftsmelding, getDriftsmeldingByKommuneResponseOrDigisosId } from "./DriftsmeldingUtilities";
+import { useFileUploadAllowed } from "./useFileUploadAllowed";
 
 const kommuneResponse_ok: KommuneResponse = {
     erInnsynDeaktivert: false,
