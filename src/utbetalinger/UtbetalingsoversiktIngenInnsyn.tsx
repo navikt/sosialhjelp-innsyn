@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     padding-bottom: 50px;
 `;
 
-const UtbetalingsoversiktIngenInnsyn: React.FC = () => {
+const UtbetalingsoversiktIngenInnsyn = () => {
     const { t } = useTranslation();
 
     return (

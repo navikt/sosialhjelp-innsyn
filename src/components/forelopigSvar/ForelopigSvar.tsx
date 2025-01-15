@@ -7,7 +7,7 @@ import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-contr
 import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
-const ForelopigSvarAlertstripe: React.FC = () => {
+const ForelopigSvarAlertstripe = () => {
     const soknadId = useFiksDigisosId();
     const { t } = useTranslation();
 

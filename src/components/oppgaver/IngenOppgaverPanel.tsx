@@ -17,7 +17,7 @@ interface Props {
     leserData: boolean;
 }
 
-const IngenOppgaverPanel: React.FC<Props> = ({ leserData }) => {
+const IngenOppgaverPanel = ({ leserData }: Props) => {
     const { t } = useTranslation();
     if (leserData) {
         return null;

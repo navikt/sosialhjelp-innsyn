@@ -13,7 +13,7 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
 
-const DriftsmeldingAlertstripe: React.FC = () => {
+const DriftsmeldingAlertstripe = () => {
     const { kommune } = useKommune();
     const fiksDigisosId = useFiksDigisosId();
 

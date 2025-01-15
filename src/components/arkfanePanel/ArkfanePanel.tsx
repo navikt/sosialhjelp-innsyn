@@ -32,7 +32,7 @@ interface Props {
     vedleggChildren: React.ReactNode;
 }
 
-const ArkfanePanel: React.FC<Props> = (props) => {
+const ArkfanePanel = (props: Props) => {
     const fiksDigisosId = useFiksDigisosId();
     const { t } = useTranslation();
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);

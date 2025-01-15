@@ -1,6 +1,6 @@
 import React from "react";
 
-const AapnetBrev: React.FC = () => {
+const AapnetBrev = () => {
     return (
         <svg
             aria-hidden="true"

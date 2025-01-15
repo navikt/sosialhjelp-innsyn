@@ -14,7 +14,7 @@ const Wrapper = styled.div`
     max-width: 50rem;
 `;
 
-const UtbetalingsoversiktIngenSoknader: React.FC = () => {
+const UtbetalingsoversiktIngenSoknader = () => {
     const { t } = useTranslation();
     return (
         <Wrapper>

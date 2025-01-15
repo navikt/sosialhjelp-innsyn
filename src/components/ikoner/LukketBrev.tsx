@@ -1,6 +1,6 @@
 import React from "react";
 
-const LukketBrev: React.FC = () => {
+const LukketBrev = () => {
     return (
         <svg
             aria-hidden="true"

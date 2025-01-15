@@ -1,6 +1,6 @@
 import React from "react";
 
-const DokumentSendt: React.FC = () => {
+const DokumentSendt = () => {
     return (
         <svg
             aria-hidden="true"

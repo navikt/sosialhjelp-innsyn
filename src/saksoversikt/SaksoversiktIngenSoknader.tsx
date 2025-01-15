@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     padding-top: 1rem;
 `;
 
-const SaksoversiktIngenSoknader: React.FC = () => {
+const SaksoversiktIngenSoknader = () => {
     const { t } = useTranslation();
     return (
         <Wrapper>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Timeglass: React.FC = () => {
+const Timeglass = () => {
     return (
         <svg
             aria-hidden="true"

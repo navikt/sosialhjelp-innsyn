@@ -46,7 +46,7 @@ interface HistorikkListeProps {
     leserData: boolean;
 }
 
-const HistorikkListe: React.FC<HistorikkListeProps> = ({ hendelser, className, leserData }) => {
+const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps) => {
     const { t } = useTranslation();
     if (leserData) {
         return <Lastestriper linjer={3} />;
@@ -179,11 +179,11 @@ const HistorikkListe: React.FC<HistorikkListeProps> = ({ hendelser, className, l
     );
 };
 
-const KortHistorikk: React.FC<{ hendelser: HendelseResponse[]; leserData: boolean }> = ({ hendelser, leserData }) => {
+const KortHistorikk = ({ hendelser, leserData }: { hendelser: HendelseResponse[]; leserData: boolean }) => {
     return <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />;
 };
 
-const LangHistorikk: React.FC<{ hendelser: HendelseResponse[] }> = ({ hendelser }) => {
+const LangHistorikk = ({ hendelser }: { hendelser: HendelseResponse[] }) => {
     const [apen, setApen] = useState(false);
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
     const { t } = useTranslation();
@@ -227,7 +227,7 @@ const StyledTextPlacement = styled.div`
     }
 `;
 
-const Historikk: React.FC<Props> = ({ fiksDigisosId }) => {
+const Historikk = ({ fiksDigisosId }: Props) => {
     const { data: hendelser, isLoading, isError } = useHentHendelser(fiksDigisosId);
     const { t } = useTranslation();
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-const GodkjentMerke: React.FC = () => {
+const GodkjentMerke = () => {
     return (
         <svg
             aria-hidden="true"

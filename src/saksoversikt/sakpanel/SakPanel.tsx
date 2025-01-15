@@ -46,7 +46,7 @@ interface Props {
     isBroken: boolean;
 }
 
-const SakPanel: React.FC<Props> = ({ fiksDigisosId, tittel, oppdatert, url, kilde, isBroken }) => {
+const SakPanel = ({ fiksDigisosId, tittel, oppdatert, url, kilde, isBroken }: Props) => {
     const { data: saksdetaljer, isLoading } = useHentSaksDetaljer(
         { id: fiksDigisosId! },
         { query: { enabled: kilde === "innsyn-api" && !!fiksDigisosId } }
