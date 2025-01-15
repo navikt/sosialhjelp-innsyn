@@ -9,7 +9,7 @@ export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefin
     );
 };
 
-export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
+export const useFileUploadError = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
     let textKey = null;
     const { data } = useHentSoknadsStatus(fiksDigisosId);
     if (data?.isBroken) {

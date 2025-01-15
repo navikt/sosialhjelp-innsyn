@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { ErrorMessage } from "@navikt/ds-react";
 
 import useKommune from "../../hooks/useKommune";
-import { useFileUploadAllowed } from "../driftsmelding/useFileUploadAllowed";
+import { useFileUploadError } from "../driftsmelding/useFileUploadError";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { OppgaveElementHendelsetype } from "../../generated/model";
@@ -50,7 +50,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const { kommune } = useKommune();
-    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadError(kommune, fiksDigisosId);
     const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 

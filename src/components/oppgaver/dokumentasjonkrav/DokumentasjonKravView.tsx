@@ -4,7 +4,7 @@ import * as R from "remeda";
 
 import { DokumentasjonkravResponse } from "../../../generated/model";
 import useKommune from "../../../hooks/useKommune";
-import { useFileUploadAllowed } from "../../driftsmelding/useFileUploadAllowed";
+import { useFileUploadError } from "../../driftsmelding/useFileUploadError";
 import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useFilOpplasting, { errorStatusToMessage } from "../../filopplasting/useFilOpplasting";
@@ -26,7 +26,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
     const { kommune } = useKommune();
-    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadError(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>

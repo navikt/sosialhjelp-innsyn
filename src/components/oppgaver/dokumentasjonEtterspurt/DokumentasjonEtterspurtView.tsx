@@ -4,7 +4,7 @@ import * as R from "remeda";
 
 import { getVisningstekster } from "../../../utils/vedleggUtils";
 import useKommune from "../../../hooks/useKommune";
-import { useFileUploadAllowed } from "../../driftsmelding/useFileUploadAllowed";
+import { useFileUploadError } from "../../driftsmelding/useFileUploadError";
 import { getGetOppgaverQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
@@ -27,7 +27,7 @@ interface Props {
 export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const { kommune } = useKommune();
-    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadError(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>

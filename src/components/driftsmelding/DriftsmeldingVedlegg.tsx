@@ -6,7 +6,7 @@ import styled from "styled-components";
 import useKommune from "../../hooks/useKommune";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
-import { useFileUploadAllowed } from "./useFileUploadAllowed";
+import { useFileUploadError } from "./useFileUploadError";
 
 const Bold = styled.span`
     font-weight: bold;
@@ -31,7 +31,7 @@ const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
     const { kommune, isLoading } = useKommune();
     const fiksDigisosId = useFiksDigisosId();
 
-    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadError(kommune, fiksDigisosId);
 
     if (textKey && !isLoading) {
         return <DriftsmeldingVedleggComponent className={className} textKey={textKey} />;
