@@ -2,14 +2,19 @@ import { KommuneResponse } from "../../generated/model";
 
 export interface Driftsmelding {
     type: DriftsmeldingType;
-    textKey: string;
+    textKey: KommuneDriftsmeldingError;
 }
 
-export type DriftsmeldingType =
-    | "InnsynDeaktivert"
-    | "EttersendelseDeaktivert"
-    | "InnsynOgEttersendelseDeaktivert"
-    | "FeiledeDigisosIder";
+const mldInnsynOgEttersendelseDeaktivert = "driftsmelding.innsynOgEttersendelseDeaktivert" as const;
+const mldEttersendelseDeaktivert = "driftsmelding.ettersendelseDeaktivert" as const;
+const mldInnsynDeaktivert = "driftsmelding.innsynDeaktivert" as const;
+
+type KommuneDriftsmeldingError =
+    | typeof mldInnsynOgEttersendelseDeaktivert
+    | typeof mldEttersendelseDeaktivert
+    | typeof mldInnsynDeaktivert;
+
+export type DriftsmeldingType = "InnsynDeaktivert" | "EttersendelseDeaktivert" | "InnsynOgEttersendelseDeaktivert";
 
 // Man skulle trodd at erInnsynDeaktivert skulle telle her, men enhetstestene tester faktisk at denne skal returnere false selv om erInnsynDeaktivert er true.
 const innsynDeaktivert = ({ erInnsynMidlertidigDeaktivert }: KommuneResponse) => erInnsynMidlertidigDeaktivert;
@@ -34,17 +39,17 @@ export const getDriftsmeldingByKommune = (kommuneResponse: KommuneResponse | und
         case "both":
             return {
                 type: "InnsynOgEttersendelseDeaktivert",
-                textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
+                textKey: mldInnsynOgEttersendelseDeaktivert,
             };
         case "ettersendelse":
             return {
                 type: "EttersendelseDeaktivert",
-                textKey: "driftsmelding.ettersendelseDeaktivert",
+                textKey: mldEttersendelseDeaktivert,
             };
         case "innsyn":
             return {
                 type: "InnsynDeaktivert",
-                textKey: "driftsmelding.innsynDeaktivert",
+                textKey: mldInnsynDeaktivert,
             };
     }
 };
