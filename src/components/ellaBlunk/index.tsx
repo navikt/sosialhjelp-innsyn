@@ -4,7 +4,7 @@ interface EllaProps {
     size: string;
 }
 
-const EllaBlunk: React.FC<EllaProps> = (props: EllaProps) => {
+const EllaBlunk = (props: EllaProps) => {
     return (
         <svg
             aria-hidden="true"

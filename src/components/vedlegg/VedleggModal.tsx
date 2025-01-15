@@ -10,7 +10,7 @@ interface Props {
     onRequestClose: () => void;
 }
 
-const VedleggModal: React.FC<Props> = ({ file, synlig, onRequestClose }) => {
+const VedleggModal = ({ file, synlig, onRequestClose }: Props) => {
     if (!file) {
         return null;
     }

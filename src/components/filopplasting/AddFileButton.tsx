@@ -11,7 +11,7 @@ interface Props {
     title?: string;
 }
 
-const AddFileButton: React.FC<Props> = ({ onChange, id, resetStatus, hasError, disabled, title }) => {
+const AddFileButton = ({ onChange, id, resetStatus, hasError, disabled, title }: Props) => {
     const { t } = useTranslation();
 
     const onClick = (event?: React.MouseEvent<HTMLButtonElement>): void => {

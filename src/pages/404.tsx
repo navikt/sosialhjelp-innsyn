@@ -16,7 +16,7 @@ const PageWrapper = styled(Panel)`
     }
 `;
 
-const SideIkkeFunnet: React.FC = () => {
+const SideIkkeFunnet = () => {
     const { t } = useTranslation();
     useUpdateBreadcrumbs(() => [{ title: "Feil: Fant ikke siden  ", url: "/" }]);
 

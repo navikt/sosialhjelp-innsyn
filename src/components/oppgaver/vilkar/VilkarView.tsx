@@ -9,7 +9,7 @@ interface Props {
     vilkar: VilkarResponse[];
 }
 
-export const VilkarView: React.FC<Props> = ({ vilkar }) => {
+export const VilkarView = ({ vilkar }: Props) => {
     return (
         <ul className={styles.vilkar_liste}>
             {vilkar.map((element) => (

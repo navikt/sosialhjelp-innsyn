@@ -46,7 +46,7 @@ const sammenlignSaksTidspunkt = (a: SaksListeResponse, b: SaksListeResponse) => 
     return 0;
 };
 
-const SaksoversiktDineSaker: React.FC<{ saker: SaksListeResponse[] }> = ({ saker }) => {
+const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
     const { t } = useTranslation();
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.

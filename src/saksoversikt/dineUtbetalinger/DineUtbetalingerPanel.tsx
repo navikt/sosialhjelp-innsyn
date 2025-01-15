@@ -10,7 +10,7 @@ import styles from "./dineUtbetalingerPanel.module.css";
 
 logAmplitudeEvent("Dine utbetalinger panel vises");
 
-const DineUtbetalingerPanel: React.FC = () => {
+const DineUtbetalingerPanel = () => {
     const { t } = useTranslation("utbetalinger");
     return (
         <Link href="/utbetaling" legacyBehavior passHref>

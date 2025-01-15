@@ -160,7 +160,7 @@ const StyledTextPlacement = styled.div`
 
 const itemsPerPage = 10;
 
-const VedleggView: React.FC<Props> = ({ fiksDigisosId }) => {
+const VedleggView = ({ fiksDigisosId }: Props) => {
     const { t } = useTranslation();
     const isMobile = useIsMobile();
     const { data: vedlegg, isLoading, isError } = useHentVedlegg(fiksDigisosId);

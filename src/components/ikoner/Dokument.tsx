@@ -1,6 +1,6 @@
 import React from "react";
 
-const Dokument: React.FC = () => {
+const Dokument = () => {
     return (
         <svg
             aria-hidden="true"

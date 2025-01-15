@@ -43,7 +43,7 @@ const useDekoratorLogin = () =>
         },
     });
 
-const Tilgangskontrollside: React.FC<TilgangskontrollsideProps> = ({ children }) => {
+const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
     const router = useRouter();
     const { t } = useTranslation();
     const { error, isPending, data: harTilgangData } = useHarTilgang();

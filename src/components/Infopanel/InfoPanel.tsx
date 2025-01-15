@@ -36,7 +36,7 @@ type Props = {
     href: string;
 };
 
-const InfoPanel: React.FC<Props> = ({ children, tittel, href }) => {
+const InfoPanel = ({ children, tittel, href }: Props) => {
     return (
         <StyledLinkPanel href={href} border={false}>
             <LinkPanel.Title as="h3">{tittel}</LinkPanel.Title>

@@ -38,7 +38,7 @@ const lastestriper = (linjer: number): React.ReactNode[] => {
     return divs;
 };
 
-const Lastestriper: React.FC<NavFrontendLastestriperProps> = ({ linjer = 3, style }) => (
+const Lastestriper = ({ linjer = 3, style }: NavFrontendLastestriperProps) => (
     <StyledLastestriper style={style} data-testid="lastestriper">
         {lastestriper(linjer)}
     </StyledLastestriper>
