@@ -31,9 +31,9 @@ const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
     const { kommune, isLoading } = useKommune();
     const fiksDigisosId = useFiksDigisosId();
 
-    const { kanLasteOppVedlegg, textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
 
-    if (!kanLasteOppVedlegg && !isLoading) {
+    if (textKey && !isLoading) {
         return <DriftsmeldingVedleggComponent className={className} textKey={textKey} />;
     }
     return null;

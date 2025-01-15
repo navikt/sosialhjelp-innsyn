@@ -103,16 +103,11 @@ const notBrokenSoknad = http.get(`/api/v1/innsyn/notBroken/soknadsStatus`, () =>
 it("Opplasting av vedlegg er disabled ved riktige caser", () => {
     server.use(notBrokenSoknad);
     expect(
-        renderHook(() => useFileUploadAllowed(kommuneResponse_innsyn_deaktivert, "notBroken")).result.current
-            .kanLasteOppVedlegg
-    ).toEqual(true);
-    expect(
-        renderHook(() => useFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert, "notBroken"), {}).result.current
-            .kanLasteOppVedlegg
-    ).toEqual(false);
+        renderHook(() => useFileUploadAllowed(kommuneResponse_innsyn_deaktivert, "notBroken")).result.current.textKey
+    ).toEqual(null);
     expect(
         renderHook(() => useFileUploadAllowed(kommuneResponse_innsyn_deaktivert, "notBroken").textKey).result.current
-    ).toEqual("");
+    ).toEqual(null);
     expect(
         renderHook(() => useFileUploadAllowed(kommuneResponse_ettersendelse_deaktivert, "notBroken").textKey).result
             .current
@@ -122,6 +117,5 @@ it("Opplasting av vedlegg er disabled ved riktige caser", () => {
 it.skip("Opplasting av vedlegg er disabled ved broken soknad pga vedleggmangel", async () => {
     server.use(brokenSoknad);
     const { result } = renderHook(() => useFileUploadAllowed(kommuneResponse_alt_er_lov, "broken"));
-    await waitFor(() => expect(result.current.kanLasteOppVedlegg).toEqual(false), { timeout: 99999 });
-    await waitFor(() => expect(result.current.textKey).toEqual("driftsmelding.vedlegg.vedleggMangler"));
+    await waitFor(() => expect(result.current.textKey).toEqual("driftsmelding.vedlegg.vedleggMangler"), { timeout: 5 });
 }, 99999);

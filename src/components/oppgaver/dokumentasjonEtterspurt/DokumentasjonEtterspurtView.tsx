@@ -27,7 +27,7 @@ interface Props {
 export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const { kommune } = useKommune();
-    const { kanLasteOppVedlegg } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
@@ -69,7 +69,7 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
             }
             sendButton={
                 <SendFileButton
-                    isVisible={kanLasteOppVedlegg}
+                    isVisible={!textKey}
                     isLoading={isLoading}
                     onClick={() => {
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
@@ -99,7 +99,7 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}
                                 addFileButton={
-                                    kanLasteOppVedlegg ? (
+                                    !textKey ? (
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;

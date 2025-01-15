@@ -50,7 +50,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const { kommune } = useKommune();
-    const { kanLasteOppVedlegg, textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
     const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 
@@ -81,7 +81,7 @@ const EttersendelseView = (props: Props) => {
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
 
-    return !kanLasteOppVedlegg && !showLoadingState ? (
+    return !!textKey && !showLoadingState ? (
         <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
     ) : (
         <>
@@ -93,7 +93,7 @@ const EttersendelseView = (props: Props) => {
                     filer={files}
                     onDelete={(_, file) => removeFil(0, file)}
                     addFileButton={
-                        kanLasteOppVedlegg ? (
+                        !textKey ? (
                             <AddFileButton
                                 onChange={(event) => {
                                     const files = event.currentTarget.files;
@@ -118,7 +118,7 @@ const EttersendelseView = (props: Props) => {
                 ))}
             </ErrorMessageWrapper>
             <SendFileButton
-                isVisible={kanLasteOppVedlegg}
+                isVisible={!textKey}
                 isLoading={showLoadingState}
                 onClick={onClick}
                 disabled={isAalesund || files?.length === 0}

@@ -26,7 +26,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
     const { kommune } = useKommune();
-    const { kanLasteOppVedlegg } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const { textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
@@ -65,7 +65,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
             innsendelsesFrist={<InnsendelsesFrist frist={dokumentasjonkrav.frist} />}
             sendButton={
                 <SendFileButton
-                    isVisible={kanLasteOppVedlegg}
+                    isVisible={!textKey}
                     isLoading={isLoading}
                     onClick={() => {
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
@@ -90,7 +90,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}
                                 addFileButton={
-                                    kanLasteOppVedlegg ? (
+                                    !textKey ? (
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;

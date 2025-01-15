@@ -54,16 +54,13 @@ export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefin
 };
 
 export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
-    let kanLasteOppVedlegg = true;
-    let textKey = "";
+    let textKey = null;
     const { data } = useHentSoknadsStatus(fiksDigisosId);
     if (data && data.isBroken) {
-        kanLasteOppVedlegg = false;
         textKey = "driftsmelding.vedlegg.vedleggMangler";
     } else if (ettersendelseErDeaktivert(kommuneInfo)) {
-        kanLasteOppVedlegg = false;
         textKey = "driftsmelding.kanIkkeSendeVedlegg";
     }
 
-    return { kanLasteOppVedlegg, textKey };
+    return { textKey };
 };
