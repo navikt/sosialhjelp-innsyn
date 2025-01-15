@@ -1,8 +1,6 @@
 import { KommuneResponse } from "../../generated/model";
 import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
 
-import { listeOverFeiledeIder } from "./StoppedeFiksDigisosIder";
-
 export interface Driftsmelding {
     type: DriftsmeldingType;
     textKey: string;
@@ -15,8 +13,7 @@ export type DriftsmeldingType =
     | "FeiledeDigisosIder";
 
 export const getDriftsmeldingByKommuneResponseOrDigisosId = (
-    kommuneResponse: KommuneResponse | undefined,
-    fiksDigisosId?: string | undefined
+    kommuneResponse: KommuneResponse | undefined
 ): Driftsmelding | undefined => {
     if (kommuneResponse) {
         if (
@@ -44,18 +41,8 @@ export const getDriftsmeldingByKommuneResponseOrDigisosId = (
                 textKey: "driftsmelding.ettersendelseDeaktivert",
             };
         }
-        if (fiksDigisosId && listeOverFeiledeIder.includes(fiksDigisosId)) {
-            return {
-                type: "FeiledeDigisosIder",
-                textKey: "driftsmelding.feiledeDigisosIder",
-            };
-        }
     }
     return undefined;
-};
-
-export const digisosIdHasFailed = (fiksDigisosId?: string | undefined) => {
-    return fiksDigisosId && listeOverFeiledeIder.includes(fiksDigisosId);
 };
 
 export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefined) => {
@@ -73,9 +60,6 @@ export const useFileUploadAllowed = (kommuneInfo: KommuneResponse | undefined, f
     if (data && data.isBroken) {
         kanLasteOppVedlegg = false;
         textKey = "driftsmelding.vedlegg.vedleggMangler";
-    } else if (digisosIdHasFailed(fiksDigisosId)) {
-        kanLasteOppVedlegg = false;
-        textKey = "driftsmelding.vedlegg.feiledeDigisosIder";
     } else if (ettersendelseErDeaktivert(kommuneInfo)) {
         kanLasteOppVedlegg = false;
         textKey = "driftsmelding.kanIkkeSendeVedlegg";
