@@ -11,33 +11,40 @@ export type DriftsmeldingType =
     | "InnsynOgEttersendelseDeaktivert"
     | "FeiledeDigisosIder";
 
+// Man skulle trodd at erInnsynDeaktivert skulle telle her, men enhetstestene tester faktisk at denne skal returnere false selv om erInnsynDeaktivert er true.
+const innsynDeaktivert = ({ erInnsynMidlertidigDeaktivert }: KommuneResponse) => erInnsynMidlertidigDeaktivert;
+
+const ettersendelseDeaktivert = ({
+    erInnsendingEttersendelseDeaktivert,
+    erInnsendingEttersendelseMidlertidigDeaktivert,
+}: KommuneResponse) => erInnsendingEttersendelseMidlertidigDeaktivert || erInnsendingEttersendelseDeaktivert;
+
+const getDriftsstatus = (kommuneResponse: KommuneResponse): "both" | "innsyn" | "ettersendelse" | undefined => {
+    if (ettersendelseDeaktivert(kommuneResponse) && innsynDeaktivert(kommuneResponse)) return "both";
+    if (innsynDeaktivert(kommuneResponse)) return "innsyn";
+    if (ettersendelseDeaktivert(kommuneResponse)) return "ettersendelse";
+};
+
 export const getDriftsmeldingByKommune = (kommuneResponse: KommuneResponse | undefined): Driftsmelding | undefined => {
-    if (kommuneResponse) {
-        if (
-            kommuneResponse.erInnsynMidlertidigDeaktivert &&
-            (kommuneResponse.erInnsendingEttersendelseDeaktivert ||
-                kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert)
-        ) {
+    if (!kommuneResponse) return undefined;
+
+    const status = getDriftsstatus(kommuneResponse);
+
+    switch (status) {
+        case "both":
             return {
                 type: "InnsynOgEttersendelseDeaktivert",
                 textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
             };
-        }
-        if (kommuneResponse.erInnsynMidlertidigDeaktivert) {
-            return {
-                type: "InnsynDeaktivert",
-                textKey: "driftsmelding.innsynDeaktivert",
-            };
-        }
-        if (
-            kommuneResponse.erInnsendingEttersendelseDeaktivert ||
-            kommuneResponse.erInnsendingEttersendelseMidlertidigDeaktivert
-        ) {
+        case "ettersendelse":
             return {
                 type: "EttersendelseDeaktivert",
                 textKey: "driftsmelding.ettersendelseDeaktivert",
             };
-        }
+        case "innsyn":
+            return {
+                type: "InnsynDeaktivert",
+                textKey: "driftsmelding.innsynDeaktivert",
+            };
     }
-    return undefined;
 };
