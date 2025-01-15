@@ -24,10 +24,7 @@ const DriftsmeldingAlertstripe = () => {
     return (
         <StyledAlert variant="error">
             <Label as="p">
-                <DatoOgKlokkeslett
-                    bareDato={false}
-                    tidspunkt={kommune ? (kommune.tidspunkt ? kommune.tidspunkt.toString() : "") : ""}
-                />
+                <DatoOgKlokkeslett tidspunkt={kommune?.tidspunkt?.toString() || ""} />
             </Label>
             {t(driftsmelding)}
         </StyledAlert>
