@@ -37,8 +37,6 @@ const DriftsmeldingAlertstripe = () => {
                     {t(driftsmelding.textKey)}
                 </StyledAlert>
             );
-        case "FeiledeDigisosIder":
-            return <StyledAlert variant="error">{t(driftsmelding.textKey)}</StyledAlert>;
         default:
             return null;
     }
