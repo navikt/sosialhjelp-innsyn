@@ -10,13 +10,9 @@ export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefin
 };
 
 export const useFileUploadError = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
-    let textKey = null;
     const { data } = useHentSoknadsStatus(fiksDigisosId);
-    if (data?.isBroken) {
-        textKey = "driftsmelding.vedlegg.vedleggMangler";
-    } else if (ettersendelseErDeaktivert(kommuneInfo)) {
-        textKey = "driftsmelding.kanIkkeSendeVedlegg";
-    }
-
-    return { textKey };
+    if (!data) return undefined;
+    else if (data.isBroken) return "driftsmelding.vedlegg.vedleggMangler";
+    else if (ettersendelseErDeaktivert(kommuneInfo)) return "driftsmelding.kanIkkeSendeVedlegg";
+    return null;
 };

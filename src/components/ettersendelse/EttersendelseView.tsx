@@ -50,7 +50,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const { kommune } = useKommune();
-    const { textKey } = useFileUploadError(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError(kommune, fiksDigisosId);
     const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 
@@ -81,8 +81,8 @@ const EttersendelseView = (props: Props) => {
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
 
-    return !!textKey && !showLoadingState ? (
-        <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
+    return !!fileUploadError && !showLoadingState ? (
+        <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={fileUploadError} />
     ) : (
         <>
             <OuterErrorBorder $hasError={outerErrors.length > 0}>
@@ -93,7 +93,7 @@ const EttersendelseView = (props: Props) => {
                     filer={files}
                     onDelete={(_, file) => removeFil(0, file)}
                     addFileButton={
-                        !textKey ? (
+                        !fileUploadError ? (
                             <AddFileButton
                                 onChange={(event) => {
                                     const files = event.currentTarget.files;
@@ -118,7 +118,7 @@ const EttersendelseView = (props: Props) => {
                 ))}
             </ErrorMessageWrapper>
             <SendFileButton
-                isVisible={!textKey}
+                isVisible={!fileUploadError}
                 isLoading={showLoadingState}
                 onClick={onClick}
                 disabled={isAalesund || files?.length === 0}

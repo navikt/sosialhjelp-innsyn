@@ -15,22 +15,32 @@ const brokenSoknadHandler = http.get(`/api/v1/innsyn/broken/soknadsStatus`, () =
 const notBrokenSoknadHandler = http.get(`/api/v1/innsyn/notBroken/soknadsStatus`, () => HttpResponse.json(notBroken));
 
 describe("useFileUploadAllowed", () => {
-    it("Opplasting av vedlegg er lov om innsyn er nede, men ikke ettersendelse", () => {
-        server.use(notBrokenSoknadHandler);
-        const { result } = renderHook(() => useFileUploadError(kommuneProblemer.utenInnsyn, "notBroken"));
-        expect(result.current.textKey).toEqual(null);
+    beforeEach(() => {
+        server.resetHandlers();
     });
 
-    it("Opplasting av vedlegg er disabled ved ettersendelse deaktivert", () => {
+    it("Opplasting av vedlegg er lov om innsyn er nede, men ikke ettersendelse", async () => {
+        server.use(notBrokenSoknadHandler);
+        const { result } = renderHook(() => useFileUploadError(kommuneProblemer.utenInnsyn, "notBroken"));
+        await waitFor(() => expect(result.current).toEqual(null));
+    });
+
+    it("Opplasting av vedlegg er disabled ved begge deaktivert", async () => {
+        server.use(notBrokenSoknadHandler);
+        const { result } = renderHook(() => useFileUploadError(kommuneProblemer.utenBegge, "notBroken"));
+        await waitFor(() => expect(result.current).toEqual("driftsmelding.kanIkkeSendeVedlegg"));
+    });
+
+    it("Opplasting av vedlegg er disabled ved ettersendelse deaktivert", async () => {
         server.use(notBrokenSoknadHandler);
         const { result } = renderHook(() => useFileUploadError(kommuneProblemer.utenEttersendelse, "notBroken"));
-        expect(result.current.textKey).toEqual("driftsmelding.kanIkkeSendeVedlegg");
+        await waitFor(() => expect(result.current).toEqual("driftsmelding.kanIkkeSendeVedlegg"));
     });
 
     it.skip("Opplasting av vedlegg er disabled ved broken soknad pga vedleggmangel", async () => {
         server.use(brokenSoknadHandler);
         const { result } = renderHook(() => useFileUploadError(kommuneProblemer.ok, "broken"));
-        await waitFor(() => expect(result.current.textKey).toEqual("driftsmelding.vedlegg.vedleggMangler"), {
+        await waitFor(() => expect(result.current).toEqual("driftsmelding.kanIkkeSendeVedlegg"), {
             timeout: 5,
         });
     }, 99999);

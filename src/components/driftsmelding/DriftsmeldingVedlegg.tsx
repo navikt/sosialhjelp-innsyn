@@ -31,10 +31,10 @@ const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
     const { kommune, isLoading } = useKommune();
     const fiksDigisosId = useFiksDigisosId();
 
-    const { textKey } = useFileUploadError(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError(kommune, fiksDigisosId);
 
-    if (textKey && !isLoading) {
-        return <DriftsmeldingVedleggComponent className={className} textKey={textKey} />;
+    if (fileUploadError && !isLoading) {
+        return <DriftsmeldingVedleggComponent className={className} textKey={fileUploadError} />;
     }
     return null;
 };
