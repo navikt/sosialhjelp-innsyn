@@ -11,9 +11,7 @@ export type DriftsmeldingType =
     | "InnsynOgEttersendelseDeaktivert"
     | "FeiledeDigisosIder";
 
-export const getDriftsmeldingByKommuneResponseOrDigisosId = (
-    kommuneResponse: KommuneResponse | undefined
-): Driftsmelding | undefined => {
+export const getDriftsmeldingByKommune = (kommuneResponse: KommuneResponse | undefined): Driftsmelding | undefined => {
     if (kommuneResponse) {
         if (
             kommuneResponse.erInnsynMidlertidigDeaktivert &&

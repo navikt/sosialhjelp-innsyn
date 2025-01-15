@@ -5,7 +5,7 @@ import { KommuneResponse, SoknadsStatusResponse, SoknadsStatusResponseStatus } f
 import { server } from "../../mocks/server";
 import { renderHook } from "../../test/test-utils";
 
-import { Driftsmelding, getDriftsmeldingByKommuneResponseOrDigisosId } from "./DriftsmeldingUtilities";
+import { Driftsmelding, getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
 import { useFileUploadAllowed } from "./useFileUploadAllowed";
 
 const kommuneResponse_ok: KommuneResponse = {
@@ -57,26 +57,26 @@ const kommuneResponse_alt_er_lov: KommuneResponse = {
 };
 
 it("viser driftsmelding for riktig kommune state", () => {
-    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_ok)).toEqual(undefined);
+    expect(getDriftsmeldingByKommune(kommuneResponse_ok)).toEqual(undefined);
 
-    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_innsyn_deaktivert)).toEqual({
+    expect(getDriftsmeldingByKommune(kommuneResponse_innsyn_deaktivert)).toEqual({
         type: "InnsynDeaktivert",
         textKey: "driftsmelding.innsynDeaktivert",
     } as Driftsmelding);
 
-    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_ettersendelse_deaktivert)).toEqual({
+    expect(getDriftsmeldingByKommune(kommuneResponse_ettersendelse_deaktivert)).toEqual({
         type: "EttersendelseDeaktivert",
 
         textKey: "driftsmelding.ettersendelseDeaktivert",
     } as Driftsmelding);
 
-    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual({
+    expect(getDriftsmeldingByKommune(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual({
         type: "InnsynOgEttersendelseDeaktivert",
 
         textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
     } as Driftsmelding);
 
-    expect(getDriftsmeldingByKommuneResponseOrDigisosId(kommuneResponse_litt_diverse)).toEqual({
+    expect(getDriftsmeldingByKommune(kommuneResponse_litt_diverse)).toEqual({
         type: "EttersendelseDeaktivert",
 
         textKey: "driftsmelding.ettersendelseDeaktivert",

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import useKommune from "../../hooks/useKommune";
 
-import { getDriftsmeldingByKommuneResponseOrDigisosId } from "./DriftsmeldingUtilities";
+import { getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
@@ -17,7 +17,7 @@ const DriftsmeldingAlertstripe = () => {
 
     const { t } = useTranslation();
 
-    const driftsmelding = getDriftsmeldingByKommuneResponseOrDigisosId(kommune);
+    const driftsmelding = getDriftsmeldingByKommune(kommune);
     const Tidspunkt = () => (
         <Label as="p">
             <DatoOgKlokkeslett
