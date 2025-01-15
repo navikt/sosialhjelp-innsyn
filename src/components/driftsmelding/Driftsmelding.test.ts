@@ -5,7 +5,7 @@ import { KommuneResponse, SoknadsStatusResponse, SoknadsStatusResponseStatus } f
 import { server } from "../../mocks/server";
 import { renderHook } from "../../test/test-utils";
 
-import { Driftsmelding, getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
+import { getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
 import { useFileUploadAllowed } from "./useFileUploadAllowed";
 
 const kommuneResponse_ok: KommuneResponse = {
@@ -59,28 +59,17 @@ const kommuneResponse_alt_er_lov: KommuneResponse = {
 it("viser driftsmelding for riktig kommune state", () => {
     expect(getDriftsmeldingByKommune(kommuneResponse_ok)).toEqual(undefined);
 
-    expect(getDriftsmeldingByKommune(kommuneResponse_innsyn_deaktivert)).toEqual({
-        type: "InnsynDeaktivert",
-        textKey: "driftsmelding.innsynDeaktivert",
-    } as Driftsmelding);
+    expect(getDriftsmeldingByKommune(kommuneResponse_innsyn_deaktivert)).toEqual("driftsmelding.innsynDeaktivert");
 
-    expect(getDriftsmeldingByKommune(kommuneResponse_ettersendelse_deaktivert)).toEqual({
-        type: "EttersendelseDeaktivert",
+    expect(getDriftsmeldingByKommune(kommuneResponse_ettersendelse_deaktivert)).toEqual(
+        "driftsmelding.ettersendelseDeaktivert"
+    );
 
-        textKey: "driftsmelding.ettersendelseDeaktivert",
-    } as Driftsmelding);
+    expect(getDriftsmeldingByKommune(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual(
+        "driftsmelding.innsynOgEttersendelseDeaktivert"
+    );
 
-    expect(getDriftsmeldingByKommune(kommuneResponse_innsyn_og_ettersendelse_deaktivert)).toEqual({
-        type: "InnsynOgEttersendelseDeaktivert",
-
-        textKey: "driftsmelding.innsynOgEttersendelseDeaktivert",
-    } as Driftsmelding);
-
-    expect(getDriftsmeldingByKommune(kommuneResponse_litt_diverse)).toEqual({
-        type: "EttersendelseDeaktivert",
-
-        textKey: "driftsmelding.ettersendelseDeaktivert",
-    } as Driftsmelding);
+    expect(getDriftsmeldingByKommune(kommuneResponse_litt_diverse)).toEqual("driftsmelding.ettersendelseDeaktivert");
 });
 
 const brokenSoknad = http.get(`/api/v1/innsyn/broken/soknadsStatus`, () => {

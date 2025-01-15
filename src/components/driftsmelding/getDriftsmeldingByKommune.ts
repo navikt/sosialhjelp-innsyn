@@ -1,10 +1,5 @@
 import { KommuneResponse } from "../../generated/model";
 
-export interface Driftsmelding {
-    type: DriftsmeldingType;
-    textKey: KommuneDriftsmeldingError;
-}
-
 const mldInnsynOgEttersendelseDeaktivert = "driftsmelding.innsynOgEttersendelseDeaktivert" as const;
 const mldEttersendelseDeaktivert = "driftsmelding.ettersendelseDeaktivert" as const;
 const mldInnsynDeaktivert = "driftsmelding.innsynDeaktivert" as const;
@@ -13,8 +8,6 @@ type KommuneDriftsmeldingError =
     | typeof mldInnsynOgEttersendelseDeaktivert
     | typeof mldEttersendelseDeaktivert
     | typeof mldInnsynDeaktivert;
-
-export type DriftsmeldingType = "InnsynDeaktivert" | "EttersendelseDeaktivert" | "InnsynOgEttersendelseDeaktivert";
 
 // Man skulle trodd at erInnsynDeaktivert skulle telle her, men enhetstestene tester faktisk at denne skal returnere false selv om erInnsynDeaktivert er true.
 const innsynDeaktivert = ({ erInnsynMidlertidigDeaktivert }: KommuneResponse) => erInnsynMidlertidigDeaktivert;
@@ -30,26 +23,19 @@ const getDriftsstatus = (kommuneResponse: KommuneResponse): "both" | "innsyn" | 
     if (ettersendelseDeaktivert(kommuneResponse)) return "ettersendelse";
 };
 
-export const getDriftsmeldingByKommune = (kommuneResponse: KommuneResponse | undefined): Driftsmelding | undefined => {
+export const getDriftsmeldingByKommune = (
+    kommuneResponse: KommuneResponse | undefined
+): KommuneDriftsmeldingError | undefined => {
     if (!kommuneResponse) return undefined;
 
     const status = getDriftsstatus(kommuneResponse);
 
     switch (status) {
         case "both":
-            return {
-                type: "InnsynOgEttersendelseDeaktivert",
-                textKey: mldInnsynOgEttersendelseDeaktivert,
-            };
+            return mldInnsynOgEttersendelseDeaktivert;
         case "ettersendelse":
-            return {
-                type: "EttersendelseDeaktivert",
-                textKey: mldEttersendelseDeaktivert,
-            };
+            return mldEttersendelseDeaktivert;
         case "innsyn":
-            return {
-                type: "InnsynDeaktivert",
-                textKey: mldInnsynDeaktivert,
-            };
+            return mldInnsynDeaktivert;
     }
 };

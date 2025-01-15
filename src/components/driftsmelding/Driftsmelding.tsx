@@ -29,7 +29,7 @@ const DriftsmeldingAlertstripe = () => {
                     tidspunkt={kommune ? (kommune.tidspunkt ? kommune.tidspunkt.toString() : "") : ""}
                 />
             </Label>
-            {t(driftsmelding.textKey)}
+            {t(driftsmelding)}
         </StyledAlert>
     );
 };
