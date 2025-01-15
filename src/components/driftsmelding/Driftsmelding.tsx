@@ -18,28 +18,20 @@ const DriftsmeldingAlertstripe = () => {
     const { t } = useTranslation();
 
     const driftsmelding = getDriftsmeldingByKommune(kommune);
-    const Tidspunkt = () => (
-        <Label as="p">
-            <DatoOgKlokkeslett
-                bareDato={false}
-                tidspunkt={kommune ? (kommune.tidspunkt ? kommune.tidspunkt.toString() : "") : ""}
-            />
-        </Label>
-    );
 
-    switch (driftsmelding?.type) {
-        case "InnsynDeaktivert":
-        case "EttersendelseDeaktivert":
-        case "InnsynOgEttersendelseDeaktivert":
-            return (
-                <StyledAlert variant="error">
-                    <Tidspunkt />
-                    {t(driftsmelding.textKey)}
-                </StyledAlert>
-            );
-        default:
-            return null;
-    }
+    if (!driftsmelding) return null;
+
+    return (
+        <StyledAlert variant="error">
+            <Label as="p">
+                <DatoOgKlokkeslett
+                    bareDato={false}
+                    tidspunkt={kommune ? (kommune.tidspunkt ? kommune.tidspunkt.toString() : "") : ""}
+                />
+            </Label>
+            {t(driftsmelding.textKey)}
+        </StyledAlert>
+    );
 };
 
 export default DriftsmeldingAlertstripe;
