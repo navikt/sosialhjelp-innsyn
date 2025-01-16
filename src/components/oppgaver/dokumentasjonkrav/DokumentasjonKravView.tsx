@@ -3,7 +3,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
 import { DokumentasjonkravResponse } from "../../../generated/model";
-import useKommune from "../../../hooks/useKommune";
 import { useFileUploadError } from "../../driftsmelding/useFileUploadError";
 import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
@@ -25,8 +24,7 @@ interface Props {
 export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
-    const { kommune } = useKommune();
-    const fileUploadError = useFileUploadError(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError(fiksDigisosId);
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>

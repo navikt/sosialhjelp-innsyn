@@ -4,7 +4,6 @@ import { useTranslation } from "next-i18next";
 import styled, { css } from "styled-components";
 import { ErrorMessage } from "@navikt/ds-react";
 
-import useKommune from "../../hooks/useKommune";
 import { useFileUploadError } from "../driftsmelding/useFileUploadError";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
@@ -49,8 +48,7 @@ interface Props {
 const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const { kommune } = useKommune();
-    const fileUploadError = useFileUploadError(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError(fiksDigisosId);
     const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 

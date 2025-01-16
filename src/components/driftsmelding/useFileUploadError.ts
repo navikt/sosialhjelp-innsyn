@@ -1,18 +1,18 @@
-import { KommuneResponse } from "../../generated/model";
 import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
+import { useHentKommuneInfo } from "../../generated/kommune-controller/kommune-controller";
+import { KommuneResponse } from "../../generated/model";
 
-export const ettersendelseErDeaktivert = (kommuneInfo: KommuneResponse | undefined) => {
-    return (
-        !kommuneInfo ||
-        kommuneInfo.erInnsendingEttersendelseMidlertidigDeaktivert ||
-        kommuneInfo.erInnsendingEttersendelseDeaktivert
-    );
-};
+const ettersendelseDeaktivert = ({
+    erInnsendingEttersendelseDeaktivert,
+    erInnsendingEttersendelseMidlertidigDeaktivert,
+}: KommuneResponse) => erInnsendingEttersendelseMidlertidigDeaktivert || erInnsendingEttersendelseDeaktivert;
 
-export const useFileUploadError = (kommuneInfo: KommuneResponse | undefined, fiksDigisosId: string) => {
-    const { data } = useHentSoknadsStatus(fiksDigisosId);
-    if (!data) return undefined;
-    else if (data.isBroken) return "driftsmelding.vedlegg.vedleggMangler";
-    else if (ettersendelseErDeaktivert(kommuneInfo)) return "driftsmelding.kanIkkeSendeVedlegg";
+export const useFileUploadError = (fiksDigisosId: string) => {
+    const kommune = useHentKommuneInfo(fiksDigisosId);
+    const soknadStatus = useHentSoknadsStatus(fiksDigisosId);
+
+    if (kommune.isPending || soknadStatus.isPending) return undefined;
+    if (soknadStatus.data.isBroken) return "driftsmelding.vedlegg.vedleggMangler";
+    if (ettersendelseDeaktivert(kommune.data)) return "driftsmelding.kanIkkeSendeVedlegg";
     return null;
 };

@@ -3,7 +3,6 @@ import { useTranslation } from "next-i18next";
 import { Alert } from "@navikt/ds-react";
 import styled from "styled-components";
 
-import useKommune from "../../hooks/useKommune";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 import { useFileUploadError } from "./useFileUploadError";
@@ -28,15 +27,11 @@ export const DriftsmeldingVedleggComponent = ({ textKey, className }: Props) => 
 };
 
 const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
-    const { kommune, isLoading } = useKommune();
-    const fiksDigisosId = useFiksDigisosId();
+    const fileUploadError = useFileUploadError(useFiksDigisosId());
 
-    const fileUploadError = useFileUploadError(kommune, fiksDigisosId);
+    if (!fileUploadError) return null;
 
-    if (fileUploadError && !isLoading) {
-        return <DriftsmeldingVedleggComponent className={className} textKey={fileUploadError} />;
-    }
-    return null;
+    return <DriftsmeldingVedleggComponent className={className} textKey={fileUploadError} />;
 };
 
 export default DriftsmeldingVedlegg;
