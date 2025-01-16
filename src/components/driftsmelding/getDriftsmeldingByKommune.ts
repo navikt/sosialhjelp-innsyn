@@ -17,25 +17,19 @@ const ettersendelseDeaktivert = ({
     erInnsendingEttersendelseMidlertidigDeaktivert,
 }: KommuneResponse) => erInnsendingEttersendelseMidlertidigDeaktivert || erInnsendingEttersendelseDeaktivert;
 
-const getDriftsstatus = (kommuneResponse: KommuneResponse): "both" | "innsyn" | "ettersendelse" | undefined => {
-    if (ettersendelseDeaktivert(kommuneResponse) && innsynDeaktivert(kommuneResponse)) return "both";
-    if (innsynDeaktivert(kommuneResponse)) return "innsyn";
-    if (ettersendelseDeaktivert(kommuneResponse)) return "ettersendelse";
-};
+type KommuneDriftstatus = `ettersendelseNede: ${boolean}, innsynNede: ${boolean}`;
+
+const DRIFTSMELDINGER: Record<KommuneDriftstatus, KommuneDriftsmeldingError | undefined> = {
+    "ettersendelseNede: true, innsynNede: true": mldInnsynOgEttersendelseDeaktivert,
+    "ettersendelseNede: true, innsynNede: false": mldEttersendelseDeaktivert,
+    "ettersendelseNede: false, innsynNede: true": mldInnsynDeaktivert,
+    "ettersendelseNede: false, innsynNede: false": undefined,
+} as const;
+
+const getDriftsstatus = (kommuneResponse: KommuneResponse): KommuneDriftstatus =>
+    `ettersendelseNede: ${ettersendelseDeaktivert(kommuneResponse)}, innsynNede: ${innsynDeaktivert(kommuneResponse)}`;
 
 export const getDriftsmeldingByKommune = (
     kommuneResponse: KommuneResponse | undefined
-): KommuneDriftsmeldingError | undefined => {
-    if (!kommuneResponse) return undefined;
-
-    const status = getDriftsstatus(kommuneResponse);
-
-    switch (status) {
-        case "both":
-            return mldInnsynOgEttersendelseDeaktivert;
-        case "ettersendelse":
-            return mldEttersendelseDeaktivert;
-        case "innsyn":
-            return mldInnsynDeaktivert;
-    }
-};
+): KommuneDriftsmeldingError | undefined =>
+    kommuneResponse ? DRIFTSMELDINGER[getDriftsstatus(kommuneResponse)] : undefined;
