@@ -8,11 +8,11 @@ const ettersendelseDeaktivert = ({
 }: KommuneResponse) => erInnsendingEttersendelseMidlertidigDeaktivert || erInnsendingEttersendelseDeaktivert;
 
 export const useFileUploadError = (fiksDigisosId: string) => {
-    const kommune = useHentKommuneInfo(fiksDigisosId);
-    const soknadStatus = useHentSoknadsStatus(fiksDigisosId);
+    const { data: kommuneInfo } = useHentKommuneInfo(fiksDigisosId);
+    const { data: soknadStatus } = useHentSoknadsStatus(fiksDigisosId);
 
-    if (kommune.isPending || soknadStatus.isPending) return undefined;
-    if (soknadStatus.data.isBroken) return "driftsmelding.vedlegg.vedleggMangler";
-    if (ettersendelseDeaktivert(kommune.data)) return "driftsmelding.kanIkkeSendeVedlegg";
+    if (!kommuneInfo || !soknadStatus) return undefined;
+    if (soknadStatus?.isBroken) return "driftsmelding.vedlegg.vedleggMangler";
+    if (ettersendelseDeaktivert(kommuneInfo)) return "driftsmelding.kanIkkeSendeVedlegg";
     return null;
 };
