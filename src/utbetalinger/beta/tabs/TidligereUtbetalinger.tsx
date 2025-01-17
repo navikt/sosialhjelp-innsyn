@@ -9,7 +9,7 @@ import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
 import { ManedUtbetaling } from "../../../generated/model";
 
-import ManedGruppe from "./ManedGruppe";
+import { ManedGruppe } from "./ManedGruppe";
 
 const TidligerUtbetalingerInnhold = () => {
     const { data, isLoading, isError } = useHentTidligereUtbetalinger({

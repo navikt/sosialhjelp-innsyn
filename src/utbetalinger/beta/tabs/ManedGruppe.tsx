@@ -11,7 +11,7 @@ import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
 interface Props {
     utbetalingSak: UtbetalingerResponseMedId;
 }
-const ManedGruppe = (props: Props) => {
+export const ManedGruppe = (props: Props) => {
     const { utbetalingSak } = props;
     const { i18n } = useTranslation();
 
@@ -28,4 +28,3 @@ const ManedGruppe = (props: Props) => {
         </section>
     );
 };
-export default ManedGruppe;
