@@ -7,29 +7,12 @@ import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import { useFilter } from "../filter/FilterContext";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
-import { ManedUtbetaling } from "../../../generated/model";
+import { addIdToUtbetalinger } from "../addIdToUtbetalinger";
 
 import { ManedGruppe } from "./ManedGruppe";
 
 export const TidligereUtbetalinger = () => {
-    const { data, isLoading, isError } = useHentTidligereUtbetalinger({
-        query: {
-            select: (data) => {
-                // Legg på en id på hver utbetaling
-                return data.map((item) => {
-                    return {
-                        ...item,
-                        utbetalingerForManed: item.utbetalingerForManed.map((utbetaling: ManedUtbetaling) => {
-                            return {
-                                ...utbetaling,
-                                id: crypto.randomUUID(),
-                            };
-                        }),
-                    };
-                });
-            },
-        },
-    });
+    const { data, isLoading, isError } = useHentTidligereUtbetalinger({ query: { select: addIdToUtbetalinger } });
     const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
     const { isUsingFilter } = useFilter();
     const { t } = useTranslation("utbetalinger");
