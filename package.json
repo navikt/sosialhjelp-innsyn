@@ -34,7 +34,7 @@
     },
     "scripts": {
         "dev": "next dev | pino-pretty",
-        "build": "next build",
+        "build": "orval && next build",
         "start": "next start",
         "test": "jest",
         "lintStaged": "lint-staged",
