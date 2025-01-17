@@ -15,10 +15,9 @@ import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
 import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
 import FilterModal from "./filter/FilterModal";
 
-enum TAB_VALUE {
-    UTBETALINGER = "Utbetalinger",
-    TIDLIGERE = "Tidligere utbetalinger",
-}
+const TAB_UTBETALINGER = "Utbetalinger" as const;
+const TAB_TIDLIGERE = "Tidligere utbetalinger" as const;
+type UtbetalingTab = typeof TAB_UTBETALINGER | typeof TAB_TIDLIGERE;
 
 export interface UtbetalingMedId extends ManedUtbetaling {
     id: string;
@@ -40,7 +39,7 @@ const StyledSpace = styled.div`
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
 
-    const [tabClicked, setTabClicked] = useState(TAB_VALUE.UTBETALINGER);
+    const [tabClicked, setTabClicked] = useState<UtbetalingTab>(TAB_UTBETALINGER);
 
     const { t } = useTranslation("utbetalinger");
     const {
@@ -93,37 +92,29 @@ const UtbetalingerPanelBeta = () => {
             </Heading>
             <StyledSpace />
             {isMobile && <FilterModal />}
-            <Tabs defaultValue={TAB_VALUE.UTBETALINGER} onChange={(path) => logTabChange(path)}>
+            <Tabs defaultValue={TAB_UTBETALINGER} onChange={(path) => logTabChange(path)}>
                 <Tabs.List>
                     <Tabs.Tab
-                        value={TAB_VALUE.UTBETALINGER}
+                        value={TAB_UTBETALINGER}
                         label={t("tab1")}
-                        onClick={() => {
-                            setTabClicked(TAB_VALUE.UTBETALINGER);
-                        }}
-                        className={`${
-                            tabClicked === TAB_VALUE.UTBETALINGER ? styles.tab_list_blue : styles.tab_list_transparent
-                        }`}
+                        onClick={() => setTabClicked(TAB_UTBETALINGER)}
+                        className={tabClicked === TAB_UTBETALINGER ? styles.tab_list_blue : styles.tab_list_transparent}
                     />
 
                     <Tabs.Tab
-                        value={TAB_VALUE.TIDLIGERE}
+                        value={TAB_TIDLIGERE}
                         id="tidligere-utbetalinger"
                         aria-controls="tidligere-utbetalinger-panel"
                         label={t("tab2")}
-                        onClick={() => {
-                            setTabClicked(TAB_VALUE.TIDLIGERE);
-                        }}
-                        className={`${
-                            tabClicked === TAB_VALUE.TIDLIGERE ? styles.tab_list_blue : styles.tab_list_transparent
-                        }`}
+                        onClick={() => setTabClicked(TAB_TIDLIGERE)}
+                        className={tabClicked === TAB_TIDLIGERE ? styles.tab_list_blue : styles.tab_list_transparent}
                     />
                 </Tabs.List>
-                <Tabs.Panel value={TAB_VALUE.UTBETALINGER} className={styles.tab_panel}>
+                <Tabs.Panel value={TAB_UTBETALINGER} className={styles.tab_panel}>
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
                     <NyeUtbetalinger isLoading={isLoading} isError={isError} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
-                <Tabs.Panel value={TAB_VALUE.TIDLIGERE} id="tidligere-utbetalinger-panel" className={styles.tab_panel}>
+                <Tabs.Panel value={TAB_TIDLIGERE} id="tidligere-utbetalinger-panel" className={styles.tab_panel}>
                     <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>
