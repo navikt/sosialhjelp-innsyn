@@ -6,7 +6,7 @@ import { useFilter } from "../filter/FilterContext";
 import Lastestriper from "../../../components/lastestriper/Lasterstriper";
 import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
 
-import ManedGruppe from "./ManedGruppe";
+import { ManedGruppe } from "./ManedGruppe";
 
 interface Props {
     lasterData: boolean;
