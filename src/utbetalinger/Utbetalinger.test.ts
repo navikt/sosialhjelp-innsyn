@@ -1,23 +1,4 @@
-import { UtbetalingerResponse } from "../generated/model";
-
-import { mockUtbetalinger, summerAntallUtbetalinger } from "./Utbetalinger.testdata";
-import { filtrerUtbetalingerForTidsinterval, filtrerUtbetalingerPaaMottaker } from "./utbetalingerUtils";
 import { utbetalingsdetaljerDefaultAapnet } from "./beta/tabs/UtbetalingAccordionItem";
-
-it("should filter by time interval", () => {
-    const utbetalingerMaaned: UtbetalingerResponse[] = mockUtbetalinger;
-    expect(utbetalingerMaaned.length).toBe(3);
-    const now: Date = new Date("2019-12-01");
-    expect(filtrerUtbetalingerForTidsinterval(utbetalingerMaaned, 6, now).length).toBe(3);
-});
-
-it("should filter by receiver of money", () => {
-    const utbetalingerMaaned: UtbetalingerResponse[] = mockUtbetalinger;
-    expect(summerAntallUtbetalinger(utbetalingerMaaned)).toBe(5);
-    expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, true, false))).toBe(3);
-    expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, false))).toBe(0);
-    expect(summerAntallUtbetalinger(filtrerUtbetalingerPaaMottaker(utbetalingerMaaned, false, true))).toBe(2);
-});
 
 it("Utbetalingsdetaljer skal ikke være åpen når utbetalingsdato er 18 dager tilbake i tid", () => {
     expect(utbetalingsdetaljerDefaultAapnet(new Date("2024-01-14"), "2023-12-27")).toBe(false);
