@@ -39,6 +39,7 @@ export default [
             "no-console": "warn",
             "@typescript-eslint/explicit-function-return-type": "off",
             "prettier/prettier": "warn",
+            "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
 
             "import/order": [
                 "warn",
