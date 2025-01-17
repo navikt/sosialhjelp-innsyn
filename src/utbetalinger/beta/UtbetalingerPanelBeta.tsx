@@ -45,8 +45,8 @@ const UtbetalingerPanelBeta = () => {
     const { t } = useTranslation("utbetalinger");
     const {
         data: nye,
-        isLoading: henterNye,
-        isError: hentNyeFeilet,
+        isLoading,
+        isError,
     } = useHentNyeUtbetalinger({
         query: {
             select: (data) => {
@@ -122,7 +122,7 @@ const UtbetalingerPanelBeta = () => {
                 </Tabs.List>
                 <Tabs.Panel value={TAB_VALUE.UTBETALINGER} className={styles.tab_panel}>
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
-                    <NyeUtbetalinger lasterData={henterNye} error={hentNyeFeilet} utbetalinger={filtrerteNye} />
+                    <NyeUtbetalinger isLoading={isLoading} isError={isError} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_VALUE.TIDLIGERE} id="tidligere-utbetalinger-panel" className={styles.tab_panel}>
                     <TidligereUtbetalinger />

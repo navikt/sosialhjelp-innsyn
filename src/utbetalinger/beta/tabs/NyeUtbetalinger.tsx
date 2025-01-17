@@ -8,27 +8,28 @@ import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
 
 import { ManedGruppe } from "./ManedGruppe";
 
-interface Props {
-    lasterData: boolean;
-    error: boolean;
+const NyeUtbetalinger = ({
+    utbetalinger,
+    isError,
+    isLoading,
+}: {
     utbetalinger: UtbetalingerResponseMedId[];
-}
-
-const NyeUtbetalinger = (props: Props) => {
+    isLoading: boolean;
+    isError: boolean;
+}) => {
     const { isUsingFilter } = useFilter();
     const { t } = useTranslation("utbetalinger");
 
-    if (props.lasterData) {
-        return <Lastestriper />;
-    }
-    if (props.error) {
+    if (isLoading) return <Lastestriper />;
+
+    if (isError)
         return (
             <Alert variant="error" inline>
                 {t("feil.fetch")}
             </Alert>
         );
-    }
-    if (!props.utbetalinger.length)
+
+    if (!utbetalinger.length)
         return (
             <Alert variant="info" inline>
                 {isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.nye")}
@@ -37,7 +38,7 @@ const NyeUtbetalinger = (props: Props) => {
 
     return (
         <>
-            {props.utbetalinger.map((utbetalingSak: UtbetalingerResponseMedId) => (
+            {utbetalinger.map((utbetalingSak: UtbetalingerResponseMedId) => (
                 <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
             ))}
         </>
