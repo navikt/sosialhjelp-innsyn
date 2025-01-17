@@ -1,4 +1,5 @@
 import { i18n } from "i18next";
+import { set } from "date-fns";
 
 const hentUtbetalingTittel = (tittel: string, defaultTittel: string) => {
     return tittel && tittel !== "default_utbetalinger_tittel" ? tittel : defaultTittel;
@@ -11,9 +12,7 @@ const hentTekstForUtbetalingsmetode = (utbetalingsmetode: string, i18n: i18n) =>
 };
 
 const hentMaanedString = (maaned: number, i18n: i18n) => {
-    const date = new Date();
-    date.setMonth(maaned - 1);
-    return date.toLocaleString(i18n.language, { month: "long" });
+    return set(new Date(0), { month: maaned - 1 }).toLocaleString(i18n.language, { month: "long" });
 };
 
 export { hentUtbetalingTittel, hentMaanedString, hentTekstForUtbetalingsmetode };
