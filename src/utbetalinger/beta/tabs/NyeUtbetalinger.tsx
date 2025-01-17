@@ -28,13 +28,12 @@ const NyeUtbetalinger = (props: Props) => {
             </Alert>
         );
     }
-    if (props.utbetalinger.length === 0) {
+    if (!props.utbetalinger.length)
         return (
             <Alert variant="info" inline>
-                {`${t("feil.ingen")} ${isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.nye")}`}
+                {isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.nye")}
             </Alert>
         );
-    }
 
     return (
         <>

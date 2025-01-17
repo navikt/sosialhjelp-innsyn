@@ -44,13 +44,12 @@ const TidligerUtbetalingerInnhold = () => {
             </Alert>
         );
     }
-    if (filtrerteTidligere.length === 0) {
+    if (filtrerteTidligere.length === 0)
         return (
             <Alert variant="info" inline>
-                {`${t("feil.ingen")} ${isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.tidligere")}`}
+                {isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.tidligere")}
             </Alert>
         );
-    }
 
     return (
         <>
