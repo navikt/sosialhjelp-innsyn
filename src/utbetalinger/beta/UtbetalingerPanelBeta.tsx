@@ -67,11 +67,10 @@ const UtbetalingerPanelBeta = () => {
     });
 
     useEffect(() => {
-        if (!nyeLogged && nye && nye.length > 0) {
-            const sisteManedgruppe = nye[nye.length - 1].utbetalingerForManed;
-            const sisteDatoVist =
-                sisteManedgruppe[sisteManedgruppe.length - 1].utbetalingsdato ??
-                sisteManedgruppe[sisteManedgruppe.length - 1].forfallsdato;
+        if (!nyeLogged && nye?.length) {
+            const sisteManedgruppe = nye.at(-1).utbetalingerForManed;
+            const sisteDatoVist = sisteManedgruppe.at(-1).utbetalingsdato ?? sisteManedgruppe.at(-1).forfallsdato;
+
             logAmplitudeEvent("Hentet nye utbetalinger", { sisteDatoVist });
             setNyeLogged(true);
         }
