@@ -26,6 +26,10 @@ export default defineConfig({
                 fetch: {
                     includeHttpStatusReturnType: false,
                 },
+                query: {
+                    useSuspenseQuery: true,
+                    version: 5,
+                },
             },
         },
         hooks: {
