@@ -14,6 +14,7 @@ import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
 import { TidligereUtbetalinger } from "./tabs/TidligereUtbetalinger";
 import FilterModal from "./filter/FilterModal";
+import { addIdToUtbetalinger } from "./addIdToUtbetalinger";
 
 const TAB_UTBETALINGER = "Utbetalinger" as const;
 const TAB_TIDLIGERE = "Tidligere utbetalinger" as const;
@@ -42,28 +43,8 @@ const UtbetalingerPanelBeta = () => {
     const [tabClicked, setTabClicked] = useState<UtbetalingTab>(TAB_UTBETALINGER);
 
     const { t } = useTranslation("utbetalinger");
-    const {
-        data: nye,
-        isLoading,
-        isError,
-    } = useHentNyeUtbetalinger({
-        query: {
-            select: (data) => {
-                // Legg på en id på hver utbetaling
-                return data.map((item) => {
-                    return {
-                        ...item,
-                        utbetalingerForManed: item.utbetalingerForManed.map((utbetaling: ManedUtbetaling) => {
-                            return {
-                                ...utbetaling,
-                                id: crypto.randomUUID(),
-                            };
-                        }),
-                    };
-                });
-            },
-        },
-    });
+
+    const { data: nye, isLoading, isError } = useHentNyeUtbetalinger({ query: { select: addIdToUtbetalinger } });
 
     useEffect(() => {
         if (!nyeLogged && nye?.length) {
