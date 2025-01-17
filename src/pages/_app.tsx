@@ -8,6 +8,7 @@ import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-mod
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import ErrorBoundary from "../components/errors/ErrorBoundary";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
@@ -43,6 +44,11 @@ const App = ({ Component, pageProps }: AppProps<{ toggles: IToggle[] }>): React.
                     </Tilgangskontrollside>
                 </FlagProvider>
             </ErrorBoundary>
+            {/* Quoth react-query devtools docs:
+              By default, React Query Devtools are only included in bundles
+              when process.env.NODE_ENV === 'development', so you don't
+              need to worry about excluding them from a production build. */}
+            <ReactQueryDevtools />
         </QueryClientProvider>
     );
 };
