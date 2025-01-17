@@ -1,4 +1,6 @@
-export default {
+import { defineConfig } from "orval";
+
+export default defineConfig({
     "innsyn-api": {
         input: "./innsyn-api.json",
         output: {
@@ -30,4 +32,4 @@ export default {
             afterAllFilesWrite: "prettier --write",
         },
     },
-};
+});
