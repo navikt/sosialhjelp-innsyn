@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, BodyLong } from "@navikt/ds-react";
+import { Alert } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
 import { useHentTidligereUtbetalinger } from "../../../generated/utbetalinger-controller/utbetalinger-controller";
@@ -11,7 +11,7 @@ import { ManedUtbetaling } from "../../../generated/model";
 
 import { ManedGruppe } from "./ManedGruppe";
 
-const TidligerUtbetalingerInnhold = () => {
+export const TidligereUtbetalinger = () => {
     const { data, isLoading, isError } = useHentTidligereUtbetalinger({
         query: {
             select: (data) => {
@@ -59,15 +59,3 @@ const TidligerUtbetalingerInnhold = () => {
         </>
     );
 };
-
-const TidligerUtbetalinger = () => {
-    const { t } = useTranslation("utbetalinger");
-
-    return (
-        <>
-            <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
-            <TidligerUtbetalingerInnhold />
-        </>
-    );
-};
-export default TidligerUtbetalinger;

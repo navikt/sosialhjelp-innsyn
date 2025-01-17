@@ -12,7 +12,7 @@ import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "../../gener
 import styles from "./utbetalinger.module.css";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
-import TidligereUtbetalinger from "./tabs/TidligereUtbetalinger";
+import { TidligereUtbetalinger } from "./tabs/TidligereUtbetalinger";
 import FilterModal from "./filter/FilterModal";
 
 const TAB_UTBETALINGER = "Utbetalinger" as const;
@@ -115,6 +115,7 @@ const UtbetalingerPanelBeta = () => {
                     <NyeUtbetalinger isLoading={isLoading} isError={isError} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_TIDLIGERE} id="tidligere-utbetalinger-panel" className={styles.tab_panel}>
+                    <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
                     <TidligereUtbetalinger />
                 </Tabs.Panel>
             </Tabs>
