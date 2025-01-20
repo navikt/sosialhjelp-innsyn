@@ -2,7 +2,6 @@ import { Accordion, BodyShort } from "@navikt/ds-react";
 import { FileTextIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import { logger } from "@navikt/next-logger";
 import cx from "classnames";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
@@ -12,22 +11,9 @@ import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbet
 import { ManedUtbetalingStatus } from "../../../generated/model";
 
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
+
 const onOpenChange = (open: boolean) =>
     logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
-
-function statusToTekst(status?: ManedUtbetalingStatus) {
-    switch (status) {
-        case ManedUtbetalingStatus.STOPPET:
-            return "stoppet";
-        case ManedUtbetalingStatus.PLANLAGT_UTBETALING:
-            return "planlagt";
-        case ManedUtbetalingStatus.UTBETALT:
-            return "utbetalt";
-        default:
-            if (!status?.toLowerCase) logger.error("Status is not a string in statusToTekst? Status: " + status);
-            return status?.toLowerCase?.() ?? "Ingen status";
-    }
-}
 
 const UtbetalingAccordionItem = ({
     utbetalingManed: {
@@ -61,7 +47,7 @@ const UtbetalingAccordionItem = ({
                                 {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
                             </BodyShort>
                             <BodyShort>
-                                {t(statusToTekst(status))} {erStoppet ? null : datoStreng}
+                                {t(`utbetalingStatus.${status}` as const)} {erStoppet ? null : datoStreng}
                             </BodyShort>
                         </div>
 
