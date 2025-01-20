@@ -1,8 +1,9 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
 import { I18n, useTranslation } from "next-i18next";
 import { set } from "date-fns";
+import { useMemo } from "react";
 
-import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
+import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 
 import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
 
@@ -12,9 +13,18 @@ const getMonthYearString = (i18n: I18n, date: Date) =>
 export const ManedGruppe = ({
     utbetalingSak: { ar, maned, utbetalingerForManed },
 }: {
-    utbetalingSak: UtbetalingerResponseMedId;
+    utbetalingSak: NyeOgTidligereUtbetalingerResponse;
 }) => {
     const { i18n } = useTranslation();
+
+    const withIds = useMemo(
+        () =>
+            utbetalingerForManed.map((utbetaling) => ({
+                ...utbetaling,
+                uuid: crypto.randomUUID(),
+            })),
+        [utbetalingerForManed]
+    );
 
     return (
         <section className="mb-10">
@@ -22,8 +32,8 @@ export const ManedGruppe = ({
                 {getMonthYearString(i18n, set(new Date(0), { year: ar, month: maned - 1 }))}
             </BodyShort>
             <Accordion>
-                {utbetalingerForManed.map((utbetalingManed) => (
-                    <UtbetalingAccordionItem key={utbetalingManed.id} utbetalingManed={utbetalingManed} />
+                {withIds.map((utbetaling) => (
+                    <UtbetalingAccordionItem key={utbetaling.uuid} utbetaling={utbetaling} />
                 ))}
             </Accordion>
         </section>

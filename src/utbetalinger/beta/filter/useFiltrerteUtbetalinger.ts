@@ -1,8 +1,7 @@
 import React from "react";
 import { isAfter, isBefore, isEqual } from "date-fns";
 
-import { ManedUtbetaling } from "../../../generated/model";
-import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
+import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 
 import { FilterKey, MottakerFilter, useFilter } from "./FilterContext";
 
@@ -31,7 +30,7 @@ export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
 
     return matchMottaker && matchTil && matchFra;
 };
-const useFiltrerteUtbetalinger = (utbetalinger: UtbetalingerResponseMedId[]) => {
+const useFiltrerteUtbetalinger = (utbetalinger: NyeOgTidligereUtbetalingerResponse[]) => {
     const { filter } = useFilter();
 
     return React.useMemo(() => {

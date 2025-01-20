@@ -6,26 +6,16 @@ import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import { useHentNyeUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsMobile from "../../utils/useIsMobile";
-import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
 
 import styles from "./utbetalinger.module.css";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
 import UtbetalingerNye from "./tabs/UtbetalingerNye";
 import { UtbetalingerTidligere } from "./tabs/UtbetalingerTidligere";
 import FilterModal from "./filter/FilterModal";
-import { addIdToUtbetalinger } from "./addIdToUtbetalinger";
 
 const TAB_UTBETALINGER = "Utbetalinger" as const;
 const TAB_TIDLIGERE = "Tidligere utbetalinger" as const;
 type UtbetalingTab = typeof TAB_UTBETALINGER | typeof TAB_TIDLIGERE;
-
-export interface UtbetalingMedId extends ManedUtbetaling {
-    id: string;
-}
-
-export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
-    utbetalingerForManed: UtbetalingMedId[];
-}
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
@@ -34,7 +24,7 @@ const UtbetalingerPanelBeta = () => {
 
     const { t } = useTranslation("utbetalinger");
 
-    const { data: nye, isLoading, isError } = useHentNyeUtbetalinger({ query: { select: addIdToUtbetalinger } });
+    const { data: nye, isLoading, isError } = useHentNyeUtbetalinger();
 
     useEffect(() => {
         if (!nyeLogged && nye?.length) {
