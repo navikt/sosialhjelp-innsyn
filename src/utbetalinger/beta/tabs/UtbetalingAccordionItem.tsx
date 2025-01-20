@@ -6,9 +6,8 @@ import cx from "classnames";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
 import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
-import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
 import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
-import { ManedUtbetalingStatus } from "../../../generated/model";
+import { type ManedUtbetaling, ManedUtbetalingStatus } from "../../../generated/model";
 
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
 
@@ -16,7 +15,7 @@ const onOpenChange = (open: boolean) =>
     logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
 
 const UtbetalingAccordionItem = ({
-    utbetalingManed: {
+    utbetaling: {
         annenMottaker,
         belop,
         fiksDigisosId,
@@ -31,7 +30,7 @@ const UtbetalingAccordionItem = ({
         utbetalingsmetode,
     },
 }: {
-    utbetalingManed: UtbetalingMedId;
+    utbetaling: ManedUtbetaling;
 }) => {
     const { t, i18n } = useTranslation("utbetalinger");
     const erStoppet = status === ManedUtbetalingStatus.STOPPET;

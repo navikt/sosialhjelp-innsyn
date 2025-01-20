@@ -3,7 +3,7 @@ import { Alert } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
 import { useFilter } from "../filter/FilterContext";
-import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
+import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 
 import { ManedGruppe } from "./ManedGruppe";
 import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
@@ -13,7 +13,7 @@ const UtbetalingerNye = ({
     isError,
     isLoading,
 }: {
-    utbetalinger: UtbetalingerResponseMedId[];
+    utbetalinger: NyeOgTidligereUtbetalingerResponse[];
     isLoading: boolean;
     isError: boolean;
 }) => {

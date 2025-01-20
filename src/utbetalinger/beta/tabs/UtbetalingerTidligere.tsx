@@ -5,14 +5,13 @@ import { useTranslation } from "next-i18next";
 import { useHentTidligereUtbetalinger } from "../../../generated/utbetalinger-controller/utbetalinger-controller";
 import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
 import { useFilter } from "../filter/FilterContext";
-import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
-import { addIdToUtbetalinger } from "../addIdToUtbetalinger";
+import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 
 import { ManedGruppe } from "./ManedGruppe";
 import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
 
 export const UtbetalingerTidligere = () => {
-    const { data, isLoading, isError } = useHentTidligereUtbetalinger({ query: { select: addIdToUtbetalinger } });
+    const { data, isLoading, isError } = useHentTidligereUtbetalinger();
     const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
     const { isUsingFilter } = useFilter();
     const { t } = useTranslation("utbetalinger");
@@ -20,7 +19,7 @@ export const UtbetalingerTidligere = () => {
     return (
         <UtbetalingerLoadingWrapper isLoading={isLoading} isError={isError}>
             {filtrerteTidligere?.length ? (
-                filtrerteTidligere.map((utbetalingSak: UtbetalingerResponseMedId) => (
+                filtrerteTidligere.map((utbetalingSak: NyeOgTidligereUtbetalingerResponse) => (
                     <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
                 ))
             ) : (
