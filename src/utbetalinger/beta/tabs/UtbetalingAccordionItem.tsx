@@ -1,6 +1,5 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
 import { FileTextIcon } from "@navikt/aksel-icons";
-import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { logger } from "@navikt/next-logger";
@@ -12,7 +11,8 @@ import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbet
 
 import styles from "./manedgruppe.module.css";
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
-
+const onOpenChange = (open: boolean) =>
+    logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
 function statusToTekst(t: (key: string) => string, status?: string) {
     switch (status) {
         case "STOPPET":
@@ -48,18 +48,11 @@ const UtbetalingAccordionItem = ({
     utbetalingManed: UtbetalingMedId;
 }) => {
     const { t, i18n } = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(isLessThanTwoWeeksAgo(utbetalingsdato));
 
     return (
         <>
-            <Accordion.Item open={isOpen}>
-                <Accordion.Header
-                    className={styles.accordion_header}
-                    onClick={() => {
-                        logAmplitudeEvent(isOpen ? "accordion lukket" : "accordion åpnet", { tekst: "Utbetaling" });
-                        setIsOpen((isOpen) => !isOpen);
-                    }}
-                >
+            <Accordion.Item defaultOpen={isLessThanTwoWeeksAgo(utbetalingsdato)} onOpenChange={onOpenChange}>
+                <Accordion.Header className={styles.accordion_header}>
                     <div className={styles.accordion_headerContent}>
                         <div className={styles.float_left}>
                             <BodyShort className={styles.uthevetTekst}>
