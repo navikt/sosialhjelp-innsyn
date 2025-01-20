@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { logger } from "@navikt/next-logger";
+import { differenceInCalendarDays } from "date-fns";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
 import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
@@ -31,28 +32,12 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
-export const utbetalingsdetaljerDefaultAapnet = (dagensDato: Date, utbetalingsdato?: string) => {
-    if (utbetalingsdato == "") return false;
-    const utbetalingsDato: Date = new Date(utbetalingsdato ?? "");
-
-    const femtenDagerSiden: Date = new Date(dagensDato.getTime() - 15 * 24 * 60 * 60 * 1000);
-    femtenDagerSiden.setHours(0, 0, 0, 0);
-
-    const femtenDagerTil: Date = new Date(dagensDato.getTime() + 15 * 24 * 60 * 60 * 1000);
-    femtenDagerTil.setHours(1, 0, 0, 0);
-
-    const erUtbetalingsdatoInnenDeSisteFemtenDagene =
-        utbetalingsDato >= femtenDagerSiden && utbetalingsDato <= dagensDato;
-
-    const erUtbetalingsdatoInnenDeNesteFemtenDagene =
-        utbetalingsDato <= femtenDagerTil && utbetalingsDato >= dagensDato;
-
-    return erUtbetalingsdatoInnenDeSisteFemtenDagene || erUtbetalingsdatoInnenDeNesteFemtenDagene;
-};
+export const isNotMoreThanTwoWeeksAgo = (now: Date, utbetalingsdato?: string) =>
+    !utbetalingsdato ? false : Math.abs(differenceInCalendarDays(now, utbetalingsdato)) <= 15;
 
 const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
     const { t, i18n } = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(utbetalingsdetaljerDefaultAapnet(new Date(), utbetalingManed.utbetalingsdato));
+    const [isOpen, setIsOpen] = useState(isNotMoreThanTwoWeeksAgo(new Date(), utbetalingManed.utbetalingsdato));
 
     return (
         <>
