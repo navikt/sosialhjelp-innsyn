@@ -11,7 +11,7 @@ import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
 import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
 
 import styles from "./manedgruppe.module.css";
-import { isNotMoreThanTwoWeeksAgo } from "./isNotMoreThanTwoWeeksAgo";
+import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
 
 function statusToTekst(t: (key: string) => string, status?: string) {
     switch (status) {
@@ -34,7 +34,7 @@ interface Props {
 
 const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
     const { t, i18n } = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(isNotMoreThanTwoWeeksAgo(utbetalingManed.utbetalingsdato));
+    const [isOpen, setIsOpen] = useState(isLessThanTwoWeeksAgo(utbetalingManed.utbetalingsdato));
 
     return (
         <>

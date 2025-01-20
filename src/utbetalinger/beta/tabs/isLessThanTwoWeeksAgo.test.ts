@@ -1,4 +1,4 @@
-import { isNotMoreThanTwoWeeksAgo } from "./beta/tabs/isNotMoreThanTwoWeeksAgo";
+import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
 
 /**
  * For en gitt referansedato og måldato, forventer vi at funksjonen returnerer et gitt resultat.
@@ -10,7 +10,7 @@ import { isNotMoreThanTwoWeeksAgo } from "./beta/tabs/isNotMoreThanTwoWeeksAgo";
 const expectResult = (referenceDate: string, targetDate: string, expectedResult: boolean, description: string) =>
     it(`returns ${expectedResult} for ${description}`, () => {
         jest.setSystemTime(new Date(referenceDate));
-        expect(isNotMoreThanTwoWeeksAgo(targetDate)).toBe(expectedResult);
+        expect(isLessThanTwoWeeksAgo(targetDate)).toBe(expectedResult);
     });
 
 describe("isNotMoreThanTwoWeeksAgo", () => {
