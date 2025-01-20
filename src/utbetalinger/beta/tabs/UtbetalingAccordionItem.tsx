@@ -2,14 +2,14 @@ import { Accordion, BodyShort } from "@navikt/ds-react";
 import { FileTextIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import cx from "classnames";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
-import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
-import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
-import { type ManedUtbetaling, ManedUtbetalingStatus } from "../../../generated/model";
+import { formatDato } from "../../../utils/formatting";
+import { hentTekstForUtbetalingsmetode } from "../../utbetalingerUtils";
+import { type ManedUtbetaling } from "../../../generated/model";
 
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
+import { UtbetalingAccordionHeader } from "./UtbetalingAccordionHeader";
 
 const onOpenChange = (open: boolean) =>
     logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
@@ -33,29 +33,12 @@ const UtbetalingAccordionItem = ({
     utbetaling: ManedUtbetaling;
 }) => {
     const { t, i18n } = useTranslation("utbetalinger");
-    const erStoppet = status === ManedUtbetalingStatus.STOPPET;
     const dato = utbetalingsdato ?? forfallsdato;
-    const datoStreng = dato ? getDayAndMonth(dato, i18n.language) : t("ukjentDato");
+
     return (
         <>
             <Accordion.Item defaultOpen={isLessThanTwoWeeksAgo(utbetalingsdato)} onOpenChange={onOpenChange}>
-                <Accordion.Header className="items-center">
-                    <div className="flex flex-row gap-2 items-center">
-                        <div className="flex flex-wrap gap-2 max-w-[80%]">
-                            <BodyShort className="font-bold">
-                                {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
-                            </BodyShort>
-                            <BodyShort>
-                                {t(`utbetalingStatus.${status}` as const)} {erStoppet ? null : datoStreng}
-                            </BodyShort>
-                        </div>
-
-                        <BodyShort className={cx("ml-auto", { "text-strikethrough text-text-subtle": erStoppet })}>
-                            {!erStoppet && <span className="navds-sr-only">{t("opprinneligSum")}</span>}
-                            {formatCurrency(belop, i18n.language)} kr
-                        </BodyShort>
-                    </div>
-                </Accordion.Header>
+                <UtbetalingAccordionHeader dato={dato} tittel={tittel} belop={belop} status={status} />
                 <Accordion.Content className="pt-2">
                     {fom && tom && (
                         <>
