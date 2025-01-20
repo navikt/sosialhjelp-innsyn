@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
 import { formatDato } from "../../../utils/formatting";
-import { hentTekstForUtbetalingsmetode } from "../../utbetalingerUtils";
+import { utbetalingsmetodeText } from "../../utbetalingerUtils";
 import { type ManedUtbetaling } from "../../../generated/model";
 
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
@@ -56,11 +56,7 @@ const UtbetalingAccordionItem = ({
                             </BodyShort>
                         ) : (
                             <BodyShort spacing>
-                                {`${t("tilDeg")} (${hentTekstForUtbetalingsmetode(
-                                    utbetalingsmetode ?? "",
-                                    i18n
-                                )} ${kontonummer})
-                                            `}
+                                {t("tilDeg")} {utbetalingsmetodeText(utbetalingsmetode, i18n)} {kontonummer}
                             </BodyShort>
                         )}
                     </>
