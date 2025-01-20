@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { logger } from "@navikt/next-logger";
-import { differenceInCalendarDays } from "date-fns";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
 import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
@@ -12,6 +11,7 @@ import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
 import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
 
 import styles from "./manedgruppe.module.css";
+import { isNotMoreThanTwoWeeksAgo } from "./isNotMoreThanTwoWeeksAgo";
 
 function statusToTekst(t: (key: string) => string, status?: string) {
     switch (status) {
@@ -32,12 +32,9 @@ interface Props {
     utbetalingManed: UtbetalingMedId;
 }
 
-export const isNotMoreThanTwoWeeksAgo = (now: Date, utbetalingsdato?: string) =>
-    !utbetalingsdato ? false : Math.abs(differenceInCalendarDays(now, utbetalingsdato)) <= 15;
-
 const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
     const { t, i18n } = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(isNotMoreThanTwoWeeksAgo(new Date(), utbetalingManed.utbetalingsdato));
+    const [isOpen, setIsOpen] = useState(isNotMoreThanTwoWeeksAgo(utbetalingManed.utbetalingsdato));
 
     return (
         <>
