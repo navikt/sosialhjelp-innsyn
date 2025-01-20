@@ -36,42 +36,38 @@ const UtbetalingAccordionItem = ({
     const dato = utbetalingsdato ?? forfallsdato;
 
     return (
-        <>
-            <Accordion.Item defaultOpen={isLessThanTwoWeeksAgo(utbetalingsdato)} onOpenChange={onOpenChange}>
-                <UtbetalingAccordionHeader dato={dato} tittel={tittel} belop={belop} status={status} />
-                <Accordion.Content className="pt-2">
-                    {fom && tom && (
-                        <>
-                            <BodyShort className="font-bold">{t("periode")}</BodyShort>
-                            <BodyShort spacing>
-                                {formatDato(fom, i18n.language)} - {formatDato(tom, i18n.language)}
-                            </BodyShort>
-                        </>
-                    )}
+        <Accordion.Item defaultOpen={isLessThanTwoWeeksAgo(utbetalingsdato)} onOpenChange={onOpenChange}>
+            <UtbetalingAccordionHeader dato={dato} tittel={tittel} belop={belop} status={status} />
+            <Accordion.Content className="pt-2">
+                {fom && tom && (
                     <>
-                        <BodyShort className="font-bold">{t("mottaker")}</BodyShort>
-                        {annenMottaker ? (
-                            <BodyShort className="capitalize" spacing>
-                                {mottaker}
-                            </BodyShort>
-                        ) : (
-                            <BodyShort spacing>
-                                {t("tilDeg")} {utbetalingsmetodeText(utbetalingsmetode, i18n)} {kontonummer}
-                            </BodyShort>
-                        )}
+                        <BodyShort className="font-bold">{t("periode")}</BodyShort>
+                        <BodyShort spacing>
+                            {formatDato(fom, i18n.language)} - {formatDato(tom, i18n.language)}
+                        </BodyShort>
                     </>
+                )}
+                <BodyShort className="font-bold">{t("mottaker")}</BodyShort>
+                {annenMottaker ? (
+                    <BodyShort className="capitalize" spacing>
+                        {mottaker}
+                    </BodyShort>
+                ) : (
+                    <BodyShort spacing>
+                        {t("tilDeg")} {utbetalingsmetodeText(utbetalingsmetode, i18n)} {kontonummer}
+                    </BodyShort>
+                )}
 
-                    <Link
-                        href={`/${fiksDigisosId}/status`}
-                        className="navds-link items-center gap-2 flex"
-                        onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
-                    >
-                        <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
-                        {t("soknadLenke")}
-                    </Link>
-                </Accordion.Content>
-            </Accordion.Item>
-        </>
+                <Link
+                    href={`/${fiksDigisosId}/status`}
+                    className="navds-link items-center gap-2 flex"
+                    onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
+                >
+                    <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
+                    {t("soknadLenke")}
+                </Link>
+            </Accordion.Content>
+        </Accordion.Item>
     );
 };
 export default UtbetalingAccordionItem;
