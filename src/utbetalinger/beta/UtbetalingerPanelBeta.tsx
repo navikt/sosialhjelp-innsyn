@@ -10,8 +10,8 @@ import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "../../gener
 
 import styles from "./utbetalinger.module.css";
 import useFiltrerteUtbetalinger from "./filter/useFiltrerteUtbetalinger";
-import NyeUtbetalinger from "./tabs/NyeUtbetalinger";
-import { TidligereUtbetalinger } from "./tabs/TidligereUtbetalinger";
+import UtbetalingerNye from "./tabs/UtbetalingerNye";
+import { UtbetalingerTidligere } from "./tabs/UtbetalingerTidligere";
 import FilterModal from "./filter/FilterModal";
 import { addIdToUtbetalinger } from "./addIdToUtbetalinger";
 
@@ -51,9 +51,7 @@ const UtbetalingerPanelBeta = () => {
 
     const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
 
-    const logTabChange = (tabPath: string) => {
-        logAmplitudeEvent("Klikket tab", { tab: tabPath });
-    };
+    const logTabChange = (tab: string) => logAmplitudeEvent("Klikket tab", { tab });
     const isMobile = useIsMobile();
     return (
         <Panel className={styles.utbetalinger_panel}>
@@ -83,11 +81,11 @@ const UtbetalingerPanelBeta = () => {
                 </Tabs.List>
                 <Tabs.Panel value={TAB_UTBETALINGER} className={styles.tab_panel}>
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
-                    <NyeUtbetalinger isLoading={isLoading} isError={isError} utbetalinger={filtrerteNye} />
+                    <UtbetalingerNye isLoading={isLoading} isError={isError} utbetalinger={filtrerteNye} />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_TIDLIGERE} id="tidligere-utbetalinger-panel" className={styles.tab_panel}>
                     <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
-                    <TidligereUtbetalinger />
+                    <UtbetalingerTidligere />
                 </Tabs.Panel>
             </Tabs>
         </Panel>
