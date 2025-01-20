@@ -11,23 +11,21 @@ import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
 import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
 import { ManedUtbetalingStatus } from "../../../generated/model";
 
-import styles from "./manedgruppe.module.css";
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
 const onOpenChange = (open: boolean) =>
     logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
-function statusToTekst(t: (key: string) => string, status?: string) {
+
+function statusToTekst(status?: ManedUtbetalingStatus) {
     switch (status) {
-        case "STOPPET":
-            return t("utbetalinger:stoppet") + " ";
-        case "PLANLAGT_UTBETALING":
-            return t("utbetalinger:planlagt") + " ";
-        case "UTBETALT":
-            return t("utbetalinger:utbetalt") + " ";
+        case ManedUtbetalingStatus.STOPPET:
+            return "stoppet";
+        case ManedUtbetalingStatus.PLANLAGT_UTBETALING:
+            return "planlagt";
+        case ManedUtbetalingStatus.UTBETALT:
+            return "utbetalt";
         default:
-            if (!status?.toLowerCase) {
-                logger.error("Status is not a string in statusToTekst? Status: " + status);
-            }
-            return status?.toLowerCase?.() + " " ?? "Ingen status";
+            if (!status?.toLowerCase) logger.error("Status is not a string in statusToTekst? Status: " + status);
+            return status?.toLowerCase?.() ?? "Ingen status";
     }
 }
 
@@ -51,29 +49,19 @@ const UtbetalingAccordionItem = ({
 }) => {
     const { t, i18n } = useTranslation("utbetalinger");
     const erStoppet = status === ManedUtbetalingStatus.STOPPET;
-
+    const dato = utbetalingsdato ?? forfallsdato;
+    const datoStreng = dato ? getDayAndMonth(dato, i18n.language) : t("ukjentDato");
     return (
         <>
             <Accordion.Item defaultOpen={isLessThanTwoWeeksAgo(utbetalingsdato)} onOpenChange={onOpenChange}>
                 <Accordion.Header className="items-center">
-                    <div className={styles.accordion_headerContent}>
-                        <div className={styles.float_left}>
-                            <BodyShort className={styles.uthevetTekst}>
+                    <div className="flex flex-row gap-2 items-center">
+                        <div className="flex flex-wrap gap-2 max-w-[80%]">
+                            <BodyShort className="font-bold">
                                 {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
                             </BodyShort>
                             <BodyShort>
-                                {erStoppet ? (
-                                    <>{t("utbetalinger:stoppet")}</>
-                                ) : (
-                                    <>
-                                        {statusToTekst(t, status)}
-                                        {utbetalingsdato
-                                            ? getDayAndMonth(utbetalingsdato, i18n.language)
-                                            : forfallsdato
-                                              ? getDayAndMonth(forfallsdato, i18n.language)
-                                              : t("ukjentDato")}
-                                    </>
-                                )}
+                                {t(statusToTekst(status))} {erStoppet ? null : datoStreng}
                             </BodyShort>
                         </div>
 
@@ -83,19 +71,19 @@ const UtbetalingAccordionItem = ({
                         </BodyShort>
                     </div>
                 </Accordion.Header>
-                <Accordion.Content className={styles.accordion_content}>
+                <Accordion.Content className="pt-2">
                     {fom && tom && (
                         <>
-                            <BodyShort className={styles.uthevetTekst}>{t("periode")}</BodyShort>
+                            <BodyShort className="font-bold">{t("periode")}</BodyShort>
                             <BodyShort spacing>
                                 {formatDato(fom, i18n.language)} - {formatDato(tom, i18n.language)}
                             </BodyShort>
                         </>
                     )}
                     <>
-                        <BodyShort className={styles.uthevetTekst}>{t("mottaker")}</BodyShort>
+                        <BodyShort className="font-bold">{t("mottaker")}</BodyShort>
                         {annenMottaker ? (
-                            <BodyShort className={styles.capitalize} spacing>
+                            <BodyShort className="capitalize" spacing>
                                 {mottaker}
                             </BodyShort>
                         ) : (
@@ -110,8 +98,8 @@ const UtbetalingAccordionItem = ({
                     </>
 
                     <Link
-                        href={"/" + fiksDigisosId + "/status"}
-                        className={`navds-link ${styles.soknadLenke} `}
+                        href={`/${fiksDigisosId}/status`}
+                        className="navds-link items-center gap-2 flex"
                         onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
                     >
                         <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />

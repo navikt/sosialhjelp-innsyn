@@ -4,7 +4,6 @@ import { set } from "date-fns";
 
 import { UtbetalingerResponseMedId } from "../UtbetalingerPanelBeta";
 
-import styles from "./manedgruppe.module.css";
 import UtbetalingAccordionItem from "./UtbetalingAccordionItem";
 
 const getMonthYearString = (i18n: I18n, date: Date) =>
@@ -18,8 +17,8 @@ export const ManedGruppe = ({
     const { i18n } = useTranslation();
 
     return (
-        <section className={styles.month_group}>
-            <BodyShort className={`${styles.uthevetTekst} ${styles.capitalize} ${styles.monthYear_header}`}>
+        <section className="mb-10">
+            <BodyShort className="font-bold mb-1 capitalize">
                 {getMonthYearString(i18n, set(new Date(0), { year: ar, month: maned - 1 }))}
             </BodyShort>
             <Accordion>
