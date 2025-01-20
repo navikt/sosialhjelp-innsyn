@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BodyLong, Heading, Panel, Tabs } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
-import styled from "styled-components";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import { useHentNyeUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
@@ -27,15 +26,6 @@ export interface UtbetalingMedId extends ManedUtbetaling {
 export interface UtbetalingerResponseMedId extends Omit<NyeOgTidligereUtbetalingerResponse, "utbetalingerForManed"> {
     utbetalingerForManed: UtbetalingMedId[];
 }
-const StyledSpace = styled.div`
-    @media screen and (max-width: 769px) {
-        padding: 1rem 0 0 0;
-    }
-
-    @media screen and (min-width: 769px) {
-        padding: 3rem 0 0 0;
-    }
-`;
 
 const UtbetalingerPanelBeta = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
@@ -48,8 +38,8 @@ const UtbetalingerPanelBeta = () => {
 
     useEffect(() => {
         if (!nyeLogged && nye?.length) {
-            const sisteManedgruppe = nye.at(-1).utbetalingerForManed;
-            const sisteDatoVist = sisteManedgruppe.at(-1).utbetalingsdato ?? sisteManedgruppe.at(-1).forfallsdato;
+            const sisteManedgruppe = nye?.at(-1)?.utbetalingerForManed;
+            const sisteDatoVist = sisteManedgruppe?.at(-1)?.utbetalingsdato ?? sisteManedgruppe?.at(-1)?.forfallsdato;
 
             logAmplitudeEvent("Hentet nye utbetalinger", { sisteDatoVist });
             setNyeLogged(true);
@@ -71,7 +61,7 @@ const UtbetalingerPanelBeta = () => {
             <Heading size="medium" level="2">
                 {t("tittel.inne")}
             </Heading>
-            <StyledSpace />
+            <div className="md:pt-12 pt-4" />
             {isMobile && <FilterModal />}
             <Tabs defaultValue={TAB_UTBETALINGER} onChange={(path) => logTabChange(path)}>
                 <Tabs.List>
