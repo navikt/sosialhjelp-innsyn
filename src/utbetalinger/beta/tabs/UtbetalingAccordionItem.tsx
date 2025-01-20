@@ -3,11 +3,13 @@ import { FileTextIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { logger } from "@navikt/next-logger";
+import cx from "classnames";
 
 import { logAmplitudeEvent, logButtonOrLinkClick } from "../../../utils/amplitude";
 import { formatCurrency, formatDato, getDayAndMonth } from "../../../utils/formatting";
 import { UtbetalingMedId } from "../UtbetalingerPanelBeta";
 import { hentTekstForUtbetalingsmetode, hentUtbetalingTittel } from "../../utbetalingerUtils";
+import { ManedUtbetalingStatus } from "../../../generated/model";
 
 import styles from "./manedgruppe.module.css";
 import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
@@ -48,18 +50,19 @@ const UtbetalingAccordionItem = ({
     utbetalingManed: UtbetalingMedId;
 }) => {
     const { t, i18n } = useTranslation("utbetalinger");
+    const erStoppet = status === ManedUtbetalingStatus.STOPPET;
 
     return (
         <>
             <Accordion.Item defaultOpen={isLessThanTwoWeeksAgo(utbetalingsdato)} onOpenChange={onOpenChange}>
-                <Accordion.Header className={styles.accordion_header}>
+                <Accordion.Header className="items-center">
                     <div className={styles.accordion_headerContent}>
                         <div className={styles.float_left}>
                             <BodyShort className={styles.uthevetTekst}>
                                 {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
                             </BodyShort>
                             <BodyShort>
-                                {status === "STOPPET" ? (
+                                {erStoppet ? (
                                     <>{t("utbetalinger:stoppet")}</>
                                 ) : (
                                     <>
@@ -74,15 +77,9 @@ const UtbetalingAccordionItem = ({
                             </BodyShort>
                         </div>
 
-                        <BodyShort className={styles.float_right}>
-                            {status === "STOPPET" ? (
-                                <s>
-                                    <span className="navds-sr-only">{t("opprinneligSum")}</span>
-                                    {formatCurrency(belop, i18n.language)} kr
-                                </s>
-                            ) : (
-                                <>{formatCurrency(belop, i18n.language)} kr</>
-                            )}
+                        <BodyShort className={cx("ml-auto", { "text-strikethrough text-text-subtle": erStoppet })}>
+                            {!erStoppet && <span className="navds-sr-only">{t("opprinneligSum")}</span>}
+                            {formatCurrency(belop, i18n.language)} kr
                         </BodyShort>
                     </div>
                 </Accordion.Header>
