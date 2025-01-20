@@ -34,7 +34,7 @@ spec:
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
     inbound:
       rules:
-        - application: wonderwall-innsyn
+        - application: wonderwall-innsyn-dev
   resources:
     limits:
       memory: 512Mi
