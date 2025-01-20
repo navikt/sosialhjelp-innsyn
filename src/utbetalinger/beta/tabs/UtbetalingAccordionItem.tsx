@@ -28,13 +28,27 @@ function statusToTekst(t: (key: string) => string, status?: string) {
             return status?.toLowerCase?.() + " " ?? "Ingen status";
     }
 }
-interface Props {
-    utbetalingManed: UtbetalingMedId;
-}
 
-const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
+const UtbetalingAccordionItem = ({
+    utbetalingManed: {
+        annenMottaker,
+        belop,
+        fiksDigisosId,
+        fom,
+        forfallsdato,
+        kontonummer,
+        mottaker,
+        status,
+        tittel,
+        tom,
+        utbetalingsdato,
+        utbetalingsmetode,
+    },
+}: {
+    utbetalingManed: UtbetalingMedId;
+}) => {
     const { t, i18n } = useTranslation("utbetalinger");
-    const [isOpen, setIsOpen] = useState(isLessThanTwoWeeksAgo(utbetalingManed.utbetalingsdato));
+    const [isOpen, setIsOpen] = useState(isLessThanTwoWeeksAgo(utbetalingsdato));
 
     return (
         <>
@@ -42,27 +56,25 @@ const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
                 <Accordion.Header
                     className={styles.accordion_header}
                     onClick={() => {
-                        logAmplitudeEvent(isOpen ? "accordion lukket" : "accordion åpnet", {
-                            tekst: "Utbetaling",
-                        });
+                        logAmplitudeEvent(isOpen ? "accordion lukket" : "accordion åpnet", { tekst: "Utbetaling" });
                         setIsOpen((isOpen) => !isOpen);
                     }}
                 >
                     <div className={styles.accordion_headerContent}>
                         <div className={styles.float_left}>
                             <BodyShort className={styles.uthevetTekst}>
-                                {hentUtbetalingTittel(utbetalingManed.tittel, t("default_utbetalinger_tittel"))}
+                                {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
                             </BodyShort>
                             <BodyShort>
-                                {utbetalingManed.status === "STOPPET" ? (
+                                {status === "STOPPET" ? (
                                     <>{t("utbetalinger:stoppet")}</>
                                 ) : (
                                     <>
-                                        {statusToTekst(t, utbetalingManed.status)}
-                                        {utbetalingManed.utbetalingsdato
-                                            ? getDayAndMonth(utbetalingManed.utbetalingsdato, i18n.language)
-                                            : utbetalingManed.forfallsdato
-                                              ? getDayAndMonth(utbetalingManed.forfallsdato, i18n.language)
+                                        {statusToTekst(t, status)}
+                                        {utbetalingsdato
+                                            ? getDayAndMonth(utbetalingsdato, i18n.language)
+                                            : forfallsdato
+                                              ? getDayAndMonth(forfallsdato, i18n.language)
                                               : t("ukjentDato")}
                                     </>
                                 )}
@@ -70,46 +82,45 @@ const UtbetalingAccordionItem = ({ utbetalingManed }: Props) => {
                         </div>
 
                         <BodyShort className={styles.float_right}>
-                            {utbetalingManed.status === "STOPPET" ? (
+                            {status === "STOPPET" ? (
                                 <s>
                                     <span className="navds-sr-only">{t("opprinneligSum")}</span>
-                                    {formatCurrency(utbetalingManed.belop, i18n.language)} kr
+                                    {formatCurrency(belop, i18n.language)} kr
                                 </s>
                             ) : (
-                                <>{formatCurrency(utbetalingManed.belop, i18n.language)} kr</>
+                                <>{formatCurrency(belop, i18n.language)} kr</>
                             )}
                         </BodyShort>
                     </div>
                 </Accordion.Header>
                 <Accordion.Content className={styles.accordion_content}>
-                    {utbetalingManed.fom && utbetalingManed.tom && (
+                    {fom && tom && (
                         <>
                             <BodyShort className={styles.uthevetTekst}>{t("periode")}</BodyShort>
                             <BodyShort spacing>
-                                {formatDato(utbetalingManed.fom, i18n.language)} -{" "}
-                                {formatDato(utbetalingManed.tom, i18n.language)}
+                                {formatDato(fom, i18n.language)} - {formatDato(tom, i18n.language)}
                             </BodyShort>
                         </>
                     )}
                     <>
                         <BodyShort className={styles.uthevetTekst}>{t("mottaker")}</BodyShort>
-                        {utbetalingManed.annenMottaker ? (
+                        {annenMottaker ? (
                             <BodyShort className={styles.capitalize} spacing>
-                                {utbetalingManed.mottaker}
+                                {mottaker}
                             </BodyShort>
                         ) : (
                             <BodyShort spacing>
                                 {`${t("tilDeg")} (${hentTekstForUtbetalingsmetode(
-                                    utbetalingManed.utbetalingsmetode ?? "",
+                                    utbetalingsmetode ?? "",
                                     i18n
-                                )} ${utbetalingManed.kontonummer})
+                                )} ${kontonummer})
                                             `}
                             </BodyShort>
                         )}
                     </>
 
                     <Link
-                        href={"/" + utbetalingManed.fiksDigisosId + "/status"}
+                        href={"/" + fiksDigisosId + "/status"}
                         className={`navds-link ${styles.soknadLenke} `}
                         onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
                     >
