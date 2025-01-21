@@ -12,8 +12,8 @@ import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
 
 export const UtbetalingerTidligere = () => {
     const { data, isLoading, isError } = useHentTidligereUtbetalinger();
-    const filtrerteTidligere = useFiltrerteUtbetalinger(data ?? []);
-    const { isUsingFilter } = useFilter();
+    const filtrerteTidligere = useFiltrerteUtbetalinger(data);
+    const { filters } = useFilter();
     const { t } = useTranslation("utbetalinger");
 
     return (
@@ -24,7 +24,7 @@ export const UtbetalingerTidligere = () => {
                 ))
             ) : (
                 <Alert variant="info" inline>
-                    {isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.tidligere")}
+                    {filters ? t("feil.ingen.filter") : t("feil.ingen.default.tidligere")}
                 </Alert>
             )}
         </UtbetalingerLoadingWrapper>

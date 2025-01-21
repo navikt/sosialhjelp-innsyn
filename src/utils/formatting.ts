@@ -9,9 +9,6 @@ function formatBytes(bytes: number, decimals: number = 2): string {
     return result.replace(".", ",");
 }
 
-// Eksempel: formatCurrency(12345) => 12.345
-const formatCurrency = (amount: number, language: string): string => new Intl.NumberFormat(language).format(amount);
-
 // Eksempel: "2019-08-01" => "01. august 2019"
 export const formatDato = (isoDate: string, language: string) =>
     new Intl.DateTimeFormat(language, {
@@ -34,4 +31,4 @@ export const dateToDDMMYYYY = (language: string, dato: Date) =>
         year: "numeric",
     }).format(dato);
 
-export { formatBytes, formatCurrency };
+export { formatBytes };

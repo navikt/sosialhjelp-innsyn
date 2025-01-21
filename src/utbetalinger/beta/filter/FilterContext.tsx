@@ -1,19 +1,21 @@
-import React, { PropsWithChildren, useContext, useState } from "react";
+import React, { ReactNode, useContext, useReducer } from "react";
 
-export enum MottakerFilter {
-    Alle = "ALLE",
-    MinKonto = "MIN_KONTO",
-    AnnenMottaker = "ANNEN_MOTTAKER",
-}
-export interface FilterKey {
-    mottaker: MottakerFilter;
-    fraDato?: Date;
-    tilDato?: Date;
-}
+import { logAmplitudeEvent } from "../../../utils/amplitude";
+
+type Maybe<T> = T | null;
+
+export type MottakerFilter = "minKonto" | "annenMottaker";
+
+export type FilterPredicate = {
+    mottaker?: Maybe<MottakerFilter>;
+    fraDato?: Maybe<Date>;
+    tilDato?: Maybe<Date>;
+};
+
 type FilterContextType = {
-    filter: FilterKey;
-    oppdaterFilter: (nyttFilter: Partial<FilterKey>) => void;
-    isUsingFilter: boolean;
+    filters: FilterPredicate | null;
+    setFilter: (nyttFilter: FilterPredicate) => void;
+    clearFilters: () => void;
 };
 
 const FilterContext = React.createContext<FilterContextType | undefined>(undefined);
@@ -21,34 +23,26 @@ const FilterContext = React.createContext<FilterContextType | undefined>(undefin
 // Egen hook fordi det sjekkes at den blir brukt riktig, og kan ha undefined som defaultValue
 export const useFilter = () => {
     const context = useContext(FilterContext);
-    if (context === undefined) {
-        throw new Error("Kan kun brukes innenfor FilterProvider");
-    }
+    if (!context) throw new Error("Kan kun brukes innenfor FilterProvider");
     return context;
 };
 
-const initialState: FilterKey = {
-    mottaker: MottakerFilter.Alle,
-    tilDato: undefined,
-    fraDato: undefined,
-};
-export const FilterProvider = (props: PropsWithChildren) => {
-    const [filter, setFilter] = useState<FilterKey>(initialState);
+const filterReducer = (state: FilterPredicate | null, action: FilterPredicate) => {
+    const updates = Object.keys(action).filter((key) => action[key as keyof FilterPredicate] !== undefined);
+    if (!updates.length) return state;
 
-    const oppdaterFilter = (nyttFilter: Partial<FilterKey>) => {
-        const updatedFilter = { ...filter, ...nyttFilter };
-        setFilter(updatedFilter);
-    };
-
-    return (
-        <FilterContext.Provider
-            value={{
-                filter,
-                oppdaterFilter,
-                isUsingFilter: JSON.stringify(filter) !== JSON.stringify(initialState),
-            }}
-        >
-            {props.children}
-        </FilterContext.Provider>
+    updates.map((field) =>
+        logAmplitudeEvent("filtervalg", { kategori: field, filternavn: action[field as keyof FilterPredicate] })
     );
+
+    const newState: FilterPredicate = { ...state, ...action };
+    const nonNullFields = Object.values(newState).filter((value) => value !== null);
+    if (!nonNullFields.length) return null;
+    return newState;
+};
+
+export const FilterProvider = ({ children }: { children: ReactNode }) => {
+    const [filters, setFilter] = useReducer<FilterPredicate | null, [FilterPredicate]>(filterReducer, null);
+    const clearFilters = () => setFilter({ mottaker: null, fraDato: null, tilDato: null });
+    return <FilterContext.Provider value={{ filters, setFilter, clearFilters }}>{children}</FilterContext.Provider>;
 };

@@ -1,48 +1,48 @@
 import React from "react";
-import { isAfter, isBefore, isEqual } from "date-fns";
+import { isAfter, isBefore } from "date-fns";
 
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 
-import { FilterKey, MottakerFilter, useFilter } from "./FilterContext";
+import { FilterPredicate, useFilter } from "./FilterContext";
 
-const stringToDateWithoutTimezone = (datoString: string) => {
-    const dateWithTimesone = new Date(datoString);
-    return new Date(dateWithTimesone.toISOString().slice(0, -1));
-};
+const stringToDateWithoutTimezone = (datoString: string) => new Date(new Date(datoString).toISOString().slice(0, -1));
 
-export const filterMatch = (utbetaling: ManedUtbetaling, filter: FilterKey) => {
+export const filterMatch = (
+    { annenMottaker, forfallsdato, utbetalingsdato }: ManedUtbetaling,
+    filters: FilterPredicate | null
+) => {
+    if (!filters) return true;
+    const { fraDato, tilDato, mottaker } = filters;
     let matchMottaker;
-    if (filter.mottaker === MottakerFilter.Alle) {
-        matchMottaker = true;
-    } else if (filter.mottaker === MottakerFilter.AnnenMottaker) {
-        matchMottaker = utbetaling.annenMottaker;
-    } else {
-        matchMottaker = !utbetaling.annenMottaker;
-    }
+    if (!mottaker) matchMottaker = true;
+    else if (mottaker === "annenMottaker") matchMottaker = annenMottaker;
+    else matchMottaker = !annenMottaker;
 
     // Hvis vi ikke har dato-filter eller utbetalingsdato/forfallsdato, trenger vi ikke sjekke datofilteret.
-    if ((!utbetaling.utbetalingsdato && !utbetaling.forfallsdato) || (!filter.tilDato && !filter.fraDato))
-        return matchMottaker;
+    if ((!utbetalingsdato && !forfallsdato) || (!tilDato && !fraDato)) return matchMottaker;
 
-    const dato = stringToDateWithoutTimezone(utbetaling.utbetalingsdato ?? utbetaling.forfallsdato!);
-    const matchFra = filter.fraDato ? isAfter(dato, filter.fraDato) || isEqual(dato, filter.fraDato) : true;
-    const matchTil = filter.tilDato ? isBefore(dato, filter.tilDato) || isEqual(dato, filter.tilDato) : true;
+    const dato = stringToDateWithoutTimezone(utbetalingsdato ?? forfallsdato!);
+    const matchFra = !fraDato ? true : !isBefore(dato, fraDato);
+    const matchTil = !tilDato ? true : !isAfter(dato, tilDato);
 
     return matchMottaker && matchTil && matchFra;
 };
-const useFiltrerteUtbetalinger = (utbetalinger: NyeOgTidligereUtbetalingerResponse[]) => {
-    const { filter } = useFilter();
 
-    return React.useMemo(() => {
-        return utbetalinger
-            .map((response) => {
-                const filtrertPerManed = response.utbetalingerForManed.filter((utbetaling) => {
-                    return filterMatch(utbetaling, filter);
-                });
-                return { ...response, utbetalingerForManed: filtrertPerManed };
-            })
-            .filter((response) => response.utbetalingerForManed.length > 0);
-    }, [utbetalinger, filter]);
+const useFiltrerteUtbetalinger = (utbetalinger: NyeOgTidligereUtbetalingerResponse[] | undefined) => {
+    const { filters } = useFilter();
+
+    return React.useMemo(
+        () =>
+            utbetalinger
+                ?.map((response) => ({
+                    ...response,
+                    utbetalingerForManed: response.utbetalingerForManed.filter((utbetaling) =>
+                        filterMatch(utbetaling, filters)
+                    ),
+                }))
+                .filter((response) => response.utbetalingerForManed.length > 0),
+        [utbetalinger, filters]
+    );
 };
 
 export default useFiltrerteUtbetalinger;
