@@ -1,16 +1,15 @@
-import { Box, Button, Chips, Modal } from "@navikt/ds-react";
+import { Button, Modal } from "@navikt/ds-react";
 import React from "react";
 import { FilterIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 
 import UtbetalingerFilter from "./UtbetalingerFilter";
 import { useFilter } from "./FilterContext";
-import useChips from "./useChips";
 import styles from "./utbetalingerFilter.module.css";
+import { FilterChips } from "./FilterChips";
 
 const FilterModal = () => {
-    const { clearFilters, setFilter } = useFilter();
-    const { chips } = useChips();
+    const { clearFilters } = useFilter();
     const { t } = useTranslation("utbetalinger");
     const dialogRef = React.useRef<HTMLDialogElement>(null);
 
@@ -28,17 +27,7 @@ const FilterModal = () => {
             >
                 {t("filter.knapp")}
             </Button>
-            {!chips.length ? (
-                <Box padding="2" />
-            ) : (
-                <Chips className={styles.chips}>
-                    {chips.map(({ filterType, label }) => (
-                        <Chips.Removable key={label} onClick={() => setFilter({ [filterType]: null })}>
-                            {label}
-                        </Chips.Removable>
-                    ))}
-                </Chips>
-            )}
+            <FilterChips />
             <Modal ref={dialogRef} aria-label={t("filter.aria")} className={styles.modal}>
                 <Modal.Body className={styles.modal_content}>
                     <UtbetalingerFilter />
