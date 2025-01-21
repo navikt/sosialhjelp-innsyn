@@ -39,7 +39,7 @@ const UtbetalingerPanelBeta = () => {
         });
     }, [nye, nyeLogged]);
 
-    const filtrerteNye = useFiltrerteUtbetalinger(nye ?? []);
+    const filtrerteNye = useFiltrerteUtbetalinger(nye);
 
     const logTabChange = (tab: string) => logAmplitudeEvent("Klikket tab", { tab });
     const isMobile = useIsMobile();

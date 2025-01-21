@@ -13,11 +13,11 @@ const UtbetalingerNye = ({
     isError,
     isLoading,
 }: {
-    utbetalinger: NyeOgTidligereUtbetalingerResponse[];
+    utbetalinger: NyeOgTidligereUtbetalingerResponse[] | undefined;
     isLoading: boolean;
     isError: boolean;
 }) => {
-    const { isUsingFilter } = useFilter();
+    const { filters } = useFilter();
     const { t } = useTranslation("utbetalinger");
 
     return (
@@ -28,7 +28,7 @@ const UtbetalingerNye = ({
                 ))
             ) : (
                 <Alert variant="info" inline>
-                    {isUsingFilter ? t("feil.ingen.filter") : t("feil.ingen.default.nye")}
+                    {filters ? t("feil.ingen.filter") : t("feil.ingen.default.nye")}
                 </Alert>
             )}
         </UtbetalingerLoadingWrapper>

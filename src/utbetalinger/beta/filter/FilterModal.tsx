@@ -1,44 +1,48 @@
 import { Box, Button, Chips, Modal } from "@navikt/ds-react";
-import React, { useState } from "react";
+import React from "react";
 import { FilterIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 
 import UtbetalingerFilter from "./UtbetalingerFilter";
-import { MottakerFilter, useFilter } from "./FilterContext";
+import { useFilter } from "./FilterContext";
 import useChips from "./useChips";
 import styles from "./utbetalingerFilter.module.css";
 
 const FilterModal = () => {
-    const [open, setOpen] = useState(false);
-    const { oppdaterFilter } = useFilter();
-    const { chips, removeChip } = useChips();
+    const { clearFilters, setFilter } = useFilter();
+    const { chips } = useChips();
     const { t } = useTranslation("utbetalinger");
+    const dialogRef = React.useRef<HTMLDialogElement>(null);
 
     const onCancel = () => {
-        oppdaterFilter({ mottaker: MottakerFilter.Alle, fraDato: undefined, tilDato: undefined });
-        setOpen(false);
+        clearFilters();
+        dialogRef.current?.close();
     };
 
     return (
         <>
-            <Button onClick={() => setOpen(true)} icon={<FilterIcon aria-hidden />} variant="secondary">
+            <Button
+                onClick={() => dialogRef.current?.showModal()}
+                icon={<FilterIcon aria-hidden />}
+                variant="secondary"
+            >
                 {t("filter.knapp")}
             </Button>
-            {chips.length > 0 ? (
+            {!chips.length ? (
+                <Box padding="2" />
+            ) : (
                 <Chips className={styles.chips}>
-                    {chips.map((c) => (
-                        <Chips.Removable key={c.label} onClick={() => removeChip(c.filterType)}>
-                            {c.label}
+                    {chips.map(({ filterType, label }) => (
+                        <Chips.Removable key={label} onClick={() => setFilter({ [filterType]: null })}>
+                            {label}
                         </Chips.Removable>
                     ))}
                 </Chips>
-            ) : (
-                <Box padding="2" />
             )}
-            <Modal open={open} aria-label={t("filter.aria")} onClose={() => setOpen(false)} className={styles.modal}>
+            <Modal ref={dialogRef} aria-label={t("filter.aria")} className={styles.modal}>
                 <Modal.Body className={styles.modal_content}>
                     <UtbetalingerFilter />
-                    <Button onClick={() => setOpen(false)}>{t("modal.vis")}</Button>
+                    <Button onClick={() => dialogRef.current?.close()}>{t("modal.vis")}</Button>
                     <Button variant="tertiary" onClick={onCancel}>
                         {t("modal.avbryt")}
                     </Button>

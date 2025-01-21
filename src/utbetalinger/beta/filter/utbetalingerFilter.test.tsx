@@ -1,7 +1,7 @@
 import { ManedUtbetaling } from "../../../generated/model";
 
 import { filterMatch } from "./useFiltrerteUtbetalinger";
-import { MottakerFilter } from "./FilterContext";
+import { FilterPredicate } from "./FilterContext";
 
 describe("filtrering på utbetalinger fungerer", () => {
     it("skal filtrere dato på fom og tom", () => {
@@ -15,22 +15,22 @@ describe("filtrering på utbetalinger fungerer", () => {
         };
 
         const filterFra = {
-            mottaker: MottakerFilter.Alle,
+            mottaker: null,
             fraDato: new Date(2023, 3, 12),
             tilDato: undefined,
         };
         const filterFraSenere = {
-            mottaker: MottakerFilter.Alle,
+            mottaker: null,
             fraDato: new Date(2023, 3, 20),
             tilDato: undefined,
         };
         const filterTil = {
-            mottaker: MottakerFilter.Alle,
+            mottaker: null,
             fraDato: undefined,
             tilDato: new Date(2023, 3, 12),
         };
         const filterTilTidligere = {
-            mottaker: MottakerFilter.Alle,
+            mottaker: null,
             fraDato: undefined,
             tilDato: new Date(2023, 3, 10),
         };
@@ -60,13 +60,13 @@ describe("filtrering på utbetalinger fungerer", () => {
             fiksDigisosId: "",
         };
 
-        const filterMeg = {
-            mottaker: MottakerFilter.MinKonto,
+        const filterMeg: FilterPredicate = {
+            mottaker: "minKonto",
             fraDato: undefined,
             tilDato: undefined,
         };
-        const filterAnnen = {
-            mottaker: MottakerFilter.AnnenMottaker,
+        const filterAnnen: FilterPredicate = {
+            mottaker: "annenMottaker",
             fraDato: undefined,
             tilDato: new Date(2023, 3, 12),
         };
