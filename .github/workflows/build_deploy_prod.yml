@@ -31,6 +31,7 @@ jobs:
           build-less: 'false'
           reader-token: ${{ secrets.READER_TOKEN }}
           run-test: 'false'
+          run-orval: 'true'
 
       - name: 'Upload static files to cdn'
         id: upload
