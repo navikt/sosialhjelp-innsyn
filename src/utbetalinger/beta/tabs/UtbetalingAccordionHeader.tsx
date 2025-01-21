@@ -3,7 +3,7 @@ import { Accordion, BodyShort } from "@navikt/ds-react";
 import cx from "classnames";
 
 import { ManedUtbetaling, ManedUtbetalingStatus } from "../../../generated/model";
-import { formatCurrency, getDayAndMonth } from "../../../utils/formatting";
+import { getDayAndMonth } from "../../../utils/formatting";
 import { hentUtbetalingTittel } from "../../utbetalingerUtils";
 
 export const UtbetalingAccordionHeader = ({
@@ -20,9 +20,9 @@ export const UtbetalingAccordionHeader = ({
     const erStoppet = status === ManedUtbetalingStatus.STOPPET;
 
     return (
-        <Accordion.Header className="items-center">
-            <div className="flex flex-row gap-2 items-center">
-                <div className="flex flex-wrap gap-2 max-w-[80%]">
+        <Accordion.Header className="items-center border-2 [&>.navds-heading]:grow">
+            <div className="flex flex-row gap-2 justify-between">
+                <div className="flex flex-wrap grow gap-2">
                     <BodyShort className="font-bold">
                         {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
                     </BodyShort>
@@ -31,9 +31,9 @@ export const UtbetalingAccordionHeader = ({
                     </BodyShort>
                 </div>
 
-                <BodyShort className={cx("ml-auto", { "text-strikethrough text-text-subtle": erStoppet })}>
+                <BodyShort className={cx({ "!text-strikethrough text-text-subtle": erStoppet })}>
                     {!erStoppet && <span className="navds-sr-only">{t("opprinneligSum")}</span>}
-                    {formatCurrency(belop, i18n.language)} kr
+                    {new Intl.NumberFormat(i18n.language).format(belop)} kr
                 </BodyShort>
             </div>
         </Accordion.Header>
