@@ -29,8 +29,9 @@ export interface TilgangskontrollsideProps {
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
 const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
 
-const useDekoratorLogin = () =>
+const useDekoratorLogin = (enabled: boolean) =>
     useQuery({
+        enabled,
         queryKey: ["dekorator-login"],
         queryFn: async () => {
             const result = await fetch(sessionUrl, {
@@ -48,17 +49,19 @@ const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
     const { t } = useTranslation();
     const { error, isPending, data: harTilgangData } = useHarTilgang();
 
-    const sessionQuery = useDekoratorLogin();
+    const sessionQuery = useDekoratorLogin(
+        !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")
+    );
     useEffect(() => {
         if (
-            !sessionQuery.isPending &&
+            !sessionQuery.isLoading &&
             (sessionQuery.data?.status === 401 || sessionQuery.data?.session?.active === false)
         ) {
             router.replace(loginUrl + "?redirect=" + window.location.href);
         }
-    }, [sessionQuery.data, sessionQuery.isPending, router]);
+    }, [sessionQuery.data, sessionQuery.isLoading, router]);
 
-    if (sessionQuery.isPending || isPending) {
+    if (sessionQuery.isLoading || isPending) {
         return (
             <div className="informasjon-side">
                 {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
