@@ -32,6 +32,7 @@ spec:
         - application: nav-dekoratoren
           namespace: personbruker
         - application: sosialhjelp-mock-alt-api-mock
+        - application: sosialhjelp-innsyn-api-mock
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.ekstern.dev.nav.no
