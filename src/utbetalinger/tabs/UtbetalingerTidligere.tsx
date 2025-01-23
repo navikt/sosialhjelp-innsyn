@@ -13,7 +13,10 @@ import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
 export const UtbetalingerTidligere = () => {
     const { data, isLoading, isError } = useHentTidligereUtbetalinger();
     const { filters } = useFilter();
-    const filtrerteTidligere = useMemo(() => filterResponses(data, filters), [data, filters]);
+    const filtrerteTidligere = useMemo(
+        () => filterResponses(data, filters)?.filter((nye) => nye.utbetalingerForManed.length),
+        [data, filters]
+    );
 
     const { t } = useTranslation("utbetalinger");
 
