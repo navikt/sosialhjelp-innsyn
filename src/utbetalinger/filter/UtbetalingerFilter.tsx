@@ -33,8 +33,8 @@ const UtbetalingerFilter = () => {
                 onChange={(mottaker: MottakerFilter) => setFilter({ mottaker })}
             >
                 <Radio value={null}>{t("filter.alle")}</Radio>
-                <Radio value="minKonto">{t("filter.minKonto")}</Radio>
-                <Radio value="annenMottaker">{t("filter.annen")}</Radio>
+                <Radio value="minKonto">{t("filter.mottaker.minKonto")}</Radio>
+                <Radio value="annenMottaker">{t("filter.mottaker.annenMottaker")}</Radio>
             </RadioGroup>
         </div>
     );
