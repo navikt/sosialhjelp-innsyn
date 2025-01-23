@@ -14,6 +14,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -48,6 +49,7 @@
                     }
                 },
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -71,6 +73,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -95,6 +98,7 @@
                     "required": true
                 },
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/Unit" } } }
@@ -110,7 +114,10 @@
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Logg" } } },
                     "required": true
                 },
-                "responses": { "204": { "description": "No Content" } }
+                "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
+                    "204": { "description": "No Content" }
+                }
             }
         },
         "/api/v1/digisosapi/{fiksDigisosId}/filOpplasting": {
@@ -132,6 +139,7 @@
                     }
                 },
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": { "description": "OK", "content": { "*/*": { "schema": { "type": "string" } } } }
                 }
             }
@@ -148,6 +156,7 @@
                     "required": true
                 },
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "string" } } }
@@ -164,6 +173,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -187,6 +197,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SoknadsStatusResponse" } } }
@@ -203,6 +214,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -226,6 +238,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -250,6 +263,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -273,6 +287,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KommuneResponse" } } }
@@ -289,6 +304,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -312,6 +328,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
@@ -328,6 +345,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ForelopigSvarResponse" } } }
@@ -344,6 +362,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
@@ -360,6 +379,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -384,6 +404,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -412,6 +433,7 @@
                     }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -434,6 +456,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/TilgangResponse" } } }
@@ -449,6 +472,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -472,6 +496,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SaksDetaljerResponse" } } }
@@ -487,6 +512,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -509,6 +535,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -531,6 +558,7 @@
                     { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
@@ -547,6 +575,7 @@
                     { "name": "Authorization", "in": "header", "required": false, "schema": { "type": "string" } }
                 ],
                 "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "type": "string", "format": "byte" } } }
