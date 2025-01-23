@@ -37,7 +37,10 @@ const UtbetalingerPanel = () => {
         setNyeLogged(true);
     }, [nye, nyeLogged]);
 
-    const filtrerteNye = useMemo(() => filterResponses(nye, filters), [nye, filters]);
+    const filtrerteNye = useMemo(
+        () => filterResponses(nye, filters)?.filter((nye) => nye.utbetalingerForManed.length),
+        [nye, filters]
+    );
 
     const logTabChange = (tab: string) => logAmplitudeEvent("Klikket tab", { tab });
     const isMobile = useIsMobile();
