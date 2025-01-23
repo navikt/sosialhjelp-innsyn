@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Alert } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
-import { NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
 import { useFilter } from "../filter/lib/useFilter";
+import { useHentNyeUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { logAmplitudeEvent } from "../../utils/amplitude";
+import { filterResponses } from "../filter/lib/filterResponses";
 
-import { UtbetalingerMonthlyList } from "./UtbetalingerMonthlyList";
 import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
+import { UtbetalingerMonthlyList } from "./UtbetalingerMonthlyList";
 
-const UtbetalingerNye = ({
-    utbetalinger,
-    isError,
-    isLoading,
-}: {
-    utbetalinger: NyeOgTidligereUtbetalingerResponse[] | undefined;
-    isLoading: boolean;
-    isError: boolean;
-}) => {
-    const { filters } = useFilter();
+const UtbetalingerNye = () => {
+    const [nyeLogged, setNyeLogged] = useState(false);
+
     const { t } = useTranslation("utbetalinger");
+    const { data: nye, isLoading, isError } = useHentNyeUtbetalinger();
+    const { filters } = useFilter();
 
+    useEffect(() => {
+        logAmplitudeEvent("Lastet utbetalinger", {
+            antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
+        });
+
+        if (nyeLogged && !nye?.length) return;
+        const sisteManedgruppe = nye?.at(-1)?.utbetalingerForManed;
+        const sisteDatoVist = sisteManedgruppe?.at(-1)?.utbetalingsdato ?? sisteManedgruppe?.at(-1)?.forfallsdato;
+
+        logAmplitudeEvent("Hentet nye utbetalinger", { sisteDatoVist });
+        setNyeLogged(true);
+    }, [nye, nyeLogged]);
+
+    const filtrerteNye = useMemo(
+        () => filterResponses(nye, filters)?.filter((nye) => nye.utbetalingerForManed.length),
+        [nye, filters]
+    );
     return (
         <UtbetalingerLoadingWrapper isLoading={isLoading} isError={isError}>
-            {utbetalinger?.length ? (
-                utbetalinger.map((utbetalingSak) => (
+            {filtrerteNye?.length ? (
+                filtrerteNye.map((utbetalingSak) => (
                     <UtbetalingerMonthlyList
                         utbetalingSak={utbetalingSak}
                         key={`${utbetalingSak.maned}-${utbetalingSak.ar}`}
