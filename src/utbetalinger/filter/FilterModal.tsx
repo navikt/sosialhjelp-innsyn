@@ -4,9 +4,8 @@ import { FilterIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "next-i18next";
 
 import UtbetalingerFilter from "./UtbetalingerFilter";
-import { useFilter } from "./FilterContext";
-import styles from "./utbetalingerFilter.module.css";
 import { FilterChips } from "./FilterChips";
+import { useFilter } from "./lib/useFilter";
 
 const FilterModal = () => {
     const { clearFilters } = useFilter();
@@ -28,8 +27,8 @@ const FilterModal = () => {
                 {t("filter.knapp")}
             </Button>
             <FilterChips />
-            <Modal ref={dialogRef} aria-label={t("filter.aria")} className={styles.modal}>
-                <Modal.Body className={styles.modal_content}>
+            <Modal ref={dialogRef} aria-label={t("filter.aria")}>
+                <Modal.Body className="py-4 px-5">
                     <UtbetalingerFilter />
                     <Button onClick={() => dialogRef.current?.close()}>{t("modal.vis")}</Button>
                     <Button variant="tertiary" onClick={onCancel}>

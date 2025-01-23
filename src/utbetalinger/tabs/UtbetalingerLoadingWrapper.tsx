@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import { Alert } from "@navikt/ds-react";
 
-import Lastestriper from "../../../components/lastestriper/Lasterstriper";
+import Lastestriper from "../../components/lastestriper/Lasterstriper";
 
 export const UtbetalingerLoadingWrapper = ({
     isLoading,

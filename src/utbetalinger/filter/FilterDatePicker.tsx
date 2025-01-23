@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { DatePicker, DateValidationT, useDatepicker } from "@navikt/ds-react";
 import { subMonths } from "date-fns";
 
-import useIsMobile from "../../../utils/useIsMobile";
+import useIsMobile from "../../utils/useIsMobile";
 
 const validateFromDate = (
     { isAfter, isBefore, isInvalid, isValidDate }: DateValidationT,

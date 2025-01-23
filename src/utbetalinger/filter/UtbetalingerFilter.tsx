@@ -2,9 +2,9 @@ import React from "react";
 import { Fieldset, Radio, RadioGroup } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
-import { MottakerFilter, useFilter } from "./FilterContext";
-import styles from "./utbetalingerFilter.module.css";
+import { MottakerFilter } from "./lib/FilterContext";
 import { FilterDatePicker } from "./FilterDatePicker";
+import { useFilter } from "./lib/useFilter";
 
 const UtbetalingerFilter = () => {
     const { t } = useTranslation("utbetalinger");
@@ -12,8 +12,8 @@ const UtbetalingerFilter = () => {
     const { fraDato, mottaker, tilDato } = filters || {};
 
     return (
-        <div className={styles.utbetalinger_filter}>
-            <Fieldset legend={t("filter.dato")} className={styles.periodevelger}>
+        <div className="w-fit mb-8">
+            <Fieldset legend={t("filter.dato")} className="mb-8 w-min">
                 <FilterDatePicker
                     label="filter.fra"
                     toDate={tilDato}

@@ -2,10 +2,10 @@ import React from "react";
 import { Alert } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
-import { useFilter } from "../filter/FilterContext";
-import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
+import { NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
+import { useFilter } from "../filter/lib/useFilter";
 
-import { ManedGruppe } from "./ManedGruppe";
+import { UtbetalingerMonthlyList } from "./UtbetalingerMonthlyList";
 import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
 
 const UtbetalingerNye = ({
@@ -24,7 +24,10 @@ const UtbetalingerNye = ({
         <UtbetalingerLoadingWrapper isLoading={isLoading} isError={isError}>
             {utbetalinger?.length ? (
                 utbetalinger.map((utbetalingSak) => (
-                    <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
+                    <UtbetalingerMonthlyList
+                        utbetalingSak={utbetalingSak}
+                        key={`${utbetalingSak.maned}-${utbetalingSak.ar}`}
+                    />
                 ))
             ) : (
                 <Alert variant="info" inline>

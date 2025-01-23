@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Alert } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
-import { useHentTidligereUtbetalinger } from "../../../generated/utbetalinger-controller/utbetalinger-controller";
-import useFiltrerteUtbetalinger from "../filter/useFiltrerteUtbetalinger";
-import { useFilter } from "../filter/FilterContext";
-import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
+import { useHentTidligereUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { filterResponses } from "../filter/lib/filterResponses";
+import { NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
+import { useFilter } from "../filter/lib/useFilter";
 
-import { ManedGruppe } from "./ManedGruppe";
+import { UtbetalingerMonthlyList } from "./UtbetalingerMonthlyList";
 import { UtbetalingerLoadingWrapper } from "./UtbetalingerLoadingWrapper";
 
 export const UtbetalingerTidligere = () => {
     const { data, isLoading, isError } = useHentTidligereUtbetalinger();
-    const filtrerteTidligere = useFiltrerteUtbetalinger(data);
     const { filters } = useFilter();
+    const filtrerteTidligere = useMemo(() => filterResponses(data, filters), [data, filters]);
+
     const { t } = useTranslation("utbetalinger");
 
     return (
         <UtbetalingerLoadingWrapper isLoading={isLoading} isError={isError}>
             {filtrerteTidligere?.length ? (
                 filtrerteTidligere.map((utbetalingSak: NyeOgTidligereUtbetalingerResponse) => (
-                    <ManedGruppe utbetalingSak={utbetalingSak} key={`${utbetalingSak.maned}-${utbetalingSak.ar}`} />
+                    <UtbetalingerMonthlyList
+                        utbetalingSak={utbetalingSak}
+                        key={`${utbetalingSak.maned}-${utbetalingSak.ar}`}
+                    />
                 ))
             ) : (
                 <Alert variant="info" inline>

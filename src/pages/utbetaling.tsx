@@ -9,12 +9,12 @@ import { useHentAlleSaker } from "../generated/saks-oversikt-controller/saks-ove
 import { useHarSoknaderMedInnsyn } from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
 import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
 import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
-import { FilterProvider } from "../utbetalinger/beta/filter/FilterContext";
-import UtbetalingerFilter from "../utbetalinger/beta/filter/UtbetalingerFilter";
-import UtbetalingerPanelBeta from "../utbetalinger/beta/UtbetalingerPanelBeta";
-import styles from "../utbetalinger/beta/utbetalinger.module.css";
+import UtbetalingerFilter from "../utbetalinger/filter/UtbetalingerFilter";
+import UtbetalingerPanel from "../utbetalinger/UtbetalingerPanel";
+import styles from "../utbetalinger/utbetalinger.module.css";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
+import { FilterProvider } from "../utbetalinger/filter/FilterProvider";
 
 import Error from "./_error";
 
@@ -38,7 +38,7 @@ const Utbetalinger: NextPage = () => {
     if (isAlleSakerLoading || isHarSoknaderMedInnsynLoading) {
         return (
             <div className={styles.utbetalinger_side} data-theme="utbetalinger">
-                <Loader className={styles.utbetalinger_loader} size="3xlarge" title="venter..." />
+                <Loader className="m-[100px]" size="3xlarge" title="venter..." />
             </div>
         );
     }
@@ -66,13 +66,13 @@ const Utbetalinger: NextPage = () => {
             </Head>
             <FilterProvider>
                 <div className={styles.utbetalinger_side}>
-                    <div className={styles.utbetalinger_side_innhold}>
+                    <div className="flex flex-row justify-center gap-8 min-h-[40vh]">
                         {!isMobile && (
-                            <Panel as="section" aria-label={t("filter.aria")} className={styles.filter_section}>
+                            <Panel as="section" aria-label={t("filter.aria")} className="h-fit p-[1.5rem] pt-[1.5rem]">
                                 <UtbetalingerFilter />
                             </Panel>
                         )}
-                        <UtbetalingerPanelBeta />
+                        <UtbetalingerPanel />
                     </div>
                 </div>
             </FilterProvider>
