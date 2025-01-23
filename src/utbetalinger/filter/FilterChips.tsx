@@ -28,7 +28,7 @@ export const FilterChips = () => {
             )}
             {mottaker && (
                 <Chips.Removable onClick={() => setFilter({ mottaker: null })}>
-                    {t(`filter.${mottaker}` as const)}
+                    {t(`filter.mottaker.${mottaker}` as const)}
                 </Chips.Removable>
             )}
         </Chips>
