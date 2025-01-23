@@ -3,17 +3,17 @@ import { useTranslation } from "next-i18next";
 import { set } from "date-fns";
 import { useMemo } from "react";
 
-import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
-import { logAmplitudeEvent } from "../../../utils/amplitude";
+import { NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
+import { logAmplitudeEvent } from "../../utils/amplitude";
+import { isLessThanTwoWeeksAgo } from "../isLessThanTwoWeeksAgo";
 
-import { isLessThanTwoWeeksAgo } from "./isLessThanTwoWeeksAgo";
 import { UtbetalingAccordionHeader } from "./UtbetalingAccordionHeader";
 import { UtbetalingAccordionContent } from "./UtbetalingAccordionContent";
 
 export const onOpenChange = (open: boolean) =>
     logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
 
-export const ManedGruppe = ({
+export const UtbetalingerMonthlyList = ({
     utbetalingSak: { ar, maned, utbetalingerForManed },
 }: {
     utbetalingSak: NyeOgTidligereUtbetalingerResponse;

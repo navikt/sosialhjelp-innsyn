@@ -2,9 +2,8 @@ import { useTranslation } from "next-i18next";
 import { Accordion, BodyShort } from "@navikt/ds-react";
 import cx from "classnames";
 
-import { ManedUtbetaling, ManedUtbetalingStatus } from "../../../generated/model";
-import { getDayAndMonth } from "../../../utils/formatting";
-import { hentUtbetalingTittel } from "../../utbetalingerUtils";
+import { ManedUtbetaling, ManedUtbetalingStatus } from "../../generated/model";
+import { getDayAndMonth } from "../../utils/formatting";
 
 export const UtbetalingAccordionHeader = ({
     tittel,
@@ -18,14 +17,13 @@ export const UtbetalingAccordionHeader = ({
 
     const datoStreng = dato ? getDayAndMonth(dato, i18n.language) : t("ukjentDato");
     const erStoppet = status === ManedUtbetalingStatus.STOPPET;
+    const tittelOrDefault = "default_utbetalinger_tittel" !== tittel ? tittel : t("default_utbetalinger_tittel");
 
     return (
         <Accordion.Header className="items-center border-2 [&>.navds-heading]:grow">
             <div className="flex flex-row gap-2 justify-between">
                 <div className="flex flex-wrap grow gap-2">
-                    <BodyShort className="font-bold">
-                        {hentUtbetalingTittel(tittel, t("default_utbetalinger_tittel"))}
-                    </BodyShort>
+                    <BodyShort className="font-bold">{tittelOrDefault}</BodyShort>
                     <BodyShort>
                         {t(`utbetalingStatus.${status}` as const)} {erStoppet ? null : datoStreng}
                     </BodyShort>

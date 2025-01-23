@@ -3,10 +3,9 @@ import { Accordion, BodyShort } from "@navikt/ds-react";
 import Link from "next/link";
 import { FileTextIcon } from "@navikt/aksel-icons";
 
-import type { ManedUtbetaling } from "../../../generated/model";
-import { formatDato } from "../../../utils/formatting";
-import { utbetalingsmetodeText } from "../../utbetalingerUtils";
-import { logButtonOrLinkClick } from "../../../utils/amplitude";
+import type { ManedUtbetaling } from "../../generated/model";
+import { formatDato } from "../../utils/formatting";
+import { logButtonOrLinkClick } from "../../utils/amplitude";
 
 export const UtbetalingAccordionContent = ({
     fom,
@@ -21,6 +20,12 @@ export const UtbetalingAccordionContent = ({
     "fom" | "tom" | "mottaker" | "annenMottaker" | "utbetalingsmetode" | "kontonummer" | "fiksDigisosId"
 >) => {
     const { t, i18n } = useTranslation("utbetalinger");
+
+    const utbetalingsmetodeTekst = !utbetalingsmetode
+        ? null
+        : i18n.exists(`utbetalingsmetode.${utbetalingsmetode?.toLowerCase()}`)
+          ? i18n.t(`utbetalingsmetode.${utbetalingsmetode?.toLowerCase()}`)
+          : utbetalingsmetode;
 
     return (
         <Accordion.Content className="pt-2">
@@ -39,7 +44,7 @@ export const UtbetalingAccordionContent = ({
                 </BodyShort>
             ) : (
                 <BodyShort spacing>
-                    {t("tilDeg")} {utbetalingsmetodeText(utbetalingsmetode, i18n)} {kontonummer}
+                    {t("tilDeg")} {utbetalingsmetodeTekst} {kontonummer}
                 </BodyShort>
             )}
 
