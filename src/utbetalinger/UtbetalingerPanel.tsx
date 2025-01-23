@@ -1,46 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { BodyLong, Heading, Panel, Tabs } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 
 import HandCoinsIcon from "../components/ikoner/HandCoins";
-import { useHentNyeUtbetalinger } from "../generated/utbetalinger-controller/utbetalinger-controller";
 import { logAmplitudeEvent } from "../utils/amplitude";
 import useIsMobile from "../utils/useIsMobile";
 
-import { filterResponses } from "./filter/lib/filterResponses";
 import UtbetalingerNye from "./tabs/UtbetalingerNye";
 import { UtbetalingerTidligere } from "./tabs/UtbetalingerTidligere";
 import FilterModal from "./filter/FilterModal";
-import { useFilter } from "./filter/lib/useFilter";
 
 const TAB_UTBETALINGER = "Utbetalinger" as const;
 const TAB_TIDLIGERE = "Tidligere utbetalinger" as const;
 
 const UtbetalingerPanel = () => {
-    const [nyeLogged, setNyeLogged] = useState(false);
-
     const { t } = useTranslation("utbetalinger");
-
-    const { data: nye, isLoading, isError } = useHentNyeUtbetalinger();
-    const { filters } = useFilter();
-
-    useEffect(() => {
-        logAmplitudeEvent("Lastet utbetalinger", {
-            antall: nye?.[0]?.utbetalingerForManed.length ? nye?.[0].utbetalingerForManed.length : 0,
-        });
-
-        if (nyeLogged && !nye?.length) return;
-        const sisteManedgruppe = nye?.at(-1)?.utbetalingerForManed;
-        const sisteDatoVist = sisteManedgruppe?.at(-1)?.utbetalingsdato ?? sisteManedgruppe?.at(-1)?.forfallsdato;
-
-        logAmplitudeEvent("Hentet nye utbetalinger", { sisteDatoVist });
-        setNyeLogged(true);
-    }, [nye, nyeLogged]);
-
-    const filtrerteNye = useMemo(
-        () => filterResponses(nye, filters)?.filter((nye) => nye.utbetalingerForManed.length),
-        [nye, filters]
-    );
 
     const logTabChange = (tab: string) => logAmplitudeEvent("Klikket tab", { tab });
     const isMobile = useIsMobile();
@@ -62,7 +36,7 @@ const UtbetalingerPanel = () => {
                 </Tabs.List>
                 <Tabs.Panel value={TAB_UTBETALINGER} className="py-4">
                     <BodyLong spacing>{t("utbetalingerIngress")}</BodyLong>
-                    <UtbetalingerNye isLoading={isLoading} isError={isError} utbetalinger={filtrerteNye} />
+                    <UtbetalingerNye />
                 </Tabs.Panel>
                 <Tabs.Panel value={TAB_TIDLIGERE} id="tidligere-utbetalinger-panel" className="py-4">
                     <BodyLong spacing>{t("tidligereIngress")}</BodyLong>
