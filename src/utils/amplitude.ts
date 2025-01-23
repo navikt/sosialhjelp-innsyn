@@ -23,13 +23,9 @@ export type AmplitudeFiltervalgEvent = {
 
 type AmplitudeInnsynEvent = AmplitudeFiltervalgEvent;
 
-export async function logAmplitudeEventTyped({ eventData, eventName }: AmplitudeInnsynEvent) {
-    try {
-        await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
-    } catch (error) {
-        logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
-    }
-}
+export const logAmplitudeEventTyped = async ({ eventData, eventName }: AmplitudeInnsynEvent) => {
+    logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
+};
 
 export function logVeilederBerOmDokumentasjonEvent(vedleggAntallet: number) {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", { AntallVedleggForesporsel: vedleggAntallet });
