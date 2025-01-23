@@ -28,11 +28,11 @@ const UtbetalingerFilter = () => {
                 />
             </Fieldset>
             <RadioGroup
-                value={mottaker}
+                value={mottaker ?? ""}
                 legend={t("filter.mottaker")}
-                onChange={(mottaker: MottakerFilter) => setFilter({ mottaker })}
+                onChange={(mottaker: MottakerFilter | "") => setFilter({ mottaker: mottaker === "" ? null : mottaker })}
             >
-                <Radio value={null}>{t("filter.alle")}</Radio>
+                <Radio value="">{t("filter.alle")}</Radio>
                 <Radio value="minKonto">{t("filter.mottaker.minKonto")}</Radio>
                 <Radio value="annenMottaker">{t("filter.mottaker.annenMottaker")}</Radio>
             </RadioGroup>
