@@ -124,7 +124,7 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
             return (
                 <BodyShort weight="semibold">
                     <Trans i18nKey={enumValue} t={t}>
-                        <span lang="no">{tekstArgument}</span> er under behandling.
+                        <span lang="no">{{ tekstArgument }}</span> er under behandling.
                     </Trans>
                 </BodyShort>
             );
@@ -142,7 +142,7 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
             return (
                 <BodyShort weight="semibold">
                     <Trans i18nKey={enumValue} t={t}>
-                        <span lang="no">{tekstArgument}</span>
+                        <span lang="no">{{ tekstArgument }}</span>
                     </Trans>
                 </BodyShort>
             );

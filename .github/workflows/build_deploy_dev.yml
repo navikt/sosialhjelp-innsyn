@@ -12,6 +12,7 @@ on:
         options:
           - 'mock'
           - 'preprod'
+          - 'dev'
   workflow_call:
     inputs:
       config-file-name:
