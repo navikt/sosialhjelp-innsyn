@@ -7,6 +7,7 @@ import _i18n from "i18next";
 
 import commonNb from "../public/locales/nb/common.json";
 import utbetalingerNb from "../public/locales/nb/utbetalinger.json";
+import aalesundNb from "../public/locales/nb/aalesund.json";
 
 import { server } from "./mocks/server";
 import { queryCache, queryClient } from "./test/test-utils";
@@ -36,6 +37,7 @@ _i18n.init({
         nb: {
             common: commonNb,
             utbetalinger: utbetalingerNb,
+            aalesund: aalesundNb,
         },
     },
     defaultNS: "common",
