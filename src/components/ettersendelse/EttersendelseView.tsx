@@ -15,10 +15,10 @@ import useFilOpplasting, { errorStatusToMessage } from "../filopplasting/useFilO
 import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 import styles from "../filopplasting/filopplasting.module.css";
-import { DriftsmeldingVedleggComponent } from "../driftsmelding/DriftsmeldingVedlegg";
 import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
+import { DriftsmeldingAlert } from "../driftsmelding/DriftsmeldingAlert";
 
 const metadatas = [
     {
@@ -80,7 +80,7 @@ const EttersendelseView = (props: Props) => {
     const showLoadingState = props.isLoading || uploadIsLoading;
 
     return !!fileUploadError && !showLoadingState ? (
-        <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={fileUploadError} />
+        <DriftsmeldingAlert className={styles.driftsmelding}>{t(fileUploadError)}</DriftsmeldingAlert>
     ) : (
         <>
             <OuterErrorBorder $hasError={outerErrors.length > 0}>
