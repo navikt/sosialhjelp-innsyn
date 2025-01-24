@@ -10,6 +10,7 @@ import {
     getHentSoknadsStatusMockHandler,
     getHentSoknadsStatusResponseMock,
 } from "../../generated/soknads-status-controller/soknads-status-controller.msw";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 import { useFileUploadError } from "./useFileUploadError";
 
@@ -30,8 +31,11 @@ const KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE = getHentKommuneInfoResponseMock({
 const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: false });
 const BROKEN_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: true });
 
+jest.mock("../../hooks/useFiksDigisosId", () => jest.fn(() => "dumy"));
+
 describe("useFileUploadAllowed", () => {
     beforeEach(() => {
+        (useFiksDigisosId as jest.Mock).mockResolvedValue("dummy-id");
         server.resetHandlers();
     });
 
@@ -41,7 +45,7 @@ describe("useFileUploadAllowed", () => {
             getHentSoknadsStatusMockHandler(OK_SOKNAD_RESPONSE)
         );
 
-        const { result } = renderHook(() => useFileUploadError("dummy-id"));
+        const { result } = renderHook(() => useFileUploadError());
         await waitFor(() => expect(result.current).toEqual(null));
     });
 
@@ -50,7 +54,7 @@ describe("useFileUploadAllowed", () => {
             getHentKommuneInfoMockHandler(KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE),
             getHentSoknadsStatusMockHandler(OK_SOKNAD_RESPONSE)
         );
-        const { result } = renderHook(() => useFileUploadError("dummy-id"));
+        const { result } = renderHook(() => useFileUploadError());
         await waitFor(() => expect(result.current).toEqual("driftsmelding.kanIkkeSendeVedlegg"));
     });
 
@@ -59,7 +63,7 @@ describe("useFileUploadAllowed", () => {
             getHentKommuneInfoMockHandler(KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE),
             getHentSoknadsStatusMockHandler(BROKEN_SOKNAD_RESPONSE)
         );
-        const { result } = renderHook(() => useFileUploadError("dummy-id"));
+        const { result } = renderHook(() => useFileUploadError());
         await waitFor(() => expect(result.current).toEqual("driftsmelding.vedlegg.vedleggMangler"));
     });
 });

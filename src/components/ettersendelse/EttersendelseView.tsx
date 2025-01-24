@@ -48,7 +48,7 @@ interface Props {
 const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const fileUploadError = useFileUploadError(fiksDigisosId);
+    const fileUploadError = useFileUploadError();
     const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 

@@ -24,7 +24,7 @@ interface Props {
 export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
-    const fileUploadError = useFileUploadError(fiksDigisosId);
+    const fileUploadError = useFileUploadError();
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>

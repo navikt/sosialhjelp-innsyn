@@ -25,7 +25,7 @@ interface Props {
 
 export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
-    const fileUploadError = useFileUploadError(fiksDigisosId);
+    const fileUploadError = useFileUploadError();
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
