@@ -4,7 +4,7 @@ import { Alert, Label } from "@navikt/ds-react";
 import styled from "styled-components";
 
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import useKommune from "../../hooks/useKommune";
+import { KommuneResponse } from "../../generated/model";
 
 import { getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
 
@@ -12,9 +12,7 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
 
-const DriftsmeldingAlertstripe = () => {
-    const { kommune } = useKommune();
-
+export const KommunaleDriftsmeldinger = ({ kommune }: { kommune: KommuneResponse | undefined }) => {
     const { t } = useTranslation();
 
     const driftsmelding = getDriftsmeldingByKommune(kommune);
@@ -30,5 +28,3 @@ const DriftsmeldingAlertstripe = () => {
         </StyledAlert>
     );
 };
-
-export default DriftsmeldingAlertstripe;
