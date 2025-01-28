@@ -2,7 +2,8 @@ import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import styled, { css } from "styled-components";
-import { ErrorMessage } from "@navikt/ds-react";
+import { Alert, ErrorMessage } from "@navikt/ds-react";
+import cx from "classnames";
 
 import { useFileUploadError } from "../driftsmelding/useFileUploadError";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -18,7 +19,6 @@ import styles from "../filopplasting/filopplasting.module.css";
 import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
-import { DriftsmeldingAlert } from "../driftsmelding/DriftsmeldingAlert";
 
 const metadatas = [
     {
@@ -80,7 +80,9 @@ const EttersendelseView = (props: Props) => {
     const showLoadingState = props.isLoading || uploadIsLoading;
 
     return !!fileUploadError && !showLoadingState ? (
-        <DriftsmeldingAlert className={styles.driftsmelding}>{t(fileUploadError)}</DriftsmeldingAlert>
+        <Alert variant="error" size="medium" inline className={cx("font-bold", styles.driftsmelding)}>
+            {t(fileUploadError)}
+        </Alert>
     ) : (
         <>
             <OuterErrorBorder $hasError={outerErrors.length > 0}>
