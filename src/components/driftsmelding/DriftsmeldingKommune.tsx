@@ -5,12 +5,12 @@ import { Alert, Label } from "@navikt/ds-react";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import { KommuneResponse } from "../../generated/model";
 
-import { getDriftsmeldingByKommune } from "./lib/getDriftsmeldingByKommune";
+import { getDriftsmeldingFromKommune } from "./lib/getDriftsmeldingFromKommune";
 
 export const DriftsmeldingKommune = ({ kommune }: { kommune: KommuneResponse | undefined }) => {
     const { t } = useTranslation();
 
-    const driftsmelding = getDriftsmeldingByKommune(kommune);
+    const driftsmelding = getDriftsmeldingFromKommune(kommune);
 
     if (!driftsmelding) return null;
 

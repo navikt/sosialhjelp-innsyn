@@ -1,6 +1,6 @@
 import { KommuneResponse } from "../../../generated/model";
 
-import { getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
+import { getDriftsmeldingFromKommune } from "./getDriftsmeldingFromKommune";
 
 export const kommuneProblemer: Record<
     "ok" | "utenInnsyn" | "utenEttersendelse" | "utenBegge" | "littDiverse",
@@ -57,11 +57,11 @@ describe("getDriftsmeldingByKommune", () => {
         ];
 
         for (const [key, expected] of expectations) {
-            expect(getDriftsmeldingByKommune(kommuneProblemer[key])).toEqual(expected);
+            expect(getDriftsmeldingFromKommune(kommuneProblemer[key])).toEqual(expected);
         }
     });
 
     it("returnerer undefined om kommune er undefined", () => {
-        expect(getDriftsmeldingByKommune(undefined)).toEqual(undefined);
+        expect(getDriftsmeldingFromKommune(undefined)).toEqual(undefined);
     });
 });

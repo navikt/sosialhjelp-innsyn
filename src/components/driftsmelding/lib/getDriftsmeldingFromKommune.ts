@@ -4,7 +4,7 @@ const mldInnsynOgEttersendelseDeaktivert = "driftsmelding.innsynOgEttersendelseD
 const mldEttersendelseDeaktivert = "driftsmelding.ettersendelseDeaktivert" as const;
 const mldInnsynDeaktivert = "driftsmelding.innsynDeaktivert" as const;
 
-type KommuneDriftsmeldingError =
+export type KommuneDriftsmeldingError =
     | typeof mldInnsynOgEttersendelseDeaktivert
     | typeof mldEttersendelseDeaktivert
     | typeof mldInnsynDeaktivert;
@@ -29,7 +29,7 @@ const DRIFTSMELDINGER: Record<KommuneDriftstatus, KommuneDriftsmeldingError | un
 const getDriftsstatus = (kommuneResponse: KommuneResponse): KommuneDriftstatus =>
     `ettersendelseNede: ${ettersendelseDeaktivert(kommuneResponse)}, innsynNede: ${innsynDeaktivert(kommuneResponse)}`;
 
-export const getDriftsmeldingByKommune = (
+export const getDriftsmeldingFromKommune = (
     kommuneResponse: KommuneResponse | undefined
 ): KommuneDriftsmeldingError | undefined =>
     kommuneResponse ? DRIFTSMELDINGER[getDriftsstatus(kommuneResponse)] : undefined;
