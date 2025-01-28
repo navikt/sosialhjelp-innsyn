@@ -1,7 +1,7 @@
-import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
-import { useHentKommuneInfo } from "../../generated/kommune-controller/kommune-controller";
-import { KommuneResponse } from "../../generated/model";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import { useHentSoknadsStatus } from "../../../generated/soknads-status-controller/soknads-status-controller";
+import { useHentKommuneInfo } from "../../../generated/kommune-controller/kommune-controller";
+import { KommuneResponse } from "../../../generated/model";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 
 const ettersendelseDeaktivert = ({
     erInnsendingEttersendelseDeaktivert,

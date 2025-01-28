@@ -6,7 +6,7 @@ import styled from "styled-components";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import { KommuneResponse } from "../../generated/model";
 
-import { getDriftsmeldingByKommune } from "./getDriftsmeldingByKommune";
+import { getDriftsmeldingByKommune } from "./lib/getDriftsmeldingByKommune";
 
 const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;

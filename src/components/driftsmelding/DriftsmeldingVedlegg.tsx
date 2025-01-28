@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { Alert } from "@navikt/ds-react";
 import cx from "classnames";
 
-import { useFileUploadError } from "./useFileUploadError";
+import { useFileUploadError } from "./lib/useFileUploadError";
 
 const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
     const fileUploadError = useFileUploadError();

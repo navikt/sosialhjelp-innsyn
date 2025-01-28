@@ -1,4 +1,4 @@
-import { KommuneResponse } from "../../generated/model";
+import { KommuneResponse } from "../../../generated/model";
 
 const mldInnsynOgEttersendelseDeaktivert = "driftsmelding.innsynOgEttersendelseDeaktivert" as const;
 const mldEttersendelseDeaktivert = "driftsmelding.ettersendelseDeaktivert" as const;

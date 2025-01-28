@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
 import { getVisningstekster } from "../../../utils/vedleggUtils";
-import { useFileUploadError } from "../../driftsmelding/useFileUploadError";
+import { useFileUploadError } from "../../driftsmelding/lib/useFileUploadError";
 import { getGetOppgaverQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";

@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { Alert, ErrorMessage } from "@navikt/ds-react";
 import cx from "classnames";
 
-import { useFileUploadError } from "../driftsmelding/useFileUploadError";
+import { useFileUploadError } from "../driftsmelding/lib/useFileUploadError";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { OppgaveElementHendelsetype } from "../../generated/model";

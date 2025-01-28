@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
 
 import DriftsmeldingVedlegg from "./DriftsmeldingVedlegg";
-import { useFileUploadError } from "./useFileUploadError";
+import { useFileUploadError } from "./lib/useFileUploadError";
 
-jest.mock("./useFileUploadError", () => ({
+jest.mock("./lib/useFileUploadError", () => ({
     useFileUploadError: jest.fn(),
 }));
 
