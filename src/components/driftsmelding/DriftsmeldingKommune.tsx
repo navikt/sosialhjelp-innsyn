@@ -12,7 +12,7 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 1rem;
 `;
 
-export const KommunaleDriftsmeldinger = ({ kommune }: { kommune: KommuneResponse | undefined }) => {
+export const DriftsmeldingKommune = ({ kommune }: { kommune: KommuneResponse | undefined }) => {
     const { t } = useTranslation();
 
     const driftsmelding = getDriftsmeldingByKommune(kommune);

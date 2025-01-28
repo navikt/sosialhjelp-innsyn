@@ -13,7 +13,7 @@ import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/
 import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import { LoadingResourcesFailedAlert } from "../../innsyn/LoadingResourcesFailedAlert";
-import { KommunaleDriftsmeldinger } from "../../components/driftsmelding/KommunaleDriftsmeldinger";
+import { DriftsmeldingKommune } from "../../components/driftsmelding/DriftsmeldingKommune";
 import ForelopigSvarAlertstripe from "../../components/forelopigSvar/ForelopigSvar";
 import SoknadsStatus from "../../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../../components/oppgaver/Oppgaver";
@@ -98,7 +98,7 @@ const SaksStatusView: NextPage = () => {
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
-            <KommunaleDriftsmeldinger />
+            <DriftsmeldingKommune />
 
             {soknadsStatus?.isBroken && (
                 <StyledAlert variant="warning">
