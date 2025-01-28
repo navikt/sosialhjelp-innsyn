@@ -17,7 +17,7 @@ const ettersendelseDeaktivert = ({
     erInnsendingEttersendelseMidlertidigDeaktivert,
 }: KommuneResponse) => erInnsendingEttersendelseMidlertidigDeaktivert || erInnsendingEttersendelseDeaktivert;
 
-type KommuneDriftstatus = `ettersendelseNede: ${boolean}, innsynNede: ${boolean}`;
+export type KommuneDriftstatus = `ettersendelseNede: ${boolean}, innsynNede: ${boolean}`;
 
 const DRIFTSMELDINGER: Record<KommuneDriftstatus, KommuneDriftsmeldingError | undefined> = {
     "ettersendelseNede: true, innsynNede: true": mldInnsynOgEttersendelseDeaktivert,

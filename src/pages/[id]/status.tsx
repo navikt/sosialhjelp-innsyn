@@ -49,7 +49,7 @@ const SaksStatusView: NextPage = () => {
     const pathname = usePathname();
     useUpdateBreadcrumbs(() => [{ title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}` }]);
 
-    const { kommune } = useKommune();
+    const { kommune, driftsmelding } = useKommune();
 
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const { data: saksStatuser } = useHentSaksStatuser(fiksDigisosId);
@@ -98,7 +98,7 @@ const SaksStatusView: NextPage = () => {
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
-            <DriftsmeldingKommune />
+            <DriftsmeldingKommune driftsmelding={driftsmelding} />
 
             {soknadsStatus?.isBroken && (
                 <StyledAlert variant="warning">
