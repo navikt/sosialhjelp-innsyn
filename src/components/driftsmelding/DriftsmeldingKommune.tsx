@@ -17,7 +17,7 @@ export const DriftsmeldingKommune = ({ kommune }: { kommune: KommuneResponse | u
     return (
         <Alert className="mb-4" variant="error">
             <Label as="p">
-                <DatoOgKlokkeslett tidspunkt={kommune?.tidspunkt?.toString() || ""} />
+                <DatoOgKlokkeslett tidspunkt={new Date().toISOString()} />
             </Label>
             {t(driftsmelding)}
         </Alert>
