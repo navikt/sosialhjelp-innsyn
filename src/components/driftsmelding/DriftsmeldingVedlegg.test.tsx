@@ -20,6 +20,6 @@ describe("DriftsmeldingVedlegg", () => {
 
     it("renders DriftsmeldingAlert if søknadinfo.isBroken is true", () => {
         (useFileUploadError as jest.Mock).mockReturnValue("driftsmelding.vedlegg.vedleggMangler");
-        expect(render(<DriftsmeldingVedlegg className="custom-class" />).asFragment()).toMatchSnapshot();
+        expect(render(<DriftsmeldingVedlegg />).asFragment()).toMatchSnapshot();
     });
 });
