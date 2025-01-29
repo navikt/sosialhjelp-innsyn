@@ -5,13 +5,9 @@ import { DriftsmeldingKommune } from "./DriftsmeldingKommune";
 import { KommuneDriftsmeldingError } from "./lib/getDriftsmeldingFromKommune";
 
 describe("DriftsmeldingKommune", () => {
-    beforeAll(() => {
-        jest.useFakeTimers({ now: new Date("1987-11-09T12:00:00Z") });
-    });
+    beforeAll(() => jest.useFakeTimers({ now: new Date("1987-11-09T12:00:00Z") }));
 
-    afterAll(() => {
-        jest.useRealTimers();
-    });
+    afterAll(() => jest.useRealTimers());
 
     const renderDriftsmeldingKommune = (driftsmelding: KommuneDriftsmeldingError | undefined) =>
         render(<DriftsmeldingKommune driftsmelding={driftsmelding} />).asFragment();
