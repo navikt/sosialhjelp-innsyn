@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: wonderwall-innsyn
+  name: wonderwall-innsyn-dev
   namespace: teamdigisos
   labels:
     team: teamdigisos
@@ -11,13 +11,13 @@ spec:
   image: europe-north1-docker.pkg.dev/nais-io/nais/images/wonderwall:latest
   port: 8080
   ingresses:
-    - "https://www.ekstern.dev.nav.no/sosialhjelp/innsyn"
+    - "https://www.ansatt.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       external:
         - host: www.ekstern.dev.nav.no
       rules:
-        - application: sosialhjelp-innsyn
+        - application: sosialhjelp-innsyn-dev
   resources:
     limits:
       cpu: "2"
@@ -47,9 +47,9 @@ spec:
     - name: WONDERWALL_AUTO_LOGIN
       value: "true"
     - name: WONDERWALL_INGRESS
-      value: https://www.ekstern.dev.nav.no/sosialhjelp/innsyn
+      value: https://www.ansatt.dev.nav.no/sosialhjelp/innsyn
     - name: WONDERWALL_UPSTREAM_HOST
-      value: sosialhjelp-innsyn:80
+      value: sosialhjelp-innsyn-dev:80
     - name: WONDERWALL_BIND_ADDRESS
       value: 0.0.0.0:8080
     - name: WONDERWALL_METRICS_BIND_ADDRESS
