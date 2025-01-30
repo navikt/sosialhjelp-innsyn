@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-const useFiksDigososId = () => {
+const useFiksDigisosId = () => {
     const {
         query: { id },
     } = useRouter();
@@ -11,4 +11,4 @@ const useFiksDigososId = () => {
     return id;
 };
 
-export default useFiksDigososId;
+export default useFiksDigisosId;

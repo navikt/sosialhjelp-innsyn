@@ -3,8 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
 import { getVisningstekster } from "../../../utils/vedleggUtils";
-import useKommune from "../../../hooks/useKommune";
-import { useFileUploadAllowed } from "../../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadError } from "../../driftsmelding/lib/useFileUploadError";
 import { getGetOppgaverQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
@@ -26,8 +25,7 @@ interface Props {
 
 export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
-    const { kommune } = useKommune();
-    const { kanLasteOppVedlegg } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError();
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
@@ -69,7 +67,7 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
             }
             sendButton={
                 <SendFileButton
-                    isVisible={kanLasteOppVedlegg}
+                    isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
@@ -99,7 +97,7 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}
                                 addFileButton={
-                                    kanLasteOppVedlegg ? (
+                                    !fileUploadError ? (
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;

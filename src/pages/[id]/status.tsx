@@ -13,7 +13,7 @@ import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/
 import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import { LoadingResourcesFailedAlert } from "../../innsyn/LoadingResourcesFailedAlert";
-import DriftsmeldingAlertstripe from "../../components/driftsmelding/Driftsmelding";
+import { DriftsmeldingKommune } from "../../components/driftsmelding/DriftsmeldingKommune";
 import ForelopigSvarAlertstripe from "../../components/forelopigSvar/ForelopigSvar";
 import SoknadsStatus from "../../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../../components/oppgaver/Oppgaver";
@@ -49,7 +49,7 @@ const SaksStatusView: NextPage = () => {
     const pathname = usePathname();
     useUpdateBreadcrumbs(() => [{ title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}` }]);
 
-    const { kommune } = useKommune();
+    const { kommune, driftsmelding } = useKommune();
 
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const { data: saksStatuser } = useHentSaksStatuser(fiksDigisosId);
@@ -98,7 +98,7 @@ const SaksStatusView: NextPage = () => {
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
-            <DriftsmeldingAlertstripe />
+            <DriftsmeldingKommune driftsmelding={driftsmelding} />
 
             {soknadsStatus?.isBroken && (
                 <StyledAlert variant="warning">
