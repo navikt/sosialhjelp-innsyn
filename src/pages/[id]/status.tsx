@@ -4,6 +4,8 @@ import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { logger } from "@navikt/next-logger";
 
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import useKommune from "../../hooks/useKommune";
@@ -43,8 +45,7 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 3rem;
 `;
 
-const SaksStatusView: NextPage = () => {
-    const fiksDigisosId = useFiksDigisosId();
+const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
     const { t } = useTranslation();
     const pathname = usePathname();
     useUpdateBreadcrumbs(() => [{ title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}` }]);
@@ -134,6 +135,26 @@ const SaksStatusView: NextPage = () => {
             </FilUploadSuccesfulProvider>
         </MainLayout>
     );
+};
+
+/**
+ * Dette er en liten hack som forhindrer at en request mot en søknad bruker ikke
+ * eier, fører til 20-30 mislykkede kall og loggstøy.
+ */
+const SaksStatusView: NextPage = () => {
+    const fiksDigisosId = useFiksDigisosId();
+    const { isPending, error } = useHentSoknadsStatus(fiksDigisosId);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!error) return;
+        logger.warn("Error fetching soknadsstatus", error);
+        router.push("/");
+    }, [error, router]);
+
+    if (isPending) return null;
+
+    return error ? null : <SakStatus fiksDigisosId={fiksDigisosId} />;
 };
 
 export const getServerSideProps: GetServerSideProps = pageHandler;
