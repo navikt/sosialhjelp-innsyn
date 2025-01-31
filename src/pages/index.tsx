@@ -11,8 +11,9 @@ import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
+import UxSignalsWidget from "../components/widgets/UxSignalsWidget";
 
-const StyledAlert = styled(Alert)`
+const Preamble = styled("div")`
     margin-bottom: 1.5rem;
 `;
 
@@ -27,17 +28,20 @@ const Saksoversikt: NextPage = () => {
             {isLoading && <ApplicationSpinner />}
             {!isLoading && (
                 <>
-                    {error && (
-                        <Alert variant="warning">
-                            <BodyShort>{t("feilmelding.saksOversikt")}</BodyShort>
-                            <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
-                        </Alert>
-                    )}
-                    {saker?.some((it) => it.isBrokenSoknad) && (
-                        <StyledAlert variant="warning">
-                            <BodyShort>{t("soknaderUtenVedlegg.forside")}</BodyShort>
-                        </StyledAlert>
-                    )}
+                    <Preamble>
+                        {error && (
+                            <Alert variant="warning">
+                                <BodyShort>{t("feilmelding.saksOversikt")}</BodyShort>
+                                <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
+                            </Alert>
+                        )}
+                        {saker?.some((it) => it.isBrokenSoknad) && (
+                            <Alert variant="warning">
+                                <BodyShort>{t("soknaderUtenVedlegg.forside")}</BodyShort>
+                            </Alert>
+                        )}
+                        <UxSignalsWidget embedCode="panel-1dxe3xqk8p" />
+                    </Preamble>
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>
             )}
