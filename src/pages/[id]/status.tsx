@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Alert, BodyShort, Heading, Panel } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { GetServerSideProps, NextPage } from "next";
 
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -26,7 +26,6 @@ import { FilUploadSuccesfulProvider } from "../../components/filopplasting/FilUp
 import KlageSection from "../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../generated/model";
 import pageHandler from "../../pagehandler/pageHandler";
-import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -61,8 +60,6 @@ const SaksStatusView: NextPage = () => {
     const dataErKlare = Boolean(
         !pageLoadIsLogged && erPaInnsyn && saksStatuser && oppgaver && soknadsStatus && forelopigSvar
     );
-    const searchParams = useSearchParams();
-    const showUxSignalsWidget = Boolean(searchParams.get("kortSoknad"));
 
     useEffect(() => {
         function createAmplitudeData() {
@@ -110,7 +107,6 @@ const SaksStatusView: NextPage = () => {
 
             <SoknadsStatus />
             <FilUploadSuccesfulProvider>
-                <UxSignalsWidget enabled={showUxSignalsWidget} />
                 {erPaInnsyn && <Oppgaver />}
                 {kommune != null && kommune.erInnsynDeaktivert && (
                     <>

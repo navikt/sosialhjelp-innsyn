@@ -3,18 +3,18 @@ import { ReactElement } from "react";
 import { logger } from "@navikt/next-logger";
 
 import { isProd } from "../../utils/restUtils";
-import { useFlag } from "../../featuretoggles/context";
 
 import styles from "./UxSignalsWidget.module.css";
 
 interface Props {
-    enabled: boolean;
+    embedCode: string;
+    enabled?: boolean;
+    className?: string;
 }
 
-function UxSignalsWidget({ enabled }: Props): ReactElement | null {
-    const flag = useFlag("sosialhjelp.innsyn.uxsignals_kort_soknad");
-    if (!enabled || !flag.enabled) return null;
-    logger.info("Viser ux signals for kort søknad");
+function UxSignalsWidget({ enabled = true, embedCode, className }: Props): ReactElement | null {
+    if (!enabled) return null;
+    logger.info("Viser ux signals");
     return (
         <>
             <Script
@@ -24,8 +24,8 @@ function UxSignalsWidget({ enabled }: Props): ReactElement | null {
             />
             <div
                 data-uxsignals-mode={!isProd() ? "demo" : ""}
-                data-uxsignals-embed="panel-gwdfo3en3x"
-                className={styles.uxSignalsContainer}
+                data-uxsignals-embed={embedCode}
+                className={`${styles.uxSignalsContainer} ${className}`}
             />
         </>
     );
