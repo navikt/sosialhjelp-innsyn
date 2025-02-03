@@ -50,6 +50,7 @@ const nextConfig = {
         ignoreDuringBuilds: true,
         dirs: ["src"],
     },
+    trailingSlash: true,
     productionBrowserSourceMaps: true,
 };
 
