@@ -501,7 +501,8 @@
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SaksDetaljerResponse" } } }
                     }
-                }
+                },
+                "deprecated": true
             }
         },
         "/api/v1/innsyn/saker": {
@@ -523,6 +524,23 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/v1/innsyn/sak/{fiksDigisosId}/detaljer": {
+            "get": {
+                "tags": ["saks-oversikt-controller"],
+                "operationId": "getSaksDetaljer",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SaksDetaljerResponse" } } }
                     }
                 }
             }
@@ -860,16 +878,16 @@
                 "type": "object",
                 "properties": {
                     "tittel": { "type": "string" },
-                    "belop": { "type": "number", "format": "double" },
+                    "belop": { "type": "number" },
                     "utbetalingsdato": { "type": "string", "format": "date" },
                     "forfallsdato": { "type": "string", "format": "date" },
-                    "status": { "type": "string" },
+                    "status": { "type": "string", "enum": ["PLANLAGT_UTBETALING", "UTBETALT", "STOPPET", "ANNULLERT"] },
                     "fiksDigisosId": { "type": "string" },
                     "fom": { "type": "string", "format": "date" },
                     "tom": { "type": "string", "format": "date" },
                     "mottaker": { "type": "string" },
                     "annenMottaker": { "type": "boolean" },
-                    "kontonummer": { "type": "string" },
+                    "kontonummer": { "pattern": "^[0-9]{11}$", "type": "string" },
                     "utbetalingsmetode": { "type": "string" }
                 }
             },
@@ -879,7 +897,12 @@
                 "properties": {
                     "ar": { "type": "integer", "format": "int32" },
                     "maned": { "type": "integer", "format": "int32" },
-                    "foersteIManeden": { "type": "string", "format": "date" },
+                    "foersteIManeden": {
+                        "type": "string",
+                        "description": "Bruk ar og maned",
+                        "format": "date",
+                        "deprecated": true
+                    },
                     "utbetalinger": { "type": "array", "items": { "$ref": "#/components/schemas/ManedUtbetaling" } }
                 }
             },
