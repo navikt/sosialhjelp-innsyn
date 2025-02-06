@@ -3,7 +3,7 @@ on:
   workflow_call:
   workflow_run:
     workflows: ['Build code and run tests']
-    branches: [master]
+    branches: [main]
     types:
       - completed
 jobs:

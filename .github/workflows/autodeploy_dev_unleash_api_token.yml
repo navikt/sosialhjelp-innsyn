@@ -5,7 +5,7 @@ on:
       - "nais/dev/unleash-api-token.yaml"
       - ".github/workflows/autodeploy_dev_unleash_api_token.yml"
     branches:
-      - 'master'
+      - 'main'
       - 'feature-toggle'
     tags-ignore:
       - "**" # Don't build any tags

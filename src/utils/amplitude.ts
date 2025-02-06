@@ -14,7 +14,7 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
 
 /**
  *  This is just an example for the PR, it will be relocated to the correct file
- *  once the utbetaling/utbetalingfilter branch is merged into master
+ *  once the utbetaling/utbetalingfilter branch is merged into main
  */
 export type AmplitudeFiltervalgEvent = {
     eventName: "filtervalg";
