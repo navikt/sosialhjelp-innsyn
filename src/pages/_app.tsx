@@ -13,11 +13,20 @@ import ErrorBoundary from "../components/errors/ErrorBoundary";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import { FlagProvider } from "../featuretoggles/context";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";
+import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
 
 const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
 });
 
+initInstrumentation();
+configureLogger({
+    basePath: "/sosialhjelp/innsyn",
+    onLog: (log) =>
+        getFaro()?.api.pushLog(log.messages, {
+            level: pinoLevelToFaroLevel(log.level.label),
+        }),
+});
 configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
