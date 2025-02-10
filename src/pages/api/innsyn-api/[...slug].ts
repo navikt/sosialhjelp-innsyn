@@ -24,16 +24,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
     const queryString = queryParams
         .map(([key, value]) => `${key}=${Array.isArray(value) ? value.join(",") : value}`)
         .join("&");
-    const path =
-        "/sosialhjelp/innsyn-api/" +
-        (Array.isArray(slug) ? slug.join("/") : slug) +
-        (queryString !== "" ? `?${queryString}` : "");
+    const path = Array.isArray(slug) ? slug.join("/") : slug;
+    const pathWithoutTrailingSlash = path.endsWith("/") ? path.slice(0, -1) : path;
+    const fullPath =
+        "/sosialhjelp/innsyn-api/" + pathWithoutTrailingSlash + (queryString !== "" ? `?${queryString}` : "");
     await proxyApiRouteRequest({
         req,
         res,
         bearerToken: token,
         hostname: process.env.NEXT_INNSYN_API_HOSTNAME ?? "",
-        path,
+        path: fullPath,
         https: false,
         port: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
     });
