@@ -17,7 +17,7 @@ export function getFaro(): Faro | null {
         paused: isLocalhost() || isMock(),
         url: process.env.NEXT_PUBLIC_TELEMETRY_URL,
         app: {
-            name: "sykmeldinger",
+            name: "sosialhjelp-innsyn",
         },
         instrumentations: [
             ...getWebInstrumentations({
