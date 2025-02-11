@@ -8,9 +8,9 @@ import { server } from "../mocks/server";
 import { render, screen } from "../test/test-utils";
 import { SaksListeResponse } from "../generated/model";
 import {
+    getGetSaksDetaljerMockHandler,
+    getGetSaksDetaljerResponseMock,
     getHentAlleSakerMockHandler,
-    getHentSaksDetaljerMockHandler,
-    getHentSaksDetaljerResponseMock,
 } from "../generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 
 const notFound = http.get("*/api/v1/innsyn/saker", async () => {
@@ -43,8 +43,8 @@ const utbetalingerDoesntExist = http.get("*/api/v1/innsyn/utbetalinger/exists", 
     return HttpResponse.json(false);
 });
 
-const saksdetaljer = getHentSaksDetaljerMockHandler({
-    ...getHentSaksDetaljerResponseMock(),
+const saksdetaljer = getGetSaksDetaljerMockHandler({
+    ...getGetSaksDetaljerResponseMock(),
     status: "Mottatt",
     soknadTittel: "Min kule søknad",
 });
