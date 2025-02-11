@@ -14,7 +14,7 @@ import {
     StyledLinkPanelDescription,
     StyledSaksDetaljer,
 } from "../../components/sakspanel/sakspanelStyles";
-import { useHentSaksDetaljer } from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import { useGetSaksDetaljer } from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const PanelStyle = css`
     margin-top: 4px;
@@ -47,10 +47,9 @@ interface Props {
 }
 
 const SakPanel = ({ fiksDigisosId, tittel, oppdatert, url, kilde, isBroken }: Props) => {
-    const { data: saksdetaljer, isLoading } = useHentSaksDetaljer(
-        { id: fiksDigisosId! },
-        { query: { enabled: kilde === "innsyn-api" && !!fiksDigisosId } }
-    );
+    const { data: saksdetaljer, isLoading } = useGetSaksDetaljer(fiksDigisosId ?? "", {
+        query: { enabled: kilde === "innsyn-api" && !!fiksDigisosId },
+    });
     const router = useRouter();
     const { t } = useTranslation();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
