@@ -3,8 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
 import { DokumentasjonkravResponse } from "../../../generated/model";
-import useKommune from "../../../hooks/useKommune";
-import { useFileUploadAllowed } from "../../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadError } from "../../driftsmelding/lib/useFileUploadError";
 import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useFilOpplasting, { errorStatusToMessage } from "../../filopplasting/useFilOpplasting";
@@ -25,8 +24,7 @@ interface Props {
 export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
-    const { kommune } = useKommune();
-    const { kanLasteOppVedlegg } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError();
     const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
@@ -65,7 +63,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
             innsendelsesFrist={<InnsendelsesFrist frist={dokumentasjonkrav.frist} />}
             sendButton={
                 <SendFileButton
-                    isVisible={kanLasteOppVedlegg}
+                    isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
@@ -90,7 +88,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                                 filer={files[index]}
                                 onDelete={(_, file) => removeFil(index, file)}
                                 addFileButton={
-                                    kanLasteOppVedlegg ? (
+                                    !fileUploadError ? (
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;

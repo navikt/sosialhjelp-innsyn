@@ -2,8 +2,10 @@ import styled from "styled-components";
 import { Alert, BodyShort, Heading, Panel } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { logger } from "@navikt/next-logger";
 
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import useKommune from "../../hooks/useKommune";
@@ -13,7 +15,7 @@ import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/
 import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import { LoadingResourcesFailedAlert } from "../../innsyn/LoadingResourcesFailedAlert";
-import DriftsmeldingAlertstripe from "../../components/driftsmelding/Driftsmelding";
+import { DriftsmeldingKommune } from "../../components/driftsmelding/DriftsmeldingKommune";
 import ForelopigSvarAlertstripe from "../../components/forelopigSvar/ForelopigSvar";
 import SoknadsStatus from "../../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../../components/oppgaver/Oppgaver";
@@ -26,7 +28,6 @@ import { FilUploadSuccesfulProvider } from "../../components/filopplasting/FilUp
 import KlageSection from "../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../generated/model";
 import pageHandler from "../../pagehandler/pageHandler";
-import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
 
 const StyledPanel = styled(Panel)`
     @media screen and (min-width: 641px) {
@@ -43,13 +44,12 @@ const StyledAlert = styled(Alert)`
     margin-bottom: 3rem;
 `;
 
-const SaksStatusView: NextPage = () => {
-    const fiksDigisosId = useFiksDigisosId();
+const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
     const { t } = useTranslation();
     const pathname = usePathname();
     useUpdateBreadcrumbs(() => [{ title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}` }]);
 
-    const { kommune } = useKommune();
+    const { kommune, driftsmelding } = useKommune();
 
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const { data: saksStatuser } = useHentSaksStatuser(fiksDigisosId);
@@ -61,8 +61,6 @@ const SaksStatusView: NextPage = () => {
     const dataErKlare = Boolean(
         !pageLoadIsLogged && erPaInnsyn && saksStatuser && oppgaver && soknadsStatus && forelopigSvar
     );
-    const searchParams = useSearchParams();
-    const showUxSignalsWidget = Boolean(searchParams.get("kortSoknad"));
 
     useEffect(() => {
         function createAmplitudeData() {
@@ -98,7 +96,7 @@ const SaksStatusView: NextPage = () => {
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
-            <DriftsmeldingAlertstripe />
+            <DriftsmeldingKommune driftsmelding={driftsmelding} />
 
             {soknadsStatus?.isBroken && (
                 <StyledAlert variant="warning">
@@ -110,7 +108,6 @@ const SaksStatusView: NextPage = () => {
 
             <SoknadsStatus />
             <FilUploadSuccesfulProvider>
-                <UxSignalsWidget enabled={showUxSignalsWidget} />
                 {erPaInnsyn && <Oppgaver />}
                 {kommune != null && kommune.erInnsynDeaktivert && (
                     <>
@@ -134,6 +131,26 @@ const SaksStatusView: NextPage = () => {
             </FilUploadSuccesfulProvider>
         </MainLayout>
     );
+};
+
+/**
+ * Dette er en liten hack som forhindrer at en request mot en søknad bruker ikke
+ * eier, fører til 20-30 mislykkede kall og loggstøy.
+ */
+const SaksStatusView: NextPage = () => {
+    const fiksDigisosId = useFiksDigisosId();
+    const { isPending, error } = useHentSoknadsStatus(fiksDigisosId);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!error) return;
+        logger.warn("Error fetching soknadsstatus", error);
+        router.push("/");
+    }, [error, router]);
+
+    if (isPending) return null;
+
+    return error ? null : <SakStatus fiksDigisosId={fiksDigisosId} />;
 };
 
 export const getServerSideProps: GetServerSideProps = pageHandler;
