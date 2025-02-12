@@ -64,7 +64,6 @@ export async function middleware(request: NextRequest) {
                 return NextResponse.redirect(json.loginUrl + queryDivider + redirectUrl);
             }
         } catch (e) {
-            logger.warn(pathname);
             // ikke logg eller redirect dersom feilen oppstod i forsøk på å rendre 500-siden
             if (pathname === "/500") return;
             logger.warn("Feil i middleware fetch, sender bruker til 500", e);
