@@ -71,7 +71,9 @@ const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
     }
 
     if (error) {
-        logger.warn(`Fikk feilmelding fra harTilgang. Code: ${harTilgangData?.status}, message: ${error.message}`);
+        logger.warn(
+            `Fikk feilmelding fra harTilgang. status: ${harTilgangData?.status}, message: ${error.message}, error code: ${error.code}`
+        );
     }
 
     const isAuthError = harTilgangData?.status === 401 || harTilgangData?.status === 403;
