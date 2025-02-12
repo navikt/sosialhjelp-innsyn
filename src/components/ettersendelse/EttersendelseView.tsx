@@ -2,10 +2,10 @@ import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import styled, { css } from "styled-components";
-import { ErrorMessage } from "@navikt/ds-react";
+import { Alert, ErrorMessage } from "@navikt/ds-react";
+import cx from "classnames";
 
-import useKommune from "../../hooks/useKommune";
-import { useFileUploadAllowed } from "../driftsmelding/DriftsmeldingUtilities";
+import { useFileUploadError } from "../driftsmelding/lib/useFileUploadError";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { OppgaveElementHendelsetype } from "../../generated/model";
@@ -16,7 +16,6 @@ import useFilOpplasting, { errorStatusToMessage } from "../filopplasting/useFilO
 import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 import styles from "../filopplasting/filopplasting.module.css";
-import { DriftsmeldingVedleggComponent } from "../driftsmelding/DriftsmeldingVedlegg";
 import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
@@ -49,8 +48,7 @@ interface Props {
 const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
-    const { kommune } = useKommune();
-    const { kanLasteOppVedlegg, textKey } = useFileUploadAllowed(kommune, fiksDigisosId);
+    const fileUploadError = useFileUploadError();
     const { t } = useTranslation();
     const isAalesund = useIsAalesundBlocked();
 
@@ -81,8 +79,10 @@ const EttersendelseView = (props: Props) => {
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
 
-    return !kanLasteOppVedlegg && !showLoadingState ? (
-        <DriftsmeldingVedleggComponent className={styles.driftsmelding} textKey={textKey} />
+    return !!fileUploadError && !showLoadingState ? (
+        <Alert variant="error" size="medium" inline className={cx("font-bold", styles.driftsmelding)}>
+            {t(fileUploadError)}
+        </Alert>
     ) : (
         <>
             <OuterErrorBorder $hasError={outerErrors.length > 0}>
@@ -93,7 +93,7 @@ const EttersendelseView = (props: Props) => {
                     filer={files}
                     onDelete={(_, file) => removeFil(0, file)}
                     addFileButton={
-                        kanLasteOppVedlegg ? (
+                        !fileUploadError ? (
                             <AddFileButton
                                 onChange={(event) => {
                                     const files = event.currentTarget.files;
@@ -118,7 +118,7 @@ const EttersendelseView = (props: Props) => {
                 ))}
             </ErrorMessageWrapper>
             <SendFileButton
-                isVisible={kanLasteOppVedlegg}
+                isVisible={!fileUploadError}
                 isLoading={showLoadingState}
                 onClick={onClick}
                 disabled={isAalesund || files?.length === 0}
