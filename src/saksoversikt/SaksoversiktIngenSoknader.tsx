@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BodyShort, Heading, LinkPanel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next";
+import { secureLogger } from "@navikt/next-logger/secure-log";
 
 import { StyledGuidePanel, StyledGuidePanelContent } from "../styles/styledGuidePanel";
 import { StyledLenkePanelWrapper } from "../styles/LenkePanelWrapper";
@@ -13,6 +14,9 @@ const Wrapper = styled.div`
 
 const SaksoversiktIngenSoknader = () => {
     const { t } = useTranslation();
+    useEffect(() => {
+        secureLogger.info("hekkan");
+    });
     return (
         <Wrapper>
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>

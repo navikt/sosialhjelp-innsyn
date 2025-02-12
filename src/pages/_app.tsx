@@ -27,9 +27,6 @@ configureLogger({
             level: pinoLevelToFaroLevel(log.level.label),
         }),
 });
-configureLogger({
-    basePath: "/sosialhjelp/innsyn",
-});
 
 // TODO: Dette er kanskje ikke den beste plassering
 logBrukerDefaultLanguage(Cookies.get("decorator-language"));

@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/nodejs20-debian11 AS runtime
+FROM node:20@sha256:fd0115473b293460df5b217ea73ff216928f2b0bb7650c5e7aa56aae4c028426 as runtime
 
 WORKDIR /app
 
@@ -15,4 +15,4 @@ ENV NODE_ENV=production
 ENV PORT=8080
 ENV HOSTNAME=0.0.0.0
 
-CMD ["server.js"]
+CMD [ "node", "server.js" ]

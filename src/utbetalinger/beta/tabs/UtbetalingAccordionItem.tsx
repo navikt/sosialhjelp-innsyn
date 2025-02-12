@@ -24,7 +24,7 @@ function statusToTekst(t: (key: string) => string, status?: string) {
             if (!status?.toLowerCase) {
                 logger.error("Status is not a string in statusToTekst? Status: " + status);
             }
-            return status?.toLowerCase?.() + " " ?? "Ingen status";
+            return status?.toLowerCase();
     }
 }
 interface Props {
