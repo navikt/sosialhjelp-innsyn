@@ -72,7 +72,7 @@ const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
 
     if (error) {
         logger.warn(
-            `Fikk feilmelding fra harTilgang. status: ${harTilgangData?.status}, message: ${error.message}, error code: ${error.code}`
+            `Fikk feilmelding fra harTilgang. status: ${harTilgangData?.status}, message: ${error.message}, error code: ${error.code}, error: ${error}`
         );
     }
 
