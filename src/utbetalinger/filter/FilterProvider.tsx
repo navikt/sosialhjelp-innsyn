@@ -2,10 +2,10 @@ import React, { ReactNode, useReducer } from "react";
 
 import { filterReducer } from "./lib/filterReducer";
 import { filterLogAnalytics } from "./lib/filterLogAnalytics";
-import { FilterContext, FilterCriteria } from "./lib/FilterContext";
+import { FilterContext, FilterPredicate } from "./lib/FilterContext";
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
-    const [filters, dispatch] = useReducer<FilterCriteria | null, [FilterCriteria]>(filterReducer, null);
+    const [filters, dispatch] = useReducer<FilterPredicate | null, [FilterPredicate]>(filterReducer, null);
     const clearFilters = () =>
         setFilter({
             mottaker: null,
@@ -13,7 +13,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
             tilDato: null,
         });
 
-    const setFilter = (predicates: FilterCriteria) => {
+    const setFilter = (predicates: FilterPredicate) => {
         filterLogAnalytics(predicates);
         dispatch(predicates);
     };

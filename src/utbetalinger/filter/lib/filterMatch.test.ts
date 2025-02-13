@@ -1,4 +1,4 @@
-import { FilterCriteria } from "./FilterContext";
+import { FilterPredicate } from "./FilterContext";
 import { filterMatch } from "./filterMatch";
 
 describe("filterMatch", () => {
@@ -13,7 +13,7 @@ describe("filterMatch", () => {
     const FILTER_AFTER_TIL = { tilDato: new Date("2022-12-31") };
 
     const expectMatch =
-        (filters: FilterCriteria, expected: boolean, annenMottaker: boolean = false) =>
+        (filters: FilterPredicate, expected: boolean, annenMottaker: boolean = false) =>
         () =>
             expect(filterMatch({ ...BASE, annenMottaker }, filters)).toBe(expected);
 

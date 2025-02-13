@@ -1,13 +1,13 @@
-import { FilterCriteria } from "./FilterContext";
+import { FilterPredicate } from "./FilterContext";
 import { filterReducer } from "./filterReducer";
 
 describe("filterReducer", () => {
-    const predFraDato: FilterCriteria = { fraDato: new Date() } as const;
-    const predTilDato: FilterCriteria = { tilDato: new Date() } as const;
-    const predBeggeDatoer: FilterCriteria = { ...predFraDato, ...predTilDato } as const;
+    const predFraDato: FilterPredicate = { fraDato: new Date() } as const;
+    const predTilDato: FilterPredicate = { tilDato: new Date() } as const;
+    const predBeggeDatoer: FilterPredicate = { ...predFraDato, ...predTilDato } as const;
 
     const expectReducer =
-        (initialState: FilterCriteria | null, action: FilterCriteria, expected: FilterCriteria | null) => () =>
+        (initialState: FilterPredicate | null, action: FilterPredicate, expected: FilterPredicate | null) => () =>
             expect(filterReducer(initialState, action)).toEqual(expected);
 
     it("returns state if action is empty", expectReducer(predFraDato, {}, predFraDato));

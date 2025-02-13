@@ -1,8 +1,8 @@
 import { AmplitudeFiltervalgEvent, logAmplitudeEventTyped } from "../../../utils/amplitude";
 
-import { FilterKey, FilterCriteria } from "./FilterContext";
+import { FilterKey, FilterPredicate } from "./FilterContext";
 
-const getFilterUpdates = (action: FilterCriteria): AmplitudeFiltervalgEvent[] =>
+const getFilterUpdates = (action: FilterPredicate): AmplitudeFiltervalgEvent[] =>
     Object.keys(action)
         .filter((key) => action[key as FilterKey] !== undefined)
         .map((key) => ({
@@ -13,5 +13,5 @@ const getFilterUpdates = (action: FilterCriteria): AmplitudeFiltervalgEvent[] =>
             },
         }));
 
-export const filterLogAnalytics = (action: FilterCriteria) =>
+export const filterLogAnalytics = (action: FilterPredicate) =>
     getFilterUpdates(action).map((e) => logAmplitudeEventTyped(e));

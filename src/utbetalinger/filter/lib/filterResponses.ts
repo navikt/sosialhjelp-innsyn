@@ -1,11 +1,11 @@
 import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 
-import { FilterCriteria } from "./FilterContext";
+import { FilterPredicate } from "./FilterContext";
 import { filterMatch } from "./filterMatch";
 
 export const filterResponses = (
     utbetalinger: NyeOgTidligereUtbetalingerResponse[] | undefined,
-    filters: FilterCriteria | null
+    filters: FilterPredicate | null
 ) =>
     !filters
         ? utbetalinger

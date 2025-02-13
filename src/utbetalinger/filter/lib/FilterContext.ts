@@ -4,17 +4,17 @@ type Maybe<T> = T | null;
 
 export type MottakerFilter = "minKonto" | "annenMottaker";
 
-export type FilterCriteria = {
+export type FilterPredicate = {
     mottaker?: Maybe<MottakerFilter>;
     fraDato?: Maybe<Date>;
     tilDato?: Maybe<Date>;
 };
 
-export type FilterKey = keyof FilterCriteria;
+export type FilterKey = keyof FilterPredicate;
 
 type FilterContextType = {
-    filters: FilterCriteria | null;
-    setFilter: (nyttFilter: FilterCriteria) => void;
+    filters: FilterPredicate | null;
+    setFilter: (nyttFilter: FilterPredicate) => void;
     clearFilters: () => void;
 };
 

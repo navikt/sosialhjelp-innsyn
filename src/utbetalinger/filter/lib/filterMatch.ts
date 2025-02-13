@@ -2,7 +2,7 @@ import { isAfter, isBefore } from "date-fns";
 
 import { ManedUtbetaling } from "../../../generated/model";
 
-import { FilterCriteria } from "./FilterContext";
+import { FilterPredicate } from "./FilterContext";
 
 const stringToDateWithoutTimezone = (datoString: string | undefined) =>
     !datoString ? undefined : new Date(new Date(datoString).toISOString().slice(0, -1));
@@ -13,7 +13,7 @@ export const filterMatch = (
         forfallsdato,
         utbetalingsdato,
     }: Pick<ManedUtbetaling, "annenMottaker" | "forfallsdato" | "utbetalingsdato">,
-    filters: FilterCriteria
+    filters: FilterPredicate
 ) => {
     const matchMottaker = !filters.mottaker
         ? true
