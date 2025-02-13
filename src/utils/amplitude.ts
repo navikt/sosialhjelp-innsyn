@@ -16,25 +16,6 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
 
 /**
  *  This is just an example for the PR, it will be relocated to the correct file
- *  once the utbetaling/utbetalingfilter branch is merged into main
- */
-export type AmplitudeFiltervalgEvent = {
-    eventName: "filtervalg";
-    eventData: { kategori: "mottaker" | "fraDato" | "tilDato"; filternavn: unknown };
-};
-
-type AmplitudeInnsynEvent = AmplitudeFiltervalgEvent;
-
-export async function logAmplitudeEventTyped({ eventData, eventName }: AmplitudeInnsynEvent) {
-    try {
-        await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
-    } catch (error) {
-        logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
-    }
-}
-
-/**
- *  This is just an example for the PR, it will be relocated to the correct file
  *  once the utbetaling/utbetalingfilter branch is merged into master
  */
 export type AmplitudeFiltervalgEvent = {
