@@ -28,7 +28,7 @@ export const TilgangskontrollsideWrapper = ({ children }: { children: React.Reac
 
     useEffect(() => {
         if (!sessionQuery.isLoading && sessionQuery.data?.status === 404) {
-            setSessionReady(true); // Allow app to proceed even if session check fails
+            setSessionReady(true);
             return;
         }
 
@@ -40,14 +40,12 @@ export const TilgangskontrollsideWrapper = ({ children }: { children: React.Reac
         }
     }, [sessionQuery.data, sessionQuery.isLoading, router]);
 
-    // Prevent infinite loading: Allow app to proceed when session is confirmed active
     useEffect(() => {
         if (sessionQuery.data?.session?.active) {
             setSessionReady(true);
         }
     }, [sessionQuery.data?.session?.active]);
 
-    // Keep the loading UI if session is still being fetched
     if (sessionQuery.isLoading || !sessionReady) {
         return (
             <div className="informasjon-side">
