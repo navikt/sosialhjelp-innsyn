@@ -12,6 +12,7 @@ import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
 import UxSignalsWidget from "../components/widgets/UxSignalsWidget";
+import { useSakslisteDebug } from "../hooks/useSakslisteDebug";
 
 const Preamble = styled("div")`
     margin-bottom: 1.5rem;
@@ -22,7 +23,9 @@ const Saksoversikt: NextPage = () => {
 
     useUpdateBreadcrumbs(() => []);
 
-    const { data: saker, isLoading, error } = useHentAlleSaker();
+    const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
+    useSakslisteDebug({ saker, isLoading, error, status, failureReason });
+
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
             {isLoading && <ApplicationSpinner />}
