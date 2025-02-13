@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
@@ -52,6 +53,18 @@ const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
         isPending,
         data: harTilgangData,
     } = useHarTilgang({ query: { enabled: typeof window !== "undefined" } });
+
+    useEffect(() => {
+        console.log("Running Tilgangskontrollside on:", typeof window === "undefined" ? "server" : "client");
+
+        fetch("/api/v1/innsyn/tilgang", { credentials: "include" })
+            .then((response) => {
+                console.log("Raw response:", response);
+                return response.text(); // Read as text instead of JSON
+            })
+            .then((data) => console.log("Response Text:", data))
+            .catch((error) => console.error("Fetch error:", error));
+    }, []);
 
     const sessionQuery = useDekoratorLogin(
         !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "") &&
