@@ -3,6 +3,7 @@ import { Alert, BodyShort } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
+import { useIsFetching } from "@tanstack/react-query";
 
 import { useHentAlleSaker } from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 import { ApplicationSpinner } from "../components/applicationSpinner/ApplicationSpinner";
@@ -23,7 +24,14 @@ const Saksoversikt: NextPage = () => {
 
     useUpdateBreadcrumbs(() => []);
 
-    const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
+    const isFetching = useIsFetching({ queryKey: ["dekorator-login"] });
+    const {
+        data: saker,
+        isLoading,
+        error,
+        status,
+        failureReason,
+    } = useHentAlleSaker({ query: { enabled: isFetching === 0 } });
     useSakslisteDebug({ saker, isLoading, error, status, failureReason });
 
     return (
