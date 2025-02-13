@@ -1,6 +1,5 @@
 import Script from "next/script";
 import { ReactElement } from "react";
-import { logger } from "@navikt/next-logger";
 
 import { isProd } from "../../utils/restUtils";
 
@@ -14,7 +13,6 @@ interface Props {
 
 function UxSignalsWidget({ enabled = true, embedCode, className }: Props): ReactElement | null {
     if (!enabled) return null;
-    logger.info("Viser ux signals");
     return (
         <>
             <Script

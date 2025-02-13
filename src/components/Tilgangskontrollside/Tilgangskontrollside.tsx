@@ -47,10 +47,16 @@ const useDekoratorLogin = (enabled: boolean) =>
 const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
     const router = useRouter();
     const { t } = useTranslation();
-    const { error, isPending, data: harTilgangData } = useHarTilgang();
+    const {
+        error,
+        isPending,
+        data: harTilgangData,
+    } = useHarTilgang({ query: { enabled: typeof window !== "undefined" } });
 
     const sessionQuery = useDekoratorLogin(
-        !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")
+        !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "") &&
+            typeof window !== "undefined" &&
+            !isPending
     );
     useEffect(() => {
         if (
