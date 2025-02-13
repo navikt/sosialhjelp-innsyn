@@ -1,12 +1,8 @@
-/* eslint-disable no-console */
-import * as React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next";
 import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 import { useHarTilgang } from "../../generated/tilgang-controller/tilgang-controller";
 import Banner from "../banner/Banner";
@@ -23,64 +19,18 @@ const StyledElla = styled.div`
 const Wrapper = styled.div`
     margin-top: 2rem;
 `;
+
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
 }
 
-const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
-const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
-
-const useDekoratorLogin = (enabled: boolean) =>
-    useQuery({
-        enabled,
-        queryKey: ["dekorator-login"],
-        queryFn: async () => {
-            const result = await fetch(sessionUrl, {
-                method: "get",
-                credentials: "include",
-            });
-            const data: { session: { active: boolean } } | undefined =
-                result.status === 200 ? await result.json() : undefined;
-            return { status: result.status, ...data };
-        },
-    });
-
 const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
     const router = useRouter();
     const { t } = useTranslation();
-    const {
-        error,
-        isPending,
-        data: harTilgangData,
-    } = useHarTilgang({ query: { enabled: typeof window !== "undefined" } });
 
-    useEffect(() => {
-        console.log("Running Tilgangskontrollside on:", typeof window === "undefined" ? "server" : "client");
+    const { error, isPending, data: harTilgangData } = useHarTilgang();
 
-        fetch("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/tilgang", { credentials: "include" })
-            .then((response) => {
-                console.log("Raw response:", response);
-                return response.text(); // Read as text instead of JSON
-            })
-            .then((data) => console.log("Response Text:", data))
-            .catch((error) => console.error("Fetch error:", error));
-    }, []);
-
-    const sessionQuery = useDekoratorLogin(
-        !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "") &&
-            typeof window !== "undefined" &&
-            !isPending
-    );
-    useEffect(() => {
-        if (
-            !sessionQuery.isLoading &&
-            (sessionQuery.data?.status === 401 || sessionQuery.data?.session?.active === false)
-        ) {
-            router.replace(loginUrl + "?redirect=" + window.location.href);
-        }
-    }, [sessionQuery.data, sessionQuery.isLoading, router]);
-
-    if (sessionQuery.isLoading || isPending) {
+    if (isPending) {
         return (
             <div className="informasjon-side">
                 {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}

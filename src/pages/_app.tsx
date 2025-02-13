@@ -10,10 +10,10 @@ import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
 
 import ErrorBoundary from "../components/errors/ErrorBoundary";
-import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import { FlagProvider } from "../featuretoggles/context";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
+import { TilgangskontrollsideWrapper } from "../components/Tilgangskontrollside/TilgangskontrollsideWrapper";
 
 const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
@@ -45,11 +45,11 @@ const App = ({ Component, pageProps }: AppProps<{ toggles: IToggle[] }>): React.
         <QueryClientProvider client={queryClient}>
             <ErrorBoundary>
                 <FlagProvider toggles={pageProps.toggles}>
-                    <Tilgangskontrollside>
+                    <TilgangskontrollsideWrapper>
                         <div role="main" tabIndex={-1} id="maincontent">
                             <Component {...pageProps}></Component>
                         </div>
-                    </Tilgangskontrollside>
+                    </TilgangskontrollsideWrapper>
                 </FlagProvider>
             </ErrorBoundary>
         </QueryClientProvider>
