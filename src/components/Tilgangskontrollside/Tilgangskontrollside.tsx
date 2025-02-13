@@ -57,7 +57,7 @@ const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
     useEffect(() => {
         console.log("Running Tilgangskontrollside on:", typeof window === "undefined" ? "server" : "client");
 
-        fetch("/api/v1/innsyn/tilgang", { credentials: "include" })
+        fetch("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn/tilgang", { credentials: "include" })
             .then((response) => {
                 console.log("Raw response:", response);
                 return response.text(); // Read as text instead of JSON
