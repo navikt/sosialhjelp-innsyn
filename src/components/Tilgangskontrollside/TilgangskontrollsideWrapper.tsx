@@ -49,7 +49,6 @@ export const TilgangskontrollsideWrapper = ({ children }: { children: React.Reac
     if (sessionQuery.isLoading || !sessionReady) {
         return (
             <div className="informasjon-side">
-                1
                 <ApplicationSpinner />
             </div>
         );
