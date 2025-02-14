@@ -5,13 +5,12 @@ import { useTranslation } from "next-i18next";
 import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 
-import { useHarTilgang } from "../../generated/tilgang-controller/tilgang-controller";
 import Banner from "../banner/Banner";
 import { UthevetPanel } from "../paneler/UthevetPanel";
 import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
+import { TilgangResponse } from "../../generated/model";
 
 const StyledElla = styled.div`
     display: flex;
@@ -24,50 +23,50 @@ const Wrapper = styled.div`
 `;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
+    harTilgang?: TilgangResponse;
 }
 
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
 const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
 
-const useDekoratorLogin = (enabled: boolean) =>
-    useQuery({
-        enabled,
-        queryKey: ["dekorator-login"],
-        queryFn: async () => {
-            const result = await fetch(sessionUrl, {
-                method: "get",
-                credentials: "include",
-            });
-            const data: { session: { active: boolean } } | undefined =
-                result.status === 200 ? await result.json() : undefined;
-            return { status: result.status, ...data };
-        },
+const loginDekorator = async () => {
+    const response = await fetch(sessionUrl, {
+        method: "get",
+        credentials: "include",
     });
+    try {
+        if (response.status === 401) {
+            return { status: 401 };
+        }
+        if (response.ok) {
+            const data: { session: { active: boolean } } = await response.json();
+            return { data, status: response.status };
+        }
+        return { status: response.status };
+    } catch (e: unknown) {
+        return { error: e };
+    }
+};
 
-const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
+const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProps) => {
     const router = useRouter();
     const { t } = useTranslation();
-    const {
-        error,
-        isPending,
-        data: harTilgangData,
-    } = useHarTilgang({ query: { enabled: typeof window !== "undefined" } });
+    const [isLoading, setIsLoading] = React.useState(false);
 
-    const sessionQuery = useDekoratorLogin(
-        !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "") &&
-            typeof window !== "undefined" &&
-            !isPending
-    );
     useEffect(() => {
-        if (
-            !sessionQuery.isLoading &&
-            (sessionQuery.data?.status === 401 || sessionQuery.data?.session?.active === false)
-        ) {
-            router.replace(loginUrl + "?redirect=" + window.location.href);
-        }
-    }, [sessionQuery.data, sessionQuery.isLoading, router]);
+        setIsLoading(true);
+        loginDekorator()
+            .then((result) => {
+                if (result.status === 401 || result.data?.session.active === false) {
+                    return router.replace(loginUrl + "?redirect=" + window.location.href);
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, [router]);
 
-    if (sessionQuery.isLoading || isPending) {
+    if (isLoading) {
         return (
             <div className="informasjon-side">
                 {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
@@ -76,16 +75,9 @@ const Tilgangskontrollside = ({ children }: TilgangskontrollsideProps) => {
         );
     }
 
-    if (error) {
-        logger.warn(
-            `Fikk feilmelding fra harTilgang. status: ${harTilgangData?.status}, message: ${error.message}, error code: ${error.code}, error: ${error}`
-        );
-    }
-
-    const isAuthError = harTilgangData?.status === 401 || harTilgangData?.status === 403;
-    if (isAuthError || (harTilgangData && !harTilgangData.data.harTilgang)) {
-        const fornavn = harTilgangData?.data.fornavn;
-        if (fornavn === "") {
+    if (!harTilgang?.harTilgang) {
+        const fornavn = harTilgang?.fornavn;
+        if (!fornavn || fornavn === "") {
             logger.warn(`Viser tilgangskontrollside uten fornavn`);
         } else {
             logger.warn(`Viser tilgangskontrollside med fornavn`);
