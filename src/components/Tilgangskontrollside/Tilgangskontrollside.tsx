@@ -29,7 +29,7 @@ export interface TilgangskontrollsideProps {
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
 const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
 
-const loginDekorator = async () => {
+const fetchDekoratorSession = async () => {
     const response = await fetch(sessionUrl, {
         method: "get",
         credentials: "include",
@@ -55,7 +55,7 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
 
     useEffect(() => {
         setIsLoading(true);
-        loginDekorator()
+        fetchDekoratorSession()
             .then((result) => {
                 if (result.status === 401 || result.data?.session.active === false) {
                     return router.replace(loginUrl + "?redirect=" + window.location.href);
@@ -75,7 +75,7 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
         );
     }
 
-    if (!harTilgang?.harTilgang) {
+    if (harTilgang?.harTilgang === false) {
         const fornavn = harTilgang?.fornavn;
         if (!fornavn || fornavn === "") {
             logger.warn(`Viser tilgangskontrollside uten fornavn`);
