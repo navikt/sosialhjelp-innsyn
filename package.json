@@ -30,7 +30,8 @@
         "react-i18next": "^15.0.0",
         "react-use": "^17.5.0",
         "remeda": "^1.59.0",
-        "styled-components": "^6.1.8"
+        "styled-components": "^6.1.8",
+        "zod": "^3.24.2"
     },
     "scripts": {
         "dev": "next dev | pino-pretty",

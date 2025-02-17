@@ -1,6 +1,6 @@
 import React from "react";
 import { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, HydrationBoundary } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import "../index.css";
@@ -14,10 +14,6 @@ import { FlagProvider } from "../featuretoggles/context";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
 import { PageProps } from "../pagehandler/pageHandler";
-
-const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-});
 
 initInstrumentation();
 configureLogger({
@@ -36,6 +32,16 @@ logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element => {
     const router = useRouter();
+    const [queryClient] = React.useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        staleTime: 60 * 1000,
+                    },
+                },
+            })
+    );
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, { locale: option.locale });
@@ -44,15 +50,17 @@ const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element =
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ErrorBoundary>
-                <FlagProvider toggles={pageProps.toggles}>
-                    <Tilgangskontrollside harTilgang={pageProps.tilgang}>
-                        <div role="main" tabIndex={-1} id="maincontent">
-                            <Component {...pageProps}></Component>
-                        </div>
-                    </Tilgangskontrollside>
-                </FlagProvider>
-            </ErrorBoundary>
+            <HydrationBoundary state={pageProps.dehydratedState}>
+                <ErrorBoundary>
+                    <FlagProvider toggles={pageProps.toggles}>
+                        <Tilgangskontrollside harTilgang={pageProps.tilgang}>
+                            <div role="main" tabIndex={-1} id="maincontent">
+                                <Component {...pageProps}></Component>
+                            </div>
+                        </Tilgangskontrollside>
+                    </FlagProvider>
+                </ErrorBoundary>
+            </HydrationBoundary>
         </QueryClientProvider>
     );
 };
