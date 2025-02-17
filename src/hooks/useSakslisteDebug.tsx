@@ -28,6 +28,8 @@ export const useSakslisteDebug = ({
         if (!isArray(saker)) {
             // vi forventer at data er truthy om isLoading er false
             if (!saker) {
+                if (`${error}` == "TypeError: Failed to fetch") return;
+
                 logger.error(
                     `Viser "ingen søknader funnet", ingen data - status: ${status} - error: ${error} - data type: ${typeof saker} - failureReason: ${failureReason}`
                 );
@@ -48,7 +50,6 @@ export const useSakslisteDebug = ({
         }
 
         if (!saker.length) {
-            if (`${error}` == "TypeError: Failed to fetch") return;
             logger.info(
                 `Viser "ingen søknader funnet"-siden - status: ${status} - error: ${error} - data length: ${saker?.length} - data type: ${typeof saker} - failureReason: ${failureReason}`
             );
