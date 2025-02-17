@@ -68,10 +68,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     await queryClient.prefetchQuery({
         queryKey: getHentAlleSakerQueryKey(),
         queryFn: async () => {
-            const response = await fetch(buildUrl(), { method: "GET", headers });
-            const data: HentAlleSakerQueryResult = await response.json();
-            logger.info(`Prefetched ${data.length} saker`);
-            return data;
+            try {
+                const response = await fetch(buildUrl(), { method: "GET", headers });
+                const data: HentAlleSakerQueryResult = await response.json();
+                logger.info(`Prefetched ${data.length} saker`);
+                return data;
+            } catch (e: unknown) {
+                logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
+                throw e;
+            }
         },
     });
     return pageHandler(context, ["common", "utbetalinger"], queryClient);
