@@ -8,7 +8,6 @@ import { logger } from "@navikt/next-logger";
 
 import {
     getHentAlleSakerQueryKey,
-    getHentAlleSakerUrl,
     HentAlleSakerQueryResult,
     useHentAlleSaker,
 } from "../generated/saks-oversikt-controller/saks-oversikt-controller";
@@ -70,9 +69,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         queryFn: async () => {
             try {
                 const response = await fetch(buildUrl(), { method: "GET", headers });
-                const data: HentAlleSakerQueryResult = await response.json();
-                logger.info(`Prefetched ${data.length} saker`);
-                return data;
+                if (response.ok) {
+                    const data: HentAlleSakerQueryResult = await response.json();
+                    logger.info(`Prefetched ${data.length} saker`);
+                    return data;
+                } else {
+                    logger.warn(
+                        `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
+                    );
+                }
             } catch (e: unknown) {
                 logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
                 throw e;
@@ -85,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 function buildUrl() {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
     const portPart = isLocal ? ":8080" : "";
-    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}${getHentAlleSakerUrl()}`;
+    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn/saker`;
 }
 
 export default Saksoversikt;
