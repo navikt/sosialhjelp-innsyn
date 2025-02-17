@@ -48,7 +48,7 @@ export const useSakslisteDebug = ({
         }
 
         if (!saker.length) {
-            if (error?.message === "error: TypeError: Failed to fetch") return;
+            if (`${error}` == "TypeError: Failed to fetch") return;
             logger.info(
                 `Viser "ingen søknader funnet"-siden - status: ${status} - error: ${error} - data length: ${saker?.length} - data type: ${typeof saker} - failureReason: ${failureReason}`
             );
