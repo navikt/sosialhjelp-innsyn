@@ -23,7 +23,7 @@ const StyledDineSoknaderPanel = styled(Panel)`
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    padding-left: 64px; /* Tar høyde for bredden på svg-ikon i SaksPanel */
+    padding-left: 1.5rem;
 
     @media screen and (max-width: ${SakspanelMaxBreakpoint}) {
         padding-left: var(--a-spacing-4);

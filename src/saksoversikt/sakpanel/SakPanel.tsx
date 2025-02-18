@@ -61,24 +61,22 @@ const SakPanel = ({
 
     return (
         <LinkPanel className="mt-1" border={false} onClick={onClick} href={linkpanelUrl}>
-            <LinkPanel.Description className="grid grid-cols-[auto_1fr] items-center">
-                <FileTextIcon width="2rem" aria-hidden title="dokument" className="mr-4 sm:block hidden h-5 w-5" />
-                <div className="flex gap-2 items-center justify-between md:flex-nowrap flex-wrap">
-                    <span>
-                        <Label as="p" lang="no">
-                            {oppdatertTittel}
-                        </Label>
-                        {!saksdetaljer || !saksdetaljer.status ? (
-                            <Detail lang="no">
-                                SENDT <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
-                            </Detail>
-                        ) : (
-                            <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
-                        )}
-                    </span>
-                    <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
-                    {isBroken && <ExclamationmarkTriangleIcon className="text-icon-warning w-6 h-6" />}
+            <LinkPanel.Description className="flex gap-4 items-center justify-between md:flex-nowrap flex-wrap">
+                <FileTextIcon aria-hidden title="dokument" className="sm:block hidden h-12 w-12" />
+                <div>
+                    <Label as="p" lang="no">
+                        {oppdatertTittel}
+                    </Label>
+                    {!saksdetaljer?.status ? (
+                        <Detail lang="no">
+                            sendt <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
+                        </Detail>
+                    ) : (
+                        <SaksMetaData oppdatert={oppdatert} status={saksdetaljer.status} />
+                    )}
                 </div>
+                <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
+                {isBroken && <ExclamationmarkTriangleIcon className="text-icon-warning w-6 h-6" />}
             </LinkPanel.Description>
         </LinkPanel>
     );

@@ -1,32 +1,20 @@
 import { Detail } from "@navikt/ds-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "next-i18next";
-import { logger } from "@navikt/next-logger";
 
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 
-interface Props {
-    status?: string;
-    oppdatert: string;
-}
-const SaksMetaData = (props: Props) => {
+const SaksMetaData = ({ oppdatert, status }: { status?: string; oppdatert: string }) => {
     const { t } = useTranslation();
-    useEffect(() => {
-        if (!props.status?.toLowerCase) {
-            logger.warn("status is not a string in SaksMetaData? Status: " + props.status);
-        }
-    }, [props.status]);
+
     return (
-        <>
+        <div>
             <Detail as="span">
-                {props.status?.toLowerCase?.() ? t(`soknadstatus.${props.status.toLowerCase()}`) : "Ukjent status"}
+                {status?.toLowerCase?.() ? t(`soknadstatus.${status.toLowerCase()}`) : "Ukjent status"}
+                <span aria-hidden="true"> – </span>
+                {t("oppdatert")} <DatoOgKlokkeslett tidspunkt={oppdatert} bareDato={true} />
             </Detail>
-            <span aria-hidden="true"> ● </span>
-            <span className="sr-only"></span>
-            <Detail as="span">
-                {t("oppdatert")} <DatoOgKlokkeslett tidspunkt={props.oppdatert} bareDato={true} />
-            </Detail>
-        </>
+        </div>
     );
 };
 export default SaksMetaData;
