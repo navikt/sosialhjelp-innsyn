@@ -15,12 +15,10 @@ const ServerError = (): React.JSX.Element => (
         <div className="informasjon-side">
             <FeilsideWrapper>
                 <UthevetPanel>
-                    <>
-                        <Heading level="1" size="large" spacing>
-                            Beklager, vi har dessverre tekniske problemer.
-                        </Heading>
-                        <BodyLong spacing>Vennligst prøv igjen senere.</BodyLong>
-                    </>
+                    <Heading level="1" size="large" spacing>
+                        Beklager, vi har dessverre tekniske problemer.
+                    </Heading>
+                    <BodyLong spacing>Vennligst prøv igjen senere.</BodyLong>
                 </UthevetPanel>
             </FeilsideWrapper>
         </div>

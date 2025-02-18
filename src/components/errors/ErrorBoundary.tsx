@@ -5,35 +5,30 @@ import ServerError from "../../pages/500";
 
 interface Props {
     children?: ReactNode;
+    fallback?: ReactNode;
 }
 
 interface State {
-    hasError: boolean;
+    error: Error | null;
 }
 
 class ErrorBoundary extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-
         // Define a state variable to track whether is an error or not
-        this.state = { hasError: false };
+        this.state = { error: null };
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    static getDerivedStateFromError(_: Error) {
+    static getDerivedStateFromError(error: Error) {
         // Update state so the next render will show the fallback UI
-
-        return { hasError: true };
+        return { error };
     }
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         logger.error(`Uncaught clientside error: ${error}, errorInfo: ${JSON.stringify(errorInfo)}`);
     }
 
     public render() {
-        if (this.state.hasError) {
-            return <ServerError />;
-        }
-
+        if (!!this.state.error) return this.props.fallback ?? <ServerError />;
         return this.props.children;
     }
 }
