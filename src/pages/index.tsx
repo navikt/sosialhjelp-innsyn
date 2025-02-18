@@ -3,11 +3,12 @@ import { Alert, BodyShort } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
-import { QueryClient, useIsFetching } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { logger } from "@navikt/next-logger";
 
 import {
     getHentAlleSakerQueryKey,
-    getHentAlleSakerUrl,
+    HentAlleSakerQueryResult,
     useHentAlleSaker,
 } from "../generated/saks-oversikt-controller/saks-oversikt-controller";
 import { ApplicationSpinner } from "../components/applicationSpinner/ApplicationSpinner";
@@ -18,7 +19,6 @@ import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
 import { useSakslisteDebug } from "../hooks/useSakslisteDebug";
 import { extractAuthHeader } from "../utils/authUtils";
-import { harTilgangResponse } from "../generated/tilgang-controller/tilgang-controller";
 
 const Preamble = styled("div")`
     margin-bottom: 1.5rem;
@@ -29,14 +29,7 @@ const Saksoversikt: NextPage = () => {
 
     useUpdateBreadcrumbs(() => []);
 
-    const isFetching = useIsFetching({ queryKey: ["dekorator-login"] });
-    const {
-        data: saker,
-        isLoading,
-        error,
-        status,
-        failureReason,
-    } = useHentAlleSaker({ query: { enabled: isFetching === 0 } });
+    const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
     useSakslisteDebug({ saker, isLoading, error, status, failureReason });
 
     return (
@@ -74,9 +67,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     await queryClient.prefetchQuery({
         queryKey: getHentAlleSakerQueryKey(),
         queryFn: async () => {
-            const response = await fetch(buildUrl(), { method: "GET", headers });
-            const data: harTilgangResponse = await response.json();
-            return data;
+            try {
+                const response = await fetch(buildUrl(), { method: "GET", headers });
+                if (response.ok) {
+                    const data: HentAlleSakerQueryResult = await response.json();
+                    logger.info(`Prefetched ${data.length} saker`);
+                    return data;
+                } else {
+                    logger.warn(
+                        `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
+                    );
+                }
+            } catch (e: unknown) {
+                logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
+                throw e;
+            }
         },
     });
     return pageHandler(context, ["common", "utbetalinger"], queryClient);
@@ -85,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 function buildUrl() {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
     const portPart = isLocal ? ":8080" : "";
-    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}${getHentAlleSakerUrl()}`;
+    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn/saker`;
 }
 
 export default Saksoversikt;
