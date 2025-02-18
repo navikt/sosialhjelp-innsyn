@@ -1,6 +1,6 @@
-import { FilterPredicate } from "./FilterContext";
+import { FilterCriteria } from "./FilterContext";
 
-const nullIfEmpty = (action: FilterPredicate) => (Object.values(action).some((value) => !!value) ? action : null);
+const nullIfEmpty = (action: FilterCriteria) => (Object.values(action).some((value) => !!value) ? action : null);
 
-export const filterReducer = (state: FilterPredicate | null, action: FilterPredicate) =>
+export const filterReducer = (state: FilterCriteria | null, action: FilterCriteria) =>
     nullIfEmpty({ ...(state ?? {}), ...action });
