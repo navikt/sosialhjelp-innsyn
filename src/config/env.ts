@@ -10,7 +10,7 @@ export const publicEnvSchema = z.object({
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
     NEXT_INNSYN_API_HOSTNAME: z.string(),
-    NEXT_INNSYN_API_BASE_URL: z.string(),
+    NEXT_INNSYN_API_BASE_URL: z.string().optional().default(""),
 });
 
 export const browserEnv = publicEnvSchema.parse({
