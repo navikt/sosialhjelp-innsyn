@@ -40,7 +40,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
         ],
         language: ctx.locale as DecoratorLocale,
         breadcrumbs: getBreadcrumbs(ctx.pathname),
-        logoutWarning: true,
+        logoutWarning: false,
     },
 });
 

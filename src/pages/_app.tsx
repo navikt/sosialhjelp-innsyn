@@ -1,24 +1,19 @@
 import React from "react";
 import { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, HydrationBoundary } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import "../index.css";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
-import { IToggle } from "@unleash/nextjs";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import ErrorBoundary from "../components/errors/ErrorBoundary";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import { FlagProvider } from "../featuretoggles/context";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
-
-const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-});
+import { PageProps } from "../pagehandler/pageHandler";
 
 initInstrumentation();
 configureLogger({
@@ -35,29 +30,37 @@ configureLogger({
 // TODO: Dette er kanskje ikke den beste plassering
 logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
-const App = ({ Component, pageProps }: AppProps<{ toggles: IToggle[] }>): React.JSX.Element => {
+const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element => {
     const router = useRouter();
+    const [queryClient] = React.useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        staleTime: 60 * 1000,
+                    },
+                },
+            })
+    );
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, { locale: option.locale });
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
+
     return (
         <QueryClientProvider client={queryClient}>
-            <ErrorBoundary>
-                <FlagProvider toggles={pageProps.toggles}>
-                    <Tilgangskontrollside>
-                        <div role="main" tabIndex={-1} id="maincontent">
-                            <Component {...pageProps}></Component>
-                        </div>
-                    </Tilgangskontrollside>
-                </FlagProvider>
-            </ErrorBoundary>
-            {/* Quoth react-query devtools docs:
-              By default, React Query Devtools are only included in bundles
-              when process.env.NODE_ENV === 'development', so you don't
-              need to worry about excluding them from a production build. */}
-            <ReactQueryDevtools />
+            <HydrationBoundary state={pageProps.dehydratedState}>
+                <ErrorBoundary>
+                    <FlagProvider toggles={pageProps.toggles}>
+                        <Tilgangskontrollside harTilgang={pageProps.tilgang}>
+                            <div role="main" tabIndex={-1} id="maincontent">
+                                <Component {...pageProps}></Component>
+                            </div>
+                        </Tilgangskontrollside>
+                    </FlagProvider>
+                </ErrorBoundary>
+            </HydrationBoundary>
         </QueryClientProvider>
     );
 };

@@ -2,11 +2,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { proxyApiRouteRequest } from "@navikt/next-api-proxy";
 import { getToken } from "@navikt/oasis";
 
+import { browserEnv, getServerEnv } from "../../../config/env";
+
 const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
     const { slug, ...params } = req.query;
     let token = getToken(req);
 
-    if (["local", "mock"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
+    if (["local", "mock"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
         // Kommer herifra lokalt/i mock-miljø
         const tokenCookie = req.cookies["localhost-idtoken"];
         if (tokenCookie) {
@@ -33,10 +35,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         req,
         res,
         bearerToken: token,
-        hostname: process.env.NEXT_INNSYN_API_HOSTNAME ?? "",
+        hostname: getServerEnv().NEXT_INNSYN_API_HOSTNAME,
         path: fullPath,
         https: false,
-        port: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
+        port: browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
     });
 };
 
