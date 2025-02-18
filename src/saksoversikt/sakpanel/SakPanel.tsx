@@ -53,6 +53,7 @@ const SakPanel = ({ fiksDigisosId, tittel, oppdatert, url, kilde, isBroken }: Pr
     const router = useRouter();
     const { t } = useTranslation();
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
+    //console.log("saksdetaljer", saksdetaljer)
 
     const oppdatertTittel = useMemo(() => {
         if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {

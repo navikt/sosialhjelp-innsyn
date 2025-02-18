@@ -485,24 +485,6 @@
                 }
             }
         },
-        "/api/v1/innsyn/saksDetaljer": {
-            "get": {
-                "tags": ["saks-oversikt-controller"],
-                "operationId": "hentSaksDetaljer",
-                "parameters": [
-                    { "name": "id", "in": "query", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
-                    "200": {
-                        "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SaksDetaljerResponse" } } }
-                    }
-                },
-                "deprecated": true
-            }
-        },
         "/api/v1/innsyn/saker": {
             "get": {
                 "tags": ["saks-oversikt-controller"],
@@ -921,16 +903,6 @@
                     "maned": { "type": "integer", "format": "int32" }
                 }
             },
-            "SaksDetaljerResponse": {
-                "required": ["fiksDigisosId", "soknadTittel", "status"],
-                "type": "object",
-                "properties": {
-                    "fiksDigisosId": { "type": "string" },
-                    "soknadTittel": { "type": "string" },
-                    "status": { "type": "string" },
-                    "antallNyeOppgaver": { "type": "integer", "format": "int32" }
-                }
-            },
             "SaksListeResponse": {
                 "required": ["isBrokenSoknad", "kilde", "sistOppdatert", "soknadTittel"],
                 "type": "object",
@@ -942,6 +914,26 @@
                     "url": { "type": "string" },
                     "kommunenummer": { "type": "string" },
                     "isBrokenSoknad": { "type": "boolean" }
+                }
+            },
+            "SaksDetaljerResponse": {
+                "required": [
+                    "dokuemntasjonkrav",
+                    "dokumentasjonEtterspurt",
+                    "fiksDigisosId",
+                    "soknadTittel",
+                    "status",
+                    "vilakr"
+                ],
+                "type": "object",
+                "properties": {
+                    "fiksDigisosId": { "type": "string" },
+                    "soknadTittel": { "type": "string" },
+                    "status": { "type": "string" },
+                    "antallNyeOppgaver": { "type": "integer", "format": "int32" },
+                    "dokumentasjonEtterspurt": { "type": "boolean" },
+                    "vilakr": { "type": "boolean" },
+                    "dokuemntasjonkrav": { "type": "boolean" }
                 }
             }
         }

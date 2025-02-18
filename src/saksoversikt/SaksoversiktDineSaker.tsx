@@ -58,6 +58,7 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
         antallSoknader: saker.length,
     });
     const sorterteSaker = useMemo(() => sort(saker, sammenlignSaksTidspunkt), [saker]);
+    //console.log("sorterteSkaer", sorterteSaker)
     /* Paginering */
     const isMobile = useIsMobile();
     return (

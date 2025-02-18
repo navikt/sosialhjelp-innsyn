@@ -31,11 +31,11 @@ export async function logAmplitudeEventTyped({ eventData, eventName }: Amplitude
     }
 }
 
-export function logAktivSoknaderMedDokumentasjonetterspurt(antallet: number) {
-    logAmplitudeEvent("Antall aktive søknader med dokumentasjon etterspurt en søker har", {
-        AntallSoknaderMedDokumentasjonetterspurt: antallet,
-    });
-}
+//export function logAktivSoknaderMedDokumentasjonetterspurt(antallet: number) {
+//    logAmplitudeEvent("Antall aktive søknader med dokumentasjon etterspurt en søker har", {
+//        AntallAktiveSoknader: antallet,
+//    });
+//}
 
 export function logVeilederBerOmDokumentasjonEvent(vedleggAntallet: number) {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", { AntallVedleggForesporsel: vedleggAntallet });
