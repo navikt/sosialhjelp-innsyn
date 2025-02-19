@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Alert, BodyShort, Heading, Panel } from "@navikt/ds-react";
+import { Alert, BodyShort, Heading, Panel as NavDsPanel } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -20,7 +20,6 @@ import ForelopigSvarAlertstripe from "../../components/forelopigSvar/ForelopigSv
 import SoknadsStatus from "../../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../../components/oppgaver/Oppgaver";
 import VedleggView from "../../components/vedlegg/VedleggView";
-import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
 import Historikk from "../../components/historikk/Historikk";
 import MainLayout from "../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
@@ -28,8 +27,11 @@ import { FilUploadSuccesfulProvider } from "../../components/filopplasting/FilUp
 import KlageSection from "../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../generated/model";
 import pageHandler from "../../pagehandler/pageHandler";
+import Panel from "../../components/panel/Panel";
+import EttersendelseView from "../../components/ettersendelse/EttersendelseView";
+import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 
-const StyledPanel = styled(Panel)`
+const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
         padding-left: 80px;
         padding-right: 80px;
@@ -56,6 +58,7 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
     const { data: oppgaver } = useGetOppgaver(fiksDigisosId);
     const { data: soknadsStatus } = useHentSoknadsStatus(fiksDigisosId);
     const { data: forelopigSvar } = useHentForelopigSvarStatus(fiksDigisosId);
+    const { isLoading } = useHentVedlegg(fiksDigisosId);
 
     const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
     const dataErKlare = Boolean(
@@ -123,10 +126,14 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
                 )}
                 {sakErPaaklagbar && <KlageSection />}
                 {(kommune == null || !kommune.erInnsynDeaktivert) && (
-                    <ArkfanePanel
-                        historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
-                        vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
-                    />
+                    <>
+                        <Panel header={t("andre_vedlegg.type")}>
+                            <EttersendelseView isLoading={isLoading} />
+                        </Panel>
+                        <Panel header="Dette har skjedd i saken din">
+                            <Historikk fiksDigisosId={fiksDigisosId} />
+                        </Panel>
+                    </>
                 )}
             </FilUploadSuccesfulProvider>
         </MainLayout>
