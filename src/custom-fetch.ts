@@ -17,9 +17,6 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
     const response = await fetch(url, {
-        credentials: ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")
-            ? "include"
-            : undefined,
         ...options,
     });
     if (response.status === 204) {
