@@ -24,6 +24,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
         shareScreen: false,
         utilsBackground: "white",
         logoutUrl: process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL || undefined,
+        redirectToUrlLogout: process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL || undefined,
         availableLanguages: [
             {
                 locale: "nb",

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider, HydrationBoundary } from "@tanstack/react-query";
 import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import "../index.css";
-import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
+import { onBreadcrumbClick, onLanguageSelect, setParams } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
 
@@ -42,6 +42,12 @@ const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element =
                 },
             })
     );
+    useEffect(() => {
+        setParams({
+            logoutUrl: process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL || undefined,
+            redirectToUrlLogout: process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL || undefined,
+        });
+    }, []);
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, { locale: option.locale });
