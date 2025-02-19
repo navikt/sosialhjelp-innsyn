@@ -39,6 +39,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         https: false,
         port: browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
     });
+    if (res.statusCode === 401) {
+        return res.redirect(`/oauth2/login?redirect=${req.headers.referer}`);
+    }
 };
 
 export const config = {
