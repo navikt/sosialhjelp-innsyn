@@ -87,7 +87,6 @@ const EttersendelseView = (props: Props) => {
         <>
             <OuterErrorBorder $hasError={outerErrors.length > 0}>
                 <FilOpplastingBlokk
-                    tittel={t("andre_vedlegg.type")}
                     beskrivelse={t("andre_vedlegg.tilleggsinfo")}
                     errors={innerErrors[0]}
                     filer={files}

@@ -12,7 +12,7 @@ import { extractAuthHeader } from "../utils/authUtils";
 export interface PageProps extends SSRConfig {
     tilgang?: TilgangResponse;
     toggles: IToggle[];
-    dehydratedState?: DehydratedState;
+    dehydratedState: DehydratedState | null;
 }
 
 function buildUrl() {
@@ -33,7 +33,7 @@ const pageHandler = async (
             ...translations,
             ...flags,
             tilgang,
-            dehydratedState: queryClient ? dehydrate(queryClient) : undefined,
+            dehydratedState: queryClient ? dehydrate(queryClient) : null,
         },
     };
 };

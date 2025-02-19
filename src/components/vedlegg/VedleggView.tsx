@@ -7,7 +7,6 @@ import { chunk, sort, take } from "remeda";
 
 import { formatBytes } from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import EttersendelseView from "../ettersendelse/EttersendelseView";
 import { getVisningstekster } from "../../utils/vedleggUtils";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { VedleggResponse } from "../../generated/model";
@@ -210,8 +209,6 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
 
     return (
         <>
-            <EttersendelseView isLoading={isLoading} />
-
             <Vedleggliste>
                 <SorteringListeboks>
                     <Select
