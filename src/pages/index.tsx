@@ -74,9 +74,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     logger.info(`Prefetched ${data.length} saker`);
                     return data;
                 } else {
-                    logger.warn(
-                        `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
-                    );
+                    if (response.status === 401) {
+                        logger.warn(
+                            `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
+                        );
+                        const isMock = ["local", "mock"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "");
+                        if (isMock) {
+                            return {
+                                redirect: {
+                                    destination: `${process.env.NEXT_INNSYN_MOCK_LOGIN_URL}?redirect=${context.resolvedUrl}`,
+                                    permanent: false,
+                                },
+                            };
+                        }
+                        return {
+                            redirect: {
+                                destination: "/sosialhjelp/innsyn/oauth2/login",
+                                permanent: false,
+                            },
+                        };
+                    }
                 }
             } catch (e: unknown) {
                 logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
