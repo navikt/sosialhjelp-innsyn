@@ -118,6 +118,8 @@
     "vedlegg.suksess": "Takk! Dokumentasjonen din vart sendt inn.",
     "andre_vedlegg.type": "Send annen dokumentasjon",
     "andre_vedlegg.tilleggsinfo": "Dersom du har anna du vil sende, kan du laste det opp her.",
+    "andre_vedlegg.type": "Vil du sende meir dokumentasjon?",
+    "andre_vedlegg.tilleggsinfo": "Her kan du sende fleire dokumenter som du tenkjer er viktig for søknaden din. Du kan ta bilete og skjermbilete.",
     "andre_vedlegg.send_knapp_tittel": "Send dokumentasjon",
     "vedlegg.tabell.filnavn": "Filnamn",
     "vedlegg.tabell.beskrivelse": "Beskriving",
