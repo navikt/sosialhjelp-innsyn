@@ -10,7 +10,7 @@ import { getFlagsServerSide } from "../featuretoggles/ssr";
 import { extractAuthHeader } from "../utils/authUtils";
 
 export interface PageProps extends SSRConfig {
-    tilgang?: TilgangResponse;
+    tilgang: TilgangResponse | null;
     toggles: IToggle[];
     dehydratedState: DehydratedState | null;
 }
@@ -26,13 +26,21 @@ const pageHandler = async (
     translationNamespaces: string[] | string | undefined = ["common"],
     queryClient?: QueryClient
 ): Promise<GetServerSidePropsResult<PageProps>> => {
-    const { translations, flags, tilgang } = await getCommonProps(context, translationNamespaces);
+    const { translations, flags, tilgang, tilgangStatus } = await getCommonProps(context, translationNamespaces);
+    if (tilgangStatus === 401) {
+        return {
+            redirect: {
+                destination: `${process.env.NEXT_PUBLIC_LOGIN_URL}?redirect=/sosialhjelp/innsyn${context.resolvedUrl}`,
+                permanent: false,
+            },
+        };
+    }
 
     return {
         props: {
             ...translations,
             ...flags,
-            tilgang,
+            tilgang: tilgang ?? null,
             dehydratedState: queryClient ? dehydrate(queryClient) : null,
         },
     };
@@ -56,6 +64,7 @@ export const getCommonProps = async (
             logger.error(
                 `Fikk feil ved innhenting av tilgangsdata. Status: ${tilgangResponse.status}, data: ${await tilgangResponse.text()}`
             );
+            return { translations, flags, tilgangStatus: tilgangResponse.status };
         }
     } catch (e: unknown) {
         logger.error(`Something happened during fetch in getServerSideProps for url ${resolvedUrl}. Error: ${e}`);

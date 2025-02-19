@@ -6,15 +6,8 @@ import { browserEnv, getServerEnv } from "../../../config/env";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
     const { slug, ...params } = req.query;
-    let token = getToken(req);
+    const token = getToken(req);
 
-    if (["local", "mock"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
-        // Kommer herifra lokalt/i mock-miljø
-        const tokenCookie = req.cookies["localhost-idtoken"];
-        if (tokenCookie) {
-            token = tokenCookie;
-        }
-    }
     if (!token) {
         res.status(401);
         return;
@@ -40,6 +33,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         https: false,
         port: browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? 8080 : undefined,
     });
+    if (res.statusCode === 401) {
+        return res.redirect(`/oauth2/login?redirect=${req.headers.referer}`);
+    }
 };
 
 export const config = {
