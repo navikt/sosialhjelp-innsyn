@@ -30,6 +30,7 @@ import pageHandler from "../../pagehandler/pageHandler";
 import Panel from "../../components/panel/Panel";
 import EttersendelseView from "../../components/ettersendelse/EttersendelseView";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
+import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
@@ -130,9 +131,10 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
                         <Panel header={t("andre_vedlegg.type")}>
                             <EttersendelseView isLoading={isLoading} />
                         </Panel>
-                        <Panel header="Dette har skjedd i saken din">
-                            <Historikk fiksDigisosId={fiksDigisosId} />
-                        </Panel>
+                        <ArkfanePanel
+                            historikkChildren={<Historikk fiksDigisosId={fiksDigisosId} />}
+                            vedleggChildren={<VedleggView fiksDigisosId={fiksDigisosId} />}
+                        />
                     </>
                 )}
             </FilUploadSuccesfulProvider>
