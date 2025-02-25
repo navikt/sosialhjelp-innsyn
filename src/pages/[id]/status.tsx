@@ -31,6 +31,7 @@ import Panel from "../../components/panel/Panel";
 import EttersendelseView from "../../components/ettersendelse/EttersendelseView";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
+import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
@@ -97,6 +98,7 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
 
     return (
         <MainLayout title={t("app.tittel")}>
+            <UxSignalsWidget embedCode="panel-0zd044zz4a" />
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
