@@ -16,7 +16,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<unknown>) => {
         }
     }
     if (!token) {
-        return res.status(401);
+        res.status(401);
+        return;
     }
     if (!slug) {
         res.status(400).json({ message: "Manglende path" });
