@@ -5,7 +5,7 @@ const appDirectives = {
     "default-src": ["'self'"],
     "script-src": ["'self'", "'unsafe-eval'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
     "script-src-elem": ["'self'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
-    "style-src": ["'self'", "unsafe-inline"],
+    "style-src": ["'self'", "'unsafe-inline'"],
     "img-src": ["'self'", "data:", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
     "font-src": ["'self'", "https://cdn.nav.no"],
     "worker-src": ["'self'"],

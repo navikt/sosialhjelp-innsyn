@@ -1,4 +1,5 @@
 import { logger } from "@navikt/next-logger";
+import { isAbortError } from "next/dist/server/pipe-readable";
 
 const getBody = <T>(c: Response | Request): Promise<T> => {
     const contentType = c.headers.get("content-type");
@@ -53,6 +54,7 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
         }
         return data as T;
     } catch (e) {
+        if (isAbortError(e)) return {} as T;
         logger.error(
             `error trying to get body from ok response from ${url}: ${response.status} ${response.statusText}. Exception: ${e}`
         );

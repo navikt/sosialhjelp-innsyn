@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "next-i18next";
 import { BodyShort, Button, Label, Link as NavDsLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";
 import styled from "styled-components";
@@ -147,7 +147,7 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                 </BodyShort>
             );
         }
-        return <BodyShort weight="semibold">{t(enumValue, { tekstArgument: tekstArgument })}</BodyShort>;
+        return <BodyShort weight="semibold">{t(enumValue, { tekstArgument })}</BodyShort>;
     };
 
     return (

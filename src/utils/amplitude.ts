@@ -8,7 +8,9 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
     if (process.env.NODE_ENV === "test") return;
   
     try {
-        await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
+        if (typeof window !== "undefined") {
+            await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
+        }
     } catch (error) {
         logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
     }

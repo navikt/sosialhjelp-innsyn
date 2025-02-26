@@ -12,13 +12,13 @@ import { extractAuthHeader } from "../utils/authUtils";
 export interface PageProps extends SSRConfig {
     tilgang?: TilgangResponse;
     toggles: IToggle[];
-    dehydratedState?: DehydratedState;
+    dehydratedState: DehydratedState | null;
 }
 
-function buildUrl() {
+export function buildUrl(path: string) {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
     const portPart = isLocal ? ":8080" : "";
-    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn/tilgang`;
+    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
 }
 
 const pageHandler = async (
@@ -33,7 +33,7 @@ const pageHandler = async (
             ...translations,
             ...flags,
             tilgang,
-            dehydratedState: queryClient ? dehydrate(queryClient) : undefined,
+            dehydratedState: queryClient ? dehydrate(queryClient) : null,
         },
     };
 };
@@ -48,7 +48,7 @@ export const getCommonProps = async (
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     try {
-        const tilgangResponse = await fetch(buildUrl(), { headers });
+        const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
         if (tilgangResponse.ok) {
             const data: { harTilgang: boolean; fornavn: string } = await tilgangResponse.json();
             return { translations, flags, tilgang: data };
