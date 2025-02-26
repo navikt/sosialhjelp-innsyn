@@ -6,13 +6,38 @@ import { usePathname } from "next/navigation";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
+import { QueryClient } from "@tanstack/react-query";
 
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import useKommune from "../../hooks/useKommune";
-import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
-import { useGetOppgaver } from "../../generated/oppgave-controller/oppgave-controller";
-import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
-import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
+import {
+    getHentSaksStatuserQueryKey,
+    getHentSaksStatuserUrl,
+    useHentSaksStatuser,
+} from "../../generated/saks-status-controller/saks-status-controller";
+import {
+    getGetDokumentasjonkravQueryKey,
+    getGetDokumentasjonkravUrl,
+    getGetfagsystemHarDokumentasjonkravQueryKey,
+    getGetfagsystemHarDokumentasjonkravUrl,
+    getGetHarLevertDokumentasjonkravQueryKey,
+    getGetHarLevertDokumentasjonkravUrl,
+    getGetOppgaverQueryKey,
+    getGetOppgaverUrl,
+    getGetVilkarQueryKey,
+    getGetVilkarUrl,
+    useGetOppgaver,
+} from "../../generated/oppgave-controller/oppgave-controller";
+import {
+    getHentSoknadsStatusQueryKey,
+    getHentSoknadsStatusUrl,
+    useHentSoknadsStatus,
+} from "../../generated/soknads-status-controller/soknads-status-controller";
+import {
+    getHentForelopigSvarStatusQueryKey,
+    getHentForelopigSvarStatusUrl,
+    useHentForelopigSvarStatus,
+} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import { logAmplitudeEvent } from "../../utils/amplitude";
 import { LoadingResourcesFailedAlert } from "../../innsyn/LoadingResourcesFailedAlert";
 import { DriftsmeldingKommune } from "../../components/driftsmelding/DriftsmeldingKommune";
@@ -26,12 +51,28 @@ import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import { FilUploadSuccesfulProvider } from "../../components/filopplasting/FilUploadSuccessfulContext";
 import KlageSection from "../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../generated/model";
-import pageHandler from "../../pagehandler/pageHandler";
+import pageHandler, { buildUrl } from "../../pagehandler/pageHandler";
 import Panel from "../../components/panel/Panel";
 import EttersendelseView from "../../components/ettersendelse/EttersendelseView";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
 import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
+import { customFetch } from "../../custom-fetch";
+import { extractAuthHeader } from "../../utils/authUtils";
+import {
+    getHentUtbetalingerQueryKey,
+    getHentUtbetalingerUrl,
+} from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { getHentHendelserQueryKey, getHentHendelserUrl } from "../../generated/hendelse-controller/hendelse-controller";
+import { getHentVedleggQueryKey, getHentVedleggUrl } from "../../generated/vedlegg-controller/vedlegg-controller";
+import {
+    getHentKommuneInfoQueryKey,
+    getHentKommuneInfoUrl,
+} from "../../generated/kommune-controller/kommune-controller";
+import {
+    getHentAlleSakerQueryKey,
+    getHentAlleSakerUrl,
+} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
@@ -164,6 +205,36 @@ const SaksStatusView: NextPage = () => {
     return error ? null : <SakStatus fiksDigisosId={fiksDigisosId} />;
 };
 
-export const getServerSideProps: GetServerSideProps = pageHandler;
+const getQueries = (id: string) => [
+    { url: getHentSaksStatuserUrl(id), key: getHentSaksStatuserQueryKey(id) },
+    { url: getGetOppgaverUrl(id), key: getGetOppgaverQueryKey(id) },
+    { url: getHentSoknadsStatusUrl(id), key: getHentSoknadsStatusQueryKey(id) },
+    { url: getHentForelopigSvarStatusUrl(id), key: getHentForelopigSvarStatusQueryKey(id) },
+    { url: getGetVilkarUrl(id), key: getGetVilkarQueryKey(id) },
+    { url: getGetDokumentasjonkravUrl(id), key: getGetDokumentasjonkravQueryKey(id) },
+    { url: getGetHarLevertDokumentasjonkravUrl(id), key: getGetHarLevertDokumentasjonkravQueryKey(id) },
+    { url: getGetfagsystemHarDokumentasjonkravUrl(id), key: getGetfagsystemHarDokumentasjonkravQueryKey(id) },
+    { url: getHentUtbetalingerUrl(), key: getHentUtbetalingerQueryKey() },
+    { url: getHentHendelserUrl(id), key: getHentHendelserQueryKey(id) },
+    { url: getHentVedleggUrl(id), key: getHentVedleggQueryKey(id) },
+    { url: getHentKommuneInfoUrl(id), key: getHentKommuneInfoQueryKey(id) },
+    { url: getHentAlleSakerUrl(), key: getHentAlleSakerQueryKey() },
+];
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const { req } = ctx;
+    const queryClient = new QueryClient();
+    const token = extractAuthHeader(req);
+    const headers: HeadersInit = new Headers();
+    headers.append("Authorization", token);
+    const id = ctx.params?.id as string;
+    const promises = getQueries(id).map(({ url, key }) => {
+        const path = url.replace("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn", "");
+        return queryClient.prefetchQuery({ queryKey: key, queryFn: () => customFetch(buildUrl(path), { headers }) });
+    });
+    await Promise.all(promises);
+
+    return pageHandler(ctx, ["common"], queryClient);
+};
 
 export default SaksStatusView;
