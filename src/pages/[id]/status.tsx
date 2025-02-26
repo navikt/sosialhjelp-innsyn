@@ -51,7 +51,7 @@ import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import { FilUploadSuccesfulProvider } from "../../components/filopplasting/FilUploadSuccessfulContext";
 import KlageSection from "../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../generated/model";
-import pageHandler from "../../pagehandler/pageHandler";
+import pageHandler, { buildUrl } from "../../pagehandler/pageHandler";
 import Panel from "../../components/panel/Panel";
 import EttersendelseView from "../../components/ettersendelse/EttersendelseView";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
@@ -235,12 +235,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     await Promise.all(promises);
 
     return pageHandler(ctx, ["common"], queryClient);
-};
-
-const buildUrl = (path: string) => {
-    const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
-    const portPart = isLocal ? ":8080" : "";
-    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
 };
 
 export default SaksStatusView;
