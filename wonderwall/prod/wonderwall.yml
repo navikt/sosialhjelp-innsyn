@@ -58,8 +58,6 @@ spec:
       value: 30s
     - name: WONDERWALL_SHUTDOWN_WAIT_BEFORE_PERIOD
       value: 7s
-    - name: WONDERWALL_LOG_LEVEL
-      value: info
     - name: WONDERWALL_REDIS_URI
       value: $(REDIS_URI_WONDERWALL)
     - name: WONDERWALL_REDIS_USERNAME
