@@ -6,9 +6,7 @@ const skjemaId = "sosialhjelpInnsyn" as const;
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     try {
-        if (typeof window !== "undefined") {
-            await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
-        }
+        await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
     } catch (error) {
         logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
     }
