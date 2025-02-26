@@ -1,6 +1,6 @@
 import { Alert } from "@navikt/ds-react";
 import React from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "next-i18next";
 import styled from "styled-components";
 import { useQueries } from "@tanstack/react-query";
 
