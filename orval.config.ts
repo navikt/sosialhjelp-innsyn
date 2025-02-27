@@ -1,4 +1,6 @@
-export default {
+import { defineConfig } from "orval";
+
+export default defineConfig({
     "innsyn-api": {
         input: "./innsyn-api.json",
         output: {
@@ -24,10 +26,14 @@ export default {
                 fetch: {
                     includeHttpStatusReturnType: false,
                 },
+                query: {
+                    useSuspenseQuery: true,
+                    version: 5,
+                },
             },
         },
         hooks: {
             afterAllFilesWrite: "prettier --write",
         },
     },
-};
+});
