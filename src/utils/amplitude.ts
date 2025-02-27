@@ -5,6 +5,8 @@ const origin = "sosialhjelpInnsyn" as const;
 const skjemaId = "sosialhjelpInnsyn" as const;
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
+    if (process.env.NODE_ENV === "test") return;
+  
     try {
         if (typeof window !== "undefined") {
             await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
@@ -16,7 +18,7 @@ export async function logAmplitudeEvent(eventName: string, eventData?: Record<st
 
 /**
  *  This is just an example for the PR, it will be relocated to the correct file
- *  once the utbetaling/utbetalingfilter branch is merged into main
+ *  once the utbetaling/utbetalingfilter branch is merged into master
  */
 export type AmplitudeFiltervalgEvent = {
     eventName: "filtervalg";
@@ -25,13 +27,8 @@ export type AmplitudeFiltervalgEvent = {
 
 type AmplitudeInnsynEvent = AmplitudeFiltervalgEvent;
 
-export async function logAmplitudeEventTyped({ eventData, eventName }: AmplitudeInnsynEvent) {
-    try {
-        await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
-    } catch (error) {
-        logger.warn(`Kunne ikke logge til amplitude: " ${error}`);
-    }
-}
+export const logAmplitudeEventTyped = async ({ eventData, eventName }: AmplitudeInnsynEvent) =>
+    logAmplitudeEvent(eventName, eventData);
 
 export function logVeilederBerOmDokumentasjonEvent(vedleggAntallet: number) {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", { AntallVedleggForesporsel: vedleggAntallet });
