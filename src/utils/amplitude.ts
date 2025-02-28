@@ -6,7 +6,7 @@ const skjemaId = "sosialhjelpInnsyn" as const;
 
 export async function logAmplitudeEvent(eventName: string, eventData?: Record<string, unknown>) {
     if (process.env.NODE_ENV === "test") return;
-  
+
     try {
         if (typeof window !== "undefined") {
             await logDekoratoren({ origin, eventName, eventData: { ...eventData, skjemaId } });
@@ -30,11 +30,11 @@ type AmplitudeInnsynEvent = AmplitudeFiltervalgEvent;
 export const logAmplitudeEventTyped = async ({ eventData, eventName }: AmplitudeInnsynEvent) =>
     logAmplitudeEvent(eventName, eventData);
 
-//export function logAktivSoknaderMedDokumentasjonetterspurt(antallet: number) {
-//    logAmplitudeEvent("Antall aktive søknader med dokumentasjon etterspurt en søker har", {
-//        AntallAktiveSoknader: antallet,
-//    });
-//}
+export function logAktivSoknaderMedDokumentasjonetterspurt(antallet: number) {
+    logAmplitudeEvent("Antall aktive søknader med dokumentasjon etterspurt en søker har", {
+        AntallAktiveSoknader: antallet,
+    });
+}
 
 export function logVeilederBerOmDokumentasjonEvent(vedleggAntallet: number) {
     logAmplitudeEvent("Veileder ber om dokumentasjon til søknaden", { AntallVedleggForesporsel: vedleggAntallet });

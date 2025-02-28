@@ -32,33 +32,6 @@ const Saksoversikt: NextPage = () => {
     const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
     useSakslisteDebug({ saker, isLoading, error, status, failureReason });
 
-    /*const [saksDetaljer, setSaksDetaljer] = useState<Record<string, any>>({});
-    const [dokumentasjonEtterspurtCount, setDokumentasjonEtterspurtCount] = useState(0);
-
-    useUpdateBreadcrumbs(() => []);
-
-    useEffect(() => {
-        if (saker) {
-            const fetchDetails = async () => {
-                const details = await Promise.all(
-                    saker.map(async (sak) => {
-                        const { data } = await useGetSaksDetaljer(sak.fiksDigisosId);
-                        return { fiksDigisosId: sak.fiksDigisosId, details: data };
-                    })
-                );
-                const detailsMap = details.reduce((acc, { fiksDigisosId, details }) => {
-                    acc[fiksDigisosId] = details;
-                    return acc;
-                }, {});
-                setSaksDetaljer(detailsMap);
-
-                const count = details.filter(({ details }) => details.dokumentasjonEtterspurt).length;
-                setDokumentasjonEtterspurtCount(count);
-            };
-            fetchDetails();
-        }
-    }, [saker]);*/
-
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
             {isLoading && <ApplicationSpinner />}
