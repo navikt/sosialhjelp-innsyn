@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { browserEnv, getServerEnv } from "./config/env";
+import { browserEnv } from "./config/env";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -16,8 +16,7 @@ export async function middleware(request: NextRequest) {
     // Sett språk basert på decorator-language cookien
     const decoratorLocale = request.cookies.get("decorator-language")?.value ?? "nb";
 
-    const { NEXT_PUBLIC_BASE_PATH, NEXT_PUBLIC_INNSYN_ORIGIN, NEXT_PUBLIC_RUNTIME_ENVIRONMENT } = browserEnv;
-    const { NEXT_INNSYN_API_BASE_URL } = getServerEnv();
+    const { NEXT_PUBLIC_BASE_PATH, NEXT_PUBLIC_INNSYN_ORIGIN } = browserEnv;
 
     if (decoratorLocale !== request.nextUrl.locale) {
         if (request.nextUrl.locale !== "nb") {
