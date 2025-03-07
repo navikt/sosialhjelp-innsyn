@@ -45,7 +45,7 @@ spec:
         - application: wonderwall-innsyn
   resources:
     limits:
-      memory: 512Mi
+      memory: 1024Mi
     requests:
       cpu: 2m
       memory: 256Mi
