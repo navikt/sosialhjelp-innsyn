@@ -15,10 +15,3 @@ export const UthevetPanel = styled(Panel)`
         padding-bottom: 1rem;
     }
 `;
-
-export const UthevetPanelEkstraPadding = styled(UthevetPanel)`
-    margin-top: 1rem;
-    @media screen and (min-width: 641px) {
-        padding: 2rem 80px 2rem 80px;
-    }
-`;

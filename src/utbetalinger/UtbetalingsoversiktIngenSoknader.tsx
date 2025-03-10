@@ -1,23 +1,15 @@
 import React from "react";
 import { BodyLong, Heading, LinkPanel } from "@navikt/ds-react";
-import styled from "styled-components";
 import { useTranslation } from "next-i18next";
 
 import { StyledGuidePanel, StyledGuidePanelContent } from "../styles/styledGuidePanel";
 import { StyledLenkePanelWrapper } from "../styles/LenkePanelWrapper";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
-const Wrapper = styled.div`
-    padding-top: 1rem;
-    white-space: pre-line;
-    padding-bottom: 40px;
-    max-width: 50rem;
-`;
-
 const UtbetalingsoversiktIngenSoknader = () => {
     const { t } = useTranslation();
     return (
-        <Wrapper>
+        <div className="pt-4 whitespace-pre-line pb-[40px] max-w-[50rem]">
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
@@ -35,7 +27,7 @@ const UtbetalingsoversiktIngenSoknader = () => {
                     <LinkPanel.Title>{t("lenke.sok")}</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>
-        </Wrapper>
+        </div>
     );
 };
 

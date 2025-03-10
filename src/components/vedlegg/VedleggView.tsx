@@ -13,11 +13,6 @@ import { VedleggResponse } from "../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import useIsMobile from "../../utils/useIsMobile";
 
-const Vedleggliste = styled.div`
-    margin-top: 1rem;
-    margin-bottom: 3rem;
-`;
-
 const SorteringListeboks = styled.div`
     @media screen and (max-width: 640px) {
         a {
@@ -70,21 +65,6 @@ const StyledTable = styled(Table)`
         white-space: nowrap;
         max-width: 20rem;
     }
-`;
-
-const StyledFileCheckmark = styled(FileCheckmarkIcon)`
-    float: left;
-    margin-right: 0.5rem;
-    height: 1.5rem;
-    width: 1.5rem;
-`;
-
-const NoWrap = styled.div`
-    white-space: nowrap;
-`;
-
-const FilnavnHeader = styled.span`
-    padding-left: 1.5rem;
 `;
 
 interface Props {
@@ -209,7 +189,7 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
 
     return (
         <>
-            <Vedleggliste>
+            <div className="mt-4 mb-12">
                 <SorteringListeboks>
                     <Select
                         value={sortState?.orderBy ?? Kolonne.DATO}
@@ -225,7 +205,7 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
                     <Table.Header>
                         <Table.Row>
                             <Table.ColumnHeader sortKey={Kolonne.FILNAVN} sortable>
-                                <FilnavnHeader>{t("vedlegg.tabell.filnavn")}</FilnavnHeader>
+                                <span className="pl-6">{t("vedlegg.tabell.filnavn")}</span>
                             </Table.ColumnHeader>
                             <Table.ColumnHeader sortKey={Kolonne.BESKRIVELSE} sortable>
                                 {t("vedlegg.tabell.beskrivelse")}
@@ -252,7 +232,11 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
                                 ) : (
                                     <>
                                         <Table.DataCell>
-                                            <StyledFileCheckmark aria-hidden title="fil" />
+                                            <FileCheckmarkIcon
+                                                className="float-left mr-2 h-6 w-6"
+                                                aria-hidden
+                                                title="fil"
+                                            />
                                             <Link
                                                 href={vedlegg.url}
                                                 target="_blank"
@@ -266,13 +250,13 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
                                             {getVisningstekster(vedlegg.type, vedlegg.tilleggsinfo).typeTekst}
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            <NoWrap>
+                                            <div className="whitespace-nowrap">
                                                 <DatoOgKlokkeslett
                                                     bareDato={true}
                                                     tidspunkt={vedlegg.datoLagtTil}
                                                     brukKortMaanedNavn={true}
                                                 />
-                                            </NoWrap>
+                                            </div>
                                         </Table.DataCell>
                                     </>
                                 )}
@@ -298,7 +282,7 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
                         )}
                     </Box>
                 </VStack>
-            </Vedleggliste>
+            </div>
         </>
     );
 };

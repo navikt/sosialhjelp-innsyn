@@ -1,6 +1,5 @@
 import * as React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
-import styled from "styled-components";
 import { useTranslation } from "next-i18next";
 import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/router";
@@ -12,15 +11,6 @@ import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
 import { TilgangResponse } from "../../generated/model";
 
-const StyledElla = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const Wrapper = styled.div`
-    margin-top: 2rem;
-`;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
     harTilgang?: TilgangResponse;
@@ -86,11 +76,11 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
         return (
             <div className="informasjon-side">
                 <Banner>{t("app.tittel")}</Banner>
-                <Wrapper className="blokk-center">
+                <div className="blokk-center mt-8">
                     <UthevetPanel className="panel-glippe-over">
-                        <StyledElla>
+                        <div className="flex items-center justify-center">
                             <EllaBlunk size="175" />
-                        </StyledElla>
+                        </div>
                         <Heading as="p" size="large" spacing>
                             {t("tilgang.header", {
                                 fornavn,
@@ -98,7 +88,7 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
                         </Heading>
                         <BodyLong spacing>{t("tilgang.info")}</BodyLong>
                     </UthevetPanel>
-                </Wrapper>
+                </div>
             </div>
         );
     }

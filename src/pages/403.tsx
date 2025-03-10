@@ -1,7 +1,6 @@
 import React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
 import { useTranslation } from "next-i18next";
-import styled from "styled-components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSideProps } from "next";
 import { logger } from "@navikt/next-logger";
@@ -12,16 +11,6 @@ import EllaBlunk from "../components/ellaBlunk";
 import { UthevetPanel } from "../components/paneler/UthevetPanel";
 import Banner from "../components/banner/Banner";
 import { ApplicationSpinner } from "../components/applicationSpinner/ApplicationSpinner";
-
-const StyledElla = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const Wrapper = styled.div`
-    margin-top: 2rem;
-`;
 
 const Forbidden = (): React.JSX.Element => {
     const { t } = useTranslation();
@@ -45,11 +34,11 @@ const Forbidden = (): React.JSX.Element => {
     return (
         <div className="informasjon-side">
             <Banner>{t("app.tittel")}</Banner>
-            <Wrapper className="blokk-center">
+            <div className="blokk-center mt-8">
                 <UthevetPanel className="panel-glippe-over">
-                    <StyledElla>
+                    <div className="flex items-center justify-center">
                         <EllaBlunk size="175" />
-                    </StyledElla>
+                    </div>
                     <Heading as="p" size="large" spacing>
                         {t("tilgang.header", {
                             fornavn: data?.data.fornavn,
@@ -57,7 +46,7 @@ const Forbidden = (): React.JSX.Element => {
                     </Heading>
                     <BodyLong spacing>{t("tilgang.info")}</BodyLong>
                 </UthevetPanel>
-            </Wrapper>
+            </div>
         </div>
     );
 };
