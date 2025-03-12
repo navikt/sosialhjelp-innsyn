@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
-    harTilgang: TilgangResponse | null;
+    harTilgang?: TilgangResponse;
 }
 
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";

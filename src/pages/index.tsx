@@ -63,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const token = extractAuthHeader(req);
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
+
     await queryClient.prefetchQuery({
         queryKey: getHentAlleSakerQueryKey(),
         queryFn: async () => {
@@ -76,15 +77,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     logger.warn(
                         `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
                     );
-                    if (response.status === 401) {
-                        logger.info(`Fikk 401 på /saker, redirecter til ${process.env.NEXT_PUBLIC_LOGIN_URL}`);
-                        return {
-                            redirect: {
-                                destination: process.env.NEXT_PUBLIC_LOGIN_URL!,
-                                permanent: false,
-                            },
-                        };
-                    }
                 }
             } catch (e: unknown) {
                 logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
