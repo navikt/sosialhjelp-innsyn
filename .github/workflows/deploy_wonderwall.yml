@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       app-name:
-        description: 'Wonderwall prod, preprod eller dev?'
+        description: 'Wonderwall prod, preprod, dev eller mock?'
         required: true
         default: 'dev'
         type: choice
@@ -13,6 +13,7 @@ on:
           - 'dev'
           - 'preprod'
           - 'prod'
+          - 'mock'
 
 jobs:
   deploy-wonderwall:
