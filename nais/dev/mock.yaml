@@ -5,6 +5,8 @@ metadata:
   namespace: teamdigisos
   labels:
     team: teamdigisos
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "150M"
 spec:
   image: {{image}}
   port: 8080
@@ -24,6 +26,8 @@ spec:
   replicas:
     min: 1
     max: 2
+  ingresses:
+    - "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn"
   accessPolicy:
     outbound:
       rules:
@@ -35,9 +39,6 @@ spec:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.ekstern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
-    inbound:
-      rules:
-        - application: wonderwall-innsyn-mock
 
   resources:
     limits:
