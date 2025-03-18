@@ -17,8 +17,8 @@ import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../pagehandler/pageHandler";
-import { extractAuthHeader } from "../utils/authUtils";
 import { useSakslisteDebug } from "../hooks/useSakslisteDebug";
+import { extractAuthHeader } from "../utils/authUtils";
 
 const Preamble = styled("div")`
     margin-bottom: 1.5rem;

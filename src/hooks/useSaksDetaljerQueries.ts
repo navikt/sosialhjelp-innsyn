@@ -23,7 +23,7 @@ export const useSaksDetaljerQueries = (saker: SaksListeResponse[]) => {
         let fetches = 0;
         saksDetaljerQueries.forEach((query, index) => {
             const sak = saker[index];
-            const id = sak.fiksDigisosId ? String(sak.fiksDigisosId) : null; // Ensure valid ID
+            const id = sak.fiksDigisosId ? String(sak.fiksDigisosId) : null;
 
             if (query.isSuccess && id && query.data) {
                 setSoknadDetaljer((prev) => ({
