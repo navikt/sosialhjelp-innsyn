@@ -54,7 +54,13 @@ const sammenlignSaksTidspunkt = (a: SaksListeResponse, b: SaksListeResponse) => 
 const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
     const { t } = useTranslation();
 
+    // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
+    // Vi ønsker å gå over til denne med tanke på ytelse...
+
+    // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
+
     const sorterteSaker = useMemo(() => sort(saker, sammenlignSaksTidspunkt), [saker]);
+    /* Paginering */
     const isMobile = useIsMobile();
 
     const { soknadDetaljer, completedFetches } = useSaksDetaljerQueries(saker);
