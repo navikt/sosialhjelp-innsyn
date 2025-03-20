@@ -917,13 +917,23 @@
                 }
             },
             "SaksDetaljerResponse": {
-                "required": ["fiksDigisosId", "soknadTittel", "status"],
+                "required": [
+                    "dokuemntasjonkrav",
+                    "dokumentasjonEtterspurt",
+                    "fiksDigisosId",
+                    "soknadTittel",
+                    "status",
+                    "vilkar"
+                ],
                 "type": "object",
                 "properties": {
                     "fiksDigisosId": { "type": "string" },
                     "soknadTittel": { "type": "string" },
                     "status": { "type": "string" },
-                    "antallNyeOppgaver": { "type": "integer", "format": "int32" }
+                    "antallNyeOppgaver": { "type": "integer", "format": "int32" },
+                    "dokumentasjonEtterspurt": { "type": "boolean" },
+                    "vilkar": { "type": "boolean" },
+                    "dokuemntasjonkrav": { "type": "boolean" }
                 }
             }
         }

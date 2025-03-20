@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { isAfter, isBefore } from "date-fns";
 import { Button, Heading, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
@@ -7,11 +7,16 @@ import { sort } from "remeda";
 
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, { InfoPanelWrapper } from "../components/Infopanel/InfoPanel";
-import { logAmplitudeEvent, logButtonOrLinkClick } from "../utils/amplitude";
+import {
+    logAktivSoknaderMedDokumentasjonetterspurt,
+    logAmplitudeEvent,
+    logButtonOrLinkClick,
+} from "../utils/amplitude";
 import { SakspanelMaxBreakpoint } from "../styles/constants";
 import { SaksListeResponse } from "../generated/model";
 import useIsMobile from "../utils/useIsMobile";
 import PaginertListe from "../components/paginering/PaginertListe";
+import { useSaksDetaljerQueries } from "../hooks/useSaksDetaljerQueries";
 
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import SakPanel from "./sakpanel/SakPanel";
@@ -54,12 +59,32 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
 
     // const harInnsysnssaker = saker.filter(sak => sak.kilde === "innsyn-api").length > 0;
 
-    logAmplitudeEvent("Hentet innsynsdata", {
-        antallSoknader: saker.length,
-    });
     const sorterteSaker = useMemo(() => sort(saker, sammenlignSaksTidspunkt), [saker]);
     /* Paginering */
     const isMobile = useIsMobile();
+
+    const { soknadDetaljer, completedFetches } = useSaksDetaljerQueries(saker);
+
+    const isDataFetched = completedFetches === saker.length;
+
+    const activeSoknaderCount = isDataFetched
+        ? Object.values(soknadDetaljer).filter(
+              (detaljer) => detaljer.dokumentasjonEtterspurt && detaljer.status === "UNDER_BEHANDLING"
+          ).length
+        : 0;
+
+    useEffect(() => {
+        if (isDataFetched) {
+            logAmplitudeEvent("Hentet innsynsdata", { antallSoknader: saker.length });
+        }
+    }, [isDataFetched, saker.length]);
+
+    useEffect(() => {
+        if (isDataFetched) {
+            logAktivSoknaderMedDokumentasjonetterspurt(activeSoknaderCount);
+        }
+    }, [isDataFetched, activeSoknaderCount]);
+
     return (
         <>
             <DineUtbetalingerPanel />
