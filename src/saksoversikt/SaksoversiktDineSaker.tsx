@@ -69,7 +69,9 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
 
     const activeSoknaderCount = isDataFetched
         ? Object.values(soknadDetaljer).filter(
-              (detaljer) => detaljer.dokumentasjonEtterspurt && detaljer.status === "UNDER_BEHANDLING"
+              (detaljer) =>
+                  detaljer.dokumentasjonEtterspurt &&
+                  (detaljer.status === "UNDER_BEHANDLING" || detaljer.status === "FERDIGBEHANDLET")
           ).length
         : 0;
 
