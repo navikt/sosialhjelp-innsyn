@@ -19,3 +19,7 @@
 .uxSignalsContainer :global(.uxsignals-cta):hover {
     background-color: var(--a-surface-action-hover);
 }
+
+.uxSignalsContainer :global(.uxsignals-header) > h2 {
+    font-size: var(--a-font-size-heading-medium);
+}
