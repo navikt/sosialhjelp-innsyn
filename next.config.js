@@ -3,10 +3,20 @@ const { i18n } = require("./next-i18next.config");
 
 const appDirectives = {
     "default-src": ["'self'"],
-    "script-src": ["'self'", "'unsafe-eval'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
+    "script-src": [
+        "'self'",
+        "'unsafe-eval'",
+        "https://uxsignals-frontend.uxsignals.app.iterate.no",
+        "https://widget.uxsignals.com",
+    ],
     "script-src-elem": ["'self'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
     "style-src": ["'self'", "'unsafe-inline'"],
-    "img-src": ["'self'", "data:", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
+    "img-src": [
+        "'self'",
+        "data:",
+        "https://uxsignals-frontend.uxsignals.app.iterate.no",
+        "https://widget.uxsignals.com",
+    ],
     "font-src": ["'self'", "https://cdn.nav.no"],
     "worker-src": ["'self'"],
     "connect-src": [
