@@ -1,5 +1,6 @@
 import Script from "next/script";
 import { ReactElement } from "react";
+import cx from "classnames";
 
 import { isProd } from "../../utils/restUtils";
 
@@ -15,15 +16,11 @@ function UxSignalsWidget({ enabled = true, embedCode, className }: Props): React
     if (!enabled) return null;
     return (
         <>
-            <Script
-                type="module"
-                strategy="lazyOnload"
-                src="https://uxsignals-frontend.uxsignals.app.iterate.no/embed.js"
-            />
+            <Script type="module" strategy="lazyOnload" src="https://widget.uxsignals.com/embed.js" />
             <div
                 data-uxsignals-mode={!isProd() ? "demo" : ""}
                 data-uxsignals-embed={embedCode}
-                className={`${styles.uxSignalsContainer} ${className}`}
+                className={cx(styles.uxSignalsContainer, className)}
             />
         </>
     );
