@@ -156,12 +156,13 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
                 {erPaInnsyn && <Oppgaver />}
                 {kommune != null && kommune.erInnsynDeaktivert && (
                     <>
-                        <StyledPanel className="panel-luft-over">
+                        <Panel header={t("andre_vedlegg.type")}>
+                            <EttersendelseView isLoading={isLoading} />
+                        </Panel>
+                        <StyledPanel className="panel-glippe-over">
                             <Heading level="2" size="medium">
                                 {t("vedlegg.tittel")}
                             </Heading>
-                        </StyledPanel>
-                        <StyledPanel className="panel-glippe-over">
                             <VedleggView fiksDigisosId={fiksDigisosId} />
                         </StyledPanel>
                     </>
