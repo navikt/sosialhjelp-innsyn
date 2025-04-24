@@ -26,6 +26,27 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
         return [] as T;
     }
     if (!response.ok && !response.redirected) {
+        // Refresh token hvis 401 response og ikke localhost eller mock og ikke kalt fra server
+        if (
+            response.status === 401 &&
+            typeof window !== "undefined" &&
+            !["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")
+        ) {
+            const response = await fetch("/sosialhjelp/innsyn/oauth2/session/refresh", {
+                credentials: "include",
+                method: "POST",
+            });
+            if (response.status === 401) {
+                throw new Error("Unauthorized");
+            }
+            if (response.ok) {
+                const data = await getBody<{ session: { active: boolean } }>(response);
+                if (data.session.active) {
+                    return customFetch(url, options);
+                }
+            }
+            throw new Error("Unauthorized");
+        }
         try {
             const body = await getBody<string | unknown>(response);
             const message = typeof body === "string" ? body : JSON.stringify(body);
