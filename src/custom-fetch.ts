@@ -29,9 +29,13 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
         try {
             const body = await getBody<string | unknown>(response);
             const message = typeof body === "string" ? body : JSON.stringify(body);
-            logger.error(
-                `Non-ok response from ${url}: ${response.status} ${response.statusText}. Response: ${message}`
-            );
+            if (response.status === 401) {
+                logger.info("Got 401 Unauthorized from " + url);
+            } else {
+                logger.error(
+                    `Non-ok response from ${url}: ${response.status} ${response.statusText}. Response: ${message}`
+                );
+            }
         } catch (e) {
             logger.error(
                 `error trying to get body from non-ok response from ${url}: ${response.status} ${response.statusText}. Exception: ${e}`
