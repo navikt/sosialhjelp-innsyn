@@ -85,7 +85,7 @@
         "lint-staged": "^15.2.2",
         "msw": "^2.3.1",
         "next-router-mock": "^0.9.13",
-        "orval": "^7.2.0",
+        "orval": "^7.8.0",
         "pino-pretty": "^11.2.1",
         "postcss": "^8.5.1",
         "prettier": "^3.3.3",
