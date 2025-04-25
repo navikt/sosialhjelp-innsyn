@@ -33,6 +33,9 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
                 case 401:
                     logger.warn(`Got 401 Unauthorized from ${url}. Message: ${message}`);
                     break;
+                case 404:
+                    logger.warn(`Got 404 Not Found from ${url}. Message: ${message}`);
+                    break;
                 case 410:
                     logger.warn(`Got 410 Gone from ${url}. Message: ${message}`);
                     break;
