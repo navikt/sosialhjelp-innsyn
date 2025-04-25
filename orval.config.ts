@@ -29,6 +29,19 @@ export default defineConfig({
                 query: {
                     useSuspenseQuery: true,
                     version: 5,
+                    // Legges på alle orval-genererte queries
+                    options: {
+                        staleTime: 60 * 1000,
+                        // Bare retry ved 500-feil
+                        retry: <T>(count: number, error: T) =>
+                            // Typescript-jokkeri for å få TS til å være med
+                            typeof error === "object" &&
+                            error &&
+                            "message" in error &&
+                            typeof error.message === "string"
+                                ? error.message.includes("500") && count < 3
+                                : false,
+                    },
                 },
             },
         },

@@ -63,29 +63,25 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
     /* Paginering */
     const isMobile = useIsMobile();
 
-    const { soknadDetaljer, completedFetches } = useSaksDetaljerQueries(saker);
-
-    const isDataFetched = completedFetches === saker.length;
-
-    const activeSoknaderCount = isDataFetched
-        ? Object.values(soknadDetaljer).filter(
-              (detaljer) =>
-                  detaljer.dokumentasjonEtterspurt &&
-                  (detaljer.status === "UNDER_BEHANDLING" || detaljer.status === "FERDIGBEHANDLET")
-          ).length
-        : 0;
+    const { soknadDetaljer, isLoading } = useSaksDetaljerQueries(saker);
 
     useEffect(() => {
-        if (isDataFetched) {
+        if (!isLoading) {
             logAmplitudeEvent("Hentet innsynsdata", { antallSoknader: saker.length });
         }
-    }, [isDataFetched, saker.length]);
+    }, [isLoading, saker.length]);
 
     useEffect(() => {
-        if (isDataFetched) {
-            logAktivSoknaderMedDokumentasjonetterspurt(activeSoknaderCount);
+        if (!isLoading) {
+            const count = soknadDetaljer.filter(
+                (detaljer) =>
+                    detaljer.dokumentasjonEtterspurt &&
+                    (detaljer.status === "UNDER_BEHANDLING" || detaljer.status === "FERDIGBEHANDLET")
+            ).length;
+
+            logAktivSoknaderMedDokumentasjonetterspurt(count);
         }
-    }, [isDataFetched, activeSoknaderCount]);
+    }, [isLoading, soknadDetaljer]);
 
     return (
         <>

@@ -29,12 +29,18 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
         try {
             const body = await getBody<string | unknown>(response);
             const message = typeof body === "string" ? body : JSON.stringify(body);
-            if (response.status === 401) {
-                logger.info("Got 401 Unauthorized from " + url);
-            } else {
-                logger.error(
-                    `Non-ok response from ${url}: ${response.status} ${response.statusText}. Response: ${message}`
-                );
+            switch (response.status) {
+                case 401:
+                    logger.warn(`Got 401 Unauthorized from ${url}. Message: ${message}`);
+                    break;
+                case 410:
+                    logger.warn(`Got 410 Gone from ${url}. Message: ${message}`);
+                    break;
+                default:
+                    logger.error(
+                        `Non-ok response from ${url}: ${response.status} ${response.statusText}. Response: ${message}`
+                    );
+                    break;
             }
         } catch (e) {
             logger.error(
@@ -66,7 +72,4 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
     }
 };
 
-export type ErrorType<Error> = Error & {
-    message?: string;
-    navCallId?: string;
-};
+export type ErrorType<T> = T & Error;

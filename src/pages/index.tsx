@@ -68,6 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     await queryClient.prefetchQuery({
         queryKey: getHentAlleSakerQueryKey(),
+        retry: false,
         queryFn: async () => {
             try {
                 const response = await fetch(buildUrl(), { method: "GET", headers });

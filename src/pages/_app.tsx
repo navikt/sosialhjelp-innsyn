@@ -32,16 +32,8 @@ logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element => {
     const router = useRouter();
-    const [queryClient] = React.useState(
-        () =>
-            new QueryClient({
-                defaultOptions: {
-                    queries: {
-                        staleTime: 60 * 1000,
-                    },
-                },
-            })
-    );
+    // Default options for query clienten blir satt i orval.config.ts
+    const [queryClient] = React.useState(() => new QueryClient());
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
         return router.replace(router.asPath, undefined, { locale: option.locale });

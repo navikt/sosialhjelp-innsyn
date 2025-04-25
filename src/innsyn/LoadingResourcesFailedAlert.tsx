@@ -33,23 +33,37 @@ const getQueries = (fiksDigisosId: string) => [
         tag: "hendelser",
         queryKey: getHentHendelserQueryKey(fiksDigisosId),
         queryFn: () => hentHendelser(fiksDigisosId),
+        enabled: false,
     },
-    { tag: "vedlegg", queryKey: getHentVedleggQueryKey(fiksDigisosId), queryFn: () => hentVedlegg(fiksDigisosId) },
+    {
+        tag: "vedlegg",
+        queryKey: getHentVedleggQueryKey(fiksDigisosId),
+        queryFn: () => hentVedlegg(fiksDigisosId),
+        enabled: false,
+    },
     {
         tag: "saksStatus",
         queryKey: getHentSaksStatuserQueryKey(fiksDigisosId),
         queryFn: () => hentSaksStatuser(fiksDigisosId),
+        enabled: false,
     },
-    { tag: "oppgaver", queryKey: getGetOppgaverQueryKey(fiksDigisosId), queryFn: () => getOppgaver(fiksDigisosId) },
+    {
+        tag: "oppgaver",
+        queryKey: getGetOppgaverQueryKey(fiksDigisosId),
+        queryFn: () => getOppgaver(fiksDigisosId),
+        enabled: false,
+    },
     {
         tag: "soknadsStatus",
         queryKey: getHentSoknadsStatusQueryKey(fiksDigisosId),
         queryFn: () => hentSoknadsStatus(fiksDigisosId),
+        enabled: false,
     },
     {
         tag: "dokumentasjonkrav",
         queryKey: getGetDokumentasjonkravQueryKey(fiksDigisosId),
         queryFn: () => getDokumentasjonkrav(fiksDigisosId),
+        enabled: false,
     },
 ];
 

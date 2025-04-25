@@ -14,7 +14,6 @@ const useDokumentasjonEtterspurt = (fiksDigisosId: string) => {
     const [dataWithId, setDataWithId] = React.useState<DokumentasjonEtterspurtResponse[] | undefined>(undefined);
 
     const { data, isLoading, isError } = useGetOppgaver(fiksDigisosId);
-
     React.useEffect(() => {
         if (data) {
             const dataWithId = data?.map((item) => {

@@ -11,8 +11,8 @@ const ForelopigSvarAlertstripe = () => {
     const soknadId = useFiksDigisosId();
     const { t } = useTranslation();
 
-    const { data: forelopigSvar } = useHentForelopigSvarStatus(soknadId as string);
-    const { data: soknadsStatus } = useHentSoknadsStatus(soknadId as string);
+    const { data: forelopigSvar } = useHentForelopigSvarStatus(soknadId);
+    const { data: soknadsStatus } = useHentSoknadsStatus(soknadId);
 
     if (!forelopigSvar || !soknadsStatus) {
         return null;

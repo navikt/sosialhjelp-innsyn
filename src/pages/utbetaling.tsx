@@ -113,7 +113,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     headers.append("Authorization", token);
     const promises = getQueries.map(({ url, key }) => {
         const path = url.replace("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn", "");
-        return queryClient.prefetchQuery({ queryKey: key, queryFn: () => customFetch(buildUrl(path), { headers }) });
+        return queryClient.prefetchQuery({
+            queryKey: key,
+            retry: false,
+            queryFn: () => customFetch(buildUrl(path), { headers }),
+        });
     });
     await Promise.all(promises);
 

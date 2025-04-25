@@ -79,7 +79,7 @@ const Oppgaver = () => {
     useEffect(() => {
         const { error } = utbetalingerQuery;
         if (error) {
-            logger.warn(error.message, error.navCallId);
+            logger.warn(error.message);
         }
     }, [utbetalingerQuery, utbetalingerQuery.error]);
 
