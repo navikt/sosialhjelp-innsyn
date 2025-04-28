@@ -6,7 +6,7 @@ exports[`DriftsmeldingKommune renders error alert with mldEttersendelseDeaktiver
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
   >
     <svg
-      aria-labelledby="title-r1"
+      aria-labelledby="title-«r1»"
       class="navds-alert__icon"
       fill="none"
       focusable="false"
@@ -17,7 +17,7 @@ exports[`DriftsmeldingKommune renders error alert with mldEttersendelseDeaktiver
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="title-r1"
+        id="title-«r1»"
       >
         Feil
       </title>
@@ -55,7 +55,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynDeaktivert 1`] =
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
   >
     <svg
-      aria-labelledby="title-r2"
+      aria-labelledby="title-«r2»"
       class="navds-alert__icon"
       fill="none"
       focusable="false"
@@ -66,7 +66,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynDeaktivert 1`] =
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="title-r2"
+        id="title-«r2»"
       >
         Feil
       </title>
@@ -104,7 +104,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynOgEttersendelseD
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
   >
     <svg
-      aria-labelledby="title-r0"
+      aria-labelledby="title-«r0»"
       class="navds-alert__icon"
       fill="none"
       focusable="false"
@@ -115,7 +115,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynOgEttersendelseD
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="title-r0"
+        id="title-«r0»"
       >
         Feil
       </title>

@@ -9,13 +9,13 @@
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "preserve",
         "noFallthroughCasesInSwitch": true,
-        "incremental": true
+        "incremental": true,
     },
     "include": ["./src", "./src/pages", "@types/i18next.d.ts"],
     "exclude": ["node_modules"]

@@ -19,12 +19,12 @@ export default defineConfig({
                 operations: {
                     harTilgang: {
                         fetch: {
-                            includeHttpStatusReturnType: true,
+                            includeHttpResponseReturnType: true,
                         },
                     },
                 },
                 fetch: {
-                    includeHttpStatusReturnType: false,
+                    includeHttpResponseReturnType: false,
                 },
                 query: {
                     useSuspenseQuery: true,
