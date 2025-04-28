@@ -64,7 +64,7 @@
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@eslint/eslintrc": "^3.3.1",
         "@eslint/js": "^9.25.1",
-        "@faker-js/faker": "^8.4.1",
+        "@faker-js/faker": "^9.7.0",
         "@tanstack/react-query-devtools": "^5.74.7",
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/react": "^16.3.0",
