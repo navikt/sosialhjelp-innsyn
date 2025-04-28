@@ -111,7 +111,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                                 saksStatuser ?? [],
                                 R.intersectionWith(klage.paaklagetVedtakRefs, sakHasMatchingVedtak),
                                 R.map((it) => it.tittel),
-                                R.uniq()
+                                R.unique()
                             );
                             return (
                                 <React.Fragment key={klage.klageUrl.id}>
