@@ -40,7 +40,7 @@ jobs:
       - name: 'Build npm project'
         uses: navikt/sosialhjelp-ci/actions/build-npm@main
         with:
-          node-version: 20
+          node-version: 22
           build-less: 'false'
           run-orval: 'true'
           reader-token: ${{ secrets.READER_TOKEN }}
@@ -53,16 +53,12 @@ jobs:
           team: teamdigisos
           source: ./.next/static
           destination: "/sosialhjelp-innsyn/_next"
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
 
       - name: Build and push docker image to GAR
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
           team: teamdigisos
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           image_suffix: ${{ inputs.config-file-name }}
 
   deploy-gcp:

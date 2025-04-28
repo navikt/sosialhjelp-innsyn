@@ -54,7 +54,6 @@ const nextConfig = {
     experimental: {
         scrollRestoration: true,
         optimizePackageImports: ["@navikt/ds-react", "@navikt/aksel-icons"],
-        esmExternals: "loose",
     },
     eslint: {
         ignoreDuringBuilds: true,
