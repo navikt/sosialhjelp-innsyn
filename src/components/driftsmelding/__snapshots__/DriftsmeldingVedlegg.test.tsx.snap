@@ -6,7 +6,7 @@ exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert if søknadinfo.isBroken
     class="font-bold navds-alert navds-alert--error navds-alert--medium navds-alert--inline"
   >
     <svg
-      aria-labelledby="title-r1"
+      aria-labelledby="title-«r1»"
       class="navds-alert__icon"
       fill="none"
       focusable="false"
@@ -17,7 +17,7 @@ exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert if søknadinfo.isBroken
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="title-r1"
+        id="title-«r1»"
       >
         Feil
       </title>
@@ -43,7 +43,7 @@ exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert when there is a file up
     class="font-bold navds-alert navds-alert--error navds-alert--medium navds-alert--inline"
   >
     <svg
-      aria-labelledby="title-r0"
+      aria-labelledby="title-«r0»"
       class="navds-alert__icon"
       fill="none"
       focusable="false"
@@ -54,7 +54,7 @@ exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert when there is a file up
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="title-r0"
+        id="title-«r0»"
       >
         Feil
       </title>
