@@ -8,10 +8,13 @@ import { StyledLenkePanelWrapper } from "../styles/LenkePanelWrapper";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     padding-top: 1rem;
     white-space: pre-line;
-    padding-bottom: 40px;
+    min-height: 40vh;
     max-width: 50rem;
+    margin: auto;
 `;
 
 const UtbetalingsoversiktIngenSoknader = () => {

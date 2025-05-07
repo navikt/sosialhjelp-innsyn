@@ -68,7 +68,7 @@ const Utbetalinger: NextPage = () => {
         );
     }
 
-    if (!harSoknaderMedInnsyn) {
+    if (harSoknaderMedInnsyn) {
         return (
             <div className={styles.utbetalinger_side} data-theme="utbetalinger">
                 <UtbetalingsoversiktIngenInnsyn />
