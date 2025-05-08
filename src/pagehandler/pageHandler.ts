@@ -8,6 +8,8 @@ import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { TilgangResponse } from "../generated/model";
 import { getFlagsServerSide } from "../featuretoggles/ssr";
 import { extractAuthHeader } from "../utils/authUtils";
+import { isLocalhost } from "../utils/restUtils";
+import { localDevelopmentToggles } from "../featuretoggles/utils";
 
 export interface PageProps extends SSRConfig {
     tilgang?: TilgangResponse;
@@ -37,6 +39,14 @@ const pageHandler = async (
         },
     };
 };
+
+const getFlags = async () => {
+    if (isLocalhost()) {
+        logger.warn("Running in local or demo mode, falling back to development toggles.");
+        return { toggles: localDevelopmentToggles() };
+    }
+
+}
 
 export const getCommonProps = async (
     { locale, req, res, resolvedUrl }: GetServerSidePropsContext,
