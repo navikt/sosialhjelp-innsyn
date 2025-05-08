@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
-import { Button, Checkbox, CheckboxGroup, Heading, Textarea } from "@navikt/ds-react";
+import { Button, Checkbox, CheckboxGroup, Heading, Textarea, Link as AkselLink } from "@navikt/ds-react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -114,7 +114,9 @@ const KlageSkjema: NextPage = () => {
                                 {urls.map((url) => (
                                     <Checkbox key={url.id} value={url.id}>
                                         {url.url ? (
-                                            <Link href={url.url}>Vedtaksbrev{url.dato ? ` (${url.dato})` : ""}</Link>
+                                            <AkselLink as={Link} href={url.url}>
+                                                Vedtaksbrev{url.dato ? ` (${url.dato})` : ""}
+                                            </AkselLink>
                                         ) : (
                                             <div>Vedtaksbrev{url.dato ? ` (${url.dato})` : ""}</div>
                                         )}

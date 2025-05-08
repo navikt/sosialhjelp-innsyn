@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { Accordion, BodyShort } from "@navikt/ds-react";
+import { Accordion, BodyShort, Link as AkselLink } from "@navikt/ds-react";
 import Link from "next/link";
 import { FileTextIcon } from "@navikt/aksel-icons";
 
@@ -47,15 +47,15 @@ export const UtbetalingAccordionContent = ({
                     {t("tilDeg")} {utbetalingsmetodeTekst} {kontonummer}
                 </BodyShort>
             )}
-
-            <Link
+            <AkselLink
+                as={Link}
                 href={`/${fiksDigisosId}/status`}
                 className="navds-link items-center gap-2 flex"
                 onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
             >
                 <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
                 {t("soknadLenke")}
-            </Link>
+            </AkselLink>
         </Accordion.Content>
     );
 };

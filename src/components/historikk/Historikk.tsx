@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Trans, useTranslation } from "next-i18next";
-import { BodyShort, Button, Label, Link as NavDsLink } from "@navikt/ds-react";
+import { BodyShort, Button, Label, Link as AkselLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";
 import styled from "styled-components";
 import { ChevronUpIcon, ChevronDownIcon } from "@navikt/aksel-icons";
@@ -78,9 +78,9 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                     <Trans t={t} i18nKey={enumValue}>
                         {/*Lenken finnes som <0></0> i språkfila. 0 = første children.
                         Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
-                        <Link href="/utbetaling">
-                            <NavDsLink>Dine utbetalinger</NavDsLink>
-                        </Link>{" "}
+                        <AkselLink as={Link} href="/utbetaling">
+                            Dine utbetalinger
+                        </AkselLink>{" "}
                         har blitt oppdatert
                     </Trans>
                 </BodyShort>
