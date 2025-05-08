@@ -13,7 +13,7 @@ const appDirectives = {
     "style-src": ["'self'", "'unsafe-inline'"],
     "img-src": [
         "'self'",
-        "data",
+        "data:",
         "blob:",
         "https://uxsignals-frontend.uxsignals.app.iterate.no",
         "https://widget.uxsignals.com",

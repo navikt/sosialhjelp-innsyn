@@ -24,7 +24,7 @@ const VedleggModal = ({ file, synlig, onRequestClose }: Props) => {
             className={styles.vedleggModal}
             header={{ heading: "Fil:" }}
         >
-            <Modal.Body>
+            <Modal.Body className="relative">
                 <BodyLong spacing className={styles.filnavn}>
                     {file.name}
                 </BodyLong>
