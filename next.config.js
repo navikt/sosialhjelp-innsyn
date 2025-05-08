@@ -14,6 +14,7 @@ const appDirectives = {
     "img-src": [
         "'self'",
         "data:",
+        "blob:",
         "https://uxsignals-frontend.uxsignals.app.iterate.no",
         "https://widget.uxsignals.com",
     ],

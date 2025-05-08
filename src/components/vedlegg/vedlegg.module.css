@@ -2,10 +2,18 @@
     min-width: 20rem;
 }
 
-.vedleggModal img {
+.image {
     max-width: 90vw;
+    height: auto;
+    position: static;
+    display: block;
+    margin-top: 1rem;
 }
 
 .filnavn {
     word-break: break-word;
+}
+
+.modalBody {
+    position: relative;
 }

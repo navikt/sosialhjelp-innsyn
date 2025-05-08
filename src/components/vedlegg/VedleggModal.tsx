@@ -1,6 +1,6 @@
 import { BodyLong, Modal } from "@navikt/ds-react";
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 import styles from "./vedlegg.module.css";
 
@@ -24,11 +24,19 @@ const VedleggModal = ({ file, synlig, onRequestClose }: Props) => {
             className={styles.vedleggModal}
             header={{ heading: "Fil:" }}
         >
-            <Modal.Body>
+            <Modal.Body className="relative">
                 <BodyLong spacing className={styles.filnavn}>
                     {file.name}
                 </BodyLong>
-                {isImage && <Image src={URL.createObjectURL(file)} alt={file.name} />}
+                {isImage && (
+                    <Image
+                        fill
+                        unoptimized
+                        className="max-w-screen-lg block h-auto !static mt-2"
+                        src={URL.createObjectURL(file)}
+                        alt={file.name}
+                    />
+                )}
             </Modal.Body>
         </Modal>
     );
