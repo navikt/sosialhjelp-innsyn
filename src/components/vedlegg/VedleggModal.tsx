@@ -1,6 +1,6 @@
 import { BodyLong, Modal } from "@navikt/ds-react";
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import styles from "./vedlegg.module.css";
 
