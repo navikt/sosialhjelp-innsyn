@@ -5,27 +5,14 @@ const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsaf
 
 const appDirectives = {
     "default-src": [SELF],
-    "script-src": [
-        SELF,
-        UNSAFE_EVAL,
-        "https://uxsignals-frontend.uxsignals.app.iterate.no",
-        "https://widget.uxsignals.com",
-    ],
+    "script-src": [SELF, UNSAFE_EVAL, "https://uxsignals-frontend.uxsignals.app.iterate.no"],
     "script-src-elem": [SELF, "https://uxsignals-frontend.uxsignals.app.iterate.no"],
     "style-src": [SELF, UNSAFE_INLINE],
-    "img-src": [
-        SELF,
-        "data:",
-        "blob:",
-        "https://uxsignals-frontend.uxsignals.app.iterate.no",
-        "https://widget.uxsignals.com",
-    ],
-    "font-src": [SELF, "https://cdn.nav.no"],
+    "img-src": [SELF, "data:", "blob:", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
+    "font-src": [SELF],
     "worker-src": [SELF],
     "connect-src": [
         SELF,
-        "https://*.nav.no",
-        "https://*.uxsignals.com",
         ...(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? ["http://localhost:8989"] : []),
     ],
 };
