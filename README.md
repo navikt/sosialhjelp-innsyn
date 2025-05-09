@@ -24,8 +24,8 @@ Vi bruker Github sitt package registry for npm pakker, siden flere av Nav sine p
 
 For å kunne kjøre `npm install` lokalt må du logge inn mot Github package registry:
 
--   Lag/forny access token med repo og read:packages rettigheter i github ( under developer settings). husk enable sso
--   Login på npm med `npm login --scope=@navikt --registry=https://npm.pkg.github.com` og benytt github brukernavn, epost og tokenet du nettopp genererte
+- Lag/forny access token med repo og read:packages rettigheter i github ( under developer settings). husk enable sso
+- Login på npm med `npm login --scope=@navikt --registry=https://npm.pkg.github.com` og benytt github brukernavn, epost og tokenet du nettopp genererte
 
 ### Frontend
 
@@ -34,11 +34,15 @@ For å kunne kjøre `npm install` lokalt må du logge inn mot Github package reg
 Lag `.env.local` på rot for miljøvariabler. Eksempel:
 
 ```
-NEXT_PUBLIC_BASE_PATH=/sosialhjelp/innsyn
-NEXT_PUBLIC_RUNTIME_ENVIRONMENT=local
+NEXT_PUBLIC_INNSYN_API_SINGLE_LOGOUT_URL=/oauth2/logout
+NEXT_INNSYN_API_BASE_URL=http://localhost:8080/sosialhjelp/innsyn-api
+NEXT_PUBLIC_INNSYN_ORIGIN=http://localhost:3002
 NEXT_PUBLIC_DEKORATOR_MILJO=local
-NEXT_INNSYN_API_BASE_URL=http://localhost:8989/sosialhjelp/mock-alt-api/login-api/sosialhjelp/innsyn-api
-NEXT_PUBLIC_INNSYN_ORIGIN=http://localhost:3000
+NEXT_PUBLIC_RUNTIME_ENVIRONMENT=local
+NEXT_INNSYN_API_HOSTNAME=127.0.0.1
+INNSYN_API_PORT=8080
+NEXT_INNSYN_MOCK_LOGIN_URL=http://localhost:3008/sosialhjelp/mock-alt/login
+NEXT_PUBLIC_LOGIN_URL=/oauth2/login
 ```
 
 #### Lokal server
@@ -74,12 +78,12 @@ npm run fetch-api-docs-local
 
 For å teste innsynsløsning, kan man laste opp innsynsdata som JSON til API via swaggersidene slik:
 
--   Gå til swagger i [mock](https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui/index.html)
--   Velg **digisos-api-controller** og tilhørende POST-kall, og deretter **'Try it out'**
--   Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)
--   Velg en **soknadId** for dine testdata
--   Gå til status-siden i [mock](https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn/soknadId/status)
--   Endre **soknadId** i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata
+- Gå til swagger i [mock](https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/swagger-ui/index.html)
+- Velg **digisos-api-controller** og tilhørende POST-kall, og deretter **'Try it out'**
+- Lim inn dine testdata som jsonDigisosSoker (digisos-soker.json)
+- Velg en **soknadId** for dine testdata
+- Gå til status-siden i [mock](https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn/soknadId/status)
+- Endre **soknadId** i url til å matche din soknadId fra steg 4 for å se innsynsvisningen med dine testdata
 
 ## Kodestil
 
@@ -88,9 +92,9 @@ Detaljer rundt dette ligger i `package.json`. Konfigurasjon av prettier ligger i
 
 Dersom du i tillegg ønsker å sette opp formatering av kode i IntelliJ slik at koden blir formatert før du committer kan det gjøres slik:
 
--   Installer Prettier plugin i IntelliJ
--   Trykk ⌥⇧⌘P for å formatere kode
--   Optional: Sette opp filewatcher og automatisk formatering. Se her `https://prettier.io/docs/en/webstorm.html#running-prettier-on-save-using-file-watcher`
+- Installer Prettier plugin i IntelliJ
+- Trykk ⌥⇧⌘P for å formatere kode
+- Optional: Sette opp filewatcher og automatisk formatering. Se her `https://prettier.io/docs/en/webstorm.html#running-prettier-on-save-using-file-watcher`
 
 ## Bygg og deploy
 
