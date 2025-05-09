@@ -1,9 +1,12 @@
 import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import Script from "next/script";
-import React from "react";
+import { logger } from "@navikt/next-logger";
 
 import "../index.css";
+
+import { TilgangResponse } from "../generated/model";
+
 import Providers from "./Providers";
 import { getFlagsServerSide } from "./featureToggles";
 
@@ -38,7 +41,8 @@ const decoratorParams = (locale: SupportedLanguage): DecoratorFetchProps => ({
             },
         ],
         language: locale,
-        // TODO: Implement breadcrumbs
+        // TODO: Implement breadcrumbs.
+        //  Må rendere en slags minimal versjon av breadcrumbs på server, og så sette den fulle versjonen client side, siden vi ikke har tilgang på pathname i rootlayout
         // breadcrumbs: getBreadcrumbs(ctx.pathname),
         logoutWarning: false,
     },
@@ -57,6 +61,51 @@ function createDecoratorEnv(): "dev" | "prod" {
     }
 }
 
+export function buildUrl(path: string) {
+    const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
+    const portPart = isLocal ? ":8080" : "";
+    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
+}
+
+const getToken = async (): Promise<string | null> => {
+    let authHeader;
+    if (["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
+        const cookieStore = await cookies();
+        if (!cookieStore.has("localhost-idtoken")) {
+            throw new Error("Missing auth header");
+        }
+        authHeader = "Bearer " + cookieStore.get("localhost-idtoken")?.value;
+    } else {
+        const readOnlyHeaders = await headers();
+        if (!readOnlyHeaders.has("Authorization")) {
+            throw new Error("Missing auth header");
+        }
+        authHeader = readOnlyHeaders.get("Authorization");
+    }
+    return authHeader;
+};
+
+const harTilgang = async (): Promise<TilgangResponse | undefined> => {
+    const token = await getToken();
+    if (!token) {
+        throw new Error("Missing auth header");
+    }
+    const headers: HeadersInit = new Headers();
+    headers.append("Authorization", token);
+    try {
+        const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
+        if (tilgangResponse.ok) {
+            return await tilgangResponse.json();
+        } else {
+            logger.error(
+                `Fikk feil ved innhenting av tilgangsdata. Status: ${tilgangResponse.status}, data: ${await tilgangResponse.text()}`
+            );
+        }
+    } catch (e: unknown) {
+        logger.error(`Something happened during fetch in RootLayout. Error: ${e}`);
+    }
+};
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
     const jar = await cookies();
     const cookie = jar.get(DECORATOR_LANG_COOKIE)?.value;
@@ -66,11 +115,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
     const flags = await getFlagsServerSide();
 
-    // const harTilgangResponse = await harTilgang();
+    const harTilgangResponse = await harTilgang();
     return (
         <html lang={locale || "no"}>
             <head>
                 <Decorator.HeadAssets />
+                {/* TODO: Fiks fonter */}
                 <link
                     rel="preload"
                     href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
@@ -82,10 +132,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </head>
             <body>
                 <Decorator.Header />
-                <Providers toggles={flags.toggles}>{children}</Providers>
+                <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
+                    {children}
+                </Providers>
                 <Decorator.Footer />
                 <Decorator.Scripts loader={Script} />
             </body>
         </html>
     );
 }
+
+export const metadata = {
+    title: "Økonomisk sosialhjelp",
+};
