@@ -1,27 +1,29 @@
 const { buildCspHeader } = require("@navikt/nav-dekoratoren-moduler/ssr");
 const { i18n } = require("./next-i18next.config");
 
+const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
+
 const appDirectives = {
-    "default-src": ["'self'"],
+    "default-src": [SELF],
     "script-src": [
-        "'self'",
-        "'unsafe-eval'",
+        SELF,
+        UNSAFE_EVAL,
         "https://uxsignals-frontend.uxsignals.app.iterate.no",
         "https://widget.uxsignals.com",
     ],
-    "script-src-elem": ["'self'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
-    "style-src": ["'self'", "'unsafe-inline'"],
+    "script-src-elem": [SELF, "https://uxsignals-frontend.uxsignals.app.iterate.no"],
+    "style-src": [SELF, UNSAFE_INLINE],
     "img-src": [
-        "'self'",
+        SELF,
         "data:",
         "blob:",
         "https://uxsignals-frontend.uxsignals.app.iterate.no",
         "https://widget.uxsignals.com",
     ],
-    "font-src": ["'self'", "https://cdn.nav.no"],
-    "worker-src": ["'self'"],
+    "font-src": [SELF, "https://cdn.nav.no"],
+    "worker-src": [SELF],
     "connect-src": [
-        "'self'",
+        SELF,
         "https://*.nav.no",
         "https://*.uxsignals.com",
         ...(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? ["http://localhost:8989"] : []),
