@@ -20,9 +20,6 @@ spec:
     path: /sosialhjelp/innsyn/api/internal/isReady
     initialDelay: 20
     timeout: 1
-  prometheus:
-    enabled: false
-    path: /actuator/metrics
   replicas:
     min: 1
     max: 2
