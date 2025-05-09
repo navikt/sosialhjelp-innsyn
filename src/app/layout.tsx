@@ -61,7 +61,7 @@ function createDecoratorEnv(): "dev" | "prod" {
     }
 }
 
-export function buildUrl(path: string) {
+function buildUrl(path: string) {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
     const portPart = isLocal ? ":8080" : "";
     return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
