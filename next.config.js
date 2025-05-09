@@ -19,20 +19,25 @@ const appDirectives = {
     "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc],
     "font-src": [SELF],
     "worker-src": [SELF],
-    "connect-src": [SELF, ...(isLocal ? [innsynApiLocalhost] : [])],
+    "connect-src": isLocal ? [SELF, innsynApiLocalhost] : [SELF],
 };
-
-const buildInnsynCspHeader = async () => ({
-    key: "Content-Security-Policy",
-    value: await buildCspHeader(appDirectives, { env: isProd ? "prod" : "dev" }),
-});
 
 /**
  * @type {import('next').NextConfig}
  */
 
 const nextConfig = {
-    headers: async () => [{ source: "/:path*", headers: [await buildInnsynCspHeader()] }],
+    headers: async () => [
+        {
+            source: "/:path*",
+            headers: [
+                {
+                    key: "Content-Security-Policy",
+                    value: await buildCspHeader(appDirectives, { env: isProd ? "prod" : "dev" }),
+                },
+            ],
+        },
+    ],
     output: "standalone",
     assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
     reactStrictMode: true,
