@@ -1,15 +1,11 @@
 import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import Script from "next/script";
+import React from "react";
 
 import "../index.css";
-import React from "react";
 import Providers from "./Providers";
-import { harTilgang, useHarTilgang } from "../generated/tilgang-controller/tilgang-controller";
-import { QueryClient } from "@tanstack/react-query";
-import { TilgangResponse } from "../generated/model";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { getFlagsServerSide, getFlagsServerSideApp } from "../featuretoggles/ssr";
+import { getFlagsServerSide } from "./featureToggles";
 
 const DECORATOR_LANG_COOKIE = "decorator-language" as const;
 const SUPPORTED_LANGUAGES = ["en", "nb", "nn"] as const;
@@ -68,9 +64,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     const props = decoratorParams(locale);
     const Decorator = await fetchDecoratorReact(props);
 
-    const flags = await getFlagsServerSideApp();
+    const flags = await getFlagsServerSide();
 
-    const harTilgangResponse = await harTilgang();
+    // const harTilgangResponse = await harTilgang();
     return (
         <html lang={locale || "no"}>
             <head>
@@ -86,9 +82,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </head>
             <body>
                 <Decorator.Header />
-                <Providers toggles={flags.toggles} tilgang={harTilgangResponse.data as TilgangResponse}>
-                    {children}
-                </Providers>
+                <Providers toggles={flags.toggles}>{children}</Providers>
                 <Decorator.Footer />
                 <Decorator.Scripts loader={Script} />
             </body>

@@ -10,46 +10,8 @@ import * as R from "remeda";
 
 import { isLocalhost } from "../utils/restUtils";
 
-import { getUnleashEnvironment, localDevelopmentToggles } from "./utils";
+import { localDevelopmentToggles } from "./utils";
 import { EXPECTED_TOGGLES } from "./toggles";
-import { cookies } from "next/headers";
-
-export async function getFlagsServerSideApp() {
-    if (isLocalhost()) {
-        logger.warn("Running in local or demo mode, falling back to development toggles.");
-        return { toggles: localDevelopmentToggles() };
-    }
-
-    const cookieStore = await cookies();
-
-    try {
-        const sessionId =
-            cookieStore.get("unleash-session-id")?.value || `${getRandomValues(new Uint32Array(2)).join("")}`;
-        cookieStore.set("unleash-session-id", sessionId, { path: "/" });
-        const definitions = await getAndValidateDefinitions();
-        return evaluateFlags(definitions, {
-            sessionId,
-            environment: getUnleashEnvironment(),
-            // Brukes for a skille på mock/q0/dev/osv
-            appName: `sosialhjelp-innsyn-${process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT}`,
-        });
-    } catch (e) {
-        logger.error(new Error("Failed to get flags from Unleash. Falling back to default flags.", { cause: e }));
-        return {
-            toggles: EXPECTED_TOGGLES.map(
-                (it): IToggle => ({
-                    name: it,
-                    variant: {
-                        name: "default",
-                        enabled: false,
-                    },
-                    impressionData: false,
-                    enabled: false,
-                })
-            ),
-        };
-    }
-}
 
 export async function getFlagsServerSide(
     req: GetServerSidePropsContext["req"],

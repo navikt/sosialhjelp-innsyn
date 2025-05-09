@@ -1,20 +1,19 @@
-import { useRouter } from "next/router";
-
-("use-client");
+"use client";
 
 import React, { PropsWithChildren } from "react";
 import { DehydratedState, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
+import { onBreadcrumbClick, onLanguageSelect, setParams } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
+import { usePathname, useRouter } from "next/navigation";
 
 import ErrorBoundary from "../components/errors/ErrorBoundary";
 import { FlagProvider } from "../featuretoggles/context";
-import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
 import { TilgangResponse } from "../generated/model";
+import TilgangskontrollsideApp from "../components/Tilgangskontrollside/TilgangskontrollsideApp";
 
 initInstrumentation();
 configureLogger({
@@ -40,11 +39,13 @@ interface Props {
 
 const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChildren<Props>) => {
     const router = useRouter();
+    const pathname = usePathname();
     // Default options for query clienten blir satt i orval.config.ts
     const [queryClient] = React.useState(() => new QueryClient());
-    onLanguageSelect(async (option) => {
-        logBrukerSpraakChange(option.locale);
-        return router.replace(router.asPath, undefined, { locale: option.locale });
+    // TODO: Fiks dette, funker ikke
+    onLanguageSelect(({ locale: language, url }) => {
+        logBrukerSpraakChange(language);
+        setParams({ language }).then(() => window.location.assign(`${url}${pathname}`));
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
     return (
@@ -52,11 +53,11 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
             <HydrationBoundary state={dehydratedState}>
                 <ErrorBoundary>
                     <FlagProvider toggles={toggles}>
-                        <Tilgangskontrollside harTilgang={tilgang}>
+                        <TilgangskontrollsideApp harTilgang={tilgang}>
                             <div role="main" tabIndex={-1} id="maincontent">
                                 {children}
                             </div>
-                        </Tilgangskontrollside>
+                        </TilgangskontrollsideApp>
                     </FlagProvider>
                 </ErrorBoundary>
             </HydrationBoundary>
