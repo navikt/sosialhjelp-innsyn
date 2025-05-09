@@ -27,7 +27,6 @@ const Preamble = styled("div")`
 
 const Saksoversikt: NextPage = () => {
     const { t } = useTranslation();
-
     useUpdateBreadcrumbs(() => []);
 
     const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
@@ -65,7 +64,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const token = extractAuthHeader(req);
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
-
     await queryClient.prefetchQuery({
         queryKey: getHentAlleSakerQueryKey(),
         retry: false,
