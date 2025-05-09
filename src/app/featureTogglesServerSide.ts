@@ -2,7 +2,7 @@
 
 import { getRandomValues } from "crypto";
 
-import { IToggle, getDefinitions, evaluateFlags } from "@unleash/nextjs";
+import { IToggle, getDefinitions, evaluateFlags, flagsClient } from "@unleash/nextjs";
 import { logger } from "@navikt/next-logger";
 import * as R from "remeda";
 import { cookies } from "next/headers";
@@ -46,6 +46,13 @@ export async function getFlagsServerSide() {
             ),
         };
     }
+}
+
+export async function getFlagServerSide(flagName: string) {
+    const { toggles } = await getFlagsServerSide();
+    const flags = flagsClient(toggles);
+
+    return flags.isEnabled(flagName);
 }
 
 /**

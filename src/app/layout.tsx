@@ -8,7 +8,7 @@ import "../index.css";
 import { TilgangResponse } from "../generated/model";
 
 import Providers from "./Providers";
-import { getFlagsServerSide } from "./featureToggles";
+import { getFlagsServerSide } from "./featureTogglesServerSide";
 
 const DECORATOR_LANG_COOKIE = "decorator-language" as const;
 const SUPPORTED_LANGUAGES = ["en", "nb", "nn"] as const;
