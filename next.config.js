@@ -1,20 +1,25 @@
 const { buildCspHeader } = require("@navikt/nav-dekoratoren-moduler/ssr");
 const { i18n } = require("./next-i18next.config");
 
+/** Content security policy */
 const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
+const [DATA, BLOB] = ["data:", "blob:"];
+
+const isLocal = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
+const isProd = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod";
+
+const innsynApiLocalhost = "http://localhost:8989";
+const uxsignalsScriptSrc = "https://uxsignals-frontend.uxsignals.app.iterate.no";
 
 const appDirectives = {
     "default-src": [SELF],
-    "script-src": [SELF, UNSAFE_EVAL, "https://uxsignals-frontend.uxsignals.app.iterate.no"],
-    "script-src-elem": [SELF, "https://uxsignals-frontend.uxsignals.app.iterate.no"],
+    "script-src": [SELF, UNSAFE_EVAL, uxsignalsScriptSrc],
+    "script-src-elem": [SELF, uxsignalsScriptSrc],
     "style-src": [SELF, UNSAFE_INLINE],
-    "img-src": [SELF, "data:", "blob:", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
+    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc],
     "font-src": [SELF],
     "worker-src": [SELF],
-    "connect-src": [
-        SELF,
-        ...(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? ["http://localhost:8989"] : []),
-    ],
+    "connect-src": [SELF, ...(isLocal ? [innsynApiLocalhost] : [])],
 };
 
 /**
@@ -23,8 +28,7 @@ const appDirectives = {
 
 const nextConfig = {
     async headers() {
-        const environment = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod" ? "prod" : "dev";
-        const cspValue = await buildCspHeader(appDirectives, { env: environment });
+        const cspValue = await buildCspHeader(appDirectives, { env: isProd ? "prod" : "dev" });
         return [
             {
                 source: "/:path*",
