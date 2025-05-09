@@ -22,25 +22,17 @@ const appDirectives = {
     "connect-src": [SELF, ...(isLocal ? [innsynApiLocalhost] : [])],
 };
 
+const buildInnsynCspHeader = async () => ({
+    key: "Content-Security-Policy",
+    value: await buildCspHeader(appDirectives, { env: isProd ? "prod" : "dev" }),
+});
+
 /**
  * @type {import('next').NextConfig}
  */
 
 const nextConfig = {
-    async headers() {
-        const cspValue = await buildCspHeader(appDirectives, { env: isProd ? "prod" : "dev" });
-        return [
-            {
-                source: "/:path*",
-                headers: [
-                    {
-                        key: "Content-Security-Policy",
-                        value: cspValue,
-                    },
-                ],
-            },
-        ];
-    },
+    headers: async () => [{ source: "/:path*", headers: [await buildInnsynCspHeader()] }],
     output: "standalone",
     assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
     reactStrictMode: true,
