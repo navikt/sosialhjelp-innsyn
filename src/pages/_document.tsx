@@ -79,13 +79,6 @@ class MyDocument extends Document<Props> {
             <Html lang={language || "no"}>
                 <Head>
                     <Decorator.HeadAssets />
-                    <link
-                        rel="preload"
-                        href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
-                        as="font"
-                        type="font/woff2"
-                        crossOrigin="anonymous"
-                    />
                     <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
                 </Head>
                 <body>
