@@ -8,6 +8,7 @@ const [DATA, BLOB] = ["data:", "blob:"];
 const isLocal = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
 const isProd = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod";
 
+const localServer = process.env.NEXT_PUBLIC_INNSYN_ORIGIN ?? "http://localhost:3002";
 const innsynApiLocalhost = "http://localhost:8989";
 const uxsignalsScriptSrc = "https://uxsignals-frontend.uxsignals.app.iterate.no";
 
@@ -15,11 +16,12 @@ const appDirectives = {
     "default-src": [SELF],
     "script-src": [SELF, UNSAFE_EVAL, uxsignalsScriptSrc],
     "script-src-elem": [SELF, uxsignalsScriptSrc],
-    "style-src": [SELF, UNSAFE_INLINE],
+    "style-src": [SELF, UNSAFE_INLINE, localServer],
+    "style-src-elem": [SELF, UNSAFE_INLINE, localServer],
     "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc],
     "font-src": [SELF],
     "worker-src": [SELF],
-    "connect-src": isLocal ? [SELF, innsynApiLocalhost] : [SELF],
+    "connect-src": isLocal ? [SELF, innsynApiLocalhost, localServer] : [SELF],
 };
 
 /**
