@@ -1,31 +1,25 @@
 const { buildCspHeader } = require("@navikt/nav-dekoratoren-moduler/ssr");
 const { i18n } = require("./next-i18next.config");
 
+/** Content security policy */
+const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
+const [DATA, BLOB] = ["data:", "blob:"];
+
+const isLocal = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
+const isProd = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod";
+
+const innsynApiLocalhost = "http://localhost:8989";
+const uxsignalsScriptSrc = "https://uxsignals-frontend.uxsignals.app.iterate.no";
+
 const appDirectives = {
-    "default-src": ["'self'"],
-    "script-src": [
-        "'self'",
-        "'unsafe-eval'",
-        "https://uxsignals-frontend.uxsignals.app.iterate.no",
-        "https://widget.uxsignals.com",
-    ],
-    "script-src-elem": ["'self'", "https://uxsignals-frontend.uxsignals.app.iterate.no"],
-    "style-src": ["'self'", "'unsafe-inline'"],
-    "img-src": [
-        "'self'",
-        "data:",
-        "blob:",
-        "https://uxsignals-frontend.uxsignals.app.iterate.no",
-        "https://widget.uxsignals.com",
-    ],
-    "font-src": ["'self'", "https://cdn.nav.no"],
-    "worker-src": ["'self'"],
-    "connect-src": [
-        "'self'",
-        "https://*.nav.no",
-        "https://*.uxsignals.com",
-        ...(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local" ? ["http://localhost:8989"] : []),
-    ],
+    "default-src": [SELF],
+    "script-src": [SELF, UNSAFE_EVAL, uxsignalsScriptSrc],
+    "script-src-elem": [SELF, uxsignalsScriptSrc],
+    "style-src": [SELF, UNSAFE_INLINE],
+    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc],
+    "font-src": [SELF],
+    "worker-src": [SELF],
+    "connect-src": isLocal ? [SELF, innsynApiLocalhost] : [SELF],
 };
 
 /**
@@ -33,21 +27,17 @@ const appDirectives = {
  */
 
 const nextConfig = {
-    async headers() {
-        const environment = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod" ? "prod" : "dev";
-        const cspValue = await buildCspHeader(appDirectives, { env: environment });
-        return [
-            {
-                source: "/:path*",
-                headers: [
-                    {
-                        key: "Content-Security-Policy",
-                        value: cspValue,
-                    },
-                ],
-            },
-        ];
-    },
+    headers: async () => [
+        {
+            source: "/:path*",
+            headers: [
+                {
+                    key: "Content-Security-Policy",
+                    value: await buildCspHeader(appDirectives, { env: isProd ? "prod" : "dev" }),
+                },
+            ],
+        },
+    ],
     output: "standalone",
     assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
     reactStrictMode: true,
