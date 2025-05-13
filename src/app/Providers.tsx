@@ -14,6 +14,8 @@ import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplit
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
 import { TilgangResponse } from "../generated/model";
 import TilgangskontrollsideApp from "../components/Tilgangskontrollside/TilgangskontrollsideApp";
+import { Breadcrumb, getBaseCrumbs, getBreadcrumbs, LastCrumb } from "../utils/breadcrumbs";
+import useUpdateBreadcrumbs, { useSetBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
 
 initInstrumentation();
 configureLogger({
@@ -40,6 +42,7 @@ interface Props {
 const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChildren<Props>) => {
     const router = useRouter();
     const pathname = usePathname();
+    useSetBreadcrumbs();
     // Default options for query clienten blir satt i orval.config.ts
     const [queryClient] = React.useState(() => new QueryClient());
     // TODO: Fiks dette, funker ikke
@@ -47,6 +50,7 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
         logBrukerSpraakChange(language);
         setParams({ language }).then(() => window.location.assign(`${url}${pathname}`));
     });
+
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
     return (
         <QueryClientProvider client={queryClient}>

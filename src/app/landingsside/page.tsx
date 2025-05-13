@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Heading } from "@navikt/ds-react";
 
 import { getFlagServerSide } from "../featureTogglesServerSide";
 
@@ -7,7 +8,7 @@ const page = async () => {
     if (!toggle) {
         return notFound();
     }
-    return <div>Hello world</div>;
+    return <Heading size="xlarge">Hello world</Heading>;
 };
 
 export default page;

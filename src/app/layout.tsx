@@ -4,8 +4,8 @@ import Script from "next/script";
 import { logger } from "@navikt/next-logger";
 
 import "../index.css";
-
 import { TilgangResponse } from "../generated/model";
+import { getBaseCrumbs } from "../utils/breadcrumbs";
 
 import Providers from "./Providers";
 import { getFlagsServerSide } from "./featureTogglesServerSide";
@@ -43,7 +43,7 @@ const decoratorParams = (locale: SupportedLanguage): DecoratorFetchProps => ({
         language: locale,
         // TODO: Implement breadcrumbs.
         //  Må rendere en slags minimal versjon av breadcrumbs på server, og så sette den fulle versjonen client side, siden vi ikke har tilgang på pathname i rootlayout
-        // breadcrumbs: getBreadcrumbs(ctx.pathname),
+        breadcrumbs: getBaseCrumbs(),
         logoutWarning: false,
     },
 });

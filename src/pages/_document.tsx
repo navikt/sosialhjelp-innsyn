@@ -7,7 +7,7 @@ import {
 } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 
-import { getBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
+import { getBreadcrumbs } from "../utils/breadcrumbs";
 
 // The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
 const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
