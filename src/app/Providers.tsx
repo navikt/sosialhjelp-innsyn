@@ -14,8 +14,7 @@ import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplit
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
 import { TilgangResponse } from "../generated/model";
 import TilgangskontrollsideApp from "../components/Tilgangskontrollside/TilgangskontrollsideApp";
-import { Breadcrumb, getBaseCrumbs, getBreadcrumbs, LastCrumb } from "../utils/breadcrumbs";
-import useUpdateBreadcrumbs, { useSetBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
+import { useSetBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
 
 initInstrumentation();
 configureLogger({

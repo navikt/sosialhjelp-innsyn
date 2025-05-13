@@ -1,17 +1,10 @@
 import { setBreadcrumbs } from "@navikt/nav-dekoratoren-moduler";
-import { DependencyList, use, useEffect, useRef } from "react";
+import { DependencyList, useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { logger } from "@navikt/next-logger";
-
-import {
-    Breadcrumb,
-    LastCrumb,
-    CompleteCrumb,
-    getBaseCrumbs,
-    getBreadcrumbs,
-    getAppBreadcrumbs,
-} from "../utils/breadcrumbs";
 import { usePathname } from "next/navigation";
+
+import { Breadcrumb, LastCrumb, CompleteCrumb, getBaseCrumbs, getAppBreadcrumbs } from "../utils/breadcrumbs";
 
 /**
  * The last crumb does not need to provide a URL, since it's only used to display the text for the "active" crumb.
@@ -57,9 +50,17 @@ export const useSetBreadcrumbs = () => {
     const { t } = useTranslation();
     const pathname = usePathname();
 
-    console.log("Setting breadcrumbs", pathname);
-    const crumbs = [...getBaseCrumbs(t), ...getAppBreadcrumbs(pathname)];
-    use(setBreadcrumbs(crumbs));
+    useEffect(() => {
+        const crumbs = [...getBaseCrumbs(t), ...getAppBreadcrumbs(pathname)];
+        (async () => {
+            try {
+                await setBreadcrumbs(crumbs);
+            } catch (e) {
+                logger.error(`klarte ikke å oppdatere breadcrumbs på ${location.pathname}`);
+                logger.error(e);
+            }
+        })();
+    }, [pathname, t]);
 };
 
 export default useUpdateBreadcrumbs;
