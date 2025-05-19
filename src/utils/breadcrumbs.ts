@@ -49,14 +49,15 @@ enum SsrPathVariants {
     NotFound = "/404",
     Forbidden = "/403",
     ServerError = "/500",
-    Root = "/",
-    Utbetaling = "/utbetaling",
-    Soknad = "/[id]/status",
-    NyKlage = "/[id]/klage/skjema",
+    Root = "/[locale]",
+    Utbetaling = "/[locale]/utbetaling",
+    Soknad = "/[locale]/[id]/status",
+    NyKlage = "/[locale]/[id]/klage/skjema",
     Error = "/_error",
 }
 
 export const getBreadcrumbs = (pathname?: SsrPathVariants | string): Breadcrumb[] => {
+    console.log(pathname);
     switch (pathname) {
         case SsrPathVariants.Root:
             return [...getBaseCrumbs()];

@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert, BodyShort } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
 import { QueryClient } from "@tanstack/react-query";
@@ -10,23 +10,24 @@ import {
     getHentAlleSakerQueryKey,
     HentAlleSakerQueryResult,
     useHentAlleSaker,
-} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
-import { ApplicationSpinner } from "../components/applicationSpinner/ApplicationSpinner";
-import SaksoversiktDineSaker from "../saksoversikt/SaksoversiktDineSaker";
-import SaksoversiktIngenSoknader from "../saksoversikt/SaksoversiktIngenSoknader";
-import MainLayout from "../components/MainLayout";
-import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
-import pageHandler from "../pagehandler/pageHandler";
-import { useSakslisteDebug } from "../hooks/useSakslisteDebug";
-import { extractAuthHeader } from "../utils/authUtils";
-import UxSignalsWidget from "../components/widgets/UxSignalsWidget";
+} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import { ApplicationSpinner } from "../../components/applicationSpinner/ApplicationSpinner";
+import SaksoversiktDineSaker from "../../saksoversikt/SaksoversiktDineSaker";
+import SaksoversiktIngenSoknader from "../../saksoversikt/SaksoversiktIngenSoknader";
+import MainLayout from "../../components/MainLayout";
+import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
+import pageHandler from "../../pagehandler/pageHandler";
+import { useSakslisteDebug } from "../../hooks/useSakslisteDebug";
+import { extractAuthHeader } from "../../utils/authUtils";
+import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
+import { GetServerSidePropsContext } from "next/dist/types";
 
 const Preamble = styled("div")`
     margin-bottom: 1.5rem;
 `;
 
 const Saksoversikt: NextPage = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     useUpdateBreadcrumbs(() => []);
 
     const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
@@ -58,10 +59,18 @@ const Saksoversikt: NextPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>) => {
     const { req } = context;
     const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
+    if (!token) {
+        return {
+            redirect: {
+                destination: process.env.NEXT_INNSYN_MOCK_LOGIN_URL!,
+                permanent: false,
+            },
+        };
+    }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     await queryClient.prefetchQuery({
@@ -85,7 +94,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             }
         },
     });
-    return pageHandler(context, ["common", "utbetalinger"], queryClient);
+    return pageHandler(context, queryClient);
 };
 
 function buildUrl() {

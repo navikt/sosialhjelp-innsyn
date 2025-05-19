@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Alert } from "@navikt/ds-react";
 
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -9,7 +9,7 @@ import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 
 const ForelopigSvarAlertstripe = () => {
     const soknadId = useFiksDigisosId();
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const { data: forelopigSvar } = useHentForelopigSvarStatus(soknadId);
     const { data: soknadsStatus } = useHentSoknadsStatus(soknadId);

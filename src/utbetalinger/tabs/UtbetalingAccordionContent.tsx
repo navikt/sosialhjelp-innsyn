@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Accordion, BodyShort, Link as AkselLink } from "@navikt/ds-react";
 import Link from "next/link";
 import { FileTextIcon } from "@navikt/aksel-icons";

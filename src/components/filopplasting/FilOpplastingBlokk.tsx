@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import styled, { css } from "styled-components";
 import { BodyShort, Label, ErrorMessage } from "@navikt/ds-react";
 
@@ -57,7 +57,7 @@ interface Props {
 const FilOpplastingBlokk = (props: Props): ReactElement => {
     const { addFileButton } = props;
     const uniqueErrors = dedupeErrorsByProp(props.errors, "feil");
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <StyledFrame

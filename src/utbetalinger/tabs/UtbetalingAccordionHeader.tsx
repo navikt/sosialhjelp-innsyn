@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Accordion, BodyShort } from "@navikt/ds-react";
 import cx from "classnames";
 

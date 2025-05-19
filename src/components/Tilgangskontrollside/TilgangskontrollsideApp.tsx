@@ -2,7 +2,7 @@
 import * as React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -52,7 +52,7 @@ const fetchDekoratorSession = async () => {
 const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProps) => {
     const router = useRouter();
     const pathname = usePathname();
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {

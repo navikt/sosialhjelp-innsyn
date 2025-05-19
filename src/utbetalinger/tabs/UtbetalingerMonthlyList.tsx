@@ -1,5 +1,5 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { set } from "date-fns";
 import { useMemo } from "react";
 

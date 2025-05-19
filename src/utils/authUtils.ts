@@ -1,17 +1,19 @@
 import { GetServerSidePropsContext } from "next/dist/types";
 
-export const extractAuthHeader = (req: GetServerSidePropsContext["req"]): string => {
+export const extractAuthHeader = (req: GetServerSidePropsContext["req"]): string | null => {
     let authHeader;
     if (["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
-        if (!req.cookies["localhost-idtoken"]) {
-            throw new Error("Missing auth header");
+        const cookie = req.cookies["localhost-idtoken"];
+        if (!cookie) {
+            return null;
         }
-        authHeader = "Bearer " + req.cookies["localhost-idtoken"];
+        authHeader = "Bearer " + cookie;
     } else {
-        if (!req.headers.authorization) {
-            throw new Error("Missing auth header");
+        const header = req.headers.authorization;
+        if (!header) {
+            return null;
         }
-        authHeader = req.headers.authorization;
+        authHeader = header;
     }
     return authHeader;
 };

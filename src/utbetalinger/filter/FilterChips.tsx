@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Box, Chips } from "@navikt/ds-react";
 import React from "react";
 

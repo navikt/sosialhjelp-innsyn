@@ -1,0 +1,294 @@
+{
+    "common": {
+        "app": { "tittel": "Financial assistance" },
+        "historikk": {
+            "tittel": "This has happened in the case",
+            "se_vedtaksbrev": "Show letter",
+            "vis_alle": "Show all",
+            "se_hele_prosessen": "See the whole process",
+            "lukk": "Close"
+        },
+        "hendelse": {
+            "soknad_sendt_til_kontor": "The application with documentation has been sent to <1>{{tekstArgument}}</1> municipality.",
+            "soknad_mottatt_hos_kommune": "The application with documentation has been received by <1>{{tekstArgument}}</1> municipality.",
+            "soknad_mottatt": "The application with documentation has been received.",
+            "soknad_under_behandling": "Your application is being processed.",
+            "soknad_ferdigbehandlet": "Your application has been processed.",
+            "soknad_behandles_ikke": "We cannot show the status of your application on nav.no.",
+            "soknad_videresendt_papirsoknad_uten_norg_enhet": "Your application has been received by another Nav office.",
+            "soknad_videresendt_papirsoknad_med_norg_enhet": "Your application has been received by <1>{{tekstArgument}}</1>",
+            "soknad_videresendt_uten_norg_enhet": "The application with documentation has been forwarded to and received by another Nav office. The forwarding process will not delay the processing time.",
+            "soknad_videresendt_med_norg_enhet": "The application with documentation has been forwarded to and received by <1>{{tekstArgument}}</1> municipality. The forwarding process will not delay the processing time.",
+            "soknad_kan_ikke_vise_status_med_tittel": "We cannot show the status of your application for <1>{{tekstArgument}}</1> on nav.no.",
+            "soknad_kan_ikke_vise_status_uten_tittel": "We cannot show the status of your application on nav.no.",
+            "sak_under_behandling_med_tittel": "<0>{{tekstArgument}}</0> is being processed.",
+            "sak_under_behandling_uten_tittel": "Your case is being processed.",
+            "sak_ferdigbehandlet_med_tittel": "<0>{{tekstArgument}}</0> has been processed.",
+            "sak_ferdigbehandlet_uten_tittel": "Financial assistance has been processed.",
+            "sak_kan_ikke_vises_status_med_tittel": "We cannot show the status of your application for <1>{{tekstArgument}}</1> on nav.no.",
+            "sak_kan_ikke_vises_status_uten_tittel": "We cannot show the status of your application on nav.no.",
+            "antalle_sendte_vedlegg": "You have submitted {{tekstArgument}} document to Nav.",
+            "sendt_en_vedlegg": "You have submitted {{tekstArgument}} document to Nav.",
+            "sendt_flere_vedlegg": "You have submitted {{tekstArgument}} documents to Nav.",
+            "vilkar_oppdatert": "Your conditions have been updated; please see the notice of decision for more information.",
+            "utbetalinger_oppdatert": "<0>Your payments</0> have been updated.",
+            "brev_om_saksbehandlingstid": "You have received a letter with information about the processing time of your application.",
+            "etterspor_mer_dokumentasjon": "We need more information to process your application.",
+            "etterspor_ikke_mer_dokumentasjon": "We have reviewed your information and will let you know if we need anything else from you.",
+            "dokumentasjonkrav": "Your tasks have been updated; please see the notice of decision for more information.",
+            "soknad_sendt_til_kontor_lenketekst": "Show application",
+            "vis_brevet_lenketekst": "Show letter"
+        },
+        "status": {
+            "sendt": "Your application has been sent",
+            "mottatt": "Your application has been received",
+            "under_behandling": "Your application is being processed",
+            "ferdigbehandlet": "Your application has been processed",
+            "behandles_ikke": "Your application has been processed",
+            "soknad_behandles_ikke_ingress": "We cannot show the status of your application on nav.no. This could be because your application is being processed with another application you have submitted, or because you have withdrawn your application. If you have questions, please contact your Nav office.",
+            "sak_behandles_ikke_ingress": "We cannot show the status of your application on nav.no. This could be because your application is being processed with another application you have submitted, or because you have withdrawn your application. If you have questions, please contact your Nav office.",
+            "ikke_innsyn_ingress": "Your application will be processed, but we cannot show the status of your application on nav.no. If you have questions, please contact your Nav office."
+        },
+        "soknadstatus": {
+            "sendt": "Sent",
+            "mottatt": "Received",
+            "under_behandling": "In process",
+            "ferdigbehandlet": "Completed",
+            "behandles_ikke": "Completed"
+        },
+        "oppdatert": "Updated",
+        "saksStatus": { "under_behandling": "In process", "ferdig_behandlet": "Completed" },
+        "tidspunkt": { "klokken": "at" },
+        "saker": { "oppgave": "You have tasks", "default_tittel": "Application for financial assistance" },
+        "default_sak_tittel": "Financial assistance",
+        "default_utbetalinger_tittel": "Payments",
+        "oppgaver": {
+            "vilkar": {
+                "beskrivelse": "Requirements are activities you must participate in as part of your follow-up from Nav.",
+                "dokumentasjonskrav": {
+                    "beskrivelse": "This documentation may be related to your requirements, or Nav may need documentation from you in order to make payments to you. You can submit the information under “Your documents” below."
+                }
+            },
+            "dine_oppgaver": "Your tasks",
+            "maa_sende_dok_veileder": "We need additional documentation for your application.",
+            "maa_sende_dok": "Your application is missing some documentation",
+            "innsendelsesfrist": "Final date of submission is {{innsendelsesfrist}}",
+            "innsendelsesfrist_passert": "The final date for submission was {{innsendelsesfrist}}",
+            "veileder_trenger_mer": "We need more documentation from you in order to process your application. If you have submitted the documentation to your Nav office, you can disregard this notice.",
+            "last_opp_vedlegg_ikke": "Below is an overview of the documentation you did not submit with your application. We recommend that you submit the documentation as soon as possible. If you have submitted the documentation to your Nav office, you can disregard this notice.",
+            "hjelp_last_opp": "Do you need help submitting information?",
+            "informasjon": {
+                "modal": {
+                    "overskrift": "Do you need help submitting documentation?",
+                    "bolk1": {
+                        "tittel": "Are we not accepting the document that you are trying to submit?",
+                        "avsnitt1": "Then you can check whether the attachment is under 10 MB, or is locked with a password."
+                    },
+                    "bolk2": {
+                        "tittel": "Send paper-based documentation",
+                        "avsnitt1": "If you have documentation on paper, you can scan it and send it digitally. Scanned documentation will be of better quality and easier to read.",
+                        "avsnitt2": "Using a scanning app, you can use the camera on your mobile phone to scan the documentation. You can compile several paper pages into one digital attachment, for example your tenancy agreement.",
+                        "avsnitt3": "You can also take a photo of the documentation you have on paper with your mobile phone. You can attach the images when you send attachments from your mobile phone. If you use a PC, you can send the images to yourself by e-mail, then upload them to nav.no."
+                    },
+                    "bolk3": {
+                        "tittel": "Send documentation from other websites",
+                        "avsnitt1": "If you wish to send documentation from another website, download the content if possible. For example, the tax returns and decisions from the Norwegian State Educational Loan Fund can be downloaded as PDF files. Avoid taking pictures of a PC screen with a camera."
+                    },
+                    "bolk4": {
+                        "tittel": "Make sure the documentation you send can be read",
+                        "avsnitt1": "It is important that you check that the documentation you upload is complete and can be read on the screen. If it is difficult to read the information, we may ask you to re-send it."
+                    }
+                }
+            },
+            "neste_frist": "The next submission date is {{innsendelsesfrist}}",
+            "neste_frist_passert": "The final date for submission was {{antall_dager}} days ago, on {{innsendelsesfrist}}",
+            "send_knapp_tittel": "Submit documents",
+            "ingen_oppgaver": "You have no tasks.",
+            "beskjed": "You will be notified if we need something from you",
+            "andre_dokumenter": "Do you have any additional documentation you would like to send?",
+            "andre_dokumenter_beskjed": "You can send additional documentation under the tab \"Your documents\" below."
+        },
+        "vilkar": {
+            "du_har_vilkar": "Requirements apply",
+            "veileder_trenger_mer": "Requirements are activities you must participate in as part of your follow-up from Nav."
+        },
+        "dokumentasjonkrav": {
+            "dokumentasjon_stonad": "You must provide documentation",
+            "veileder_trenger_mer": "This documentation may be related to your requirements, or Nav may need documentation from you in order to make payments to you."
+        },
+        "vedlegg": {
+            "lovlig_format": "We only accept files that are PDF, JPG or PNG.",
+            "minst_ett_vedlegg": "You must first select the document you want to submit.",
+            "ulovlig_en_fil_feilmelding": "{{filnavn}} was not added:",
+            "ulovlig_en_filnavn_feilmelding": "{{filnavn}} uses unsupported characters and was not added:",
+            "ulovlig_en_filstorrelse_feilmelding": "{{filnavn}} is too big and was not added:",
+            "ulovlig_flere_fil_feilmelding": "Sorry, we could not add your files. We don´t support the filetype for {{antallFiler}} files:",
+            "ulovlig_filnavn_feilmelding": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
+            "ulovlig_filstorrelse_feilmelding": "The file size must be under 10 MB.",
+            "ulovlig_storrelse_av_alle_valgte_filer": "We cannot accept your documentation if their combined size exceeds 150 MB.",
+            "velg_fil": "Upload documentation",
+            "fjern": "Remove",
+            "tittel": "Your documents",
+            "validering": { "duplikat": "The document {{filnavn}} already exists" },
+            "opplasting_feilmelding": "We cannot forward your documentation. Please remove and correct the above files",
+            "opplasting_backend_feilmelding": "Sorry, we were unable to forward your documentation. Please try again later.",
+            "opplasting_backend_virus_feilmelding": "Your upload was stopped by our antivirus software. Please try again with a different file.",
+            "opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT": "Sorry, we are unable to open this PDF, please try again with another file.",
+            "opplasting_feilmelding_PDF_IS_SIGNED": "This PDF is read-only, and we cannot process it.",
+            "opplasting_feilmelding_PDF_IS_ENCRYPTED": "This PDF is password-protected, and we cannot process it.",
+            "opplasting_feilmelding_ILLEGAL_FILE_TYPE": "The file type must be JPG, PNG or PDF.",
+            "opplasting_feilmelding_ILLEGAL_FILENAME": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
+            "opplasting_feilmelding_FILE_TOO_LARGE": "The file size must be under 10 MB",
+            "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "We cannot accept your documentation if their combined size exceeds 150 MB",
+            "suksess": "Thank you! Your documentation have been submitted.",
+            "tabell": { "filnavn": "Filename", "beskrivelse": "Description", "dato": "Date added" }
+        },
+        "andre_vedlegg": {
+            "type": "Would you like to submit documentation?",
+            "tilleggsinfo": "You can submit several documents that you think are important for your application. You can take photos and screenshots.",
+            "send_knapp_tittel": "Submit document"
+        },
+        "forelopigSvar": "You have received a letter with information about the processing time of your application.",
+        "driftsmelding": {
+            "innsynDeaktivert": "Sorry, we cannot display the status of your application. You can still submit documentation on nav.no. If you have questions, please contact your Nav office.",
+            "ettersendelseDeaktivert": "Sorry, we cannot receive your documentation. Please try again later, or submit them to your Nav office.",
+            "innsynOgEttersendelseDeaktivert": "Sorry, we cannot display the status of your application or receive your documentation. Please try again later, or contact your Nav office.",
+            "kanIkkeSendeVedlegg": "Sorry, we are experiencing system error. Please submit your documentation to your Nav office.",
+            "vedlegg": {
+                "feiledeDigisosIder": "Sorry, you cannot submit documentation for this application digitally. Please submit your documentation to your Nav office.",
+                "vedleggMangler": "Unfortunately, you can not submit documentation to this application."
+            },
+            "feiledeDigisosIder": "Sorry, we cannot display the status of your application or recieve your documentation for this application digitally. Please submit your documentation to your Nav office."
+        },
+        "feilside": { "finnes_ikke_overskrift": "This page does not exist" },
+        "feilmelding": {
+            "soknadStatus_innlasting": "We were unable to load the status of your application",
+            "saksStatus_innlasting": "We were unable to load the status of your cases",
+            "dineOppgaver_innlasting": "We were unable to load information about your tasks",
+            "historikk_innlasting": "We were unable to load your history",
+            "vedlegg_innlasting": "We were unable to load your submitted documentation",
+            "ressurs_innlasting": "We were unable to load all the information on this page. Try reloading the page or try again later.",
+            "saksOversikt": "We were unable to load all the information on this page.",
+            "saksOversikt2": "Try reloading the page or try again later."
+        },
+        "dineSoknader": "Your applications",
+        "nySoknad": "New application",
+        "relatertInfo": "Related information",
+        "endringer": { "tittel": "Report changes", "detaljer": "Tell us if your financial situation changes." },
+        "klage": {
+            "tittel": "Right to complain",
+            "detaljer": "If you have received a notice of decision that you believe is wrong, you can complain.",
+            "papirskjema": {
+                "header": "Appeal",
+                "sammendrag": "If you disagree with the decision of your application, you can appeal.",
+                "beskrivelse_1": "To appeal, you can ",
+                "skjema_url_tekst": "print out an appeal form (pdf)",
+                "beskrivelse_2": "which you can send as documentation to your application.",
+                "mer_info_url_tekst": "You can read more about the appeal"
+            }
+        },
+        "personopplysninger": { "tittel": "Personal data", "detaljer": "How we process your personal data" },
+        "soknadStatus": { "tittel": "Status of your application" },
+        "ekstern_lenke": "(open in a new tab)",
+        "vedtak": "Notice of decision",
+        "tilgang": {
+            "header": "Hi {{fornavn}}",
+            "info": "We are sorry, you cannot use the digital application for financial assistance. Please contact your local Nav office for assistance with the application."
+        },
+        "min_side": "My page",
+        "ingen_soknad": {
+            "tittel": "We cannot find any applications from you",
+            "info": "This could be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
+        },
+        "lenke": {
+            "les_mer": "Read more about financial assistance",
+            "sok": "Apply for financial assistance",
+            "saksbehandling": "How long will it take to process the application?",
+            "klage": "How do I complain?"
+        },
+        "varsling": {
+            "forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved."
+        },
+        "soknaderUtenVedlegg": {
+            "forside": "During the period from 11.4.24 at 15:00 to 12.4.24 at 12:15, we experienced technical problems. Applications that were sent during this period and had documentation have failed in the reception to the municipality. It will not be possible to upload new documentation to this application. Please contact your local Nav office for help. We apologize for the inconvenience this causes.",
+            "statusside": "Due to a technical error, this application has failed. It will not be possible to upload documentation to this application. Please contact your local Nav office for help. We apologize for the inconvenience this causes."
+        },
+        "annen_dokumentasjon": "additional documentation"
+    },
+    "utbetalinger": {
+        "documentTitle": "Payments – Financial Social Assistance",
+        "inngang": "See your financial social assistance payments",
+        "tittel": { "ute": "Your payments", "inne": "Your financial social assistance payments" },
+        "utbetalingerIngress": "You may have tasks related to your follow-up from Nav. If you have applied on paper, we cannot always show your payments. Read more in the decision letter you receive from Nav. If you have any questions, please contact us by phone at 55 55 33 33.",
+        "tidligereIngress": "You can see your payments for the last 15 months here. If you have applied on paper, we cannot always show your payments. If you have any questions, please contact us by phone at 55 55 33 33.",
+        "tab1": "Payments",
+        "tab2": "Previous payments",
+        "filter": {
+            "aria": "Choose payments to display",
+            "dato": "Choose period",
+            "fra": "From",
+            "til": "To",
+            "format": "(dd.mm.yyyy)",
+            "mottaker": { "minKonto": "To me", "annenMottaker": "To other recipients" },
+            "alle": "All",
+            "ugylding": "The date should be in the format  dd.mm.yyyy",
+            "tidligstFra": "The earliest search date is 15 months back",
+            "fraEtterTil": "The From date cannot be after the To date",
+            "tilEtterFra": { "": "The To date cannot be before the From date" },
+            "knapp": "Filter"
+        },
+        "modal": { "avbryt": "Cancel", "vis": "Show matches" },
+        "feil": {
+            "fetch": "Something went wrong when we tried to retrieve your payments. Please try again later.",
+            "ingen": {
+                "filter": "We could not find any payments for selected filtering",
+                "default": {
+                    "tidligere": "We could not find any payments for the last 15 months",
+                    "nye": "We could not find any payments for current or coming months"
+                }
+            }
+        },
+        "utbetalingStatus": {
+            "STOPPET": "Stopped",
+            "PLANLAGT_UTBETALING": "Planned",
+            "UTBETALT": "Paid",
+            "ANNULLERT": "Annulled"
+        },
+        "periode": "Period",
+        "mottaker": "Recipient",
+        "tilDeg": "To you",
+        "bankkonto": "Bank account",
+        "soknadLenke": "Go to the application and read the decision letter for more details",
+        "utbetaling": "Payment",
+        "ukjentDato": "Unknown payment date",
+        "ingen": {
+            "utbetalinger": {
+                "tittel": "We cannot find any payments for financial assistance",
+                "nøkkelpunt": { "tittel": "This could be because:" },
+                "nøkkelpunkt1": "your application is still being processed",
+                "nøkkelpunkt2": "you were not granted what you applied for support for",
+                "nøkkelpunkt3": "your municipality cannot show payments for application submitted on paper"
+            }
+        },
+        "utbetalinger": {
+            "ingen-utbetalinger": {
+                "tittel": "We cannot find any payments for financial assistance",
+                "body": "This could be because you have not applied for financial assistance, your municipality cannot show payments for applications submitted on paper, or your payments are older than 15 months."
+            }
+        },
+        "utbetalingsmetode": {
+            "bank": "Bank",
+            "bankoverføring": "Bank transfer",
+            "bankkonto": "Bank account",
+            "bankgiro": "Bank giro transfer",
+            "lønn": "Salary",
+            "rekvisisjon": "Payment Requisition",
+            "kontantkort": "Payment card",
+            "kontant/sjekk": "Cash/Check payment",
+            "kronekort": "Payment card",
+            "giro": "Bank giro transfer",
+            "postgiro": "Postal giro",
+            "garanti": "Guarantee"
+        }
+    }
+}

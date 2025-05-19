@@ -68,7 +68,7 @@ const getQueries = (fiksDigisosId: string) => [
 ];
 
 export const LoadingResourcesFailedAlert = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const fiksDigisosId = useFiksDigisosId();
     const _queries = getQueries(fiksDigisosId);

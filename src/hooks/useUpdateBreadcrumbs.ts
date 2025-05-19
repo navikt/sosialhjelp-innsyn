@@ -1,6 +1,6 @@
 import { setBreadcrumbs } from "@navikt/nav-dekoratoren-moduler";
 import { DependencyList, useEffect, useRef } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
 import { usePathname } from "next/navigation";
 
@@ -25,7 +25,7 @@ function createCompleteCrumbs(
 }
 
 export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCrumb] | [], deps?: DependencyList): void {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const makeCrumbsRef = useRef(makeCrumbs);
     useEffect(() => {
         makeCrumbsRef.current = makeCrumbs;
@@ -47,7 +47,7 @@ export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCru
 }
 
 export const useSetBreadcrumbs = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const pathname = usePathname();
 
     useEffect(() => {

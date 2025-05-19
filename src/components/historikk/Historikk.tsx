@@ -47,7 +47,7 @@ interface HistorikkListeProps {
 }
 
 const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
@@ -78,7 +78,7 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                     <Trans t={t} i18nKey={enumValue}>
                         {/*Lenken finnes som <0></0> i språkfila. 0 = første children.
                         Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
-                        <AkselLink as={Link} href="/utbetaling">
+                        <AkselLink as={Link} href="/[locale]/utbetaling">
                             Dine utbetalinger
                         </AkselLink>{" "}
                         har blitt oppdatert
@@ -186,7 +186,7 @@ const KortHistorikk = ({ hendelser, leserData }: { hendelser: HendelseResponse[]
 const LangHistorikk = ({ hendelser }: { hendelser: HendelseResponse[] }) => {
     const [apen, setApen] = useState(false);
     const historikkListeClassname = apen ? "historikk_start" : "historikk_start_lukket";
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const toggleOpen = () => {
         setApen(!apen);
     };
@@ -229,7 +229,7 @@ const StyledTextPlacement = styled.div`
 
 const Historikk = ({ fiksDigisosId }: Props) => {
     const { data: hendelser, isLoading, isError } = useHentHendelser(fiksDigisosId);
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     if (isError) {
         return <StyledTextPlacement>{t("feilmelding.historikk_innlasting")}</StyledTextPlacement>;

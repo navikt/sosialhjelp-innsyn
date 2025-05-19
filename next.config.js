@@ -1,5 +1,5 @@
 const { buildCspHeader } = require("@navikt/nav-dekoratoren-moduler/ssr");
-const { i18n } = require("./next-i18next.config");
+const createNextIntlPlugin = require("next-intl/plugin");
 
 /** Content security policy */
 const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
@@ -55,7 +55,9 @@ const nextConfig = {
     productionBrowserSourceMaps: true,
 };
 
-module.exports = {
+const withNextIntl = createNextIntlPlugin();
+
+module.exports = withNextIntl({
     compiler: {
         // see https://styled-components.com/docs/tooling#babel-plugin for more info on the options.
         styledComponents: { ssr: true, displayName: true },
@@ -66,5 +68,4 @@ module.exports = {
         config.resolve.fallback = { fs: false, module: false, path: false };
         return config;
     },
-    i18n,
-};
+});

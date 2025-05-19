@@ -1,7 +1,7 @@
 import { Heading } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { SoknadsStatusResponseStatus } from "../../generated/model";
 
@@ -25,7 +25,7 @@ interface Props {
     soknadsStatus?: SoknadsStatusResponseStatus;
 }
 const SoknadsStatusHeading = (props: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <HeadingWrapper>

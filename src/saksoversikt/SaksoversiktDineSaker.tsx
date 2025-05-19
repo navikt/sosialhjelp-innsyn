@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { isAfter, isBefore } from "date-fns";
 import { Button, Heading, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { sort } from "remeda";
 
 import Subheader from "../components/subheader/Subheader";
@@ -52,7 +52,7 @@ const sammenlignSaksTidspunkt = (a: SaksListeResponse, b: SaksListeResponse) => 
 };
 
 const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     // En kjappere måte å finne ut om vi skal vise utbetalinger... Desverre så støtter ikke alle fagsystemene utbetalinger ennå.
     // Vi ønsker å gå over til denne med tanke på ytelse...

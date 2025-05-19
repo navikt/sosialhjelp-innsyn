@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import {
     logAmplitudeEvent,
@@ -103,7 +103,7 @@ const useFilOpplasting = (
         { fiksDigisosId: string; data: SendVedleggBody }
     >
 ) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const { isPending, mutate, error, isError, data } = useSendVedlegg();

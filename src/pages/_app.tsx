@@ -7,6 +7,7 @@ import "../index.css";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
+import { NextIntlClientProvider } from "next-intl";
 
 import ErrorBoundary from "../components/errors/ErrorBoundary";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
@@ -43,15 +44,21 @@ const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element =
     return (
         <QueryClientProvider client={queryClient}>
             <HydrationBoundary state={pageProps.dehydratedState}>
-                <ErrorBoundary>
-                    <FlagProvider toggles={pageProps.toggles}>
-                        <Tilgangskontrollside harTilgang={pageProps.tilgang}>
-                            <div role="main" tabIndex={-1} id="maincontent">
-                                <Component {...pageProps}></Component>
-                            </div>
-                        </Tilgangskontrollside>
-                    </FlagProvider>
-                </ErrorBoundary>
+                <NextIntlClientProvider
+                    locale={(router.query.locale as string) || "nb"}
+                    messages={pageProps.messages}
+                    timeZone="Europe/Oslo"
+                >
+                    <ErrorBoundary>
+                        <FlagProvider toggles={pageProps.toggles}>
+                            <Tilgangskontrollside harTilgang={pageProps.tilgang}>
+                                <div role="main" tabIndex={-1} id="maincontent">
+                                    <Component {...pageProps}></Component>
+                                </div>
+                            </Tilgangskontrollside>
+                        </FlagProvider>
+                    </ErrorBoundary>
+                </NextIntlClientProvider>
             </HydrationBoundary>
         </QueryClientProvider>
     );

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BodyLong, Heading, Link, Panel } from "@navikt/ds-react";
 import * as React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -17,7 +17,7 @@ const PageWrapper = styled(Panel)`
 `;
 
 const SideIkkeFunnet = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     useUpdateBreadcrumbs(() => [{ title: "Feil: Fant ikke siden  ", url: "/" }]);
 
     const appTitle = t("app.tittel");

@@ -1,0 +1,301 @@
+{
+    "common": {
+        "app": { "tittel": "Økonomisk sosialhjelp" },
+        "historikk": {
+            "tittel": "Dette har skjedd i saken",
+            "se_vedtaksbrev": "Vis brevet",
+            "vis_alle": "Vis alle",
+            "se_hele_prosessen": "Se hele prosessen",
+            "lukk": "Lukk"
+        },
+        "hendelse": {
+            "soknad_sendt_til_kontor": "Søknaden med dokumentasjon er sendt til <1>{{tekstArgument}}</1> kommune.",
+            "soknad_mottatt_hos_kommune": "Søknaden med dokumentasjon er mottatt hos <1>{{tekstArgument}}</1> kommune.",
+            "soknad_mottatt": "Søknaden med dokumentasjon er mottatt.",
+            "soknad_under_behandling": "Søknaden er under behandling.",
+            "soknad_ferdigbehandlet": "Søknaden er ferdigbehandlet.",
+            "soknad_behandles_ikke": "Vi kan ikke vise status for søknaden din på nav.no.",
+            "soknad_videresendt_papirsoknad_uten_norg_enhet": "Din søknad er mottatt ved et annet Nav-kontor",
+            "soknad_videresendt_papirsoknad_med_norg_enhet": "Din søknad er mottatt ved <1>{{tekstArgument}}</1>",
+            "soknad_videresendt_uten_norg_enhet": "Søknaden med dokumentasjon er videresendt og mottatt ved et annet Nav-kontor. Videresendingen vil ikke påvirke saksbehandlingstiden.",
+            "soknad_videresendt_med_norg_enhet": "Søknaden med dokumentasjon er videresendt og mottatt ved <1>{{tekstArgument}}</1>. Videresendingen vil ikke påvirke saksbehandlingstiden.",
+            "soknad_kan_ikke_vise_status_med_tittel": "Vi kan ikke vise status på søknaden din om <1>{{tekstArgument}}</1> på nav.no.",
+            "soknad_kan_ikke_vise_status_uten_tittel": "Vi kan ikke vise status på søknaden din om saken din på nav.no.",
+            "sak_under_behandling_med_tittel": "<0>{{tekstArgument}}</0> er under behandling.",
+            "sak_under_behandling_uten_tittel": "Saken din er under behandling.",
+            "sak_ferdigbehandlet_med_tittel": "<0>{{tekstArgument}}</0> er ferdigbehandlet",
+            "sak_ferdigbehandlet_uten_tittel": "Økonomisk sosialhjelp er ferdigbehandlet",
+            "sak_kan_ikke_vises_status_med_tittel": "Vi kan ikke vise status på søknaden din om <1>{{tekstArgument}}</1> på nav.no.",
+            "sak_kan_ikke_vises_status_uten_tittel": "Vi kan ikke vise status på søknaden din om saken din på nav.no.",
+            "antalle_sendte_vedlegg": "Du har sendt {{tekstArgument}} dokument til Nav.",
+            "sendt_en_vedlegg": "Du har sendt {{tekstArgument}} dokument til Nav.",
+            "sendt_flere_vedlegg": "Du har sendt {{tekstArgument}} dokumenter til Nav.",
+            "vilkar_oppdatert": "Vilkårene dine er oppdatert, les vedtaket for mer detaljer.",
+            "utbetalinger_oppdatert": "<0>Dine utbetalinger</0> har blitt oppdatert.",
+            "brev_om_saksbehandlingstid": "Du har fått et brev om saksbehandlingstiden for søknaden din.",
+            "etterspor_mer_dokumentasjon": "Vi trenger mer dokumentasjon til søknaden din.",
+            "etterspor_ikke_mer_dokumentasjon": "Vi har sett på dokumentasjonen din, og vil gi beskjed om vi trenger noe mer fra deg.",
+            "dokumentasjonkrav": "Dine oppgaver er oppdatert, les mer i vedtaket.",
+            "soknad_sendt_til_kontor_lenketekst": "Vis søknaden",
+            "vis_brevet_lenketekst": "Vis brevet"
+        },
+        "status": {
+            "sendt": "Søknaden er sendt",
+            "mottatt": "Søknaden er mottatt",
+            "under_behandling": "Søknaden er under behandling",
+            "ferdigbehandlet": "Søknaden er ferdigbehandlet",
+            "behandles_ikke": "Søknaden er ferdigbehandlet",
+            "soknad_behandles_ikke_ingress": "Vi kan ikke vise status på søknaden din på nav.no. Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt, eller fordi du har trukket tilbake søknaden. Har du spørsmål kan du ta kontakt med Nav-kontoret ditt.",
+            "sak_behandles_ikke_ingress": "Vi kan ikke vise status på søknaden din på nav.no. Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt, eller fordi du har trukket tilbake søknaden. Har du spørsmål kan du ta kontakt med Nav-kontoret ditt.",
+            "ikke_innsyn_ingress": "Søknaden din vil bli behandlet, men vi kan ikke vise status på søknaden din på nav.no. Har du spørsmål kan du ta kontakt med Nav-kontoret ditt."
+        },
+        "soknadstatus": {
+            "sendt": "Sendt",
+            "mottatt": "Mottatt",
+            "under_behandling": "Under behandling",
+            "ferdigbehandlet": "Ferdigbehandlet",
+            "behandles_ikke": "Ferdigbehandlet"
+        },
+        "oppdatert": "oppdatert",
+        "saksStatus": { "under_behandling": "Under behandling", "ferdig_behandlet": "Ferdigbehandlet" },
+        "tidspunkt": { "klokken": "klokken" },
+        "saker": { "oppgave": "Du har oppgaver", "default_tittel": "Søknad om økonomisk sosialhjelp" },
+        "default_sak_tittel": "Økonomisk sosialhjelp",
+        "default_utbetalinger_tittel": "Utbetaling",
+        "oppgaver": {
+            "vilkar": {
+                "beskrivelse": "Dette er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav.",
+                "dokumentasjonskrav": {
+                    "beskrivelse": "Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være økonomisk dokumentasjon Nav trenger for å utbetale stønaden din. Du kan levere disse under «Dine dokumenter» nedenfor."
+                }
+            },
+            "dine_oppgaver": "Dine oppgaver",
+            "maa_sende_dok_veileder": "Du må levere dokumentasjon til søknaden din",
+            "maa_sende_dok": "Vi mangler noe dokumentasjon til søknaden din",
+            "innsendelsesfrist": "Frist for å levere er {{innsendelsesfrist}}",
+            "innsendelsesfrist_passert": "Frist for å levere var {{innsendelsesfrist}}",
+            "veileder_trenger_mer": "Vi trenger dokumentasjon for å behandle søknaden din. Har du levert dokumentasjonen til Nav-kontoret, kan du se bort fra denne meldingen.",
+            "last_opp_vedlegg_ikke": "Her ser du hvilken dokumentasjon du ikke sendte sammen med søknaden. Vi anbefaler at du leverer dokumentasjonen så fort som mulig. Har du levert det direkte til Nav-kontoret, kan du se bort fra denne meldingen.",
+            "hjelp_last_opp": "Trenger du hjelp til å sende dokumentasjon?",
+            "informasjon": {
+                "modal": {
+                    "overskrift": "Trenger du hjelp til å sende dokumentasjon?",
+                    "bolk1": {
+                        "tittel": "Godtar vi ikke dokumentet du prøver å sende inn?",
+                        "avsnitt1": "Da kan du gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord."
+                    },
+                    "bolk2": {
+                        "tittel": "Dokumentasjon du har på papir",
+                        "avsnitt1": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, slik de er lettere å lese.",
+                        "avsnitt2": "Med en skanne-app kan du bruke kameraet på mobiltelefonen din til å skanne dokumentasjonen. Du kan samle flere papirsider til ett digitalt vedlegg, for eksempel husleiekontrakten din.",
+                        "avsnitt3": "Du kan også ta bilde av dokumentasjonen du har på papir med mobiltelefonen din. Bildene kan du legge ved når du sender vedlegg fra mobilen. Hvis du bruker datamaskin, kan du sende bildene til deg selv på e-post først, og så laste de opp på nav.no."
+                    },
+                    "bolk3": {
+                        "tittel": "Dokumentasjon fra andre nettsider",
+                        "avsnitt1": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera."
+                    },
+                    "bolk4": {
+                        "tittel": "Sørg for at dokumentasjonen du sender kan leses",
+                        "avsnitt1": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
+                    }
+                }
+            },
+            "neste_frist": "Neste frist for å levere dokumentasjon er {{innsendelsesfrist}}",
+            "neste_frist_passert": "Frist for å levere dokumentasjonen var for {{antall_dager}} siden, den {{innsendelsesfrist}}",
+            "send_knapp_tittel": "Send dokumentasjon",
+            "ingen_oppgaver": "Du har ingen oppgaver.",
+            "beskjed": "Du vil få beskjed hvis det er noe du må gjøre.",
+            "andre_dokumenter": "Har du annen dokumentasjon du vil sende?",
+            "andre_dokumenter_beskjed": "Du kan sende dokumentasjonen under fanen \"Dine dokumenter\" nedenfor."
+        },
+        "vilkar": {
+            "du_har_vilkar": "Du har vilkår",
+            "veileder_trenger_mer": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav."
+        },
+        "dokumentasjonkrav": {
+            "dokumentasjon_stonad": "Du må levere dokumentasjon",
+            "veileder_trenger_mer": "Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være dokumentasjon Nav trenger for å utbetale stønaden din."
+        },
+        "vedlegg": {
+            "lovlig_format": "Vi godtar kun filer i formatene PDF, JPG eller PNG.",
+            "minst_ett_vedlegg": "Du må først velge dokumentet du vil sende.",
+            "ulovlig_en_fil_feilmelding": "{{filnavn}} ble ikke lagt til:",
+            "ulovlig_en_filnavn_feilmelding": "{{filnavn}} bruker tegn vi ikke støtter og ble ikke lagt til:",
+            "ulovlig_en_filstorrelse_feilmelding": "{{filnavn}} er for stor og ble ikke lagt til:",
+            "ulovlig_flere_fil_feilmelding": "Vi kunne ikke legge til filene dine. {{antallFiler}} av dem var av en type vi ikke støtter:",
+            "ulovlig_filnavn_feilmelding": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
+            "ulovlig_filstorrelse_feilmelding": "Størrelsen på filen må være under 10 Mb.",
+            "ulovlig_storrelse_av_alle_valgte_filer": "Vi kan ikke motta dokumentene dine hvis de til sammen er over 150 Mb.",
+            "velg_fil": "Last opp",
+            "fjern": "Fjern",
+            "tittel": "Dine dokumenter",
+            "validering": { "duplikat": "Dokumentet {{filnavn}} finnes allerede." },
+            "opplasting_feilmelding": "Vi kan ikke sende dokumentene. Vennligst fjern og korriger filene over",
+            "opplasting_backend_feilmelding": "Vi klarte dessverre ikke å sende dokumentene. Vennligst forsøk igjen senere.",
+            "opplasting_backend_virus_feilmelding": "Opplastingen ble stoppet av antivirus-programmet. Du kan prøve på nytt med en annen fil.",
+            "opplasting_feilmelding_COULD_NOT_LOAD_DOCUMENT": "Vi klarer ikke å åpne denne PDFen, vennligst prøv en annen fil",
+            "opplasting_feilmelding_PDF_IS_SIGNED": "PDFen er skrivebeskyttet og vi kan ikke behandle den",
+            "opplasting_feilmelding_PDF_IS_ENCRYPTED": "PDFen er passordbeskyttet og vi kan ikke behandle den",
+            "opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG eller PDF",
+            "opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
+            "opplasting_feilmelding_FILE_TOO_LARGE": "Størrelsen på filer må være under 10 Mb",
+            "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "Vi kan ikke motta dokumentene dine hvis de til sammen er over 150 Mb",
+            "suksess": "Takk! Dokumentasjonen din ble sendt inn.",
+            "tabell": { "filnavn": "Filnavn", "beskrivelse": "Beskrivelse", "dato": "Dato lagt til" }
+        },
+        "andre_vedlegg": {
+            "type": "Vil du sende mer dokumentasjon?",
+            "tilleggsinfo": "Her kan du sende flere dokumenter som du tenker er viktig for søknaden din. Du kan ta bilder og skjermbilder.",
+            "send_knapp_tittel": "Send dokumentasjon"
+        },
+        "forelopigSvar": "Du har fått et brev om saksbehandlingstiden for søknaden din. ",
+        "driftsmelding": {
+            "innsynDeaktivert": "Vi kan dessverre ikke vise nyeste status for søknaden din. Du kan fortsatt sende inn dokumentasjon på nav.no. Har du spørsmål kan du ta kontakt med Nav-kontoret ditt.",
+            "ettersendelseDeaktivert": "Vi kan dessverre ikke motta dokumentasjon fra deg. Du kan enten prøve igjen senere, eller levere de på Nav-kontoret ditt.",
+            "innsynOgEttersendelseDeaktivert": "Vi kan dessverre ikke vise deg nyeste status for søknaden din, eller motta dokumentasjon fra deg. Du kan enten prøve igjen senere, eller ta kontakt med Nav-kontoret ditt.",
+            "kanIkkeSendeVedlegg": "Vi har dessverre problemer med systemet, og ber deg levere dokumentasjon på ditt Nav kontor",
+            "vedlegg": {
+                "feiledeDigisosIder": "Du kan dessverre ikke sende inn dokumentasjon til denne søknaden digitalt. Du kan levere dokumentasjonen til Nav-kontoret du har sendt søknaden til.",
+                "vedleggMangler": "Du kan dessverre ikke sende inn dokumentasjon til denne søknaden."
+            },
+            "feiledeDigisosIder": "Vi kan dessverre ikke oppdatere statusen på denne søknaden, og du kan ikke sende inn dokumentasjon digitalt. Du kan levere dokumentasjon til Nav-kontoret du har sendt søknaden til."
+        },
+        "feilside": { "finnes_ikke_overskrift": "Denne siden finnes ikke" },
+        "feilmelding": {
+            "soknadStatus_innlasting": "Vi klarte ikke å laste opp status på søknaden din",
+            "saksStatus_innlasting": "Vi klarte ikke å laste opp status på sakene dine",
+            "dineOppgaver_innlasting": "Vi klarte ikke å laste opp informasjon om dine oppgaver",
+            "historikk_innlasting": "Vi klarte ikke å laste opp historikken din",
+            "vedlegg_innlasting": "Vi klarte ikke laste inn dine innsendte vedlegg",
+            "ressurs_innlasting": "Vi klarte ikke å laste inn all informasjon på siden. Du kan forsøke å oppdatere siden, eller prøve igjen senere.",
+            "saksOversikt": "Vi klarte ikke å hente inn all informasjonen på siden.",
+            "saksOversikt2": "Du kan forsøke å oppdatere siden, eller prøve igjen senere."
+        },
+        "dineSoknader": "Dine søknader",
+        "nySoknad": "Ny søknad",
+        "relatertInfo": "Relatert informasjon",
+        "endringer": {
+            "tittel": "Meld fra om endringer",
+            "detaljer": "Du må melde fra dersom din økonomiske situasjon endres."
+        },
+        "klage": {
+            "tittel": "Klagerettigheter",
+            "detaljer": "Har du fått et vedtak fra oss som du mener er feil, kan du klage.",
+            "papirskjema": {
+                "header": "Klage",
+                "sammendrag": "Hvis du har fått svar på søknaden din og er uenig i vedtaket, kan du klage.",
+                "beskrivelse_1": "For å klage kan du ",
+                "skjema_url_tekst": "skrive ut et klageskjema (pdf)",
+                "beskrivelse_2": " som du kan sende som dokumentasjon til din søknad.",
+                "mer_info_url_tekst": "Her kan du lese mer om klage"
+            }
+        },
+        "personopplysninger": {
+            "tittel": "Personopplysninger",
+            "detaljer": "Hvordan vi behandler dine personopplysninger"
+        },
+        "soknadStatus": { "tittel": "Status på søknaden din" },
+        "ekstern_lenke": "(åpnes i en ny fane)",
+        "vedtak": "Vedtak",
+        "tilgang": {
+            "header": "Hei {{fornavn}}",
+            "info": "Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt med ditt lokale Nav-kontor for å få hjelp til å søke."
+        },
+        "min_side": "Min side",
+        "ingen_soknad": {
+            "tittel": "Vi finner ingen søknader fra deg",
+            "info": "Dette kan være fordi kommunen din ikke kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 måneder."
+        },
+        "lenke": {
+            "les_mer": "Les mer om økonomisk sosialhjelp",
+            "sok": "Søk om økonomisk sosialhjelp",
+            "saksbehandling": "Hvor lang tid tar det å behandle søknaden?",
+            "klage": "Hvordan sende klage?"
+        },
+        "varsling": {
+            "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne siden ber deg bekrefte at du ønsker å forlate siden — informasjon som du allerede har skrevet inn vil kanskje ikke lagres."
+        },
+        "soknaderUtenVedlegg": {
+            "forside": "I tidsrommet 11.4.24 kl. 15.00 - 12.4.24. kl. 12.15 hadde vi tekniske problemer. Søknader som ble sendt i dette tidsrommet og hadde dokumentasjon har feilet i mottaket til kommunen. Det vil ikke være mulig å laste opp nye dokumentasjon på denne søknaden. Ta kontakt med ditt lokale Nav-kontor for hjelp. Vi beklager ulempene dette medfører.",
+            "statusside": "Pga. teknisk feil har denne søknaden feilet. Det vil ikke være mulig å laste opp dokumentasjon på denne søknaden. Ta kontakt med ditt Nav-kontor for hjelp. Vi beklager ulempene dette medfører."
+        },
+        "annen_dokumentasjon": "annen dokumentasjon"
+    },
+    "utbetalinger": {
+        "documentTitle": "Utbetalinger - Økonomisk sosialhjelp",
+        "inngang": "Se dine utbetalinger av økonomisk sosialhjelp",
+        "tittel": { "ute": "Dine utbetalinger", "inne": "Dine utbetalinger av økonomisk sosialhjelp" },
+        "utbetalingerIngress": "Du kan ha oppgaver tilknyttet oppfølgingen din fra Nav. Har du søkt på papir, kan vi ikke alltid vise utbetalingene dine. Les mer i vedtaksbrevet ditt. Har du spørsmål, kan du ta kontakt med oss på 55 55 33 33.",
+        "tidligereIngress": "Her ser du dine utbetalinger for de siste 15 månedene. Har du søkt på papir, kan vi ikke alltid vise utbetalingene dine. Har du spørsmål, kan du ta kontakt med oss på 55 55 33 33.",
+        "tab1": "Utbetalinger",
+        "tab2": "Tidligere utbetalinger",
+        "filter": {
+            "aria": "Velg utbetalinger å vise",
+            "dato": "Velg periode",
+            "fra": "Fra",
+            "til": "Til",
+            "format": "(dd.mm.åååå)",
+            "mottaker": { "minKonto": "Til meg", "annenMottaker": "Til andre mottakere" },
+            "alle": "Alle",
+            "ugylding": "Datoen må være i formatet dd.mm.åååå",
+            "tidligstFra": "Tidligste søkedato er 15 måneder tilbake i tid",
+            "fraEtterTil": "Fra-dato kan ikke være etter til-dato",
+            "tilEtterFra": { "": "Til-dato kan ikke være før fra-dato" },
+            "knapp": "Filter"
+        },
+        "modal": { "avbryt": "Avbryt", "vis": "Vis treff" },
+        "feil": {
+            "fetch": "Noe gikk galt da vi skulle hente utbetalingene dine. Vennligst prøv igjen senere.",
+            "ingen": {
+                "filter": "Vi fant ingen utbetalinger for valgt filtrering",
+                "default": {
+                    "tidligere": "Vi fant ingen utbetalinger for de siste 15 måneder",
+                    "nye": "Vi fant ingen utbetalinger for nåværende eller kommende måneder"
+                }
+            }
+        },
+        "utbetalingStatus": {
+            "STOPPET": "Stoppet",
+            "PLANLAGT_UTBETALING": "Planlagt",
+            "UTBETALT": "Utbetalt",
+            "ANNULLERT": "Annullert"
+        },
+        "periode": "Periode",
+        "mottaker": "Mottaker",
+        "tilDeg": "Til deg",
+        "bankkonto": "Bankkonto",
+        "soknadLenke": "Gå til søknaden og les vedtaksbrevet for mer detaljer",
+        "utbetaling": "Utbetaling",
+        "ukjentDato": "Ukjent utbetalingsdato",
+        "opprinneligSum": "Opprinnelig sum:",
+        "ingen": {
+            "utbetalinger": {
+                "tittel": "Vi finner ingen utbetalinger for økonomisk sosialhjelp",
+                "nøkkelpunt": { "tittel": "Dette kan være fordi:" },
+                "nøkkelpunkt1": "søknaden din ikke er ferdigbehandlet",
+                "nøkkelpunkt2": "du fikk ikke innvilget det du søkte om støtte til",
+                "nøkkelpunkt3": "kommunen din ikke kan vise utbetalinger for søknader sendt på papir"
+            }
+        },
+        "utbetalinger": {
+            "ingen-utbetalinger": {
+                "tittel": "Vi finner ingen utbetalinger for økonomisk sosialhjelp",
+                "body": "Dette kan være fordi du ikke har søkt om økonomisk sosialhjelp, kommunen din ikke kan vise utbetalinger for søknader sendt på papir, eller at utbetalingene er eldre enn 15 måneder."
+            }
+        },
+        "utbetalingsmetode": {
+            "bank": "Bank",
+            "bankoverføring": "Bankoverføring",
+            "bankkonto": "Bankkonto",
+            "bankgiro": "Bankgiro",
+            "lønn": "Lønn",
+            "rekvisisjon": "Rekvisisjon",
+            "kontantkort": "Kontantkort",
+            "kontant/sjekk": "Kontant/Sjekk",
+            "kronekort": "Kronekort",
+            "giro": "Giro",
+            "postgiro": "Postgiro",
+            "garanti": "Garanti"
+        }
+    }
+}

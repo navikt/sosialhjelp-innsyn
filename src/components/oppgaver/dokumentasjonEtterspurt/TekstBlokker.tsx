@@ -1,5 +1,5 @@
 import { BodyShort, Label } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { formatDato } from "../../../utils/formatting";
@@ -36,7 +36,7 @@ export const NesteInnsendelsesFrist = (props: NesteInnsendelsesFristProps) => {
     );
 };
 export const MaaSendeDokTekst = (props: { dokumentasjonEtterspurtErFraInnsyn: boolean }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <Label as="p">
@@ -47,7 +47,7 @@ export const MaaSendeDokTekst = (props: { dokumentasjonEtterspurtErFraInnsyn: bo
     );
 };
 export const InfoOmOppgaver = (props: { dokumentasjonEtterspurtErFraInnsyn: boolean }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return props.dokumentasjonEtterspurtErFraInnsyn ? (
         <BodyShort>{t("oppgaver.veileder_trenger_mer")}</BodyShort>

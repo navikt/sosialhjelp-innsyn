@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { SoknadsStatusResponseStatus } from "../../generated/model";
 
 const SoknadsStatusLenke = (props: { status: SoknadsStatusResponseStatus | undefined }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     switch (props.status) {
         case SoknadsStatusResponseStatus.SENDT:
         case SoknadsStatusResponseStatus.MOTTATT:

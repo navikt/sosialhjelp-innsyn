@@ -1,13 +1,13 @@
 import React from "react";
 import { Fieldset, Radio, RadioGroup } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { MottakerFilter } from "./lib/FilterContext";
 import { FilterDatePicker } from "./FilterDatePicker";
 import { useFilter } from "./lib/useFilter";
 
 const UtbetalingerFilter = () => {
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
     const { filters, setFilter } = useFilter();
     const { fraDato, mottaker, tilDato } = filters || {};
 

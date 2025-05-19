@@ -1,20 +1,20 @@
 import styled from "styled-components";
 import { Alert, BodyShort, Heading, Panel as NavDsPanel } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
 import { QueryClient } from "@tanstack/react-query";
 
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import useKommune from "../../hooks/useKommune";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
+import useKommune from "../../../hooks/useKommune";
 import {
     getHentSaksStatuserQueryKey,
     getHentSaksStatuserUrl,
     useHentSaksStatuser,
-} from "../../generated/saks-status-controller/saks-status-controller";
+} from "../../../generated/saks-status-controller/saks-status-controller";
 import {
     getGetDokumentasjonkravQueryKey,
     getGetDokumentasjonkravUrl,
@@ -27,51 +27,56 @@ import {
     getGetVilkarQueryKey,
     getGetVilkarUrl,
     useGetOppgaver,
-} from "../../generated/oppgave-controller/oppgave-controller";
+} from "../../../generated/oppgave-controller/oppgave-controller";
 import {
     getHentSoknadsStatusQueryKey,
     getHentSoknadsStatusUrl,
     useHentSoknadsStatus,
-} from "../../generated/soknads-status-controller/soknads-status-controller";
+} from "../../../generated/soknads-status-controller/soknads-status-controller";
 import {
     getHentForelopigSvarStatusQueryKey,
     getHentForelopigSvarStatusUrl,
     useHentForelopigSvarStatus,
-} from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
-import { logAmplitudeEvent } from "../../utils/amplitude";
-import { LoadingResourcesFailedAlert } from "../../innsyn/LoadingResourcesFailedAlert";
-import { DriftsmeldingKommune } from "../../components/driftsmelding/DriftsmeldingKommune";
-import ForelopigSvarAlertstripe from "../../components/forelopigSvar/ForelopigSvar";
-import SoknadsStatus from "../../components/soknadsStatus/SoknadsStatus";
-import Oppgaver from "../../components/oppgaver/Oppgaver";
-import VedleggView from "../../components/vedlegg/VedleggView";
-import Historikk from "../../components/historikk/Historikk";
-import MainLayout from "../../components/MainLayout";
-import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
-import { FilUploadSuccesfulProvider } from "../../components/filopplasting/FilUploadSuccessfulContext";
-import KlageSection from "../../components/klage/KlageSection";
-import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../generated/model";
-import pageHandler, { buildUrl } from "../../pagehandler/pageHandler";
-import Panel from "../../components/panel/Panel";
-import EttersendelseView from "../../components/ettersendelse/EttersendelseView";
-import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
-import ArkfanePanel from "../../components/arkfanePanel/ArkfanePanel";
-import { customFetch } from "../../custom-fetch";
-import { extractAuthHeader } from "../../utils/authUtils";
+} from "../../../generated/forelopig-svar-controller/forelopig-svar-controller";
+import { logAmplitudeEvent } from "../../../utils/amplitude";
+import { LoadingResourcesFailedAlert } from "../../../innsyn/LoadingResourcesFailedAlert";
+import { DriftsmeldingKommune } from "../../../components/driftsmelding/DriftsmeldingKommune";
+import ForelopigSvarAlertstripe from "../../../components/forelopigSvar/ForelopigSvar";
+import SoknadsStatus from "../../../components/soknadsStatus/SoknadsStatus";
+import Oppgaver from "../../../components/oppgaver/Oppgaver";
+import VedleggView from "../../../components/vedlegg/VedleggView";
+import Historikk from "../../../components/historikk/Historikk";
+import MainLayout from "../../../components/MainLayout";
+import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
+import { FilUploadSuccesfulProvider } from "../../../components/filopplasting/FilUploadSuccessfulContext";
+import KlageSection from "../../../components/klage/KlageSection";
+import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../../generated/model";
+import pageHandler, { buildUrl } from "../../../pagehandler/pageHandler";
+import Panel from "../../../components/panel/Panel";
+import EttersendelseView from "../../../components/ettersendelse/EttersendelseView";
+import { useHentVedlegg } from "../../../generated/vedlegg-controller/vedlegg-controller";
+import ArkfanePanel from "../../../components/arkfanePanel/ArkfanePanel";
+import { customFetch } from "../../../custom-fetch";
+import { extractAuthHeader } from "../../../utils/authUtils";
 import {
     getHentUtbetalingerQueryKey,
     getHentUtbetalingerUrl,
-} from "../../generated/utbetalinger-controller/utbetalinger-controller";
-import { getHentHendelserQueryKey, getHentHendelserUrl } from "../../generated/hendelse-controller/hendelse-controller";
-import { getHentVedleggQueryKey, getHentVedleggUrl } from "../../generated/vedlegg-controller/vedlegg-controller";
+} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
+import {
+    getHentHendelserQueryKey,
+    getHentHendelserUrl,
+} from "../../../generated/hendelse-controller/hendelse-controller";
+import { getHentVedleggQueryKey, getHentVedleggUrl } from "../../../generated/vedlegg-controller/vedlegg-controller";
 import {
     getHentKommuneInfoQueryKey,
     getHentKommuneInfoUrl,
-} from "../../generated/kommune-controller/kommune-controller";
+} from "../../../generated/kommune-controller/kommune-controller";
 import {
     getHentAlleSakerQueryKey,
     getHentAlleSakerUrl,
-} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
+} from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import { GetServerSidePropsContext } from "next/dist/types";
+import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
@@ -89,7 +94,7 @@ const StyledAlert = styled(Alert)`
 `;
 
 const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const pathname = usePathname();
     useUpdateBreadcrumbs(() => [{ title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}` }]);
 
@@ -220,10 +225,20 @@ const getQueries = (id: string) => [
     { url: getHentAlleSakerUrl(), key: getHentAlleSakerQueryKey() },
 ];
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+interface Params extends NextParsedUrlQuery {
+    locale: "nb" | "nn" | "en";
+    id: string;
+}
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext<Params>) => {
     const { req } = ctx;
     const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
+    if (!token) {
+        return {
+            redirect: process.env.NEXT_INNSYN_MOCK_LOGIN_URL!,
+        };
+    }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     const id = ctx.params?.id as string;
@@ -237,7 +252,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     });
     await Promise.all(promises);
 
-    return pageHandler(ctx, ["common"], queryClient);
+    return pageHandler(ctx, queryClient);
 };
 
 export default SaksStatusView;

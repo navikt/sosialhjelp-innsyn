@@ -7,9 +7,9 @@ import { logger } from "@navikt/next-logger";
 import * as R from "remeda";
 import { cookies } from "next/headers";
 
-import { isLocalhost } from "../utils/restUtils";
-import { getUnleashEnvironment, localDevelopmentToggles } from "../featuretoggles/utils";
-import { EXPECTED_TOGGLES } from "../featuretoggles/toggles";
+import { isLocalhost } from "../../utils/restUtils";
+import { getUnleashEnvironment, localDevelopmentToggles } from "../../featuretoggles/utils";
+import { EXPECTED_TOGGLES } from "../../featuretoggles/toggles";
 
 export async function getFlagsServerSide() {
     if (isLocalhost()) {

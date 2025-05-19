@@ -1,12 +1,12 @@
 import React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { StyledGuidePanel } from "../styles/styledGuidePanel";
 import IngenSoknaderFunnet from "../components/ikoner/IngenSoknaderFunnet";
 
 const UtbetalingsoversiktIngenInnsyn = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <div className="pt-4 pb-12 min-h-[40vh] max-w-[50rem] mx-auto">

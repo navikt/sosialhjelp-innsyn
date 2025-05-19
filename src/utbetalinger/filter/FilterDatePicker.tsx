@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { DatePicker, DateValidationT, useDatepicker } from "@navikt/ds-react";
 import { subMonths } from "date-fns";

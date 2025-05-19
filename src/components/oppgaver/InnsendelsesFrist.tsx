@@ -1,5 +1,5 @@
 import { BodyShort } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React from "react";
 import styled from "styled-components";
 

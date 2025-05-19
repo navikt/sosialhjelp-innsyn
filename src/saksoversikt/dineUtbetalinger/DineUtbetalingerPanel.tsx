@@ -1,6 +1,6 @@
 import React from "react";
 import { BodyShort, Heading, LinkPanel } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
@@ -11,7 +11,7 @@ import styles from "./dineUtbetalingerPanel.module.css";
 logAmplitudeEvent("Dine utbetalinger panel vises");
 
 const DineUtbetalingerPanel = () => {
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
     return (
         <LinkPanel
             href="/utbetaling"
@@ -24,7 +24,7 @@ const DineUtbetalingerPanel = () => {
                 <HandCoinsIcon className={styles.hands_coin_icon} />
                 <div>
                     <Heading level="2" size="medium">
-                        {t("tittel")}
+                        {t("tittel.ute")}
                     </Heading>
                     <BodyShort>{t("inngang")}</BodyShort>
                 </div>

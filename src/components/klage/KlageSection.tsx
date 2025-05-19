@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { Button, Heading, List, Tag, Link as AkselLink } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { useHentKlager } from "../../generated/klage-controller/klage-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -49,7 +49,7 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const fiksDigisosId = useFiksDigisosId();
     const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
 

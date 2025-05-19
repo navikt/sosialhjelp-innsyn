@@ -1,6 +1,6 @@
 import React from "react";
 import { BodyLong, Heading } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import styled from "styled-components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSideProps } from "next";
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 const Forbidden = (): React.JSX.Element => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const router = useRouter();
     const { data, isLoading } = useHarTilgang();
     if (isLoading) {

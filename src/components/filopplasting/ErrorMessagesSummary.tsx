@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { ErrorMessage } from "@navikt/ds-react";
 
 import { Error } from "./useFilOpplasting";
@@ -16,7 +16,7 @@ const ErrorMessagesSummary = ({ errors }: Props) => {
     const errorsWithFile = errors.filter((error) => error.fil);
 
     const uniqueFilesWithError = dedupeErrorsByProp(errorsWithFile, "fil");
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     if (uniqueFilesWithError.length > 1) {
         return (

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Detail, Label, LinkPanel, Panel } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 import { ExclamationmarkTriangleIcon, FileTextIcon } from "@navikt/aksel-icons";
 
@@ -29,7 +29,7 @@ const SakPanel = ({
         query: { enabled: kilde === "innsyn-api" && !!fiksDigisosId },
     });
     const router = useRouter();
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
 
     const oppdatertTittel = useMemo(() => {
