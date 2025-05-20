@@ -3,7 +3,6 @@ import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratore
 import { cookies, headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
 import "../index.css";
-
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -125,6 +124,7 @@ export default async function RootLayout({
 }) {
     const jar = await cookies();
     const cookie = jar.get(DECORATOR_LANG_COOKIE)?.value;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _locale = cookie && isSupportedLanguage(cookie) ? cookie : "nb";
     const { locale } = await params;
     const props = decoratorParams(locale);

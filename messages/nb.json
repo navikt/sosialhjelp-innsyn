@@ -38,6 +38,7 @@
             "vis_brevet_lenketekst": "Vis brevet"
         },
         "status": {
+            "status": "Status",
             "sendt": "Søknaden er sendt",
             "mottatt": "Søknaden er mottatt",
             "under_behandling": "Søknaden er under behandling",
@@ -196,7 +197,7 @@
         "ekstern_lenke": "(åpnes i en ny fane)",
         "vedtak": "Vedtak",
         "tilgang": {
-            "header": "Hei {{fornavn}}",
+            "header": "Hei {fornavn}",
             "info": "Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt med ditt lokale Nav-kontor for å få hjelp til å søke."
         },
         "min_side": "Min side",
@@ -230,6 +231,8 @@
         "filter": {
             "aria": "Velg utbetalinger å vise",
             "dato": "Velg periode",
+            "fraDato": "Fra: {fra, date, ::ddMMyyyy}",
+            "tilDato": "Til: {til, date, ::ddMMyyyy}",
             "fra": "Fra",
             "til": "Til",
             "format": "(dd.mm.åååå)",

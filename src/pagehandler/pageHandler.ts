@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next/types";
-import { SSRConfig } from "next-i18next";
 import { IToggle } from "@unleash/nextjs";
 import { logger } from "@navikt/next-logger";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
@@ -9,7 +8,7 @@ import { TilgangResponse } from "../generated/model";
 import { getFlagsServerSide } from "../featuretoggles/ssr";
 import { extractAuthHeader } from "../utils/authUtils";
 
-export interface PageProps extends SSRConfig {
+export interface PageProps {
     tilgang?: TilgangResponse;
     toggles: IToggle[];
     dehydratedState: DehydratedState | null;
@@ -50,7 +49,7 @@ export const getCommonProps = async (
     { req, res, resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
     token: string
 ) => {
-    const locale = params?.locale;
+    const locale = params?.locale ?? "nb";
     const messages = (await import(`../../messages/${locale}.json`)).default;
     const flags = await getFlagsServerSide(req, res);
     const headers: HeadersInit = new Headers();

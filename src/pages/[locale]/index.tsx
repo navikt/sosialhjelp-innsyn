@@ -1,10 +1,11 @@
 import React from "react";
 import { Alert, BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import styled from "styled-components";
 import { QueryClient } from "@tanstack/react-query";
 import { logger } from "@navikt/next-logger";
+import { GetServerSidePropsContext } from "next/dist/types";
 
 import {
     getHentAlleSakerQueryKey,
@@ -20,7 +21,6 @@ import pageHandler from "../../pagehandler/pageHandler";
 import { useSakslisteDebug } from "../../hooks/useSakslisteDebug";
 import { extractAuthHeader } from "../../utils/authUtils";
 import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
-import { GetServerSidePropsContext } from "next/dist/types";
 
 const Preamble = styled("div")`
     margin-bottom: 1.5rem;

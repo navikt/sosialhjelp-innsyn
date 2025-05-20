@@ -1,9 +1,10 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 import { Loader, Panel } from "@navikt/ds-react";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import { QueryClient } from "@tanstack/react-query";
+import { GetServerSidePropsContext } from "next/dist/types";
 
 import useIsMobile from "../../utils/useIsMobile";
 import {
@@ -32,9 +33,7 @@ import {
     getHentTidligereUtbetalingerUrl,
 } from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import { FilterProvider } from "../../utbetalinger/filter/FilterProvider";
-
 import Error from "../_error";
-import { GetServerSidePropsContext } from "next/dist/types";
 
 const Utbetalinger: NextPage = () => {
     const t = useTranslations("utbetalinger");
@@ -110,6 +109,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<{ locale
     const { req } = ctx;
     const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
+    if (!token) {
+        return {
+            redirect: {
+                destination: process.env.NEXT_INNSYN_MOCK_LOGIN_URL!,
+                permanent: false,
+            },
+        };
+    }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     const promises = getQueries.map(({ url, key }) => {

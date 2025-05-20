@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Trans } from "next-i18next";
 import { BodyShort, Button, Label, Link as AkselLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";
 import styled from "styled-components";
 import { ChevronUpIcon, ChevronDownIcon } from "@navikt/aksel-icons";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
@@ -14,7 +14,6 @@ import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-c
 import { HendelseResponse } from "../../generated/model";
 
 import { HistorikkTekstEnum } from "./HistorikkTekstEnum";
-import { useTranslations } from "next-intl";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 

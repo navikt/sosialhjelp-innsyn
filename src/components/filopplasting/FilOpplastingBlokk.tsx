@@ -86,7 +86,9 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
                 <ErrorMessageWrapper>
                     {props.errors.length > 0 ? (
                         <>
-                            <ErrorMessagesSummary errors={props.errors} />
+                            <ErrorMessagesSummary
+                                errors={props.errors.filter((error) => "fil" in error && "filnavn" in error)}
+                            />
                             <ul className={styles.feilListe}>
                                 {uniqueErrors.map((key, i) => (
                                     <li key={i}>

@@ -2,11 +2,6 @@ import { configure } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import mockRouter from "next-router-mock";
 import { createDynamicRouteParser } from "next-router-mock/dynamic-routes";
-import { initReactI18next } from "react-i18next";
-import _i18n from "i18next";
-
-import commonNb from "../public/locales/nb/common.json";
-import utbetalingerNb from "../public/locales/nb/utbetalinger.json";
 
 import { server } from "./mocks/server";
 import { queryCache, queryClient } from "./test/test-utils";
@@ -28,21 +23,6 @@ mockRouter.useParser(
         "/500",
     ])
 );
-
-export const i18n = _i18n.use(initReactI18next);
-_i18n.init({
-    lng: "nb",
-    resources: {
-        nb: {
-            common: commonNb,
-            utbetalinger: utbetalingerNb,
-        },
-    },
-    defaultNS: "common",
-    fallbackNS: "common",
-    fallbackLng: "nb",
-    debug: false,
-});
 
 Object.defineProperty(window, "matchMedia", {
     writable: true,

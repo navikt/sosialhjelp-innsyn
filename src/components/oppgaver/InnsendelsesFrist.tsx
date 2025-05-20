@@ -3,7 +3,6 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import styled from "styled-components";
 
-
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
         return 0;

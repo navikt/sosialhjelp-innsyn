@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { DatePicker, DateValidationT, useDatepicker } from "@navikt/ds-react";
 import { subMonths } from "date-fns";
+import { useRouter } from "next/router";
 
 import useIsMobile from "../../utils/useIsMobile";
 
@@ -9,10 +10,17 @@ const validateFromDate = (
     { isAfter, isBefore, isInvalid, isValidDate }: DateValidationT,
     fromDate: Date | null | undefined
 ) => {
-    if (isBefore) return fromDate ? "filter.tilEtterFra" : "filter.tidligstFra";
-    else if (isAfter) return "filter.fraEtterTil";
-    else if (isInvalid || !isValidDate) return "filter.ugylding";
-    else return undefined;
+    if (!fromDate) {
+        return;
+    } else if (isBefore) {
+        return fromDate ? "filter.tilEtterFra" : "filter.tidligstFra";
+    } else if (isAfter) {
+        return "filter.fraEtterTil";
+    } else if (isInvalid || !isValidDate) {
+        return "filter.ugylding";
+    } else {
+        return;
+    }
 };
 
 export const FilterDatePicker = ({
@@ -28,8 +36,11 @@ export const FilterDatePicker = ({
     defaultSelected?: Date | null;
     onDateChange: (date?: Date) => void;
 }) => {
-    const { t, i18n } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
 
+    const {
+        query: { locale },
+    } = useRouter();
     const isMobile = useIsMobile();
     const [dateError, setDateError] = useState<string | undefined>(undefined);
     const { datepickerProps, inputProps } = useDatepicker({
@@ -44,13 +55,13 @@ export const FilterDatePicker = ({
         <DatePicker
             {...datepickerProps}
             strategy={isMobile ? "fixed" : undefined}
-            locale={i18n.language as "nb" | "nn" | "en"}
+            locale={locale as "nb" | "nn" | "en"}
         >
             <DatePicker.Input
                 {...inputProps}
                 label={t(label)}
                 description={t("filter.format")}
-                error={datepickerProps.open ? undefined : dateError}
+                error={datepickerProps.open ? undefined : dateError ? t(dateError) : undefined}
             />
         </DatePicker>
     );

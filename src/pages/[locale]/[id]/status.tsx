@@ -7,6 +7,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
 import { QueryClient } from "@tanstack/react-query";
+import { GetServerSidePropsContext } from "next/dist/types";
+import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
@@ -75,8 +77,6 @@ import {
     getHentAlleSakerQueryKey,
     getHentAlleSakerUrl,
 } from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
-import { GetServerSidePropsContext } from "next/dist/types";
-import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {

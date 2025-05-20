@@ -13,14 +13,6 @@ const HeadingWrapper = styled.div`
     text-align: center;
 `;
 
-export const ContentPanelBorder = styled.div<{
-    borderspace?: string;
-    bordercolor?: string;
-}>`
-    border-bottom: 2px solid ${(props) => props.bordercolor};
-    margin: ${(props) => props.borderspace};
-`;
-
 interface Props {
     soknadsStatus?: SoknadsStatusResponseStatus;
 }

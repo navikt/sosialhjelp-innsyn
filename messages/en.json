@@ -38,6 +38,7 @@
             "vis_brevet_lenketekst": "Show letter"
         },
         "status": {
+            "status": "Status",
             "sendt": "Your application has been sent",
             "mottatt": "Your application has been received",
             "under_behandling": "Your application is being processed",
@@ -117,17 +118,17 @@
         "vedlegg": {
             "lovlig_format": "We only accept files that are PDF, JPG or PNG.",
             "minst_ett_vedlegg": "You must first select the document you want to submit.",
-            "ulovlig_en_fil_feilmelding": "{{filnavn}} was not added:",
-            "ulovlig_en_filnavn_feilmelding": "{{filnavn}} uses unsupported characters and was not added:",
-            "ulovlig_en_filstorrelse_feilmelding": "{{filnavn}} is too big and was not added:",
-            "ulovlig_flere_fil_feilmelding": "Sorry, we could not add your files. We don´t support the filetype for {{antallFiler}} files:",
+            "ulovlig_en_fil_feilmelding": "{filnavn} was not added:",
+            "ulovlig_en_filnavn_feilmelding": "{filnavn} uses unsupported characters and was not added:",
+            "ulovlig_en_filstorrelse_feilmelding": "{filnavn} is too big and was not added:",
+            "ulovlig_flere_fil_feilmelding": "Sorry, we could not add your files. We don´t support the filetype for {antallFiler} files:",
             "ulovlig_filnavn_feilmelding": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
             "ulovlig_filstorrelse_feilmelding": "The file size must be under 10 MB.",
             "ulovlig_storrelse_av_alle_valgte_filer": "We cannot accept your documentation if their combined size exceeds 150 MB.",
             "velg_fil": "Upload documentation",
             "fjern": "Remove",
             "tittel": "Your documents",
-            "validering": { "duplikat": "The document {{filnavn}} already exists" },
+            "validering": { "duplikat": "The document {filnavn} already exists" },
             "opplasting_feilmelding": "We cannot forward your documentation. Please remove and correct the above files",
             "opplasting_backend_feilmelding": "Sorry, we were unable to forward your documentation. Please try again later.",
             "opplasting_backend_virus_feilmelding": "Your upload was stopped by our antivirus software. Please try again with a different file.",
@@ -190,7 +191,7 @@
         "ekstern_lenke": "(open in a new tab)",
         "vedtak": "Notice of decision",
         "tilgang": {
-            "header": "Hi {{fornavn}}",
+            "header": "Hi {fornavn}",
             "info": "We are sorry, you cannot use the digital application for financial assistance. Please contact your local Nav office for assistance with the application."
         },
         "min_side": "My page",
@@ -224,7 +225,9 @@
         "filter": {
             "aria": "Choose payments to display",
             "dato": "Choose period",
+            "fraDato": "From: {fra, date, ::ddMMyyyy}",
             "fra": "From",
+            "tilDato": "To: {til, date, ::ddMMyyyy}",
             "til": "To",
             "format": "(dd.mm.yyyy)",
             "mottaker": { "minKonto": "To me", "annenMottaker": "To other recipients" },

@@ -3,7 +3,6 @@ import { BodyLong, Heading, Link, Panel } from "@navikt/ds-react";
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import MainLayout from "../components/MainLayout";
 import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
@@ -52,10 +51,10 @@ const SideIkkeFunnet = () => {
     );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
         props: {
-            ...(await serverSideTranslations(locale ?? "nb", ["common"])),
+            messages: await import(`../../messages/${params?.locale ?? "nb"}.json`),
         },
     };
 };

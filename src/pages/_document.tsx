@@ -38,7 +38,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
                 handleInApp: true,
             },
         ],
-        language: ctx.locale as DecoratorLocale,
+        language: ctx.query.locale as DecoratorLocale,
         breadcrumbs: getBreadcrumbs(ctx.pathname),
         logoutWarning: false,
     },

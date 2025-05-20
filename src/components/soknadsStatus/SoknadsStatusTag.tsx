@@ -33,7 +33,7 @@ const Tag = ({ children, ...rest }: TagProps): React.JSX.Element => {
     const t = useTranslations("common");
     return (
         <StyledAlertTag {...rest}>
-            <span className="sr-only">{t("status")}: </span>
+            <span className="sr-only">{t("status.status")}: </span>
             {children}
         </StyledAlertTag>
     );

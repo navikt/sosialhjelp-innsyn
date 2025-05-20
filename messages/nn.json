@@ -38,6 +38,7 @@
             "vis_brevet_lenketekst": "Vis brevet"
         },
         "status": {
+            "status": "Status",
             "sendt": "Søknaden er send",
             "mottatt": "Søknaden er motteken",
             "under_behandling": "Søknaden er under behandling",
@@ -117,17 +118,17 @@
         "vedlegg": {
             "lovlig_format": "Vi godtek kun filer i formatane PDF, JPG eller PNG.",
             "minst_ett_vedlegg": "Du må først velje dokumentet du vil sende.",
-            "ulovlig_en_fil_feilmelding": "{{filnavn}} blei ikkje lagt til:",
-            "ulovlig_en_filnavn_feilmelding": "{{filnavn}} inneheld teikn vi ikkje støttar, og blei ikkje lagt til:",
-            "ulovlig_en_filstorrelse_feilmelding": "{{filnavn}} er for stor og blei ikkje lagt til:",
-            "ulovlig_flere_fil_feilmelding": "Vi kunne ikke leggje til filene dine. {{antallFiler}} av dei var av ein type vi ikkje støttar:",
+            "ulovlig_en_fil_feilmelding": "{filnavn} blei ikkje lagt til:",
+            "ulovlig_en_filnavn_feilmelding": "{filnavn} inneheld teikn vi ikkje støttar, og blei ikkje lagt til:",
+            "ulovlig_en_filstorrelse_feilmelding": "{filnavn} er for stor og blei ikkje lagt til:",
+            "ulovlig_flere_fil_feilmelding": "Vi kunne ikke leggje til filene dine. {antallFiler} av dei var av ein type vi ikkje støttar:",
             "ulovlig_filnavn_feilmelding": "Filnamn kan berre innehalde bokstavar frå a til å, tal frå 0 til 9 og teikna - _ . , ( )",
             "ulovlig_filstorrelse_feilmelding": "Filstorleiken må vere under 10 MB.",
             "ulovlig_storrelse_av_alle_valgte_filer": "Vi kan ikkje ta imot dokumenta dine viss dei til saman er på over 150 MB.",
             "velg_fil": "Last opp",
             "fjern": "Fjern",
             "tittel": "Dine dokumenter",
-            "validering": { "duplikat": "Dokumentet {{filnavn}} finst allerede." },
+            "validering": { "duplikat": "Dokumentet {filnavn} finst allerede." },
             "opplasting_feilmelding": "Vi kan ikkje sende dokumentena. Fjern og korriger filene over",
             "opplasting_backend_feilmelding": "Vi klarte diverre ikkje å sende dokumenta. Prøv på nytt seinare.",
             "opplasting_backend_virus_feilmelding": "Opplastinga blei stoppa av antivirusprogrammet. Du kan prøve på nytt med ei anna fil.",
@@ -196,7 +197,7 @@
         "ekstern_lenke": "(opna i ei ny fane)",
         "vedtak": "Vedtak",
         "tilgang": {
-            "header": "Hei, {{fornavn}}",
+            "header": "Hei, {fornavn}",
             "info": "Du kan diverre ikkje bruke den digitale søknaden om økonomisk sosialhjelp. Kontakt det lokale Nav-kontoret for å få hjelp til å søkje."
         },
         "min_side": "Min side",
@@ -230,7 +231,9 @@
         "filter": {
             "aria": "Vel utbetalingar å vise",
             "dato": "Vel periode",
+            "fraDato": "Frå: {fra, date, ::ddMMyyyy}",
             "fra": "Frå",
+            "tilDato": "Til: {til, date, ::ddMMyyyy}",
             "til": "Til",
             "format": "(dd.mm.åååå)",
             "mottaker": { "minKonto": "Til meg", "annenMottaker": "Til andre mottakarar" },

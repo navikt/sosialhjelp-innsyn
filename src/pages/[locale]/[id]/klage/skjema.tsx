@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import styled from "styled-components";
 import { Button, Checkbox, CheckboxGroup, Heading, Textarea, Link as AkselLink } from "@navikt/ds-react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { GetServerSidePropsContext } from "next/dist/types";
 
 import MainLayout from "../../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../../hooks/useUpdateBreadcrumbs";
@@ -20,7 +21,6 @@ import { getHentKlagerQueryKey, useSendKlage } from "../../../../generated/klage
 import useFilOpplasting, { FancyFile } from "../../../../components/filopplasting/useFilOpplasting";
 import pageHandler from "../../../../pagehandler/pageHandler";
 import { getFlagsServerSide } from "../../../../featuretoggles/ssr";
-import { GetServerSidePropsContext } from "next/dist/types";
 
 const StyledHeading = styled(Heading)`
     //padding-bottom: 5px;

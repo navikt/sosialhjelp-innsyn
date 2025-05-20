@@ -1,7 +1,6 @@
 import React from "react";
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider, HydrationBoundary } from "@tanstack/react-query";
-import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import "../index.css";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
@@ -37,15 +36,14 @@ const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element =
     const [queryClient] = React.useState(() => new QueryClient());
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
-        return router.replace(router.asPath, undefined, { locale: option.locale });
+        return router.replace(router.asPath.replace(/\/(en|nn)/, `/${option.locale}`));
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
-
     return (
         <QueryClientProvider client={queryClient}>
             <HydrationBoundary state={pageProps.dehydratedState}>
                 <NextIntlClientProvider
-                    locale={(router.query.locale as string) || "nb"}
+                    locale={router.locale || "nb"}
                     messages={pageProps.messages}
                     timeZone="Europe/Oslo"
                 >
@@ -64,4 +62,4 @@ const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element =
     );
 };
 
-export default appWithTranslation(App);
+export default App;
