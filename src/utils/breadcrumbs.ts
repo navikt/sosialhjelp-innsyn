@@ -57,7 +57,6 @@ enum SsrPathVariants {
 }
 
 export const getBreadcrumbs = (pathname?: SsrPathVariants | string): Breadcrumb[] => {
-    console.log(pathname);
     switch (pathname) {
         case SsrPathVariants.Root:
             return [...getBaseCrumbs()];

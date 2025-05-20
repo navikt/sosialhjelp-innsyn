@@ -3,7 +3,6 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import styled from "styled-components";
 
-import { formatDato } from "../../utils/formatting";
 
 export const antallDagerEtterFrist = (innsendelsesfrist: null | Date): number => {
     if (!innsendelsesfrist) {
@@ -20,8 +19,7 @@ interface Props {
     frist?: string;
 }
 const InnsendelsesFrist = (props: Props) => {
-    const { t, i18n } = useTranslation();
-
+    const t = useTranslations("common");
     if (!props.frist) {
         return null;
     }
@@ -31,16 +29,15 @@ const InnsendelsesFrist = (props: Props) => {
         <>
             {antallDagerSidenFristBlePassert <= 0 && (
                 <StyledBodyShort spacing>
-                    {t("oppgaver.innsendelsesfrist", { innsendelsesfrist: formatDato(props.frist, i18n.language) })}
+                    {t("oppgaver.innsendelsesfrist", { innsendelsesfrist: new Date(props.frist) })}
+                    {/*{t("oppgaver.innsendelsesfrist", { innsendelsesfrist: formatDato(props.frist, i18n.language) })}*/}
                 </StyledBodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (
                 <StyledBodyShort spacing>
-                    {t("oppgaver.innsendelsesfrist_passert", {
-                        innsendelsesfrist: formatDato(props.frist, i18n.language),
-                    })}
+                    {t("oppgaver.innsendelsesfrist_passert", { innsendelsesfrist: new Date(props.frist) })}
                 </StyledBodyShort>
-            )}{" "}
+            )}
         </>
     );
 };

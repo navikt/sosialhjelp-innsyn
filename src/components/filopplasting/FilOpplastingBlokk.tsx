@@ -7,7 +7,7 @@ import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 
 import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, { dedupeErrorsByProp } from "./ErrorMessagesSummary";
-import { Error, errorStatusToMessage, FancyFile } from "./useFilOpplasting";
+import { Error, errorStatusToMessage, ErrorWithFile, FancyFile } from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 
 const StyledFrame = styled.div<{ $hasError?: boolean; $hasFiler?: boolean }>`
@@ -51,7 +51,7 @@ interface Props {
     addFileButton?: React.ReactElement;
     filer: FancyFile[];
     onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: FancyFile) => void;
-    errors: Error[];
+    errors: (Error | ErrorWithFile)[];
 }
 
 const FilOpplastingBlokk = (props: Props): ReactElement => {

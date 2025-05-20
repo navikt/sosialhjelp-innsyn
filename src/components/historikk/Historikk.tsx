@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Trans, useTranslation } from "next-i18next";
+import { Trans } from "next-i18next";
 import { BodyShort, Button, Label, Link as AkselLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-c
 import { HendelseResponse } from "../../generated/model";
 
 import { HistorikkTekstEnum } from "./HistorikkTekstEnum";
+import { useTranslations } from "next-intl";
 
 const MAX_ANTALL_KORT_LISTE = 3;
 
@@ -75,44 +76,21 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
         if (enumValue === HistorikkTekstEnum.UTBETALINGER_OPPDATERT) {
             return (
                 <BodyShort weight="semibold">
-                    <Trans t={t} i18nKey={enumValue}>
-                        {/*Lenken finnes som <0></0> i språkfila. 0 = første children.
-                        Teksten her er bare default value, og vil bli oversatt ved språkbytte*/}
-                        <AkselLink as={Link} href="/[locale]/utbetaling">
-                            Dine utbetalinger
-                        </AkselLink>{" "}
-                        har blitt oppdatert
-                    </Trans>
+                    {t.rich(enumValue, {
+                        utbetalinger: (chunks) => (
+                            <AkselLink as={Link} href="/[locale]/utbetaling">
+                                {chunks}
+                            </AkselLink>
+                        ),
+                    })}
                 </BodyShort>
             );
         }
 
-        if (enumValue === HistorikkTekstEnum.ANTALL_SENDTE_VEDLEGG) {
-            if (tekstArgument === "1") {
-                return (
-                    <BodyShort weight="semibold">
-                        <Trans t={t}>
-                            <span lang="no">
-                                {t("hendelse.sendt_en_vedlegg", {
-                                    tekstArgument,
-                                })}
-                            </span>
-                        </Trans>
-                    </BodyShort>
-                );
-            } else {
-                return (
-                    <BodyShort weight="semibold">
-                        <Trans t={t}>
-                            <span lang="no">
-                                {t("hendelse.sendt_flere_vedlegg", {
-                                    tekstArgument,
-                                })}
-                            </span>
-                        </Trans>
-                    </BodyShort>
-                );
-            }
+        if (enumValue === HistorikkTekstEnum.ANTALL_SENDTE_VEDLEGG && tekstArgument) {
+            return (
+                <BodyShort weight="semibold">{t("hendelse.antall_sendte_vedlegg", { count: tekstArgument })}</BodyShort>
+            );
         }
 
         if (
@@ -120,12 +98,12 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                 enumValue === HistorikkTekstEnum.SAK_FERDIGBEHANDLET_MED_TITTEL) &&
             tekstArgument
         ) {
-            // Dette er bare placeholder. Blir erstatta av faktisk oversatt tekst runtime. <span> må være child nummer 1 (index 0), for at det skal bli riktig
             return (
                 <BodyShort weight="semibold">
-                    <Trans i18nKey={enumValue} t={t}>
-                        <span lang="no">{{ tekstArgument }}</span> er under behandling.
-                    </Trans>
+                    {t.rich(enumValue, {
+                        norsk: (chunks) => <span lang="no">{chunks}</span>,
+                        arg: tekstArgument,
+                    })}
                 </BodyShort>
             );
         } else if (
@@ -138,16 +116,16 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                 HistorikkTekstEnum.SAK_KAN_IKKE_VISE_STATUS_MED_TITTEL,
             ].includes(enumValue)
         ) {
-            // Dette er bare placeholder. Blir erstatta av faktisk oversatt tekst runtime. <span> må være child nummer 2 (index 1), for at det skal bli riktig
             return (
                 <BodyShort weight="semibold">
-                    <Trans i18nKey={enumValue} t={t}>
-                        <span lang="no">{{ tekstArgument }}</span>
-                    </Trans>
+                    {t.rich(enumValue, {
+                        norsk: (chunks) => <span lang="no">{chunks}</span>,
+                        arg: tekstArgument!,
+                    })}
                 </BodyShort>
             );
         }
-        return <BodyShort weight="semibold">{t(enumValue, { tekstArgument })}</BodyShort>;
+        return <BodyShort weight="semibold">{t(enumValue, { arg: tekstArgument! })}</BodyShort>;
     };
 
     return (

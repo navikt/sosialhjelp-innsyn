@@ -2,7 +2,6 @@ import { BodyShort, Label } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
-import { formatDato } from "../../../utils/formatting";
 import { antallDagerEtterFrist } from "../InnsendelsesFrist";
 
 function getAntallDagerTekst(antallDagerSidenFristBlePassert: number): string {
@@ -16,21 +15,21 @@ interface NesteInnsendelsesFristProps {
 }
 export const NesteInnsendelsesFrist = (props: NesteInnsendelsesFristProps) => {
     const antallDagerSidenFristBlePassert = antallDagerEtterFrist(props.innsendelsesfrist);
-    const { t, i18n } = useTranslation();
+    const t = useTranslations("common");
+
+    if (!props.innsendelsesfrist) {
+        return null;
+    }
 
     return (
         <BodyShort>
             {antallDagerSidenFristBlePassert <= 0
                 ? t("oppgaver.neste_frist", {
-                      innsendelsesfrist: props.innsendelsesfrist
-                          ? formatDato(props.innsendelsesfrist.toISOString(), i18n.language)
-                          : "",
+                      innsendelsesfrist: new Date(props.innsendelsesfrist),
                   })
                 : t("oppgaver.neste_frist_passert", {
                       antall_dager: getAntallDagerTekst(antallDagerSidenFristBlePassert),
-                      innsendelsesfrist: props.innsendelsesfrist
-                          ? formatDato(props.innsendelsesfrist.toISOString(), i18n.language)
-                          : "",
+                      innsendelsesfrist: new Date(props.innsendelsesfrist),
                   })}
         </BodyShort>
     );

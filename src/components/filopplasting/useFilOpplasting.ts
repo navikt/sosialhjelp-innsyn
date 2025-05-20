@@ -38,9 +38,12 @@ export interface Metadata {
 }
 
 export interface Error {
-    fil?: File;
-    filnavn?: string;
     feil: Feil;
+}
+
+export interface ErrorWithFile extends Error {
+    fil: File;
+    filnavn: string;
 }
 
 export enum Feil {
@@ -172,7 +175,7 @@ const useFilOpplasting = (
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
-            const _errors: Error[] = [];
+            const _errors: (Error | ErrorWithFile)[] = [];
             logDuplicatedFiles(_files);
             const validFiles = _files.filter((file) => {
                 let valid = true;
