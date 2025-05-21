@@ -2,7 +2,7 @@
 
 import React, { PropsWithChildren } from "react";
 import { DehydratedState, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { onBreadcrumbClick, onLanguageSelect, setParams } from "@navikt/nav-dekoratoren-moduler";
+import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
@@ -44,10 +44,10 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
     useSetBreadcrumbs();
     // Default options for query clienten blir satt i orval.config.ts
     const [queryClient] = React.useState(() => new QueryClient());
-    // TODO: Fiks dette, funker ikke
-    onLanguageSelect(({ locale: language, url }) => {
-        logBrukerSpraakChange(language);
-        setParams({ language }).then(() => window.location.assign(`${url}${pathname}`));
+
+    onLanguageSelect(async (option) => {
+        logBrukerSpraakChange(option.locale);
+        return router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
     });
 
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
