@@ -56,11 +56,7 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
             <HydrationBoundary state={dehydratedState}>
                 <ErrorBoundary>
                     <FlagProvider toggles={toggles}>
-                        <TilgangskontrollsideApp harTilgang={tilgang}>
-                            <div role="main" tabIndex={-1} id="maincontent">
-                                {children}
-                            </div>
-                        </TilgangskontrollsideApp>
+                        <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
                     </FlagProvider>
                 </ErrorBoundary>
             </HydrationBoundary>

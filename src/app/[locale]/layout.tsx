@@ -1,5 +1,3 @@
-import Script from "next/script";
-import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { cookies, headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
 import { notFound } from "next/navigation";
@@ -7,58 +5,12 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 
 import { routing } from "../../i18n/routing";
 import { TilgangResponse } from "../../generated/model";
-import { getBaseCrumbs } from "../../utils/breadcrumbs";
-import Preload from "../preload";
+import Dekoratoren from "../Dekoratoren";
 
 import Providers from "./Providers";
 import { getFlagsServerSide } from "./featureTogglesServerSide";
 
 type SupportedLocale = (typeof routing.locales)[number];
-
-const decoratorParams = (locale: SupportedLocale): DecoratorFetchProps => ({
-    env: createDecoratorEnv(),
-    serviceDiscovery: true,
-    params: {
-        simple: false,
-        feedback: false,
-        chatbot: false,
-        shareScreen: false,
-        utilsBackground: "white",
-        logoutUrl: process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL || undefined,
-        availableLanguages: [
-            {
-                locale: "nb",
-                handleInApp: true,
-            },
-            {
-                locale: "nn",
-                handleInApp: true,
-            },
-            {
-                locale: "en",
-                handleInApp: true,
-            },
-        ],
-        language: locale,
-        // TODO: Implement breadcrumbs.
-        //  Må rendere en slags minimal versjon av breadcrumbs på server, og så sette den fulle versjonen client side, siden vi ikke har tilgang på pathname i rootlayout
-        breadcrumbs: getBaseCrumbs(),
-        logoutWarning: false,
-    },
-});
-
-function createDecoratorEnv(): "dev" | "prod" {
-    switch (process.env.NEXT_PUBLIC_DEKORATOR_MILJO ?? "dev") {
-        case "local":
-        case "test":
-        case "dev":
-            return "dev";
-        case "prod":
-            return "prod";
-        default:
-            throw new Error(`Unknown runtime environment: ${process.env.DEKORATOR_MILJO}`);
-    }
-}
 
 function buildUrl(path: string) {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
@@ -113,8 +65,6 @@ export default async function RootLayout({
     params: Promise<{ locale: SupportedLocale }>;
 }) {
     const { locale } = await params;
-    const props = decoratorParams(locale);
-    const Decorator = await fetchDecoratorReact(props);
 
     if (!hasLocale(routing.locales, locale)) {
         notFound();
@@ -124,23 +74,13 @@ export default async function RootLayout({
 
     const harTilgangResponse = await harTilgang();
     return (
-        <html lang={locale || "no"}>
-            <head>
-                <Decorator.HeadAssets />
-                <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
-            </head>
-            <Preload />
-            <body>
-                <Decorator.Header />
-                <NextIntlClientProvider>
-                    <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
-                        {children}
-                    </Providers>
-                </NextIntlClientProvider>
-                <Decorator.Footer />
-                <Decorator.Scripts loader={Script} />
-            </body>
-        </html>
+        <Dekoratoren locale={locale}>
+            <NextIntlClientProvider>
+                <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
+                    {children}
+                </Providers>
+            </NextIntlClientProvider>
+        </Dekoratoren>
     );
 }
 
