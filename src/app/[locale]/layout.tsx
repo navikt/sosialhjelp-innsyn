@@ -2,10 +2,8 @@ import Script from "next/script";
 import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { cookies, headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
-import "../index.css";
 import { notFound } from "next/navigation";
-import { hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
 
 import { routing } from "../../i18n/routing";
 import { TilgangResponse } from "../../generated/model";
@@ -15,13 +13,9 @@ import Preload from "../preload";
 import Providers from "./Providers";
 import { getFlagsServerSide } from "./featureTogglesServerSide";
 
-const DECORATOR_LANG_COOKIE = "decorator-language" as const;
-const SUPPORTED_LANGUAGES = ["en", "nb", "nn"] as const;
-type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
-const isSupportedLanguage = (lang: string): lang is SupportedLanguage =>
-    SUPPORTED_LANGUAGES.includes(lang as SupportedLanguage);
+type SupportedLocale = (typeof routing.locales)[number];
 
-const decoratorParams = (locale: SupportedLanguage): DecoratorFetchProps => ({
+const decoratorParams = (locale: SupportedLocale): DecoratorFetchProps => ({
     env: createDecoratorEnv(),
     serviceDiscovery: true,
     params: {
@@ -111,21 +105,13 @@ const harTilgang = async (): Promise<TilgangResponse | undefined> => {
     }
 };
 
-export function generateStaticParams() {
-    return routing.locales.map((locale) => ({ locale }));
-}
-
 export default async function RootLayout({
     children,
     params,
 }: {
     children: React.ReactNode;
-    params: Promise<{ locale: SupportedLanguage }>;
+    params: Promise<{ locale: SupportedLocale }>;
 }) {
-    const jar = await cookies();
-    const cookie = jar.get(DECORATOR_LANG_COOKIE)?.value;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _locale = cookie && isSupportedLanguage(cookie) ? cookie : "nb";
     const { locale } = await params;
     const props = decoratorParams(locale);
     const Decorator = await fetchDecoratorReact(props);
@@ -133,8 +119,6 @@ export default async function RootLayout({
     if (!hasLocale(routing.locales, locale)) {
         notFound();
     }
-
-    setRequestLocale(locale);
 
     const flags = await getFlagsServerSide();
 
@@ -148,9 +132,11 @@ export default async function RootLayout({
             <Preload />
             <body>
                 <Decorator.Header />
-                <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
-                    {children}
-                </Providers>
+                <NextIntlClientProvider>
+                    <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
+                        {children}
+                    </Providers>
+                </NextIntlClientProvider>
                 <Decorator.Footer />
                 <Decorator.Scripts loader={Script} />
             </body>
