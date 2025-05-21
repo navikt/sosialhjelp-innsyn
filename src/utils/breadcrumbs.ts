@@ -1,5 +1,7 @@
 import { setBreadcrumbs } from "@navikt/nav-dekoratoren-moduler";
 
+import { routing } from "../i18n/routing";
+
 export type Breadcrumb = { title: string; url: string; analyticsTitle?: string };
 export type LastCrumb = { title: string };
 export type CompleteCrumb = Parameters<typeof setBreadcrumbs>[0][0];
@@ -24,12 +26,19 @@ enum PathVariants {
     Error = "/_error",
 }
 
+function removeLocales(path: string): string {
+    const localeRegex = new RegExp(`/(${routing.locales.join("|")})`, "g");
+    return path.replace(localeRegex, "");
+}
+
 export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[] => {
     if (!pathname) {
         return [];
     }
 
-    switch (pathname) {
+    const cleanedPath = removeLocales(pathname);
+
+    switch (cleanedPath) {
         case PathVariants.Error:
         case PathVariants.ServerError:
             return [];
