@@ -5,7 +5,7 @@ import Dekoratoren from "./Dekoratoren";
 const SideIkkeFunnet = async () => {
     return (
         <Dekoratoren>
-            <Box padding="4" borderRadius="small" className="max-w-3xl mx-auto bg-surface-action-subtle">
+            <Box padding="8" borderRadius="small" className="max-w-3xl my-4 md:my-16 mx-auto">
                 <Heading level="1" size="large" spacing>
                     Fant ikke siden
                 </Heading>
