@@ -1,5 +1,4 @@
-// TODO: Ta bort denne når vi får unleash til å funke igjen
-
+"use server";
 import { getRandomValues } from "crypto";
 
 import { IToggle, getDefinitions, evaluateFlags, flagsClient } from "@unleash/nextjs";
