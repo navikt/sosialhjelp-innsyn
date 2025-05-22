@@ -11,13 +11,13 @@ spec:
   image: {{image}}
   port: 8080
   liveness:
-    path: /sosialhjelp/innsyn/api/internal/isAlive
+    path: /sosialhjelp/innsyn/api/internal/is_alive
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /sosialhjelp/innsyn/api/internal/isReady
+    path: /sosialhjelp/innsyn/api/internal/is_ready
     initialDelay: 20
     timeout: 1
   replicas:
