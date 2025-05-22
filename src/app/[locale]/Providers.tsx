@@ -47,7 +47,8 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
 
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
-        return router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
+        router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
+        return router.refresh();
     });
 
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));

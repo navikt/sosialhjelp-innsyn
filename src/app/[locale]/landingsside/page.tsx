@@ -11,7 +11,11 @@ const Page = () => {
     if (!toggle) {
         return notFound();
     }
-    return <Heading size="xlarge">{t("dineSoknader")}</Heading>;
+    return (
+        <Heading size="xlarge" className="min-h-[50vh]">
+            {t("dineSoknader")}
+        </Heading>
+    );
 };
 
 export default Page;

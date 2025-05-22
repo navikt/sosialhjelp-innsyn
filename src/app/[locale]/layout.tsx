@@ -5,12 +5,10 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 
 import { routing } from "../../i18n/routing";
 import { TilgangResponse } from "../../generated/model";
-import Dekoratoren from "../Dekoratoren";
+import { SupportedLocale } from "../../i18n/common";
 
 import Providers from "./Providers";
 import { getFlagsServerSide } from "./featureTogglesServerSide";
-
-type SupportedLocale = (typeof routing.locales)[number];
 
 function buildUrl(path: string) {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
@@ -74,13 +72,11 @@ export default async function RootLayout({
 
     const harTilgangResponse = await harTilgang();
     return (
-        <Dekoratoren locale={locale}>
-            <NextIntlClientProvider>
-                <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
-                    {children}
-                </Providers>
-            </NextIntlClientProvider>
-        </Dekoratoren>
+        <NextIntlClientProvider>
+            <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
+                {children}
+            </Providers>
+        </NextIntlClientProvider>
     );
 }
 
