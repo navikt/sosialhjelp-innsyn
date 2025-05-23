@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Alert } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { useFilter } from "../filter/lib/useFilter";
 import { useHentNyeUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
@@ -13,7 +13,7 @@ import { UtbetalingerMonthlyList } from "./UtbetalingerMonthlyList";
 const UtbetalingerNye = () => {
     const [nyeLogged, setNyeLogged] = useState(false);
 
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
     const { data: nye, isLoading, isError } = useHentNyeUtbetalinger();
     const { filters } = useFilter();
 

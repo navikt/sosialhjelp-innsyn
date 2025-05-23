@@ -3,7 +3,7 @@ import { delay, http, HttpResponse } from "msw";
 import { fireEvent, waitFor } from "@testing-library/react";
 import { subMonths } from "date-fns";
 
-import Utbetalinger from "../pages/utbetaling";
+import Utbetalinger from "../pages/[locale]/utbetaling";
 import { render, screen } from "../test/test-utils";
 import { server } from "../mocks/server";
 import { NyeOgTidligereUtbetalingerResponse } from "../generated/model";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { BodyShort, Label, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { PaperclipIcon, TasklistIcon } from "@navikt/aksel-icons";
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const IngenOppgaverPanel = ({ leserData }: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     if (leserData) {
         return null;
     }

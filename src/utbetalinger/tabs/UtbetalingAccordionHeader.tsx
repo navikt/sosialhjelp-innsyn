@@ -1,9 +1,8 @@
-import { useTranslation } from "next-i18next";
+import { useFormatter, useTranslations } from "next-intl";
 import { Accordion, BodyShort } from "@navikt/ds-react";
 import cx from "classnames";
 
 import { ManedUtbetaling, ManedUtbetalingStatus } from "../../generated/model";
-import { getDayAndMonth } from "../../utils/formatting";
 
 export const UtbetalingAccordionHeader = ({
     tittel,
@@ -13,9 +12,15 @@ export const UtbetalingAccordionHeader = ({
 }: Pick<ManedUtbetaling, "tittel" | "belop" | "status" | "utbetalingsdato" | "forfallsdato"> & {
     dato: string | undefined;
 }) => {
-    const { t, i18n } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
+    const format = useFormatter();
 
-    const datoStreng = dato ? getDayAndMonth(dato, i18n.language) : t("ukjentDato");
+    const datoStreng = dato
+        ? format.dateTime(new Date(dato), {
+              day: "numeric",
+              month: "long",
+          })
+        : t("ukjentDato");
     const erStoppet = status === ManedUtbetalingStatus.STOPPET;
     const tittelOrDefault = "default_utbetalinger_tittel" !== tittel ? tittel : t("default_utbetalinger_tittel");
 
@@ -31,7 +36,7 @@ export const UtbetalingAccordionHeader = ({
 
                 <BodyShort className={cx({ "!text-strikethrough text-text-subtle": erStoppet })}>
                     {!erStoppet && <span className="navds-sr-only">{t("opprinneligSum")}</span>}
-                    {new Intl.NumberFormat(i18n.language).format(belop)} kr
+                    {format.number(belop)} kr
                 </BodyShort>
             </div>
         </Accordion.Header>

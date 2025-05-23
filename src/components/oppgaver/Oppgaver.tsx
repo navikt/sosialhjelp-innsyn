@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Accordion, Alert } from "@navikt/ds-react";
 import styled from "styled-components";
 import { add, isBefore } from "date-fns";
@@ -63,7 +63,7 @@ export const skalSkjuleVilkarOgDokKrav = (
 const DAGER_SIDEN_UTBETALINGSPERIODEN_ER_FORBIGAATT = 21;
 
 const Oppgaver = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const fiksDigisosId = useFiksDigisosId();
     const vilkarQuery = useGetVilkar(fiksDigisosId);
     const dokumentasjonskravQuery = useGetDokumentasjonkrav(fiksDigisosId);

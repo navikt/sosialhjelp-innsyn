@@ -1,6 +1,6 @@
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import styled, { css } from "styled-components";
 import { Alert, ErrorMessage } from "@navikt/ds-react";
 import cx from "classnames";
@@ -49,7 +49,7 @@ const EttersendelseView = (props: Props) => {
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const fileUploadError = useFileUploadError();
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const isAalesund = useIsAalesundBlocked();
 
     const {

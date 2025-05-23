@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BodyShort, Button } from "@navikt/ds-react";
 import styled from "styled-components";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { FileCheckmarkIcon } from "@navikt/aksel-icons";
 
 import styles from "../../styles/lists.module.css";
@@ -72,7 +72,7 @@ interface Props {
 
 const FileItemView = (props: Props) => {
     const [openFile, setOpenFile] = useState<FancyFile | null>(null);
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const onVisVedlegg = (event: ClickEvent, file: FancyFile): void => {
         setOpenFile(file);

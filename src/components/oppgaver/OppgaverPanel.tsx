@@ -1,10 +1,10 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import Panel from "../panel/Panel";
 
 const OppgaverPanel = ({ hasError, children }: { hasError: boolean; children: React.ReactNode }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <Panel hasError={hasError} header={t("oppgaver.dine_oppgaver")}>

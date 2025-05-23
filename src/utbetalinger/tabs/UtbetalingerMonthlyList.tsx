@@ -1,5 +1,5 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useFormatter } from "next-intl";
 import { set } from "date-fns";
 import { useMemo } from "react";
 
@@ -18,7 +18,7 @@ export const UtbetalingerMonthlyList = ({
 }: {
     utbetalingSak: NyeOgTidligereUtbetalingerResponse;
 }) => {
-    const { i18n } = useTranslation();
+    const format = useFormatter();
 
     const utbetalingerMedId = useMemo(
         () =>
@@ -32,13 +32,16 @@ export const UtbetalingerMonthlyList = ({
     return (
         <section className="mb-10">
             <BodyShort className="font-bold mb-1 capitalize">
-                {set(new Date(0), {
-                    year: ar,
-                    month: maned - 1,
-                }).toLocaleString(i18n.language, {
-                    month: "long",
-                    year: "numeric",
-                })}
+                {format.dateTime(
+                    set(new Date(0), {
+                        year: ar,
+                        month: maned - 1,
+                    }),
+                    {
+                        month: "long",
+                        year: "numeric",
+                    }
+                )}
             </BodyShort>
             <Accordion>
                 {utbetalingerMedId.map((utbetaling) => (

@@ -16,7 +16,12 @@
         "jsx": "preserve",
         "noFallthroughCasesInSwitch": true,
         "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
     },
-    "include": ["./src", "./src/pages", "@types/i18next.d.ts"],
+    "include": ["./src", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
 }

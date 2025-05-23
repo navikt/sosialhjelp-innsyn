@@ -1,8 +1,6 @@
-import { TFunction } from "i18next";
-
 import { SoknadsStatusResponseStatus } from "../../generated/model";
 
-const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t: TFunction): string => {
+const soknadsStatusTittel = (status: SoknadsStatusResponseStatus | undefined, t: (s: string) => string): string => {
     switch (status) {
         case SoknadsStatusResponseStatus.SENDT:
             return t("status.sendt");

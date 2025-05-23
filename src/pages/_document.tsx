@@ -7,7 +7,7 @@ import {
 } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 
-import { getBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
+import { getBreadcrumbs } from "../utils/breadcrumbs";
 
 // The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
 const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
@@ -38,7 +38,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
                 handleInApp: true,
             },
         ],
-        language: ctx.locale as DecoratorLocale,
+        language: ctx.query.locale as DecoratorLocale,
         breadcrumbs: getBreadcrumbs(ctx.pathname),
         logoutWarning: false,
     },
@@ -79,13 +79,6 @@ class MyDocument extends Document<Props> {
             <Html lang={language || "no"}>
                 <Head>
                     <Decorator.HeadAssets />
-                    <link
-                        rel="preload"
-                        href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
-                        as="font"
-                        type="font/woff2"
-                        crossOrigin="anonymous"
-                    />
                     <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
                 </Head>
                 <body>

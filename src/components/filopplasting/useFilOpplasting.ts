@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import {
     logAmplitudeEvent,
@@ -38,9 +38,12 @@ export interface Metadata {
 }
 
 export interface Error {
-    fil?: File;
-    filnavn?: string;
     feil: Feil;
+}
+
+export interface ErrorWithFile extends Error {
+    fil: File;
+    filnavn: string;
 }
 
 export enum Feil {
@@ -103,7 +106,7 @@ const useFilOpplasting = (
         { fiksDigisosId: string; data: SendVedleggBody }
     >
 ) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const queryClient = useQueryClient();
     const fiksDigisosId = useFiksDigisosId();
     const { isPending, mutate, error, isError, data } = useSendVedlegg();
@@ -172,7 +175,7 @@ const useFilOpplasting = (
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
-            const _errors: Error[] = [];
+            const _errors: (Error | ErrorWithFile)[] = [];
             logDuplicatedFiles(_files);
             const validFiles = _files.filter((file) => {
                 let valid = true;

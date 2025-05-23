@@ -1,7 +1,7 @@
 import React from "react";
 import { BodyLong, Heading, LinkPanel } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { StyledGuidePanel, StyledGuidePanelContent } from "../styles/styledGuidePanel";
 import { StyledLenkePanelWrapper } from "../styles/LenkePanelWrapper";
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const UtbetalingsoversiktIngenSoknader = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     return (
         <Wrapper>
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>

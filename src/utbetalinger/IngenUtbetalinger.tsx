@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { BodyLong, Heading } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 export const IngenUtbetalinger = () => {
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
 
     return (
         <Wrapper>

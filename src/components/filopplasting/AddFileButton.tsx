@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Button } from "@navikt/ds-react";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const AddFileButton = ({ onChange, id, resetStatus, hasError, disabled, title }: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const onClick = (event?: React.MouseEvent<HTMLButtonElement>): void => {
         resetStatus();

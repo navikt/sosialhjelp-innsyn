@@ -1,6 +1,6 @@
 import React from "react";
 import { Tag as DS_Tag, TagProps } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import styled from "styled-components";
 
 import { SoknadsStatusResponseStatus } from "../../generated/model";
@@ -12,7 +12,7 @@ interface Props {
     status: SoknadsStatusResponseStatus | undefined;
 }
 const SoknadsStatusTag = ({ status }: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     switch (status) {
         case SoknadsStatusResponseStatus.SENDT:
@@ -30,10 +30,10 @@ const SoknadsStatusTag = ({ status }: Props) => {
 };
 
 const Tag = ({ children, ...rest }: TagProps): React.JSX.Element => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     return (
         <StyledAlertTag {...rest}>
-            <span className="sr-only">{t("status")}: </span>
+            <span className="sr-only">{t("status.status")}: </span>
             {children}
         </StyledAlertTag>
     );

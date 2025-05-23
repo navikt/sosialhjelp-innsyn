@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Label, Tag } from "@navikt/ds-react";
 import styled from "styled-components";
 
@@ -53,7 +53,7 @@ const SoknadsStatus = () => {
 
     const soknadsStatusQuery = useHentSoknadsStatus(fiksDigisosId);
     const saksStatusQuery = useHentSaksStatuser(fiksDigisosId);
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const soknadBehandlesIkke = soknadsStatusQuery.data?.status === SoknadsStatusResponseStatus.BEHANDLES_IKKE;
     const hasError = soknadsStatusQuery.isError || saksStatusQuery.isError;

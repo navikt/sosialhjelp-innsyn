@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { XMarkOctagonIcon } from "@navikt/aksel-icons";
 
 import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-controller";
@@ -34,7 +34,7 @@ interface Props {
 
 const ArkfanePanel = (props: Props) => {
     const fiksDigisosId = useFiksDigisosId();
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const [valgtFane, setValgtFane] = React.useState<string>(ARKFANER.HISTORIKK);
     const hendelserHasError = useHentHendelser(fiksDigisosId).isError;
     const vedleggHasError = useHentVedlegg(fiksDigisosId).isError;
