@@ -20,7 +20,7 @@ import { FilUrl, SoknadsStatusResponseStatus } from "../../../../generated/model
 import { getHentKlagerQueryKey, useSendKlage } from "../../../../generated/klage-controller/klage-controller";
 import useFilOpplasting, { FancyFile } from "../../../../components/filopplasting/useFilOpplasting";
 import pageHandler from "../../../../pagehandler/pageHandler";
-import { getFlag, getToggles } from "../../../../featuretoggles/unleash";
+import { getFlag, getToggles } from "../../../../featuretoggles/deprecated_pages/unleash";
 
 const StyledHeading = styled(Heading)`
     //padding-bottom: 5px;
@@ -162,7 +162,7 @@ const KlageSkjema: NextPage = () => {
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>) => {
-    const klageToggle = getFlag("sosialhjelp.innsyn.klage_enabled", await getToggles());
+    const klageToggle = getFlag("sosialhjelp.innsyn.klage_enabled", await getToggles(context.req.cookies));
     if (klageToggle && !klageToggle.enabled) {
         return { notFound: true };
     }

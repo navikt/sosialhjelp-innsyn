@@ -1,27 +1,24 @@
 import { evaluateFlags, getDefinitions, IToggle } from "@unleash/nextjs";
 import { logger as pinoLogger } from "@navikt/next-logger";
 import * as R from "remeda";
-import { cookies } from "next/headers";
-import { connection } from "next/server";
+import { NextApiRequestCookies } from "next/dist/server/api-utils";
 
-import { isLocalhost, isMock } from "../utils/restUtils";
-
-import { EXPECTED_TOGGLES, ExpectedToggles } from "./toggles";
-import { localDevelopmentToggles } from "./utils";
+import { isLocalhost, isMock } from "../../utils/restUtils";
+import { EXPECTED_TOGGLES, ExpectedToggles } from "../toggles";
+import { localDevelopmentToggles } from "../utils";
 
 export const UNLEASH_COOKIE_NAME = "unleash-session-id";
 
-const logger = pinoLogger.child({}, { msgPrefix: "[UNLEASH-TOGGLES] " });
+const logger = pinoLogger.child({}, { msgPrefix: "[UNLEASH-TOGGLES-DEPRECATED-PAGES] " });
 
 const unleashEnvironment = process.env.NEXT_PUBLIC_RUNTIME_ENV === "prod" ? "production" : "development";
 
-export async function getToggles(): Promise<IToggle[]> {
-    await connection();
-
+export async function getToggles(cookies: NextApiRequestCookies): Promise<IToggle[]> {
     if ((EXPECTED_TOGGLES as readonly string[]).length === 0) {
         logger.info("Currently no expected toggles defined, not fetching toggles from unleash");
         return [];
     }
+    const cookieStore = cookies;
 
     if (isLocalhost() || isMock()) {
         logger.warn(
@@ -30,15 +27,14 @@ export async function getToggles(): Promise<IToggle[]> {
                 .join("\n")}`
         );
 
-        const cookieStore = await cookies();
         return localDevelopmentToggles().map((it) => ({
             ...it,
-            enabled: cookieStore.get(it.name)?.value.includes("true") ?? it.enabled,
+            enabled: cookieStore[it.name]?.includes("true") ?? it.enabled,
         }));
     }
 
     try {
-        const sessionId = await getUnleashSessionId();
+        const sessionId = await getUnleashSessionId(cookies);
         const definitions = await getAndValidateDefinitions();
         const evaluatedFlags = evaluateFlags(definitions, {
             sessionId,
@@ -104,10 +100,10 @@ async function getAndValidateDefinitions(): Promise<Awaited<ReturnType<typeof ge
     return definitions;
 }
 
-async function getUnleashSessionId(): Promise<string> {
-    const existingUnleashId = (await cookies()).get(UNLEASH_COOKIE_NAME);
+async function getUnleashSessionId(cookies: NextApiRequestCookies): Promise<string> {
+    const existingUnleashId = cookies[UNLEASH_COOKIE_NAME];
     if (existingUnleashId != null) {
-        return existingUnleashId.value;
+        return existingUnleashId;
     } else {
         logger.warn("No existing unleash session id found, is middleware not configured?");
         return "0";

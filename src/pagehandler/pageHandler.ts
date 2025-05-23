@@ -6,7 +6,7 @@ import { Messages } from "next-intl";
 
 import { TilgangResponse } from "../generated/model";
 import { extractAuthHeader } from "../utils/authUtils";
-import { getToggles } from "../featuretoggles/unleash";
+import { getToggles } from "../featuretoggles/deprecated_pages/unleash";
 
 export interface PageProps {
     tilgang?: TilgangResponse;
@@ -46,12 +46,12 @@ const pageHandler = async (
 };
 
 export const getCommonProps = async (
-    { resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
+    { req, resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
     token: string
 ) => {
     const locale = params?.locale ?? "nb";
     const messages = (await import(`../../messages/${locale}.json`)).default;
-    const toggles = await getToggles();
+    const toggles = await getToggles(req.cookies);
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     try {
