@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import { Heading } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { use } from "react";
 
-import { getFlagServerSide } from "../featureTogglesServerSide";
+import { useFlag } from "../../../featuretoggles/context";
 
 const Page = () => {
-    const toggle = use(getFlagServerSide("sosialhjelp.innsyn.ny_landingsside"));
+    const toggle = useFlag("sosialhjelp.innsyn.ny_landingsside");
     const t = useTranslations("common");
     if (!toggle) {
         return notFound();
