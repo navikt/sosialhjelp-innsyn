@@ -29,7 +29,6 @@ const InnsendelsesFrist = (props: Props) => {
             {antallDagerSidenFristBlePassert <= 0 && (
                 <StyledBodyShort spacing>
                     {t("oppgaver.innsendelsesfrist", { innsendelsesfrist: new Date(props.frist) })}
-                    {/*{t("oppgaver.innsendelsesfrist", { innsendelsesfrist: formatDato(props.frist, i18n.language) })}*/}
                 </StyledBodyShort>
             )}
             {antallDagerSidenFristBlePassert > 0 && (
