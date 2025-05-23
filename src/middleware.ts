@@ -62,6 +62,7 @@ export async function middleware(request: NextRequest) {
     if (request.cookies.get(UNLEASH_COOKIE_NAME)?.value == null) {
         response.cookies.set(UNLEASH_COOKIE_NAME, crypto.randomUUID());
     }
+    return response;
 }
 
 const getRedirect = (loginUrl: string, pathname: string, origin: string, id: string) => {
