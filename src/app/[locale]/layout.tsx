@@ -2,13 +2,14 @@ import { cookies, headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
+import React from "react";
 
 import { routing } from "../../i18n/routing";
 import { TilgangResponse } from "../../generated/model";
 import { SupportedLocale } from "../../i18n/common";
+import { getToggles } from "../../featuretoggles/unleash";
 
 import Providers from "./Providers";
-import { getFlagsServerSide } from "./featureTogglesServerSide";
 
 function buildUrl(path: string) {
     const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
@@ -68,12 +69,12 @@ export default async function RootLayout({
         notFound();
     }
 
-    const flags = await getFlagsServerSide();
+    const toggles = await getToggles();
 
     const harTilgangResponse = await harTilgang();
     return (
         <NextIntlClientProvider>
-            <Providers toggles={flags.toggles} tilgang={harTilgangResponse}>
+            <Providers toggles={toggles} tilgang={harTilgangResponse}>
                 {children}
             </Providers>
         </NextIntlClientProvider>

@@ -5,8 +5,8 @@ import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { Messages } from "next-intl";
 
 import { TilgangResponse } from "../generated/model";
-import { getFlagsServerSide } from "../featuretoggles/ssr";
 import { extractAuthHeader } from "../utils/authUtils";
+import { getToggles } from "../featuretoggles/deprecated_pages/unleash";
 
 export interface PageProps {
     tilgang?: TilgangResponse;
@@ -34,11 +34,11 @@ const pageHandler = async (
             },
         };
     }
-    const { messages, flags, tilgang } = await getCommonProps(context, token);
+    const { messages, toggles, tilgang } = await getCommonProps(context, token);
     return {
         props: {
             messages,
-            ...flags,
+            toggles,
             tilgang,
             dehydratedState: queryClient ? dehydrate(queryClient) : null,
         },
@@ -46,19 +46,19 @@ const pageHandler = async (
 };
 
 export const getCommonProps = async (
-    { req, res, resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
+    { req, resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
     token: string
 ) => {
     const locale = params?.locale ?? "nb";
     const messages = (await import(`../../messages/${locale}.json`)).default;
-    const flags = await getFlagsServerSide(req, res);
+    const toggles = await getToggles(req.cookies);
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     try {
         const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
         if (tilgangResponse.ok) {
             const data: { harTilgang: boolean; fornavn: string } = await tilgangResponse.json();
-            return { messages, flags, tilgang: data };
+            return { messages, toggles, tilgang: data };
         } else {
             logger.error(
                 `Fikk feil ved innhenting av tilgangsdata. Status: ${tilgangResponse.status}, data: ${await tilgangResponse.text()}`
@@ -67,7 +67,7 @@ export const getCommonProps = async (
     } catch (e: unknown) {
         logger.error(`Something happened during fetch in getServerSideProps for url ${resolvedUrl}. Error: ${e}`);
     }
-    return { messages, flags };
+    return { messages, toggles };
 };
 
 export default pageHandler;
