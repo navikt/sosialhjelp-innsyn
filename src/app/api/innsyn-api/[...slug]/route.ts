@@ -1,6 +1,5 @@
 import { proxyRouteHandler } from "@navikt/next-api-proxy";
 import { cookies } from "next/headers";
-import { logger } from "@navikt/next-logger";
 
 import { isLocalhost, isMock } from "../../../../utils/restUtils";
 
@@ -21,7 +20,6 @@ const getRouteHandlerProxyTarget = async (
 
     const path = `${basePath}/${requestPath.join("/")}`;
     const port = process.env.INNSYN_API_PORT;
-    logger.info(`http://${hostname}${path}`);
     return { hostname, path: encodeURI(path), bearerToken, https, port };
 };
 
