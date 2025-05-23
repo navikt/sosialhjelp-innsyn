@@ -36,7 +36,8 @@ const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element =
     const [queryClient] = React.useState(() => new QueryClient());
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
-        return router.replace(router.asPath.replace(/\/(en|nn|nb)/, `/`));
+        await router.replace(router.asPath.replace(/\/(en|nn|nb)/, `/`));
+        return router.reload();
     });
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
     return (
