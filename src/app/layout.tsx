@@ -1,7 +1,5 @@
 import "./globals.css";
 
-// Må ha tom layout for å kunne bruke not-found.tsx
-
 import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import Script from "next/script";
 import { cookies } from "next/headers";
