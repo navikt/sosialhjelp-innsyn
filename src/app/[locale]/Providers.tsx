@@ -27,11 +27,9 @@ configureLogger({
     basePath: "/sosialhjelp/innsyn",
 });
 
-// TODO: Dette er kanskje ikke den beste plassering
 logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 interface Props {
-    // TODO: Påkrevd? Må kanskje flytte HydrationBoundary lenger inn i layout-hierarkiet
     dehydratedState?: DehydratedState;
     toggles: IToggle[];
     tilgang?: TilgangResponse;
