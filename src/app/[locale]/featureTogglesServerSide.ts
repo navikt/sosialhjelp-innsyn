@@ -1,3 +1,4 @@
+"use server";
 import { getRandomValues } from "crypto";
 
 import { IToggle, getDefinitions, evaluateFlags, flagsClient } from "@unleash/nextjs";
@@ -10,7 +11,6 @@ import { getUnleashEnvironment, localDevelopmentToggles } from "../../featuretog
 import { EXPECTED_TOGGLES } from "../../featuretoggles/toggles";
 
 export async function getFlagsServerSide() {
-    "use server";
     if (isLocalhost()) {
         logger.warn("Running in local or demo mode, falling back to development toggles.");
         return { toggles: localDevelopmentToggles() };

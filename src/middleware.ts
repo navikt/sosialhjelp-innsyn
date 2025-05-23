@@ -5,6 +5,7 @@ import createMiddleware from "next-intl/middleware";
 
 import { browserEnv, getServerEnv } from "./config/env";
 import { routing } from "./i18n/routing";
+import { UNLEASH_COOKIE_NAME } from "./featuretoggles/unleash";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -21,6 +22,7 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith("/_next") || pathname.includes("/api") || PUBLIC_FILE.test(pathname)) {
         return;
     }
+
     const { NEXT_PUBLIC_INNSYN_ORIGIN, NEXT_PUBLIC_RUNTIME_ENVIRONMENT } = browserEnv;
     const { NEXT_INNSYN_API_BASE_URL } = getServerEnv();
     // Router bruker til login hvis vi får 401. Dette gjelder bare for auth gjennom mock-alt. I prod/preprod gjelder dette for "vanlig" innlogging på login.nav.no
@@ -56,7 +58,10 @@ export async function middleware(request: NextRequest) {
 
     const i18nMiddleware = createMiddleware(routing);
 
-    return i18nMiddleware(request);
+    const response = i18nMiddleware(request);
+    if (request.cookies.get(UNLEASH_COOKIE_NAME)?.value == null) {
+        response.cookies.set(UNLEASH_COOKIE_NAME, crypto.randomUUID());
+    }
 }
 
 const getRedirect = (loginUrl: string, pathname: string, origin: string, id: string) => {
