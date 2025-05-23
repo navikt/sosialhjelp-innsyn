@@ -11,6 +11,8 @@ const Page = () => {
     if (!toggle) {
         return notFound();
     }
+
+    throw new Error("Alt feilet");
     return (
         <Heading size="xlarge" className="min-h-[50vh]">
             {t("dineSoknader")}

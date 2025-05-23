@@ -170,6 +170,21 @@
             "saksOversikt": "Vi klarte ikke å hente inn all informasjonen på siden.",
             "saksOversikt2": "Du kan forsøke å oppdatere siden, eller prøve igjen senere."
         },
+        "TekniskFeil": {
+            "title": "Vi beklager!",
+            "feilmelding": "En teknisk feil har oppstått.",
+            "anbefaling": "Vi anbefaler at du prøver på nytt.",
+            "lenkeTilHovedmeny": "Til startsiden for søknad",
+            "problemetErLogget": "Hendelsen har blitt loggført og problemet utbedres så fort som mulig."
+        },
+        "TrengerDuRaskHjelp": {
+            "title": "Trenger du rask hjelp?",
+            "kontaktKontoret": "Hvis du ikke har penger til det aller mest nødvendige som mat, må du kontakte Nav-kontoret ditt.\n\nNav skal også hjelpe deg med å finne et midlertidig botilbud hvis du ikke har et sted å sove eller oppholde deg det nærmeste døgnet.",
+            "lenkeTilHovedmeny": "Gå til forsiden for sosialhjelp",
+            "lenkeTilNavForside": "Gå til nav.no",
+            "sendBugRapport": "Send feilrapport",
+            "bugRapportUrl": "https://www.nav.no/person/kontakt-oss/nb/tilbakemeldinger/feil-og-mangler"
+        },
         "dineSoknader": "Dine søknader",
         "nySoknad": "Ny søknad",
         "relatertInfo": "Relatert informasjon",

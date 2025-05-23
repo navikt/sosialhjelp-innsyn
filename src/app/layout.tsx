@@ -68,6 +68,10 @@ export default async function RootLayout({ children }: Props) {
     const props = decoratorParams(locale);
     const Decorator = await fetchDecoratorReact(props);
 
+    const messages = await getMessages();
+    // locale blir hentet via middleware.ts,
+    // og html lang leses (som document.documentElement.lang) av både analytics og klientside i18n
+
     return (
         <html lang={locale || "nb"}>
             <head>

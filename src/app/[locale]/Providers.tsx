@@ -55,11 +55,9 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
     return (
         <QueryClientProvider client={queryClient}>
             <HydrationBoundary state={dehydratedState}>
-                <ErrorBoundary>
-                    <FlagProvider toggles={toggles}>
-                        <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
-                    </FlagProvider>
-                </ErrorBoundary>
+                <FlagProvider toggles={toggles}>
+                    <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
+                </FlagProvider>
             </HydrationBoundary>
         </QueryClientProvider>
     );

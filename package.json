@@ -28,6 +28,7 @@
         "react-dom": "^19.1.0",
         "react-use": "^17.6.0",
         "remeda": "^2.21.3",
+        "stacktracey": "^2.1.8",
         "styled-components": "^6.1.17",
         "zod": "^3.24.3"
     },
