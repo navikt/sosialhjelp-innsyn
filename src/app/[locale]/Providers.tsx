@@ -8,7 +8,6 @@ import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 
-import ErrorBoundary from "../../components/errors/ErrorBoundary";
 import { FlagProvider } from "../../featuretoggles/context";
 import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../../utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../../faro/faro";
@@ -55,11 +54,9 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
     return (
         <QueryClientProvider client={queryClient}>
             <HydrationBoundary state={dehydratedState}>
-                <ErrorBoundary>
-                    <FlagProvider toggles={toggles}>
-                        <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
-                    </FlagProvider>
-                </ErrorBoundary>
+                <FlagProvider toggles={toggles}>
+                    <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
+                </FlagProvider>
             </HydrationBoundary>
         </QueryClientProvider>
     );

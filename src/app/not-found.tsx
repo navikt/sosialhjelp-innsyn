@@ -31,3 +31,7 @@ const SideIkkeFunnet = async () => {
 };
 
 export default SideIkkeFunnet;
+
+export const metadata = {
+    title: "Fant ikke siden | Økonomisk sosialhjelp",
+};
