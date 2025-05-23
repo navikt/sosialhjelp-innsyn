@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import { Heading } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-import { useFlag } from "../../../featuretoggles/context";
+import { getFlag, getToggles } from "../../../featuretoggles/unleash";
 
-const Page = () => {
-    const toggle = useFlag("sosialhjelp.innsyn.ny_landingsside");
-    const t = useTranslations("common");
+const Page = async () => {
+    const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
+    const t = await getTranslations("common");
     if (!toggle) {
         return notFound();
     }
