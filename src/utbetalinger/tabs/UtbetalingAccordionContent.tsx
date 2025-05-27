@@ -1,7 +1,7 @@
 import { DateTimeFormatOptions, useFormatter, useTranslations } from "next-intl";
 import { Accordion, BodyShort, Link as AkselLink } from "@navikt/ds-react";
-import Link from "next/link";
 import { FileTextIcon } from "@navikt/aksel-icons";
+import Link from "next/link";
 
 import type { ManedUtbetaling } from "../../generated/model";
 import { logButtonOrLinkClick } from "../../utils/amplitude";

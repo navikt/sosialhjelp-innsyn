@@ -230,7 +230,7 @@
             "tilDato": "To: {til, date, ::ddMMyyyy}",
             "til": "To",
             "format": "(dd.mm.yyyy)",
-            "mottaker": { "minKonto": "To me", "annenMottaker": "To other recipients" },
+            "mottaker": { "velg": "Select recipient", "minKonto": "To me", "annenMottaker": "To other recipients" },
             "alle": "All",
             "ugylding": "The date should be in the format  dd.mm.yyyy",
             "tidligstFra": "The earliest search date is 15 months back",

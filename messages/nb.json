@@ -236,7 +236,7 @@
             "fra": "Fra",
             "til": "Til",
             "format": "(dd.mm.åååå)",
-            "mottaker": { "minKonto": "Til meg", "annenMottaker": "Til andre mottakere" },
+            "mottaker": { "velg": "Velg mottaker", "minKonto": "Til meg", "annenMottaker": "Til andre mottakere" },
             "alle": "Alle",
             "ugylding": "Datoen må være i formatet dd.mm.åååå",
             "tidligstFra": "Tidligste søkedato er 15 måneder tilbake i tid",

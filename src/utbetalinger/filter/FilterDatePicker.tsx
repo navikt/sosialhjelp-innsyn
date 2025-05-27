@@ -1,8 +1,7 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import React, { useState } from "react";
 import { DatePicker, DateValidationT, useDatepicker } from "@navikt/ds-react";
 import { subMonths } from "date-fns";
-import { useRouter } from "next/router";
 
 import useIsMobile from "../../utils/useIsMobile";
 
@@ -38,9 +37,7 @@ export const FilterDatePicker = ({
 }) => {
     const t = useTranslations("utbetalinger");
 
-    const {
-        query: { locale },
-    } = useRouter();
+    const locale = useLocale();
     const isMobile = useIsMobile();
     const [dateError, setDateError] = useState<string | undefined>(undefined);
     const { datepickerProps, inputProps } = useDatepicker({

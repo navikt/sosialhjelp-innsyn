@@ -236,7 +236,7 @@
             "tilDato": "Til: {til, date, ::ddMMyyyy}",
             "til": "Til",
             "format": "(dd.mm.åååå)",
-            "mottaker": { "minKonto": "Til meg", "annenMottaker": "Til andre mottakarar" },
+            "mottaker": { "velg": "Vel mottakar", "minKonto": "Til meg", "annenMottaker": "Til andre mottakarar" },
             "alle": "Alle",
             "ugylding": "Datoen må vere i formatet dd.mm.åååå",
             "tidligstFra": "Tidlegaste søkjedato er 15 månader bak i tid",

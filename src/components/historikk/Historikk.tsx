@@ -3,8 +3,8 @@ import { BodyShort, Button, Label, Link as AkselLink } from "@navikt/ds-react";
 import { UnmountClosed } from "react-collapse";
 import styled from "styled-components";
 import { ChevronUpIcon, ChevronDownIcon } from "@navikt/aksel-icons";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
@@ -48,6 +48,7 @@ interface HistorikkListeProps {
 
 const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps) => {
     const t = useTranslations("common");
+    const locale = useLocale();
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
@@ -77,7 +78,7 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                 <BodyShort weight="semibold">
                     {t.rich(enumValue, {
                         utbetalinger: (chunks) => (
-                            <AkselLink as={Link} href="/[locale]/utbetaling">
+                            <AkselLink as={Link} href={`/${locale}/utbetaling`}>
                                 {chunks}
                             </AkselLink>
                         ),
