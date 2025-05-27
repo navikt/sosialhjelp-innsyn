@@ -9,11 +9,6 @@ import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 
 import { getBreadcrumbs } from "../utils/breadcrumbs";
 
-// The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
-const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
-    return initialProps.head?.find((element) => element?.props?.name === name)?.props?.content;
-};
-
 const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
     env: createDecoratorEnv(),
     serviceDiscovery: true,
@@ -59,14 +54,14 @@ function createDecoratorEnv(): "dev" | "prod" {
 
 interface Props {
     Decorator: DecoratorComponentsReact;
-    language: string;
+    language?: string;
 }
 
 class MyDocument extends Document<Props> {
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps & Props> {
         const initialProps = await Document.getInitialProps(ctx);
 
-        const language = getDocumentParameter(initialProps, "lang");
+        const language = ctx.query["locale"] as string | undefined;
         const props = decoratorParams(ctx);
         const Decorator = await fetchDecoratorReact(props);
 
