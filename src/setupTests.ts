@@ -1,5 +1,6 @@
-import { configure } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { cleanup, configure } from "@testing-library/react";
+import { vi, beforeAll, afterAll, afterEach } from "vitest";
+import "@testing-library/jest-dom/vitest";
 import mockRouter from "next-router-mock";
 import { createDynamicRouteParser } from "next-router-mock/dynamic-routes";
 
@@ -8,9 +9,22 @@ import { queryCache, queryClient } from "./test/test-utils";
 
 configure({ asyncUtilTimeout: 3000 });
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-jest.mock("next/router", () => require("next-router-mock"));
-jest.mock("unleash-proxy-client", jest.fn());
+vi.mock("next/router", async () => ({ ...(await import("next-router-mock")) }));
+vi.mock("unleash-proxy-client", vi.fn());
+
+Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(), // deprecated
+        removeListener: vi.fn(), // deprecated
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+    })),
+});
 
 mockRouter.useParser(
     createDynamicRouteParser([
@@ -24,24 +38,6 @@ mockRouter.useParser(
     ])
 );
 
-Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-    })),
-});
-
-Object.defineProperty(crypto, "randomUUID", {
-    value: jest.fn().mockImplementation(() => "72b12f47-cd7f-4eed-b791-9cfae155dda3"),
-});
-
 // Establish API mocking before all tests.
 beforeAll(() => server.listen());
 
@@ -52,6 +48,7 @@ afterEach(async () => {
     queryClient.clear();
     server.resetHandlers();
     queryCache.clear();
+    cleanup();
 });
 
 // Clean up after the tests are finished.

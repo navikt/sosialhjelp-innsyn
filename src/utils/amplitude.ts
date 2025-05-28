@@ -26,8 +26,13 @@ export type AmplitudeFiltervalgEvent = {
 
 type AmplitudeInnsynEvent = AmplitudeFiltervalgEvent;
 
-export const logAmplitudeEventTyped = async ({ eventData, eventName }: AmplitudeInnsynEvent) =>
-    logAmplitudeEvent(eventName, eventData);
+export const logAmplitudeEventTyped = (event?: AmplitudeInnsynEvent) => {
+    if (!event) {
+        return;
+    }
+    const { eventName, eventData } = event;
+    return logAmplitudeEvent(eventName, eventData);
+};
 
 export function logAktivSoknaderMedDokumentasjonetterspurt(antallet: number) {
     logAmplitudeEvent("Antall aktive søknader med dokumentasjon etterspurt en søker har", {

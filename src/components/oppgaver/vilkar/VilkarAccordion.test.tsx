@@ -1,5 +1,5 @@
-import "@testing-library/jest-dom";
 import React from "react";
+import { expect, test } from "vitest";
 
 import { render, fireEvent, screen } from "../../../test/test-utils";
 import { VilkarResponse } from "../../../generated/model";

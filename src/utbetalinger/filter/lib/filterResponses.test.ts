@@ -1,9 +1,12 @@
+import { expect, describe, it, vi } from "vitest";
+
 import { NyeOgTidligereUtbetalingerResponse } from "../../../generated/model";
 import { getHentTidligereUtbetalingerResponseMock } from "../../../generated/utbetalinger-controller/utbetalinger-controller.msw";
 
 import { filterMatch } from "./filterMatch";
 import { filterResponses } from "./filterResponses";
-jest.mock("./filterMatch");
+
+vi.mock("./filterMatch");
 
 describe("filterResponses", () => {
     const UTBETALINGER = [

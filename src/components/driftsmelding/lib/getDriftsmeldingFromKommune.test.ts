@@ -1,3 +1,5 @@
+import { expect, describe, it } from "vitest";
+
 import { KommuneResponse } from "../../../generated/model";
 
 import { getDriftsmeldingFromKommune } from "./getDriftsmeldingFromKommune";

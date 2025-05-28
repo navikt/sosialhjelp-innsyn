@@ -1,3 +1,5 @@
+import { expect, describe, it } from "vitest";
+
 import { containsIllegalCharacters, hentFileExtension } from "./vedleggUtils";
 
 describe("VedleggUtilsTest", () => {
