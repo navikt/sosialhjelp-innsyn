@@ -24,5 +24,4 @@ jobs:
           node-version: 22
           build-less: 'false'
           run-orval: 'true'
-          run-test: 'false'
           reader-token: ${{ secrets.READER_TOKEN }}
