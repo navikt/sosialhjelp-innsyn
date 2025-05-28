@@ -1,4 +1,5 @@
 import { waitFor } from "@testing-library/react";
+import { expect, describe, it, beforeEach, vi, Mock } from "vitest";
 
 import { server } from "../../../mocks/server";
 import { renderHook } from "../../../test/test-utils";
@@ -31,11 +32,11 @@ const KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE = getHentKommuneInfoResponseMock({
 const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: false });
 const BROKEN_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: true });
 
-jest.mock("../../../hooks/useFiksDigisosId", () => jest.fn(() => "dumy"));
+vi.mock("../../../hooks/useFiksDigisosId", () => ({ default: vi.fn(() => "dumy") }));
 
 describe("useFileUploadAllowed", () => {
     beforeEach(() => {
-        (useFiksDigisosId as jest.Mock).mockResolvedValue("dummy-id");
+        (useFiksDigisosId as Mock).mockResolvedValue("dummy-id");
         server.resetHandlers();
     });
 

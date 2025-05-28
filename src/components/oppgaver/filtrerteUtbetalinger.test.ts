@@ -1,3 +1,5 @@
+import { expect, test } from "vitest";
+
 import { filterUtbetalinger, skalSkjuleVilkarOgDokKrav, UtbetalingerResponse } from "./Oppgaver";
 
 const utbetaltOver21Dager: UtbetalingerResponse = {

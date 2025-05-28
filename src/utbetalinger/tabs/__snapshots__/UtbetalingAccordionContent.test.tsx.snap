@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UtbetalingAccordionContent matches snapshot with annenMottaker 1`] = `
+exports[`UtbetalingAccordionContent > matches snapshot with annenMottaker 1`] = `
 <DocumentFragment>
   <div
     class="navds-accordion navds-accordion--medium navds-accordion--indent"

@@ -2,6 +2,7 @@ import React from "react";
 import { delay, http, HttpResponse } from "msw";
 import { fireEvent, waitFor } from "@testing-library/react";
 import { subMonths } from "date-fns";
+import { expect, describe, it, vi } from "vitest";
 
 import Utbetalinger from "../pages/[locale]/utbetaling";
 import { render, screen } from "../test/test-utils";
@@ -53,9 +54,9 @@ const ingenSaker = getHentAlleSakerMockHandler([]);
 
 const error = http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", () => HttpResponse.error());
 
-jest.mock("../utils/useIsMobile", () => {
-    return jest.fn(() => false);
-});
+vi.mock("../utils/useIsMobile", () => ({
+    default: vi.fn(() => false),
+}));
 
 describe("Utbetalinger", () => {
     it("Viser utbetalinger ved suksess", async () => {

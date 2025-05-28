@@ -1,13 +1,15 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { vi, expect, describe, it, beforeAll, afterAll } from "vitest";
+
+import { render } from "../../test/test-utils";
 
 import { DriftsmeldingKommune } from "./DriftsmeldingKommune";
 import { KommuneDriftsmeldingError } from "./lib/getDriftsmeldingFromKommune";
 
 describe("DriftsmeldingKommune", () => {
-    beforeAll(() => jest.useFakeTimers({ now: new Date("1987-11-09T12:00:00Z") }));
+    beforeAll(() => vi.useFakeTimers({ now: new Date("1987-11-09T12:00:00Z") }));
 
-    afterAll(() => jest.useRealTimers());
+    afterAll(() => vi.useRealTimers());
 
     const renderDriftsmeldingKommune = (driftsmelding: KommuneDriftsmeldingError | undefined) =>
         render(<DriftsmeldingKommune driftsmelding={driftsmelding} />).asFragment();

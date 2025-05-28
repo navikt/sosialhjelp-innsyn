@@ -1,3 +1,5 @@
+import { expect, it } from "vitest";
+
 import { SaksStatusResponse, SaksStatusResponseStatus } from "../../../generated/model";
 
 import { harSakMedInnvilgetEllerDelvisInnvilget } from "./VilkarUtils";

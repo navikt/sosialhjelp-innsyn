@@ -1,5 +1,7 @@
-import { render } from "@testing-library/react";
 import { Accordion } from "@navikt/ds-react";
+import { expect, describe, it } from "vitest";
+
+import { render } from "../../test/test-utils";
 
 import { UtbetalingAccordionContent } from "./UtbetalingAccordionContent";
 

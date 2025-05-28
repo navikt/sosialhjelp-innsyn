@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert if søknadinfo.isBroken is true 1`] = `
+exports[`DriftsmeldingVedlegg > renders DriftsmeldingAlert if søknadinfo.isBroken is true 1`] = `
 <DocumentFragment>
   <div
     class="font-bold navds-alert navds-alert--error navds-alert--medium navds-alert--inline"
@@ -37,7 +37,7 @@ exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert if søknadinfo.isBroken
 </DocumentFragment>
 `;
 
-exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert when there is a file upload error 1`] = `
+exports[`DriftsmeldingVedlegg > renders DriftsmeldingAlert when there is a file upload error 1`] = `
 <DocumentFragment>
   <div
     class="font-bold navds-alert navds-alert--error navds-alert--medium navds-alert--inline"
@@ -74,4 +74,4 @@ exports[`DriftsmeldingVedlegg renders DriftsmeldingAlert when there is a file up
 </DocumentFragment>
 `;
 
-exports[`DriftsmeldingVedlegg renders null when there is no file upload error 1`] = `<DocumentFragment />`;
+exports[`DriftsmeldingVedlegg > renders null when there is no file upload error 1`] = `<DocumentFragment />`;

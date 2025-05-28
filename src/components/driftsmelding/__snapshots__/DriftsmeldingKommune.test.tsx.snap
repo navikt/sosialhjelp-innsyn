@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DriftsmeldingKommune renders error alert with mldEttersendelseDeaktivert 1`] = `
+exports[`DriftsmeldingKommune > renders error alert with mldEttersendelseDeaktivert 1`] = `
 <DocumentFragment>
   <div
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
@@ -40,7 +40,7 @@ exports[`DriftsmeldingKommune renders error alert with mldEttersendelseDeaktiver
           9. november 1987
         </time>
         <time>
-           klokken 12:00
+           klokken 13:00
         </time>
       </p>
       Vi kan dessverre ikke motta dokumentasjon fra deg. Du kan enten prøve igjen senere, eller levere de på Nav-kontoret ditt.
@@ -49,7 +49,7 @@ exports[`DriftsmeldingKommune renders error alert with mldEttersendelseDeaktiver
 </DocumentFragment>
 `;
 
-exports[`DriftsmeldingKommune renders error alert with mldInnsynDeaktivert 1`] = `
+exports[`DriftsmeldingKommune > renders error alert with mldInnsynDeaktivert 1`] = `
 <DocumentFragment>
   <div
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
@@ -89,7 +89,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynDeaktivert 1`] =
           9. november 1987
         </time>
         <time>
-           klokken 12:00
+           klokken 13:00
         </time>
       </p>
       Vi kan dessverre ikke vise nyeste status for søknaden din. Du kan fortsatt sende inn dokumentasjon på nav.no. Har du spørsmål kan du ta kontakt med Nav-kontoret ditt.
@@ -98,7 +98,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynDeaktivert 1`] =
 </DocumentFragment>
 `;
 
-exports[`DriftsmeldingKommune renders error alert with mldInnsynOgEttersendelseDeaktivert 1`] = `
+exports[`DriftsmeldingKommune > renders error alert with mldInnsynOgEttersendelseDeaktivert 1`] = `
 <DocumentFragment>
   <div
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
@@ -138,7 +138,7 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynOgEttersendelseD
           9. november 1987
         </time>
         <time>
-           klokken 12:00
+           klokken 13:00
         </time>
       </p>
       Vi kan dessverre ikke vise deg nyeste status for søknaden din, eller motta dokumentasjon fra deg. Du kan enten prøve igjen senere, eller ta kontakt med Nav-kontoret ditt.
@@ -147,4 +147,4 @@ exports[`DriftsmeldingKommune renders error alert with mldInnsynOgEttersendelseD
 </DocumentFragment>
 `;
 
-exports[`DriftsmeldingKommune renders nothing if driftsmelding is undefined 1`] = `<DocumentFragment />`;
+exports[`DriftsmeldingKommune > renders nothing if driftsmelding is undefined 1`] = `<DocumentFragment />`;

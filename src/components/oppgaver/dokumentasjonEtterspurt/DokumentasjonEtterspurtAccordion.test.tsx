@@ -1,6 +1,6 @@
-import "@testing-library/jest-dom";
 import React from "react";
 import mockRouter from "next-router-mock";
+import { expect, test } from "vitest";
 
 import { render, fireEvent, screen } from "../../../test/test-utils";
 import { OppgaveElementHendelsetype } from "../../../generated/model";
