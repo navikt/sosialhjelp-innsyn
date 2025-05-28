@@ -18,24 +18,24 @@ const Wrapper = styled.div`
 `;
 
 const UtbetalingsoversiktIngenSoknader = () => {
-    const t = useTranslations("common");
+    const t = useTranslations();
     return (
         <Wrapper>
             <StyledGuidePanel poster illustration={<IngenSoknaderFunnet />}>
                 <StyledGuidePanelContent>
                     <Heading level="2" size="medium" spacing>
-                        {t("utbetalinger.ingen-utbetalinger.tittel", { ns: "utbetalinger" })}
+                        {t("utbetalinger.utbetalinger.ingen-utbetalinger.tittel")}
                     </Heading>
-                    <BodyLong>{t("utbetalinger.ingen-utbetalinger.body", { ns: "utbetalinger" })}</BodyLong>
+                    <BodyLong>{t("utbetalinger.utbetalinger.ingen-utbetalinger.body")}</BodyLong>
                 </StyledGuidePanelContent>
             </StyledGuidePanel>
 
             <StyledLenkePanelWrapper>
                 <LinkPanel href="https://www.nav.no/okonomisk-sosialhjelp" border={false}>
-                    <LinkPanel.Title>{t("lenke.les_mer")}</LinkPanel.Title>
+                    <LinkPanel.Title>{t("common.lenke.les_mer")}</LinkPanel.Title>
                 </LinkPanel>
                 <LinkPanel href="https://www.nav.no/sosialhjelp/soknad" border={false}>
-                    <LinkPanel.Title>{t("lenke.sok")}</LinkPanel.Title>
+                    <LinkPanel.Title>{t("common.lenke.sok")}</LinkPanel.Title>
                 </LinkPanel>
             </StyledLenkePanelWrapper>
         </Wrapper>
