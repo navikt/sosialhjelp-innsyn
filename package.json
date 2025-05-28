@@ -89,7 +89,6 @@
         "prettier": "^3.5.3",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.8.3",
-        "undici": "^5.28.5",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.1.4"
     },
