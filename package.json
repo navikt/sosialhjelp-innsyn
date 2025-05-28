@@ -80,7 +80,7 @@
         "eslint-plugin-testing-library": "^7.2.0",
         "husky": "^9.1.7",
         "jsdom": "^26.1.0",
-        "lint-staged": "^15.5.1",
+        "lint-staged": "^16.1.0",
         "msw": "^2.8.2",
         "next-router-mock": "^1.0.2",
         "orval": "^7.9.0",
