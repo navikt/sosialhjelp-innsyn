@@ -70,6 +70,7 @@
                 },
                 "beskrivelse": "Dette er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav.",
                 "dokumentasjonskrav": {
+                    "tittel": "Dokumentasjon til stønaden din",
                     "beskrivelse": "Dokumentasjonen kan vere knytte til vilkåra dine, eller det kan vere dokumentasjon som Nav treng for å utbetale stønad til deg. Du kan levere desse under «Dine dokumenter» under."
                 }
             },

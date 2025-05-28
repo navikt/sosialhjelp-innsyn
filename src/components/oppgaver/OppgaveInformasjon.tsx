@@ -45,7 +45,7 @@ const OppgaveInformasjon = () => {
                                 title="vedlegg"
                             />
                             <div>
-                                <Label as="p">{t("oppgaver.vilkar.dokumentasjonskrav")}</Label>
+                                <Label as="p">{t("oppgaver.vilkar.dokumentasjonskrav.tittel")}</Label>
                                 <BodyShort>{t("oppgaver.vilkar.dokumentasjonskrav.beskrivelse")}</BodyShort>
                             </div>
                         </>

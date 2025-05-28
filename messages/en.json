@@ -70,6 +70,7 @@
                 },
                 "beskrivelse": "Requirements are activities you must participate in as part of your follow-up from Nav.",
                 "dokumentasjonskrav": {
+                    "tittel": "Documentation related to your application",
                     "beskrivelse": "This documentation may be related to your requirements, or Nav may need documentation from you in order to make payments to you. You can submit the information under “Your documents” below."
                 }
             },
