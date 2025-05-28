@@ -63,6 +63,11 @@
         "default_utbetalinger_tittel": "Utbetaling",
         "oppgaver": {
             "vilkar": {
+                "tittel": {
+                    "vilkar": "Vilkår",
+                    "tittel": "Du kan ha vilkår",
+                    "tekst": "Les svaret på søknaden din for å se om du har vilkår, eller om vi trenger dokumentasjon for å utbetale stønaden din."
+                },
                 "beskrivelse": "Dette er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav.",
                 "dokumentasjonskrav": {
                     "beskrivelse": "Dokumentasjonen kan være knyttet til vilkårene dine, eller det kan være økonomisk dokumentasjon Nav trenger for å utbetale stønaden din. Du kan levere disse under «Dine dokumenter» nedenfor."

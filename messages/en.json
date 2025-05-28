@@ -63,6 +63,11 @@
         "default_utbetalinger_tittel": "Payments",
         "oppgaver": {
             "vilkar": {
+                "tittel": {
+                    "vilkar": "Requirements",
+                    "tittel": "You may have requirements",
+                    "tekst": "Please see your notice of decision to see if requirements apply, or if we need more information to make payments to you."
+                },
                 "beskrivelse": "Requirements are activities you must participate in as part of your follow-up from Nav.",
                 "dokumentasjonskrav": {
                     "beskrivelse": "This documentation may be related to your requirements, or Nav may need documentation from you in order to make payments to you. You can submit the information under “Your documents” below."

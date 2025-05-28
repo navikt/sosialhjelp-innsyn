@@ -18,7 +18,7 @@ const OppgaveInformasjon = () => {
         <>
             <Accordion.Item>
                 <Accordion.Header>
-                    <Label as="p">{t("oppgaver.vilkar.tittel")}</Label>
+                    <Label as="p">{t("oppgaver.vilkar.tittel.tittel")}</Label>
                     <BodyShort>{t("oppgaver.vilkar.tittel.tekst")}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content>
@@ -32,7 +32,7 @@ const OppgaveInformasjon = () => {
                                 title="liste"
                             />
                             <div>
-                                <Label as="p">{t("oppgaver.vilkar")}</Label>
+                                <Label as="p">{t("oppgaver.vilkar.tittel.vilkar")}</Label>
                                 <BodyShort>{t("oppgaver.vilkar.beskrivelse")}</BodyShort>
                             </div>
                         </>
