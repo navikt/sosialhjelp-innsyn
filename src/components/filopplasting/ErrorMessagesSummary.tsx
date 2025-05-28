@@ -1,27 +1,25 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { ErrorMessage } from "@navikt/ds-react";
 
-import { Error } from "./useFilOpplasting";
+import { Error, ErrorWithFile } from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 
-export const dedupeErrorsByProp = (errors: Error[], prop: "fil" | "feil") => {
+export const dedupeErrorsByProp = <T extends Error, K extends keyof T>(errors: T[], prop: K) => {
     return errors?.filter((v, i, a) => a.findIndex((v2) => v2[prop] === v[prop]) === i);
 };
 
 interface Props {
-    errors: Error[];
+    errors: ErrorWithFile[];
 }
 const ErrorMessagesSummary = ({ errors }: Props) => {
-    const errorsWithFile = errors.filter((error) => error.fil);
-
-    const uniqueFilesWithError = dedupeErrorsByProp(errorsWithFile, "fil");
-    const { t } = useTranslation();
+    const uniqueFilesWithError = dedupeErrorsByProp(errors, "fil");
+    const t = useTranslations("common.vedlegg");
 
     if (uniqueFilesWithError.length > 1) {
         return (
             <ErrorMessage className={styles.innerError}>
-                {t("vedlegg.ulovlig_flere_fil_feilmelding", {
+                {t("ulovlig_flere_fil_feilmelding", {
                     antallFiler: uniqueFilesWithError.length,
                 })}
             </ErrorMessage>
@@ -30,8 +28,8 @@ const ErrorMessagesSummary = ({ errors }: Props) => {
     if (uniqueFilesWithError.length === 1) {
         return (
             <ErrorMessage className={styles.innerError}>
-                {t("vedlegg.ulovlig_en_fil_feilmelding", {
-                    filnavn: uniqueFilesWithError[0]?.fil?.name,
+                {t("ulovlig_en_fil_feilmelding", {
+                    filnavn: uniqueFilesWithError[0].fil?.name,
                 })}
             </ErrorMessage>
         );

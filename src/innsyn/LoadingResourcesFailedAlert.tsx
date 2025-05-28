@@ -1,8 +1,8 @@
 import { Alert } from "@navikt/ds-react";
 import React from "react";
-import { Trans, useTranslation } from "next-i18next";
 import styled from "styled-components";
 import { useQueries } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 import {
     getDokumentasjonkrav,
@@ -68,7 +68,7 @@ const getQueries = (fiksDigisosId: string) => [
 ];
 
 export const LoadingResourcesFailedAlert = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const fiksDigisosId = useFiksDigisosId();
     const _queries = getQueries(fiksDigisosId);
@@ -80,11 +80,7 @@ export const LoadingResourcesFailedAlert = () => {
 
     return (
         <StyledWrapper>
-            {hasError && (
-                <Alert variant="error">
-                    <Trans t={t} i18nKey="feilmelding.ressurs_innlasting" components={{ linebreak: <br /> }} />
-                </Alert>
-            )}
+            {hasError && <Alert variant="error">{t("feilmelding.ressurs_innlasting")}</Alert>}
         </StyledWrapper>
     );
 };

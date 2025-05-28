@@ -1,5 +1,5 @@
 import { Accordion, BodyShort, Label } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React, { useEffect } from "react";
 
 import { logVeilederBerOmDokumentasjonkravEvent } from "../../../utils/amplitude";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const DokumentasjonkravAccordion = (props: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     useEffect(() => {
         if (props.dokumentasjonkrav && props.dokumentasjonkrav.length > 0) {

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import styled, { css } from "styled-components";
 import { BodyShort, Label, ErrorMessage } from "@navikt/ds-react";
 
@@ -7,7 +7,7 @@ import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 
 import FileItemView from "./FileItemView";
 import ErrorMessagesSummary, { dedupeErrorsByProp } from "./ErrorMessagesSummary";
-import { Error, errorStatusToMessage, FancyFile } from "./useFilOpplasting";
+import { Error, errorStatusToMessage, ErrorWithFile, FancyFile } from "./useFilOpplasting";
 import styles from "./filopplasting.module.css";
 
 const StyledFrame = styled.div<{ $hasError?: boolean; $hasFiler?: boolean }>`
@@ -51,13 +51,13 @@ interface Props {
     addFileButton?: React.ReactElement;
     filer: FancyFile[];
     onDelete: (event: React.MouseEvent<HTMLButtonElement>, fil: FancyFile) => void;
-    errors: Error[];
+    errors: (Error | ErrorWithFile)[];
 }
 
 const FilOpplastingBlokk = (props: Props): ReactElement => {
     const { addFileButton } = props;
     const uniqueErrors = dedupeErrorsByProp(props.errors, "feil");
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <StyledFrame
@@ -86,7 +86,9 @@ const FilOpplastingBlokk = (props: Props): ReactElement => {
                 <ErrorMessageWrapper>
                     {props.errors.length > 0 ? (
                         <>
-                            <ErrorMessagesSummary errors={props.errors} />
+                            <ErrorMessagesSummary
+                                errors={props.errors.filter((error) => "fil" in error && "filnavn" in error)}
+                            />
                             <ul className={styles.feilListe}>
                                 {uniqueErrors.map((key, i) => (
                                     <li key={i}>

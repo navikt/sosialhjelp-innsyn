@@ -1,10 +1,9 @@
-import { useTranslation } from "next-i18next";
-import { Accordion, BodyShort } from "@navikt/ds-react";
-import Link from "next/link";
+import { DateTimeFormatOptions, useFormatter, useTranslations } from "next-intl";
+import { Accordion, BodyShort, Link as AkselLink } from "@navikt/ds-react";
 import { FileTextIcon } from "@navikt/aksel-icons";
+import Link from "next/link";
 
 import type { ManedUtbetaling } from "../../generated/model";
-import { formatDato } from "../../utils/formatting";
 import { logButtonOrLinkClick } from "../../utils/amplitude";
 
 export const UtbetalingAccordionContent = ({
@@ -19,21 +18,27 @@ export const UtbetalingAccordionContent = ({
     ManedUtbetaling,
     "fom" | "tom" | "mottaker" | "annenMottaker" | "utbetalingsmetode" | "kontonummer" | "fiksDigisosId"
 >) => {
-    const { t, i18n } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
+    const format = useFormatter();
 
     const utbetalingsmetodeTekst = !utbetalingsmetode
         ? null
-        : i18n.exists(`utbetalingsmetode.${utbetalingsmetode?.toLowerCase()}`)
-          ? i18n.t(`utbetalingsmetode.${utbetalingsmetode?.toLowerCase()}`)
+        : t.has(`utbetalingsmetode.${utbetalingsmetode?.toLowerCase()}`)
+          ? t(`utbetalingsmetode.${utbetalingsmetode?.toLowerCase()}`)
           : utbetalingsmetode;
 
+    const dateFormat: DateTimeFormatOptions = {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    };
     return (
         <Accordion.Content className="pt-2">
             {fom && tom && (
                 <>
                     <BodyShort className="font-bold">{t("periode")}</BodyShort>
                     <BodyShort spacing>
-                        {formatDato(fom, i18n.language)} - {formatDato(tom, i18n.language)}
+                        {format.dateTime(new Date(fom), dateFormat)} - {format.dateTime(new Date(tom), dateFormat)}
                     </BodyShort>
                 </>
             )}
@@ -47,15 +52,15 @@ export const UtbetalingAccordionContent = ({
                     {t("tilDeg")} {utbetalingsmetodeTekst} {kontonummer}
                 </BodyShort>
             )}
-
-            <Link
+            <AkselLink
+                as={Link}
                 href={`/${fiksDigisosId}/status`}
                 className="navds-link items-center gap-2 flex"
                 onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
             >
                 <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
                 {t("soknadLenke")}
-            </Link>
+            </AkselLink>
         </Accordion.Content>
     );
 };

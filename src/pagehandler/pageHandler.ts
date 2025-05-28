@@ -1,18 +1,18 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next/types";
-import { SSRConfig } from "next-i18next";
 import { IToggle } from "@unleash/nextjs";
 import { logger } from "@navikt/next-logger";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
+import { Messages } from "next-intl";
 
 import { TilgangResponse } from "../generated/model";
-import { getFlagsServerSide } from "../featuretoggles/ssr";
 import { extractAuthHeader } from "../utils/authUtils";
+import { getToggles } from "../featuretoggles/deprecated_pages/unleash";
 
-export interface PageProps extends SSRConfig {
+export interface PageProps {
     tilgang?: TilgangResponse;
     toggles: IToggle[];
     dehydratedState: DehydratedState | null;
+    messages: Messages;
 }
 
 export function buildUrl(path: string) {
@@ -22,16 +22,23 @@ export function buildUrl(path: string) {
 }
 
 const pageHandler = async (
-    context: GetServerSidePropsContext,
-    translationNamespaces: string[] | string | undefined = ["common"],
+    context: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
     queryClient?: QueryClient
 ): Promise<GetServerSidePropsResult<PageProps>> => {
-    const { translations, flags, tilgang } = await getCommonProps(context, translationNamespaces);
-
+    const token = extractAuthHeader(context.req);
+    if (!token) {
+        return {
+            redirect: {
+                destination: process.env.NEXT_INNSYN_MOCK_LOGIN_URL!,
+                permanent: false,
+            },
+        };
+    }
+    const { messages, toggles, tilgang } = await getCommonProps(context, token);
     return {
         props: {
-            ...translations,
-            ...flags,
+            messages,
+            toggles,
             tilgang,
             dehydratedState: queryClient ? dehydrate(queryClient) : null,
         },
@@ -39,19 +46,19 @@ const pageHandler = async (
 };
 
 export const getCommonProps = async (
-    { locale, req, res, resolvedUrl }: GetServerSidePropsContext,
-    translationNamespaces: string[] | string | undefined = ["common"]
+    { req, resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
+    token: string
 ) => {
-    const translations = await serverSideTranslations(locale ?? "nb", translationNamespaces);
-    const flags = await getFlagsServerSide(req, res);
-    const token = extractAuthHeader(req);
+    const locale = params?.locale ?? "nb";
+    const messages = (await import(`../../messages/${locale}.json`)).default;
+    const toggles = await getToggles(req.cookies);
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     try {
         const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
         if (tilgangResponse.ok) {
             const data: { harTilgang: boolean; fornavn: string } = await tilgangResponse.json();
-            return { translations, flags, tilgang: data };
+            return { messages, toggles, tilgang: data };
         } else {
             logger.error(
                 `Fikk feil ved innhenting av tilgangsdata. Status: ${tilgangResponse.status}, data: ${await tilgangResponse.text()}`
@@ -60,7 +67,7 @@ export const getCommonProps = async (
     } catch (e: unknown) {
         logger.error(`Something happened during fetch in getServerSideProps for url ${resolvedUrl}. Error: ${e}`);
     }
-    return { translations, flags };
+    return { messages, toggles };
 };
 
 export default pageHandler;

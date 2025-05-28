@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Alert } from "@navikt/ds-react";
 
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
@@ -13,7 +13,7 @@ export const UtbetalingerLoadingWrapper = ({
     isError: boolean;
     children: React.ReactNode;
 }) => {
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
 
     if (isLoading) return <Lastestriper />;
     if (isError)

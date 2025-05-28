@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Accordion, BodyShort, Label } from "@navikt/ds-react";
 import { PaperclipIcon, BulletListIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
@@ -12,7 +12,7 @@ const StyledContainer = styled.div`
 `;
 
 const OppgaveInformasjon = () => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return (
         <>

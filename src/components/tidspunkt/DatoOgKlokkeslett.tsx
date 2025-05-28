@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useFormatter, useTranslations } from "next-intl";
 
 /*
       DatoOgKlokkeslett("2018-10-12T13:37:00.134")
@@ -13,7 +13,8 @@ interface Props {
 }
 const DatoOgKlokkeslett = (props: Props) => {
     const { tidspunkt, bareDato, brukKortMaanedNavn } = props;
-    const { t, i18n } = useTranslation();
+    const format = useFormatter();
+    const t = useTranslations("common");
 
     if (!tidspunkt) {
         return null;
@@ -22,21 +23,21 @@ const DatoOgKlokkeslett = (props: Props) => {
     return (
         <>
             <time className="dato">
-                {new Intl.DateTimeFormat(i18n.language, {
+                {format.dateTime(new Date(tidspunkt), {
                     month: brukKortMaanedNavn ? "short" : "long",
                     day: "numeric",
                     year: "numeric",
-                }).format(new Date(tidspunkt))}
+                })}
             </time>
             {visKlokkeslett && (
                 <time>
                     &nbsp;
                     {t("tidspunkt.klokken")}
                     &nbsp;
-                    {new Intl.DateTimeFormat(i18n.language, {
+                    {format.dateTime(new Date(tidspunkt), {
                         hour: "2-digit",
                         minute: "2-digit",
-                    }).format(new Date(tidspunkt))}
+                    })}
                 </time>
             )}
         </>

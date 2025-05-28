@@ -1,6 +1,6 @@
 import React from "react";
 import { BodyLong, Heading, Panel, Tabs } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import HandCoinsIcon from "../components/ikoner/HandCoins";
 import { logAmplitudeEvent } from "../utils/amplitude";
@@ -14,7 +14,7 @@ const TAB_UTBETALINGER = "Utbetalinger" as const;
 const TAB_TIDLIGERE = "Tidligere utbetalinger" as const;
 
 const UtbetalingerPanel = () => {
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
 
     const logTabChange = (tab: string) => logAmplitudeEvent("Klikket tab", { tab });
     const isMobile = useIsMobile();

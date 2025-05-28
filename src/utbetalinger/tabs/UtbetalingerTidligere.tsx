@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Alert } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { useHentTidligereUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import { filterResponses } from "../filter/lib/filterResponses";
@@ -18,7 +18,7 @@ export const UtbetalingerTidligere = () => {
         [data, filters]
     );
 
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
 
     return (
         <UtbetalingerLoadingWrapper isLoading={isLoading} isError={isError}>

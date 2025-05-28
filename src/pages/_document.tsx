@@ -7,12 +7,7 @@ import {
 } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
 
-import { getBreadcrumbs } from "../hooks/useUpdateBreadcrumbs";
-
-// The 'head'-field of the document initialProps contains data from <head> (meta-tags etc)
-const getDocumentParameter = (initialProps: DocumentInitialProps, name: string): string => {
-    return initialProps.head?.find((element) => element?.props?.name === name)?.props?.content;
-};
+import { getBreadcrumbs } from "../utils/breadcrumbs";
 
 const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
     env: createDecoratorEnv(),
@@ -38,7 +33,7 @@ const decoratorParams = (ctx: DocumentContext): DecoratorFetchProps => ({
                 handleInApp: true,
             },
         ],
-        language: ctx.locale as DecoratorLocale,
+        language: ctx.query.locale as DecoratorLocale,
         breadcrumbs: getBreadcrumbs(ctx.pathname),
         logoutWarning: false,
     },
@@ -59,14 +54,14 @@ function createDecoratorEnv(): "dev" | "prod" {
 
 interface Props {
     Decorator: DecoratorComponentsReact;
-    language: string;
+    language?: string;
 }
 
 class MyDocument extends Document<Props> {
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps & Props> {
         const initialProps = await Document.getInitialProps(ctx);
 
-        const language = getDocumentParameter(initialProps, "lang");
+        const language = ctx.query["locale"] as string | undefined;
         const props = decoratorParams(ctx);
         const Decorator = await fetchDecoratorReact(props);
 
@@ -79,13 +74,6 @@ class MyDocument extends Document<Props> {
             <Html lang={language || "no"}>
                 <Head>
                     <Decorator.HeadAssets />
-                    <link
-                        rel="preload"
-                        href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
-                        as="font"
-                        type="font/woff2"
-                        crossOrigin="anonymous"
-                    />
                     <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
                 </Head>
                 <body>

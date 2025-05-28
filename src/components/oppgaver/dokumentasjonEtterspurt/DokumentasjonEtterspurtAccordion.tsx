@@ -1,6 +1,6 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
 import React, { useEffect } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import {
     logVeilederBerOmDokumentasjonEvent,
@@ -30,7 +30,7 @@ interface Props {
 }
 
 export const DokumentasjonEtterspurtAccordion = (props: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const brukerHarDokumentasjonEtterspurt = Boolean(props.dokumentasjonEtterspurt?.length);
 
     const dokumentasjonEtterspurtErFraInnsyn =

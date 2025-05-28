@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { BodyShort, Heading, Link, Modal } from "@navikt/ds-react";
 import styled from "styled-components";
 
@@ -12,7 +12,7 @@ const StyledModal = styled(Modal)`
 
 export const OpplastingAvVedleggModal = () => {
     const [modalSynlig, setModalSynlig] = useState(false);
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     const handleOnClick = (event: MouseEvent) => {
         event.preventDefault();

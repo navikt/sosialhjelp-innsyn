@@ -1,42 +1,42 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { Loader, Panel } from "@navikt/ds-react";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import { QueryClient } from "@tanstack/react-query";
+import { GetServerSidePropsContext } from "next/dist/types";
 
-import useIsMobile from "../utils/useIsMobile";
+import useIsMobile from "../../utils/useIsMobile";
 import {
     getHentAlleSakerQueryKey,
     getHentAlleSakerUrl,
     useHentAlleSaker,
-} from "../generated/saks-oversikt-controller/saks-oversikt-controller";
+} from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import {
     getHarSoknaderMedInnsynQueryKey,
     getHarSoknaderMedInnsynUrl,
     useHarSoknaderMedInnsyn,
-} from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
-import UtbetalingsoversiktIngenSoknader from "../utbetalinger/UtbetalingsoversiktIngenSoknader";
-import UtbetalingsoversiktIngenInnsyn from "../utbetalinger/UtbetalingsoversiktIngenInnsyn";
-import UtbetalingerFilter from "../utbetalinger/filter/UtbetalingerFilter";
-import UtbetalingerPanel from "../utbetalinger/UtbetalingerPanel";
-import styles from "../utbetalinger/utbetalinger.module.css";
-import useUpdateBreadcrumbs from "../hooks/useUpdateBreadcrumbs";
-import pageHandler, { buildUrl } from "../pagehandler/pageHandler";
-import { extractAuthHeader } from "../utils/authUtils";
-import { customFetch } from "../custom-fetch";
+} from "../../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller";
+import UtbetalingsoversiktIngenSoknader from "../../utbetalinger/UtbetalingsoversiktIngenSoknader";
+import UtbetalingsoversiktIngenInnsyn from "../../utbetalinger/UtbetalingsoversiktIngenInnsyn";
+import UtbetalingerFilter from "../../utbetalinger/filter/UtbetalingerFilter";
+import UtbetalingerPanel from "../../utbetalinger/UtbetalingerPanel";
+import styles from "../../utbetalinger/utbetalinger.module.css";
+import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
+import pageHandler, { buildUrl } from "../../pagehandler/pageHandler";
+import { extractAuthHeader } from "../../utils/authUtils";
+import { customFetch } from "../../custom-fetch";
 import {
     getHentNyeUtbetalingerQueryKey,
     getHentNyeUtbetalingerUrl,
     getHentTidligereUtbetalingerQueryKey,
     getHentTidligereUtbetalingerUrl,
-} from "../generated/utbetalinger-controller/utbetalinger-controller";
-import { FilterProvider } from "../utbetalinger/filter/FilterProvider";
-
-import Error from "./_error";
+} from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { FilterProvider } from "../../utbetalinger/filter/FilterProvider";
+import Error from "../_error";
 
 const Utbetalinger: NextPage = () => {
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
     useUpdateBreadcrumbs(() => [{ url: "/utbetaling", title: t("utbetaling") }]);
     const isMobile = useIsMobile();
 
@@ -105,10 +105,18 @@ const getQueries = [
     { url: getHentTidligereUtbetalingerUrl(), key: getHentTidligereUtbetalingerQueryKey() },
 ];
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>) => {
     const { req } = ctx;
     const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
+    if (!token) {
+        return {
+            redirect: {
+                destination: process.env.NEXT_INNSYN_MOCK_LOGIN_URL!,
+                permanent: false,
+            },
+        };
+    }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     const promises = getQueries.map(({ url, key }) => {
@@ -121,7 +129,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     });
     await Promise.all(promises);
 
-    return pageHandler(ctx, ["common", "utbetalinger"], queryClient);
+    return pageHandler(ctx, queryClient);
 };
 
 export default Utbetalinger;

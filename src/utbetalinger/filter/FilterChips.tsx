@@ -1,14 +1,12 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Box, Chips } from "@navikt/ds-react";
 import React from "react";
-
-import { dateToDDMMYYYY } from "../../utils/formatting";
 
 import { useFilter } from "./lib/useFilter";
 
 export const FilterChips = () => {
     const { filters, setFilter } = useFilter();
-    const { t, i18n } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
 
     if (!filters) return <Box padding="2" />;
 
@@ -18,12 +16,12 @@ export const FilterChips = () => {
         <Chips className="my-2">
             {fraDato && (
                 <Chips.Removable as="div" onClick={() => setFilter({ fraDato: null })}>
-                    {t("filter.fra") + ": " + dateToDDMMYYYY(i18n.language, fraDato)}
+                    {t("filter.fraDato", { fra: fraDato })}
                 </Chips.Removable>
             )}
             {tilDato && (
                 <Chips.Removable onClick={() => setFilter({ tilDato: null })}>
-                    {t("filter.til") + ": " + dateToDDMMYYYY(i18n.language, tilDato)}
+                    {t("filter.tilDato", { til: tilDato })}
                 </Chips.Removable>
             )}
             {mottaker && (

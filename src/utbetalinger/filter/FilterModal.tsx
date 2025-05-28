@@ -1,7 +1,7 @@
 import { Button, Modal } from "@navikt/ds-react";
 import React from "react";
 import { FilterIcon } from "@navikt/aksel-icons";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import UtbetalingerFilter from "./UtbetalingerFilter";
 import { FilterChips } from "./FilterChips";
@@ -9,7 +9,7 @@ import { useFilter } from "./lib/useFilter";
 
 const FilterModal = () => {
     const { clearFilters } = useFilter();
-    const { t } = useTranslation("utbetalinger");
+    const t = useTranslations("utbetalinger");
     const dialogRef = React.useRef<HTMLDialogElement>(null);
 
     const onCancel = () => {

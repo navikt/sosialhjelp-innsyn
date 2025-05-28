@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { Alert, Label } from "@navikt/ds-react";
 
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
@@ -7,7 +7,7 @@ import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import { KommuneDriftsmeldingError } from "./lib/getDriftsmeldingFromKommune";
 
 export const DriftsmeldingKommune = ({ driftsmelding }: { driftsmelding: KommuneDriftsmeldingError | undefined }) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
 
     return !driftsmelding ? null : (
         <Alert className="mb-4" variant="error">

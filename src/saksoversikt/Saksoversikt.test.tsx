@@ -3,7 +3,7 @@ import { delay, http, HttpResponse } from "msw";
 import { waitForElementToBeRemoved, within } from "@testing-library/react";
 import { faker } from "@faker-js/faker";
 
-import Saksoversikt from "../pages/index";
+import Saksoversikt from "../pages/[locale]";
 import { server } from "../mocks/server";
 import { render, screen } from "../test/test-utils";
 import { SaksListeResponse } from "../generated/model";

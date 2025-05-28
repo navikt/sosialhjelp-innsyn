@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { Detail, Label, LinkPanel, Panel } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+import { useLocale, useTranslations } from "next-intl";
 import { ExclamationmarkTriangleIcon, FileTextIcon } from "@navikt/aksel-icons";
+import Link from "next/link";
 
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../../components/lastestriper/Lasterstriper";
@@ -15,22 +15,20 @@ const SakPanel = ({
     tittel,
     oppdatert,
     url,
-    kilde,
     isBroken,
 }: {
     fiksDigisosId?: string;
     tittel: string;
     oppdatert: string;
     url: string | undefined;
-    kilde: string;
     isBroken: boolean;
 }) => {
     const { data: saksdetaljer, isLoading } = useGetSaksDetaljer(fiksDigisosId ?? "", {
-        query: { enabled: kilde === "innsyn-api" && !!fiksDigisosId },
+        query: { enabled: !!fiksDigisosId },
     });
-    const router = useRouter();
-    const { t } = useTranslation();
-    const linkpanelUrl = fiksDigisosId ? `/sosialhjelp/innsyn/${fiksDigisosId}/status` : url;
+    const locale = useLocale();
+    const t = useTranslations("common");
+    const linkpanelUrl = fiksDigisosId ? `${locale}/${fiksDigisosId}/status` : url;
 
     const oppdatertTittel = useMemo(() => {
         if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {
@@ -38,18 +36,6 @@ const SakPanel = ({
         }
         return tittel && tittel !== "saker.default_tittel" ? tittel : t("saker.default_tittel");
     }, [saksdetaljer, tittel, t]);
-
-    const onClick = async (event: React.MouseEvent<HTMLAnchorElement>) => {
-        if (event.isDefaultPrevented() || event.metaKey || event.ctrlKey) {
-            return;
-        }
-        if (kilde === "soknad-api") {
-            window.location.href = url!;
-        } else if (kilde === "innsyn-api") {
-            await router.push(`/${fiksDigisosId}/status`);
-            event.preventDefault();
-        }
-    };
 
     if (isLoading) {
         return (
@@ -60,7 +46,7 @@ const SakPanel = ({
     }
 
     return (
-        <LinkPanel className="mt-1" border={false} onClick={onClick} href={linkpanelUrl}>
+        <LinkPanel className="mt-1" border={false} as={Link} href={linkpanelUrl}>
             <LinkPanel.Description className="flex gap-4 items-center justify-between md:flex-nowrap flex-wrap">
                 <FileTextIcon aria-hidden title="dokument" className="sm:block hidden h-12 w-12" />
                 <div>

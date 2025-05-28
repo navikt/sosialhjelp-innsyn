@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Box, Button, Link, Pagination, Select, SortState, Table, VStack } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import { FileCheckmarkIcon } from "@navikt/aksel-icons";
 import { chunk, sort, take } from "remeda";
 
@@ -160,7 +160,7 @@ const StyledTextPlacement = styled.div`
 const itemsPerPage = 10;
 
 const VedleggView = ({ fiksDigisosId }: Props) => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const isMobile = useIsMobile();
     const { data: vedlegg, isLoading, isError } = useHentVedlegg(fiksDigisosId);
     const [currentPage, setCurrentPage] = useState<number>(1);

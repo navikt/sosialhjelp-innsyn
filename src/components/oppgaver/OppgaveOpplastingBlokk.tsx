@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
@@ -27,7 +27,7 @@ interface Props {
 
 const OppgaveOpplastingBlokk = (props: Props) => {
     const { children, sendButton, errors, innsendelsesFrist } = props;
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     return (
         <OuterFrame>
             {innsendelsesFrist}

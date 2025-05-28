@@ -2,9 +2,9 @@ import React from "react";
 import * as R from "remeda";
 import { NextPage } from "next";
 import Link from "next/link";
-import { Button, Heading, List, Tag } from "@navikt/ds-react";
+import { Button, Heading, List, Tag, Link as AkselLink } from "@navikt/ds-react";
 import styled from "styled-components";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { useHentKlager } from "../../generated/klage-controller/klage-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
@@ -49,7 +49,7 @@ const sakHasMatchingVedtak = (a: SaksStatusResponse, b: string): boolean =>
     Boolean(a.vedtaksfilUrlList?.some((it) => it.id === b));
 
 const KlageSection: NextPage = (): React.JSX.Element => {
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     const fiksDigisosId = useFiksDigisosId();
     const klageFlag = useFlag("sosialhjelp.innsyn.klage_enabled");
 
@@ -66,7 +66,8 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <p>{t("klage.papirskjema.sammendrag")}</p>
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
-                    <Link
+                    <AkselLink
+                        as={Link}
                         href="/papirskjema_klage.pdf"
                         onClick={() =>
                             logBrukerAapnerKlageskjema(
@@ -76,13 +77,13 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                         }
                     >
                         {t("klage.papirskjema.skjema_url_tekst")}
-                    </Link>
+                    </AkselLink>
                     <span>{t("klage.papirskjema.beskrivelse_2")}</span>
                 </p>
                 <p>
-                    <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">
+                    <AkselLink as={Link} href="https://www.nav.no/okonomisk-sosialhjelp#klage">
                         {t("klage.papirskjema.mer_info_url_tekst")}
-                    </Link>
+                    </AkselLink>
                 </p>
             </Panel>
         );
@@ -122,13 +123,13 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                                         <Tag variant="info">{statusToText[klage.status]}</Tag>
                                     </KlageHeader>
                                     <FilUrlBoks>
-                                        <Link href={klage.klageUrl.url}>
+                                        <AkselLink as={Link} href={klage.klageUrl.url}>
                                             Kvittering på klage ({klage.klageUrl.dato})
-                                        </Link>
+                                        </AkselLink>
                                         {klage.nyttVedtakUrl && (
-                                            <Link href={klage.nyttVedtakUrl.url}>
+                                            <AkselLink as={Link} href={klage.nyttVedtakUrl.url}>
                                                 Nytt vedtak ({klage.nyttVedtakUrl.dato})
-                                            </Link>
+                                            </AkselLink>
                                         )}
                                     </FilUrlBoks>
                                 </React.Fragment>
@@ -144,7 +145,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <AntallKlagerSendt antallKlager={data?.length ?? 0} />
                 <Link href="https://www.nav.no/okonomisk-sosialhjelp#klage">Les mer om klageprosessen her</Link>
             </InfoBoks>
-            <Link href={{ pathname: "/[id]/klage/skjema", query: { id: fiksDigisosId } }}>
+            <Link href={{ pathname: "/[id]/klage/skjema", query: { id: fiksDigisosId } }} legacyBehavior>
                 <Button variant="secondary" disabled={!kanKlage}>
                     Start klage
                 </Button>

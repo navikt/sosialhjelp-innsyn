@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Alert } from "@navikt/ds-react";
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 
 import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
 
@@ -11,7 +11,7 @@ const StyledAlert = styled(Alert)`
 
 const VedleggSuccess = ({ show }: { show: boolean }) => {
     const { setOppgaverUploadSuccess, setEttersendelseUploadSuccess } = useFilUploadSuccessful();
-    const { t } = useTranslation();
+    const t = useTranslations("common");
     return show ? (
         <StyledAlert
             variant="success"
