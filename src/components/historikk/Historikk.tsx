@@ -89,7 +89,9 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
 
         if (enumValue === HistorikkTekstEnum.ANTALL_SENDTE_VEDLEGG && tekstArgument) {
             return (
-                <BodyShort weight="semibold">{t("hendelse.antall_sendte_vedlegg", { count: tekstArgument })}</BodyShort>
+                <BodyShort weight="semibold">
+                    {t("hendelse.antalle_sendte_vedlegg", { count: tekstArgument })}
+                </BodyShort>
             );
         }
 
