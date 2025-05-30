@@ -1,7 +1,5 @@
-@import "tailwindcss/base";
-@import "@navikt/ds-css";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import "tailwindcss";
+@import "@navikt/ds-css" layer(components);
 @import "./components/paneler/paneler.css";
 @import "./components/historikk/historikk.css";
 @import "./components/banner/banner.css";
@@ -9,6 +7,8 @@
 @import "./components/ellaBlunk/EllaBlunk.css";
 @import "./saksoversikt/banner/saksoversiktBanner.css";
 @import "./App.css";
+
+@config '../tailwind.config.js';
 
 [data-theme="sosialhjelp-innsyn"] {
     --ac-guide-panel-border: none;
