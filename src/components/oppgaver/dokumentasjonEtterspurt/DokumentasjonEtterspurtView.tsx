@@ -73,7 +73,11 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonEtterspurt: Trykket på Send vedlegg");
                         return upload();
                     }}
-                    disabled={isAalesund || R.flat(Object.values(files)).length === 0}
+                    disabled={
+                        isAalesund ||
+                        R.flat(Object.values(files)).length === 0 ||
+                        Object.values(innerErrors).flat().length + outerErrors.length > 0
+                    }
                 />
             }
         >

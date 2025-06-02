@@ -57,6 +57,7 @@ export enum Feil {
     VIRUS,
     COMBINED_TOO_LARGE,
     NO_FILES,
+    TOO_MANY_FILES,
 }
 
 export const errorStatusToMessage: Record<Feil, string> = {
@@ -70,6 +71,7 @@ export const errorStatusToMessage: Record<Feil, string> = {
     [Feil.ILLEGAL_FILE_NAME]: "vedlegg.opplasting_feilmelding_ILLEGAL_FILENAME",
     [Feil.KLIENTFEIL]: "vedlegg.opplasting_backend_feilmelding",
     [Feil.VIRUS]: "vedlegg.opplasting_backend_virus_feilmelding",
+    [Feil.TOO_MANY_FILES]: "vedlegg.opplasting_feilmelding_TOO_MANY_FILES",
 };
 
 function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | undefined {
@@ -196,6 +198,9 @@ const useFilOpplasting = (
             ) {
                 _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
             }
+            if (_files.length + Object.values(files).flat().length > 20) {
+                _errors.push({ feil: Feil.TOO_MANY_FILES });
+            }
             setFiles((prev) => ({
                 ...prev,
                 [index]: [...prev[index], ...validFiles.map((it) => ({ file: it, uuid: crypto.randomUUID() }))],
@@ -209,9 +214,23 @@ const useFilOpplasting = (
 
     const removeFil = useCallback(
         (index: number, fil: FancyFile) => {
+            const _files = Object.values(files).flat();
             setFiles((prev) => ({ ...prev, [index]: prev[index].filter((it) => it.uuid !== fil.uuid) }));
+            // Update "global" errors
+            const _errors: (Error | ErrorWithFile)[] = [];
+            if (
+                _files.filter((it) => it.uuid !== fil.uuid).reduce((acc, curr) => acc + curr.file.size, 0) >
+                maxCombinedFileSize
+            ) {
+                _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
+            }
+            if (_files.length - 1 > 20) {
+                _errors.push({ feil: Feil.TOO_MANY_FILES });
+            }
+
+            setInnerErrors((prev) => ({ ...prev, [index]: _errors }));
         },
-        [setFiles]
+        [setFiles, files, setInnerErrors]
     );
 
     const upload = useCallback(async () => {

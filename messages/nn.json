@@ -145,6 +145,7 @@
             "opplasting_feilmelding_ILLEGAL_FILENAME": "Filnamn kan berre innehalde bokstavar frå a til å, tal frå 0 til 9 og teikna - _ . , ( )",
             "opplasting_feilmelding_FILE_TOO_LARGE": "Filen må vere på under 10 MB",
             "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "Vi kan ikkje ta imot dokumenta dine viss dei til saman er på over 150 MB",
+            "opplasting_feilmelding_TOO_MANY_FILES": "Vi tillèt berre opplasting av opp til 20 filer om gongen",
             "suksess": "Takk! Dokumentasjonen din vart sendt inn.",
             "tabell": { "filnavn": "Filnamn", "beskrivelse": "Beskriving", "dato": "Dato lagt til" }
         },
