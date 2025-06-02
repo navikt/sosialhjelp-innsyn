@@ -198,7 +198,9 @@ const useFilOpplasting = (
             ) {
                 _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
             }
-            if (_files.length + Object.values(files).flat().length > 20) {
+            const totalFiles = _files.length + Object.values(files).flat().length;
+            if (totalFiles > 20) {
+                logger.info(`Bruker prøver å laste opp for mange filer: ${totalFiles}`);
                 _errors.push({ feil: Feil.TOO_MANY_FILES });
             }
             setFiles((prev) => ({
