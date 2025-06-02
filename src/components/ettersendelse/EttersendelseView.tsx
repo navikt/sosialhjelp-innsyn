@@ -120,7 +120,7 @@ const EttersendelseView = (props: Props) => {
                 isVisible={!fileUploadError}
                 isLoading={showLoadingState}
                 onClick={onClick}
-                disabled={isAalesund || files?.length === 0}
+                disabled={isAalesund || files?.length === 0 || innerErrors[0]?.length + outerErrors.length > 0}
             />
             <VedleggSuccess show={ettersendelseUploadSuccess} />
         </>

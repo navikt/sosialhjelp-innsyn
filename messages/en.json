@@ -145,6 +145,7 @@
             "opplasting_feilmelding_ILLEGAL_FILENAME": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
             "opplasting_feilmelding_FILE_TOO_LARGE": "The file size must be under 10 MB",
             "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "We cannot accept your documentation if their combined size exceeds 150 MB",
+            "opplasting_feilmelding_TOO_MANY_FILES": "We only accept up to 20 files at a time",
             "suksess": "Thank you! Your documentation have been submitted.",
             "tabell": { "filnavn": "Filename", "beskrivelse": "Description", "dato": "Date added" }
         },

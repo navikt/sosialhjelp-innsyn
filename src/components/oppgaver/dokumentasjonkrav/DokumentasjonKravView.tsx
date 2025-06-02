@@ -69,7 +69,11 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                         logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
                         return upload();
                     }}
-                    disabled={isAalesund || R.flat(Object.values(files)).length === 0}
+                    disabled={
+                        isAalesund ||
+                        R.flat(Object.values(files)).length === 0 ||
+                        Object.values(innerErrors).flat().length + outerErrors.length > 0
+                    }
                 />
             }
         >

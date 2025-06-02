@@ -145,6 +145,7 @@
             "opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
             "opplasting_feilmelding_FILE_TOO_LARGE": "Størrelsen på filer må være under 10 Mb",
             "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "Vi kan ikke motta dokumentene dine hvis de til sammen er over 150 Mb",
+            "opplasting_feilmelding_TOO_MANY_FILES": "Vi tillater kun opplasting av opp til 20 filer om gangen",
             "suksess": "Takk! Dokumentasjonen din ble sendt inn.",
             "tabell": { "filnavn": "Filnavn", "beskrivelse": "Beskrivelse", "dato": "Dato lagt til" }
         },
