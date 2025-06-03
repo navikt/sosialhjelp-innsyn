@@ -3,6 +3,7 @@ import "./globals.css";
 import { DecoratorFetchProps, fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import Script from "next/script";
 import { cookies } from "next/headers";
+import { Page, PageBlock } from "@navikt/ds-react/Page";
 
 import { getBaseCrumbs } from "../utils/breadcrumbs";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale, SupportedLocale } from "../i18n/common";
@@ -74,11 +75,12 @@ export default async function RootLayout({ children }: Props) {
             </head>
             <Preload />
             <body>
-                <Decorator.Header />
-                <main tabIndex={-1} id="maincontent" className="max-w-2xl ml-auto mr-auto">
-                    {children}
-                </main>
-                <Decorator.Footer />
+                <Page footer={<Decorator.Footer />}>
+                    <Decorator.Header />
+                    <PageBlock as="main" width="md" gutters>
+                        {children}
+                    </PageBlock>
+                </Page>
                 <Decorator.Scripts loader={Script} />
             </body>
         </html>

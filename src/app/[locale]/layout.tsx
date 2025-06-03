@@ -2,7 +2,8 @@ import { cookies, headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import React from "react";
+import React, { PropsWithChildren } from "react";
+import { getTranslations } from "next-intl/server";
 
 import { routing } from "../../i18n/routing";
 import { TilgangResponse } from "../../generated/model";
@@ -56,13 +57,7 @@ const harTilgang = async (): Promise<TilgangResponse | undefined> => {
     }
 };
 
-export default async function RootLayout({
-    children,
-    params,
-}: {
-    children: React.ReactNode;
-    params: Promise<{ locale: SupportedLocale }>;
-}) {
+export default async function RootLayout({ children, params }: PropsWithChildren<Props>) {
     const { locale } = await params;
 
     if (!hasLocale(routing.locales, locale)) {
@@ -81,6 +76,14 @@ export default async function RootLayout({
     );
 }
 
-export const metadata = {
-    title: "Økonomisk sosialhjelp",
+interface Props {
+    params: Promise<{ locale: SupportedLocale }>;
+}
+
+export const generateMetadata = async () => {
+    const t = await getTranslations("Metadata");
+    return {
+        title: t("tittel"),
+        description: t("beskrivelse"),
+    };
 };

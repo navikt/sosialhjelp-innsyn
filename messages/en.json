@@ -1,4 +1,24 @@
 {
+    "Landingsside": {
+        "tittel": "Financial assistance",
+        "sokOmSosialhjelp": "Apply for financial assistance"
+    },
+    "Metadata": {
+        "tittel": "Financial assistance - nav.no",
+        "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
+    },
+    "Snarveier": {
+        "tittel": "Shortcuts",
+        "soknader": "Applications",
+        "utbetalinger": "Payments",
+        "klager": "Complaints"
+    },
+    "NyttigInformasjon": {
+        "tittel": "Useful information",
+        "endringer": "How to report changes",
+        "klagerettigheter": "Your right to complain",
+        "personopplysninger": "How we process your personal data"
+    },
     "common": {
         "app": { "tittel": "Financial assistance" },
         "historikk": {

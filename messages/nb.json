@@ -1,4 +1,24 @@
 {
+    "Landingsside": {
+        "tittel": "Økonomisk sosialhjelp",
+        "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
+    },
+    "Metadata": {
+        "tittel": "Økonomisk sosialhjelp - nav.no",
+        "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
+    },
+    "Snarveier": {
+        "tittel": "Snarveier",
+        "soknader": "Søknader",
+        "utbetalinger": "Utbetalinger",
+        "klager": "Klager"
+    },
+    "NyttigInformasjon": {
+        "tittel": "Nyttig informasjon",
+        "endringer": "Hvordan du melder fra om endringer",
+        "klagerettigheter": "Dine klagerettigheter",
+        "personopplysninger": "Behandling av personopplysninger"
+    },
     "common": {
         "app": { "tittel": "Økonomisk sosialhjelp" },
         "historikk": {
@@ -177,6 +197,7 @@
             "saksOversikt": "Vi klarte ikke å hente inn all informasjonen på siden.",
             "saksOversikt2": "Du kan forsøke å oppdatere siden, eller prøve igjen senere."
         },
+        "dineSoknader": "Dine søknader",
         "dineSoknader": "Dine søknader",
         "nySoknad": "Ny søknad",
         "relatertInfo": "Relatert informasjon",
