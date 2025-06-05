@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import { logAmplitudeEvent, logButtonOrLinkClick } from "../../utils/amplitude";
+import { logAmplitudeEvent } from "../../utils/amplitude";
 
 import styles from "./dineUtbetalingerPanel.module.css";
 
@@ -18,7 +18,11 @@ const DineUtbetalingerPanel = () => {
             as={Link}
             className={styles.dine_utbetalinger_panel}
             border={false}
-            onClick={() => logButtonOrLinkClick("Åpnet Dine utbetalinger")}
+            onClick={() => {
+                window.umami.track("lenket klikket", {
+                    tekst: "Åpnet Dine utbetalinger",
+                });
+            }}
         >
             <div className={styles.dine_utbetalinger_innhold}>
                 <HandCoinsIcon className={styles.hands_coin_icon} />
