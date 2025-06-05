@@ -2,7 +2,7 @@ import { z, ZodError } from "zod";
 
 export type PublicEnv = z.infer<typeof publicEnvSchema>;
 export const publicEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.enum(["local", "mock", "dev", "preprod", "prod"]),
+    NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.enum(["local", "mock", "dev", "preprod", "prod", "e2e"]),
     NEXT_PUBLIC_INNSYN_ORIGIN: z.string(),
     NEXT_PUBLIC_BASE_PATH: z.string(),
 });
@@ -10,6 +10,7 @@ export const publicEnvSchema = z.object({
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
     NEXT_INNSYN_API_HOSTNAME: z.string(),
+    INNSYN_API_PORT: z.string().optional().default(""),
     NEXT_INNSYN_API_BASE_URL: z.string().optional().default(""),
 });
 
@@ -23,6 +24,7 @@ const getRawServerConfig = (): Partial<unknown> =>
     ({
         NEXT_INNSYN_API_HOSTNAME: process.env.NEXT_INNSYN_API_HOSTNAME,
         NEXT_INNSYN_API_BASE_URL: process.env.NEXT_INNSYN_API_BASE_URL,
+        INNSYN_API_PORT: process.env.INNSYN_API_PORT,
     }) satisfies Record<keyof ServerEnv, string | undefined>;
 
 /**

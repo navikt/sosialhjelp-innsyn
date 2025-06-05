@@ -2,6 +2,7 @@ import { proxyRouteHandler } from "@navikt/next-api-proxy";
 import { cookies } from "next/headers";
 
 import { isLocalhost, isMock } from "../../../../utils/restUtils";
+import { getServerEnv } from "../../../../config/env";
 
 type RouteHandlerProxyTarget = { hostname: string; path: string; https: boolean; bearerToken?: string; port?: string };
 type ProxyRequestContext = { params: Promise<{ slug: string[] }> };
@@ -19,13 +20,13 @@ const getRouteHandlerProxyTarget = async (
     const https = false;
 
     const path = `${basePath}/${requestPath.join("/")}`;
-    const port = process.env.INNSYN_API_PORT;
+    const port = getServerEnv().INNSYN_API_PORT;
     return { hostname, path: encodeURI(path), bearerToken, https, port };
 };
 
 const soknadApiProxy: ProxyRequestHandler = async (request, { params }): Promise<Response> => {
     let bearerToken;
-    if (isLocalhost() || isMock()) {
+    if (isLocalhost() || isMock() || getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
         const cookieStore = await cookies();
         if (!cookieStore.has("localhost-idtoken")) {
             return new Response("Missing auth header", { status: 401 });

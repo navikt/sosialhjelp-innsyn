@@ -49,4 +49,23 @@ export default defineConfig({
             afterAllFilesWrite: "prettier --write",
         },
     },
+    "innsyn-api-ssr": {
+        input: "./innsyn-api.json",
+        output: {
+            mode: "tags-split",
+            target: "src/generated/ssr",
+            schemas: "src/generated/ssr/model",
+            client: "fetch",
+            baseUrl: "/",
+            override: {
+                mutator: {
+                    path: "src/api/ssr/authenticatedFetch.ts",
+                    name: "authenticatedFetch",
+                },
+            },
+        },
+        hooks: {
+            afterAllFilesWrite: "prettier --write",
+        },
+    },
 });

@@ -28,3 +28,5 @@ next-env.d.ts
 tsconfig.tsbuildinfo
 .swc
 src/generated
+playwright-report/
+test-results/
