@@ -11,6 +11,7 @@ import { UthevetPanel } from "../paneler/UthevetPanel";
 import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
 import { TilgangResponse } from "../../generated/model";
+import { browserEnv } from "../../config/env";
 
 const StyledElla = styled.div`
     display: flex;
@@ -54,16 +55,18 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
     const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
-        setIsLoading(true);
-        fetchDekoratorSession()
-            .then((result) => {
-                if (result.status === 401 || result.data?.session.active === false) {
-                    return router.replace(loginUrl + "?redirect=" + window.location.href);
-                }
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+        if (!["local", "mock", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
+            setIsLoading(true);
+            fetchDekoratorSession()
+                .then((result) => {
+                    if (result.status === 401 || result.data?.session.active === false) {
+                        return router.replace(loginUrl + "?redirect=" + window.location.href);
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
     }, [router]);
 
     if (isLoading) {

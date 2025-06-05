@@ -26,7 +26,7 @@ const getRouteHandlerProxyTarget = async (
 
 const soknadApiProxy: ProxyRequestHandler = async (request, { params }): Promise<Response> => {
     let bearerToken;
-    if (isLocalhost() || isMock()) {
+    if (isLocalhost() || isMock() || getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
         const cookieStore = await cookies();
         if (!cookieStore.has("localhost-idtoken")) {
             return new Response("Missing auth header", { status: 401 });

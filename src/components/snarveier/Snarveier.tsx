@@ -10,9 +10,13 @@ import UtbetalingerSnarvei from "./UtbetalingerSnarvei";
 import KlagerSnarvei from "./KlagerSnarvei";
 
 const Snarveier = async () => {
-    const t = await getTranslations("Snarveier");
-    const klageFlag = getFlag("sosialhjelp.innsyn.klage_enabled", await getToggles());
-    const [alleSakerResponse, utbetalingerResponse] = await Promise.all([hentAlleSaker(), hentUtbetalinger()]);
+    const [alleSakerResponse, utbetalingerResponse, toggles, t] = await Promise.all([
+        hentAlleSaker(),
+        hentUtbetalinger(),
+        getToggles(),
+        getTranslations("Snarveier"),
+    ]);
+    const klageFlag = getFlag("sosialhjelp.innsyn.klage_enabled", toggles);
     if (!utbetalingerResponse.data.length && !alleSakerResponse.data.length && !klageFlag.enabled) {
         return null;
     }

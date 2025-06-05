@@ -2,7 +2,7 @@ import { z, ZodError } from "zod";
 
 export type PublicEnv = z.infer<typeof publicEnvSchema>;
 export const publicEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.enum(["local", "mock", "dev", "preprod", "prod"]),
+    NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.enum(["local", "mock", "dev", "preprod", "prod", "e2e"]),
     NEXT_PUBLIC_INNSYN_ORIGIN: z.string(),
     NEXT_PUBLIC_BASE_PATH: z.string(),
 });

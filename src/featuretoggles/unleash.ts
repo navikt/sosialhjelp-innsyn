@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { connection } from "next/server";
 
 import { isLocalhost, isMock } from "../utils/restUtils";
+import { getServerEnv } from "../config/env";
 
 import { EXPECTED_TOGGLES, ExpectedToggles } from "./toggles";
 import { localDevelopmentToggles } from "./utils";
@@ -22,7 +23,6 @@ export async function getToggles(): Promise<IToggle[]> {
         logger.info("Currently no expected toggles defined, not fetching toggles from unleash");
         return [];
     }
-
     if (isLocalhost() || isMock()) {
         logger.warn(
             `Running in local or demo mode, falling back to development toggles, current toggles: \n${localDevelopmentToggles()
@@ -34,6 +34,17 @@ export async function getToggles(): Promise<IToggle[]> {
         return localDevelopmentToggles().map((it) => ({
             ...it,
             enabled: cookieStore.get(it.name)?.value.includes("true") ?? it.enabled,
+        }));
+    } else if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
+        logger.warn("Running in e2e mode");
+        return EXPECTED_TOGGLES.map((it) => ({
+            name: it,
+            enabled: it === "sosialhjelp.innsyn.ny_landingsside",
+            impressionData: false,
+            variant: {
+                name: "disabled",
+                enabled: false,
+            },
         }));
     }
 

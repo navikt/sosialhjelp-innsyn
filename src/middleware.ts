@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
     const { NEXT_PUBLIC_INNSYN_ORIGIN, NEXT_PUBLIC_RUNTIME_ENVIRONMENT } = browserEnv;
     const { NEXT_INNSYN_API_BASE_URL } = getServerEnv();
     // Router bruker til login hvis vi får 401. Dette gjelder bare for auth gjennom mock-alt. I prod/preprod gjelder dette for "vanlig" innlogging på login.nav.no
-    if (["mock", "local"].includes(NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
+    if (["mock", "local", "e2e"].includes(NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
         // Reroute ved kall til /link. Brukes for redirect fra login-api
         if (pathname.startsWith("/link")) {
             const gotoParam = request.nextUrl.searchParams.get("goto");

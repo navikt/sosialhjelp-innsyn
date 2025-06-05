@@ -21,7 +21,7 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 const getHeaders = async (initHeaders?: HeadersInit): Promise<HeadersInit> => {
     const headers = new Headers(initHeaders);
 
-    if (["mock", "local"].includes(getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
+    if (["mock", "local", "e2e"].includes(getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
         if (!headers.has("Authorization")) {
             const cookieJar = await cookies();
             headers.set("Authorization", "Bearer " + cookieJar.get("localhost-idtoken")?.value);

@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from "next/dist/types";
 
 export const extractAuthHeader = (req: GetServerSidePropsContext["req"]): string | null => {
     let authHeader;
-    if (["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
+    if (["mock", "local", "e2e"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
         const cookie = req.cookies["localhost-idtoken"];
         if (!cookie) {
             return null;
