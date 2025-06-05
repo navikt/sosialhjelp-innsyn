@@ -13,7 +13,7 @@ import {
     logFileUploadFailedEvent,
 } from "../../utils/amplitude";
 import { SendVedleggBody, VedleggOpplastingResponseStatus } from "../../generated/model";
-import { containsIllegalCharacters, maxCombinedFileSize, maxFileSize } from "../../utils/vedleggUtils";
+import { containsIllegalCharacters, maxCombinedFileSize, maxFileCount, maxFileSize } from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
@@ -199,7 +199,7 @@ const useFilOpplasting = (
                 _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
             }
             const totalFiles = _files.length + Object.values(files).flat().length;
-            if (totalFiles > 20) {
+            if (totalFiles > maxFileCount) {
                 logger.info(`Bruker prøver å laste opp for mange filer: ${totalFiles}`);
                 _errors.push({ feil: Feil.TOO_MANY_FILES });
             }
@@ -226,7 +226,7 @@ const useFilOpplasting = (
             ) {
                 _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
             }
-            if (_files.length - 1 > 20) {
+            if (_files.length - 1 > maxFileCount) {
                 _errors.push({ feil: Feil.TOO_MANY_FILES });
             }
 
