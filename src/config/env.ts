@@ -5,6 +5,7 @@ export const publicEnvSchema = z.object({
     NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.enum(["local", "mock", "dev", "preprod", "prod", "e2e"]),
     NEXT_PUBLIC_INNSYN_ORIGIN: z.string(),
     NEXT_PUBLIC_BASE_PATH: z.string(),
+    NEXT_PUBLIC_DEKORATOR_API_BASE_URL: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -18,6 +19,7 @@ export const browserEnv = publicEnvSchema.parse({
     NEXT_PUBLIC_RUNTIME_ENVIRONMENT: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT,
     NEXT_PUBLIC_INNSYN_ORIGIN: process.env.NEXT_PUBLIC_INNSYN_ORIGIN,
     NEXT_PUBLIC_BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH,
+    NEXT_PUBLIC_DEKORATOR_API_BASE_URL: process.env.NEXT_PUBLIC_DEKORATOR_API_BASE_URL,
 });
 
 const getRawServerConfig = (): Partial<unknown> =>
