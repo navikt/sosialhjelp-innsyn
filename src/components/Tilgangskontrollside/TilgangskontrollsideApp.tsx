@@ -33,7 +33,7 @@ const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
 const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
 const dekoratorApiInfoUrl = browserEnv.NEXT_PUBLIC_DEKORATOR_API_BASE_URL + "/auth";
 const logoutUrl = browserEnv.NEXT_PUBLIC_INNSYN_ORIGIN + process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL;
-const fetchDekoratorTingTang = async () => {
+const fetchDekoratorAuth = async () => {
     try {
         const response = await fetch(dekoratorApiInfoUrl, { method: "get", credentials: "include" });
         if (response.status === 401) {
@@ -82,13 +82,23 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
                     if (result.status === 401 || result.data?.session.active === false) {
                         return window.location.replace(loginUrl + "?redirect=" + window.location.href);
                     }
-                    Promise.all([fetchDekoratorTingTang(), getSessionMetadata()]).then(
-                        ([decoratorSession, innsynSession]) => {
+                    Promise.all([fetchDekoratorAuth(), getSessionMetadata()])
+                        .then(([decoratorSession, innsynSession]) => {
                             if (decoratorSession.data?.userId !== innsynSession.personId) {
+                                if (decoratorSession.error) {
+                                    logger.warn(
+                                        `Fikk feil under innhenting av dekorator-session. Error: ${decoratorSession.error}`
+                                    );
+                                }
+                                logger.warn(
+                                    `Dekorator userId does not match innsyn session personId. ${!decoratorSession.data?.userId ? "No userId from dekorator session" : ""}`
+                                );
                                 return window.location.replace(logoutUrl);
                             }
-                        }
-                    );
+                        })
+                        .catch((e) => {
+                            logger.warn(`Fikk feil under innhenting av dekorator- eller innsynsession. Error: ${e}`);
+                        });
                 })
                 .finally(() => {
                     setIsLoading(false);
