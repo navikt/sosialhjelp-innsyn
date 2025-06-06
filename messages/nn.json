@@ -7,6 +7,9 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, sjå status på søknaden din, og send inn dokumentasjon."
     },
+    "AktiveSoknader": {
+        "tittel": "Aktive søknader"
+    },
     "Snarveier": {
         "tittel": "Snarvegar",
         "soknader": "Søknader",

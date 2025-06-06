@@ -7,6 +7,9 @@
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
     },
+    "AktiveSoknader": {
+        "tittel": "Active applications"
+    },
     "Snarveier": {
         "tittel": "Shortcuts",
         "soknader": "Applications",
