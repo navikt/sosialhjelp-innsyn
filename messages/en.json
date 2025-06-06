@@ -7,6 +7,44 @@
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
     },
+    "AktiveSoknader": {
+        "tittel": "Active applications",
+        "EmptyState": {
+            "tittel": "You currently have no applications for financial social assistance",
+            "beskrivelse": "If you apply for financial social assistance, you will be able to find your applications here."
+        }
+    },
+    "StatusCard": {
+        "MottattCard": {
+            "title": "Application for financial social assistance",
+            "description": "Received {date, date, ::ddMMyyyy}"
+        },
+        "SendtCard": {
+            "title": "Application for financial social assistance",
+            "description": "Sent {date, date, ::ddMMyyyy}"
+        },
+        "PaabegyntCard": {
+            "title": "Begun application for financial social assistance",
+            "description": "The application is kept until {date, date, ::ddMMyyyy}"
+        },
+        "VedtakCard": {
+            "title": "You have received {count, plural, =1 {a notice} other {# notices}} of decision",
+            "description": "Your <norsk>{tittel}</norsk> has been processed"
+        },
+        "VilkarCard": {
+            "title": "You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions",
+            "description": "Your <norsk>{tittel}</norsk> has been processed"
+        },
+        "OppgaveCard": {
+            "title": "You have received {count, plural, =1 {a notice} other {# notices}} of decision"
+        },
+        "UnderBehandlingCard": {
+            "title": "The nav-office is processing your application"
+        },
+        "ForelopigSvarCard": {
+            "title": "You have received a provisional response"
+        }
+    },
     "Snarveier": {
         "tittel": "Shortcuts",
         "soknader": "Applications",
