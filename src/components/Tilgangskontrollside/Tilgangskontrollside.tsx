@@ -12,6 +12,7 @@ import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
 import { TilgangResponse } from "../../generated/model";
 import { browserEnv } from "../../config/env";
+import { getSessionMetadata } from "../../generated/session-metadata-controller/session-metadata-controller";
 
 const StyledElla = styled.div`
     display: flex;
@@ -29,6 +30,23 @@ export interface TilgangskontrollsideProps {
 
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
 const loginUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/login";
+const dekoratorApiInfoUrl = browserEnv.NEXT_PUBLIC_DEKORATOR_API_BASE_URL + "/auth";
+const logoutUrl = browserEnv.NEXT_PUBLIC_INNSYN_ORIGIN + process.env.NEXT_PUBLIC_DEKORATOREN_LOGOUT_URL;
+const fetchDekoratorTingTang = async () => {
+    try {
+        const response = await fetch(dekoratorApiInfoUrl, { method: "get", credentials: "include" });
+        if (response.status === 401) {
+            return { status: 401 };
+        }
+        if (response.ok) {
+            const data: { userId: string } = await response.json();
+            return { data, status: response.status };
+        }
+        return { status: response.status };
+    } catch (e: unknown) {
+        return { error: e };
+    }
+};
 
 const fetchDekoratorSession = async () => {
     const response = await fetch(sessionUrl, {
@@ -60,8 +78,15 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
             fetchDekoratorSession()
                 .then((result) => {
                     if (result.status === 401 || result.data?.session.active === false) {
-                        return router.replace(loginUrl + "?redirect=" + window.location.href);
+                        return window.location.replace(loginUrl + "?redirect=" + window.location.href);
                     }
+                    Promise.all([fetchDekoratorTingTang(), getSessionMetadata()]).then(
+                        ([decoratorSession, innsynSession]) => {
+                            if (decoratorSession.data?.userId !== innsynSession.personId) {
+                                return window.location.replace(logoutUrl);
+                            }
+                        }
+                    );
                 })
                 .finally(() => {
                     setIsLoading(false);
