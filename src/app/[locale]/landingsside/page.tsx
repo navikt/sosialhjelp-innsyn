@@ -9,6 +9,7 @@ import { getFlag, getToggles } from "../../../featuretoggles/unleash";
 import Snarveier from "../../../components/snarveier/Snarveier";
 import NyttigInformasjon from "../../../components/nyttigInformasjon/NyttigInformasjon";
 import { getServerEnv } from "../../../config/env";
+import AktiveSoknader from "../../../components/aktiveSoknader/AktiveSoknader";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
@@ -33,6 +34,7 @@ const Page = async () => {
                     </Heading>
                 </Stack>
             </Bleed>
+            <AktiveSoknader />
             <Snarveier />
             <Button
                 as={Link}

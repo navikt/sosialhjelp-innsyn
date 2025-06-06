@@ -941,7 +941,10 @@
                 "properties": {
                     "fiksDigisosId": { "type": "string" },
                     "soknadTittel": { "type": "string" },
-                    "status": { "type": "string" },
+                    "status": {
+                        "type": "string",
+                        "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIGBEHANDLET", "BEHANDLES_IKKE"]
+                    },
                     "antallNyeOppgaver": { "type": "integer", "format": "int32" },
                     "dokumentasjonEtterspurt": { "type": "boolean" },
                     "vilkar": { "type": "boolean" },
