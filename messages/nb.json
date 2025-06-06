@@ -7,6 +7,44 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
     },
+    "AktiveSoknader": {
+        "tittel": "Aktive søknader",
+        "EmptyState": {
+            "tittel": "Du har foreløpig ingen søknader om økonomisk sosialhjelp",
+            "beskrivelse": "Dersom du søker om økonomisk sosialhjelp, vil du kunne finne igjen søknadene her."
+        }
+    },
+    "StatusCard": {
+        "MottattCard": {
+            "title": "Søknad om økonomisk sosialhjelp",
+            "description": "Mottatt {date, date, ::ddMMyyyy}"
+        },
+        "SendtCard": {
+            "title": "Søknad om økonomisk sosialhjelp",
+            "description": "Sendt {date, date, ::ddMMyyyy}"
+        },
+        "PaabegyntCard": {
+            "title": "Påbegynt søknad om økonomisk sosialhjelp",
+            "description": "Søknaden beholdes til og med {date, date, ::ddMMyyyy}"
+        },
+        "VedtakCard": {
+            "title": "Du har fått {count, plural, =1 {et} other {#}} vedtak",
+            "description": "Din <norsk>{tittel}</norsk> er ferdigbehandlet"
+        },
+        "VilkarCard": {
+            "title": "Du har fått {count, plural, =1 {et} other {#}} vedtak med vilkår",
+            "description": "Din <norsk>{tittel}</norsk> er ferdigbehandlet"
+        },
+        "OppgaveCard": {
+            "title": "Du må levere flere opplysninger"
+        },
+        "UnderBehandlingCard": {
+            "title": "Nav-kontoret behandler søknaden din"
+        },
+        "ForelopigSvarCard": {
+            "title": "Du har fått et foreløpig svar"
+        }
+    },
     "Snarveier": {
         "tittel": "Snarveier",
         "soknader": "Søknader",

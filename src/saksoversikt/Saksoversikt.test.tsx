@@ -46,7 +46,7 @@ const utbetalingerDoesntExist = http.get("*/api/v1/innsyn/utbetalinger/exists", 
 
 const saksdetaljer = getGetSaksDetaljerMockHandler({
     ...getGetSaksDetaljerResponseMock(),
-    status: "Mottatt",
+    status: "MOTTATT",
     soknadTittel: "Min kule søknad",
 });
 

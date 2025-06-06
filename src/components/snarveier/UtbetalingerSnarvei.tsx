@@ -2,15 +2,14 @@ import React from "react";
 import { BankNoteIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
-import Snarvei from "./Snarvei";
+import StatusCard from "../aktiveSoknader/statusCard/StatusCard";
 
 const UtbetalingerSnarvei = async () => {
     const t = await getTranslations("Snarveier");
     return (
-        <Snarvei href="/utbetalinger">
-            <BankNoteIcon />
+        <StatusCard href="/utbetalinger" icon={<BankNoteIcon />}>
             {t("utbetalinger")}
-        </Snarvei>
+        </StatusCard>
     );
 };
 
