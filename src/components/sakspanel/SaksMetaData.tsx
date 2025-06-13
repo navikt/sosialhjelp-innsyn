@@ -3,8 +3,9 @@ import React from "react";
 import { useTranslations } from "next-intl";
 
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
+import { SaksDetaljerResponseStatus } from "../../generated/model";
 
-const SaksMetaData = ({ oppdatert, status }: { status?: string; oppdatert: string }) => {
+const SaksMetaData = ({ oppdatert, status }: { status?: SaksDetaljerResponseStatus; oppdatert: string }) => {
     const t = useTranslations("common");
 
     return (
