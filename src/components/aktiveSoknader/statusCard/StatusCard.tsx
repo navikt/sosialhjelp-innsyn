@@ -10,6 +10,7 @@ interface Props {
     description?: ReactNode;
     icon?: ReactNode;
     variant?: "info" | "warning";
+    dashed?: boolean;
 }
 
 interface IconProps {
@@ -37,7 +38,7 @@ const Icon = ({ icon, variant = "info" }: IconProps) => {
     );
 };
 
-const StatusCard = ({ href, children, description, icon, variant = "info" }: PropsWithChildren<Props>) => {
+const StatusCard = ({ href, children, description, icon, variant = "info", dashed }: PropsWithChildren<Props>) => {
     return (
         <LinkPanel
             as={Link}
@@ -46,7 +47,8 @@ const StatusCard = ({ href, children, description, icon, variant = "info" }: Pro
                 "rounded-2xl",
                 variant === "info"
                     ? "border-custom-neutral-subtle"
-                    : "border-custom-warning-subtle bg-custom-warning-soft"
+                    : "border-custom-warning-subtle bg-custom-warning-soft",
+                dashed && "border-dashed"
             )}
         >
             <LinkPanelTitle>

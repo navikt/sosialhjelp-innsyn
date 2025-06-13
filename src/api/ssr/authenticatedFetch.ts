@@ -41,7 +41,7 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
     const response = await fetch(absoluteUrl, { ...options, headers: await getHeaders(options.headers) });
     if (!response.ok) throw new Error(`Failed to fetch ${absoluteUrl}: ${response.status} ${response.statusText}`);
 
-    const data = await getBody<T>(response);
+    const data = await getBody(response);
     return { status: response.status, data, headers: response.headers } as T;
 };
 
