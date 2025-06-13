@@ -18,6 +18,7 @@ const PaabegyntCard = ({ fiksDigisosId, keptUntil }: Props) => {
             description={<BodyShort>{t("description", { date: keptUntil })}</BodyShort>}
             icon={<StatusIcon icon={NotePencilDashIcon} />}
             variant="info"
+            dashed
         >
             {t("title")}
         </StatusCard>

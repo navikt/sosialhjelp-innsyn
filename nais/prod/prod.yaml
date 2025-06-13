@@ -35,6 +35,7 @@ spec:
     outbound:
       rules:
         - application: sosialhjelp-innsyn-api
+        - application: sosialhjelp-soknad-api
         - application: nav-dekoratoren
           namespace: personbruker
       external:
