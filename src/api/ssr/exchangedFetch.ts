@@ -1,5 +1,6 @@
 import { cookies, headers } from "next/headers";
 import { requestOboToken } from "@navikt/oasis";
+import { logger } from "@navikt/next-logger";
 
 import { getServerEnv } from "../../config/env";
 
@@ -14,31 +15,39 @@ const getToken = async (): Promise<string | undefined | null> => {
     }
 };
 
-const exchangedFetch = async (url: string, host?: string, basePath?: string, port?: string) => {
+const exchangedFetch = async <T>(url: string, host?: string, basePath?: string, port?: string): Promise<T> => {
     const token = await getToken();
     if (!token) {
         throw new Error("Missing Authorization header/cookie");
     }
-    const result = await requestOboToken(token, getServerEnv().SOKNAD_API_AUDIENCE);
-    if (!result.ok) {
-        throw new Error(`Failed to exchange token: ${result.error}`);
-    }
-    const _port = port ?? process.env.INNSYN_API_PORT;
-    const portPart = _port ? `:${_port}` : "";
-    const hostnamePart = host ?? process.env.NEXT_INNSYN_API_HOSTNAME;
-    const basePathPart = basePath ?? "/sosialhjelp/innsyn-api";
-    const absoluteUrl = new URL(`http://${hostnamePart}${portPart}${basePathPart}` + url);
-
-    return fetch(absoluteUrl, {
-        headers: {
-            Authorization: `Bearer ${result.token}`,
-        },
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error(`Failed to fetch ${absoluteUrl}: ${response.status} ${response.statusText}`);
+    try {
+        const result = await requestOboToken(token, getServerEnv().SOKNAD_API_AUDIENCE);
+        if (!result.ok) {
+            logger.error(`Failed to exchange token. Status: ${result.error}`);
+            return Promise.reject("Failed to exchange token. Status: ${result.error}");
         }
-        return response.json();
-    });
+        const _port = port ?? process.env.INNSYN_API_PORT;
+        const portPart = _port ? `:${_port}` : "";
+        const hostnamePart = host ?? process.env.NEXT_INNSYN_API_HOSTNAME;
+        const basePathPart = basePath ?? "/sosialhjelp/innsyn-api";
+        const absoluteUrl = new URL(`http://${hostnamePart}${portPart}${basePathPart}` + url);
+
+        logger.info(`CallingabsoluteUrl: ${absoluteUrl}`);
+        const response = await fetch(absoluteUrl, {
+            headers: {
+                Authorization: `Bearer ${result.token}`,
+            },
+        });
+        if (!response.ok) {
+            return Promise.reject(
+                new Error(`Failed to fetch ${absoluteUrl}: ${response.status} ${response.statusText}`)
+            );
+        }
+        return (await response.json()) as T;
+    } catch (e: unknown) {
+        logger.error(`Failed to exchange token: ${e}`);
+        throw e;
+    }
 };
 
 export default exchangedFetch;
