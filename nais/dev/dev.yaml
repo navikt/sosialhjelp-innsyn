@@ -1,57 +1,57 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-    name: sosialhjelp-innsyn-dev
-    namespace: teamdigisos
-    labels:
-        team: teamdigisos
-    annotations:
-        nginx.ingress.kubernetes.io/proxy-body-size: "150M"
-        texas.nais.io/enabled: "true"
+  name: sosialhjelp-innsyn-dev
+  namespace: teamdigisos
+  labels:
+    team: teamdigisos
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "150M"
+    texas.nais.io/enabled: "true"
 spec:
-    image: { { image } }
-    port: 8080
-    liveness:
-        path: /sosialhjelp/innsyn/api/internal/is_alive
-        initialDelay: 20
-        timeout: 1
-        periodSeconds: 5
-        failureThreshold: 10
-    readiness:
-        path: /sosialhjelp/innsyn/api/internal/is_ready
-        initialDelay: 20
-        timeout: 1
-    replicas:
-        min: 1
-        max: 2
-    observability:
-        autoInstrumentation:
-            enabled: true
-            runtime: nodejs
-        logging:
-            destinations:
-                - id: loki
-                - id: elastic
-    accessPolicy:
-        outbound:
-            rules:
-                - application: nav-dekoratoren
-                  namespace: personbruker
-                - application: sosialhjelp-innsyn-api-dev
-                - application: sosialhjelp-soknad-api-dev
-            external:
-                - host: dekoratoren.ekstern.dev.nav.no
-                - host: teamdigisos-unleash-api.nav.cloud.nais.io
-        inbound:
-            rules:
-                - application: wonderwall-innsyn-dev
-    tokenx:
-        enabled: true
-    resources:
-        limits:
-            memory: 512Mi
-        requests:
-            cpu: 2m
-            memory: 256Mi
-    envFrom:
-        - secret: sosialhjelp-innsyn-unleash-api-token
+  image: {{ image }}
+  port: 8080
+  liveness:
+    path: /sosialhjelp/innsyn/api/internal/is_alive
+    initialDelay: 20
+    timeout: 1
+    periodSeconds: 5
+    failureThreshold: 10
+  readiness:
+    path: /sosialhjelp/innsyn/api/internal/is_ready
+    initialDelay: 20
+    timeout: 1
+  replicas:
+    min: 1
+    max: 2
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
+  accessPolicy:
+    outbound:
+      rules:
+        - application: nav-dekoratoren
+          namespace: personbruker
+        - application: sosialhjelp-innsyn-api-dev
+        - application: sosialhjelp-soknad-api-dev
+      external:
+        - host: dekoratoren.ekstern.dev.nav.no
+        - host: teamdigisos-unleash-api.nav.cloud.nais.io
+    inbound:
+      rules:
+        - application: wonderwall-innsyn-dev
+  tokenx:
+    enabled: true
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 2m
+      memory: 256Mi
+  envFrom:
+    - secret: sosialhjelp-innsyn-unleash-api-token
