@@ -30,12 +30,12 @@ interface PaabegyntSak {
     soknadId: string;
 }
 
-const fetchPaabegynteSaker = (): Promise<PaabegyntSak[]> => {
+const fetchPaabegynteSaker = async (): Promise<PaabegyntSak[]> => {
     if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {
         return Promise.resolve([]);
     }
     try {
-        return exchangedFetch(
+        return await exchangedFetch<PaabegyntSak[]>(
             "/dittnav/pabegynte/aktive",
             getServerEnv().SOKNAD_API_HOSTNAME,
             "/sosialhjelp/soknad-api"
