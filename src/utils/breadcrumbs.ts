@@ -24,6 +24,7 @@ enum PathVariants {
     ServerError = "/500",
     Landingsside = "/landingsside",
     Error = "/_error",
+    OpprettKlage = "/klage/opprett/",
 }
 
 function removeLocales(path: string): string {
@@ -37,6 +38,11 @@ export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[
     }
 
     const cleanedPath = removeLocales(pathname);
+
+    //TODO: Make a better way to handle dynamic paths
+    if (cleanedPath.startsWith(PathVariants.OpprettKlage)) {
+        return [{ title: "Opprett klage", url: "/klage/opprett" }];
+    }
 
     switch (cleanedPath) {
         case PathVariants.Error:
