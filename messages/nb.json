@@ -326,5 +326,10 @@
             "postgiro": "Postgiro",
             "garanti": "Garanti"
         }
+    },
+    "klage": {
+        "opprett": {
+            "tittel": "Klage på vedtak"
+        }
     }
 }

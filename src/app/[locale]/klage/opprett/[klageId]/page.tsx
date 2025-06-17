@@ -7,6 +7,7 @@ import { getFlag, getToggles } from "../../../../../featuretoggles/unleash";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
+    const t = await getTranslations("klage");
     if (!toggle.enabled) {
         return notFound();
     }
@@ -23,7 +24,7 @@ const Page = async () => {
                         <OkonomiskSosialhjelpIcon className="mr-4" />
                     </Show>
                     <Heading size="xlarge" level="1">
-                        Klage på vedtak
+                        {t("opprett.tittel")}
                     </Heading>
                 </Stack>
             </Bleed>
