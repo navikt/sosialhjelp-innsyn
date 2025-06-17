@@ -16,11 +16,10 @@ const VedtakCard = ({ fiksDigisosId, sakTittel, vedtakCount }: Props) => {
     return (
         <StatusCard
             href={`/soknader/${fiksDigisosId}`}
-            description={
-                <BodyShort>
-                    {t.rich("description", { norsk: (chunks) => <span lang="no">{chunks}</span>, tittel: sakTittel })}
-                </BodyShort>
-            }
+            description={t.rich("description", {
+                norsk: (chunks) => <span lang="no">{chunks}</span>,
+                tittel: sakTittel,
+            })}
             icon={<StatusIcon icon={CheckmarkCircleIcon} />}
             variant="info"
         >

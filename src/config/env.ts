@@ -13,8 +13,8 @@ export const serverEnvSchema = z.object({
     NEXT_INNSYN_API_HOSTNAME: z.string(),
     SOKNAD_API_HOSTNAME: z.string(),
     SOKNAD_API_AUDIENCE: z.string(),
-    INNSYN_API_PORT: z.string().optional().default(""),
-    SOKNAD_API_PORT: z.string().optional().default(""),
+    INNSYN_API_PORT: z.string().optional(),
+    SOKNAD_API_PORT: z.string().optional(),
     NEXT_INNSYN_API_BASE_URL: z.string().optional().default(""),
 });
 

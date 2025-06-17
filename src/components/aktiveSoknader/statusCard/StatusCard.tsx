@@ -6,7 +6,7 @@ import { LinkPanelTitle, LinkPanel, LinkPanelDescription } from "@navikt/ds-reac
 import cx from "classnames";
 
 interface Props {
-    href?: string;
+    href: string;
     description?: ReactNode;
     icon?: ReactNode;
     variant?: "info" | "warning";
@@ -38,30 +38,26 @@ const Icon = ({ icon, variant = "info" }: IconProps) => {
     );
 };
 
-const StatusCard = ({ href, children, description, icon, variant = "info", dashed }: PropsWithChildren<Props>) => {
-    return (
-        <LinkPanel
-            as={Link}
-            href={href}
-            className={cx(
-                "rounded-2xl",
-                variant === "info"
-                    ? "border-custom-neutral-subtle"
-                    : "border-custom-warning-subtle bg-custom-warning-soft",
-                dashed && "border-dashed"
-            )}
-        >
-            <LinkPanelTitle>
-                <HStack gap="4" align="center" wrap={false}>
-                    <Icon icon={icon} variant={variant} />
-                    <VStack>
-                        {children}
-                        {description && <LinkPanelDescription>{description}</LinkPanelDescription>}
-                    </VStack>
-                </HStack>
-            </LinkPanelTitle>
-        </LinkPanel>
-    );
-};
+const StatusCard = ({ href, children, description, icon, variant = "info", dashed }: PropsWithChildren<Props>) => (
+    <LinkPanel
+        as={Link}
+        href={href}
+        className={cx(
+            "rounded-2xl",
+            variant === "info" ? "border-custom-neutral-subtle" : "border-custom-warning-subtle bg-custom-warning-soft",
+            dashed && "border-dashed"
+        )}
+    >
+        <LinkPanelTitle>
+            <HStack gap="4" align="center" wrap={false}>
+                <Icon icon={icon} variant={variant} />
+                <VStack>
+                    {children}
+                    {description && <LinkPanelDescription>{description}</LinkPanelDescription>}
+                </VStack>
+            </HStack>
+        </LinkPanelTitle>
+    </LinkPanel>
+);
 
 export default StatusCard;

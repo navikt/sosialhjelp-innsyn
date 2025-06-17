@@ -15,7 +15,7 @@ const MottattCard = ({ fiksDigisosId, mottattDato }: Props) => {
     return (
         <StatusCard
             href={`/soknader/${fiksDigisosId}`}
-            description={<BodyShort>{t("description", { date: mottattDato })}</BodyShort>}
+            description={t("description", { date: mottattDato })}
             icon={<StatusIcon icon={FileTextIcon} />}
             variant="info"
         >
