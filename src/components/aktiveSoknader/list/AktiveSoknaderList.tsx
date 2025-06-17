@@ -1,58 +1,23 @@
+"use client";
+
 import * as R from "remeda";
 import { addDays, differenceInDays } from "date-fns";
-import { logger } from "@navikt/next-logger";
+import { use } from "react";
+import { Fragment } from "react";
 
 import { SaksListeResponse } from "../../../generated/model";
-import {
-    getSaksDetaljer,
-    getSaksDetaljerResponse,
-} from "../../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
-import { SaksDetaljerResponse } from "../../../generated/ssr/model";
-import { getServerEnv } from "../../../config/env";
-import exchangedFetch from "../../../api/ssr/exchangedFetch";
+import type { getSaksDetaljerResponse } from "../../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
+import type { SaksDetaljerResponse } from "../../../generated/ssr/model";
+import { PaabegyntSak } from "../AktiveSoknader";
 
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
 
 interface Props {
+    paabegynteSaker: PaabegyntSak[];
+    saksdetaljer: Promise<getSaksDetaljerResponse[]>;
     saker: SaksListeResponse[];
 }
-
-interface PaabegyntSak {
-    eventTidspunkt: string;
-    eventId: string;
-    grupperingsId: string;
-    tekst: string;
-    link: string;
-    sikkerhetsnivaa: number;
-    sistOppdatert: string;
-    isAktiv: boolean;
-    soknadId: string;
-}
-
-const fetchPaabegynteSaker = async (): Promise<PaabegyntSak[]> => {
-    if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {
-        return Promise.resolve([]);
-    }
-    try {
-        return await exchangedFetch<PaabegyntSak[]>(
-            "/dittnav/pabegynte/aktive",
-            getServerEnv().SOKNAD_API_HOSTNAME,
-            "/sosialhjelp/soknad-api"
-        );
-    } catch (e: unknown) {
-        logger.error(`Feil ved henting av paabegynte saker ${e}`);
-        return Promise.resolve([]);
-    }
-};
-
-const fetchSaksDetaljer = (saker: SaksListeResponse[]): Promise<getSaksDetaljerResponse>[] =>
-    // TODO: Filteret her tror jeg ikke trengs, da fiksDigisosId alltid skal være satt. Se TODO i innsyn-api.
-    R.pipe(
-        saker,
-        R.filter((sak) => !!sak.fiksDigisosId),
-        R.map((sak) => getSaksDetaljer(sak.fiksDigisosId!))
-    );
 
 const mergeFilterSortSaker = (
     saker: SaksListeResponse[],
@@ -67,35 +32,32 @@ const mergeFilterSortSaker = (
         .filter(
             (sak) => sak.status !== "FERDIGBEHANDLET" || differenceInDays(new Date(), new Date(sak.sistOppdatert)) < 21
         );
-    return R.pipe(
+    return R.sortBy(
         [...combined, ...paabegynteSoknader],
-        R.sortBy([R.pathOr(["antallNyeOppgaver"], 0), "desc"], [R.prop("sistOppdatert"), "desc"])
+        [R.pathOr(["antallNyeOppgaver"], 0), "desc"],
+        [R.prop("sistOppdatert"), "desc"]
     );
 };
 
-const AktiveSoknaderList = async ({ saker }: Props) => {
-    const [paabegynteSoknaderResponse, ...saksDetaljerResponses] = await Promise.all([
-        fetchPaabegynteSaker(),
-        ...fetchSaksDetaljer(saker),
-    ]);
-    const saksdetaljer = saksDetaljerResponses.filter((it) => it.status === 200).map((it) => it.data);
-    const sorted = mergeFilterSortSaker(saker, saksdetaljer, paabegynteSoknaderResponse);
+const AktiveSoknaderList = ({ saker, paabegynteSaker, saksdetaljer }: Props) => {
+    const saksdetaljerResponses = use(saksdetaljer);
+    const filtered = saksdetaljerResponses.filter((it) => it.status === 200).map((it) => it.data);
+    const sorted = mergeFilterSortSaker(saker, filtered, paabegynteSaker);
     return sorted.map((sak) => {
-        if ("fiksDigisosId" in sak) {
-            // This is a regular sak with fiksDigisosId
-            return <SoknadCard key={sak.fiksDigisosId} sak={sak} />;
-        } else if ("soknadId" in sak) {
-            // This is a paabegynt sak
-            return (
-                <PaabegyntCard
-                    soknadId={sak.soknadId}
-                    keptUntil={addDays(new Date(sak.sistOppdatert), 21)}
-                    key={sak.sistOppdatert}
-                />
-            );
-        } else {
-            return null;
-        }
+        return (
+            <Fragment
+                key={"fiksDigisosId" in sak ? sak.fiksDigisosId : "soknadId" in sak ? sak.soknadId : sak.sistOppdatert}
+            >
+                {"fiksDigisosId" in sak && <SoknadCard key={sak.fiksDigisosId} sak={sak} />}
+                {"soknadId" in sak && (
+                    <PaabegyntCard
+                        soknadId={sak.soknadId}
+                        keptUntil={addDays(new Date(sak.sistOppdatert), 21)}
+                        key={sak.sistOppdatert}
+                    />
+                )}
+            </Fragment>
+        );
     });
 };
 

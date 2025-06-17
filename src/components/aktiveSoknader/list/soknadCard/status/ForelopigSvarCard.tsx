@@ -15,7 +15,7 @@ const ForelopigSvarCard = ({ fiksDigisosId, sakTittel }: Props) => {
     return (
         <StatusCard
             href={`/soknader/${fiksDigisosId}`}
-            description={<BodyShort lang="nb">{sakTittel}</BodyShort>}
+            description={<span lang="nb">{sakTittel}</span>}
             icon={<StatusIcon icon={EnvelopeClosedIcon} />}
             variant="info"
         >

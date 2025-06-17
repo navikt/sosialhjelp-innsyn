@@ -18,7 +18,6 @@ import SaksoversiktIngenSoknader from "../../saksoversikt/SaksoversiktIngenSokna
 import MainLayout from "../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../../pagehandler/pageHandler";
-import { useSakslisteDebug } from "../../hooks/useSakslisteDebug";
 import { extractAuthHeader } from "../../utils/authUtils";
 import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
 import { browserEnv } from "../../config/env";
@@ -31,8 +30,7 @@ const Saksoversikt: NextPage = () => {
     const t = useTranslations("common");
     useUpdateBreadcrumbs(() => []);
 
-    const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
-    useSakslisteDebug({ saker, isLoading, error, status, failureReason });
+    const { data: saker, isLoading, error } = useHentAlleSaker();
 
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>

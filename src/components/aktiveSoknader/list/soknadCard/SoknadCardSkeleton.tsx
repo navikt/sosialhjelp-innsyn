@@ -5,6 +5,7 @@ import StatusCard from "../../statusCard/StatusCard";
 const SoknadCardSkeleton = () => {
     return (
         <StatusCard
+            href=""
             description={<Skeleton variant="text" width="40px" />}
             icon={<Skeleton variant="circle" height="64px" />}
         >
