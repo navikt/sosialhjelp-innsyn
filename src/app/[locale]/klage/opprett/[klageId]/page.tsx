@@ -32,4 +32,12 @@ const Page = async () => {
     );
 };
 
+export const generateMetadata = async () => {
+    const t = await getTranslations("klage");
+    return {
+        title: t("opprett.tittel"),
+        description: t("opprett.beskrivelse"),
+    };
+};
+
 export default Page;

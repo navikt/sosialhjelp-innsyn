@@ -329,7 +329,8 @@
     },
     "klage": {
         "opprett": {
-            "tittel": "Klage på vedtak"
+            "tittel": "Klage på vedtak",
+            "beskrivelse": "Opprett en klage på vedtaket om økonomisk sosialhjelp."
         }
     }
 }

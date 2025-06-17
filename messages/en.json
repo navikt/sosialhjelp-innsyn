@@ -322,7 +322,8 @@
     },
     "klage": {
         "opprett": {
-            "tittel": "Appeal against decision"
+            "tittel": "Appeal against decision",
+            "description": "Appeal against decision"
         }
     }
 }
