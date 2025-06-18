@@ -1,4 +1,4 @@
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -20,21 +20,12 @@ function buildUrl(path: string) {
 }
 
 const getToken = async (): Promise<string | null> => {
-    let authHeader;
-    if (["mock", "local", "e2e"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT!)) {
-        const cookieStore = await cookies();
-        if (!cookieStore.has("localhost-idtoken")) {
-            throw new Error("Missing localhost-idtoken cookie");
-        }
-        authHeader = "Bearer " + cookieStore.get("localhost-idtoken")?.value;
-    } else {
-        const readOnlyHeaders = await headers();
-        if (!readOnlyHeaders.has("Authorization")) {
-            throw new Error("Missing auth header");
-        }
-        authHeader = readOnlyHeaders.get("Authorization");
+    const readOnlyHeaders = await headers();
+    if (!readOnlyHeaders.has("Authorization")) {
+        throw new Error("Missing auth header");
     }
-    return authHeader;
+
+    return readOnlyHeaders.get("Authorization");
 };
 
 const harTilgang = async (): Promise<TilgangResponse | undefined> => {

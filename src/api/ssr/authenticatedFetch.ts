@@ -2,7 +2,7 @@ import { cookies, headers } from "next/headers";
 
 import { getServerEnv } from "../../config/env";
 
-const getAuthorizationHeader = async (): Promise<string> => (await headers()).get("authorization") ?? "";
+const getAuthorizationHeader = async (): Promise<string | null> => (await headers()).get("authorization");
 
 const getRequestCookies = async (): Promise<string> => {
     const requestCookies = await cookies();
@@ -20,21 +20,11 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 
 const getHeaders = async (initHeaders?: HeadersInit): Promise<HeadersInit> => {
     const headers = new Headers(initHeaders);
-
-    if (["mock", "local", "e2e"].includes(getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")) {
-        if (!headers.has("Authorization")) {
-            const cookieJar = await cookies();
-            headers.set("Authorization", "Bearer " + cookieJar.get("localhost-idtoken")?.value);
-        } else {
-            throw new Error("Missing localhost-idtoken cookie in local or mock environment");
-        }
-    } else {
-        headers.set("Authorization", await getAuthorizationHeader());
-    }
-
-    if (!headers.has("Authorization")) {
+    const authHeader = await getAuthorizationHeader();
+    if (!authHeader) {
         throw new Error("Missing Authorization header");
     }
+    headers.set("Authorization", authHeader);
 
     const requestCookies = await getRequestCookies();
     if (requestCookies) headers.set("Cookie", requestCookies);

@@ -1,7 +1,5 @@
 import { proxyRouteHandler } from "@navikt/next-api-proxy";
-import { cookies } from "next/headers";
 
-import { isLocalhost, isMock } from "../../../../utils/restUtils";
 import { getServerEnv } from "../../../../config/env";
 
 type RouteHandlerProxyTarget = { hostname: string; path: string; https: boolean; bearerToken?: string; port?: string };
@@ -25,20 +23,12 @@ const getRouteHandlerProxyTarget = async (
 };
 
 const soknadApiProxy: ProxyRequestHandler = async (request, { params }): Promise<Response> => {
-    let bearerToken;
-    if (isLocalhost() || isMock() || getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
-        const cookieStore = await cookies();
-        if (!cookieStore.has("localhost-idtoken")) {
-            return new Response("Missing auth header", { status: 401 });
-        }
-        bearerToken = cookieStore.get("localhost-idtoken")?.value;
-    } else {
-        const headers = request.headers;
-        if (!headers.has("Authorization")) {
-            return new Response("Missing auth header", { status: 401 });
-        }
-        bearerToken = `${headers.get("Authorization")?.split(" ")[1]}`;
+    const headers = request.headers;
+    if (!headers.has("Authorization")) {
+        return new Response("Missing auth header", { status: 401 });
     }
+    const bearerToken = `${headers.get("Authorization")?.split(" ")[1]}`;
+
     return proxyRouteHandler(request, await getRouteHandlerProxyTarget(bearerToken, (await params).slug));
 };
 
