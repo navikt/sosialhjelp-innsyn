@@ -1,20 +1,16 @@
 {
     "openapi": "3.1.0",
     "info": { "title": "OpenAPI definition", "version": "v0" },
-    "servers": [
-        { "url": "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api", "description": "Generated server url" }
-    ],
+    "servers": [{ "url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url" }],
     "paths": {
         "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
                 "tags": ["vedlegg-controller"],
                 "operationId": "hentVedlegg",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -32,8 +28,7 @@
                 "tags": ["vedlegg-controller"],
                 "operationId": "sendVedlegg",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "requestBody": {
                     "content": {
@@ -49,7 +44,6 @@
                     }
                 },
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -69,11 +63,9 @@
                 "tags": ["klage-controller"],
                 "operationId": "hentKlager",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -88,8 +80,7 @@
                 "tags": ["klage-controller"],
                 "operationId": "sendKlage",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "requestBody": {
                     "content": {
@@ -97,24 +88,7 @@
                     },
                     "required": true
                 },
-                "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
-                    "200": { "description": "OK", "content": {} }
-                }
-            }
-        },
-        "/api/v1/info/logg": {
-            "post": {
-                "tags": ["info-controller"],
-                "operationId": "postKlientlogg",
-                "requestBody": {
-                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Logg" } } },
-                    "required": true
-                },
-                "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
-                    "204": { "description": "No Content" }
-                }
+                "responses": { "200": { "description": "OK", "content": {} } }
             }
         },
         "/api/v1/digisosapi/{fiksDigisosId}/filOpplasting": {
@@ -136,7 +110,6 @@
                     }
                 },
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": { "description": "OK", "content": { "*/*": { "schema": { "type": "string" } } } }
                 }
             }
@@ -153,7 +126,6 @@
                     "required": true
                 },
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "string" } } }
@@ -166,11 +138,9 @@
                 "tags": ["oppgave-controller"],
                 "operationId": "getVilkar",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -190,11 +160,9 @@
                 "tags": ["soknads-status-controller"],
                 "operationId": "hentSoknadsStatus",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SoknadsStatusResponse" } } }
@@ -207,11 +175,9 @@
                 "tags": ["saks-status-controller"],
                 "operationId": "hentSaksStatuser",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -226,16 +192,15 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/oppgaver": {
+        "/api/v1/innsyn/{fiksDigisosId}/oppgaver/{oppgaveId}": {
             "get": {
                 "tags": ["oppgave-controller"],
-                "operationId": "getOppgaver",
+                "operationId": "getOppgaveMedId",
                 "parameters": [
                     { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "oppgaveId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -250,17 +215,14 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/oppgaver/{oppgaveId}": {
+        "/api/v1/innsyn/{fiksDigisosId}/oppgaver": {
             "get": {
                 "tags": ["oppgave-controller"],
-                "operationId": "getOppgaveMedId",
+                "operationId": "getOppgaver",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "oppgaveId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -280,11 +242,9 @@
                 "tags": ["kommune-controller"],
                 "operationId": "hentKommuneInfo",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KommuneResponse" } } }
@@ -297,11 +257,9 @@
                 "tags": ["hendelse-controller"],
                 "operationId": "hentHendelser",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -321,11 +279,9 @@
                 "tags": ["oppgave-controller"],
                 "operationId": "getHarLevertDokumentasjonkrav",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
@@ -338,11 +294,9 @@
                 "tags": ["forelopig-svar-controller"],
                 "operationId": "hentForelopigSvarStatus",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ForelopigSvarResponse" } } }
@@ -355,11 +309,9 @@
                 "tags": ["oppgave-controller"],
                 "operationId": "getfagsystemHarDokumentasjonkrav",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
@@ -367,16 +319,15 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav": {
+        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav/{dokumentasjonkravId}": {
             "get": {
                 "tags": ["oppgave-controller"],
-                "operationId": "getDokumentasjonkrav",
+                "operationId": "getDokumentasjonkravMedId",
                 "parameters": [
                     { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "dokumentasjonkravId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -391,17 +342,14 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav/{dokumentasjonkravId}": {
+        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav": {
             "get": {
                 "tags": ["oppgave-controller"],
-                "operationId": "getDokumentasjonkravMedId",
+                "operationId": "getDokumentasjonkrav",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "dokumentasjonkravId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -421,7 +369,6 @@
                 "tags": ["utbetalinger-controller"],
                 "operationId": "hentUtbetalinger",
                 "parameters": [
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } },
                     {
                         "name": "month",
                         "in": "query",
@@ -430,7 +377,6 @@
                     }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -449,11 +395,7 @@
             "get": {
                 "tags": ["tilgang-controller"],
                 "operationId": "harTilgang",
-                "parameters": [
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
-                ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/TilgangResponse" } } }
@@ -465,11 +407,7 @@
             "get": {
                 "tags": ["utbetalinger-controller"],
                 "operationId": "hentTidligereUtbetalinger",
-                "parameters": [
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
-                ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -489,7 +427,6 @@
                 "tags": ["session-metadata-controller"],
                 "operationId": "getSessionMetadata",
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SessionMetadata" } } }
@@ -501,11 +438,7 @@
             "get": {
                 "tags": ["saks-oversikt-controller"],
                 "operationId": "hentAlleSaker",
-                "parameters": [
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
-                ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -525,11 +458,9 @@
                 "tags": ["saks-oversikt-controller"],
                 "operationId": "getSaksDetaljer",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SaksDetaljerResponse" } } }
@@ -541,11 +472,7 @@
             "get": {
                 "tags": ["utbetalinger-controller"],
                 "operationId": "hentNyeUtbetalinger",
-                "parameters": [
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
-                ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -564,11 +491,7 @@
             "get": {
                 "tags": ["soknad-med-innsyn-controller"],
                 "operationId": "harSoknaderMedInnsyn",
-                "parameters": [
-                    { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string" } }
-                ],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
@@ -580,12 +503,8 @@
             "get": {
                 "tags": ["digisos-api-test-controller"],
                 "operationId": "getInnsynsfil",
-                "parameters": [
-                    { "name": "digisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "Authorization", "in": "header", "required": false, "schema": { "type": "string" } }
-                ],
+                "parameters": [{ "name": "digisosId", "in": "path", "required": true, "schema": { "type": "string" } }],
                 "responses": {
-                    "400": { "description": "Bad Request", "content": { "*/*": { "schema": { "type": "object" } } } },
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "type": "string", "format": "byte" } } }
@@ -637,19 +556,6 @@
                     "vedtaksIds": { "type": "array", "items": { "type": "string" } }
                 },
                 "required": ["fiksDigisosId", "klageTekst", "vedtaksIds"]
-            },
-            "Logg": {
-                "type": "object",
-                "properties": {
-                    "level": { "type": "string" },
-                    "message": { "type": "string" },
-                    "jsFileUrl": { "type": "string" },
-                    "lineNumber": { "type": "string" },
-                    "columnNumber": { "type": "string" },
-                    "url": { "type": "string" },
-                    "userAgent": { "type": "string" }
-                },
-                "required": ["columnNumber", "jsFileUrl", "level", "lineNumber", "message", "url", "userAgent"]
             },
             "VilkarResponse": {
                 "type": "object",
@@ -916,8 +822,12 @@
             },
             "SessionMetadata": {
                 "type": "object",
-                "properties": { "fornavn": { "type": "string" }, "harAdressebeskyttelse": { "type": "boolean" } },
-                "required": ["fornavn", "harAdressebeskyttelse"]
+                "properties": {
+                    "fornavn": { "type": "string" },
+                    "harAdressebeskyttelse": { "type": "boolean" },
+                    "personId": { "type": "string" }
+                },
+                "required": ["fornavn", "harAdressebeskyttelse", "personId"]
             },
             "SaksListeResponse": {
                 "type": "object",
@@ -937,7 +847,10 @@
                 "properties": {
                     "fiksDigisosId": { "type": "string" },
                     "soknadTittel": { "type": "string" },
-                    "status": { "type": "string" },
+                    "status": {
+                        "type": "string",
+                        "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIGBEHANDLET", "BEHANDLES_IKKE"]
+                    },
                     "antallNyeOppgaver": { "type": "integer", "format": "int32" },
                     "dokumentasjonEtterspurt": { "type": "boolean" },
                     "vilkar": { "type": "boolean" },
