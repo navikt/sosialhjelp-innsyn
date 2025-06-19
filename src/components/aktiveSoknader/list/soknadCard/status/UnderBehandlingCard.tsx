@@ -1,4 +1,3 @@
-import { BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { PersonGavelIcon } from "@navikt/aksel-icons";
 
@@ -15,11 +14,11 @@ const UnderBehandlingCard = ({ fiksDigisosId, sakTittel }: Props) => {
     return (
         <StatusCard
             href={`/soknader/${fiksDigisosId}`}
-            description={<span lang="nb">{sakTittel}</span>}
+            description={t("description")}
             icon={<StatusIcon icon={PersonGavelIcon} />}
             variant="info"
         >
-            {t("title")}
+            <span lang="nb">{sakTittel}</span>
         </StatusCard>
     );
 };

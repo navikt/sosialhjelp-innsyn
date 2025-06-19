@@ -19,7 +19,13 @@ interface Props {
 
 const SoknadCard = ({ sak }: Props) => {
     if ((sak.antallNyeOppgaver ?? 0) > 0) {
-        return <OppgaveCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sak.soknadTittel} />;
+        return (
+            <OppgaveCard
+                fiksDigisosId={sak.fiksDigisosId!}
+                sakTittel={sak.soknadTittel}
+                frist={sak.forsteOppgaveFrist}
+            />
+        );
     }
     if (sak.status === "MOTTATT") {
         return <MottattCard fiksDigisosId={sak.fiksDigisosId!} mottattDato={new Date(sak.sistOppdatert)} />;
@@ -32,6 +38,9 @@ const SoknadCard = ({ sak }: Props) => {
             return <ForelopigSvarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sak.soknadTittel} />;
         }
         return <UnderBehandlingCard sakTittel={sak.soknadTittel} fiksDigisosId={sak.fiksDigisosId!} />;
+    }
+    // Delvis ferdigbehandlet
+    if ((sak.saker?.filter((it) => it.status === "FERDIGBEHANDLET") ?? []).length !== (sak.saker?.length ?? 0)) {
     }
     if (sak.status === "FERDIGBEHANDLET") {
         // TODO: Kan den være ferdigbehandlet uten vedtak?

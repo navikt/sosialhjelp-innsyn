@@ -12,7 +12,9 @@
         "EmptyState": {
             "tittel": "Du har førebels ingen søknader om økonomisk sosialhjelp",
             "beskrivelse": "Dersom du søkjer om økonomisk sosialhjelp, vil du kunne finne igjen søknadene her."
-        }
+        },
+        "visAlle": "Vis alle",
+        "visFærre": "Vis færre"
     },
     "StatusCard": {
         "MottattCard": {
@@ -28,21 +30,20 @@
             "description": "Søknaden blir behalden til og med {date, date, ::ddMMyyyy}"
         },
         "VedtakCard": {
-            "title": "Du har fått {count, plural, =1 {eit} other {#}} vedtak",
-            "description": "Din <norsk>{tittel}</norsk> er ferdigbehandla"
+            "description": "Du har fått {count, plural, =1 {eit} other {#}} vedtak"
         },
         "VilkarCard": {
-            "title": "Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår",
-            "description": "Din <norsk>{tittel}</norsk> er ferdigbehandla"
+            "description": "Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
         },
         "OppgaveCard": {
-            "title": "Du må levere fleire opplysningar"
+            "description": "Du må levere fleire opplysningar innan {date, date, ::ddMMyyyy}",
+            "descriptionUtenFrist": "Du må levere fleire opplysningar"
         },
         "UnderBehandlingCard": {
-            "title": "Nav-kontoret behandlar søknaden din"
+            "description": "Under behandling"
         },
         "ForelopigSvarCard": {
-            "title": "Du har fått eit førebels svar"
+            "description": "Du har fått eit brev om saksbehandlingstida for søknaden din"
         }
     },
     "Snarveier": {

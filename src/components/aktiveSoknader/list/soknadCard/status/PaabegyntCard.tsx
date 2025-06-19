@@ -1,4 +1,3 @@
-import { BodyShort } from "@navikt/ds-react";
 import { NotePencilDashIcon } from "@navikt/aksel-icons";
 import { useLocale, useTranslations } from "next-intl";
 
