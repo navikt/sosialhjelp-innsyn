@@ -1,7 +1,9 @@
 {
     "openapi": "3.1.0",
     "info": { "title": "OpenAPI definition", "version": "v0" },
-    "servers": [{ "url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url" }],
+    "servers": [
+        { "url": "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api", "description": "Generated server url" }
+    ],
     "paths": {
         "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
@@ -914,12 +916,8 @@
             },
             "SessionMetadata": {
                 "type": "object",
-                "properties": {
-                    "fornavn": { "type": "string" },
-                    "harAdressebeskyttelse": { "type": "boolean" },
-                    "personId": { "type": "string" }
-                },
-                "required": ["fornavn", "harAdressebeskyttelse", "personId"]
+                "properties": { "fornavn": { "type": "string" }, "harAdressebeskyttelse": { "type": "boolean" } },
+                "required": ["fornavn", "harAdressebeskyttelse"]
             },
             "SaksListeResponse": {
                 "type": "object",
