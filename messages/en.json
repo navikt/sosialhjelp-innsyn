@@ -19,6 +19,10 @@
         "klagerettigheter": "Your right to complain",
         "personopplysninger": "How we process your personal data"
     },
+    "nyKlagePage": {
+        "tittel": "Appeal the decision",
+        "beskrivelse": "Appeal the decision regarding financial social assistance."
+    },
     "common": {
         "app": { "tittel": "Financial assistance" },
         "historikk": {
@@ -318,12 +322,6 @@
             "giro": "Bank giro transfer",
             "postgiro": "Postal giro",
             "garanti": "Guarantee"
-        }
-    },
-    "klage": {
-        "opprett": {
-            "tittel": "Appeal against decision",
-            "description": "Appeal against decision"
         }
     }
 }

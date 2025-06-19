@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Bleed, Heading, Stack, VStack } from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
 import { getFlag, getToggles } from "../../../../../featuretoggles/unleash";
@@ -11,20 +11,9 @@ const Page = async () => {
         return notFound();
     }
     return (
-        <VStack gap="20" className="mt-20">
-            <Bleed marginInline={{ lg: "24" }} asChild>
-                <Stack
-                    gap="4"
-                    direction={{ sm: "row-reverse", lg: "row" }}
-                    justify={{ sm: "space-between", lg: "start" }}
-                    wrap={false}
-                >
-                    <Heading size="xlarge" level="1">
-                        {t("opprett.tittel")}
-                    </Heading>
-                </Stack>
-            </Bleed>
-        </VStack>
+        <Heading size="xlarge" level="1">
+            {t("opprett.tittel")}
+        </Heading>
     );
 };
 

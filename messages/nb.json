@@ -19,6 +19,10 @@
         "klagerettigheter": "Dine klagerettigheter",
         "personopplysninger": "Behandling av personopplysninger"
     },
+    "nyKlagePage": {
+        "tittel": "Klage på vedtak",
+        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
+    },
     "common": {
         "app": { "tittel": "Økonomisk sosialhjelp" },
         "historikk": {
@@ -325,12 +329,6 @@
             "giro": "Giro",
             "postgiro": "Postgiro",
             "garanti": "Garanti"
-        }
-    },
-    "klage": {
-        "opprett": {
-            "tittel": "Klage på vedtak",
-            "beskrivelse": "Opprett en klage på vedtaket om økonomisk sosialhjelp."
         }
     }
 }
