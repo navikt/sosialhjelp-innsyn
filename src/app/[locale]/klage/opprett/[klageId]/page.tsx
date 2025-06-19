@@ -6,13 +6,13 @@ import { getFlag, getToggles } from "../../../../../featuretoggles/unleash";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
-    const t = await getTranslations("klage");
+    const t = await getTranslations("NyKlagePage");
     if (!toggle.enabled) {
         return notFound();
     }
     return (
-        <Heading size="xlarge" level="1">
-            {t("opprett.tittel")}
+        <Heading size="xlarge" level="1" className="mt-20">
+            {t("tittel")}
         </Heading>
     );
 };
@@ -20,8 +20,8 @@ const Page = async () => {
 export const generateMetadata = async () => {
     const t = await getTranslations("klage");
     return {
-        title: t("opprett.tittel"),
-        description: t("opprett.beskrivelse"),
+        title: t("tittel"),
+        description: t("beskrivelse"),
     };
 };
 
