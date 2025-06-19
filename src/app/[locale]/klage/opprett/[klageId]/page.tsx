@@ -18,7 +18,7 @@ const Page = async () => {
 };
 
 export const generateMetadata = async () => {
-    const t = await getTranslations("klage");
+    const t = await getTranslations("NyKlagePage");
     return {
         title: t("tittel"),
         description: t("beskrivelse"),
