@@ -19,6 +19,10 @@
         "klagerettigheter": "Your right to complain",
         "personopplysninger": "How we process your personal data"
     },
+    "NyKlagePage": {
+        "tittel": "Appeal the decision",
+        "beskrivelse": "Appeal the decision regarding financial social assistance."
+    },
     "common": {
         "app": { "tittel": "Financial assistance" },
         "historikk": {

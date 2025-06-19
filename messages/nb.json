@@ -19,6 +19,10 @@
         "klagerettigheter": "Dine klagerettigheter",
         "personopplysninger": "Behandling av personopplysninger"
     },
+    "NyKlagePage": {
+        "tittel": "Klage på vedtak",
+        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
+    },
     "common": {
         "app": { "tittel": "Økonomisk sosialhjelp" },
         "historikk": {
