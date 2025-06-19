@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
-import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
+import { Bleed, Heading, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
-import OkonomiskSosialhjelpIcon from "../../../../../components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "../../../../../featuretoggles/unleash";
 
 const Page = async () => {
@@ -20,9 +19,6 @@ const Page = async () => {
                     justify={{ sm: "space-between", lg: "start" }}
                     wrap={false}
                 >
-                    <Show above="sm">
-                        <OkonomiskSosialhjelpIcon className="mr-4" />
-                    </Show>
                     <Heading size="xlarge" level="1">
                         {t("opprett.tittel")}
                     </Heading>
