@@ -12,7 +12,9 @@
         "EmptyState": {
             "tittel": "You currently have no applications for financial social assistance",
             "beskrivelse": "If you apply for financial social assistance, you will be able to find your applications here."
-        }
+        },
+        "visAlle": "Show all",
+        "visFærre": "Show less"
     },
     "StatusCard": {
         "MottattCard": {
@@ -28,21 +30,20 @@
             "description": "The application is kept until {date, date, ::ddMMyyyy}"
         },
         "VedtakCard": {
-            "title": "You have received {count, plural, =1 {a notice} other {# notices}} of decision",
-            "description": "Your <norsk>{tittel}</norsk> has been processed"
+            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decision"
         },
         "VilkarCard": {
-            "title": "You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions",
-            "description": "Your <norsk>{tittel}</norsk> has been processed"
+            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
         },
         "OppgaveCard": {
-            "title": "You have received {count, plural, =1 {a notice} other {# notices}} of decision"
+            "description": "You need to deliver more information by {date, date, ::ddMMyyyy}",
+            "descriptionUtenFrist": "You need to deliver more information"
         },
         "UnderBehandlingCard": {
-            "title": "The nav-office is processing your application"
+            "description": "Being processed"
         },
         "ForelopigSvarCard": {
-            "title": "You have received a provisional response"
+            "description": "You have received a letter about the processing time for your application."
         }
     },
     "Snarveier": {

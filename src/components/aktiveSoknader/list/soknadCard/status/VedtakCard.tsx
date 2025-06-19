@@ -1,5 +1,4 @@
 import { useTranslations } from "next-intl";
-import { BodyShort } from "@navikt/ds-react";
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
 
 import StatusIcon from "../icon/StatusIcon";
@@ -16,14 +15,11 @@ const VedtakCard = ({ fiksDigisosId, sakTittel, vedtakCount }: Props) => {
     return (
         <StatusCard
             href={`/soknader/${fiksDigisosId}`}
-            description={t.rich("description", {
-                norsk: (chunks) => <span lang="no">{chunks}</span>,
-                tittel: sakTittel,
-            })}
+            description={t("description", { count: vedtakCount })}
             icon={<StatusIcon icon={CheckmarkCircleIcon} />}
             variant="info"
         >
-            {t("title", { count: vedtakCount })}
+            <span lang="nb">{sakTittel}</span>
         </StatusCard>
     );
 };

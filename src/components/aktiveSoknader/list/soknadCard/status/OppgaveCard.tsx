@@ -1,4 +1,3 @@
-import { BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { FilesIcon } from "@navikt/aksel-icons";
 
@@ -8,18 +7,19 @@ import StatusIcon from "../icon/StatusIcon";
 interface Props {
     fiksDigisosId: string;
     sakTittel?: string;
+    frist?: string;
 }
 
-const OppgaveCard = ({ fiksDigisosId, sakTittel }: Props) => {
+const OppgaveCard = ({ fiksDigisosId, sakTittel, frist }: Props) => {
     const t = useTranslations("StatusCard.OppgaveCard");
     return (
         <StatusCard
             href={`/soknader/${fiksDigisosId}`}
-            description={<span lang="nb">{sakTittel}</span>}
+            description={frist ? t("description", { date: new Date(frist) }) : t("descriptionUtenFrist")}
             icon={<StatusIcon icon={FilesIcon} />}
             variant="warning"
         >
-            {t("title")}
+            <span lang="nb">{sakTittel}</span>
         </StatusCard>
     );
 };

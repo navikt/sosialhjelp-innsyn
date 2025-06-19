@@ -1,4 +1,3 @@
-import { BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { FileTextIcon } from "@navikt/aksel-icons";
 

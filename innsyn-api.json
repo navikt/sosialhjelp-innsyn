@@ -880,13 +880,15 @@
                     "dokumentasjonkrav": { "type": "boolean" },
                     "vilkar": { "type": "boolean" },
                     "forelopigSvar": { "$ref": "#/components/schemas/ForelopigSvar" },
-                    "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } }
+                    "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } },
+                    "forsteOppgaveFrist": { "type": "string", "format": "date" }
                 },
                 "required": [
                     "dokumentasjonEtterspurt",
                     "dokumentasjonkrav",
                     "fiksDigisosId",
                     "forelopigSvar",
+                    "forsteOppgaveFrist",
                     "saker",
                     "soknadTittel",
                     "status",
