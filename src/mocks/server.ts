@@ -3,7 +3,6 @@ import { http } from "msw";
 
 import { getHendelseControllerMock } from "../generated/hendelse-controller/hendelse-controller.msw";
 import { getKommuneControllerMock } from "../generated/kommune-controller/kommune-controller.msw";
-import { getInfoControllerMock } from "../generated/info-controller/info-controller.msw";
 import { getOppgaveControllerMock } from "../generated/oppgave-controller/oppgave-controller.msw";
 import { getTilgangControllerMock } from "../generated/tilgang-controller/tilgang-controller.msw";
 import { getDigisosApiTestControllerMock } from "../generated/digisos-api-test-controller/digisos-api-test-controller.msw";
@@ -17,7 +16,6 @@ import { getVedleggControllerMock } from "../generated/vedlegg-controller/vedleg
 
 export const server = setupServer(
     ...getHendelseControllerMock(),
-    ...getInfoControllerMock(),
     ...getKommuneControllerMock(),
     ...getOppgaveControllerMock(),
     ...getTilgangControllerMock(),

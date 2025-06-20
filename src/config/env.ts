@@ -11,7 +11,10 @@ export const publicEnvSchema = z.object({
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
     NEXT_INNSYN_API_HOSTNAME: z.string(),
-    INNSYN_API_PORT: z.string().optional().default(""),
+    SOKNAD_API_HOSTNAME: z.string(),
+    SOKNAD_API_AUDIENCE: z.string(),
+    INNSYN_API_PORT: z.string().optional(),
+    SOKNAD_API_PORT: z.string().optional(),
     NEXT_INNSYN_API_BASE_URL: z.string().optional().default(""),
 });
 
@@ -25,8 +28,11 @@ export const browserEnv = publicEnvSchema.parse({
 const getRawServerConfig = (): Partial<unknown> =>
     ({
         NEXT_INNSYN_API_HOSTNAME: process.env.NEXT_INNSYN_API_HOSTNAME,
+        SOKNAD_API_HOSTNAME: process.env.SOKNAD_API_HOSTNAME,
+        SOKNAD_API_AUDIENCE: process.env.SOKNAD_API_AUDIENCE,
         NEXT_INNSYN_API_BASE_URL: process.env.NEXT_INNSYN_API_BASE_URL,
         INNSYN_API_PORT: process.env.INNSYN_API_PORT,
+        SOKNAD_API_PORT: process.env.SOKNAD_API_PORT,
     }) satisfies Record<keyof ServerEnv, string | undefined>;
 
 /**
