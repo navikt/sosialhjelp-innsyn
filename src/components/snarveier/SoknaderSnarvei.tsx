@@ -2,7 +2,7 @@ import React from "react";
 import { TasklistIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
-import StatusCard from "../aktiveSoknader/statusCard/StatusCard";
+import StatusCard from "../soknaderList/statusCard/StatusCard";
 
 const SoknaderSnarvei = async () => {
     const t = await getTranslations("Snarveier");

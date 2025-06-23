@@ -7,29 +7,23 @@ import { Box, Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 
 import { SaksListeResponse } from "../../../generated/model";
-import type { getSaksDetaljerResponse } from "../../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
-import { PaabegyntSak } from "../AktiveSoknader";
+import { PaabegyntSoknad } from "../../aktiveSoknader/AktiveSoknader";
+import { SaksDetaljerResponse } from "../../../generated/ssr/model";
+import useShowMore, { ITEMS_LIMIT } from "../../../hooks/useShowMore";
 
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
-import useSaker from "./useSaker";
 
 interface Props {
-    paabegynteSaker: PaabegyntSak[];
-    saksdetaljer: Promise<getSaksDetaljerResponse[]>;
-    saker: SaksListeResponse[];
+    soknader: (PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse))[];
 }
 
-const AktiveSoknaderList = ({ saker, paabegynteSaker, saksdetaljer }: Props) => {
+const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("AktiveSoknader");
-    const { hasMore, sorted, showAll, setShowAll, totaltAntallSoknader } = useSaker(
-        paabegynteSaker,
-        saksdetaljer,
-        saker
-    );
+    const { hasMore, showAll, setShowAll } = useShowMore(soknader);
     return (
         <>
-            {sorted.map((sak) => (
+            {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((sak) => (
                 <Fragment
                     key={
                         "fiksDigisosId" in sak
@@ -52,7 +46,7 @@ const AktiveSoknaderList = ({ saker, paabegynteSaker, saksdetaljer }: Props) => 
             <Box className="self-start">
                 {!showAll && hasMore && (
                     <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
-                        {t("visAlle")} ({totaltAntallSoknader})
+                        {t("visAlle")} ({soknader.length})
                     </Button>
                 )}
                 {showAll && (
@@ -65,4 +59,4 @@ const AktiveSoknaderList = ({ saker, paabegynteSaker, saksdetaljer }: Props) => 
     );
 };
 
-export default AktiveSoknaderList;
+export default SoknaderList;

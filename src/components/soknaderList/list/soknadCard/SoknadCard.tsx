@@ -18,14 +18,9 @@ interface Props {
 }
 
 const SoknadCard = ({ sak }: Props) => {
+    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : "Søknad om økonomisk sosialhjelp";
     if ((sak.antallNyeOppgaver ?? 0) > 0) {
-        return (
-            <OppgaveCard
-                fiksDigisosId={sak.fiksDigisosId!}
-                sakTittel={sak.soknadTittel}
-                frist={sak.forsteOppgaveFrist}
-            />
-        );
+        return <OppgaveCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} frist={sak.forsteOppgaveFrist} />;
     }
     if (sak.status === "MOTTATT") {
         return <MottattCard fiksDigisosId={sak.fiksDigisosId!} mottattDato={new Date(sak.sistOppdatert)} />;
@@ -35,9 +30,9 @@ const SoknadCard = ({ sak }: Props) => {
     }
     if (sak.status === "UNDER_BEHANDLING") {
         if (sak.forelopigSvar?.harMottattForelopigSvar) {
-            return <ForelopigSvarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sak.soknadTittel} />;
+            return <ForelopigSvarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} />;
         }
-        return <UnderBehandlingCard sakTittel={sak.soknadTittel} fiksDigisosId={sak.fiksDigisosId!} />;
+        return <UnderBehandlingCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} />;
     }
     // Delvis ferdigbehandlet
     if ((sak.saker?.filter((it) => it.status === "FERDIGBEHANDLET") ?? []).length !== (sak.saker?.length ?? 0)) {
@@ -48,14 +43,10 @@ const SoknadCard = ({ sak }: Props) => {
             const count =
                 sak.saker?.map((it) => it.antallVedtak).reduce((acc, antallVedtak) => acc + antallVedtak) ?? 0;
             if (sak.vilkar) {
-                return (
-                    <VilkarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sak.soknadTittel} vedtakCount={count} />
-                );
+                return <VilkarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} vedtakCount={count} />;
             }
             if (count > 0) {
-                return (
-                    <VedtakCard sakTittel={sak.soknadTittel} fiksDigisosId={sak.fiksDigisosId!} vedtakCount={count} />
-                );
+                return <VedtakCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} vedtakCount={count} />;
             }
         } catch (e: unknown) {
             logger.error(`Feil ved henting av vedtak for sak ${sak.fiksDigisosId}:`, e);

@@ -2,7 +2,6 @@ import { test, expect } from "@playwright/test";
 
 test("should render snarveier", async ({ page }) => {
     await page.goto("/nb/landingsside");
-    await page.getByRole("button", { name: "Logg inn" }).click();
     await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
 });
 

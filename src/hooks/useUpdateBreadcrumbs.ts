@@ -54,7 +54,12 @@ export const useSetBreadcrumbs = () => {
         const crumbs = [...getBaseCrumbs(t), ...getAppBreadcrumbs(pathname)];
         (async () => {
             try {
-                await setBreadcrumbs(crumbs);
+                await setBreadcrumbs(
+                    crumbs.map((it) => ({
+                        ...it,
+                        url: "url" in it ? `${it.url}` : "/",
+                    }))
+                );
             } catch (e) {
                 logger.error(`klarte ikke å oppdatere breadcrumbs på ${location.pathname}`);
                 logger.error(e);

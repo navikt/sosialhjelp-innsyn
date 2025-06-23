@@ -3,6 +3,12 @@
         "tittel": "Financial assistance",
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
+    "SoknaderSide": {
+        "tittel": "My applications"
+    },
+    "SokButton": {
+        "sokOmSosialhjelp": "Apply for financial assistance"
+    },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
@@ -15,6 +21,9 @@
         },
         "visAlle": "Show all",
         "visFærre": "Show less"
+    },
+    "TidligereSoknader": {
+        "tittel": "Previous applications"
     },
     "StatusCard": {
         "MottattCard": {
