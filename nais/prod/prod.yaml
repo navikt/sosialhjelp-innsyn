@@ -7,7 +7,6 @@ metadata:
     team: teamdigisos
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "150M"
-    texas.nais.io/enabled: "true"
 spec:
   image: {{image}}
   port: 8080
