@@ -8,7 +8,7 @@ export default defineConfig({
             target: "src/generated/innsyn-api.ts",
             schemas: "src/generated/model",
             client: "react-query",
-            baseUrl: "/sosialhjelp/innsyn/api/innsyn-api",
+            baseUrl: "/",
             httpClient: "fetch",
             mock: true,
             override: {
@@ -55,9 +55,16 @@ export default defineConfig({
             mode: "tags-split",
             target: "src/generated/ssr",
             schemas: "src/generated/ssr/model",
-            client: "fetch",
+            client: "react-query",
+            httpClient: "fetch",
             baseUrl: "/",
             override: {
+                fetch: {
+                    includeHttpResponseReturnType: false,
+                },
+                query: {
+                    usePrefetch: true,
+                },
                 mutator: {
                     path: "src/api/ssr/authenticatedFetch.ts",
                     name: "authenticatedFetch",

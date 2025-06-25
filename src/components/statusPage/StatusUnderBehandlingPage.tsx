@@ -16,9 +16,10 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
     const oppgaver = await getOppgaver(id);
     return (
         <StatusPage
+            id={id}
             heading={t("tittel")}
             alert={
-                oppgaver.data.length > 0 ? (
+                oppgaver.length > 0 ? (
                     <StatusAlert
                         variant="warning"
                         tittel={t.rich("alert.tittel", {

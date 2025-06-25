@@ -1,6 +1,5 @@
 import { ElementType } from "react";
 
-
 interface Props {
     icon: ElementType;
 }
