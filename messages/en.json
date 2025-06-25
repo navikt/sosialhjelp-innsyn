@@ -6,6 +6,13 @@
     "SoknaderSide": {
         "tittel": "My applications"
     },
+    "StatusSendtPage": {
+        "tittel": "Your application has been sent",
+        "alert": {
+            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        }
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },

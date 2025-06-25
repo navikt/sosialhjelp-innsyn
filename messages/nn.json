@@ -5,6 +5,12 @@
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
+    "StatusSendtPage": {
+        "tittel": "Søknaden din er send",
+    "alert": {
+        "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
+        "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
