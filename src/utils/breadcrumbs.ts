@@ -25,6 +25,7 @@ enum PathVariants {
     Landingsside = "/landingsside",
     Error = "/_error",
     OpprettKlage = "/klage/opprett/",
+    Soknader = "/soknader",
 }
 
 function removeLocales(path: string): string {
@@ -32,7 +33,7 @@ function removeLocales(path: string): string {
     return path.replace(localeRegex, "");
 }
 
-export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[] => {
+export const getAppBreadcrumbs = (pathname?: PathVariants | string): [...Breadcrumb[], LastCrumb] | [] => {
     if (!pathname) {
         return [];
     }
@@ -41,7 +42,7 @@ export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[
 
     //TODO: Make a better way to handle dynamic paths
     if (cleanedPath.startsWith(PathVariants.OpprettKlage)) {
-        return [{ title: "Opprett klage", url: "/klage/opprett" }];
+        return [{ title: "Opprett klage" }];
     }
 
     switch (cleanedPath) {
@@ -54,6 +55,8 @@ export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[
             return [];
         case PathVariants.Landingsside:
             return [];
+        case PathVariants.Soknader:
+            return [{ title: "Mine søknader" }];
         default:
             throw new Error("Unknown path");
     }

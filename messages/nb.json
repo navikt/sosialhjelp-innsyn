@@ -1,6 +1,11 @@
 {
     "Landingsside": {
-        "tittel": "Økonomisk sosialhjelp",
+        "tittel": "Økonomisk sosialhjelp"
+    },
+    "SoknaderSide": {
+        "tittel": "Mine søknader"
+    },
+    "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Metadata": {
@@ -15,6 +20,9 @@
         },
         "visAlle": "Vis alle",
         "visFærre": "Vis færre"
+    },
+    "TidligereSoknader": {
+        "tittel": "Tidligere søknader"
     },
     "StatusCard": {
         "MottattCard": {
