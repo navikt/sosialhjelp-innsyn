@@ -1,7 +1,5 @@
 "use client";
 
-import { logger } from "@navikt/next-logger";
-
 import { SaksDetaljerResponse } from "../../../../generated/ssr/model";
 import { SaksListeResponse } from "../../../../generated/model";
 
@@ -34,22 +32,14 @@ const SoknadCard = ({ sak }: Props) => {
         }
         return <UnderBehandlingCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} />;
     }
-    // Delvis ferdigbehandlet
-    if ((sak.saker?.filter((it) => it.status === "FERDIGBEHANDLET") ?? []).length !== (sak.saker?.length ?? 0)) {
-    }
     if (sak.status === "FERDIGBEHANDLET") {
         // TODO: Kan den være ferdigbehandlet uten vedtak?
-        try {
-            const count =
-                sak.saker?.map((it) => it.antallVedtak).reduce((acc, antallVedtak) => acc + antallVedtak) ?? 0;
-            if (sak.vilkar) {
-                return <VilkarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} vedtakCount={count} />;
-            }
-            if (count > 0) {
-                return <VedtakCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} vedtakCount={count} />;
-            }
-        } catch (e: unknown) {
-            logger.error(`Feil ved henting av vedtak for sak ${sak.fiksDigisosId}:`, e);
+        const count = sak.saker?.map((it) => it.antallVedtak).reduce((acc, antallVedtak) => acc + antallVedtak) ?? 0;
+        if (sak.vilkar) {
+            return <VilkarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} vedtakCount={count} />;
+        }
+        if (count > 0) {
+            return <VedtakCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} vedtakCount={count} />;
         }
     }
     return null;
