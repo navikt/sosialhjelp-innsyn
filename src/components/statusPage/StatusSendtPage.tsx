@@ -15,7 +15,6 @@ export const StatusSendtPage = async ({ navKontor }: Props) => {
             alert={
                 <Alert variant="success">
                     <Heading size="small" level="2">
-                        {" "}
                         {t.rich("alert.tittel", {
                             navKontor: navKontor,
                             norsk: (chunks) => <span lang="no">{chunks}</span>,
