@@ -14,7 +14,7 @@ const OppgaveCard = ({ fiksDigisosId, sakTittel, frist }: Props) => {
     const t = useTranslations("StatusCard.OppgaveCard");
     return (
         <StatusCard
-            href={`/soknader/${fiksDigisosId}`}
+            href={`/soknad/${fiksDigisosId}`}
             description={frist ? t("description", { date: new Date(frist) }) : t("descriptionUtenFrist")}
             icon={<StatusIcon icon={FilesIcon} />}
             variant="warning"

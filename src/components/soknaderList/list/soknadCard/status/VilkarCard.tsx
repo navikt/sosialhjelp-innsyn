@@ -14,7 +14,7 @@ const VilkarCard = ({ fiksDigisosId, sakTittel, vedtakCount }: Props) => {
     const t = useTranslations("StatusCard.VilkarCard");
     return (
         <StatusCard
-            href={`/soknader/${fiksDigisosId}`}
+            href={`/soknad/${fiksDigisosId}`}
             description={t("description", { count: vedtakCount })}
             icon={<StatusIcon icon={CheckmarkIcon} />}
             variant="info"

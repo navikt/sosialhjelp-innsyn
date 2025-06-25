@@ -13,7 +13,7 @@ const UnderBehandlingCard = ({ fiksDigisosId, sakTittel }: Props) => {
     const t = useTranslations("StatusCard.UnderBehandlingCard");
     return (
         <StatusCard
-            href={`/soknader/${fiksDigisosId}`}
+            href={`/soknad/${fiksDigisosId}`}
             description={t("description")}
             icon={<StatusIcon icon={PersonGavelIcon} />}
             variant="info"

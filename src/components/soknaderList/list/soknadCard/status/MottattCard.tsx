@@ -13,7 +13,7 @@ const MottattCard = ({ fiksDigisosId, mottattDato }: Props) => {
     const t = useTranslations("StatusCard.MottattCard");
     return (
         <StatusCard
-            href={`/soknader/${fiksDigisosId}`}
+            href={`/soknad/${fiksDigisosId}`}
             description={t("description", { date: mottattDato })}
             icon={<StatusIcon icon={FileTextIcon} />}
             variant="info"

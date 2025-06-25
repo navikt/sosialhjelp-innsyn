@@ -13,7 +13,7 @@ const ForelopigSvarCard = ({ fiksDigisosId, sakTittel }: Props) => {
     const t = useTranslations("StatusCard.ForelopigSvarCard");
     return (
         <StatusCard
-            href={`/soknader/${fiksDigisosId}`}
+            href={`/soknad/${fiksDigisosId}`}
             description={t("description")}
             icon={<StatusIcon icon={EnvelopeClosedIcon} />}
             variant="info"
