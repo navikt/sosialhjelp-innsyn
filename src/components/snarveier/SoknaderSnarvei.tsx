@@ -2,15 +2,14 @@ import React from "react";
 import { TasklistIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
-import Snarvei from "./Snarvei";
+import StatusCard from "../soknaderList/statusCard/StatusCard";
 
 const SoknaderSnarvei = async () => {
     const t = await getTranslations("Snarveier");
     return (
-        <Snarvei href="/soknader">
-            <TasklistIcon />
+        <StatusCard href="/soknader" icon={<TasklistIcon />}>
             {t("soknader")}
-        </Snarvei>
+        </StatusCard>
     );
 };
 

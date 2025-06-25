@@ -7,6 +7,7 @@ metadata:
     team: teamdigisos
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "150M"
+    texas.nais.io/enabled: "true"
 spec:
   image: {{image}}
   port: 8080
@@ -37,12 +38,15 @@ spec:
         - application: nav-dekoratoren
           namespace: personbruker
         - application: sosialhjelp-innsyn-api
+        - application: sosialhjelp-soknad-api
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
     inbound:
       rules:
         - application: wonderwall-innsyn
+  tokenx:
+    enabled: true
   resources:
     limits:
       memory: 512Mi

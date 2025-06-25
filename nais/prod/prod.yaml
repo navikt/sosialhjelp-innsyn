@@ -7,6 +7,7 @@ metadata:
     team: teamdigisos
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "150M"
+    texas.nais.io/enabled: "true"
 spec:
   image: {{image}}
   port: 8080
@@ -23,6 +24,8 @@ spec:
   replicas:
     min: 2
     max: 4
+  tokenx:
+    enabled: true
   observability:
     autoInstrumentation:
       enabled: true
@@ -35,6 +38,7 @@ spec:
     outbound:
       rules:
         - application: sosialhjelp-innsyn-api
+        - application: sosialhjelp-soknad-api
         - application: nav-dekoratoren
           namespace: personbruker
       external:

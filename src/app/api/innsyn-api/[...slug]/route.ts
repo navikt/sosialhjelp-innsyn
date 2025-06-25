@@ -1,10 +1,5 @@
-import { proxyRouteHandler } from "@navikt/next-api-proxy";
-
 import { getServerEnv } from "../../../../config/env";
-
-type RouteHandlerProxyTarget = { hostname: string; path: string; https: boolean; bearerToken?: string; port?: string };
-type ProxyRequestContext = { params: Promise<{ slug: string[] }> };
-type ProxyRequestHandler = (request: Request, context: ProxyRequestContext) => Promise<Response>;
+import apiProxy, { RouteHandlerProxyTarget } from "../../../../api/proxy/apiProxy";
 
 const getRouteHandlerProxyTarget = async (
     bearerToken: string | undefined,
@@ -22,18 +17,12 @@ const getRouteHandlerProxyTarget = async (
     return { hostname, path: encodeURI(path), bearerToken, https, port };
 };
 
-const soknadApiProxy: ProxyRequestHandler = async (request, { params }): Promise<Response> => {
-    const headers = request.headers;
-    if (!headers.has("Authorization")) {
-        return new Response("Missing auth header", { status: 401 });
-    }
-    const bearerToken = `${headers.get("Authorization")?.split(" ")[1]}`;
+const innsynApiProxy = await apiProxy(async (params, bearerToken) =>
+    getRouteHandlerProxyTarget(bearerToken, (await params).slug)
+);
 
-    return proxyRouteHandler(request, await getRouteHandlerProxyTarget(bearerToken, (await params).slug));
-};
-
-export const DELETE = soknadApiProxy;
-export const GET = soknadApiProxy;
-export const OPTIONS = soknadApiProxy;
-export const POST = soknadApiProxy;
-export const PUT = soknadApiProxy;
+export const DELETE = innsynApiProxy;
+export const GET = innsynApiProxy;
+export const OPTIONS = innsynApiProxy;
+export const POST = innsynApiProxy;
+export const PUT = innsynApiProxy;

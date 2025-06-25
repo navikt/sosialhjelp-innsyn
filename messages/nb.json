@@ -1,11 +1,58 @@
 {
     "Landingsside": {
-        "tittel": "Økonomisk sosialhjelp",
+        "tittel": "Økonomisk sosialhjelp"
+    },
+    "SoknaderSide": {
+        "tittel": "Mine søknader"
+    },
+    "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
+    },
+    "AktiveSoknader": {
+        "tittel": "Aktive søknader",
+        "EmptyState": {
+            "tittel": "Du har foreløpig ingen søknader om økonomisk sosialhjelp",
+            "beskrivelse": "Dersom du søker om økonomisk sosialhjelp, vil du kunne finne igjen søknadene her."
+        },
+        "visAlle": "Vis alle",
+        "visFærre": "Vis færre"
+    },
+    "TidligereSoknader": {
+        "tittel": "Tidligere søknader"
+    },
+    "StatusCard": {
+        "MottattCard": {
+            "title": "Søknad om økonomisk sosialhjelp",
+            "description": "Mottatt {date, date, ::ddMMyyyy}"
+        },
+        "SendtCard": {
+            "title": "Søknad om økonomisk sosialhjelp",
+            "description": "Sendt {date, date, ::ddMMyyyy}"
+        },
+        "PaabegyntCard": {
+            "title": "Påbegynt søknad om økonomisk sosialhjelp",
+            "description": "Søknaden beholdes til og med {date, date, ::ddMMyyyy}"
+        },
+        "VedtakCard": {
+            "description": "Du har fått {count, plural, =1 {et} other {#}} vedtak"
+        },
+        "VilkarCard": {
+            "description": "Ferdigbehandlet. Du har fått vedtak med vilkår"
+        },
+        "OppgaveCard": {
+            "description": "Du må levere flere opplysninger innen {date, date, ::ddMMyyyy}",
+            "descriptionUtenFrist": "Du må levere flere opplysninger"
+        },
+        "UnderBehandlingCard": {
+            "description": "Under behandling"
+        },
+        "ForelopigSvarCard": {
+            "description": "Du har fått et brev om saksbehandlingstiden for søknaden din"
+        }
     },
     "Snarveier": {
         "tittel": "Snarveier",

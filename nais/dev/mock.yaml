@@ -7,6 +7,7 @@ metadata:
     team: teamdigisos
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "150M"
+    texas.nais.io/enabled: "true"
 spec:
   image: {{image}}
   port: 8080
@@ -32,11 +33,11 @@ spec:
           namespace: personbruker
         - application: sosialhjelp-mock-alt-api-mock
         - application: sosialhjelp-innsyn-api-mock
+        - application: sosialhjelp-soknad-api-mock
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.ekstern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
-
   resources:
     limits:
       cpu: 200m
@@ -44,8 +45,8 @@ spec:
     requests:
       cpu: 1m
       memory: 32Mi
-  vault:
-    enabled: false
+  tokenx:
+    enabled: true
   env:
     - name: UNLEASH_SERVER_API_URL
       value: 'https://teamdigisos-unleash-api.nav.cloud.nais.io/api'

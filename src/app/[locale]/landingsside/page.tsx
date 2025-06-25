@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
-import { Bleed, Button, Heading, Show, Stack, VStack } from "@navikt/ds-react";
+import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
-import { PencilIcon } from "@navikt/aksel-icons";
-import Link from "next/link";
 
 import OkonomiskSosialhjelpIcon from "../../../components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "../../../featuretoggles/unleash";
 import Snarveier from "../../../components/snarveier/Snarveier";
 import NyttigInformasjon from "../../../components/nyttigInformasjon/NyttigInformasjon";
-import { getServerEnv } from "../../../config/env";
+import AktiveSoknader from "../../../components/aktiveSoknader/AktiveSoknader";
+import SokButton from "../../../components/sokButton/SokButton";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
@@ -33,16 +32,9 @@ const Page = async () => {
                     </Heading>
                 </Stack>
             </Bleed>
+            <AktiveSoknader />
             <Snarveier />
-            <Button
-                as={Link}
-                href={`${getServerEnv().NEXT_PUBLIC_INNSYN_ORIGIN}/sosialhjelp/soknad`}
-                variant="secondary"
-                icon={<PencilIcon />}
-                className="self-start"
-            >
-                {t("sokOmSosialhjelp")}
-            </Button>
+            <SokButton />
             <NyttigInformasjon />
         </VStack>
     );
