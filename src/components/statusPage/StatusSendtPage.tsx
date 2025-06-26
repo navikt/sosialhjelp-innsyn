@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { Alert, Heading } from "@navikt/ds-react";
+
+import AlertStatus from "../alert/AlertStatus";
 
 import { StatusPage } from "./StatusPage";
 
@@ -13,15 +14,13 @@ export const StatusSendtPage = async ({ navKontor }: Props) => {
         <StatusPage
             heading={t("tittel")}
             alert={
-                <Alert variant="success">
-                    <Heading size="small" level="2">
-                        {t.rich("alert.tittel", {
-                            navKontor: navKontor,
-                            norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        })}
-                    </Heading>
-                    {t("alert.beskrivelse")}
-                </Alert>
+                <AlertStatus
+                    navKontor={navKontor}
+                    variant="success"
+                    tittel="alert.tittel"
+                    beskrivelse="alert.beskrivelse"
+                    trans="StatusSendtPage"
+                />
             }
         />
     );

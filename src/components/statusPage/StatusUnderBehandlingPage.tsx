@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { Alert, Heading } from "@navikt/ds-react";
 
 import { hentHendelser } from "../../generated/ssr/hendelse-controller/hendelse-controller";
 import { HendelseResponse } from "../../generated/model";
+import AlertStatus from "../alert/AlertStatus";
 
 import { StatusPage } from "./StatusPage";
 
@@ -19,15 +19,13 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
         etterspurteDokumenter.data.some(
             (hendelse: HendelseResponse) => hendelse.hendelseType === "ETTERSPOR_MER_DOKUMENTASJON"
         ) ? (
-            <Alert variant="warning">
-                <Heading size="small" level="2">
-                    {t.rich("alert.tittel", {
-                        navKontor,
-                        norsk: (chunks) => <span lang="no">{chunks}</span>,
-                    })}
-                </Heading>
-                {t("alert.beskrivelse")}
-            </Alert>
+            <AlertStatus
+                navKontor={navKontor}
+                variant="warning"
+                tittel="alert.tittel"
+                beskrivelse="alert.beskrivelse"
+                trans="StatusUnderBehandlingPage"
+            />
         ) : null;
 
     return <StatusPage heading={t("tittel")} alert={status()} />;
