@@ -13,6 +13,27 @@
             "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
         }
     },
+    "StatusMottattPage": {
+        "tittel": "Søknaden din er mottatt",
+        "alert": {
+            "tittel": "Ingenting er bestemt for tekst ennå",
+            "beskrivelse": "see over"
+        }
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Søknaden din er under behandling",
+        "alert": {
+            "tittel": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din",
+            "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
+        }
+    },
+    "StatusFerdigbehandletPage": {
+        "tittel": "Søknaden din er ferdigbehandlet",
+        "alert": {
+            "tittel": "",
+            "beskrivelse": ""
+        }
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },

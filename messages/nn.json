@@ -19,6 +19,27 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, sjå status på søknaden din, og send inn dokumentasjon."
     },
+    "StatusMottattPage": {
+        "tittel": "Søknaden din er mottatt",
+        "alert": {
+            "tittel": "Ingenting er bestemt for tekst ennå",
+            "beskrivelse": "see over"
+        }
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Søknaden din er under behandling",
+        "alert": {
+            "tittel": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din",
+            "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
+        }
+    },
+    "StatusFerdigbehandletPage": {
+        "tittel": "Søknaden din er ferdigbehandlet",
+        "alert": {
+            "tittel": "",
+            "beskrivelse": ""
+        }
+    },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {
