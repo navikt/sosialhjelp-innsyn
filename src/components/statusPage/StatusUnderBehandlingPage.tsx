@@ -18,9 +18,9 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
         <StatusPage
             heading={t("tittel")}
             alert={
-                harEtterspurteDokumenter ? (
+                harEtterspurteDokumenter.data.length > 0 ? (
                     <StatusAlert
-                        variant="success"
+                        variant="warning"
                         tittel={t.rich("alert.tittel", {
                             navKontor: navKontor,
                             norsk: (chunks) => <span lang="no">{chunks}</span>,
