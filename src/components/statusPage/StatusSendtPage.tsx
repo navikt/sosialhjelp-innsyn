@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-import AlertStatus from "../alert/AlertStatus";
+import StatusAlert from "../alert/StatusAlert";
 
 import { StatusPage } from "./StatusPage";
 
@@ -14,12 +14,13 @@ export const StatusSendtPage = async ({ navKontor }: Props) => {
         <StatusPage
             heading={t("tittel")}
             alert={
-                <AlertStatus
-                    navKontor={navKontor}
+                <StatusAlert
                     variant="success"
-                    tittel="alert.tittel"
-                    beskrivelse="alert.beskrivelse"
-                    trans="StatusSendtPage"
+                    tittel={t.rich("alert.tittel", {
+                        navKontor: navKontor,
+                        norsk: (chunks) => <span lang="no">{chunks}</span>,
+                    })}
+                    beskrivelse={t("alert.beskrivelse")}
                 />
             }
         />
