@@ -15,8 +15,8 @@
     "StatusMottattPage": {
         "tittel": "Søknaden din er mottatt",
         "alert": {
-            "tittel": "Ingenting er bestemt for tekst ennå",
-            "beskrivelse": "see over"
+            "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Når Nav begynner å behandle søknaden, kan det hende du blir bedt om å sende flere opplysninger eller mer dokumentasjon."
         }
     },
     "StatusUnderBehandlingPage": {
