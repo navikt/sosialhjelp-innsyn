@@ -14,21 +14,21 @@
         }
     },
     "StatusMottattPage": {
-        "tittel": "Søknaden din er mottatt",
+        "tittel": "You application has been received",
         "alert": {
             "tittel": "Ingenting er bestemt for tekst ennå",
-            "beskrivelse": "see over"
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling",
+        "tittel": "Your application is being processed",
         "alert": {
-            "tittel": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din",
-            "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
+            "tittel": "The Nav-kontor needs more documents to process your case.",
+            "beskrivelse": "If you have already submitted the requested documents directly to the Nav-kontor, you can ignore this message."
         }
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Søknaden din er ferdigbehandlet",
+        "tittel": "Your application has been processed",
         "alert": {
             "tittel": "",
             "beskrivelse": ""
