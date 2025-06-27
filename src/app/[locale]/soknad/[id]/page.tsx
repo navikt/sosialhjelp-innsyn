@@ -34,7 +34,7 @@ const Page = async ({
     }
 
     if (soknadsStatusResponse.data.status === "FERDIGBEHANDLET") {
-        return <StatusFerdigbehandletPage navKontor={soknadsStatusResponse.data.navKontor ?? "et navkontor"} />;
+        return <StatusFerdigbehandletPage />;
     }
 
     return notFound();
