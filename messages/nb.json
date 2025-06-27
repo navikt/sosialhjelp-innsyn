@@ -12,6 +12,23 @@
             "beskrivelse": "Når Nav begynner å behandle søknaden, kan det hende du blir bedt om å sende flere opplysninger eller mer dokumentasjon."
         }
     },
+    "StatusMottattPage": {
+        "tittel": "Søknaden din er mottatt",
+        "alert": {
+            "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Når Nav begynner å behandle søknaden, kan det hende du blir bedt om å sende flere opplysninger eller mer dokumentasjon."
+        }
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Søknaden din er under behandling",
+        "alert": {
+            "tittel": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din",
+            "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
+        }
+    },
+    "StatusFerdigbehandletPage": {
+        "tittel": "Søknaden din er ferdigbehandlet"
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },

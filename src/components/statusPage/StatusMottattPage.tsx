@@ -8,8 +8,8 @@ interface Props {
     navKontor: string;
 }
 
-export const StatusSendtPage = async ({ navKontor }: Props) => {
-    const t = await getTranslations("StatusSendtPage");
+export const StatusMottattPage = async ({ navKontor }: Props) => {
+    const t = await getTranslations("StatusMottattPage");
     return (
         <StatusPage
             heading={t("tittel")}

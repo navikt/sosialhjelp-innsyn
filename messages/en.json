@@ -13,6 +13,23 @@
             "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
         }
     },
+    "StatusMottattPage": {
+        "tittel": "You application has been received",
+        "alert": {
+            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        }
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Your application is being processed",
+        "alert": {
+            "tittel": "The Nav-kontor needs more documents to process your case.",
+            "beskrivelse": "If you have already submitted the requested documents directly to the Nav-kontor, you can ignore this message."
+        }
+    },
+    "StatusFerdigbehandletPage": {
+        "tittel": "Your application has been processed"
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
