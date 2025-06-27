@@ -14,21 +14,17 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
     const t = await getTranslations("StatusUnderBehandlingPage");
 
     const harEtterspurteDokumenter = await getOppgaver(id);
-    return (
-        <StatusPage
-            heading={t("tittel")}
-            alert={
-                harEtterspurteDokumenter.data.length > 0 ? (
-                    <StatusAlert
-                        variant="warning"
-                        tittel={t.rich("alert.tittel", {
-                            navKontor: navKontor,
-                            norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        })}
-                        beskrivelse={t("alert.beskrivelse")}
-                    />
-                ) : null
-            }
+
+    const AlertStatus = () => (
+        <StatusAlert
+            variant="warning"
+            tittel={t.rich("alert.tittel", {
+                navKontor: navKontor,
+                norsk: (chunks) => <span lang="no">{chunks}</span>,
+            })}
+            beskrivelse={t("alert.beskrivelse")}
         />
     );
+
+    return <StatusPage heading={t("tittel")} alert={harEtterspurteDokumenter.data.length > 0 ? AlertStatus() : null} />;
 };
