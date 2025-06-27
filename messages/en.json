@@ -28,11 +28,7 @@
         }
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Your application has been processed",
-        "alert": {
-            "tittel": "",
-            "beskrivelse": ""
-        }
+        "tittel": "Your application has been processed"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"

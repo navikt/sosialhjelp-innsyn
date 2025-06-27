@@ -13,12 +13,12 @@ interface Props {
 export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
     const t = await getTranslations("StatusUnderBehandlingPage");
 
-    const harEtterspurteDokumenter = await getOppgaver(id);
+    const oppgaver = await getOppgaver(id);
     return (
         <StatusPage
             heading={t("tittel")}
             alert={
-                harEtterspurteDokumenter.data.length > 0 ? (
+                oppgaver.data.length > 0 ? (
                     <StatusAlert
                         variant="warning"
                         tittel={t.rich("alert.tittel", {

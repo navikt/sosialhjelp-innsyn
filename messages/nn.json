@@ -27,11 +27,7 @@
         }
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Søknaden din er ferdigbehandla",
-        "alert": {
-            "tittel": "",
-            "beskrivelse": ""
-        }
+        "tittel": "Søknaden din er ferdigbehandla"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
