@@ -8,7 +8,7 @@
     "StatusSendtPage": {
         "tittel": "Søknaden din er send",
         "alert": {
-            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
+            "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
             "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
         }
     },
@@ -31,6 +31,36 @@
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
+    },
+    "Oversikt": {
+        "tittel": "Oversikt"
+    },
+    "OversiktSteps": {
+        "SendtStep": {
+            "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
+            "visSoknaden": "Vis søknaden (blir opna i ny fane)"
+        },
+        "MottattStep": {
+            "tittel": "Søknaden er motteken <norsk>{navKontor}</norsk>"
+        },
+        "UnderBehandlingStep": {
+            "completed": {
+                "tittel": "<norsk>{navKontor}</norsk> har byrja å behandle søknaden din"
+            },
+            "uncompleted": {
+                "tittel": "Nav-kontoret behandlar søknaden",
+                "beskrivelse": "Søknaden din blir behandla så fort som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
+            }
+        },
+        "FerdigBehandletStep": {
+            "tittel": "Søknaden din er ferdig behandla",
+            "completed": {
+                "visVedtaket": "Vis vedtaket (blir opna i ny fane)"
+            },
+            "uncompleted": {
+                "beskrivelse": "Du vil få eit vedtak. Les i vedtaket om du har fått innvilga, delvis innvilga eller avslag på økonomisk støtte."
+            }
+        }
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",

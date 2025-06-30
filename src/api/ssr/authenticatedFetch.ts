@@ -36,13 +36,13 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
     const port = getServerEnv().INNSYN_API_PORT;
     const portPart = port ? `:${port}` : "";
     const hostname = getServerEnv().NEXT_INNSYN_API_HOSTNAME;
-    const absoluteUrl = new URL(`http://${hostname}${portPart}/sosialhjelp/innsyn-api` + url);
+    const absoluteUrl = new URL(`http://${hostname}${portPart}/sosialhjelp/innsyn-api${url}`);
 
     const response = await fetch(absoluteUrl, { ...options, headers: await getHeaders(options.headers) });
     if (!response.ok) throw new Error(`Failed to fetch ${absoluteUrl}: ${response.status} ${response.statusText}`);
 
     const data = await getBody(response);
-    return { status: response.status, data, headers: response.headers } as T;
+    return data as T;
 };
 
 export default authenticatedFetch;

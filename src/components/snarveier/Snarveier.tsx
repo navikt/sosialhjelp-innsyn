@@ -17,7 +17,7 @@ const Snarveier = async () => {
         getTranslations("Snarveier"),
     ]);
     const klageFlag = getFlag("sosialhjelp.innsyn.klage_enabled", toggles);
-    if (!utbetalingerResponse.data.length && !alleSakerResponse.data.length && !klageFlag.enabled) {
+    if (!utbetalingerResponse.length && !alleSakerResponse.length && !klageFlag.enabled) {
         return null;
     }
     return (
@@ -25,8 +25,8 @@ const Snarveier = async () => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            {alleSakerResponse.status === 200 && alleSakerResponse.data.length > 0 && <SoknaderSnarvei />}
-            {utbetalingerResponse.status === 200 && utbetalingerResponse.data.length > 0 && <UtbetalingerSnarvei />}
+            {alleSakerResponse.length > 0 && <SoknaderSnarvei />}
+            {utbetalingerResponse.length > 0 && <UtbetalingerSnarvei />}
             {klageFlag.enabled && <KlagerSnarvei />}
         </VStack>
     );

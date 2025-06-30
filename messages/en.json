@@ -1,7 +1,6 @@
 {
     "Landingsside": {
-        "tittel": "Financial assistance",
-        "sokOmSosialhjelp": "Apply for financial assistance"
+        "tittel": "Financial assistance"
     },
     "SoknaderSide": {
         "tittel": "My applications"
@@ -9,7 +8,7 @@
     "StatusSendtPage": {
         "tittel": "Your application has been sent",
         "alert": {
-            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
+            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
             "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
         }
     },
@@ -32,6 +31,36 @@
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
+    },
+    "Oversikt": {
+        "tittel": "Overview"
+    },
+    "OversiktSteps": {
+        "SendtStep": {
+            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
+            "visSoknaden": "View application (opens in a new tab)"
+        },
+        "MottattStep": {
+            "tittel": "The application has been received at <norsk>{navKontor}</norsk>"
+        },
+        "UnderBehandlingStep": {
+            "completed": {
+                "tittel": "<norsk>{navKontor}</norsk> has started processing your application"
+            },
+            "uncompleted": {
+                "tittel": "The Nav office will process the application",
+                "beskrivelse": "Your application will be processed as soon as possible. The Nav office will contact you if they need more information or more documentation."
+            }
+        },
+        "FerdigBehandletStep": {
+            "tittel": "Your application has been processed.",
+            "completed": {
+                "visVedtaket": "View the decision (opens in new tab)"
+            },
+            "uncompleted": {
+                "beskrivelse": "You will receive a decision. Read in the decision whether you have been granted, partially granted or refused financial support."
+            }
+        }
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",

@@ -63,7 +63,7 @@ module.exports = withNextIntl({
         styledComponents: { ssr: true, displayName: true },
     },
     ...nextConfig,
-    webpack: (config) => {
+    turbopack: (config) => {
         // Unset client-side javascript that only works server-side
         config.resolve.fallback = { fs: false, module: false, path: false };
         return config;

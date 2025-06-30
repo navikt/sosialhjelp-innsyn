@@ -1,7 +1,7 @@
 "use client";
 
 import React, { PropsWithChildren } from "react";
-import { DehydratedState, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import Cookies from "js-cookie";
@@ -27,17 +27,44 @@ configureLogger({
 logBrukerDefaultLanguage(Cookies.get("decorator-language"));
 
 interface Props {
-    dehydratedState?: DehydratedState;
     toggles: IToggle[];
     tilgang?: TilgangResponse;
 }
 
-const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChildren<Props>) => {
+function makeQueryClient() {
+    return new QueryClient({
+        defaultOptions: {
+            queries: {
+                // With SSR, we usually want to set some default staleTime
+                // above 0 to avoid refetching immediately on the client
+                staleTime: 60 * 1000,
+            },
+        },
+    });
+}
+
+let browserQueryClient: QueryClient | undefined = undefined;
+
+function getQueryClient() {
+    if (isServer) {
+        // Server: always make a new query client
+        return makeQueryClient();
+    } else {
+        // Browser: make a new query client if we don't already have one
+        // This is very important, so we don't re-make a new client if React
+        // suspends during the initial render. This may not be needed if we
+        // have a suspense boundary BELOW the creation of the query client
+        if (!browserQueryClient) browserQueryClient = makeQueryClient();
+        return browserQueryClient;
+    }
+}
+
+const Providers = ({ toggles, tilgang, children }: PropsWithChildren<Props>) => {
     const router = useRouter();
     const pathname = usePathname();
     useSetBreadcrumbs();
     // Default options for query clienten blir satt i orval.config.ts
-    const [queryClient] = React.useState(() => new QueryClient());
+    const queryClient = getQueryClient();
 
     onLanguageSelect(async (option) => {
         logBrukerSpraakChange(option.locale);
@@ -48,11 +75,9 @@ const Providers = ({ dehydratedState, toggles, tilgang, children }: PropsWithChi
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
     return (
         <QueryClientProvider client={queryClient}>
-            <HydrationBoundary state={dehydratedState}>
-                <FlagProvider toggles={toggles}>
-                    <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
-                </FlagProvider>
-            </HydrationBoundary>
+            <FlagProvider toggles={toggles}>
+                <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
+            </FlagProvider>
         </QueryClientProvider>
     );
 };
