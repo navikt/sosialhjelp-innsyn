@@ -19,7 +19,6 @@ import MainLayout from "../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../../pagehandler/pageHandler";
 import { extractAuthHeader } from "../../utils/authUtils";
-import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
 import { browserEnv } from "../../config/env";
 
 const Preamble = styled("div")`
@@ -49,7 +48,6 @@ const Saksoversikt: NextPage = () => {
                                 <BodyShort>{t("soknaderUtenVedlegg.forside")}</BodyShort>
                             </Alert>
                         )}
-                        <UxSignalsWidget embedCode="panel-0zd044zz4a" />
                     </Preamble>
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>
