@@ -71,6 +71,20 @@
             "tittel": "Du leverte etterspurte dokumenter"
         }
     },
+    "Opplastingsboks": {
+        "tittel": "Vil du sende inn flere dokumenter?",
+        "beskrivelse": "Dersom du har flere dokumenter som kan være viktige for søknaden din, kan du laste de opp her.",
+        "dragAndDrop": "Dra og slipp filer her",
+        "eller": "eller",
+        "button": "Velg filer",
+        "uploading": "Laster opp...",
+        "delete": "Fjern fil",
+        "sendInn": "Send dokumentasjon",
+        "filerTilOpplasting": "Filer til opplasting"
+    },
+    "Dokumenter": {
+        "tittel": "Dokumenter"
+    },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."

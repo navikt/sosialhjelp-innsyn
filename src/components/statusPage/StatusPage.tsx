@@ -5,6 +5,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { prefetchHentHendelserBetaQuery } from "../../generated/ssr/hendelse-controller/hendelse-controller";
 
 import Oversikt from "./oversikt/Oversikt";
+import Dokumenter from "./dokumenter/Dokumenter";
 
 interface Props {
     heading: ReactNode;
@@ -27,6 +28,7 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <Oversikt />
             </HydrationBoundary>
+            <Dokumenter id={id}/>
         </VStack>
     );
 };
