@@ -2,7 +2,11 @@ import { getTranslations } from "next-intl/server";
 
 import { StatusPage } from "./StatusPage";
 
-export const StatusFerdigbehandletPage = async () => {
+interface Props {
+    id: string;
+}
+
+export const StatusFerdigbehandletPage = async ({ id }: Props) => {
     const t = await getTranslations("StatusFerdigbehandletPage");
-    return <StatusPage heading={t("tittel")} />;
+    return <StatusPage heading={t("tittel")} id={id} />;
 };

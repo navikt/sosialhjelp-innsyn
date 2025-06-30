@@ -6,12 +6,14 @@ import { StatusPage } from "./StatusPage";
 
 interface Props {
     navKontor: string;
+    id: string;
 }
 
-export const StatusMottattPage = async ({ navKontor }: Props) => {
+export const StatusMottattPage = async ({ navKontor, id }: Props) => {
     const t = await getTranslations("StatusMottattPage");
     return (
         <StatusPage
+            id={id}
             heading={t("tittel")}
             alert={
                 <StatusAlert

@@ -252,6 +252,46 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/hendelser/beta": {
+            "get": {
+                "tags": ["hendelse-controller"],
+                "operationId": "hentHendelserBeta",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "oneOf": [
+                                            { "$ref": "#/components/schemas/BehandlesIkke" },
+                                            { "$ref": "#/components/schemas/DokumentasjonKrav" },
+                                            { "$ref": "#/components/schemas/EtterspurtDokumentasjon" },
+                                            { "$ref": "#/components/schemas/ForelopigSvarHendelse" },
+                                            { "$ref": "#/components/schemas/LevertEtterspurtDokumentasjon" },
+                                            { "$ref": "#/components/schemas/Mottatt" },
+                                            { "$ref": "#/components/schemas/SakFerdigBehandlet" },
+                                            { "$ref": "#/components/schemas/SakKanIkkeViseStatus" },
+                                            { "$ref": "#/components/schemas/SakUnderBehandling" },
+                                            { "$ref": "#/components/schemas/Sendt" },
+                                            { "$ref": "#/components/schemas/SoknadFerdigBehandlet" },
+                                            { "$ref": "#/components/schemas/SoknadKanIkkeViseStatus" },
+                                            { "$ref": "#/components/schemas/SoknadUnderBehandling" },
+                                            { "$ref": "#/components/schemas/UtbetalingerOppdatert" },
+                                            { "$ref": "#/components/schemas/Videresendt" }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/hendelser": {
             "get": {
                 "tags": ["hendelse-controller"],
@@ -720,6 +760,139 @@
                 },
                 "required": ["klageUrl", "paaklagetVedtakRefs", "status"]
             },
+            "BehandlesIkke": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
+            "DokumentasjonKrav": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "link": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "EtterspurtDokumentasjon": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "link": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "ForelopigSvarHendelse": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "link": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "HendelseDto": {
+                "type": "object",
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "Sendt": "#/components/schemas/Sendt",
+                        "Mottatt": "#/components/schemas/Mottatt",
+                        "SoknadUnderBehandling": "#/components/schemas/SoknadUnderBehandling",
+                        "SakUnderBehandling": "#/components/schemas/SakUnderBehandling",
+                        "EtterspurtDokumentasjon": "#/components/schemas/EtterspurtDokumentasjon",
+                        "DokumentasjonKrav": "#/components/schemas/DokumentasjonKrav",
+                        "LevertEtterspurtDokumentasjon": "#/components/schemas/LevertEtterspurtDokumentasjon",
+                        "SoknadFerdigBehandlet": "#/components/schemas/SoknadFerdigBehandlet",
+                        "SakFerdigBehandlet": "#/components/schemas/SakFerdigBehandlet",
+                        "ForelopigSvar": "#/components/schemas/ForelopigSvarHendelse",
+                        "BehandlesIkke": "#/components/schemas/BehandlesIkke",
+                        "Videresendt": "#/components/schemas/Videresendt",
+                        "SoknadKanIkkeViseStatus": "#/components/schemas/SoknadKanIkkeViseStatus",
+                        "SakKanIkkeViseStatus": "#/components/schemas/SakKanIkkeViseStatus",
+                        "UtbetalingerOppdatert": "#/components/schemas/UtbetalingerOppdatert"
+                    }
+                },
+                "properties": {
+                    "tidspunkt": { "type": "string", "format": "date-time" },
+                    "type": { "type": "string" }
+                },
+                "required": ["tidspunkt", "type"]
+            },
+            "LevertEtterspurtDokumentasjon": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "antallDokumenter": { "type": "integer", "format": "int32" } } }
+                ],
+                "required": ["antallDokumenter", "tidspunkt"]
+            },
+            "Mottatt": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "navKontor": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "SakFerdigBehandlet": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    {
+                        "type": "object",
+                        "properties": { "sakstittel": { "type": "string" }, "url": { "type": "string" } }
+                    }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "SakKanIkkeViseStatus": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "sakstittel": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "SakUnderBehandling": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "sakstittel": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "Sendt": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    {
+                        "type": "object",
+                        "properties": { "navKontor": { "type": "string" }, "url": { "type": "string" } }
+                    }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "SoknadFerdigBehandlet": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "url": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "SoknadKanIkkeViseStatus": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "soknadstittel": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "SoknadUnderBehandling": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    { "type": "object", "properties": { "navKontor": { "type": "string" } } }
+                ],
+                "required": ["tidspunkt"]
+            },
+            "UtbetalingerOppdatert": {
+                "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }],
+                "required": ["tidspunkt"]
+            },
+            "Videresendt": {
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    {
+                        "type": "object",
+                        "properties": { "navKontor": { "type": "string" }, "papirsoknad": { "type": "boolean" } }
+                    }
+                ],
+                "required": ["papirsoknad", "tidspunkt"]
+            },
             "HendelseResponse": {
                 "type": "object",
                 "properties": {
@@ -886,7 +1059,6 @@
                     "dokumentasjonkrav",
                     "fiksDigisosId",
                     "forelopigSvar",
-                    "forsteOppgaveFrist",
                     "saker",
                     "soknadTittel",
                     "status",

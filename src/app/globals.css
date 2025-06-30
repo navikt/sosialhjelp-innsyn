@@ -12,3 +12,9 @@ body {
 #decorator-header {
     border-bottom: 1px solid var(--a-border-subtle);
 }
+
+/* "Hack" for å skjule tallet i Stepper (søknadsoversikt) */
+.navds-stepper__circle {
+    color: var(--a-bg-default);
+    border-color: var(--a-text-default);
+}

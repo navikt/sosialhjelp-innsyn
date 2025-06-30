@@ -1,6 +1,7 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import * as R from "remeda";
+import { logger } from "@navikt/next-logger";
 
 import { hentAlleSaker } from "../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
 import fetchPaabegynteSaker from "../../api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
@@ -22,16 +23,20 @@ export interface PaabegyntSoknad {
     soknadId: string;
 }
 
+const fetchSaker = async () => {
+    try {
+        return hentAlleSaker();
+    } catch (e: unknown) {
+        logger.error(`Fikk feil under henting av alle saker. Feil: ${e}`);
+        return [];
+    }
+};
+
 const AktiveSoknader = async () => {
     const t = await getTranslations("AktiveSoknader");
-    const [alleSakerResponse, paabegynteSaker] = await Promise.all([hentAlleSaker(), fetchPaabegynteSaker()]);
+    const [innsendteSoknader, paabegynteSaker] = await Promise.all([fetchSaker(), fetchPaabegynteSaker()]);
 
-    const innsendteSoknader = alleSakerResponse.status === 200 ? alleSakerResponse.data : [];
-
-    const soknadsdetaljerResponses = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
-    const soknadsdetaljer = soknadsdetaljerResponses
-        .filter((response) => response.status === 200)
-        .map((response) => response.data);
+    const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
 
     const sorted = filterAndSort(
         innsendteSoknader,

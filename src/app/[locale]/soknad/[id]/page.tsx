@@ -7,6 +7,8 @@ import { StatusMottattPage } from "../../../../components/statusPage/StatusMotta
 import { StatusUnderBehandlingPage } from "../../../../components/statusPage/StatusUnderBehandlingPage";
 import { StatusFerdigbehandletPage } from "../../../../components/statusPage/StatusFerdigbehandletPage";
 
+export const dynamic = "force-dynamic";
+
 const Page = async ({
     params,
 }: {
@@ -21,20 +23,20 @@ const Page = async ({
     const { id } = await params;
 
     const soknadsStatusResponse = await hentSoknadsStatus(id);
-    if (soknadsStatusResponse.data.status === "SENDT") {
-        return <StatusSendtPage navKontor={soknadsStatusResponse.data.navKontor ?? "et navkontor"} />;
+    if (soknadsStatusResponse.status === "SENDT") {
+        return <StatusSendtPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
     }
 
-    if (soknadsStatusResponse.data.status === "MOTTATT") {
-        return <StatusMottattPage navKontor={soknadsStatusResponse.data.navKontor ?? "et navkontor"} />;
+    if (soknadsStatusResponse.status === "MOTTATT") {
+        return <StatusMottattPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
     }
 
-    if (soknadsStatusResponse.data.status === "UNDER_BEHANDLING") {
-        return <StatusUnderBehandlingPage navKontor={soknadsStatusResponse.data.navKontor ?? "et navkontor"} id={id} />;
+    if (soknadsStatusResponse.status === "UNDER_BEHANDLING") {
+        return <StatusUnderBehandlingPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
     }
 
-    if (soknadsStatusResponse.data.status === "FERDIGBEHANDLET") {
-        return <StatusFerdigbehandletPage />;
+    if (soknadsStatusResponse.status === "FERDIGBEHANDLET") {
+        return <StatusFerdigbehandletPage id={id} />;
     }
 
     return notFound();
