@@ -8,11 +8,11 @@ export type CompleteCrumb = Parameters<typeof setBreadcrumbs>[0][0];
 
 export const getBaseCrumbs = (t?: (t: string) => string): [CompleteCrumb, CompleteCrumb] => [
     {
-        title: t?.("min_side") ?? "Min side",
+        title: t?.("MinSide") ?? "Min side",
         url: "https://www.nav.no/minside",
     },
     {
-        title: t?.("app.tittel") ?? "Økonomisk sosialhjelp",
+        title: t?.("Sosialhjelp") ?? "Økonomisk sosialhjelp",
         url: "/",
         handleInApp: true,
     },

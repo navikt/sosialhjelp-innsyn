@@ -77,6 +77,10 @@
         "tittel": "Klage på vedtak",
         "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
     },
+    "Breadcrumbs": {
+        "MinSide": "Min side",
+        "Sosialhjelp": "Økonomisk sosialhjelp"
+    },
     "common": {
         "app": {
             "tittel": "Økonomisk sosialhjelp"
