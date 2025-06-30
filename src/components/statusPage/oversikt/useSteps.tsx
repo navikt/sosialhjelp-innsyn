@@ -7,6 +7,9 @@ import SendtStep from "./steps/SendtStep";
 import MottattStep from "./steps/MottattStep";
 import UnderBehandlingStep from "./steps/UnderBehandlingStep";
 import FerdigBehandletStep from "./steps/FerdigBehandletStep";
+import ForelopigSvarStep from "./steps/ForelopigSvarStep";
+import EtterspurtDokumentasjonStep from "./steps/EtterspurtDokumentasjonStep";
+import EtterspurtDokumentasjonLevertStep from "./steps/EtterspurtDokumentasjonLevertStep";
 
 const useSteps = () => {
     const { id } = useParams<{ id: string }>();
@@ -42,6 +45,22 @@ const useSteps = () => {
                     return (
                         <FerdigBehandletStep completed url={hendelse.url} tidspunkt={new Date(hendelse.tidspunkt)} />
                     );
+                case "ForelopigSvar":
+                    return (
+                        <ForelopigSvarStep
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                            navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
+                        />
+                    );
+                case "EtterspurtDokumentasjon":
+                    return (
+                        <EtterspurtDokumentasjonStep
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                            navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
+                        />
+                    );
+                case "LevertEtterspurtDokumentasjon":
+                    return <EtterspurtDokumentasjonLevertStep tidspunkt={new Date(hendelse.tidspunkt)} />;
             }
         }),
         R.filter((step) => !!step)

@@ -60,6 +60,15 @@
             "uncompleted": {
                 "beskrivelse": "You will receive a decision. Read in the decision whether you have been granted, partially granted or refused financial support."
             }
+        },
+        "ForelopigSvarStep": {
+            "tittel": "<norsk>{navKontor}</norsk> has sent you a letter about the processing time for your application"
+        },
+        "EtterspurtDokumentasjonStep": {
+            "tittel": "<norsk>{navKontor}</norsk> needs more information on your case"
+        },
+        "EtterspurtDokumentasjonLevertStep": {
+            "tittel": "You provided requested documents"
         }
     },
     "Metadata": {

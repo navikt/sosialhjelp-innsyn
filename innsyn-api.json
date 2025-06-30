@@ -771,14 +771,20 @@
             "EtterspurtDokumentasjon": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "link": { "type": "string" } } }
+                    {
+                        "type": "object",
+                        "properties": { "link": { "type": "string" }, "navKontor": { "type": "string" } }
+                    }
                 ],
                 "required": ["tidspunkt"]
             },
             "ForelopigSvarHendelse": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "link": { "type": "string" } } }
+                    {
+                        "type": "object",
+                        "properties": { "link": { "type": "string" }, "navKontor": { "type": "string" } }
+                    }
                 ],
                 "required": ["tidspunkt"]
             },

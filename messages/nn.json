@@ -60,6 +60,15 @@
             "uncompleted": {
                 "beskrivelse": "Du vil få eit vedtak. Les i vedtaket om du har fått innvilga, delvis innvilga eller avslag på økonomisk støtte."
             }
+        },
+        "ForelopigSvarStep": {
+            "tittel": "<norsk>{navKontor}</norsk> har sendt deg eit brev om saksbehandlingstida for søknaden din"
+        },
+        "EtterspurtDokumentasjonStep": {
+            "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di"
+        },
+        "EtterspurtDokumentasjonLevertStep": {
+            "tittel": "Du leverte etterspurde dokument"
         }
     },
     "Metadata": {
