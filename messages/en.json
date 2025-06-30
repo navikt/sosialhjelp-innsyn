@@ -71,6 +71,20 @@
             "tittel": "You provided requested documents"
         }
     },
+    "Opplastingsboks": {
+        "tittel": "Do you want to submit more documents?",
+        "beskrivelse": "If you have additional documents that may be important for your application, you can upload them here.",
+        "dragAndDrop": "Drag and drop files here",
+        "eller": "or",
+        "button": "Choose files",
+        "uploading": "Uploading...",
+        "delete": "Remove file",
+        "sendInn": "Send documentation",
+        "filerTilOpplasting": "Files for upload"
+    },
+    "Dokumenter": {
+        "tittel": "Documents"
+    },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."

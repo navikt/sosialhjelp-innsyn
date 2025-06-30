@@ -3,8 +3,9 @@ import path from "path";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import { logger } from "@navikt/next-logger";
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { useNavigationGuard } from "next-navigation-guard";
 
 import {
     logAmplitudeEvent,
@@ -19,7 +20,6 @@ import {
     sendVedlegg,
     useSendVedlegg,
 } from "../../generated/vedlegg-controller/vedlegg-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import {
     getHentHendelserBetaQueryKey,
     getHentHendelserQueryKey,
@@ -29,6 +29,7 @@ import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
 
 export interface FancyFile {
     file: File;
+    error?: Feil;
     uuid: string;
 }
 
@@ -95,14 +96,6 @@ function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | und
 const recordFromMetadatas = (metadatas: Metadata[]) =>
     metadatas.reduce((acc, curr, currentIndex) => ({ ...acc, [currentIndex]: [] }), {});
 
-const isSpraakChanging = (url: string, fiksDigisosId: string) => {
-    return (
-        (url.startsWith("/sosialhjelp/innsyn/") && url.includes(fiksDigisosId)) ||
-        (url.startsWith("/sosialhjelp/innsyn/nn") && url.includes(fiksDigisosId)) ||
-        (url.startsWith("/sosialhjelp/innsyn/en") && url.includes(fiksDigisosId))
-    );
-};
-
 const useFilOpplasting = (
     metadatas: Metadata[],
     options?: UseMutationOptions<
@@ -113,108 +106,67 @@ const useFilOpplasting = (
 ) => {
     const t = useTranslations("common");
     const queryClient = useQueryClient();
-    const fiksDigisosId = useFiksDigisosId();
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { isPending, mutate, error, isError, data } = useSendVedlegg();
 
     const [files, setFiles] = useState<Record<number, FancyFile[]>>(recordFromMetadatas(metadatas));
-    const [innerErrors, setInnerErrors] = useState<Record<number, Error[]>>(recordFromMetadatas(metadatas));
+    useNavigationGuard({
+        enabled: Object.values(files).flat().length > 0,
+        confirm: () => {
+            logBrukerLeavingBeforeSubmitting();
+            return window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"));
+        },
+    });
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
     const { setOppgaverUploadSuccess, setEttersendelseUploadSuccess } = useFilUploadSuccessful();
-    const router = useRouter();
 
     const resetStatus = useCallback(() => {
-        setInnerErrors(recordFromMetadatas(metadatas));
         setOuterErrors([]);
         setEttersendelseUploadSuccess(false);
         setOppgaverUploadSuccess(false);
-    }, [metadatas, setInnerErrors, setOuterErrors, setOppgaverUploadSuccess, setEttersendelseUploadSuccess]);
+    }, [setOuterErrors, setOppgaverUploadSuccess, setEttersendelseUploadSuccess]);
 
     const reset = useCallback(() => {
         setFiles(recordFromMetadatas(metadatas));
-        setInnerErrors(recordFromMetadatas(metadatas));
         setOuterErrors([]);
-    }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
+    }, [metadatas, setFiles, setOuterErrors]);
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
-    const [leaveConfirmed, setLeaveConfirmed] = useState(false);
-
-    useEffect(() => {
-        const beforeUnloadHandler = (event: WindowEventMap["beforeunload"]) => {
-            if (!allFiles.length) return;
-            event.preventDefault();
-            event.returnValue = "";
-            logBrukerLeavingBeforeSubmitting();
-            return "";
-        };
-        const beforeRouteHandler = (url: string) => {
-            if (!allFiles.length) {
-                return;
-            }
-
-            if (isSpraakChanging(url, fiksDigisosId)) {
-                return;
-            }
-
-            if (leaveConfirmed) {
-                return;
-            }
-
-            logBrukerLeavingBeforeSubmitting();
-            if (window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
-                setLeaveConfirmed(true);
-            } else {
-                router.events.emit("routeChangeError", url);
-                throw `Route change was aborted (this error can be safely ignored)`;
-            }
-        };
-
-        window.addEventListener("beforeunload", beforeUnloadHandler);
-        router.events.on("routeChangeStart", beforeRouteHandler);
-
-        return () => {
-            setLeaveConfirmed(false);
-            window.removeEventListener("beforeunload", beforeUnloadHandler);
-            router.events.off("routeChangeStart", beforeRouteHandler);
-        };
-    }, [allFiles, fiksDigisosId, leaveConfirmed, router.events, t]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
-            const _errors: (Error | ErrorWithFile)[] = [];
             logDuplicatedFiles(_files);
-            const validFiles = _files.filter((file) => {
-                let valid = true;
+            const filesWithError: FancyFile[] = _files.map((file) => {
+                const fancyFile = { file, uuid: crypto.randomUUID() };
                 if (file.size > maxFileSize) {
-                    _errors.push({ fil: file, feil: Feil.FILE_TOO_LARGE });
-                    valid = false;
+                    return { ...fancyFile, error: Feil.FILE_TOO_LARGE };
                 }
                 if (containsIllegalCharacters(file.name)) {
-                    _errors.push({ fil: file, feil: Feil.ILLEGAL_FILE_NAME });
-                    valid = false;
+                    return { ...fancyFile, error: Feil.ILLEGAL_FILE_NAME };
                 }
-                return valid;
+                return { file, uuid: crypto.randomUUID() };
             });
 
+            const outerErrors: Error[] = [];
             if (
                 _files.concat(files[index].map((it) => it.file)).reduce((acc, curr) => acc + curr.size, 0) >
                 maxCombinedFileSize
             ) {
-                _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
+                outerErrors.push({ feil: Feil.COMBINED_TOO_LARGE });
             }
             const totalFiles = _files.length + Object.values(files).flat().length;
             if (totalFiles > maxFileCount) {
                 logger.info(`Bruker prøver å laste opp for mange filer: ${totalFiles}`);
-                _errors.push({ feil: Feil.TOO_MANY_FILES });
+                outerErrors.push({ feil: Feil.TOO_MANY_FILES });
             }
             setFiles((prev) => ({
                 ...prev,
-                [index]: [...prev[index], ...validFiles.map((it) => ({ file: it, uuid: crypto.randomUUID() }))],
+                [index]: [...prev[index], ...filesWithError],
             }));
 
-            setInnerErrors((prev) => ({ ...prev, [index]: _errors }));
-            setOuterErrors([]);
+            setOuterErrors(outerErrors);
         },
-        [files, setInnerErrors, setFiles]
+        [files, setFiles]
     );
 
     const removeFil = useCallback(
@@ -232,10 +184,9 @@ const useFilOpplasting = (
             if (_files.length - 1 > maxFileCount) {
                 _errors.push({ feil: Feil.TOO_MANY_FILES });
             }
-
-            setInnerErrors((prev) => ({ ...prev, [index]: _errors }));
+            setOuterErrors(() => _errors);
         },
-        [setFiles, files, setInnerErrors]
+        [setFiles, files]
     );
 
     const upload = useCallback(async () => {
@@ -331,7 +282,6 @@ const useFilOpplasting = (
 
     return {
         mutation: { isLoading: isPending, isError, error, data },
-        innerErrors,
         outerErrors,
         upload,
         files,
