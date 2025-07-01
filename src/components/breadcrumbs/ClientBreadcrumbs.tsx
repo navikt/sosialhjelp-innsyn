@@ -1,10 +1,10 @@
 "use client";
 
-import { Breadcrumb } from "../../utils/breadcrumbs";
+import { Breadcrumb, LastCrumb } from "../../utils/breadcrumbs";
 import { useSetBreadcrumbs } from "../../hooks/useUpdateBreadcrumbs";
 
 interface ClientBreadcrumbsProps {
-    dynamicBreadcrumbs?: Breadcrumb[];
+    dynamicBreadcrumbs?: (Breadcrumb | LastCrumb)[];
 }
 const ClientBreadcrumbs = ({ dynamicBreadcrumbs }: ClientBreadcrumbsProps) => {
     useSetBreadcrumbs(dynamicBreadcrumbs);

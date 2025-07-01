@@ -45,7 +45,7 @@ export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCru
     }, deps);
 }
 
-export const useSetBreadcrumbs = (dynamicBreadcrumbs: Breadcrumb[] = []) => {
+export const useSetBreadcrumbs = (dynamicBreadcrumbs: (Breadcrumb | LastCrumb)[] = []) => {
     const t = useTranslations("Breadcrumbs");
 
     useEffect(() => {

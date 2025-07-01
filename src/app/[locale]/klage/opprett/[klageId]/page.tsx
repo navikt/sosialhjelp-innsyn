@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Heading } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
 import { getFlag, getToggles } from "../../../../../featuretoggles/unleash";
@@ -16,10 +16,11 @@ const Page = async ({ params }: { params: Promise<{ klageId: string }> }) => {
 
     return (
         <>
-            <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel"), url: `/klage/opprett/${klageId}` }]} />
+            <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
             <Heading size="xlarge" level="1" className="mt-20">
                 {t("tittel")}
             </Heading>
+            <BodyShort>KlageID: {klageId}</BodyShort>
         </>
     );
 };
