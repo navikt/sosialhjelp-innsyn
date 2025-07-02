@@ -7,16 +7,17 @@ import { Messages } from "next-intl";
 import { TilgangResponse } from "../generated/model";
 import { extractAuthHeader } from "../utils/authUtils";
 import { getToggles } from "../featuretoggles/deprecated_pages/unleash";
+import { browserEnv, getServerEnv } from "../config/env";
 
 export interface PageProps {
-    tilgang?: TilgangResponse;
+    tilgang: TilgangResponse | null;
     toggles: IToggle[];
     dehydratedState: DehydratedState | null;
     messages: Messages;
 }
 
 export function buildUrl(path: string) {
-    const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
+    const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
     const portPart = isLocal ? ":8080" : "";
     return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
 }
@@ -35,11 +36,14 @@ const pageHandler = async (
         };
     }
     const { messages, toggles, tilgang } = await getCommonProps(context, token);
+    if (!tilgang && getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {
+        logger.warn("Fikk ikke henta tilgangsdata fra innsyn-api, har du huska å skru på backends?");
+    }
     return {
         props: {
             messages,
             toggles,
-            tilgang,
+            tilgang: tilgang ?? null,
             dehydratedState: queryClient ? dehydrate(queryClient) : null,
         },
     };

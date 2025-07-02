@@ -8,11 +8,11 @@ export type CompleteCrumb = Parameters<typeof setBreadcrumbs>[0][0];
 
 export const getBaseCrumbs = (t?: (t: string) => string): [CompleteCrumb, CompleteCrumb] => [
     {
-        title: t?.("min_side") ?? "Min side",
+        title: t?.("MinSide") ?? "Min side",
         url: "https://www.nav.no/minside",
     },
     {
-        title: t?.("app.tittel") ?? "Økonomisk sosialhjelp",
+        title: t?.("Sosialhjelp") ?? "Økonomisk sosialhjelp",
         url: "/",
         handleInApp: true,
     },
@@ -24,6 +24,9 @@ enum PathVariants {
     ServerError = "/500",
     Landingsside = "/landingsside",
     Error = "/_error",
+    OpprettKlage = "/klage/opprett/",
+    Soknader = "/soknader",
+    Soknad = "/soknad",
 }
 
 function removeLocales(path: string): string {
@@ -31,12 +34,21 @@ function removeLocales(path: string): string {
     return path.replace(localeRegex, "");
 }
 
-export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[] => {
+export const getAppBreadcrumbs = (pathname?: PathVariants | string): [...Breadcrumb[], LastCrumb] | [] => {
     if (!pathname) {
         return [];
     }
 
     const cleanedPath = removeLocales(pathname);
+
+    //TODO: Make a better way to handle dynamic paths
+    if (cleanedPath.startsWith(PathVariants.OpprettKlage)) {
+        return [{ title: "Opprett klage" }];
+    }
+
+    if (cleanedPath.startsWith(PathVariants.Soknad)) {
+        return [{ title: "Status" }];
+    }
 
     switch (cleanedPath) {
         case PathVariants.Error:
@@ -48,6 +60,8 @@ export const getAppBreadcrumbs = (pathname?: PathVariants | string): Breadcrumb[
             return [];
         case PathVariants.Landingsside:
             return [];
+        case PathVariants.Soknader:
+            return [{ title: "Mine søknader" }];
         default:
             throw new Error("Unknown path");
     }

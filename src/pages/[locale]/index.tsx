@@ -18,9 +18,8 @@ import SaksoversiktIngenSoknader from "../../saksoversikt/SaksoversiktIngenSokna
 import MainLayout from "../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
 import pageHandler from "../../pagehandler/pageHandler";
-import { useSakslisteDebug } from "../../hooks/useSakslisteDebug";
 import { extractAuthHeader } from "../../utils/authUtils";
-import UxSignalsWidget from "../../components/widgets/UxSignalsWidget";
+import { browserEnv } from "../../config/env";
 
 const Preamble = styled("div")`
     margin-bottom: 1.5rem;
@@ -30,8 +29,7 @@ const Saksoversikt: NextPage = () => {
     const t = useTranslations("common");
     useUpdateBreadcrumbs(() => []);
 
-    const { data: saker, isLoading, error, status, failureReason } = useHentAlleSaker();
-    useSakslisteDebug({ saker, isLoading, error, status, failureReason });
+    const { data: saker, isLoading, error } = useHentAlleSaker();
 
     return (
         <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
@@ -50,7 +48,6 @@ const Saksoversikt: NextPage = () => {
                                 <BodyShort>{t("soknaderUtenVedlegg.forside")}</BodyShort>
                             </Alert>
                         )}
-                        <UxSignalsWidget embedCode="panel-0zd044zz4a" />
                     </Preamble>
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>
@@ -98,7 +95,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<{ lo
 };
 
 function buildUrl() {
-    const isLocal = "local" === process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT;
+    const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
     const portPart = isLocal ? ":8080" : "";
     return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn/saker`;
 }

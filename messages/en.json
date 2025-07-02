@@ -1,4 +1,142 @@
 {
+    "Landingsside": {
+        "tittel": "Financial assistance"
+    },
+    "SoknaderSide": {
+        "tittel": "My applications"
+    },
+    "StatusSendtPage": {
+        "tittel": "Your application has been sent",
+        "alert": {
+            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        }
+    },
+    "StatusMottattPage": {
+        "tittel": "You application has been received",
+        "alert": {
+            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        }
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Your application is being processed",
+        "alert": {
+            "tittel": "The Nav-kontor needs more documents to process your case.",
+            "beskrivelse": "If you have already submitted the requested documents directly to the Nav-kontor, you can ignore this message."
+        }
+    },
+    "StatusFerdigbehandletPage": {
+        "tittel": "Your application has been processed"
+    },
+    "SokButton": {
+        "sokOmSosialhjelp": "Apply for financial assistance"
+    },
+    "Oversikt": {
+        "tittel": "Overview"
+    },
+    "OversiktSteps": {
+        "SendtStep": {
+            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
+            "visSoknaden": "View application (opens in a new tab)"
+        },
+        "MottattStep": {
+            "tittel": "The application has been received at <norsk>{navKontor}</norsk>"
+        },
+        "UnderBehandlingStep": {
+            "completed": {
+                "tittel": "<norsk>{navKontor}</norsk> has started processing your application"
+            },
+            "uncompleted": {
+                "tittel": "The Nav office will process the application",
+                "beskrivelse": "Your application will be processed as soon as possible. The Nav office will contact you if they need more information or more documentation."
+            }
+        },
+        "FerdigBehandletStep": {
+            "tittel": "Your application has been processed.",
+            "completed": {
+                "visVedtaket": "View the decision (opens in new tab)"
+            },
+            "uncompleted": {
+                "beskrivelse": "You will receive a decision. Read in the decision whether you have been granted, partially granted or refused financial support."
+            }
+        },
+        "ForelopigSvarStep": {
+            "tittel": "<norsk>{navKontor}</norsk> has sent you a letter about the processing time for your application"
+        },
+        "EtterspurtDokumentasjonStep": {
+            "tittel": "<norsk>{navKontor}</norsk> needs more information on your case"
+        },
+        "EtterspurtDokumentasjonLevertStep": {
+            "tittel": "You provided requested documents"
+        }
+    },
+    "Metadata": {
+        "tittel": "Financial assistance - nav.no",
+        "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
+    },
+    "AktiveSoknader": {
+        "tittel": "Active applications",
+        "EmptyState": {
+            "tittel": "You currently have no applications for financial social assistance",
+            "beskrivelse": "If you apply for financial social assistance, you will be able to find your applications here."
+        },
+        "visAlle": "Show all",
+        "visFærre": "Show less"
+    },
+    "TidligereSoknader": {
+        "tittel": "Previous applications"
+    },
+    "StatusCard": {
+        "MottattCard": {
+            "title": "Application for financial social assistance",
+            "description": "Received {date, date, ::ddMMyyyy}"
+        },
+        "SendtCard": {
+            "title": "Application for financial social assistance",
+            "description": "Sent {date, date, ::ddMMyyyy}"
+        },
+        "PaabegyntCard": {
+            "title": "Begun application for financial social assistance",
+            "description": "The application is kept until {date, date, ::ddMMyyyy}"
+        },
+        "VedtakCard": {
+            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decision"
+        },
+        "VilkarCard": {
+            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
+        },
+        "OppgaveCard": {
+            "description": "You need to deliver more information by {date, date, ::ddMMyyyy}",
+            "descriptionUtenFrist": "You need to deliver more information"
+        },
+        "UnderBehandlingCard": {
+            "description": "Being processed"
+        },
+        "ForelopigSvarCard": {
+            "description": "You have received a letter about the processing time for your application."
+        }
+    },
+    "Snarveier": {
+        "tittel": "Shortcuts",
+        "soknader": "Applications",
+        "utbetalinger": "Payments",
+        "klager": "Complaints"
+    },
+    "NyttigInformasjon": {
+        "tittel": "Useful information",
+        "endringer": "How to report changes",
+        "klagerettigheter": "Your right to complain",
+        "personopplysninger": "How we process your personal data"
+    },
+    "NyKlagePage": {
+        "tittel": "Appeal the decision",
+        "beskrivelse": "Appeal the decision regarding financial social assistance."
+    },
+    "Breadcrumbs": {
+        "MinSide": "My page",
+        "Sosialhjelp": "Financial assistance"
+    },
     "common": {
         "app": { "tittel": "Financial assistance" },
         "historikk": {

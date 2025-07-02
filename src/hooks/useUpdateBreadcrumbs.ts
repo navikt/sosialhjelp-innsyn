@@ -2,9 +2,8 @@ import { setBreadcrumbs } from "@navikt/nav-dekoratoren-moduler";
 import { DependencyList, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
-import { usePathname } from "next/navigation";
 
-import { Breadcrumb, LastCrumb, CompleteCrumb, getBaseCrumbs, getAppBreadcrumbs } from "../utils/breadcrumbs";
+import { Breadcrumb, LastCrumb, CompleteCrumb, getBaseCrumbs } from "../utils/breadcrumbs";
 
 /**
  * The last crumb does not need to provide a URL, since it's only used to display the text for the "active" crumb.
@@ -25,7 +24,7 @@ function createCompleteCrumbs(
 }
 
 export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCrumb] | [], deps?: DependencyList): void {
-    const t = useTranslations("common");
+    const t = useTranslations("Breadcrumbs");
     const makeCrumbsRef = useRef(makeCrumbs);
     useEffect(() => {
         makeCrumbsRef.current = makeCrumbs;
@@ -46,21 +45,25 @@ export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCru
     }, deps);
 }
 
-export const useSetBreadcrumbs = () => {
-    const t = useTranslations("common");
-    const pathname = usePathname();
+export const useSetBreadcrumbs = (dynamicBreadcrumbs: (Breadcrumb | LastCrumb)[] = []) => {
+    const t = useTranslations("Breadcrumbs");
 
     useEffect(() => {
-        const crumbs = [...getBaseCrumbs(t), ...getAppBreadcrumbs(pathname)];
+        const crumbs = [...getBaseCrumbs(t), ...dynamicBreadcrumbs];
         (async () => {
             try {
-                await setBreadcrumbs(crumbs);
+                await setBreadcrumbs(
+                    crumbs.map((it) => ({
+                        ...it,
+                        url: "url" in it ? `${it.url}` : "/",
+                    }))
+                );
             } catch (e) {
                 logger.error(`klarte ikke å oppdatere breadcrumbs på ${location.pathname}`);
                 logger.error(e);
             }
         })();
-    }, [pathname, t]);
+    }, [dynamicBreadcrumbs, t]);
 };
 
 export default useUpdateBreadcrumbs;

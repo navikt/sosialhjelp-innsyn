@@ -1,11 +1,5 @@
-import { proxyRouteHandler } from "@navikt/next-api-proxy";
-import { cookies } from "next/headers";
-
-import { isLocalhost, isMock } from "../../../../utils/restUtils";
-
-type RouteHandlerProxyTarget = { hostname: string; path: string; https: boolean; bearerToken?: string; port?: string };
-type ProxyRequestContext = { params: Promise<{ slug: string[] }> };
-type ProxyRequestHandler = (request: Request, context: ProxyRequestContext) => Promise<Response>;
+import { getServerEnv } from "../../../../config/env";
+import apiProxy, { RouteHandlerProxyTarget } from "../../../../api/proxy/apiProxy";
 
 const getRouteHandlerProxyTarget = async (
     bearerToken: string | undefined,
@@ -19,30 +13,16 @@ const getRouteHandlerProxyTarget = async (
     const https = false;
 
     const path = `${basePath}/${requestPath.join("/")}`;
-    const port = process.env.INNSYN_API_PORT;
+    const port = getServerEnv().INNSYN_API_PORT;
     return { hostname, path: encodeURI(path), bearerToken, https, port };
 };
 
-const soknadApiProxy: ProxyRequestHandler = async (request, { params }): Promise<Response> => {
-    let bearerToken;
-    if (isLocalhost() || isMock()) {
-        const cookieStore = await cookies();
-        if (!cookieStore.has("localhost-idtoken")) {
-            return new Response("Missing auth header", { status: 401 });
-        }
-        bearerToken = cookieStore.get("localhost-idtoken")?.value;
-    } else {
-        const headers = request.headers;
-        if (!headers.has("Authorization")) {
-            return new Response("Missing auth header", { status: 401 });
-        }
-        bearerToken = `${headers.get("Authorization")?.split(" ")[1]}`;
-    }
-    return proxyRouteHandler(request, await getRouteHandlerProxyTarget(bearerToken, (await params).slug));
-};
+const innsynApiProxy = await apiProxy(async (params, bearerToken) =>
+    getRouteHandlerProxyTarget(bearerToken, (await params).slug)
+);
 
-export const DELETE = soknadApiProxy;
-export const GET = soknadApiProxy;
-export const OPTIONS = soknadApiProxy;
-export const POST = soknadApiProxy;
-export const PUT = soknadApiProxy;
+export const DELETE = innsynApiProxy;
+export const GET = innsynApiProxy;
+export const OPTIONS = innsynApiProxy;
+export const POST = innsynApiProxy;
+export const PUT = innsynApiProxy;

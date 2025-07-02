@@ -14,6 +14,7 @@ import { KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus } from "..
 import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
 import { useFlag } from "../../featuretoggles/context";
 import { logBrukerAapnerKlageskjema } from "../../utils/amplitude";
+import { browserEnv } from "../../config/env";
 
 const StyledKlageList = styled(List)`
     border-bottom: 2px solid var(--a-border-divider);
@@ -67,8 +68,7 @@ const KlageSection: NextPage = (): React.JSX.Element => {
                 <p>
                     <span>{t("klage.papirskjema.beskrivelse_1")}</span>
                     <AkselLink
-                        as={Link}
-                        href="/papirskjema_klage.pdf"
+                        href={`${browserEnv.NEXT_PUBLIC_BASE_PATH}/papirskjema_klage.pdf`}
                         onClick={() =>
                             logBrukerAapnerKlageskjema(
                                 "Bruker åpner klageskjema: ",

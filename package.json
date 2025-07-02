@@ -13,6 +13,7 @@
         "@navikt/next-api-proxy": "^4.1.4",
         "@navikt/next-logger": "^3.0.3",
         "@navikt/oasis": "^3.8.0",
+        "@next/env": "^15.3.3",
         "@tanstack/react-query": "^5.79.0",
         "@unleash/nextjs": "^1.6.2",
         "classnames": "^2.5.1",
@@ -32,7 +33,7 @@
         "zod": "^3.24.3"
     },
     "scripts": {
-        "dev": "next dev -p 3002 -H 0.0.0.0 | pino-pretty",
+        "dev": "next dev --turbopack -p 3002 -H 0.0.0.0 | pino-pretty",
         "build": "next build",
         "start": "next start",
         "test": "vitest",
@@ -44,7 +45,8 @@
         "orval": "rm -rf src/generated && orval --prettier",
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
         "tsc": "tsc",
-        "prepare": "husky"
+        "prepare": "husky",
+        "test:e2e": "playwright test"
     },
     "browserslist": {
         "production": [
@@ -63,11 +65,13 @@
         "@eslint/eslintrc": "^3.3.1",
         "@eslint/js": "^9.26.0",
         "@faker-js/faker": "^9.7.0",
+        "@playwright/test": "^1.52.0",
         "@tanstack/react-query-devtools": "^5.79.0",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/react": "^16.3.0",
         "@types/js-cookie": "^3.0.6",
+        "@types/node": "^22.15.29",
         "@types/react": "^19.1.2",
         "@types/react-collapse": "^5.0.4",
         "@types/react-dom": "^19.1.2",

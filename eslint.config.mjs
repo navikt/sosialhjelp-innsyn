@@ -66,7 +66,7 @@ export default [
     },
     ...compat.extends("plugin:testing-library/react").map((config) => ({
         ...config,
-        files: ["**/?(*.)+(spec|test).[jt]s?(x)"],
+        files: ["**/?(*.)+(test).[jt]s?(x)"],
     })),
     {
         files: ["**/?(*.)+(spec|test).[jt]s?(x)"],

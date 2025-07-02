@@ -1,6 +1,8 @@
 import { logger } from "@navikt/next-logger";
 import { isAbortError } from "next/dist/server/pipe-readable";
 
+import { browserEnv } from "./config/env";
+
 const getBody = <T>(c: Response | Request): Promise<T> => {
     const contentType = c.headers.get("content-type");
 
@@ -16,10 +18,7 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 };
 
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
-    const response = await fetch(url, {
-        credentials: ["mock", "local"].includes(process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT ?? "")
-            ? "include"
-            : undefined,
+    const response = await fetch(`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/innsyn-api${url}`, {
         ...options,
     });
     if (response.status === 204) {
