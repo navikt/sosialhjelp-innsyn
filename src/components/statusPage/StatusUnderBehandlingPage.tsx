@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import StatusAlert from "../alert/StatusAlert";
 import { getOppgaver } from "../../generated/ssr/oppgave-controller/oppgave-controller";
+import { StatusVedtak } from "../vedtak/StatusVedtak";
 
 import { StatusPage } from "./StatusPage";
 
@@ -30,6 +31,8 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
                     />
                 ) : null
             }
-        />
+        >
+            <StatusVedtak id={id} />
+        </StatusPage>
     );
 };

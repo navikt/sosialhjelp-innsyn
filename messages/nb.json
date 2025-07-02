@@ -29,6 +29,9 @@
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandlet"
     },
+    "StatusVedtak": {
+        "status": "Vedtak: <norsk>{status}</norsk>"
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },

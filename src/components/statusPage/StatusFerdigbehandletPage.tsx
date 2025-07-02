@@ -1,5 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
+import { StatusVedtak } from "../vedtak/StatusVedtak";
+
 import { StatusPage } from "./StatusPage";
 
 interface Props {
@@ -8,5 +10,9 @@ interface Props {
 
 export const StatusFerdigbehandletPage = async ({ id }: Props) => {
     const t = await getTranslations("StatusFerdigbehandletPage");
-    return <StatusPage heading={t("tittel")} id={id} />;
+    return (
+        <StatusPage heading={t("tittel")} id={id}>
+            <StatusVedtak id={id} />
+        </StatusPage>
+    );
 };

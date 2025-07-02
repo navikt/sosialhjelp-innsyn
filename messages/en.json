@@ -29,6 +29,9 @@
     "StatusFerdigbehandletPage": {
         "tittel": "Your application has been processed"
     },
+    "StatusVedtak": {
+        "status": "Vedtak: <norsk>{status}</norsk>"
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
