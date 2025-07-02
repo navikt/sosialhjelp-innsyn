@@ -1,0 +1,67 @@
+name: 'Deploy main to preprod'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build-image:
+    name: 'Build Image for Deploy'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Copy appropriate env file to root'
+        shell: bash
+        run: |
+          echo "Copying nais/envs/.env.preprod..."
+          cp nais/envs/.env.preprod .env.production
+
+      - name: 'Build npm project'
+        uses: navikt/sosialhjelp-ci/actions/build-npm@main
+        with:
+          node-version: 22
+          build-less: 'false'
+          run-orval: 'true'
+          reader-token: ${{ secrets.READER_TOKEN }}
+          run-test: 'false'
+
+      - name: 'Upload static files to cdn'
+        id: upload
+        uses: nais/deploy/actions/cdn-upload/v2@master
+        with:
+          team: teamdigisos
+          source: ./.next/static
+          destination: "/sosialhjelp-innsyn/_next"
+
+      - name: Build and push docker image to GAR
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: teamdigisos
+          image_suffix: preprod
+
+  deploy-gcp:
+    name: 'Deploy to development'
+    permissions:
+      id-token: write
+      contents: read
+    needs: build-image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Deploy til dev'
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          RESOURCE: nais/dev/preprod.yaml
+          CLUSTER: dev-gcp
+          REF: ${{ github.sha }}
+          PRINT_PAYLOAD: true
+          VAR: image=${{ needs.build-image.outputs.image }}
