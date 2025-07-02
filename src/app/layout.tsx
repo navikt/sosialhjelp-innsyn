@@ -67,13 +67,23 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang={locale || "nb"}>
             <head>
-                <Script
-                    defer
-                    strategy="afterInteractive"
-                    src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-                    data-host-url="https://umami.nav.no"
-                    data-website-id="00a054e3-9928-4882-8e82-235940dfc04b"
-                ></Script>
+                {process.env.DEKORATOR_MILJO === "prod" ? (
+                    <Script
+                        defer
+                        strategy="afterInteractive"
+                        src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
+                        data-host-url="https://umami.nav.no"
+                        data-website-id="82a0745a-b0b1-419a-82cb-cd4b0849b6bf"
+                    ></Script>
+                ) : (
+                    <Script
+                        defer
+                        strategy="afterInteractive"
+                        src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
+                        data-host-url="https://umami.nav.no"
+                        data-website-id="00a054e3-9928-4882-8e82-235940dfc04b"
+                    ></Script>
+                )}
                 <Decorator.HeadAssets />
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
