@@ -52,5 +52,8 @@ spec:
     requests:
       cpu: 2m
       memory: 256Mi
+  env:
+    - name: UMAMI_ID
+      value: "aca7085d-8968-415b-bc32-20e4a03abf8d"
   envFrom:
     - secret: sosialhjelp-innsyn-unleash-api-token
