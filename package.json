@@ -5,6 +5,7 @@
     "homepage": "/sosialhjelp/innsyn/",
     "dependencies": {
         "@grafana/faro-web-sdk": "^1.18.1",
+        "@hookform/resolvers": "^5.1.1",
         "@navikt/aksel-icons": "^7.21.1",
         "@navikt/ds-css": "^7.21.1",
         "@navikt/ds-react": "^7.21.1",
@@ -27,6 +28,7 @@
         "react": "^19.1.0",
         "react-collapse": "^5.1.0",
         "react-dom": "^19.1.0",
+        "react-hook-form": "^7.59.0",
         "react-use": "^17.6.0",
         "remeda": "^2.21.3",
         "styled-components": "^6.1.17",

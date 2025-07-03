@@ -133,6 +133,13 @@
         "tittel": "Klage på vedtak",
         "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
     },
+    "KlageForm": {
+        "backgroundLabel": "Oppgi bakgrunn for klagen",
+        "backgroundDescription": "For at vi skal behangle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret.",
+        "validering": {
+            "maksLengde": "Du kan skrive inn maks 1000 tegn"
+        }
+    },
     "Breadcrumbs": {
         "MinSide": "Min side",
         "Sosialhjelp": "Økonomisk sosialhjelp"
