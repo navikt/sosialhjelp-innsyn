@@ -67,6 +67,13 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang={locale || "nb"}>
             <head>
+                <Script
+                    defer
+                    strategy="afterInteractive"
+                    src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
+                    data-host-url="https://umami.nav.no"
+                    data-website-id={process.env.UMAMI_ID}
+                ></Script>
                 <Decorator.HeadAssets />
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>

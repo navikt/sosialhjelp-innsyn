@@ -49,5 +49,7 @@ spec:
   env:
     - name: UNLEASH_SERVER_API_URL
       value: 'https://teamdigisos-unleash-api.nav.cloud.nais.io/api'
+    - name: UMAMI_ID
+      value: "00a054e3-9928-4882-8e82-235940dfc04b"
   envFrom:
     - secret: sosialhjelp-innsyn-unleash-api-token
