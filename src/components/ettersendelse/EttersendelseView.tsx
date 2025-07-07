@@ -6,7 +6,7 @@ import { Alert, ErrorMessage } from "@navikt/ds-react";
 import cx from "classnames";
 
 import { useFileUploadError } from "../driftsmelding/lib/useFileUploadError";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { OppgaveElementHendelsetype } from "../../generated/model";
 import VedleggSuccess from "../filopplasting/VedleggSuccess";

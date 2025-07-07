@@ -5,7 +5,7 @@ import { Alert } from "@navikt/ds-react";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import { useHentForelopigSvarStatus } from "../../generated/forelopig-svar-controller/forelopig-svar-controller";
 import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
 
 const ForelopigSvarAlertstripe = () => {
     const soknadId = useFiksDigisosId();

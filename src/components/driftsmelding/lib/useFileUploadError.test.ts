@@ -11,7 +11,7 @@ import {
     getHentSoknadsStatusMockHandler,
     getHentSoknadsStatusResponseMock,
 } from "../../../generated/soknads-status-controller/soknads-status-controller.msw";
-import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosIdDepricated";
 
 import { useFileUploadError } from "./useFileUploadError";
 

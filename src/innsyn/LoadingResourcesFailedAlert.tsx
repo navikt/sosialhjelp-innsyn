@@ -20,7 +20,7 @@ import {
     getHentSoknadsStatusQueryKey,
     hentSoknadsStatus,
 } from "../generated/soknads-status-controller/soknads-status-controller";
-import useFiksDigisosId from "../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../hooks/useFiksDigisosIdDepricated";
 
 const StyledWrapper = styled.div`
     position: sticky;

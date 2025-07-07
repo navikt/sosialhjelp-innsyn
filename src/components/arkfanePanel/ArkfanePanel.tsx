@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { XMarkOctagonIcon } from "@navikt/aksel-icons";
 
 import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import Panel from "../panel/Panel";
 

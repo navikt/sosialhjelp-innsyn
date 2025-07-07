@@ -10,7 +10,7 @@ import { GetServerSidePropsContext } from "next/dist/types";
 
 import MainLayout from "../../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../../hooks/useUpdateBreadcrumbs";
-import useFiksDigisosId from "../../../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../../../hooks/useFiksDigisosIdDepricated";
 import Panel from "../../../../components/panel/Panel";
 import KlageVedleggBoks from "../../../../components/klage/KlageVedleggBoks";
 import { useHentSoknadsStatus } from "../../../../generated/soknads-status-controller/soknads-status-controller";

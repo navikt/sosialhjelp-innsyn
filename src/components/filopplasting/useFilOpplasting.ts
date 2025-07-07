@@ -19,7 +19,7 @@ import {
     sendVedlegg,
     useSendVedlegg,
 } from "../../generated/vedlegg-controller/vedlegg-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
 import { getHentHendelserQueryKey } from "../../generated/hendelse-controller/hendelse-controller";
 
 import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";

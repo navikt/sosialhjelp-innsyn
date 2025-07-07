@@ -1,13 +1,13 @@
-"use client";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
-const useFiksDigisosId = (): string => {
-    const { id } = useParams() as { id: string };
+const useFiksDigisosId = () => {
+    const {
+        query: { id },
+    } = useRouter();
 
     if (!id || Array.isArray(id)) {
         throw Error("Kunne ikke finne søknadId i parametere");
     }
-
     return id;
 };
 

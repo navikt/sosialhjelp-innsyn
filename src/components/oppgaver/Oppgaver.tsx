@@ -12,7 +12,7 @@ import {
     useGetHarLevertDokumentasjonkrav,
     useGetVilkar,
 } from "../../generated/oppgave-controller/oppgave-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
 import { useHentUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";

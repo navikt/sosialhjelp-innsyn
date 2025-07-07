@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useTranslations } from "next-intl";
 
 import { useHentKlager } from "../../generated/klage-controller/klage-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosId";
+import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
 import Panel from "../panel/Panel";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import { KlageDtoStatus, SaksStatusResponse, SaksStatusResponseStatus } from "../../generated/model";
