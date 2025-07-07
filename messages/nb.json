@@ -134,11 +134,14 @@
         "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
     },
     "KlageForm": {
-        "backgroundLabel": "Oppgi bakgrunn for klagen",
-        "backgroundDescription": "For at vi skal behangle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret.",
+        "bakgrunn": {
+            "label": "Oppgi bakgrunn for klagen",
+            "beskrivelse": "For at vi skal behangle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
+        },
         "validering": {
             "maksLengde": "Du kan skrive inn maks 1000 tegn"
-        }
+        },
+        "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
     },
     "Breadcrumbs": {
         "MinSide": "Min side",
