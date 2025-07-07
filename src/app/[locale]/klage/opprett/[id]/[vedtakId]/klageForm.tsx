@@ -8,6 +8,7 @@ import z from "zod";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { logger } from "@navikt/next-logger";
 
 import useFiksDigisosId from "../../../../../../hooks/useFiksDigisosId";
 import { getHentKlagerQueryKey, useSendKlage } from "../../../../../../generated/klage-controller/klage-controller";
@@ -50,12 +51,15 @@ const KlageForm = () => {
                 await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
                 await router.push(`/klage/status/${fiksDigisosId}/${vedtakId}`);
             },
-            // TODO: Logge ved feil
+            onError: (error, variables) => {
+                logger.error(
+                    `Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${variables.fiksDigisosId}`
+                );
+            },
         },
     });
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-        //TODO:
         mutate({
             fiksDigisosId: fiksDigisosId,
             data: { klageId, vedtakId, klageTekst: data.background ?? "" },
