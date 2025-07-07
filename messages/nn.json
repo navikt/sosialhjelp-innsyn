@@ -32,6 +32,18 @@
     "StatusVedtak": {
         "status": "Vedtak: <norsk>{status}</norsk>"
     },
+    "StatusVedtakInnvilget": {
+        "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvslag": {
+        "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvvist": {
+        "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },

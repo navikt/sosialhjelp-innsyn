@@ -32,6 +32,18 @@
     "StatusVedtak": {
         "status": "Vedtak: <norsk>{status}</norsk>"
     },
+    "StatusVedtakInnvilget": {
+        "beskrivelse": "You have been granted benefits. Read the decision to see the reasons."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "beskrivelse": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons."
+    },
+    "StatusVedtakAvslag": {
+        "beskrivelse": "Your application has been declined. Read the decision to see the reasons."
+    },
+    "StatusVedtakAvvist": {
+        "beskrivelse": "Your application has been rejected. Read the decision to see the reasons."
+    },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
