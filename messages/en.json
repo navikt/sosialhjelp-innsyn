@@ -129,9 +129,13 @@
         "klagerettigheter": "Your right to complain",
         "personopplysninger": "How we process your personal data"
     },
-    "NyKlagePage": {
+    "OpprettKlagePage": {
         "tittel": "Appeal the decision",
         "beskrivelse": "Appeal the decision regarding financial social assistance."
+    },
+    "KlagePage": {
+        "tittel": "Your complaint has been submitted",
+        "beskrivelse": "View your submitted complaint about the decision regarding financial social assistance."
     },
     "KlageForm": {
         "bakgrunn": {

@@ -129,9 +129,13 @@
         "klagerettigheter": "Dine klagerettigheter",
         "personopplysninger": "Behandling av personopplysninger"
     },
-    "NyKlagePage": {
+    "OpprettKlagePage": {
         "tittel": "Klage på vedtak",
         "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
+    },
+    "KlagePage": {
+        "tittel": "Klagen din er sendt",
+        "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp."
     },
     "KlageForm": {
         "bakgrunn": {

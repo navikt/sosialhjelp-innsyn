@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 import useFiksDigisosId from "../../../../../../hooks/useFiksDigisosId";
 import { getHentKlagerQueryKey, useSendKlage } from "../../../../../../generated/klage-controller/klage-controller";
@@ -27,6 +28,7 @@ const KlageForm = () => {
     const fiksDigisosId = useFiksDigisosId();
     const vedtakId = useVedtakId();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const [klageId] = useState(crypto.randomUUID());
 
@@ -46,7 +48,7 @@ const KlageForm = () => {
         mutation: {
             onSuccess: async () => {
                 await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-                //await router.push({ pathname: "/[id]/status", query: { id: fiksDigisosId } });
+                await router.push(`/klage/status/${fiksDigisosId}/${vedtakId}`);
             },
             // TODO: Logge ved feil
         },

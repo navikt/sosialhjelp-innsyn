@@ -5,13 +5,11 @@ import { notFound } from "next/navigation";
 import { getFlag, getToggles } from "../../../../../../featuretoggles/unleash";
 import ClientBreadcrumbs from "../../../../../../components/breadcrumbs/ClientBreadcrumbs";
 
-import KlageForm from "./klageForm";
-
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const { id: fiksDigisosId, vedtakId } = await params;
 
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
-    const t = await getTranslations("OpprettKlagePage");
+    const t = await getTranslations("KlagePage");
 
     if (!toggle.enabled) {
         return notFound();
@@ -28,13 +26,12 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
                     FiksDigisosId: {fiksDigisosId}, vedtaksID: {vedtakId}
                 </BodyShort>
             </div>
-            <KlageForm />
         </>
     );
 };
 
 export const generateMetadata = async () => {
-    const t = await getTranslations("OpprettKlagePage");
+    const t = await getTranslations("KlagePage");
     return {
         title: t("tittel"),
         description: t("beskrivelse"),
