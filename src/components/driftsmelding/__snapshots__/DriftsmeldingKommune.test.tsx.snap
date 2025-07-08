@@ -4,6 +4,8 @@ exports[`DriftsmeldingKommune > renders error alert with mldEttersendelseDeaktiv
 <DocumentFragment>
   <div
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
+    data-color="danger"
+    data-variant="error"
   >
     <svg
       aria-labelledby="title-«r1»"
@@ -53,6 +55,8 @@ exports[`DriftsmeldingKommune > renders error alert with mldInnsynDeaktivert 1`]
 <DocumentFragment>
   <div
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
+    data-color="danger"
+    data-variant="error"
   >
     <svg
       aria-labelledby="title-«r2»"
@@ -102,6 +106,8 @@ exports[`DriftsmeldingKommune > renders error alert with mldInnsynOgEttersendels
 <DocumentFragment>
   <div
     class="mb-4 navds-alert navds-alert--error navds-alert--medium"
+    data-color="danger"
+    data-variant="error"
   >
     <svg
       aria-labelledby="title-«r0»"
