@@ -51,7 +51,6 @@ import Historikk from "../../../components/historikk/Historikk";
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import { FilUploadSuccesfulProvider } from "../../../components/filopplasting/FilUploadSuccessfulContext";
-import KlageSection from "../../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../../generated/model";
 import pageHandler, { buildUrl } from "../../../pagehandler/pageHandler";
 import Panel from "../../../components/panel/Panel";
@@ -77,6 +76,7 @@ import {
     getHentAlleSakerQueryKey,
     getHentAlleSakerUrl,
 } from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import PapirKlageSection from "../../../components/klage/PapirKlageSection";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
@@ -172,7 +172,7 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
                         </StyledPanel>
                     </>
                 )}
-                {sakErPaaklagbar && <KlageSection />}
+                {sakErPaaklagbar && <PapirKlageSection />}
                 {(kommune == null || !kommune.erInnsynDeaktivert) && (
                     <>
                         <Panel header={t("andre_vedlegg.type")}>
