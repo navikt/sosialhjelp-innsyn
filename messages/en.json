@@ -148,6 +148,10 @@
         "tittel": "Appeal the decision",
         "beskrivelse": "Appeal the decision regarding financial social assistance."
     },
+    "Breadcrumbs": {
+        "MinSide": "My page",
+        "Sosialhjelp": "Financial assistance"
+    },
     "common": {
         "app": { "tittel": "Financial assistance" },
         "historikk": {

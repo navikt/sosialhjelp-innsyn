@@ -13,7 +13,6 @@ import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../../utils/amp
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../../faro/faro";
 import { TilgangResponse } from "../../generated/model";
 import TilgangskontrollsideApp from "../../components/Tilgangskontrollside/TilgangskontrollsideApp";
-import { useSetBreadcrumbs } from "../../hooks/useUpdateBreadcrumbs";
 
 initInstrumentation();
 configureLogger({
@@ -62,7 +61,6 @@ function getQueryClient() {
 const Providers = ({ toggles, tilgang, children }: PropsWithChildren<Props>) => {
     const router = useRouter();
     const pathname = usePathname();
-    useSetBreadcrumbs();
     // Default options for query clienten blir satt i orval.config.ts
     const queryClient = getQueryClient();
 
