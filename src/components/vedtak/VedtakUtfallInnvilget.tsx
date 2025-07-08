@@ -7,6 +7,11 @@ import { VedtakUtfall } from "./VedtakUtfall";
 export const VedtakUtfallInnvilget = async ({ sak }: { sak: SaksStatusResponse }) => {
     const t = await getTranslations("StatusVedtakInnvilget");
     return (
-        <VedtakUtfall tittel={sak.tittel} beskrivelse={t("beskrivelse")} utfallVedtak={sak.utfallVedtak}></VedtakUtfall>
+        <VedtakUtfall
+            tittel={sak.tittel}
+            beskrivelse={t("beskrivelse")}
+            vedtaksfilUrlList={sak.vedtaksfilUrlList}
+            utfallVedtak={sak.utfallVedtak}
+        />
     );
 };
