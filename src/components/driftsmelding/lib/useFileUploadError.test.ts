@@ -32,7 +32,7 @@ const KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE = getHentKommuneInfoResponseMock({
 const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: false });
 const BROKEN_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: true });
 
-vi.mock("../../../hooks/useFiksDigisosId", () => ({ default: vi.fn(() => "dumy") }));
+vi.mock("../../../hooks/useFiksDigisosIdDepricated", () => ({ default: vi.fn(() => "dumy") }));
 
 describe("useFileUploadAllowed", () => {
     beforeEach(() => {
