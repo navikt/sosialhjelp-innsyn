@@ -35,6 +35,8 @@ exports[`UtbetalingAccordionContent > matches snapshot with annenMottaker 1`] = 
         </p>
         <a
           class="navds-link navds-link items-center gap-2 flex navds-link--action"
+          data-color="accent"
+          data-variant="action"
           href="/123/status"
         >
           <svg
