@@ -4,6 +4,8 @@ exports[`DriftsmeldingVedlegg > renders DriftsmeldingAlert if søknadinfo.isBrok
 <DocumentFragment>
   <div
     class="font-bold navds-alert navds-alert--error navds-alert--medium navds-alert--inline"
+    data-color="danger"
+    data-variant="error"
   >
     <svg
       aria-labelledby="title-«r1»"
@@ -41,6 +43,8 @@ exports[`DriftsmeldingVedlegg > renders DriftsmeldingAlert when there is a file 
 <DocumentFragment>
   <div
     class="font-bold navds-alert navds-alert--error navds-alert--medium navds-alert--inline"
+    data-color="danger"
+    data-variant="error"
   >
     <svg
       aria-labelledby="title-«r0»"
