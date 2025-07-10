@@ -33,15 +33,19 @@
         "status": "Vedtak: <norsk>{status}</norsk>"
     },
     "StatusVedtakInnvilget": {
+        "tittel": "Innvilga",
         "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
     },
     "StatusVedtakDelvisInnvilget": {
+        "tittel": "Delvis innvilga",
         "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
     },
     "StatusVedtakAvslag": {
+        "tittel": "Avslag",
         "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
     },
     "StatusVedtakAvvist": {
+        "tittel": "Avvist",
         "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
     },
     "SokButton": {

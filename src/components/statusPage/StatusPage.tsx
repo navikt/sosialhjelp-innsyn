@@ -18,7 +18,7 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     await prefetchHentHendelserBetaQuery(queryClient, id);
     return (
-        <VStack gap="20" className="mt-20">
+        <VStack gap="4" className="mt-20">
             <Heading size="xlarge" level="1">
                 {heading}
             </Heading>

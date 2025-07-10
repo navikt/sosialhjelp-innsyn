@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Tag } from "@navikt/ds-react";
+import { Box } from "@navikt/ds-react";
 
 import { hentSaksStatuser } from "../../generated/ssr/saks-status-controller/saks-status-controller";
 import { isVedtakUtfallKey, vedtakUtfallMap } from "../vedtak/VedtakUtfallMap";
@@ -26,9 +26,13 @@ export const StatusFerdigbehandletPage = async ({ id }: Props) => {
 
                 if (sak.status === "UNDER_BEHANDLING") {
                     return (
-                        <Tag variant="info" key={index}>
+                        <Box
+                            background="surface-info-subtle"
+                            key={index}
+                            className="box-border size-fit  p-2 rounded-md"
+                        >
                             Under behandling
-                        </Tag>
+                        </Box>
                     );
                 }
                 return null;

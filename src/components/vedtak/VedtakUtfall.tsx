@@ -1,5 +1,6 @@
-import { Box, Heading, Tag, VStack } from "@navikt/ds-react";
-import { FilePdfIcon } from "@navikt/aksel-icons";
+import { BodyShort, Box, Heading, VStack } from "@navikt/ds-react";
+import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
+import { getTranslations } from "next-intl/server";
 
 import { FilUrl, SaksStatusResponseUtfallVedtak } from "../../generated/ssr/model";
 import StatusCard from "../soknaderList/statusCard/StatusCard";
@@ -10,9 +11,17 @@ interface Props {
     beskrivelse: string;
     vedtaksfilUrlList: FilUrl[] | undefined;
     utfallVedtak?: SaksStatusResponseUtfallVedtak;
+    utfallVedtakStatus?: string;
 }
 
-export const VedtakUtfall = async ({ tittel, beskrivelse, vedtaksfilUrlList, utfallVedtak }: Props) => {
+export const VedtakUtfall = async ({
+    tittel,
+    beskrivelse,
+    vedtaksfilUrlList,
+    utfallVedtak,
+    utfallVedtakStatus,
+}: Props) => {
+    const t = await getTranslations("StatusVedtak");
     const boxColor = (utfallVedtak?: SaksStatusResponseUtfallVedtak) => {
         if (utfallVedtak === "INNVILGET") {
             return "surface-success-subtle";
@@ -28,12 +37,36 @@ export const VedtakUtfall = async ({ tittel, beskrivelse, vedtaksfilUrlList, utf
         }
     };
 
+    const textColor = (utfallVedtak?: SaksStatusResponseUtfallVedtak) => {
+        if (utfallVedtak === "INNVILGET") {
+            return "text-surface-success";
+        }
+        if (utfallVedtak === "DELVIS_INNVILGET") {
+            return "text-surface-warning";
+        }
+        if (utfallVedtak === "AVVIST" || utfallVedtak === "AVSLATT") {
+            return "text-surface-danger";
+        }
+    };
+
     return (
-        <VStack>
+        <VStack gap="2">
             <Heading size="xlarge" level="1">
                 {tittel}
             </Heading>
-            <Tag variant="info">Status: {utfallVedtak}</Tag>
+            <Box
+                background={boxColor(utfallVedtak)}
+                className={`box-border size-fit  p-2 rounded-md ${textColor(utfallVedtak)}`}
+            >
+                <BodyShort>
+                    {t.rich("status", {
+                        status: utfallVedtakStatus || "",
+                        b: (chunks) => <b>{chunks}</b>,
+                        norsk: (chunks) => <span lang="no">{chunks}</span>,
+                    })}
+                </BodyShort>
+            </Box>
+            <div>{beskrivelse}</div>
             {vedtaksfilUrlList &&
                 vedtaksfilUrlList.map((fil, index) => (
                     <StatusCard
@@ -45,9 +78,9 @@ export const VedtakUtfall = async ({ tittel, beskrivelse, vedtaksfilUrlList, utf
                         Last ned vedtaksbrev
                     </StatusCard>
                 ))}
-            <Box background={boxColor(utfallVedtak)} className="rounded p-4">
-                {beskrivelse}
-            </Box>
+            <StatusCard href="/utbetaling" icon={<StatusIcon icon={BankNoteIcon} />}>
+                Se kommende utbetaling
+            </StatusCard>
         </VStack>
     );
 };

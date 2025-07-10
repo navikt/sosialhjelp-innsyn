@@ -12,6 +12,7 @@ export const VedtakUtfallDelvisInnvilget = async ({ sak }: { sak: SaksStatusResp
             beskrivelse={t("beskrivelse")}
             vedtaksfilUrlList={sak.vedtaksfilUrlList}
             utfallVedtak={sak.utfallVedtak}
+            utfallVedtakStatus={t("tittel")}
         />
     );
 };

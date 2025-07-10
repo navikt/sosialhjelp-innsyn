@@ -30,18 +30,22 @@
         "tittel": "Your application has been processed"
     },
     "StatusVedtak": {
-        "status": "Vedtak: <norsk>{status}</norsk>"
+        "status": "Notice of decision: <norsk>{status}</norsk>"
     },
     "StatusVedtakInnvilget": {
+        "tittel": "Granted",
         "beskrivelse": "You have been granted benefits. Read the decision to see the reasons."
     },
     "StatusVedtakDelvisInnvilget": {
+        "tittel": "Partially granted",
         "beskrivelse": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons."
     },
     "StatusVedtakAvslag": {
+        "tittel": "Refused",
         "beskrivelse": "Your application has been declined. Read the decision to see the reasons."
     },
     "StatusVedtakAvvist": {
+        "tittel": "Rejected",
         "beskrivelse": "Your application has been rejected. Read the decision to see the reasons."
     },
     "SokButton": {

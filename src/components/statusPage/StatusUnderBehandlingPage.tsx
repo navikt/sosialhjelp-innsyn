@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Tag } from "@navikt/ds-react";
+import { Box, Heading } from "@navikt/ds-react";
 
 import StatusAlert from "../alert/StatusAlert";
 import { getOppgaver } from "../../generated/ssr/oppgave-controller/oppgave-controller";
@@ -46,9 +46,18 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
 
                 if (sak.status === "UNDER_BEHANDLING") {
                     return (
-                        <Tag variant="info" key={index}>
-                            Under behandling
-                        </Tag>
+                        <>
+                            <Heading size="xlarge" level="1">
+                                {sak.tittel}
+                            </Heading>
+                            <Box
+                                background="surface-info-subtle"
+                                key={index}
+                                className="box-border size-fit  p-2 rounded-md"
+                            >
+                                Under behandling
+                            </Box>
+                        </>
                     );
                 }
                 return null;

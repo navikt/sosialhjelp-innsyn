@@ -12,6 +12,7 @@ export const VedtakUtfallAvslag = async ({ sak }: { sak: SaksStatusResponse }) =
             beskrivelse={t("beskrivelse")}
             vedtaksfilUrlList={sak.vedtaksfilUrlList}
             utfallVedtak={sak.utfallVedtak}
+            utfallVedtakStatus={t("tittel")}
         />
     );
 };
