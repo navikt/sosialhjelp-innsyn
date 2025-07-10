@@ -32,7 +32,7 @@
         "underBehandlingAlert": "Under behandling"
     },
     "StatusVedtak": {
-        "status": "Vedtak: <norsk>{status}</norsk>"
+        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>"
     },
     "StatusVedtakInnvilget": {
         "tittel": "Innvilget",

@@ -60,6 +60,7 @@ export const VedtakUtfall = async ({
             >
                 <BodyShort>
                     {t.rich("status", {
+                        vedtak: (chunks) => <b>{chunks}</b>,
                         status: utfallVedtakStatus || "",
                         b: (chunks) => <b>{chunks}</b>,
                         norsk: (chunks) => <span lang="no">{chunks}</span>,

@@ -32,7 +32,7 @@
         "underBehandlingAlert": "Being processed"
     },
     "StatusVedtak": {
-        "status": "Notice of decision: <norsk>{status}</norsk>"
+        "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>"
     },
     "StatusVedtakInnvilget": {
         "tittel": "Granted",
