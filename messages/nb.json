@@ -21,13 +21,15 @@
     },
     "StatusUnderBehandlingPage": {
         "tittel": "Søknaden din er under behandling",
+        "underBehandlingAlert": "Under behandling",
         "alert": {
             "tittel": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din",
             "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
         }
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Søknaden din er ferdigbehandlet"
+        "tittel": "Søknaden din er ferdigbehandlet",
+        "underBehandlingAlert": "Under behandling"
     },
     "StatusVedtak": {
         "status": "Vedtak: <norsk>{status}</norsk>"

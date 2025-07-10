@@ -29,9 +29,9 @@ export const StatusFerdigbehandletPage = async ({ id }: Props) => {
                         <Box
                             background="surface-info-subtle"
                             key={index}
-                            className="box-border size-fit  p-2 rounded-md"
+                            className="box-border size-fit  p-2 rounded-md text-blue-900"
                         >
-                            Under behandling
+                            {t("underBehandlingAlert")}
                         </Box>
                     );
                 }

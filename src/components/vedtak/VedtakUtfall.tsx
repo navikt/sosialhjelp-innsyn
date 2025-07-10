@@ -39,13 +39,13 @@ export const VedtakUtfall = async ({
 
     const textColor = (utfallVedtak?: SaksStatusResponseUtfallVedtak) => {
         if (utfallVedtak === "INNVILGET") {
-            return "text-surface-success";
+            return "text-blue-900";
         }
         if (utfallVedtak === "DELVIS_INNVILGET") {
-            return "text-surface-warning";
+            return "text-orange-900";
         }
         if (utfallVedtak === "AVVIST" || utfallVedtak === "AVSLATT") {
-            return "text-surface-danger";
+            return "text-red-900";
         }
     };
 
