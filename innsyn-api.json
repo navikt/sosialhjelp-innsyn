@@ -8,12 +8,7 @@
                 "tags": ["klage-controller"],
                 "operationId": "lastOppVedlegg",
                 "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
                     {
                         "name": "klageId",
                         "in": "path",
@@ -23,7 +18,7 @@
                 ],
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
@@ -97,12 +92,7 @@
                 "tags": ["klage-controller"],
                 "operationId": "sendKlage",
                 "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "requestBody": {
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KlageInput" } } },
@@ -277,12 +267,7 @@
                 "tags": ["klage-controller"],
                 "operationId": "hentKlager",
                 "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "responses": {
                     "200": {
@@ -297,12 +282,7 @@
                 "tags": ["klage-controller"],
                 "operationId": "hentKlage",
                 "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
                     {
                         "name": "vedtakId",
                         "in": "path",

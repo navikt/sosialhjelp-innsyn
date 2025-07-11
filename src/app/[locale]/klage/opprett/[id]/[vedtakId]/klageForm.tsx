@@ -15,13 +15,16 @@ import { useTranslations } from "next-intl";
 import { useForm, SubmitHandler, useController, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 
 import useFiksDigisosId from "../../../../../../hooks/useFiksDigisosId";
-import { getHentKlagerQueryKey, useSendKlage } from "../../../../../../generated/klage-controller/klage-controller";
+import {
+    getHentKlagerQueryKey,
+    useLastOppVedlegg,
+    useSendKlage,
+} from "../../../../../../generated/klage-controller/klage-controller";
 import useVedtakId from "../../../../../../hooks/useVedtakId";
 
 const MAX_LEN_BACKGROUND = 1000;
@@ -46,8 +49,6 @@ const KlageForm = () => {
     const queryClient = useQueryClient();
     const router = useRouter();
 
-    const [klageId] = useState(crypto.randomUUID());
-
     const {
         register,
         handleSubmit,
@@ -57,29 +58,31 @@ const KlageForm = () => {
         resolver: zodResolver(klageSchema) as Resolver<FormValues>,
     });
 
-    const {
-        mutate,
-        isPending: sendKlageIsLoading,
-        isError,
-    } = useSendKlage({
-        mutation: {
-            onSuccess: async () => {
-                await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-                await router.push(`/klage/status/${fiksDigisosId}/${vedtakId}`);
-            },
-            onError: (error, variables) => {
-                logger.error(
-                    `Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${variables.fiksDigisosId}`
-                );
-            },
-        },
-    });
+    const lastOppVedleggMutation = useLastOppVedlegg();
+    const sendKlageMutation = useSendKlage();
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        mutate({
-            fiksDigisosId: fiksDigisosId,
-            data: { klageId, vedtakId, klageTekst: data.background ?? "" },
-        });
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
+        try {
+            const klageId = crypto.randomUUID();
+
+            const files = data?.files?.map((file) => file.file) ?? [];
+
+            await lastOppVedleggMutation.mutateAsync({
+                fiksDigisosId,
+                klageId,
+                data: { files },
+            });
+
+            await sendKlageMutation.mutateAsync({
+                fiksDigisosId: fiksDigisosId,
+                data: { klageId, vedtakId, klageTekst: data.background ?? "" },
+            });
+
+            await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
+            await router.push(`/klage/status/${klageId}`);
+        } catch (error) {
+            logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
+        }
     };
 
     // Integrate FileUpload with react-hook-form
@@ -160,10 +163,12 @@ const KlageForm = () => {
                     </VStack>
                 )}
             </VStack>
-            <Button loading={sendKlageIsLoading} type="submit">
+            <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
                 Send klage
             </Button>
-            {isError && <Alert variant="error">{t("sendingFeilet")}</Alert>}
+            {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
+                <Alert variant="error">{t("sendingFeilet")}</Alert>
+            )}
         </form>
     );
 };
