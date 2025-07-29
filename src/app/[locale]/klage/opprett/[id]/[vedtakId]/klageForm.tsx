@@ -27,7 +27,7 @@ export type FormValues = {
 
 const klageSchema = z.object({
     background: z.string().max(MAX_LEN_BACKGROUND, "validering.maksLengde").nullable(),
-    files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`),
+    files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
 
 const KlageForm = () => {
@@ -83,7 +83,7 @@ const KlageForm = () => {
             ></Textarea>
             <FileUploadField name="files" control={control} />
             <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
-                Send klage
+                {t("sendKlage")}
             </Button>
             {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
                 <Alert variant="error">{t("sendingFeilet")}</Alert>

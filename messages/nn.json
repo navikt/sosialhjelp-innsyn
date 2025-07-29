@@ -147,6 +147,32 @@
         },
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
     },
+    "KlageFileUpload": {
+        "label": "Legg ved dokumentasjon",
+        "beskrivelse": "Om du har dokument som kan vere viktige for klagen din, kan du laste dei opp her. Du kan legge ved både dokument, bilete og skjermbilete på opp til {maxSize} MB.",
+        "vedlegg": "Vedlegg ({numberOfFiles})",
+        "vedleggMedFeil": "Vedlegg med feil ({numberOfFiles})",
+        "validering": {
+            "maksFilstørrelse": "Fila er større enn {maksFilstørrelse} MB",
+            "ugyldigFiltype": "Filformatet er ikkje støtta."
+        },
+        "dropzone": {
+            "button": "Vel ei fil",
+            "buttonMultiple": "Vel filer",
+            "dragAndDrop": "Dra og slepp ei fil her",
+            "dragAndDropMultiple": "Dra og slepp filer her",
+            "drop": "Slepp fila her",
+            "or": "eller",
+            "disabled": "Filopplasting er deaktivert",
+            "disabledFilelimit": "Filgrensa er nådd"
+        },
+        "item": {
+            "retryButtonTitle": "Prøv igjen",
+            "deleteButtonTitle": "Slett fil",
+            "uploading": "Lastar opp...",
+            "downloading": "Lastar ned..."
+        }
+    },
     "Breadcrumbs": {
         "MinSide": "Min side",
         "Sosialhjelp": "Økonomisk sosialhjelp"

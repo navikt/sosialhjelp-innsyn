@@ -147,6 +147,32 @@
         },
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
+    "KlageFileUpload": {
+        "label": "Attach documentation",
+        "beskrivelse": "If you have documents that may be important for your complaint, you can upload them here. You can attach documents, images, and screenshots up to {maxSize} MB.",
+        "vedlegg": "Attachments ({numberOfFiles})",
+        "vedleggMedFeil": "Attachments with errors ({numberOfFiles})",
+        "validering": {
+            "maksFilstørrelse": "The file is larger than {maksFilstørrelse} MB",
+            "ugyldigFiltype": "The file format is not supported."
+        },
+        "dropzone": {
+            "button": "Choose a file",
+            "buttonMultiple": "Choose files",
+            "dragAndDrop": "Drag and drop a file here",
+            "dragAndDropMultiple": "Drag and drop files here",
+            "drop": "Drop the file here",
+            "or": "or",
+            "disabled": "File upload is disabled",
+            "disabledFilelimit": "File limit reached"
+        },
+        "item": {
+            "retryButtonTitle": "Try again",
+            "deleteButtonTitle": "Delete file",
+            "uploading": "Uploading...",
+            "downloading": "Downloading..."
+        }
+    },
     "Breadcrumbs": {
         "MinSide": "My page",
         "Sosialhjelp": "Financial assistance"
