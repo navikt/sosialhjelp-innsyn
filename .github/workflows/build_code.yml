@@ -19,12 +19,12 @@ jobs:
             - uses: actions/checkout@v4
 
             - name: "Build npm project and run Tests"
-              uses: navikt/sosialhjelp-ci/actions/build-npm@main
+              uses: navikt/sosialhjelp-ci/actions/build-npm@v9-beta
               env:
                   NEXT_PUBLIC_RUNTIME_ENVIRONMENT: mock
                   NEXT_PUBLIC_INNSYN_ORIGIN: http://whatever.com
               with:
-                  node-version: 24
+                  node-version: 22
                   build-less: "false"
                   run-orval: "true"
                   reader-token: ${{ secrets.READER_TOKEN }}
