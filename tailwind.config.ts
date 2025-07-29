@@ -1,6 +1,10 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-    content: ["./src/**/*.{jsx,tsx}"],
+import type { Config } from "tailwindcss";
+import navikt from "@navikt/ds-tailwind";
+
+const config: Config = {
+    presets: [navikt],
+    content: ["./src/**/*.{jsx,tsx,js,ts,mdx}"],
+    plugins: [],
     theme: {
         extend: {
             borderColor: () => ({
@@ -27,7 +31,6 @@ module.exports = {
             }),
         },
     },
-    plugins: [],
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    presets: [require("@navikt/ds-tailwind")],
 };
+
+export default config;
