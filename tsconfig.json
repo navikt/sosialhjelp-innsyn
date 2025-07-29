@@ -22,6 +22,6 @@
             }
         ]
     },
-    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom"],
+    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom", "tailwind.config.ts"],
     "exclude": ["node_modules"]
 }

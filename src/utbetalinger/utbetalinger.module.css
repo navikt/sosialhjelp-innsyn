@@ -1,5 +1,6 @@
 .utbetalinger_side {
     padding: 4rem 32px 32px 32px;
+    margin-bottom: -4rem;
     display: flex;
     flex-direction: column;
     background-color: #d4e6d8;
