@@ -5,7 +5,7 @@ import { PropsWithChildren } from "react";
 const Banner = (props: PropsWithChildren) => {
     return (
         <div className="banner">
-            <div className="blokk-center">
+            <div>
                 <Heading level="1" size="medium">
                     {props.children}
                 </Heading>
