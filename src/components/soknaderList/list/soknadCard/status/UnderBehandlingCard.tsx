@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl";
 import { PersonGavelIcon } from "@navikt/aksel-icons";
 
 import StatusCard from "../../../statusCard/StatusCard";
-import StatusIcon from "../icon/StatusIcon";
 
 interface Props {
     fiksDigisosId: string;
@@ -15,7 +14,7 @@ const UnderBehandlingCard = ({ fiksDigisosId, sakTittel }: Props) => {
         <StatusCard
             href={`/soknad/${fiksDigisosId}`}
             description={t("description")}
-            icon={<StatusIcon icon={PersonGavelIcon} />}
+            icon={<PersonGavelIcon />}
             variant="info"
         >
             <span lang="nb">{sakTittel}</span>
