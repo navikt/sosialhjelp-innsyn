@@ -22,7 +22,7 @@ import { MAX_LEN_BACKGROUND, MAX_FILES } from "./consts";
 
 export type FormValues = {
     background: string | null;
-    files?: FileObject[];
+    files: FileObject[];
 };
 
 const klageSchema = z.object({
@@ -44,6 +44,10 @@ const KlageForm = () => {
         formState: { errors },
     } = useForm<FormValues>({
         resolver: zodResolver(klageSchema) as Resolver<FormValues>,
+        defaultValues: {
+            background: "",
+            files: [],
+        },
     });
 
     const lastOppVedleggMutation = useLastOppVedlegg();
@@ -53,13 +57,15 @@ const KlageForm = () => {
         try {
             const klageId = crypto.randomUUID();
 
-            const files = data?.files?.map((file) => file.file) ?? [];
+            const files = data?.files?.map((file) => file.file);
 
-            await lastOppVedleggMutation.mutateAsync({
-                fiksDigisosId,
-                klageId,
-                data: { files },
-            });
+            if (files.length > 0) {
+                await lastOppVedleggMutation.mutateAsync({
+                    fiksDigisosId,
+                    klageId,
+                    data: { files },
+                });
+            }
 
             await sendKlageMutation.mutateAsync({
                 fiksDigisosId: fiksDigisosId,
@@ -67,7 +73,7 @@ const KlageForm = () => {
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-            await router.push(`/klage/status/${klageId}`);
+            await router.push(`/klage/status/${klageId}/${vedtakId}`);
         } catch (error) {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
         }
