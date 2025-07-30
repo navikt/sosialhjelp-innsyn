@@ -85,6 +85,12 @@
     "Dokumenter": {
         "tittel": "Documents"
     },
+    "Filopplasting": {
+        "tittel": "Submit additional documentation"
+    },
+    "VedleggListe": {
+        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}"
+    },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."

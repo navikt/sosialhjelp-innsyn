@@ -2,10 +2,18 @@ import { PropsWithChildren, ReactNode } from "react";
 import { Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-import { prefetchHentHendelserBetaQuery } from "../../generated/ssr/hendelse-controller/hendelse-controller";
+import {
+    getHentHendelserBetaQueryKey,
+    prefetchHentHendelserBetaQuery,
+} from "../../generated/ssr/hendelse-controller/hendelse-controller";
+import {
+    getHentVedleggQueryKey,
+    prefetchHentVedleggQuery,
+} from "../../generated/ssr/vedlegg-controller/vedlegg-controller";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter from "./dokumenter/Dokumenter";
+import Filopplasting from "./dokumenter/Filopplasting";
 
 interface Props {
     heading: ReactNode;
@@ -17,7 +25,8 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
     const queryClient = new QueryClient();
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
-    await prefetchHentHendelserBetaQuery(queryClient, id);
+    await Promise.all([prefetchHentHendelserBetaQuery(queryClient, id), prefetchHentVedleggQuery(queryClient, id)]);
+
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
@@ -25,10 +34,21 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
             </Heading>
             {alert}
             {children}
-            <HydrationBoundary state={dehydrate(queryClient)}>
+            <HydrationBoundary
+                state={dehydrate(queryClient, {
+                    shouldDehydrateQuery: ({ queryKey }) => queryKey === getHentHendelserBetaQueryKey(id),
+                })}
+            >
                 <Oversikt />
             </HydrationBoundary>
-            <Dokumenter id={id}/>
+            <Filopplasting />
+            <HydrationBoundary
+                state={dehydrate(queryClient, {
+                    shouldDehydrateQuery: ({ queryKey }) => queryKey === getHentVedleggQueryKey(id),
+                })}
+            >
+                <Dokumenter />
+            </HydrationBoundary>
         </VStack>
     );
 };

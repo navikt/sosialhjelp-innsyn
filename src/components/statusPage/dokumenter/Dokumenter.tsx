@@ -1,31 +1,33 @@
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+"use client";
+
 import { Heading, VStack } from "@navikt/ds-react";
 import React from "react";
-import { getTranslations } from "next-intl/server";
-import { NavigationGuardProvider } from "next-navigation-guard";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
-import { prefetchHentVedleggQuery } from "../../../generated/ssr/vedlegg-controller/vedlegg-controller";
+import { useHentVedlegg } from "../../../generated/vedlegg-controller/vedlegg-controller";
+import SoknadCardSkeleton from "../../soknaderList/list/soknadCard/SoknadCardSkeleton";
 
-import Opplastingsboks from "./Opplastingsboks";
+import VedleggListe from "./VedleggListe";
 
-interface Props {
-    id: string;
-}
+const Dokumenter = () => {
+    const t = useTranslations("Dokumenter");
+    const { id } = useParams<{ id: string }>();
+    const { data, isLoading } = useHentVedlegg(id);
 
-const Dokumenter = async ({ id }: Props) => {
-    const t = await getTranslations("Dokumenter");
-    const queryClient = new QueryClient();
-    await prefetchHentVedleggQuery(queryClient, id);
+    if (isLoading) {
+        return <SoknadCardSkeleton />;
+    }
+
+    if (!data || data.length === 0) {
+        return null;
+    }
     return (
         <VStack gap="2">
-            <Heading size="large" level="2">
+            <Heading size="large" level="2" spacing>
                 {t("tittel")}
             </Heading>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-                <NavigationGuardProvider>
-                    <Opplastingsboks />
-                </NavigationGuardProvider>
-            </HydrationBoundary>
+            <VedleggListe vedlegg={data} />
         </VStack>
     );
 };

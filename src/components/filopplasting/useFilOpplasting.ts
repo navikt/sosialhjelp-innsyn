@@ -20,10 +20,7 @@ import {
     useSendVedlegg,
 } from "../../generated/vedlegg-controller/vedlegg-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import {
-    getHentHendelserBetaQueryKey,
-    getHentHendelserQueryKey,
-} from "../../generated/hendelse-controller/hendelse-controller";
+import { getHentHendelserQueryKey } from "../../generated/hendelse-controller/hendelse-controller";
 
 import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
 
@@ -298,7 +295,6 @@ const useFilOpplasting = (
 
                         await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
                         await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) });
                     }
                     setOuterErrors(errors);
                 },

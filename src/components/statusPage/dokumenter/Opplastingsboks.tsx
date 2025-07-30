@@ -1,17 +1,13 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { useHentVedlegg } from "../../../generated/vedlegg-controller/vedlegg-controller";
 import useFilOpplastingApp, { errorStatusToMessage } from "../../filopplasting/useFilOpplastingApp";
 
 const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
 
 const Opplastingsboks = () => {
-    const { id } = useParams<{ id: string }>();
-    const { data, isLoading, error } = useHentVedlegg(id);
     const t = useTranslations();
     const { addFiler, files, removeFil, mutation, upload, outerErrors } = useFilOpplastingApp(metadatas);
 
@@ -50,21 +46,18 @@ const Opplastingsboks = () => {
                     <Heading size="small" level="3">
                         {t("Opplastingsboks.filerTilOpplasting")}
                     </Heading>
-                    <ul>
-                        {Object.values(files)[0]?.map((file) => {
-                            console.log(t(`common.${errorStatusToMessage[file.error!]}`));
-                            return (
-                                <li key={file.uuid} className="list-none">
-                                    <FileUpload.Item
-                                        file={file.file}
-                                        button={{ action: "delete", onClick: () => removeFil(0, file) }}
-                                        status={mutation.isLoading ? "uploading" : "idle"}
-                                        error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
-                                    />
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    <VStack as="ul" gap="2">
+                        {Object.values(files)[0]?.map((file) => (
+                            <FileUpload.Item
+                                as="li"
+                                key={file.uuid}
+                                file={file.file}
+                                button={{ action: "delete", onClick: () => removeFil(0, file) }}
+                                status={mutation.isLoading ? "uploading" : "idle"}
+                                error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
+                            />
+                        ))}
+                    </VStack>
                     <Button
                         disabled={Object.values(files).flat().length === 0}
                         onClick={upload}

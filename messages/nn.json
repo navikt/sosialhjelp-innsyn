@@ -85,6 +85,12 @@
     "Dokumenter": {
         "tittel": "Dokument"
     },
+    "Filopplasting": {
+        "tittel": "Ettersend dokumentasjon"
+    },
+    "VedleggListe": {
+        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}"
+    },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, sjå status på søknaden din, og send inn dokumentasjon."
