@@ -1,10 +1,15 @@
-import { PropsWithChildren, ReactNode } from "react";
+import React, { PropsWithChildren, ReactNode, Suspense } from "react";
 import { Heading, VStack } from "@navikt/ds-react";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getTranslations } from "next-intl/server";
 
 import { prefetchHentHendelserBetaQuery } from "../../generated/ssr/hendelse-controller/hendelse-controller";
+import { prefetchHentVedleggQuery } from "../../generated/ssr/vedlegg-controller/vedlegg-controller";
+import { getQueryClient } from "../../app/queryClient";
 
-import Oversikt from "./oversikt/Oversikt";
+import Oversikt, { OversiktSkeleton } from "./oversikt/Oversikt";
+import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
+import Filopplasting from "./dokumenter/Filopplasting";
 
 interface Props {
     heading: ReactNode;
@@ -13,10 +18,15 @@ interface Props {
 }
 
 export const StatusPage = async ({ id, heading, alert, children }: PropsWithChildren<Props>) => {
-    const queryClient = new QueryClient();
+    const t = await getTranslations("StatusPage");
+    const hendelserQueryClient = getQueryClient();
+    const vedleggQueryClient = getQueryClient();
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
-    await prefetchHentHendelserBetaQuery(queryClient, id);
+
+    prefetchHentHendelserBetaQuery(hendelserQueryClient, id);
+    prefetchHentVedleggQuery(vedleggQueryClient, id);
+
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
@@ -24,9 +34,22 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
             </Heading>
             {alert}
             {children}
-            <HydrationBoundary state={dehydrate(queryClient)}>
-                <Oversikt />
-            </HydrationBoundary>
+            <VStack gap="2">
+                <Heading size="large" level="2">
+                    {t("tittel")}
+                </Heading>
+                <Suspense fallback={<OversiktSkeleton />}>
+                    <HydrationBoundary state={dehydrate(hendelserQueryClient)}>
+                        <Oversikt />
+                    </HydrationBoundary>
+                </Suspense>
+            </VStack>
+            <Filopplasting />
+            <Suspense fallback={<DokumenterSkeleton />}>
+                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
+                    <Dokumenter />
+                </HydrationBoundary>
+            </Suspense>
         </VStack>
     );
 };

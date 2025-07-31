@@ -32,7 +32,7 @@
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
-    "Oversikt": {
+    "StatusPage": {
         "tittel": "Oversikt"
     },
     "OversiktSteps": {
@@ -70,6 +70,26 @@
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "Du leverte etterspurte dokumenter"
         }
+    },
+    "Opplastingsboks": {
+        "tittel": "Vil du sende inn flere dokumenter?",
+        "beskrivelse": "Dersom du har flere dokumenter som kan være viktige for søknaden din, kan du laste de opp her.",
+        "dragAndDrop": "Dra og slipp filer her",
+        "eller": "eller",
+        "button": "Velg filer",
+        "uploading": "Laster opp...",
+        "delete": "Fjern fil",
+        "sendInn": "Send dokumentasjon",
+        "filerTilOpplasting": "Filer til opplasting"
+    },
+    "Dokumenter": {
+        "tittel": "Dokumenter"
+    },
+    "Filopplasting": {
+        "tittel": "Ettersend dokumentasjon"
+    },
+    "VedleggListe": {
+        "lastetOpp": "lastet opp: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
