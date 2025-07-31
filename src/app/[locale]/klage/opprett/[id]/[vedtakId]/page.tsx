@@ -1,4 +1,4 @@
-import { BodyShort, Heading } from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -7,9 +7,7 @@ import ClientBreadcrumbs from "../../../../../../components/breadcrumbs/ClientBr
 
 import KlageForm from "./klageForm";
 
-const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
-    const { id: fiksDigisosId, vedtakId } = await params;
-
+const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("OpprettKlagePage");
 
@@ -24,9 +22,6 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
                 <Heading size="xlarge" level="1" className="mt-20">
                     {t("tittel")}
                 </Heading>
-                <BodyShort>
-                    FiksDigisosId: {fiksDigisosId}, vedtaksID: {vedtakId}
-                </BodyShort>
             </div>
             <KlageForm />
         </>
