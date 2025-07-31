@@ -4,8 +4,9 @@ import { FileObject, FileRejected, FileRejectionReason, FileUpload, Heading, VSt
 import { useController, UseControllerProps } from "react-hook-form";
 import { useTranslations } from "next-intl";
 
+import { MAX_SIZE_MB, MAX_SIZE, MAX_FILES } from "../_consts/consts";
+
 import { FormValues } from "./klageForm";
-import { MAX_SIZE_MB, MAX_SIZE, MAX_FILES } from "./consts";
 
 const FileUploadField = ({ ...controllerProps }: UseControllerProps<FormValues, "files">) => {
     const {

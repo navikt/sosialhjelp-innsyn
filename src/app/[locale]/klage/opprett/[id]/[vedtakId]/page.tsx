@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { getFlag, getToggles } from "../../../../../../featuretoggles/unleash";
 import ClientBreadcrumbs from "../../../../../../components/breadcrumbs/ClientBreadcrumbs";
 
-import KlageForm from "./klageForm";
+import KlageForm from "./_components/klageForm";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());

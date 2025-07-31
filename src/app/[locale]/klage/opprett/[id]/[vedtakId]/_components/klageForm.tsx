@@ -13,10 +13,10 @@ import {
     getHentKlagerQueryKey,
     useLastOppVedlegg,
     useSendKlage,
-} from "../../../../../../generated/klage-controller/klage-controller";
+} from "../../../../../../../generated/klage-controller/klage-controller";
+import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
 import FileUploadField from "./FileUploadField";
-import { MAX_LEN_BACKGROUND, MAX_FILES } from "./consts";
 
 export type FormValues = {
     background: string | null;
@@ -84,7 +84,7 @@ const KlageForm = () => {
                 description={t("bakgrunn.beskrivelse")}
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
-            ></Textarea>
+            />
             <FileUploadField name="files" control={control} />
             <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
                 {t("sendKlage")}
