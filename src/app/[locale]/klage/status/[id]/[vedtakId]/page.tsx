@@ -2,8 +2,8 @@ import { Heading } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-import { getFlag, getToggles } from "../../../../../../featuretoggles/unleash";
-import ClientBreadcrumbs from "../../../../../../components/breadcrumbs/ClientBreadcrumbs";
+import { getFlag, getToggles } from "@featuretoggles/unleash";
+import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());

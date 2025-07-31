@@ -8,11 +8,11 @@ import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 
-import { FlagProvider } from "../../featuretoggles/context";
-import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../../utils/amplitude";
-import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../../faro/faro";
-import { TilgangResponse } from "../../generated/model";
-import TilgangskontrollsideApp from "../../components/Tilgangskontrollside/TilgangskontrollsideApp";
+import { FlagProvider } from "@featuretoggles/context";
+import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "@utils/amplitude";
+import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
+import { TilgangResponse } from "@generated/model";
+import TilgangskontrollsideApp from "@components/Tilgangskontrollside/TilgangskontrollsideApp";
 
 initInstrumentation();
 configureLogger({
