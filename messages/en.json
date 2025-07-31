@@ -32,7 +32,7 @@
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
-    "Oversikt": {
+    "StatusPage": {
         "tittel": "Overview"
     },
     "OversiktSteps": {
@@ -70,6 +70,26 @@
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "You provided requested documents"
         }
+    },
+    "Opplastingsboks": {
+        "tittel": "Do you want to submit more documents?",
+        "beskrivelse": "If you have additional documents that may be important for your application, you can upload them here.",
+        "dragAndDrop": "Drag and drop files here",
+        "eller": "or",
+        "button": "Choose files",
+        "uploading": "Uploading...",
+        "delete": "Remove file",
+        "sendInn": "Send documentation",
+        "filerTilOpplasting": "Files for upload"
+    },
+    "Dokumenter": {
+        "tittel": "Documents"
+    },
+    "Filopplasting": {
+        "tittel": "Submit additional documentation"
+    },
+    "VedleggListe": {
+        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",

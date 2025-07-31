@@ -1,7 +1,7 @@
 import { useParams } from "next/navigation";
 import * as R from "remeda";
 
-import { useHentHendelserBeta } from "../../../generated/hendelse-controller/hendelse-controller";
+import { useHentHendelserBetaSuspense } from "../../../generated/hendelse-controller/hendelse-controller";
 
 import SendtStep from "./steps/SendtStep";
 import MottattStep from "./steps/MottattStep";
@@ -13,13 +13,7 @@ import EtterspurtDokumentasjonLevertStep from "./steps/EtterspurtDokumentasjonLe
 
 const useSteps = () => {
     const { id } = useParams<{ id: string }>();
-    const { data, isLoading, error } = useHentHendelserBeta(id);
-    if (isLoading) {
-        return { isLoading };
-    }
-    if (!data) {
-        return { error };
-    }
+    const { data } = useHentHendelserBetaSuspense(id);
     const isProcessing = data.some((hendelse) => hendelse.type === "SoknadUnderBehandling");
     const isFinishedProcessing = data.some((hendelse) => hendelse.type === "SoknadFerdigBehandlet");
     const steps = R.pipe(
@@ -70,7 +64,7 @@ const useSteps = () => {
         R.concat(isProcessing ? [] : [<UnderBehandlingStep key="UnderBehandling-kommer" completed={false} />]),
         R.concat(isFinishedProcessing ? [] : [<FerdigBehandletStep key="UnderBehandling-kommer" completed={false} />])
     );
-    return { isLoading, error, steps: stepsWithUncompleted, completed: steps.length };
+    return { steps: stepsWithUncompleted, completed: steps.length };
 };
 
 export default useSteps;
