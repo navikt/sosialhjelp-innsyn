@@ -3,6 +3,35 @@
     "info": { "title": "OpenAPI definition", "version": "v0" },
     "servers": [{ "url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url" }],
     "paths": {
+        "/api/v1/innsyn/{fiksDigisosId}/{klageId}/vedlegg": {
+            "post": {
+                "tags": ["klage-controller"],
+                "operationId": "lastOppVedlegg",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    {
+                        "name": "klageId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "files": { "type": "array", "items": { "type": "string", "format": "binary" } }
+                                },
+                                "required": ["files"]
+                            }
+                        }
+                    }
+                },
+                "responses": { "200": { "description": "OK", "content": {} } }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
                 "tags": ["vedlegg-controller"],
@@ -58,24 +87,7 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/klage": {
-            "get": {
-                "tags": ["klage-controller"],
-                "operationId": "hentKlager",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/KlageDto" } }
-                            }
-                        }
-                    }
-                }
-            },
+        "/api/v1/innsyn/{fiksDigisosId}/klage/send": {
             "post": {
                 "tags": ["klage-controller"],
                 "operationId": "sendKlage",
@@ -83,9 +95,7 @@
                     { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
                 "requestBody": {
-                    "content": {
-                        "application/json;charset=UTF-8": { "schema": { "$ref": "#/components/schemas/InputKlage" } }
-                    },
+                    "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KlageInput" } } },
                     "required": true
                 },
                 "responses": { "200": { "description": "OK", "content": {} } }
@@ -248,6 +258,42 @@
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KommuneResponse" } } }
+                    }
+                }
+            }
+        },
+        "/api/v1/innsyn/{fiksDigisosId}/klager": {
+            "get": {
+                "tags": ["klage-controller"],
+                "operationId": "hentKlager",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KlagerDto" } } }
+                    }
+                }
+            }
+        },
+        "/api/v1/innsyn/{fiksDigisosId}/klage/{vedtakId}": {
+            "get": {
+                "tags": ["klage-controller"],
+                "operationId": "hentKlage",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    {
+                        "name": "vedtakId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KlageDto" } } }
                     }
                 }
             }
@@ -588,14 +634,14 @@
                 },
                 "required": ["status"]
             },
-            "InputKlage": {
+            "KlageInput": {
                 "type": "object",
                 "properties": {
-                    "fiksDigisosId": { "type": "string" },
-                    "klageTekst": { "type": "string" },
-                    "vedtaksIds": { "type": "array", "items": { "type": "string" } }
+                    "klageId": { "type": "string", "format": "uuid" },
+                    "vedtakId": { "type": "string", "format": "uuid" },
+                    "klageTekst": { "type": "string" }
                 },
-                "required": ["fiksDigisosId", "klageTekst", "vedtaksIds"]
+                "required": ["klageId", "klageTekst", "vedtakId"]
             },
             "VilkarResponse": {
                 "type": "object",
@@ -750,15 +796,17 @@
             "KlageDto": {
                 "type": "object",
                 "properties": {
-                    "klageUrl": { "$ref": "#/components/schemas/FilUrl" },
-                    "status": {
-                        "type": "string",
-                        "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIG_BEHANDLET", "HOS_STATSFORVALTER"]
-                    },
-                    "nyttVedtakUrl": { "$ref": "#/components/schemas/FilUrl" },
-                    "paaklagetVedtakRefs": { "type": "array", "items": { "type": "string" } }
+                    "klageId": { "type": "string", "format": "uuid" },
+                    "vedtakId": { "type": "string", "format": "uuid" },
+                    "klageTekst": { "type": "string" },
+                    "status": { "type": "string", "enum": ["SENDT", "MOTTATT"] }
                 },
-                "required": ["klageUrl", "paaklagetVedtakRefs", "status"]
+                "required": ["klageId", "klageTekst", "status", "vedtakId"]
+            },
+            "KlagerDto": {
+                "type": "object",
+                "properties": { "klager": { "type": "array", "items": { "$ref": "#/components/schemas/KlageDto" } } },
+                "required": ["klager"]
             },
             "BehandlesIkke": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
             "DokumentasjonKrav": {
