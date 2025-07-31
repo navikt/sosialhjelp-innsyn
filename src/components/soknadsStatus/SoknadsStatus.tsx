@@ -8,7 +8,7 @@ import { logAmplitudeEvent, logButtonOrLinkClick } from "../../utils/amplitude";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
-import useFiksDigisosId from "../../hooks/useFiksDigisosIdDepricated";
+import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
 import {
     FilUrl,

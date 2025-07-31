@@ -11,7 +11,7 @@ import {
     getHentSoknadsStatusMockHandler,
     getHentSoknadsStatusResponseMock,
 } from "../../../generated/soknads-status-controller/soknads-status-controller.msw";
-import useFiksDigisosId from "../../../hooks/useFiksDigisosIdDepricated";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 
 import { useFileUploadError } from "./useFileUploadError";
 
@@ -32,7 +32,7 @@ const KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE = getHentKommuneInfoResponseMock({
 const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: false });
 const BROKEN_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: true });
 
-vi.mock("../../../hooks/useFiksDigisosIdDepricated", () => ({ default: vi.fn(() => "dumy") }));
+vi.mock("../../../hooks/useFiksDigisosId", () => ({ default: vi.fn(() => "dumy") }));
 
 describe("useFileUploadAllowed", () => {
     beforeEach(() => {

@@ -5,7 +5,7 @@ import * as R from "remeda";
 import { DokumentasjonkravResponse } from "../../../generated/model";
 import { useFileUploadError } from "../../driftsmelding/lib/useFileUploadError";
 import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
-import useFiksDigisosId from "../../../hooks/useFiksDigisosIdDepricated";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useFilOpplasting, { errorStatusToMessage } from "../../filopplasting/useFilOpplasting";
 import FilOpplastingBlokk from "../../filopplasting/FilOpplastingBlokk";
 import InnsendelsesFrist from "../InnsendelsesFrist";

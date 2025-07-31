@@ -6,16 +6,14 @@ import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 
-import useFiksDigisosId from "../../../../../../hooks/useFiksDigisosId";
 import {
     getHentKlagerQueryKey,
     useLastOppVedlegg,
     useSendKlage,
 } from "../../../../../../generated/klage-controller/klage-controller";
-import useVedtakId from "../../../../../../hooks/useVedtakId";
 
 import FileUploadField from "./FileUploadField";
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "./consts";
@@ -32,8 +30,8 @@ const klageSchema = z.object({
 
 const KlageForm = () => {
     const t = useTranslations("KlageForm");
-    const fiksDigisosId = useFiksDigisosId();
-    const vedtakId = useVedtakId();
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const { vedtakId } = useParams<{ vedtakId: string }>();
     const queryClient = useQueryClient();
     const router = useRouter();
 

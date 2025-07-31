@@ -1,7 +1,7 @@
 import { useHentKommuneInfo } from "../generated/kommune-controller/kommune-controller";
 import { getDriftsmeldingFromKommune } from "../components/driftsmelding/lib/getDriftsmeldingFromKommune";
 
-import useFiksDigisosId from "./useFiksDigisosIdDepricated";
+import useFiksDigisosId from "./useFiksDigisosId";
 
 const useKommune = () => {
     const fiksDigisosId = useFiksDigisosId();

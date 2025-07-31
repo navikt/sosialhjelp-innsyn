@@ -10,7 +10,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
-import useFiksDigisosId from "../../../hooks/useFiksDigisosIdDepricated";
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
 import {
     getHentSaksStatuserQueryKey,
