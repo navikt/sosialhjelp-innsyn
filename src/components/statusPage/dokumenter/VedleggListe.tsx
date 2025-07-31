@@ -1,6 +1,6 @@
 "use client";
 
-import { FileUpload, VStack } from "@navikt/ds-react";
+import { FileUpload, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
 
@@ -30,5 +30,17 @@ const VedleggListe = ({ vedlegg }: Props) => {
         </VStack>
     );
 };
+
+export const VedleggListeSkeleton = () => (
+    <VStack as="ul" gap="2" className="navds-file-item__inner">
+        <HStack as="li" align="center" gap="2">
+            <Skeleton variant="circle" height="48px" width="48px" />
+            <VStack justify="center" gap="2">
+                <Skeleton variant="rectangle" width="200px" />
+                <Skeleton variant="rectangle" width="50px" />
+            </VStack>
+        </HStack>
+    </VStack>
+);
 
 export default VedleggListe;

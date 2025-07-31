@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
-import { QueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import { QueryClient } from "@tanstack/react-query";
 
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
