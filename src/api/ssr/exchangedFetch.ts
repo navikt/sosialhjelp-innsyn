@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { requestOboToken } from "@navikt/oasis";
 import { logger } from "@navikt/next-logger";
 
-import { getServerEnv } from "../../config/env";
+import { getServerEnv } from "@config/env";
 
 const getAuthorizationHeader = async (): Promise<string | null> => (await headers()).get("authorization");
 

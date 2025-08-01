@@ -3,9 +3,9 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-import { prefetchHentHendelserBetaQuery } from "../../generated/ssr/hendelse-controller/hendelse-controller";
-import { prefetchHentVedleggQuery } from "../../generated/ssr/vedlegg-controller/vedlegg-controller";
-import { getQueryClient } from "../../app/queryClient";
+import { prefetchHentHendelserBetaQuery } from "@generated/ssr/hendelse-controller/hendelse-controller";
+import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
+import { getQueryClient } from "@api/queryClient";
 
 import Oversikt, { OversiktSkeleton } from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -23,7 +23,6 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
     const vedleggQueryClient = getQueryClient();
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
-
     prefetchHentHendelserBetaQuery(hendelserQueryClient, id);
     prefetchHentVedleggQuery(vedleggQueryClient, id);
 

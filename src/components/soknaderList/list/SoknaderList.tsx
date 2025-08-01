@@ -6,10 +6,10 @@ import { useTranslations } from "next-intl";
 import { Box, Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 
-import { SaksListeResponse } from "../../../generated/model";
-import { PaabegyntSoknad } from "../../aktiveSoknader/AktiveSoknader";
-import { SaksDetaljerResponse } from "../../../generated/ssr/model";
-import useShowMore, { ITEMS_LIMIT } from "../../../hooks/useShowMore";
+import { SaksListeResponse } from "@generated/model";
+import { SaksDetaljerResponse } from "@generated/ssr/model";
+import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";
+import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";

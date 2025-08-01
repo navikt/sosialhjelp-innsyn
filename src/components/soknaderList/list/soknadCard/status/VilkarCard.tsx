@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { CheckmarkIcon } from "@navikt/aksel-icons";
 
-import StatusCard from "../../../statusCard/StatusCard";
+import StatusCard from "@components/statusCard/StatusCard";
 
 interface Props {
     sakTittel: string;

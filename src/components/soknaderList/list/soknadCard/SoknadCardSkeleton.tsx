@@ -1,6 +1,6 @@
 import { Skeleton } from "@navikt/ds-react";
 
-import StatusCard from "../../statusCard/StatusCard";
+import StatusCard from "@components/statusCard/StatusCard";
 
 const SoknadCardSkeleton = () => (
     <StatusCard

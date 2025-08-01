@@ -12,20 +12,16 @@ import {
     logBrukerLeavingBeforeSubmitting,
     logDuplicatedFiles,
     logFileUploadFailedEvent,
-} from "../../utils/amplitude";
-import { SendVedleggBody, VedleggOpplastingResponseStatus } from "../../generated/model";
-import { containsIllegalCharacters, maxCombinedFileSize, maxFileCount, maxFileSize } from "../../utils/vedleggUtils";
-import {
-    getHentVedleggQueryKey,
-    sendVedlegg,
-    useSendVedlegg,
-} from "../../generated/vedlegg-controller/vedlegg-controller";
+} from "@utils/amplitude";
+import { SendVedleggBody, VedleggOpplastingResponseStatus } from "@generated/model";
+import { containsIllegalCharacters, maxCombinedFileSize, maxFileCount, maxFileSize } from "@utils/vedleggUtils";
+import { getHentVedleggQueryKey, sendVedlegg, useSendVedlegg } from "@generated/vedlegg-controller/vedlegg-controller";
 import {
     getHentHendelserBetaQueryKey,
     getHentHendelserQueryKey,
-} from "../../generated/hendelse-controller/hendelse-controller";
+} from "@generated/hendelse-controller/hendelse-controller";
 
-import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
+import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
 
 export interface FancyFile {
     file: File;

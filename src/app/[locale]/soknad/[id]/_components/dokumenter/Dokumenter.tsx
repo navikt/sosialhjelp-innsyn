@@ -5,7 +5,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-import { useHentVedleggSuspense } from "../../../generated/vedlegg-controller/vedlegg-controller";
+import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
 
 import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
 

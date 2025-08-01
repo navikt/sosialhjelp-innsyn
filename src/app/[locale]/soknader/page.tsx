@@ -3,10 +3,11 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
-import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
-import TidligereSoknader from "@components/tidligereSoknader/TidligereSoknader";
+import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
 import SokButton from "@components/sokButton/SokButton";
+
+import TidligereSoknader from "./_components/TidligereSoknader";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_soknaderside", await getToggles());

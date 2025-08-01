@@ -3,7 +3,7 @@ import { PencilIcon } from "@navikt/aksel-icons";
 import { Button } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
-import { getServerEnv } from "../../config/env";
+import { getServerEnv } from "@config/env";
 
 const SokButton = async () => {
     const t = await getTranslations("SokButton");
