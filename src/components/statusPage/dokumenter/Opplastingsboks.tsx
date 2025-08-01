@@ -1,15 +1,120 @@
 "use client";
+import path from "path";
 
 import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
-import useFilOpplastingApp, { errorStatusToMessage } from "../../filopplasting/useFilOpplastingApp";
+import { getHentVedleggQueryKey, useSendVedlegg } from "@generated/vedlegg-controller/vedlegg-controller";
+import {
+    getHentHendelserBetaQueryKey,
+    getHentHendelserQueryKey,
+} from "@generated/hendelse-controller/hendelse-controller";
+
+import useFilOpplastingApp, {
+    determineErrorType,
+    errorStatusToMessage,
+    Error,
+    Feil,
+} from "../../filopplasting/useFilOpplastingApp";
 
 const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
 
 const Opplastingsboks = () => {
     const t = useTranslations();
-    const { addFiler, files, removeFil, mutation, upload, outerErrors } = useFilOpplastingApp(metadatas);
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const { addFiler, files, removeFil, outerErrors, setOuterErrors, reset } = useFilOpplastingApp(metadatas);
+    const { isPending, mutate } = useSendVedlegg();
+    const allFiles = useMemo(() => Object.values(files).flat(), [files]);
+    const queryClient = useQueryClient();
+
+    const upload = () => {
+        //NULLSJEKK
+        if (allFiles.length === 0) {
+            // setOuterErrors([{ feil: Feil.NO_FILES }]);
+            // logger.info("Validering vedlegg feilet: Ingen filer valgt");
+            // logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
+            return;
+        }
+
+        // LAGE METADATA
+        const _metadatas = Object.entries(files)
+            .filter((entry) => Boolean(entry[1].length))
+            .map(([index, filer]) => {
+                const _metadata = metadatas[+index]!;
+                return { ..._metadata, filer: filer.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) };
+            });
+        const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
+            type: "application/json",
+        });
+
+        mutate(
+            {
+                fiksDigisosId,
+                data: {
+                    files: [
+                        metadataFil,
+                        //FORMATERE FIL: filnavn + options..
+                        ...allFiles.map((file) => {
+                            const ext = path.extname(file.file.name);
+                            return new File([file.file], file.uuid + ext, {
+                                type: file.file.type,
+                                lastModified: file.file.lastModified,
+                            });
+                        }),
+                    ],
+                },
+            },
+            {
+                onSuccess: async (data) => {
+                    const filerData = data.flatMap((response) => response.filer);
+                    // LAGE ERROR LISTE FRA DATA
+                    // Flytte til useFilOpplastingApp?
+                    const errors: Error[] = filerData
+                        .filter((it) => it.status !== "OK")
+                        .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
+                    if (errors.length === 0) {
+                        reset();
+
+                        /*
+                        SETTE UPLOAD SUCCESS STATE (brukt i VedleggSuccess f eks)
+                        TODO: Tror ikke den skal med i ny filKomponent men dobbeltsjekke med Martin/Idun
+                        const innsendelseType = data.flatMap((response) => response.hendelsetype);
+                        if (
+                            innsendelseType.includes("dokumentasjonEtterspurt") ||
+                            innsendelseType.includes("dokumentasjonkrav") ||
+                            innsendelseType.includes("soknad")
+                        ) {
+                            setOppgaverUploadSuccess(true);
+                        }
+                        if (innsendelseType.includes("bruker")) {
+                            setEttersendelseUploadSuccess(true);
+                        }*/
+
+                        //INVALIDERE QUERIES
+                        // TODO: Hvilke trengs?
+                        await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
+                        await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
+                        await queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) });
+                    }
+                    setOuterErrors(errors);
+                },
+                onError: (error) => {
+                    // logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
+                    // logger.warn("Feil med opplasting av vedlegg: " + error.message);
+                    if (error.message === "Mulig virus funnet") {
+                        //logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
+                        setOuterErrors([{ feil: Feil.VIRUS }]);
+                    } else {
+                        //logFileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
+                        setOuterErrors([{ feil: Feil.KLIENTFEIL }]);
+                    }
+                },
+            }
+        );
+    };
 
     return (
         <FileUpload
@@ -53,7 +158,7 @@ const Opplastingsboks = () => {
                                 key={file.uuid}
                                 file={file.file}
                                 button={{ action: "delete", onClick: () => removeFil(0, file) }}
-                                status={mutation.isLoading ? "uploading" : "idle"}
+                                status={isPending ? "uploading" : "idle"}
                                 error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
                             />
                         ))}
@@ -61,7 +166,7 @@ const Opplastingsboks = () => {
                     <Button
                         disabled={Object.values(files).flat().length === 0}
                         onClick={upload}
-                        loading={mutation.isLoading}
+                        loading={isPending}
                         className="self-start"
                     >
                         {t("Opplastingsboks.sendInn")}

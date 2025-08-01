@@ -1,31 +1,11 @@
-import path from "path";
-
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { UseMutationOptions, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
 import { logger } from "@navikt/next-logger";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
 
-import {
-    logAmplitudeEvent,
-    logBrukerLeavingBeforeSubmitting,
-    logDuplicatedFiles,
-    logFileUploadFailedEvent,
-} from "../../utils/amplitude";
-import { SendVedleggBody, VedleggOpplastingResponseStatus } from "../../generated/model";
+import { logBrukerLeavingBeforeSubmitting, logDuplicatedFiles } from "../../utils/amplitude";
+import { VedleggOpplastingResponseStatus } from "../../generated/model";
 import { containsIllegalCharacters, maxCombinedFileSize, maxFileCount, maxFileSize } from "../../utils/vedleggUtils";
-import {
-    getHentVedleggQueryKey,
-    sendVedlegg,
-    useSendVedlegg,
-} from "../../generated/vedlegg-controller/vedlegg-controller";
-import {
-    getHentHendelserBetaQueryKey,
-    getHentHendelserQueryKey,
-} from "../../generated/hendelse-controller/hendelse-controller";
-
-import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
 
 export interface FancyFile {
     file: File;
@@ -48,6 +28,13 @@ export interface Error {
 export interface ErrorWithFile extends Error {
     fil: File;
     filnavn: string;
+}
+
+export interface Mutation {
+    isLoading: boolean;
+    isError?: boolean;
+    error?: Error | ErrorWithFile;
+    data?: { filer: { status: VedleggOpplastingResponseStatus; filnavn: string }[] }[];
 }
 
 export enum Feil {
@@ -78,7 +65,7 @@ export const errorStatusToMessage: Record<Feil, string> = {
     [Feil.TOO_MANY_FILES]: "vedlegg.opplasting_feilmelding_TOO_MANY_FILES",
 };
 
-function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | undefined {
+export function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | undefined {
     switch (status) {
         case "ILLEGAL_FILE_TYPE":
             return Feil.ILLEGAL_FILE_TYPE;
@@ -96,18 +83,8 @@ function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | und
 const recordFromMetadatas = (metadatas: Metadata[]) =>
     metadatas.reduce((acc, curr, currentIndex) => ({ ...acc, [currentIndex]: [] }), {});
 
-const useFilOpplasting = (
-    metadatas: Metadata[],
-    options?: UseMutationOptions<
-        Awaited<ReturnType<typeof sendVedlegg>>,
-        unknown,
-        { fiksDigisosId: string; data: SendVedleggBody }
-    >
-) => {
+const useFilOpplasting = (metadatas: Metadata[]) => {
     const t = useTranslations("common");
-    const queryClient = useQueryClient();
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { isPending, mutate, error, isError, data } = useSendVedlegg();
 
     const [files, setFiles] = useState<Record<number, FancyFile[]>>(recordFromMetadatas(metadatas));
     useNavigationGuard({
@@ -118,20 +95,20 @@ const useFilOpplasting = (
         },
     });
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-    const { setOppgaverUploadSuccess, setEttersendelseUploadSuccess } = useFilUploadSuccessful();
 
+    /*
+    // Tror ikke denne trengs
     const resetStatus = useCallback(() => {
         setOuterErrors([]);
         setEttersendelseUploadSuccess(false);
         setOppgaverUploadSuccess(false);
-    }, [setOuterErrors, setOppgaverUploadSuccess, setEttersendelseUploadSuccess]);
+    }, [setOuterErrors, setOppgaverUploadSuccess, setEttersendelseUploadSuccess]);*/
 
     const reset = useCallback(() => {
         setFiles(recordFromMetadatas(metadatas));
         setOuterErrors([]);
     }, [metadatas, setFiles, setOuterErrors]);
     useEffect(reset, [reset]);
-    const allFiles = useMemo(() => Object.values(files).flat(), [files]);
 
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
@@ -189,105 +166,13 @@ const useFilOpplasting = (
         [setFiles, files]
     );
 
-    const upload = useCallback(async () => {
-        if (allFiles.length === 0) {
-            logger.info("Validering vedlegg feilet: Ingen filer valgt");
-            logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
-            setOuterErrors([{ feil: Feil.NO_FILES }]);
-            return;
-        }
-
-        const _metadatas = Object.entries(files)
-            .filter((entry) => Boolean(entry[1].length))
-            .map(([index, filer]) => {
-                const _metadata = metadatas[+index]!;
-                return { ..._metadata, filer: filer.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) };
-            });
-
-        const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
-            type: "application/json",
-        });
-
-        mutate(
-            {
-                fiksDigisosId,
-                data: {
-                    files: [
-                        metadataFil,
-                        ...allFiles.map((file) => {
-                            const ext = path.extname(file.file.name);
-                            return new File([file.file], file.uuid + ext, {
-                                type: file.file.type,
-                                lastModified: file.file.lastModified,
-                            });
-                        }),
-                    ],
-                },
-            },
-            {
-                ...options,
-                onSuccess: async (data, variables, context) => {
-                    options?.onSuccess?.(data, variables, context);
-                    const filerData = data.flatMap((response) => response.filer);
-                    const errors: Error[] = filerData
-                        .filter((it) => it.status !== "OK")
-                        .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
-                    if (errors.length === 0) {
-                        const innsendelseType = data.flatMap((response) => response.hendelsetype);
-                        reset();
-
-                        if (
-                            innsendelseType.includes("dokumentasjonEtterspurt") ||
-                            innsendelseType.includes("dokumentasjonkrav") ||
-                            innsendelseType.includes("soknad")
-                        ) {
-                            setOppgaverUploadSuccess(true);
-                        }
-                        if (innsendelseType.includes("bruker")) {
-                            setEttersendelseUploadSuccess(true);
-                        }
-
-                        await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) });
-                    }
-                    setOuterErrors(errors);
-                },
-                onError: (error, variables, context) => {
-                    options?.onError?.(error, variables, context);
-                    logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
-                    if (error.message === "Mulig virus funnet") {
-                        logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
-                        setOuterErrors([{ feil: Feil.VIRUS }]);
-                    } else {
-                        logFileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
-                        setOuterErrors([{ feil: Feil.KLIENTFEIL }]);
-                    }
-                },
-            }
-        );
-    }, [
-        mutate,
-        fiksDigisosId,
-        allFiles,
-        metadatas,
-        files,
-        options,
-        queryClient,
-        reset,
-        setOppgaverUploadSuccess,
-        setEttersendelseUploadSuccess,
-    ]);
-
     return {
-        mutation: { isLoading: isPending, isError, error, data },
         outerErrors,
-        upload,
         files,
         addFiler,
+        setOuterErrors,
         removeFil,
-        resetStatus,
+        reset,
     };
 };
 
