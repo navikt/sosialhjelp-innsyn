@@ -1,5 +1,5 @@
-import { getServerEnv } from "../../../../config/env";
-import apiProxy, { RouteHandlerProxyTarget } from "../../../../api/proxy/apiProxy";
+import { getServerEnv } from "@config/env";
+import apiProxy, { RouteHandlerProxyTarget } from "@api/proxy/apiProxy";
 
 const getRouteHandlerProxyTarget = async (
     bearerToken: string | undefined,

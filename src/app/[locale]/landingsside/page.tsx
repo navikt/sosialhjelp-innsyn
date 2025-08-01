@@ -2,13 +2,13 @@ import { notFound } from "next/navigation";
 import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
-import OkonomiskSosialhjelpIcon from "../../../components/ikoner/OkonomiskSosialhjelp";
-import { getFlag, getToggles } from "../../../featuretoggles/unleash";
-import Snarveier from "../../../components/snarveier/Snarveier";
-import NyttigInformasjon from "../../../components/nyttigInformasjon/NyttigInformasjon";
-import AktiveSoknader from "../../../components/aktiveSoknader/AktiveSoknader";
-import SokButton from "../../../components/sokButton/SokButton";
-import ClientBreadcrumbs from "../../../components/breadcrumbs/ClientBreadcrumbs";
+import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
+import { getFlag, getToggles } from "@featuretoggles/unleash";
+import Snarveier from "@components/snarveier/Snarveier";
+import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
+import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
+import SokButton from "@components/sokButton/SokButton";
+import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
