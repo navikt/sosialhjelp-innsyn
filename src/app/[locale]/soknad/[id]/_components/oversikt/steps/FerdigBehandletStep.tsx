@@ -17,7 +17,9 @@ const FerdigBehandletStep = (props: Props) => {
     if (props.completed) {
         return (
             <Step heading={t("tittel")} completed>
-                <Link href={props.url}>{t("completed.visVedtaket")}</Link>
+                <Link href={props.url} className="text-ax-text-accent-subtle">
+                    {t("completed.visVedtaket")}
+                </Link>
                 {format.dateTime(props.tidspunkt, "long")}
             </Step>
         );
