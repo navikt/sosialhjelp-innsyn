@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl";
 import { FileTextIcon } from "@navikt/aksel-icons";
 
 import StatusCard from "../../../statusCard/StatusCard";
-import StatusIcon from "../icon/StatusIcon";
 
 interface Props {
     fiksDigisosId: string;
@@ -15,7 +14,7 @@ const SendtCard = ({ fiksDigisosId, sendtDato }: Props) => {
         <StatusCard
             href={`/soknad/${fiksDigisosId}`}
             description={t("description", { date: sendtDato })}
-            icon={<StatusIcon icon={FileTextIcon} />}
+            icon={<FileTextIcon />}
             variant="info"
         >
             {t("title")}
