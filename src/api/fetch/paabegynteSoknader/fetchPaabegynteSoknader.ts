@@ -1,8 +1,19 @@
 import { logger } from "@navikt/next-logger";
 
-import { getServerEnv } from "../../../config/env";
-import exchangedFetch from "../../ssr/exchangedFetch";
-import { PaabegyntSoknad } from "../../../components/aktiveSoknader/AktiveSoknader";
+import { getServerEnv } from "@config/env";
+import exchangedFetch from "@api/ssr/exchangedFetch";
+
+export interface PaabegyntSoknad {
+    eventTidspunkt: string;
+    eventId: string;
+    grupperingsId: string;
+    tekst: string;
+    link: string;
+    sikkerhetsnivaa: number;
+    sistOppdatert: string;
+    isAktiv: boolean;
+    soknadId: string;
+}
 
 const fetchPaabegynteSaker = async (): Promise<PaabegyntSoknad[]> => {
     if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {

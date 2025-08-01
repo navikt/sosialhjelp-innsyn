@@ -1,9 +1,9 @@
 import * as R from "remeda";
 import { differenceInDays } from "date-fns";
 
-import { PaabegyntSoknad } from "../../aktiveSoknader/AktiveSoknader";
-import { SaksListeResponse } from "../../../generated/model";
-import { SaksDetaljerResponse } from "../../../generated/ssr/model";
+import { SaksListeResponse } from "@generated/model";
+import { SaksDetaljerResponse } from "@generated/ssr/model";
+import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 
 export type Soknad = (Partial<SaksDetaljerResponse> & SaksListeResponse) | PaabegyntSoknad;
 

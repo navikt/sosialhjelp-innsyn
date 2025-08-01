@@ -1,13 +1,15 @@
 "use client";
 
-import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 
-import useFilOpplastingApp, { errorStatusToMessage } from "../../filopplasting/useFilOpplastingApp";
+import useFilOpplastingApp, { errorStatusToMessage, Metadata } from "@components/opplastingsboks/useFilOpplastingApp";
 
-const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
+interface Props {
+    metadatas: Metadata[];
+}
 
-const Opplastingsboks = () => {
+const Opplastingsboks = ({ metadatas }: Props) => {
     const t = useTranslations();
     const { addFiler, files, removeFil, mutation, upload, outerErrors } = useFilOpplastingApp(metadatas);
 

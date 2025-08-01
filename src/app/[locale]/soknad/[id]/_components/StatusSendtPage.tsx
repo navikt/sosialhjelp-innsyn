@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-import StatusAlert from "../alert/StatusAlert";
+import StatusAlert from "@components/alert/StatusAlert";
 
 import { StatusPage } from "./StatusPage";
 
@@ -9,8 +9,8 @@ interface Props {
     id: string;
 }
 
-export const StatusMottattPage = async ({ navKontor, id }: Props) => {
-    const t = await getTranslations("StatusMottattPage");
+export const StatusSendtPage = async ({ navKontor, id }: Props) => {
+    const t = await getTranslations("StatusSendtPage");
     return (
         <StatusPage
             id={id}
