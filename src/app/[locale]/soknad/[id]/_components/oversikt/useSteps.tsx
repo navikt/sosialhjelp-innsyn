@@ -22,7 +22,13 @@ const useSteps = () => {
         R.map((hendelse) => {
             switch (hendelse.type) {
                 case "Sendt":
-                    return <SendtStep tidspunkt={new Date(hendelse.tidspunkt)} navKontor={hendelse.navKontor ?? ""} />;
+                    return (
+                        <SendtStep
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                            navKontor={hendelse.navKontor ?? ""}
+                            url={hendelse.url}
+                        />
+                    );
                 case "Mottatt":
                     return (
                         <MottattStep tidspunkt={new Date(hendelse.tidspunkt)} navKontor={hendelse.navKontor ?? ""} />

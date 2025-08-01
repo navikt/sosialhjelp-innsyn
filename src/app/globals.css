@@ -13,8 +13,18 @@ body {
     border-bottom: 1px solid var(--a-border-subtle);
 }
 
-/* "Hack" for å skjule tallet i Stepper (søknadsoversikt) */
-.aksel-stepper__circle:not(.aksel-stepper__circle--success) {
-    color: var(--ax-bg-default);
-    border-color: var(--ax-text-default);
+/*
+ * "Hack" for å skjule tallet i Stepper (søknadsoversikt)
+ * TODO: Fjern når Progress-komponenten er på plass i aksel
+*/
+.aksel-stepper__circle {
+    &:not(.aksel-stepper__circle--success) {
+        color: var(--ax-bg-default);
+        border-color: var(--ax-text-default);
+    }
+    &.aksel-stepper__circle--success {
+        background-color: var(--ax-bg-neutral-strong);
+        border-color: var(--ax-bg-neutral-strong);
+        color: var(--ax-bg-default);
+    }
 }
