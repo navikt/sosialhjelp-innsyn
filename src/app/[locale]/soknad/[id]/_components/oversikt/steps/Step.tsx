@@ -11,9 +11,9 @@ type Props = Omit<StepperStepProps, "children"> & {
 const Step = ({ heading, className, children, ...rest }: PropsWithChildren<Props>) => (
     <>
         {/* @ts-expect-error StepperStep tar bare imot string som children, men det funker fint med jsx også */}
-        <StepperStep interactive={false} className={cx("mb-4", className)} {...rest}>
+        <StepperStep className={cx("mb-4 text-ax-text-info", className)} {...rest}>
             <VStack>
-                <Heading size="small" level="4">
+                <Heading size="small" level="4" className="font-ax-bold">
                     {heading}
                 </Heading>
                 {children}
