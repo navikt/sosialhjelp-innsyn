@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { requestOboToken } from "@navikt/oasis";
+import { logger } from "@navikt/next-logger";
 
 import { getServerEnv } from "@config/env";
 
@@ -19,6 +20,7 @@ const exchangedFetch = async <T>(url: string, host?: string, basePath?: string, 
     const hostnamePart = host ?? getServerEnv().NEXT_INNSYN_API_HOSTNAME;
     const basePathPart = basePath ?? "/sosialhjelp/innsyn-api";
     const absoluteUrl = new URL(`http://${hostnamePart}${portPart}${basePathPart}` + url);
+    logger.info(`token: ${result.token}`);
     const response = await fetch(absoluteUrl, {
         headers: {
             Authorization: `Bearer ${result.token}`,
