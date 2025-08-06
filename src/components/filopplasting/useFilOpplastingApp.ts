@@ -82,87 +82,56 @@ export function determineErrorType(status: VedleggOpplastingResponseStatus): Fei
     }
 }
 
-const recordFromMetadatas = (metadatas: Metadata[]) =>
-    metadatas.reduce((acc, curr, currentIndex) => ({ ...acc, [currentIndex]: [] }), {});
-
-const useFilOpplasting = (metadatas: Metadata[]) => {
+const useFilOpplasting = () => {
     const t = useTranslations("common");
 
-    const [files, setFiles] = useState<Record<number, FancyFile[]>>(recordFromMetadatas(metadatas));
+    const [files, setFiles] = useState<FancyFile[]>([]);
+    const [outerErrors, setOuterErrors] = useState<Error[]>([]);
+
     useNavigationGuard({
-        enabled: Object.values(files).flat().length > 0,
+        enabled: files.length > 0,
         confirm: () => {
             logBrukerLeavingBeforeSubmitting();
             return window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"));
         },
     });
-    const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-
-    /*
-    // Tror ikke denne trengs
-    const resetStatus = useCallback(() => {
-        setOuterErrors([]);
-        setEttersendelseUploadSuccess(false);
-        setOppgaverUploadSuccess(false);
-    }, [setOuterErrors, setOppgaverUploadSuccess, setEttersendelseUploadSuccess]);*/
 
     const reset = useCallback(() => {
-        setFiles(recordFromMetadatas(metadatas));
+        setFiles([]);
         setOuterErrors([]);
-    }, [metadatas, setFiles, setOuterErrors]);
+    }, [setFiles, setOuterErrors]);
     useEffect(reset, [reset]);
 
     const addFiler = useCallback(
-        (index: number, _files: File[]) => {
+        (_files: File[]) => {
             logDuplicatedFiles(_files);
 
-            const newFiles = _files.map((file) => {
-                const error = validateFile(file);
-                return {
-                    file,
-                    uuid: crypto.randomUUID(),
-                    ...(error && { error }),
-                };
-            });
+            const updatedFiles = files.concat(
+                _files.map((file) => {
+                    const error = validateFile(file);
+                    return {
+                        file,
+                        uuid: crypto.randomUUID(),
+                        ...(error && { error }),
+                    };
+                })
+            );
 
-            const outerErrors: Error[] = [];
-            if (
-                _files.concat(files[index].map((it) => it.file)).reduce((acc, curr) => acc + curr.size, 0) >
-                maxCombinedFileSize
-            ) {
-                outerErrors.push({ feil: Feil.COMBINED_TOO_LARGE });
-            }
-            const totalFiles = _files.length + Object.values(files).flat().length;
-            if (totalFiles > maxFileCount) {
-                logger.info(`Bruker prøver å laste opp for mange filer: ${totalFiles}`);
-                outerErrors.push({ feil: Feil.TOO_MANY_FILES });
-            }
-            setFiles((prev) => ({
-                ...prev,
-                [index]: [...prev[index], ...newFiles],
-            }));
+            const _outerErrors = getOuterErrors(updatedFiles);
 
-            setOuterErrors(outerErrors);
+            setFiles(updatedFiles);
+            setOuterErrors(_outerErrors);
         },
         [files, setFiles]
     );
 
     const removeFil = useCallback(
-        (index: number, fil: FancyFile) => {
-            const _files = Object.values(files).flat();
-            setFiles((prev) => ({ ...prev, [index]: prev[index].filter((it) => it.uuid !== fil.uuid) }));
-            // Update "global" errors
-            const _errors: Error[] = [];
-            if (
-                _files.filter((it) => it.uuid !== fil.uuid).reduce((acc, curr) => acc + curr.file.size, 0) >
-                maxCombinedFileSize
-            ) {
-                _errors.push({ feil: Feil.COMBINED_TOO_LARGE });
-            }
-            if (_files.length - 1 > maxFileCount) {
-                _errors.push({ feil: Feil.TOO_MANY_FILES });
-            }
-            setOuterErrors(() => _errors);
+        (fil: FancyFile) => {
+            const updatedFiles = files.filter((it) => it.uuid !== fil.uuid);
+            const _outerErrors = getOuterErrors(updatedFiles);
+
+            setFiles(updatedFiles);
+            setOuterErrors(() => _outerErrors);
         },
         [setFiles, files]
     );
@@ -179,14 +148,11 @@ const useFilOpplasting = (metadatas: Metadata[]) => {
 
 export default useFilOpplasting;
 
-export const createMetadataFile = (files: Record<number, FancyFile[]>, metadatas: Metadata[]): File => {
-    // LAGE METADATA
-    const _metadatas = Object.entries(files)
-        .filter((entry) => Boolean(entry[1].length))
-        .map(([index, _files]) => {
-            const _metadata = metadatas[+index]!;
-            return { ..._metadata, filer: _files.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) };
-        });
+export const createMetadataFile = (files: FancyFile[], metadatas: Metadata[]): File => {
+    // Gammel vedleggslogikk var skrevet ut fra at filer fra flere vedleggsvelgere (med ulike typer) ble sendt sammen til backend.
+    // Dette ble løst med å lage en metadata-fil som inneholder informasjon om hvilke filer som hører til hvilke typer
+    // Vi har fjernet denne logikken med antagelse om at vi ikke lenger sender filer fra flere vedleggsvelgere samtidig.
+    const _metadatas = [{ ...metadatas[0], filer: files.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) }];
     const metadataFile = new File([JSON.stringify(_metadatas)], "metadata.json", {
         type: "application/json",
     });
@@ -212,4 +178,17 @@ const validateFile = (file: File): Feil | null => {
     }
 
     return null;
+};
+
+const getOuterErrors = (files: FancyFile[]): Error[] => {
+    const outerErrors: Error[] = [];
+    if (files.map((file) => file.file).reduce((acc, curr) => acc + curr.size, 0) > maxCombinedFileSize) {
+        outerErrors.push({ feil: Feil.COMBINED_TOO_LARGE });
+    }
+    if (files.length > maxFileCount) {
+        logger.info(`Bruker prøver å laste opp for mange filer: ${files.length}`);
+        outerErrors.push({ feil: Feil.TOO_MANY_FILES });
+    }
+
+    return outerErrors;
 };

@@ -2,7 +2,6 @@
 
 import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
@@ -26,27 +25,21 @@ const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
 const Opplastingsboks = () => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { addFiler, files, removeFil, outerErrors, setOuterErrors, reset } = useFilOpplastingApp(metadatas);
+    const { addFiler, files, removeFil, outerErrors, setOuterErrors, reset } = useFilOpplastingApp();
     const { isPending, mutate } = useSendVedlegg();
-    const allFiles = useMemo(() => Object.values(files).flat(), [files]);
     const queryClient = useQueryClient();
 
     const upload = () => {
-        //NULLSJEKK
-        if (allFiles.length === 0) {
+        if (files.length === 0) {
             setOuterErrors([{ feil: Feil.NO_FILES }]);
-            // logger.info("Validering vedlegg feilet: Ingen filer valgt");
-            // logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
             return;
         }
-
-        const metadataFil = createMetadataFile(files, metadatas);
 
         mutate(
             {
                 fiksDigisosId,
                 data: {
-                    files: [metadataFil, ...formatFilesForUpload(allFiles)],
+                    files: [createMetadataFile(files, metadatas), ...formatFilesForUpload(files)],
                 },
             },
             {
@@ -59,21 +52,6 @@ const Opplastingsboks = () => {
                         .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
                     if (errors.length === 0) {
                         reset();
-
-                        /*
-                        SETTE UPLOAD SUCCESS STATE (brukt i VedleggSuccess f eks)
-                        TODO: Tror ikke den skal med i ny filKomponent men dobbeltsjekke med Martin/Idun
-                        const innsendelseType = data.flatMap((response) => response.hendelsetype);
-                        if (
-                            innsendelseType.includes("dokumentasjonEtterspurt") ||
-                            innsendelseType.includes("dokumentasjonkrav") ||
-                            innsendelseType.includes("soknad")
-                        ) {
-                            setOppgaverUploadSuccess(true);
-                        }
-                        if (innsendelseType.includes("bruker")) {
-                            setEttersendelseUploadSuccess(true);
-                        }*/
 
                         //INVALIDERE QUERIES
                         // TODO: Hvilke trengs?
@@ -117,10 +95,7 @@ const Opplastingsboks = () => {
                 label={t("Opplastingsboks.tittel")}
                 description={t("Opplastingsboks.beskrivelse")}
                 onSelect={(files) => {
-                    addFiler(
-                        0,
-                        files.map((it) => it.file)
-                    );
+                    addFiler(files.map((it) => it.file));
                 }}
                 error={
                     outerErrors.length > 0 ? (
@@ -128,18 +103,18 @@ const Opplastingsboks = () => {
                     ) : null
                 }
             />
-            {Object.values(files).flat().length > 0 && (
+            {files.length > 0 && (
                 <VStack gap="2">
                     <Heading size="small" level="3">
                         {t("Opplastingsboks.filerTilOpplasting")}
                     </Heading>
                     <VStack as="ul" gap="2">
-                        {Object.values(files)[0]?.map((file) => (
+                        {files.map((file) => (
                             <FileUpload.Item
                                 as="li"
                                 key={file.uuid}
                                 file={file.file}
-                                button={{ action: "delete", onClick: () => removeFil(0, file) }}
+                                button={{ action: "delete", onClick: () => removeFil(file) }}
                                 status={isPending ? "uploading" : "idle"}
                                 error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
                             />
