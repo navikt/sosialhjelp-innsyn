@@ -1,3 +1,5 @@
+import path from "path";
+
 import { useCallback, useEffect, useState } from "react";
 import { logger } from "@navikt/next-logger";
 import { useTranslations } from "next-intl";
@@ -113,15 +115,14 @@ const useFilOpplasting = (metadatas: Metadata[]) => {
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             logDuplicatedFiles(_files);
-            const filesWithError: FancyFile[] = _files.map((file) => {
-                const fancyFile = { file, uuid: crypto.randomUUID() };
-                if (file.size > maxFileSize) {
-                    return { ...fancyFile, error: Feil.FILE_TOO_LARGE };
-                }
-                if (containsIllegalCharacters(file.name)) {
-                    return { ...fancyFile, error: Feil.ILLEGAL_FILE_NAME };
-                }
-                return { file, uuid: crypto.randomUUID() };
+
+            const newFiles = _files.map((file) => {
+                const error = validateFile(file);
+                return {
+                    file,
+                    uuid: crypto.randomUUID(),
+                    ...(error && { error }),
+                };
             });
 
             const outerErrors: Error[] = [];
@@ -138,7 +139,7 @@ const useFilOpplasting = (metadatas: Metadata[]) => {
             }
             setFiles((prev) => ({
                 ...prev,
-                [index]: [...prev[index], ...filesWithError],
+                [index]: [...prev[index], ...newFiles],
             }));
 
             setOuterErrors(outerErrors);
@@ -151,7 +152,7 @@ const useFilOpplasting = (metadatas: Metadata[]) => {
             const _files = Object.values(files).flat();
             setFiles((prev) => ({ ...prev, [index]: prev[index].filter((it) => it.uuid !== fil.uuid) }));
             // Update "global" errors
-            const _errors: (Error | ErrorWithFile)[] = [];
+            const _errors: Error[] = [];
             if (
                 _files.filter((it) => it.uuid !== fil.uuid).reduce((acc, curr) => acc + curr.file.size, 0) >
                 maxCombinedFileSize
@@ -177,3 +178,38 @@ const useFilOpplasting = (metadatas: Metadata[]) => {
 };
 
 export default useFilOpplasting;
+
+export const createMetadataFile = (files: Record<number, FancyFile[]>, metadatas: Metadata[]): File => {
+    // LAGE METADATA
+    const _metadatas = Object.entries(files)
+        .filter((entry) => Boolean(entry[1].length))
+        .map(([index, _files]) => {
+            const _metadata = metadatas[+index]!;
+            return { ..._metadata, filer: _files.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) };
+        });
+    const metadataFile = new File([JSON.stringify(_metadatas)], "metadata.json", {
+        type: "application/json",
+    });
+
+    return metadataFile;
+};
+
+export const formatFilesForUpload = (files: FancyFile[]): File[] =>
+    files.map((file) => {
+        const ext = path.extname(file.file.name);
+        return new File([file.file], file.uuid + ext, {
+            type: file.file.type,
+            lastModified: file.file.lastModified,
+        });
+    });
+
+const validateFile = (file: File): Feil | null => {
+    if (file.size > maxFileSize) {
+        return Feil.FILE_TOO_LARGE;
+    }
+    if (containsIllegalCharacters(file.name)) {
+        return Feil.ILLEGAL_FILE_NAME;
+    }
+
+    return null;
+};

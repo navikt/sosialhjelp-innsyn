@@ -1,5 +1,4 @@
 "use client";
-import path from "path";
 
 import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
@@ -18,6 +17,8 @@ import useFilOpplastingApp, {
     errorStatusToMessage,
     Error,
     Feil,
+    createMetadataFile,
+    formatFilesForUpload,
 } from "../../filopplasting/useFilOpplastingApp";
 
 const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
@@ -33,38 +34,19 @@ const Opplastingsboks = () => {
     const upload = () => {
         //NULLSJEKK
         if (allFiles.length === 0) {
-            // setOuterErrors([{ feil: Feil.NO_FILES }]);
+            setOuterErrors([{ feil: Feil.NO_FILES }]);
             // logger.info("Validering vedlegg feilet: Ingen filer valgt");
             // logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
             return;
         }
 
-        // LAGE METADATA
-        const _metadatas = Object.entries(files)
-            .filter((entry) => Boolean(entry[1].length))
-            .map(([index, filer]) => {
-                const _metadata = metadatas[+index]!;
-                return { ..._metadata, filer: filer.map((fil) => ({ uuid: fil.uuid, filnavn: fil.file.name })) };
-            });
-        const metadataFil = new File([JSON.stringify(_metadatas)], "metadata.json", {
-            type: "application/json",
-        });
+        const metadataFil = createMetadataFile(files, metadatas);
 
         mutate(
             {
                 fiksDigisosId,
                 data: {
-                    files: [
-                        metadataFil,
-                        //FORMATERE FIL: filnavn + options..
-                        ...allFiles.map((file) => {
-                            const ext = path.extname(file.file.name);
-                            return new File([file.file], file.uuid + ext, {
-                                type: file.file.type,
-                                lastModified: file.file.lastModified,
-                            });
-                        }),
-                    ],
+                    files: [metadataFil, ...formatFilesForUpload(allFiles)],
                 },
             },
             {
