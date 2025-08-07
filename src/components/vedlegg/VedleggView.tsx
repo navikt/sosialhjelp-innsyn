@@ -7,7 +7,7 @@ import { chunk, sort, take } from "remeda";
 
 import { formatBytes } from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import { getVisningstekster } from "../../utils/vedleggUtils";
+import { getVisningstekster } from "../filopplasting/new/utils/vedleggUtils";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { VedleggResponse } from "../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";

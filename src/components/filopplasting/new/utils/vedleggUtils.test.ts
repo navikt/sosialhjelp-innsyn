@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 
-import { containsIllegalCharacters } from "./vedleggUtils";
+import { containsIllegalCharacters } from "./validateFiles";
 
 describe("VedleggUtilsTest", () => {
     it("should validate filenames", () => {
