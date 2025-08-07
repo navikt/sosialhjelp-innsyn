@@ -6,11 +6,11 @@
         "tittel": "Mine søknader"
     },
     "StatusSendtPage": {
-        "tittel": "Søknaden din er sendt",
-        "alert": {
-            "tittel": "Søknaden er sendt til <norsk>{navKontor}</norsk>",
-            "beskrivelse": "Når Nav begynner å behandle søknaden, kan det hende du blir bedt om å sende flere opplysninger eller mer dokumentasjon."
-        }
+        "tittel": "Søknaden din er sendt"
+    },
+    "OppgaveAlert": {
+        "tittel": "Nav trenger flere dokumenter for å kunne behandle saken din",
+        "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
     },
     "StatusMottattPage": {
         "tittel": "Søknaden din er mottatt",
@@ -20,11 +20,7 @@
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling",
-        "alert": {
-            "tittel": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din",
-            "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
-        }
+        "tittel": "Søknaden din er under behandling"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandlet"
@@ -34,6 +30,16 @@
     },
     "StatusPage": {
         "tittel": "Oversikt"
+    },
+    "Oppgaver": {
+        "tittel": "Etterspurte dokumenter",
+        "ingenOppgaver": {
+            "tittel": "Du har ingen oppgaver",
+            "beskrivelse": "Dersom du blir bedt om å ettersende dokumentasjon, vil det dukke opp her."
+        },
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn",
+        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
     "OversiktSteps": {
         "SendtStep": {

@@ -1,9 +1,12 @@
 import { getTranslations } from "next-intl/server";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-import StatusAlert from "@components/alert/StatusAlert";
-import { getOppgaver } from "@generated/ssr/oppgave-controller/oppgave-controller";
+import { prefetchGetOppgaverBetaQuery } from "@generated/ssr/oppgave-controller/oppgave-controller";
+import { getQueryClient } from "@api/queryClient";
 
 import { StatusPage } from "./StatusPage";
+import Oppgaver from "./oppgaver/Oppgaver";
+import OppgaveAlert from "./oppgaver/OppgaveAlert";
 
 interface Props {
     navKontor: string;
@@ -13,23 +16,21 @@ interface Props {
 export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
     const t = await getTranslations("StatusUnderBehandlingPage");
 
-    const oppgaver = await getOppgaver(id);
+    const queryClient = getQueryClient();
+    await prefetchGetOppgaverBetaQuery(queryClient, id);
     return (
         <StatusPage
             id={id}
             heading={t("tittel")}
             alert={
-                oppgaver.length > 0 ? (
-                    <StatusAlert
-                        variant="warning"
-                        tittel={t.rich("alert.tittel", {
-                            navKontor: navKontor,
-                            norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        })}
-                        beskrivelse={t("alert.beskrivelse")}
-                    />
-                ) : null
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <OppgaveAlert navKontor={navKontor} />
+                </HydrationBoundary>
             }
-        />
+        >
+            <HydrationBoundary state={dehydrate(queryClient)}>
+                <Oppgaver />
+            </HydrationBoundary>
+        </StatusPage>
     );
 };
