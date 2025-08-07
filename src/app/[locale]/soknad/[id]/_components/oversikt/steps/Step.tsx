@@ -1,5 +1,5 @@
 import { StepperStep, StepperStepProps } from "@navikt/ds-react/Stepper";
-import { Heading, VStack } from "@navikt/ds-react";
+import { Heading, VStack, Box } from "@navikt/ds-react";
 import { PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
 
@@ -16,7 +16,7 @@ const Step = ({ heading, className, children, ...rest }: PropsWithChildren<Props
                 <Heading size="small" level="4" className="font-ax-bold">
                     {heading}
                 </Heading>
-                {children}
+                <Box className="font-ax-regular">{children}</Box>
             </VStack>
         </StepperStep>
     </>
