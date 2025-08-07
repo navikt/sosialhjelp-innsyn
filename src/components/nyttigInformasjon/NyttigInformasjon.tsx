@@ -1,7 +1,7 @@
 import { Box, Heading, Link, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
-import { getServerEnv } from "../../config/env";
+import { getServerEnv } from "@config/env";
 
 const NyttigInformasjon = async () => {
     const t = await getTranslations("NyttigInformasjon");

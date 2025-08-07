@@ -46,8 +46,6 @@ spec:
     requests:
       cpu: 1m
       memory: 32Mi
-  tokenx:
-    enabled: true
   env:
     - name: UNLEASH_SERVER_API_URL
       value: 'https://teamdigisos-unleash-api.nav.cloud.nais.io/api'

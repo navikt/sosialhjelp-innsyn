@@ -1,8 +1,8 @@
 import { NotePencilDashIcon } from "@navikt/aksel-icons";
 import { useLocale, useTranslations } from "next-intl";
 
-import StatusCard from "../../../statusCard/StatusCard";
-import { browserEnv } from "../../../../../config/env";
+import StatusCard from "@components/statusCard/StatusCard";
+import { browserEnv } from "@config/env";
 
 interface Props {
     soknadId: string;

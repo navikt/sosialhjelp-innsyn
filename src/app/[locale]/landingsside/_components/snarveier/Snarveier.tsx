@@ -1,8 +1,8 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
-import { hentAlleSaker } from "../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
-import { hentUtbetalinger } from "../../generated/ssr/utbetalinger-controller/utbetalinger-controller";
+import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
+import { hentUtbetalinger } from "@generated/ssr/utbetalinger-controller/utbetalinger-controller";
 
 import SoknaderSnarvei from "./SoknaderSnarvei";
 import UtbetalingerSnarvei from "./UtbetalingerSnarvei";

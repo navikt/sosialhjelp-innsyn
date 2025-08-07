@@ -1,18 +1,20 @@
 "use client";
 
-import { Alert, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { Alert, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useParams } from "next/navigation";
 
-import useSendVedleggHelper from "@components/filopplasting/new/mutations/useSendVedleggHelper";
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
-import { errorStatusToMessage } from "@components/filopplasting/useFilOpplasting";
+import useSendVedleggHelper from "@components/filopplasting/new/mutations/useSendVedleggHelper";
+import useFiles from "@components/filopplasting/new/useFiles";
+import { Metadata } from "@components/filopplasting/new/types";
+import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
-import useFiles from "../../filopplasting/new/useFiles";
+interface Props {
+    metadata: Metadata;
+}
 
-const metadata = { type: "annet", tilleggsinfo: "annet" };
-
-const Opplastingsboks = () => {
+const Opplastingsboks = ({ metadata }: Props) => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();

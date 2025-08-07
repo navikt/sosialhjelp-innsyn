@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
-import StatusAlert from "../alert/StatusAlert";
-import { getOppgaver } from "../../generated/ssr/oppgave-controller/oppgave-controller";
+import StatusAlert from "@components/alert/StatusAlert";
+import { getOppgaver } from "@generated/ssr/oppgave-controller/oppgave-controller";
 
 import { StatusPage } from "./StatusPage";
 

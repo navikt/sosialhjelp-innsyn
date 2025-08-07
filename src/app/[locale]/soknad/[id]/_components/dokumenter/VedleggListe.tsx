@@ -4,7 +4,7 @@ import { FileUpload, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
 
-import { VedleggResponse } from "../../../generated/model";
+import { VedleggResponse } from "@generated/model";
 
 interface Props {
     vedlegg: VedleggResponse[];
