@@ -2,79 +2,19 @@
 
 import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-import { getHentVedleggQueryKey, useSendVedlegg } from "@generated/vedlegg-controller/vedlegg-controller";
-import {
-    getHentHendelserBetaQueryKey,
-    getHentHendelserQueryKey,
-} from "@generated/hendelse-controller/hendelse-controller";
+import useSendVedleggHelper from "@components/filopplasting/useSendVedleggHelper";
 
-import useFilOpplastingApp, {
-    determineErrorType,
-    errorStatusToMessage,
-    Error,
-    Feil,
-    createMetadataFile,
-    formatFilesForUpload,
-} from "../../filopplasting/useFilOpplastingApp";
+import useFilOpplastingApp, { errorStatusToMessage } from "../../filopplasting/useFilOpplastingApp";
 
-const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
+const metadata = { type: "annet", tilleggsinfo: "annet" };
 
 const Opplastingsboks = () => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { addFiler, files, removeFil, outerErrors, setOuterErrors, reset } = useFilOpplastingApp();
-    const { isPending, mutate } = useSendVedlegg();
-    const queryClient = useQueryClient();
-
-    const upload = () => {
-        if (files.length === 0) {
-            setOuterErrors([{ feil: Feil.NO_FILES }]);
-            return;
-        }
-
-        mutate(
-            {
-                fiksDigisosId,
-                data: {
-                    files: [createMetadataFile(files, metadatas), ...formatFilesForUpload(files)],
-                },
-            },
-            {
-                onSuccess: async (data) => {
-                    const filerData = data.flatMap((response) => response.filer);
-                    // LAGE ERROR LISTE FRA DATA
-                    // Flytte til useFilOpplastingApp?
-                    const errors: Error[] = filerData
-                        .filter((it) => it.status !== "OK")
-                        .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
-                    if (errors.length === 0) {
-                        reset();
-
-                        //INVALIDERE QUERIES
-                        // TODO: Hvilke trengs?
-                        await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) });
-                    }
-                    setOuterErrors(errors);
-                },
-                onError: (error) => {
-                    // logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
-                    // logger.warn("Feil med opplasting av vedlegg: " + error.message);
-                    if (error.message === "Mulig virus funnet") {
-                        //logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
-                        setOuterErrors([{ feil: Feil.VIRUS }]);
-                    } else {
-                        //logFileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
-                        setOuterErrors([{ feil: Feil.KLIENTFEIL }]);
-                    }
-                },
-            }
-        );
-    };
+    const { isPending, upload } = useSendVedleggHelper(fiksDigisosId, setOuterErrors, reset);
 
     return (
         <FileUpload
@@ -122,7 +62,7 @@ const Opplastingsboks = () => {
                     </VStack>
                     <Button
                         disabled={Object.values(files).flat().length === 0}
-                        onClick={upload}
+                        onClick={() => upload(files, metadata)}
                         loading={isPending}
                         className="self-start"
                     >
