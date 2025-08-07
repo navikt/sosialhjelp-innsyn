@@ -17,8 +17,12 @@ import {
     Metadata,
 } from "./useFilOpplastingApp";
 
-const useSendVedleggHelper = (fiksDigisosId: string, setOuterErrors: (errors: Error[]) => void, reset: () => void) => {
-    const { isPending, mutate } = useSendVedlegg();
+const useSendVedleggHelper = (
+    fiksDigisosId: string,
+    setOuterErrors: (errors: Error[]) => void,
+    resetVedlegg: () => void
+) => {
+    const { isPending, mutate, isSuccess, reset: resetMutation } = useSendVedlegg();
     const queryClient = useQueryClient();
 
     const upload = (files: FancyFile[], metadata: Metadata) => {
@@ -43,7 +47,7 @@ const useSendVedleggHelper = (fiksDigisosId: string, setOuterErrors: (errors: Er
                     setOuterErrors(errors);
 
                     if (errors.length === 0) {
-                        reset();
+                        resetVedlegg();
 
                         await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
                         await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
@@ -62,7 +66,7 @@ const useSendVedleggHelper = (fiksDigisosId: string, setOuterErrors: (errors: Er
         );
     };
 
-    return { isPending, upload };
+    return { upload, resetMutation, isPending, isSuccess };
 };
 
 export default useSendVedleggHelper;

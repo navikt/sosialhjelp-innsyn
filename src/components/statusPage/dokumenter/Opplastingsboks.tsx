@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
+import { Alert, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
@@ -14,7 +14,12 @@ const Opplastingsboks = () => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { addFiler, files, removeFil, outerErrors, setOuterErrors, reset } = useFilOpplastingApp();
-    const { isPending, upload } = useSendVedleggHelper(fiksDigisosId, setOuterErrors, reset);
+    const { upload, resetMutation, isPending, isSuccess } = useSendVedleggHelper(fiksDigisosId, setOuterErrors, reset);
+
+    const onFilesSelect = (newFiles: FileObject[]) => {
+        addFiler(newFiles.map((it) => it.file));
+        resetMutation();
+    };
 
     return (
         <FileUpload
@@ -34,9 +39,7 @@ const Opplastingsboks = () => {
             <FileUpload.Dropzone
                 label={t("Opplastingsboks.tittel")}
                 description={t("Opplastingsboks.beskrivelse")}
-                onSelect={(files) => {
-                    addFiler(files.map((it) => it.file));
-                }}
+                onSelect={onFilesSelect}
                 error={
                     outerErrors.length > 0 ? (
                         <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
@@ -70,6 +73,7 @@ const Opplastingsboks = () => {
                     </Button>
                 </VStack>
             )}
+            {isSuccess && outerErrors.length === 0 && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
         </FileUpload>
     );
 };
