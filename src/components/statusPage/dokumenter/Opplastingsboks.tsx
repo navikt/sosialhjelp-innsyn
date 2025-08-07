@@ -4,17 +4,18 @@ import { Alert, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
-import useSendVedleggHelper from "@components/filopplasting/useSendVedleggHelper";
-import { allowedFileTypes } from "@utils/vedleggUtils";
+import useSendVedleggHelper from "@components/filopplasting/new/mutations/useSendVedleggHelper";
+import { allowedFileTypes } from "@components/filopplasting/new/consts";
+import { errorStatusToMessage } from "@components/filopplasting/useFilOpplasting";
 
-import useFilOpplastingApp, { errorStatusToMessage } from "../../filopplasting/useFilOpplastingApp";
+import useFiles from "../../filopplasting/new/useFiles";
 
 const metadata = { type: "annet", tilleggsinfo: "annet" };
 
 const Opplastingsboks = () => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFilOpplastingApp();
+    const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
     const {
         upload,
         resetMutation,

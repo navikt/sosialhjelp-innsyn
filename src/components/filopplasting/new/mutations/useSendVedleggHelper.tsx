@@ -8,15 +8,9 @@ import {
 } from "@generated/hendelse-controller/hendelse-controller";
 import { useSendVedlegg, getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
 
-import {
-    FancyFile,
-    Feil,
-    Error,
-    createMetadataFile,
-    formatFilesForUpload,
-    determineErrorType,
-    Metadata,
-} from "./useFilOpplastingApp";
+import { FancyFile, Error, Metadata, Feil } from "../types";
+import { determineErrorType } from "../utils/mapErrors";
+import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
 
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
     const { isPending, mutate, isSuccess, reset } = useSendVedlegg();

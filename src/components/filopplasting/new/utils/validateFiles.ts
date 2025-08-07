@@ -1,12 +1,7 @@
 import { logger } from "@navikt/next-logger";
 
-import { OriginalSoknadVedleggType } from "../redux/soknadsdata/vedleggTypes";
-import { originalSoknadVedleggTekstVisning } from "../redux/soknadsdata/vedleggskravVisningConfig";
-
-export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
-export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
-export const maxFileCount = 30; // max antall filer som kan lastes opp
-export const allowedFileTypes = ".jpeg,.png,.pdf";
+import { Feil, FancyFile, Error } from "../types";
+import { allowedFileTypes, maxCombinedFileSize, maxFileCount, maxFileSize } from "../consts";
 
 export const containsIllegalCharacters = (filename: string) => {
     /* Filsystemet på macos lagrer fil med 'å' i navnet som 'a\u030A' (a + ring). Dette blir ikke konvertert tilbake før regexen under kjøres. Vi replacer derfor manuelt */
@@ -32,17 +27,29 @@ export const isAcceptedFileType = (file: File, accept: string | undefined): bool
     });
 };
 
-export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
-    const sammensattType = type + "|" + tilleggsinfo;
-    const erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some((val) => val === sammensattType);
-
-    let typeTekst = type;
-    let tilleggsinfoTekst = tilleggsinfo;
-    if (erOriginalSoknadVedleggType) {
-        const soknadVedleggSpec = originalSoknadVedleggTekstVisning.find((spc) => spc.type === sammensattType)!;
-        typeTekst = soknadVedleggSpec.tittel;
-        tilleggsinfoTekst = soknadVedleggSpec.tilleggsinfo;
+export const validateFile = (file: File): Feil | null => {
+    if (file.size > maxFileSize) {
+        return Feil.FILE_TOO_LARGE;
+    }
+    if (containsIllegalCharacters(file.name)) {
+        return Feil.ILLEGAL_FILE_NAME;
+    }
+    if (!isAcceptedFileType(file, allowedFileTypes)) {
+        return Feil.ILLEGAL_FILE_TYPE;
     }
 
-    return { typeTekst, tilleggsinfoTekst };
+    return null;
+};
+
+export const getOuterErrors = (files: FancyFile[]): Error[] => {
+    const outerErrors: Error[] = [];
+    if (files.map((file) => file.file).reduce((acc, curr) => acc + curr.size, 0) > maxCombinedFileSize) {
+        outerErrors.push({ feil: Feil.COMBINED_TOO_LARGE });
+    }
+    if (files.length > maxFileCount) {
+        logger.info(`Bruker prøver å laste opp for mange filer: ${files.length}`);
+        outerErrors.push({ feil: Feil.TOO_MANY_FILES });
+    }
+
+    return outerErrors;
 };
