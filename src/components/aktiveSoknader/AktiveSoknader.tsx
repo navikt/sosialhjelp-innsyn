@@ -3,25 +3,13 @@ import { getTranslations } from "next-intl/server";
 import * as R from "remeda";
 import { logger } from "@navikt/next-logger";
 
-import { hentAlleSaker } from "../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
-import fetchPaabegynteSaker from "../../api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
-import fetchSoknadsdetaljer from "../../api/fetch/saksdetaljer/fetchSoknadsdetaljer";
-import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "../soknaderList/list/soknaderUtils";
-import SoknaderList from "../soknaderList/list/SoknaderList";
+import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
+import fetchPaabegynteSaker from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
+import fetchSoknadsdetaljer from "@api/fetch/saksdetaljer/fetchSoknadsdetaljer";
+import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "@components/soknaderList/list/soknaderUtils";
+import SoknaderList from "@components/soknaderList/list/SoknaderList";
 
 import AktiveSoknaderEmptyState from "./AktiveSoknaderEmptyState";
-
-export interface PaabegyntSoknad {
-    eventTidspunkt: string;
-    eventId: string;
-    grupperingsId: string;
-    tekst: string;
-    link: string;
-    sikkerhetsnivaa: number;
-    sistOppdatert: string;
-    isAktiv: boolean;
-    soknadId: string;
-}
 
 const fetchSaker = async () => {
     try {
@@ -34,6 +22,7 @@ const fetchSaker = async () => {
 
 const AktiveSoknader = async () => {
     const t = await getTranslations("AktiveSoknader");
+
     const [innsendteSoknader, paabegynteSaker] = await Promise.all([fetchSaker(), fetchPaabegynteSaker()]);
 
     const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));

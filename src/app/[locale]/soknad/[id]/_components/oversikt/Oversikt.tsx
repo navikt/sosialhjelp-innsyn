@@ -10,16 +10,20 @@ import Step from "./steps/Step";
 const Oversikt = () => {
     const { steps, completed } = useSteps();
 
-    return <Stepper activeStep={completed ?? 0}>{steps}</Stepper>;
+    return (
+        <Stepper activeStep={completed ?? 0} interactive={false}>
+            {steps}
+        </Stepper>
+    );
 };
 
 export const OversiktSkeleton = () => (
-    <Stepper activeStep={1}>
-        <Step completed interactive={false} heading={<Skeleton width="400px" />}>
+    <Stepper activeStep={1} interactive={false}>
+        <Step completed heading={<Skeleton width="400px" />}>
             <Skeleton width="200px" />
             <Skeleton width="150px" />
         </Step>
-        <Step interactive={false} heading={<Skeleton width="400px" />}>
+        <Step heading={<Skeleton width="400px" />}>
             <Skeleton width="200px" />
         </Step>
     </Stepper>

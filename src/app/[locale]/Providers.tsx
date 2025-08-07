@@ -13,8 +13,7 @@ import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "@utils/amplitud
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 import { TilgangResponse } from "@generated/model";
 import TilgangskontrollsideApp from "@components/Tilgangskontrollside/TilgangskontrollsideApp";
-
-import { getQueryClient } from "../queryClient";
+import { getQueryClient } from "@api/queryClient";
 
 initInstrumentation();
 configureLogger({

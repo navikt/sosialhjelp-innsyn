@@ -6,13 +6,11 @@ import { logger } from "@navikt/next-logger";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "../i18n/common";
 import ServerError from "../pages/500";
 
-export default function GlobalError({ error }: { error: Error }) {
+export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
     const langCookie = Cookie.get(DECORATOR_LOCALE_COOKIE_NAME);
     const locale = langCookie && isSupportedLocale(langCookie) ? langCookie : "nb";
 
-    logger.error(
-        `Uncaught clientside error: ${error.name}, global-error.tsx shown. ErrorInfo: ${JSON.stringify(error.message)}`
-    );
+    logger.error(`Uncaught clientside error: ${error.name}, global-error.tsx shown. Error: ${error}`);
 
     return (
         <html lang={locale}>

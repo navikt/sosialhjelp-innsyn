@@ -2,10 +2,10 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { logger } from "@navikt/next-logger";
 
-import { hentAlleSaker } from "../../generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
-import fetchSoknadsdetaljer from "../../api/fetch/saksdetaljer/fetchSoknadsdetaljer";
-import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "../soknaderList/list/soknaderUtils";
-import SoknaderList from "../soknaderList/list/SoknaderList";
+import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
+import fetchSoknadsdetaljer from "@api/fetch/saksdetaljer/fetchSoknadsdetaljer";
+import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "@components/soknaderList/list/soknaderUtils";
+import SoknaderList from "@components/soknaderList/list/SoknaderList";
 
 const fetchSaker = async () => {
     try {

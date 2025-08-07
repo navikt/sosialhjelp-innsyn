@@ -1,7 +1,7 @@
 "use client";
 
-import { SaksDetaljerResponse } from "../../../../generated/ssr/model";
-import { SaksListeResponse } from "../../../../generated/model";
+import { SaksDetaljerResponse } from "@generated/ssr/model";
+import { SaksListeResponse } from "@generated/model";
 
 import MottattCard from "./status/MottattCard";
 import SendtCard from "./status/SendtCard";
