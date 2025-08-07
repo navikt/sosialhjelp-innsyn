@@ -8,18 +8,6 @@ export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 export const maxFileCount = 30; // max antall filer som kan lastes opp
 export const allowedFileTypes = ".jpeg,.png,.pdf";
 
-export const hentFileExtension = (filnavn: string) => {
-    let filetternavn = "ukjent";
-    if (filnavn.length >= 5) {
-        const testSteng = filnavn.substr(filnavn.length - 5, 5);
-        const punktumPosisjon = testSteng.indexOf(".");
-        if (punktumPosisjon > -1) {
-            filetternavn = testSteng.substr(punktumPosisjon + 1, 4 - punktumPosisjon);
-        }
-    }
-    return filetternavn;
-};
-
 export const containsIllegalCharacters = (filename: string) => {
     /* Filsystemet på macos lagrer fil med 'å' i navnet som 'a\u030A' (a + ring). Dette blir ikke konvertert tilbake før regexen under kjøres. Vi replacer derfor manuelt */
     const fixedFilename = filename.replace("a\u030A", "å").replace("A\u030A", "Å");
