@@ -14,8 +14,14 @@ const metadata = { type: "annet", tilleggsinfo: "annet" };
 const Opplastingsboks = () => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { addFiler, files, removeFil, outerErrors, setOuterErrors, reset } = useFilOpplastingApp();
-    const { upload, resetMutation, isPending, isSuccess } = useSendVedleggHelper(fiksDigisosId, setOuterErrors, reset);
+    const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFilOpplastingApp();
+    const {
+        upload,
+        resetMutation,
+        errors: mutationErrors,
+        isPending,
+        isUploadSuccess,
+    } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
 
     const onFilesSelect = (newFiles: FileObject[]) => {
         addFiler(newFiles.map((it) => it.file));
@@ -75,7 +81,10 @@ const Opplastingsboks = () => {
                     </Button>
                 </VStack>
             )}
-            {isSuccess && outerErrors.length === 0 && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
+            {isUploadSuccess && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
+            {mutationErrors.length > 0 && (
+                <Alert variant="error">{t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}</Alert>
+            )}
         </FileUpload>
     );
 };

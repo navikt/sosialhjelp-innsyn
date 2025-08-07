@@ -1,5 +1,6 @@
 import { logger } from "@navikt/next-logger";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 import {
     getHentHendelserQueryKey,
@@ -17,20 +18,18 @@ import {
     Metadata,
 } from "./useFilOpplastingApp";
 
-const useSendVedleggHelper = (
-    fiksDigisosId: string,
-    setOuterErrors: (errors: Error[]) => void,
-    resetVedlegg: () => void
-) => {
-    const { isPending, mutate, isSuccess, reset: resetMutation } = useSendVedlegg();
+const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
+    const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
     const queryClient = useQueryClient();
+    const [errors, setErrors] = useState<Error[]>([]);
+    const isUploadSuccess = isSuccess && errors.length === 0;
+
+    const resetMutation = () => {
+        reset();
+        setErrors([]);
+    };
 
     const upload = (files: FancyFile[], metadata: Metadata) => {
-        if (files.length === 0) {
-            setOuterErrors([{ feil: Feil.NO_FILES }]);
-            return;
-        }
-
         mutate(
             {
                 fiksDigisosId,
@@ -44,10 +43,10 @@ const useSendVedleggHelper = (
                     const errors: Error[] = filerData
                         .filter((it) => it.status !== "OK")
                         .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
-                    setOuterErrors(errors);
+                    setErrors(errors);
 
                     if (errors.length === 0) {
-                        resetVedlegg();
+                        resetFilOpplastningData();
 
                         await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
                         await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
@@ -57,16 +56,16 @@ const useSendVedleggHelper = (
                 onError: (error) => {
                     logger.warn("Feil med opplasting av vedlegg: " + error.message);
                     if (error.message === "Mulig virus funnet") {
-                        setOuterErrors([{ feil: Feil.VIRUS }]);
+                        setErrors([{ feil: Feil.VIRUS }]);
                     } else {
-                        setOuterErrors([{ feil: Feil.KLIENTFEIL }]);
+                        setErrors([{ feil: Feil.KLIENTFEIL }]);
                     }
                 },
             }
         );
     };
 
-    return { upload, resetMutation, isPending, isSuccess };
+    return { upload, resetMutation, errors, isPending, isUploadSuccess };
 };
 
 export default useSendVedleggHelper;
