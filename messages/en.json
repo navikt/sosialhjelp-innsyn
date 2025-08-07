@@ -35,6 +35,10 @@
     "StatusPage": {
         "tittel": "Overview"
     },
+    "Oppgaver": {
+        "tittel": "Requested documents",
+        "frist": "Due: {frist, date, ::ddMMyyyy}"
+    },
     "OversiktSteps": {
         "SendtStep": {
             "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",

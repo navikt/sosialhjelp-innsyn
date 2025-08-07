@@ -35,6 +35,10 @@
     "StatusPage": {
         "tittel": "Oversikt"
     },
+    "Oppgaver": {
+        "tittel": "Etterspurte dokumenter",
+        "frist": "Frist: {frist, date, ::ddMMyyyy}"
+    },
     "OversiktSteps": {
         "SendtStep": {
             "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",

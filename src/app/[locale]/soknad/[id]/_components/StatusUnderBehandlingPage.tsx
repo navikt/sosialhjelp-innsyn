@@ -4,6 +4,7 @@ import StatusAlert from "@components/alert/StatusAlert";
 import { getOppgaver } from "@generated/ssr/oppgave-controller/oppgave-controller";
 
 import { StatusPage } from "./StatusPage";
+import Oppgaver from "./oppgaver/Oppgaver";
 
 interface Props {
     navKontor: string;
@@ -14,6 +15,9 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
     const t = await getTranslations("StatusUnderBehandlingPage");
 
     const oppgaver = await getOppgaver(id);
+    const oppgaveElementer = oppgaver.flatMap((oppgave) =>
+        oppgave.oppgaveElementer.map((oppgaveElement) => ({ ...oppgaveElement, frist: oppgave.innsendelsesfrist }))
+    );
     return (
         <StatusPage
             id={id}
@@ -30,6 +34,8 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
                     />
                 ) : null
             }
-        />
+        >
+            <Oppgaver oppgaver={oppgaveElementer} />
+        </StatusPage>
     );
 };
