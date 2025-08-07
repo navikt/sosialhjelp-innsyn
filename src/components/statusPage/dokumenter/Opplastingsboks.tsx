@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
 import useSendVedleggHelper from "@components/filopplasting/useSendVedleggHelper";
+import { allowedFileTypes } from "@utils/vedleggUtils";
 
 import useFilOpplastingApp, { errorStatusToMessage } from "../../filopplasting/useFilOpplastingApp";
 
@@ -40,6 +41,7 @@ const Opplastingsboks = () => {
                 label={t("Opplastingsboks.tittel")}
                 description={t("Opplastingsboks.beskrivelse")}
                 onSelect={onFilesSelect}
+                accept={allowedFileTypes}
                 error={
                     outerErrors.length > 0 ? (
                         <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>

@@ -6,6 +6,7 @@ import { originalSoknadVedleggTekstVisning } from "../redux/soknadsdata/vedleggs
 export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste opp totalt
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 export const maxFileCount = 30; // max antall filer som kan lastes opp
+export const allowedFileTypes = ".jpeg,.png,.pdf";
 
 export const hentFileExtension = (filnavn: string) => {
     let filetternavn = "ukjent";
@@ -28,6 +29,19 @@ export const containsIllegalCharacters = (filename: string) => {
         return true;
     }
     return false;
+};
+
+export const isAcceptedFileType = (file: File, accept: string | undefined): boolean => {
+    if (!accept) {
+        return true;
+    }
+
+    const acceptedTypes = accept.split(",");
+
+    return acceptedTypes.some((type) => {
+        const validType = type.trim();
+        return file.name.toLowerCase().endsWith(validType.toLowerCase());
+    });
 };
 
 export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {

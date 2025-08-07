@@ -7,7 +7,14 @@ import { useNavigationGuard } from "next-navigation-guard";
 
 import { logBrukerLeavingBeforeSubmitting, logDuplicatedFiles } from "../../utils/amplitude";
 import { VedleggOpplastingResponseStatus } from "../../generated/model";
-import { containsIllegalCharacters, maxCombinedFileSize, maxFileCount, maxFileSize } from "../../utils/vedleggUtils";
+import {
+    allowedFileTypes,
+    containsIllegalCharacters,
+    isAcceptedFileType,
+    maxCombinedFileSize,
+    maxFileCount,
+    maxFileSize,
+} from "../../utils/vedleggUtils";
 
 export interface FancyFile {
     file: File;
@@ -175,6 +182,9 @@ const validateFile = (file: File): Feil | null => {
     }
     if (containsIllegalCharacters(file.name)) {
         return Feil.ILLEGAL_FILE_NAME;
+    }
+    if (!isAcceptedFileType(file, allowedFileTypes)) {
+        return Feil.ILLEGAL_FILE_TYPE;
     }
 
     return null;
