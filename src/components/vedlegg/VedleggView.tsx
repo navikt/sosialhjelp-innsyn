@@ -5,9 +5,10 @@ import { useTranslations } from "next-intl";
 import { FileCheckmarkIcon } from "@navikt/aksel-icons";
 import { chunk, sort, take } from "remeda";
 
+import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
+
 import { formatBytes } from "../../utils/formatting";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import { getVisningstekster } from "../../utils/vedleggUtils";
 import { useHentVedlegg } from "../../generated/vedlegg-controller/vedlegg-controller";
 import { VedleggResponse } from "../../generated/model";
 import Lastestriper from "../lastestriper/Lasterstriper";

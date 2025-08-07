@@ -1,17 +1,35 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Button, FileUpload, Heading, VStack } from "@navikt/ds-react";
+import { Alert, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
+import { useParams } from "next/navigation";
 
-import useFilOpplastingApp, { errorStatusToMessage, Metadata } from "@components/opplastingsboks/useFilOpplastingApp";
+import { allowedFileTypes } from "@components/filopplasting/new/consts";
+import useSendVedleggHelper from "@components/filopplasting/new/mutations/useSendVedleggHelper";
+import useFiles from "@components/filopplasting/new/useFiles";
+import { Metadata } from "@components/filopplasting/new/types";
+import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
 interface Props {
-    metadatas: Metadata[];
+    metadata: Metadata;
 }
 
-const Opplastingsboks = ({ metadatas }: Props) => {
+const Opplastingsboks = ({ metadata }: Props) => {
     const t = useTranslations();
-    const { addFiler, files, removeFil, mutation, upload, outerErrors } = useFilOpplastingApp(metadatas);
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
+    const {
+        upload,
+        resetMutation,
+        errors: mutationErrors,
+        isPending,
+        isUploadSuccess,
+    } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
+
+    const onFilesSelect = (newFiles: FileObject[]) => {
+        addFiler(newFiles.map((it) => it.file));
+        resetMutation();
+    };
 
     return (
         <FileUpload
@@ -31,44 +49,44 @@ const Opplastingsboks = ({ metadatas }: Props) => {
             <FileUpload.Dropzone
                 label={t("Opplastingsboks.tittel")}
                 description={t("Opplastingsboks.beskrivelse")}
-                onSelect={(files) => {
-                    addFiler(
-                        0,
-                        files.map((it) => it.file)
-                    );
-                }}
+                onSelect={onFilesSelect}
+                accept={allowedFileTypes}
                 error={
                     outerErrors.length > 0 ? (
                         <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
                     ) : null
                 }
             />
-            {Object.values(files).flat().length > 0 && (
+            {files.length > 0 && (
                 <VStack gap="2">
                     <Heading size="small" level="3">
                         {t("Opplastingsboks.filerTilOpplasting")}
                     </Heading>
                     <VStack as="ul" gap="2">
-                        {Object.values(files)[0]?.map((file) => (
+                        {files.map((file) => (
                             <FileUpload.Item
                                 as="li"
                                 key={file.uuid}
                                 file={file.file}
-                                button={{ action: "delete", onClick: () => removeFil(0, file) }}
-                                status={mutation.isLoading ? "uploading" : "idle"}
+                                button={{ action: "delete", onClick: () => removeFil(file) }}
+                                status={isPending ? "uploading" : "idle"}
                                 error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
                             />
                         ))}
                     </VStack>
                     <Button
                         disabled={Object.values(files).flat().length === 0}
-                        onClick={upload}
-                        loading={mutation.isLoading}
+                        onClick={() => upload(files, metadata)}
+                        loading={isPending}
                         className="self-start"
                     >
                         {t("Opplastingsboks.sendInn")}
                     </Button>
                 </VStack>
+            )}
+            {isUploadSuccess && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
+            {mutationErrors.length > 0 && (
+                <Alert variant="error">{t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}</Alert>
             )}
         </FileUpload>
     );

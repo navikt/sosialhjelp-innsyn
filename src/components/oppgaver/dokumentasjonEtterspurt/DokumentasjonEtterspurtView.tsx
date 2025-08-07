@@ -2,7 +2,8 @@ import React, { ReactElement, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
-import { getVisningstekster } from "../../../utils/vedleggUtils";
+import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
+
 import { useFileUploadError } from "../../driftsmelding/lib/useFileUploadError";
 import { getGetOppgaverQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
