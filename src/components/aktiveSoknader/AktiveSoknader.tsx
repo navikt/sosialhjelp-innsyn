@@ -22,6 +22,7 @@ const fetchSaker = async () => {
 
 const AktiveSoknader = async () => {
     const t = await getTranslations("AktiveSoknader");
+
     const [innsendteSoknader, paabegynteSaker] = await Promise.all([fetchSaker(), fetchPaabegynteSaker()]);
 
     const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
