@@ -4,8 +4,7 @@ import { Box, Heading } from "@navikt/ds-react";
 import StatusAlert from "@components/alert/StatusAlert";
 import { getOppgaver } from "@generated/ssr/oppgave-controller/oppgave-controller";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
-
-import { isVedtakUtfallKey, vedtakUtfallMap } from "../vedtak/VedtakUtfallMap";
+import { isVedtakUtfallKey, vedtakUtfallMap } from "@components/vedtak/VedtakUtfallMap";
 
 import { StatusPage } from "./StatusPage";
 
