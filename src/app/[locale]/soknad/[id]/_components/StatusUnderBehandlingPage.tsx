@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Box, Heading } from "@navikt/ds-react";
+import { BoxNew, Heading } from "@navikt/ds-react";
 
 import StatusAlert from "@components/alert/StatusAlert";
 import { getOppgaver } from "@generated/ssr/oppgave-controller/oppgave-controller";
@@ -50,13 +50,13 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
                             <Heading size="xlarge" level="1">
                                 {sak.tittel}
                             </Heading>
-                            <Box
-                                background="surface-info-subtle"
+                            <BoxNew
+                                background="info-soft"
                                 key={index}
                                 className="box-border size-fit  p-2 rounded-md text-blue-900"
                             >
                                 {t("underBehandlingAlert")}
-                            </Box>
+                            </BoxNew>
                         </>
                     );
                 }

@@ -1,4 +1,4 @@
-import { BodyShort, Box, Heading, VStack } from "@navikt/ds-react";
+import { BodyShort, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
@@ -24,16 +24,16 @@ export const VedtakUtfall = async ({
     const t = await getTranslations("StatusVedtak");
     const boxColor = (utfallVedtak?: SaksStatusResponseUtfallVedtak) => {
         if (utfallVedtak === "INNVILGET") {
-            return "surface-success-subtle";
+            return "success-soft";
         }
         if (utfallVedtak === "DELVIS_INNVILGET") {
-            return "surface-warning-subtle";
+            return "warning-soft";
         }
         if (utfallVedtak === "AVVIST") {
-            return "surface-danger-subtle";
+            return "danger-soft";
         }
         if (utfallVedtak === "AVSLATT") {
-            return "surface-danger-subtle";
+            return "danger-soft";
         }
     };
 
@@ -54,7 +54,7 @@ export const VedtakUtfall = async ({
             <Heading size="xlarge" level="1">
                 {tittel}
             </Heading>
-            <Box
+            <BoxNew
                 background={boxColor(utfallVedtak)}
                 className={`box-border size-fit  p-2 rounded-md ${textColor(utfallVedtak)}`}
             >
@@ -66,7 +66,7 @@ export const VedtakUtfall = async ({
                         norsk: (chunks) => <span lang="no">{chunks}</span>,
                     })}
                 </BodyShort>
-            </Box>
+            </BoxNew>
             <div>{beskrivelse}</div>
             {vedtaksfilUrlList &&
                 vedtaksfilUrlList.map((fil, index) => (
