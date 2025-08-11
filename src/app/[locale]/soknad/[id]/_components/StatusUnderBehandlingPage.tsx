@@ -46,18 +46,18 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
 
                 if (sak.status === "UNDER_BEHANDLING") {
                     return (
-                        <>
+                        <div key={index}>
                             <Heading size="xlarge" level="1">
                                 {sak.tittel}
                             </Heading>
                             <BoxNew
                                 background="info-soft"
                                 key={index}
-                                className="box-border size-fit  p-2 rounded-md text-blue-900"
+                                className="box-border size-fit  p-2 rounded-md text-ax-info-900"
                             >
                                 {t("underBehandlingAlert")}
                             </BoxNew>
-                        </>
+                        </div>
                     );
                 }
                 return null;

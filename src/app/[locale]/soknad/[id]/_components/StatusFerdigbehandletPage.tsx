@@ -29,7 +29,7 @@ export const StatusFerdigbehandletPage = async ({ id }: Props) => {
                         <BoxNew
                             background="info-soft"
                             key={index}
-                            className="box-border size-fit  p-2 rounded-md text-blue-900"
+                            className="box-border size-fit  p-2 rounded-md text-ax-info-900"
                         >
                             {t("underBehandlingAlert")}
                         </BoxNew>
