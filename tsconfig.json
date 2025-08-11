@@ -20,8 +20,21 @@
             {
                 "name": "next"
             }
-        ]
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@api/*": ["src/api/*"],
+            "@components/*": ["src/components/*"],
+            "@config/*": ["src/config/*"],
+            "@faro/*": ["src/faro/*"],
+            "@featuretoggles/*": ["src/featuretoggles/*"],
+            "@generated/*": ["src/generated/*"],
+            "@hooks/*": ["src/hooks/*"],
+            "@i18n/*": ["src/i18n/*"],
+            "@styles/*": ["src/styles/*"],
+            "@utils/*": ["src/utils/*"]
+        }
     },
-    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom"],
+    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom", "tailwind.config.ts"],
     "exclude": ["node_modules"]
 }

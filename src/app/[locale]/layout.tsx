@@ -5,11 +5,11 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import React, { PropsWithChildren } from "react";
 import { getTranslations } from "next-intl/server";
 
-import { routing } from "../../i18n/routing";
-import { TilgangResponse } from "../../generated/model";
-import { SupportedLocale } from "../../i18n/common";
-import { getToggles } from "../../featuretoggles/unleash";
-import { browserEnv } from "../../config/env";
+import { routing } from "@i18n/routing";
+import { TilgangResponse } from "@generated/model";
+import { SupportedLocale } from "@i18n/common";
+import { getToggles } from "@featuretoggles/unleash";
+import { browserEnv } from "@config/env";
 
 import Providers from "./Providers";
 

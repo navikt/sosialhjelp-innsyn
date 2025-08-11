@@ -5,8 +5,6 @@ metadata:
   namespace: teamdigisos
   labels:
     team: teamdigisos
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "150M"
 spec:
   image: {{image}}
   port: 8080
@@ -23,14 +21,18 @@ spec:
   replicas:
     min: 1
     max: 2
-  ingresses:
-    - "https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn"
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   accessPolicy:
+    inbound:
+      rules:
+        - application: wonderwall-innsyn-mock
     outbound:
       rules:
         - application: nav-dekoratoren
           namespace: personbruker
-        - application: sosialhjelp-mock-alt-api-mock
         - application: sosialhjelp-innsyn-api-mock
         - application: sosialhjelp-soknad-api-mock
       external:
@@ -44,8 +46,6 @@ spec:
     requests:
       cpu: 1m
       memory: 32Mi
-  tokenx:
-    enabled: true
   env:
     - name: UNLEASH_SERVER_API_URL
       value: 'https://teamdigisos-unleash-api.nav.cloud.nais.io/api'

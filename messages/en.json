@@ -53,7 +53,7 @@
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
-    "Oversikt": {
+    "StatusPage": {
         "tittel": "Overview"
     },
     "OversiktSteps": {
@@ -91,6 +91,26 @@
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "You provided requested documents"
         }
+    },
+    "Opplastingsboks": {
+        "tittel": "Do you want to submit more documents?",
+        "beskrivelse": "If you have additional documents that may be important for your application, you can upload them here.",
+        "dragAndDrop": "Drag and drop files here",
+        "eller": "or",
+        "button": "Choose files",
+        "uploading": "Uploading...",
+        "delete": "Remove file",
+        "sendInn": "Send documentation",
+        "filerTilOpplasting": "Files for upload"
+    },
+    "Dokumenter": {
+        "tittel": "Documents"
+    },
+    "Filopplasting": {
+        "tittel": "Submit additional documentation"
+    },
+    "VedleggListe": {
+        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
@@ -150,9 +170,49 @@
         "klagerettigheter": "Your right to complain",
         "personopplysninger": "How we process your personal data"
     },
-    "NyKlagePage": {
+    "OpprettKlagePage": {
         "tittel": "Appeal the decision",
         "beskrivelse": "Appeal the decision regarding financial social assistance."
+    },
+    "KlagePage": {
+        "tittel": "Your complaint has been submitted",
+        "beskrivelse": "View your submitted complaint about the decision regarding financial social assistance."
+    },
+    "KlageForm": {
+        "bakgrunn": {
+            "label": "Provide the background for the complaint",
+            "beskrivelse": "To process your complaint, it is important that you explain why you disagree with the decision and what you want changed."
+        },
+        "validering": {
+            "maksLengde": "You can write a maximum of 1000 characters"
+        },
+        "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
+    },
+    "KlageFileUpload": {
+        "label": "Attach documentation",
+        "beskrivelse": "If you have documents that may be important for your complaint, you can upload them here. You can attach documents, images, and screenshots up to {maxSize} MB.",
+        "vedlegg": "Attachments ({numberOfFiles})",
+        "vedleggMedFeil": "Attachments with errors ({numberOfFiles})",
+        "validering": {
+            "maksFilstørrelse": "The file is larger than {maksFilstørrelse} MB",
+            "ugyldigFiltype": "The file format is not supported."
+        },
+        "dropzone": {
+            "button": "Choose a file",
+            "buttonMultiple": "Choose files",
+            "dragAndDrop": "Drag and drop a file here",
+            "dragAndDropMultiple": "Drag and drop files here",
+            "drop": "Drop the file here",
+            "or": "or",
+            "disabled": "File upload is disabled",
+            "disabledFilelimit": "File limit reached"
+        },
+        "item": {
+            "retryButtonTitle": "Try again",
+            "deleteButtonTitle": "Delete file",
+            "uploading": "Uploading...",
+            "downloading": "Downloading..."
+        }
     },
     "Breadcrumbs": {
         "MinSide": "My page",

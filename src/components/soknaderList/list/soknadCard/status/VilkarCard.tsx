@@ -1,8 +1,7 @@
 import { useTranslations } from "next-intl";
 import { CheckmarkIcon } from "@navikt/aksel-icons";
 
-import StatusIcon from "../icon/StatusIcon";
-import StatusCard from "../../../statusCard/StatusCard";
+import StatusCard from "@components/statusCard/StatusCard";
 
 interface Props {
     sakTittel: string;
@@ -16,7 +15,7 @@ const VilkarCard = ({ fiksDigisosId, sakTittel, vedtakCount }: Props) => {
         <StatusCard
             href={`/soknad/${fiksDigisosId}`}
             description={t("description", { count: vedtakCount })}
-            icon={<StatusIcon icon={CheckmarkIcon} />}
+            icon={<CheckmarkIcon />}
             variant="info"
         >
             <span lang="no">{sakTittel}</span>

@@ -1,6 +1,6 @@
 import { cookies, headers } from "next/headers";
 
-import { getServerEnv } from "../../config/env";
+import { getServerEnv } from "@config/env";
 
 const getAuthorizationHeader = async (): Promise<string | null> => (await headers()).get("authorization");
 
@@ -42,6 +42,9 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
     if (!response.ok) throw new Error(`Failed to fetch ${absoluteUrl}: ${response.status} ${response.statusText}`);
 
     const data = await getBody(response);
+    if (data == "" && response.status === 204) {
+        return [] as T;
+    }
     return data as T;
 };
 

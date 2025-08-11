@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
-import { QueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import { QueryClient } from "@tanstack/react-query";
 
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
@@ -51,7 +51,6 @@ import Historikk from "../../../components/historikk/Historikk";
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import { FilUploadSuccesfulProvider } from "../../../components/filopplasting/FilUploadSuccessfulContext";
-import KlageSection from "../../../components/klage/KlageSection";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../../generated/model";
 import pageHandler, { buildUrl } from "../../../pagehandler/pageHandler";
 import Panel from "../../../components/panel/Panel";
@@ -77,6 +76,7 @@ import {
     getHentAlleSakerQueryKey,
     getHentAlleSakerUrl,
 } from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
+import PapirKlageSection from "../../../components/klage/PapirKlageSection";
 
 const StyledPanel = styled(NavDsPanel)`
     @media screen and (min-width: 641px) {
@@ -172,7 +172,7 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
                         </StyledPanel>
                     </>
                 )}
-                {sakErPaaklagbar && <KlageSection />}
+                {sakErPaaklagbar && <PapirKlageSection />}
                 {(kommune == null || !kommune.erInnsynDeaktivert) && (
                     <>
                         <Panel header={t("andre_vedlegg.type")}>

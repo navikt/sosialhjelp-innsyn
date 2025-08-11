@@ -1,7 +1,7 @@
-@import "tailwindcss/base";
-@import "@navikt/ds-css";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import "tailwindcss";
+@import "@navikt/ds-css/darkside" layer(components);
+
+@config '../../tailwind.config.ts';
 
 body {
     margin: 0;
@@ -13,8 +13,18 @@ body {
     border-bottom: 1px solid var(--a-border-subtle);
 }
 
-/* "Hack" for å skjule tallet i Stepper (søknadsoversikt) */
-.navds-stepper__circle {
-    color: var(--a-bg-default);
-    border-color: var(--a-text-default);
+/*
+ * "Hack" for å skjule tallet i Stepper (søknadsoversikt)
+ * TODO: Fjern når Progress-komponenten er på plass i aksel
+*/
+.aksel-stepper__circle {
+    &:not(.aksel-stepper__circle--success) {
+        color: var(--ax-bg-default);
+        border-color: var(--ax-text-default);
+    }
+    &.aksel-stepper__circle--success {
+        background-color: var(--ax-bg-neutral-strong);
+        border-color: var(--ax-bg-neutral-strong);
+        color: var(--ax-bg-default);
+    }
 }

@@ -6,6 +6,7 @@ import {
     fetchDecoratorReact,
 } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { DecoratorLocale } from "@navikt/nav-dekoratoren-moduler";
+import { Page } from "@navikt/ds-react";
 
 import { getBreadcrumbs } from "../utils/breadcrumbs";
 
@@ -73,13 +74,15 @@ class MyDocument extends Document<Props> {
         return (
             <Html lang={language || "no"}>
                 <Head>
+                    <style>@layer base, dekorator-base, dekorator-utilities, theme, components, utilities;</style>
                     <Decorator.HeadAssets />
                     <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
                 </Head>
                 <body>
                     <Decorator.Header />
-                    <Main />
-                    <Decorator.Footer />
+                    <Page footer={<Decorator.Footer />} className="bg-(--a-bg-subtle)">
+                        <Main />
+                    </Page>
                     <Decorator.Scripts />
                     <NextScript />
                 </body>

@@ -5,6 +5,7 @@ import Script from "next/script";
 import { cookies } from "next/headers";
 import { Page, PageBlock } from "@navikt/ds-react/Page";
 import { PropsWithChildren } from "react";
+import { Theme } from "@navikt/ds-react";
 
 import { getBaseCrumbs } from "../utils/breadcrumbs";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale, SupportedLocale } from "../i18n/common";
@@ -79,12 +80,14 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             </head>
             <Preload />
             <body>
-                <Page footer={<Decorator.Footer />}>
-                    <Decorator.Header />
-                    <PageBlock as="main" width="md" gutters>
-                        {children}
-                    </PageBlock>
-                </Page>
+                <Theme theme="light">
+                    <Page footer={<Decorator.Footer />}>
+                        <Decorator.Header />
+                        <PageBlock as="main" width="md" gutters>
+                            {children}
+                        </PageBlock>
+                    </Page>
+                </Theme>
                 <Decorator.Scripts loader={Script} />
             </body>
         </html>

@@ -53,7 +53,7 @@
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
-    "Oversikt": {
+    "StatusPage": {
         "tittel": "Oversikt"
     },
     "OversiktSteps": {
@@ -91,6 +91,26 @@
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "Du leverte etterspurte dokumenter"
         }
+    },
+    "Opplastingsboks": {
+        "tittel": "Vil du sende inn flere dokumenter?",
+        "beskrivelse": "Dersom du har flere dokumenter som kan være viktige for søknaden din, kan du laste de opp her.",
+        "dragAndDrop": "Dra og slipp filer her",
+        "eller": "eller",
+        "button": "Velg filer",
+        "uploading": "Laster opp...",
+        "delete": "Fjern fil",
+        "sendInn": "Send dokumentasjon",
+        "filerTilOpplasting": "Filer til opplasting"
+    },
+    "Dokumenter": {
+        "tittel": "Dokumenter"
+    },
+    "Filopplasting": {
+        "tittel": "Ettersend dokumentasjon"
+    },
+    "VedleggListe": {
+        "lastetOpp": "lastet opp: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
@@ -150,9 +170,51 @@
         "klagerettigheter": "Dine klagerettigheter",
         "personopplysninger": "Behandling av personopplysninger"
     },
-    "NyKlagePage": {
+    "OpprettKlagePage": {
         "tittel": "Klage på vedtak",
         "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
+    },
+    "KlagePage": {
+        "tittel": "Klagen din er sendt",
+        "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp."
+    },
+    "KlageForm": {
+        "bakgrunn": {
+            "label": "Oppgi bakgrunn for klagen",
+            "beskrivelse": "For at vi skal behangle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
+        },
+        "validering": {
+            "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
+            "maksFiler": "Du kan laste opp maks {maksFiler} filer"
+        },
+        "sendKlage": "Send klage",
+        "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
+    },
+    "KlageFileUpload": {
+        "label": "Legg ved dokumentasjon",
+        "beskrivelse": "Dersom du har dokumenter som kan være viktige for klagen din, kan du laste dem opp her. Du kan legge ved både dokumenter, bilder og skjermbilder på opp til {maxSize} MB.",
+        "vedlegg": "Vedlegg ({numberOfFiles})",
+        "vedleggMedFeil": "Vedlegg med feil ({numberOfFiles})",
+        "validering": {
+            "maksFilstørrelse": "Filen er større enn {maksFilstørrelse} MB",
+            "ugyldigFiltype": "Filformatet støttes ikke."
+        },
+        "dropzone": {
+            "button": "Velg en fil",
+            "buttonMultiple": "Velg filer",
+            "dragAndDrop": "Dra og slipp en fil her",
+            "dragAndDropMultiple": "Dra og slipp filer her",
+            "drop": "Slipp filen her",
+            "or": "eller",
+            "disabled": "Filopplasting er deaktivert",
+            "disabledFilelimit": "Filgrensen er nådd"
+        },
+        "item": {
+            "retryButtonTitle": "Prøv igjen",
+            "deleteButtonTitle": "Slett fil",
+            "uploading": "Laster opp...",
+            "downloading": "Laster ned..."
+        }
     },
     "Breadcrumbs": {
         "MinSide": "Min side",
