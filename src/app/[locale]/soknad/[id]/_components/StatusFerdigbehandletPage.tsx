@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { Box } from "@navikt/ds-react";
 
-import { hentSaksStatuser } from "../../generated/ssr/saks-status-controller/saks-status-controller";
-import { isVedtakUtfallKey, vedtakUtfallMap } from "../vedtak/VedtakUtfallMap";
+import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
+import { isVedtakUtfallKey, vedtakUtfallMap } from "@components/vedtak/VedtakUtfallMap";
 
 import { StatusPage } from "./StatusPage";
 

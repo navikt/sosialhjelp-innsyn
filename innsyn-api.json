@@ -8,7 +8,12 @@
                 "tags": ["klage-controller"],
                 "operationId": "lastOppVedlegg",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    },
                     {
                         "name": "klageId",
                         "in": "path",
@@ -92,7 +97,12 @@
                 "tags": ["klage-controller"],
                 "operationId": "sendKlage",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
                 ],
                 "requestBody": {
                     "content": { "application/json": { "schema": { "$ref": "#/components/schemas/KlageInput" } } },
@@ -267,7 +277,12 @@
                 "tags": ["klage-controller"],
                 "operationId": "hentKlager",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -282,7 +297,12 @@
                 "tags": ["klage-controller"],
                 "operationId": "hentKlage",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    },
                     {
                         "name": "vedtakId",
                         "in": "path",

@@ -2,9 +2,9 @@ import { BodyShort, Box, Heading, VStack } from "@navikt/ds-react";
 import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
+import StatusCard from "@components/statusCard/StatusCard";
+
 import { FilUrl, SaksStatusResponseUtfallVedtak } from "../../generated/ssr/model";
-import StatusCard from "../soknaderList/statusCard/StatusCard";
-import StatusIcon from "../soknaderList/list/soknadCard/icon/StatusIcon";
 
 interface Props {
     tittel: string;
@@ -70,16 +70,11 @@ export const VedtakUtfall = async ({
             <div>{beskrivelse}</div>
             {vedtaksfilUrlList &&
                 vedtaksfilUrlList.map((fil, index) => (
-                    <StatusCard
-                        key={index}
-                        href={fil.url}
-                        icon={<StatusIcon icon={FilePdfIcon} />}
-                        description={fil.dato}
-                    >
+                    <StatusCard key={index} href={fil.url} icon={<FilePdfIcon />} description={fil.dato}>
                         Last ned vedtaksbrev
                     </StatusCard>
                 ))}
-            <StatusCard href="/utbetaling" icon={<StatusIcon icon={BankNoteIcon} />}>
+            <StatusCard href="/utbetaling" icon={<BankNoteIcon />}>
                 Se kommende utbetaling
             </StatusCard>
         </VStack>
