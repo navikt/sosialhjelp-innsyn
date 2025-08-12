@@ -2,7 +2,7 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { NavigationGuardProvider } from "next-navigation-guard";
 
-import Opplastingsboks from "@components/opplastingsboks/Opplastingsboks";
+import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 
 const metadata = { type: "annet", tilleggsinfo: "annet" };
 
