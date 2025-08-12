@@ -46,7 +46,7 @@ const SoknaderList = ({ soknader }: Props) => {
             <Box className="self-start">
                 {!showAll && hasMore && (
                     <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
-                        {t("visAlle")} ({soknader.length})
+                        {t("visFlere")} ({soknader.length - ITEMS_LIMIT})
                     </Button>
                 )}
                 {showAll && (
