@@ -3,6 +3,7 @@ import { Box, VStack } from "@navikt/ds-react";
 import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardIcon, LinkCardAnchor } from "@navikt/ds-react/LinkCard";
 import { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
+import { ArrowRightIcon, DownloadIcon } from "@navikt/aksel-icons";
 
 interface Props {
     href: string;
@@ -10,6 +11,7 @@ interface Props {
     icon?: JSX.Element;
     variant?: "info" | "warning";
     dashed?: boolean;
+    downloadIcon?: boolean;
 }
 
 interface IconProps {
@@ -37,8 +39,17 @@ const Icon = ({ icon, variant = "info" }: IconProps) => (
     </VStack>
 );
 
-const StatusCard = ({ href, children, description, icon, variant = "info", dashed }: PropsWithChildren<Props>) => (
+const StatusCard = ({
+    href,
+    children,
+    description,
+    icon,
+    variant = "info",
+    dashed,
+    downloadIcon,
+}: PropsWithChildren<Props>) => (
     <LinkCard
+        arrow={false}
         className={cx(
             "group hover:shadow-none focus:shadow-none focus:border-ax-border-accent",
             dashed ? "border-dashed " : "",
@@ -48,10 +59,15 @@ const StatusCard = ({ href, children, description, icon, variant = "info", dashe
         )}
     >
         {icon && <Icon variant={variant} icon={icon} />}
-        <LinkCardTitle>
+        <LinkCardTitle className="items-center">
             <LinkCardAnchor asChild className="no-underline group-hover:underline">
                 <Link href={href}>{children}</Link>
             </LinkCardAnchor>
+            {downloadIcon ? (
+                <DownloadIcon fontSize="1.75rem" className="navds-link-anchor__arrow items-center" />
+            ) : (
+                <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow" />
+            )}
         </LinkCardTitle>
         {description && <LinkCardDescription>{description}</LinkCardDescription>}
     </LinkCard>

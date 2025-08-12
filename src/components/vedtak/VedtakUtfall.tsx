@@ -1,4 +1,4 @@
-import { BodyShort, BoxNew, Heading, VStack } from "@navikt/ds-react";
+import { BodyShort, Heading, Tag, VStack } from "@navikt/ds-react";
 import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
@@ -22,31 +22,18 @@ export const VedtakUtfall = async ({
     utfallVedtakStatus,
 }: Props) => {
     const t = await getTranslations("StatusVedtak");
+
     const boxColor = (utfallVedtak?: SaksStatusResponseUtfallVedtak) => {
         if (utfallVedtak === "INNVILGET") {
-            return "success-soft";
+            return "success-moderate";
         }
         if (utfallVedtak === "DELVIS_INNVILGET") {
-            return "warning-soft";
-        }
-        if (utfallVedtak === "AVVIST") {
-            return "danger-soft";
-        }
-        if (utfallVedtak === "AVSLATT") {
-            return "danger-soft";
-        }
-    };
-
-    const textColor = (utfallVedtak?: SaksStatusResponseUtfallVedtak) => {
-        if (utfallVedtak === "INNVILGET") {
-            return "text-ax-success-900";
-        }
-        if (utfallVedtak === "DELVIS_INNVILGET") {
-            return "text-ax-warning-900";
+            return "warning-moderate";
         }
         if (utfallVedtak === "AVVIST" || utfallVedtak === "AVSLATT") {
-            return "text-ax-danger-900";
+            return "error-moderate";
         }
+        return "info-moderate";
     };
 
     return (
@@ -54,10 +41,7 @@ export const VedtakUtfall = async ({
             <Heading size="xlarge" level="1">
                 {tittel}
             </Heading>
-            <BoxNew
-                background={boxColor(utfallVedtak)}
-                className={`box-border size-fit  p-2 rounded-md ${textColor(utfallVedtak)}`}
-            >
+            <Tag variant={boxColor(utfallVedtak)} className="size-fit">
                 <BodyShort>
                     {t.rich("status", {
                         vedtak: (chunks) => <b>{chunks}</b>,
@@ -66,15 +50,22 @@ export const VedtakUtfall = async ({
                         norsk: (chunks) => <span lang="no">{chunks}</span>,
                     })}
                 </BodyShort>
-            </BoxNew>
+            </Tag>
             <div>{beskrivelse}</div>
+
             {vedtaksfilUrlList &&
                 vedtaksfilUrlList.map((fil, index) => (
-                    <StatusCard key={index} href={fil.url} icon={<FilePdfIcon />} description={fil.dato}>
+                    <StatusCard
+                        downloadIcon={true}
+                        key={index}
+                        href={fil.url}
+                        icon={<FilePdfIcon />}
+                        description={fil.dato}
+                    >
                         Last ned vedtaksbrev
                     </StatusCard>
                 ))}
-            <StatusCard href="/utbetaling" icon={<BankNoteIcon />}>
+            <StatusCard downloadIcon={false} href="/utbetaling" icon={<BankNoteIcon />}>
                 Se kommende utbetaling
             </StatusCard>
         </VStack>
