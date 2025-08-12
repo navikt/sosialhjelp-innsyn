@@ -63,13 +63,19 @@ const StatusCard = ({
             <LinkCardAnchor asChild className="no-underline group-hover:underline">
                 <Link href={href}>{children}</Link>
             </LinkCardAnchor>
-            {downloadIcon ? (
-                <DownloadIcon fontSize="1.75rem" className="navds-link-anchor__arrow items-center" />
-            ) : (
-                <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow" />
-            )}
         </LinkCardTitle>
         {description && <LinkCardDescription>{description}</LinkCardDescription>}
+        {downloadIcon ? (
+            <DownloadIcon
+                fontSize="1.75rem"
+                className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+            />
+        ) : (
+            <ArrowRightIcon
+                fontSize="1.75rem"
+                className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+            />
+        )}
     </LinkCard>
 );
 export default StatusCard;
