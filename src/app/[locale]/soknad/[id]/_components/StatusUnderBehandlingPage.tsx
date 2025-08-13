@@ -9,11 +9,10 @@ import Oppgaver from "./oppgaver/Oppgaver";
 import OppgaveAlert from "./oppgaver/OppgaveAlert";
 
 interface Props {
-    navKontor: string;
     id: string;
 }
 
-export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
+export const StatusUnderBehandlingPage = async ({ id }: Props) => {
     const t = await getTranslations("StatusUnderBehandlingPage");
 
     const queryClient = getQueryClient();
@@ -24,7 +23,7 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
             heading={t("tittel")}
             alert={
                 <HydrationBoundary state={dehydrate(queryClient)}>
-                    <OppgaveAlert navKontor={navKontor} />
+                    <OppgaveAlert />
                 </HydrationBoundary>
             }
         >

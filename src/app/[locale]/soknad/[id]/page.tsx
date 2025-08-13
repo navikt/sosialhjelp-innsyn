@@ -33,7 +33,7 @@ const Page = async ({
     }
 
     if (soknadsStatusResponse.status === "UNDER_BEHANDLING") {
-        return <StatusUnderBehandlingPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
+        return <StatusUnderBehandlingPage id={id} />;
     }
 
     if (soknadsStatusResponse.status === "FERDIGBEHANDLET") {
