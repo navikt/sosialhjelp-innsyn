@@ -2,9 +2,9 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { NavigationGuardProvider } from "next-navigation-guard";
 
-import Opplastingsboks from "@components/opplastingsboks/Opplastingsboks";
+import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 
-const metadatas = [{ type: "annet", tilleggsinfo: "annet" }];
+const metadata = { type: "annet", tilleggsinfo: "annet" };
 
 const Filopplasting = async () => {
     const t = await getTranslations("Filopplasting");
@@ -14,7 +14,7 @@ const Filopplasting = async () => {
                 {t("tittel")}
             </Heading>
             <NavigationGuardProvider>
-                <Opplastingsboks metadatas={metadatas} />
+                <Opplastingsboks metadata={metadata} />
             </NavigationGuardProvider>
         </VStack>
     );

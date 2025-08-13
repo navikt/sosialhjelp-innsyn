@@ -32,6 +32,7 @@
             "@hooks/*": ["src/hooks/*"],
             "@i18n/*": ["src/i18n/*"],
             "@styles/*": ["src/styles/*"],
+            "@test/*": ["src/test/*"],
             "@utils/*": ["src/utils/*"]
         }
     },

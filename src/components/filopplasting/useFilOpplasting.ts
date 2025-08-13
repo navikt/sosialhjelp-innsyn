@@ -13,7 +13,6 @@ import {
     logFileUploadFailedEvent,
 } from "../../utils/amplitude";
 import { SendVedleggBody, VedleggOpplastingResponseStatus } from "../../generated/model";
-import { containsIllegalCharacters, maxCombinedFileSize, maxFileCount, maxFileSize } from "../../utils/vedleggUtils";
 import {
     getHentVedleggQueryKey,
     sendVedlegg,
@@ -23,6 +22,8 @@ import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentHendelserQueryKey } from "../../generated/hendelse-controller/hendelse-controller";
 
 import { useFilUploadSuccessful } from "./FilUploadSuccessfulContext";
+import { maxCombinedFileSize, maxFileCount, maxFileSize } from "./new/consts";
+import { containsIllegalCharacters } from "./new/utils/validateFiles";
 
 export interface FancyFile {
     file: File;
