@@ -37,7 +37,7 @@ export const VedtakUtfall = async ({
     };
 
     return (
-        <VStack gap="2">
+        <VStack gap="space-16">
             <Heading size="xlarge" level="1">
                 {tittel}
             </Heading>
