@@ -20,7 +20,8 @@
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling"
+        "tittel": "Søknaden din er under behandling",
+        "underBehandlingAlert": "Under behandling"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandlet",

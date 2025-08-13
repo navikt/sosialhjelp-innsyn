@@ -20,7 +20,8 @@
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Your application is being processed"
+        "tittel": "Your application is being processed",
+        "underBehandlingAlert": "Being processed"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Your application has been processed",
