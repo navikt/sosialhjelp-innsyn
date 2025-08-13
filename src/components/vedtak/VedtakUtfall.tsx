@@ -3,8 +3,7 @@ import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
 import StatusCard from "@components/statusCard/StatusCard";
-
-import { FilUrl, SaksStatusResponseUtfallVedtak } from "../../generated/ssr/model";
+import { FilUrl, SaksStatusResponseUtfallVedtak } from "@generated/ssr/model";
 
 interface Props {
     tittel: string;

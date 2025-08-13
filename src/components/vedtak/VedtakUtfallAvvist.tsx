@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-import { SaksStatusResponse } from "../../generated/ssr/model";
+import { SaksStatusResponse } from "@generated/ssr/model";
 
 import { VedtakUtfall } from "./VedtakUtfall";
 
