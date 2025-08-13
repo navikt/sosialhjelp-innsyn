@@ -29,7 +29,9 @@
     },
     "StatusVedtak": {
         "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
-        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>"
+        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Last ned vedtaksbrev",
+        "kommendeUtbetaling": "Se kommende utbetaling"
     },
     "StatusVedtakInnvilget": {
         "tittel": "Innvilget",

@@ -63,11 +63,11 @@ export const VedtakUtfall = async ({
                         icon={<FilePdfIcon />}
                         description={fil.dato}
                     >
-                        Last ned vedtaksbrev
+                        {t("vedtaksBrev")}
                     </StatusCard>
                 ))}
             <StatusCard downloadIcon={false} href="/utbetaling" icon={<BankNoteIcon />}>
-                Se kommende utbetaling
+                {t("kommendeUtbetaling")}
             </StatusCard>
         </VStack>
     );

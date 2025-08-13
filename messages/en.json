@@ -29,7 +29,9 @@
     },
     "StatusVedtak": {
         "tittel": "Application for <norsk>{sakstittel}</norsk>",
-        "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>"
+        "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Download decision letter",
+        "kommendeUtbetaling": "Check upcoming payout"
     },
     "StatusVedtakInnvilget": {
         "tittel": "Granted",
