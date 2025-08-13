@@ -235,6 +235,28 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/oppgaver/beta": {
+            "get": {
+                "tags": ["oppgave-controller"],
+                "operationId": "getOppgaverBeta",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json;charset=UTF-8": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/OppgaveResponseBeta" }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/oppgaver": {
             "get": {
                 "tags": ["oppgave-controller"],
@@ -795,6 +817,24 @@
                     "oppgaveElementer": { "type": "array", "items": { "$ref": "#/components/schemas/OppgaveElement" } }
                 },
                 "required": ["oppgaveElementer", "oppgaveId"]
+            },
+            "OppgaveResponseBeta": {
+                "type": "object",
+                "properties": {
+                    "oppgaveId": { "type": "string" },
+                    "innsendelsesfrist": { "type": "string", "format": "date" },
+                    "dokumenttype": { "type": "string" },
+                    "tilleggsinformasjon": { "type": "string" },
+                    "hendelsetype": {
+                        "type": "string",
+                        "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
+                    },
+                    "hendelsereferanse": { "type": "string" },
+                    "erFraInnsyn": { "type": "boolean" },
+                    "erLastetOpp": { "type": "boolean" },
+                    "opplastetDato": { "type": "string", "format": "date-time" }
+                },
+                "required": ["dokumenttype", "erFraInnsyn", "erLastetOpp", "oppgaveId"]
             },
             "KommuneResponse": {
                 "type": "object",

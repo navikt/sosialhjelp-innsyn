@@ -7,10 +7,21 @@ import {
     getHentHendelserBetaQueryKey,
 } from "@generated/hendelse-controller/hendelse-controller";
 import { useSendVedlegg, getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
+import {
+    getGetOppgaverBetaQueryKey,
+    GetOppgaverBetaQueryResult,
+} from "@generated/oppgave-controller/oppgave-controller";
 
 import { FancyFile, Error, Metadata, Feil } from "../types";
 import { determineErrorType } from "../utils/mapErrors";
 import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
+
+const getQueryKeysForInvalidation = (fiksDigisosId: string): string[] =>
+    [
+        getHentVedleggQueryKey(fiksDigisosId),
+        getHentHendelserQueryKey(fiksDigisosId),
+        getHentHendelserBetaQueryKey(fiksDigisosId),
+    ].flat();
 
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
     const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
@@ -42,9 +53,31 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
                     if (errors.length === 0) {
                         resetFilOpplastningData();
 
-                        await queryClient.invalidateQueries({ queryKey: getHentVedleggQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserQueryKey(fiksDigisosId) });
-                        await queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) });
+                        // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
+                        queryClient.setQueryData<GetOppgaverBetaQueryResult>(
+                            getGetOppgaverBetaQueryKey(fiksDigisosId),
+                            (prev) => {
+                                return prev?.map((oppgave) => {
+                                    if (
+                                        oppgave.hendelsereferanse === metadata.hendelsereferanse &&
+                                        oppgave.dokumenttype === metadata.type &&
+                                        oppgave.tilleggsinformasjon === metadata.tilleggsinfo
+                                    ) {
+                                        return {
+                                            ...oppgave,
+                                            erLastetOpp: true,
+                                            opplastetDato: new Date().toISOString(),
+                                        };
+                                    }
+                                    return oppgave;
+                                });
+                            }
+                        );
+
+                        await queryClient.invalidateQueries({
+                            predicate: ({ queryKey }) =>
+                                getQueryKeysForInvalidation(fiksDigisosId).includes(queryKey[0] as string),
+                        });
                     }
                 },
                 onError: (error) => {

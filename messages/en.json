@@ -6,11 +6,11 @@
         "tittel": "My applications"
     },
     "StatusSendtPage": {
-        "tittel": "Your application has been sent",
-        "alert": {
-            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
-            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
-        }
+        "tittel": "Your application has been sent"
+    },
+    "OppgaveAlert": {
+        "tittel": "Nav needs more documents to process your case",
+        "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
     },
     "StatusMottattPage": {
         "tittel": "You application has been received",
@@ -20,12 +20,7 @@
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Your application is being processed",
-        "underBehandlingAlert": "Being processed",
-        "alert": {
-            "tittel": "The Nav-kontor needs more documents to process your case.",
-            "beskrivelse": "If you have already submitted the requested documents directly to the Nav-kontor, you can ignore this message."
-        }
+        "tittel": "Your application is being processed"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Your application has been processed",
@@ -55,6 +50,16 @@
     },
     "StatusPage": {
         "tittel": "Overview"
+    },
+    "Oppgaver": {
+        "tittel": "Requested documents",
+        "ingenOppgaver": {
+            "tittel": "You have no tasks",
+            "beskrivelse": "If you are asked to submit documentation, it will appear here."
+        },
+        "frist": "Due: {frist, date, ::ddMMyyyy}",
+        "løst": "Submitted",
+        "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}"
     },
     "OversiktSteps": {
         "SendtStep": {

@@ -1,22 +1,23 @@
 import { getTranslations } from "next-intl/server";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Heading, Tag } from "@navikt/ds-react";
 
-import StatusAlert from "@components/alert/StatusAlert";
-import { getOppgaver } from "@generated/ssr/oppgave-controller/oppgave-controller";
+import { getQueryClient } from "@api/queryClient";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
 import { isVedtakUtfallKey, vedtakUtfallMap } from "@components/vedtak/VedtakUtfallMap";
 
 import { StatusPage } from "./StatusPage";
+import Oppgaver from "./oppgaver/Oppgaver";
+import OppgaveAlert from "./oppgaver/OppgaveAlert";
 
 interface Props {
-    navKontor: string;
     id: string;
 }
 
-export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
+export const StatusUnderBehandlingPage = async ({ id }: Props) => {
     const t = await getTranslations("StatusUnderBehandlingPage");
 
-    const oppgaver = await getOppgaver(id);
+    const queryClient = getQueryClient();
     const saker = await hentSaksStatuser(id);
 
     return (
@@ -24,16 +25,9 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
             id={id}
             heading={t("tittel")}
             alert={
-                oppgaver.length > 0 ? (
-                    <StatusAlert
-                        variant="warning"
-                        tittel={t.rich("alert.tittel", {
-                            navKontor: navKontor,
-                            norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        })}
-                        beskrivelse={t("alert.beskrivelse")}
-                    />
-                ) : null
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <OppgaveAlert />
+                </HydrationBoundary>
             }
         >
             {saker.map((sak, index) => {
@@ -58,6 +52,9 @@ export const StatusUnderBehandlingPage = async ({ navKontor, id }: Props) => {
                 }
                 return null;
             })}
+            <HydrationBoundary state={dehydrate(queryClient)}>
+                <Oppgaver />
+            </HydrationBoundary>
         </StatusPage>
     );
 };
