@@ -38,12 +38,14 @@ export const VedtakUtfall = async ({
     return (
         <VStack gap="space-16">
             <Heading size="xlarge" level="1">
-                {tittel}
+                {t.rich("tittel", {
+                    sakstittel: tittel,
+                    norsk: (chunks) => <span lang="no">{chunks}</span>,
+                })}
             </Heading>
             <Tag variant={boxColor(utfallVedtak)} className="size-fit">
                 <BodyShort>
                     {t.rich("status", {
-                        vedtak: (chunks) => <b>{chunks}</b>,
                         status: utfallVedtakStatus || "",
                         b: (chunks) => <b>{chunks}</b>,
                         norsk: (chunks) => <span lang="no">{chunks}</span>,

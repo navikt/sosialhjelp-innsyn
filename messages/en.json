@@ -27,6 +27,7 @@
         "underBehandlingAlert": "Being processed"
     },
     "StatusVedtak": {
+        "tittel": "Application for <norsk>{sakstittel}</norsk>",
         "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>"
     },
     "StatusVedtakInnvilget": {

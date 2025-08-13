@@ -27,6 +27,7 @@
         "underBehandlingAlert": "Under behandling"
     },
     "StatusVedtak": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
         "status": "<b>Vedtak:</b> <norsk>{status}</norsk>"
     },
     "StatusVedtakInnvilget": {
