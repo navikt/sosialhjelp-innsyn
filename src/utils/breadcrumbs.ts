@@ -13,8 +13,7 @@ export const getBaseCrumbs = (t?: (t: string) => string): [CompleteCrumb, Comple
     },
     {
         title: t?.("Sosialhjelp") ?? "Økonomisk sosialhjelp",
-        url: "/",
-        handleInApp: true,
+        url: "/sosialhjelp/innsyn",
     },
 ];
 
