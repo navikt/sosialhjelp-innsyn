@@ -14,6 +14,10 @@ const Dokumenter = () => {
     const { id } = useParams<{ id: string }>();
     const { data } = useHentVedleggSuspense(id);
 
+    if (data.length === 0) {
+        return null;
+    }
+
     return (
         <VStack gap="2">
             <Heading size="large" level="2" spacing>
