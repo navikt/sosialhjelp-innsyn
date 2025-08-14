@@ -14,7 +14,9 @@
     },
     "StatusForelopigSvar": {
         "tittel": "You have received a letter regarding an extended processing time.",
-        "beskrivelse": "<norsk>{navKontor}</norsk> see that they are unable to process your application by the deadline and have sent you a letter. Open the letter to see when you can expect a response to your application."
+        "beskrivelse": "<norsk>{navKontor}</norsk> see that they are unable to process your application by the deadline and have sent you a letter. Open the letter to see when you can expect a response to your application.",
+        "tittel2": "Letter from Nav",
+        "lenke": "Download letter regarding processing time"
     },
     "StatusMottattPage": {
         "tittel": "You application has been received",

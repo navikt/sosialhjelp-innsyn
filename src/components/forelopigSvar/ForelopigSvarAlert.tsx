@@ -3,8 +3,11 @@
 import { Alert, Heading, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { FilePdfIcon } from "@navikt/aksel-icons";
 
 import { useHentForelopigSvarStatusSuspense } from "@generated/forelopig-svar-controller/forelopig-svar-controller";
+import { useHentHendelserBetaSuspense } from "@generated/hendelse-controller/hendelse-controller";
+import StatusCard from "@components/statusCard/StatusCard";
 
 export const ForelopigSvarAlertSkeleton = () => {
     return (
@@ -17,18 +20,35 @@ export const ForelopigSvarAlertSkeleton = () => {
 export const ForelopigSvarAlert = () => {
     const t = useTranslations("StatusForelopigSvar");
     const { id } = useParams<{ id: string }>();
-    const { data } = useHentForelopigSvarStatusSuspense(id);
+    const { data: forelopigData } = useHentForelopigSvarStatusSuspense(id);
+    const { data: hendelserData } = useHentHendelserBetaSuspense(id);
 
-    if (data === null) {
+    const forelopig = hendelserData.find((hendelse) => hendelse.type === "ForelopigSvar");
+    const navKontor = forelopig.navKontor ?? "";
+
+    if (!forelopigData.harMottattForelopigSvar) {
         return null;
     }
 
     return (
-        <Alert variant="warning">
-            <Heading size="small" level="2">
-                {t("tittel")}
-            </Heading>
-            {t("beskrivelse")}
-        </Alert>
+        <VStack gap="space-32">
+            <Alert variant="warning">
+                <Heading size="small" level="2">
+                    {t("tittel")}
+                </Heading>
+                {t.rich("beskrivelse", {
+                    navKontor: navKontor,
+                    norsk: (chunks) => <span lang="no">{chunks}</span>,
+                })}
+            </Alert>
+            <VStack gap="space-16">
+                <Heading size="large" level="2">
+                    {t("tittel2")}
+                </Heading>
+                <StatusCard href={forelopigData.link} downloadIcon={true} icon={<FilePdfIcon />}>
+                    {t("lenke")}
+                </StatusCard>
+            </VStack>
+        </VStack>
     );
 };

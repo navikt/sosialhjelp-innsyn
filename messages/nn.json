@@ -14,7 +14,9 @@
     },
     "StatusForelopigSvar": {
         "tittel": "Du har fått eit brev om forlengde saksbehandlingstida",
-        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg et brev. Opne brevet for å sjå når du kan forvente svar på søknaden din."
+        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg et brev. Opne brevet for å sjå når du kan forvente svar på søknaden din.",
+        "tittel2": "Brev fra Nav",
+        "lenke": "Lasta ned brev om saksbehandlingstida"
     },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
