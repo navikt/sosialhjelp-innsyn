@@ -4,7 +4,7 @@ import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardIcon, LinkCardAnc
 import { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
 
-interface Props {
+export interface Props {
     href: string;
     description?: ReactNode;
     icon?: JSX.Element;
@@ -37,7 +37,7 @@ const Icon = ({ icon, variant = "info" }: IconProps) => (
     </VStack>
 );
 
-const StatusCard = ({ href, children, description, icon, variant = "info", dashed }: PropsWithChildren<Props>) => (
+const DigisosLinkCard = ({ href, children, description, icon, variant = "info", dashed }: PropsWithChildren<Props>) => (
     <LinkCard
         className={cx(
             "group hover:shadow-none focus:shadow-none focus:border-ax-border-accent",
@@ -56,4 +56,4 @@ const StatusCard = ({ href, children, description, icon, variant = "info", dashe
         {description && <LinkCardDescription>{description}</LinkCardDescription>}
     </LinkCard>
 );
-export default StatusCard;
+export default DigisosLinkCard;

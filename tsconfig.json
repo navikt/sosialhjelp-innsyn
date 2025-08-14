@@ -36,6 +36,6 @@
             "@utils/*": ["src/utils/*"]
         }
     },
-    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom", "tailwind.config.ts"],
+    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom", "tailwind.config.ts", "next.config.ts"],
     "exclude": ["node_modules"]
 }

@@ -15,7 +15,7 @@ const compat = new FlatCompat({
 
 export default [
     {
-        ignores: ["src/generated/**/*", "next.config.js"],
+        ignores: ["src/generated/**/*", "next.config.ts"],
     },
     ...compat.extends(
         "next/core-web-vitals",
