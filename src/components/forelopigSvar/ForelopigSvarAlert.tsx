@@ -23,12 +23,12 @@ export const ForelopigSvarAlert = () => {
     const { data: forelopigData } = useHentForelopigSvarStatusSuspense(id);
     const { data: hendelserData } = useHentHendelserBetaSuspense(id);
 
-    const forelopig = hendelserData.find((hendelse) => hendelse.type === "ForelopigSvar");
-    const navKontor = forelopig.navKontor ?? "";
-
-    if (!forelopigData.harMottattForelopigSvar) {
+    if (!forelopigData) {
         return null;
     }
+
+    const forelopig = hendelserData.find((hendelse) => hendelse.type === "ForelopigSvar");
+    const navKontor = forelopig.navKontor ?? "";
 
     return (
         <VStack gap="space-32">
@@ -45,9 +45,11 @@ export const ForelopigSvarAlert = () => {
                 <Heading size="large" level="2">
                     {t("tittel2")}
                 </Heading>
-                <StatusCard href={forelopigData.link} downloadIcon={true} icon={<FilePdfIcon />}>
-                    {t("lenke")}
-                </StatusCard>
+                {forelopigData.link && (
+                    <StatusCard href={forelopigData.link} downloadIcon={true} icon={<FilePdfIcon />}>
+                        {t("lenke")}
+                    </StatusCard>
+                )}
             </VStack>
         </VStack>
     );
