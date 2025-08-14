@@ -12,6 +12,10 @@
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
     },
+    "StatusForelopigSvar": {
+        "tittel": "Du har fått eit brev om forlengde saksbehandlingstida",
+        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg et brev. Opne brevet for å sjå når du kan forvente svar på søknaden din."
+    },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
         "alert": {

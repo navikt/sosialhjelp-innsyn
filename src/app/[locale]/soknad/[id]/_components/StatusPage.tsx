@@ -6,6 +6,8 @@ import { getTranslations } from "next-intl/server";
 import { prefetchHentHendelserBetaQuery } from "@generated/ssr/hendelse-controller/hendelse-controller";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
+import { prefetchHentForelopigSvarStatusQuery } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
+import { ForelopigSvarAlert, ForelopigSvarAlertSkeleton } from "@components/forelopigSvar/ForelopigSvarAlert";
 
 import Oversikt, { OversiktSkeleton } from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -21,16 +23,23 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
     const t = await getTranslations("StatusPage");
     const hendelserQueryClient = getQueryClient();
     const vedleggQueryClient = getQueryClient();
+    const forelopigSvarQueryClient = getQueryClient();
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentHendelserBetaQuery(hendelserQueryClient, id);
     prefetchHentVedleggQuery(vedleggQueryClient, id);
+    prefetchHentForelopigSvarStatusQuery(forelopigSvarQueryClient, id);
 
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
                 {heading}
             </Heading>
+            <Suspense fallback={<ForelopigSvarAlertSkeleton />}>
+                <HydrationBoundary state={dehydrate(forelopigSvarQueryClient)}>
+                    <ForelopigSvarAlert />
+                </HydrationBoundary>
+            </Suspense>
             {alert}
             {children}
             <VStack gap="2">

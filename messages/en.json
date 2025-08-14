@@ -12,6 +12,10 @@
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
     },
+    "StatusForelopigSvar": {
+        "tittel": "You have received a letter regarding an extended processing time.",
+        "beskrivelse": "<norsk>{navKontor}</norsk> see that they are unable to process your application by the deadline and have sent you a letter. Open the letter to see when you can expect a response to your application."
+    },
     "StatusMottattPage": {
         "tittel": "You application has been received",
         "alert": {
