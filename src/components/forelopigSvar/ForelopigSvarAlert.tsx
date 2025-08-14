@@ -27,9 +27,7 @@ export const ForelopigSvarAlert = () => {
         return null;
     }
 
-    const forelopig = hendelserData.find((hendelse) => hendelse.type === "ForelopigSvar");
-    const navKontor = forelopig.navKontor ?? "";
-
+    const forelopig = hendelserData && hendelserData.find((hendelse) => hendelse.type === "ForelopigSvar");
     return (
         <VStack gap="space-32">
             <Alert variant="warning">
@@ -37,7 +35,7 @@ export const ForelopigSvarAlert = () => {
                     {t("tittel")}
                 </Heading>
                 {t.rich("beskrivelse", {
-                    navKontor: navKontor,
+                    navKontor: forelopig?.navKontor ?? "Nav-kontoret ditt",
                     norsk: (chunks) => <span lang="no">{chunks}</span>,
                 })}
             </Alert>
