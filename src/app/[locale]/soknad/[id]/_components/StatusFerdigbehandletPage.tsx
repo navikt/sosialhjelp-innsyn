@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { Tag } from "@navikt/ds-react";
+import { Heading, Tag } from "@navikt/ds-react";
 
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
-import { isVedtakUtfallKey, vedtakUtfallMap } from "@components/vedtak/VedtakUtfallMap";
+import { getTranslationKeyForUtfall, isVedtakUtfallKey } from "@components/vedtak/VedtakUtfallMap";
+import { VedtakUtfall } from "@components/vedtak/VedtakUtfall";
 
 import { StatusPage } from "./StatusPage";
 
@@ -16,19 +17,33 @@ export const StatusFerdigbehandletPage = async ({ id }: Props) => {
 
     return (
         <StatusPage heading={t("tittel")} id={id}>
-            {saker.map((sak, index) => {
+            {saker.map(async (sak, index) => {
                 const key = sak.utfallVedtak;
-                const Component = key && isVedtakUtfallKey(key) ? vedtakUtfallMap[key] : null;
-
-                if (Component) {
-                    return <Component key={index} sak={sak} />;
+                if (key && isVedtakUtfallKey(key)) {
+                    const utfallKey = getTranslationKeyForUtfall(key);
+                    const utfallTranslations = await getTranslations(utfallKey);
+                    return (
+                        <VedtakUtfall
+                            key={index}
+                            tittel={sak.tittel}
+                            beskrivelse={utfallTranslations("beskrivelse")}
+                            vedtaksfilUrlList={sak.vedtaksfilUrlList}
+                            utfallVedtak={sak.utfallVedtak}
+                            utfallVedtakStatus={utfallTranslations("tittel")}
+                        />
+                    );
                 }
 
                 if (sak.status === "UNDER_BEHANDLING") {
                     return (
-                        <Tag variant="info-moderate" key={index}>
-                            {t("underBehandlingAlert")}
-                        </Tag>
+                        <div key={index}>
+                            <Heading size="xlarge" level="2">
+                                {sak.tittel} asd
+                            </Heading>
+                            <Tag variant="info-moderate" key={index}>
+                                {t("underBehandlingAlert")}
+                            </Tag>
+                        </div>
                     );
                 }
                 return null;

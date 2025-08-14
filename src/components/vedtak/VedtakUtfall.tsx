@@ -37,7 +37,7 @@ export const VedtakUtfall = async ({
 
     return (
         <VStack gap="space-16">
-            <Heading size="xlarge" level="1">
+            <Heading size="xlarge" level="2">
                 {t.rich("tittel", {
                     sakstittel: tittel,
                     norsk: (chunks) => <span lang="no">{chunks}</span>,
@@ -52,8 +52,7 @@ export const VedtakUtfall = async ({
                     })}
                 </BodyShort>
             </Tag>
-            <div>{beskrivelse}</div>
-
+            <p>{beskrivelse}</p>
             {vedtaksfilUrlList &&
                 vedtaksfilUrlList.map((fil, index) => (
                     <StatusCard
