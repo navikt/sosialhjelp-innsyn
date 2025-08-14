@@ -38,7 +38,7 @@ export const StatusFerdigbehandletPage = async ({ id }: Props) => {
                     return (
                         <div key={index}>
                             <Heading size="xlarge" level="2">
-                                {sak.tittel} asd
+                                {sak.tittel}
                             </Heading>
                             <Tag variant="info-moderate" key={index}>
                                 {t("underBehandlingAlert")}
