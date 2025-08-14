@@ -51,8 +51,11 @@ export const StatusUnderBehandlingPage = async ({ id }: Props) => {
                 if (sak.status === "UNDER_BEHANDLING") {
                     return (
                         <div key={index}>
-                            <Heading size="xlarge" level="2">
-                                {sak.tittel}
+                            <Heading size="large" level="2">
+                                {t.rich("vedtakStatus", {
+                                    sakstittel: sak.tittel,
+                                    norsk: (chunks) => <span lang="no">{chunks}</span>,
+                                })}
                             </Heading>
                             <Tag variant="info-moderate" key={index}>
                                 {t("underBehandlingAlert")}

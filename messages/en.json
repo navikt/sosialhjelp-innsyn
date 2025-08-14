@@ -5,13 +5,13 @@
     "SoknaderSide": {
         "tittel": "My applications"
     },
-    "StatusSendtPage": {
-        "tittel": "Your application has been sent"
-    },
     "OppgaveAlert": {
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
     },
+     "StatusSendtPage": {
+       "tittel": "Your application has been sent"
+     },
     "StatusMottattPage": {
         "tittel": "You application has been received",
         "alert": {
@@ -21,11 +21,13 @@
     },
     "StatusUnderBehandlingPage": {
         "tittel": "Your application is being processed",
-        "underBehandlingAlert": "Being processed"
+        "underBehandlingAlert": "Being processed",
+      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Your application has been processed",
-        "underBehandlingAlert": "Being processed"
+        "underBehandlingAlert": "Being processed",
+      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
     },
     "StatusVedtak": {
         "tittel": "Application for <norsk>{sakstittel}</norsk>",

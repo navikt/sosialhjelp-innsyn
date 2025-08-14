@@ -5,12 +5,12 @@
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
-    "StatusSendtPage": {
-        "tittel": "Søknaden din er send"
-    },
     "OppgaveAlert": {
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+    },
+    "StatusSendtPage": {
+      "tittel": "Søknaden din er send"
     },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
@@ -21,11 +21,13 @@
     },
     "StatusUnderBehandlingPage": {
         "tittel": "Søknaden din er under behandling",
-      "underBehandlingAlert": "Under behandling"
+      "underBehandlingAlert": "Under behandling",
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandla",
-        "underBehandlingAlert": "Under behandling"
+        "underBehandlingAlert": "Under behandling",
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
     },
     "StatusVedtak": {
         "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
