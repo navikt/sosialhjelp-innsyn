@@ -120,7 +120,7 @@ async function getUnleashSessionId(): Promise<string> {
     if (existingUnleashId != null) {
         return existingUnleashId.value;
     } else {
-        logger.warn("No existing unleash session id found, is middleware not configured?");
+        logger.info("No existing unleash session id found, is middleware not configured?");
         return "0";
     }
 }

@@ -105,7 +105,7 @@ async function getUnleashSessionId(cookies: NextApiRequestCookies): Promise<stri
     if (existingUnleashId != null) {
         return existingUnleashId;
     } else {
-        logger.warn("No existing unleash session id found, is middleware not configured?");
+        logger.info("No existing unleash session id found, is middleware not configured?");
         return "0";
     }
 }
