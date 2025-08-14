@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
     if (request.cookies.get(UNLEASH_COOKIE_NAME)?.value == null) {
         response.cookies.set(UNLEASH_COOKIE_NAME, crypto.randomUUID());
     }
+    // Hvis bruker må redirectes for språket, så blir det satt som en 3XX, dvs. !ok.
     if (response && !response.ok) {
         return response;
     }
@@ -27,5 +28,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/sosialhjelp/innsyn/(nb|nn|en)/:path*", "/", "/(nb|nn|en)/:path*"],
+    matcher: ["/sosialhjelp/innsyn/(nb|nn|en)/:path*", "/:path*", "/(nb|nn|en)/:path*"],
 };
