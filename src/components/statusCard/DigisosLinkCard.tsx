@@ -5,7 +5,7 @@ import { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
 import { ArrowRightIcon, DownloadIcon } from "@navikt/aksel-icons";
 
-interface Props {
+export interface Props {
     href: string;
     description?: ReactNode;
     icon?: JSX.Element;
@@ -39,7 +39,7 @@ const Icon = ({ icon, variant = "info" }: IconProps) => (
     </VStack>
 );
 
-const StatusCard = ({
+const DigisosLinkCard = ({
     href,
     children,
     description,
@@ -78,4 +78,4 @@ const StatusCard = ({
         )}
     </LinkCard>
 );
-export default StatusCard;
+export default DigisosLinkCard;

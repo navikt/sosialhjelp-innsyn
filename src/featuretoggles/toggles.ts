@@ -5,4 +5,5 @@ export const EXPECTED_TOGGLES = [
     "sosialhjelp.innsyn.ny_soknaderside",
     "sosialhjelp.innsyn.ny_soknadside",
     "sosialhjelp.innsyn.klage",
+    "sosialhjelp.innsyn.ny_utbetalinger_side",
 ] as const;

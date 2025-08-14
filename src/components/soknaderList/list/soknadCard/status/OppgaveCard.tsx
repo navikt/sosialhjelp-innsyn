@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { FilesIcon } from "@navikt/aksel-icons";
 
-import StatusCard from "@components/statusCard/StatusCard";
+import StatusCard from "@components/soknaderList/list/soknadCard/status/StatusCard";
 
 interface Props {
     fiksDigisosId: string;
@@ -13,7 +13,7 @@ const OppgaveCard = ({ fiksDigisosId, sakTittel, frist }: Props) => {
     const t = useTranslations("StatusCard.OppgaveCard");
     return (
         <StatusCard
-            href={`/soknad/${fiksDigisosId}`}
+            id={fiksDigisosId}
             description={frist ? t("description", { date: new Date(frist) }) : t("descriptionUtenFrist")}
             icon={<FilesIcon />}
             variant="warning"
