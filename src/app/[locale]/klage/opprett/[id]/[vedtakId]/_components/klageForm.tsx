@@ -8,12 +8,14 @@ import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
+import { NavigationGuardProvider } from "next-navigation-guard";
 
+import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks2";
 import { getHentKlagerQueryKey, useLastOppVedlegg, useSendKlage } from "@generated/klage-controller/klage-controller";
+import useFiles from "@components/filopplasting/new/useFiles";
+import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
-
-import FileUploadField from "./FileUploadField";
 
 export type FormValues = {
     background: string | null;
@@ -25,6 +27,8 @@ const klageSchema = z.object({
     files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
 
+const metadata = { type: "klage", tilleggsinfo: "klage" };
+
 const KlageForm = () => {
     const t = useTranslations("KlageForm");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -32,10 +36,11 @@ const KlageForm = () => {
     const queryClient = useQueryClient();
     const router = useRouter();
 
+    const { addFiler, files, removeFil, outerErrors } = useFiles();
+
     const {
         register,
         handleSubmit,
-        control,
         formState: { errors },
     } = useForm<FormValues>({
         resolver: zodResolver(klageSchema) as Resolver<FormValues>,
@@ -51,14 +56,13 @@ const KlageForm = () => {
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
         try {
             const klageId = crypto.randomUUID();
-
-            const files = data?.files?.map((file) => file.file);
-
             if (files.length > 0) {
                 await lastOppVedleggMutation.mutateAsync({
                     fiksDigisosId,
                     klageId,
-                    data: { files },
+                    data: {
+                        files: [createMetadataFile(files, metadata), ...formatFilesForUpload(files)],
+                    },
                 });
             }
 
@@ -82,7 +86,9 @@ const KlageForm = () => {
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <FileUploadField name="files" control={control} />
+            <NavigationGuardProvider>
+                <Opplastingsboks files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
+            </NavigationGuardProvider>
             <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
                 {t("sendKlage")}
             </Button>
