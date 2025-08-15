@@ -7,15 +7,13 @@ interface Props {
     beskrivelse: string;
 }
 
-const StatusAlert = async ({ variant, tittel, beskrivelse }: Props) => {
-    return (
-        <Alert variant={variant}>
-            <Heading size="small" level="2">
-                {tittel}
-            </Heading>
-            {beskrivelse}
-        </Alert>
-    );
-};
+const StatusAlert = ({ variant, tittel, beskrivelse }: Props) => (
+    <Alert variant={variant}>
+        <Heading size="small" level="2">
+            {tittel}
+        </Heading>
+        {beskrivelse}
+    </Alert>
+);
 
 export default StatusAlert;

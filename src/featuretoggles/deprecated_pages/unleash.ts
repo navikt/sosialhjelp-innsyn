@@ -92,7 +92,7 @@ async function getAndValidateDefinitions(): Promise<Awaited<ReturnType<typeof ge
             `Difference in expected flags and flags in unleash, expected but not in unleash: ${diff.join(", ")}`
         );
     } else {
-        logger.info(
+        logger.debug(
             `Fetched ${definitions.features.length} flags from unleash, found all ${EXPECTED_TOGGLES.length} expected flags`
         );
     }
@@ -105,7 +105,7 @@ async function getUnleashSessionId(cookies: NextApiRequestCookies): Promise<stri
     if (existingUnleashId != null) {
         return existingUnleashId;
     } else {
-        logger.warn("No existing unleash session id found, is middleware not configured?");
+        logger.info("No existing unleash session id found, is middleware not configured?");
         return "0";
     }
 }
