@@ -25,7 +25,7 @@ export const UtbetalingAccordionHeader = ({
     const tittelOrDefault = "default_utbetalinger_tittel" !== tittel ? tittel : t("default_utbetalinger_tittel");
 
     return (
-        <Accordion.Header className="items-center border-2 [&>.navds-heading]:grow">
+        <Accordion.Header className="items-center [&>.navds-heading]:grow">
             <div className="flex flex-row gap-2 justify-between">
                 <div className="flex flex-wrap grow gap-2">
                     <BodyShort className="font-bold">{tittelOrDefault}</BodyShort>
