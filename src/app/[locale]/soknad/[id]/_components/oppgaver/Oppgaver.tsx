@@ -34,7 +34,7 @@ const Oppgaver = () => {
                 </Heading>
                 {isFetching && <Loader />}
             </HStack>
-            {oppgaver?.length === 0 && (
+            {oppgaver?.every((oppgave) => oppgave.erLastetOpp) && (
                 <Alert variant="info">
                     <Heading size="large" level="3">
                         {t("ingenOppgaver.tittel")}
