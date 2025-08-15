@@ -5,6 +5,9 @@
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
+  "UtbetalingerSide": {
+    "tittel": "Utbetalingane mine"
+  },
     "StatusSendtPage": {
         "tittel": "Søknaden din er send"
     },

@@ -5,6 +5,9 @@
     "SoknaderSide": {
         "tittel": "My applications"
     },
+  "UtbetalingerSide": {
+    "tittel": "My payments"
+  },
     "StatusSendtPage": {
         "tittel": "Your application has been sent"
     },
