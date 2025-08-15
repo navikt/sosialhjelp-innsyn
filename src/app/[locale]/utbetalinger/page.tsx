@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { VStack } from "@navikt/ds-react";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 
@@ -10,7 +11,7 @@ const Page = async () => {
         return notFound();
     }
 
-    return <div>{t("titttel")}</div>;
+    return <VStack>{t("tittel")}</VStack>;
 };
 
 export default Page;
