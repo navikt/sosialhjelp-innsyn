@@ -35,7 +35,7 @@
         "react-use": "^17.6.0",
         "remeda": "^2.30.0",
         "styled-components": "^6.1.19",
-        "zod": "^3.24.3"
+        "zod": "^4.0.17"
     },
     "scripts": {
         "dev": "next dev --turbo -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
