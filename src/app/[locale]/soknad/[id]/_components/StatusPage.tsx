@@ -11,6 +11,7 @@ import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
 import Filopplasting from "./dokumenter/Filopplasting";
 import Oppgaver from "./oppgaver/Oppgaver";
 import OppgaveAlert from "./oppgaver/OppgaveAlert";
+import Saker from "./saker/Saker";
 
 interface Props {
     heading: ReactNode;
@@ -35,6 +36,7 @@ export const StatusPage = async ({ id, heading, alert, children }: PropsWithChil
                 <OppgaveAlert />
                 <Oppgaver />
             </HydrationBoundary>
+            <Saker />
             {children}
             <Oversikt id={id} />
             <Filopplasting />
