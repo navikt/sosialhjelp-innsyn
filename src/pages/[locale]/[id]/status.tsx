@@ -200,7 +200,7 @@ const SaksStatusView: NextPage = () => {
 
     useEffect(() => {
         if (!error) return;
-        logger.warn("Error fetching soknadsstatus", error);
+        logger.warn(`Error fetching soknadsstatus: ${error}`);
         router.push("/");
     }, [error, router]);
 

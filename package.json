@@ -12,7 +12,7 @@
         "@navikt/ds-tailwind": "^7.28.1",
         "@navikt/nav-dekoratoren-moduler": "^3.4.0",
         "@navikt/next-api-proxy": "^4.1.4",
-        "@navikt/next-logger": "^3.0.3",
+        "@navikt/next-logger": "^4.1.5",
         "@navikt/oasis": "^3.8.0",
         "@next/env": "^15.4.6",
         "@tailwindcss/postcss": "^4.1.12",
@@ -38,7 +38,7 @@
         "zod": "^3.24.3"
     },
     "scripts": {
-        "dev": "next dev --turbo -p 3002 -H 0.0.0.0 | pino-pretty",
+        "dev": "next dev --turbo -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
         "build": "next build",
         "start": "next start",
         "test": "vitest",
