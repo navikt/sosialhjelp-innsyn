@@ -76,7 +76,7 @@
         "@testing-library/jest-dom": "^6.7.0",
         "@testing-library/react": "^16.3.0",
         "@types/js-cookie": "^3.0.6",
-        "@types/node": "^22.15.29",
+        "@types/node": "^24.3.0",
         "@types/react": "^19.1.10",
         "@types/react-collapse": "^5.0.4",
         "@types/react-dom": "^19.1.7",
