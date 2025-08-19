@@ -5,13 +5,13 @@
     "SoknaderSide": {
         "tittel": "My applications"
     },
-    "StatusSendtPage": {
-        "tittel": "Your application has been sent"
-    },
     "OppgaveAlert": {
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
     },
+     "StatusSendtPage": {
+       "tittel": "Your application has been sent"
+     },
     "StatusMottattPage": {
         "tittel": "You application has been received",
         "alert": {
@@ -20,10 +20,40 @@
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Your application is being processed"
+        "tittel": "Your application is being processed",
+        "underBehandlingAlert": "Being processed",
+      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>",
+      "deltSøknad": {
+        "tittel": "Your application has been divided into several cases",
+        "beskrivelse": "This may be because you have applied for support for multiple expenses, or because there is a need to process parts of the application separately."
+      }
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Your application has been processed"
+        "tittel": "Your application has been processed",
+        "underBehandlingAlert": "Being processed",
+      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
+    },
+    "StatusVedtak": {
+        "tittel": "Application for <norsk>{sakstittel}</norsk>",
+        "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Download decision letter",
+        "kommendeUtbetaling": "Check upcoming payout"
+    },
+    "StatusVedtakInnvilget": {
+        "tittel": "Granted",
+        "beskrivelse": "You have been granted benefits. Read the decision to see the reasons."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "tittel": "Partially granted",
+        "beskrivelse": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons."
+    },
+    "StatusVedtakAvslag": {
+        "tittel": "Refused",
+        "beskrivelse": "Your application has been declined. Read the decision to see the reasons."
+    },
+    "StatusVedtakAvvist": {
+        "tittel": "Rejected",
+        "beskrivelse": "Your application has been rejected. Read the decision to see the reasons."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
