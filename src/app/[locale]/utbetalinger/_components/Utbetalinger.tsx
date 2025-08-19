@@ -4,7 +4,7 @@ import { Chips, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 
 import UtbetalingerListe from "../../../../utbetalinger/UtbetalingerListe";
-import { useUtbetalingerChip } from "../../../../utbetalinger/UtbetalingerProviderContext";
+import { ChipsChip, useUtbetalingerChip } from "../../../../utbetalinger/UtbetalingerProviderContext";
 
 const chipOptions = [
     { key: "kommende", label: "Kommende" },
@@ -24,8 +24,8 @@ const Utbetalinger = () => {
                     <ChipsToggle
                         key={option.key}
                         checkmark={false}
-                        selected={selectedChip === option}
-                        onClick={() => setSelectedChip(option.key as Chips)}
+                        selected={selectedChip === option.key}
+                        onClick={() => setSelectedChip(option.key as ChipsChip)}
                     >
                         {option.label}
                     </ChipsToggle>
