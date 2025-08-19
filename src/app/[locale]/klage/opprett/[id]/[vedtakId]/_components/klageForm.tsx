@@ -2,7 +2,7 @@
 
 import { Alert, Button, FileObject, Textarea } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { useForm, SubmitHandler, Resolver } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -38,7 +38,7 @@ const KlageForm = () => {
         control,
         formState: { errors },
     } = useForm<FormValues>({
-        resolver: zodResolver(klageSchema) as Resolver<FormValues>,
+        resolver: zodResolver(klageSchema),
         defaultValues: {
             background: "",
             files: [],

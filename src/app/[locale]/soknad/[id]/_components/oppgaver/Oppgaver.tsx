@@ -36,7 +36,7 @@ const Oppgaver = () => {
             </HStack>
             {oppgaver?.every((oppgave) => oppgave.erLastetOpp) && (
                 <Alert variant="info">
-                    <Heading size="large" level="3">
+                    <Heading size="small" level="3">
                         {t("ingenOppgaver.tittel")}
                     </Heading>
                     <BodyShort>{t("ingenOppgaver.beskrivelse")}</BodyShort>
