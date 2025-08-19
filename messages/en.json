@@ -22,7 +22,11 @@
     "StatusUnderBehandlingPage": {
         "tittel": "Your application is being processed",
         "underBehandlingAlert": "Being processed",
-      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
+      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>",
+      "deltSøknad": {
+        "tittel": "Your application has been divided into several cases",
+        "beskrivelse": "This may be because you have applied for support for multiple expenses, or because there is a need to process parts of the application separately."
+      }
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Your application has been processed",

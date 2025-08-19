@@ -22,7 +22,11 @@
     "StatusUnderBehandlingPage": {
         "tittel": "Søknaden din er under behandling",
       "underBehandlingAlert": "Under behandling",
-      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>",
+      "deltSøknad": {
+        "tittel": "Søknaden din er delt opp i fleire saker",
+        "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
+      }
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandla",
