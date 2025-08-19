@@ -9,8 +9,11 @@
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
     },
+    "Vilkår": {
+        "tittel": "Vilkår"
+    },
     "StatusSendtPage": {
-      "tittel": "Søknaden din er send"
+        "tittel": "Søknaden din er send"
     },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
@@ -19,19 +22,60 @@
             "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
         }
     },
-    "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling",
-      "underBehandlingAlert": "Under behandling",
-      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>",
-      "deltSøknad": {
+    "DeltSoknadAlert": {
         "tittel": "Søknaden din er delt opp i fleire saker",
         "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
-      }
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Søknaden din er under behandling",
+        "underBehandlingAlert": "Under behandling",
+        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandla",
         "underBehandlingAlert": "Under behandling",
-      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "InfoAlert": {
+        "SENDT": {
+            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+        }
+    },
+    "StatusPage": {
+        "tittel": {
+            "SENDT": "Søknaden din er send",
+            "MOTTATT": "Søknaden din er motteken",
+            "UNDER_BEHANDLING": "Søknaden din er under behandling",
+            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
+        }
+    },
+    "StatusTag": {
+        "INNVILGET": "Vedtak: Innvilga",
+        "DELVIS_INNVILGET": "Vedtak: Delvis innvilga",
+        "AVVIST": "Vedtak: Avvist",
+        "AVSLATT": "Vedtak: Avslått",
+        "UNDER_BEHANDLING": "Under behandling"
+    },
+    "Vedtak": {
+        "beskrivelse": {
+            "INNVILGET": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga.",
+            "DELVIS_INNVILGET": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga.",
+            "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
+            "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+        },
+        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "kommendeUtbetaling": "Se komande utbetaling",
+        "uenig": {
+            "tittel": "Usamd i vedtaket",
+            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato."
+        }
+    },
+    "Sakstittel": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "SakSkeleton": {
+        "tittel": "Søknad om økonomisk sosialhjelp"
     },
     "StatusVedtak": {
         "tittel": "Søknad om <norsk>{sakstittel}</norsk>",

@@ -1,8 +1,10 @@
 import React from "react";
 import { expect, test } from "vitest";
+import { fireEvent, screen } from "@testing-library/react";
 
-import { render, fireEvent, screen } from "../../../test/test-utils";
-import { VilkarResponse } from "../../../generated/model";
+import { VilkarResponse } from "@generated/model";
+
+import { render } from "../../../test/test-utils";
 
 import { getUnikeVilkar, VilkarAccordion } from "./VilkarAccordion";
 

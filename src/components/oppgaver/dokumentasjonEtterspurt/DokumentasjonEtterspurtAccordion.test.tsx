@@ -1,9 +1,11 @@
 import React from "react";
+import { screen, fireEvent } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { expect, test } from "vitest";
 
-import { render, fireEvent, screen } from "../../../test/test-utils";
-import { OppgaveElementHendelsetype } from "../../../generated/model";
+import { OppgaveElementHendelsetype } from "@generated/model";
+
+import { render } from "../../../test/test-utils";
 
 import { DokumentasjonEtterspurtAccordion } from "./DokumentasjonEtterspurtAccordion";
 
