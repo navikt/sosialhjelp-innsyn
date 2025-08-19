@@ -5,6 +5,8 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
 import { prefetchGetOppgaverBetaQuery } from "@generated/ssr/oppgave-controller/oppgave-controller";
+import { prefetchHentForelopigSvarStatusQuery } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
+import { ForelopigSvarAlert, ForelopigSvarAlertSkeleton } from "@components/forelopigSvar/ForelopigSvarAlert";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -21,15 +23,22 @@ interface Props {
 export const StatusPage = async ({ id, heading, alert, children }: PropsWithChildren<Props>) => {
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
+    const forelopigSvarQueryClient = getQueryClient();
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
+    prefetchHentForelopigSvarStatusQuery(forelopigSvarQueryClient, id);
     await prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
                 {heading}
             </Heading>
+            <Suspense fallback={<ForelopigSvarAlertSkeleton />}>
+                <HydrationBoundary state={dehydrate(forelopigSvarQueryClient)}>
+                    <ForelopigSvarAlert />
+                </HydrationBoundary>
+            </Suspense>
             {alert}
             <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
                 <OppgaveAlert />

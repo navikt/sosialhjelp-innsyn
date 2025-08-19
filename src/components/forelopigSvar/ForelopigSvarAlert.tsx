@@ -7,7 +7,7 @@ import { FilePdfIcon } from "@navikt/aksel-icons";
 
 import { useHentForelopigSvarStatusSuspense } from "@generated/forelopig-svar-controller/forelopig-svar-controller";
 import { useHentHendelserBetaSuspense } from "@generated/hendelse-controller/hendelse-controller";
-import StatusCard from "@components/statusCard/StatusCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 export const ForelopigSvarAlertSkeleton = () => {
     return (
@@ -44,9 +44,9 @@ export const ForelopigSvarAlert = () => {
                     {t("tittel2")}
                 </Heading>
                 {forelopigData.link && (
-                    <StatusCard href={forelopigData.link} downloadIcon={true} icon={<FilePdfIcon />}>
+                    <DigisosLinkCard href={forelopigData.link} downloadIcon={true} icon={<FilePdfIcon />}>
                         {t("lenke")}
-                    </StatusCard>
+                    </DigisosLinkCard>
                 )}
             </VStack>
         </VStack>
