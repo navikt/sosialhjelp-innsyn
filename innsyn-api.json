@@ -790,7 +790,8 @@
                         ]
                     },
                     "skalViseVedtakInfoPanel": { "type": "boolean" },
-                    "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } }
+                    "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
+                    "utfallVedtak": { "type": "string", "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"] }
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel"]
             },

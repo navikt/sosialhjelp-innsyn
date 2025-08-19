@@ -15,6 +15,9 @@
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
     },
+    "StatusSendtPage": {
+      "tittel": "Søknaden din er send"
+    },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
         "alert": {
@@ -23,15 +26,45 @@
         }
     },
     "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling"
+        "tittel": "Søknaden din er under behandling",
+      "underBehandlingAlert": "Under behandling",
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>",
+      "deltSøknad": {
+        "tittel": "Søknaden din er delt opp i fleire saker",
+        "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
+      }
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Søknaden din er ferdigbehandla"
+        "tittel": "Søknaden din er ferdigbehandla",
+        "underBehandlingAlert": "Under behandling",
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "StatusVedtak": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
+        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "kommendeUtbetaling": "Se komande utbetaling"
+    },
+    "StatusVedtakInnvilget": {
+        "tittel": "Innvilga",
+        "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "tittel": "Delvis innvilga",
+        "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvslag": {
+        "tittel": "Avslag",
+        "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvvist": {
+        "tittel": "Avvist",
+        "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
-    "StatusPage": {
+    "Oversikt": {
         "tittel": "Oversikt"
     },
     "Oppgaver": {
