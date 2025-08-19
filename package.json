@@ -80,7 +80,7 @@
         "@types/react": "^19.1.10",
         "@types/react-collapse": "^5.0.4",
         "@types/react-dom": "^19.1.7",
-        "@typescript-eslint/eslint-plugin": "^8.39.1",
+        "@typescript-eslint/eslint-plugin": "^8.40.0",
         "@vitejs/plugin-react": "^5.0.0",
         "autoprefixer": "^10.4.21",
         "eslint-config-next": "^15.4.6",
