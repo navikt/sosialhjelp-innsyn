@@ -18,10 +18,11 @@ const Page = async () => {
                 {t("tittel")}
             </Heading>
             <Chips>
-                <ChipsToggle checkmark={false}>hei 1</ChipsToggle>
-                <ChipsToggle checkmark={false}>hei 2</ChipsToggle>
-                <ChipsToggle checkmark={false}>hei 3</ChipsToggle>
-                <ChipsToggle checkmark={false}>hei 4</ChipsToggle>
+                <ChipsToggle checkmark={false}>Kommende</ChipsToggle>
+                <ChipsToggle checkmark={false}>Siste 3 måneder</ChipsToggle>
+                <ChipsToggle checkmark={false}>Hitil i år</ChipsToggle>
+                <ChipsToggle checkmark={false}>I fjor</ChipsToggle>
+                <ChipsToggle checkmark={false}>Egendefinert</ChipsToggle>
             </Chips>
         </VStack>
     );

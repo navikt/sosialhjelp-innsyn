@@ -6,11 +6,12 @@
         "tittel": "My applications"
     },
   "UtbetalingerSide": {
-    "tittel": "Payments"
+    "tittel": "Payments",
+    "ingenUtbetalinger": {
+      "tittel":"Du har ingen utbetalinger for denne perioden",
+      "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+    }
   },
-    "StatusSendtPage": {
-        "tittel": "Your application has been sent"
-    },
     "OppgaveAlert": {
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."

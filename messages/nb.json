@@ -6,10 +6,11 @@
         "tittel": "Mine søknader"
     },
   "UtbetalingerSide": {
-        "tittel": "Utbetalinger"
-    },
-    "StatusSendtPage": {
-        "tittel": "Søknaden din er sendt"
+        "tittel": "Utbetalinger",
+         "ingenUtbetalinger": {
+           "tittel":"Du har ingen utbetalinger for denne perioden",
+           "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+         }
     },
     "OppgaveAlert": {
         "tittel": "Nav trenger flere dokumenter for å kunne behandle saken din",

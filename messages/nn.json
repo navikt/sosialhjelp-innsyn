@@ -6,11 +6,12 @@
         "tittel": "Søknadene mine"
     },
   "UtbetalingerSide": {
-    "tittel": "Utbetalingane"
+    "tittel": "Utbetalingane",
+    "ingenUtbetalinger": {
+      "tittel":"Du har ingen utbetalinger for denne perioden",
+      "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+    }
   },
-    "StatusSendtPage": {
-        "tittel": "Søknaden din er send"
-    },
     "OppgaveAlert": {
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
