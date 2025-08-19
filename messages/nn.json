@@ -5,18 +5,12 @@
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
-    "StatusSendtPage": {
-        "tittel": "Søknaden din er send"
-    },
     "OppgaveAlert": {
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
     },
-    "StatusForelopigSvar": {
-        "tittel": "Du har fått eit brev om forlengde saksbehandlingstida",
-        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg et brev. Opne brevet for å sjå når du kan forvente svar på søknaden din.",
-        "tittel2": "Brev fra Nav",
-        "lenke": "Lasta ned brev om saksbehandlingstida"
+    "StatusSendtPage": {
+      "tittel": "Søknaden din er send"
     },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
@@ -27,11 +21,17 @@
     },
     "StatusUnderBehandlingPage": {
         "tittel": "Søknaden din er under behandling",
-      "underBehandlingAlert": "Under behandling"
+      "underBehandlingAlert": "Under behandling",
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>",
+      "deltSøknad": {
+        "tittel": "Søknaden din er delt opp i fleire saker",
+        "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
+      }
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Søknaden din er ferdigbehandla",
-        "underBehandlingAlert": "Under behandling"
+        "underBehandlingAlert": "Under behandling",
+      "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
     },
     "StatusVedtak": {
         "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
@@ -58,7 +58,7 @@
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
-    "StatusPage": {
+    "Oversikt": {
         "tittel": "Oversikt"
     },
     "Oppgaver": {

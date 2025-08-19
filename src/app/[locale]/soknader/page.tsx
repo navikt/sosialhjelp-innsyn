@@ -6,6 +6,7 @@ import { getFlag, getToggles } from "@featuretoggles/unleash";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
 import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
 import SokButton from "@components/sokButton/SokButton";
+import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 
 import TidligereSoknader from "./_components/TidligereSoknader";
 
@@ -17,16 +18,19 @@ const Page = async () => {
     }
 
     return (
-        <VStack gap="20" className="mt-20">
-            <Heading size="xlarge" level="1">
-                {t("tittel")}
-            </Heading>
+        <>
+            <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
+            <VStack gap="20" className="mt-20">
+                <Heading size="xlarge" level="1">
+                    {t("tittel")}
+                </Heading>
 
-            <AktiveSoknader />
-            <TidligereSoknader />
-            <SokButton />
-            <NyttigInformasjon />
-        </VStack>
+                <AktiveSoknader />
+                <TidligereSoknader />
+                <SokButton />
+                <NyttigInformasjon />
+            </VStack>
+        </>
     );
 };
 

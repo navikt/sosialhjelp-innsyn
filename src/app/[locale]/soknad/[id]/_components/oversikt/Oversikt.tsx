@@ -1,32 +1,33 @@
-"use client";
+import { Heading, VStack } from "@navikt/ds-react";
+import React, { Suspense } from "react";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getTranslations } from "next-intl/server";
 
-import { Stepper } from "@navikt/ds-react/Stepper";
-import { Skeleton } from "@navikt/ds-react";
-import React from "react";
+import { prefetchHentHendelserBetaQuery } from "@generated/ssr/hendelse-controller/hendelse-controller";
+import { getQueryClient } from "@api/queryClient";
 
-import useSteps from "./useSteps";
-import Step from "./steps/Step";
+import Steps, { StepsSkeleton } from "./steps/Steps";
 
-const Oversikt = () => {
-    const { steps, completed } = useSteps();
+interface Props {
+    id: string;
+}
 
+const Oversikt = async ({ id }: Props) => {
+    const t = await getTranslations("Oversikt");
+    const queryClient = getQueryClient();
+    prefetchHentHendelserBetaQuery(queryClient, id);
     return (
-        <Stepper activeStep={completed ?? 0} interactive={false}>
-            {steps}
-        </Stepper>
+        <VStack gap="2">
+            <Heading size="large" level="2">
+                {t("tittel")}
+            </Heading>
+            <Suspense fallback={<StepsSkeleton />}>
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <Steps />
+                </HydrationBoundary>
+            </Suspense>
+        </VStack>
     );
 };
-
-export const OversiktSkeleton = () => (
-    <Stepper activeStep={1} interactive={false}>
-        <Step completed heading={<Skeleton width="400px" />}>
-            <Skeleton width="200px" />
-            <Skeleton width="150px" />
-        </Step>
-        <Step heading={<Skeleton width="400px" />}>
-            <Skeleton width="200px" />
-        </Step>
-    </Stepper>
-);
 
 export default Oversikt;

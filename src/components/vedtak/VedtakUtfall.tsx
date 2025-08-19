@@ -2,7 +2,7 @@ import { BodyShort, Heading, Tag, VStack } from "@navikt/ds-react";
 import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
 
-import StatusCard from "@components/statusCard/StatusCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { FilUrl, SaksStatusResponseUtfallVedtak } from "@generated/ssr/model";
 
 interface Props {
@@ -37,7 +37,7 @@ export const VedtakUtfall = async ({
 
     return (
         <VStack gap="space-16">
-            <Heading size="xlarge" level="1">
+            <Heading size="large" level="2">
                 {t.rich("tittel", {
                     sakstittel: tittel,
                     norsk: (chunks) => <span lang="no">{chunks}</span>,
@@ -52,11 +52,10 @@ export const VedtakUtfall = async ({
                     })}
                 </BodyShort>
             </Tag>
-            <div>{beskrivelse}</div>
-
+            <p>{beskrivelse}</p>
             {vedtaksfilUrlList &&
                 vedtaksfilUrlList.map((fil, index) => (
-                    <StatusCard
+                    <DigisosLinkCard
                         downloadIcon={true}
                         key={index}
                         href={fil.url}
@@ -64,11 +63,11 @@ export const VedtakUtfall = async ({
                         description={fil.dato}
                     >
                         {t("vedtaksBrev")}
-                    </StatusCard>
+                    </DigisosLinkCard>
                 ))}
-            <StatusCard downloadIcon={false} href="/utbetaling" icon={<BankNoteIcon />}>
+            <DigisosLinkCard downloadIcon={false} href="/utbetaling" icon={<BankNoteIcon />}>
                 {t("kommendeUtbetaling")}
-            </StatusCard>
+            </DigisosLinkCard>
         </VStack>
     );
 };

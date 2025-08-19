@@ -1,5 +1,6 @@
-const { buildCspHeader } = require("@navikt/nav-dekoratoren-moduler/ssr");
-const createNextIntlPlugin = require("next-intl/plugin");
+import { buildCspHeader } from "@navikt/nav-dekoratoren-moduler/ssr";
+import createNextIntlPlugin from "next-intl/plugin";
+import { NextConfig } from "next";
 
 /** Content security policy */
 const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
@@ -24,11 +25,7 @@ const appDirectives = {
     "connect-src": isLocal ? [SELF, innsynApiLocalhost, localServer] : [SELF],
 };
 
-/**
- * @type {import('next').NextConfig}
- */
-
-const nextConfig = {
+const nextConfig: NextConfig = {
     headers: async () => [
         {
             source: "/:path*",
@@ -63,9 +60,4 @@ module.exports = withNextIntl({
         styledComponents: { ssr: true, displayName: true },
     },
     ...nextConfig,
-    turbopack: (config) => {
-        // Unset client-side javascript that only works server-side
-        config.resolve.fallback = { fs: false, module: false, path: false };
-        return config;
-    },
 });
