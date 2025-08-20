@@ -16,8 +16,9 @@
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
     },
-    "Vilkår": {
-        "tittel": "Conditions"
+    "VilkarListe": {
+        "tittel": "Conditions",
+        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
     },
     "StatusSendtPage": {
         "tittel": "Your application has been sent"

@@ -42,8 +42,9 @@
         "tittel": "Nav trenger flere dokumenter for å kunne behandle saken din",
         "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
     },
-    "Vilkår": {
-        "tittel": "Vilkår"
+    "VilkarListe": {
+        "tittel": "Vilkår",
+        "beskrivelse": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav."
     },
     "DeltSoknadAlert": {
         "tittel": "Søknaden din er delt opp i flere saker",

@@ -16,8 +16,9 @@
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
     },
-    "Vilkår": {
-        "tittel": "Vilkår"
+    "VilkarListe": {
+        "tittel": "Vilkår",
+        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav."
     },
     "StatusSendtPage": {
         "tittel": "Søknaden din er send"
