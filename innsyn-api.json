@@ -696,7 +696,8 @@
                         "type": "string",
                         "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
                     },
-                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } }
+                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } },
+                    "saksReferanse": { "type": "string" }
                 },
                 "required": ["hendelsetidspunkt", "status", "vilkarReferanse"]
             },
@@ -791,7 +792,11 @@
                     },
                     "skalViseVedtakInfoPanel": { "type": "boolean" },
                     "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
-                    "utfallVedtak": { "type": "string", "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"] }
+                    "utfallVedtak": {
+                        "type": "string",
+                        "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
+                    },
+                    "referanse": { "type": "string" }
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel"]
             },
