@@ -16,9 +16,12 @@
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
     },
-     "StatusSendtPage": {
-       "tittel": "Your application has been sent"
-     },
+    "Vilkår": {
+        "tittel": "Conditions"
+    },
+    "StatusSendtPage": {
+        "tittel": "Your application has been sent"
+    },
     "StatusMottattPage": {
         "tittel": "You application has been received",
         "alert": {
@@ -26,19 +29,60 @@
             "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
         }
     },
+    "DeltSoknadAlert": {
+        "tittel": "Your application has been divided into several cases",
+        "beskrivelse": "This may be because you have applied for support for multiple expenses, or because there is a need to process parts of the application separately."
+    },
     "StatusUnderBehandlingPage": {
         "tittel": "Your application is being processed",
         "underBehandlingAlert": "Being processed",
-      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>",
-      "deltSøknad": {
-        "tittel": "Your application has been divided into several cases",
-        "beskrivelse": "This may be because you have applied for support for multiple expenses, or because there is a need to process parts of the application separately."
-      }
+        "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
     },
     "StatusFerdigbehandletPage": {
         "tittel": "Your application has been processed",
         "underBehandlingAlert": "Being processed",
-      "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
+        "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
+    },
+    "InfoAlert": {
+        "SENDT": {
+            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        }
+    },
+    "StatusPage": {
+        "tittel": {
+            "SENDT": "Your application has been sent",
+            "MOTTATT": "Your application has been received",
+            "UNDER_BEHANDLING": "Your application is being processed",
+            "FERDIGBEHANDLET": "Your application has been processed"
+        }
+    },
+    "StatusTag": {
+        "INNVILGET": "Decision: Granted",
+        "DELVIS_INNVILGET": "Decision: Partially granted",
+        "AVVIST": "Decision: Rejected",
+        "AVSLATT": "Decision: Refused",
+        "UNDER_BEHANDLING": "Under behandling"
+    },
+    "Vedtak": {
+        "beskrivelse": {
+            "INNVILGET": "You have been granted benefits. Read the decision to see the reasons.",
+            "DELVIS_INNVILGET": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons.",
+            "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
+            "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
+        },
+        "vedtaksBrev": "Download decision letter",
+        "kommendeUtbetaling": "Check upcoming payout",
+        "uenig": {
+            "tittel": "Disagree with the decision?",
+            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision."
+        }
+    },
+    "Sakstittel": {
+        "tittel": "Application for <norsk>{sakstittel}</norsk>"
+    },
+    "SakSkeleton": {
+        "tittel": "Application for financial assistance"
     },
     "StatusVedtak": {
         "tittel": "Application for <norsk>{sakstittel}</norsk>",

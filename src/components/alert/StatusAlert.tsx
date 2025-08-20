@@ -1,10 +1,10 @@
-import { Alert, Heading } from "@navikt/ds-react";
+import { Alert, AlertProps, Heading } from "@navikt/ds-react";
 import { ReactNode } from "react";
 
 interface Props {
-    variant: "info" | "success" | "warning" | "error";
+    variant: AlertProps["variant"];
     tittel: ReactNode;
-    beskrivelse: string;
+    beskrivelse: ReactNode;
 }
 
 const StatusAlert = ({ variant, tittel, beskrivelse }: Props) => (

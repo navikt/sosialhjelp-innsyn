@@ -3,10 +3,7 @@ import { notFound } from "next/navigation";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import { hentSoknadsStatus } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
 
-import { StatusSendtPage } from "./_components/StatusSendtPage";
-import { StatusMottattPage } from "./_components/StatusMottattPage";
-import { StatusUnderBehandlingPage } from "./_components/StatusUnderBehandlingPage";
-import { StatusFerdigbehandletPage } from "./_components/StatusFerdigbehandletPage";
+import { StatusPage } from "./_components/StatusPage";
 
 export const dynamic = "force-dynamic";
 
@@ -24,23 +21,9 @@ const Page = async ({
     const { id } = await params;
 
     const soknadsStatusResponse = await hentSoknadsStatus(id);
-    if (soknadsStatusResponse.status === "SENDT") {
-        return <StatusSendtPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
-    }
-
-    if (soknadsStatusResponse.status === "MOTTATT") {
-        return <StatusMottattPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
-    }
-
-    if (soknadsStatusResponse.status === "UNDER_BEHANDLING") {
-        return <StatusUnderBehandlingPage id={id} />;
-    }
-
-    if (soknadsStatusResponse.status === "FERDIGBEHANDLET") {
-        return <StatusFerdigbehandletPage id={id} />;
-    }
-
-    return notFound();
+    return (
+        <StatusPage id={id} soknadstatus={soknadsStatusResponse.status} navKontor={soknadsStatusResponse.navKontor} />
+    );
 };
 
 export default Page;
