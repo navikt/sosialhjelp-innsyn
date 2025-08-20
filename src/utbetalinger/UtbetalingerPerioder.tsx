@@ -1,3 +1,4 @@
+"use client";
 import { VStack } from "@navikt/ds-react";
 
 import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -10,8 +11,10 @@ interface Props {
 const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
     return (
         <VStack>
-            {tidligere?.find((item) => item.ar)}
-            <div>{selectedChip}</div>
+            {tidligere?.map((item, index) => (
+                <div key={`tidligere-${index}`}>{JSON.stringify(item)}</div>
+            ))}
+            {selectedChip}
         </VStack>
     );
 };

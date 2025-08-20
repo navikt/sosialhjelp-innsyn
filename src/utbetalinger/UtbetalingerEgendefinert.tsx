@@ -1,18 +1,23 @@
+"use client";
 import React from "react";
 import { VStack } from "@navikt/ds-react";
 
 import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 interface Props {
-    nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
+    nye?: NyeOgTidligereUtbetalingerResponse[];
 }
 
 const UtbetalingerEgendefinert = ({ nye, tidligere }: Props) => {
     return (
         <VStack>
-            {tidligere?.find((item) => item.ar)}
-            {nye?.find((item) => item.ar)}
+            {tidligere?.map((item, index) => (
+                <div key={`tidligere-${index}`}>{JSON.stringify(item)}</div>
+            ))}
+            {nye?.map((item, index) => (
+                <div key={`nye-${index}`}>{JSON.stringify(item)}</div>
+            ))}
         </VStack>
     );
 };
