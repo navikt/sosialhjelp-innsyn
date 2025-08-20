@@ -10,6 +10,23 @@
     "periode": {
       "tittel": "Velg periode"
     },
+    "utbetalinger": {
+      "kommende": {
+        "tittel": "Kommende utbetalinger"
+      },
+      "siste3": {
+        "tittel": "Siste 3 måneder"
+      },
+      "hitil": {
+        "tittel": "Hittil i år"
+      },
+      "fjor": {
+        "tittel": "I fjor"
+      },
+      "egendefinert": {
+        "tittel": "Egendefinert"
+      }
+    },
     "ingenUtbetalinger": {
       "kommende": {
         "tittel": "Du har ingen kommende utbetalinger",
