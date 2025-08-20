@@ -13,6 +13,12 @@
         "tittel": "Vilkår",
         "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav."
     },
+    "Dokumentasjonkrav": {
+        "tittel": "Dokumentasjonkrav",
+        "beskrivelse": "Nav kan be deg om å levere dokument som opplyser saka di i samband med søknaden. Det kan til dømes vere husleigekontrakt eller straumfaktura. Du kan levere dokumenta digitalt eller fysisk på Nav-kontoret.",
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn"
+    },
     "StatusSendtPage": {
         "tittel": "Søknaden din er send"
     },

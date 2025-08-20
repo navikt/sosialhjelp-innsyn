@@ -5,7 +5,12 @@ import { getTranslations } from "next-intl/server";
 
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
-import { getVilkar, prefetchGetOppgaverBetaQuery } from "@generated/ssr/oppgave-controller/oppgave-controller";
+import {
+    getVilkar,
+    prefetchGetDokumentasjonkravBetaQuery,
+    prefetchGetDokumentasjonkravQuery,
+    prefetchGetOppgaverBetaQuery,
+} from "@generated/ssr/oppgave-controller/oppgave-controller";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
 
@@ -26,11 +31,13 @@ export const StatusPage = async ({ id, children, soknadstatus, navKontor }: Prop
     const t = await getTranslations("StatusPage");
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
+    const dokumentasjonkravQueryClient = getQueryClient();
 
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(soknadstatus);
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
+    prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     return (
@@ -47,7 +54,9 @@ export const StatusPage = async ({ id, children, soknadstatus, navKontor }: Prop
             </Suspense>
             {sakerPromise && (
                 <Suspense fallback={<SakerSkeleton />}>
-                    <Saker sakerPromise={sakerPromise} vilkarPromise={vilkarPromise} />
+                    <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
+                        <Saker sakerPromise={sakerPromise} vilkarPromise={vilkarPromise} />
+                    </HydrationBoundary>
                 </Suspense>
             )}
             {children}

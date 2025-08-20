@@ -13,6 +13,12 @@
         "tittel": "Conditions",
         "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
     },
+    "Dokumentasjonkrav": {
+        "tittel": "Documentation requirements",
+        "beskrivelse": "Nav may ask you to submit documents that provide information about your case in connection with your application. This could be, for example, a rental contract or electricity bill. You can submit the documents digitally or physically at the Nav office.",
+        "frist": "Due: {frist, date, ::ddMMyyyy}",
+        "løst": "Submitted"
+    },
     "StatusSendtPage": {
         "tittel": "Your application has been sent"
     },

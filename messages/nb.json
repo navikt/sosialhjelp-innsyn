@@ -13,6 +13,12 @@
         "tittel": "Vilkår",
         "beskrivelse": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav."
     },
+    "Dokumentasjonkrav": {
+        "tittel": "Dokumentasjonkrav",
+        "beskrivelse": "Nav kan be deg om å levere dokumenter som opplyser saken din i forbindelse med søknaden. Det kan for eksempel være husleiekontrakt eller strømfaktura. Du kan levere dokumentene digitalt eller fysisk på Nav-kontoret.",
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn"
+    },
     "DeltSoknadAlert": {
         "tittel": "Søknaden din er delt opp i flere saker",
         "beskrivelse": "Dette kan være fordi du har søkt om støtte til flere utgifter, eller fordi det er behov for å behandle deler av søknaden separat."
