@@ -8,11 +8,11 @@ import { getQueryClient } from "@api/queryClient";
 import {
     getVilkar,
     prefetchGetDokumentasjonkravBetaQuery,
-    prefetchGetDokumentasjonkravQuery,
     prefetchGetOppgaverBetaQuery,
 } from "@generated/ssr/oppgave-controller/oppgave-controller";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
+import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -20,6 +20,8 @@ import Filopplasting from "./dokumenter/Filopplasting";
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
 import Saker, { SakerSkeleton } from "./saker/Saker";
 import InfoAlert from "./alert/InfoAlert";
+import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
+import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 
 interface Props {
     id: string;
@@ -38,6 +40,7 @@ export const StatusPage = async ({ id, children, soknadstatus, navKontor }: Prop
     prefetchHentVedleggQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
+    const forelopigSvarPromise = soknadstatus !== "FERDIGBEHANDLET" && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     return (
@@ -46,6 +49,15 @@ export const StatusPage = async ({ id, children, soknadstatus, navKontor }: Prop
                 {t(`tittel.${soknadstatus}`)}
             </Heading>
 
+            {forelopigSvarPromise && (
+                <Suspense>
+                    <ForelopigSvarAlert
+                        forelopigSvarPromise={forelopigSvarPromise}
+                        navKontor={navKontor ?? "Ditt Nav-kontor"}
+                    />
+                </Suspense>
+            )}
+            {forelopigSvarPromise && <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />}
             <InfoAlert navKontor={navKontor} soknadstatus={soknadstatus} />
             <Suspense fallback={<OppgaverSkeleton />}>
                 <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>

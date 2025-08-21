@@ -5,6 +5,14 @@
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
+    "ForelopigSvarAlert": {
+        "tittel": "Du har fått eit brev om forlengd saksbehandlingstid",
+        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Opne brevet for å sjå når du kan vente svar på søknaden din."
+    },
+    "ForelopigSvar": {
+        "tittel": "Brev frå Nav",
+        "lastNed": "Last ned brev om saksbehandlingstid"
+    },
     "OppgaveAlert": {
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
