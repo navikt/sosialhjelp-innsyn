@@ -60,9 +60,20 @@
         "SENDT": {
             "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
             "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+        },
+        "MOTTATT": {
+            "tittel": "Hugs å meld frå om endringar",
+            "beskrivelse": "Dersom det skjer endringar i situasjonen din, kan det påverke oppfølginga eller utbetalinga du får frå Nav. <lenke>Les meir om kva situasjonar som kan påverke.</lenke>",
+            "beskrivelse2": "For å melde frå om endringar kan du ringje oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
         }
     },
     "StatusPage": {
+        "breadcrumbs": {
+            "soknader": "Søknader",
+            "soknad": "Søknad"
+        }
+    },
+    "Soknad": {
         "tittel": {
             "SENDT": "Søknaden din er send",
             "MOTTATT": "Søknaden din er motteken",

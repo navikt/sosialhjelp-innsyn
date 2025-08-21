@@ -35,7 +35,11 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
                 variant="info"
                 tittel={t("uenig.tittel")}
                 beskrivelse={t.rich("uenig.beskrivelse", {
-                    lenke: (chunks) => <Link>{chunks}</Link>,
+                    lenke: (chunks) => (
+                        <Link href="https://www.nav.no/klagerettigheter" inlineText>
+                            {chunks}
+                        </Link>
+                    ),
                 })}
             />
         </VStack>

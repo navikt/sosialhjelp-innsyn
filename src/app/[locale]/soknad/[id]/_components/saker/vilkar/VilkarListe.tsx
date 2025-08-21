@@ -26,7 +26,11 @@ const VilkarListe = ({ vilkar }: Props) => {
                 <BodyLong spacing>{t("readMore.beskrivelse")}</BodyLong>
                 <BodyShort>
                     {t.rich("readMore.beskrivelse2", {
-                        lenke: (chunks) => <Link href="https://www.nav.no/okonomisk-sosialhjelp#vilkar">{chunks}</Link>,
+                        lenke: (chunks) => (
+                            <Link href="https://www.nav.no/okonomisk-sosialhjelp#vilkar" inlineText>
+                                {chunks}
+                            </Link>
+                        ),
                     })}
                 </BodyShort>
             </ReadMore>

@@ -60,9 +60,20 @@
         "SENDT": {
             "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
             "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        },
+        "MOTTATT": {
+            "tittel": "Remember to report any changes.",
+            "beskrivelse": "If there are changes in your situation, it may affect the follow-up or payment you receive from Nav. <lenke>Read more about which situations may affect.</lenke>",
+            "beskrivelse2": "To report changes, you can call us at <tel>55 55 33 33</tel> or upload documents as attachments below."
         }
     },
     "StatusPage": {
+        "breadcrumbs": {
+            "soknader": "Applications",
+            "soknad": "Application"
+        }
+    },
+    "Soknad": {
         "tittel": {
             "SENDT": "Your application has been sent",
             "MOTTATT": "Your application has been received",

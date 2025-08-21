@@ -31,8 +31,8 @@ interface Props {
     navKontor?: string;
 }
 
-export const StatusPage = async ({ id, soknadstatus, navKontor }: Props) => {
-    const t = await getTranslations("StatusPage");
+export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
+    const t = await getTranslations("Soknad");
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
