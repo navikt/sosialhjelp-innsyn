@@ -28,7 +28,7 @@ const UtbetalingerListe = () => {
                 </Heading>
                 {selectedChip === "kommende" && <UtbetalingerKommende nye={nye} />}
                 {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") && (
-                    <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
+                    <UtbetalingerPerioder tidligere={tidligere} />
                 )}
                 {selectedChip === "egendefinert" && <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} />}
             </VStack>
