@@ -8,9 +8,9 @@ import { ChipsChip, useUtbetalingerChip } from "../../../../utbetalinger/Utbetal
 
 const chipOptions = [
     { key: "kommende", label: "Kommende" },
-    { key: "siste3mnd", label: "Siste 3 måneder" },
-    { key: "hitilIår", label: "Hitil i år" },
-    { key: "ifjor", label: "I fjor" },
+    { key: "siste3", label: "Siste 3 måneder" },
+    { key: "hitil", label: "Hitil i år" },
+    { key: "fjor", label: "I fjor" },
     { key: "egendefinert", label: "Egendefinert" },
 ] as const;
 

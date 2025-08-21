@@ -2,7 +2,7 @@
 
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
-export type ChipsChip = "kommende" | "siste3mnd" | "hitilIår" | "ifjor" | "egendefinert";
+export type ChipsChip = "kommende" | "siste3" | "hitil" | "fjor" | "egendefinert";
 
 interface ChipsContext {
     selectedChip: ChipsChip;

@@ -584,6 +584,28 @@
             "giro": "Bank giro transfer",
             "postgiro": "Postal giro",
             "garanti": "Guarantee"
+        },"UtbetalingerSide": {
+        "tittel": "Utbetalinger",
+        "periode": {
+          "tittel": "Velg periode"
+        },
+        "perioder": {
+          "kommende": "Kommende",
+          "siste3": "Siste 3 måneder",
+          "hitil": "Hitil i år",
+          "fjor": "I fjor",
+          "egendefinert": "Egendefinert"
         }
+      },
+      "ingenUtbetalinger": {
+        "kommende": {
+          "tittel": "Du har ingen kommende utbetalinger",
+          "beskrivelse": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+        },
+        "egendefinert": {
+          "tittel":"Du har ingen utbetalinger for denne perioden",
+          "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
+        }
+      }
     }
 }

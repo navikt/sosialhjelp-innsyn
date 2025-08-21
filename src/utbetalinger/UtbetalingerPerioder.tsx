@@ -7,10 +7,9 @@ import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    selectedChip?: string;
 }
 
-const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
+const UtbetalingerPerioder = ({ tidligere }: Props) => {
     const format = useFormatter();
 
     return (
@@ -36,7 +35,6 @@ const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
                     ))}
                 </>
             ))}
-            {selectedChip}
         </VStack>
     );
 };
