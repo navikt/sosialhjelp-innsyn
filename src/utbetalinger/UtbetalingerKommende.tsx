@@ -23,24 +23,31 @@ const UtbetalingerKommende = ({ nye }: Props) => {
                         background="info-soft"
                         key={`tidligere-${index}`}
                     >
-                        <BodyShort className="font-bold mb-1 capitalize">
-                            {format.dateTime(
-                                set(new Date(0), {
-                                    year: item.ar,
-                                    month: item.maned - 1,
-                                }),
-                                {
-                                    month: "long",
-                                    year: "numeric",
-                                }
-                            )}
-                        </BodyShort>
+                        <HStack>
+                            <BodyShort className="font-bold mb-1 capitalize">
+                                {format.dateTime(
+                                    set(new Date(0), {
+                                        year: item.ar,
+                                        month: item.maned - 1,
+                                    }),
+                                    {
+                                        month: "long",
+                                        year: "numeric",
+                                    }
+                                )}
+                            </BodyShort>
+                            <BodyShort className="ml-auto">
+                                {item.utbetalingerForManed
+                                    .filter((utb) => utb.status === "PLANLAGT_UTBETALING")
+                                    .reduce((acc, utb) => acc + utb.belop, 0)}{" "}
+                                kr
+                            </BodyShort>
+                        </HStack>
                     </BoxNew>
                     {item.utbetalingerForManed
                         .filter((utb) => utb.status === "PLANLAGT_UTBETALING")
                         .map((utb, id) => (
                             <ExpansionCard
-                                defaultOpen
                                 key={id}
                                 aria-label="Utbetalinger"
                                 data-color="info"

@@ -579,7 +579,7 @@
             "postgiro": "Postgiro",
             "garanti": "Garanti"
         },
-      "UtbetalingerSide": {
+      "utbetalingerSide": {
         "tittel": "Utbetalinger",
         "periode": {
           "tittel": "Velg periode"

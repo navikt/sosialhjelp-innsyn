@@ -10,7 +10,7 @@ import Utbetalinger from "./_components/Utbetalinger";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", await getToggles());
-    const t = await getTranslations("UtbetalingerSide");
+    const t = await getTranslations("utbetalinger");
     if (!toggle.enabled) {
         return notFound();
     }
@@ -18,7 +18,7 @@ const Page = async () => {
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
-                {t("tittel")}
+                {t("utbetalingerSide.tittel")}
             </Heading>
             <UtbetalingerChipProvider>
                 <Utbetalinger />

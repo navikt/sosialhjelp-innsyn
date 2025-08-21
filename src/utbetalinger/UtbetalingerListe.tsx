@@ -24,7 +24,7 @@ const UtbetalingerListe = () => {
         <VStack gap="20">
             <VStack gap="1">
                 <Heading size="small" level="2">
-                    {t("UtbetalingerSide.perioder." + selectedChip)}
+                    {t("utbetalingerSide.perioder." + selectedChip)}
                 </Heading>
                 {selectedChip === "kommende" && <UtbetalingerKommende nye={nye} />}
                 {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") && (

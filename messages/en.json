@@ -4,12 +4,6 @@
     },
     "SoknaderSide": {
         "tittel": "My applications"
-    },
-  "UtbetalingerSide": {
-    "tittel": "Payments",
-    "ingenUtbetalinger": {
-      "tittel":"Du har ingen utbetalinger for denne perioden",
-      "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
     }
   },
     "OppgaveAlert": {
@@ -584,7 +578,8 @@
             "giro": "Bank giro transfer",
             "postgiro": "Postal giro",
             "garanti": "Guarantee"
-        },"UtbetalingerSide": {
+        },
+      "UtbetalingerSide": {
         "tittel": "Utbetalinger",
         "periode": {
           "tittel": "Velg periode"
