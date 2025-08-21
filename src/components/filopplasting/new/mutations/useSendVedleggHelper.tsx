@@ -8,6 +8,8 @@ import {
 } from "@generated/hendelse-controller/hendelse-controller";
 import { useSendVedlegg, getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
 import {
+    GetDokumentasjonkravBetaQueryResult,
+    getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller/oppgave-controller";
@@ -70,6 +72,21 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
                                         };
                                     }
                                     return oppgave;
+                                });
+                            }
+                        );
+                        queryClient.setQueryData<GetDokumentasjonkravBetaQueryResult>(
+                            getGetDokumentasjonkravBetaQueryKey(fiksDigisosId),
+                            (prev) => {
+                                return prev?.map((dokumentasjonkrav) => {
+                                    if (dokumentasjonkrav.dokumentasjonkravReferanse === metadata.hendelsereferanse) {
+                                        return {
+                                            ...dokumentasjonkrav,
+                                            erLastetOpp: true,
+                                            opplastetDato: new Date().toISOString(),
+                                        };
+                                    }
+                                    return dokumentasjonkrav;
                                 });
                             }
                         );
