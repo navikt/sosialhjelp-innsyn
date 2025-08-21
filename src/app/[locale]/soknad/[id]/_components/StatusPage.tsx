@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, Suspense } from "react";
+import React, { Suspense } from "react";
 import { Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -22,6 +22,8 @@ import Saker, { SakerSkeleton } from "./saker/Saker";
 import InfoAlert from "./alert/InfoAlert";
 import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
+import DeltSoknadAlert from "./saker/DeltSoknadAlert";
+import OppgaveAlert from "./oppgaver/OppgaveAlert";
 
 interface Props {
     id: string;
@@ -29,18 +31,19 @@ interface Props {
     navKontor?: string;
 }
 
-export const StatusPage = async ({ id, children, soknadstatus, navKontor }: PropsWithChildren<Props>) => {
+export const StatusPage = async ({ id, soknadstatus, navKontor }: Props) => {
     const t = await getTranslations("StatusPage");
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
 
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(soknadstatus);
+    const ferdigbehandlet = soknadstatus === "FERDIGBEHANDLET";
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
-    const forelopigSvarPromise = soknadstatus !== "FERDIGBEHANDLET" && hentForelopigSvarStatus(id);
+    const forelopigSvarPromise = ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     return (
@@ -48,17 +51,32 @@ export const StatusPage = async ({ id, children, soknadstatus, navKontor }: Prop
             <Heading size="xlarge" level="1">
                 {t(`tittel.${soknadstatus}`)}
             </Heading>
-
+            <VStack gap="2">
+                {forelopigSvarPromise && (
+                    <Suspense fallback={null}>
+                        <ForelopigSvarAlert
+                            forelopigSvarPromise={forelopigSvarPromise}
+                            navKontor={navKontor ?? "Ditt Nav-kontor"}
+                        />
+                    </Suspense>
+                )}
+                <Suspense fallback={null}>
+                    <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
+                        <OppgaveAlert />
+                    </HydrationBoundary>
+                </Suspense>
+                <InfoAlert navKontor={navKontor} soknadstatus={soknadstatus} />
+                {sakerPromise && (
+                    <Suspense fallback={null}>
+                        <DeltSoknadAlert sakerPromise={sakerPromise} />
+                    </Suspense>
+                )}
+            </VStack>
             {forelopigSvarPromise && (
-                <Suspense>
-                    <ForelopigSvarAlert
-                        forelopigSvarPromise={forelopigSvarPromise}
-                        navKontor={navKontor ?? "Ditt Nav-kontor"}
-                    />
+                <Suspense fallback={null}>
+                    <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
-            {forelopigSvarPromise && <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />}
-            <InfoAlert navKontor={navKontor} soknadstatus={soknadstatus} />
             <Suspense fallback={<OppgaverSkeleton />}>
                 <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
                     <Oppgaver />
@@ -71,7 +89,6 @@ export const StatusPage = async ({ id, children, soknadstatus, navKontor }: Prop
                     </HydrationBoundary>
                 </Suspense>
             )}
-            {children}
             <Oversikt id={id} />
             <Filopplasting />
             <Suspense fallback={<DokumenterSkeleton />}>
