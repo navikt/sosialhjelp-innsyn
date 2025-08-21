@@ -11,7 +11,12 @@
     },
     "VilkarListe": {
         "tittel": "Conditions",
-        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
+        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav.",
+        "readMore": {
+            "tittel": "How do conditions work?",
+            "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
+            "beskrivelse2": "If the condition is not met, Nav may make a new decision to reduce your social assistance, but this must be stated in your decision. <link>Read more about conditions here</link>."
+        }
     },
     "Dokumentasjonkrav": {
         "tittel": "Documentation requirements",

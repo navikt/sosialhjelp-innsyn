@@ -11,7 +11,12 @@
     },
     "VilkarListe": {
         "tittel": "Vilkår",
-        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav."
+        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav.",
+        "readMore": {
+            "tittel": "Korleis fungerer vilkår?",
+            "beskrivelse": "Vilkår kan brukast dersom det bidreg til å gjere deg i stand til å sørgje for livsopphaldet ditt på ein annan måte enn ved økonomisk sosialhjelp. Når det blir sett vilkår, skal det bidra til å hjelpe deg med å komme ut av ein vanskeleg livssituasjon. Som hovudregel skal vilkåret setjast i samarbeid med deg.",
+            "beskrivelse2": "Viss vilkåret ikkje blir oppfylt, kan Nav gjere nytt vedtak om reduksjon i sosialhjelpa, men det må vere informert om i vedtaket ditt. <lenke>Les meir om vilkår her</lenke>."
+        }
     },
     "Dokumentasjonkrav": {
         "tittel": "Dokumentasjonkrav",
