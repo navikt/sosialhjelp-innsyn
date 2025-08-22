@@ -9,9 +9,13 @@ import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    selectedChip?: string;
+    selectedChip?: "siste3" | "hitil" | "fjor";
 }
-const getDateRange = (chip: string) => {
+
+type YearMonth = { year: number; month: number };
+type MonthRange = { start: YearMonth; end: YearMonth };
+
+const getDateRange = (chip: "siste3" | "hitil" | "fjor"): MonthRange | null => {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
@@ -37,7 +41,7 @@ const getDateRange = (chip: string) => {
     }
 };
 
-const isWithinRange = (item: NyeOgTidligereUtbetalingerResponse, range) => {
+const isWithinRange = (item: NyeOgTidligereUtbetalingerResponse, range: MonthRange | null) => {
     if (!range) return true;
     const itemDate = item.ar * 100 + item.maned;
     const startDate = range.start.year * 100 + range.start.month;
@@ -48,9 +52,9 @@ const isWithinRange = (item: NyeOgTidligereUtbetalingerResponse, range) => {
 const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
     const format = useFormatter();
     const t = useTranslations("utbetalinger");
-    const getRange = getDateRange(selectedChip ?? "");
 
-    const filtered = tidligere?.filter((item) => isWithinRange(item, getRange));
+    const range = selectedChip ? getDateRange(selectedChip) : null;
+    const filtered = tidligere?.filter((item) => isWithinRange(item, range));
 
     return (
         <VStack gap="5">
