@@ -21,7 +21,7 @@ const Oppgaver = () => {
         <>
             <VStack gap="4">
                 <HStack justify="space-between" align="center">
-                    <Heading size="large" level="2" spacing>
+                    <Heading size="large" level="2">
                         {t("tittel")}
                     </Heading>
                     {isFetching && <Loader />}
@@ -41,7 +41,12 @@ const Oppgaver = () => {
                             oppgave.tilleggsinformasjon
                         );
                         return (
-                            <Box.New key={oppgave.oppgaveId} background="neutral-soft" padding="space-24">
+                            <Box.New
+                                key={oppgave.oppgaveId}
+                                background="neutral-soft"
+                                padding="space-24"
+                                borderRadius="xlarge"
+                            >
                                 <Opplastingsboks
                                     completed={oppgave.erLastetOpp}
                                     label={typeTekst}

@@ -21,7 +21,12 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
             </Box>
             <NavigationGuardProvider>
                 {dokumentasjonkrav.map((it) => (
-                    <Box.New key={it.dokumentasjonkravId} background="neutral-soft" padding="space-24">
+                    <Box.New
+                        key={it.dokumentasjonkravId}
+                        background="neutral-soft"
+                        padding="space-24"
+                        borderRadius="xlarge"
+                    >
                         <Opplastingsboks
                             metadata={{
                                 type: it.tittel ?? "dokumentasjonkrav",
