@@ -184,7 +184,7 @@
     },
     "Opplastingsboks": {
         "tittel": "Do you want to submit more documents?",
-        "beskrivelse": "If you have additional documents that may be important for your application, you can upload them here.",
+        "beskrivelse": "Here you can upload documents and screenshots that may be important for your application.",
         "dragAndDrop": "Drag and drop files here",
         "eller": "or",
         "button": "Choose files",
@@ -200,7 +200,9 @@
         "tittel": "Submit additional documentation"
     },
     "VedleggListe": {
-        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Appliation for financial assistance",
+        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
@@ -232,10 +234,10 @@
             "description": "The application is kept until {date, date, ::ddMMyyyy}"
         },
         "VedtakCard": {
-            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decision"
+            "description": "Finished processing. You have received {count, plural, =1 {a notice} other {# notices}} of decision"
         },
         "VilkarCard": {
-            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
+            "description": "Finished processing. You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
         },
         "OppgaveCard": {
             "description": "You need to deliver more information by {date, date, ::ddMMyyyy}",

@@ -13,6 +13,7 @@ import {
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
 import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
+import { prefetchHentOriginalSoknadQuery } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -24,11 +25,13 @@ import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./oppgaver/OppgaveAlert";
+import { SoknadFile } from "./dokumenter/VedleggListe";
 
 interface Props {
     id: string;
     soknadstatus: SoknadsStatusResponseStatus;
     navKontor?: string;
+    soknadFile?: SoknadFile;
 }
 
 export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
@@ -41,6 +44,7 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
     const ferdigbehandlet = soknadstatus === "FERDIGBEHANDLET";
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
+    prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     const forelopigSvarPromise = ferdigbehandlet && hentForelopigSvarStatus(id);
@@ -77,11 +81,6 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                     <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
-            <Suspense fallback={<OppgaverSkeleton />}>
-                <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                    <Oppgaver />
-                </HydrationBoundary>
-            </Suspense>
             {sakerPromise && (
                 <Suspense fallback={<SakerSkeleton />}>
                     <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
@@ -89,6 +88,11 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                     </HydrationBoundary>
                 </Suspense>
             )}
+            <Suspense fallback={<OppgaverSkeleton />}>
+                <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
+                    <Oppgaver />
+                </HydrationBoundary>
+            </Suspense>
             <Oversikt id={id} />
             <Filopplasting />
             <Suspense fallback={<DokumenterSkeleton />}>
