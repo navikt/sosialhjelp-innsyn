@@ -45,7 +45,7 @@ const UtbetalingerKommende = ({ nye }: Props) => {
                         </HStack>
                     </BoxNew>
                     {item.utbetalingerForManed
-                        .filter((utb) => utb.status === "PLANLAGT_UTBETALING")
+                        .filter((utb) => utb.status === "PLANLAGT_UTBETALING" || utb.status === "STOPPET")
                         .map((utb, id) => (
                             <ExpansionCard
                                 key={id}

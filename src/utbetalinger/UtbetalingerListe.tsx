@@ -12,7 +12,7 @@ import {
 import { useUtbetalingerChip } from "./UtbetalingerProviderContext";
 import UtbetalingerKommende from "./UtbetalingerKommende";
 import UtbetalingerPerioder from "./UtbetalingerPerioder";
-import UtbetalingerEgendefinert from "./UtbetalingerEgendefinert";
+import { UtbetalingerEgendefinert } from "./UtbetalingerEgendefinert";
 
 const UtbetalingerListe = () => {
     const { selectedChip } = useUtbetalingerChip();
@@ -28,7 +28,7 @@ const UtbetalingerListe = () => {
                 </Heading>
                 {selectedChip === "kommende" && <UtbetalingerKommende nye={nye} />}
                 {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") && (
-                    <UtbetalingerPerioder tidligere={tidligere} />
+                    <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
                 )}
                 {selectedChip === "egendefinert" && <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} />}
             </VStack>
