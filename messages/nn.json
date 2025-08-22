@@ -184,7 +184,7 @@
     },
     "Opplastingsboks": {
         "tittel": "Vil du sende inn fleire dokument?",
-        "beskrivelse": "Dersom du har fleire dokument som kan vere viktige for søknaden din, kan du laste dei opp her.",
+        "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
         "dragAndDrop": "Dra og slepp filer her",
         "eller": "eller",
         "button": "Vel filer",
@@ -200,7 +200,9 @@
         "tittel": "Ettersend dokumentasjon"
     },
     "VedleggListe": {
-        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Søknad om økonomisk sosialhjelp",
+        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
@@ -232,10 +234,10 @@
             "description": "Søknaden blir behalden til og med {date, date, ::ddMMyyyy}"
         },
         "VedtakCard": {
-            "description": "Du har fått {count, plural, =1 {eit} other {#}} vedtak"
+            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak"
         },
         "VilkarCard": {
-            "description": "Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
+            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
         },
         "OppgaveCard": {
             "description": "Du må levere fleire opplysningar innan {date, date, ::ddMMyyyy}",
