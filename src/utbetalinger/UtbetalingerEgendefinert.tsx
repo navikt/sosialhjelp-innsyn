@@ -57,7 +57,7 @@ const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean 
     return true;
 };
 
-const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
+export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
 
     const { datepickerProps, toInputProps, fromInputProps, selectedRange } = useRangeDatepicker({
@@ -108,5 +108,3 @@ const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
         </VStack>
     );
 };
-
-export default UtbetalingerEgendefinert;
