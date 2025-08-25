@@ -53,7 +53,12 @@ const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
                     {item.utbetalingerForManed
                         .filter((utb) => utb.status === "PLANLAGT_UTBETALING" || utb.status === "STOPPET")
                         .map((utb, id) => (
-                            <UtbetalingerCard key={id} utbetalinger={item} manedUtbetaling={utb} id={id} />
+                            <UtbetalingerCard
+                                key={id}
+                                manedUtbetaling={utb}
+                                id={id}
+                                count={item.utbetalingerForManed.length}
+                            />
                         ))}
                 </VStack>
             ))}
