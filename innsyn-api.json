@@ -212,6 +212,21 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/originalSoknad": {
+            "get": {
+                "tags": ["soknads-status-controller"],
+                "operationId": "hentOriginalSoknad",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/OriginalSoknadDto" } } }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/oppgaver/{oppgaveId}": {
             "get": {
                 "tags": ["oppgave-controller"],
@@ -276,7 +291,8 @@
                             }
                         }
                     }
-                }
+                },
+                "deprecated": true
             }
         },
         "/api/v1/innsyn/{fiksDigisosId}/kommune": {
@@ -467,6 +483,29 @@
                             }
                         }
                     }
+                },
+                "deprecated": true
+            }
+        },
+        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav/beta": {
+            "get": {
+                "tags": ["oppgave-controller"],
+                "operationId": "getDokumentasjonkravBeta",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json;charset=UTF-8": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/DokumentasjonkravDto" }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -489,7 +528,8 @@
                             }
                         }
                     }
-                }
+                },
+                "deprecated": true
             }
         },
         "/api/v1/innsyn/utbetalinger": {
@@ -696,7 +736,8 @@
                         "type": "string",
                         "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
                     },
-                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } }
+                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } },
+                    "saksReferanse": { "type": "string" }
                 },
                 "required": ["hendelsetidspunkt", "status", "vilkarReferanse"]
             },
@@ -791,9 +832,23 @@
                     },
                     "skalViseVedtakInfoPanel": { "type": "boolean" },
                     "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
-                    "utfallVedtak": { "type": "string", "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"] }
+                    "utfallVedtak": {
+                        "type": "string",
+                        "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
+                    },
+                    "referanse": { "type": "string" }
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel"]
+            },
+            "OriginalSoknadDto": {
+                "type": "object",
+                "properties": {
+                    "url": { "type": "string" },
+                    "size": { "type": "integer", "format": "int64" },
+                    "filename": { "type": "string" },
+                    "date": { "type": "string", "format": "date-time" }
+                },
+                "required": ["url"]
             },
             "OppgaveElement": {
                 "type": "object",
@@ -1057,6 +1112,37 @@
                     "dokumentasjonkravId": { "type": "string" }
                 },
                 "required": ["dokumentasjonkravElementer", "dokumentasjonkravId"]
+            },
+            "DokumentasjonkravDto": {
+                "type": "object",
+                "properties": {
+                    "frist": { "type": "string", "format": "date" },
+                    "dokumentasjonkravId": { "type": "string" },
+                    "hendelsetidspunkt": { "type": "string", "format": "date" },
+                    "hendelsetype": {
+                        "type": "string",
+                        "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
+                    },
+                    "dokumentasjonkravReferanse": { "type": "string" },
+                    "tittel": { "type": "string" },
+                    "beskrivelse": { "type": "string" },
+                    "status": {
+                        "type": "string",
+                        "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
+                    },
+                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } },
+                    "saksreferanse": { "type": "string" },
+                    "erLastetOpp": { "type": "boolean" },
+                    "opplastetDato": { "type": "string", "format": "date-time" }
+                },
+                "required": [
+                    "dokumentasjonkravId",
+                    "dokumentasjonkravReferanse",
+                    "erLastetOpp",
+                    "hendelsetidspunkt",
+                    "status",
+                    "utbetalingsReferanse"
+                ]
             },
             "ManedUtbetaling": {
                 "type": "object",
