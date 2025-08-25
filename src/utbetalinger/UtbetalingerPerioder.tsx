@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { BodyShort, BoxNew, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, BoxNew, ExpansionCard, Heading, HStack, VStack } from "@navikt/ds-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { set } from "date-fns";
 import { Link } from "@navikt/ds-react/Link";
@@ -58,6 +58,9 @@ const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
 
     return (
         <VStack gap="5">
+            <Heading size="small" level="2">
+                {t("utbetalingerSide.perioder." + selectedChip)}
+            </Heading>
             {filtered?.map((item, index) => (
                 <VStack gap="1" key={index}>
                     <BoxNew
@@ -90,11 +93,13 @@ const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
                             aria-label="Utbetalinger"
                             data-color="info"
                             className={
-                                id === 0
-                                    ? "border-0 rounded-none"
-                                    : id === item.utbetalingerForManed.length - 1
-                                      ? "border-0 rounded-b-4"
-                                      : "border-0 rounded-t-none rounded-b-lg"
+                                item.utbetalingerForManed.length === 1
+                                    ? "border-0 rounded-t-none rounded-b-lg"
+                                    : id === 0
+                                      ? "border-0 rounded-none"
+                                      : id === item.utbetalingerForManed.length - 1
+                                        ? "border-0 rounded-t-none rounded-b-lg"
+                                        : "border-0 rounded-t-none rounded-b-lg"
                             }
                         >
                             <ExpansionCard.Header>

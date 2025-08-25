@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { Heading, VStack } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
+import { VStack } from "@navikt/ds-react";
 
 import {
     useHentNyeUtbetalinger,
@@ -16,22 +15,18 @@ import { UtbetalingerEgendefinert } from "./UtbetalingerEgendefinert";
 
 const UtbetalingerListe = () => {
     const { selectedChip } = useUtbetalingerChip();
-    const t = useTranslations("utbetalinger");
     const { data: nye } = useHentNyeUtbetalinger();
     const { data: tidligere } = useHentTidligereUtbetalinger();
 
     return (
         <VStack gap="20">
-            <VStack gap="1">
-                <Heading size="small" level="2">
-                    {t("utbetalingerSide.perioder." + selectedChip)}
-                </Heading>
-                {selectedChip === "kommende" && <UtbetalingerKommende nye={nye} />}
-                {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") && (
-                    <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
-                )}
-                {selectedChip === "egendefinert" && <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} />}
-            </VStack>
+            {selectedChip === "kommende" && <UtbetalingerKommende nye={nye} selectedChip={selectedChip} />}
+            {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") && (
+                <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
+            )}
+            {selectedChip === "egendefinert" && (
+                <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} selectedChip={selectedChip} />
+            )}
         </VStack>
     );
 };

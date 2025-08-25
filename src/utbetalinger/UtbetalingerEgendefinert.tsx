@@ -1,6 +1,15 @@
 "use client";
 import React, { useMemo } from "react";
-import { BodyShort, BoxNew, DatePicker, ExpansionCard, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
+import {
+    BodyShort,
+    BoxNew,
+    DatePicker,
+    ExpansionCard,
+    Heading,
+    HStack,
+    useRangeDatepicker,
+    VStack,
+} from "@navikt/ds-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { set } from "date-fns";
 import { Link } from "@navikt/ds-react/Link";
@@ -10,6 +19,7 @@ import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
     nye?: NyeOgTidligereUtbetalingerResponse[];
+    selectedChip?: "egendefinert";
 }
 
 const combineMonths = (
@@ -25,7 +35,6 @@ const combineMonths = (
             if (existing) {
                 existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...m.utbetalingerForManed];
             } else {
-                // clone to avoid mutating query cache objects
                 map.set(key, {
                     ar: m.ar,
                     maned: m.maned,
@@ -57,7 +66,7 @@ const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean 
     return true;
 };
 
-export const UtbetalingerEgendefinert = ({ nye, tidligere }: Props) => {
+export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
     const format = useFormatter();
 
@@ -81,13 +90,18 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere }: Props) => {
     }, [combinedMonths, fromDate, toDate]);
 
     return (
-        <VStack>
+        <VStack gap="5">
             <DatePicker {...datepickerProps}>
                 <HStack>
                     <DatePicker.Input {...toInputProps} label={t("filter.fra")} />
                     <DatePicker.Input {...fromInputProps} label={t("filter.til")} />
                 </HStack>
             </DatePicker>
+            {filteredByRange.length > 0 && (
+                <Heading size="small" level="2">
+                    {t("utbetalingerSide.perioder." + selectedChip)}
+                </Heading>
+            )}
             {filteredByRange?.map((item, index) => (
                 <VStack gap="1" key={index}>
                     <BoxNew
@@ -123,11 +137,13 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere }: Props) => {
                             aria-label="Utbetalinger"
                             data-color="info"
                             className={
-                                id === 0
-                                    ? "border-0 rounded-none"
-                                    : id === item.utbetalingerForManed.length - 1
-                                      ? "border-0 rounded-b-4"
-                                      : "border-0 rounded-t-none rounded-b-lg"
+                                item.utbetalingerForManed.length === 1
+                                    ? "border-0 rounded-t-none rounded-b-lg"
+                                    : id === 0
+                                      ? "border-0 rounded-none"
+                                      : id === item.utbetalingerForManed.length - 1
+                                        ? "border-0 rounded-t-none rounded-b-lg"
+                                        : "border-0 rounded-t-none rounded-b-lg"
                             }
                         >
                             <ExpansionCard.Header>
