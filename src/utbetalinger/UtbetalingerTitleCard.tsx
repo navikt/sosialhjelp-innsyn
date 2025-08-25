@@ -11,7 +11,7 @@ interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
     index: number;
     statusFilter?: (u: ManedUtbetaling) => boolean;
-    manedsUtbetalingSum?: ManedUtbetalingStatus[];
+    manedsUtbetalingSum?: ManedUtbetalingStatus;
 }
 
 export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, manedsUtbetalingSum }: Props) => {
