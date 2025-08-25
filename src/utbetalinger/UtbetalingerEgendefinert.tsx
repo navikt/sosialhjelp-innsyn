@@ -82,9 +82,9 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     return (
         <VStack gap="5">
             <DatePicker {...datepickerProps}>
-                <HStack>
-                    <DatePicker.Input {...toInputProps} label={t("filter.fra")} />
-                    <DatePicker.Input {...fromInputProps} label={t("filter.til")} />
+                <HStack gap="3">
+                    <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
+                    <DatePicker.Input {...toInputProps} label={t("filter.til")} />
                 </HStack>
             </DatePicker>
             {filteredByRange.length > 0 && (

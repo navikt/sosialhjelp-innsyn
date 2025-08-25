@@ -45,7 +45,12 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index }: Props) => {
                 </HStack>
             </BoxNew>
             {utbetalinger.utbetalingerForManed.map((utb, id) => (
-                <UtbetalingerCard key={id} utbetalinger={utbetalinger} manedUtbetaling={utb} id={id} />
+                <UtbetalingerCard
+                    key={id}
+                    manedUtbetaling={utb}
+                    id={id}
+                    count={utbetalinger.utbetalingerForManed.length}
+                />
             ))}
         </VStack>
     );

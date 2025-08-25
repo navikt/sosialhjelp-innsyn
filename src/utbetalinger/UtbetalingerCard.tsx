@@ -3,33 +3,25 @@ import { Link } from "@navikt/ds-react/Link";
 import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
 
-import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetaling } from "@generated/ssr/model";
 
 interface Props {
-    utbetalinger: NyeOgTidligereUtbetalingerResponse;
     manedUtbetaling: ManedUtbetaling;
     id: number;
+    count: number;
 }
-
-export const UtbetalingerCard = ({ utbetalinger, manedUtbetaling, id }: Props) => {
+const cardBorder = (idx: number, count: nymber) => {
+    if (count === 1) return "border-0 rounded-t-none rounded-b-lg";
+    if (idx === 0) return "border-0 rounded-none";
+    if (idx === count - 1) return "border-0 rounded-t-none rounded-b-lg";
+    return "border-0 rounded-t-none rounded-b-lg";
+};
+export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     const format = useFormatter();
     const t = useTranslations("utbetalinger");
 
     return (
-        <ExpansionCard
-            key={id}
-            aria-label="Utbetalinger"
-            data-color="info"
-            className={
-                utbetalinger.utbetalingerForManed.length === 1
-                    ? "border-0 rounded-t-none rounded-b-lg"
-                    : id === 0
-                      ? "border-0 rounded-none"
-                      : id === utbetalinger.utbetalingerForManed.length - 1
-                        ? "border-0 rounded-t-none rounded-b-lg"
-                        : "border-0 rounded-t-none rounded-b-lg"
-            }
-        >
+        <ExpansionCard aria-label="Utbetalinger" data-color="info" className={cardBorder(id, count)}>
             <ExpansionCard.Header>
                 <ExpansionCard.Title>
                     <HStack gap="4" align="center">
