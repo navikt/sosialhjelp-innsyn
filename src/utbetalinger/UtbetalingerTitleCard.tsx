@@ -3,7 +3,7 @@ import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse, ManedUtbetaling } from "@generated/ssr/model";
 
 import { UtbetalingerCard } from "./UtbetalingerCard";
 
