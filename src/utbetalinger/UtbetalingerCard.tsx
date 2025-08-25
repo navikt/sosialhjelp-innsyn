@@ -10,7 +10,7 @@ interface Props {
     id: number;
     count: number;
 }
-const cardBorder = (idx: number, count: nymber) => {
+const cardBorder = (idx: number, count: number) => {
     if (count === 1) return "border-0 rounded-t-none rounded-b-lg";
     if (idx === 0) return "border-0 rounded-none";
     if (idx === count - 1) return "border-0 rounded-t-none rounded-b-lg";
