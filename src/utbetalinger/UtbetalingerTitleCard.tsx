@@ -3,17 +3,27 @@ import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerCard } from "./UtbetalingerCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
     index: number;
+    statusFilter?: (u: ManedUtbetaling) => boolean;
+    manedsUtbetalingSum?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerTitleCard = ({ utbetalinger, index }: Props) => {
+export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, manedsUtbetalingSum }: Props) => {
     const format = useFormatter();
+
+    const synlig = statusFilter
+        ? utbetalinger.utbetalingerForManed.filter(statusFilter)
+        : utbetalinger.utbetalingerForManed;
+
+    const utbetalingSum = synlig
+        .filter((u) => manedsUtbetalingSum?.includes(u.status))
+        .reduce((acc, u) => acc + u.belop, 0);
 
     return (
         <VStack gap="1" key={index}>
@@ -36,15 +46,10 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index }: Props) => {
                             }
                         )}
                     </BodyShort>
-                    <BodyShort className="ml-auto">
-                        {utbetalinger.utbetalingerForManed
-                            .filter((utb) => utb.status === "UTBETALT")
-                            .reduce((acc, utb) => acc + utb.belop, 0)}{" "}
-                        kr
-                    </BodyShort>
+                    <BodyShort className="ml-auto">{utbetalingSum} kr</BodyShort>
                 </HStack>
             </BoxNew>
-            {utbetalinger.utbetalingerForManed.map((utb, id) => (
+            {synlig.map((utb, id) => (
                 <UtbetalingerCard
                     key={id}
                     manedUtbetaling={utb}

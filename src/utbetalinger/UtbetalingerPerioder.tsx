@@ -3,7 +3,7 @@ import React from "react";
 import { Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 
@@ -61,7 +61,15 @@ const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
             {filtered?.map((item, index) => (
-                <UtbetalingerTitleCard key={index} utbetalinger={item} index={index} />
+                <UtbetalingerTitleCard
+                    key={index}
+                    utbetalinger={item}
+                    index={index}
+                    statusFilter={(u) =>
+                        u.status === ManedUtbetalingStatus.UTBETALT || u.status === ManedUtbetalingStatus.STOPPET
+                    }
+                    manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT}
+                />
             ))}
         </VStack>
     );

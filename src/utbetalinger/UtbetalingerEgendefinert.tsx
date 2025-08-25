@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { DatePicker, Heading, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 
@@ -93,7 +93,17 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                 </Heading>
             )}
             {filteredByRange?.map((item, index) => (
-                <UtbetalingerTitleCard key={index} utbetalinger={item} index={index} />
+                <UtbetalingerTitleCard
+                    key={index}
+                    utbetalinger={item}
+                    index={index}
+                    statusFilter={(u) =>
+                        u.status === ManedUtbetalingStatus.UTBETALT ||
+                        u.status === ManedUtbetalingStatus.STOPPET ||
+                        u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
+                    }
+                    manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING}
+                />
             ))}
         </VStack>
     );

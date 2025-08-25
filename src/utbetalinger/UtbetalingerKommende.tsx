@@ -1,19 +1,17 @@
 "use client";
-import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
-import { useFormatter, useTranslations } from "next-intl";
-import { set } from "date-fns";
+import { Heading, VStack } from "@navikt/ds-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerCard } from "./UtbetalingerCard";
+import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 
 interface Props {
     nye?: NyeOgTidligereUtbetalingerResponse[];
     selectedChip?: "kommende";
 }
 const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
-    const format = useFormatter();
     const t = useTranslations("utbetalinger");
 
     return (
@@ -22,45 +20,16 @@ const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
             {nye?.map((item, index) => (
-                <VStack gap="1" key={index}>
-                    <BoxNew
-                        borderRadius="xlarge xlarge 0 0"
-                        padding="space-16"
-                        background="info-soft"
-                        key={`tidligere-${index}`}
-                    >
-                        <HStack>
-                            <BodyShort className="font-bold mb-1 capitalize">
-                                {format.dateTime(
-                                    set(new Date(0), {
-                                        year: item.ar,
-                                        month: item.maned - 1,
-                                    }),
-                                    {
-                                        month: "long",
-                                        year: "numeric",
-                                    }
-                                )}
-                            </BodyShort>
-                            <BodyShort className="ml-auto">
-                                {item.utbetalingerForManed
-                                    .filter((utb) => utb.status === "PLANLAGT_UTBETALING")
-                                    .reduce((acc, utb) => acc + utb.belop, 0)}{" "}
-                                kr
-                            </BodyShort>
-                        </HStack>
-                    </BoxNew>
-                    {item.utbetalingerForManed
-                        .filter((utb) => utb.status === "PLANLAGT_UTBETALING" || utb.status === "STOPPET")
-                        .map((utb, id) => (
-                            <UtbetalingerCard
-                                key={id}
-                                manedUtbetaling={utb}
-                                id={id}
-                                count={item.utbetalingerForManed.length}
-                            />
-                        ))}
-                </VStack>
+                <UtbetalingerTitleCard
+                    key={index}
+                    utbetalinger={item}
+                    index={index}
+                    statusFilter={(u) =>
+                        u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING ||
+                        u.status === ManedUtbetalingStatus.STOPPET
+                    }
+                    manedsUtbetalingSum={ManedUtbetalingStatus.PLANLAGT_UTBETALING}
+                />
             ))}
         </VStack>
     );
