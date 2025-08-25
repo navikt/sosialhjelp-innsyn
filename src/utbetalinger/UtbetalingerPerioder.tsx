@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
-import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
-import { useFormatter, useTranslations } from "next-intl";
-import { set } from "date-fns";
+import { Heading, VStack } from "@navikt/ds-react";
+import { useTranslations } from "next-intl";
 
 import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerCard } from "./UtbetalingerCard";
+import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
@@ -16,7 +15,7 @@ interface Props {
 type YearMonth = { year: number; month: number };
 type MonthRange = { start: YearMonth; end: YearMonth };
 
-const getDateRange = (chip: "siste3" | "hitil" | "fjor"): MonthRange | null => {
+const datoIntervall = (chip: "siste3" | "hitil" | "fjor"): MonthRange | null => {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
@@ -51,10 +50,9 @@ const isWithinRange = (item: NyeOgTidligereUtbetalingerResponse, range: MonthRan
 };
 
 const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
-    const format = useFormatter();
     const t = useTranslations("utbetalinger");
 
-    const range = selectedChip ? getDateRange(selectedChip) : null;
+    const range = selectedChip ? datoIntervall(selectedChip) : null;
     const filtered = tidligere?.filter((item) => isWithinRange(item, range));
 
     return (
@@ -63,38 +61,7 @@ const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
             {filtered?.map((item, index) => (
-                <VStack gap="1" key={index}>
-                    <BoxNew
-                        borderRadius="xlarge xlarge 0 0"
-                        padding="space-16"
-                        background="info-soft"
-                        key={`tidligere-${index}`}
-                    >
-                        <HStack>
-                            <BodyShort className="font-bold mb-1 capitalize">
-                                {format.dateTime(
-                                    set(new Date(0), {
-                                        year: item.ar,
-                                        month: item.maned - 1,
-                                    }),
-                                    {
-                                        month: "long",
-                                        year: "numeric",
-                                    }
-                                )}
-                            </BodyShort>
-                            <BodyShort className="ml-auto">
-                                {item.utbetalingerForManed
-                                    .filter((utb) => utb.status === "UTBETALT")
-                                    .reduce((acc, utb) => acc + utb.belop, 0)}{" "}
-                                kr
-                            </BodyShort>
-                        </HStack>
-                    </BoxNew>
-                    {item.utbetalingerForManed.map((utb, id) => (
-                        <UtbetalingerCard key={id} utbetalinger={item} manedUtbetaling={utb} id={id} />
-                    ))}
-                </VStack>
+                <UtbetalingerTitleCard key={index} utbetalinger={item} index={index} />
             ))}
         </VStack>
     );

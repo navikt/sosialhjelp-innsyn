@@ -1,12 +1,11 @@
 "use client";
 import React, { useMemo } from "react";
-import { BodyShort, BoxNew, DatePicker, Heading, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
-import { useFormatter, useTranslations } from "next-intl";
-import { set } from "date-fns";
+import { DatePicker, Heading, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
+import { useTranslations } from "next-intl";
 
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerCard } from "./UtbetalingerCard";
+import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
@@ -14,7 +13,7 @@ interface Props {
     selectedChip?: "egendefinert";
 }
 
-const combineMonths = (
+const kombinertManed = (
     nye: NyeOgTidligereUtbetalingerResponse[] = [],
     tidligere: NyeOgTidligereUtbetalingerResponse[] = []
 ): NyeOgTidligereUtbetalingerResponse[] => {
@@ -60,7 +59,6 @@ const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean 
 
 export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
-    const format = useFormatter();
 
     const { datepickerProps, toInputProps, fromInputProps, selectedRange } = useRangeDatepicker({
         fromDate: new Date(2020, 0, 1),
@@ -69,7 +67,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     const fromDate = selectedRange?.from;
     const toDate = selectedRange?.to;
 
-    const combinedMonths = useMemo(() => combineMonths(nye ?? [], tidligere ?? []), [nye, tidligere]);
+    const combinedMonths = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
 
     const filteredByRange = useMemo(() => {
         if (!fromDate || !toDate) return [];
@@ -95,38 +93,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                 </Heading>
             )}
             {filteredByRange?.map((item, index) => (
-                <VStack gap="1" key={index}>
-                    <BoxNew
-                        borderRadius="xlarge xlarge 0 0"
-                        padding="space-16"
-                        background="info-soft"
-                        key={`tidligere-${index}`}
-                    >
-                        <HStack>
-                            <BodyShort className="font-bold mb-1 capitalize">
-                                {format.dateTime(
-                                    set(new Date(0), {
-                                        year: item.ar,
-                                        month: item.maned - 1,
-                                    }),
-                                    {
-                                        month: "long",
-                                        year: "numeric",
-                                    }
-                                )}
-                            </BodyShort>
-                            <BodyShort className="ml-auto">
-                                {item.utbetalingerForManed
-                                    .filter((utb) => utb.status === "UTBETALT")
-                                    .reduce((acc, utb) => acc + utb.belop, 0)}{" "}
-                                kr
-                            </BodyShort>
-                        </HStack>
-                    </BoxNew>
-                    {item.utbetalingerForManed.map((utb, id) => (
-                        <UtbetalingerCard key={id} utbetalinger={item} manedUtbetaling={utb} id={id} />
-                    ))}
-                </VStack>
+                <UtbetalingerTitleCard key={index} utbetalinger={item} index={index} />
             ))}
         </VStack>
     );
