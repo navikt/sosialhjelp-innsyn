@@ -5,12 +5,35 @@
     "SoknaderSide": {
         "tittel": "My applications"
     },
-    "StatusSendtPage": {
-        "tittel": "Your application has been sent"
+    "ForelopigSvarAlert": {
+        "tittel": "You have received a letter regarding an extended processing time.",
+        "beskrivelse": "<norsk>{navKontor}</norsk> sees that they are unable to process your application by the deadline and has sent you a letter. Open the letter to see when you can expect a response to your application."
+    },
+    "ForelopigSvar": {
+        "tittel": "Letter from Nav",
+        "lastNed": "Download letter regarding processing time"
     },
     "OppgaveAlert": {
         "tittel": "Nav needs more documents to process your case",
         "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
+    },
+    "VilkarListe": {
+        "tittel": "Conditions",
+        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav.",
+        "readMore": {
+            "tittel": "How do conditions work?",
+            "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
+            "beskrivelse2": "If the condition is not met, Nav may make a new decision to reduce your social assistance, but this must be stated in your decision. <link>Read more about conditions here</link>."
+        }
+    },
+    "Dokumentasjonkrav": {
+        "tittel": "Documentation requirements",
+        "beskrivelse": "Nav may ask you to submit documents that provide information about your case in connection with your application. This could be, for example, a rental contract or electricity bill. You can submit the documents digitally or physically at the Nav office.",
+        "frist": "Due: {frist, date, ::ddMMyyyy}",
+        "løst": "Submitted"
+    },
+    "StatusSendtPage": {
+        "tittel": "Your application has been sent"
     },
     "StatusMottattPage": {
         "tittel": "You application has been received",
@@ -19,16 +42,98 @@
             "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
         }
     },
+    "DeltSoknadAlert": {
+        "tittel": "Your application has been divided into several cases",
+        "beskrivelse": "This may be because you have applied for support for multiple expenses, or because there is a need to process parts of the application separately."
+    },
     "StatusUnderBehandlingPage": {
-        "tittel": "Your application is being processed"
+        "tittel": "Your application is being processed",
+        "underBehandlingAlert": "Being processed",
+        "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Your application has been processed"
+        "tittel": "Your application has been processed",
+        "underBehandlingAlert": "Being processed",
+        "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
+    },
+    "InfoAlert": {
+        "SENDT": {
+            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+        },
+        "MOTTATT": {
+            "tittel": "Remember to report any changes.",
+            "beskrivelse": "If there are changes in your situation, it may affect the follow-up or payment you receive from Nav. <lenke>Read more about which situations may affect.</lenke>",
+            "beskrivelse2": "To report changes, you can call us at <tel>55 55 33 33</tel> or upload documents as attachments below."
+        }
+    },
+    "StatusPage": {
+        "breadcrumbs": {
+            "soknader": "Applications",
+            "soknad": "Application"
+        }
+    },
+    "Soknad": {
+        "tittel": {
+            "SENDT": "Your application has been sent",
+            "MOTTATT": "Your application has been received",
+            "UNDER_BEHANDLING": "Your application is being processed",
+            "FERDIGBEHANDLET": "Your application has been processed"
+        }
+    },
+    "StatusTag": {
+        "INNVILGET": "Decision: Granted",
+        "DELVIS_INNVILGET": "Decision: Partially granted",
+        "AVVIST": "Decision: Rejected",
+        "AVSLATT": "Decision: Refused",
+        "UNDER_BEHANDLING": "Under behandling"
+    },
+    "Vedtak": {
+        "beskrivelse": {
+            "INNVILGET": "You have been granted benefits. Read the decision to see the reasons.",
+            "DELVIS_INNVILGET": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons.",
+            "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
+            "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
+        },
+        "vedtaksBrev": "Download decision letter",
+        "kommendeUtbetaling": "Check upcoming payout",
+        "uenig": {
+            "tittel": "Disagree with the decision?",
+            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision."
+        }
+    },
+    "Sakstittel": {
+        "tittel": "Application for <norsk>{sakstittel}</norsk>"
+    },
+    "SakSkeleton": {
+        "tittel": "Application for financial assistance"
+    },
+    "StatusVedtak": {
+        "tittel": "Application for <norsk>{sakstittel}</norsk>",
+        "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Download decision letter",
+        "kommendeUtbetaling": "Check upcoming payout"
+    },
+    "StatusVedtakInnvilget": {
+        "tittel": "Granted",
+        "beskrivelse": "You have been granted benefits. Read the decision to see the reasons."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "tittel": "Partially granted",
+        "beskrivelse": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons."
+    },
+    "StatusVedtakAvslag": {
+        "tittel": "Refused",
+        "beskrivelse": "Your application has been declined. Read the decision to see the reasons."
+    },
+    "StatusVedtakAvvist": {
+        "tittel": "Rejected",
+        "beskrivelse": "Your application has been rejected. Read the decision to see the reasons."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
-    "StatusPage": {
+    "Oversikt": {
         "tittel": "Overview"
     },
     "Oppgaver": {
@@ -79,7 +184,7 @@
     },
     "Opplastingsboks": {
         "tittel": "Do you want to submit more documents?",
-        "beskrivelse": "If you have additional documents that may be important for your application, you can upload them here.",
+        "beskrivelse": "Here you can upload documents and screenshots that may be important for your application.",
         "dragAndDrop": "Drag and drop files here",
         "eller": "or",
         "button": "Choose files",
@@ -95,7 +200,9 @@
         "tittel": "Submit additional documentation"
     },
     "VedleggListe": {
-        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Appliation for financial assistance",
+        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
@@ -127,10 +234,10 @@
             "description": "The application is kept until {date, date, ::ddMMyyyy}"
         },
         "VedtakCard": {
-            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decision"
+            "description": "Finished processing. You have received {count, plural, =1 {a notice} other {# notices}} of decision"
         },
         "VilkarCard": {
-            "description": "You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
+            "description": "Finished processing. You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
         },
         "OppgaveCard": {
             "description": "You need to deliver more information by {date, date, ::ddMMyyyy}",

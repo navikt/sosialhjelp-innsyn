@@ -5,12 +5,35 @@
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
-    "StatusSendtPage": {
-        "tittel": "Søknaden din er send"
+    "ForelopigSvarAlert": {
+        "tittel": "Du har fått eit brev om forlengd saksbehandlingstid",
+        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Opne brevet for å sjå når du kan vente svar på søknaden din."
+    },
+    "ForelopigSvar": {
+        "tittel": "Brev frå Nav",
+        "lastNed": "Last ned brev om saksbehandlingstid"
     },
     "OppgaveAlert": {
         "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
         "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+    },
+    "VilkarListe": {
+        "tittel": "Vilkår",
+        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav.",
+        "readMore": {
+            "tittel": "Korleis fungerer vilkår?",
+            "beskrivelse": "Vilkår kan brukast dersom det bidreg til å gjere deg i stand til å sørgje for livsopphaldet ditt på ein annan måte enn ved økonomisk sosialhjelp. Når det blir sett vilkår, skal det bidra til å hjelpe deg med å komme ut av ein vanskeleg livssituasjon. Som hovudregel skal vilkåret setjast i samarbeid med deg.",
+            "beskrivelse2": "Viss vilkåret ikkje blir oppfylt, kan Nav gjere nytt vedtak om reduksjon i sosialhjelpa, men det må vere informert om i vedtaket ditt. <lenke>Les meir om vilkår her</lenke>."
+        }
+    },
+    "Dokumentasjonkrav": {
+        "tittel": "Dokumentasjonkrav",
+        "beskrivelse": "Nav kan be deg om å levere dokument som opplyser saka di i samband med søknaden. Det kan til dømes vere husleigekontrakt eller straumfaktura. Du kan levere dokumenta digitalt eller fysisk på Nav-kontoret.",
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn"
+    },
+    "StatusSendtPage": {
+        "tittel": "Søknaden din er send"
     },
     "StatusMottattPage": {
         "tittel": "Søknaden din er motteken",
@@ -19,16 +42,98 @@
             "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
         }
     },
+    "DeltSoknadAlert": {
+        "tittel": "Søknaden din er delt opp i fleire saker",
+        "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
+    },
     "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling"
+        "tittel": "Søknaden din er under behandling",
+        "underBehandlingAlert": "Under behandling",
+        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
     },
     "StatusFerdigbehandletPage": {
-        "tittel": "Søknaden din er ferdigbehandla"
+        "tittel": "Søknaden din er ferdigbehandla",
+        "underBehandlingAlert": "Under behandling",
+        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "InfoAlert": {
+        "SENDT": {
+            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+        },
+        "MOTTATT": {
+            "tittel": "Hugs å meld frå om endringar",
+            "beskrivelse": "Dersom det skjer endringar i situasjonen din, kan det påverke oppfølginga eller utbetalinga du får frå Nav. <lenke>Les meir om kva situasjonar som kan påverke.</lenke>",
+            "beskrivelse2": "For å melde frå om endringar kan du ringje oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
+        }
+    },
+    "StatusPage": {
+        "breadcrumbs": {
+            "soknader": "Søknader",
+            "soknad": "Søknad"
+        }
+    },
+    "Soknad": {
+        "tittel": {
+            "SENDT": "Søknaden din er send",
+            "MOTTATT": "Søknaden din er motteken",
+            "UNDER_BEHANDLING": "Søknaden din er under behandling",
+            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
+        }
+    },
+    "StatusTag": {
+        "INNVILGET": "Vedtak: Innvilga",
+        "DELVIS_INNVILGET": "Vedtak: Delvis innvilga",
+        "AVVIST": "Vedtak: Avvist",
+        "AVSLATT": "Vedtak: Avslått",
+        "UNDER_BEHANDLING": "Under behandling"
+    },
+    "Vedtak": {
+        "beskrivelse": {
+            "INNVILGET": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga.",
+            "DELVIS_INNVILGET": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga.",
+            "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
+            "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+        },
+        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "kommendeUtbetaling": "Se komande utbetaling",
+        "uenig": {
+            "tittel": "Usamd i vedtaket",
+            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato."
+        }
+    },
+    "Sakstittel": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "SakSkeleton": {
+        "tittel": "Søknad om økonomisk sosialhjelp"
+    },
+    "StatusVedtak": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
+        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "kommendeUtbetaling": "Se komande utbetaling"
+    },
+    "StatusVedtakInnvilget": {
+        "tittel": "Innvilga",
+        "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "tittel": "Delvis innvilga",
+        "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvslag": {
+        "tittel": "Avslag",
+        "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvvist": {
+        "tittel": "Avvist",
+        "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
-    "StatusPage": {
+    "Oversikt": {
         "tittel": "Oversikt"
     },
     "Oppgaver": {
@@ -79,7 +184,7 @@
     },
     "Opplastingsboks": {
         "tittel": "Vil du sende inn fleire dokument?",
-        "beskrivelse": "Dersom du har fleire dokument som kan vere viktige for søknaden din, kan du laste dei opp her.",
+        "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
         "dragAndDrop": "Dra og slepp filer her",
         "eller": "eller",
         "button": "Vel filer",
@@ -95,7 +200,9 @@
         "tittel": "Ettersend dokumentasjon"
     },
     "VedleggListe": {
-        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Søknad om økonomisk sosialhjelp",
+        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
@@ -127,10 +234,10 @@
             "description": "Søknaden blir behalden til og med {date, date, ::ddMMyyyy}"
         },
         "VedtakCard": {
-            "description": "Du har fått {count, plural, =1 {eit} other {#}} vedtak"
+            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak"
         },
         "VilkarCard": {
-            "description": "Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
+            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
         },
         "OppgaveCard": {
             "description": "Du må levere fleire opplysningar innan {date, date, ::ddMMyyyy}",

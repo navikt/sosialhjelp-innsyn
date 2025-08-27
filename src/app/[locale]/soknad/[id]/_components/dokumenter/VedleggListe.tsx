@@ -4,16 +4,37 @@ import { FileUpload, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
 
-import { VedleggResponse } from "@generated/model";
+import { OriginalSoknadDto, UrlResponse, VedleggResponse } from "@generated/model";
+
+export type SoknadFile = UrlResponse & { date?: string };
 
 interface Props {
     vedlegg: VedleggResponse[];
+    originalSoknad?: OriginalSoknadDto;
 }
 
-const VedleggListe = ({ vedlegg }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad }: Props) => {
     const t = useTranslations("VedleggListe");
     return (
         <VStack as="ul" gap="2">
+            {originalSoknad && (
+                <FileUpload.Item
+                    as="li"
+                    href={originalSoknad.url}
+                    description={
+                        originalSoknad.date
+                            ? `${t("sendt", {
+                                  dato: new Date(originalSoknad.date),
+                              })}`
+                            : undefined
+                    }
+                    file={{
+                        name: originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename"),
+                        size: originalSoknad.size,
+                    }}
+                    className="w-full"
+                />
+            )}
             {vedlegg.map((fil) => (
                 <FileUpload.Item
                     as="li"

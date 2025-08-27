@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import { hentSoknadsStatus } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
+import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 
-import { StatusSendtPage } from "./_components/StatusSendtPage";
-import { StatusMottattPage } from "./_components/StatusMottattPage";
-import { StatusUnderBehandlingPage } from "./_components/StatusUnderBehandlingPage";
-import { StatusFerdigbehandletPage } from "./_components/StatusFerdigbehandletPage";
+import { Soknad } from "./_components/Soknad";
 
 export const dynamic = "force-dynamic";
 
@@ -23,24 +22,19 @@ const Page = async ({
     }
     const { id } = await params;
 
+    const t = await getTranslations("StatusPage.breadcrumbs");
     const soknadsStatusResponse = await hentSoknadsStatus(id);
-    if (soknadsStatusResponse.status === "SENDT") {
-        return <StatusSendtPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
-    }
-
-    if (soknadsStatusResponse.status === "MOTTATT") {
-        return <StatusMottattPage navKontor={soknadsStatusResponse.navKontor ?? "et navkontor"} id={id} />;
-    }
-
-    if (soknadsStatusResponse.status === "UNDER_BEHANDLING") {
-        return <StatusUnderBehandlingPage id={id} />;
-    }
-
-    if (soknadsStatusResponse.status === "FERDIGBEHANDLET") {
-        return <StatusFerdigbehandletPage id={id} />;
-    }
-
-    return notFound();
+    return (
+        <>
+            <ClientBreadcrumbs
+                dynamicBreadcrumbs={[
+                    { title: t("soknader"), url: "/sosialhjelp/innsyn/soknader" },
+                    { title: t("soknad") },
+                ]}
+            />
+            <Soknad id={id} soknadstatus={soknadsStatusResponse.status} navKontor={soknadsStatusResponse.navKontor} />
+        </>
+    );
 };
 
 export default Page;
