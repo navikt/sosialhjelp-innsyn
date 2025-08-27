@@ -1,7 +1,6 @@
 import { Heading } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { NavigationGuardProvider } from "next-navigation-guard";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
@@ -24,9 +23,7 @@ const Page = async () => {
                     {t("tittel")}
                 </Heading>
             </div>
-            <NavigationGuardProvider>
-                <KlageForm />
-            </NavigationGuardProvider>
+            <KlageForm />
         </>
     );
 };

@@ -8,7 +8,6 @@ import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
-import { NavigationGuardProvider } from "next-navigation-guard";
 
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks2";
 import { getHentKlagerQueryKey, useLastOppVedlegg, useSendKlage } from "@generated/klage-controller/klage-controller";
@@ -86,9 +85,7 @@ const KlageForm = () => {
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <NavigationGuardProvider>
-                <Opplastingsboks files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
-            </NavigationGuardProvider>
+            <Opplastingsboks files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
             <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
                 {t("sendKlage")}
             </Button>
