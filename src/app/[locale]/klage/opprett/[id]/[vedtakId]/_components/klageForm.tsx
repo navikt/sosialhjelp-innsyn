@@ -9,10 +9,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 
-import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks2";
 import { getHentKlagerQueryKey, useLastOppVedlegg, useSendKlage } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
+import FileSelect from "@components/filopplasting/new/FileSelect";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
@@ -85,7 +85,7 @@ const KlageForm = () => {
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <Opplastingsboks files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
+            <FileSelect files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
             <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
                 {t("sendKlage")}
             </Button>
