@@ -14,7 +14,6 @@ import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
-import { logButtonOrLinkClick } from "../../../utils/amplitude";
 import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
 
 interface Props {
@@ -66,7 +65,6 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                     isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
-                        logButtonOrLinkClick("Dine oppgaver - dokumentasjonkrav: Trykket på Send vedlegg");
                         return upload();
                     }}
                     disabled={

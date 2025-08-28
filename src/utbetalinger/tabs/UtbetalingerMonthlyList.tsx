@@ -4,14 +4,10 @@ import { set } from "date-fns";
 import { useMemo } from "react";
 
 import { NyeOgTidligereUtbetalingerResponse } from "../../generated/model";
-import { logAmplitudeEvent } from "../../utils/amplitude";
 import { isLessThanTwoWeeksAgo } from "../isLessThanTwoWeeksAgo";
 
 import { UtbetalingAccordionHeader } from "./UtbetalingAccordionHeader";
 import { UtbetalingAccordionContent } from "./UtbetalingAccordionContent";
-
-export const onOpenChange = (open: boolean) =>
-    logAmplitudeEvent(open ? "accordion åpnet" : "accordion lukket", { tekst: "Utbetaling" });
 
 export const UtbetalingerMonthlyList = ({
     utbetalingSak: { ar, maned, utbetalingerForManed },
@@ -48,7 +44,6 @@ export const UtbetalingerMonthlyList = ({
                     <Accordion.Item
                         key={utbetaling.uuid}
                         defaultOpen={isLessThanTwoWeeksAgo(utbetaling.utbetalingsdato)}
-                        onOpenChange={onOpenChange}
                     >
                         <UtbetalingAccordionHeader
                             dato={utbetaling.utbetalingsdato ?? utbetaling.forfallsdato}

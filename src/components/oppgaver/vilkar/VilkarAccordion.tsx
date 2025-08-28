@@ -2,7 +2,6 @@ import { Accordion, BodyShort, Label } from "@navikt/ds-react";
 import React from "react";
 import { useTranslations } from "next-intl";
 
-import { logSokerFaarVilkaar, logVilkarDuplications } from "../../../utils/amplitude";
 import { VilkarResponse } from "../../../generated/model";
 
 import { VilkarView } from "./VilkarView";
@@ -21,8 +20,6 @@ export const VilkarAccordion = (props: Props) => {
     const t = useTranslations("common");
     if (!props.vilkar || props.vilkar.length === 0) return null;
     const unikeVilkar = getUnikeVilkar(props.vilkar);
-    logVilkarDuplications(props.vilkar.length, unikeVilkar.length);
-    logSokerFaarVilkaar();
     return (
         <>
             <Accordion.Item defaultOpen>

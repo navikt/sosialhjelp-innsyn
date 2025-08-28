@@ -17,7 +17,6 @@ import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 import styles from "../filopplasting/filopplasting.module.css";
 import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
-import { logAmplitudeEvent } from "../../utils/amplitude";
 import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
 
 const metadatas = [
@@ -74,7 +73,6 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         setOppgaverUploadSuccess(false);
-        logAmplitudeEvent("Antall vedlegg som lastes opp under Dine vedlegg", { antallVedlegg: files.length });
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;

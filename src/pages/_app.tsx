@@ -5,13 +5,11 @@ import { useRouter } from "next/router";
 import "../index.css";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
-import Cookies from "js-cookie";
 import { NextIntlClientProvider } from "next-intl";
 
 import ErrorBoundary from "../components/errors/ErrorBoundary";
 import Tilgangskontrollside from "../components/Tilgangskontrollside/Tilgangskontrollside";
 import { FlagProvider } from "../featuretoggles/context";
-import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "../utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "../faro/faro";
 import { PageProps } from "../pagehandler/pageHandler";
 
@@ -24,15 +22,11 @@ configureLogger({
         }),
 });
 
-// TODO: Dette er kanskje ikke den beste plassering
-logBrukerDefaultLanguage(Cookies.get("decorator-language"));
-
 const App = ({ Component, pageProps }: AppProps<PageProps>): React.JSX.Element => {
     const router = useRouter();
     // Default options for query clienten blir satt i orval.config.ts
     const [queryClient] = React.useState(() => new QueryClient());
     onLanguageSelect(async (option) => {
-        logBrukerSpraakChange(option.locale);
         await router.replace(router.asPath.replace(/\/(en|nn|nb)/, `/${option.locale}`), undefined, {
             locale: option.locale,
         });

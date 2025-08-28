@@ -3,7 +3,6 @@ import { BodyLong, Heading, Panel, Tabs } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import HandCoinsIcon from "../components/ikoner/HandCoins";
-import { logAmplitudeEvent } from "../utils/amplitude";
 import useIsMobile from "../utils/useIsMobile";
 
 import UtbetalingerNye from "./tabs/UtbetalingerNye";
@@ -16,7 +15,6 @@ const TAB_TIDLIGERE = "Tidligere utbetalinger" as const;
 const UtbetalingerPanel = () => {
     const t = useTranslations("utbetalinger");
 
-    const logTabChange = (tab: string) => logAmplitudeEvent("Klikket tab", { tab });
     const isMobile = useIsMobile();
     return (
         <Panel className="relative pt-12 max-w-[40rem]">
@@ -29,7 +27,7 @@ const UtbetalingerPanel = () => {
             </Heading>
             <div className="md:pt-12 pt-4" />
             {isMobile && <FilterModal />}
-            <Tabs defaultValue={TAB_UTBETALINGER} onChange={logTabChange}>
+            <Tabs defaultValue={TAB_UTBETALINGER}>
                 <Tabs.List>
                     <Tabs.Tab value={TAB_UTBETALINGER} label={t("tab1")} />
                     <Tabs.Tab value={TAB_TIDLIGERE} label={t("tab2")} />
