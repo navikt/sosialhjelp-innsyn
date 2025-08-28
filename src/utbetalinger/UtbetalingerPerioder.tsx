@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Heading, VStack } from "@navikt/ds-react";
+import { Box, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -60,17 +60,28 @@ const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
             <Heading size="small" level="2">
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
-            {filtered?.map((item, index) => (
-                <UtbetalingerTitleCard
-                    key={index}
-                    utbetalinger={item}
-                    index={index}
-                    statusFilter={(u) =>
-                        u.status === ManedUtbetalingStatus.UTBETALT || u.status === ManedUtbetalingStatus.STOPPET
-                    }
-                    manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT}
-                />
-            ))}
+            {filtered ? (
+                filtered?.map((item, index) => (
+                    <UtbetalingerTitleCard
+                        key={index}
+                        utbetalinger={item}
+                        index={index}
+                        statusFilter={(u) =>
+                            u.status === ManedUtbetalingStatus.UTBETALT || u.status === ManedUtbetalingStatus.STOPPET
+                        }
+                        manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT}
+                    />
+                ))
+            ) : (
+                <Box.New background="neutral-soft" padding="space-24">
+                    <VStack gap="2">
+                        <Heading size="small" level="3">
+                            {t("ingenUtbetalinger.egendefinert.tittel")}
+                        </Heading>
+                        <p>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</p>
+                    </VStack>
+                </Box.New>
+            )}
         </VStack>
     );
 };

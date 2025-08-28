@@ -1,5 +1,5 @@
 "use client";
-import { Heading, VStack } from "@navikt/ds-react";
+import { Heading, VStack, Box } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -19,18 +19,30 @@ const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
             <Heading size="small" level="2">
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
-            {nye?.map((item, index) => (
-                <UtbetalingerTitleCard
-                    key={index}
-                    utbetalinger={item}
-                    index={index}
-                    statusFilter={(u) =>
-                        u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING ||
-                        u.status === ManedUtbetalingStatus.STOPPET
-                    }
-                    manedsUtbetalingSum={ManedUtbetalingStatus.PLANLAGT_UTBETALING}
-                />
-            ))}
+            {nye ? (
+                nye?.map((item, index) => (
+                    <UtbetalingerTitleCard
+                        key={index}
+                        utbetalinger={item}
+                        index={index}
+                        statusFilter={(u) =>
+                            u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING ||
+                            u.status === ManedUtbetalingStatus.STOPPET
+                        }
+                        manedsUtbetalingSum={ManedUtbetalingStatus.PLANLAGT_UTBETALING}
+                    />
+                ))
+            ) : (
+                <Box.New background="neutral-soft" padding="space-24">
+                    <VStack gap="2">
+                        <Heading size="small" level="3">
+                            {t("ingenUtbetalinger.kommende.tittel")}
+                        </Heading>
+                        <p>{t("ingenUtbetalinger.kommende.beskrivelse1")}</p>
+                        <p>{t("ingenUtbetalinger.kommende.beskrivelse2")}</p>
+                    </VStack>
+                </Box.New>
+            )}
         </VStack>
     );
 };

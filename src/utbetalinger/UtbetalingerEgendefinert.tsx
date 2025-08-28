@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import { DatePicker, Heading, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
+import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -59,6 +59,7 @@ const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean 
 
 export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
+    const [pressed, setPressed] = React.useState(false);
 
     const { datepickerProps, toInputProps, fromInputProps, selectedRange } = useRangeDatepicker({
         fromDate: new Date(2020, 0, 1),
@@ -79,32 +80,48 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
             .filter((m) => m.utbetalingerForManed.length > 0);
     }, [combinedMonths, fromDate, toDate]);
 
+    const onClick = (event) => {
+        setPressed(true);
+        event?.preventDefault();
+    };
+
     return (
         <VStack gap="5">
-            <DatePicker {...datepickerProps}>
-                <HStack gap="3">
-                    <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
-                    <DatePicker.Input {...toInputProps} label={t("filter.til")} />
-                </HStack>
-            </DatePicker>
-            {filteredByRange.length > 0 && (
-                <Heading size="small" level="2">
-                    {t("utbetalingerSide.perioder." + selectedChip)}
-                </Heading>
-            )}
-            {filteredByRange?.map((item, index) => (
-                <UtbetalingerTitleCard
-                    key={index}
-                    utbetalinger={item}
-                    index={index}
-                    statusFilter={(u) =>
-                        u.status === ManedUtbetalingStatus.UTBETALT ||
-                        u.status === ManedUtbetalingStatus.STOPPET ||
-                        u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
-                    }
-                    manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING}
-                />
-            ))}
+            <HStack gap="4" align="end">
+                <DatePicker {...datepickerProps}>
+                    <HStack gap="3">
+                        <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
+                        <DatePicker.Input {...toInputProps} label={t("filter.til")} />
+                    </HStack>
+                </DatePicker>
+
+                <Button variant="primary" onClick={(event) => onClick(event)}>
+                    Vis utbetalinger
+                </Button>
+            </HStack>
+            <VStack>
+                {pressed && filteredByRange.length > 0 && (
+                    <Heading size="small" level="2">
+                        {t("utbetalingerSide.perioder." + selectedChip)}
+                    </Heading>
+                )}
+                {pressed &&
+                    filteredByRange?.map((item, index) => (
+                        <UtbetalingerTitleCard
+                            key={index}
+                            utbetalinger={item}
+                            index={index}
+                            statusFilter={(u) =>
+                                u.status === ManedUtbetalingStatus.UTBETALT ||
+                                u.status === ManedUtbetalingStatus.STOPPET ||
+                                u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
+                            }
+                            manedsUtbetalingSum={
+                                ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING
+                            }
+                        />
+                    ))}
+            </VStack>
         </VStack>
     );
 };

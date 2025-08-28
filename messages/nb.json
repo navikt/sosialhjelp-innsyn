@@ -595,7 +595,8 @@
     "ingenUtbetalinger": {
       "kommende": {
         "tittel": "Du har ingen kommende utbetalinger",
-        "beskrivelse": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+        "beskrivelse1": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33.",
+        "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
       },
       "egendefinert": {
         "tittel":"Du har ingen utbetalinger for denne perioden",
