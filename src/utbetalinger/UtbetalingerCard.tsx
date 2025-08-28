@@ -2,6 +2,7 @@ import { BodyShort, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import { Link } from "@navikt/ds-react/Link";
 import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
+import { ArrowRightIcon } from "@navikt/aksel-icons";
 
 import { ManedUtbetaling } from "@generated/ssr/model";
 
@@ -24,11 +25,11 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
         <ExpansionCard aria-label="Utbetalinger" data-color="info" className={cardBorder(id, count)}>
             <ExpansionCard.Header>
                 <ExpansionCard.Title>
-                    <HStack align="center">
+                    <HStack gap="2" align="center">
                         <BodyShort size="medium" weight="semibold">
                             {manedUtbetaling.tittel}
                         </BodyShort>
-                        <HStack>
+                        <HStack gap="2">
                             <BodyShort size="small">{t("utbetalingStatus." + manedUtbetaling.status)}</BodyShort>
                             <BodyShort size="small">
                                 {manedUtbetaling.forfallsdato
@@ -49,7 +50,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack>
+                <VStack gap="4">
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             Periode:
@@ -64,7 +65,10 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                         </BodyShort>
                         <BodyShort>{manedUtbetaling.mottaker}</BodyShort>
                     </VStack>
-                    <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>Se søknaden og vedtaket du fikk</Link>
+                    <HStack>
+                        <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>Se søknaden og vedtaket du fikk</Link>
+                        <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
+                    </HStack>
                 </VStack>
             </ExpansionCard.Content>
         </ExpansionCard>

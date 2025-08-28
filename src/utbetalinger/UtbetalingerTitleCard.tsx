@@ -26,7 +26,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, maned
         .reduce((acc, u) => acc + u.belop, 0);
 
     return (
-        <VStack key={index}>
+        <VStack key={index} gap="2">
             <BoxNew
                 borderRadius="xlarge xlarge 0 0"
                 padding="space-16"

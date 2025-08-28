@@ -1,5 +1,5 @@
 "use client";
-import { Heading, VStack, Box, Skeleton } from "@navikt/ds-react";
+import { Heading, VStack, Box, Skeleton, BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -39,8 +39,8 @@ const ShowUtbetalinger = (nye: NyeOgTidligereUtbetalingerResponse[] | undefined)
                 <Heading size="xsmall" level="3">
                     {t("ingenUtbetalinger.kommende.tittel")}
                 </Heading>
-                <p>{t("ingenUtbetalinger.kommende.beskrivelse1")}</p>
-                <p>{t("ingenUtbetalinger.kommende.beskrivelse2")}</p>
+                <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse1")}</BodyShort>
+                <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse2")}</BodyShort>
             </VStack>
         </Box.New>
     );

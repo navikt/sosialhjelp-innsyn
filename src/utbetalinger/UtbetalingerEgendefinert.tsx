@@ -1,6 +1,6 @@
 "use client";
 import React, { MouseEvent, useMemo } from "react";
-import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button, Box } from "@navikt/ds-react";
+import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button, Box, BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -81,11 +81,11 @@ const ShowUtbetalinger = (pressed: boolean, filteredByRange?: NyeOgTidligereUtbe
                 ))
             ) : (
                 <Box.New background="neutral-soft" padding="space-24">
-                    <VStack>
+                    <VStack gap="4">
                         <Heading size="small" level="3">
                             {t("ingenUtbetalinger.egendefinert.tittel")}
                         </Heading>
-                        <p>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</p>
+                        <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
                     </VStack>
                 </Box.New>
             )
@@ -124,10 +124,10 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     };
 
     return (
-        <VStack>
-            <HStack align="end">
+        <VStack gap="10">
+            <HStack gap="6" align="end">
                 <DatePicker {...datepickerProps}>
-                    <HStack>
+                    <HStack gap="4">
                         <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
                         <DatePicker.Input {...toInputProps} label={t("filter.til")} />
                     </HStack>
@@ -137,7 +137,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                     Vis utbetalinger
                 </Button>
             </HStack>
-            <VStack>
+            <VStack gap="4">
                 {pressed && (
                     <Heading size="small" level="2">
                         {t("utbetalingerSide.perioder." + selectedChip)}

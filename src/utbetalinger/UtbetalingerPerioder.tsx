@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import { Box, Heading, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, Box, Heading, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -95,7 +95,7 @@ const ShowUtbetalinger = (filtered: NyeOgTidligereUtbetalingerResponse[] | undef
                 <Heading size="xsmall" level="3">
                     {t("ingenUtbetalinger.egendefinert.tittel")}
                 </Heading>
-                <p>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</p>
+                <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
             </VStack>
         </Box.New>
     );
