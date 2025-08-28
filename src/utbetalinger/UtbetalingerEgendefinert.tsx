@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { MouseEvent, useMemo } from "react";
 import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
@@ -80,7 +80,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
             .filter((m) => m.utbetalingerForManed.length > 0);
     }, [combinedMonths, fromDate, toDate]);
 
-    const onClick = (event) => {
+    const onClick = (event: MouseEvent) => {
         setPressed(true);
         event?.preventDefault();
     };
