@@ -30,7 +30,7 @@ export const UtbetalingerListe = () => {
                 (tidligereLoading ? (
                     <UtbetalingerPerioderSkeleton />
                 ) : (
-                    <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
+                    <UtbetalingerPerioder nye={nye} tidligere={tidligere} selectedChip={selectedChip} />
                 ))}
             {selectedChip === "egendefinert" && (
                 <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} selectedChip={selectedChip} />

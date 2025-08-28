@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Heading, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
@@ -8,9 +8,35 @@ import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@gene
 import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 
 interface Props {
+    nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
     selectedChip?: "siste3" | "hitil" | "fjor";
 }
+
+const kombinertManed = (
+    nye: NyeOgTidligereUtbetalingerResponse[] = [],
+    tidligere: NyeOgTidligereUtbetalingerResponse[] = []
+): NyeOgTidligereUtbetalingerResponse[] => {
+    const map = new Map<string, NyeOgTidligereUtbetalingerResponse>();
+
+    for (const list of [nye, tidligere]) {
+        for (const m of list) {
+            const key = `${m.ar}-${m.maned}`;
+            const existing = map.get(key);
+            if (existing) {
+                existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...m.utbetalingerForManed];
+            } else {
+                map.set(key, {
+                    ar: m.ar,
+                    maned: m.maned,
+                    utbetalingerForManed: [...m.utbetalingerForManed],
+                });
+            }
+        }
+    }
+
+    return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
+};
 
 type YearMonth = { year: number; month: number };
 type MonthRange = { start: YearMonth; end: YearMonth };
@@ -75,11 +101,12 @@ const ShowUtbetalinger = (filtered: NyeOgTidligereUtbetalingerResponse[] | undef
     );
 };
 
-export const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
+export const UtbetalingerPerioder = ({ nye, tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
 
     const range = selectedChip ? datoIntervall(selectedChip) : null;
-    const filtered = tidligere?.filter((item) => isWithinRange(item, range));
+    const combinedMonths = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
+    const filtered = combinedMonths?.filter((item) => isWithinRange(item, range));
 
     return (
         <VStack gap="4">
@@ -94,12 +121,14 @@ export const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
 export const UtbetalingerPerioderSkeleton = () => {
     return (
         <Box>
-            <Skeleton variant="rectangle" />
-            <Skeleton variant="rectangle" />
-            <Skeleton variant="rectangle" />
-            <Skeleton variant="rectangle" />
-            <Skeleton variant="rectangle" />
-            <Skeleton variant="rectangle" />
+            <VStack gap="1">
+                <Skeleton variant="rectangle" />
+                <Skeleton variant="rectangle" />
+                <Skeleton variant="rectangle" />
+                <Skeleton variant="rectangle" />
+                <Skeleton variant="rectangle" />
+                <Skeleton variant="rectangle" />
+            </VStack>
         </Box>
     );
 };
