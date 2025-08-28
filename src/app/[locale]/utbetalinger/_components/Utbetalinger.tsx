@@ -18,7 +18,7 @@ const Utbetalinger = () => {
     const { selectedChip, setSelectedChip } = useUtbetalingerChip();
 
     return (
-        <VStack gap="6">
+        <VStack gap="16">
             <Chips>
                 {chipOptions.map((option) => (
                     <ChipsToggle

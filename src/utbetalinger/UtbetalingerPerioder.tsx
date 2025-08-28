@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Box, Heading, VStack } from "@navikt/ds-react";
+import { Box, Heading, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -49,41 +49,57 @@ const isWithinRange = (item: NyeOgTidligereUtbetalingerResponse, range: MonthRan
     return itemDate >= startDate && itemDate <= endDate;
 };
 
-const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
+const ShowUtbetalinger = (filtered: NyeOgTidligereUtbetalingerResponse[] | undefined) => {
+    const t = useTranslations("utbetalinger");
+    return filtered && filtered.length > 0 ? (
+        filtered?.map((item, index) => (
+            <UtbetalingerTitleCard
+                key={index}
+                utbetalinger={item}
+                index={index}
+                statusFilter={(u) =>
+                    u.status === ManedUtbetalingStatus.UTBETALT || u.status === ManedUtbetalingStatus.STOPPET
+                }
+                manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT}
+            />
+        ))
+    ) : (
+        <Box.New background="neutral-soft" padding="space-24">
+            <VStack gap="4">
+                <Heading size="xsmall" level="3">
+                    {t("ingenUtbetalinger.egendefinert.tittel")}
+                </Heading>
+                <p>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</p>
+            </VStack>
+        </Box.New>
+    );
+};
+
+export const UtbetalingerPerioder = ({ tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
 
     const range = selectedChip ? datoIntervall(selectedChip) : null;
     const filtered = tidligere?.filter((item) => isWithinRange(item, range));
 
     return (
-        <VStack gap="5">
+        <VStack gap="4">
             <Heading size="small" level="2">
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
-            {filtered ? (
-                filtered?.map((item, index) => (
-                    <UtbetalingerTitleCard
-                        key={index}
-                        utbetalinger={item}
-                        index={index}
-                        statusFilter={(u) =>
-                            u.status === ManedUtbetalingStatus.UTBETALT || u.status === ManedUtbetalingStatus.STOPPET
-                        }
-                        manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT}
-                    />
-                ))
-            ) : (
-                <Box.New background="neutral-soft" padding="space-24">
-                    <VStack gap="2">
-                        <Heading size="small" level="3">
-                            {t("ingenUtbetalinger.egendefinert.tittel")}
-                        </Heading>
-                        <p>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</p>
-                    </VStack>
-                </Box.New>
-            )}
+            {ShowUtbetalinger(filtered)}
         </VStack>
     );
 };
 
-export default UtbetalingerPerioder;
+export const UtbetalingerPerioderSkeleton = () => {
+    return (
+        <Box>
+            <Skeleton variant="rectangle" />
+            <Skeleton variant="rectangle" />
+            <Skeleton variant="rectangle" />
+            <Skeleton variant="rectangle" />
+            <Skeleton variant="rectangle" />
+            <Skeleton variant="rectangle" />
+        </Box>
+    );
+};

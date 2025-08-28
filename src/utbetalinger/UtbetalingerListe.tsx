@@ -9,21 +9,29 @@ import {
 } from "@generated/utbetalinger-controller/utbetalinger-controller";
 
 import { useUtbetalingerChip } from "./UtbetalingerProviderContext";
-import UtbetalingerKommende from "./UtbetalingerKommende";
-import UtbetalingerPerioder from "./UtbetalingerPerioder";
+import { UtbetalingerKommende, UtbetalingerKommendeSkeleton } from "./UtbetalingerKommende";
+import { UtbetalingerPerioder, UtbetalingerPerioderSkeleton } from "./UtbetalingerPerioder";
 import { UtbetalingerEgendefinert } from "./UtbetalingerEgendefinert";
 
-const UtbetalingerListe = () => {
+export const UtbetalingerListe = () => {
     const { selectedChip } = useUtbetalingerChip();
-    const { data: nye } = useHentNyeUtbetalinger();
-    const { data: tidligere } = useHentTidligereUtbetalinger();
+    const { data: nye, isLoading: nyeLoading } = useHentNyeUtbetalinger();
+    const { data: tidligere, isLoading: tidligereLoading } = useHentTidligereUtbetalinger();
 
     return (
         <VStack gap="20">
-            {selectedChip === "kommende" && <UtbetalingerKommende nye={nye} selectedChip={selectedChip} />}
-            {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") && (
-                <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
-            )}
+            {selectedChip === "kommende" &&
+                (nyeLoading ? (
+                    <UtbetalingerKommendeSkeleton />
+                ) : (
+                    <UtbetalingerKommende nye={nye} selectedChip={selectedChip} />
+                ))}
+            {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") &&
+                (tidligereLoading ? (
+                    <UtbetalingerPerioderSkeleton />
+                ) : (
+                    <UtbetalingerPerioder tidligere={tidligere} selectedChip={selectedChip} />
+                ))}
             {selectedChip === "egendefinert" && (
                 <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} selectedChip={selectedChip} />
             )}

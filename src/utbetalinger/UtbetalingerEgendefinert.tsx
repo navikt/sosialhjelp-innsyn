@@ -1,6 +1,6 @@
 "use client";
 import React, { MouseEvent, useMemo } from "react";
-import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button } from "@navikt/ds-react";
+import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button, Box } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -57,6 +57,44 @@ const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean 
     return true;
 };
 
+const ShowUtbetalinger = (pressed: boolean, filteredByRange?: NyeOgTidligereUtbetalingerResponse[] | undefined) => {
+    const t = useTranslations("utbetalinger");
+
+    return (
+        filteredByRange &&
+        (pressed ? (
+            filteredByRange.length > 0 ? (
+                filteredByRange?.map((item, index) => (
+                    <UtbetalingerTitleCard
+                        key={index}
+                        utbetalinger={item}
+                        index={index}
+                        statusFilter={(u) =>
+                            u.status === ManedUtbetalingStatus.UTBETALT ||
+                            u.status === ManedUtbetalingStatus.STOPPET ||
+                            u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
+                        }
+                        manedsUtbetalingSum={
+                            ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING
+                        }
+                    />
+                ))
+            ) : (
+                <Box.New background="neutral-soft" padding="space-24">
+                    <VStack>
+                        <Heading size="small" level="3">
+                            {t("ingenUtbetalinger.egendefinert.tittel")}
+                        </Heading>
+                        <p>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</p>
+                    </VStack>
+                </Box.New>
+            )
+        ) : (
+            ""
+        ))
+    );
+};
+
 export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
     const [pressed, setPressed] = React.useState(false);
@@ -86,10 +124,10 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     };
 
     return (
-        <VStack gap="5">
-            <HStack gap="4" align="end">
+        <VStack>
+            <HStack align="end">
                 <DatePicker {...datepickerProps}>
-                    <HStack gap="3">
+                    <HStack>
                         <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
                         <DatePicker.Input {...toInputProps} label={t("filter.til")} />
                     </HStack>
@@ -100,27 +138,12 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                 </Button>
             </HStack>
             <VStack>
-                {pressed && filteredByRange.length > 0 && (
+                {pressed && (
                     <Heading size="small" level="2">
                         {t("utbetalingerSide.perioder." + selectedChip)}
                     </Heading>
                 )}
-                {pressed &&
-                    filteredByRange?.map((item, index) => (
-                        <UtbetalingerTitleCard
-                            key={index}
-                            utbetalinger={item}
-                            index={index}
-                            statusFilter={(u) =>
-                                u.status === ManedUtbetalingStatus.UTBETALT ||
-                                u.status === ManedUtbetalingStatus.STOPPET ||
-                                u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
-                            }
-                            manedsUtbetalingSum={
-                                ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING
-                            }
-                        />
-                    ))}
+                {ShowUtbetalinger(pressed, filteredByRange)}
             </VStack>
         </VStack>
     );

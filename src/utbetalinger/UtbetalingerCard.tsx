@@ -24,11 +24,11 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
         <ExpansionCard aria-label="Utbetalinger" data-color="info" className={cardBorder(id, count)}>
             <ExpansionCard.Header>
                 <ExpansionCard.Title>
-                    <HStack gap="4" align="center">
+                    <HStack align="center">
                         <BodyShort size="medium" weight="semibold">
                             {manedUtbetaling.tittel}
                         </BodyShort>
-                        <HStack gap="1">
+                        <HStack>
                             <BodyShort size="small">{t("utbetalingStatus." + manedUtbetaling.status)}</BodyShort>
                             <BodyShort size="small">
                                 {manedUtbetaling.forfallsdato
@@ -49,7 +49,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap="3">
+                <VStack>
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             Periode:
