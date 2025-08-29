@@ -30,7 +30,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, maned
             <BoxNew
                 borderRadius="xlarge xlarge 0 0"
                 padding="space-16"
-                background="info-soft"
+                background="accent-soft"
                 key={`tidligere-${index}`}
             >
                 <HStack>

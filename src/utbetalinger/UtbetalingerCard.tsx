@@ -53,30 +53,48 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap="4">
+                <VStack gap="10">
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             Periode:
                         </BodyShort>
-                        <BodyShort>
-                            {manedUtbetaling.fom} - {manedUtbetaling.tom}
-                        </BodyShort>
+                        <HStack gap="2">
+                            <BodyShort>
+                                {manedUtbetaling.fom &&
+                                    format.dateTime(new Date(manedUtbetaling.fom), {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                    })}
+                            </BodyShort>
+                            <BodyShort> - </BodyShort>
+                            <BodyShort>
+                                {manedUtbetaling.tom &&
+                                    format.dateTime(new Date(manedUtbetaling.tom), {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                    })}
+                            </BodyShort>
+                        </HStack>
                     </VStack>
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             Mottaker:
                         </BodyShort>
-                        <BodyShort>{manedUtbetaling.mottaker}</BodyShort>
+                        <BodyShort>Din bankkonto: {manedUtbetaling.kontonummer}</BodyShort>
                     </VStack>
-                    <HStack>
-                        <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
-                            Se søknaden og vedtaket du fikk
-                            <ArrowRightIcon
-                                fontSize="1.75rem"
-                                className="navds-link-anchor__arrow pointer-events-none"
-                            />
-                        </Link>
-                    </HStack>
+                    <VStack>
+                        <HStack>
+                            <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
+                                Se søknaden og vedtaket du fikk
+                                <ArrowRightIcon
+                                    fontSize="1.75rem"
+                                    className="navds-link-anchor__arrow pointer-events-none"
+                                />
+                            </Link>
+                        </HStack>
+                    </VStack>
                 </VStack>
             </ExpansionCard.Content>
         </ExpansionCard>

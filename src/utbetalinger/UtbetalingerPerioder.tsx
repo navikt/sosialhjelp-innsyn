@@ -90,7 +90,7 @@ const ShowUtbetalinger = ({ filtered }: { filtered: NyeOgTidligereUtbetalingerRe
             />
         ))
     ) : (
-        <Box.New background="neutral-soft" padding="space-24">
+        <Box.New background="accent-soft" padding="space-24">
             <VStack gap="4">
                 <Heading size="xsmall" level="3">
                     {t("ingenUtbetalinger.egendefinert.tittel")}
