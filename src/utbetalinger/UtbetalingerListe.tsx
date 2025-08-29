@@ -26,7 +26,7 @@ export const UtbetalingerListe = () => {
                 ) : (
                     <UtbetalingerKommende nye={nye} selectedChip={selectedChip} />
                 ))}
-            {(selectedChip === "siste3" || selectedChip === "hitil" || selectedChip === "fjor") &&
+            {(selectedChip === "siste3" || selectedChip === "hittil" || selectedChip === "fjor") &&
                 (tidligereLoading ? (
                     <UtbetalingerPerioderSkeleton />
                 ) : (

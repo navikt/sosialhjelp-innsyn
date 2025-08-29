@@ -578,29 +578,30 @@
       "postgiro": "Postal giro",
       "garanti": "Guarantee"
     },
-    "UtbetalingerSide": {
-      "tittel": "Utbetalinger",
+    "utbetalingerSide": {
+      "tittel": "Payments for financial assistance",
       "periode": {
-        "tittel": "Velg periode"
+        "tittel": "Choose period"
       },
       "perioder": {
-        "kommende": "Kommende",
-        "siste3": "Siste 3 måneder",
-        "hitil": "Hitil i år",
-        "fjor": "I fjor",
-        "egendefinert": "Egendefinert"
+        "kommende": "Upcoming",
+        "siste3": "Last 3 months",
+        "hittil": "So far this year",
+        "fjor": "Last year",
+        "egendefinert": "Customize"
       }
     },
     "ingenUtbetalinger": {
       "kommende": {
-        "tittel": "Du har ingen kommende utbetalinger",
-        "beskrivelse1": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33.",
-        "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+        "tittel": "You have no upcoming payments",
+        "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
+        "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
       },
       "egendefinert": {
-        "tittel":"Du har ingen utbetalinger for denne perioden",
-        "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
+        "tittel":"You have no payments for this period.",
+        "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
       }
-    }
+    },
+    "visUtbetalinger": "Show payments"
   }
 }

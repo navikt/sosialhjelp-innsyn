@@ -2,20 +2,22 @@
 
 import { Chips, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
+import { useTranslations } from "next-intl";
 
 import UtbetalingerListe from "../../../../utbetalinger/UtbetalingerListe";
 import { ChipsChip, useUtbetalingerChip } from "../../../../utbetalinger/UtbetalingerProviderContext";
 
 const chipOptions = [
-    { key: "kommende", label: "Kommende" },
-    { key: "siste3", label: "Siste 3 måneder" },
-    { key: "hitil", label: "Hitil i år" },
-    { key: "fjor", label: "I fjor" },
-    { key: "egendefinert", label: "Egendefinert" },
+    { key: "kommende", label: "perioder.kommende" },
+    { key: "siste3", label: "perioder.siste3" },
+    { key: "hittil", label: "perioder.hittil" },
+    { key: "fjor", label: "perioder.fjor" },
+    { key: "egendefinert", label: "perioder.egendefinert" },
 ] as const;
 
 const Utbetalinger = () => {
     const { selectedChip, setSelectedChip } = useUtbetalingerChip();
+    const t = useTranslations("utbetalinger");
 
     return (
         <VStack gap="16">
@@ -27,7 +29,7 @@ const Utbetalinger = () => {
                         selected={selectedChip === option.key}
                         onClick={() => setSelectedChip(option.key as ChipsChip)}
                     >
-                        {option.label}
+                        {t("utbetalingerSide." + option.label)}
                     </ChipsToggle>
                 ))}
             </Chips>

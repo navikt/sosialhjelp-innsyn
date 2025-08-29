@@ -140,7 +140,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                 </DatePicker>
 
                 <Button variant="primary" onClick={(event) => onClick(event)}>
-                    Vis utbetalinger
+                    {t("visUtbetalinger")}
                 </Button>
             </HStack>
             <VStack gap="4">

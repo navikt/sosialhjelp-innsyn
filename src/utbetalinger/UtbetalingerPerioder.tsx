@@ -10,7 +10,7 @@ import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
 interface Props {
     nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    selectedChip?: "siste3" | "hitil" | "fjor";
+    selectedChip?: "siste3" | "hittil" | "fjor";
 }
 
 const kombinertManed = (
@@ -41,7 +41,7 @@ const kombinertManed = (
 type YearMonth = { year: number; month: number };
 type MonthRange = { start: YearMonth; end: YearMonth };
 
-const datoIntervall = (chip: "siste3" | "hitil" | "fjor"): MonthRange | null => {
+const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MonthRange | null => {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
@@ -52,7 +52,7 @@ const datoIntervall = (chip: "siste3" | "hitil" | "fjor"): MonthRange | null => 
                 start: { year, month: Math.max(1, month - 2) },
                 end: { year, month },
             };
-        case "hitil":
+        case "hittil":
             return {
                 start: { year, month: 1 },
                 end: { year, month },
