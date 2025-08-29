@@ -4,7 +4,6 @@ import { FileTextIcon } from "@navikt/aksel-icons";
 import Link from "next/link";
 
 import type { ManedUtbetaling } from "../../generated/model";
-import { logButtonOrLinkClick } from "../../utils/amplitude";
 
 export const UtbetalingAccordionContent = ({
     fom,
@@ -52,12 +51,7 @@ export const UtbetalingAccordionContent = ({
                     {t("tilDeg")} {utbetalingsmetodeTekst} {kontonummer}
                 </BodyShort>
             )}
-            <AkselLink
-                as={Link}
-                href={`/${fiksDigisosId}/status`}
-                className="navds-link items-center gap-2 flex"
-                onClick={() => logButtonOrLinkClick("Åpner søknaden fra utbetalingen")}
-            >
+            <AkselLink as={Link} href={`/${fiksDigisosId}/status`} className="navds-link items-center gap-2 flex">
                 <FileTextIcon aria-hidden width="1.5rem" height="1.5rem" />
                 {t("soknadLenke")}
             </AkselLink>

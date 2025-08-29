@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { isAfter, isBefore } from "date-fns";
 import { Button, Heading, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
@@ -7,16 +7,10 @@ import { sort } from "remeda";
 
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, { InfoPanelWrapper } from "../components/Infopanel/InfoPanel";
-import {
-    logAktivSoknaderMedDokumentasjonetterspurt,
-    logAmplitudeEvent,
-    logButtonOrLinkClick,
-} from "../utils/amplitude";
 import { SakspanelMaxBreakpoint } from "../styles/constants";
 import { SaksListeResponse } from "../generated/model";
 import useIsMobile from "../utils/useIsMobile";
 import PaginertListe from "../components/paginering/PaginertListe";
-import { useSaksDetaljerQueries } from "../hooks/useSaksDetaljerQueries";
 
 import DineUtbetalingerPanel from "./dineUtbetalinger/DineUtbetalingerPanel";
 import SakPanel from "./sakpanel/SakPanel";
@@ -58,26 +52,6 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
     /* Paginering */
     const isMobile = useIsMobile();
 
-    const { soknadDetaljer, isLoading } = useSaksDetaljerQueries(saker);
-
-    useEffect(() => {
-        if (!isLoading) {
-            logAmplitudeEvent("Hentet innsynsdata", { antallSoknader: saker.length });
-        }
-    }, [isLoading, saker.length]);
-
-    useEffect(() => {
-        if (!isLoading) {
-            const count = soknadDetaljer.filter(
-                (detaljer) =>
-                    detaljer.dokumentasjonEtterspurt &&
-                    (detaljer.status === "UNDER_BEHANDLING" || detaljer.status === "FERDIGBEHANDLET")
-            ).length;
-
-            logAktivSoknaderMedDokumentasjonetterspurt(count);
-        }
-    }, [isLoading, soknadDetaljer]);
-
     return (
         <>
             <DineUtbetalingerPanel />
@@ -86,12 +60,7 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
                     <StyledHeading level="2" size="medium" id="dine-soknader">
                         {t("dineSoknader")}
                     </StyledHeading>
-                    <Button
-                        onClick={() => logButtonOrLinkClick("Ny søknad")}
-                        as="a"
-                        variant="primary"
-                        href="/sosialhjelp/soknad/informasjon"
-                    >
+                    <Button as="a" variant="primary" href="/sosialhjelp/soknad/informasjon">
                         {t("nySoknad")}
                     </Button>
                 </StyledDineSoknaderPanel>

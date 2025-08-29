@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 
 import { browserEnv } from "../../config/env";
 import Panel from "../panel/Panel";
-import { logBrukerAapnerKlageskjema } from "../../utils/amplitude";
 
 const PapirKlageSection = () => {
     const t = useTranslations("common");
@@ -14,15 +13,7 @@ const PapirKlageSection = () => {
             <p>{t("klage.papirskjema.sammendrag")}</p>
             <p>
                 <span>{t("klage.papirskjema.beskrivelse_1")}</span>
-                <AkselLink
-                    href={`${browserEnv.NEXT_PUBLIC_BASE_PATH}/papirskjema_klage.pdf`}
-                    onClick={() =>
-                        logBrukerAapnerKlageskjema(
-                            "Bruker åpner klageskjema: ",
-                            t("klage.papirskjema.skjema_url_tekst")
-                        )
-                    }
-                >
+                <AkselLink href={`${browserEnv.NEXT_PUBLIC_BASE_PATH}/papirskjema_klage.pdf`}>
                     {t("klage.papirskjema.skjema_url_tekst")}
                 </AkselLink>
                 <span>{t("klage.papirskjema.beskrivelse_2")}</span>

@@ -4,12 +4,10 @@ import React, { PropsWithChildren } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
-import Cookies from "js-cookie";
 import { IToggle } from "@unleash/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 
 import { FlagProvider } from "@featuretoggles/context";
-import { logBrukerDefaultLanguage, logBrukerSpraakChange } from "@utils/amplitude";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 import { TilgangResponse } from "@generated/model";
 import TilgangskontrollsideApp from "@components/Tilgangskontrollside/TilgangskontrollsideApp";
@@ -24,8 +22,6 @@ configureLogger({
         }),
 });
 
-logBrukerDefaultLanguage(Cookies.get("decorator-language"));
-
 interface Props {
     toggles: IToggle[];
     tilgang?: TilgangResponse;
@@ -37,8 +33,7 @@ const Providers = ({ toggles, tilgang, children }: PropsWithChildren<Props>) => 
     // Default options for query clienten blir satt i orval.config.ts
     const queryClient = getQueryClient();
 
-    onLanguageSelect(async (option) => {
-        logBrukerSpraakChange(option.locale);
+    onLanguageSelect(async () => {
         router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
         return router.refresh();
     });

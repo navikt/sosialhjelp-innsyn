@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Alert, BodyShort, Heading, Panel as NavDsPanel } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -28,7 +28,6 @@ import {
     getGetOppgaverUrl,
     getGetVilkarQueryKey,
     getGetVilkarUrl,
-    useGetOppgaver,
 } from "../../../generated/oppgave-controller/oppgave-controller";
 import {
     getHentSoknadsStatusQueryKey,
@@ -38,9 +37,7 @@ import {
 import {
     getHentForelopigSvarStatusQueryKey,
     getHentForelopigSvarStatusUrl,
-    useHentForelopigSvarStatus,
 } from "../../../generated/forelopig-svar-controller/forelopig-svar-controller";
-import { logAmplitudeEvent } from "../../../utils/amplitude";
 import { LoadingResourcesFailedAlert } from "../../../innsyn/LoadingResourcesFailedAlert";
 import { DriftsmeldingKommune } from "../../../components/driftsmelding/DriftsmeldingKommune";
 import ForelopigSvarAlertstripe from "../../../components/forelopigSvar/ForelopigSvar";
@@ -102,35 +99,8 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
 
     const erPaInnsyn = !kommune?.erInnsynDeaktivert && !kommune?.erInnsynMidlertidigDeaktivert;
     const { data: saksStatuser } = useHentSaksStatuser(fiksDigisosId);
-    const { data: oppgaver } = useGetOppgaver(fiksDigisosId);
     const { data: soknadsStatus } = useHentSoknadsStatus(fiksDigisosId);
-    const { data: forelopigSvar } = useHentForelopigSvarStatus(fiksDigisosId);
     const { isLoading } = useHentVedlegg(fiksDigisosId);
-
-    const [pageLoadIsLogged, setPageLoadIsLogged] = useState(false);
-    const dataErKlare = Boolean(
-        !pageLoadIsLogged && erPaInnsyn && saksStatuser && oppgaver && soknadsStatus && forelopigSvar
-    );
-
-    useEffect(() => {
-        function createAmplitudeData() {
-            const harVedtaksbrev = saksStatuser && saksStatuser.some((item) => item.vedtaksfilUrlList?.length);
-
-            return {
-                antallSaker: saksStatuser!.length,
-                harMottattForelopigSvar: forelopigSvar?.harMottattForelopigSvar,
-                harEtterspurtDokumentasjon: Boolean(oppgaver?.length),
-                harVedtaksbrev: harVedtaksbrev,
-                status: soknadsStatus?.status,
-            };
-        }
-
-        if (dataErKlare) {
-            logAmplitudeEvent("Hentet saker for søknad", createAmplitudeData());
-            //Ensure only one logging to amplitude
-            setPageLoadIsLogged(true);
-        }
-    }, [dataErKlare, oppgaver?.length, forelopigSvar?.harMottattForelopigSvar, saksStatuser, soknadsStatus?.status]);
 
     const sakErPaaklagbar =
         soknadsStatus?.status !== SoknadsStatusResponseStatus.BEHANDLES_IKKE &&

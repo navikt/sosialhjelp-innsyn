@@ -1,8 +1,7 @@
 import { Accordion, BodyShort, Label } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React from "react";
 
-import { logVeilederBerOmDokumentasjonkravEvent } from "../../../utils/amplitude";
 import { DokumentasjonkravResponse } from "../../../generated/model";
 import { OpplastingAvVedleggModal } from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
@@ -17,12 +16,6 @@ interface Props {
 
 const DokumentasjonkravAccordion = (props: Props) => {
     const t = useTranslations("common");
-
-    useEffect(() => {
-        if (props.dokumentasjonkrav && props.dokumentasjonkrav.length > 0) {
-            logVeilederBerOmDokumentasjonkravEvent();
-        }
-    }, [props.dokumentasjonkrav]);
 
     if (!props.dokumentasjonkrav || props.dokumentasjonkrav.length === 0) return null;
 

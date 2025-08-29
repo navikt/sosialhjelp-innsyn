@@ -1,7 +1,6 @@
 import React, { ReactNode, useReducer } from "react";
 
 import { filterReducer } from "./lib/filterReducer";
-import { filterLogAnalytics } from "./lib/filterLogAnalytics";
 import { FilterContext, FilterCriteria } from "./lib/FilterContext";
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
@@ -14,7 +13,6 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         });
 
     const setFilter = (predicates: FilterCriteria) => {
-        filterLogAnalytics(predicates);
         dispatch(predicates);
     };
 

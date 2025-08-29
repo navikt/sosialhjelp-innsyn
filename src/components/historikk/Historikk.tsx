@@ -9,7 +9,6 @@ import Link from "next/link";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
-import { logButtonOrLinkClick } from "../../utils/amplitude";
 import { useHentHendelser } from "../../generated/hendelse-controller/hendelse-controller";
 import { HendelseResponse } from "../../generated/model";
 
@@ -52,24 +51,6 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
     if (leserData) {
         return <Lastestriper linjer={3} />;
     }
-    const onClickHendelseLenke = (beskrivelse: string, lenketekst?: string) => {
-        if (beskrivelse === "BREV_OM_SAKSBEANDLINGSTID") {
-            logButtonOrLinkClick(`Historikk: åpnet foreløpig svar`);
-        } else if (beskrivelse === "ETTERSPOR_MER_DOKUMENTASJON") {
-            logButtonOrLinkClick(`Historikk: åpnet etterspørsel av dokumentasjon`);
-        } else if (lenketekst === "SOKNAD_SEND_TIL_KONTOR_LENKETEKST") {
-            logButtonOrLinkClick(`Historikk: åpnet søknaden`);
-        } else if (
-            (beskrivelse === "SOKNAD_FERDIGBEHADNLET" ||
-                beskrivelse === "SAK_FERDIGBEHANDLET_MED_TITTEL" ||
-                beskrivelse === "SAK_FERDIGBEHANDLET_UTEN_TITTEL") &&
-            lenketekst === "VIS_BREVET_LENKETEKST"
-        ) {
-            logButtonOrLinkClick(`Historikk: åpnet vedtak fattet`);
-        } else {
-            logButtonOrLinkClick(`Historikk: ukjent hendelse`);
-        }
-    };
 
     const getBeskrivelse = (historikkEnumKey: keyof typeof HistorikkTekstEnum, tekstArgument?: string) => {
         const enumValue = HistorikkTekstEnum[historikkEnumKey];
@@ -141,12 +122,7 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
                                 hendelse.tekstArgument
                             )}
                             {hendelse.filUrl && (
-                                <EksternLenke
-                                    href={hendelse.filUrl.link}
-                                    onClick={() => {
-                                        onClickHendelseLenke(hendelse.hendelseType, hendelse?.filUrl?.linkTekst);
-                                    }}
-                                >
+                                <EksternLenke href={hendelse.filUrl.link}>
                                     {t(HistorikkTekstEnum[hendelse.filUrl.linkTekst])}
                                 </EksternLenke>
                             )}

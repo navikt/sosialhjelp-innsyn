@@ -1,11 +1,7 @@
 import { Accordion, BodyShort } from "@navikt/ds-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslations } from "next-intl";
 
-import {
-    logVeilederBerOmDokumentasjonEvent,
-    logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent,
-} from "../../../utils/amplitude";
 import { OpplastingAvVedleggModal } from "../OpplastingAvVedleggModal";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../../oppgaver/oppgaver.module.css";
@@ -37,17 +33,6 @@ export const DokumentasjonEtterspurtAccordion = (props: Props) => {
         brukerHarDokumentasjonEtterspurt &&
         props.dokumentasjonEtterspurt?.[0].oppgaveElementer[0].hendelsetype ===
             OppgaveElementHendelsetype.dokumentasjonEtterspurt;
-
-    useEffect(() => {
-        if (brukerHarDokumentasjonEtterspurt && dokumentasjonEtterspurtErFraInnsyn && props.dokumentasjonEtterspurt) {
-            logVeilederBerOmDokumentasjonEvent(
-                props.dokumentasjonEtterspurt.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
-            );
-            logVeilederBerOmDokumentasjonOgAntallVedleggSomLastesOppEvent(
-                props.dokumentasjonEtterspurt.reduce((acc, curr) => acc + curr.oppgaveElementer.length, 0)
-            );
-        }
-    }, [dokumentasjonEtterspurtErFraInnsyn, brukerHarDokumentasjonEtterspurt, props.dokumentasjonEtterspurt]);
 
     if (!brukerHarDokumentasjonEtterspurt) {
         return null;
