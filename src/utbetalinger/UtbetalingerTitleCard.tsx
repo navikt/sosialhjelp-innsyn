@@ -11,7 +11,7 @@ interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
     index: number;
     statusFilter?: (u: ManedUtbetaling) => boolean;
-    manedsUtbetalingSum?: ManedUtbetalingStatus;
+    manedsUtbetalingSum?: ManedUtbetalingStatus[];
 }
 
 export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, manedsUtbetalingSum }: Props) => {
@@ -22,7 +22,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, maned
         : utbetalinger.utbetalingerForManed;
 
     const utbetalingSum = synlig
-        .filter((u) => manedsUtbetalingSum?.includes(u.status))
+        .filter((u) => !manedsUtbetalingSum || manedsUtbetalingSum.includes(u.status))
         .reduce((acc, u) => acc + u.belop, 0);
 
     return (
@@ -50,12 +50,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, maned
                 </HStack>
             </BoxNew>
             {synlig.map((utb, id) => (
-                <UtbetalingerCard
-                    key={id}
-                    manedUtbetaling={utb}
-                    id={id}
-                    count={utbetalinger.utbetalingerForManed.length}
-                />
+                <UtbetalingerCard key={id} manedUtbetaling={utb} id={id} count={synlig.length} />
             ))}
         </VStack>
     );

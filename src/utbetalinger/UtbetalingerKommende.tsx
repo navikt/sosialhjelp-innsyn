@@ -30,7 +30,7 @@ const ShowUtbetalinger = (nye: NyeOgTidligereUtbetalingerResponse[] | undefined)
                 statusFilter={(u) =>
                     u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING || u.status === ManedUtbetalingStatus.STOPPET
                 }
-                manedsUtbetalingSum={ManedUtbetalingStatus.PLANLAGT_UTBETALING}
+                manedsUtbetalingSum={[ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
             />
         ))
     ) : (

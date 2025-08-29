@@ -86,7 +86,7 @@ const ShowUtbetalinger = (filtered: NyeOgTidligereUtbetalingerResponse[] | undef
                 statusFilter={(u) =>
                     u.status === ManedUtbetalingStatus.UTBETALT || u.status === ManedUtbetalingStatus.STOPPET
                 }
-                manedsUtbetalingSum={ManedUtbetalingStatus.UTBETALT}
+                manedsUtbetalingSum={[ManedUtbetalingStatus.UTBETALT]}
             />
         ))
     ) : (

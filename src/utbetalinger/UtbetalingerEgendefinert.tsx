@@ -74,9 +74,9 @@ const ShowUtbetalinger = (pressed: boolean, filteredByRange?: NyeOgTidligereUtbe
                             u.status === ManedUtbetalingStatus.STOPPET ||
                             u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
                         }
-                        manedsUtbetalingSum={
-                            ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING
-                        }
+                        manedsUtbetalingSum={[
+                            ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+                        ]}
                     />
                 ))
             ) : (
