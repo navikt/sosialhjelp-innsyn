@@ -217,6 +217,21 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/originalSoknad": {
+            "get": {
+                "tags": ["soknads-status-controller"],
+                "operationId": "hentOriginalSoknad",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/OriginalSoknadDto" } } }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/oppgaver/{oppgaveId}": {
             "get": {
                 "tags": ["oppgave-controller"],
@@ -923,6 +938,16 @@
                     "referanse": { "type": "string" }
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel"]
+            },
+            "OriginalSoknadDto": {
+                "type": "object",
+                "properties": {
+                    "url": { "type": "string" },
+                    "size": { "type": "integer", "format": "int64" },
+                    "filename": { "type": "string" },
+                    "date": { "type": "string", "format": "date-time" }
+                },
+                "required": ["url"]
             },
             "OppgaveElement": {
                 "type": "object",
