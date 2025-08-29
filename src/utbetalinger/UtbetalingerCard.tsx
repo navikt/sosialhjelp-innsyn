@@ -22,6 +22,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     const t = useTranslations("utbetalinger");
 
     //TODO:
+    // ExpansionCard krever at det er et aria-label på komponenten
     // Finn et bedre aria-label enn "Utbetalinger" før alt blir prodsatt
     return (
         <ExpansionCard aria-label="Utbetalinger" data-color="info" className={cardBorder(id, count)}>
