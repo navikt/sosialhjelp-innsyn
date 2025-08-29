@@ -57,7 +57,13 @@ const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean 
     return true;
 };
 
-const ShowUtbetalinger = (pressed: boolean, filteredByRange?: NyeOgTidligereUtbetalingerResponse[] | undefined) => {
+const ShowUtbetalinger = ({
+    pressed,
+    filteredByRange,
+}: {
+    pressed: boolean;
+    filteredByRange?: NyeOgTidligereUtbetalingerResponse[] | undefined;
+}) => {
     const t = useTranslations("utbetalinger");
 
     return (
@@ -143,7 +149,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                         {t("utbetalingerSide.perioder." + selectedChip)}
                     </Heading>
                 )}
-                {ShowUtbetalinger(pressed, filteredByRange)}
+                <ShowUtbetalinger pressed={pressed} filteredByRange={filteredByRange} />
             </VStack>
         </VStack>
     );

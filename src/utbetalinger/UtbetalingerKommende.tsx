@@ -12,7 +12,7 @@ interface Props {
     selectedChip?: "kommende";
 }
 
-const ShowUtbetalinger = (nye: NyeOgTidligereUtbetalingerResponse[] | undefined) => {
+const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] | undefined }) => {
     const t = useTranslations("utbetalinger");
     const filteredUtbetalinger = nye
         ?.flatMap((item: NyeOgTidligereUtbetalingerResponse) => item.utbetalingerForManed)
@@ -54,7 +54,7 @@ export const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
             <Heading size="small" level="2">
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
-            {ShowUtbetalinger(nye)}
+            <ShowUtbetalinger nye={nye} />
         </VStack>
     );
 };

@@ -21,9 +21,11 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     const format = useFormatter();
     const t = useTranslations("utbetalinger");
 
+    //TODO:
+    // Finn et bedre aria-label enn "Utbetalinger" før alt blir prodsatt
     return (
         <ExpansionCard aria-label="Utbetalinger" data-color="info" className={cardBorder(id, count)}>
-            <ExpansionCard.Header>
+            <ExpansionCard.Header className={cardBorder(id, count)}>
                 <ExpansionCard.Title>
                     <HStack gap="2" align="center">
                         <BodyShort size="medium" weight="semibold">
@@ -66,8 +68,13 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                         <BodyShort>{manedUtbetaling.mottaker}</BodyShort>
                     </VStack>
                     <HStack>
-                        <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>Se søknaden og vedtaket du fikk</Link>
-                        <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
+                        <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
+                            Se søknaden og vedtaket du fikk
+                            <ArrowRightIcon
+                                fontSize="1.75rem"
+                                className="navds-link-anchor__arrow pointer-events-none"
+                            />
+                        </Link>
                     </HStack>
                 </VStack>
             </ExpansionCard.Content>

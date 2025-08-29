@@ -75,7 +75,7 @@ const isWithinRange = (item: NyeOgTidligereUtbetalingerResponse, range: MonthRan
     return itemDate >= startDate && itemDate <= endDate;
 };
 
-const ShowUtbetalinger = (filtered: NyeOgTidligereUtbetalingerResponse[] | undefined) => {
+const ShowUtbetalinger = ({ filtered }: { filtered: NyeOgTidligereUtbetalingerResponse[] | undefined }) => {
     const t = useTranslations("utbetalinger");
     return filtered && filtered.length > 0 ? (
         filtered?.map((item, index) => (
@@ -113,7 +113,7 @@ export const UtbetalingerPerioder = ({ nye, tidligere, selectedChip }: Props) =>
             <Heading size="small" level="2">
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
-            {ShowUtbetalinger(filtered)}
+            <ShowUtbetalinger filtered={filtered} />
         </VStack>
     );
 };
