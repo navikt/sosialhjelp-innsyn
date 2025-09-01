@@ -25,12 +25,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     // ExpansionCard krever at det er et aria-label på komponenten
     // Finn et bedre aria-label enn "Utbetalinger" før alt blir prodsatt
     return (
-        <ExpansionCard
-            aria-label="Utbetalinger"
-            data-color="accent"
-            className={cardBorder(id, count)}
-            defaultOpen={true}
-        >
+        <ExpansionCard aria-label="Utbetalinger" data-color="accent" className={cardBorder(id, count)}>
             <ExpansionCard.Header className={cardBorder(id, count)}>
                 <ExpansionCard.Title>
                     <HStack gap="2" align="center">
@@ -48,10 +43,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                                     : t("ukjentDato")}
                             </BodyShort>
                         </HStack>
-                        <BodyShort
-                            size="small"
-                            className="pointer-events-none absolute right-18 top-1/2 -translate-y-1/2"
-                        >
+                        <BodyShort className="font-bold pointer-events-none absolute right-18 top-1/2 -translate-y-1/2">
                             {manedUtbetaling.belop} kr
                         </BodyShort>
                     </HStack>

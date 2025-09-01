@@ -3,22 +3,22 @@ import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse, ManedUtbetaling } from "@generated/ssr/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerCard } from "./UtbetalingerCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
     index: number;
-    statusFilter?: (u: ManedUtbetaling) => boolean;
+    allowedStatuses?: ManedUtbetalingStatus[];
     manedsUtbetalingSum?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, manedsUtbetalingSum }: Props) => {
+export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, manedsUtbetalingSum }: Props) => {
     const format = useFormatter();
 
-    const synlig = statusFilter
-        ? utbetalinger.utbetalingerForManed.filter(statusFilter)
+    const synlig = allowedStatuses
+        ? utbetalinger.utbetalingerForManed.filter((u) => allowedStatuses.includes(u.status))
         : utbetalinger.utbetalingerForManed;
 
     const utbetalingSum = synlig
@@ -27,28 +27,30 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, statusFilter, maned
 
     return (
         <VStack key={index} gap="2">
-            <BoxNew
-                borderRadius="xlarge xlarge 0 0"
-                padding="space-16"
-                background="accent-soft"
-                key={`tidligere-${index}`}
-            >
-                <HStack>
-                    <BodyShort className="font-bold mb-1 capitalize">
-                        {format.dateTime(
-                            set(new Date(0), {
-                                year: utbetalinger.ar,
-                                month: utbetalinger.maned - 1,
-                            }),
-                            {
-                                month: "long",
-                                year: "numeric",
-                            }
-                        )}
-                    </BodyShort>
-                    <BodyShort className="ml-auto">{utbetalingSum} kr</BodyShort>
-                </HStack>
-            </BoxNew>
+            {synlig.length > 0 && (
+                <BoxNew
+                    borderRadius="xlarge xlarge 0 0"
+                    padding="space-16"
+                    background="accent-soft"
+                    key={`tidligere-${index}`}
+                >
+                    <HStack>
+                        <BodyShort className="font-bold mb-1 capitalize">
+                            {format.dateTime(
+                                set(new Date(0), {
+                                    year: utbetalinger.ar,
+                                    month: utbetalinger.maned - 1,
+                                }),
+                                {
+                                    month: "long",
+                                    year: "numeric",
+                                }
+                            )}
+                        </BodyShort>
+                        <BodyShort className="ml-auto font-bold">{utbetalingSum} kr</BodyShort>
+                    </HStack>
+                </BoxNew>
+            )}
             {synlig.map((utb, id) => (
                 <UtbetalingerCard key={id} manedUtbetaling={utb} id={id} count={synlig.length} />
             ))}

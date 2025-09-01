@@ -1,5 +1,5 @@
 "use client";
-import { Heading, VStack, Box, Skeleton, BodyShort } from "@navikt/ds-react";
+import { Heading, VStack, Box, Skeleton, BodyShort, BoxNew } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -27,14 +27,12 @@ const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] |
                 key={index}
                 utbetalinger={item}
                 index={index}
-                statusFilter={(u) =>
-                    u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING || u.status === ManedUtbetalingStatus.STOPPET
-                }
+                allowedStatuses={[ManedUtbetalingStatus.PLANLAGT_UTBETALING, ManedUtbetalingStatus.STOPPET]}
                 manedsUtbetalingSum={[ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
             />
         ))
     ) : (
-        <Box.New background="accent-soft" padding="space-24">
+        <BoxNew background="accent-soft" padding="space-24">
             <VStack gap="4">
                 <Heading size="xsmall" level="3">
                     {t("ingenUtbetalinger.kommende.tittel")}
@@ -42,7 +40,7 @@ const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] |
                 <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse1")}</BodyShort>
                 <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse2")}</BodyShort>
             </VStack>
-        </Box.New>
+        </BoxNew>
     );
 };
 

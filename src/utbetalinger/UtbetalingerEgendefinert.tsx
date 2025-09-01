@@ -1,61 +1,18 @@
 "use client";
 import React, { MouseEvent, useMemo } from "react";
-import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button, Box, BodyShort } from "@navikt/ds-react";
+import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button, BodyShort, BoxNew } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
+import { kombinertManed, utbetalingInnenforDatoIntervall } from "./utbetalinger-utils";
 
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
     nye?: NyeOgTidligereUtbetalingerResponse[];
     selectedChip?: "egendefinert";
 }
-
-const kombinertManed = (
-    nye: NyeOgTidligereUtbetalingerResponse[] = [],
-    tidligere: NyeOgTidligereUtbetalingerResponse[] = []
-): NyeOgTidligereUtbetalingerResponse[] => {
-    const map = new Map<string, NyeOgTidligereUtbetalingerResponse>();
-
-    for (const list of [nye, tidligere]) {
-        for (const m of list) {
-            const key = `${m.ar}-${m.maned}`;
-            const existing = map.get(key);
-            if (existing) {
-                existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...m.utbetalingerForManed];
-            } else {
-                map.set(key, {
-                    ar: m.ar,
-                    maned: m.maned,
-                    utbetalingerForManed: [...m.utbetalingerForManed],
-                });
-            }
-        }
-    }
-
-    return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
-};
-
-const utbetalingInRange = (utb: ManedUtbetaling, from: Date, to: Date): boolean => {
-    const singleDateStr = utb.utbetalingsdato ?? utb.forfallsdato;
-    if (singleDateStr) {
-        const d = new Date(singleDateStr);
-        return d >= from && d <= to;
-    }
-
-    const fom = utb.fom ? new Date(utb.fom) : undefined;
-    const tom = utb.tom ? new Date(utb.tom) : undefined;
-
-    if (fom && tom) {
-        return !(tom < from || fom > to);
-    }
-    if (fom) return fom >= from && fom <= to;
-    if (tom) return tom >= from && tom <= to;
-
-    return true;
-};
 
 const ShowUtbetalinger = ({
     pressed,
@@ -75,25 +32,26 @@ const ShowUtbetalinger = ({
                         key={index}
                         utbetalinger={item}
                         index={index}
-                        statusFilter={(u) =>
-                            u.status === ManedUtbetalingStatus.UTBETALT ||
-                            u.status === ManedUtbetalingStatus.STOPPET ||
-                            u.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING
-                        }
+                        allowedStatuses={[
+                            ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+                            ManedUtbetalingStatus.UTBETALT,
+                            ManedUtbetalingStatus.STOPPET,
+                        ]}
                         manedsUtbetalingSum={[
-                            ManedUtbetalingStatus.UTBETALT || ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+                            ManedUtbetalingStatus.UTBETALT,
+                            ManedUtbetalingStatus.PLANLAGT_UTBETALING,
                         ]}
                     />
                 ))
             ) : (
-                <Box.New background="accent-soft" padding="space-24">
+                <BoxNew background="accent-soft" padding="space-24">
                     <VStack gap="4">
                         <Heading size="small" level="3">
                             {t("ingenUtbetalinger.egendefinert.tittel")}
                         </Heading>
                         <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
                     </VStack>
-                </Box.New>
+                </BoxNew>
             )
         ) : (
             ""
@@ -112,17 +70,19 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     const fromDate = selectedRange?.from;
     const toDate = selectedRange?.to;
 
-    const combinedMonths = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
+    const kombinert = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
 
-    const filteredByRange = useMemo(() => {
+    const filtrertAvDatoIntervall = useMemo(() => {
         if (!fromDate || !toDate) return [];
-        return combinedMonths
+        return kombinert
             .map((m) => ({
                 ...m,
-                utbetalingerForManed: m.utbetalingerForManed.filter((utb) => utbetalingInRange(utb, fromDate, toDate)),
+                utbetalingerForManed: m.utbetalingerForManed.filter((utb) =>
+                    utbetalingInnenforDatoIntervall(utb, fromDate, toDate)
+                ),
             }))
             .filter((m) => m.utbetalingerForManed.length > 0);
-    }, [combinedMonths, fromDate, toDate]);
+    }, [kombinert, fromDate, toDate]);
 
     const onClick = (event: MouseEvent) => {
         setPressed(true);
@@ -149,7 +109,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
                         {t("utbetalingerSide.perioder." + selectedChip)}
                     </Heading>
                 )}
-                <ShowUtbetalinger pressed={pressed} filteredByRange={filteredByRange} />
+                <ShowUtbetalinger pressed={pressed} filteredByRange={filtrertAvDatoIntervall} />
             </VStack>
         </VStack>
     );
