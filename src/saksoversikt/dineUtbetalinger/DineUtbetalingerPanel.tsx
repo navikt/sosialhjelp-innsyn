@@ -4,11 +4,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
-import { logAmplitudeEvent } from "../../utils/amplitude";
 
 import styles from "./dineUtbetalingerPanel.module.css";
-
-logAmplitudeEvent("Dine utbetalinger panel vises");
 
 const DineUtbetalingerPanel = () => {
     const t = useTranslations("utbetalinger");

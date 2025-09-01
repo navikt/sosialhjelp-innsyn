@@ -1,5 +1,7 @@
-import { Alert, AlertProps, Heading } from "@navikt/ds-react";
+import { AlertProps, Heading } from "@navikt/ds-react";
 import { ReactNode } from "react";
+
+import AlertWithCloseButton from "@components/alert/AlertWithCloseButton";
 
 interface Props {
     variant: AlertProps["variant"];
@@ -8,12 +10,12 @@ interface Props {
 }
 
 const StatusAlert = ({ variant, tittel, beskrivelse }: Props) => (
-    <Alert variant={variant}>
+    <AlertWithCloseButton variant={variant}>
         <Heading size="small" level="2">
             {tittel}
         </Heading>
         {beskrivelse}
-    </Alert>
+    </AlertWithCloseButton>
 );
 
 export default StatusAlert;

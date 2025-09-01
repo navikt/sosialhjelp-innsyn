@@ -1,5 +1,4 @@
 import { setupServer } from "msw/node";
-import { http } from "msw";
 
 import { getHendelseControllerMock } from "../generated/hendelse-controller/hendelse-controller.msw";
 import { getKommuneControllerMock } from "../generated/kommune-controller/kommune-controller.msw";
@@ -26,8 +25,5 @@ export const server = setupServer(
     ...getSoknadMedInnsynControllerMock(),
     ...getSoknadsStatusControllerMock(),
     ...getUtbetalingerControllerMock(),
-    ...getVedleggControllerMock(),
-    http.post("https://amplitude.nav.no/collect-auto", async () => {
-        return new Response(null, { status: 200 });
-    })
+    ...getVedleggControllerMock()
 );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, BodyShort, Box, Heading, HStack, Loader, Tag, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -11,8 +11,6 @@ import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller/oppgave-controller";
 
-import OppgaveAlert, { OppgaveAlertSkeleton } from "./OppgaveAlert";
-
 const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
     const { id } = useParams<{ id: string }>();
@@ -21,10 +19,9 @@ const Oppgaver = () => {
 
     return (
         <>
-            <OppgaveAlert />
             <VStack gap="4">
                 <HStack justify="space-between" align="center">
-                    <Heading size="large" level="2" spacing>
+                    <Heading size="large" level="2">
                         {t("tittel")}
                     </Heading>
                     {isFetching && <Loader />}
@@ -44,7 +41,12 @@ const Oppgaver = () => {
                             oppgave.tilleggsinformasjon
                         );
                         return (
-                            <Box.New key={oppgave.oppgaveId} background="neutral-soft" padding="space-24">
+                            <Box.New
+                                key={oppgave.oppgaveId}
+                                background="neutral-soft"
+                                padding="space-24"
+                                borderRadius="xlarge"
+                            >
                                 <Opplastingsboks
                                     completed={oppgave.erLastetOpp}
                                     label={typeTekst}
@@ -92,7 +94,12 @@ export const OppgaverSkeleton = () => {
             <Heading size="large" level="2" spacing>
                 {t("tittel")}
             </Heading>
-            <OppgaveAlertSkeleton />
+            <Alert variant="info">
+                <Heading level="3" size="medium">
+                    <Skeleton width="100px" />
+                </Heading>
+                <Skeleton width="400px" height="20px" />
+            </Alert>
         </VStack>
     );
 };

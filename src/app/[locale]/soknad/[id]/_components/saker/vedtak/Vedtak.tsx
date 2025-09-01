@@ -13,6 +13,7 @@ interface Props {
 
 const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
     const t = useTranslations("Vedtak");
+    const isInnvilget = ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtakUtfall);
     return (
         <VStack gap="2">
             <BodyShort>{t(`beskrivelse.${vedtakUtfall}`)}</BodyShort>
@@ -28,14 +29,20 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
                         {t("vedtaksBrev")}
                     </DigisosLinkCard>
                 ))}
-            <DigisosLinkCard downloadIcon={false} href="/utbetaling" icon={<BankNoteIcon />}>
-                {t("kommendeUtbetaling")}
-            </DigisosLinkCard>
+            {isInnvilget && (
+                <DigisosLinkCard href="/utbetaling" icon={<BankNoteIcon />}>
+                    {t("kommendeUtbetaling")}
+                </DigisosLinkCard>
+            )}
             <StatusAlert
                 variant="info"
                 tittel={t("uenig.tittel")}
                 beskrivelse={t.rich("uenig.beskrivelse", {
-                    lenke: (chunks) => <Link>{chunks}</Link>,
+                    lenke: (chunks) => (
+                        <Link href="https://www.nav.no/klagerettigheter" inlineText>
+                            {chunks}
+                        </Link>
+                    ),
                 })}
             />
         </VStack>

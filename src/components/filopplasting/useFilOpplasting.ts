@@ -6,12 +6,6 @@ import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import {
-    logAmplitudeEvent,
-    logBrukerLeavingBeforeSubmitting,
-    logDuplicatedFiles,
-    logFileUploadFailedEvent,
-} from "../../utils/amplitude";
 import { SendVedleggBody, VedleggOpplastingResponseStatus } from "../../generated/model";
 import {
     getHentVedleggQueryKey,
@@ -141,7 +135,6 @@ const useFilOpplasting = (
             if (!allFiles.length) return;
             event.preventDefault();
             event.returnValue = "";
-            logBrukerLeavingBeforeSubmitting();
             return "";
         };
         const beforeRouteHandler = (url: string) => {
@@ -157,7 +150,6 @@ const useFilOpplasting = (
                 return;
             }
 
-            logBrukerLeavingBeforeSubmitting();
             if (window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"))) {
                 setLeaveConfirmed(true);
             } else {
@@ -179,7 +171,6 @@ const useFilOpplasting = (
     const addFiler = useCallback(
         (index: number, _files: File[]) => {
             const _errors: (Error | ErrorWithFile)[] = [];
-            logDuplicatedFiles(_files);
             const validFiles = _files.filter((file) => {
                 let valid = true;
                 if (file.size > maxFileSize) {
@@ -239,7 +230,6 @@ const useFilOpplasting = (
     const upload = useCallback(async () => {
         if (allFiles.length === 0) {
             logger.info("Validering vedlegg feilet: Ingen filer valgt");
-            logAmplitudeEvent("Søker trykte på send vedlegg før et vedlegg har blitt lagt til");
             setOuterErrors([{ feil: Feil.NO_FILES }]);
             return;
         }
@@ -301,13 +291,10 @@ const useFilOpplasting = (
                 },
                 onError: (error, variables, context) => {
                     options?.onError?.(error, variables, context);
-                    logFileUploadFailedEvent("vedlegg.opplasting_feilmelding");
                     logger.warn("Feil med opplasting av vedlegg: " + error.message);
                     if (error.message === "Mulig virus funnet") {
-                        logFileUploadFailedEvent(errorStatusToMessage[Feil.VIRUS]);
                         setOuterErrors([{ feil: Feil.VIRUS }]);
                     } else {
-                        logFileUploadFailedEvent(errorStatusToMessage[Feil.KLIENTFEIL]);
                         setOuterErrors([{ feil: Feil.KLIENTFEIL }]);
                     }
                 },

@@ -1,22 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useNavigationGuard } from "next-navigation-guard";
 
 import { FancyFile, Error } from "./types";
 import { validateFile, getOuterErrors } from "./utils/validateFiles";
 
 const useFiles = () => {
-    const t = useTranslations("common");
-
     const [files, setFiles] = useState<FancyFile[]>([]);
     const [outerErrors, setOuterErrors] = useState<Error[]>([]);
-
-    useNavigationGuard({
-        enabled: files.length > 0,
-        confirm: () => {
-            return window.confirm(t("varsling.forlater_siden_uten_aa_sende_inn_vedlegg"));
-        },
-    });
 
     const reset = useCallback(() => {
         setFiles([]);

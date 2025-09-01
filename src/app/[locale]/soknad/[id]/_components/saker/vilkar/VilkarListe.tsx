@@ -1,4 +1,4 @@
-import { BodyShort, Box, Heading, VStack } from "@navikt/ds-react";
+import { BodyLong, BodyShort, Box, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { VilkarResponse } from "@generated/model";
@@ -22,6 +22,18 @@ const VilkarListe = ({ vilkar }: Props) => {
             {vilkar.map((it) => (
                 <Vilkar key={it.vilkarReferanse} vilkar={it} />
             ))}
+            <ReadMore header={t("readMore.tittel")}>
+                <BodyLong spacing>{t("readMore.beskrivelse")}</BodyLong>
+                <BodyShort>
+                    {t.rich("readMore.beskrivelse2", {
+                        lenke: (chunks) => (
+                            <Link href="https://www.nav.no/okonomisk-sosialhjelp#vilkar" inlineText>
+                                {chunks}
+                            </Link>
+                        ),
+                    })}
+                </BodyShort>
+            </ReadMore>
         </VStack>
     );
 };

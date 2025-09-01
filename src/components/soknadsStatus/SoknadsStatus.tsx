@@ -4,7 +4,6 @@ import { Alert, BodyShort, Label, Tag } from "@navikt/ds-react";
 import styled from "styled-components";
 
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
-import { logAmplitudeEvent, logButtonOrLinkClick } from "../../utils/amplitude";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import EksternLenke from "../eksternLenke/EksternLenke";
 import { useHentSoknadsStatus } from "../../generated/soknads-status-controller/soknads-status-controller";
@@ -116,15 +115,6 @@ const SoknadsStatus = () => {
                             const saksStatus = statusdetalj.status;
                             const sakIkkeInnsyn = saksStatus === SaksStatusResponseStatus.IKKE_INNSYN;
                             const sakBehandlesIkke = saksStatus === SaksStatusResponseStatus.BEHANDLES_IKKE;
-                            if (statusdetalj.vedtaksfilUrlList && statusdetalj.vedtaksfilUrlList.length > 0) {
-                                logAmplitudeEvent("Søker får vedtak");
-                            }
-                            logAmplitudeEvent("vedtak per sak", {
-                                sak: index + 1,
-                                antallVedtak: statusdetalj.vedtaksfilUrlList
-                                    ? statusdetalj.vedtaksfilUrlList.length
-                                    : 0,
-                            });
                             return (
                                 <li key={index}>
                                     <StatusBox>
@@ -154,10 +144,7 @@ const SoknadsStatus = () => {
                                             statusdetalj.vedtaksfilUrlList.map((hendelse: FilUrl, id: number) => (
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
-                                                        <EksternLenke
-                                                            href={"" + hendelse.url}
-                                                            onClick={() => logButtonOrLinkClick("Åpner et vedtak")}
-                                                        >
+                                                        <EksternLenke href={"" + hendelse.url}>
                                                             {t("vedtak")} (
                                                             <DatoOgKlokkeslett
                                                                 bareDato={true}
