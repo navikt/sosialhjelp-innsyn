@@ -17,7 +17,6 @@ import SendFileButton from "../filopplasting/SendFileButton";
 import ErrorMessageWrapper from "../errors/ErrorMessageWrapper";
 import styles from "../filopplasting/filopplasting.module.css";
 import { useFilUploadSuccessful } from "../filopplasting/FilUploadSuccessfulContext";
-import useIsAalesundBlocked from "../../hooks/useIsAalesundBlocked";
 
 const metadatas = [
     {
@@ -49,7 +48,6 @@ const EttersendelseView = (props: Props) => {
     const fiksDigisosId = useFiksDigisosId();
     const fileUploadError = useFileUploadError();
     const t = useTranslations("common");
-    const isAalesund = useIsAalesundBlocked();
 
     const {
         upload,
@@ -98,7 +96,6 @@ const EttersendelseView = (props: Props) => {
                                 }}
                                 id="ettersendelse_lastopp"
                                 resetStatus={resetStatus}
-                                disabled={isAalesund}
                                 hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                 title={t("annen_dokumentasjon")}
                             />
@@ -118,7 +115,7 @@ const EttersendelseView = (props: Props) => {
                 isVisible={!fileUploadError}
                 isLoading={showLoadingState}
                 onClick={onClick}
-                disabled={isAalesund || files?.length === 0 || innerErrors[0]?.length + outerErrors.length > 0}
+                disabled={files?.length === 0 || innerErrors[0]?.length + outerErrors.length > 0}
             />
             <VedleggSuccess show={ettersendelseUploadSuccess} />
         </>
