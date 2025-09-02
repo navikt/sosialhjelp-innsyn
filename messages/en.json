@@ -621,6 +621,13 @@
         "hittil": "So far this year",
         "fjor": "Last year",
         "egendefinert": "Customize"
+      },
+      "utbetalingerBoks": {
+        "periode": "Period:",
+        "mottaker": "Recipient:",
+        "tilDeg": "To you",
+        "bankkonto": "Your Bank account: <norsk>{konto}</norsk>",
+        "lenke": "View the application and the decision letter you received"
       }
     },
     "ingenUtbetalinger": {

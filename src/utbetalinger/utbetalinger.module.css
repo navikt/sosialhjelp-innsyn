@@ -5,3 +5,7 @@
     flex-direction: column;
     background-color: #d4e6d8;
 }
+
+.headerNoUnderline[data-open="true"]::after {
+    content: none;
+}

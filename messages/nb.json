@@ -622,6 +622,13 @@
         "hittil": "Hittil i år",
         "fjor": "I fjor",
         "egendefinert": "Egendefinert"
+      },
+      "utbetalingerBoks": {
+        "periode": "Periode",
+        "mottaker": "Mottaker",
+        "tilDeg": "Til deg",
+        "bankkonto": "Din BankKonto <norsk>{konto}</norsk>",
+        "lenke": "Se søknaden og vedtaket du fikk"
       }
     },
     "ingenUtbetalinger": {

@@ -26,7 +26,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, ma
         .reduce((acc, u) => acc + u.belop, 0);
 
     return (
-        <VStack key={index} gap="2">
+        <VStack key={index} gap="1">
             {synlig.length > 0 && (
                 <BoxNew
                     borderRadius="xlarge xlarge 0 0"
@@ -35,7 +35,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, ma
                     key={`tidligere-${index}`}
                 >
                     <HStack>
-                        <BodyShort className="font-bold mb-1 capitalize">
+                        <BodyShort className="mb-1 capitalize" weight="semibold">
                             {format.dateTime(
                                 set(new Date(0), {
                                     year: utbetalinger.ar,
@@ -47,7 +47,9 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, ma
                                 }
                             )}
                         </BodyShort>
-                        <BodyShort className="ml-auto font-bold">{utbetalingSum} kr</BodyShort>
+                        <BodyShort className="ml-auto" weight="semibold">
+                            {utbetalingSum} kr
+                        </BodyShort>
                     </HStack>
                 </BoxNew>
             )}

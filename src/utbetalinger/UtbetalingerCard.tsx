@@ -3,8 +3,11 @@ import { Link } from "@navikt/ds-react/Link";
 import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
+import cx from "classnames";
 
 import { ManedUtbetaling } from "@generated/ssr/model";
+
+import styles from "./utbetalinger.module.css";
 
 interface Props {
     manedUtbetaling: ManedUtbetaling;
@@ -12,11 +15,11 @@ interface Props {
     count: number;
 }
 const cardBorder = (id: number, count: number) => {
-    if (count <= 1) return "border-0 rounded-t-none rounded-b-lg";
-    if (id === 0) return "border-0 rounded-none";
-    if (id === count - 1) return "border-0 rounded-t-none rounded-b-lg";
-    return "border-0 rounded-none";
+    if (count <= 1) return "border-none rounded-t-none rounded-b-lg";
+    if (id === count - 1) return "border-none rounded-t-none rounded-b-lg";
+    return "border-none rounded-none";
 };
+
 export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     const format = useFormatter();
     const t = useTranslations("utbetalinger");
@@ -26,9 +29,9 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     // Finn et bedre aria-label enn "Utbetalinger" før alt blir prodsatt
     return (
         <ExpansionCard aria-label="Utbetalinger" data-color="accent" className={cardBorder(id, count)}>
-            <ExpansionCard.Header className={cardBorder(id, count)}>
+            <ExpansionCard.Header className={cx(cardBorder(id, count), styles.headerNoUnderline)}>
                 <ExpansionCard.Title>
-                    <HStack gap="2" align="center">
+                    <HStack gap="2">
                         <BodyShort size="medium" weight="semibold">
                             {manedUtbetaling.tittel}
                         </BodyShort>
@@ -43,14 +46,17 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                                     : t("ukjentDato")}
                             </BodyShort>
                         </HStack>
-                        <BodyShort className="font-bold pointer-events-none absolute right-18 top-1/2 -translate-y-1/2">
+                        <BodyShort
+                            weight="semibold"
+                            className="pointer-events-none absolute right-18 top-1/2 -translate-y-1/2"
+                        >
                             {manedUtbetaling.belop} kr
                         </BodyShort>
                     </HStack>
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap="10">
+                <VStack gap="6">
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             Periode:
@@ -77,14 +83,21 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                     </VStack>
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
-                            Mottaker:
+                            {t("utbetalingerSide.utbetalingerBoks.mottaker")}
                         </BodyShort>
-                        <BodyShort>Din bankkonto: {manedUtbetaling.kontonummer}</BodyShort>
+                        <BodyShort>
+                            {manedUtbetaling.kontonummer
+                                ? t.rich("utbetalingerSide.utbetalingerBoks.bankkonto", {
+                                      norsk: (chunks) => <span lang="no">{chunks}</span>,
+                                      konto: manedUtbetaling.kontonummer,
+                                  })
+                                : t("utbetalingerSide.utbetalingerBoks.tilDeg")}
+                        </BodyShort>
                     </VStack>
                     <VStack>
                         <HStack>
                             <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
-                                Se søknaden og vedtaket du fikk
+                                {t("utbetalingerSide.utbetalingerBoks.lenke")}
                                 <ArrowRightIcon
                                     fontSize="1.75rem"
                                     className="navds-link-anchor__arrow pointer-events-none"
