@@ -10,7 +10,7 @@ interface ChipsContext {
 }
 
 const defaultChipSelected: ChipsContext = {
-    selectedChip: "kommende",
+    selectedChip: "hittil",
     setSelectedChip: () => {},
 };
 

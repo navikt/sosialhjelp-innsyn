@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { VStack } from "@navikt/ds-react";
 
 import {
     useHentNyeUtbetalinger,
@@ -19,7 +18,7 @@ export const UtbetalingerListe = () => {
     const { data: tidligere, isLoading: tidligereLoading } = useHentTidligereUtbetalinger();
 
     return (
-        <VStack gap="20">
+        <>
             {selectedChip === "kommende" &&
                 (nyeLoading ? (
                     <UtbetalingerKommendeSkeleton />
@@ -35,7 +34,7 @@ export const UtbetalingerListe = () => {
             {selectedChip === "egendefinert" && (
                 <UtbetalingerEgendefinert nye={nye} tidligere={tidligere} selectedChip={selectedChip} />
             )}
-        </VStack>
+        </>
     );
 };
 

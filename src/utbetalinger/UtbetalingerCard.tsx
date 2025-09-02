@@ -31,21 +31,21 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
         <ExpansionCard aria-label="Utbetalinger" data-color="accent" className={cardBorder(id, count)}>
             <ExpansionCard.Header className={cx(cardBorder(id, count), styles.headerNoUnderline)}>
                 <ExpansionCard.Title>
-                    <HStack gap="2">
-                        <BodyShort size="medium" weight="semibold">
+                    <HStack gap="2" align="center">
+                        <BodyShort size="medium" weight="semibold" className="top-1/2 -translate-y-1/2">
                             {manedUtbetaling.tittel}
                         </BodyShort>
-                        <HStack gap="2">
-                            <BodyShort size="small">{t("utbetalingStatus." + manedUtbetaling.status)}</BodyShort>
-                            <BodyShort size="small">
-                                {manedUtbetaling.forfallsdato
-                                    ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
-                                          day: "numeric",
-                                          month: "long",
-                                      })
-                                    : t("ukjentDato")}
-                            </BodyShort>
-                        </HStack>
+                        <BodyShort size="small" className="top-1/2 -translate-y-1/2">
+                            {t("utbetalingStatus." + manedUtbetaling.status)}
+                        </BodyShort>
+                        <BodyShort size="small" className="top-1/2 -translate-y-1/2">
+                            {manedUtbetaling.forfallsdato
+                                ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                      day: "numeric",
+                                      month: "long",
+                                  })
+                                : t("ukjentDato")}
+                        </BodyShort>
                         <BodyShort
                             weight="semibold"
                             className="pointer-events-none absolute right-18 top-1/2 -translate-y-1/2"
@@ -56,12 +56,12 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap="6">
+                <VStack gap="4">
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
-                            Periode:
+                            {t("utbetalingerSide.utbetalingerBoks.periode")}
                         </BodyShort>
-                        <HStack gap="2">
+                        <HStack>
                             <BodyShort>
                                 {manedUtbetaling.fom &&
                                     format.dateTime(new Date(manedUtbetaling.fom), {
@@ -94,17 +94,10 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                                 : t("utbetalingerSide.utbetalingerBoks.tilDeg")}
                         </BodyShort>
                     </VStack>
-                    <VStack>
-                        <HStack>
-                            <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
-                                {t("utbetalingerSide.utbetalingerBoks.lenke")}
-                                <ArrowRightIcon
-                                    fontSize="1.75rem"
-                                    className="navds-link-anchor__arrow pointer-events-none"
-                                />
-                            </Link>
-                        </HStack>
-                    </VStack>
+                    <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
+                        {t("utbetalingerSide.utbetalingerBoks.lenke")}
+                        <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
+                    </Link>
                 </VStack>
             </ExpansionCard.Content>
         </ExpansionCard>

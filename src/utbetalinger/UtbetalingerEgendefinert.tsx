@@ -1,6 +1,6 @@
 "use client";
 import React, { MouseEvent, useMemo } from "react";
-import { DatePicker, Heading, HStack, useRangeDatepicker, VStack, Button, BodyShort, BoxNew } from "@navikt/ds-react";
+import { DatePicker, Heading, useRangeDatepicker, Button, BodyShort, BoxNew } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
@@ -45,12 +45,10 @@ const ShowUtbetalinger = ({
                 ))
             ) : (
                 <BoxNew background="accent-soft" padding="space-24">
-                    <VStack gap="4">
-                        <Heading size="small" level="3">
-                            {t("ingenUtbetalinger.egendefinert.tittel")}
-                        </Heading>
-                        <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
-                    </VStack>
+                    <Heading size="small" level="3">
+                        {t("ingenUtbetalinger.egendefinert.tittel")}
+                    </Heading>
+                    <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
                 </BoxNew>
             )
         ) : (
@@ -90,27 +88,21 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     };
 
     return (
-        <VStack gap="10">
-            <HStack gap="6" align="end">
-                <DatePicker {...datepickerProps}>
-                    <HStack gap="4">
-                        <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
-                        <DatePicker.Input {...toInputProps} label={t("filter.til")} />
-                    </HStack>
-                </DatePicker>
+        <>
+            <DatePicker {...datepickerProps}>
+                <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
+                <DatePicker.Input {...toInputProps} label={t("filter.til")} />
+            </DatePicker>
 
-                <Button variant="primary" onClick={(event) => onClick(event)}>
-                    {t("visUtbetalinger")}
-                </Button>
-            </HStack>
-            <VStack gap="4">
-                {pressed && (
-                    <Heading size="small" level="2">
-                        {t("utbetalingerSide.perioder." + selectedChip)}
-                    </Heading>
-                )}
-                <ShowUtbetalinger pressed={pressed} filteredByRange={filtrertAvDatoIntervall} />
-            </VStack>
-        </VStack>
+            <Button variant="primary" onClick={(event) => onClick(event)}>
+                {t("visUtbetalinger")}
+            </Button>
+            {pressed && (
+                <Heading size="small" level="2">
+                    {t("utbetalingerSide.perioder." + selectedChip)}
+                </Heading>
+            )}
+            <ShowUtbetalinger pressed={pressed} filteredByRange={filtrertAvDatoIntervall} />
+        </>
     );
 };

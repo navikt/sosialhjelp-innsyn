@@ -35,7 +35,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, ma
                     key={`tidligere-${index}`}
                 >
                     <HStack>
-                        <BodyShort className="mb-1 capitalize" weight="semibold">
+                        <BodyShort className="capitalize" weight="semibold">
                             {format.dateTime(
                                 set(new Date(0), {
                                     year: utbetalinger.ar,

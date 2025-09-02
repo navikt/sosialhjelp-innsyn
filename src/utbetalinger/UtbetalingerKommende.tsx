@@ -33,13 +33,11 @@ const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] |
         ))
     ) : (
         <BoxNew background="accent-soft" padding="space-24">
-            <VStack gap="4">
-                <Heading size="xsmall" level="3">
-                    {t("ingenUtbetalinger.kommende.tittel")}
-                </Heading>
-                <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse1")}</BodyShort>
-                <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse2")}</BodyShort>
-            </VStack>
+            <Heading size="xsmall" level="3">
+                {t("ingenUtbetalinger.kommende.tittel")}
+            </Heading>
+            <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse1")}</BodyShort>
+            <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse2")}</BodyShort>
         </BoxNew>
     );
 };
@@ -48,12 +46,12 @@ export const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
     const t = useTranslations("utbetalinger");
 
     return (
-        <VStack gap="4">
+        <>
             <Heading size="small" level="2">
                 {t("utbetalingerSide.perioder." + selectedChip)}
             </Heading>
             <ShowUtbetalinger nye={nye} />
-        </VStack>
+        </>
     );
 };
 
