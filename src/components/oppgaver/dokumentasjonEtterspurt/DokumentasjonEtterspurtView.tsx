@@ -16,7 +16,6 @@ import SendFileButton from "../../filopplasting/SendFileButton";
 import { DokumentasjonEtterspurtResponse } from "../../../hooks/useDokumentasjonEtterspurt";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
-import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse;
@@ -26,7 +25,6 @@ interface Props {
 export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const fileUploadError = useFileUploadError();
-    const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
             dokumentasjonEtterspurt.oppgaveElementer.map((element) => ({
@@ -73,7 +71,6 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                         return upload();
                     }}
                     disabled={
-                        isAalesund ||
                         R.flat(Object.values(files)).length === 0 ||
                         Object.values(innerErrors).flat().length + outerErrors.length > 0
                     }
@@ -108,7 +105,6 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                                             }}
                                             id={element.id}
                                             resetStatus={resetStatus}
-                                            disabled={isAalesund}
                                             hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                             title={typeTekst}
                                         />

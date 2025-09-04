@@ -14,7 +14,6 @@ import OppgaveOpplastingBlokk from "../OppgaveOpplastingBlokk";
 import SendFileButton from "../../filopplasting/SendFileButton";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
-import useIsAalesundBlocked from "../../../hooks/useIsAalesundBlocked";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse;
@@ -24,7 +23,6 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
     const fileUploadError = useFileUploadError();
-    const isAalesund = useIsAalesundBlocked();
     const metadatas = useMemo(
         () =>
             dokumentasjonkrav.dokumentasjonkravElementer.map((element) => ({
@@ -68,7 +66,6 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                         return upload();
                     }}
                     disabled={
-                        isAalesund ||
                         R.flat(Object.values(files)).length === 0 ||
                         Object.values(innerErrors).flat().length + outerErrors.length > 0
                     }
@@ -98,7 +95,6 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                                             }}
                                             id={element.dokumentasjonkravReferanse}
                                             resetStatus={resetStatus}
-                                            disabled={isAalesund}
                                             hasError={innerErrors[0]?.length + outerErrors.length > 0}
                                             title={element.tittel}
                                         />
