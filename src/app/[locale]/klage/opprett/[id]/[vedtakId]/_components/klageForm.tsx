@@ -12,6 +12,7 @@ import { logger } from "@navikt/next-logger";
 import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/new/useFiles";
 import FileSelect from "@components/filopplasting/new/FileSelect";
+import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
@@ -25,7 +26,7 @@ const klageSchema = z.object({
     files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
 
-//const metadata = { type: "klage", tilleggsinfo: "klage" };
+const metadata = { type: "klage", tilleggsinfo: "klage" };
 
 const KlageForm = () => {
     const t = useTranslations("KlageForm");
@@ -54,7 +55,7 @@ const KlageForm = () => {
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
         try {
             const klageId = crypto.randomUUID();
-            /*if (files.length > 0) {
+            if (files.length > 0) {
                 await lastOppVedleggMutation.mutateAsync({
                     fiksDigisosId,
                     klageId,
@@ -62,7 +63,7 @@ const KlageForm = () => {
                         files: [createMetadataFile(files, metadata), ...formatFilesForUpload(files)],
                     },
                 });
-            }*/
+            }
 
             await sendKlageMutation.mutateAsync({
                 fiksDigisosId: fiksDigisosId,

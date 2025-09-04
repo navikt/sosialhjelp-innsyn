@@ -1013,15 +1013,34 @@
                 "properties": {
                     "klageId": { "type": "string", "format": "uuid" },
                     "vedtakId": { "type": "string", "format": "uuid" },
-                    "klageTekst": { "type": "string" },
-                    "status": { "type": "string", "enum": ["SENDT", "MOTTATT"] }
+                    "status": { "$ref": "#/components/schemas/SendtStatusDto" },
+                    "documentIdPdf": { "type": "string", "format": "uuid" }
                 },
-                "required": ["klageId", "klageTekst", "status", "vedtakId"]
+                "required": ["documentIdPdf", "klageId", "status", "vedtakId"]
             },
             "KlagerDto": {
                 "type": "object",
                 "properties": { "klager": { "type": "array", "items": { "$ref": "#/components/schemas/KlageDto" } } },
                 "required": ["klager"]
+            },
+            "SendtStatusDto": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "SENDT",
+                            "BEKREFTET",
+                            "TTL_TIDSAVBRUDD",
+                            "MAX_RETRIESAVBRUDD",
+                            "IKKE_SENDT",
+                            "SVARUT_FEIL",
+                            "STOPPET"
+                        ]
+                    },
+                    "timestamp": { "type": "integer", "format": "int64" }
+                },
+                "required": ["status", "timestamp"]
             },
             "BehandlesIkke": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
             "DokumentasjonKrav": {
