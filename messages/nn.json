@@ -314,31 +314,41 @@
     "tittel": "Utbetalingar for økonomisk sosialhjelp"
   },
   "Utbetalinger": {
+    "tittel": "Utbetalingar for økonomisk sosialhjelp",
+    "periode": {
+      "tittel": "Vel periode"
+    }
+  },
+  "UtbetalingerChips": {
+    "til": "Til",
+    "fra": "Frå",
+    "visUtbetalinger": "Vis utbetalinger",
     "kommende": "Komande",
     "siste3": "Siste 3 månader",
     "hittil": "Hittil i år",
     "fjor": "I fjor",
     "egendefinert": "Eigendefinert"
   },
-  "UtbetalingerListe": {
-    "egendefinert": {
-      "tittel":"Du har ingen utbetalingar for denne perioden",
-      "beskrivelse": "Prøv å endre periode. Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
-    }
+  "IngenPeriodeUtbetalinger": {
+    "tittel":"Du har ingen utbetalingar for denne perioden",
+    "beskrivelse": "Prøv å endre periode. Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
   },
-  "ingenKommendeUtbetalinger": {
+  "IngenKommendeUtbetalinger": {
     "tittel": "Du har ingen komande utbetalingar",
     "beskrivelse1": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
     "beskrivelse2": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
   },
-  "visUtbetalinger": "Vis utbetalinger",
   "UtbetalingerHeaderCard": {},
   "UtbetalingerContentCard": {
     "periode": "Periode:",
     "mottaker": "Mottakar:",
     "tilDeg": "Til deg",
     "bankkonto": "Din Bankkonto <norsk>{konto}</norsk>",
-    "lenke": "Se søknaden og vedtaket du fikk"
+    "lenke": "Se søknaden og vedtaket du fikk",
+    "STOPPET": "Stoppa",
+    "PLANLAGT_UTBETALING": "Planlagt",
+    "UTBETALT": "Utbetalt",
+    "ANNULLERT": "Annullert"
   } ,
   "common": {
     "app": {
@@ -679,38 +689,6 @@
       "giro": "Giro",
       "postgiro": "Postgiro",
       "garanti": "Garanti"
-    },
-    "utbetalingerSide": {
-      "tittel": "Utbetalingar for økonomisk sosialhjelp",
-      "periode": {
-        "tittel": "Vel periode"
-      },
-      "perioder": {
-        "kommende": "Komande",
-        "siste3": "Siste 3 månader",
-        "hittil": "Hittil i år",
-        "fjor": "I fjor",
-        "egendefinert": "Eigendefinert"
-      },
-      "utbetalingerBoks": {
-        "periode": "Periode:",
-        "mottaker": "Mottakar:",
-        "tilDeg": "Til deg",
-        "bankkonto": "Din BankKonto: <norsk>{konto}</norsk>",
-        "lenke": "Se søknaden og vedtaket du fikk"
-      }
-    },
-    "ingenUtbetalinger": {
-      "kommende": {
-        "tittel": "Du har ingen komande utbetalingar",
-        "beskrivelse1": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
-        "beskrivelse2": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
-      },
-      "egendefinert": {
-        "tittel":"Du har ingen utbetalingar for denne perioden",
-        "beskrivelse": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
-      }
-    },
-    "visUtbetalinger": "Vis utbetalingar"
+    }
   }
 }

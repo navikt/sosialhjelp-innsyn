@@ -314,31 +314,41 @@
     "tittel": "Payments for financial assistance"
   },
   "Utbetalinger": {
+    "tittel": "Payments for financial assistance",
+    "periode": {
+      "tittel": "Choose period"
+    }
+  },
+  "UtbetalingerChips": {
+    "til": "To",
+    "fra": "From",
+    "visUtbetalinger": "Show payments",
     "kommende": "Upcoming",
     "siste3": "Last 3 months",
     "hittil": "So far this year",
     "fjor": "Last year",
     "egendefinert": "Customize"
   },
-  "UtbetalingerListe": {
-    "egendefinert": {
-      "tittel":"You have no payments for this period.",
-      "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
-    }
+  "IngenPeriodeUtbetalinger": {
+    "tittel":"You have no payments for this period.",
+    "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
   },
-  "ingenKommendeUtbetalinger": {
+  "IngenKommendeUtbetalinger": {
     "tittel": "You have no upcoming payments",
     "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
     "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
   },
-  "visUtbetalinger": "Show payments",
   "UtbetalingerHeaderCard": {},
   "UtbetalingerContentCard": {
     "periode": "Period:",
     "mottaker": "Recipient:",
     "tilDeg": "To you",
     "bankkonto": "Your Bank account: <norsk>{konto}</norsk>",
-    "lenke": "View the application and the decision letter you received"
+    "lenke": "View the application and the decision letter you received",
+    "STOPPET": "Stopped",
+    "PLANLAGT_UTBETALING": "Planned",
+    "UTBETALT": "Paid",
+    "ANNULLERT": "Annulled"
   } ,
   "common": {
     "app": { "tittel": "Financial assistance" },
@@ -639,38 +649,6 @@
       "giro": "Bank giro transfer",
       "postgiro": "Postal giro",
       "garanti": "Guarantee"
-    },
-    "utbetalingerSide": {
-      "tittel": "Payments for financial assistance",
-      "periode": {
-        "tittel": "Choose period"
-      },
-      "perioder": {
-        "kommende": "Upcoming",
-        "siste3": "Last 3 months",
-        "hittil": "So far this year",
-        "fjor": "Last year",
-        "egendefinert": "Customize"
-      },
-      "utbetalingerBoks": {
-        "periode": "Period:",
-        "mottaker": "Recipient:",
-        "tilDeg": "To you",
-        "bankkonto": "Your Bank account: <norsk>{konto}</norsk>",
-        "lenke": "View the application and the decision letter you received"
-      }
-    },
-    "ingenUtbetalinger": {
-      "kommende": {
-        "tittel": "You have no upcoming payments",
-        "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
-        "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
-      },
-      "egendefinert": {
-        "tittel":"You have no payments for this period.",
-        "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
-      }
-    },
-    "visUtbetalinger": "Show payments"
+    }
   }
 }

@@ -11,7 +11,7 @@ import { kombinertManed, utbetalingInnenforDatoIntervall } from "./utbetalinger-
 interface Props {
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
     nye?: NyeOgTidligereUtbetalingerResponse[];
-    selectedChip?: "egendefinert";
+    selectedChip: "egendefinert";
 }
 
 const ShowUtbetalinger = ({
@@ -21,7 +21,7 @@ const ShowUtbetalinger = ({
     pressed: boolean;
     filteredByRange?: NyeOgTidligereUtbetalingerResponse[] | undefined;
 }) => {
-    const t = useTranslations("utbetalinger");
+    const t = useTranslations("IngenPeriodeUtbetalinger");
 
     return (
         filteredByRange &&
@@ -46,9 +46,9 @@ const ShowUtbetalinger = ({
             ) : (
                 <BoxNew background="accent-soft" padding="space-24">
                     <Heading size="small" level="3">
-                        {t("ingenUtbetalinger.egendefinert.tittel")}
+                        {t("tittel")}
                     </Heading>
-                    <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
+                    <BodyShort>{t("beskrivelse")}</BodyShort>
                 </BoxNew>
             )
         ) : (
@@ -58,7 +58,7 @@ const ShowUtbetalinger = ({
 };
 
 export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props) => {
-    const t = useTranslations("utbetalinger");
+    const t = useTranslations("UtbetalingerChips");
     const [pressed, setPressed] = React.useState(false);
 
     const { datepickerProps, toInputProps, fromInputProps, selectedRange } = useRangeDatepicker({
@@ -90,8 +90,8 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
     return (
         <>
             <DatePicker {...datepickerProps}>
-                <DatePicker.Input {...fromInputProps} label={t("filter.fra")} />
-                <DatePicker.Input {...toInputProps} label={t("filter.til")} />
+                <DatePicker.Input {...fromInputProps} label={t("fra")} />
+                <DatePicker.Input {...toInputProps} label={t("til")} />
             </DatePicker>
 
             <Button variant="primary" onClick={(event) => onClick(event)}>
@@ -99,7 +99,7 @@ export const UtbetalingerEgendefinert = ({ nye, tidligere, selectedChip }: Props
             </Button>
             {pressed && (
                 <Heading size="small" level="2">
-                    {t("utbetalingerSide.perioder." + selectedChip)}
+                    {t(selectedChip)}
                 </Heading>
             )}
             <ShowUtbetalinger pressed={pressed} filteredByRange={filtrertAvDatoIntervall} />

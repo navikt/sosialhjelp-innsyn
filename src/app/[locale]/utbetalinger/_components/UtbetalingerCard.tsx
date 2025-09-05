@@ -1,4 +1,5 @@
 import { BodyShort, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
+import NextLink from "next/link";
 import { Link } from "@navikt/ds-react/Link";
 import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -22,7 +23,7 @@ const cardBorder = (id: number, count: number) => {
 
 export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
     const format = useFormatter();
-    const t = useTranslations("utbetalinger");
+    const t = useTranslations("UtbetalingerContentCard");
 
     //TODO:
     // ExpansionCard krever at det er et aria-label på komponenten
@@ -36,7 +37,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                             {manedUtbetaling.tittel}
                         </BodyShort>
                         <BodyShort size="small" className="top-1/2 -translate-y-1/2">
-                            {t("utbetalingStatus." + manedUtbetaling.status)}
+                            {t(manedUtbetaling.status)}
                         </BodyShort>
                         <BodyShort size="small" className="top-1/2 -translate-y-1/2">
                             {manedUtbetaling.forfallsdato
@@ -59,7 +60,7 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                 <VStack gap="4">
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
-                            {t("utbetalingerSide.utbetalingerBoks.periode")}
+                            {t("periode")}
                         </BodyShort>
                         <HStack>
                             <BodyShort>
@@ -83,19 +84,19 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                     </VStack>
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
-                            {t("utbetalingerSide.utbetalingerBoks.mottaker")}
+                            {t("mottaker")}
                         </BodyShort>
                         <BodyShort>
                             {manedUtbetaling.kontonummer
-                                ? t.rich("utbetalingerSide.utbetalingerBoks.bankkonto", {
+                                ? t.rich("bankkonto", {
                                       norsk: (chunks) => <span lang="no">{chunks}</span>,
                                       konto: manedUtbetaling.kontonummer,
                                   })
-                                : t("utbetalingerSide.utbetalingerBoks.tilDeg")}
+                                : t("tilDeg")}
                         </BodyShort>
                     </VStack>
-                    <Link href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
-                        {t("utbetalingerSide.utbetalingerBoks.lenke")}
+                    <Link as={NextLink} href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
+                        {t("lenke")}
                         <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
                     </Link>
                 </VStack>

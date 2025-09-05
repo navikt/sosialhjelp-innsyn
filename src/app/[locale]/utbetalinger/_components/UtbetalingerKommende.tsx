@@ -10,7 +10,7 @@ import IngenUtbetalinger from "./IngenUtbetalinger";
 
 interface Props {
     nye?: NyeOgTidligereUtbetalingerResponse[];
-    selectedChip?: "kommende";
+    selectedChip: "kommende";
 }
 
 const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] | undefined }) => {
@@ -37,12 +37,12 @@ const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] |
 };
 
 export const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
-    const t = useTranslations("utbetalinger");
+    const t = useTranslations("UtbetalingerChips");
 
     return (
         <>
             <Heading size="small" level="2">
-                {t("utbetalingerSide.perioder." + selectedChip)}
+                {t(selectedChip)}
             </Heading>
             <ShowUtbetalinger nye={nye} />
         </>

@@ -11,11 +11,11 @@ import { datoIntervall, erInnenforAngittDato, kombinertManed } from "./utbetalin
 interface Props {
     nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    selectedChip?: "siste3" | "hittil" | "fjor";
+    selectedChip: "siste3" | "hittil" | "fjor";
 }
 
 const ShowUtbetalinger = ({ filtered }: { filtered: NyeOgTidligereUtbetalingerResponse[] | undefined }) => {
-    const t = useTranslations("utbetalinger");
+    const t = useTranslations("IngenPeriodeUtbetalinger");
     return filtered && filtered.length > 0 ? (
         filtered?.map((item, index) => (
             <UtbetalingerTitleCard
@@ -30,16 +30,16 @@ const ShowUtbetalinger = ({ filtered }: { filtered: NyeOgTidligereUtbetalingerRe
         <BoxNew background="accent-soft" padding="space-24">
             <VStack gap="4">
                 <Heading size="xsmall" level="3">
-                    {t("ingenUtbetalinger.egendefinert.tittel")}
+                    {t("tittel")}
                 </Heading>
-                <BodyShort>{t("ingenUtbetalinger.egendefinert.beskrivelse")}</BodyShort>
+                <BodyShort>{t("beskrivelse")}</BodyShort>
             </VStack>
         </BoxNew>
     );
 };
 
 export const UtbetalingerPerioder = ({ nye, tidligere, selectedChip }: Props) => {
-    const t = useTranslations("utbetalinger");
+    const t = useTranslations("UtbetalingerChips");
 
     const range = selectedChip ? datoIntervall(selectedChip) : null;
     const kombinert = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
@@ -48,7 +48,7 @@ export const UtbetalingerPerioder = ({ nye, tidligere, selectedChip }: Props) =>
     return (
         <VStack gap="4">
             <Heading size="small" level="2">
-                {t("utbetalingerSide.perioder." + selectedChip)}
+                {t(selectedChip)}
             </Heading>
             <ShowUtbetalinger filtered={filtrert} />
         </VStack>

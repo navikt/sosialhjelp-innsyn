@@ -3,7 +3,7 @@ import { BodyShort, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import React from "react";
 
 const IngenUtbetalinger = () => {
-    const t = useTranslations("ingenKommendeUtbetalinger");
+    const t = useTranslations("IngenKommendeUtbetalinger");
 
     return (
         <BoxNew background="accent-soft" padding="space-24">
