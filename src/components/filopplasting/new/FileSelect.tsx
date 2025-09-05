@@ -1,26 +1,56 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Button, FileObject, FileUpload, Heading, HStack, Link, VStack } from "@navikt/ds-react";
+import { useParams } from "next/navigation";
+import { ReactNode, useRef } from "react";
+import cx from "classnames";
+import { ExclamationmarkTriangleFillIcon, FilePdfIcon, TrashIcon } from "@navikt/aksel-icons";
+import dynamic from "next/dynamic";
+import { Upload } from "tus-js-client";
 
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
-import { FancyFile, Error } from "@components/filopplasting/new/types";
+import { Error } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
+import { getTusUploader } from "@components/filopplasting/new/utils/tusUploader";
+import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";
+import { browserEnv } from "@config/env";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
     label?: string;
-    description?: React.ReactNode;
-    tag?: React.ReactNode;
-    files: FancyFile[];
-    addFiler: (files: File[]) => void;
-    removeFil: (file: FancyFile) => void;
+    description?: ReactNode;
+    tag?: ReactNode;
     outerErrors: Error[];
     isPending?: boolean;
+    docState: DocumentState;
 }
 
-const FileSelect = ({ label, description, tag, files, addFiler, removeFil, outerErrors, isPending }: Props) => {
+const FileSelect = ({ label, description, tag, outerErrors, docState }: Props) => {
     const t = useTranslations();
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
+    // Starter opplasting umiddelbart ved filvalg
+    const onSelect = (_files: FileObject[]) => {
+        const uploads = _files.map((file: FileObject) => {
+            const upload = getTusUploader({
+                id: fiksDigisosId,
+                onProgress: (bytesSent, bytesTotal) => {
+                    console.log(`${(bytesSent / bytesTotal) * 100}%`);
+                },
+                onSuccess: () => {
+                    console.log("wahoo:", upload.url);
+                },
+                onUploadUrlAvailable: () => {
+                    console.log("upload url available");
+                },
+                file,
+            });
+            return upload;
+        });
+        uploads.forEach((upload) => upload.start());
+    };
+    const converted = docState.uploads?.some((upload) => upload.convertedFilename);
     return (
         <FileUpload
             translations={{
@@ -46,28 +76,42 @@ const FileSelect = ({ label, description, tag, files, addFiler, removeFil, outer
                         </HStack>
                     }
                     description={description ?? t("Opplastingsboks.beskrivelse")}
-                    onSelect={(_files) => addFiler(_files.map((it) => it.file))}
+                    onSelect={onSelect}
                     accept={allowedFileTypes}
+                    maxSizeInBytes={10 * 1024 * 1024}
+                    multiple
+                    disabled={(docState.uploads?.length ?? 0) >= 30}
                     error={
                         outerErrors.length > 0 ? (
                             <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
                         ) : null
                     }
                 />
-                {files.length > 0 && (
+                {docState.uploads?.length !== 0 && (
                     <VStack gap="2">
                         <Heading size="small" level="3">
                             {t("Opplastingsboks.filerTilOpplasting")}
                         </Heading>
+                        {converted && (
+                            <Alert variant="warning">
+                                <HStack gap="2">
+                                    <Heading size="small" level="4">
+                                        Noen filer kan ha blitt forandret
+                                    </Heading>
+                                    <BodyShort>
+                                        Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke
+                                        støttes. Du må se gjennom og godkjenne filene før du kan fortsette.
+                                    </BodyShort>
+                                </HStack>
+                            </Alert>
+                        )}
                         <VStack as="ul" gap="2">
-                            {files.map((file) => (
-                                <FileUpload.Item
-                                    as="li"
-                                    key={file.uuid}
-                                    file={file.file}
-                                    button={{ action: "delete", onClick: () => removeFil(file) }}
-                                    status={isPending ? "uploading" : "idle"}
-                                    error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
+                            {docState.uploads?.map((upload) => (
+                                <FileUploadItem
+                                    key={upload.originalFilename}
+                                    uploadId={upload.id}
+                                    filename={upload.convertedFilename}
+                                    originalFilename={upload.originalFilename}
                                 />
                             ))}
                         </VStack>
@@ -75,6 +119,59 @@ const FileSelect = ({ label, description, tag, files, addFiler, removeFil, outer
                 )}
             </VStack>
         </FileUpload>
+    );
+};
+
+interface FileUploadItemProps {
+    originalFilename: string;
+    filename?: string;
+    uploadId: string;
+}
+
+const FilePreviewModal = dynamic(() => import("./preview/FilePreviewModal"), { ssr: false });
+
+const FileUploadItem = ({ filename, originalFilename, uploadId }: FileUploadItemProps) => {
+    const ref = useRef<HTMLDialogElement>(null);
+    const { mutate, isPending } = useMutation({
+        mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_TUSD_URL}/${uploadId}`),
+        retry: false,
+    });
+    return (
+        <>
+            <HStack
+                as="li"
+                justify="space-between"
+                className={cx("border rounded-2xl p-6", { "border-ax-border-warning-subtle": filename })}
+            >
+                <VStack justify="center">
+                    <HStack gap="4" align="center" wrap={false}>
+                        <FilePdfIcon height="32px" width="32px" />
+                        <Link onClick={() => ref.current?.showModal()} className="overflow-ellipsis">
+                            {originalFilename}
+                        </Link>
+                    </HStack>
+                    {filename && (
+                        <HStack align="center" gap="2" className="text-ax-text-warning-subtle">
+                            <ExclamationmarkTriangleFillIcon />
+                            <BodyShort>Vennligst se over at innholdet i filen er leselig.</BodyShort>
+                        </HStack>
+                    )}
+                </VStack>
+                <Button
+                    icon={<TrashIcon height="32px" width="32px" />}
+                    size="small"
+                    loading={isPending}
+                    variant="tertiary-neutral"
+                    onClick={() => mutate()}
+                />
+            </HStack>
+            <FilePreviewModal
+                ref={ref}
+                onClose={() => ref.current?.close()}
+                filename={originalFilename}
+                url={`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/thumbnails/${encodeURIComponent(filename ?? originalFilename)}`}
+            />
+        </>
     );
 };
 

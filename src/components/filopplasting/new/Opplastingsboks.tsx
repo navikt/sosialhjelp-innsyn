@@ -6,12 +6,14 @@ import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
 
-import useSendVedleggHelper from "@components/filopplasting/new/mutations/useSendVedleggHelper";
+import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
 import FileSelect from "./FileSelect";
+import { browserEnv } from "@config/env";
+import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 interface Props {
     metadata: Metadata;
@@ -24,14 +26,15 @@ interface Props {
 const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props) => {
     const t = useTranslations();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
+    const { files, outerErrors, reset: resetFilOpplastningData } = useFiles();
+    const docState = useDocumentState(fiksDigisosId);
     const {
         upload,
         resetMutation,
         errors: mutationErrors,
         isPending,
         isUploadSuccess,
-    } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
+    } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData, metadata);
 
     useNavigationGuard({
         enabled: files.length > 0,
@@ -39,11 +42,6 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             return window.confirm(t("common.varsling.forlater_siden_uten_aa_sende_inn_vedlegg"));
         },
     });
-
-    const onFilesSelect = (newFiles: File[]) => {
-        addFiler(newFiles);
-        resetMutation();
-    };
 
     if (completed) {
         return (
@@ -72,23 +70,21 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 label={label}
                 description={description}
                 tag={tag}
-                files={files}
-                addFiler={onFilesSelect}
-                removeFil={removeFil}
                 outerErrors={outerErrors}
+                docState={docState}
             />
             <Button
-                disabled={Object.values(files).flat().length === 0}
-                onClick={() => upload(files, metadata)}
+                disabled={docState.uploads?.length === 0}
+                onClick={() => upload(docState.documentId!)}
                 loading={isPending}
                 className="self-start"
             >
                 {t("Opplastingsboks.sendInn")}
             </Button>
             {isUploadSuccess && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
-            {mutationErrors.length > 0 && (
-                <Alert variant="error">{t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}</Alert>
-            )}
+            {/*{mutationErrors.length > 0 && (*/}
+            {/*    <Alert variant="error">{t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}</Alert>*/}
+            {/*)}*/}
         </>
     );
 };
