@@ -7,7 +7,7 @@ import cx from "classnames";
 
 import { ManedUtbetaling } from "@generated/ssr/model";
 
-import styles from "./utbetalinger.module.css";
+import styles from "../../../../utbetalinger/utbetalinger.module.css";
 
 interface Props {
     manedUtbetaling: ManedUtbetaling;

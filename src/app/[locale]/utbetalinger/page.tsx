@@ -4,8 +4,7 @@ import { Heading, VStack } from "@navikt/ds-react";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 
-import { UtbetalingerChipProvider } from "../../../utbetalinger/UtbetalingerProviderContext";
-
+import { UtbetalingerChipProvider } from "./_components/UtbetalingerProviderContext";
 import Utbetalinger from "./_components/Utbetalinger";
 
 const Page = async () => {

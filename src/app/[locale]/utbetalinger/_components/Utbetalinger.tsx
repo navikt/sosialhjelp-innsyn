@@ -4,8 +4,8 @@ import { Chips, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 import { useTranslations } from "next-intl";
 
-import UtbetalingerListe from "../../../../utbetalinger/UtbetalingerListe";
-import { ChipsChip, useUtbetalingerChip } from "../../../../utbetalinger/UtbetalingerProviderContext";
+import UtbetalingerListe from "./UtbetalingerListe";
+import { ChipsChip, useUtbetalingerChip } from "./UtbetalingerProviderContext";
 
 const chipOptions = [
     { key: "kommende", label: "perioder.kommende" },
