@@ -310,37 +310,34 @@
     "MinSide": "Min side",
     "Sosialhjelp": "Økonomisk sosialhjelp"
   },
-
   "UtbetalingerPage": {
-    "tittel": "Utbetalinger for økonomisk sosialhjelp"
+    "tittel": "Utbetalingar for økonomisk sosialhjelp"
   },
   "Utbetalinger": {
-    "kommende": "Kommende",
-    "siste3": "Siste 3 måneder",
+    "kommende": "Komande",
+    "siste3": "Siste 3 månader",
     "hittil": "Hittil i år",
     "fjor": "I fjor",
-    "egendefinert": "Egendefinert"
+    "egendefinert": "Eigendefinert"
   },
   "UtbetalingerListe": {
-    "ingenUtbetalinger": {
-      "kommende": {
-        "tittel": "Du har ingen kommende utbetalinger",
-        "beskrivelse1": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode.",
-        "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
-      },
-      "egendefinert": {
-        "tittel":"Du har ingen utbetalinger for denne perioden",
-        "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
-      }
-    },
-    "visUtbetalinger": "Vis utbetalinger"
+    "egendefinert": {
+      "tittel":"Du har ingen utbetalingar for denne perioden",
+      "beskrivelse": "Prøv å endre periode. Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
+    }
   },
+  "ingenKommendeUtbetalinger": {
+    "tittel": "Du har ingen komande utbetalingar",
+    "beskrivelse1": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
+    "beskrivelse2": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
+  },
+  "visUtbetalinger": "Vis utbetalinger",
   "UtbetalingerHeaderCard": {},
   "UtbetalingerContentCard": {
-    "periode": "Periode",
-    "mottaker": "Mottaker",
+    "periode": "Periode:",
+    "mottaker": "Mottakar:",
     "tilDeg": "Til deg",
-    "bankkonto": "Din BankKonto <norsk>{konto}</norsk>",
+    "bankkonto": "Din Bankkonto <norsk>{konto}</norsk>",
     "lenke": "Se søknaden og vedtaket du fikk"
   } ,
   "common": {

@@ -1,11 +1,12 @@
 "use client";
-import { Heading, VStack, Box, Skeleton, BodyShort, BoxNew } from "@navikt/ds-react";
+import { Heading, VStack, Box, Skeleton } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
 import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
+import IngenUtbetalinger from "./IngenUtbetalinger";
 
 interface Props {
     nye?: NyeOgTidligereUtbetalingerResponse[];
@@ -13,7 +14,6 @@ interface Props {
 }
 
 const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] | undefined }) => {
-    const t = useTranslations("utbetalinger");
     const filteredUtbetalinger = nye
         ?.flatMap((item: NyeOgTidligereUtbetalingerResponse) => item.utbetalingerForManed)
         .filter(
@@ -32,13 +32,7 @@ const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] |
             />
         ))
     ) : (
-        <BoxNew background="accent-soft" padding="space-24">
-            <Heading size="xsmall" level="3">
-                {t("ingenUtbetalinger.kommende.tittel")}
-            </Heading>
-            <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse1")}</BodyShort>
-            <BodyShort>{t("ingenUtbetalinger.kommende.beskrivelse2")}</BodyShort>
-        </BoxNew>
+        <IngenUtbetalinger />
     );
 };
 
