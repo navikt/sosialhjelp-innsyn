@@ -26,7 +26,7 @@ export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, ma
         .reduce((acc, u) => acc + u.belop, 0);
 
     return (
-        <VStack key={index} gap="1">
+        <VStack gap="1">
             {synlig.length > 0 && (
                 <BoxNew
                     borderRadius="xlarge xlarge 0 0"
