@@ -96,11 +96,12 @@
       "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
     },
     "vedtaksBrev": "Download decision letter",
-    "kommendeUtbetaling": "Check upcoming payout",
-    "uenig": {
-      "tittel": "Disagree with the decision?",
-      "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision."
-    }
+    "kommendeUtbetaling": "Check upcoming payout"
+  },
+  "KlageInfo": {
+    "tittel": "Disagree with the decision?",
+    "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision.",
+    "klageKnapp": "Appeal the decision"
   },
   "Sakstittel": {
     "tittel": "Application for <norsk>{sakstittel}</norsk>"
