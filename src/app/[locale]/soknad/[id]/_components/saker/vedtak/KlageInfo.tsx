@@ -13,7 +13,7 @@ interface Props {
 
 const KlageInfo = ({ vedtaksliste }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const t = useTranslations("Vedtak");
+    const t = useTranslations("KlageInfo");
     const klageToggle = useFlag("sosialhjelp.innsyn.klage");
 
     // Siden en sak kan ha flere vedtak, velger vi nyeste vedtak basert på dato
@@ -26,10 +26,10 @@ const KlageInfo = ({ vedtaksliste }: Props) => {
     return (
         <div className="p-4 bg-ax-bg-info-soft rounded-lg">
             <Heading size="small" level="3">
-                {t("uenig.tittel")}
+                {t("tittel")}
             </Heading>
             <p>
-                {t.rich("uenig.beskrivelse", {
+                {t.rich("beskrivelse", {
                     lenke: (chunks) => (
                         <AkselLink href="https://www.nav.no/klagerettigheter" inlineText>
                             {chunks}
@@ -45,7 +45,7 @@ const KlageInfo = ({ vedtaksliste }: Props) => {
                     href={`/klage/opprett/${fiksDigisosId}/${newestVedtak.id}`}
                     as={Link}
                 >
-                    {t("uenig.klageKnapp")}
+                    {t("klageKnapp")}
                 </Button>
             )}
         </div>

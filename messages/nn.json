@@ -96,12 +96,12 @@
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
         },
         "vedtaksBrev": "Last ned vedtaksbrevet",
-        "kommendeUtbetaling": "Se komande utbetaling",
-        "uenig": {
-            "tittel": "Usamd i vedtaket",
-            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
-            "klageKnapp": "Klag på vedtaket"
-        }
+        "kommendeUtbetaling": "Se komande utbetaling"
+    },
+    "KlageInfo": {
+        "tittel": "Usamd i vedtaket",
+        "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
+        "klageKnapp": "Klag på vedtaket"
     },
     "Sakstittel": {
         "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
