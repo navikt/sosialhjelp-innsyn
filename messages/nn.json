@@ -102,8 +102,7 @@
     "tittel": "Usamd i vedtaket",
     "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
     "klageKnapp": "Klag på vedtaket"
-  }
-},
+  },
   "Sakstittel": {
     "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
   },
@@ -350,7 +349,8 @@
     "STOPPET": "Stoppa",
     "PLANLAGT_UTBETALING": "Planlagt",
     "UTBETALT": "Utbetalt",
-    "ANNULLERT": "Annullert"
+    "ANNULLERT": "Annullert",
+    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}"
   } ,
   "common": {
     "app": {

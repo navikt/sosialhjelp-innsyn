@@ -349,7 +349,8 @@
     "STOPPET": "Stopped",
     "PLANLAGT_UTBETALING": "Planned",
     "UTBETALT": "Paid",
-    "ANNULLERT": "Annulled"
+    "ANNULLERT": "Annulled",
+    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}"
   } ,
   "common": {
     "app": { "tittel": "Financial assistance" },

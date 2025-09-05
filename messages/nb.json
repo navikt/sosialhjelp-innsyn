@@ -309,7 +309,8 @@
     "STOPPET": "Stoppet",
     "PLANLAGT_UTBETALING": "Planlagt",
     "UTBETALT": "Utbetalt",
-    "ANNULLERT": "Annullert"
+    "ANNULLERT": "Annullert",
+    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}"
   } ,
   "common": {
     "app": {

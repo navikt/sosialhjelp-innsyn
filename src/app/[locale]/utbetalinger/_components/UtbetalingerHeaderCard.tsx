@@ -14,7 +14,7 @@ interface Props {
     manedsUtbetalingSum?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerTitleCard = ({ utbetalinger, index, allowedStatuses, manedsUtbetalingSum }: Props) => {
+export const UtbetalingerHeaderCard = ({ utbetalinger, index, allowedStatuses, manedsUtbetalingSum }: Props) => {
     const format = useFormatter();
 
     const synlig = allowedStatuses

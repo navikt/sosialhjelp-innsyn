@@ -1,11 +1,11 @@
 "use client";
-import { Heading, VStack, Box, Skeleton } from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
 import { ManedUtbetaling, ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
+import { UtbetalingerHeaderCard } from "./UtbetalingerHeaderCard";
 import IngenUtbetalinger from "./IngenUtbetalinger";
 
 interface Props {
@@ -23,7 +23,7 @@ const ShowUtbetalinger = ({ nye }: { nye: NyeOgTidligereUtbetalingerResponse[] |
 
     return filteredUtbetalinger && filteredUtbetalinger.length > 0 ? (
         nye?.map((item, index) => (
-            <UtbetalingerTitleCard
+            <UtbetalingerHeaderCard
                 key={index}
                 utbetalinger={item}
                 index={index}
@@ -46,20 +46,5 @@ export const UtbetalingerKommende = ({ nye, selectedChip }: Props) => {
             </Heading>
             <ShowUtbetalinger nye={nye} />
         </>
-    );
-};
-
-export const UtbetalingerKommendeSkeleton = () => {
-    return (
-        <Box>
-            <VStack gap="1">
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-            </VStack>
-        </Box>
     );
 };

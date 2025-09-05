@@ -62,25 +62,14 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
                         <BodyShort size="medium" weight="semibold">
                             {t("periode")}
                         </BodyShort>
-                        <HStack>
-                            <BodyShort>
-                                {manedUtbetaling.fom &&
-                                    format.dateTime(new Date(manedUtbetaling.fom), {
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric",
-                                    })}
-                            </BodyShort>
-                            <BodyShort> - </BodyShort>
-                            <BodyShort>
-                                {manedUtbetaling.tom &&
-                                    format.dateTime(new Date(manedUtbetaling.tom), {
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric",
-                                    })}
-                            </BodyShort>
-                        </HStack>
+                        <BodyShort>
+                            {manedUtbetaling.fom && manedUtbetaling.tom
+                                ? t.rich("datoRange", {
+                                      fom: new Date(manedUtbetaling.fom),
+                                      tom: new Date(manedUtbetaling.tom),
+                                  })
+                                : ""}
+                        </BodyShort>
                     </VStack>
                     <VStack>
                         <BodyShort size="medium" weight="semibold">

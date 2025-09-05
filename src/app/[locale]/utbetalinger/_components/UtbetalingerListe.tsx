@@ -8,9 +8,10 @@ import {
 } from "@generated/utbetalinger-controller/utbetalinger-controller";
 
 import { useUtbetalingerChip } from "./UtbetalingerProviderContext";
-import { UtbetalingerKommende, UtbetalingerKommendeSkeleton } from "./UtbetalingerKommende";
-import { UtbetalingerPerioder, UtbetalingerPerioderSkeleton } from "./UtbetalingerPerioder";
+import { UtbetalingerKommende } from "./UtbetalingerKommende";
+import { UtbetalingerPerioder } from "./UtbetalingerPerioder";
 import { UtbetalingerEgendefinert } from "./UtbetalingerEgendefinert";
+import { UtbetalingerSkeleton } from "./UtbetalingerKommendeSkeleton";
 
 export const UtbetalingerListe = () => {
     const { selectedChip } = useUtbetalingerChip();
@@ -21,13 +22,13 @@ export const UtbetalingerListe = () => {
         <>
             {selectedChip === "kommende" &&
                 (nyeLoading ? (
-                    <UtbetalingerKommendeSkeleton />
+                    <UtbetalingerSkeleton />
                 ) : (
                     <UtbetalingerKommende nye={nye} selectedChip={selectedChip} />
                 ))}
             {(selectedChip === "siste3" || selectedChip === "hittil" || selectedChip === "fjor") &&
                 (tidligereLoading ? (
-                    <UtbetalingerPerioderSkeleton />
+                    <UtbetalingerSkeleton />
                 ) : (
                     <UtbetalingerPerioder nye={nye} tidligere={tidligere} selectedChip={selectedChip} />
                 ))}

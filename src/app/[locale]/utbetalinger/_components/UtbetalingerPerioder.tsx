@@ -1,11 +1,11 @@
 "use client";
 import React, { useMemo } from "react";
-import { BodyShort, Box, BoxNew, Heading, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
+import { UtbetalingerHeaderCard } from "./UtbetalingerHeaderCard";
 import { datoIntervall, erInnenforAngittDato, kombinertManed } from "./utbetalinger-utils";
 
 interface Props {
@@ -18,7 +18,7 @@ const ShowUtbetalinger = ({ filtered }: { filtered: NyeOgTidligereUtbetalingerRe
     const t = useTranslations("IngenPeriodeUtbetalinger");
     return filtered && filtered.length > 0 ? (
         filtered?.map((item, index) => (
-            <UtbetalingerTitleCard
+            <UtbetalingerHeaderCard
                 key={index}
                 utbetalinger={item}
                 index={index}
@@ -52,20 +52,5 @@ export const UtbetalingerPerioder = ({ nye, tidligere, selectedChip }: Props) =>
             </Heading>
             <ShowUtbetalinger filtered={filtrert} />
         </VStack>
-    );
-};
-
-export const UtbetalingerPerioderSkeleton = () => {
-    return (
-        <Box>
-            <VStack gap="1">
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-                <Skeleton variant="rectangle" />
-            </VStack>
-        </Box>
     );
 };

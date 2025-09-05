@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerTitleCard } from "./UtbetalingerTitleCard";
+import { UtbetalingerHeaderCard } from "./UtbetalingerHeaderCard";
 import { kombinertManed, utbetalingInnenforDatoIntervall } from "./utbetalinger-utils";
 
 interface Props {
@@ -28,7 +28,7 @@ const ShowUtbetalinger = ({
         (pressed ? (
             filteredByRange.length > 0 ? (
                 filteredByRange?.map((item, index) => (
-                    <UtbetalingerTitleCard
+                    <UtbetalingerHeaderCard
                         key={index}
                         utbetalinger={item}
                         index={index}
