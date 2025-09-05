@@ -99,7 +99,8 @@
         "kommendeUtbetaling": "Se komande utbetaling",
         "uenig": {
             "tittel": "Usamd i vedtaket",
-            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato."
+            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
+            "klageKnapp": "Klag på vedtaket"
         }
     },
     "Sakstittel": {

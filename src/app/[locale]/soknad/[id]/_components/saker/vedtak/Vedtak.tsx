@@ -1,10 +1,11 @@
 import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
-import { BodyShort, Link, VStack } from "@navikt/ds-react";
+import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { FilUrl, SaksStatusResponseUtfallVedtak } from "@generated/model";
-import StatusAlert from "@components/alert/StatusAlert";
+
+import KlageInfo from "./KlageInfo";
 
 interface Props {
     vedtakUtfall: SaksStatusResponseUtfallVedtak;
@@ -14,8 +15,9 @@ interface Props {
 const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
     const t = useTranslations("Vedtak");
     const isInnvilget = ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtakUtfall);
+
     return (
-        <VStack gap="2">
+        <VStack gap="4">
             <BodyShort>{t(`beskrivelse.${vedtakUtfall}`)}</BodyShort>
             {vedtaksliste &&
                 vedtaksliste.map((fil, index) => (
@@ -34,17 +36,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
                     {t("kommendeUtbetaling")}
                 </DigisosLinkCard>
             )}
-            <StatusAlert
-                variant="info"
-                tittel={t("uenig.tittel")}
-                beskrivelse={t.rich("uenig.beskrivelse", {
-                    lenke: (chunks) => (
-                        <Link href="https://www.nav.no/klagerettigheter" inlineText>
-                            {chunks}
-                        </Link>
-                    ),
-                })}
-            />
+            <KlageInfo vedtaksliste={vedtaksliste} />
         </VStack>
     );
 };
