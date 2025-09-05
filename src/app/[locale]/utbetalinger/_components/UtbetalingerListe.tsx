@@ -11,7 +11,7 @@ import { useUtbetalingerChip } from "./UtbetalingerProviderContext";
 import { UtbetalingerKommende } from "./UtbetalingerKommende";
 import { UtbetalingerPerioder } from "./UtbetalingerPerioder";
 import { UtbetalingerEgendefinert } from "./UtbetalingerEgendefinert";
-import { UtbetalingerSkeleton } from "./UtbetalingerKommendeSkeleton";
+import { UtbetalingerSkeleton } from "./UtbetalingerSkeleton";
 
 export const UtbetalingerListe = () => {
     const { selectedChip } = useUtbetalingerChip();
