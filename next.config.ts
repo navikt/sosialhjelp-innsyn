@@ -19,10 +19,10 @@ const appDirectives = {
     "script-src-elem": [SELF, uxsignalsScriptSrc],
     "style-src": [SELF, UNSAFE_INLINE, localServer],
     "style-src-elem": [SELF, UNSAFE_INLINE, localServer],
-    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc],
+    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc, "localhost:3007"],
     "font-src": [SELF],
-    "worker-src": [SELF],
-    "connect-src": isLocal ? [SELF, innsynApiLocalhost, localServer] : [SELF],
+    "worker-src": [SELF, "http://localhost:3007"],
+    "connect-src": isLocal ? [SELF, innsynApiLocalhost, localServer, "localhost:3007"] : [SELF],
 };
 
 const nextConfig: NextConfig = {
