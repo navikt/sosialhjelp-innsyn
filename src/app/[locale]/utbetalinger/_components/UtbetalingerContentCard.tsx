@@ -21,7 +21,7 @@ const cardBorder = (id: number, count: number) => {
     return "border-none rounded-none";
 };
 
-export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
+export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) => {
     const format = useFormatter();
     const t = useTranslations("UtbetalingerContentCard");
 
@@ -32,25 +32,24 @@ export const UtbetalingerCard = ({ manedUtbetaling, id, count }: Props) => {
         <ExpansionCard aria-label="Utbetalinger" data-color="accent" className={cardBorder(id, count)}>
             <ExpansionCard.Header className={cx(cardBorder(id, count), styles.headerNoUnderline)}>
                 <ExpansionCard.Title>
-                    <HStack gap="2" align="center">
-                        <BodyShort size="medium" weight="semibold" className="top-1/2 -translate-y-1/2">
-                            {manedUtbetaling.tittel}
-                        </BodyShort>
-                        <BodyShort size="small" className="top-1/2 -translate-y-1/2">
-                            {t(manedUtbetaling.status)}
-                        </BodyShort>
-                        <BodyShort size="small" className="top-1/2 -translate-y-1/2">
-                            {manedUtbetaling.forfallsdato
-                                ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
-                                      day: "numeric",
-                                      month: "long",
-                                  })
-                                : t("ukjentDato")}
-                        </BodyShort>
-                        <BodyShort
-                            weight="semibold"
-                            className="pointer-events-none absolute right-18 top-1/2 -translate-y-1/2"
-                        >
+                    <HStack align="center" className="w-full">
+                        <HStack gap="2" align="center" className="min-w-0">
+                            <BodyShort size="medium" weight="semibold" className="top-1/2 -translate-y-1/2">
+                                {manedUtbetaling.tittel}
+                            </BodyShort>
+                            <BodyShort size="small" className="top-1/2 -translate-y-1/2">
+                                {t(manedUtbetaling.status)}
+                            </BodyShort>
+                            <BodyShort size="small" className="top-1/2 -translate-y-1/2">
+                                {manedUtbetaling.forfallsdato
+                                    ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                          day: "numeric",
+                                          month: "long",
+                                      })
+                                    : t("ukjentDato")}
+                            </BodyShort>
+                        </HStack>
+                        <BodyShort weight="semibold" className="ml-auto">
                             {manedUtbetaling.belop} kr
                         </BodyShort>
                     </HStack>

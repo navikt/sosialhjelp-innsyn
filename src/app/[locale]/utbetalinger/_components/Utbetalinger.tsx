@@ -3,37 +3,33 @@
 import { Chips, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import UtbetalingerListe from "./UtbetalingerListe";
-import { ChipsChip, useUtbetalingerChip } from "./UtbetalingerProviderContext";
 
-const chipOptions = [
-    { key: "kommende", label: "kommende" },
-    { key: "siste3", label: "siste3" },
-    { key: "hittil", label: "hittil" },
-    { key: "fjor", label: "fjor" },
-    { key: "egendefinert", label: "egendefinert" },
-] as const;
+export type ChipsChip = "kommende" | "siste3" | "hittil" | "fjor" | "egendefinert";
+
+const CHIP_ORDER = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly ChipsChip[];
 
 const Utbetalinger = () => {
-    const { selectedChip, setSelectedChip } = useUtbetalingerChip();
     const t = useTranslations("UtbetalingerChips");
+    const [selectedChip, setSelectedChip] = useState<ChipsChip>("kommende");
 
     return (
         <VStack gap="16">
             <Chips>
-                {chipOptions.map((option) => (
+                {CHIP_ORDER.map((chip) => (
                     <ChipsToggle
-                        key={option.key}
+                        key={chip}
                         checkmark={false}
-                        selected={selectedChip === option.key}
-                        onClick={() => setSelectedChip(option.key as ChipsChip)}
+                        selected={selectedChip === chip}
+                        onClick={() => setSelectedChip(chip)}
                     >
-                        {t(option.label)}
+                        {t(chip)}
                     </ChipsToggle>
                 ))}
             </Chips>
-            <UtbetalingerListe />
+            <UtbetalingerListe selectedChip={selectedChip} />
         </VStack>
     );
 };

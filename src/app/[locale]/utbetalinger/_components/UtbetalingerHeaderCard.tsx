@@ -5,16 +5,15 @@ import { useFormatter } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { UtbetalingerCard } from "./UtbetalingerCard";
+import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
-    index: number;
     allowedStatuses?: ManedUtbetalingStatus[];
     manedsUtbetalingSum?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerHeaderCard = ({ utbetalinger, index, allowedStatuses, manedsUtbetalingSum }: Props) => {
+export const UtbetalingerHeaderCard = ({ utbetalinger, allowedStatuses, manedsUtbetalingSum }: Props) => {
     const format = useFormatter();
 
     const synlig = allowedStatuses
@@ -28,12 +27,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, index, allowedStatuses, m
     return (
         <VStack gap="1">
             {synlig.length > 0 && (
-                <BoxNew
-                    borderRadius="xlarge xlarge 0 0"
-                    padding="space-16"
-                    background="accent-soft"
-                    key={`tidligere-${index}`}
-                >
+                <BoxNew borderRadius="xlarge xlarge 0 0" padding="space-16" background="accent-soft">
                     <HStack>
                         <BodyShort className="capitalize" weight="semibold">
                             {format.dateTime(
@@ -54,7 +48,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, index, allowedStatuses, m
                 </BoxNew>
             )}
             {synlig.map((utb, id) => (
-                <UtbetalingerCard key={id} manedUtbetaling={utb} id={id} count={synlig.length} />
+                <UtbetalingerContentCard key={id} manedUtbetaling={utb} id={id} count={synlig.length} />
             ))}
         </VStack>
     );

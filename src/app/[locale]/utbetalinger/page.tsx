@@ -1,10 +1,15 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Heading, VStack } from "@navikt/ds-react";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
+import {
+    prefetchHentNyeUtbetalingerQuery,
+    prefetchHentTidligereUtbetalingerQuery,
+} from "@generated/ssr/utbetalinger-controller/utbetalinger-controller";
+import { getQueryClient } from "@api/queryClient";
 
-import { UtbetalingerChipProvider } from "./_components/UtbetalingerProviderContext";
 import Utbetalinger from "./_components/Utbetalinger";
 
 const Page = async () => {
@@ -14,16 +19,17 @@ const Page = async () => {
         return notFound();
     }
 
+    const qc = getQueryClient();
+    await Promise.all([prefetchHentNyeUtbetalingerQuery(qc), prefetchHentTidligereUtbetalingerQuery(qc)]);
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
                 {t("tittel")}
             </Heading>
-            <UtbetalingerChipProvider>
+            <HydrationBoundary state={dehydrate(qc)}>
                 <Utbetalinger />
-            </UtbetalingerChipProvider>
+            </HydrationBoundary>
         </VStack>
     );
 };
-
 export default Page;

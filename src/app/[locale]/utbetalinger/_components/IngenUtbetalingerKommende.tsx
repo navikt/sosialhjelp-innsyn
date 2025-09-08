@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { BodyShort, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import React from "react";
 
-const IngenUtbetalinger = () => {
+const IngenUtbetalingerKommende = () => {
     const t = useTranslations("IngenKommendeUtbetalinger");
 
     return (
@@ -18,4 +18,4 @@ const IngenUtbetalinger = () => {
     );
 };
 
-export default IngenUtbetalinger;
+export default IngenUtbetalingerKommende;

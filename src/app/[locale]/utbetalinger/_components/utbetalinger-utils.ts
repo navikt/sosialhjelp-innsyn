@@ -1,6 +1,8 @@
 import { NyeOgTidligereUtbetalingerResponse } from "@generated/model";
 import { ManedUtbetaling } from "@generated/ssr/model";
 
+import { ChipsChip } from "./Utbetalinger";
+
 export const kombinertManed = (
     nye: NyeOgTidligereUtbetalingerResponse[] = [],
     tidligere: NyeOgTidligereUtbetalingerResponse[] = []
@@ -28,6 +30,11 @@ export const kombinertManed = (
 
 export type AarMaaned = { year: number; month: number };
 export type MaanedIntervall = { start: AarMaaned; end: AarMaaned };
+
+export type PeriodChip = "siste3" | "hittil" | "fjor";
+export const isPeriodChip = (c: ChipsChip): c is PeriodChip => {
+    return c === "siste3" || c === "hittil" || c === "fjor";
+};
 
 export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedIntervall | null => {
     const today = new Date();
