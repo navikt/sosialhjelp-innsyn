@@ -5,10 +5,12 @@ import styled from "styled-components";
 import { useTranslations } from "next-intl";
 import { sort } from "remeda";
 
+import UxSignalsWidget from "@components/widgets/UxSignalsWidget";
+import { SakspanelMaxBreakpoint } from "@styles/constants";
+import { SaksListeResponse } from "@generated/model";
+
 import Subheader from "../components/subheader/Subheader";
 import InfoPanel, { InfoPanelWrapper } from "../components/Infopanel/InfoPanel";
-import { SakspanelMaxBreakpoint } from "../styles/constants";
-import { SaksListeResponse } from "../generated/model";
 import useIsMobile from "../utils/useIsMobile";
 import PaginertListe from "../components/paginering/PaginertListe";
 
@@ -54,6 +56,7 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
 
     return (
         <>
+            <UxSignalsWidget embedCode="panel-wq2simqr8t" className="mb-4" />
             <DineUtbetalingerPanel />
             <section aria-labelledby="dine-soknader">
                 <StyledDineSoknaderPanel>
