@@ -803,7 +803,9 @@
                             "VIS_BREVET_LENKETEKST"
                         ]
                     },
-                    "link": { "type": "string" }
+                    "link": { "type": "string" },
+                    "storrelse": { "type": "integer", "format": "int64" },
+                    "filnavn": { "type": "string" }
                 },
                 "required": ["link", "linkTekst"]
             },
