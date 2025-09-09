@@ -449,8 +449,7 @@
             "innsynOgEttersendelseDeaktivert": "Vi kan dessverre ikke vise deg nyeste status for søknaden din, eller motta dokumentasjon fra deg. Du kan enten prøve igjen senere, eller ta kontakt med Nav-kontoret ditt.",
             "kanIkkeSendeVedlegg": "Vi har dessverre problemer med systemet, og ber deg levere dokumentasjon på ditt Nav kontor",
             "vedlegg": {
-                "feiledeDigisosIder": "Du kan dessverre ikke sende inn dokumentasjon til denne søknaden digitalt. Du kan levere dokumentasjonen til Nav-kontoret du har sendt søknaden til.",
-                "vedleggMangler": "Du kan dessverre ikke sende inn dokumentasjon til denne søknaden."
+                "feiledeDigisosIder": "Du kan dessverre ikke sende inn dokumentasjon til denne søknaden digitalt. Du kan levere dokumentasjonen til Nav-kontoret du har sendt søknaden til."
             },
             "feiledeDigisosIder": "Vi kan dessverre ikke oppdatere statusen på denne søknaden, og du kan ikke sende inn dokumentasjon digitalt. Du kan levere dokumentasjon til Nav-kontoret du har sendt søknaden til."
         },
@@ -513,10 +512,6 @@
         },
         "varsling": {
             "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne siden ber deg bekrefte at du ønsker å forlate siden — informasjon som du allerede har skrevet inn vil kanskje ikke lagres."
-        },
-        "soknaderUtenVedlegg": {
-            "forside": "I tidsrommet 11.4.24 kl. 15.00 - 12.4.24. kl. 12.15 hadde vi tekniske problemer. Søknader som ble sendt i dette tidsrommet og hadde dokumentasjon har feilet i mottaket til kommunen. Det vil ikke være mulig å laste opp nye dokumentasjon på denne søknaden. Ta kontakt med ditt lokale Nav-kontor for hjelp. Vi beklager ulempene dette medfører.",
-            "statusside": "Pga. teknisk feil har denne søknaden feilet. Det vil ikke være mulig å laste opp dokumentasjon på denne søknaden. Ta kontakt med ditt Nav-kontor for hjelp. Vi beklager ulempene dette medfører."
         },
         "annen_dokumentasjon": "annen dokumentasjon"
     },

@@ -1,6 +1,7 @@
-import { useHentSoknadsStatus } from "../../../generated/soknads-status-controller/soknads-status-controller";
-import { useHentKommuneInfo } from "../../../generated/kommune-controller/kommune-controller";
-import { KommuneResponse } from "../../../generated/model";
+import { useHentSoknadsStatus } from "@generated/soknads-status-controller/soknads-status-controller";
+import { useHentKommuneInfo } from "@generated/kommune-controller/kommune-controller";
+import { KommuneResponse } from "@generated/model";
+
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 
 const ettersendelseDeaktivert = ({
@@ -10,13 +11,11 @@ const ettersendelseDeaktivert = ({
 
 /**
  * Utleder feilstatus for filopplasting, basert på kommunal driftstatus
- * fra FIKS Digisos, og hvorvidt isBroken-flagget er satt på soknadsstatus.
+ * fra FIKS Digisos.
  *
  * @returns
  *    "driftsmelding.kanIkkeSendeVedlegg"
  *      dersom fiks digisos kommuneinfo sier at ettersendelse er deaktivert.
- *    "driftsmelding.vedlegg.vedleggMangler"
- *      dersom isBroken-flagget er satt på aktiv søknad.
  *    undefined
  *      mens vi laster kommune- og søknadsinfo
  *    null
@@ -28,7 +27,6 @@ export const useFileUploadError = () => {
     const { data: soknadStatus } = useHentSoknadsStatus(fiksDigisosId);
 
     if (!kommuneInfo || !soknadStatus) return undefined;
-    if (soknadStatus?.isBroken) return "driftsmelding.vedlegg.vedleggMangler";
     if (ettersendelseDeaktivert(kommuneInfo)) return "driftsmelding.kanIkkeSendeVedlegg";
     return null;
 };

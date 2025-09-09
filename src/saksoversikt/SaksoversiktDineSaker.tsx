@@ -75,7 +75,6 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
                                 tittel={sak.soknadTittel}
                                 oppdatert={sak.sistOppdatert}
                                 url={sak.url}
-                                isBroken={sak.isBrokenSoknad}
                             />
                         </li>
                     ))}

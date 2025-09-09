@@ -1,16 +1,17 @@
 import { waitFor } from "@testing-library/react";
 import { expect, describe, it, beforeEach, vi, Mock } from "vitest";
 
-import { server } from "../../../mocks/server";
-import { renderHook } from "../../../test/test-utils";
 import {
     getHentKommuneInfoMockHandler,
     getHentKommuneInfoResponseMock,
-} from "../../../generated/kommune-controller/kommune-controller.msw";
+} from "@generated/kommune-controller/kommune-controller.msw";
 import {
     getHentSoknadsStatusMockHandler,
     getHentSoknadsStatusResponseMock,
-} from "../../../generated/soknads-status-controller/soknads-status-controller.msw";
+} from "@generated/soknads-status-controller/soknads-status-controller.msw";
+
+import { server } from "../../../mocks/server";
+import { renderHook } from "../../../test/test-utils";
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 
 import { useFileUploadError } from "./useFileUploadError";
@@ -30,7 +31,6 @@ const KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE = getHentKommuneInfoResponseMock({
 });
 
 const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: false });
-const BROKEN_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: true });
 
 vi.mock("../../../hooks/useFiksDigisosId", () => ({ default: vi.fn(() => "dumy") }));
 
@@ -45,7 +45,6 @@ describe("useFileUploadAllowed", () => {
             getHentKommuneInfoMockHandler(KOMMUNE_INNSYN_INACTIVE_RESPONSE),
             getHentSoknadsStatusMockHandler(OK_SOKNAD_RESPONSE)
         );
-
         const { result } = renderHook(() => useFileUploadError());
         await waitFor(() => expect(result.current).toEqual(null));
     });
@@ -57,14 +56,5 @@ describe("useFileUploadAllowed", () => {
         );
         const { result } = renderHook(() => useFileUploadError());
         await waitFor(() => expect(result.current).toEqual("driftsmelding.kanIkkeSendeVedlegg"));
-    });
-
-    it("skal gi feilmelding dersom søknaden har isBroken: true pga vedleggmangel", async () => {
-        server.use(
-            getHentKommuneInfoMockHandler(KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE),
-            getHentSoknadsStatusMockHandler(BROKEN_SOKNAD_RESPONSE)
-        );
-        const { result } = renderHook(() => useFileUploadError());
-        await waitFor(() => expect(result.current).toEqual("driftsmelding.vedlegg.vedleggMangler"));
     });
 });
