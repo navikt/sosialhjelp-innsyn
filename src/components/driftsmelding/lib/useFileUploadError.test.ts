@@ -30,7 +30,7 @@ const KOMMUNE_ETTERSENDELSE_INACTIVE_RESPONSE = getHentKommuneInfoResponseMock({
     erInnsendingEttersendelseMidlertidigDeaktivert: true,
 });
 
-const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock({ isBroken: false });
+const OK_SOKNAD_RESPONSE = getHentSoknadsStatusResponseMock();
 
 vi.mock("../../../hooks/useFiksDigisosId", () => ({ default: vi.fn(() => "dumy") }));
 
