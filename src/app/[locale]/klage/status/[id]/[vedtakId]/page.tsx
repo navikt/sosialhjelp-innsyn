@@ -1,4 +1,4 @@
-import { Alert, Heading, Link, VStack } from "@navikt/ds-react";
+import { Alert, BodyLong, Heading, Link, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -24,8 +24,8 @@ const Page = async () => {
                     <Heading size="small" level="2" className="mb-2">
                         {t("underUtviklingInfo.tittel")}
                     </Heading>
-                    <p className="mb-4">{t("underUtviklingInfo.beskrivelse1")}</p>
-                    <p>
+                    <BodyLong className="mb-4">{t("underUtviklingInfo.beskrivelse1")}</BodyLong>
+                    <BodyLong>
                         {t.rich("underUtviklingInfo.beskrivelse2", {
                             klageInfo: (chunks) => (
                                 <Link href="https://www.nav.no/klagerettigheter" inlineText>
@@ -43,7 +43,7 @@ const Page = async () => {
                                 </Link>
                             ),
                         })}
-                    </p>
+                    </BodyLong>
                 </Alert>
             </VStack>
         </>
