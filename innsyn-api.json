@@ -764,10 +764,9 @@
                     "tidspunktSendt": { "type": "string", "format": "date-time" },
                     "soknadsalderIMinutter": { "type": "integer", "format": "int64" },
                     "navKontor": { "type": "string" },
-                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" },
-                    "isBroken": { "type": "boolean" }
+                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" }
                 },
-                "required": ["isBroken", "status"]
+                "required": ["status"]
             },
             "UrlResponse": {
                 "type": "object",
@@ -803,9 +802,7 @@
                             "VIS_BREVET_LENKETEKST"
                         ]
                     },
-                    "link": { "type": "string" },
-                    "storrelse": { "type": "integer", "format": "int64" },
-                    "filnavn": { "type": "string" }
+                    "link": { "type": "string" }
                 },
                 "required": ["link", "linkTekst"]
             },
@@ -1213,10 +1210,9 @@
                     "sistOppdatert": { "type": "string", "format": "date-time" },
                     "kilde": { "type": "string" },
                     "url": { "type": "string" },
-                    "kommunenummer": { "type": "string" },
-                    "isBrokenSoknad": { "type": "boolean" }
+                    "kommunenummer": { "type": "string" }
                 },
-                "required": ["isBrokenSoknad", "kilde", "sistOppdatert", "soknadTittel"]
+                "required": ["kilde", "sistOppdatert", "soknadTittel"]
             },
             "ForelopigSvar": {
                 "type": "object",
