@@ -43,11 +43,6 @@ const Saksoversikt: NextPage = () => {
                                 <BodyShort>{t("feilmelding.saksOversikt2")}</BodyShort>
                             </Alert>
                         )}
-                        {saker?.some((it) => it.isBrokenSoknad) && (
-                            <Alert variant="warning">
-                                <BodyShort>{t("soknaderUtenVedlegg.forside")}</BodyShort>
-                            </Alert>
-                        )}
                     </Preamble>
                     {saker?.length ? <SaksoversiktDineSaker saker={saker} /> : <SaksoversiktIngenSoknader />}
                 </>

@@ -478,8 +478,7 @@
             "innsynOgEttersendelseDeaktivert": "Sorry, we cannot display the status of your application or receive your documentation. Please try again later, or contact your Nav office.",
             "kanIkkeSendeVedlegg": "Sorry, we are experiencing system error. Please submit your documentation to your Nav office.",
             "vedlegg": {
-                "feiledeDigisosIder": "Sorry, you cannot submit documentation for this application digitally. Please submit your documentation to your Nav office.",
-                "vedleggMangler": "Unfortunately, you can not submit documentation to this application."
+                "feiledeDigisosIder": "Sorry, you cannot submit documentation for this application digitally. Please submit your documentation to your Nav office."
             },
             "feiledeDigisosIder": "Sorry, we cannot display the status of your application or recieve your documentation for this application digitally. Please submit your documentation to your Nav office."
         },
@@ -531,10 +530,6 @@
         },
         "varsling": {
             "forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved."
-        },
-        "soknaderUtenVedlegg": {
-            "forside": "During the period from 11.4.24 at 15:00 to 12.4.24 at 12:15, we experienced technical problems. Applications that were sent during this period and had documentation have failed in the reception to the municipality. It will not be possible to upload new documentation to this application. Please contact your local Nav office for help. We apologize for the inconvenience this causes.",
-            "statusside": "Due to a technical error, this application has failed. It will not be possible to upload documentation to this application. Please contact your local Nav office for help. We apologize for the inconvenience this causes."
         },
         "annen_dokumentasjon": "additional documentation"
     },

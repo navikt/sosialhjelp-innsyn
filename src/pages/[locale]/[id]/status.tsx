@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Alert, BodyShort, Heading, Panel as NavDsPanel } from "@navikt/ds-react";
+import { Heading, Panel as NavDsPanel } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -86,10 +86,6 @@ const StyledSpace = styled.div`
     padding: 2rem 0 2rem 0;
 `;
 
-const StyledAlert = styled(Alert)`
-    margin-bottom: 3rem;
-`;
-
 const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
     const t = useTranslations("common");
     const pathname = usePathname();
@@ -117,12 +113,6 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
             <LoadingResourcesFailedAlert />
 
             <DriftsmeldingKommune driftsmelding={driftsmelding} />
-
-            {soknadsStatus?.isBroken && (
-                <StyledAlert variant="warning">
-                    <BodyShort>{t("soknaderUtenVedlegg.statusside")}</BodyShort>
-                </StyledAlert>
-            )}
 
             <ForelopigSvarAlertstripe />
 
