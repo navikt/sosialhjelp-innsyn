@@ -268,8 +268,13 @@
         "beskrivelse": "Appeal the decision regarding financial social assistance."
     },
     "KlagePage": {
-        "tittel": "Your complaint has been submitted",
-        "beskrivelse": "View your submitted complaint about the decision regarding financial social assistance."
+        "tittel": "Your appeal has been submitted",
+        "beskrivelse": "View your submitted appeal about the decision regarding financial social assistance.",
+        "underUtviklingInfo": {
+            "tittel": "This page is under development",
+            "beskrivelse1": "You can submit additional information and documentation for your appeal on this page. When the appeal is processed, you will receive a response via Digipost or physical mail.",
+            "beskrivelse2": "You can read about <klageInfo>the appeal process and possible outcomes here</klageInfo>. If you have questions about your appeal, you can contact <navKontor>your local Nav office</navKontor> or call us at <tel>55 55 33 33</tel>."
+        }
     },
     "KlageForm": {
         "bakgrunn": {

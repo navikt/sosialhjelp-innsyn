@@ -227,7 +227,12 @@
     },
     "KlagePage": {
         "tittel": "Klagen din er sendt",
-        "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp."
+        "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp.",
+        "underUtviklingInfo": {
+            "tittel": "Denne siden er under utvikling",
+            "beskrivelse1": "Du kan sende inn flere opplysninger og dokumentasjon til klagen din på denne siden. Når klagen er ferdigbehandlet, vil du få svar via Digipost eller fysisk brev.",
+            "beskrivelse2": "Du kan lese om <klageInfo>klagebehandling og mulige utfall her</klageInfo>. Har du spørsmål om klagen din kan du kontakte <navKontor>ditt Nav-kontor</navKontor> eller ringe oss på <tel>55 55 33 33</tel>."
+        }
     },
     "KlageForm": {
         "bakgrunn": {

@@ -64,7 +64,7 @@
         "MOTTATT": {
             "tittel": "Hugs å meld frå om endringar",
             "beskrivelse": "Dersom det skjer endringar i situasjonen din, kan det påverke oppfølginga eller utbetalinga du får frå Nav. <lenke>Les meir om kva situasjonar som kan påverke.</lenke>",
-            "beskrivelse2": "For å melde frå om endringar kan du ringje oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
+            "beskrivelse2": "For å melde frå om endringar kan du ringe oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
         }
     },
     "StatusPage": {
@@ -269,7 +269,12 @@
     },
     "KlagePage": {
         "tittel": "Klaga di er sendt",
-        "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp."
+        "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp.",
+        "underUtviklingInfo": {
+            "tittel": "Denne sida er under utvikling",
+            "beskrivelse1": "Du kan sende inn fleire opplysningar og dokumentasjon til klaga di på denne sida. Når klaga er ferdigbehandla, vil du få svar via Digipost eller fysisk brev.",
+            "beskrivelse2": "Du kan lesa om <klageInfo>klagebehandling og moglege utfall her</klageInfo>. Har du spørsmål om klaga di kan du kontakta <navKontor>Nav-kontoret ditt</navKontor> eller ringja oss på <tel>55 55 33 33</tel>."
+        }
     },
     "KlageForm": {
         "bakgrunn": {
