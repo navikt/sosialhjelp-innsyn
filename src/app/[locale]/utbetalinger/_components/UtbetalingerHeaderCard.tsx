@@ -1,4 +1,4 @@
-import { BodyShort, BoxNew, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
 import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
@@ -27,9 +27,14 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, allowedStatuses, manedsUt
     return (
         <VStack gap="1">
             {synlig.length > 0 && (
-                <BoxNew borderRadius="xlarge xlarge 0 0" padding="space-16" background="accent-soft">
-                    <HStack>
-                        <BodyShort className="capitalize" weight="semibold">
+                <BoxNew
+                    borderRadius="xlarge xlarge 0 0"
+                    paddingInline="4"
+                    paddingBlock="space-12"
+                    background="accent-soft"
+                >
+                    <HStack className="pr-2" align="center">
+                        <Heading size="small" level="2" className="capitalize">
                             {format.dateTime(
                                 set(new Date(0), {
                                     year: utbetalinger.ar,
@@ -40,7 +45,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, allowedStatuses, manedsUt
                                     year: "numeric",
                                 }
                             )}
-                        </BodyShort>
+                        </Heading>
                         <BodyShort className="ml-auto" weight="semibold">
                             {utbetalingSum} kr
                         </BodyShort>
