@@ -234,6 +234,20 @@
             "beskrivelse2": "Du kan lese om <klageInfo>klagebehandling og mulige utfall her</klageInfo>. Har du spørsmål om klagen din kan du kontakte <navKontor>ditt Nav-kontor</navKontor> eller ringe oss på <tel>55 55 33 33</tel>."
         }
     },
+    "KlageProsessenVidere": {
+        "tittel": "Prosessen videre",
+        "steg1": {
+            "tittel": "Klagen din er sendt"
+        },
+        "steg2": {
+            "tittel": "Nav-kontoret behandler klagen",
+            "beskrivelse": "Din klage behandles så fort som mulig. Nav-kontoret vil ta kontakt med deg dersom de trenger flere opplysninger eller mer dokumentasjon."
+        },
+        "steg3": {
+            "tittel": "Klagen din er ferdig behandlet",
+            "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
+        }
+    },
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunn for klagen",

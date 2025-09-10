@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 
+import ProsessenVidere from "./_components/prosessenVidere";
+
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
@@ -45,6 +47,7 @@ const Page = async () => {
                         })}
                     </BodyLong>
                 </Alert>
+                <ProsessenVidere />
             </VStack>
         </>
     );
