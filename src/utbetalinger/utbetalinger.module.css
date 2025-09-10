@@ -5,25 +5,8 @@
     flex-direction: column;
     background-color: #d4e6d8;
 }
-.reverseChevron {
-    --chevron-hit: 48px;
-    padding-inline-end: calc(var(--__axc-expansioncard-padding-inline, var(--ax-space-20)) + var(--chevron-hit));
-}
-.headerNoUnderline[data-open="true"]::after {
-    content: none;
-}
-.headerRemoveGapLeftChevron {
-    gap: 0;
-}
-.headerFill :global(.aksel-expansioncard__title) {
-    width: 100%;
-}
+/*Finner ingen grei måte å legge beløp ved siden av chevron, jukser frem noe*/
 .headerFill :global(.aksel-expansioncard__header-content) {
     flex: 1 1 auto;
-    min-width: 0;
-}
-.headerFill :global(.aksel-expansioncard__header-content > .aksel-expansioncard__title) {
-    width: 100%;
-    display: block;
     min-width: 0;
 }

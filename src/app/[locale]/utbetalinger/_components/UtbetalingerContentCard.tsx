@@ -24,19 +24,14 @@ const cardBorder = (id: number, count: number) => {
 export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) => {
     const format = useFormatter();
     const t = useTranslations("UtbetalingerContentCard");
-    const alignmentWithChevron = "leading-[1.75]";
+    const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
     //TODO:
     // ExpansionCard krever at det er et aria-label på komponenten
     // Finn et bedre aria-label enn "Utbetalinger" før alt blir prodsatt
     return (
         <ExpansionCard size="small" aria-label="Utbetalinger" data-color="accent" className={cardBorder(id, count)}>
             <ExpansionCard.Header
-                className={cx(
-                    cardBorder(id, count),
-                    styles.headerNoUnderline,
-                    styles.headerFill,
-                    styles.headerRemoveGapLeftChevron
-                )}
+                className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(id, count), styles.headerFill)}
             >
                 <ExpansionCard.Title>
                     <HStack align="center" wrap={false} className="w-full justify" justify="space-between">
@@ -44,10 +39,10 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
                             <BodyShort size="medium" weight="semibold" className={cx("truncate", alignmentWithChevron)}>
                                 {manedUtbetaling.tittel}
                             </BodyShort>
-                            <BodyShort size="small" className={cx(alignmentWithChevron)}>
+                            <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
                                 {t(manedUtbetaling.status)}
                             </BodyShort>
-                            <BodyShort size="small" className={cx(alignmentWithChevron)}>
+                            <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
                                 {manedUtbetaling.forfallsdato
                                     ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
                                           day: "numeric",
@@ -56,7 +51,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
                                     : t("ukjentDato")}
                             </BodyShort>
                         </HStack>
-                        <BodyShort weight="semibold" className={cx("whitespace-nowrap", alignmentWithChevron)}>
+                        <BodyShort weight="semibold" className={cx("truncate", alignmentWithChevron)}>
                             {manedUtbetaling.belop} kr
                         </BodyShort>
                     </HStack>

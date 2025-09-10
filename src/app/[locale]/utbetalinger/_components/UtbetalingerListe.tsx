@@ -103,17 +103,19 @@ const Liste = ({ selectedChip }: Props) => {
                     </Button>
                 </HStack>
 
-                <UtbetalingerListView
-                    title={t("egendefinert")}
-                    groups={egendefinerteGroups}
-                    allowedStatuses={[
-                        ManedUtbetalingStatus.PLANLAGT_UTBETALING,
-                        ManedUtbetalingStatus.UTBETALT,
-                        ManedUtbetalingStatus.STOPPET,
-                    ]}
-                    sumStatuses={[ManedUtbetalingStatus.UTBETALT, ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
-                    empty={<IngenUtbetalingerPeriode />}
-                />
+                {applied && (
+                    <UtbetalingerListView
+                        title={t("egendefinert")}
+                        groups={egendefinerteGroups}
+                        allowedStatuses={[
+                            ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+                            ManedUtbetalingStatus.UTBETALT,
+                            ManedUtbetalingStatus.STOPPET,
+                        ]}
+                        sumStatuses={[ManedUtbetalingStatus.UTBETALT, ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
+                        empty={egendefinerteGroups.length < 1 ? <IngenUtbetalingerPeriode /> : ""}
+                    />
+                )}
             </VStack>
         );
     }
@@ -124,7 +126,7 @@ const Liste = ({ selectedChip }: Props) => {
             groups={periodeGroups}
             allowedStatuses={[ManedUtbetalingStatus.UTBETALT, ManedUtbetalingStatus.STOPPET]}
             sumStatuses={[ManedUtbetalingStatus.UTBETALT]}
-            empty={<IngenUtbetalingerPeriode />}
+            empty={periodeGroups.length < 1 ? <IngenUtbetalingerPeriode /> : ""}
         />
     );
 };
