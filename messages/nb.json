@@ -251,7 +251,7 @@
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunn for klagen",
-            "beskrivelse": "For at vi skal behangle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
+            "beskrivelse": "For at vi skal behandle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
         },
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
