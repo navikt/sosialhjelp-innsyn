@@ -1,4 +1,4 @@
-import { Heading } from "@navikt/ds-react";
+import { Alert, BodyLong, Heading, Link, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -16,11 +16,36 @@ const Page = async () => {
     return (
         <>
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
-            <div className="mb-20">
-                <Heading size="xlarge" level="1" className="mt-20">
+            <VStack gap="20" className="mt-20">
+                <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>
-            </div>
+                <Alert variant="info">
+                    <Heading size="small" level="2" className="mb-2">
+                        {t("underUtviklingInfo.tittel")}
+                    </Heading>
+                    <BodyLong className="mb-4">{t("underUtviklingInfo.beskrivelse1")}</BodyLong>
+                    <BodyLong>
+                        {t.rich("underUtviklingInfo.beskrivelse2", {
+                            klageInfo: (chunks) => (
+                                <Link href="https://www.nav.no/klagerettigheter" inlineText>
+                                    {chunks}
+                                </Link>
+                            ),
+                            navKontor: (chunks) => (
+                                <Link href="https://www.nav.no/sok-nav-kontor" inlineText>
+                                    {chunks}
+                                </Link>
+                            ),
+                            tel: (chunks) => (
+                                <Link href="tel:+4755553333" inlineText>
+                                    {chunks}
+                                </Link>
+                            ),
+                        })}
+                    </BodyLong>
+                </Alert>
+            </VStack>
         </>
     );
 };
