@@ -6,27 +6,33 @@ import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@gene
 import { UtbetalingerHeaderCard } from "./UtbetalingerHeaderCard";
 
 type Props = {
-    title: string;
-    groups: NyeOgTidligereUtbetalingerResponse[];
-    allowedStatuses?: ManedUtbetalingStatus[];
-    sumStatuses?: ManedUtbetalingStatus[];
-    empty: React.ReactNode;
+    tittel: string;
+    utbetalingsGruppe: NyeOgTidligereUtbetalingerResponse[];
+    tillateStatuser?: ManedUtbetalingStatus[];
+    manedsUtbetalingerSummert?: ManedUtbetalingStatus[];
+    tomListe: React.ReactNode;
 };
 
-const UtbetalingerListView = ({ title, groups, allowedStatuses, sumStatuses, empty }: Props) => {
+const UtbetalingerListView = ({
+    tittel,
+    utbetalingsGruppe,
+    tillateStatuser,
+    manedsUtbetalingerSummert,
+    tomListe,
+}: Props) => {
     return (
         <VStack gap="4">
             <Heading size="small" level="2">
-                {title}
+                {tittel}
             </Heading>
-            {groups.length === 0
-                ? empty
-                : groups.map((g) => (
+            {utbetalingsGruppe.length === 0
+                ? tomListe
+                : utbetalingsGruppe.map((g) => (
                       <UtbetalingerHeaderCard
                           key={`${g.ar}-${g.maned}`}
                           utbetalinger={g}
-                          allowedStatuses={allowedStatuses}
-                          manedsUtbetalingSum={sumStatuses}
+                          tilatteStatuser={tillateStatuser}
+                          manedsUtbetalingSummert={manedsUtbetalingerSummert}
                       />
                   ))}
         </VStack>

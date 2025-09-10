@@ -24,71 +24,75 @@ import IngenUtbetalingerKommende from "./IngenUtbetalingerKommende";
 import IngenUtbetalingerPeriode from "./IngenUtbetalingerPeriode";
 import { UtbetalingerSkeleton } from "./UtbetalingerSkeleton";
 
-type Props = { selectedChip: ChipsChip };
+type Props = { valgteChip: ChipsChip };
 
-const Liste = ({ selectedChip }: Props) => {
+const Liste = ({ valgteChip }: Props) => {
     const t = useTranslations("UtbetalingerChips");
 
     const { data: nye } = useHentNyeUtbetalinger();
     const { data: tidligere } = useHentTidligereUtbetalinger();
 
-    const combined = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
+    const kombinert = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
 
     const { datepickerProps, fromInputProps, toInputProps, selectedRange } = useRangeDatepicker({
         fromDate: new Date(2020, 0, 1),
     });
-    const [applied, setApplied] = useState<{ from: Date; to: Date } | null>(null);
+    const [valgtDatoRekke, setvalgtDatoRekke] = useState<{ from: Date; to: Date } | null>(null);
 
     const onClick = () => {
-        if (selectedRange?.from && selectedRange?.to) setApplied({ from: selectedRange.from, to: selectedRange.to });
+        if (selectedRange?.from && selectedRange?.to)
+            setvalgtDatoRekke({ from: selectedRange.from, to: selectedRange.to });
     };
 
-    const isKommende = selectedChip === "kommende";
-    const isEgendefinert = selectedChip === "egendefinert";
-    const periodeRange = isPeriodChip(selectedChip) ? datoIntervall(selectedChip) : null;
+    const kommende = valgteChip === "kommende";
+    const egendefinert = valgteChip === "egendefinert";
+    const periodeIntervall = isPeriodChip(valgteChip) ? datoIntervall(valgteChip) : null;
 
-    const kommendeGroups = useMemo(() => {
-        if (!isKommende) return [];
-        const allowed = new Set<ManedUtbetalingStatus>([
+    const kommendeUtbetalinger = useMemo(() => {
+        if (!kommende) return [];
+        const tillateStatuser = new Set<ManedUtbetalingStatus>([
             ManedUtbetalingStatus.PLANLAGT_UTBETALING,
             ManedUtbetalingStatus.STOPPET,
         ]);
 
-        return combined
-            .map((g) => ({ ...g, utbetalingerForManed: g.utbetalingerForManed.filter((u) => allowed.has(u.status)) }))
+        return kombinert
+            .map((g) => ({
+                ...g,
+                utbetalingerForManed: g.utbetalingerForManed.filter((u) => tillateStatuser.has(u.status)),
+            }))
             .filter((g) => g.utbetalingerForManed.length > 0);
-    }, [combined, isKommende]);
+    }, [kombinert, kommende]);
 
-    const periodeGroups = useMemo(() => {
-        if (!periodeRange) return [];
-        return combined.filter((g) => erInnenforAngittDato(g, periodeRange));
-    }, [combined, periodeRange]);
+    const periodeUtbetalinger = useMemo(() => {
+        if (!periodeIntervall) return [];
+        return kombinert.filter((g) => erInnenforAngittDato(g, periodeIntervall));
+    }, [kombinert, periodeIntervall]);
 
-    const egendefinerteGroups = useMemo(() => {
-        if (!applied) return [];
-        return combined
+    const egendefinertUtbetalinger = useMemo(() => {
+        if (!valgtDatoRekke) return [];
+        return kombinert
             .map((m) => ({
                 ...m,
                 utbetalingerForManed: m.utbetalingerForManed.filter((u) =>
-                    utbetalingInnenforDatoIntervall(u, applied.from, applied.to)
+                    utbetalingInnenforDatoIntervall(u, valgtDatoRekke.from, valgtDatoRekke.to)
                 ),
             }))
             .filter((m) => m.utbetalingerForManed.length > 0);
-    }, [combined, applied]);
+    }, [kombinert, valgtDatoRekke]);
 
-    if (isKommende) {
+    if (kommende) {
         return (
             <UtbetalingerListView
-                title={t("kommende")}
-                groups={kommendeGroups}
-                allowedStatuses={[ManedUtbetalingStatus.PLANLAGT_UTBETALING, ManedUtbetalingStatus.STOPPET]}
-                sumStatuses={[ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
-                empty={<IngenUtbetalingerKommende />}
+                tittel={t("kommende")}
+                utbetalingsGruppe={kommendeUtbetalinger}
+                tillateStatuser={[ManedUtbetalingStatus.PLANLAGT_UTBETALING, ManedUtbetalingStatus.STOPPET]}
+                manedsUtbetalingerSummert={[ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
+                tomListe={<IngenUtbetalingerKommende />}
             />
         );
     }
 
-    if (isEgendefinert) {
+    if (egendefinert) {
         return (
             <VStack gap="4">
                 <HStack gap="4" align="end">
@@ -103,17 +107,20 @@ const Liste = ({ selectedChip }: Props) => {
                     </Button>
                 </HStack>
 
-                {applied && (
+                {valgtDatoRekke && (
                     <UtbetalingerListView
-                        title={t("egendefinert")}
-                        groups={egendefinerteGroups}
-                        allowedStatuses={[
+                        tittel={t("egendefinert")}
+                        utbetalingsGruppe={egendefinertUtbetalinger}
+                        tillateStatuser={[
                             ManedUtbetalingStatus.PLANLAGT_UTBETALING,
                             ManedUtbetalingStatus.UTBETALT,
                             ManedUtbetalingStatus.STOPPET,
                         ]}
-                        sumStatuses={[ManedUtbetalingStatus.UTBETALT, ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
-                        empty={egendefinerteGroups.length < 1 ? <IngenUtbetalingerPeriode /> : ""}
+                        manedsUtbetalingerSummert={[
+                            ManedUtbetalingStatus.UTBETALT,
+                            ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+                        ]}
+                        tomListe={egendefinertUtbetalinger.length < 1 ? <IngenUtbetalingerPeriode /> : null}
                     />
                 )}
             </VStack>
@@ -122,11 +129,11 @@ const Liste = ({ selectedChip }: Props) => {
 
     return (
         <UtbetalingerListView
-            title={t(selectedChip)}
-            groups={periodeGroups}
-            allowedStatuses={[ManedUtbetalingStatus.UTBETALT, ManedUtbetalingStatus.STOPPET]}
-            sumStatuses={[ManedUtbetalingStatus.UTBETALT]}
-            empty={periodeGroups.length < 1 ? <IngenUtbetalingerPeriode /> : ""}
+            tittel={t(valgteChip)}
+            utbetalingsGruppe={periodeUtbetalinger}
+            tillateStatuser={[ManedUtbetalingStatus.UTBETALT, ManedUtbetalingStatus.STOPPET]}
+            manedsUtbetalingerSummert={[ManedUtbetalingStatus.UTBETALT]}
+            tomListe={periodeUtbetalinger.length < 1 ? <IngenUtbetalingerPeriode /> : null}
         />
     );
 };

@@ -39,7 +39,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
                 className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(id, count), styles.headerFill)}
             >
                 <ExpansionCard.Title>
-                    <HStack align="center" wrap={false} className="w-full justify" justify="space-between">
+                    <HStack align="center" wrap={false} className="w-full" justify="space-between">
                         <HStack gap="2" align="center" className="min-w-0" wrap={false}>
                             <BodyShort size="medium" weight="semibold" className={cx("truncate", alignmentWithChevron)}>
                                 {manedUtbetaling.tittel}
@@ -56,7 +56,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
                                     : t("ukjentDato")}
                             </BodyShort>
                         </HStack>
-                        <BodyShort weight="semibold" className={cx("truncate", alignmentWithChevron)}>
+                        <BodyShort weight="semibold" className={cx("truncate tabular-nums", alignmentWithChevron)}>
                             {manedUtbetaling.belop} kr
                         </BodyShort>
                     </HStack>

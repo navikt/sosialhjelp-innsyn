@@ -9,19 +9,19 @@ import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
-    allowedStatuses?: ManedUtbetalingStatus[];
-    manedsUtbetalingSum?: ManedUtbetalingStatus[];
+    tilatteStatuser?: ManedUtbetalingStatus[];
+    manedsUtbetalingSummert?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerHeaderCard = ({ utbetalinger, allowedStatuses, manedsUtbetalingSum }: Props) => {
+export const UtbetalingerHeaderCard = ({ utbetalinger, tilatteStatuser, manedsUtbetalingSummert }: Props) => {
     const format = useFormatter();
 
-    const synlig = allowedStatuses
-        ? utbetalinger.utbetalingerForManed.filter((u) => allowedStatuses.includes(u.status))
+    const synlig = tilatteStatuser
+        ? utbetalinger.utbetalingerForManed.filter((u) => tilatteStatuser.includes(u.status))
         : utbetalinger.utbetalingerForManed;
 
     const utbetalingSum = synlig
-        .filter((u) => !manedsUtbetalingSum || manedsUtbetalingSum.includes(u.status))
+        .filter((u) => !manedsUtbetalingSummert || manedsUtbetalingSummert.includes(u.status))
         .reduce((acc, u) => acc + u.belop, 0);
 
     return (
@@ -34,7 +34,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, allowedStatuses, manedsUt
                     background="accent-soft"
                 >
                     <HStack className="pr-2" align="center">
-                        <Heading size="small" level="2" className="capitalize">
+                        <Heading size="small" level="3" className="capitalize">
                             {format.dateTime(
                                 set(new Date(0), {
                                     year: utbetalinger.ar,
@@ -46,7 +46,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, allowedStatuses, manedsUt
                                 }
                             )}
                         </Heading>
-                        <BodyShort className="ml-auto" weight="semibold">
+                        <BodyShort className="ml-auto tabular-nums" weight="semibold">
                             {utbetalingSum} kr
                         </BodyShort>
                     </HStack>

@@ -9,7 +9,7 @@ import UtbetalingerListe from "./UtbetalingerListe";
 
 export type ChipsChip = "kommende" | "siste3" | "hittil" | "fjor" | "egendefinert";
 
-const CHIP_ORDER = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly ChipsChip[];
+const ChipRekke = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly ChipsChip[];
 
 const Utbetalinger = () => {
     const t = useTranslations("UtbetalingerChips");
@@ -18,7 +18,7 @@ const Utbetalinger = () => {
     return (
         <VStack gap="16">
             <Chips>
-                {CHIP_ORDER.map((chip) => (
+                {ChipRekke.map((chip) => (
                     <ChipsToggle
                         key={chip}
                         checkmark={false}
@@ -29,7 +29,7 @@ const Utbetalinger = () => {
                     </ChipsToggle>
                 ))}
             </Chips>
-            <UtbetalingerListe selectedChip={selectedChip} />
+            <UtbetalingerListe valgteChip={selectedChip} />
         </VStack>
     );
 };
