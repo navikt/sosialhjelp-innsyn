@@ -80,6 +80,7 @@ const KlageForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
             <Textarea
+                resize
                 label={t("bakgrunn.label")}
                 description={t("bakgrunn.beskrivelse")}
                 error={errors.background?.message && t(errors.background.message)}
