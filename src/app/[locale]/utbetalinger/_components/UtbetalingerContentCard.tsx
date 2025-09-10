@@ -29,7 +29,12 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
     // ExpansionCard krever at det er et aria-label på komponenten
     // Finn et bedre aria-label enn "Utbetalinger" før alt blir prodsatt
     return (
-        <ExpansionCard size="small" aria-label="Utbetalinger" data-color="accent" className={cardBorder(id, count)}>
+        <ExpansionCard
+            size="small"
+            aria-label={"Utvidbart utbetalingsinformasjon om " + manedUtbetaling.tittel}
+            data-color="accent"
+            className={cardBorder(id, count)}
+        >
             <ExpansionCard.Header
                 className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(id, count), styles.headerFill)}
             >
