@@ -296,9 +296,13 @@
             "label": "Oppgi bakgrunnen for klaga",
             "beskrivelse": "For at vi skal kunne handsame klaga di, er det viktig at du forklarer kvifor du er ueinig i vedtaket og kva du ønskjer endra."
         },
+        "filOpplasting": {
+            "dineVedlegg": "Dine vedlegg"
+        },
         "validering": {
             "maksLengde": "Du kan skrive inn maks 1000 teikn"
         },
+        "sendKlage": "Send inn",
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
     },
     "KlageFileUpload": {

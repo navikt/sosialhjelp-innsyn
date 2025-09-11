@@ -296,9 +296,13 @@
             "label": "Provide the background for the complaint",
             "beskrivelse": "To process your complaint, it is important that you explain why you disagree with the decision and what you want changed."
         },
+        "filOpplasting": {
+            "dineVedlegg": "Your files"
+        },
         "validering": {
             "maksLengde": "You can write a maximum of 1000 characters"
         },
+        "sendKlage": "Send inn",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
     "KlageFileUpload": {
