@@ -86,13 +86,25 @@ const KlageForm = () => {
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <FileSelect files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
-            <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
-                {t("sendKlage")}
-            </Button>
-            {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
-                <Alert variant="error">{t("sendingFeilet")}</Alert>
-            )}
+            <FileSelect
+                files={files}
+                addFiler={addFiler}
+                removeFil={removeFil}
+                outerErrors={outerErrors}
+                filesLabel={t("filOpplasting.dineVedlegg")}
+            />
+            <div>
+                <Button
+                    loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending}
+                    type="submit"
+                    className="mb-4"
+                >
+                    {t("sendKlage")}
+                </Button>
+                {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
+                    <Alert variant="error">{t("sendingFeilet")}</Alert>
+                )}
+            </div>
         </form>
     );
 };
