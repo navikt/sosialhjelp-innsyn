@@ -8,6 +8,7 @@ import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import StatusCard from "@components/soknaderList/list/soknadCard/status/StatusCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
+import ProsessenVidere from "./_components/prosessenVidere";
 
 const Page = async ({
     params,
@@ -35,6 +36,7 @@ const Page = async ({
                 <StatusCard id={fiksDigisosId} icon={<FileTextIcon />}>
                     {t("seVedtak")}
                 </StatusCard>
+                <ProsessenVidere />
             </VStack>
         </>
     );

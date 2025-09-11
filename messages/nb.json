@@ -235,6 +235,20 @@
         },
         "seVedtak": "Se vedtaket du har klaget på"
     },
+    "KlageProsessenVidere": {
+        "tittel": "Prosessen videre",
+        "steg1": {
+            "tittel": "Klagen din er sendt"
+        },
+        "steg2": {
+            "tittel": "Nav-kontoret behandler klagen",
+            "beskrivelse": "Din klage behandles så fort som mulig. Nav-kontoret vil ta kontakt med deg dersom de trenger flere opplysninger eller mer dokumentasjon."
+        },
+        "steg3": {
+            "tittel": "Klagen din er ferdig behandlet",
+            "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
+        }
+    },
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunn for klagen",
