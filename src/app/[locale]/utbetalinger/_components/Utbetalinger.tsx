@@ -7,13 +7,13 @@ import { useState } from "react";
 
 import UtbetalingerListe from "./UtbetalingerListe";
 
-export type ChipsChip = "kommende" | "siste3" | "hittil" | "fjor" | "egendefinert";
+export type ChipsChip = "kommende.kort" | "siste3" | "hittil" | "fjor" | "egendefinert";
 
-const ChipRekke = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly ChipsChip[];
+const ChipRekke = ["kommende.kort", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly ChipsChip[];
 
 const Utbetalinger = () => {
     const t = useTranslations("UtbetalingerChips");
-    const [selectedChip, setSelectedChip] = useState<ChipsChip>("kommende");
+    const [selectedChip, setSelectedChip] = useState<ChipsChip>("kommende.kort");
 
     return (
         <VStack gap="16">

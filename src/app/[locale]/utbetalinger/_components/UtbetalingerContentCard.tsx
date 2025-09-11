@@ -65,7 +65,9 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
             <ExpansionCard.Content>
                 <VStack gap="4">
                     <VStack>
-                        <BodyShort>{t("periode")}</BodyShort>
+                        <BodyShort size="medium" weight="semibold">
+                            {t("periode")}
+                        </BodyShort>
                         <BodyShort>
                             {manedUtbetaling.fom && manedUtbetaling.tom
                                 ? t.rich("datoRange", {

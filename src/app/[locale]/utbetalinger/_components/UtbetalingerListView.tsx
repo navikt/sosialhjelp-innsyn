@@ -8,18 +8,11 @@ import { UtbetalingerHeaderCard } from "./UtbetalingerHeaderCard";
 type Props = {
     tittel: string;
     utbetalingsGruppe: NyeOgTidligereUtbetalingerResponse[];
-    tillateStatuser?: ManedUtbetalingStatus[];
     manedsUtbetalingerSummert?: ManedUtbetalingStatus[];
     tomListe: React.ReactNode;
 };
 
-const UtbetalingerListView = ({
-    tittel,
-    utbetalingsGruppe,
-    tillateStatuser,
-    manedsUtbetalingerSummert,
-    tomListe,
-}: Props) => {
+const UtbetalingerListView = ({ tittel, utbetalingsGruppe, manedsUtbetalingerSummert, tomListe }: Props) => {
     return (
         <VStack gap="4">
             <Heading size="small" level="2">
@@ -31,7 +24,6 @@ const UtbetalingerListView = ({
                       <UtbetalingerHeaderCard
                           key={`${g.ar}-${g.maned}`}
                           utbetalinger={g}
-                          tilatteStatuser={tillateStatuser}
                           manedsUtbetalingSummert={manedsUtbetalingerSummert}
                       />
                   ))}

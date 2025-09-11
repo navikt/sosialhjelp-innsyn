@@ -31,8 +31,8 @@ export const kombinertManed = (
 export type AarMaaned = { year: number; month: number };
 export type MaanedIntervall = { start: AarMaaned; end: AarMaaned };
 
-export type PeriodChip = "siste3" | "hittil" | "fjor";
-export const isPeriodChip = (c: ChipsChip): c is PeriodChip => {
+export type PeriodeChip = "siste3" | "hittil" | "fjor";
+export const erPeriodeChip = (c: ChipsChip): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";
 };
 

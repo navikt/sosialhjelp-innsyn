@@ -324,7 +324,10 @@
     "til": "To",
     "fra": "From",
     "visUtbetalinger": "Show payments",
-    "kommende": "Upcoming",
+    "kommende": {
+      "kort": "Upcoming",
+      "lang": "Upcoming payments"
+    },
     "siste3": "Last 3 months",
     "hittil": "So far this year",
     "fjor": "Last year",

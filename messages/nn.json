@@ -324,7 +324,10 @@
     "til": "Til",
     "fra": "Frå",
     "visUtbetalinger": "Vis utbetalinger",
-    "kommende": "Komande",
+    "kommende": {
+      "kort": "Komande",
+      "lang": "Komande utbetalinger"
+    },
     "siste3": "Siste 3 månader",
     "hittil": "Hittil i år",
     "fjor": "I fjor",
