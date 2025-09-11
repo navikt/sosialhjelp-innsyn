@@ -275,7 +275,7 @@
             "beskrivelse1": "You can submit additional information and documentation for your appeal on this page. When the appeal is processed, you will receive a response via Digipost or physical mail.",
             "beskrivelse2": "You can read about <klageInfo>the appeal process and possible outcomes here</klageInfo>. If you have questions about your appeal, you can contact <navKontor>your local Nav office</navKontor> or call us at <tel>55 55 33 33</tel>."
         },
-        "seVedtak": "View the decision you have appealed against"
+        "seVedtak": "View the decision you have appealed"
     },
     "KlageForm": {
         "bakgrunn": {
