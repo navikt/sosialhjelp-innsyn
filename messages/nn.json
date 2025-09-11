@@ -274,7 +274,8 @@
             "tittel": "Denne sida er under utvikling",
             "beskrivelse1": "Du kan sende inn fleire opplysningar og dokumentasjon til klaga di på denne sida. Når klaga er ferdigbehandla, vil du få svar via Digipost eller fysisk brev.",
             "beskrivelse2": "Du kan lesa om <klageInfo>klagebehandling og moglege utfall her</klageInfo>. Har du spørsmål om klaga di kan du kontakta <navKontor>Nav-kontoret ditt</navKontor> eller ringja oss på <tel>55 55 33 33</tel>."
-        }
+        },
+        "seVedtak": "Se vedtaket du har klaget på"
     },
     "KlageProsessenVidere": {
         "tittel": "Prosessen vidare",

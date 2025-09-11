@@ -1,15 +1,25 @@
-import { Alert, BodyLong, Heading, Link, VStack } from "@navikt/ds-react";
+import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { FileTextIcon } from "@navikt/aksel-icons";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
+import StatusCard from "@components/soknaderList/list/soknadCard/status/StatusCard";
 
+import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import ProsessenVidere from "./_components/prosessenVidere";
 
-const Page = async () => {
+const Page = async ({
+    params,
+}: {
+    params: Promise<{
+        id: string;
+    }>;
+}) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
+    const { id: fiksDigisosId } = await params;
 
     if (!toggle.enabled) {
         return notFound();
@@ -22,31 +32,10 @@ const Page = async () => {
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>
-                <Alert variant="info">
-                    <Heading size="small" level="2" className="mb-2">
-                        {t("underUtviklingInfo.tittel")}
-                    </Heading>
-                    <BodyLong className="mb-4">{t("underUtviklingInfo.beskrivelse1")}</BodyLong>
-                    <BodyLong>
-                        {t.rich("underUtviklingInfo.beskrivelse2", {
-                            klageInfo: (chunks) => (
-                                <Link href="https://www.nav.no/klagerettigheter" inlineText>
-                                    {chunks}
-                                </Link>
-                            ),
-                            navKontor: (chunks) => (
-                                <Link href="https://www.nav.no/sok-nav-kontor" inlineText>
-                                    {chunks}
-                                </Link>
-                            ),
-                            tel: (chunks) => (
-                                <Link href="tel:+4755553333" inlineText>
-                                    {chunks}
-                                </Link>
-                            ),
-                        })}
-                    </BodyLong>
-                </Alert>
+                <UnderUtviklingInfo />
+                <StatusCard id={fiksDigisosId} icon={<FileTextIcon />}>
+                    {t("seVedtak")}
+                </StatusCard>
                 <ProsessenVidere />
             </VStack>
         </>
