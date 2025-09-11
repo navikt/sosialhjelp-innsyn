@@ -276,6 +276,20 @@
             "beskrivelse2": "You can read about <klageInfo>the appeal process and possible outcomes here</klageInfo>. If you have questions about your appeal, you can contact <navKontor>your local Nav office</navKontor> or call us at <tel>55 55 33 33</tel>."
         }
     },
+    "KlageProsessenVidere": {
+        "tittel": "The process further",
+        "steg1": {
+            "tittel": "Your appeal has been submitted"
+        },
+        "steg2": {
+            "tittel": "The Nav office is processing your appeal",
+            "beskrivelse": "Your appeal is being processed as quickly as possible. The Nav office will contact you if they need more information or documentation."
+        },
+        "steg3": {
+            "tittel": "Your appeal has been processed",
+            "beskrivelse": "You will receive a decision. Read the decision to see if your appeal was upheld or not."
+        }
+    },
     "KlageForm": {
         "bakgrunn": {
             "label": "Provide the background for the complaint",
