@@ -254,11 +254,14 @@
             "label": "Oppgi bakgrunn for klagen",
             "beskrivelse": "For at vi skal behandle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
         },
+        "filOpplasting": {
+            "dineVedlegg": "Dine vedlegg"
+        },
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
             "maksFiler": "Du kan laste opp maks {maksFiler} filer"
         },
-        "sendKlage": "Send klage",
+        "sendKlage": "Send",
         "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
     },
     "KlageFileUpload": {
