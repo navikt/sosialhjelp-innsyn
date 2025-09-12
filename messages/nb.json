@@ -306,7 +306,10 @@
   "UtbetalingerContentCard": {
     "periode": "Periode:",
     "mottaker": "Mottaker:",
+    "utbetalingsmetode": "Utbetalingsmetode:",
     "tilDeg": "Til deg",
+    "utbetalesTil": "Utbetales til {mottaker}",
+    "utbetalesTilUkjent": "Utbetales til annen mottaker",
     "bankkonto": "Din BankKonto <norsk>{konto}</norsk>",
     "lenke": "Se søknaden og vedtaket du fikk",
     "STOPPET": "Stoppet",

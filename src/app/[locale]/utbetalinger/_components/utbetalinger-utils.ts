@@ -1,5 +1,4 @@
-import { NyeOgTidligereUtbetalingerResponse } from "@generated/model";
-import { ManedUtbetaling } from "@generated/ssr/model";
+import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { ChipsChip } from "./Utbetalinger";
 
@@ -24,7 +23,6 @@ export const kombinertManed = (
             }
         }
     }
-
     return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
 };
 
@@ -62,7 +60,7 @@ export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedInterva
     }
 };
 
-export const utbetalingInnenforDatoIntervall = (utb: ManedUtbetaling, from: Date, to: Date): boolean => {
+export const utbetalingInnenforValgtDatoIntervall = (utb: ManedUtbetaling, from: Date, to: Date): boolean => {
     const singleDateStr = utb.utbetalingsdato ?? utb.forfallsdato;
     if (singleDateStr) {
         const d = new Date(singleDateStr);
@@ -81,7 +79,7 @@ export const utbetalingInnenforDatoIntervall = (utb: ManedUtbetaling, from: Date
     return true;
 };
 
-export const erInnenforAngittDato = (item: NyeOgTidligereUtbetalingerResponse, range: MaanedIntervall | null) => {
+export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse, range: MaanedIntervall | null) => {
     if (!range) return true;
     const itemDate = item.ar * 100 + item.maned;
     const startDate = range.start.year * 100 + range.start.month;

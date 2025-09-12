@@ -16,8 +16,8 @@ import {
     kombinertManed,
     erPeriodeChip,
     datoIntervall,
-    erInnenforAngittDato,
-    utbetalingInnenforDatoIntervall,
+    erInnenforAngittPeriode,
+    utbetalingInnenforValgtDatoIntervall,
 } from "./utbetalinger-utils";
 import UtbetalingerListView from "./UtbetalingerListView";
 import IngenUtbetalingerKommende from "./IngenUtbetalingerKommende";
@@ -54,7 +54,6 @@ const Liste = ({ valgteChip }: Props) => {
             ManedUtbetalingStatus.PLANLAGT_UTBETALING,
             ManedUtbetalingStatus.STOPPET,
         ]);
-
         return kombinert
             .map((g) => ({
                 ...g,
@@ -70,7 +69,7 @@ const Liste = ({ valgteChip }: Props) => {
             ManedUtbetalingStatus.STOPPET,
         ]);
         return kombinert
-            .filter((g) => erInnenforAngittDato(g, periodeIntervall))
+            .filter((g) => erInnenforAngittPeriode(g, periodeIntervall))
             .map((g) => ({
                 ...g,
                 utbetalingerForManed: g.utbetalingerForManed.filter((u) => tillateStatuser.has(u.status)),
@@ -84,7 +83,7 @@ const Liste = ({ valgteChip }: Props) => {
             .map((m) => ({
                 ...m,
                 utbetalingerForManed: m.utbetalingerForManed.filter((u) =>
-                    utbetalingInnenforDatoIntervall(u, valgtDatoRekke.from, valgtDatoRekke.to)
+                    utbetalingInnenforValgtDatoIntervall(u, valgtDatoRekke.from, valgtDatoRekke.to)
                 ),
             }))
             .filter((m) => m.utbetalingerForManed.length > 0);
