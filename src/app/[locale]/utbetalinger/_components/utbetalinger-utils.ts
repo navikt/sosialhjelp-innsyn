@@ -38,7 +38,7 @@ export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedInterva
     const today = new Date();
     const current: AarMaaned = { year: today.getFullYear(), month: today.getMonth() + 1 };
 
-    const aarSkifte = ({ year, month }: AarMaaned, delta: number): AarMaaned => {
+    const forskyvMaaned = ({ year, month }: AarMaaned, delta: number): AarMaaned => {
         const base = year * 12 + (month - 1) + delta;
         const y = Math.floor(base / 12);
         const m = ((base % 12) + 12) % 12;
@@ -47,7 +47,7 @@ export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedInterva
 
     switch (chip) {
         case "siste3":
-            return { start: aarSkifte(current, -2), end: current };
+            return { start: forskyvMaaned(current, -2), end: current };
         case "hittil":
             return { start: { year: current.year, month: 1 }, end: current };
         case "fjor":

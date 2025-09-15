@@ -53,7 +53,11 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
         }
 
         if (metode) return <span>{metode}</span>;
-        if (konto) return t.rich("bankkonto", { konto });
+        if (konto)
+            return t.rich("bankkonto", {
+                norsk: (chunks) => <span lang="no">{chunks}</span>,
+                konto: konto,
+            });
 
         return t("tilDeg");
     };

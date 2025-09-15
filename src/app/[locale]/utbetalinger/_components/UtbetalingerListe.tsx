@@ -54,13 +54,15 @@ const Liste = ({ valgteChip }: Props) => {
             ManedUtbetalingStatus.PLANLAGT_UTBETALING,
             ManedUtbetalingStatus.STOPPET,
         ]);
-        return kombinert
+        //bruker nye[] i stede for kombinert  for å unngå å vise utbetalinger som er stoppet i tidligere
+        const nyeKilde = nye ?? [];
+        return nyeKilde
             .map((g) => ({
                 ...g,
                 utbetalingerForManed: g.utbetalingerForManed.filter((u) => tillateStatuser.has(u.status)),
             }))
             .filter((g) => g.utbetalingerForManed.length > 0);
-    }, [kombinert, kommende]);
+    }, [nye, kommende]);
 
     const periodeUtbetalinger = useMemo(() => {
         if (!periodeIntervall) return [];

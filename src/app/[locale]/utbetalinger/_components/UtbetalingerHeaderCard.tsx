@@ -4,6 +4,7 @@ import React from "react";
 import { useFormatter } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetaling } from "@generated/model";
 
 import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
@@ -11,6 +12,21 @@ interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
     manedsUtbetalingSummert?: ManedUtbetalingStatus[];
 }
+
+const utbetalingKey = (u: ManedUtbetaling, id: number) => {
+    const dateToken = u.utbetalingsdato ?? u.forfallsdato ?? `${u.fom ?? ""}-${u.tom ?? ""}`;
+
+    const base = [
+        u.fiksDigisosId,
+        dateToken,
+        String(u.belop),
+        u.status,
+        u.kontonummer ?? "",
+        (u.tittel ?? "").trim(),
+    ].join("|");
+
+    return base || `${u.fiksDigisosId}#${id}`;
+};
 
 export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }: Props) => {
     const format = useFormatter();
@@ -45,7 +61,12 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }
                 </HStack>
             </BoxNew>
             {synlig.map((utb, id) => (
-                <UtbetalingerContentCard key={id} manedUtbetaling={utb} id={id} count={synlig.length} />
+                <UtbetalingerContentCard
+                    key={utbetalingKey(utb, id)}
+                    manedUtbetaling={utb}
+                    id={id}
+                    count={synlig.length}
+                />
             ))}
         </VStack>
     );
