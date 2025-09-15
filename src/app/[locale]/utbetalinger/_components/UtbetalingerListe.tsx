@@ -54,7 +54,7 @@ const Liste = ({ valgteChip }: Props) => {
             ManedUtbetalingStatus.PLANLAGT_UTBETALING,
             ManedUtbetalingStatus.STOPPET,
         ]);
-        //bruker nye[] i stede for kombinert  for å unngå å vise utbetalinger som er stoppet i tidligere
+        // Bruker nye[] i stede for kombinert  for å unngå å vise utbetalinger som ligger i tidligere med status "stoppet"
         const nyeKilde = nye ?? [];
         return nyeKilde
             .map((g) => ({
