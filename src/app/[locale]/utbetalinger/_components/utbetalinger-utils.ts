@@ -2,6 +2,11 @@ import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/
 
 import { ChipsChip } from "./Utbetalinger";
 
+export type PeriodeChip = "siste3" | "hittil" | "fjor";
+export const erPeriodeChip = (c: ChipsChip): c is PeriodeChip => {
+    return c === "siste3" || c === "hittil" || c === "fjor";
+};
+
 export const kombinertManed = (
     nye: NyeOgTidligereUtbetalingerResponse[] = [],
     tidligere: NyeOgTidligereUtbetalingerResponse[] = []
@@ -29,32 +34,24 @@ export const kombinertManed = (
 export type AarMaaned = { year: number; month: number };
 export type MaanedIntervall = { start: AarMaaned; end: AarMaaned };
 
-export type PeriodeChip = "siste3" | "hittil" | "fjor";
-export const erPeriodeChip = (c: ChipsChip): c is PeriodeChip => {
-    return c === "siste3" || c === "hittil" || c === "fjor";
-};
-
 export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedIntervall | null => {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
+    const current: AarMaaned = { year: today.getFullYear(), month: today.getMonth() + 1 };
+
+    const aarSkifte = ({ year, month }: AarMaaned, delta: number): AarMaaned => {
+        const base = year * 12 + (month - 1) + delta;
+        const y = Math.floor(base / 12);
+        const m = ((base % 12) + 12) % 12;
+        return { year: y, month: (m + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 };
+    };
 
     switch (chip) {
         case "siste3":
-            return {
-                start: { year, month: Math.max(1, month - 2) },
-                end: { year, month },
-            };
+            return { start: aarSkifte(current, -2), end: current };
         case "hittil":
-            return {
-                start: { year, month: 1 },
-                end: { year, month },
-            };
+            return { start: { year: current.year, month: 1 }, end: current };
         case "fjor":
-            return {
-                start: { year: year - 1, month: 1 },
-                end: { year: year - 1, month: 12 },
-            };
+            return { start: { year: current.year - 1, month: 1 }, end: { year: current.year - 1, month: 12 } };
         default:
             return null;
     }
