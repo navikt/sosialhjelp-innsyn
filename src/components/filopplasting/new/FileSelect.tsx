@@ -10,6 +10,7 @@ import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErr
 interface Props {
     label?: string;
     description?: React.ReactNode;
+    filesLabel?: string;
     tag?: React.ReactNode;
     files: FancyFile[];
     addFiler: (files: File[]) => void;
@@ -18,11 +19,22 @@ interface Props {
     isPending?: boolean;
 }
 
-const FileSelect = ({ label, description, tag, files, addFiler, removeFil, outerErrors, isPending }: Props) => {
+const FileSelect = ({
+    label,
+    description,
+    filesLabel,
+    tag,
+    files,
+    addFiler,
+    removeFil,
+    outerErrors,
+    isPending,
+}: Props) => {
     const t = useTranslations();
 
     return (
         <FileUpload
+            className="mb-4"
             translations={{
                 dropzone: {
                     buttonMultiple: t("Opplastingsboks.button"),
@@ -56,8 +68,8 @@ const FileSelect = ({ label, description, tag, files, addFiler, removeFil, outer
                 />
                 {files.length > 0 && (
                     <VStack gap="2">
-                        <Heading size="small" level="3">
-                            {t("Opplastingsboks.filerTilOpplasting")}
+                        <Heading size="xsmall" level="3">
+                            {filesLabel ?? t("Opplastingsboks.filerTilOpplasting")}
                         </Heading>
                         <VStack as="ul" gap="2">
                             {files.map((file) => (

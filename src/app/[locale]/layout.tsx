@@ -7,7 +7,6 @@ import { getTranslations } from "next-intl/server";
 
 import { routing } from "@i18n/routing";
 import { TilgangResponse } from "@generated/model";
-import { SupportedLocale } from "@i18n/common";
 import { getToggles } from "@featuretoggles/unleash";
 import { browserEnv } from "@config/env";
 
@@ -69,7 +68,7 @@ export default async function LocaleLayout({ children, params }: PropsWithChildr
 }
 
 interface Props {
-    params: Promise<{ locale: SupportedLocale }>;
+    params: Promise<{ locale: string }>;
 }
 
 export const generateMetadata = async () => {

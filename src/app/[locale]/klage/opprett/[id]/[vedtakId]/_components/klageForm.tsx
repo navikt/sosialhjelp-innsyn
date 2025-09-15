@@ -71,7 +71,7 @@ const KlageForm = () => {
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-            await router.push(`/klage/status/${klageId}/${vedtakId}`);
+            await router.push(`/klage/status/${fiksDigisosId}/${vedtakId}`);
         } catch (error) {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
         }
@@ -80,18 +80,31 @@ const KlageForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
             <Textarea
+                resize
                 label={t("bakgrunn.label")}
                 description={t("bakgrunn.beskrivelse")}
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <FileSelect files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
-            <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
-                {t("sendKlage")}
-            </Button>
-            {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
-                <Alert variant="error">{t("sendingFeilet")}</Alert>
-            )}
+            <FileSelect
+                files={files}
+                addFiler={addFiler}
+                removeFil={removeFil}
+                outerErrors={outerErrors}
+                filesLabel={t("filOpplasting.dineVedlegg")}
+            />
+            <div>
+                <Button
+                    loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending}
+                    type="submit"
+                    className="mb-4"
+                >
+                    {t("sendKlage")}
+                </Button>
+                {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
+                    <Alert variant="error">{t("sendingFeilet")}</Alert>
+                )}
+            </div>
         </form>
     );
 };

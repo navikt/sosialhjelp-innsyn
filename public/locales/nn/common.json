@@ -128,7 +128,6 @@
     "driftsmelding.innsynOgEttersendelseDeaktivert": "Vi kan diverre ikkje vise siste status for søknaden din, eller ta imot dokumentasjon frå deg. Prøv på nytt seinare eller kontakt Nav-kontoret ditt.",
     "driftsmelding.kanIkkeSendeVedlegg": "Vi har diverre problem med systemet, og ber om at du i staden leverer dokumentasjonen til Nav-kontoret ditt",
     "driftsmelding.vedlegg.feiledeDigisosIder": "Du kan diverre ikkje sende inn dokumentasjon til denne søknaden digitalt. Du kan levere dokumentasjonen til Nav-kontoret ditt.",
-    "driftsmelding.vedlegg.vedleggMangler": "Du kan diverre ikkje sende inn dokumentasjon til denne søknaden.",
     "driftsmelding.feiledeDigisosIder": "Vi kan diverre ikkje vise siste status for søknaden din, eller ta imot dokumentasjon frå deg. Du kan levere dokumentasjonen til Nav-kontoret du har sendt søknaden til.",
     "feilside.finnes_ikke_overskrift": "Denne sida finst ikkje",
     "feilmelding.soknadStatus_innlasting": "Vi klarte ikkje å laste opp status for søknaden din",
@@ -167,7 +166,5 @@
     "klage.papirskjema.beskrivelse_2": " som du kan senda som dokumentasjon til søknaden din.",
     "klage.papirskjema.mer_info_url_tekst": "Her kan du lesa meir om klage",
     "varsling.forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",
-    "soknaderUtenVedlegg.forside": "I tidsrommet 11.4.24 kl. 15.00 - 12.4.24. kl. 12.15 hadde vi tekniske problem. Søknader som vart sendt i dette tidsrommet og hadde dokumentasjon har feila i mottaket til kommunen. Det vil ikkje vere mogleg å laste opp nye dokument på denne søknaden. Ta kontakt med ditt lokale Nav-kontor for hjelp. Vi beklagar ulempene dette medfører.",
-    "soknaderUtenVedlegg.statusside": "På grunn av ein teknisk feil har denne søknaden feila. Det vil ikkje vere mogleg å laste opp dokument på denne søknaden. Ta kontakt med ditt Nav-kontor for hjelp. Vi beklagar ulempene dette medfører.",
     "annen_dokumentasjon": "anna dokumentasjon"
 }

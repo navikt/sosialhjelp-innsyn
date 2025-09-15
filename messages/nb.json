@@ -227,18 +227,41 @@
   },
   "KlagePage": {
     "tittel": "Klagen din er sendt",
-    "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp."
+    "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp.",
+    "underUtviklingInfo": {
+      "tittel": "Denne siden er under utvikling",
+      "beskrivelse1": "Du kan sende inn flere opplysninger og dokumentasjon til klagen din på denne siden. Når klagen er ferdigbehandlet, vil du få svar via Digipost eller fysisk brev.",
+      "beskrivelse2": "Du kan lese om <klageInfo>klagebehandling og mulige utfall her</klageInfo>. Har du spørsmål om klagen din kan du kontakte <navKontor>ditt Nav-kontor</navKontor> eller ringe oss på <tel>55 55 33 33</tel>."
+    },
+    "seVedtak": "Se vedtaket du har klaget på"
+  },
+  "KlageProsessenVidere": {
+    "tittel": "Prosessen videre",
+    "steg1": {
+      "tittel": "Klagen din er sendt"
+    },
+    "steg2": {
+      "tittel": "Nav-kontoret behandler klagen",
+      "beskrivelse": "Din klage behandles så fort som mulig. Nav-kontoret vil ta kontakt med deg dersom de trenger flere opplysninger eller mer dokumentasjon."
+    },
+    "steg3": {
+      "tittel": "Klagen din er ferdig behandlet",
+      "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
+    }
   },
   "KlageForm": {
     "bakgrunn": {
       "label": "Oppgi bakgrunn for klagen",
-      "beskrivelse": "For at vi skal behangle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
+      "beskrivelse": "For at vi skal behandle klagen din, er det viktig at du oppgir hvorfor du er uenig i vedtaket og hva du ønsker endret."
+    },
+    "filOpplasting": {
+      "dineVedlegg": "Dine vedlegg"
     },
     "validering": {
       "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
       "maksFiler": "Du kan laste opp maks {maksFiler} filer"
     },
-    "sendKlage": "Send klage",
+    "sendKlage": "Send",
     "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
   },
   "KlageFileUpload": {

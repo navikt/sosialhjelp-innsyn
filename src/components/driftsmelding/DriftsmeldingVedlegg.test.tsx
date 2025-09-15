@@ -19,9 +19,4 @@ describe("DriftsmeldingVedlegg", () => {
         (useFileUploadError as Mock).mockReturnValue("driftsmelding.kanIkkeSendeVedlegg");
         expect(render(<DriftsmeldingVedlegg />).asFragment()).toMatchSnapshot();
     });
-
-    it("renders DriftsmeldingAlert if søknadinfo.isBroken is true", () => {
-        (useFileUploadError as Mock).mockReturnValue("driftsmelding.vedlegg.vedleggMangler");
-        expect(render(<DriftsmeldingVedlegg />).asFragment()).toMatchSnapshot();
-    });
 });

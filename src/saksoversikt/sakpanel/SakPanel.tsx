@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Detail, Label, LinkPanel, Panel } from "@navikt/ds-react";
 import { useLocale, useTranslations } from "next-intl";
-import { ExclamationmarkTriangleIcon, FileTextIcon } from "@navikt/aksel-icons";
+import { FileTextIcon } from "@navikt/aksel-icons";
 import Link from "next/link";
 
 import DatoOgKlokkeslett from "../../components/tidspunkt/DatoOgKlokkeslett";
@@ -15,13 +15,11 @@ const SakPanel = ({
     tittel,
     oppdatert,
     url,
-    isBroken,
 }: {
     fiksDigisosId?: string;
     tittel: string;
     oppdatert: string;
     url: string | undefined;
-    isBroken: boolean;
 }) => {
     const { data: saksdetaljer, isLoading } = useGetSaksDetaljer(fiksDigisosId ?? "", {
         query: { enabled: !!fiksDigisosId },
@@ -62,7 +60,6 @@ const SakPanel = ({
                     )}
                 </div>
                 <OppgaverTag antallNyeOppgaver={saksdetaljer?.antallNyeOppgaver} />
-                {isBroken && <ExclamationmarkTriangleIcon className="text-icon-warning w-6 h-6" />}
             </LinkPanel.Description>
         </LinkPanel>
     );
