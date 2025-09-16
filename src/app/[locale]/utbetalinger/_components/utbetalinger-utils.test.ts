@@ -10,6 +10,7 @@ import {
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
+    referanse: "ref",
     tittel: "tittel",
     belop: 1000,
     utbetalingsdato: "2025-09-19",
