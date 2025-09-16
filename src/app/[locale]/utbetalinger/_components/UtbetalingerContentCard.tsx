@@ -10,6 +10,8 @@ import { ManedUtbetaling } from "@generated/ssr/model";
 
 import styles from "../../../../utbetalinger/utbetalinger.module.css";
 
+import { Utbetalingsmetode } from "./Utbetalingsmetode";
+
 interface Props {
     manedUtbetaling: ManedUtbetaling;
     id: number;
@@ -26,41 +28,6 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
 
     const t = useTranslations("UtbetalingerContentCard");
-
-    const mottaker = (u: ManedUtbetaling) => {
-        const konto = u.kontonummer;
-        const metode = u.utbetalingsmetode;
-
-        if (u.annenMottaker) {
-            const navn = (u.mottaker ?? "").trim();
-            return navn ? t.rich("utbetalesTil", { mottaker: navn }) : t("utbetalesTilUkjent");
-        }
-
-        if (metode && konto) {
-            if (/konto/i.test(metode)) {
-                return t.rich("bankkonto", {
-                    norsk: (chunks) => <span lang="no">{chunks}</span>,
-                    konto: konto,
-                });
-            }
-            return (
-                <>
-                    <span>{metode}</span>
-                    {": "}
-                    <span lang="no">{konto}</span>
-                </>
-            );
-        }
-
-        if (metode) return <span>{metode}</span>;
-        if (konto)
-            return t.rich("bankkonto", {
-                norsk: (chunks) => <span lang="no">{chunks}</span>,
-                konto: konto,
-            });
-
-        return t("tilDeg");
-    };
 
     return (
         <ExpansionCard
@@ -115,7 +82,9 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
                         <BodyShort size="medium" weight="semibold">
                             {t("utbetalingsmetode")}
                         </BodyShort>
-                        <BodyShort>{mottaker(manedUtbetaling)}</BodyShort>
+                        <BodyShort>
+                            <Utbetalingsmetode utbetaling={manedUtbetaling} />
+                        </BodyShort>
                     </VStack>
                     <Link as={NextLink} href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
                         {t("lenke")}
