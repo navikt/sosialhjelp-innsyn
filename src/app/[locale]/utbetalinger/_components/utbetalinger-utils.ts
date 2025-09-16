@@ -1,3 +1,5 @@
+import { endOfMonth, isWithinInterval, startOfMonth } from "date-fns";
+
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { ChipsChip } from "./Utbetalinger";
@@ -78,8 +80,8 @@ export const utbetalingInnenforValgtDatoIntervall = (utb: ManedUtbetaling, from:
 
 export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse, range: MaanedIntervall | null) => {
     if (!range) return true;
-    const itemDate = item.ar * 100 + item.maned;
-    const startDate = range.start.year * 100 + range.start.month;
-    const endDate = range.end.year * 100 + range.end.month;
-    return itemDate >= startDate && itemDate <= endDate;
+    const itemDate = startOfMonth(new Date(item.ar, item.maned - 1, 1));
+    const start = startOfMonth(new Date(range.start.year, range.start.month - 1, 1));
+    const end = endOfMonth(new Date(range.end.year, range.end.month - 1, 1));
+    return isWithinInterval(itemDate, { start, end });
 };
