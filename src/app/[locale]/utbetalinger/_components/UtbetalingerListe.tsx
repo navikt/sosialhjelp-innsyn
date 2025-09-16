@@ -1,13 +1,13 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { DatePicker, Button, HStack, VStack } from "@navikt/ds-react";
 import { useRangeDatepicker } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import {
-    useHentNyeUtbetalinger,
-    useHentTidligereUtbetalinger,
+    useHentNyeUtbetalingerSuspense,
+    useHentTidligereUtbetalingerSuspense,
 } from "@generated/utbetalinger-controller/utbetalinger-controller";
 import { ManedUtbetalingStatus } from "@generated/ssr/model";
 
@@ -22,17 +22,16 @@ import {
 import UtbetalingerListView from "./UtbetalingerListView";
 import IngenUtbetalingerKommende from "./IngenUtbetalingerKommende";
 import IngenUtbetalingerPeriode from "./IngenUtbetalingerPeriode";
-import { UtbetalingerSkeleton } from "./UtbetalingerSkeleton";
 
 type Props = { valgteChip: ChipsChip };
 
 const Liste = ({ valgteChip }: Props) => {
     const t = useTranslations("UtbetalingerChips");
 
-    const { data: nye } = useHentNyeUtbetalinger();
-    const { data: tidligere } = useHentTidligereUtbetalinger();
+    const { data: nye } = useHentNyeUtbetalingerSuspense();
+    const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
 
-    const kombinert = useMemo(() => kombinertManed(nye ?? [], tidligere ?? []), [nye, tidligere]);
+    const kombinert = useMemo(() => kombinertManed(nye, tidligere), [nye, tidligere]);
 
     const { datepickerProps, fromInputProps, toInputProps, selectedRange } = useRangeDatepicker({
         fromDate: new Date(2020, 0, 1),
@@ -143,11 +142,7 @@ const Liste = ({ valgteChip }: Props) => {
 };
 
 const UtbetalingerListe = (props: Props) => {
-    return (
-        <Suspense fallback={<UtbetalingerSkeleton />}>
-            <Liste {...props} />
-        </Suspense>
-    );
+    return <Liste {...props} />;
 };
 
 export default UtbetalingerListe;
