@@ -102,14 +102,14 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
                         <BodyShort size="medium" weight="semibold">
                             {t("periode")}
                         </BodyShort>
-                        <BodyShort>
-                            {manedUtbetaling.fom && manedUtbetaling.tom
-                                ? t.rich("datoRange", {
-                                      fom: new Date(manedUtbetaling.fom),
-                                      tom: new Date(manedUtbetaling.tom),
-                                  })
-                                : ""}
-                        </BodyShort>
+                      {manedUtbetaling.fom && manedUtbetaling.tom && 
+                        (<BodyShort>
+                                t.rich("datoRange", {
+                                    fom: new Date(manedUtbetaling.fom),
+                                    tom: new Date(manedUtbetaling.tom),
+                                })
+                        </BodyShort>)
+                      }
                     </VStack>
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
