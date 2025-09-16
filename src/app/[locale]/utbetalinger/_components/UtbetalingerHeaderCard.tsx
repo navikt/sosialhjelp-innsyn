@@ -4,7 +4,6 @@ import React from "react";
 import { useFormatter } from "next-intl";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
-import { ManedUtbetaling } from "@generated/model";
 
 import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
@@ -13,29 +12,14 @@ interface Props {
     manedsUtbetalingSummert?: ManedUtbetalingStatus[];
 }
 
-const utbetalingKey = (u: ManedUtbetaling, id: number) => {
-    const dateToken = u.utbetalingsdato ?? u.forfallsdato ?? `${u.fom ?? ""}-${u.tom ?? ""}`;
-
-    const base = [
-        u.fiksDigisosId,
-        dateToken,
-        String(u.belop),
-        u.status,
-        u.kontonummer ?? "",
-        (u.tittel ?? "").trim(),
-    ].join("|");
-
-    return base || `${u.fiksDigisosId}#${id}`;
-};
-
 export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }: Props) => {
     const format = useFormatter();
 
-    const synlig = utbetalinger.utbetalingerForManed;
+    const utbetalingerForManed = utbetalinger.utbetalingerForManed;
 
-    if (synlig.length === 0) return null;
+    if (utbetalingerForManed.length === 0) return null;
 
-    const utbetalingSum = synlig
+    const utbetalingSum = utbetalingerForManed
         .filter((u) => !manedsUtbetalingSummert || manedsUtbetalingSummert.includes(u.status))
         .reduce((acc, u) => acc + u.belop, 0);
 
@@ -60,12 +44,12 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }
                     </BodyShort>
                 </HStack>
             </BoxNew>
-            {synlig.map((utb, id) => (
+            {utbetalingerForManed.map((utb, index) => (
                 <UtbetalingerContentCard
-                    key={utbetalingKey(utb, id)}
+                    index={index}
+                    key={utb.referanse}
                     manedUtbetaling={utb}
-                    id={id}
-                    count={synlig.length}
+                    count={utbetalingerForManed.length}
                 />
             ))}
         </VStack>

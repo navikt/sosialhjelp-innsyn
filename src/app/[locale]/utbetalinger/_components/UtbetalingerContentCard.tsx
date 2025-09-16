@@ -14,7 +14,7 @@ import { Utbetalingsmetode } from "./Utbetalingsmetode";
 
 interface Props {
     manedUtbetaling: ManedUtbetaling;
-    id: number;
+    index: number;
     count: number;
 }
 const cardBorder = (id: number, count: number) => {
@@ -23,7 +23,7 @@ const cardBorder = (id: number, count: number) => {
     return "border-none rounded-none";
 };
 
-export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) => {
+export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
 
@@ -34,10 +34,10 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
             size="small"
             aria-label={t("arialabel") + manedUtbetaling.tittel}
             data-color="accent"
-            className={cardBorder(id, count)}
+            className={cardBorder(index, count)}
         >
             <ExpansionCard.Header
-                className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(id, count), styles.headerFill)}
+                className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(index, count), styles.headerFill)}
             >
                 <ExpansionCard.Title>
                     <HStack align="center" wrap={false} className="w-full" justify="space-between">

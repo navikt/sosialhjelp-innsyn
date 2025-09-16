@@ -764,9 +764,10 @@
                     "tidspunktSendt": { "type": "string", "format": "date-time" },
                     "soknadsalderIMinutter": { "type": "integer", "format": "int64" },
                     "navKontor": { "type": "string" },
-                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" }
+                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" },
+                    "isBroken": { "type": "boolean" }
                 },
-                "required": ["status"]
+                "required": ["isBroken", "status"]
             },
             "UrlResponse": {
                 "type": "object",
@@ -1146,6 +1147,7 @@
             "ManedUtbetaling": {
                 "type": "object",
                 "properties": {
+                    "referanse": { "type": "string" },
                     "tittel": { "type": "string" },
                     "belop": { "type": "number" },
                     "utbetalingsdato": { "type": "string", "format": "date" },
@@ -1159,7 +1161,7 @@
                     "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
                     "utbetalingsmetode": { "type": "string" }
                 },
-                "required": ["annenMottaker", "belop", "fiksDigisosId", "status", "tittel"]
+                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
             },
             "UtbetalingerResponse": {
                 "type": "object",
@@ -1210,9 +1212,10 @@
                     "sistOppdatert": { "type": "string", "format": "date-time" },
                     "kilde": { "type": "string" },
                     "url": { "type": "string" },
-                    "kommunenummer": { "type": "string" }
+                    "kommunenummer": { "type": "string" },
+                    "isBrokenSoknad": { "type": "boolean" }
                 },
-                "required": ["kilde", "sistOppdatert", "soknadTittel"]
+                "required": ["isBrokenSoknad", "kilde", "sistOppdatert", "soknadTittel"]
             },
             "ForelopigSvar": {
                 "type": "object",
