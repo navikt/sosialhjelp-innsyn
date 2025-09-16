@@ -339,7 +339,8 @@
     "PLANLAGT_UTBETALING": "Planlagt",
     "UTBETALT": "Utbetalt",
     "ANNULLERT": "Annullert",
-    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}"
+    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}",
+    "arialabel": "Utvidbart utbetalingsinformasjon om "
   } ,
   "common": {
     "app": {

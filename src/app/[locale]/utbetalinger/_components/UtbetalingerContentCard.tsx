@@ -65,7 +65,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, id, count }: Props) =
     return (
         <ExpansionCard
             size="small"
-            aria-label={"Utvidbart utbetalingsinformasjon om " + manedUtbetaling.tittel}
+            aria-label={t("arialabel") + manedUtbetaling.tittel}
             data-color="accent"
             className={cardBorder(id, count)}
         >

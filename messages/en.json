@@ -380,7 +380,8 @@
     "PLANLAGT_UTBETALING": "Planned",
     "UTBETALT": "Paid",
     "ANNULLERT": "Annulled",
-    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}"
+    "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}",
+    "arialabel": "Expandable payment information about "
   } ,
   "common": {
     "app": { "tittel": "Financial assistance" },
