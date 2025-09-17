@@ -24,7 +24,7 @@ const UtbetalingerListView = ({ tittel, utbetalingsGruppe, manedsUtbetalingerSum
                       <UtbetalingerHeaderCard
                           key={`${gruppe.ar}-${gruppe.maned}`}
                           utbetalinger={gruppe}
-                          manedsUtbetalingSummert={manedsUtbetalingerSummert}
+                          manedsUtbetalingerSummert={manedsUtbetalingerSummert}
                       />
                   ))}
         </VStack>

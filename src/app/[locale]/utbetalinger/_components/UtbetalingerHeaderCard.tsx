@@ -9,10 +9,10 @@ import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
-    manedsUtbetalingSummert?: ManedUtbetalingStatus[];
+    manedsUtbetalingerSummert?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }: Props) => {
+export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert }: Props) => {
     const format = useFormatter();
 
     const utbetalingerForManed = utbetalinger.utbetalingerForManed;
@@ -20,7 +20,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }
     if (utbetalingerForManed.length === 0) return null;
 
     const utbetalingSum = utbetalingerForManed
-        .filter((utbetalinger) => !manedsUtbetalingSummert || manedsUtbetalingSummert.includes(utbetalinger.status))
+        .filter((utbetalinger) => !manedsUtbetalingerSummert || manedsUtbetalingerSummert.includes(utbetalinger.status))
         .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
