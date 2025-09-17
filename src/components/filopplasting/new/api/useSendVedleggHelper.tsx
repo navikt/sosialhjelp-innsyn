@@ -1,12 +1,10 @@
-import { logger } from "@navikt/next-logger";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 
 import {
     getHentHendelserQueryKey,
     getHentHendelserBetaQueryKey,
 } from "@generated/hendelse-controller/hendelse-controller";
-import { useSendVedlegg, getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
+import { getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
 import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
@@ -15,9 +13,7 @@ import {
 } from "@generated/oppgave-controller/oppgave-controller";
 import { browserEnv } from "@config/env";
 
-import { FancyFile, Metadata, Feil } from "../types";
-import { determineErrorType } from "../utils/mapErrors";
-import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
+import { Metadata } from "../types";
 
 const getQueryKeysForInvalidation = (fiksDigisosId: string): string[] =>
     [
@@ -44,7 +40,6 @@ const doFetch = async ({
     });
 
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void, metadata: Metadata) => {
-    const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
     const queryClient = useQueryClient();
     const {
         mutate: mutate2,
@@ -53,7 +48,7 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
         reset: reset2,
     } = useMutation({
         mutationFn: doFetch,
-        onSuccess: async (data) => {
+        onSuccess: async () => {
             resetFilOpplastningData();
 
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
@@ -93,99 +88,9 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
                 predicate: ({ queryKey }) => getQueryKeysForInvalidation(fiksDigisosId).includes(queryKey[0] as string),
             });
         },
-        onError: (error) => {
-            logger.warn("Feil med opplasting av vedlegg: " + error.message);
-            if (error.message === "Mulig virus funnet") {
-                setErrors([{ feil: Feil.VIRUS }]);
-            } else {
-                setErrors([{ feil: Feil.KLIENTFEIL }]);
-            }
-        },
     });
-    const [errors, setErrors] = useState<Error[]>([]);
-    const isUploadSuccess = isSuccess && errors.length === 0;
-
-    const resetMutation = () => {
-        reset();
-        setErrors([]);
-    };
-
     const resetMutation2 = () => {
         reset2();
-        setErrors([]);
-    };
-
-    const upload = (files: FancyFile[], metadata: Metadata) => {
-        mutate(
-            {
-                fiksDigisosId,
-                data: {
-                    files: [createMetadataFile(files, metadata), ...formatFilesForUpload(files)],
-                },
-            },
-            {
-                onSuccess: async (data) => {
-                    const filerData = data.flatMap((response) => response.filer);
-                    const errors: Error[] = filerData
-                        .filter((it) => it.status !== "OK")
-                        .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
-                    setErrors(errors);
-
-                    if (errors.length === 0) {
-                        resetFilOpplastningData();
-
-                        // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
-                        queryClient.setQueryData<GetOppgaverBetaQueryResult>(
-                            getGetOppgaverBetaQueryKey(fiksDigisosId),
-                            (prev) => {
-                                return prev?.map((oppgave) => {
-                                    if (
-                                        oppgave.hendelsereferanse === metadata.hendelsereferanse &&
-                                        oppgave.dokumenttype === metadata.type &&
-                                        oppgave.tilleggsinformasjon === metadata.tilleggsinfo
-                                    ) {
-                                        return {
-                                            ...oppgave,
-                                            erLastetOpp: true,
-                                            opplastetDato: new Date().toISOString(),
-                                        };
-                                    }
-                                    return oppgave;
-                                });
-                            }
-                        );
-                        queryClient.setQueryData<GetDokumentasjonkravBetaQueryResult>(
-                            getGetDokumentasjonkravBetaQueryKey(fiksDigisosId),
-                            (prev) => {
-                                return prev?.map((dokumentasjonkrav) => {
-                                    if (dokumentasjonkrav.dokumentasjonkravReferanse === metadata.hendelsereferanse) {
-                                        return {
-                                            ...dokumentasjonkrav,
-                                            erLastetOpp: true,
-                                            opplastetDato: new Date().toISOString(),
-                                        };
-                                    }
-                                    return dokumentasjonkrav;
-                                });
-                            }
-                        );
-
-                        await queryClient.invalidateQueries({
-                            predicate: ({ queryKey }) =>
-                                getQueryKeysForInvalidation(fiksDigisosId).includes(queryKey[0] as string),
-                        });
-                    }
-                },
-                onError: (error) => {
-                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
-                    if (error.message === "Mulig virus funnet") {
-                        setErrors([{ feil: Feil.VIRUS }]);
-                    } else {
-                        setErrors([{ feil: Feil.KLIENTFEIL }]);
-                    }
-                },
-            }
-        );
     };
 
     const upload2 = async (documentId: string) => {
