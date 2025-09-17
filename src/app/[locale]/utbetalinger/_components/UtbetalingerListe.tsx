@@ -13,7 +13,6 @@ import {
 import { ManedUtbetalingStatus } from "@generated/ssr/model";
 
 import type { ChipsChip } from "./Utbetalinger";
-import { erPeriodeChip, datoIntervall } from "./utbetalinger-utils";
 import UtbetalingerListView from "./UtbetalingerListView";
 import IngenUtbetalingerKommende from "./IngenUtbetalingerKommende";
 import IngenUtbetalingerPeriode from "./IngenUtbetalingerPeriode";
@@ -34,7 +33,6 @@ const Liste = ({ valgteChip }: Props) => {
 
     const kommende = valgteChip === "kommende.kort";
     const egendefinert = valgteChip === "egendefinert";
-    const periodeIntervall = erPeriodeChip(valgteChip) ? datoIntervall(valgteChip) : null;
 
     const { data: nye } = useHentNyeUtbetalingerSuspense();
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
@@ -45,8 +43,6 @@ const Liste = ({ valgteChip }: Props) => {
         nye,
         tidligere,
         valgtDatoRekke,
-        kommende,
-        periodeIntervall,
     });
 
     const onClick = () => {

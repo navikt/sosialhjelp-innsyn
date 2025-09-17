@@ -6,7 +6,6 @@ import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@gene
 
 import type { ChipsChip } from "./Utbetalinger";
 import {
-    MaanedIntervall,
     kombinertManed,
     erPeriodeChip,
     datoIntervall,
@@ -16,21 +15,16 @@ import {
 
 type Range = { from: Date; to: Date } | null;
 
-export const useUtbetalingerLists = ({
-    valgteChip,
-    nye,
-    tidligere,
-    valgtDatoRekke,
-    kommende,
-    periodeIntervall = erPeriodeChip(valgteChip) ? datoIntervall(valgteChip) : null,
-}: {
+interface Props {
     valgteChip: ChipsChip;
     nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
     valgtDatoRekke: Range;
-    kommende: boolean;
-    periodeIntervall?: MaanedIntervall | null;
-}) => {
+}
+
+export const FiltreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDatoRekke }: Props) => {
+    const kommende = valgteChip === "kommende.kort";
+    const periodeIntervall = erPeriodeChip(valgteChip) ? datoIntervall(valgteChip) : null;
     const kombinert = useMemo(() => kombinertManed(nye, tidligere), [nye, tidligere]);
 
     const kommendeUtbetalinger = useMemo(() => {
@@ -40,8 +34,7 @@ export const useUtbetalingerLists = ({
             ManedUtbetalingStatus.STOPPET,
         ]);
         // Bruker nye[] i stede for kombinert  for å unngå å vise utbetalinger som ligger i tidligere med status "stoppet"
-        const nyeKilde = nye ?? [];
-        return nyeKilde
+        return (nye ?? [])
             .map((gruppe) => ({
                 ...gruppe,
                 utbetalingerForManed: gruppe.utbetalingerForManed.filter((utbetaling) =>
@@ -85,4 +78,18 @@ export const useUtbetalingerLists = ({
         periodeUtbetalinger,
         egendefinertUtbetalinger,
     };
+};
+
+export const useUtbetalingerLists = ({
+    valgteChip,
+    nye,
+    tidligere,
+    valgtDatoRekke,
+}: {
+    valgteChip: ChipsChip;
+    nye?: NyeOgTidligereUtbetalingerResponse[];
+    tidligere?: NyeOgTidligereUtbetalingerResponse[];
+    valgtDatoRekke: Range;
+}) => {
+    return FiltreringAvUtbetalinger({ valgteChip, nye, tidligere, valgtDatoRekke });
 };
