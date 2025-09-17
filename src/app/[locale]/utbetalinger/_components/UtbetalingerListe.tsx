@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { DatePicker, Button, HStack, VStack } from "@navikt/ds-react";
 import { useRangeDatepicker } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { startOfMonth, subMonths } from "date-fns";
 
 import {
     useHentNyeUtbetalingerSuspense,
@@ -32,9 +33,12 @@ const Liste = ({ valgteChip }: Props) => {
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
 
     const kombinert = useMemo(() => kombinertManed(nye, tidligere), [nye, tidligere]);
+    const today = new Date();
+    const earliest = startOfMonth(subMonths(today, 15));
 
     const { datepickerProps, fromInputProps, toInputProps, selectedRange } = useRangeDatepicker({
-        fromDate: new Date(2020, 0, 1),
+        fromDate: earliest,
+        defaultMonth: today,
     });
     const [valgtDatoRekke, setvalgtDatoRekke] = useState<{ from: Date; to: Date } | null>(null);
 
