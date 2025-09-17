@@ -33,7 +33,7 @@ export const filtreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDato
     ]);
 
     const kommendeUtbetalinger = kommende
-        ? (nye ?? []) // Bruker nye[] i stede for kombinert  for å unngå å vise utbetalinger som ligger i tidligere med status "stoppet"
+        ? (nye ?? []) // Bruker nye[] i stede for kombinert for å unngå å vise utbetalinger som ligger i tidligere[] med status "stoppet"
               .map((gruppe) => ({
                   ...gruppe,
                   utbetalingerForManed: gruppe.utbetalingerForManed.filter((utbetaling) =>
