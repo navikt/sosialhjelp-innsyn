@@ -39,7 +39,7 @@ const Liste = ({ valgteChip }: Props) => {
     const { data: nye } = useHentNyeUtbetalingerSuspense();
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
 
-    const [valgtDatoRekke, setvalgtDatoRekke] = useState<{ from: Date; to: Date } | null>(null);
+    const [valgtDatoRekke, setValgtDatoRekke] = useState<{ from: Date; to: Date } | null>(null);
     const { kommendeUtbetalinger, periodeUtbetalinger, egendefinertUtbetalinger } = useUtbetalingerLists({
         valgteChip,
         nye,
@@ -51,7 +51,7 @@ const Liste = ({ valgteChip }: Props) => {
 
     const onClick = () => {
         if (selectedRange?.from && selectedRange?.to)
-            setvalgtDatoRekke({ from: selectedRange.from, to: selectedRange.to });
+            setValgtDatoRekke({ from: selectedRange.from, to: selectedRange.to });
     };
 
     if (kommende) {
