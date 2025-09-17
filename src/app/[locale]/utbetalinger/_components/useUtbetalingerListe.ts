@@ -13,16 +13,16 @@ import {
     utbetalingInnenforValgtDatoIntervall,
 } from "./utbetalinger-utils";
 
-type Range = { from: Date; to: Date } | null;
+type Intervall = { from: Date; to: Date } | null;
 
 interface Props {
     valgteChip: ChipsChip;
     nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    valgtDatoRekke: Range;
+    valgtDatointervall: Intervall;
 }
 
-export const filtreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDatoRekke }: Props) => {
+export const filtreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDatointervall }: Props) => {
     const kommende = valgteChip === "kommende.kort";
     const periodeIntervall = erPeriodeChip(valgteChip) ? datoIntervall(valgteChip) : null;
     const kombinert = kombinertManed(nye, tidligere);
@@ -60,12 +60,12 @@ export const filtreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDato
               .filter((gruppe) => gruppe.utbetalingerForManed.length > 0)
         : [];
 
-    const egendefinertUtbetalinger = valgtDatoRekke
+    const egendefinertUtbetalinger = valgtDatointervall
         ? kombinert
               .map((gruppe) => ({
                   ...gruppe,
                   utbetalingerForManed: gruppe.utbetalingerForManed.filter((utbetaling) =>
-                      utbetalingInnenforValgtDatoIntervall(utbetaling, valgtDatoRekke.from, valgtDatoRekke.to)
+                      utbetalingInnenforValgtDatoIntervall(utbetaling, valgtDatointervall.from, valgtDatointervall.to)
                   ),
               }))
               .filter((gruppe) => gruppe.utbetalingerForManed.length > 0)
@@ -82,15 +82,15 @@ export const useUtbetalingerLists = ({
     valgteChip,
     nye,
     tidligere,
-    valgtDatoRekke,
+    valgtDatointervall,
 }: {
     valgteChip: ChipsChip;
     nye?: NyeOgTidligereUtbetalingerResponse[];
     tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    valgtDatoRekke: Range;
+    valgtDatointervall: Intervall;
 }) => {
     return useMemo(
-        () => filtreringAvUtbetalinger({ valgteChip, nye, tidligere, valgtDatoRekke }),
-        [valgteChip, nye, tidligere, valgtDatoRekke]
+        () => filtreringAvUtbetalinger({ valgteChip, nye, tidligere, valgtDatointervall: valgtDatointervall }),
+        [valgteChip, nye, tidligere, valgtDatointervall]
     );
 };

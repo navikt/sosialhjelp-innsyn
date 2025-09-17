@@ -37,17 +37,17 @@ const Liste = ({ valgteChip }: Props) => {
     const { data: nye } = useHentNyeUtbetalingerSuspense();
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
 
-    const [valgtDatoRekke, setValgtDatoRekke] = useState<{ from: Date; to: Date } | null>(null);
+    const [valgtDatointervall, setValgtDatointervall] = useState<{ from: Date; to: Date } | null>(null);
     const { kommendeUtbetalinger, periodeUtbetalinger, egendefinertUtbetalinger } = useUtbetalingerLists({
         valgteChip,
         nye,
         tidligere,
-        valgtDatoRekke,
+        valgtDatointervall: valgtDatointervall,
     });
 
     const onClick = () => {
         if (selectedRange?.from && selectedRange?.to)
-            setValgtDatoRekke({ from: selectedRange.from, to: selectedRange.to });
+            setValgtDatointervall({ from: selectedRange.from, to: selectedRange.to });
     };
 
     if (kommende) {
@@ -76,7 +76,7 @@ const Liste = ({ valgteChip }: Props) => {
                     </Button>
                 </HStack>
 
-                {valgtDatoRekke && (
+                {valgtDatointervall && (
                     <UtbetalingerListView
                         tittel={t("egendefinert")}
                         utbetalingsGruppe={egendefinertUtbetalinger}

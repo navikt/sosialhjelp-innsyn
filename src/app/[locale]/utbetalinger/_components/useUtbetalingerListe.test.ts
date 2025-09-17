@@ -55,7 +55,7 @@ describe("FiltreringAvUtbetalinger", () => {
             valgteChip: "kommende.kort",
             nye,
             tidligere,
-            valgtDatoRekke: null,
+            valgtDatointervall: null,
         });
 
         expect(kommendeUtbetalinger).toHaveLength(1);
@@ -86,7 +86,7 @@ describe("FiltreringAvUtbetalinger", () => {
             valgteChip: "hittil",
             nye,
             tidligere,
-            valgtDatoRekke: null,
+            valgtDatointervall: null,
         });
 
         expect(periodeUtbetalinger.map((gruppe) => gruppe.maned)).toEqual([9, 10]);
@@ -112,7 +112,7 @@ describe("FiltreringAvUtbetalinger", () => {
             valgteChip: "siste3",
             nye: [],
             tidligere: data,
-            valgtDatoRekke: null,
+            valgtDatointervall: null,
         });
 
         expect(periodeUtbetalinger.map((gruppe) => [gruppe.ar, gruppe.maned])).toEqual([
@@ -161,7 +161,7 @@ describe("FiltreringAvUtbetalinger", () => {
             valgteChip: "egendefinert",
             nye: [],
             tidligere: komb,
-            valgtDatoRekke: { from: new Date("2025-09-01"), to: new Date("2025-09-30") },
+            valgtDatointervall: { from: new Date("2025-09-01"), to: new Date("2025-09-30") },
         });
 
         expect(egendefinertUtbetalinger).toHaveLength(1);
@@ -172,12 +172,12 @@ describe("FiltreringAvUtbetalinger", () => {
         );
     });
 
-    it("Egendefinert: returnerer tom liste når valgtDatoRekke er null", () => {
+    it("Egendefinert: returnerer tom liste når valgtDatointervall er null", () => {
         const { egendefinertUtbetalinger } = filtreringAvUtbetalinger({
             valgteChip: "egendefinert",
             nye: [],
             tidligere: [],
-            valgtDatoRekke: null,
+            valgtDatointervall: null,
         });
         expect(egendefinertUtbetalinger).toEqual([]);
     });
