@@ -6,7 +6,7 @@ import {
     type NyeOgTidligereUtbetalingerResponse,
 } from "@generated/ssr/model";
 
-import { FiltreringAvUtbetalinger } from "./useUtbetalingerListe";
+import { filtreringAvUtbetalinger } from "./useUtbetalingerListe";
 
 const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
     referanse: "ref",
@@ -51,7 +51,7 @@ describe("FiltreringAvUtbetalinger", () => {
             gruppe(2025, 9, [utb({ status: ManedUtbetalingStatus.STOPPET, referanse: "tidligere-stoppet" })]),
         ];
 
-        const { kommendeUtbetalinger, periodeUtbetalinger, egendefinertUtbetalinger } = FiltreringAvUtbetalinger({
+        const { kommendeUtbetalinger, periodeUtbetalinger, egendefinertUtbetalinger } = filtreringAvUtbetalinger({
             valgteChip: "kommende.kort",
             nye,
             tidligere,
@@ -60,7 +60,7 @@ describe("FiltreringAvUtbetalinger", () => {
 
         expect(kommendeUtbetalinger).toHaveLength(1);
         expect(kommendeUtbetalinger[0].maned).toBe(10);
-        expect(kommendeUtbetalinger[0].utbetalingerForManed.map((u) => u.referanse)).toEqual([
+        expect(kommendeUtbetalinger[0].utbetalingerForManed.map((utbetaling) => utbetaling.referanse)).toEqual([
             "ny-planlagt",
             "ny-stoppet",
         ]);
@@ -82,20 +82,20 @@ describe("FiltreringAvUtbetalinger", () => {
             gruppe(2025, 9, [utb({ status: ManedUtbetalingStatus.STOPPET, referanse: "tidligere-stoppet" })]),
         ];
 
-        const { periodeUtbetalinger } = FiltreringAvUtbetalinger({
+        const { periodeUtbetalinger } = filtreringAvUtbetalinger({
             valgteChip: "hittil",
             nye,
             tidligere,
             valgtDatoRekke: null,
         });
 
-        expect(periodeUtbetalinger.map((g) => g.maned)).toEqual([9, 10]);
+        expect(periodeUtbetalinger.map((gruppe) => gruppe.maned)).toEqual([9, 10]);
 
-        const sept = periodeUtbetalinger.find((g) => g.maned === 9)!;
-        const okt = periodeUtbetalinger.find((g) => g.maned === 10)!;
+        const sept = periodeUtbetalinger.find((gruppe) => gruppe.maned === 9)!;
+        const okt = periodeUtbetalinger.find((gruppe) => gruppe.maned === 10)!;
 
-        expect(sept.utbetalingerForManed.map((u) => u.referanse)).toEqual(["tidligere-stoppet"]);
-        expect(okt.utbetalingerForManed.map((u) => u.referanse)).toEqual(["ny-utbetalt"]);
+        expect(sept.utbetalingerForManed.map((utbetaling) => utbetaling.referanse)).toEqual(["tidligere-stoppet"]);
+        expect(okt.utbetalingerForManed.map((utbetaling) => utbetaling.referanse)).toEqual(["ny-utbetalt"]);
     });
 
     it("Siste 3 mnd: håndterer årsskifte korrekt (nov 2024..jan 2025 når 'i dag' er 10. jan 2025)", () => {
@@ -108,23 +108,23 @@ describe("FiltreringAvUtbetalinger", () => {
             gruppe(2024, 10, [utb({ status: ManedUtbetalingStatus.UTBETALT, referanse: "okt24" })]),
         ];
 
-        const { periodeUtbetalinger } = FiltreringAvUtbetalinger({
+        const { periodeUtbetalinger } = filtreringAvUtbetalinger({
             valgteChip: "siste3",
             nye: [],
             tidligere: data,
             valgtDatoRekke: null,
         });
 
-        expect(periodeUtbetalinger.map((g) => [g.ar, g.maned])).toEqual([
+        expect(periodeUtbetalinger.map((gruppe) => [gruppe.ar, gruppe.maned])).toEqual([
             [2024, 11],
             [2024, 12],
             [2025, 1],
         ]);
-        expect(periodeUtbetalinger.flatMap((g) => g.utbetalingerForManed.map((u) => u.referanse))).toEqual([
-            "nov24",
-            "des24",
-            "jan25",
-        ]);
+        expect(
+            periodeUtbetalinger.flatMap((gruppe) =>
+                gruppe.utbetalingerForManed.map((utbetaling) => utbetaling.referanse)
+            )
+        ).toEqual(["nov24", "des24", "jan25"]);
     });
 
     it("Egendefinert: matcher enten enkeltdato (utbetalingsdato/forfallsdato) eller overlapp i fom–tom", () => {
@@ -157,7 +157,7 @@ describe("FiltreringAvUtbetalinger", () => {
             ]),
         ];
 
-        const { egendefinertUtbetalinger } = FiltreringAvUtbetalinger({
+        const { egendefinertUtbetalinger } = filtreringAvUtbetalinger({
             valgteChip: "egendefinert",
             nye: [],
             tidligere: komb,
@@ -167,13 +167,13 @@ describe("FiltreringAvUtbetalinger", () => {
         expect(egendefinertUtbetalinger).toHaveLength(1);
         const [sept] = egendefinertUtbetalinger;
         expect(sept.maned).toBe(9);
-        expect(sept.utbetalingerForManed.map((u) => u.referanse).sort()).toEqual(
+        expect(sept.utbetalingerForManed.map((utbetaling) => utbetaling.referanse).sort()).toEqual(
             ["innenfor-utbetalingsdato", "overlapper-periode"].sort()
         );
     });
 
     it("Egendefinert: returnerer tom liste når valgtDatoRekke er null", () => {
-        const { egendefinertUtbetalinger } = FiltreringAvUtbetalinger({
+        const { egendefinertUtbetalinger } = filtreringAvUtbetalinger({
             valgteChip: "egendefinert",
             nye: [],
             tidligere: [],
