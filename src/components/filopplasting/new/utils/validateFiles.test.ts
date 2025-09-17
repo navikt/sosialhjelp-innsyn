@@ -45,7 +45,7 @@ describe("validateFiles", () => {
         });
 
         it("should return false for unaccepted file types", () => {
-            const file = new File(["content"], "image.xlsx", { type: "image/xlsx" });
+            const file = new File(["content"], "image.skruball", { type: "image/skruball" });
             expect(isAcceptedFileType(file, allowedFileTypes)).toBe(false);
         });
 
@@ -68,7 +68,7 @@ describe("validateFiles", () => {
         });
 
         it("should return ILLEGAL_FILE_TYPE for files with unaccepted types", () => {
-            const xclsFile = new File(["content"], "table.xlsx", { type: "table.xlsx" });
+            const xclsFile = new File(["content"], "table.skruball", { type: "table.skruball" });
             const dmgFile = new File(["content"], "table.dmg", { type: "table.dmg" });
             expect(validateFile(xclsFile)).toBe(Feil.ILLEGAL_FILE_TYPE);
             expect(validateFile(dmgFile)).toBe(Feil.ILLEGAL_FILE_TYPE);

@@ -13,6 +13,7 @@ import { getHentKlagerQueryKey, useLastOppVedlegg, useSendKlage } from "@generat
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 import FileSelect from "@components/filopplasting/new/FileSelect";
+import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
@@ -34,8 +35,9 @@ const KlageForm = () => {
     const { vedtakId } = useParams<{ vedtakId: string }>();
     const queryClient = useQueryClient();
     const router = useRouter();
+    const docState = useDocumentState(vedtakId);
 
-    const { addFiler, files, removeFil, outerErrors } = useFiles();
+    const { files, outerErrors } = useFiles();
 
     const {
         register,
@@ -85,7 +87,7 @@ const KlageForm = () => {
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <FileSelect files={files} addFiler={addFiler} removeFil={removeFil} outerErrors={outerErrors} />
+            <FileSelect docState={docState} outerErrors={outerErrors} />
             <Button loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending} type="submit">
                 {t("sendKlage")}
             </Button>

@@ -9,11 +9,9 @@ import { useNavigationGuard } from "next-navigation-guard";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
-import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
+import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 import FileSelect from "./FileSelect";
-import { browserEnv } from "@config/env";
-import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 interface Props {
     metadata: Metadata;
@@ -28,13 +26,11 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { files, outerErrors, reset: resetFilOpplastningData } = useFiles();
     const docState = useDocumentState(fiksDigisosId);
-    const {
-        upload,
-        resetMutation,
-        errors: mutationErrors,
-        isPending,
-        isUploadSuccess,
-    } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData, metadata);
+    const { upload, resetMutation, isPending, isUploadSuccess } = useSendVedleggHelper(
+        fiksDigisosId,
+        resetFilOpplastningData,
+        metadata
+    );
 
     useNavigationGuard({
         enabled: files.length > 0,
