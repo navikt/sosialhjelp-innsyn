@@ -77,7 +77,7 @@ describe("kombinertManed", () => {
         expect(result).toHaveLength(1);
         expect(result[0].ar).toBe(2025);
         expect(result[0].maned).toBe(9);
-        expect(result[0].utbetalingerForManed.map((u) => u.tittel)).toEqual(["A", "B"]);
+        expect(result[0].utbetalingerForManed.map((utbetaling) => utbetaling.tittel)).toEqual(["A", "B"]);
     });
 });
 

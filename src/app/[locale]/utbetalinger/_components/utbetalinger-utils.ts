@@ -15,17 +15,17 @@ export const kombinertManed = (
 ): NyeOgTidligereUtbetalingerResponse[] => {
     const map = new Map<string, NyeOgTidligereUtbetalingerResponse>();
 
-    for (const list of [nye, tidligere]) {
-        for (const m of list) {
-            const key = `${m.ar}-${m.maned}`;
+    for (const kombinertList of [nye, tidligere]) {
+        for (const maned of kombinertList) {
+            const key = `${maned.ar}-${maned.maned}`;
             const existing = map.get(key);
             if (existing) {
-                existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...m.utbetalingerForManed];
+                existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...maned.utbetalingerForManed];
             } else {
                 map.set(key, {
-                    ar: m.ar,
-                    maned: m.maned,
-                    utbetalingerForManed: [...m.utbetalingerForManed],
+                    ar: maned.ar,
+                    maned: maned.maned,
+                    utbetalingerForManed: [...maned.utbetalingerForManed],
                 });
             }
         }

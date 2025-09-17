@@ -20,8 +20,8 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingSummert }
     if (utbetalingerForManed.length === 0) return null;
 
     const utbetalingSum = utbetalingerForManed
-        .filter((u) => !manedsUtbetalingSummert || manedsUtbetalingSummert.includes(u.status))
-        .reduce((acc, u) => acc + u.belop, 0);
+        .filter((utbetalinger) => !manedsUtbetalingSummert || manedsUtbetalingSummert.includes(utbetalinger.status))
+        .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
         <VStack gap="1">
