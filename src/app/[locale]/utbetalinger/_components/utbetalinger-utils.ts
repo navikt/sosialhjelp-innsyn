@@ -1,4 +1,4 @@
-import { endOfMonth, isWithinInterval, startOfMonth } from "date-fns";
+import { endOfMonth, isWithinInterval, startOfMonth, areIntervalsOverlapping } from "date-fns";
 
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
@@ -60,28 +60,37 @@ export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedInterva
 };
 
 export const utbetalingInnenforValgtDatoIntervall = (utb: ManedUtbetaling, from: Date, to: Date): boolean => {
-    const singleDateStr = utb.utbetalingsdato ?? utb.forfallsdato;
-    if (singleDateStr) {
-        const d = new Date(singleDateStr);
-        return d >= from && d <= to;
+    const intervall = { start: from, end: to };
+
+    const referanseDato = utb.utbetalingsdato ?? utb.forfallsdato;
+    if (referanseDato) {
+        return isWithinInterval(new Date(referanseDato), intervall);
     }
 
     const fom = utb.fom ? new Date(utb.fom) : undefined;
     const tom = utb.tom ? new Date(utb.tom) : undefined;
 
     if (fom && tom) {
-        return !(tom < from || fom > to);
+        return areIntervalsOverlapping({ start: fom, end: tom }, intervall, { inclusive: true });
     }
-    if (fom) return fom >= from && fom <= to;
-    if (tom) return tom >= from && tom <= to;
+    if (fom) return isWithinInterval(fom, intervall);
+    if (tom) return isWithinInterval(tom, intervall);
 
     return true;
 };
 
 export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse, range: MaanedIntervall | null) => {
     if (!range) return true;
-    const itemDate = startOfMonth(new Date(item.ar, item.maned - 1, 1));
-    const start = startOfMonth(new Date(range.start.year, range.start.month - 1, 1));
-    const end = endOfMonth(new Date(range.end.year, range.end.month - 1, 1));
-    return isWithinInterval(itemDate, { start, end });
+
+    const itemInterval = {
+        start: startOfMonth(new Date(item.ar, item.maned - 1, 1)),
+        end: endOfMonth(new Date(item.ar, item.maned - 1, 1)),
+    };
+
+    const selectedInterval = {
+        start: startOfMonth(new Date(range.start.year, range.start.month - 1, 1)),
+        end: endOfMonth(new Date(range.end.year, range.end.month - 1, 1)),
+    };
+
+    return areIntervalsOverlapping(itemInterval, selectedInterval, { inclusive: true });
 };

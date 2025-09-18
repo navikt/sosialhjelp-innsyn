@@ -243,4 +243,10 @@ describe("erInnenforAngittPeriode", () => {
         const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 10 } };
         expect(erInnenforAngittPeriode(item, range)).toBe(true);
     });
+
+    it("returns true når dato er inklusiv i intervallet", () => {
+        const item = { ar: 2025, maned: 8, utbetalingerForManed: [] };
+        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 8 } };
+        expect(erInnenforAngittPeriode(item, range)).toBe(true);
+    });
 });
