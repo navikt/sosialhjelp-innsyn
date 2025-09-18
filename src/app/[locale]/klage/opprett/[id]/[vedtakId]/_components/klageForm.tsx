@@ -9,10 +9,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 
-import { getHentKlagerQueryKey, useLastOppVedlegg, useSendKlage } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 import FileSelect from "@components/filopplasting/new/FileSelect";
+import {
+    getHentKlagerQueryKey,
+    useLastOppVedlegg,
+    useSendKlage,
+} from "@generated/ssr/klage-controller/klage-controller";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
