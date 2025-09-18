@@ -20,7 +20,7 @@ import { useUtbetalingerLists } from "./useUtbetalingerListe";
 
 type Props = { valgteChip: ChipsChip };
 
-const Liste = ({ valgteChip }: Props) => {
+const UtbetalingerListe = ({ valgteChip }: Props) => {
     const t = useTranslations("UtbetalingerChips");
 
     const today = new Date();
@@ -99,10 +99,6 @@ const Liste = ({ valgteChip }: Props) => {
             tomListe={<IngenUtbetalingerPeriode />}
         />
     );
-};
-
-const UtbetalingerListe = (props: Props) => {
-    return <Liste {...props} />;
 };
 
 export default UtbetalingerListe;
