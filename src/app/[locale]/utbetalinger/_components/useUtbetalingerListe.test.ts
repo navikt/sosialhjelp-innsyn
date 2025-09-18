@@ -6,7 +6,7 @@ import {
     type NyeOgTidligereUtbetalingerResponse,
 } from "@generated/ssr/model";
 
-import { filtreringAvUtbetalinger } from "./useUtbetalingerListe";
+import { useUtbetalingerLists } from "./useUtbetalingerListe";
 
 const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
     referanse: "ref",
@@ -51,7 +51,7 @@ describe("FiltreringAvUtbetalinger", () => {
             gruppe(2025, 9, [utb({ status: ManedUtbetalingStatus.STOPPET, referanse: "tidligere-stoppet" })]),
         ];
 
-        const { kommendeUtbetalinger, periodeUtbetalinger, egendefinertUtbetalinger } = filtreringAvUtbetalinger({
+        const { kommendeUtbetalinger, periodeUtbetalinger, egendefinertUtbetalinger } = useUtbetalingerLists({
             valgteChip: "kommende.kort",
             nye,
             tidligere,
@@ -82,7 +82,7 @@ describe("FiltreringAvUtbetalinger", () => {
             gruppe(2025, 9, [utb({ status: ManedUtbetalingStatus.STOPPET, referanse: "tidligere-stoppet" })]),
         ];
 
-        const { periodeUtbetalinger } = filtreringAvUtbetalinger({
+        const { periodeUtbetalinger } = useUtbetalingerLists({
             valgteChip: "hittil",
             nye,
             tidligere,
@@ -108,7 +108,7 @@ describe("FiltreringAvUtbetalinger", () => {
             gruppe(2024, 10, [utb({ status: ManedUtbetalingStatus.UTBETALT, referanse: "okt24" })]),
         ];
 
-        const { periodeUtbetalinger } = filtreringAvUtbetalinger({
+        const { periodeUtbetalinger } = useUtbetalingerLists({
             valgteChip: "siste3",
             nye: [],
             tidligere: data,
@@ -157,7 +157,7 @@ describe("FiltreringAvUtbetalinger", () => {
             ]),
         ];
 
-        const { egendefinertUtbetalinger } = filtreringAvUtbetalinger({
+        const { egendefinertUtbetalinger } = useUtbetalingerLists({
             valgteChip: "egendefinert",
             nye: [],
             tidligere: komb,
@@ -173,7 +173,7 @@ describe("FiltreringAvUtbetalinger", () => {
     });
 
     it("Egendefinert: returnerer tom liste når valgtDatointervall er null", () => {
-        const { egendefinertUtbetalinger } = filtreringAvUtbetalinger({
+        const { egendefinertUtbetalinger } = useUtbetalingerLists({
             valgteChip: "egendefinert",
             nye: [],
             tidligere: [],
