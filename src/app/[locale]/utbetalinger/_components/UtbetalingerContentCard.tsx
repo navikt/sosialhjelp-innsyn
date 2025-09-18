@@ -42,7 +42,12 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                 <ExpansionCard.Title>
                     <HStack align="center" wrap={false} className="w-full" justify="space-between">
                         <HStack gap="2" align="center" className="min-w-0" wrap={false}>
-                            <BodyShort size="medium" weight="semibold" className={cx("truncate", alignmentWithChevron)}>
+                            <BodyShort
+                                lang="no"
+                                size="medium"
+                                weight="semibold"
+                                className={cx("truncate", alignmentWithChevron)}
+                            >
                                 {manedUtbetaling.tittel}
                             </BodyShort>
                             <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
