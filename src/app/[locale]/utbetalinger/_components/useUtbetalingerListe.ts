@@ -1,7 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
-
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import type { ChipsChip } from "./Utbetalinger";
@@ -22,7 +20,7 @@ interface Props {
     valgtDatointervall: Intervall;
 }
 
-export const filtreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDatointervall }: Props) => {
+export const useUtbetalingerLists = ({ valgteChip, nye, tidligere, valgtDatointervall }: Props) => {
     const kommende = valgteChip === "kommende.kort";
     const periodeIntervall = erPeriodeChip(valgteChip) ? datoIntervall(valgteChip) : null;
     const kombinert = kombinertManed(nye, tidligere);
@@ -76,21 +74,4 @@ export const filtreringAvUtbetalinger = ({ valgteChip, nye, tidligere, valgtDato
         periodeUtbetalinger,
         egendefinertUtbetalinger,
     };
-};
-
-export const useUtbetalingerLists = ({
-    valgteChip,
-    nye,
-    tidligere,
-    valgtDatointervall,
-}: {
-    valgteChip: ChipsChip;
-    nye?: NyeOgTidligereUtbetalingerResponse[];
-    tidligere?: NyeOgTidligereUtbetalingerResponse[];
-    valgtDatointervall: Intervall;
-}) => {
-    return useMemo(
-        () => filtreringAvUtbetalinger({ valgteChip, nye, tidligere, valgtDatointervall: valgtDatointervall }),
-        [valgteChip, nye, tidligere, valgtDatointervall]
-    );
 };
