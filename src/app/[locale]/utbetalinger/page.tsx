@@ -21,9 +21,9 @@ const Page = async () => {
         return notFound();
     }
     const queryClient = getQueryClient();
-    
-    prefetchHentNyeUtbetalingerQuery(queryClient),
-    prefetchHentTidligereUtbetalingerQuery(queryClient),
+
+    prefetchHentNyeUtbetalingerQuery(queryClient);
+    prefetchHentTidligereUtbetalingerQuery(queryClient);
 
     return (
         <VStack gap="20" className="mt-20">
