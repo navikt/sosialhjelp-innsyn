@@ -14,26 +14,16 @@ import {
 import Utbetalinger from "./_components/Utbetalinger";
 import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
 
-const PrefetchedUtbetalinger = async () => {
-    const queryClient = getQueryClient();
-    await Promise.all([
-        prefetchHentNyeUtbetalingerQuery(queryClient),
-        prefetchHentTidligereUtbetalingerQuery(queryClient),
-    ]);
-
-    return (
-        <HydrationBoundary state={dehydrate(queryClient)}>
-            <Utbetalinger />
-        </HydrationBoundary>
-    );
-};
-
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", await getToggles());
     const t = await getTranslations("UtbetalingerPage");
     if (!toggle.enabled) {
         return notFound();
     }
+    const queryClient = getQueryClient();
+    
+    prefetchHentNyeUtbetalingerQuery(queryClient),
+    prefetchHentTidligereUtbetalingerQuery(queryClient),
 
     return (
         <VStack gap="20" className="mt-20">
@@ -41,7 +31,9 @@ const Page = async () => {
                 {t("tittel")}
             </Heading>
             <Suspense fallback={<UtbetalingerSkeleton />}>
-                <PrefetchedUtbetalinger />
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <Utbetalinger />
+                </HydrationBoundary>
             </Suspense>
         </VStack>
     );
