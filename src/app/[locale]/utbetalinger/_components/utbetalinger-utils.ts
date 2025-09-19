@@ -1,10 +1,18 @@
-import { endOfMonth, isWithinInterval, startOfMonth, areIntervalsOverlapping } from "date-fns";
+import {
+    endOfMonth,
+    isWithinInterval,
+    startOfMonth,
+    areIntervalsOverlapping,
+    getYear,
+    getMonth,
+    subMonths,
+} from "date-fns";
 
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { ChipsChip } from "./Utbetalinger";
 
-export type PeriodeChip = "siste3" | "hittil" | "fjor";
+type PeriodeChip = "siste3" | "hittil" | "fjor";
 export const erPeriodeChip = (c: ChipsChip): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";
 };
@@ -33,27 +41,29 @@ export const kombinertManed = (
     return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
 };
 
-export type AarMaaned = { year: number; month: number };
-export type MaanedIntervall = { start: AarMaaned; end: AarMaaned };
+type Month1to12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+type AarMaaned = { year: number; month: Month1to12 };
+type MaanedIntervall = { start: AarMaaned; end: AarMaaned };
+
+const tilAarMaaned = (dato: Date) => ({
+    year: getYear(dato),
+    month: (getMonth(dato) + 1) as Month1to12,
+});
 
 export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedIntervall | null => {
-    const today = new Date();
-    const current: AarMaaned = { year: today.getFullYear(), month: today.getMonth() + 1 };
-
-    const forskyvMaaned = ({ year, month }: AarMaaned, delta: number): AarMaaned => {
-        const base = year * 12 + (month - 1) + delta;
-        const y = Math.floor(base / 12);
-        const m = ((base % 12) + 12) % 12;
-        return { year: y, month: (m + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 };
-    };
+    const dagens = new Date();
 
     switch (chip) {
-        case "siste3":
-            return { start: forskyvMaaned(current, -2), end: current };
+        case "siste3": {
+            const startDato = subMonths(dagens, 2);
+            return { start: tilAarMaaned(startDato), end: tilAarMaaned(dagens) };
+        }
         case "hittil":
-            return { start: { year: current.year, month: 1 }, end: current };
-        case "fjor":
-            return { start: { year: current.year - 1, month: 1 }, end: { year: current.year - 1, month: 12 } };
+            return { start: { year: getYear(dagens), month: 1 }, end: tilAarMaaned(dagens) };
+        case "fjor": {
+            const y = getYear(dagens) - 1;
+            return { start: { year: y, month: 1 }, end: { year: y, month: 12 } };
+        }
         default:
             return null;
     }
@@ -81,16 +91,8 @@ export const utbetalingInnenforValgtDatoIntervall = (utb: ManedUtbetaling, from:
 
 export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse, range: MaanedIntervall | null) => {
     if (!range) return true;
-
-    const itemInterval = {
-        start: startOfMonth(new Date(item.ar, item.maned - 1, 1)),
-        end: endOfMonth(new Date(item.ar, item.maned - 1, 1)),
-    };
-
-    const selectedInterval = {
-        start: startOfMonth(new Date(range.start.year, range.start.month - 1, 1)),
-        end: endOfMonth(new Date(range.end.year, range.end.month - 1, 1)),
-    };
-
-    return areIntervalsOverlapping(itemInterval, selectedInterval, { inclusive: true });
+    const itemDate = startOfMonth(new Date(item.ar, item.maned - 1, 1));
+    const start = startOfMonth(new Date(range.start.year, range.start.month - 1, 1));
+    const end = endOfMonth(new Date(range.end.year, range.end.month - 1, 1));
+    return isWithinInterval(itemDate, { start, end });
 };
