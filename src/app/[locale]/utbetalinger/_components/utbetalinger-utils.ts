@@ -41,16 +41,16 @@ export const kombinertManed = (
     return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
 };
 
-type Month1to12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-type AarMaaned = { year: number; month: Month1to12 };
-type MaanedIntervall = { start: AarMaaned; end: AarMaaned };
+export type Month1to12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type AarMaaned = { year: number; month: Month1to12 };
+export type ManedIntervall = { start: AarMaaned; end: AarMaaned };
 
 const tilAarMaaned = (dato: Date) => ({
     year: getYear(dato),
     month: (getMonth(dato) + 1) as Month1to12,
 });
 
-export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): MaanedIntervall | null => {
+export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): ManedIntervall | null => {
     const dagens = new Date();
 
     switch (chip) {
@@ -89,10 +89,10 @@ export const utbetalingInnenforValgtDatoIntervall = (utb: ManedUtbetaling, from:
     return true;
 };
 
-export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse, range: MaanedIntervall | null) => {
-    if (!range) return true;
+export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse, intervall: ManedIntervall | null) => {
+    if (!intervall) return true;
     const itemDate = startOfMonth(new Date(item.ar, item.maned - 1, 1));
-    const start = startOfMonth(new Date(range.start.year, range.start.month - 1, 1));
-    const end = endOfMonth(new Date(range.end.year, range.end.month - 1, 1));
+    const start = startOfMonth(new Date(intervall.start.year, intervall.start.month - 1, 1));
+    const end = endOfMonth(new Date(intervall.end.year, intervall.end.month - 1, 1));
     return isWithinInterval(itemDate, { start, end });
 };

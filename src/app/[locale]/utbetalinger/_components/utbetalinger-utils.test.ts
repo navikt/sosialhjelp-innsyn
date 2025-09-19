@@ -7,6 +7,9 @@ import {
     datoIntervall,
     utbetalingInnenforValgtDatoIntervall,
     erInnenforAngittPeriode,
+    Month1to12,
+    AarMaaned,
+    ManedIntervall,
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
@@ -24,6 +27,12 @@ const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
     kontonummer: "12345678901",
     utbetalingsmetode: "BANKKONTO",
     ...overrides,
+});
+
+const am = (year: number, month: Month1to12): AarMaaned => ({ year, month });
+const mi = (ys: number, ms: Month1to12, ye: number, me: Month1to12): ManedIntervall => ({
+    start: am(ys, ms),
+    end: am(ye, me),
 });
 
 describe("kombinertManed", () => {
@@ -216,37 +225,37 @@ describe("erInnenforAngittPeriode", () => {
 
     it("returns true når dato er innenfor angitt periode", () => {
         const item = { ar: 2025, maned: 9, utbetalingerForManed: [] };
-        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 10 } };
+        const range = mi(2025, 8, 2025, 10);
         expect(erInnenforAngittPeriode(item, range)).toBe(true);
     });
 
     it("returns false når dato er før angitt periode", () => {
         const item = { ar: 2025, maned: 7, utbetalingerForManed: [] };
-        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 10 } };
+        const range = mi(2025, 8, 2025, 10);
         expect(erInnenforAngittPeriode(item, range)).toBe(false);
     });
 
     it("returns false når dato er etter angitt periode", () => {
         const item = { ar: 2025, maned: 11, utbetalingerForManed: [] };
-        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 10 } };
+        const range = mi(2025, 8, 2025, 10);
         expect(erInnenforAngittPeriode(item, range)).toBe(false);
     });
 
     it("returns true når dato matcher starten av intervallet", () => {
         const item = { ar: 2025, maned: 8, utbetalingerForManed: [] };
-        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 10 } };
+        const range = mi(2025, 8, 2025, 10);
         expect(erInnenforAngittPeriode(item, range)).toBe(true);
     });
 
     it("returns true når dato matcher slutten av intervallet", () => {
         const item = { ar: 2025, maned: 10, utbetalingerForManed: [] };
-        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 10 } };
+        const range = mi(2025, 8, 2025, 10);
         expect(erInnenforAngittPeriode(item, range)).toBe(true);
     });
 
     it("returns true når dato er inklusiv i intervallet", () => {
         const item = { ar: 2025, maned: 8, utbetalingerForManed: [] };
-        const range = { start: { year: 2025, month: 8 }, end: { year: 2025, month: 8 } };
+        const range = mi(2025, 8, 2025, 8);
         expect(erInnenforAngittPeriode(item, range)).toBe(true);
     });
 });
