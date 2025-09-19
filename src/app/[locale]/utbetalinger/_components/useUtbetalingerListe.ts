@@ -15,8 +15,8 @@ type Intervall = { from: Date; to: Date } | null;
 
 interface Props {
     valgteChip: ChipsChip;
-    nye?: NyeOgTidligereUtbetalingerResponse[];
-    tidligere?: NyeOgTidligereUtbetalingerResponse[];
+    nye: NyeOgTidligereUtbetalingerResponse[];
+    tidligere: NyeOgTidligereUtbetalingerResponse[];
     valgtDatointervall: Intervall;
 }
 
