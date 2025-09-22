@@ -1,5 +1,3 @@
-"use client";
-
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import type { ChipsChip } from "./Utbetalinger";
@@ -31,7 +29,7 @@ export const useUtbetalingerLists = ({ valgteChip, nye, tidligere, valgtDatointe
     ]);
 
     const kommendeUtbetalinger = kommende
-        ? (nye ?? []) // Bruker nye[] i stede for kombinert for å unngå å vise utbetalinger som ligger i tidligere[] med status "stoppet"
+        ? nye // Bruker nye[] i stede for kombinert for å unngå å vise utbetalinger som ligger i tidligere[] med status "stoppet"
               .map((gruppe) => ({
                   ...gruppe,
                   utbetalingerForManed: gruppe.utbetalingerForManed.filter((utbetaling) =>
