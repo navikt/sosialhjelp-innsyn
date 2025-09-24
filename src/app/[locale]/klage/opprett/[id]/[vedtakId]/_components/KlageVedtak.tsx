@@ -21,8 +21,8 @@ const KlageVedtak = ({ fiksDigisosId, vedtakId }: Props) => {
     if (!sak) return null;
 
     return (
-        <VStack>
-            <Sakstittel tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
+        <VStack gap="4">
+            <Sakstittel tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} fontSize="medium" />
             <BodyShort>{t(`beskrivelse.${sak.utfallVedtak}`)}</BodyShort>
             {sak.vedtaksfilUrlList &&
                 sak.vedtaksfilUrlList.map((fil, index) => (
