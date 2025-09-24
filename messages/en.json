@@ -291,6 +291,9 @@
             "beskrivelse": "You will receive a decision. Read the decision to see if your appeal was upheld or not."
         }
     },
+  "KlageVedtakHeader": {
+    "tittel": "Application for <norsk>{sakstittel}</norsk>"
+  },
     "KlageForm": {
         "bakgrunn": {
             "label": "Provide the background for the complaint",
