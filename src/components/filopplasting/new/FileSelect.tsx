@@ -8,7 +8,7 @@ import { FancyFile, Error } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
 interface Props {
-    id: string;
+    id?: string;
     label?: string;
     description?: React.ReactNode;
     filesLabel?: string;
