@@ -249,6 +249,9 @@
             "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
         }
     },
+  "KlageVedtakHeader": {
+    "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
+  },
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunn for klagen",

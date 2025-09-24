@@ -8,6 +8,7 @@ import { FancyFile, Error } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
 interface Props {
+    id: string;
     label?: string;
     description?: React.ReactNode;
     filesLabel?: string;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const FileSelect = ({
+    id,
     label,
     description,
     filesLabel,
@@ -34,6 +36,7 @@ const FileSelect = ({
 
     return (
         <FileUpload
+            id={id}
             className="mb-4"
             translations={{
                 dropzone: {
