@@ -11,14 +11,14 @@ import { prefetchHentSakForVedtakQuery } from "@generated/ssr/sak-controller/sak
 import KlageForm from "./_components/klageForm";
 import KlageVedtak from "./_components/KlageVedtak";
 
-const Page = async ({ params }: { params: { id: string; vedtakId: string } }) => {
+const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     if (!toggle.enabled) {
         return notFound();
     }
 
     const t = await getTranslations("OpprettKlagePage");
-    const { id: fiksDigisosId, vedtakId } = params;
+    const { id: fiksDigisosId, vedtakId } = await params;
 
     const queryClient = getQueryClient();
     await prefetchHentSakForVedtakQuery(queryClient, fiksDigisosId, vedtakId);
