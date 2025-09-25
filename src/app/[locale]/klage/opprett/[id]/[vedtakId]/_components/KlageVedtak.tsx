@@ -4,18 +4,16 @@ import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 
-import { useHentSakForVedtak } from "@generated/sak-controller/sak-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+import { SakResponse } from "@generated/model";
 
 import Sakstittel from "../../../../../soknad/[id]/_components/saker/Sakstittel";
 
 interface Props {
-    fiksDigisosId: string;
-    vedtakId: string;
+    sak: SakResponse;
 }
 
-const KlageVedtak = ({ fiksDigisosId, vedtakId }: Props) => {
-    const { data: sak } = useHentSakForVedtak(fiksDigisosId, vedtakId);
+const KlageVedtak = ({ sak }: Props) => {
     const t = useTranslations("KlageVedtak");
 
     if (!sak) return null;
