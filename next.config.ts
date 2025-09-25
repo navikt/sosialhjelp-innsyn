@@ -19,10 +19,18 @@ const appDirectives = {
     "script-src-elem": [SELF, uxsignalsScriptSrc],
     "style-src": [SELF, UNSAFE_INLINE, localServer],
     "style-src-elem": [SELF, UNSAFE_INLINE, localServer],
-    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc, "localhost:3007"],
+    "img-src": [
+        SELF,
+        DATA,
+        BLOB,
+        uxsignalsScriptSrc,
+        ...(isLocal ? ["localhost:3007"] : ["https://storage.googleapis.com"]),
+    ],
     "font-src": [SELF],
-    "worker-src": [SELF, "http://localhost:3007"],
-    "connect-src": isLocal ? [SELF, innsynApiLocalhost, localServer, "localhost:3007"] : [SELF],
+    "worker-src": [SELF, ...(isLocal ? ["http://localhost:3007"] : ["https://storage.googleapis.com"])],
+    "connect-src": isLocal
+        ? [SELF, innsynApiLocalhost, localServer, "localhost:3007"]
+        : [SELF, "https://storage.googleapis.com"],
 };
 
 const nextConfig: NextConfig = {
