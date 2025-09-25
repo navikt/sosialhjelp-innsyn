@@ -19,6 +19,8 @@ export const serverEnvSchema = z.object({
     INNSYN_API_PORT: z.string().optional(),
     SOKNAD_API_PORT: z.string().optional(),
     NEXT_INNSYN_API_BASE_URL: z.string().optional().default(""),
+    UPLOAD_API_HOSTNAME: z.string(),
+    UPLOAD_API_PORT: z.string().optional(),
 });
 
 export const browserEnv = publicEnvSchema.parse({
@@ -38,6 +40,8 @@ const getRawServerConfig = (): Partial<unknown> =>
         NEXT_INNSYN_API_BASE_URL: process.env.NEXT_INNSYN_API_BASE_URL,
         INNSYN_API_PORT: process.env.INNSYN_API_PORT,
         SOKNAD_API_PORT: process.env.SOKNAD_API_PORT,
+        UPLOAD_API_HOSTNAME: process.env.UPLOAD_API_HOSTNAME,
+        UPLOAD_API_PORT: process.env.UPLOAD_API_PORT,
     }) satisfies Record<keyof ServerEnv, string | undefined>;
 
 /**

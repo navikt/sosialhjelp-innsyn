@@ -1,10 +1,12 @@
 import apiProxy, { RouteHandlerProxyTarget } from "@api/proxy/apiProxy";
 
+import { getServerEnv } from "../../../../config/env";
+
 const getRouteHandlerProxyTarget = async (
     bearerToken: string | undefined,
     requestPath: string[]
 ): Promise<RouteHandlerProxyTarget> => {
-    const hostname = "localhost";
+    const hostname = getServerEnv().UPLOAD_API_HOSTNAME;
     if (!hostname) {
         throw new Error("Missing innsyn-api hostname config");
     }
@@ -12,7 +14,7 @@ const getRouteHandlerProxyTarget = async (
     const https = false;
 
     const path = `${basePath}/${requestPath.join("/")}`;
-    const port = "3007";
+    const port = getServerEnv().UPLOAD_API_PORT;
     return { hostname, path: encodeURI(path), bearerToken, https, port };
 };
 
