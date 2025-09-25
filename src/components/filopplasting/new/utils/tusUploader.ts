@@ -17,7 +17,7 @@ export const getTusUploader = ({
     const uploadOptions = (file: File): UploadOptions => ({
         endpoint: browserEnv.NEXT_PUBLIC_TUSD_URL,
         retryDelays: [0, 1000, 3000, 5000],
-        chunkSize: 1000000,
+        chunkSize: 150 * 1024 * 1024, // 150MB
         metadata: {
             filename: file.name,
             externalId: id,
