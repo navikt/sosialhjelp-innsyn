@@ -46,15 +46,6 @@ const FileSelect = ({ label, description, tag, outerErrors, docState }: Props) =
         const uploads = _files.map((file: FileObject) => {
             const upload = getTusUploader({
                 id: fiksDigisosId,
-                onProgress: (bytesSent, bytesTotal) => {
-                    console.log(`${(bytesSent / bytesTotal) * 100}%`);
-                },
-                onSuccess: () => {
-                    console.log("wahoo:", upload.url);
-                },
-                onUploadUrlAvailable: () => {
-                    console.log("upload url available");
-                },
                 file,
             });
             return upload;
@@ -207,6 +198,7 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url
                     onClose={() => ref.current?.close()}
                     filename={originalFilename}
                     url={url}
+                    isPdf={!!filename}
                 />
             )}
         </>
