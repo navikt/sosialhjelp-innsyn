@@ -291,8 +291,14 @@
             "beskrivelse": "You will receive a decision. Read the decision to see if your appeal was upheld or not."
         }
     },
-  "KlageVedtakHeader": {
-    "tittel": "Application for <norsk>{sakstittel}</norsk>"
+  "KlageVedtak": {
+    "beskrivelse": {
+      "INNVILGET": "You have been granted benefits. Read the decision to see the reasons.",
+      "DELVIS_INNVILGET": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons.",
+      "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
+      "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
+    },
+    "vedtaksBrev": "Download decision letter"
   },
     "KlageForm": {
         "bakgrunn": {
