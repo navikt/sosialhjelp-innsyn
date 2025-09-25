@@ -16,7 +16,7 @@ interface Props {
 
 const KlageVedtak = ({ fiksDigisosId, vedtakId }: Props) => {
     const { data: sak } = useHentSakForVedtak(fiksDigisosId, vedtakId);
-    const t = useTranslations("Vedtak");
+    const t = useTranslations("KlageVedtak");
 
     if (!sak) return null;
 
