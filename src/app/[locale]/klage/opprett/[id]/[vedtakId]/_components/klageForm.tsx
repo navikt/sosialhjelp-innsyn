@@ -83,7 +83,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
             <Textarea
-                id={"klageTextarea" + vedtakId}
                 resize
                 label={t("bakgrunn.label")}
                 description={t("bakgrunn.beskrivelse")}
@@ -91,7 +90,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
                 {...register("background")}
             />
             <FileSelect
-                id={"klageVedlegg" + vedtakId}
                 files={files}
                 addFiler={addFiler}
                 removeFil={removeFil}

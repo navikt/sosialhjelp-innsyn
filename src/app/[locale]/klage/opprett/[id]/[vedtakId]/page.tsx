@@ -33,8 +33,8 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
             </VStack>
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <KlageVedtak fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
-                <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
             </HydrationBoundary>
+            <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
         </VStack>
     );
 };

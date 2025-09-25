@@ -21,7 +21,6 @@ interface Props {
 }
 
 const FileSelect = ({
-    id,
     label,
     description,
     filesLabel,
@@ -36,7 +35,6 @@ const FileSelect = ({
 
     return (
         <FileUpload
-            id={id}
             className="mb-4"
             translations={{
                 dropzone: {
