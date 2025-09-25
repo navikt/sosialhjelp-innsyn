@@ -124,6 +124,7 @@ const FileSelect = ({ label, description, tag, outerErrors, docState, id, filesL
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
                                     key={upload.originalFilename}
+                                    url={upload.signedUrl}
                                     uploadId={upload.id}
                                     filename={upload.convertedFilename}
                                     originalFilename={upload.originalFilename}
@@ -143,6 +144,7 @@ interface FileUploadItemProps {
     filename?: string;
     uploadId: string;
     validations?: ValidationCode[];
+    url?: string;
 }
 
 const FilePreviewModal = dynamic(() => import("./preview/FilePreviewModal"), { ssr: false });
@@ -156,7 +158,7 @@ const validationToMessage: Record<ValidationCode, string> = {
     POSSIBLY_INFECTED: "IKKE SEND OSS VIRUS, DIN DRITT",
 };
 
-const FileUploadItem = ({ filename, originalFilename, uploadId, validations }: FileUploadItemProps) => {
+const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url }: FileUploadItemProps) => {
     const ref = useRef<HTMLDialogElement>(null);
     const { mutate, isPending } = useMutation({
         mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_TUSD_URL}/${uploadId}`),
@@ -203,12 +205,14 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations }: F
                     onClick={() => mutate()}
                 />
             </HStack>
-            <FilePreviewModal
-                ref={ref}
-                onClose={() => ref.current?.close()}
-                filename={originalFilename}
-                url={`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/thumbnails/${encodeURIComponent(filename ?? originalFilename)}`}
-            />
+            {url && (
+                <FilePreviewModal
+                    ref={ref}
+                    onClose={() => ref.current?.close()}
+                    filename={originalFilename}
+                    url={url}
+                />
+            )}
         </>
     );
 };
