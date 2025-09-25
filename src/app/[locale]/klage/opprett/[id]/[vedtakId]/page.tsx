@@ -26,9 +26,11 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
     return (
         <VStack gap="16" className="mt-20">
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
-            <Heading size="xlarge" level="1">
-                {t("tittel")}
-            </Heading>
+            <VStack className="mb-8">
+                <Heading size="xlarge" level="1">
+                    {t("tittel")}
+                </Heading>
+            </VStack>
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <KlageVedtak fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
                 <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
