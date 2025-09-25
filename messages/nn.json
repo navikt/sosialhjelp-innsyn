@@ -298,7 +298,8 @@
       "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
       "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
     },
-    "vedtaksBrev": "Last ned vedtaksbrevet",
+    "vedtaksBrev": "Last ned vedtaksbrev"
+  },
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunnen for klaga",
