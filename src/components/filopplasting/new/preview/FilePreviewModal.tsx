@@ -9,10 +9,10 @@ interface Props {
     onClose?: () => void;
     url: string;
     filename: string;
+    isPdf: boolean;
 }
 
-const FilePreviewModal = ({ onClose, url, filename }: Props, ref: Ref<HTMLDialogElement>) => {
-    const isPdf = url.endsWith(".pdf");
+const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTMLDialogElement>) => {
     return (
         <Modal
             ref={ref}
