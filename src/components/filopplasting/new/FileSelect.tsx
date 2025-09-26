@@ -20,6 +20,7 @@ import { ExclamationmarkTriangleFillIcon, FilePdfIcon, TrashIcon } from "@navikt
 import dynamic from "next/dynamic";
 import { Upload } from "tus-js-client";
 import { useMutation } from "@tanstack/react-query";
+import { logger } from "@navikt/next-logger";
 
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { Error } from "@components/filopplasting/new/types";
@@ -48,6 +49,10 @@ const FileSelect = ({ label, description, tag, outerErrors, docState, id, filesL
         const uploads = _files.map((file: FileObject) => {
             const upload = getTusUploader({
                 id: fiksDigisosId,
+                onProgress: (bytesSent, bytesTotal) => {
+                    const progress = bytesSent / bytesTotal;
+                    logger.info(progress);
+                },
                 file,
             });
             return upload;
