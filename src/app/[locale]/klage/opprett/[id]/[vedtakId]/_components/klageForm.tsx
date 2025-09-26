@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 
-import { getHentKlagerQueryKey, useLastOppVedlegg, useSendKlage } from "@generated/klage-controller/klage-controller";
+import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 import FileSelect from "@components/filopplasting/new/FileSelect";
@@ -49,7 +49,7 @@ const KlageForm = () => {
         },
     });
 
-    const lastOppVedleggMutation = useLastOppVedlegg();
+    const lastOppVedleggMutation = useUploadDocuments();
     const sendKlageMutation = useSendKlage();
 
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -67,7 +67,7 @@ const KlageForm = () => {
 
             await sendKlageMutation.mutateAsync({
                 fiksDigisosId: fiksDigisosId,
-                data: { klageId, vedtakId, klageTekst: data.background ?? "" },
+                data: { klageId, vedtakId, tekst: data.background ?? "" },
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });

@@ -6,6 +6,7 @@ import { FileTextIcon } from "@navikt/aksel-icons";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import StatusCard from "@components/soknaderList/list/soknadCard/status/StatusCard";
+import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import ProsessenVidere from "./_components/prosessenVidere";
@@ -15,15 +16,18 @@ const Page = async ({
 }: {
     params: Promise<{
         id: string;
+        vedtakId: string;
     }>;
 }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
-    const { id: fiksDigisosId } = await params;
+    const { id: fiksDigisosId, vedtakId } = await params;
 
     if (!toggle.enabled) {
         return notFound();
     }
+
+    const klage = await hentKlage(fiksDigisosId, vedtakId);
 
     return (
         <>
@@ -36,7 +40,7 @@ const Page = async ({
                 <StatusCard id={fiksDigisosId} icon={<FileTextIcon />}>
                     {t("seVedtak")}
                 </StatusCard>
-                <ProsessenVidere />
+                <ProsessenVidere klagePdf={klage.klagePdf} />
             </VStack>
         </>
     );

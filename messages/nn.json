@@ -280,7 +280,8 @@
     "KlageProsessenVidere": {
         "tittel": "Prosessen vidare",
         "steg1": {
-            "tittel": "Klaga di er sendt"
+            "tittel": "Klaga di er sendt",
+            "visKlagen": "Vis klaga (åpnes i ny fane)"
         },
         "steg2": {
             "tittel": "Nav-kontoret behandlar klaga di",
