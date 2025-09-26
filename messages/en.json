@@ -280,7 +280,8 @@
     "KlageProsessenVidere": {
         "tittel": "The process further",
         "steg1": {
-            "tittel": "Your appeal has been submitted"
+            "tittel": "Your appeal has been submitted",
+            "visKlagen": "View the appeal (opens in a new tab)"
         },
         "steg2": {
             "tittel": "The Nav office is processing your appeal",

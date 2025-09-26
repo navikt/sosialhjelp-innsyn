@@ -238,7 +238,8 @@
     "KlageProsessenVidere": {
         "tittel": "Prosessen videre",
         "steg1": {
-            "tittel": "Klagen din er sendt"
+            "tittel": "Klagen din er sendt",
+            "visKlagen": "Vis klagen (blir opna i ny fane)"
         },
         "steg2": {
             "tittel": "Nav-kontoret behandler klagen",

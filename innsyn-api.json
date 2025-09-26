@@ -37,7 +37,7 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/DocumentReferences" } } }
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/DocumentsForKlage" } } }
                     }
                 }
             }
@@ -348,7 +348,7 @@
                         "description": "OK",
                         "content": {
                             "*/*": {
-                                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/KlageDto" } }
+                                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/KlageRef" } }
                             }
                         }
                     }
@@ -377,64 +377,6 @@
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KlageDto" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/klage/{klageId}/vedlegg": {
-            "get": {
-                "tags": ["klage-controller"],
-                "operationId": "getAllDocumentsForKlage",
-                "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "klageId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/DocumentReferences" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/klage/{klageId}/vedlegg/{documentId}": {
-            "get": {
-                "tags": ["klage-controller"],
-                "operationId": "getDocument",
-                "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "klageId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "documentId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "*/*": { "schema": { "type": "string", "format": "byte" } } }
                     }
                 }
             }
@@ -787,18 +729,19 @@
     },
     "components": {
         "schemas": {
-            "DocumentRef": {
+            "DocumentForKlage": {
                 "type": "object",
                 "properties": {
+                    "klageId": { "type": "string", "format": "uuid" },
                     "documentId": { "type": "string", "format": "uuid" },
                     "filename": { "type": "string" }
                 },
-                "required": ["documentId", "filename"]
+                "required": ["documentId", "filename", "klageId"]
             },
-            "DocumentReferences": {
+            "DocumentsForKlage": {
                 "type": "object",
                 "properties": {
-                    "documents": { "type": "array", "items": { "$ref": "#/components/schemas/DocumentRef" } }
+                    "documents": { "type": "array", "items": { "$ref": "#/components/schemas/DocumentForKlage" } }
                 },
                 "required": ["documents"]
             },
@@ -1040,6 +983,14 @@
                     "tidspunkt"
                 ]
             },
+            "KlageRef": {
+                "type": "object",
+                "properties": {
+                    "klageId": { "type": "string", "format": "uuid" },
+                    "vedtakId": { "type": "string", "format": "uuid" }
+                },
+                "required": ["klageId", "vedtakId"]
+            },
             "KlageDto": {
                 "type": "object",
                 "properties": {
@@ -1047,9 +998,13 @@
                     "klageId": { "type": "string", "format": "uuid" },
                     "vedtakId": { "type": "string", "format": "uuid" },
                     "status": { "$ref": "#/components/schemas/SendtStatusDto" },
-                    "documentIdPdf": { "type": "string", "format": "uuid" }
+                    "klagePdf": { "$ref": "#/components/schemas/VedleggResponse" },
+                    "opplastedeVedlegg": {
+                        "type": "array",
+                        "items": { "$ref": "#/components/schemas/VedleggResponse" }
+                    }
                 },
-                "required": ["digisosId", "documentIdPdf", "klageId", "status", "vedtakId"]
+                "required": ["digisosId", "klageId", "klagePdf", "opplastedeVedlegg", "status", "vedtakId"]
             },
             "SendtStatusDto": {
                 "type": "object",
