@@ -22,6 +22,7 @@ const makeUtbetaling = (date: Date): NyeOgTidligereUtbetalingerResponse => {
         ar: date.getFullYear(),
         utbetalingerForManed: [
             {
+                referanse: "ref-123",
                 utbetalingsdato: date.toString(),
                 status: "UTBETALT",
                 fiksDigisosId: "123",
