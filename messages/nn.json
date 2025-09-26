@@ -1,340 +1,349 @@
 {
-  "Landingsside": {
-    "tittel": "Økonomisk sosialhjelp"
-  },
-  "SoknaderSide": {
-    "tittel": "Søknadene mine"
-  },
-  "ForelopigSvarAlert": {
-    "tittel": "Du har fått eit brev om forlengd saksbehandlingstid",
-    "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Opne brevet for å sjå når du kan vente svar på søknaden din."
-  },
-  "ForelopigSvar": {
-    "tittel": "Brev frå Nav",
-    "lastNed": "Last ned brev om saksbehandlingstid"
-  },
-  "OppgaveAlert": {
-    "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
-    "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
-  },
-  "VilkarListe": {
-    "tittel": "Vilkår",
-    "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav.",
-    "readMore": {
-      "tittel": "Korleis fungerer vilkår?",
-      "beskrivelse": "Vilkår kan brukast dersom det bidreg til å gjere deg i stand til å sørgje for livsopphaldet ditt på ein annan måte enn ved økonomisk sosialhjelp. Når det blir sett vilkår, skal det bidra til å hjelpe deg med å komme ut av ein vanskeleg livssituasjon. Som hovudregel skal vilkåret setjast i samarbeid med deg.",
-      "beskrivelse2": "Viss vilkåret ikkje blir oppfylt, kan Nav gjere nytt vedtak om reduksjon i sosialhjelpa, men det må vere informert om i vedtaket ditt. <lenke>Les meir om vilkår her</lenke>."
-    }
-  },
-  "Dokumentasjonkrav": {
-    "tittel": "Dokumentasjonkrav",
-    "beskrivelse": "Nav kan be deg om å levere dokument som opplyser saka di i samband med søknaden. Det kan til dømes vere husleigekontrakt eller straumfaktura. Du kan levere dokumenta digitalt eller fysisk på Nav-kontoret.",
-    "frist": "Frist: {frist, date, ::ddMMyyyy}",
-    "løst": "Sendt inn"
-  },
-  "StatusSendtPage": {
-    "tittel": "Søknaden din er send"
-  },
-  "StatusMottattPage": {
-    "tittel": "Søknaden din er motteken",
-    "alert": {
-      "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
-      "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
-    }
-  },
-  "DeltSoknadAlert": {
-    "tittel": "Søknaden din er delt opp i fleire saker",
-    "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
-  },
-  "StatusUnderBehandlingPage": {
-    "tittel": "Søknaden din er under behandling",
-    "underBehandlingAlert": "Under behandling",
-    "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
-  },
-  "StatusFerdigbehandletPage": {
-    "tittel": "Søknaden din er ferdigbehandla",
-    "underBehandlingAlert": "Under behandling",
-    "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
-  },
-  "InfoAlert": {
-    "SENDT": {
-      "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
-      "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+    "Landingsside": {
+        "tittel": "Økonomisk sosialhjelp"
     },
-    "MOTTATT": {
-      "tittel": "Hugs å meld frå om endringar",
-      "beskrivelse": "Dersom det skjer endringar i situasjonen din, kan det påverke oppfølginga eller utbetalinga du får frå Nav. <lenke>Les meir om kva situasjonar som kan påverke.</lenke>",
-      "beskrivelse2": "For å melde frå om endringar kan du ringje oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
-    }
-  },
-  "StatusPage": {
-    "breadcrumbs": {
-      "soknader": "Søknader",
-      "soknad": "Søknad"
-    }
-  },
-  "Soknad": {
-    "tittel": {
-      "SENDT": "Søknaden din er send",
-      "MOTTATT": "Søknaden din er motteken",
-      "UNDER_BEHANDLING": "Søknaden din er under behandling",
-      "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
-    }
-  },
-  "StatusTag": {
-    "INNVILGET": "Vedtak: Innvilga",
-    "DELVIS_INNVILGET": "Vedtak: Delvis innvilga",
-    "AVVIST": "Vedtak: Avvist",
-    "AVSLATT": "Vedtak: Avslått",
-    "UNDER_BEHANDLING": "Under behandling"
-  },
-  "Vedtak": {
+    "SoknaderSide": {
+        "tittel": "Søknadene mine"
+    },
+    "ForelopigSvarAlert": {
+        "tittel": "Du har fått eit brev om forlengd saksbehandlingstid",
+        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Opne brevet for å sjå når du kan vente svar på søknaden din."
+    },
+    "ForelopigSvar": {
+        "tittel": "Brev frå Nav",
+        "lastNed": "Last ned brev om saksbehandlingstid"
+    },
+    "OppgaveAlert": {
+        "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
+        "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+    },
+    "VilkarListe": {
+        "tittel": "Vilkår",
+        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga du får frå Nav.",
+        "readMore": {
+            "tittel": "Korleis fungerer vilkår?",
+            "beskrivelse": "Vilkår kan brukast dersom det bidreg til å gjere deg i stand til å sørgje for livsopphaldet ditt på ein annan måte enn ved økonomisk sosialhjelp. Når det blir sett vilkår, skal det bidra til å hjelpe deg med å komme ut av ein vanskeleg livssituasjon. Som hovudregel skal vilkåret setjast i samarbeid med deg.",
+            "beskrivelse2": "Viss vilkåret ikkje blir oppfylt, kan Nav gjere nytt vedtak om reduksjon i sosialhjelpa, men det må vere informert om i vedtaket ditt. <lenke>Les meir om vilkår her</lenke>."
+        }
+    },
+    "Dokumentasjonkrav": {
+        "tittel": "Dokumentasjonkrav",
+        "beskrivelse": "Nav kan be deg om å levere dokument som opplyser saka di i samband med søknaden. Det kan til dømes vere husleigekontrakt eller straumfaktura. Du kan levere dokumenta digitalt eller fysisk på Nav-kontoret.",
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn"
+    },
+    "StatusSendtPage": {
+        "tittel": "Søknaden din er send"
+    },
+    "StatusMottattPage": {
+        "tittel": "Søknaden din er motteken",
+        "alert": {
+            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+        }
+    },
+    "DeltSoknadAlert": {
+        "tittel": "Søknaden din er delt opp i fleire saker",
+        "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
+    },
+    "StatusUnderBehandlingPage": {
+        "tittel": "Søknaden din er under behandling",
+        "underBehandlingAlert": "Under behandling",
+        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "StatusFerdigbehandletPage": {
+        "tittel": "Søknaden din er ferdigbehandla",
+        "underBehandlingAlert": "Under behandling",
+        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "InfoAlert": {
+        "SENDT": {
+            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+        },
+        "MOTTATT": {
+            "tittel": "Hugs å meld frå om endringar",
+            "beskrivelse": "Dersom det skjer endringar i situasjonen din, kan det påverke oppfølginga eller utbetalinga du får frå Nav. <lenke>Les meir om kva situasjonar som kan påverke.</lenke>",
+            "beskrivelse2": "For å melde frå om endringar kan du ringe oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
+        }
+    },
+    "StatusPage": {
+        "breadcrumbs": {
+            "soknader": "Søknader",
+            "soknad": "Søknad"
+        }
+    },
+    "Soknad": {
+        "tittel": {
+            "SENDT": "Søknaden din er send",
+            "MOTTATT": "Søknaden din er motteken",
+            "UNDER_BEHANDLING": "Søknaden din er under behandling",
+            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
+        }
+    },
+    "StatusTag": {
+        "INNVILGET": "Vedtak: Innvilga",
+        "DELVIS_INNVILGET": "Vedtak: Delvis innvilga",
+        "AVVIST": "Vedtak: Avvist",
+        "AVSLATT": "Vedtak: Avslått",
+        "UNDER_BEHANDLING": "Under behandling"
+    },
+    "Vedtak": {
+        "beskrivelse": {
+            "INNVILGET": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga.",
+            "DELVIS_INNVILGET": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga.",
+            "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
+            "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+        },
+        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "kommendeUtbetaling": "Se komande utbetaling"
+    },
+    "KlageInfo": {
+        "tittel": "Usamd i vedtaket",
+        "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
+        "klageKnapp": "Klag på vedtaket"
+    },
+    "Sakstittel": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
+    },
+    "SakSkeleton": {
+        "tittel": "Søknad om økonomisk sosialhjelp"
+    },
+    "StatusVedtak": {
+        "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
+        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>",
+        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "kommendeUtbetaling": "Se komande utbetaling"
+    },
+    "StatusVedtakInnvilget": {
+        "tittel": "Innvilga",
+        "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakDelvisInnvilget": {
+        "tittel": "Delvis innvilga",
+        "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvslag": {
+        "tittel": "Avslag",
+        "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+    },
+    "StatusVedtakAvvist": {
+        "tittel": "Avvist",
+        "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
+    },
+    "SokButton": {
+        "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
+    },
+    "Oversikt": {
+        "tittel": "Oversikt"
+    },
+    "Oppgaver": {
+        "tittel": "Etterspurde dokument",
+        "ingenOppgaver": {
+            "tittel": "Du har ingen oppgåver",
+            "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
+        },
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn",
+        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
+    },
+    "OversiktSteps": {
+        "SendtStep": {
+            "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
+            "visSoknaden": "Vis søknaden (blir opna i ny fane)"
+        },
+        "MottattStep": {
+            "tittel": "Søknaden er motteken <norsk>{navKontor}</norsk>"
+        },
+        "UnderBehandlingStep": {
+            "completed": {
+                "tittel": "<norsk>{navKontor}</norsk> har byrja å behandle søknaden din"
+            },
+            "uncompleted": {
+                "tittel": "Nav-kontoret behandlar søknaden",
+                "beskrivelse": "Søknaden din blir behandla så fort som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
+            }
+        },
+        "FerdigBehandletStep": {
+            "tittel": "Søknaden din er ferdig behandla",
+            "completed": {
+                "visVedtaket": "Vis vedtaket (blir opna i ny fane)"
+            },
+            "uncompleted": {
+                "beskrivelse": "Du vil få eit vedtak. Les i vedtaket om du har fått innvilga, delvis innvilga eller avslag på økonomisk støtte."
+            }
+        },
+        "ForelopigSvarStep": {
+            "tittel": "<norsk>{navKontor}</norsk> har sendt deg eit brev om saksbehandlingstida for søknaden din"
+        },
+        "EtterspurtDokumentasjonStep": {
+            "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di"
+        },
+        "EtterspurtDokumentasjonLevertStep": {
+            "tittel": "Du leverte etterspurde dokument"
+        }
+    },
+    "Opplastingsboks": {
+        "tittel": "Vil du sende inn fleire dokument?",
+        "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
+        "dragAndDrop": "Dra og slepp filer her",
+        "eller": "eller",
+        "button": "Vel filer",
+        "uploading": "Lastar opp...",
+        "delete": "Fjern fila",
+        "sendInn": "Send dakumentasjon",
+        "filerTilOpplasting": "Filer som bli lasta opp"
+    },
+    "Dokumenter": {
+        "tittel": "Dokument"
+    },
+    "Filopplasting": {
+        "tittel": "Ettersend dokumentasjon"
+    },
+    "VedleggListe": {
+        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Søknad om økonomisk sosialhjelp",
+        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+    },
+    "Metadata": {
+        "tittel": "Økonomisk sosialhjelp - nav.no",
+        "beskrivelse": "Søk om økonomisk sosialhjelp, sjå status på søknaden din, og send inn dokumentasjon."
+    },
+    "AktiveSoknader": {
+        "tittel": "Aktive søknader",
+        "EmptyState": {
+            "tittel": "Du har førebels ingen søknader om økonomisk sosialhjelp",
+            "beskrivelse": "Dersom du søkjer om økonomisk sosialhjelp, vil du kunne finne igjen søknadene her."
+        },
+        "visFlere": "Vis fleire",
+        "visFærre": "Vis færre"
+    },
+    "TidligereSoknader": {
+        "tittel": "Tidlegare søknader"
+    },
+    "StatusCard": {
+        "MottattCard": {
+            "title": "Søknad om økonomisk sosialhjelp",
+            "description": "Teke imot {date, date, ::ddMMyyyy}"
+        },
+        "SendtCard": {
+            "title": "Søknad om økonomisk sosialhjelp",
+            "description": "Sendt {date, date, ::ddMMyyyy}"
+        },
+        "PaabegyntCard": {
+            "title": "Påbyrja søknad om økonomisk sosialhjelp",
+            "description": "Søknaden blir behalden til og med {date, date, ::ddMMyyyy}"
+        },
+        "VedtakCard": {
+            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak"
+        },
+        "VilkarCard": {
+            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
+        },
+        "OppgaveCard": {
+            "description": "Du må levere fleire opplysningar innan {date, date, ::ddMMyyyy}",
+            "descriptionUtenFrist": "Du må levere fleire opplysningar"
+        },
+        "UnderBehandlingCard": {
+            "description": "Under behandling"
+        },
+        "ForelopigSvarCard": {
+            "description": "Du har fått eit brev om saksbehandlingstida for søknaden din"
+        }
+    },
+    "Snarveier": {
+        "tittel": "Snarvegar",
+        "soknader": "Søknader",
+        "utbetalinger": "Utbetalinger",
+        "klager": "Klager"
+    },
+    "NyttigInformasjon": {
+        "tittel": "Nyttig informasjon",
+        "endringer": "Korleis du melder frå om endringar",
+        "klagerettigheter": "Klagerettane dine",
+        "personopplysninger": "Behandling av personopplysningar"
+    },
+    "OpprettKlagePage": {
+        "tittel": "Klage på vedtak",
+        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
+    },
+    "KlagePage": {
+        "tittel": "Klaga di er sendt",
+        "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp.",
+        "underUtviklingInfo": {
+            "tittel": "Denne sida er under utvikling",
+            "beskrivelse1": "Du kan sende inn fleire opplysningar og dokumentasjon til klaga di på denne sida. Når klaga er ferdigbehandla, vil du få svar via Digipost eller fysisk brev.",
+            "beskrivelse2": "Du kan lesa om <klageInfo>klagebehandling og moglege utfall her</klageInfo>. Har du spørsmål om klaga di kan du kontakta <navKontor>Nav-kontoret ditt</navKontor> eller ringja oss på <tel>55 55 33 33</tel>."
+        },
+        "seVedtak": "Se vedtaket du har klaget på"
+    },
+    "KlageProsessenVidere": {
+        "tittel": "Prosessen vidare",
+        "steg1": {
+            "tittel": "Klaga di er sendt"
+        },
+        "steg2": {
+            "tittel": "Nav-kontoret behandlar klaga di",
+            "beskrivelse": "Klaga di blir behandla så raskt som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
+        },
+        "steg3": {
+            "tittel": "Klaga di er ferdig behandla",
+            "beskrivelse": "Du vil få eit vedtak. Les vedtaket for å sjå om du har fått medhald eller ikkje."
+        }
+    },
+  "KlageVedtak": {
     "beskrivelse": {
       "INNVILGET": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga.",
       "DELVIS_INNVILGET": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga.",
       "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
       "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
     },
-    "vedtaksBrev": "Last ned vedtaksbrevet",
-    "kommendeUtbetaling": "Se komande utbetaling"
+    "vedtaksBrev": "Last ned vedtaksbrev"
   },
-  "KlageInfo": {
-    "tittel": "Usamd i vedtaket",
-    "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
-    "klageKnapp": "Klag på vedtaket"
-  },
-  "Sakstittel": {
-    "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
-  },
-  "SakSkeleton": {
-    "tittel": "Søknad om økonomisk sosialhjelp"
-  },
-  "StatusVedtak": {
-    "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
-    "status": "<b>Vedtak:</b> <norsk>{status}</norsk>",
-    "vedtaksBrev": "Last ned vedtaksbrevet",
-    "kommendeUtbetaling": "Se komande utbetaling"
-  },
-  "StatusVedtakInnvilget": {
-    "tittel": "Innvilga",
-    "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
-  },
-  "StatusVedtakDelvisInnvilget": {
-    "tittel": "Delvis innvilga",
-    "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
-  },
-  "StatusVedtakAvslag": {
-    "tittel": "Avslag",
-    "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
-  },
-  "StatusVedtakAvvist": {
-    "tittel": "Avvist",
-    "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
-  },
-  "SokButton": {
-    "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
-  },
-  "Oversikt": {
-    "tittel": "Oversikt"
-  },
-  "Oppgaver": {
-    "tittel": "Etterspurde dokument",
-    "ingenOppgaver": {
-      "tittel": "Du har ingen oppgåver",
-      "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
+    "KlageForm": {
+        "bakgrunn": {
+            "label": "Oppgi bakgrunnen for klaga",
+            "beskrivelse": "For at vi skal kunne handsame klaga di, er det viktig at du forklarer kvifor du er ueinig i vedtaket og kva du ønskjer endra."
+        },
+        "filOpplasting": {
+            "dineVedlegg": "Dine vedlegg"
+        },
+        "validering": {
+            "maksLengde": "Du kan skrive inn maks 1000 teikn"
+        },
+        "sendKlage": "Send inn",
+        "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
     },
-    "frist": "Frist: {frist, date, ::ddMMyyyy}",
-    "løst": "Sendt inn",
-    "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
-  },
-  "OversiktSteps": {
-    "SendtStep": {
-      "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
-      "visSoknaden": "Vis søknaden (blir opna i ny fane)"
+    "KlageFileUpload": {
+        "label": "Legg ved dokumentasjon",
+        "beskrivelse": "Om du har dokument som kan vere viktige for klagen din, kan du laste dei opp her. Du kan legge ved både dokument, bilete og skjermbilete på opp til {maxSize} MB.",
+        "vedlegg": "Vedlegg ({numberOfFiles})",
+        "vedleggMedFeil": "Vedlegg med feil ({numberOfFiles})",
+        "validering": {
+            "maksFilstørrelse": "Fila er større enn {maksFilstørrelse} MB",
+            "ugyldigFiltype": "Filformatet er ikkje støtta."
+        },
+        "dropzone": {
+            "button": "Vel ei fil",
+            "buttonMultiple": "Vel filer",
+            "dragAndDrop": "Dra og slepp ei fil her",
+            "dragAndDropMultiple": "Dra og slepp filer her",
+            "drop": "Slepp fila her",
+            "or": "eller",
+            "disabled": "Filopplasting er deaktivert",
+            "disabledFilelimit": "Filgrensa er nådd"
+        },
+        "item": {
+            "retryButtonTitle": "Prøv igjen",
+            "deleteButtonTitle": "Slett fil",
+            "uploading": "Lastar opp...",
+            "downloading": "Lastar ned..."
+        }
     },
-    "MottattStep": {
-      "tittel": "Søknaden er motteken <norsk>{navKontor}</norsk>"
+    "Breadcrumbs": {
+        "MinSide": "Min side",
+        "Sosialhjelp": "Økonomisk sosialhjelp"
     },
-    "UnderBehandlingStep": {
-      "completed": {
-        "tittel": "<norsk>{navKontor}</norsk> har byrja å behandle søknaden din"
-      },
-      "uncompleted": {
-        "tittel": "Nav-kontoret behandlar søknaden",
-        "beskrivelse": "Søknaden din blir behandla så fort som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
-      }
-    },
-    "FerdigBehandletStep": {
-      "tittel": "Søknaden din er ferdig behandla",
-      "completed": {
-        "visVedtaket": "Vis vedtaket (blir opna i ny fane)"
-      },
-      "uncompleted": {
-        "beskrivelse": "Du vil få eit vedtak. Les i vedtaket om du har fått innvilga, delvis innvilga eller avslag på økonomisk støtte."
-      }
-    },
-    "ForelopigSvarStep": {
-      "tittel": "<norsk>{navKontor}</norsk> har sendt deg eit brev om saksbehandlingstida for søknaden din"
-    },
-    "EtterspurtDokumentasjonStep": {
-      "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di"
-    },
-    "EtterspurtDokumentasjonLevertStep": {
-      "tittel": "Du leverte etterspurde dokument"
-    }
-  },
-  "Opplastingsboks": {
-    "tittel": "Vil du sende inn fleire dokument?",
-    "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
-    "dragAndDrop": "Dra og slepp filer her",
-    "eller": "eller",
-    "button": "Vel filer",
-    "uploading": "Lastar opp...",
-    "delete": "Fjern fila",
-    "sendInn": "Send dakumentasjon",
-    "filerTilOpplasting": "Filer som bli lasta opp"
-  },
-  "Dokumenter": {
-    "tittel": "Dokument"
-  },
-  "Filopplasting": {
-    "tittel": "Ettersend dokumentasjon"
-  },
-  "VedleggListe": {
-    "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
-    "soknadFilename": "Søknad om økonomisk sosialhjelp",
-    "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
-  },
-  "Metadata": {
-    "tittel": "Økonomisk sosialhjelp - nav.no",
-    "beskrivelse": "Søk om økonomisk sosialhjelp, sjå status på søknaden din, og send inn dokumentasjon."
-  },
-  "AktiveSoknader": {
-    "tittel": "Aktive søknader",
-    "EmptyState": {
-      "tittel": "Du har førebels ingen søknader om økonomisk sosialhjelp",
-      "beskrivelse": "Dersom du søkjer om økonomisk sosialhjelp, vil du kunne finne igjen søknadene her."
-    },
-    "visFlere": "Vis fleire",
-    "visFærre": "Vis færre"
-  },
-  "TidligereSoknader": {
-    "tittel": "Tidlegare søknader"
-  },
-  "StatusCard": {
-    "MottattCard": {
-      "title": "Søknad om økonomisk sosialhjelp",
-      "description": "Teke imot {date, date, ::ddMMyyyy}"
-    },
-    "SendtCard": {
-      "title": "Søknad om økonomisk sosialhjelp",
-      "description": "Sendt {date, date, ::ddMMyyyy}"
-    },
-    "PaabegyntCard": {
-      "title": "Påbyrja søknad om økonomisk sosialhjelp",
-      "description": "Søknaden blir behalden til og med {date, date, ::ddMMyyyy}"
-    },
-    "VedtakCard": {
-      "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak"
-    },
-    "VilkarCard": {
-      "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
-    },
-    "OppgaveCard": {
-      "description": "Du må levere fleire opplysningar innan {date, date, ::ddMMyyyy}",
-      "descriptionUtenFrist": "Du må levere fleire opplysningar"
-    },
-    "UnderBehandlingCard": {
-      "description": "Under behandling"
-    },
-    "ForelopigSvarCard": {
-      "description": "Du har fått eit brev om saksbehandlingstida for søknaden din"
-    }
-  },
-  "Snarveier": {
-    "tittel": "Snarvegar",
-    "soknader": "Søknader",
-    "utbetalinger": "Utbetalinger",
-    "klager": "Klager"
-  },
-  "NyttigInformasjon": {
-    "tittel": "Nyttig informasjon",
-    "endringer": "Korleis du melder frå om endringar",
-    "klagerettigheter": "Klagerettane dine",
-    "personopplysninger": "Behandling av personopplysningar"
-  },
-  "OpprettKlagePage": {
-    "tittel": "Klage på vedtak",
-    "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
-  },
-  "KlagePage": {
-    "tittel": "Klaga di er sendt",
-    "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp.",
-    "underUtviklingInfo": {
-      "tittel": "Denne sida er under utvikling",
-      "beskrivelse1": "Du kan sende inn fleire opplysningar og dokumentasjon til klaga di på denne sida. Når klaga er ferdigbehandla, vil du få svar via Digipost eller fysisk brev.",
-      "beskrivelse2": "Du kan lesa om <klageInfo>klagebehandling og moglege utfall her</klageInfo>. Har du spørsmål om klaga di kan du kontakta <navKontor>Nav-kontoret ditt</navKontor> eller ringja oss på <tel>55 55 33 33</tel>."
-    },
-    "seVedtak": "Se vedtaket du har klaget på"
-  },
-  "KlageProsessenVidere": {
-    "tittel": "Prosessen vidare",
-    "steg1": {
-      "tittel": "Klaga di er sendt"
-    },
-    "steg2": {
-      "tittel": "Nav-kontoret behandlar klaga di",
-      "beskrivelse": "Klaga di blir behandla så raskt som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
-    },
-    "steg3": {
-      "tittel": "Klaga di er ferdig behandla",
-      "beskrivelse": "Du vil få eit vedtak. Les vedtaket for å sjå om du har fått medhald eller ikkje."
-    }
-  },
-  "KlageForm": {
-    "bakgrunn": {
-      "label": "Oppgi bakgrunnen for klaga",
-      "beskrivelse": "For at vi skal kunne handsame klaga di, er det viktig at du forklarer kvifor du er ueinig i vedtaket og kva du ønskjer endra."
-    },
-    "filOpplasting": {
-      "dineVedlegg": "Dine vedlegg"
-    },
-    "validering": {
-      "maksLengde": "Du kan skrive inn maks 1000 teikn"
-    },
-    "sendKlage": "Send inn",
-    "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
-  },
-  "KlageFileUpload": {
-    "label": "Legg ved dokumentasjon",
-    "beskrivelse": "Om du har dokument som kan vere viktige for klagen din, kan du laste dei opp her. Du kan legge ved både dokument, bilete og skjermbilete på opp til {maxSize} MB.",
-    "vedlegg": "Vedlegg ({numberOfFiles})",
-    "vedleggMedFeil": "Vedlegg med feil ({numberOfFiles})",
-    "validering": {
-      "maksFilstørrelse": "Fila er større enn {maksFilstørrelse} MB",
-      "ugyldigFiltype": "Filformatet er ikkje støtta."
-    },
-    "dropzone": {
-      "button": "Vel ei fil",
-      "buttonMultiple": "Vel filer",
-      "dragAndDrop": "Dra og slepp ei fil her",
-      "dragAndDropMultiple": "Dra og slepp filer her",
-      "drop": "Slepp fila her",
-      "or": "eller",
-      "disabled": "Filopplasting er deaktivert",
-      "disabledFilelimit": "Filgrensa er nådd"
-    },
-    "item": {
-      "retryButtonTitle": "Prøv igjen",
-      "deleteButtonTitle": "Slett fil",
-      "uploading": "Lastar opp...",
-      "downloading": "Lastar ned..."
-    }
-  },
-  "Breadcrumbs": {
-    "MinSide": "Min side",
-    "Sosialhjelp": "Økonomisk sosialhjelp"
-  },
   "UtbetalingerPage": {
     "tittel": "Utbetalingar for økonomisk sosialhjelp"
   },

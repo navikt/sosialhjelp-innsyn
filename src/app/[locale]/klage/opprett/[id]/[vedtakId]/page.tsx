@@ -1,30 +1,35 @@
-import { Heading } from "@navikt/ds-react";
+import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
+import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
 
 import KlageForm from "./_components/klageForm";
+import KlageVedtak from "./_components/KlageVedtak";
 
-const Page = async () => {
+const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
-    const t = await getTranslations("OpprettKlagePage");
-
     if (!toggle.enabled) {
         return notFound();
     }
 
+    const t = await getTranslations("OpprettKlagePage");
+    const { id: fiksDigisosId, vedtakId } = await params;
+
+    const sak = await hentSakForVedtak(fiksDigisosId, vedtakId);
     return (
-        <>
+        <VStack gap="16" className="mt-20">
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
-            <div className="mb-20">
-                <Heading size="xlarge" level="1" className="mt-20">
+            <VStack className="mb-8">
+                <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>
-            </div>
-            <KlageForm />
-        </>
+            </VStack>
+            <KlageVedtak sak={sak} />
+            <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
+        </VStack>
     );
 };
 

@@ -47,7 +47,7 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
     prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
-    const forelopigSvarPromise = ferdigbehandlet && hentForelopigSvarStatus(id);
+    const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     return (

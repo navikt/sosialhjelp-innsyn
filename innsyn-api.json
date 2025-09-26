@@ -217,6 +217,22 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/sak/{vedtakId}": {
+            "get": {
+                "tags": ["sak-controller"],
+                "operationId": "hentSakForVedtak",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    { "name": "vedtakId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SakResponse" } } }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/originalSoknad": {
             "get": {
                 "tags": ["soknads-status-controller"],
@@ -330,7 +346,11 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KlagerDto" } } }
+                        "content": {
+                            "*/*": {
+                                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/KlageDto" } }
+                            }
+                        }
                     }
                 }
             }
@@ -938,6 +958,19 @@
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel"]
             },
+            "SakResponse": {
+                "type": "object",
+                "properties": {
+                    "tittel": { "type": "string" },
+                    "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
+                    "utfallVedtak": {
+                        "type": "string",
+                        "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
+                    },
+                    "navEnhetNavn": { "type": "string" }
+                },
+                "required": ["tittel"]
+            },
             "OriginalSoknadDto": {
                 "type": "object",
                 "properties": {
@@ -1010,17 +1043,32 @@
             "KlageDto": {
                 "type": "object",
                 "properties": {
+                    "digisosId": { "type": "string", "format": "uuid" },
                     "klageId": { "type": "string", "format": "uuid" },
                     "vedtakId": { "type": "string", "format": "uuid" },
                     "status": { "$ref": "#/components/schemas/SendtStatusDto" },
                     "documentIdPdf": { "type": "string", "format": "uuid" }
                 },
-                "required": ["documentIdPdf", "klageId", "status", "vedtakId"]
+                "required": ["digisosId", "documentIdPdf", "klageId", "status", "vedtakId"]
             },
-            "KlagerDto": {
+            "SendtStatusDto": {
                 "type": "object",
-                "properties": { "klager": { "type": "array", "items": { "$ref": "#/components/schemas/KlageDto" } } },
-                "required": ["klager"]
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "SENDT",
+                            "BEKREFTET",
+                            "TTL_TIDSAVBRUDD",
+                            "MAX_RETRIESAVBRUDD",
+                            "IKKE_SENDT",
+                            "SVARUT_FEIL",
+                            "STOPPET"
+                        ]
+                    },
+                    "timestamp": { "type": "integer", "format": "int64" }
+                },
+                "required": ["status", "timestamp"]
             },
             "SendtStatusDto": {
                 "type": "object",

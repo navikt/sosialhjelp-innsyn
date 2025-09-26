@@ -6,6 +6,7 @@ import { SaksStatusResponseUtfallVedtak } from "@generated/model";
 interface Props {
     tittel: string;
     vedtakUtfall?: SaksStatusResponseUtfallVedtak;
+    fontSize?: "large" | "small" | "xlarge" | "medium" | "xsmall";
 }
 
 const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]> = {
@@ -37,11 +38,11 @@ const StatusTag = ({ vedtakUtfall, className }: StatusTagProps) => {
     );
 };
 
-const Sakstittel = ({ tittel, vedtakUtfall }: Props) => {
+const Sakstittel = ({ tittel, vedtakUtfall, fontSize = "large" }: Props) => {
     const t = useTranslations("Sakstittel");
     return (
         <>
-            <Heading size="large" level="2">
+            <Heading size={fontSize} level="2">
                 {t.rich("tittel", {
                     sakstittel: tittel,
                     norsk: (chunks) => <span lang="no">{chunks}</span>,
