@@ -250,6 +250,15 @@
             "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
         }
     },
+  "KlageVedtak": {
+    "beskrivelse": {
+      "INNVILGET": "Du har fått innvilget stønad. Les vedtaket for å se begrunnelsen.",
+      "DELVIS_INNVILGET": "Du har fått delvis innvilget stønad. Det vil si at du ikke får alt du søkte om, men deler av det. Les vedtaket for å se begrunnelsen.",
+      "AVVIST": "Søknaden din er avvist. Les vedtaket for å se begrunnelsen.",
+      "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
+    },
+    "vedtaksBrev": "Last ned vedtaksbrev"
+  },
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunn for klagen",

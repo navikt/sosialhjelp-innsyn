@@ -217,6 +217,22 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/sak/{vedtakId}": {
+            "get": {
+                "tags": ["sak-controller"],
+                "operationId": "hentSakForVedtak",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
+                    { "name": "vedtakId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/SakResponse" } } }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/originalSoknad": {
             "get": {
                 "tags": ["soknads-status-controller"],
@@ -884,6 +900,19 @@
                     "referanse": { "type": "string" }
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel"]
+            },
+            "SakResponse": {
+                "type": "object",
+                "properties": {
+                    "tittel": { "type": "string" },
+                    "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
+                    "utfallVedtak": {
+                        "type": "string",
+                        "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
+                    },
+                    "navEnhetNavn": { "type": "string" }
+                },
+                "required": ["tittel"]
             },
             "OriginalSoknadDto": {
                 "type": "object",

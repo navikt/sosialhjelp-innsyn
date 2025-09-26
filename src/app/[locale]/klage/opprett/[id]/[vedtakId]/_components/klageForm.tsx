@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 
 import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
@@ -28,10 +28,13 @@ const klageSchema = z.object({
 
 const metadata = { type: "klage", tilleggsinfo: "klage" };
 
-const KlageForm = () => {
+interface Props {
+    fiksDigisosId: string;
+    vedtakId: string;
+}
+
+const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const t = useTranslations("KlageForm");
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { vedtakId } = useParams<{ vedtakId: string }>();
     const queryClient = useQueryClient();
     const router = useRouter();
 
@@ -80,6 +83,7 @@ const KlageForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
             <Textarea
+                id={"klageTextarea" + vedtakId}
                 resize
                 label={t("bakgrunn.label")}
                 description={t("bakgrunn.beskrivelse")}
@@ -87,6 +91,7 @@ const KlageForm = () => {
                 {...register("background")}
             />
             <FileSelect
+                id={"klageVedlegg" + vedtakId}
                 files={files}
                 addFiler={addFiler}
                 removeFil={removeFil}
