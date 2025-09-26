@@ -1248,6 +1248,7 @@
             "ManedUtbetaling": {
                 "type": "object",
                 "properties": {
+                    "referanse": { "type": "string" },
                     "tittel": { "type": "string" },
                     "belop": { "type": "number" },
                     "utbetalingsdato": { "type": "string", "format": "date" },
@@ -1261,7 +1262,7 @@
                     "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
                     "utbetalingsmetode": { "type": "string" }
                 },
-                "required": ["annenMottaker", "belop", "fiksDigisosId", "status", "tittel"]
+                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
             },
             "UtbetalingerResponse": {
                 "type": "object",
