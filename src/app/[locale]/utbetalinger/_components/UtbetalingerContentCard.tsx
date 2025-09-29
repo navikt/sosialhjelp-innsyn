@@ -50,17 +50,19 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             >
                                 {manedUtbetaling.tittel}
                             </BodyShort>
-                            <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
-                                {t(manedUtbetaling.status)}
-                            </BodyShort>
-                            <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
-                                {manedUtbetaling.forfallsdato
-                                    ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
-                                          day: "numeric",
-                                          month: "long",
-                                      })
-                                    : t("ukjentDato")}
-                            </BodyShort>
+                            <HStack gap="1">
+                                <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
+                                    {t(manedUtbetaling.status)}
+                                </BodyShort>
+                                <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
+                                    {manedUtbetaling.forfallsdato
+                                        ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                              day: "numeric",
+                                              month: "long",
+                                          })
+                                        : t("ukjentDato")}
+                                </BodyShort>
+                            </HStack>
                         </HStack>
                         <BodyShort weight="semibold" className={cx("truncate tabular-nums", alignmentWithChevron)}>
                             {manedUtbetaling.belop} kr
