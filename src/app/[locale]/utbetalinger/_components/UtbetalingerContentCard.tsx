@@ -92,7 +92,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                         </BodyShort>
                     </VStack>
                     <Link as={NextLink} href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
-                        {t("lenke")}
+                        <BodyShort>{t("lenke")}</BodyShort>
                         <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
                     </Link>
                 </VStack>
