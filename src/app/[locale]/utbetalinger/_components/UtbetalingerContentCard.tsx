@@ -34,7 +34,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             size="small"
             aria-label={t("arialabel") + manedUtbetaling.tittel}
             data-color="accent"
-            className={cardBorder(index, count)}
+            className={cx("hover:outline-none hover:shadow-none", cardBorder(index, count))}
         >
             <ExpansionCard.Header
                 className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(index, count), styles.headerFill)}

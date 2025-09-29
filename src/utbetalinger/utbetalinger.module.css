@@ -10,3 +10,9 @@
     flex: 1 1 auto;
     min-width: 0;
 }
+
+/* Remove hover ring */
+.noHoverRing:hover {
+    outline: none;
+    box-shadow: none;
+}
