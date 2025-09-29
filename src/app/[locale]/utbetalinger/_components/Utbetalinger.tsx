@@ -1,6 +1,6 @@
 "use client";
 
-import { Chips, VStack } from "@navikt/ds-react";
+import { Chips, Heading, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -17,18 +17,23 @@ const Utbetalinger = () => {
 
     return (
         <VStack gap="16">
-            <Chips>
-                {ChipRekke.map((chip) => (
-                    <ChipsToggle
-                        key={chip}
-                        checkmark={false}
-                        selected={selectedChip === chip}
-                        onClick={() => setSelectedChip(chip)}
-                    >
-                        {t(chip)}
-                    </ChipsToggle>
-                ))}
-            </Chips>
+            <VStack gap="4">
+                <Heading size="medium" level="2">
+                    {t("periode")}
+                </Heading>
+                <Chips>
+                    {ChipRekke.map((chip) => (
+                        <ChipsToggle
+                            key={chip}
+                            checkmark={false}
+                            selected={selectedChip === chip}
+                            onClick={() => setSelectedChip(chip)}
+                        >
+                            {t(chip)}
+                        </ChipsToggle>
+                    ))}
+                </Chips>
+            </VStack>
             <UtbetalingerListe valgteChip={selectedChip} />
         </VStack>
     );

@@ -349,12 +349,10 @@
     "tittel": "Utbetalingar for økonomisk sosialhjelp"
   },
   "Utbetalinger": {
-    "tittel": "Utbetalingar for økonomisk sosialhjelp",
-    "periode": {
-      "tittel": "Vel periode"
-    }
+    "tittel": "Utbetalingar for økonomisk sosialhjelp"
   },
   "UtbetalingerChips": {
+    "periode": "Vel periode",
     "til": "Til",
     "fra": "Frå",
     "visUtbetalinger": "Vis utbetalinger",
@@ -384,7 +382,7 @@
     "tilDeg": "Til deg",
     "utbetalesTil": "Blir utbetalt til {mottaker}",
     "utbetalesTilUkjent": "Blir utbetalt til annan mottakar",
-    "bankkonto": "Di Bankkonto <norsk>{konto}</norsk>",
+    "bankkonto": "Di Bankkonto: <norsk>{konto}</norsk>",
     "lenke": "Se søknaden og vedtaket du fikk",
     "STOPPET": "Stoppa",
     "PLANLAGT_UTBETALING": "Planlagt",

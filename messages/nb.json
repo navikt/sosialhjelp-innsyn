@@ -308,12 +308,10 @@
     "tittel": "Utbetalinger for økonomisk sosialhjelp"
   },
   "Utbetalinger": {
-    "tittel": "Utbetalinger for økonomisk sosialhjelp",
-    "periode": {
-      "tittel": "Velg periode"
-    }
+    "tittel": "Utbetalinger for økonomisk sosialhjelp"
   },
   "UtbetalingerChips": {
+    "periode":"Velg periode",
     "til": "Til",
     "fra": "Fra",
     "visUtbetalinger": "Vis utbetalinger",
@@ -343,7 +341,7 @@
     "tilDeg": "Til deg",
     "utbetalesTil": "Utbetales til {mottaker}",
     "utbetalesTilUkjent": "Utbetales til annen mottaker",
-    "bankkonto": "Din BankKonto <norsk>{konto}</norsk>",
+    "bankkonto": "Din Bankkonto: <norsk>{konto}</norsk>",
     "lenke": "Se søknaden og vedtaket du fikk",
     "STOPPET": "Stoppet",
     "PLANLAGT_UTBETALING": "Planlagt",

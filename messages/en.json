@@ -349,12 +349,10 @@
     "tittel": "Payments for financial assistance"
   },
   "Utbetalinger": {
-    "tittel": "Payments for financial assistance",
-    "periode": {
-      "tittel": "Choose period"
-    }
+    "tittel": "Payments for financial assistance"
   },
   "UtbetalingerChips": {
+    "periode":"Choose period",
     "til": "To",
     "fra": "From",
     "visUtbetalinger": "Show payments",

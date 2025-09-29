@@ -15,7 +15,7 @@ type Props = {
 const UtbetalingerListView = ({ tittel, utbetalingsGruppe, manedsUtbetalingerSummert, tomListe }: Props) => {
     return (
         <VStack gap="4">
-            <Heading size="small" level="2">
+            <Heading size="medium" level="2">
                 {tittel}
             </Heading>
             {utbetalingsGruppe.length === 0
