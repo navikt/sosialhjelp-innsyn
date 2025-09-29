@@ -20,13 +20,15 @@ const UtbetalingerListView = ({ tittel, utbetalingsGruppe, manedsUtbetalingerSum
             </Heading>
             {utbetalingsGruppe.length === 0
                 ? tomListe
-                : utbetalingsGruppe.map((gruppe) => (
-                      <UtbetalingerHeaderCard
-                          key={`${gruppe.ar}-${gruppe.maned}`}
-                          utbetalinger={gruppe}
-                          manedsUtbetalingerSummert={manedsUtbetalingerSummert}
-                      />
-                  ))}
+                : utbetalingsGruppe
+                      .map((gruppe) => (
+                          <UtbetalingerHeaderCard
+                              key={`${gruppe.ar}-${gruppe.maned}`}
+                              utbetalinger={gruppe}
+                              manedsUtbetalingerSummert={manedsUtbetalingerSummert}
+                          />
+                      ))
+                      .reverse()}
         </VStack>
     );
 };

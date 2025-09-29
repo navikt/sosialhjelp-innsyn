@@ -44,14 +44,16 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert
                     </BodyShort>
                 </HStack>
             </BoxNew>
-            {utbetalingerForManed.map((utb, index) => (
-                <UtbetalingerContentCard
-                    index={index}
-                    key={utb.referanse}
-                    manedUtbetaling={utb}
-                    count={utbetalingerForManed.length}
-                />
-            ))}
+            {utbetalingerForManed
+                .map((utb, index) => (
+                    <UtbetalingerContentCard
+                        index={index}
+                        key={utb.referanse}
+                        manedUtbetaling={utb}
+                        count={utbetalingerForManed.length}
+                    />
+                ))
+                .reverse()}
         </VStack>
     );
 };
