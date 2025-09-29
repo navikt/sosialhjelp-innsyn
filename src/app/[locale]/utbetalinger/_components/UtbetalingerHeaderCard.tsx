@@ -24,7 +24,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert
         .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
-        <VStack gap="1">
+        <VStack gap="05">
             <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
                 <HStack className="pr-2" align="center">
                     <Heading size="small" level="3" className="capitalize">
