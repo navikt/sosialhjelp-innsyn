@@ -40,7 +40,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert
                         )}
                     </Heading>
                     <BodyShort className="ml-auto tabular-nums" weight="semibold">
-                        {utbetalingSum} kr
+                        {format.number(utbetalingSum)} kr
                     </BodyShort>
                 </HStack>
             </BoxNew>

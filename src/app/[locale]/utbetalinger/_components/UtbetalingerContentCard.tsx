@@ -65,7 +65,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             </HStack>
                         </HStack>
                         <BodyShort weight="semibold" className={cx("truncate tabular-nums", alignmentWithChevron)}>
-                            {manedUtbetaling.belop} kr
+                            {format.number(manedUtbetaling.belop)} kr
                         </BodyShort>
                     </HStack>
                 </ExpansionCard.Title>
