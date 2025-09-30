@@ -30,7 +30,7 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
                 <BodyShort>
                     {t.rich("navEnhet", {
                         norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        navKontor: sak.navEnhetNavn ?? "tom",
+                        navKontor: sak.navEnhetNavn ?? t("ikkeOppgittNavEnhet"),
                     })}
                 </BodyShort>
             </VStack>

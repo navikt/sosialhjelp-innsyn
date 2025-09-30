@@ -266,7 +266,8 @@
   "OpprettKlagePage": {
     "tittel": "Appeal the decision",
     "beskrivelse": "Appeal the decision regarding financial social assistance.",
-    "navEnhet": "The appeal will be sent to <norsk>{navKontor}</norsk>"
+    "navEnhet": "The appeal will be sent to <norsk>{navKontor}</norsk>",
+    "ikkeOppgittNavEnhet": "(Not stated)"
   },
     "KlagePage": {
         "tittel": "Your appeal has been submitted",
