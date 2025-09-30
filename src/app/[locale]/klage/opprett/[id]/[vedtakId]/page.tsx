@@ -1,6 +1,7 @@
-import { Heading, VStack } from "@navikt/ds-react";
+import { BodyShort, Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import React from "react";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
@@ -22,10 +23,16 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
     return (
         <VStack gap="16" className="mt-20">
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
-            <VStack className="mb-8">
+            <VStack gap="4" className="mb-8">
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>
+                <BodyShort>
+                    {t.rich("navEnhet", {
+                        norsk: (chunks) => <span lang="no">{chunks}</span>,
+                        navKontor: sak.navEnhetNavn ?? "tom",
+                    })}
+                </BodyShort>
             </VStack>
             <KlageVedtak sak={sak} />
             <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
