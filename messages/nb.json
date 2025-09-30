@@ -221,10 +221,12 @@
         "klagerettigheter": "Dine klagerettigheter",
         "personopplysninger": "Behandling av personopplysninger"
     },
-    "OpprettKlagePage": {
-        "tittel": "Klage på vedtak",
-        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
-    },
+  "OpprettKlagePage": {
+    "tittel": "Klage på vedtak",
+    "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp.",
+    "navEnhet": "Klagen vil bli sendt til <norsk>{navKontor}</norsk>",
+    "ikkeOppgittNavEnhet": "Klage vil bli sendt til ditt Nav-kontor)"
+  },
     "KlagePage": {
         "tittel": "Klagen din er sendt",
         "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp.",
@@ -239,7 +241,7 @@
         "tittel": "Prosessen videre",
         "steg1": {
             "tittel": "Klagen din er sendt",
-            "visKlagen": "Vis klagen (blir opna i ny fane)"
+            "visKlagen": "Vis klagen (åpnes i ny fane)"
         },
         "steg2": {
             "tittel": "Nav-kontoret behandler klagen",
@@ -250,15 +252,15 @@
             "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
         }
     },
-  "KlageVedtak": {
-    "beskrivelse": {
-      "INNVILGET": "Du har fått innvilget stønad. Les vedtaket for å se begrunnelsen.",
-      "DELVIS_INNVILGET": "Du har fått delvis innvilget stønad. Det vil si at du ikke får alt du søkte om, men deler av det. Les vedtaket for å se begrunnelsen.",
-      "AVVIST": "Søknaden din er avvist. Les vedtaket for å se begrunnelsen.",
-      "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
+    "KlageVedtak": {
+        "beskrivelse": {
+            "INNVILGET": "Du har fått innvilget stønad. Les vedtaket for å se begrunnelsen.",
+            "DELVIS_INNVILGET": "Du har fått delvis innvilget stønad. Det vil si at du ikke får alt du søkte om, men deler av det. Les vedtaket for å se begrunnelsen.",
+            "AVVIST": "Søknaden din er avvist. Les vedtaket for å se begrunnelsen.",
+            "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
+        },
+        "vedtaksBrev": "Last ned vedtaksbrev"
     },
-    "vedtaksBrev": "Last ned vedtaksbrev"
-  },
     "KlageForm": {
         "bakgrunn": {
             "label": "Oppgi bakgrunn for klagen",
