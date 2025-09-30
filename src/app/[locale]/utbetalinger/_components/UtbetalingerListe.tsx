@@ -63,7 +63,7 @@ const UtbetalingerListe = ({ valgteChip }: Props) => {
 
     if (egendefinert) {
         return (
-            <VStack gap="4">
+            <VStack gap="16">
                 <HStack gap="4" align="end">
                     <DatePicker {...datepickerProps}>
                         <HStack gap="4">
@@ -75,7 +75,6 @@ const UtbetalingerListe = ({ valgteChip }: Props) => {
                         {t("visUtbetalinger")}
                     </Button>
                 </HStack>
-
                 {valgtDatointervall && (
                     <UtbetalingerListView
                         tittel={t("egendefinert")}
