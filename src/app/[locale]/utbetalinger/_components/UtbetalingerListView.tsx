@@ -21,14 +21,14 @@ const UtbetalingerListView = ({ tittel, utbetalingsGruppe, manedsUtbetalingerSum
             {utbetalingsGruppe.length === 0
                 ? tomListe
                 : utbetalingsGruppe
+                      .toReversed()
                       .map((gruppe) => (
                           <UtbetalingerHeaderCard
                               key={`${gruppe.ar}-${gruppe.maned}`}
                               utbetalinger={gruppe}
                               manedsUtbetalingerSummert={manedsUtbetalingerSummert}
                           />
-                      ))
-                      .reverse()}
+                      ))}
         </VStack>
     );
 };
