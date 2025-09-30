@@ -10,6 +10,8 @@ import {
     Month1to12,
     AarMaaned,
     ManedIntervall,
+    formaterKontonummer,
+    erKontonummerFormatert,
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
@@ -257,5 +259,24 @@ describe("erInnenforAngittPeriode", () => {
         const item = { ar: 2025, maned: 8, utbetalingerForManed: [] };
         const range = mI(2025, 8, 2025, 8);
         expect(erInnenforAngittPeriode(item, range)).toBe(true);
+    });
+});
+
+describe("formaterKontonummer", () => {
+    it("formatere 11 kontinuerlige tall til 4-2-5", () => {
+        expect(formaterKontonummer("12345678901")).toBe("1234 56 78901");
+    });
+
+    it("kontonummeret blir uendret ", () => {
+        expect(formaterKontonummer("1234 56 78901")).toBe("1234 56 78901");
+    });
+});
+
+describe("erKontonummerformatert", () => {
+    it("gjenkjenner 4-2-5 format", () => {
+        expect(erKontonummerFormatert("1234 56 78901")).toBe(true);
+    });
+    it("gjennkjenner at kontonummerert har ikke blitt formatert", () => {
+        expect(erKontonummerFormatert("12345678901")).toBe(false);
     });
 });

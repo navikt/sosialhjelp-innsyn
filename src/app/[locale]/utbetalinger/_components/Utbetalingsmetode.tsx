@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 
 import type { ManedUtbetaling } from "@generated/ssr/model";
 
+import { formaterKontonummer, erKontonummerFormatert } from "./utbetalinger-utils";
+
 interface Props {
     utbetaling: ManedUtbetaling;
 }
@@ -12,7 +14,9 @@ interface Props {
 export const Utbetalingsmetode = ({ utbetaling }: Props) => {
     const t = useTranslations("UtbetalingerContentCard");
 
-    const konto = utbetaling.kontonummer;
+    const konto = erKontonummerFormatert(utbetaling.kontonummer)
+        ? utbetaling.kontonummer
+        : formaterKontonummer(utbetaling.kontonummer);
     const metode = utbetaling.utbetalingsmetode;
 
     if (utbetaling.annenMottaker) {

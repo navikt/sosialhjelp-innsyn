@@ -96,3 +96,13 @@ export const erInnenforAngittPeriode = (item: NyeOgTidligereUtbetalingerResponse
     const end = endOfMonth(new Date(intervall.end.year, intervall.end.month - 1, 1));
     return isWithinInterval(itemDate, { start, end });
 };
+
+export const erKontonummerFormatert = (value?: string | null): boolean =>
+    !!value && /^\d{4}\s\d{2}\s\d{5}$/.test(value);
+
+export const formaterKontonummer = (kontonummer?: string | null): string | undefined => {
+    if (!kontonummer) return undefined;
+    const kontonr = kontonummer.replace(/\D/g, "");
+    if (kontonr.length !== 11) return kontonummer;
+    return `${kontonr.slice(0, 4)} ${kontonr.slice(4, 6)} ${kontonr.slice(6)}`;
+};
