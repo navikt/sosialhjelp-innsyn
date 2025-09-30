@@ -37,7 +37,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             className={cx("hover:outline-none hover:shadow-none", cardBorder(index, count))}
         >
             <ExpansionCard.Header
-                className={cx("gap-0 data-[open=true]:after:content-none", cardBorder(index, count), styles.headerFill)}
+                className={cx("gap-2 data-[open=true]:after:content-none", cardBorder(index, count), styles.headerFill)}
             >
                 <ExpansionCard.Title>
                     <HStack align="center" wrap={false} className="w-full" justify="space-between">
