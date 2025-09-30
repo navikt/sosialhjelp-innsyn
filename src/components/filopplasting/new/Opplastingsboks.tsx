@@ -70,10 +70,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 docState={docState}
             />
             <Button
-                disabled={docState.uploads?.length === 0}
                 onClick={() => upload(docState.documentId!)}
                 loading={isPending}
                 className="self-start"
+                disabled={
+                    isPending ||
+                    docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
+                }
             >
                 {t("Opplastingsboks.sendInn")}
             </Button>

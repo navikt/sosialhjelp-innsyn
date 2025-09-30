@@ -11,6 +11,7 @@ import {
     HStack,
     Link,
     List,
+    Loader,
     VStack,
 } from "@navikt/ds-react";
 import { useParams } from "next/navigation";
@@ -160,6 +161,19 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url
         mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_TUSD_URL}/${uploadId}`),
         retry: false,
     });
+    // Filen er ikke ferdigbehandlet på backend enda
+    if (!url) {
+        return (
+            <HStack as="li" justify="space-between" className={cx("border rounded-2xl p-6")}>
+                <VStack justify="center">
+                    <HStack gap="4" align="center" wrap={false}>
+                        <Loader />
+                        <Link className="overflow-ellipsis">{originalFilename}</Link>
+                    </HStack>
+                </VStack>
+            </HStack>
+        );
+    }
     return (
         <>
             <HStack
