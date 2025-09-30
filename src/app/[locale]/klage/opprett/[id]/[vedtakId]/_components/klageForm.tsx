@@ -97,6 +97,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
                 docState={docState}
                 outerErrors={outerErrors}
                 filesLabel={t("filOpplasting.dineVedlegg")}
+                uploadId={vedtakId}
             />
             <div>
                 <Button
