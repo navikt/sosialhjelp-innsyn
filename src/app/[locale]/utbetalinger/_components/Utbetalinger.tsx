@@ -13,7 +13,7 @@ const ChipRekke = ["kommende.kort", "siste3", "hittil", "fjor", "egendefinert"] 
 
 const Utbetalinger = () => {
     const t = useTranslations("UtbetalingerChips");
-    const [selectedChip, setSelectedChip] = useState<ChipsChip>("egendefinert");
+    const [selectedChip, setSelectedChip] = useState<ChipsChip>("kommende.kort");
 
     return (
         <VStack gap="16">
