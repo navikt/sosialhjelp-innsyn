@@ -48,6 +48,7 @@ const Oppgaver = () => {
                                 borderRadius="xlarge"
                             >
                                 <Opplastingsboks
+                                    id={oppgave.oppgaveId}
                                     completed={oppgave.erLastetOpp}
                                     label={typeTekst}
                                     description={

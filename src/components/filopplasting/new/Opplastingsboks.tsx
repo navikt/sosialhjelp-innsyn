@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
-import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
 
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
@@ -19,15 +18,14 @@ interface Props {
     description?: ReactNode;
     tag?: ReactNode;
     completed?: boolean;
+    id: string;
 }
 
-const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props) => {
+const Opplastingsboks = ({ metadata, label, description, tag, completed, id }: Props) => {
     const t = useTranslations();
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { files, outerErrors, reset: resetFilOpplastningData } = useFiles();
-    const docState = useDocumentState(fiksDigisosId);
+    const docState = useDocumentState(id);
     const { upload, resetMutation, isPending, isUploadSuccess } = useSendVedleggHelper(
-        fiksDigisosId,
         resetFilOpplastningData,
         metadata
     );
@@ -68,18 +66,21 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 tag={tag}
                 outerErrors={outerErrors}
                 docState={docState}
+                id={id}
             />
-            <Button
-                onClick={() => upload(docState.documentId!)}
-                loading={isPending}
-                className="self-start"
-                disabled={
-                    isPending ||
-                    docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
-                }
-            >
-                {t("Opplastingsboks.sendInn")}
-            </Button>
+            {!!docState.uploads?.length && (
+                <Button
+                    onClick={() => upload(docState.documentId!)}
+                    loading={isPending}
+                    className="self-start mt-4"
+                    disabled={
+                        isPending ||
+                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
+                    }
+                >
+                    {t("Opplastingsboks.sendInn")}
+                </Button>
+            )}
             {isUploadSuccess && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
             {/*{mutationErrors.length > 0 && (*/}
             {/*    <Alert variant="error">{t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}</Alert>*/}

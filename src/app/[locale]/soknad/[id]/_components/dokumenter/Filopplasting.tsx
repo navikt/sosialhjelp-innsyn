@@ -6,7 +6,11 @@ import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 
 const metadata = { type: "annet", tilleggsinfo: "annet" };
 
-const Filopplasting = async () => {
+interface Props {
+    id: string;
+}
+
+const Filopplasting = async ({ id }: Props) => {
     const t = await getTranslations("Filopplasting");
     return (
         <VStack gap="2">
@@ -14,7 +18,7 @@ const Filopplasting = async () => {
                 {t("tittel")}
             </Heading>
             <NavigationGuardProvider>
-                <Opplastingsboks metadata={metadata} />
+                <Opplastingsboks metadata={metadata} id={id} />
             </NavigationGuardProvider>
         </VStack>
     );

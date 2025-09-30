@@ -14,7 +14,6 @@ import {
     Loader,
     VStack,
 } from "@navikt/ds-react";
-import { useParams } from "next/navigation";
 import { ReactNode, useRef } from "react";
 import cx from "classnames";
 import { ExclamationmarkTriangleFillIcon, FilePdfIcon, TrashIcon } from "@navikt/aksel-icons";
@@ -39,17 +38,17 @@ interface Props {
     outerErrors: Error[];
     isPending?: boolean;
     docState: DocumentState;
+    uploadId: string;
 }
 
-const FileSelect = ({ label, description, tag, outerErrors, docState, id, filesLabel }: Props) => {
+const FileSelect = ({ label, description, tag, outerErrors, docState, id, filesLabel, uploadId }: Props) => {
     const t = useTranslations();
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     // Starter opplasting umiddelbart ved filvalg
     const onSelect = (_files: FileObject[]) => {
         const uploads = _files.map((file: FileObject) => {
             const upload = getTusUploader({
-                id: fiksDigisosId,
+                id: uploadId,
                 onProgress: (bytesSent, bytesTotal) => {
                     const progress = bytesSent / bytesTotal;
                     logger.info(progress);
@@ -99,7 +98,7 @@ const FileSelect = ({ label, description, tag, outerErrors, docState, id, filesL
                         ) : null
                     }
                 />
-                {docState.uploads?.length !== 0 && (
+                {!!docState.uploads?.length && (
                     <VStack gap="2">
                         <Heading size="xsmall" level="3">
                             {filesLabel ?? t("Opplastingsboks.filerTilOpplasting")}

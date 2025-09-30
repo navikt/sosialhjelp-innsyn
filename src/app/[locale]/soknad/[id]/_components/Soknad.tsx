@@ -93,7 +93,7 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                     <Oppgaver />
                 </HydrationBoundary>
             </Suspense>
-            <Filopplasting />
+            <Filopplasting id={id} />
             <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
                 <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">

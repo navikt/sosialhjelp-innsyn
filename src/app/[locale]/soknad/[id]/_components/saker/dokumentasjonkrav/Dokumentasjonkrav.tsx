@@ -28,6 +28,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                         borderRadius="xlarge"
                     >
                         <Opplastingsboks
+                            id={it.dokumentasjonkravId}
                             metadata={{
                                 type: it.tittel ?? "dokumentasjonkrav",
                                 tilleggsinfo: it.beskrivelse,

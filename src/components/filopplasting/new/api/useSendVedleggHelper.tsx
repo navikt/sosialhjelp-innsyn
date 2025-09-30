@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
 import {
     getHentHendelserQueryKey,
@@ -39,8 +40,9 @@ const doFetch = async ({
         }
     });
 
-const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void, metadata: Metadata) => {
+const useSendVedleggHelper = (resetFilOpplastningData: () => void, metadata: Metadata) => {
     const queryClient = useQueryClient();
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
     const {
         mutate: mutate2,
         isPending: isPending2,
