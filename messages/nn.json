@@ -263,10 +263,12 @@
         "klagerettigheter": "Klagerettane dine",
         "personopplysninger": "Behandling av personopplysningar"
     },
-    "OpprettKlagePage": {
-        "tittel": "Klage på vedtak",
-        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
-    },
+  "OpprettKlagePage": {
+    "tittel": "Klage på vedtak",
+    "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp.",
+    "navEnhet": "Klaga vil bli sendt til <norsk>{navKontor}</norsk>",
+    "ikkeOppgittNavEnhet": "Klaga vil bli sendt til ditt Nav-kontor"
+  },
     "KlagePage": {
         "tittel": "Klaga di er sendt",
         "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp.",
