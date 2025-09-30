@@ -225,7 +225,7 @@
     "tittel": "Klage på vedtak",
     "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp.",
     "navEnhet": "Klagen vil bli sendt til <norsk>{navKontor}</norsk>",
-    "ikkeOppgittNavEnhet": "(Ikke oppgitt)"
+    "ikkeOppgittNavEnhet": "Klage vil bli sendt til ditt Nav-kontor)"
   },
     "KlagePage": {
         "tittel": "Klagen din er sendt",
