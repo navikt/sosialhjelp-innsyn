@@ -384,7 +384,7 @@
     "tilDeg": "Til deg",
     "utbetalesTil": "Blir utbetalt til {mottaker}",
     "utbetalesTilUkjent": "Blir utbetalt til annan mottakar",
-    "bankkonto": "Di Bankkonto: <norsk>{konto}</norsk>",
+    "bankkonto": "Di bankkonto: <norsk>{konto}</norsk>",
     "lenke": "Se søknaden og vedtaket du fikk",
     "STOPPET": "Stoppa",
     "PLANLAGT_UTBETALING": "Planlagt",

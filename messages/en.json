@@ -384,7 +384,7 @@
     "tilDeg": "To you",
     "utbetalesTil": "Paid to {mottaker}",
     "utbetalesTilUkjent": "Paid to another recipient",
-    "bankkonto": "Your Bank account: <norsk>{konto}</norsk>",
+    "bankkonto": "Your bank account: <norsk>{konto}</norsk>",
     "lenke": "View the application and the decision letter you received",
     "STOPPET": "Stopped",
     "PLANLAGT_UTBETALING": "Planned",
