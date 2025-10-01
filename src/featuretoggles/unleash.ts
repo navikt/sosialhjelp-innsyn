@@ -31,10 +31,14 @@ export async function getToggles(): Promise<IToggle[]> {
         );
 
         const cookieStore = await cookies();
-        return localDevelopmentToggles().map((it) => ({
-            ...it,
-            enabled: cookieStore.get(it.name)?.value.includes("true") ?? it.enabled,
-        }));
+        return localDevelopmentToggles().map((toggle) => {
+            const v = cookieStore.get(toggle.name)?.value;
+            return v === "true"
+                ? { ...toggle, enabled: true }
+                : v === "false"
+                  ? { ...toggle, enabled: false }
+                  : { ...toggle, enabled: toggle.enabled };
+        });
     } else if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
         logger.warn("Running in e2e mode");
         return EXPECTED_TOGGLES.map((it) => ({

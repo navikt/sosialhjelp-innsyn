@@ -1,6 +1,7 @@
 import { Alert, Button, HStack, Modal } from "@navikt/ds-react";
 import { forwardRef, Ref } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { useTranslations } from "next-intl";
 
 import { PdfPreviewDisplay } from "@components/filopplasting/new/preview/PdfPreviewDisplay";
 import ImgPreview from "@components/filopplasting/new/preview/ImgPreview";
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTMLDialogElement>) => {
+    const t = useTranslations("FilePreviewModal");
     return (
         <Modal
             ref={ref}
@@ -26,12 +28,12 @@ const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTM
                 fallback={
                     <>
                         <Modal.Body>
-                            <Alert variant="error">Noe gikk galt ved visning av filen.</Alert>
+                            <Alert variant="error">{t("error")}</Alert>
                         </Modal.Body>
                         <Modal.Footer>
                             <HStack justify="end">
                                 <Button variant="secondary" onClick={onClose}>
-                                    Lukk
+                                    {t("lukk")}
                                 </Button>
                             </HStack>
                         </Modal.Footer>
@@ -42,12 +44,9 @@ const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTM
                     {isPdf ? <PdfPreviewDisplay file={{ url }} width={800} /> : <ImgPreview url={url} />}
                 </Modal.Body>
                 <Modal.Footer>
-                    <HStack justify="end" gap="4">
-                        <Button variant="primary" onClick={onClose}>
-                            Godkjenn jævern
-                        </Button>
+                    <HStack justify="end">
                         <Button variant="secondary" onClick={onClose}>
-                            Lukk
+                            {t("lukk")}
                         </Button>
                     </HStack>
                 </Modal.Footer>

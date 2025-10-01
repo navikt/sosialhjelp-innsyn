@@ -2,6 +2,17 @@
     "Landingsside": {
         "tittel": "Financial assistance"
     },
+    "FileUploadItem": {
+        "validation": {
+            "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
+            "FILETYPE_NOT_SUPPORTED": "The file type is not supported",
+            "FILE_TOO_LARGE": "Maximum file size is 10 MB",
+            "INVALID_FILENAME": "The file name is not valid",
+            "INVALID_PDF": "The PDF is not valid",
+            "POSSIBLY_INFECTED": "The file may be infected with a virus"
+        },
+        "seOver": "Please review the contents of this file and ensure it looks correct."
+    },
     "SoknaderSide": {
         "tittel": "My applications"
     },
@@ -192,7 +203,11 @@
         "uploading": "Uploading...",
         "delete": "Remove file",
         "sendInn": "Send documentation",
-        "filerTilOpplasting": "Files for upload"
+        "filerTilOpplasting": "Files for upload",
+        "konvertert": {
+            "tittel": "Some files may have been changed",
+            "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."
+        }
     },
     "Dokumenter": {
         "tittel": "Documents"
@@ -693,5 +708,9 @@
       "postgiro": "Postal giro",
       "garanti": "Guarantee"
     }
-  }
+  },
+    "FilePreviewModal": {
+        "error": "Something went wrong while displaying the file.",
+        "lukk": "Close"
+    }
 }

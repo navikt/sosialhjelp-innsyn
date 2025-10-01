@@ -8,7 +8,7 @@ export type UploadState = {
     convertedFilename?: string;
     id: string;
     validations?: ValidationCode[];
-    signedUrl?: string,
+    signedUrl?: string;
 };
 
 export enum ValidationCode {
@@ -48,7 +48,6 @@ export const useDocumentState = (id: string): DocumentState => {
     // Subscribe to server-sent events and send any state updates to the reducer
     const onUpdate = (payload: Partial<DocumentState>) => dispatch({ type: "update", newState: payload });
     useEffect(() => {
-        console.log("opening channel for", id);
         return openEventChannel(eventstreamUrl(id), onUpdate);
     }, [id]);
 

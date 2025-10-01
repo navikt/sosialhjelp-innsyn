@@ -107,12 +107,9 @@ const FileSelect = ({ label, description, tag, outerErrors, docState, id, filesL
                             <Alert variant="warning">
                                 <HStack gap="2">
                                     <Heading size="small" level="4">
-                                        Noen filer kan ha blitt forandret
+                                        {t("Opplastingsboks.konvertert.tittel")}
                                     </Heading>
-                                    <BodyShort>
-                                        Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke
-                                        støttes. Du må se gjennom og godkjenne filene før du kan fortsette.
-                                    </BodyShort>
+                                    <BodyShort>{t("Opplastingsboks.konvertert.beskrivelse")}</BodyShort>
                                 </HStack>
                             </Alert>
                         )}
@@ -145,17 +142,9 @@ interface FileUploadItemProps {
 
 const FilePreviewModal = dynamic(() => import("./preview/FilePreviewModal"), { ssr: false });
 
-const validationToMessage: Record<ValidationCode, string> = {
-    ENCRYPTED_PDF: "Fjern passord a, idiot",
-    FILETYPE_NOT_SUPPORTED: "Du kanke laste opp denne filtypen",
-    FILE_TOO_LARGE: "Fila er for stor. 10MB max pls",
-    INVALID_FILENAME: "Hvorfor har du så sjuke tegn i filnavnet ditt",
-    INVALID_PDF: "Det er no gærnt med pdfen din",
-    POSSIBLY_INFECTED: "IKKE SEND OSS VIRUS, DIN DRITT",
-};
-
 const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url }: FileUploadItemProps) => {
     const ref = useRef<HTMLDialogElement>(null);
+    const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
         mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_TUSD_URL}/${uploadId}`),
         retry: false,
@@ -193,14 +182,14 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url
                     {filename && (
                         <HStack align="center" gap="2" className="text-ax-text-warning-subtle">
                             <ExclamationmarkTriangleFillIcon />
-                            <BodyShort>Vennligst se over at innholdet i filen er leselig.</BodyShort>
+                            <BodyShort>{t("seOver")}</BodyShort>
                         </HStack>
                     )}
                     {validations?.length && (
                         <List>
                             {validations.map((val) => (
                                 <List.Item key={val} className="text-ax-text-warning-subtle">
-                                    {validationToMessage[val]}
+                                    {t(`validation.${val}`)}
                                 </List.Item>
                             ))}
                         </List>
