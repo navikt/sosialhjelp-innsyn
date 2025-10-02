@@ -26,6 +26,7 @@ enum PathVariants {
     OpprettKlage = "/klage/opprett/",
     Soknader = "/soknader",
     Soknad = "/soknad",
+    Utbetalinger = "/utbetalinger",
 }
 
 function removeLocales(path: string): string {
@@ -49,6 +50,10 @@ export const getAppBreadcrumbs = (pathname?: PathVariants | string): [...Breadcr
         return [{ title: "Status" }];
     }
 
+    if (cleanedPath.startsWith(PathVariants.Utbetalinger)) {
+        return [{ title: "Utbetalinger" }];
+    }
+
     switch (cleanedPath) {
         case PathVariants.Error:
         case PathVariants.ServerError:
@@ -61,6 +66,8 @@ export const getAppBreadcrumbs = (pathname?: PathVariants | string): [...Breadcr
             return [];
         case PathVariants.Soknader:
             return [{ title: "Mine søknader" }];
+        case PathVariants.Utbetalinger:
+            return [{ title: "Utbetalinger" }];
         default:
             throw new Error("Unknown path");
     }
