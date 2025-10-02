@@ -10,6 +10,7 @@ const isLocal = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
 const isProd = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod";
 
 const localServer = process.env.NEXT_PUBLIC_INNSYN_ORIGIN ?? "";
+const fileStorageOrigin = isLocal ? "http://localhost:3007" : "https://storage.googleapis.com";
 const innsynApiLocalhost = "http://localhost:8989";
 const uxsignalsScriptSrc = "https://uxsignals-frontend.uxsignals.app.iterate.no";
 
@@ -19,18 +20,10 @@ const appDirectives = {
     "script-src-elem": [SELF, uxsignalsScriptSrc],
     "style-src": [SELF, UNSAFE_INLINE, localServer],
     "style-src-elem": [SELF, UNSAFE_INLINE, localServer],
-    "img-src": [
-        SELF,
-        DATA,
-        BLOB,
-        uxsignalsScriptSrc,
-        ...(isLocal ? ["localhost:3007"] : ["https://storage.googleapis.com"]),
-    ],
+    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc, fileStorageOrigin],
     "font-src": [SELF],
-    "worker-src": [SELF, ...(isLocal ? ["http://localhost:3007"] : ["https://storage.googleapis.com"])],
-    "connect-src": isLocal
-        ? [SELF, innsynApiLocalhost, localServer, "localhost:3007"]
-        : [SELF, "https://storage.googleapis.com"],
+    "worker-src": [SELF, fileStorageOrigin],
+    "connect-src": [SELF, fileStorageOrigin, ...(isLocal ? [innsynApiLocalhost, localServer] : [])],
 };
 
 const nextConfig: NextConfig = {
