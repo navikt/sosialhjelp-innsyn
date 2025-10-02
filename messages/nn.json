@@ -207,7 +207,9 @@
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",
             "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
-        }
+        },
+        "error": "Det skjedde ein feil ved innsending",
+        "suksess": "Takk! Dokumentasjonen din vart sendt inn."
     },
     "Dokumenter": {
         "tittel": "Dokument"

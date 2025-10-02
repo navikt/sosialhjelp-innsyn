@@ -43,7 +43,7 @@ const submitUpload = async ({
 const useSendVedleggHelper = (metadata: Metadata) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { mutate, isPending, isSuccess, reset } = useMutation({
+    const { mutate, isPending, isSuccess, reset, error } = useMutation({
         mutationFn: submitUpload,
         onSuccess: async () => {
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
@@ -98,6 +98,7 @@ const useSendVedleggHelper = (metadata: Metadata) => {
         errors: [],
         isPending,
         isUploadSuccess: isSuccess,
+        error,
     };
 };
 

@@ -207,7 +207,9 @@
         "konvertert": {
             "tittel": "Some files may have been changed",
             "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."
-        }
+        },
+        "error": "An error occurred while uploading the files. Please try again.",
+        "suksess": "Thank you! Your documentation have been submitted."
     },
     "Dokumenter": {
         "tittel": "Documents"

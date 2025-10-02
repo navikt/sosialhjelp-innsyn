@@ -20,9 +20,15 @@ interface Props {
 }
 
 const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }: Props) => {
-    const t = useTranslations();
+    const t = useTranslations("Opplastingsboks");
     const docState = useDocumentState(id);
-    const { upload, resetMutation, isPending, isUploadSuccess } = useSendVedleggHelperTus(metadata);
+    const {
+        upload,
+        resetMutation,
+        isPending,
+        isUploadSuccess,
+        error: mutationError,
+    } = useSendVedleggHelperTus(metadata);
 
     if (completed) {
         return (
@@ -30,15 +36,15 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                 <Box.New>
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
-                            {label ?? t("Opplastingsboks.tittel")}
+                            {label ?? t("tittel")}
                         </Heading>
                         {tag}
                     </HStack>
-                    <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
+                    <BodyShort>{description ?? t("beskrivelse")}</BodyShort>
                 </Box.New>
                 {isUploadSuccess && (
                     <Alert closeButton onClose={resetMutation} variant="success">
-                        {t("common.vedlegg.suksess")}
+                        {t("suksess")}
                     </Alert>
                 )}
             </VStack>
@@ -47,14 +53,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     return (
         <>
-            <FileSelect
-                label={label}
-                description={description}
-                tag={tag}
-                outerErrors={[]}
-                docState={docState}
-                id={id}
-            />
+            <FileSelect label={label} description={description} tag={tag} docState={docState} id={id} />
             {!!docState.uploads?.length && (
                 <Button
                     onClick={() => upload(docState.documentId!)}
@@ -65,13 +64,11 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                         docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
                     }
                 >
-                    {t("Opplastingsboks.sendInn")}
+                    {t("sendInn")}
                 </Button>
             )}
-            {isUploadSuccess && <Alert variant="success">{t("common.vedlegg.suksess")}</Alert>}
-            {/*{mutationErrors.length > 0 && (*/}
-            {/*    <Alert variant="error">{t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}</Alert>*/}
-            {/*)}*/}
+            {isUploadSuccess && <Alert variant="success">{t("suksess")}</Alert>}
+            {mutationError && <Alert variant="error">{t("error")}</Alert>}
         </>
     );
 };

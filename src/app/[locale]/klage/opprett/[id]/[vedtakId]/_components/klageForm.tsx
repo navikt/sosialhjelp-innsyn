@@ -40,7 +40,8 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const router = useRouter();
     const docState = useDocumentState(vedtakId);
 
-    const { files, outerErrors } = useFiles();
+    // TODO: Denne "funker" ikke med ny opplasting
+    const { files } = useFiles();
 
     const {
         register,
@@ -95,7 +96,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             <FileSelect
                 id={"klageVedlegg" + vedtakId}
                 docState={docState}
-                outerErrors={outerErrors}
                 filesLabel={t("filOpplasting.dineVedlegg")}
                 uploadId={vedtakId}
             />
