@@ -38,6 +38,7 @@ spec:
       rules:
         - application: sosialhjelp-innsyn-api
         - application: sosialhjelp-soknad-api
+        - application: sosialhjelp-upload
         - application: nav-dekoratoren
           namespace: personbruker
       external:
