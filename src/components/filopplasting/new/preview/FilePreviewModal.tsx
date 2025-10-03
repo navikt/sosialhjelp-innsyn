@@ -41,7 +41,11 @@ const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTM
                 }
             >
                 <Modal.Body>
-                    {isPdf ? <PdfPreviewDisplay file={{ url }} width={800} /> : <ImgPreview url={url} />}
+                    {isPdf ? (
+                        <PdfPreviewDisplay file={{ url }} width={800} />
+                    ) : (
+                        <ImgPreview url={url} filename={filename} />
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
                     <HStack justify="end">

@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import { Document, DocumentProps, Page, PageProps, pdfjs } from "react-pdf";
+import { Box } from "@navikt/ds-react";
 
 import { PageFlipperButtons } from "@components/filopplasting/new/preview/PageFlipperButtons";
-import { Box } from "@navikt/ds-react";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
 /**

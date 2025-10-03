@@ -1,7 +1,6 @@
 import { logger } from "@navikt/next-logger";
 
 import { browserEnv } from "@config/env";
-
 import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 export const eventstreamUrl = (id: string) => `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/status/${id}` as const;
@@ -23,7 +22,7 @@ export const openEventChannel = (url: string, onUpdate: (payload: Partial<Docume
             const data = JSON.parse(event.data) as DocumentState;
             if (isUpdateMessage(data)) onUpdate(data);
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         }
     };
 
