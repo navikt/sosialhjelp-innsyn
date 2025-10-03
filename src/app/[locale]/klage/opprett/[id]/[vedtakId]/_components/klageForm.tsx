@@ -61,7 +61,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             if (files.length > 0) {
                 await lastOppVedleggMutation.mutateAsync({
                     fiksDigisosId,
-                    klageId,
+                    navEksternRefId: klageId,
                     data: {
                         files: [createMetadataFile(files, metadata), ...formatFilesForUpload(files)],
                     },
@@ -74,7 +74,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-            await router.push(`/klage/status/${fiksDigisosId}/${vedtakId}`);
+            await router.push(`/klage/status/${fiksDigisosId}/${klageId}`);
         } catch (error) {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
         }
