@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Oversikt = async ({ id }: Props) => {
-    const t = await getTranslations("Oversikt");
+    const t = await getTranslations("Saksprossen");
     const queryClient = getQueryClient();
     prefetchHentHendelserBetaQuery(queryClient, id);
     return (

@@ -94,15 +94,17 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                 </HydrationBoundary>
             </Suspense>
             <Filopplasting />
-            <Suspense fallback={<DokumenterSkeleton />}>
-                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                    <Dokumenter />
-                </HydrationBoundary>
-            </Suspense>
-            <Bleed marginInline="full" asChild>
-                <BoxNew background="neutral-soft" padding="space-24">
+            <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
+                <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-3xl mx-auto">
-                        <Oversikt id={id} />
+                        <VStack gap="20">
+                            <Oversikt id={id} />
+                            <Suspense fallback={<DokumenterSkeleton />}>
+                                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
+                                    <Dokumenter />
+                                </HydrationBoundary>
+                            </Suspense>
+                        </VStack>
                     </div>
                 </BoxNew>
             </Bleed>
