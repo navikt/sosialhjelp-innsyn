@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Heading, VStack } from "@navikt/ds-react";
+import { Bleed, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
@@ -93,13 +93,21 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                     <Oppgaver />
                 </HydrationBoundary>
             </Suspense>
-            <Oversikt id={id} />
             <Filopplasting />
-            <Suspense fallback={<DokumenterSkeleton />}>
-                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                    <Dokumenter />
-                </HydrationBoundary>
-            </Suspense>
+            <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
+                <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
+                    <div className="max-w-2xl mx-auto">
+                        <VStack gap="20">
+                            <Oversikt id={id} />
+                            <Suspense fallback={<DokumenterSkeleton />}>
+                                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
+                                    <Dokumenter />
+                                </HydrationBoundary>
+                            </Suspense>
+                        </VStack>
+                    </div>
+                </BoxNew>
+            </Bleed>
         </VStack>
     );
 };
