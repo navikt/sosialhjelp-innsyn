@@ -933,10 +933,9 @@
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
                     "referanse": { "type": "string" },
-                    "vedtakIdList": { "type": "array", "items": { "type": "string" } },
                     "klageRef": { "$ref": "#/components/schemas/KlageRef" }
                 },
-                "required": ["skalViseVedtakInfoPanel", "tittel", "vedtakIdList"]
+                "required": ["skalViseVedtakInfoPanel", "tittel"]
             },
             "SakResponse": {
                 "type": "object",
