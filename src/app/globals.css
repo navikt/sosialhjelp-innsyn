@@ -19,12 +19,12 @@ body {
 */
 .aksel-stepper__circle {
     &:not(.aksel-stepper__circle--success) {
-        color: var(--ax-bg-default);
+        color: var(--ax-bg-neutral-soft);
         border-color: var(--ax-text-default);
     }
     &.aksel-stepper__circle--success {
         background-color: var(--ax-bg-neutral-strong);
         border-color: var(--ax-bg-neutral-strong);
-        color: var(--ax-bg-default);
+        color: var(--ax-bg-neutral-soft);
     }
 }

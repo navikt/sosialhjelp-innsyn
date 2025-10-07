@@ -13,11 +13,11 @@ interface Props {
 }
 
 const Oversikt = async ({ id }: Props) => {
-    const t = await getTranslations("Oversikt");
+    const t = await getTranslations("Saksprosessen");
     const queryClient = getQueryClient();
     prefetchHentHendelserBetaQuery(queryClient, id);
     return (
-        <VStack gap="2">
+        <VStack gap="4">
             <Heading size="large" level="2">
                 {t("tittel")}
             </Heading>
