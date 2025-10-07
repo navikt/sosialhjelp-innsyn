@@ -904,6 +904,14 @@
                 },
                 "required": ["id", "url"]
             },
+            "KlageRef": {
+                "type": "object",
+                "properties": {
+                    "klageId": { "type": "string", "format": "uuid" },
+                    "vedtakId": { "type": "string", "format": "uuid" }
+                },
+                "required": ["klageId", "vedtakId"]
+            },
             "SaksStatusResponse": {
                 "type": "object",
                 "properties": {
@@ -924,9 +932,11 @@
                         "type": "string",
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
-                    "referanse": { "type": "string" }
+                    "referanse": { "type": "string" },
+                    "vedtakIdList": { "type": "array", "items": { "type": "string" } },
+                    "klageRef": { "$ref": "#/components/schemas/KlageRef" }
                 },
-                "required": ["skalViseVedtakInfoPanel", "tittel"]
+                "required": ["skalViseVedtakInfoPanel", "tittel", "vedtakIdList"]
             },
             "SakResponse": {
                 "type": "object",
@@ -1009,14 +1019,6 @@
                     "erInnsynMidlertidigDeaktivert",
                     "tidspunkt"
                 ]
-            },
-            "KlageRef": {
-                "type": "object",
-                "properties": {
-                    "klageId": { "type": "string", "format": "uuid" },
-                    "vedtakId": { "type": "string", "format": "uuid" }
-                },
-                "required": ["klageId", "vedtakId"]
             },
             "EttersendelseDto": {
                 "type": "object",

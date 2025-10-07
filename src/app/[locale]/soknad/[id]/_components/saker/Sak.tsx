@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Heading, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { Heading, Link, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { useParams } from "next/navigation";
 
 import { SaksStatusResponse } from "@generated/model";
@@ -21,6 +21,7 @@ const Sak = ({ sak, vilkar }: Props) => {
 
     const { data } = useGetDokumentasjonkravBetaSuspense(id);
     const dokumentasjonkrav = data.filter((it) => it.saksreferanse === sak.referanse);
+
     return (
         <VStack gap="16">
             <VStack gap="4">
@@ -29,6 +30,7 @@ const Sak = ({ sak, vilkar }: Props) => {
             </VStack>
             {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
             {dokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={dokumentasjonkrav} />}
+            <Link href={`/klage/status/${id}/${sak.klageRef?.klageId}`}>Se din innsendte klage</Link>
         </VStack>
     );
 };
