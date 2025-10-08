@@ -29,6 +29,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                     >
                         <Opplastingsboks
                             metadata={{
+                                vedleggsKontekst: "dokumentasjonkrav",
                                 type: it.tittel ?? "dokumentasjonkrav",
                                 tilleggsinfo: it.beskrivelse,
                                 hendelsereferanse: it.dokumentasjonkravReferanse,

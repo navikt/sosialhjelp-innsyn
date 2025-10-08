@@ -41,6 +41,12 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     });
 
     const onFilesSelect = (newFiles: File[]) => {
+        window.umami.track("knapp klikket", {
+            tekst: "Valgte filer for opplasting",
+            antallFiler: newFiles.length,
+            vedleggKontekst: metadata.vedleggsKontekst,
+            type: metadata.type,
+        });
         addFiler(newFiles);
         resetMutation();
     };
