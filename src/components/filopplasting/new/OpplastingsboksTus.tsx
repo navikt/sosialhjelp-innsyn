@@ -7,8 +7,7 @@ import { ReactNode } from "react";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/new/api/useSendVedleggHelperTus";
-
-import FileSelect from "./FileSelect";
+import FileSelectNew from "@components/filopplasting/new/FileSelectNew";
 
 interface Props {
     metadata: Metadata;
@@ -53,7 +52,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     return (
         <>
-            <FileSelect label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
             {!!docState.uploads?.length && (
                 <Button
                     onClick={() => upload(docState.documentId!)}

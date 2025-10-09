@@ -1,58 +1,52 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
-import { logger } from "@navikt/next-logger";
+import { FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
-import { getTusUploader } from "@components/filopplasting/new/utils/tusUploader";
-import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";
-
-import FileUploadItem from "./FileUploadItem";
+import { FancyFile, Error } from "@components/filopplasting/new/types";
+import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
 interface Props {
     id?: string;
     label?: string;
-    description?: ReactNode;
+    description?: React.ReactNode;
     filesLabel?: string;
-    tag?: ReactNode;
+    tag?: React.ReactNode;
+    files: FancyFile[];
+    addFiler: (files: File[]) => void;
+    removeFil: (file: FancyFile) => void;
+    outerErrors: Error[];
     isPending?: boolean;
-    docState: DocumentState;
-    uploadId: string;
 }
 
-const FileSelect = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
-    const t = useTranslations("Opplastingsboks");
+const FileSelect = ({
+    id,
+    label,
+    description,
+    filesLabel,
+    tag,
+    files,
+    addFiler,
+    removeFil,
+    outerErrors,
+    isPending,
+}: Props) => {
+    const t = useTranslations();
 
-    // Starter opplasting umiddelbart ved filvalg
-    const onSelect = (_files: FileObject[]) => {
-        const uploads = _files.map((file: FileObject) =>
-            getTusUploader({
-                id: uploadId,
-                onProgress: (bytesSent, bytesTotal) => {
-                    const progress = bytesSent / bytesTotal;
-                    logger.info(progress);
-                },
-                file,
-            })
-        );
-        uploads.forEach((upload) => upload.start());
-    };
-    const converted = docState.uploads?.some((upload) => upload.convertedFilename);
     return (
         <FileUpload
             id={id}
             className="mb-4"
             translations={{
                 dropzone: {
-                    buttonMultiple: t("button"),
-                    or: t("eller"),
-                    dragAndDropMultiple: t("dragAndDrop"),
+                    buttonMultiple: t("Opplastingsboks.button"),
+                    or: t("Opplastingsboks.eller"),
+                    dragAndDropMultiple: t("Opplastingsboks.dragAndDrop"),
                 },
                 item: {
-                    uploading: t("uploading"),
-                    deleteButtonTitle: t("delete"),
+                    uploading: t("Opplastingsboks.uploading"),
+                    deleteButtonTitle: t("Opplastingsboks.delete"),
                 },
             }}
         >
@@ -62,41 +56,33 @@ const FileSelect = ({ label, description, tag, docState, id, filesLabel, uploadI
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
                     label={
                         <HStack justify="space-between">
-                            <div>{label ?? t("tittel")}</div>
+                            <div>{label ?? t("Opplastingsboks.tittel")}</div>
                             {tag}
                         </HStack>
                     }
-                    description={description ?? t("beskrivelse")}
-                    onSelect={onSelect}
+                    description={description ?? t("Opplastingsboks.beskrivelse")}
+                    onSelect={(_files) => addFiler(_files.map((it) => it.file))}
                     accept={allowedFileTypes}
-                    maxSizeInBytes={10 * 1024 * 1024}
-                    multiple
-                    disabled={(docState.uploads?.length ?? 0) >= 30}
+                    error={
+                        outerErrors.length > 0 ? (
+                            <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
+                        ) : null
+                    }
                 />
-                {!!docState.uploads?.length && (
+                {files.length > 0 && (
                     <VStack gap="2">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("filerTilOpplasting")}
+                            {filesLabel ?? t("Opplastingsboks.filerTilOpplasting")}
                         </Heading>
-                        {converted && (
-                            <Alert variant="warning">
-                                <HStack gap="2">
-                                    <Heading size="small" level="4">
-                                        {t("konvertert.tittel")}
-                                    </Heading>
-                                    <BodyShort>{t("konvertert.beskrivelse")}</BodyShort>
-                                </HStack>
-                            </Alert>
-                        )}
                         <VStack as="ul" gap="2">
-                            {docState.uploads?.map((upload) => (
-                                <FileUploadItem
-                                    key={upload.originalFilename}
-                                    url={upload.signedUrl}
-                                    uploadId={upload.id}
-                                    filename={upload.convertedFilename}
-                                    originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
+                            {files.map((file) => (
+                                <FileUpload.Item
+                                    as="li"
+                                    key={file.uuid}
+                                    file={file.file}
+                                    button={{ action: "delete", onClick: () => removeFil(file) }}
+                                    status={isPending ? "uploading" : "idle"}
+                                    error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
                                 />
                             ))}
                         </VStack>
