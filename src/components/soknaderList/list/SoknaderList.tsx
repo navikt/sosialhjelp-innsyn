@@ -1,7 +1,7 @@
 "use client";
 
 import { addDays } from "date-fns";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Box, Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
@@ -21,6 +21,21 @@ interface Props {
 const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("AktiveSoknader");
     const { hasMore, showAll, setShowAll } = useShowMore(soknader);
+    // Denne skal i teorien bare tracke søknader som ligger under "Aktive søknader"
+    // så lenge tilfellene er oppfylt.
+    useEffect(() => {
+        const antallMedDokumentasjonEtterspurt = soknader.filter(
+            (soknad) =>
+                "status" in soknad && soknad.status === "UNDER_BEHANDLING" && soknad.dokumentasjonEtterspurt === true
+        ).length;
+
+        if (antallMedDokumentasjonEtterspurt > 0) {
+            window.umami?.track("Aktive søknader", {
+                tekst: "Søknad med dokumentasjonetterspurt",
+                antall: antallMedDokumentasjonEtterspurt,
+            });
+        }
+    }, [soknader]);
     return (
         <>
             {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((sak) => (
