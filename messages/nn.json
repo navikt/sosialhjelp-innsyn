@@ -759,5 +759,9 @@
     "FilePreviewErrorBody": {
         "error": "Noko gjekk gale ved vising av fila.",
         "lukk": "Lukk"
-    }
+    },
+  "PageFlipperButtons": {
+    "forrige": "Førre side",
+    "neste": "Neste side"
+  }
 }

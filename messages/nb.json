@@ -22,6 +22,10 @@
         "error": "Noe gikk galt ved visning av filen.",
         "lukk": "Lukk"
     },
+    "PageFlipperButtons": {
+        "forrige": "Forrige side",
+        "neste": "Neste side"
+    },
     "SoknaderSide": {
         "tittel": "Mine søknader"
     },

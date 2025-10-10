@@ -758,5 +758,9 @@
     "FilePreviewErrorBody": {
         "error": "Something went wrong while displaying the file.",
         "lukk": "Close"
+    },
+    "PageFlipperButtons": {
+        "forrige": "Previous page",
+        "neste": "Next page"
     }
 }
