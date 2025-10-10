@@ -2,6 +2,17 @@
     "Landingsside": {
         "tittel": "Financial assistance"
     },
+    "FileUploadItem": {
+        "validation": {
+            "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
+            "FILETYPE_NOT_SUPPORTED": "The file type is not supported",
+            "FILE_TOO_LARGE": "Maximum file size is 10 MB",
+            "INVALID_FILENAME": "The file name is not valid",
+            "INVALID_PDF": "The PDF is not valid",
+            "POSSIBLY_INFECTED": "The file may be infected with a virus"
+        },
+        "seOver": "Please review the contents of this file and ensure it looks correct."
+    },
     "SoknaderSide": {
         "tittel": "My applications"
     },
@@ -193,7 +204,13 @@
         "uploading": "Uploading...",
         "delete": "Remove file",
         "sendInn": "Send documentation",
-        "filerTilOpplasting": "Files for upload"
+        "filerTilOpplasting": "Files for upload",
+        "konvertert": {
+            "tittel": "Some files may have been changed",
+            "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."
+        },
+        "error": "An error occurred while uploading the files. Please try again.",
+        "suksess": "Thank you! Your documentation have been submitted."
     },
     "Dokumenter": {
         "tittel": "Documents"
@@ -451,9 +468,17 @@
             "behandles_ikke": "Completed"
         },
         "oppdatert": "Updated",
-        "saksStatus": { "under_behandling": "In process", "ferdig_behandlet": "Completed" },
-        "tidspunkt": { "klokken": "at" },
-        "saker": { "oppgave": "You have tasks", "default_tittel": "Application for financial assistance" },
+        "saksStatus": {
+            "under_behandling": "In process",
+            "ferdig_behandlet": "Completed"
+        },
+        "tidspunkt": {
+            "klokken": "at"
+        },
+        "saker": {
+            "oppgave": "You have tasks",
+            "default_tittel": "Application for financial assistance"
+        },
         "default_sak_tittel": "Financial assistance",
         "default_utbetalinger_tittel": "Payments",
         "oppgaver": {
@@ -529,7 +554,9 @@
             "velg_fil": "Upload documentation",
             "fjern": "Remove",
             "tittel": "Your documents",
-            "validering": { "duplikat": "The document {filnavn} already exists" },
+            "validering": {
+                "duplikat": "The document {filnavn} already exists"
+            },
             "opplasting_feilmelding": "We cannot forward your documentation. Please remove and correct the above files",
             "opplasting_backend_feilmelding": "Sorry, we were unable to forward your documentation. Please try again later.",
             "opplasting_backend_virus_feilmelding": "Your upload was stopped by our antivirus software. Please try again with a different file.",
@@ -542,7 +569,11 @@
             "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "We cannot accept your documentation if their combined size exceeds 150 MB",
             "opplasting_feilmelding_TOO_MANY_FILES": "We only accept up to 20 files at a time",
             "suksess": "Thank you! Your documentation have been submitted.",
-            "tabell": { "filnavn": "Filename", "beskrivelse": "Description", "dato": "Date added" }
+            "tabell": {
+                "filnavn": "Filename",
+                "beskrivelse": "Description",
+                "dato": "Date added"
+            }
         },
         "andre_vedlegg": {
             "type": "Would you like to submit documentation?",
@@ -561,7 +592,9 @@
             },
             "feiledeDigisosIder": "Sorry, we cannot display the status of your application or recieve your documentation for this application digitally. Please submit your documentation to your Nav office."
         },
-        "feilside": { "finnes_ikke_overskrift": "This page does not exist" },
+        "feilside": {
+            "finnes_ikke_overskrift": "This page does not exist"
+        },
         "feilmelding": {
             "soknadStatus_innlasting": "We were unable to load the status of your application",
             "saksStatus_innlasting": "We were unable to load the status of your cases",
@@ -575,7 +608,10 @@
         "dineSoknader": "Your applications",
         "nySoknad": "New application",
         "relatertInfo": "Related information",
-        "endringer": { "tittel": "Report changes", "detaljer": "Tell us if your financial situation changes." },
+        "endringer": {
+            "tittel": "Report changes",
+            "detaljer": "Tell us if your financial situation changes."
+        },
         "klage": {
             "tittel": "Right to complain",
             "detaljer": "If you have received a notice of decision that you believe is wrong, you can complain.",
@@ -588,8 +624,13 @@
                 "mer_info_url_tekst": "You can read more about the appeal"
             }
         },
-        "personopplysninger": { "tittel": "Personal data", "detaljer": "How we process your personal data" },
-        "soknadStatus": { "tittel": "Status of your application" },
+        "personopplysninger": {
+            "tittel": "Personal data",
+            "detaljer": "How we process your personal data"
+        },
+        "soknadStatus": {
+            "tittel": "Status of your application"
+        },
         "ekstern_lenke": "(open in a new tab)",
         "vedtak": "Notice of decision",
         "tilgang": {
@@ -619,7 +660,10 @@
     "utbetalinger": {
         "documentTitle": "Payments – Financial Social Assistance",
         "inngang": "See your financial social assistance payments",
-        "tittel": { "ute": "Your payments", "inne": "Your financial social assistance payments" },
+        "tittel": {
+            "ute": "Your payments",
+            "inne": "Your financial social assistance payments"
+        },
         "utbetalingerIngress": "You may have tasks related to your follow-up from Nav. If you have applied on paper, we cannot always show your payments. Read more in the decision letter you receive from Nav. If you have any questions, please contact us by phone at 55 55 33 33.",
         "tidligereIngress": "You can see your payments for the last 15 months here. If you have applied on paper, we cannot always show your payments. If you have any questions, please contact us by phone at 55 55 33 33.",
         "tab1": "Payments",
@@ -632,15 +676,24 @@
             "tilDato": "To: {til, date, ::ddMMyyyy}",
             "til": "To",
             "format": "(dd.mm.yyyy)",
-            "mottaker": { "velg": "Select recipient", "minKonto": "To me", "annenMottaker": "To other recipients" },
+            "mottaker": {
+                "velg": "Select recipient",
+                "minKonto": "To me",
+                "annenMottaker": "To other recipients"
+            },
             "alle": "All",
             "ugylding": "The date should be in the format  dd.mm.yyyy",
             "tidligstFra": "The earliest search date is 15 months back",
             "fraEtterTil": "The From date cannot be after the To date",
-            "tilEtterFra": { "": "The To date cannot be before the From date" },
+            "tilEtterFra": {
+                "": "The To date cannot be before the From date"
+            },
             "knapp": "Filter"
         },
-        "modal": { "avbryt": "Cancel", "vis": "Show matches" },
+        "modal": {
+            "avbryt": "Cancel",
+            "vis": "Show matches"
+        },
         "feil": {
             "fetch": "Something went wrong when we tried to retrieve your payments. Please try again later.",
             "ingen": {
@@ -668,7 +721,9 @@
         "ingen": {
             "utbetalinger": {
                 "tittel": "We cannot find any payments for financial assistance",
-                "nøkkelpunt": { "tittel": "This could be because:" },
+                "nøkkelpunt": {
+                    "tittel": "This could be because:"
+                },
                 "nøkkelpunkt1": "your application is still being processed",
                 "nøkkelpunkt2": "you were not granted what you applied for support for",
                 "nøkkelpunkt3": "your municipality cannot show payments for application submitted on paper"
@@ -694,5 +749,17 @@
             "postgiro": "Postal giro",
             "garanti": "Guarantee"
         }
+    },
+    "FilePreviewModal": {
+        "lukk": "Close",
+        "label": "File preview"
+    },
+    "FilePreviewErrorBody": {
+        "error": "Something went wrong while displaying the file.",
+        "lukk": "Close"
+    },
+    "PageFlipperButtons": {
+        "forrige": "Previous page",
+        "neste": "Next page"
     }
 }

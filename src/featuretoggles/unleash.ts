@@ -16,6 +16,24 @@ const logger = pinoLogger.child({}, { msgPrefix: "[UNLEASH-TOGGLES] " });
 
 const unleashEnvironment = process.env.NEXT_PUBLIC_RUNTIME_ENV === "prod" ? "production" : "development";
 
+/*
+ * Toggles kan overstyres med cookies lokalt og i mock. Eksempel:
+ * sosialhjelp.innsyn.ny_utbetalinger_side: false
+ */
+const overrideTogglesWithCookies = async (toggles: IToggle[]) => {
+    const cookieStore = await cookies();
+    return toggles.map((toggle) => {
+        const cookieValue = cookieStore.get(toggle.name)?.value;
+        if (cookieValue === "true") {
+            return { ...toggle, enabled: true };
+        } else if (cookieValue === "false") {
+            return { ...toggle, enabled: false };
+        } else {
+            return { ...toggle, enabled: toggle.enabled };
+        }
+    });
+};
+
 export async function getToggles(): Promise<IToggle[]> {
     await connection();
 
@@ -30,11 +48,7 @@ export async function getToggles(): Promise<IToggle[]> {
                 .join("\n")}`
         );
 
-        const cookieStore = await cookies();
-        return localDevelopmentToggles().map((it) => ({
-            ...it,
-            enabled: cookieStore.get(it.name)?.value.includes("true") ?? it.enabled,
-        }));
+        return overrideTogglesWithCookies(localDevelopmentToggles());
     } else if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
         logger.warn("Running in e2e mode");
         return EXPECTED_TOGGLES.map((it) => ({

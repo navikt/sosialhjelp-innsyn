@@ -2,6 +2,30 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
+    "FileUploadItem": {
+        "validation": {
+            "ENCRYPTED_PDF": "PDFen er passordbeskyttet og vi kan ikke behandle den",
+            "FILETYPE_NOT_SUPPORTED": "Filtypen støttes ikke",
+            "FILE_TOO_LARGE": "Maks filstørrelse er 10 MB",
+            "INVALID_FILENAME": "Filnavnet er ikke gyldig",
+            "INVALID_PDF": "PDFen er ikke gyldig",
+            "POSSIBLY_INFECTED": "Filen kan være virusinfisert"
+        },
+        "seOver": "Vennligst se over at innholdet i filen er leselig."
+    },
+    "FilePreviewModal": {
+        "error": "Noe gikk galt ved visning av filen.",
+        "lukk": "Lukk",
+        "label": "Forhåndsvisning av fil"
+    },
+    "FilePreviewErrorBody": {
+        "error": "Noe gikk galt ved visning av filen.",
+        "lukk": "Lukk"
+    },
+    "PageFlipperButtons": {
+        "forrige": "Forrige side",
+        "neste": "Neste side"
+    },
     "SoknaderSide": {
         "tittel": "Mine søknader"
     },
@@ -151,7 +175,13 @@
         "uploading": "Laster opp...",
         "delete": "Fjern fil",
         "sendInn": "Send dokumentasjon",
-        "filerTilOpplasting": "Filer til opplasting"
+        "filerTilOpplasting": "Filer til opplasting",
+        "konvertert": {
+            "tittel": "Noen filer kan ha blitt forandret",
+            "beskrivelse": "Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke støttes. Du må se gjennom og godkjenne filene før du kan fortsette."
+        },
+        "error": "Det oppstod ein feil ved opplastinga. Ver vennleg og prøv igjen.",
+        "suksess": "Takk! Dokumentasjonen din ble sendt inn."
     },
     "Dokumenter": {
         "tittel": "Dokumenter"

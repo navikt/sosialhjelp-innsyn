@@ -38,6 +38,7 @@ spec:
           namespace: personbruker
         - application: sosialhjelp-innsyn-api
         - application: sosialhjelp-soknad-api
+        - application: sosialhjelp-upload-dev
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io

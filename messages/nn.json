@@ -2,6 +2,17 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
+    "FileUploadItem": {
+        "validation": {
+            "ENCRYPTED_PDF": "PDFen er passordbeskytta og vi kan ikkje behandle henne",
+            "FILETYPE_NOT_SUPPORTED": "Filtypen er ikkje støtta",
+            "FILE_TOO_LARGE": "Maks filstorleik er 10 MB",
+            "INVALID_FILENAME": "Filnamnet er ikkje gyldig",
+            "INVALID_PDF": "PDFen er ikkje gyldig",
+            "POSSIBLY_INFECTED": "Fila kan vere virusinfisert"
+        },
+        "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg."
+    },
     "SoknaderSide": {
         "tittel": "Søknadene mine"
     },
@@ -193,7 +204,13 @@
         "uploading": "Lastar opp...",
         "delete": "Fjern fila",
         "sendInn": "Send dakumentasjon",
-        "filerTilOpplasting": "Filer som bli lasta opp"
+        "filerTilOpplasting": "Filer som bli lasta opp",
+        "konvertert": {
+            "tittel": "Nokre filer kan ha blitt endra",
+            "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
+        },
+        "error": "Det skjedde ein feil ved innsending",
+        "suksess": "Takk! Dokumentasjonen din vart sendt inn."
     },
     "Dokumenter": {
         "tittel": "Dokument"
@@ -734,5 +751,18 @@
             "postgiro": "Postgiro",
             "garanti": "Garanti"
         }
+    },
+    "FilePreviewModal": {
+        "error": "Noko gjekk gale ved vising av fila.",
+        "lukk": "Lukk",
+        "label": "Førehandsvisning av fil"
+    },
+    "FilePreviewErrorBody": {
+        "error": "Noko gjekk gale ved vising av fila.",
+        "lukk": "Lukk"
+    },
+    "PageFlipperButtons": {
+        "forrige": "Førre side",
+        "neste": "Neste side"
     }
 }
