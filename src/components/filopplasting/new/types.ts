@@ -6,10 +6,10 @@ export interface FancyFile {
     uuid: string;
 }
 
-export type VedleggsKontekst = "dokumentasjonetterspurt" | "dokumentasjonkrav" | "ettersendelse" | "klage";
+export type DokumentKontekst = "dokumentasjonetterspurt" | "dokumentasjonkrav" | "ettersendelse" | "klage";
 
 export interface Metadata {
-    vedleggsKontekst: VedleggsKontekst;
+    dokumentKontekst: DokumentKontekst;
     type: string;
     tilleggsinfo?: string;
     innsendelsesfrist?: string;

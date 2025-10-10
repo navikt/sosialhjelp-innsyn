@@ -71,7 +71,7 @@ const Oppgaver = () => {
                                         )
                                     }
                                     metadata={{
-                                        vedleggsKontekst: "dokumentasjonetterspurt",
+                                        dokumentKontekst: "dokumentasjonetterspurt",
                                         innsendelsesfrist: oppgave.innsendelsesfrist,
                                         hendelsereferanse: oppgave.hendelsereferanse,
                                         type: oppgave.dokumenttype,

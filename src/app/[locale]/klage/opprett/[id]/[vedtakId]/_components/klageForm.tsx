@@ -27,7 +27,7 @@ const klageSchema = z.object({
     files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
 
-const metadata = { vedleggsKontekst: "klage", type: "klage", tilleggsinfo: "klage" } satisfies Metadata;
+const metadata = { dokumentKontekst: "klage", type: "klage", tilleggsinfo: "klage" } satisfies Metadata;
 
 interface Props {
     fiksDigisosId: string;
