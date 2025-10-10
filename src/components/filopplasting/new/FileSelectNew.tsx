@@ -94,7 +94,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                     key={upload.originalFilename}
                                     url={upload.signedUrl}
                                     uploadId={upload.id}
-                                    filename={upload.convertedFilename}
+                                    convertedFilename={upload.convertedFilename}
                                     originalFilename={upload.originalFilename}
                                     validations={upload.validations}
                                 />

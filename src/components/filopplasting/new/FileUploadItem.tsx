@@ -12,7 +12,7 @@ import { ValidationCode } from "@components/filopplasting/new/api/useDocumentSta
 
 interface Props {
     originalFilename: string;
-    filename?: string;
+    convertedFilename?: string;
     uploadId: string;
     validations?: ValidationCode[];
     url?: string;
@@ -20,7 +20,7 @@ interface Props {
 
 const FilePreviewModal = dynamic(() => import("./preview/FilePreviewModal"), { ssr: false });
 
-const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url }: Props) => {
+const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validations, url }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -46,7 +46,7 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url
                 as="li"
                 justify="space-between"
                 className={cx("border rounded-2xl p-6", {
-                    "border-ax-border-warning-subtle": filename,
+                    "border-ax-border-warning-subtle": convertedFilename,
                     "border-ax-border-danger": validations?.length,
                 })}
             >
@@ -57,7 +57,7 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url
                             {originalFilename}
                         </Link>
                     </HStack>
-                    {filename && (
+                    {convertedFilename && (
                         <HStack align="center" gap="2" className="text-ax-text-warning-subtle">
                             <ExclamationmarkTriangleFillIcon />
                             <BodyShort>{t("seOver")}</BodyShort>
@@ -87,7 +87,7 @@ const FileUploadItem = ({ filename, originalFilename, uploadId, validations, url
                     onClose={() => ref.current?.close()}
                     filename={originalFilename}
                     url={url}
-                    isPdf={!!filename}
+                    isPdf={!!convertedFilename}
                 />
             )}
         </>

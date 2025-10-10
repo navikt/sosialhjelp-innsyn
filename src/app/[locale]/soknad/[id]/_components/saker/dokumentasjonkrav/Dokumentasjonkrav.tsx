@@ -3,8 +3,8 @@ import { useTranslations } from "next-intl";
 import { NavigationGuardProvider } from "next-navigation-guard";
 
 import { DokumentasjonkravDto } from "@generated/model";
-import Opplastingsboks from "@components/filopplasting/new/OpplastingsboksTus";
-import OpplastingsboksOld from "@components/filopplasting/new/Opplastingsboks";
+import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
+import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import { useFlag } from "@featuretoggles/context";
 
 interface Props {
@@ -32,7 +32,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                         borderRadius="xlarge"
                     >
                         {newUploadEnabled ? (
-                            <Opplastingsboks
+                            <OpplastingsboksTus
                                 id={it.dokumentasjonkravId}
                                 metadata={{
                                     type: it.tittel ?? "dokumentasjonkrav",
@@ -53,7 +53,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                                 }
                             />
                         ) : (
-                            <OpplastingsboksOld
+                            <Opplastingsboks
                                 metadata={{
                                     type: it.tittel ?? "dokumentasjonkrav",
                                     tilleggsinfo: it.beskrivelse,
