@@ -3,7 +3,9 @@ import { useTranslations } from "next-intl";
 import { NavigationGuardProvider } from "next-navigation-guard";
 
 import { DokumentasjonkravDto } from "@generated/model";
+import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
+import { useFlag } from "@featuretoggles/context";
 
 interface Props {
     dokumentasjonkrav: DokumentasjonkravDto[];
@@ -11,6 +13,8 @@ interface Props {
 
 const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
     const t = useTranslations("Dokumentasjonkrav");
+    const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
+    const newUploadEnabled = toggle?.enabled ?? false;
     return (
         <VStack gap="4">
             <Box>
@@ -27,25 +31,48 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                         padding="space-24"
                         borderRadius="xlarge"
                     >
-                        <Opplastingsboks
-                            metadata={{
-                                type: it.tittel ?? "dokumentasjonkrav",
-                                tilleggsinfo: it.beskrivelse,
-                                hendelsereferanse: it.dokumentasjonkravReferanse,
-                                hendelsetype: it.hendelsetype,
-                                innsendelsesfrist: it.frist,
-                            }}
-                            label={it.tittel}
-                            description={it.beskrivelse}
-                            completed={it.erLastetOpp}
-                            tag={
-                                it.opplastetDato ? (
-                                    <Tag variant="success">{t("løst")}</Tag>
-                                ) : it.frist ? (
-                                    <Tag variant="warning">{t("frist", { frist: new Date(it.frist) })}</Tag>
-                                ) : undefined
-                            }
-                        />
+                        {newUploadEnabled ? (
+                            <OpplastingsboksTus
+                                id={it.dokumentasjonkravId}
+                                metadata={{
+                                    type: it.tittel ?? "dokumentasjonkrav",
+                                    tilleggsinfo: it.beskrivelse,
+                                    hendelsereferanse: it.dokumentasjonkravReferanse,
+                                    hendelsetype: it.hendelsetype,
+                                    innsendelsesfrist: it.frist,
+                                }}
+                                label={it.tittel}
+                                description={it.beskrivelse}
+                                completed={it.erLastetOpp}
+                                tag={
+                                    it.opplastetDato ? (
+                                        <Tag variant="success">{t("løst")}</Tag>
+                                    ) : it.frist ? (
+                                        <Tag variant="warning">{t("frist", { frist: new Date(it.frist) })}</Tag>
+                                    ) : undefined
+                                }
+                            />
+                        ) : (
+                            <Opplastingsboks
+                                metadata={{
+                                    type: it.tittel ?? "dokumentasjonkrav",
+                                    tilleggsinfo: it.beskrivelse,
+                                    hendelsereferanse: it.dokumentasjonkravReferanse,
+                                    hendelsetype: it.hendelsetype,
+                                    innsendelsesfrist: it.frist,
+                                }}
+                                label={it.tittel}
+                                description={it.beskrivelse}
+                                completed={it.erLastetOpp}
+                                tag={
+                                    it.opplastetDato ? (
+                                        <Tag variant="success">{t("løst")}</Tag>
+                                    ) : it.frist ? (
+                                        <Tag variant="warning">{t("frist", { frist: new Date(it.frist) })}</Tag>
+                                    ) : undefined
+                                }
+                            />
+                        )}
                     </Box.New>
                 ))}
             </NavigationGuardProvider>
