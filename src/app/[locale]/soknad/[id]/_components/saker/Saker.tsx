@@ -1,25 +1,22 @@
 "use client";
 
 import React, { use } from "react";
-import { useParams } from "next/navigation";
 
-import { SaksStatusResponse } from "@generated/model";
+import { KlageRef, SaksStatusResponse } from "@generated/model";
 import { VilkarResponse } from "@generated/ssr/model";
-import { useHentKlager } from "@generated/klage-controller/klage-controller";
 
 import Sak, { SakSkeleton } from "./Sak";
 
 interface Props {
     sakerPromise: Promise<SaksStatusResponse[]>;
     vilkarPromise: Promise<VilkarResponse[]>;
+    klagerPromise: Promise<KlageRef[]>;
 }
 
-const Saker = ({ sakerPromise, vilkarPromise }: Props) => {
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
+const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
     const saker = use(sakerPromise);
     const vilkar = use(vilkarPromise);
-
-    const { data: klageData } = useHentKlager(fiksDigisosId);
+    const klager = use(klagerPromise);
 
     return (
         <>
@@ -28,7 +25,7 @@ const Saker = ({ sakerPromise, vilkarPromise }: Props) => {
                     key={index}
                     sak={sak}
                     vilkar={vilkar.filter((it) => it.saksReferanse === sak.referanse)}
-                    innsendtKlage={klageData?.find((klage) =>
+                    innsendtKlage={klager.find((klage) =>
                         sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
                     )}
                 />

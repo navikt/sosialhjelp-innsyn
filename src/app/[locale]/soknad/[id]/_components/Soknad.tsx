@@ -14,6 +14,7 @@ import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-sta
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
 import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
 import { prefetchHentOriginalSoknadQuery } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
+import { hentKlager } from "@generated/ssr/klage-controller/klage-controller";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -50,6 +51,7 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
+    const klagerPromise = !mottattOrSendt && hentKlager(id);
     return (
         <VStack gap="20" className="mt-20">
             <Heading size="xlarge" level="1">
@@ -81,10 +83,14 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                     <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
-            {sakerPromise && (
+            {sakerPromise && klagerPromise && (
                 <Suspense fallback={<SakerSkeleton />}>
                     <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
-                        <Saker sakerPromise={sakerPromise} vilkarPromise={vilkarPromise} />
+                        <Saker
+                            sakerPromise={sakerPromise}
+                            vilkarPromise={vilkarPromise}
+                            klagerPromise={klagerPromise}
+                        />
                     </HydrationBoundary>
                 </Suspense>
             )}
