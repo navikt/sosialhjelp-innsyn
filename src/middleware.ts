@@ -7,13 +7,19 @@ import { getFlag, getToggles, UNLEASH_COOKIE_NAME } from "@featuretoggles/unleas
 const PUBLIC_FILE = /\.(.*)$/;
 
 const rewrite = async (request: NextRequest) => {
-    const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
+    const toggles = await getToggles();
+    const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
     // Eksempel: /nb -> ['', 'nb'], segments = []
     const [, , ...segments] = request.nextUrl.pathname.split("/");
 
-    // Rewrite til landingsside hvis toggle er på og bruker besøker index
-    if (toggle.enabled && segments.length === 0) {
+    // Rewrite til landingsside hvis landingssideToggle er på og bruker besøker index
+    if (landingssideToggle.enabled && segments.length === 0) {
         return NextResponse.rewrite(request.nextUrl.href + "/landingsside");
+    }
+
+    const utbetalingsideToggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", toggles);
+    if (segments[0] === "utbetaling" && utbetalingsideToggle.enabled) {
+        return NextResponse.rewrite(request.nextUrl.href.replace("/utbetaling", "/utbetalinger"));
     }
 };
 
