@@ -71,6 +71,10 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         setOppgaverUploadSuccess(false);
+        window.umami.track("knapp klikket", {
+            tekst: "Antall dokumentasjon som lastes opp som ettersendelse",
+            antallDokumenter: files?.length ?? 0,
+        });
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;

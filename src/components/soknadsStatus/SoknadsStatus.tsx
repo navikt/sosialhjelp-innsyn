@@ -144,7 +144,14 @@ const SoknadsStatus = () => {
                                             statusdetalj.vedtaksfilUrlList.map((hendelse: FilUrl, id: number) => (
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
-                                                        <EksternLenke href={"" + hendelse.url}>
+                                                        <EksternLenke
+                                                            href={"" + hendelse.url}
+                                                            onClick={() =>
+                                                                window.umami.track("knapp klikket", {
+                                                                    tekst: "Åpner vedtak",
+                                                                })
+                                                            }
+                                                        >
                                                             {t("vedtak")} (
                                                             <DatoOgKlokkeslett
                                                                 bareDato={true}

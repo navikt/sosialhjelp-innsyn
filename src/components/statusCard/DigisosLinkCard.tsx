@@ -60,7 +60,13 @@ const DigisosLinkCard = ({
     >
         {icon && <Icon variant={variant} icon={icon} />}
         <LinkCardTitle className="items-center">
-            <LinkCardAnchor asChild className="no-underline group-hover:underline">
+            <LinkCardAnchor
+                asChild
+                className="no-underline group-hover:underline"
+                {...(downloadIcon
+                    ? { "data-umami-event": "knapp klikket", "data-umami-event-tekst": "Åpner vedtak" }
+                    : {})}
+            >
                 <Link href={href}>{children}</Link>
             </LinkCardAnchor>
         </LinkCardTitle>

@@ -63,6 +63,9 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                     isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
+                        window.umami.track("knapp klikket", {
+                            tekst: "Dine oppgaver - dokumentasjonkrav: sendte inn dokumenter",
+                        });
                         return upload();
                     }}
                     disabled={

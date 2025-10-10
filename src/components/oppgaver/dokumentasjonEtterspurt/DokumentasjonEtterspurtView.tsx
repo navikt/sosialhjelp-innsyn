@@ -68,6 +68,9 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                     isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
+                        window.umami.track("knapp klikket", {
+                            tekst: "Dine oppgaver - dokumentasjonEtterspurt: sendte inn dokumenter",
+                        });
                         return upload();
                     }}
                     disabled={
