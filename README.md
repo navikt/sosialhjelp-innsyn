@@ -43,6 +43,9 @@ NEXT_INNSYN_API_HOSTNAME=127.0.0.1
 INNSYN_API_PORT=8080
 NEXT_INNSYN_MOCK_LOGIN_URL=http://localhost:3008/sosialhjelp/mock-alt/login
 NEXT_PUBLIC_LOGIN_URL=/oauth2/login
+NEXT_PUBLIC_TUSD_URL=http://localhost:3000/sosialhjelp/tusd
+UPLOAD_API_PORT=3007
+UPLOAD_API_HOSTNAME=localhost
 ```
 
 #### Lokal server
