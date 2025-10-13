@@ -69,7 +69,9 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                     isLoading={isLoading}
                     onClick={() => {
                         window.umami.track("knapp klikket", {
-                            tekst: "Dine oppgaver - dokumentasjonEtterspurt: sendte inn dokumenter",
+                            tekst: "Send dokumentasjon",
+                            antallDokumenter: R.flat(Object.values(files)).length,
+                            dokumentKontekst: "dokumentasjonEtterspurt",
                         });
                         return upload();
                     }}
@@ -104,6 +106,11 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;
+                                                window.umami.track("knapp klikket", {
+                                                    tekst: "Last opp",
+                                                    antallDokumenter: files?.length ?? 0,
+                                                    dokumentKontekst: "dokumentasjonEtterspurt",
+                                                });
                                                 onChange(files, index);
                                             }}
                                             id={element.id}
