@@ -85,12 +85,7 @@
         }
     },
     "Soknad": {
-        "tittel": {
-            "SENDT": "Your application has been sent",
-            "MOTTATT": "Your application has been received",
-            "UNDER_BEHANDLING": "Your application is being processed",
-            "FERDIGBEHANDLET": "Your application has been processed"
-        }
+        "defaultTittel": "Application for financial assistance"
     },
     "StatusTag": {
         "INNVILGET": "Decision: Granted",

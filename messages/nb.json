@@ -78,12 +78,7 @@
         }
     },
     "Soknad": {
-        "tittel": {
-            "SENDT": "Søknaden din er sendt",
-            "MOTTATT": "Søknaden din er mottatt",
-            "UNDER_BEHANDLING": "Søknaden din er under behandling",
-            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandlet"
-        }
+        "defaultTittel": "Søknad om økonomisk sosialhjelp"
     },
     "StatusTag": {
         "INNVILGET": "<b>Vedtak</b>: Innvilget",

@@ -853,7 +853,8 @@
                     "tidspunktSendt": { "type": "string", "format": "date-time" },
                     "soknadsalderIMinutter": { "type": "integer", "format": "int64" },
                     "navKontor": { "type": "string" },
-                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" }
+                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" },
+                    "tittel": { "type": "string" }
                 },
                 "required": ["status"]
             },
