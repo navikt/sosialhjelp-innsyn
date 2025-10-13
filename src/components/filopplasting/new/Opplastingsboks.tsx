@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { useParams } from "next/navigation";
+import { useNavigationGuard } from "next-navigation-guard";
 
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
@@ -30,6 +31,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
         isPending,
         isUploadSuccess,
     } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
+
+    useNavigationGuard({
+        enabled: files.length > 0,
+        confirm: () => {
+            return window.confirm(t("common.varsling.forlater_siden_uten_aa_sende_inn_vedlegg"));
+        },
+    });
 
     const onFilesSelect = (newFiles: FileObject[]) => {
         window.umami.track("knapp klikket", {
