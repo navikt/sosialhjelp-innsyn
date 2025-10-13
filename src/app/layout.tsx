@@ -70,8 +70,8 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             <head>
                 <Script id="umami-before-send" strategy="beforeInteractive">
                     {`
-                    //Dette blir gjort slik at digisosId blir med på alle events som sendes til umami
-                    //Om det er noen andre måter å gjøre dette på så er det bare å endre
+                    // Dette blir gjort slik at digisosId blir med på alle events som sendes til umami
+                    // Om det er noen andre måter å gjøre dette på så er det bare å endre
                     window.umamiBeforeSend = function (type, payload) {
                         try {
                             const url = payload?.url ?? "";
