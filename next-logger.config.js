@@ -1,5 +1,1 @@
-import { backendLogger } from "@navikt/next-logger";
-
-module.exports = {
-    logger: backendLogger,
-};
+export { backendLogger as logger } from "@navikt/next-logger";
