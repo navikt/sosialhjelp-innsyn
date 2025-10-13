@@ -263,8 +263,8 @@ const useFilOpplasting = (
             },
             {
                 ...options,
-                onSuccess: async (data, variables, context) => {
-                    options?.onSuccess?.(data, variables, context);
+                onSuccess: async (data, variables, onMutateResult, context) => {
+                    options?.onSuccess?.(data, variables, onMutateResult, context);
                     const filerData = data.flatMap((response) => response.filer);
                     const errors: Error[] = filerData
                         .filter((it) => it.status !== "OK")
@@ -289,8 +289,8 @@ const useFilOpplasting = (
                     }
                     setOuterErrors(errors);
                 },
-                onError: (error, variables, context) => {
-                    options?.onError?.(error, variables, context);
+                onError: (error, variables, onMutateResult, context) => {
+                    options?.onError?.(error, variables, onMutateResult, context);
                     logger.warn("Feil med opplasting av vedlegg: " + error.message);
                     if (error.message === "Mulig virus funnet") {
                         setOuterErrors([{ feil: Feil.VIRUS }]);
