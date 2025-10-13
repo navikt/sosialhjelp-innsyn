@@ -6,6 +6,9 @@ export const publicEnvSchema = z.object({
     NEXT_PUBLIC_INNSYN_ORIGIN: z.string(),
     NEXT_PUBLIC_BASE_PATH: z.string(),
     NEXT_PUBLIC_DEKORATOR_API_BASE_URL: z.string().optional(),
+    // TODO: Optional fram til tusd er på plass i alle miljøer
+    NEXT_PUBLIC_TUSD_URL: z.string().optional(),
+    NEXT_PUBLIC_UPLOAD_API_BASE: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -16,6 +19,8 @@ export const serverEnvSchema = z.object({
     INNSYN_API_PORT: z.string().optional(),
     SOKNAD_API_PORT: z.string().optional(),
     NEXT_INNSYN_API_BASE_URL: z.string().optional().default(""),
+    UPLOAD_API_HOSTNAME: z.string(),
+    UPLOAD_API_PORT: z.string().optional(),
 });
 
 export const browserEnv = publicEnvSchema.parse({
@@ -23,6 +28,8 @@ export const browserEnv = publicEnvSchema.parse({
     NEXT_PUBLIC_INNSYN_ORIGIN: process.env.NEXT_PUBLIC_INNSYN_ORIGIN,
     NEXT_PUBLIC_BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH,
     NEXT_PUBLIC_DEKORATOR_API_BASE_URL: process.env.NEXT_PUBLIC_DEKORATOR_API_BASE_URL,
+    NEXT_PUBLIC_TUSD_URL: process.env.NEXT_PUBLIC_TUSD_URL,
+    NEXT_PUBLIC_UPLOAD_API_BASE: process.env.NEXT_PUBLIC_UPLOAD_API_BASE,
 });
 
 const getRawServerConfig = (): Partial<unknown> =>
@@ -33,6 +40,8 @@ const getRawServerConfig = (): Partial<unknown> =>
         NEXT_INNSYN_API_BASE_URL: process.env.NEXT_INNSYN_API_BASE_URL,
         INNSYN_API_PORT: process.env.INNSYN_API_PORT,
         SOKNAD_API_PORT: process.env.SOKNAD_API_PORT,
+        UPLOAD_API_HOSTNAME: process.env.UPLOAD_API_HOSTNAME,
+        UPLOAD_API_PORT: process.env.UPLOAD_API_PORT,
     }) satisfies Record<keyof ServerEnv, string | undefined>;
 
 /**
