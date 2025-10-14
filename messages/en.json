@@ -110,6 +110,7 @@
         "kommendeUtbetaling": "Check upcoming payout"
     },
     "KlageInfo": {
+        "seKlage": "View your submitted appeal",
         "tittel": "Disagree with the decision?",
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision.",
         "klageKnapp": "Appeal the decision"
@@ -411,9 +412,7 @@
         "arialabel": "Expandable payment information about "
     },
     "common": {
-        "app": {
-            "tittel": "Financial assistance"
-        },
+        "app": { "tittel": "Financial assistance" },
         "historikk": {
             "tittel": "This has happened in the case",
             "se_vedtaksbrev": "Show letter",

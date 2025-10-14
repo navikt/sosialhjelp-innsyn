@@ -16,18 +16,18 @@ const Page = async ({
 }: {
     params: Promise<{
         id: string;
-        vedtakId: string;
+        klageId: string;
     }>;
 }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
-    const { id: fiksDigisosId, vedtakId } = await params;
+    const { id: fiksDigisosId, klageId } = await params;
 
     if (!toggle.enabled) {
         return notFound();
     }
 
-    const klage = await hentKlage(fiksDigisosId, vedtakId);
+    const klage = await hentKlage(fiksDigisosId, klageId);
 
     return (
         <>
