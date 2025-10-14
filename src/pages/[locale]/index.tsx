@@ -9,7 +9,6 @@ import { GetServerSidePropsContext } from "next/dist/types";
 
 import {
     getHentAlleSakerQueryKey,
-    HentAlleSakerQueryResult,
     useHentAlleSaker,
 } from "../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import { ApplicationSpinner } from "../../components/applicationSpinner/ApplicationSpinner";
@@ -72,9 +71,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<{ lo
             try {
                 const response = await fetch(buildUrl(), { method: "GET", headers });
                 if (response.ok) {
-                    const data: HentAlleSakerQueryResult = await response.json();
-                    logger.info(`Prefetched ${data.length} saker`);
-                    return data;
+                    return response.json();
                 } else {
                     logger.warn(
                         `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
