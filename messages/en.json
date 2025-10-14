@@ -297,6 +297,10 @@
         },
         "seVedtak": "View the decision you have appealed"
     },
+    "KlageDokumenter": {
+        "tittel": "Documents",
+        "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf"
+    },
     "KlageProsessenVidere": {
         "tittel": "The process further",
         "steg1": {

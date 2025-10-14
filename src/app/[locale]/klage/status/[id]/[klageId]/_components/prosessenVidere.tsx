@@ -28,7 +28,7 @@ const ProsessenVidere = async ({ klagePdf }: Props) => {
                 <ProcessEvent title={t("steg2.tittel")} bullet={2}>
                     {t("steg2.beskrivelse")}
                 </ProcessEvent>
-                <ProcessEvent title={t("steg3.tittel")} bullet={2}>
+                <ProcessEvent title={t("steg3.tittel")} bullet={3}>
                     {t("steg3.beskrivelse")}
                 </ProcessEvent>
             </Process>
