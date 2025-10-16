@@ -30,7 +30,7 @@ const SoknaderList = ({ soknader }: Props) => {
         ).length;
 
         if (antallMedDokumentasjonEtterspurt > 0) {
-            window.umami?.track("Aktive søknader", {
+            window.umami?.track("Side rendret", {
                 tekst: "Søknad med dokumentasjonetterspurt",
                 antall: antallMedDokumentasjonEtterspurt,
             });
