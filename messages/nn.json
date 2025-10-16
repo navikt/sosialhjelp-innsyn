@@ -85,12 +85,7 @@
         }
     },
     "Soknad": {
-        "tittel": {
-            "SENDT": "Søknaden din er send",
-            "MOTTATT": "Søknaden din er motteken",
-            "UNDER_BEHANDLING": "Søknaden din er under behandling",
-            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
-        }
+        "defaultTittel": "Søknad om økonomisk sosialhjelp"
     },
     "StatusTag": {
         "INNVILGET": "Vedtak: Innvilga",
@@ -110,6 +105,7 @@
         "kommendeUtbetaling": "Se komande utbetaling"
     },
     "KlageInfo": {
+        "seKlage": "Se din innsendte klage",
         "tittel": "Usamd i vedtaket",
         "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
         "klageKnapp": "Klag på vedtaket"
@@ -760,8 +756,8 @@
         "error": "Noko gjekk gale ved vising av fila.",
         "lukk": "Lukk"
     },
-  "PageFlipperButtons": {
-    "forrige": "Førre side",
-    "neste": "Neste side"
-  }
+    "PageFlipperButtons": {
+        "forrige": "Førre side",
+        "neste": "Neste side"
+    }
 }

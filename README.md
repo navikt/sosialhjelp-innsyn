@@ -46,6 +46,9 @@ NEXT_PUBLIC_LOGIN_URL=/oauth2/login
 NEXT_PUBLIC_TUSD_URL=http://localhost:3000/sosialhjelp/tusd
 UPLOAD_API_PORT=3007
 UPLOAD_API_HOSTNAME=localhost
+SOKNAD_API_HOSTNAME=localhost
+SOKNAD_API_AUDIENCE=dev-gcp:teamdigisos:sosialhjelp-soknad-api-mock
+SOKNAD_API_PORT=8181
 ```
 
 #### Lokal server

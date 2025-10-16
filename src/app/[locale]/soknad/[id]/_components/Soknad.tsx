@@ -11,9 +11,12 @@ import {
     prefetchGetOppgaverBetaQuery,
 } from "@generated/ssr/oppgave-controller/oppgave-controller";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
-import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
 import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
-import { prefetchHentOriginalSoknadQuery } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
+import {
+    hentSoknadsStatus,
+    prefetchHentOriginalSoknadQuery,
+} from "@generated/ssr/soknads-status-controller/soknads-status-controller";
+import { hentKlager } from "@generated/ssr/klage-controller/klage-controller";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
@@ -25,23 +28,20 @@ import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./oppgaver/OppgaveAlert";
-import { SoknadFile } from "./dokumenter/VedleggListe";
 
 interface Props {
     id: string;
-    soknadstatus: SoknadsStatusResponseStatus;
-    navKontor?: string;
-    soknadFile?: SoknadFile;
 }
 
-export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
+export const Soknad = async ({ id }: Props) => {
     const t = await getTranslations("Soknad");
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
 
-    const mottattOrSendt = ["SENDT", "MOTTATT"].includes(soknadstatus);
-    const ferdigbehandlet = soknadstatus === "FERDIGBEHANDLET";
+    const { status, navKontor, tittel } = await hentSoknadsStatus(id);
+    const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
+    const ferdigbehandlet = status === "FERDIGBEHANDLET";
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
     prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
@@ -50,10 +50,11 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
+    const klagerPromise = !mottattOrSendt && hentKlager(id);
     return (
         <VStack gap="20" className="mt-20">
-            <Heading size="xlarge" level="1">
-                {t(`tittel.${soknadstatus}`)}
+            <Heading size="xlarge" level="1" lang={tittel ? "no" : ""}>
+                {tittel ?? t("defaultTittel")}
             </Heading>
             <VStack gap="2">
                 {forelopigSvarPromise && (
@@ -69,7 +70,7 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                         <OppgaveAlert />
                     </HydrationBoundary>
                 </Suspense>
-                <InfoAlert navKontor={navKontor} soknadstatus={soknadstatus} />
+                <InfoAlert navKontor={navKontor} soknadstatus={status} />
                 {sakerPromise && (
                     <Suspense fallback={null}>
                         <DeltSoknadAlert sakerPromise={sakerPromise} />
@@ -81,10 +82,14 @@ export const Soknad = async ({ id, soknadstatus, navKontor }: Props) => {
                     <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
-            {sakerPromise && (
+            {sakerPromise && klagerPromise && (
                 <Suspense fallback={<SakerSkeleton />}>
                     <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
-                        <Saker sakerPromise={sakerPromise} vilkarPromise={vilkarPromise} />
+                        <Saker
+                            sakerPromise={sakerPromise}
+                            vilkarPromise={vilkarPromise}
+                            klagerPromise={klagerPromise}
+                        />
                     </HydrationBoundary>
                 </Suspense>
             )}

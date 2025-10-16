@@ -3,16 +3,17 @@ import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
-import { FilUrl, SaksStatusResponseUtfallVedtak } from "@generated/model";
+import { FilUrl, KlageRef, SaksStatusResponseUtfallVedtak } from "@generated/model";
 
 import KlageInfo from "./KlageInfo";
 
 interface Props {
     vedtakUtfall: SaksStatusResponseUtfallVedtak;
     vedtaksliste?: FilUrl[];
+    innsendtKlage?: KlageRef;
 }
 
-const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
+const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
     const t = useTranslations("Vedtak");
     const isInnvilget = ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtakUtfall);
 
@@ -36,7 +37,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste }: Props) => {
                     {t("kommendeUtbetaling")}
                 </DigisosLinkCard>
             )}
-            <KlageInfo vedtaksliste={vedtaksliste} />
+            <KlageInfo vedtaksliste={vedtaksliste} innsendtKlage={innsendtKlage} />
         </VStack>
     );
 };

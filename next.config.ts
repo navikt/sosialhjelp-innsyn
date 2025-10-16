@@ -42,6 +42,7 @@ const nextConfig: NextConfig = {
     assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
     reactStrictMode: true,
     basePath: process.env.NEXT_PUBLIC_BASE_PATH,
+    serverExternalPackages: ["@navikt/next-logger", "next-logger", "pino"],
     experimental: {
         scrollRestoration: true,
         optimizePackageImports: ["@navikt/ds-react", "@navikt/aksel-icons"],
