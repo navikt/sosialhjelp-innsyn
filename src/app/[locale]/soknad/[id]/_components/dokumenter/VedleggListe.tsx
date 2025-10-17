@@ -23,7 +23,7 @@ interface Props {
     vedlegg: VedleggResponse[];
 }
 // Copy-paste fra aksel sin ItemIcon komponent
-// grunne er fordi det ikke er en direkte måte å bruke det
+// fordi det er ikke en direkte måte å bruke det komponentet på
 const IkonBilde = (fil: VedleggResponse) => {
     const extension = fil.filnavn.substring(fil.filnavn.lastIndexOf(".") + 1);
     switch (extension) {
