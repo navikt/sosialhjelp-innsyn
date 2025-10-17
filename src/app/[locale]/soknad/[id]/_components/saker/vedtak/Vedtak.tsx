@@ -2,7 +2,7 @@ import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { DigisosLinkCard } from "@components/statusCard/DigisosLinkCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { FilUrl, KlageRef, SaksStatusResponseUtfallVedtak } from "@generated/model";
 
 import KlageInfo from "./KlageInfo";
@@ -23,7 +23,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
             {vedtaksliste &&
                 vedtaksliste.map((fil, index) => (
                     <DigisosLinkCard
-                        downloadIcon={true}
+                        cardIcon="download"
                         key={index}
                         href={fil.url}
                         icon={<FilePdfIcon />}

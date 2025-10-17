@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 
 import { ForelopigSvarResponse } from "@generated/ssr/model";
-import { DigisosLinkCard } from "@components/statusCard/DigisosLinkCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 interface Props {
     forelopigSvarPromise: Promise<ForelopigSvarResponse>;
@@ -23,7 +23,7 @@ const ForelopigSvar = ({ forelopigSvarPromise }: Props) => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            <DigisosLinkCard href={forelopigSvar.link} downloadIcon icon={<FilePdfIcon />}>
+            <DigisosLinkCard href={forelopigSvar.link} cardIcon="download" icon={<FilePdfIcon />}>
                 {t("lastNed")}
             </DigisosLinkCard>
         </VStack>

@@ -1,11 +1,13 @@
 "use client";
 
-import { FileUpload, Heading, HStack, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, Heading, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { useParams } from "next/navigation";
+import { FileIcon } from "@navikt/aksel-icons";
 
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 const SoknadenDin = () => {
     const t = useTranslations("SoknadenDin");
@@ -21,22 +23,28 @@ const SoknadenDin = () => {
                     <Heading size="large" level="2" spacing>
                         {t("tittel")}
                     </Heading>
-                    <FileUpload.Item
-                        as="li"
+                    <DigisosLinkCard
                         href={originalSoknad.url}
+                        icon={<FileIcon />}
+                        underline={true}
+                        cardIcon="expand"
                         description={
-                            originalSoknad.date
-                                ? `${t("sendt", {
-                                      dato: new Date(originalSoknad.date),
-                                  })}`
-                                : undefined
+                            <>
+                                <HStack gap="1">
+                                    <BodyShort>{originalSoknad.size},</BodyShort>
+                                    <BodyShort>
+                                        {originalSoknad.date
+                                            ? `${t("sendt", {
+                                                  dato: new Date(originalSoknad.date),
+                                              })}`
+                                            : undefined}
+                                    </BodyShort>
+                                </HStack>
+                            </>
                         }
-                        file={{
-                            name: originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename"),
-                            size: originalSoknad.size,
-                        }}
-                        className="w-full"
-                    />
+                    >
+                        {originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename")}
+                    </DigisosLinkCard>
                 </>
             )}
         </VStack>

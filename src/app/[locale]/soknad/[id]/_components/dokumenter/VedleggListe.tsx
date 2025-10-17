@@ -1,15 +1,21 @@
 "use client";
 
-import { BodyShort, FileUpload, HStack, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
-import cx from "classnames";
-import { LinkCard } from "@navikt/ds-react/LinkCard";
 import React from "react";
-import { FileImageIcon, FilePdfIcon, FileTextIcon, FileWordIcon } from "@navikt/aksel-icons";
+import {
+    FileCsvIcon,
+    FileExcelIcon,
+    FileIcon,
+    FileImageIcon,
+    FilePdfIcon,
+    FileTextIcon,
+    FileWordIcon,
+} from "@navikt/aksel-icons";
 
 import { UrlResponse, VedleggResponse } from "@generated/model";
-import { Icon } from "@components/statusCard/DigisosLinkCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 export type SoknadFile = UrlResponse & { date?: string };
 
@@ -18,7 +24,7 @@ interface Props {
 }
 // Copy-paste fra aksel sin ItemIcon komponent
 // grunne er fordi det ikke er en direkte måte å bruke det
-export const IkonBilde = (fil: VedleggResponse) => {
+const IkonBilde = (fil: VedleggResponse) => {
     const extension = fil.filnavn.substring(fil.filnavn.lastIndexOf(".") + 1);
     switch (extension) {
         case "jpg":
@@ -26,21 +32,21 @@ export const IkonBilde = (fil: VedleggResponse) => {
         case "png":
         case "gif":
         case "webp":
-            return <Icon variant="info" icon={<FileImageIcon />} />;
+            return <FileImageIcon />;
         case "pdf":
-            return <Icon variant="info" icon={<FilePdfIcon />} />;
+            return <FilePdfIcon />;
         case "txt":
-            return <Icon variant="info" icon={<FileTextIcon />} />;
+            return <FileTextIcon />;
         case "csv":
-            return <Icon variant="info" icon={<FileTextIcon />} />;
+            return <FileCsvIcon />;
         case "xls":
         case "xlsx":
-            return <Icon variant="info" icon={<FileTextIcon />} />;
+            return <FileExcelIcon />;
         case "doc":
         case "docx":
-            return <Icon variant="info" icon={<FileWordIcon />} />;
+            return <FileWordIcon />;
         default:
-            return <Icon variant="info" icon={<FileTextIcon />} />;
+            return <FileIcon />;
     }
 };
 
@@ -50,34 +56,27 @@ const VedleggListe = ({ vedlegg }: Props) => {
         <VStack as="ul" gap="2">
             {vedlegg.map((fil) => (
                 <>
-                    <FileUpload.Item
-                        as="li"
-                        key={`${fil.filnavn}-${fil.datoLagtTil}`}
+                    <DigisosLinkCard
                         href={fil.url}
-                        description={`${filesize(fil.storrelse)}, ${t("lastetOpp", { dato: new Date(fil.datoLagtTil) })}`}
-                        file={{
-                            name: fil.filnavn,
-                            size: fil.storrelse,
-                        }}
-                        className="w-full"
-                    />
-                    <LinkCard key={`linkcard-${fil.filnavn}-${fil.datoLagtTil}`} className="w-full">
-                        <LinkCard.Icon className={cx("navds-file-item__inner")}>{IkonBilde(fil)}</LinkCard.Icon>
-                        <LinkCard.Title>
-                            <LinkCard.Anchor href={fil.url}>{fil.filnavn}</LinkCard.Anchor>
-                        </LinkCard.Title>
-                        <LinkCard.Description>
-                            <HStack gap="1">
-                                <BodyShort>{filesize(fil.storrelse)},</BodyShort>
-                                <BodyShort>
-                                    {t.rich("lastetOpp", {
-                                        norsk: (chunks) => <span lang="no">{chunks}</span>,
-                                        dato: new Date(fil.datoLagtTil),
-                                    })}
-                                </BodyShort>
-                            </HStack>
-                        </LinkCard.Description>
-                    </LinkCard>
+                        icon={IkonBilde(fil)}
+                        underline={true}
+                        cardIcon="expand"
+                        description={
+                            <>
+                                <HStack gap="1">
+                                    <BodyShort>{filesize(fil.storrelse)},</BodyShort>
+                                    <BodyShort>
+                                        {t.rich("lastetOpp", {
+                                            norsk: (chunks) => <span lang="no">{chunks}</span>,
+                                            dato: new Date(fil.datoLagtTil),
+                                        })}
+                                    </BodyShort>
+                                </HStack>
+                            </>
+                        }
+                    >
+                        {fil.filnavn}
+                    </DigisosLinkCard>
                 </>
             ))}
         </VStack>

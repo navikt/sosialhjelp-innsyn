@@ -1,7 +1,7 @@
 import { NotePencilDashIcon } from "@navikt/aksel-icons";
 import { useLocale, useTranslations } from "next-intl";
 
-import { DigisosLinkCard } from "@components/statusCard/DigisosLinkCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { browserEnv } from "@config/env";
 
 interface Props {

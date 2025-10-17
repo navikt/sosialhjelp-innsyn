@@ -4,7 +4,7 @@ import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 
-import { DigisosLinkCard } from "@components/statusCard/DigisosLinkCard";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { SakResponse } from "@generated/model";
 
 import Sakstittel from "../../../../../soknad/[id]/_components/saker/Sakstittel";
@@ -25,7 +25,7 @@ const KlageVedtak = ({ sak }: Props) => {
             {sak.vedtaksfilUrlList &&
                 sak.vedtaksfilUrlList.map((fil, index) => (
                     <DigisosLinkCard
-                        downloadIcon={true}
+                        cardIcon="download"
                         key={index}
                         href={fil.url}
                         icon={<FilePdfIcon />}
