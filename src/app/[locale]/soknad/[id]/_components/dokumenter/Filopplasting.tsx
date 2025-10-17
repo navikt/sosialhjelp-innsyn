@@ -4,9 +4,10 @@ import { NavigationGuardProvider } from "next-navigation-guard";
 
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
+import { Metadata } from "@components/filopplasting/new/types";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 
-const metadata = { type: "annet", tilleggsinfo: "annet" };
+const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
 interface Props {
     id: string;

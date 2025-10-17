@@ -68,12 +68,37 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang={locale || "nb"}>
             <head>
+                <Script id="umami-before-send" strategy="beforeInteractive">
+                    {`
+                    // Dette blir gjort slik at digisosId blir med på alle events som sendes til umami
+                    // Om det er noen andre måter å gjøre dette på så er det bare å endre
+                    window.umamiBeforeSend = function (type, payload) {
+                        try {
+                            const url = payload?.url ?? "";
+                            const m = url.match(/\\/soknad\\/([0-9a-fA-F-]{36})(?:[/?#]|$)/);
+                            const digisosId = m?.[1];
+                            
+                            const data = { ...(payload?.data ?? {}) };
+                            
+                            if (digisosId && data.digisosId === undefined) {
+                                data.digisosId = digisosId;
+                            }
+                            return { ...payload, data }; 
+                        } catch {
+                            return payload;
+                        }
+                    };
+                    `}
+                </Script>
                 <Script
                     defer
                     strategy="afterInteractive"
                     src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
                     data-host-url="https://umami.nav.no"
                     data-website-id={process.env.UMAMI_ID}
+                    data-before-send="umamiBeforeSend"
+                    data-exclude-search="true"
+                    data-exclude-hash="true"
                 />
                 <Decorator.HeadAssets />
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />

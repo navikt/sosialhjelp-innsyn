@@ -63,6 +63,11 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                     isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
+                        window.umami.track("knapp klikket", {
+                            tekst: "Send dokumentasjon",
+                            antallDokumenter: R.flat(Object.values(files)).length,
+                            dokumentKontekst: "dokumentasjonkrav",
+                        });
                         return upload();
                     }}
                     disabled={
@@ -91,6 +96,11 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;
+                                                window.umami.track("knapp klikket", {
+                                                    tekst: "Last opp",
+                                                    antallDokumenter: files?.length ?? 0,
+                                                    dokumentKontekst: "dokumentasjonkrav",
+                                                });
                                                 onChange(files, index);
                                             }}
                                             id={element.dokumentasjonkravReferanse}

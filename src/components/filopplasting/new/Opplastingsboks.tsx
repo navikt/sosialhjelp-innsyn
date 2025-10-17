@@ -40,6 +40,11 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     });
 
     const onFilesSelect = (newFiles: FileObject[]) => {
+        window.umami.track("knapp klikket", {
+            tekst: "Last opp",
+            antallDokumenter: newFiles.length,
+            dokumentKontekst: metadata.dokumentKontekst,
+        });
         addFiler(newFiles.map((it) => it.file));
         resetMutation();
     };
@@ -117,7 +122,14 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         </VStack>
                         <Button
                             disabled={Object.values(files).flat().length === 0}
-                            onClick={() => upload(files, metadata)}
+                            onClick={() => {
+                                window.umami.track("knapp klikket", {
+                                    tekst: "Send dokumentasjon",
+                                    antallDokumenter: files.length,
+                                    dokumentKontekst: metadata.dokumentKontekst,
+                                });
+                                upload(files, metadata);
+                            }}
                             loading={isPending}
                             className="self-start"
                         >

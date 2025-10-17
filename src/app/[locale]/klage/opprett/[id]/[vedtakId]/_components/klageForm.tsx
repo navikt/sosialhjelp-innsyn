@@ -13,6 +13,7 @@ import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@genera
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 import FileSelect from "@components/filopplasting/new/FileSelect";
+import { Metadata } from "@components/filopplasting/new/types";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
@@ -26,7 +27,7 @@ const klageSchema = z.object({
     files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
 
-const metadata = { type: "klage", tilleggsinfo: "klage" };
+const metadata = { dokumentKontekst: "klage", type: "klage", tilleggsinfo: "klage" } satisfies Metadata;
 
 interface Props {
     fiksDigisosId: string;

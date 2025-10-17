@@ -12,6 +12,7 @@ import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller/oppgave-controller";
 import { useFlag } from "@featuretoggles/context";
+import { Metadata } from "@components/filopplasting/new/types";
 
 const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
@@ -44,12 +45,13 @@ const Oppgaver = () => {
                             oppgave.tilleggsinformasjon
                         );
                         const metadata = {
+                            dokumentKontekst: "dokumentasjonetterspurt",
                             innsendelsesfrist: oppgave.innsendelsesfrist,
                             hendelsereferanse: oppgave.hendelsereferanse,
                             type: oppgave.dokumenttype,
                             tilleggsinfo: oppgave.tilleggsinformasjon,
                             hendelsetype: oppgave.hendelsetype,
-                        };
+                        } satisfies Metadata;
                         return (
                             <Box.New
                                 key={oppgave.oppgaveId}
