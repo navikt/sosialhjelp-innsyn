@@ -16,7 +16,7 @@ export interface Props {
     underline?: boolean;
 }
 
-const IkonBildeCard = (fil?: string) => {
+const RightIkonCard = (fil?: string) => {
     switch (fil) {
         case "download":
             return (
@@ -72,7 +72,7 @@ const DigisosLinkCard = ({
             </LinkCardAnchor>
         </LinkCardTitle>
         {description && <LinkCardDescription>{description}</LinkCardDescription>}
-        {IkonBildeCard(cardIcon)}
+        {RightIkonCard(cardIcon)}
     </LinkCard>
 );
 
