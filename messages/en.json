@@ -221,7 +221,7 @@
     "SoknadenDin": {
       "tittel": "Your application",
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Appliation for financial assistance",
+        "soknadFilename": "Appliation for financial assistance.pdf",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {

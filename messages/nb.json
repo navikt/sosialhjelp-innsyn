@@ -192,7 +192,7 @@
   "SoknadenDin": {
     "tittel": "Søknaden din",
     "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
-    "soknadFilename": "Søknad om økonomisk sosialhjelp",
+    "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
     "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
   },
     "Metadata": {
