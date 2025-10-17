@@ -19,7 +19,7 @@ const Dokumenter = () => {
 
     return (
         <VStack gap="2">
-            <Heading size="large" level="2" spacing>
+            <Heading size="small" level="3" spacing>
                 {t("tittel")}
             </Heading>
             <VedleggListe vedlegg={data} />
@@ -31,7 +31,7 @@ export const DokumenterSkeleton = () => {
     const t = useTranslations("Dokumenter");
     return (
         <VStack gap="2">
-            <Heading size="large" level="2" spacing>
+            <Heading size="small" level="3" spacing>
                 {t("tittel")}
             </Heading>
             <VedleggListeSkeleton />

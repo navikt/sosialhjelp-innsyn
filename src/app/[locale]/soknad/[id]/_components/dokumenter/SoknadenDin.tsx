@@ -20,7 +20,7 @@ const SoknadenDin = () => {
         <VStack gap="2">
             {originalSoknad && (
                 <>
-                    <Heading size="large" level="2" spacing>
+                    <Heading size="medium" level="2" spacing>
                         {t("tittel")}
                     </Heading>
                     <DigisosLinkCard
