@@ -3,7 +3,6 @@ import { Alert, BodyShort } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { NextPage } from "next";
 import styled from "styled-components";
-import { QueryClient } from "@tanstack/react-query";
 import { logger } from "@navikt/next-logger";
 import { GetServerSidePropsContext } from "next/dist/types";
 
@@ -52,7 +51,6 @@ const Saksoversikt: NextPage = () => {
 
 export const getServerSideProps = async (context: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>) => {
     const { req } = context;
-    const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
     if (!token) {
         return {
@@ -64,26 +62,27 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<{ lo
     }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
-    await queryClient.prefetchQuery({
-        queryKey: getHentAlleSakerQueryKey(),
-        retry: false,
-        queryFn: async () => {
-            try {
-                const response = await fetch(buildUrl(), { method: "GET", headers });
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    logger.warn(
-                        `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
-                    );
+    return pageHandler(context, (queryClient) => [
+        queryClient.prefetchQuery({
+            queryKey: getHentAlleSakerQueryKey(),
+            retry: false,
+            queryFn: async () => {
+                try {
+                    const response = await fetch(buildUrl(), { method: "GET", headers });
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        logger.warn(
+                            `Fikk feil i prefetch på /saker. status: ${response.status}. message: ${await response.text()}`
+                        );
+                    }
+                } catch (e: unknown) {
+                    logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
+                    throw e;
                 }
-            } catch (e: unknown) {
-                logger.warn(`Fikk feil i prefetch på /saker. error: ${e}`);
-                throw e;
-            }
-        },
-    });
-    return pageHandler(context, queryClient);
+            },
+        }),
+    ]);
 };
 
 function buildUrl() {

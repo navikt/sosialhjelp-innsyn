@@ -3,7 +3,6 @@ import React from "react";
 import { Loader, Panel } from "@navikt/ds-react";
 import { NextPage } from "next";
 import Head from "next/head";
-import { QueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next/dist/types";
 
 import useIsMobile from "../../utils/useIsMobile";
@@ -107,7 +106,6 @@ const getQueries = [
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>) => {
     const { req } = ctx;
-    const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
     if (!token) {
         return {
@@ -119,16 +117,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<{ locale
     }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
-    const promises = getQueries.map(({ url, key }) => {
-        return queryClient.prefetchQuery({
-            queryKey: key,
-            retry: false,
-            queryFn: () => customFetchSSR(url, { headers }),
-        });
-    });
-    await Promise.all(promises);
 
-    return pageHandler(ctx, queryClient);
+    return pageHandler(ctx, (queryClient) =>
+        getQueries.map(({ url, key }) => {
+            return queryClient.prefetchQuery({
+                queryKey: key,
+                retry: false,
+                queryFn: () => customFetchSSR(url, { headers }),
+            });
+        })
+    );
 };
 
 export default Utbetalinger;

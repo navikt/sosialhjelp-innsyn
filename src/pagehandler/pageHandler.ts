@@ -24,7 +24,7 @@ export function buildUrl(path: string) {
 
 const pageHandler = async (
     context: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
-    queryClient?: QueryClient
+    getPrefetchPromises: (queryClient: QueryClient) => Promise<void>[]
 ): Promise<GetServerSidePropsResult<PageProps>> => {
     const token = extractAuthHeader(context.req);
     if (!token) {
@@ -39,12 +39,16 @@ const pageHandler = async (
     if (!tilgang && getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {
         logger.warn("Fikk ikke henta tilgangsdata fra innsyn-api, har du huska å skru på backends?");
     }
+    const queryClient = new QueryClient();
+    if (tilgang?.harTilgang) {
+        await Promise.all(getPrefetchPromises(queryClient));
+    }
     return {
         props: {
             messages,
             toggles,
             tilgang: tilgang ?? null,
-            dehydratedState: queryClient ? dehydrate(queryClient) : null,
+            dehydratedState: dehydrate(queryClient),
         },
     };
 };

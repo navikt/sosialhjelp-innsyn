@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
-import { QueryClient } from "@tanstack/react-query";
 
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
@@ -192,7 +191,6 @@ interface Params extends NextParsedUrlQuery {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<Params>) => {
     const { req } = ctx;
-    const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
     if (!token) {
         return {
@@ -202,16 +200,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<Params>)
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     const id = ctx.params?.id as string;
-    const promises = getQueries(id).map(({ url, key }) => {
-        return queryClient.prefetchQuery({
-            queryKey: key,
-            retry: false,
-            queryFn: () => customFetchSSR(url, { headers }),
+
+    return pageHandler(ctx, (queryClient) => {
+        return getQueries(id).map(({ url, key }) => {
+            return queryClient.prefetchQuery({
+                queryKey: key,
+                retry: false,
+                queryFn: () => customFetchSSR(url, { headers }),
+            });
         });
     });
-    await Promise.all(promises);
-
-    return pageHandler(ctx, queryClient);
 };
 
 export default SaksStatusView;
