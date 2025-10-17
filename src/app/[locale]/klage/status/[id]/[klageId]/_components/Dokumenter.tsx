@@ -16,10 +16,9 @@ const Dokumenter = async ({ klagePdf }: Props) => {
             <Heading size="medium" level="2" className="mb-4">
                 {t("tittel")}
             </Heading>
-            <VStack as="ul" gap="2">
+            <VStack gap="2">
                 {klagePdf && (
                     <FileUploadItem
-                        as="li"
                         href={klagePdf.url}
                         file={{
                             name: klagePdf.filnavn?.length ? klagePdf.filnavn : t("klagePdfDefaultTittel"),
