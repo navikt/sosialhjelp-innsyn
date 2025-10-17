@@ -23,9 +23,9 @@ import UtbetalingerFilter from "../../utbetalinger/filter/UtbetalingerFilter";
 import UtbetalingerPanel from "../../utbetalinger/UtbetalingerPanel";
 import styles from "../../utbetalinger/utbetalinger.module.css";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
-import pageHandler, { buildUrl } from "../../pagehandler/pageHandler";
+import pageHandler from "../../pagehandler/pageHandler";
 import { extractAuthHeader } from "../../utils/authUtils";
-import { customFetch } from "../../custom-fetch";
+import { customFetchSSR } from "../../custom-fetch";
 import {
     getHentNyeUtbetalingerQueryKey,
     getHentNyeUtbetalingerUrl,
@@ -120,11 +120,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<{ locale
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     const promises = getQueries.map(({ url, key }) => {
-        const path = url.replace("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn", "");
         return queryClient.prefetchQuery({
             queryKey: key,
             retry: false,
-            queryFn: () => customFetch(buildUrl(path), { headers }),
+            queryFn: () => customFetchSSR(url, { headers }),
         });
     });
     await Promise.all(promises);

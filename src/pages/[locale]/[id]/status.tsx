@@ -49,12 +49,12 @@ import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import { FilUploadSuccesfulProvider } from "../../../components/filopplasting/FilUploadSuccessfulContext";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../../generated/model";
-import pageHandler, { buildUrl } from "../../../pagehandler/pageHandler";
+import pageHandler from "../../../pagehandler/pageHandler";
 import Panel from "../../../components/panel/Panel";
 import EttersendelseView from "../../../components/ettersendelse/EttersendelseView";
 import { useHentVedlegg } from "../../../generated/vedlegg-controller/vedlegg-controller";
 import ArkfanePanel from "../../../components/arkfanePanel/ArkfanePanel";
-import { customFetch } from "../../../custom-fetch";
+import { customFetchSSR } from "../../../custom-fetch";
 import { extractAuthHeader } from "../../../utils/authUtils";
 import {
     getHentUtbetalingerQueryKey,
@@ -203,11 +203,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<Params>)
     headers.append("Authorization", token);
     const id = ctx.params?.id as string;
     const promises = getQueries(id).map(({ url, key }) => {
-        const path = url.replace("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn", "");
         return queryClient.prefetchQuery({
             queryKey: key,
             retry: false,
-            queryFn: () => customFetch(buildUrl(path), { headers }),
+            queryFn: () => customFetchSSR(url, { headers }),
         });
     });
     await Promise.all(promises);

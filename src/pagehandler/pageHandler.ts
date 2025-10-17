@@ -19,7 +19,7 @@ export interface PageProps {
 export function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
     const portPart = isLocal ? ":8080" : "";
-    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
+    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api${path}`;
 }
 
 const pageHandler = async (
@@ -59,7 +59,7 @@ export const getCommonProps = async (
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     try {
-        const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
+        const tilgangResponse = await fetch(buildUrl("/api/v1/innsyn/tilgang"), { headers });
         if (tilgangResponse.ok) {
             const data: { harTilgang: boolean; fornavn: string } = await tilgangResponse.json();
             return { messages, toggles, tilgang: data };
