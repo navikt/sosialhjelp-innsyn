@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { FilUrl, KlageRef } from "@generated/model";
 import { useFlag } from "@featuretoggles/context";
 import { Link } from "@i18n/navigation";
-import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+import { DigisosLinkCard } from "@components/statusCard/DigisosLinkCard";
 
 interface Props {
     vedtaksliste?: FilUrl[];

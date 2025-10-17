@@ -6,28 +6,16 @@ import { filesize } from "filesize";
 import cx from "classnames";
 import { LinkCard } from "@navikt/ds-react/LinkCard";
 import React from "react";
-import {
-    FileCsvIcon,
-    FileExcelIcon,
-    FileIcon,
-    FileImageIcon,
-    FilePdfIcon,
-    FileTextIcon,
-    FileWordIcon,
-} from "@navikt/aksel-icons";
+import { FileImageIcon, FilePdfIcon, FileTextIcon, FileWordIcon } from "@navikt/aksel-icons";
 
 import { UrlResponse, VedleggResponse } from "@generated/model";
+import { Icon } from "@components/statusCard/DigisosLinkCard";
 
 export type SoknadFile = UrlResponse & { date?: string };
 
 interface Props {
     vedlegg: VedleggResponse[];
 }
-const iconProps = {
-    fontSize: "2rem",
-    "aria-hidden": true,
-};
-
 // Copy-paste fra aksel sin ItemIcon komponent
 // grunne er fordi det ikke er en direkte måte å bruke det
 export const IkonBilde = (fil: VedleggResponse) => {
@@ -38,21 +26,21 @@ export const IkonBilde = (fil: VedleggResponse) => {
         case "png":
         case "gif":
         case "webp":
-            return <FileImageIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FileImageIcon />} />;
         case "pdf":
-            return <FilePdfIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FilePdfIcon />} />;
         case "txt":
-            return <FileTextIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FileTextIcon />} />;
         case "csv":
-            return <FileCsvIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FileTextIcon />} />;
         case "xls":
         case "xlsx":
-            return <FileExcelIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FileTextIcon />} />;
         case "doc":
         case "docx":
-            return <FileWordIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FileWordIcon />} />;
         default:
-            return <FileIcon {...iconProps} />;
+            return <Icon variant="info" icon={<FileTextIcon />} />;
     }
 };
 

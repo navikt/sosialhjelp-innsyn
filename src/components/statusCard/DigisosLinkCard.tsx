@@ -19,7 +19,7 @@ interface IconProps {
     variant?: "info" | "warning";
 }
 
-const Icon = ({ icon, variant = "info" }: IconProps) => (
+export const Icon = ({ icon, variant = "info" }: IconProps) => (
     <VStack
         justify="center"
         align="center"
@@ -39,7 +39,7 @@ const Icon = ({ icon, variant = "info" }: IconProps) => (
     </VStack>
 );
 
-const DigisosLinkCard = ({
+export const DigisosLinkCard = ({
     href,
     children,
     description,
@@ -78,4 +78,3 @@ const DigisosLinkCard = ({
         )}
     </LinkCard>
 );
-export default DigisosLinkCard;

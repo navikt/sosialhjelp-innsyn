@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 
 import { ForelopigSvarResponse } from "@generated/ssr/model";
-import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+import { DigisosLinkCard } from "@components/statusCard/DigisosLinkCard";
 
 interface Props {
     forelopigSvarPromise: Promise<ForelopigSvarResponse>;
