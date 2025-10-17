@@ -10,6 +10,7 @@ import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import ProsessenVidere from "./_components/prosessenVidere";
+import Dokumenter from "./_components/Dokumenter";
 
 const Page = async ({
     params,
@@ -41,6 +42,7 @@ const Page = async ({
                     {t("seVedtak")}
                 </StatusCard>
                 <ProsessenVidere klagePdf={klage.klagePdf} />
+                <Dokumenter klagePdf={klage.klagePdf} />
             </VStack>
         </>
     );
