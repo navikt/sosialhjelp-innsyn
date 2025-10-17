@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor } from "@navikt/ds-react/LinkCard";
+import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor, LinkCardIcon } from "@navikt/ds-react/LinkCard";
 import React, { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
 import { ArrowRightIcon, DownloadIcon, ExpandIcon } from "@navikt/aksel-icons";
-
-import Ikon from "@components/statusCard/Ikon";
+import { Box, VStack } from "@navikt/ds-react";
 
 export interface Props {
     href: string;
@@ -16,7 +15,7 @@ export interface Props {
     underline?: boolean;
 }
 
-const RightIkon = (fil?: string) => {
+const RightIcon = (fil?: string) => {
     switch (fil) {
         case "download":
             return (
@@ -42,6 +41,31 @@ const RightIkon = (fil?: string) => {
     }
 };
 
+interface IconProps {
+    icon: JSX.Element;
+    variant?: "info" | "warning";
+}
+
+const Icon = ({ icon, variant = "info" }: IconProps) => (
+    <VStack
+        justify="center"
+        align="center"
+        asChild
+        className={cx(
+            "rounded-xl p-4",
+            variant === "info"
+                ? "bg-ax-bg-accent-soft text-ax-bg-accent-strong group-hover:bg-ax-bg-accent-moderate group-hover:text-ax-bg-accent-strong-hover"
+                : "bg-ax-bg-warning-moderate text-ax-text-warning-subtle group-hover:bg-ax-bg-warning-moderate-a group-hover:text-ax-text-warning-subtle"
+        )}
+    >
+        <LinkCardIcon>
+            <Box asChild className="w-8 h-8">
+                {icon}
+            </Box>
+        </LinkCardIcon>
+    </VStack>
+);
+
 const DigisosLinkCard = ({
     href,
     children,
@@ -62,7 +86,7 @@ const DigisosLinkCard = ({
                 : "border-ax-border-warning-subtle bg-ax-bg-warning-soft hover:bg-ax-bg-warning-moderate"
         )}
     >
-        {icon && <Ikon variant={variant} icon={icon} />}
+        {icon && <Icon variant={variant} icon={icon} />}
         <LinkCardTitle className="items-center">
             <LinkCardAnchor
                 asChild
@@ -72,7 +96,7 @@ const DigisosLinkCard = ({
             </LinkCardAnchor>
         </LinkCardTitle>
         {description && <LinkCardDescription>{description}</LinkCardDescription>}
-        {RightIkon(cardIcon)}
+        {RightIcon(cardIcon)}
     </LinkCard>
 );
 
