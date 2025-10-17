@@ -21,7 +21,7 @@ interface Props {
 const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("AktiveSoknader");
     const { hasMore, showAll, setShowAll } = useShowMore(soknader);
-    // Denne skal i teorien bare tracke søknader som ligger under "Aktive søknader"
+    // Denne skal bare tracke søknader som ligger under "Aktive søknader"
     // med dokumentasjonetterspurt, så lenge tilfellene er oppfylt.
     useEffect(() => {
         const antallMedDokumentasjonEtterspurt = soknader.filter(
