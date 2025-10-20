@@ -2,6 +2,23 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
+    "VilkarAlert": {
+        "tittel": "Du har fått vilkår med frist",
+        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav."
+    },
+    "SoknadStatusAlert": {
+        "tittel": {
+            "UNDER_BEHANDLING": "Søknaden din er under behandling",
+            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
+        },
+        "beskrivelse": {
+            "UNDER_BEHANDLING": "Forventa saksbehandling er 4 veker.",
+            "FERDIGBEHANDLET": "Hugs å les vedtaksbrevet."
+        }
+    },
+    "SingleSak": {
+        "tittel": "Vedtak"
+    },
     "FileUploadItem": {
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskytta og vi kan ikkje behandle henne",
