@@ -292,6 +292,10 @@
         },
         "seVedtak": "Se vedtaket du har klaget på"
     },
+    "KlageDokumenter": {
+        "tittel": "Dokumenter",
+        "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp.pdf"
+    },
     "KlageProsessenVidere": {
         "tittel": "Prosessen vidare",
         "steg1": {

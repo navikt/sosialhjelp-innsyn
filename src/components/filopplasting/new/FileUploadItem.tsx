@@ -87,7 +87,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                     onClose={() => ref.current?.close()}
                     filename={originalFilename}
                     url={url}
-                    isPdf={!!convertedFilename}
+                    isPdf={!!convertedFilename || originalFilename.endsWith(".pdf")}
                 />
             )}
         </>

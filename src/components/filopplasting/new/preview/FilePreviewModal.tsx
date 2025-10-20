@@ -2,6 +2,7 @@ import { Button, HStack, Modal, VStack } from "@navikt/ds-react";
 import { forwardRef, Ref, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslations } from "next-intl";
+import { logger } from "@navikt/next-logger";
 
 import { PdfPreviewDisplay } from "@components/filopplasting/new/preview/PdfPreviewDisplay";
 import ImgPreview from "@components/filopplasting/new/preview/ImgPreview";
@@ -28,7 +29,10 @@ const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTM
             onClose={onClose}
             width="900px"
         >
-            <ErrorBoundary fallback={<FilePreviewErrorBody onClose={onClose} />}>
+            <ErrorBoundary
+                fallback={<FilePreviewErrorBody onClose={onClose} />}
+                onError={(error) => logger.error(`Error loading file preview: ${error}`)}
+            >
                 <Modal.Body>
                     {isPdf ? (
                         <PdfPreviewDisplay

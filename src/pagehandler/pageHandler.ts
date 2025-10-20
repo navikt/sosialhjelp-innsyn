@@ -19,12 +19,12 @@ export interface PageProps {
 export function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
     const portPart = isLocal ? ":8080" : "";
-    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api/api/v1/innsyn${path}`;
+    return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api${path}`;
 }
 
 const pageHandler = async (
     context: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
-    queryClient?: QueryClient
+    getPrefetchPromises: (queryClient: QueryClient) => Promise<void>[]
 ): Promise<GetServerSidePropsResult<PageProps>> => {
     const token = extractAuthHeader(context.req);
     if (!token) {
@@ -39,12 +39,16 @@ const pageHandler = async (
     if (!tilgang && getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {
         logger.warn("Fikk ikke henta tilgangsdata fra innsyn-api, har du huska å skru på backends?");
     }
+    const queryClient = new QueryClient();
+    if (tilgang?.harTilgang) {
+        await Promise.all(getPrefetchPromises(queryClient));
+    }
     return {
         props: {
             messages,
             toggles,
             tilgang: tilgang ?? null,
-            dehydratedState: queryClient ? dehydrate(queryClient) : null,
+            dehydratedState: dehydrate(queryClient),
         },
     };
 };
@@ -59,7 +63,7 @@ export const getCommonProps = async (
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     try {
-        const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
+        const tilgangResponse = await fetch(buildUrl("/api/v1/innsyn/tilgang"), { headers });
         if (tilgangResponse.ok) {
             const data: { harTilgang: boolean; fornavn: string } = await tilgangResponse.json();
             return { messages, toggles, tilgang: data };
