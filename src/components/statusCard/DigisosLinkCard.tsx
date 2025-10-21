@@ -12,6 +12,8 @@ export interface Props {
     variant?: "info" | "warning";
     dashed?: boolean;
     downloadIcon?: boolean;
+    analyticsEvent?: string;
+    analyticsData?: Record<string, unknown>;
 }
 
 interface IconProps {
@@ -47,41 +49,56 @@ const DigisosLinkCard = ({
     variant = "info",
     dashed,
     downloadIcon,
-}: PropsWithChildren<Props>) => (
-    <LinkCard
-        arrow={false}
-        className={cx(
-            "group hover:shadow-none focus:shadow-none focus:border-ax-border-accent",
-            dashed ? "border-dashed " : "",
-            variant === "info"
-                ? "border-ax-border-neutral-subtle hover:bg-ax-bg-neutral-soft hover:border-ax-border-neutral-subtle"
-                : "border-ax-border-warning-subtle bg-ax-bg-warning-soft hover:bg-ax-bg-warning-moderate"
-        )}
-    >
-        {icon && <Icon variant={variant} icon={icon} />}
-        <LinkCardTitle className="items-center">
-            <LinkCardAnchor
-                asChild
-                className="no-underline group-hover:underline"
-                {...(downloadIcon
-                    ? { "data-umami-event": "knapp klikket", "data-umami-event-tekst": "Åpner vedtak" }
-                    : {})}
-            >
-                <Link href={href}>{children}</Link>
-            </LinkCardAnchor>
-        </LinkCardTitle>
-        {description && <LinkCardDescription>{description}</LinkCardDescription>}
-        {downloadIcon ? (
-            <DownloadIcon
-                fontSize="1.75rem"
-                className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-            />
-        ) : (
-            <ArrowRightIcon
-                fontSize="1.75rem"
-                className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-            />
-        )}
-    </LinkCard>
-);
+    analyticsEvent,
+    analyticsData,
+}: PropsWithChildren<Props>) => {
+    const dataAttrs: Record<string, string> = {};
+    if (analyticsEvent) {
+        dataAttrs["data-umami-event"] = analyticsEvent;
+        if (analyticsData) {
+            for (const [k, v] of Object.entries(analyticsData)) {
+                dataAttrs[`data-umami-event-${k}`] = String(v);
+            }
+        }
+    }
+    return (
+        <LinkCard
+            arrow={false}
+            className={cx(
+                "group hover:shadow-none focus:shadow-none focus:border-ax-border-accent",
+                dashed ? "border-dashed " : "",
+                variant === "info"
+                    ? "border-ax-border-neutral-subtle hover:bg-ax-bg-neutral-soft hover:border-ax-border-neutral-subtle"
+                    : "border-ax-border-warning-subtle bg-ax-bg-warning-soft hover:bg-ax-bg-warning-moderate"
+            )}
+        >
+            {icon && <Icon variant={variant} icon={icon} />}
+            <LinkCardTitle className="items-center">
+                <LinkCardAnchor
+                    asChild
+                    className="no-underline group-hover:underline"
+                    {...(downloadIcon
+                        ? { "data-umami-event": "knapp klikket", "data-umami-event-tekst": "Åpner vedtak" }
+                        : {})}
+                >
+                    <Link href={href} {...dataAttrs}>
+                        {children}
+                    </Link>
+                </LinkCardAnchor>
+            </LinkCardTitle>
+            {description && <LinkCardDescription>{description}</LinkCardDescription>}
+            {downloadIcon ? (
+                <DownloadIcon
+                    fontSize="1.75rem"
+                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+                />
+            ) : (
+                <ArrowRightIcon
+                    fontSize="1.75rem"
+                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+                />
+            )}
+        </LinkCard>
+    );
+};
 export default DigisosLinkCard;
