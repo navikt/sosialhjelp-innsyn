@@ -11,6 +11,8 @@ import { SaksDetaljerResponse } from "@generated/ssr/model";
 import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 
+import { umamiTrack } from "../../../app/umami";
+
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
 
@@ -30,7 +32,7 @@ const SoknaderList = ({ soknader }: Props) => {
         ).length;
 
         if (antallMedDokumentasjonEtterspurt > 0) {
-            window.umami?.track("Side rendret", {
+            umamiTrack("Side rendret", {
                 tekst: "Søknad med dokumentasjonetterspurt",
                 antall: antallMedDokumentasjonEtterspurt,
             });
