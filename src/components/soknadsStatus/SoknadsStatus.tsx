@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Label, Tag } from "@navikt/ds-react";
 import styled from "styled-components";
 
+import { umamiTrack } from "../../app/umami";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -147,7 +148,7 @@ const SoknadsStatus = () => {
                                                         <EksternLenke
                                                             href={"" + hendelse.url}
                                                             onClick={() =>
-                                                                window.umami.track("knapp klikket", {
+                                                                umamiTrack("knapp klikket", {
                                                                     tekst: "Åpner vedtak",
                                                                 })
                                                             }

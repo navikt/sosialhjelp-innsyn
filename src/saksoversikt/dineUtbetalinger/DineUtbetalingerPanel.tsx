@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
+import { umamiTrack } from "../../app/umami";
 
 import styles from "./dineUtbetalingerPanel.module.css";
 
@@ -16,7 +17,7 @@ const DineUtbetalingerPanel = () => {
             className={styles.dine_utbetalinger_panel}
             border={false}
             onClick={() => {
-                window.umami.track("lenket klikket", {
+                umamiTrack("lenket klikket", {
                     tekst: "Åpnet Dine utbetalinger",
                 });
             }}

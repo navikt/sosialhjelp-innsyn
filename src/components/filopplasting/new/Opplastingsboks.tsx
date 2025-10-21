@@ -12,6 +12,8 @@ import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 
+import { umamiTrack } from "../../../app/umami";
+
 interface Props {
     metadata: Metadata;
     label?: string;
@@ -40,7 +42,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     });
 
     const onFilesSelect = (newFiles: FileObject[]) => {
-        window.umami.track("knapp klikket", {
+        umamiTrack("knapp klikket", {
             tekst: "Last opp",
             antallDokumenter: newFiles.length,
             dokumentKontekst: metadata.dokumentKontekst,
@@ -123,7 +125,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         <Button
                             disabled={Object.values(files).flat().length === 0}
                             onClick={() => {
-                                window.umami.track("knapp klikket", {
+                                umamiTrack("knapp klikket", {
                                     tekst: "Send dokumentasjon",
                                     antallDokumenter: files.length,
                                     dokumentKontekst: metadata.dokumentKontekst,
