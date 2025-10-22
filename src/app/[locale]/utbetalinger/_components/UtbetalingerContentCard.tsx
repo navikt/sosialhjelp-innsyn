@@ -39,7 +39,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             <ExpansionCard.Header
                 className={cx("gap-2 data-[open=true]:after:content-none", cardBorder(index, count), styles.headerFill)}
             >
-                <ExpansionCard.Title>
+                <ExpansionCard.Title as="h4">
                     <HStack align="center" wrap={false} className="w-full" justify="space-between">
                         <HStack gap="2" align="center" className="min-w-0" wrap={false}>
                             <BodyShort
