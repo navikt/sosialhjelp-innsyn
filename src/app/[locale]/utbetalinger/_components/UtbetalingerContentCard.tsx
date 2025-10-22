@@ -27,7 +27,7 @@ const cardBorder = (id: number, count: number) => {
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
-    const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknaden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
+    const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknadensiden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
 
