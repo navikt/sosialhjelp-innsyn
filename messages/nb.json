@@ -17,7 +17,7 @@
         }
     },
     "SingleSak": {
-        "tittel": "Vedtak"
+        "vedtak": "Vedtak"
     },
     "FileUploadItem": {
         "validation": {

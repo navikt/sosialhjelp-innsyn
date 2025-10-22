@@ -34,7 +34,7 @@ const SingleSak = ({ sak, vilkar, innsendtKlage }: Props): React.JSX.Element | n
                 {sak.utfallVedtak && (
                     <>
                         <Heading size="medium" level="2">
-                            {t("tittel")}
+                            {t("vedtak")}
                         </Heading>
                         <StatusTag vedtakUtfall={vedtakUtfall} className="self-start" />
                         <Vedtak

@@ -17,7 +17,7 @@
         }
     },
     "SingleSak": {
-        "tittel": "Decision"
+        "vedtak": "Decision"
     },
     "FileUploadItem": {
         "validation": {
