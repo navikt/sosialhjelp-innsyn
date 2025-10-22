@@ -28,6 +28,8 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
                         href={fil.url}
                         icon={<FilePdfIcon />}
                         description={fil.dato}
+                        analyticsEvent="knapp klikket"
+                        analyticsData={{ tekst: "Åpner vedtak" }}
                     >
                         {t("vedtaksBrev")}
                     </DigisosLinkCard>

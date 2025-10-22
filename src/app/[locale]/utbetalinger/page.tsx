@@ -10,6 +10,7 @@ import {
     prefetchHentNyeUtbetalingerQuery,
     prefetchHentTidligereUtbetalingerQuery,
 } from "@generated/ssr/utbetalinger-controller/utbetalinger-controller";
+import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 
 import Utbetalinger from "./_components/Utbetalinger";
 import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
@@ -26,16 +27,19 @@ const Page = async () => {
     prefetchHentTidligereUtbetalingerQuery(queryClient);
 
     return (
-        <VStack gap="20" className="mt-20">
-            <Heading size="xlarge" level="1">
-                {t("tittel")}
-            </Heading>
-            <Suspense fallback={<UtbetalingerSkeleton />}>
-                <HydrationBoundary state={dehydrate(queryClient)}>
-                    <Utbetalinger />
-                </HydrationBoundary>
-            </Suspense>
-        </VStack>
+        <>
+            <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("breadcrumbTitle") }]} />
+            <VStack gap="20" className="mt-20">
+                <Heading size="xlarge" level="1">
+                    {t("tittel")}
+                </Heading>
+                <Suspense fallback={<UtbetalingerSkeleton />}>
+                    <HydrationBoundary state={dehydrate(queryClient)}>
+                        <Utbetalinger />
+                    </HydrationBoundary>
+                </Suspense>
+            </VStack>
+        </>
     );
 };
 export default Page;

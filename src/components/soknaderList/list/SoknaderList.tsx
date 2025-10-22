@@ -1,7 +1,7 @@
 "use client";
 
 import { addDays } from "date-fns";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Box, Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
@@ -10,6 +10,8 @@ import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
+
+import { umamiTrack } from "../../../app/umami";
 
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
@@ -21,6 +23,21 @@ interface Props {
 const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("AktiveSoknader");
     const { hasMore, showAll, setShowAll } = useShowMore(soknader);
+    // Denne skal bare tracke søknader som ligger under "Aktive søknader"
+    // med dokumentasjonetterspurt, så lenge tilfellene er oppfylt.
+    useEffect(() => {
+        const antallMedDokumentasjonEtterspurt = soknader.filter(
+            (soknad) =>
+                "status" in soknad && soknad.status === "UNDER_BEHANDLING" && soknad.dokumentasjonEtterspurt === true
+        ).length;
+
+        if (antallMedDokumentasjonEtterspurt > 0) {
+            umamiTrack("Side rendret", {
+                tekst: "Søknad med dokumentasjonetterspurt",
+                antall: antallMedDokumentasjonEtterspurt,
+            });
+        }
+    }, [soknader]);
     return (
         <>
             {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((sak) => (

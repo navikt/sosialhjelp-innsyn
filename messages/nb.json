@@ -343,7 +343,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-        "tittel": "Utbetalinger for økonomisk sosialhjelp"
+        "tittel": "Utbetalinger for økonomisk sosialhjelp",
+        "breadcrumbTitle": "Utbetalinger"
     },
     "Utbetalinger": {
         "tittel": "Utbetalinger for økonomisk sosialhjelp"

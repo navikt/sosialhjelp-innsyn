@@ -13,6 +13,8 @@ export interface Props {
     dashed?: boolean;
     cardIcon?: "download" | "expand";
     underline?: boolean;
+    analyticsEvent?: string;
+    analyticsData?: Record<string, unknown>;
 }
 
 const RightIcon = (fil?: string) => {
@@ -75,29 +77,45 @@ const DigisosLinkCard = ({
     dashed,
     cardIcon,
     underline = false,
-}: PropsWithChildren<Props>) => (
-    <LinkCard
-        arrow={false}
-        className={cx(
-            "group hover:shadow-none focus:shadow-none focus:border-ax-border-accent",
-            dashed ? "border-dashed " : "",
-            variant === "info"
-                ? "border-ax-border-neutral-subtle hover:bg-ax-bg-neutral-soft hover:border-ax-border-neutral-subtle"
-                : "border-ax-border-warning-subtle bg-ax-bg-warning-soft hover:bg-ax-bg-warning-moderate"
-        )}
-    >
-        {icon && <Icon variant={variant} icon={icon} />}
-        <LinkCardTitle className="items-center">
-            <LinkCardAnchor
-                asChild
-                className={cx(underline ? "underline group-hover:no-underline" : "no-underline group-hover:underline")}
-            >
-                <Link href={href}>{children}</Link>
-            </LinkCardAnchor>
-        </LinkCardTitle>
-        {description && <LinkCardDescription>{description}</LinkCardDescription>}
-        {RightIcon(cardIcon)}
-    </LinkCard>
-);
-
+    analyticsEvent,
+    analyticsData,
+}: PropsWithChildren<Props>) => {
+    const dataAttrs: Record<string, string> = {};
+    if (analyticsEvent) {
+        dataAttrs["data-umami-event"] = analyticsEvent;
+        if (analyticsData) {
+            for (const [k, v] of Object.entries(analyticsData)) {
+                dataAttrs[`data-umami-event-${k}`] = String(v);
+            }
+        }
+    }
+    return (
+        <LinkCard
+            arrow={false}
+            className={cx(
+                "group hover:shadow-none focus:shadow-none focus:border-ax-border-accent",
+                dashed ? "border-dashed " : "",
+                variant === "info"
+                    ? "border-ax-border-neutral-subtle hover:bg-ax-bg-neutral-soft hover:border-ax-border-neutral-subtle"
+                    : "border-ax-border-warning-subtle bg-ax-bg-warning-soft hover:bg-ax-bg-warning-moderate"
+            )}
+        >
+            {icon && <Icon variant={variant} icon={icon} />}
+            <LinkCardTitle className="items-center">
+                <LinkCardAnchor
+                    asChild
+                    className={cx(
+                        underline ? "underline group-hover:no-underline" : "no-underline group-hover:underline"
+                    )}
+                >
+                    <Link href={href} {...dataAttrs}>
+                        {children}
+                    </Link>
+                </LinkCardAnchor>
+            </LinkCardTitle>
+            {description && <LinkCardDescription>{description}</LinkCardDescription>}
+            {RightIcon(cardIcon)}
+        </LinkCard>
+    );
+};
 export default DigisosLinkCard;

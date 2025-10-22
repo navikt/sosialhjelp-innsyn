@@ -1,7 +1,7 @@
 import { logger } from "@navikt/next-logger";
 import { isAbortError } from "next/dist/server/pipe-readable";
 
-import { browserEnv } from "./config/env";
+import { browserEnv, getServerEnv } from "@config/env";
 
 const getBody = <T>(c: Response | Request): Promise<T> => {
     const contentType = c.headers.get("content-type");
@@ -17,8 +17,19 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
     return c.text() as Promise<T>;
 };
 
+export const customFetchSSR = async <T>(url: string, options: RequestInit): Promise<T> => {
+    const isLocal = getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
+    const port = isLocal ? `:${getServerEnv().INNSYN_API_PORT}` : "";
+    const origin = `http://${getServerEnv().NEXT_INNSYN_API_HOSTNAME}${port}`;
+    return doFetch(`${origin}/sosialhjelp/innsyn-api${url}`, options);
+};
+
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
-    const response = await fetch(`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/innsyn-api${url}`, {
+    return doFetch(`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/innsyn-api${url}`, options);
+};
+
+const doFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
+    const response = await fetch(url, {
         ...options,
     });
     if (response.status === 204) {

@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Label, Tag } from "@navikt/ds-react";
 import styled from "styled-components";
 
+import { umamiTrack } from "../../app/umami";
 import DatoOgKlokkeslett from "../tidspunkt/DatoOgKlokkeslett";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import EksternLenke from "../eksternLenke/EksternLenke";
@@ -144,7 +145,14 @@ const SoknadsStatus = () => {
                                             statusdetalj.vedtaksfilUrlList.map((hendelse: FilUrl, id: number) => (
                                                 <StatusMessage key={id}>
                                                     <StatusMessageVedtak>
-                                                        <EksternLenke href={"" + hendelse.url}>
+                                                        <EksternLenke
+                                                            href={"" + hendelse.url}
+                                                            onClick={() =>
+                                                                umamiTrack("knapp klikket", {
+                                                                    tekst: "Åpner vedtak",
+                                                                })
+                                                            }
+                                                        >
                                                             {t("vedtak")} (
                                                             <DatoOgKlokkeslett
                                                                 bareDato={true}

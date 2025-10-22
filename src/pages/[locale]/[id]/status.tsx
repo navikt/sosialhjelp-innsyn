@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
-import { QueryClient } from "@tanstack/react-query";
 
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
@@ -49,12 +48,12 @@ import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
 import { FilUploadSuccesfulProvider } from "../../../components/filopplasting/FilUploadSuccessfulContext";
 import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../../generated/model";
-import pageHandler, { buildUrl } from "../../../pagehandler/pageHandler";
+import pageHandler from "../../../pagehandler/pageHandler";
 import Panel from "../../../components/panel/Panel";
 import EttersendelseView from "../../../components/ettersendelse/EttersendelseView";
 import { useHentVedlegg } from "../../../generated/vedlegg-controller/vedlegg-controller";
 import ArkfanePanel from "../../../components/arkfanePanel/ArkfanePanel";
-import { customFetch } from "../../../custom-fetch";
+import { customFetchSSR } from "../../../custom-fetch";
 import { extractAuthHeader } from "../../../utils/authUtils";
 import {
     getHentUtbetalingerQueryKey,
@@ -192,7 +191,6 @@ interface Params extends NextParsedUrlQuery {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<Params>) => {
     const { req } = ctx;
-    const queryClient = new QueryClient();
     const token = extractAuthHeader(req);
     if (!token) {
         return {
@@ -202,17 +200,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<Params>)
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
     const id = ctx.params?.id as string;
-    const promises = getQueries(id).map(({ url, key }) => {
-        const path = url.replace("/sosialhjelp/innsyn/api/innsyn-api/api/v1/innsyn", "");
-        return queryClient.prefetchQuery({
-            queryKey: key,
-            retry: false,
-            queryFn: () => customFetch(buildUrl(path), { headers }),
+
+    return pageHandler(ctx, (queryClient) => {
+        return getQueries(id).map(({ url, key }) => {
+            return queryClient.prefetchQuery({
+                queryKey: key,
+                retry: false,
+                queryFn: () => customFetchSSR(url, { headers }),
+            });
         });
     });
-    await Promise.all(promises);
-
-    return pageHandler(ctx, queryClient);
 };
 
 export default SaksStatusView;

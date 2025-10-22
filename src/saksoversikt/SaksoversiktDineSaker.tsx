@@ -56,7 +56,7 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
 
     return (
         <>
-            <UxSignalsWidget embedCode="panel-wq2simqr8t" className="mb-4" />
+            <UxSignalsWidget embedCode="panel-wq2simqr8t" className="mb-4" enabled={false} />
             <DineUtbetalingerPanel />
             <section aria-labelledby="dine-soknader">
                 <StyledDineSoknaderPanel>

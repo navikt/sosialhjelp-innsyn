@@ -371,7 +371,8 @@
         "Sosialhjelp": "Financial assistance"
     },
     "UtbetalingerPage": {
-        "tittel": "Payments for financial assistance"
+        "tittel": "Payments for financial assistance",
+        "breadcrumbTitle": "Payments"
     },
     "Utbetalinger": {
         "tittel": "Payments for financial assistance"
