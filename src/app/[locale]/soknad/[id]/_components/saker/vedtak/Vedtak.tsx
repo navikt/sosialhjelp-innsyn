@@ -23,7 +23,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
             {vedtaksliste &&
                 vedtaksliste.map((fil, index) => (
                     <DigisosLinkCard
-                        downloadIcon={true}
+                        cardIcon="download"
                         key={index}
                         href={fil.url}
                         icon={<FilePdfIcon />}

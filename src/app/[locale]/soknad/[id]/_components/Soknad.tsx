@@ -28,6 +28,7 @@ import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./oppgaver/OppgaveAlert";
+import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 
 interface Props {
     id: string;
@@ -99,14 +100,19 @@ export const Soknad = async ({ id }: Props) => {
                 </HydrationBoundary>
             </Suspense>
             <Filopplasting id={id} />
+            <Suspense fallback={<DokumenterSkeleton />}>
+                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
+                    <Dokumenter />
+                </HydrationBoundary>
+            </Suspense>
             <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
                 <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
                         <VStack gap="20">
                             <Oversikt id={id} />
-                            <Suspense fallback={<DokumenterSkeleton />}>
+                            <Suspense fallback={<SoknadenDinSkeleton />}>
                                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                                    <Dokumenter />
+                                    <SoknadenDin />
                                 </HydrationBoundary>
                             </Suspense>
                         </VStack>

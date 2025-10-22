@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Box, VStack } from "@navikt/ds-react";
-import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardIcon, LinkCardAnchor } from "@navikt/ds-react/LinkCard";
-import { JSX, PropsWithChildren, ReactNode } from "react";
+import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor, LinkCardIcon } from "@navikt/ds-react/LinkCard";
+import React, { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
-import { ArrowRightIcon, DownloadIcon } from "@navikt/aksel-icons";
+import { Box, VStack } from "@navikt/ds-react";
+
+import HoyreIkon from "../../app/[locale]/soknad/[id]/_components/dokumenter/HoyreIkon";
 
 export interface Props {
     href: string;
@@ -11,7 +12,8 @@ export interface Props {
     icon?: JSX.Element;
     variant?: "info" | "warning";
     dashed?: boolean;
-    downloadIcon?: boolean;
+    cardIcon?: "download" | "expand";
+    underline?: boolean;
     analyticsEvent?: string;
     analyticsData?: Record<string, unknown>;
 }
@@ -48,7 +50,8 @@ const DigisosLinkCard = ({
     icon,
     variant = "info",
     dashed,
-    downloadIcon,
+    cardIcon,
+    underline = false,
     analyticsEvent,
     analyticsData,
 }: PropsWithChildren<Props>) => {
@@ -74,24 +77,19 @@ const DigisosLinkCard = ({
         >
             {icon && <Icon variant={variant} icon={icon} />}
             <LinkCardTitle className="items-center">
-                <LinkCardAnchor asChild className="no-underline group-hover:underline">
+                <LinkCardAnchor
+                    asChild
+                    className={cx(
+                        underline ? "underline group-hover:no-underline" : "no-underline group-hover:underline"
+                    )}
+                >
                     <Link href={href} {...dataAttrs}>
                         {children}
                     </Link>
                 </LinkCardAnchor>
             </LinkCardTitle>
             {description && <LinkCardDescription>{description}</LinkCardDescription>}
-            {downloadIcon ? (
-                <DownloadIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
-            ) : (
-                <ArrowRightIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
-            )}
+            <HoyreIkon ikon={cardIcon} />
         </LinkCard>
     );
 };
