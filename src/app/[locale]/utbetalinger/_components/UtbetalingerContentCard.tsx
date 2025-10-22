@@ -2,7 +2,7 @@ import { BodyShort, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import NextLink from "next/link";
 import { Link } from "@navikt/ds-react/Link";
 import React from "react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 
@@ -27,7 +27,6 @@ const cardBorder = (id: number, count: number) => {
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
-    const locale = useLocale();
     const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknaden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
@@ -100,8 +99,8 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                         as={NextLink}
                         href={
                             toggle.enabled
-                                ? `/${locale}/soknad/${manedUtbetaling.fiksDigisosId}`
-                                : `/${locale}/${manedUtbetaling.fiksDigisosId}/status`
+                                ? `/soknad/${manedUtbetaling.fiksDigisosId}`
+                                : `/${manedUtbetaling.fiksDigisosId}/status`
                         }
                     >
                         <BodyShort>{t("lenke")}</BodyShort>
