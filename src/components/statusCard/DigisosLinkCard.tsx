@@ -2,8 +2,9 @@ import Link from "next/link";
 import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor, LinkCardIcon } from "@navikt/ds-react/LinkCard";
 import React, { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
-import { ArrowRightIcon, DownloadIcon, ExpandIcon } from "@navikt/aksel-icons";
 import { Box, VStack } from "@navikt/ds-react";
+
+import HoyreIkon from "../../app/[locale]/soknad/[id]/_components/dokumenter/HoyreIkon";
 
 export interface Props {
     href: string;
@@ -16,32 +17,6 @@ export interface Props {
     analyticsEvent?: string;
     analyticsData?: Record<string, unknown>;
 }
-
-const RightIcon = (fil?: string) => {
-    switch (fil) {
-        case "download":
-            return (
-                <DownloadIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
-            );
-        case "expand":
-            return (
-                <ExpandIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
-            );
-        default:
-            return (
-                <ArrowRightIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
-            );
-    }
-};
 
 interface IconProps {
     icon: JSX.Element;
@@ -114,7 +89,7 @@ const DigisosLinkCard = ({
                 </LinkCardAnchor>
             </LinkCardTitle>
             {description && <LinkCardDescription>{description}</LinkCardDescription>}
-            {RightIcon(cardIcon)}
+            <HoyreIkon ikon={cardIcon} />
         </LinkCard>
     );
 };

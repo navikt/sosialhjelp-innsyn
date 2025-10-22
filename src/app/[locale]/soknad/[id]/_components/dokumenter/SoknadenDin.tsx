@@ -18,42 +18,40 @@ const SoknadenDin = () => {
     }
     return (
         <VStack gap="2">
-            {originalSoknad && (
-                <>
-                    <Heading size="medium" level="2" spacing>
-                        {t("tittel")}
-                    </Heading>
-                    <DigisosLinkCard
-                        href={originalSoknad.url}
-                        icon={<FileIcon />}
-                        underline={true}
-                        cardIcon="expand"
-                        description={
-                            <>
-                                <HStack gap="1">
-                                    <BodyShort>{originalSoknad.size},</BodyShort>
-                                    <BodyShort>
-                                        {originalSoknad.date
-                                            ? `${t("sendt", {
-                                                  dato: new Date(originalSoknad.date),
-                                              })}`
-                                            : undefined}
-                                    </BodyShort>
-                                </HStack>
-                            </>
-                        }
-                    >
-                        {originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename")}
-                    </DigisosLinkCard>
-                </>
-            )}
+            <>
+                <Heading size="medium" level="2" spacing>
+                    {t("tittel")}
+                </Heading>
+                <DigisosLinkCard
+                    href={originalSoknad.url}
+                    icon={<FileIcon />}
+                    underline={true}
+                    cardIcon="expand"
+                    description={
+                        <>
+                            <HStack gap="1">
+                                <BodyShort>{originalSoknad.size},</BodyShort>
+                                <BodyShort>
+                                    {originalSoknad.date
+                                        ? `${t("sendt", {
+                                              dato: new Date(originalSoknad.date),
+                                          })}`
+                                        : undefined}
+                                </BodyShort>
+                            </HStack>
+                        </>
+                    }
+                >
+                    {originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename")}
+                </DigisosLinkCard>
+            </>
         </VStack>
     );
 };
 
 export const SoknadenDinSkeleton = () => (
-    <VStack as="ul" gap="2" className="navds-file-item__inner">
-        <HStack as="li" align="center" gap="2">
+    <VStack gap="2" className="navds-file-item__inner">
+        <HStack align="center" gap="2">
             <Skeleton variant="circle" height="48px" width="48px" />
             <VStack justify="center" gap="2">
                 <Skeleton variant="rectangle" width="200px" />
