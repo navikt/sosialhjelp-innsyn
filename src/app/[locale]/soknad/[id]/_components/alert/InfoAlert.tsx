@@ -4,15 +4,18 @@ import { BodyLong, BodyShort, Link } from "@navikt/ds-react";
 
 import StatusAlert from "@components/alert/StatusAlert";
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
+import { SaksStatusResponse } from "@generated/model";
+
+import SoknadStatusAlert from "./SoknadStatusAlert";
 
 interface Props {
     navKontor?: string;
     soknadstatus: SoknadsStatusResponseStatus;
+    sakerPromise?: false | Promise<SaksStatusResponse[]>;
 }
 
-const InfoAlert = async ({ soknadstatus, navKontor }: Props) => {
+const InfoAlert = async ({ soknadstatus, navKontor, sakerPromise }: Props) => {
     const t = await getTranslations("InfoAlert");
-    // TODO: Inkluder Mottatt her også. Se design for egen alert
     if (soknadstatus === "SENDT") {
         return (
             <StatusAlert
@@ -54,6 +57,9 @@ const InfoAlert = async ({ soknadstatus, navKontor }: Props) => {
                 }
             />
         );
+    }
+    if (sakerPromise) {
+        return <SoknadStatusAlert sakerPromise={sakerPromise} status={soknadstatus} />;
     }
     return null;
 };

@@ -1,15 +1,15 @@
-import { useTranslations } from "next-intl";
-import { Heading, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { VStack } from "@navikt/ds-react";
 import { useParams } from "next/navigation";
 
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 import { VilkarResponse } from "@generated/ssr/model";
 import { useGetDokumentasjonkravBetaSuspense } from "@generated/oppgave-controller/oppgave-controller";
 
+import Vedtak from "../vedtak/Vedtak";
+import VilkarListe from "../vilkar/VilkarListe";
+import Dokumentasjonkrav from "../dokumentasjonkrav/Dokumentasjonkrav";
+
 import Sakstittel from "./Sakstittel";
-import Vedtak from "./vedtak/Vedtak";
-import VilkarListe from "./vilkar/VilkarListe";
-import Dokumentasjonkrav from "./dokumentasjonkrav/Dokumentasjonkrav";
 
 interface Props {
     sak: SaksStatusResponse;
@@ -22,6 +22,9 @@ const Sak = ({ sak, vilkar, innsendtKlage }: Props) => {
 
     const { data } = useGetDokumentasjonkravBetaSuspense(id);
     const dokumentasjonkrav = data.filter((it) => it.saksreferanse === sak.referanse);
+    if (!sak.utfallVedtak && vilkar.length === 0 && dokumentasjonkrav.length === 0) {
+        return null;
+    }
     return (
         <VStack gap="16">
             <VStack gap="4">
@@ -36,20 +39,6 @@ const Sak = ({ sak, vilkar, innsendtKlage }: Props) => {
             </VStack>
             {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
             {dokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={dokumentasjonkrav} />}
-        </VStack>
-    );
-};
-
-export const SakSkeleton = () => {
-    const t = useTranslations("SakSkeleton");
-    return (
-        <VStack gap="2">
-            <Heading size="large" level="2">
-                {t("tittel")}
-            </Heading>
-            <Tag variant="info" className="self-start">
-                <Skeleton width="50px" />
-            </Tag>
         </VStack>
     );
 };

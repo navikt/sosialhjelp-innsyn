@@ -1,13 +1,7 @@
-import { BodyShort, Heading, Tag, TagProps } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { BodyShort, Tag, TagProps } from "@navikt/ds-react";
 
 import { SaksStatusResponseUtfallVedtak } from "@generated/model";
-
-interface Props {
-    tittel: string;
-    vedtakUtfall?: SaksStatusResponseUtfallVedtak;
-    fontSize?: "large" | "small" | "xlarge" | "medium" | "xsmall";
-}
 
 const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]> = {
     INNVILGET: "success-moderate",
@@ -38,19 +32,4 @@ const StatusTag = ({ vedtakUtfall, className }: StatusTagProps) => {
     );
 };
 
-const Sakstittel = ({ tittel, vedtakUtfall, fontSize = "large" }: Props) => {
-    const t = useTranslations("Sakstittel");
-    return (
-        <>
-            <Heading size={fontSize} level="2">
-                {t.rich("tittel", {
-                    sakstittel: tittel,
-                    norsk: (chunks) => <span lang="no">{chunks}</span>,
-                })}
-            </Heading>
-            <StatusTag vedtakUtfall={vedtakUtfall} className="self-start" />
-        </>
-    );
-};
-
-export default Sakstittel;
+export default StatusTag;

@@ -2,6 +2,23 @@
     "Landingsside": {
         "tittel": "Financial assistance"
     },
+    "VilkarAlert": {
+        "tittel": "You have a condition",
+        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
+    },
+    "SoknadStatusAlert": {
+        "tittel": {
+            "UNDER_BEHANDLING": "Your application is being processed",
+            "FERDIGBEHANDLET": "Your application has been processed"
+        },
+        "beskrivelse": {
+            "UNDER_BEHANDLING": "Expected processing time is 4 weeks.",
+            "FERDIGBEHANDLET": "Remember to read the notice of decision."
+        }
+    },
+    "SingleSak": {
+        "vedtak": "Decision"
+    },
     "FileUploadItem": {
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
