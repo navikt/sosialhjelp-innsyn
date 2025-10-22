@@ -35,6 +35,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                             <OpplastingsboksTus
                                 id={it.dokumentasjonkravId}
                                 metadata={{
+                                    dokumentKontekst: "dokumentasjonkrav",
                                     type: it.tittel ?? "dokumentasjonkrav",
                                     tilleggsinfo: it.beskrivelse,
                                     hendelsereferanse: it.dokumentasjonkravReferanse,
@@ -55,6 +56,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                         ) : (
                             <Opplastingsboks
                                 metadata={{
+                                    dokumentKontekst: "dokumentasjonkrav",
                                     type: it.tittel ?? "dokumentasjonkrav",
                                     tilleggsinfo: it.beskrivelse,
                                     hendelsereferanse: it.dokumentasjonkravReferanse,

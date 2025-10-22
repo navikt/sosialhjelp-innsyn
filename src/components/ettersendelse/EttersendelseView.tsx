@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import { Alert, ErrorMessage } from "@navikt/ds-react";
 import cx from "classnames";
 
+import { umamiTrack } from "../../app/umami";
 import { useFileUploadError } from "../driftsmelding/lib/useFileUploadError";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { getHentVedleggQueryKey } from "../../generated/vedlegg-controller/vedlegg-controller";
@@ -71,6 +72,11 @@ const EttersendelseView = (props: Props) => {
 
     const onClick = () => {
         setOppgaverUploadSuccess(false);
+        umamiTrack("knapp klikket", {
+            tekst: "Send dokumentasjon",
+            antallDokumenter: files?.length ?? 0,
+            dokumentKontekst: "ettersendelse",
+        });
         return upload();
     };
     const showLoadingState = props.isLoading || uploadIsLoading;
@@ -92,6 +98,11 @@ const EttersendelseView = (props: Props) => {
                             <AddFileButton
                                 onChange={(event) => {
                                     const files = event.currentTarget.files;
+                                    umamiTrack("knapp klikket", {
+                                        tekst: "Last opp",
+                                        antallDokumenter: files?.length ?? 0,
+                                        dokumentKontekst: "ettersendelse",
+                                    });
                                     onChange(files);
                                 }}
                                 id="ettersendelse_lastopp"

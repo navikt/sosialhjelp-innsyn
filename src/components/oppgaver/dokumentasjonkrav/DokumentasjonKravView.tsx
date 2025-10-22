@@ -2,6 +2,7 @@ import React, { ReactElement, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import * as R from "remeda";
 
+import { umamiTrack } from "../../../app/umami";
 import { DokumentasjonkravResponse } from "../../../generated/model";
 import { useFileUploadError } from "../../driftsmelding/lib/useFileUploadError";
 import { getGetDokumentasjonkravQueryKey } from "../../../generated/oppgave-controller/oppgave-controller";
@@ -63,6 +64,11 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                     isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
+                        umamiTrack("knapp klikket", {
+                            tekst: "Send dokumentasjon",
+                            antallDokumenter: R.flat(Object.values(files)).length,
+                            dokumentKontekst: "dokumentasjonkrav",
+                        });
                         return upload();
                     }}
                     disabled={
@@ -91,6 +97,11 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;
+                                                umamiTrack("knapp klikket", {
+                                                    tekst: "Last opp",
+                                                    antallDokumenter: files?.length ?? 0,
+                                                    dokumentKontekst: "dokumentasjonkrav",
+                                                });
                                                 onChange(files, index);
                                             }}
                                             id={element.dokumentasjonkravReferanse}

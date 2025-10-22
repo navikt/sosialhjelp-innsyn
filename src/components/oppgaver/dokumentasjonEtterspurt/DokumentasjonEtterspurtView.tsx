@@ -16,6 +16,7 @@ import SendFileButton from "../../filopplasting/SendFileButton";
 import { DokumentasjonEtterspurtResponse } from "../../../hooks/useDokumentasjonEtterspurt";
 import styles from "../../../styles/lists.module.css";
 import oppgaveStyles from "../oppgaver.module.css";
+import { umamiTrack } from "../../../app/umami";
 
 interface Props {
     dokumentasjonEtterspurt: DokumentasjonEtterspurtResponse;
@@ -68,6 +69,11 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                     isVisible={!fileUploadError}
                     isLoading={isLoading}
                     onClick={() => {
+                        umamiTrack("knapp klikket", {
+                            tekst: "Send dokumentasjon",
+                            antallDokumenter: R.flat(Object.values(files)).length,
+                            dokumentKontekst: "dokumentasjonEtterspurt",
+                        });
                         return upload();
                     }}
                     disabled={
@@ -101,6 +107,11 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                                         <AddFileButton
                                             onChange={(event) => {
                                                 const files = event.currentTarget.files;
+                                                umamiTrack("knapp klikket", {
+                                                    tekst: "Last opp",
+                                                    antallDokumenter: files?.length ?? 0,
+                                                    dokumentKontekst: "dokumentasjonEtterspurt",
+                                                });
                                                 onChange(files, index);
                                             }}
                                             id={element.id}
