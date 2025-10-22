@@ -358,32 +358,43 @@
         "breadcrumbTitle": "Utbetalinger"
     },
     "Utbetalinger": {
-        "tittel": "Utbetalinger for økonomisk sosialhjelp"
-    },
-    "UtbetalingerChips": {
+        "tittel": "Utbetalinger for økonomisk sosialhjelp",
         "periode": "Velg periode",
         "til": "Til",
         "fra": "Fra",
         "visUtbetalinger": "Vis utbetalinger",
-        "kommende": {
-            "kort": "Kommende",
-            "lang": "Kommende utbetalinger"
-        },
+        "kommende": "Kommende",
         "siste3": "Siste 3 måneder",
         "hittil": "Hittil i år",
         "fjor": "I fjor",
         "egendefinert": "Egendefinert"
     },
-    "IngenPeriodeUtbetalinger": {
-        "tittel": "Du har ingen utbetalinger for denne perioden",
-        "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
+    "UtbetalingerListe": {
+        "tittel": {
+            "kommende": "Kommende utbetalinger",
+            "siste3": "Siste 3 måneder",
+            "hittil": "Hittil i år",
+            "fjor": "I fjor",
+            "egendefinert": "Egendefinert"
+        }
     },
-    "IngenKommendeUtbetalinger": {
-        "tittel": "Du har ingen kommende utbetalinger",
-        "beskrivelse1": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode.",
-        "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+    "IngenUtbetalinger": {
+        "kommende": {
+            "tittel": "Du har ingen kommende utbetalinger"
+        },
+        "periode": {
+            "tittel": "Du har ingen utbetalinger for denne perioden"
+        },
+        "Description": {
+            "kommende": {
+                "beskrivelse": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode.",
+                "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+            },
+            "periode": {
+                "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
+            }
+        }
     },
-    "UtbetalingerHeaderCard": {},
     "UtbetalingerContentCard": {
         "periode": "Periode:",
         "mottaker": "Mottaker:",

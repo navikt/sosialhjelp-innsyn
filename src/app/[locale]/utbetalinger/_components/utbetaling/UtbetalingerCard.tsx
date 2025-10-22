@@ -12,7 +12,7 @@ interface Props {
     manedsUtbetalingerSummert?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert }: Props) => {
+export const UtbetalingerCard = ({ utbetalinger, manedsUtbetalingerSummert }: Props) => {
     const format = useFormatter();
 
     const utbetalingerForManed = utbetalinger.utbetalingerForManed;

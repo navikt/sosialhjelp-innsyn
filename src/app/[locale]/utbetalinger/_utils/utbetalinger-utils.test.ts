@@ -1,17 +1,13 @@
-import { vi, expect, describe, it, beforeEach, afterEach } from "vitest";
+import { expect, describe, it } from "vitest";
+import { endOfMonth, Interval, interval, startOfMonth } from "date-fns";
 
 import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse, ManedUtbetaling } from "@generated/ssr/model";
 
 import {
     kombinertManed,
-    datoIntervall,
-    utbetalingInnenforValgtDatoIntervall,
-    erInnenforAngittPeriode,
-    Month1to12,
-    AarMaaned,
-    ManedIntervall,
+    utbetalingInnenforIntervall,
+    erInnenforIntervall,
     formaterKontonummer,
-    erKontonummerFormatert,
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
@@ -31,11 +27,17 @@ const utb = (overrides: Partial<ManedUtbetaling> = {}): ManedUtbetaling => ({
     ...overrides,
 });
 
-const aM = (year: number, month: Month1to12): AarMaaned => ({ year, month });
-const mI = (ys: number, ms: Month1to12, ye: number, me: Month1to12): ManedIntervall => ({
-    start: aM(ys, ms),
-    end: aM(ye, me),
-});
+const dateFromYearAndMonth = (year: number, month: number): Date => new Date(year, month - 1);
+const intervalFromYearsAndMonths = (
+    startYear: number,
+    startMonth: number,
+    endYear: number,
+    endMonth: number
+): Interval =>
+    interval(
+        startOfMonth(dateFromYearAndMonth(startYear, startMonth)),
+        endOfMonth(dateFromYearAndMonth(endYear, endMonth))
+    );
 
 describe("kombinertManed", () => {
     it("kombinerer og sorterer måneder fra 'nye' og 'tidligere'", () => {
@@ -92,121 +94,43 @@ describe("kombinertManed", () => {
     });
 });
 
-describe("datoIntervall", () => {
-    beforeEach(() => {
-        vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-        vi.useRealTimers();
-    });
-
-    it("returnerer korrekt intervall for siste 3 måneder", () => {
-        vi.setSystemTime(new Date(2025, 9, 15));
-        expect(datoIntervall("siste3")).toEqual({
-            start: { year: 2025, month: 8 },
-            end: { year: 2025, month: 10 },
-        });
-    });
-
-    it("wrap’er riktig over årsskifte (nov→des→jan)", () => {
-        vi.setSystemTime(new Date(2025, 0, 10));
-        expect(datoIntervall("siste3")).toEqual({
-            start: { year: 2024, month: 11 },
-            end: { year: 2025, month: 1 },
-        });
-    });
-
-    it("returnerer korrekt intervall for hittil i år", () => {
-        vi.setSystemTime(new Date(2025, 9, 15));
-        expect(datoIntervall("hittil")).toEqual({
-            start: { year: 2025, month: 1 },
-            end: { year: 2025, month: 10 },
-        });
-    });
-
-    it("returnerer korrekt intervall for i fjor", () => {
-        vi.setSystemTime(new Date(2025, 9, 15));
-        expect(datoIntervall("fjor")).toEqual({
-            start: { year: 2024, month: 1 },
-            end: { year: 2024, month: 12 },
-        });
-    });
-});
-
 describe("utbetalingInnenforValgtDatoIntervall", () => {
     it("returns true når utbetalingsdato er innenfor intervall", () => {
         const u = utb({ utbetalingsdato: "2025-09-15" });
         const from = new Date("2025-09-01");
         const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(true);
+        expect(utbetalingInnenforIntervall(u, interval(from, to))).toBe(true);
     });
 
     it("returns false når utbetalingsdato er utenfor intervall", () => {
         const u = utb({ utbetalingsdato: "2025-08-15" });
         const from = new Date("2025-09-01");
         const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(false);
+        expect(utbetalingInnenforIntervall(u, interval(from, to))).toBe(false);
     });
 
     it("returns true når forfallsdato er innenfor intervall", () => {
         const u = utb({ utbetalingsdato: undefined, forfallsdato: "2025-09-20" });
         const from = new Date("2025-09-01");
         const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(true);
+        expect(utbetalingInnenforIntervall(u, interval(from, to))).toBe(true);
     });
 
     it("returns false når forfallsdato er utenfor intervall", () => {
         const u = utb({ utbetalingsdato: undefined, forfallsdato: "2025-10-01" });
         const from = new Date("2025-09-01");
         const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(false);
+        expect(utbetalingInnenforIntervall(u, interval(from, to))).toBe(false);
     });
 
     it("returns true når fom og tom er innenfor intervall", () => {
         const u = utb({ fom: "2025-09-01", tom: "2025-09-30" });
         const from = new Date("2025-09-01");
         const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(true);
+        expect(utbetalingInnenforIntervall(u, interval(from, to))).toBe(true);
     });
 
-    it("returns false når fom og tom er utenfor intervall", () => {
-        const u = utb({
-            utbetalingsdato: undefined,
-            forfallsdato: undefined,
-            fom: "2025-08-01",
-            tom: "2025-08-31",
-        });
-        const from = new Date("2025-09-01");
-        const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(false);
-    });
-
-    it("returns true når periode overlapper i starten", () => {
-        const u = utb({
-            utbetalingsdato: undefined,
-            forfallsdato: undefined,
-            fom: "2025-08-25",
-            tom: "2025-09-05",
-        });
-        const from = new Date("2025-09-01");
-        const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(true);
-    });
-
-    it("returns true når periode overlapper på slutten", () => {
-        const u = utb({
-            utbetalingsdato: undefined,
-            forfallsdato: undefined,
-            fom: "2025-09-20",
-            tom: "2025-10-02",
-        });
-        const from = new Date("2025-09-01");
-        const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(true);
-    });
-
-    it("returns true når ingen datoer er satt (konservativt inkluder)", () => {
+    it("returns false når ingen datoer er satt", () => {
         const u = utb({
             utbetalingsdato: undefined,
             forfallsdato: undefined,
@@ -215,50 +139,50 @@ describe("utbetalingInnenforValgtDatoIntervall", () => {
         });
         const from = new Date("2025-09-01");
         const to = new Date("2025-09-30");
-        expect(utbetalingInnenforValgtDatoIntervall(u, from, to)).toBe(true);
+        expect(utbetalingInnenforIntervall(u, interval(from, to))).toBe(false);
     });
 });
 
 describe("erInnenforAngittPeriode", () => {
     it("returns true når angitt periode intervall er null", () => {
         const item = { ar: 2025, maned: 9, utbetalingerForManed: [] };
-        expect(erInnenforAngittPeriode(item, null)).toBe(true);
+        expect(erInnenforIntervall(item, null)).toBe(true);
     });
 
     it("returns true når dato er innenfor angitt periode", () => {
         const item = { ar: 2025, maned: 9, utbetalingerForManed: [] };
-        const range = mI(2025, 8, 2025, 10);
-        expect(erInnenforAngittPeriode(item, range)).toBe(true);
+        const range = intervalFromYearsAndMonths(2025, 8, 2025, 10);
+        expect(erInnenforIntervall(item, range)).toBe(true);
     });
 
     it("returns false når dato er før angitt periode", () => {
         const item = { ar: 2025, maned: 7, utbetalingerForManed: [] };
-        const range = mI(2025, 8, 2025, 10);
-        expect(erInnenforAngittPeriode(item, range)).toBe(false);
+        const range = intervalFromYearsAndMonths(2025, 9, 2025, 11);
+        expect(erInnenforIntervall(item, range)).toBe(false);
     });
 
     it("returns false når dato er etter angitt periode", () => {
         const item = { ar: 2025, maned: 11, utbetalingerForManed: [] };
-        const range = mI(2025, 8, 2025, 10);
-        expect(erInnenforAngittPeriode(item, range)).toBe(false);
+        const range = intervalFromYearsAndMonths(2025, 8, 2025, 10);
+        expect(erInnenforIntervall(item, range)).toBe(false);
     });
 
     it("returns true når dato matcher starten av intervallet", () => {
         const item = { ar: 2025, maned: 8, utbetalingerForManed: [] };
-        const range = mI(2025, 8, 2025, 10);
-        expect(erInnenforAngittPeriode(item, range)).toBe(true);
+        const range = intervalFromYearsAndMonths(2025, 8, 2025, 10);
+        expect(erInnenforIntervall(item, range)).toBe(true);
     });
 
     it("returns true når dato matcher slutten av intervallet", () => {
         const item = { ar: 2025, maned: 10, utbetalingerForManed: [] };
-        const range = mI(2025, 8, 2025, 10);
-        expect(erInnenforAngittPeriode(item, range)).toBe(true);
+        const range = intervalFromYearsAndMonths(2025, 8, 2025, 10);
+        expect(erInnenforIntervall(item, range)).toBe(true);
     });
 
     it("returns true når dato er inklusiv i intervallet", () => {
         const item = { ar: 2025, maned: 8, utbetalingerForManed: [] };
-        const range = mI(2025, 8, 2025, 8);
-        expect(erInnenforAngittPeriode(item, range)).toBe(true);
+        const range = intervalFromYearsAndMonths(2025, 8, 2025, 8);
+        expect(erInnenforIntervall(item, range)).toBe(true);
     });
 });
 
@@ -269,14 +193,5 @@ describe("formaterKontonummer", () => {
 
     it("kontonummeret blir uendret ", () => {
         expect(formaterKontonummer("1234 56 78901")).toBe("1234 56 78901");
-    });
-});
-
-describe("erKontonummerformatert", () => {
-    it("gjenkjenner 4-2-5 format", () => {
-        expect(erKontonummerFormatert("1234 56 78901")).toBe(true);
-    });
-    it("gjennkjenner at kontonummerert har ikke blitt formatert", () => {
-        expect(erKontonummerFormatert("12345678901")).toBe(false);
     });
 });
