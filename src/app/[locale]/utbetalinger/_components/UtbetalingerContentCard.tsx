@@ -2,11 +2,12 @@ import { BodyShort, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import NextLink from "next/link";
 import { Link } from "@navikt/ds-react/Link";
 import React from "react";
-import { useFormatter, useTranslations } from "next-intl";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 
 import { ManedUtbetaling } from "@generated/ssr/model";
+import { useFlag } from "@featuretoggles/context";
 
 import styles from "../../../../utbetalinger/utbetalinger.module.css";
 
@@ -26,6 +27,8 @@ const cardBorder = (id: number, count: number) => {
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
+    const locale = useLocale();
+    const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknaden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
 
@@ -93,7 +96,14 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
-                    <Link as={NextLink} href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
+                    <Link
+                        as={NextLink}
+                        href={
+                            toggle.enabled
+                                ? `/${locale}/soknad/${manedUtbetaling.fiksDigisosId}`
+                                : `/${locale}/${manedUtbetaling.fiksDigisosId}/status`
+                        }
+                    >
                         <BodyShort>{t("lenke")}</BodyShort>
                         <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
                     </Link>
