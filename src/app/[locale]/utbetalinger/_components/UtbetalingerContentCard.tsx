@@ -7,6 +7,7 @@ import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 
 import { ManedUtbetaling } from "@generated/ssr/model";
+import { useFlag } from "@featuretoggles/context";
 
 import styles from "../../../../utbetalinger/utbetalinger.module.css";
 
@@ -26,6 +27,7 @@ const cardBorder = (id: number, count: number) => {
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
+    const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknadensiden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
 
@@ -93,7 +95,14 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
-                    <Link as={NextLink} href={`soknad/${manedUtbetaling.fiksDigisosId}`}>
+                    <Link
+                        as={NextLink}
+                        href={
+                            toggle.enabled
+                                ? `/soknad/${manedUtbetaling.fiksDigisosId}`
+                                : `/${manedUtbetaling.fiksDigisosId}/status`
+                        }
+                    >
                         <BodyShort>{t("lenke")}</BodyShort>
                         <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
                     </Link>
