@@ -6,23 +6,6 @@ import { getFlag, getToggles, UNLEASH_COOKIE_NAME } from "@featuretoggles/unleas
 
 const PUBLIC_FILE = /\.(.*)$/;
 
-const rewrite = async (request: NextRequest) => {
-    const toggles = await getToggles();
-    const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
-    // Eksempel: /nb -> ['', 'nb'], segments = []
-    const [, , ...segments] = request.nextUrl.pathname.split("/");
-
-    // Rewrite til landingsside hvis landingssideToggle er på og bruker besøker index
-    if (landingssideToggle.enabled && segments.length === 0) {
-        return NextResponse.rewrite(request.nextUrl.href + "/landingsside");
-    }
-
-    const utbetalingsideToggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", toggles);
-    if (segments[0] === "utbetaling" && utbetalingsideToggle.enabled) {
-        return NextResponse.rewrite(request.nextUrl.href.replace("/utbetaling", "/utbetalinger"));
-    }
-};
-
 const addUnleashCookie = (request: NextRequest, response: NextResponse) => {
     if (request.cookies.get(UNLEASH_COOKIE_NAME)?.value == null) {
         response.cookies.set(UNLEASH_COOKIE_NAME, crypto.randomUUID());
@@ -38,12 +21,45 @@ export async function middleware(request: NextRequest) {
         return;
     }
 
-    const i18nMiddleware = createMiddleware(routing);
+    const toggles = await getToggles();
 
-    let response: NextResponse = i18nMiddleware(request);
-    // Hvis bruker må redirectes for språket, så blir det satt som en 3XX, dvs. !ok.
-    if (response.ok) {
-        response = (await rewrite(request)) ?? response;
+    // Check if we need to rewrite before i18n processes the request
+    const utbetalingsideToggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", toggles);
+    const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
+
+    // Determine if this is a path that needs rewriting
+    // Match /nb/utbetaling but not /nb/utbetalinger
+    const needsUtbetalingRewrite = utbetalingsideToggle.enabled && /\/utbetaling(\/|$|\?)/.test(pathname);
+    const needsLandingssideRewrite = landingssideToggle.enabled && pathname.match(/^\/[^\/]+\/?$/);
+
+    // If we need to rewrite, modify the request URL before i18n processes it
+    let modifiedRequest = request;
+    if (needsUtbetalingRewrite || needsLandingssideRewrite) {
+        const newUrl = new URL(request.url);
+
+        if (needsUtbetalingRewrite) {
+            // Replace /utbetaling with /utbetalinger (but not if it's already /utbetalinger)
+            newUrl.pathname = pathname.replace(/\/utbetaling(\/|$|\?)/, "/utbetalinger$1");
+        } else if (needsLandingssideRewrite) {
+            newUrl.pathname = pathname.replace(/^(\/[^\/]+)\/?$/, "$1/landingsside");
+        }
+
+        modifiedRequest = new NextRequest(newUrl, request);
     }
+
+    const i18nMiddleware = createMiddleware(routing);
+    let response: NextResponse = i18nMiddleware(modifiedRequest);
+
+    // If i18n middleware added a locale query parameter, remove it
+    if (!response.ok && response.status >= 300 && response.status < 400) {
+        // This is a redirect - check the Location header
+        const location = response.headers.get("location");
+        if (location && location.includes("?locale=")) {
+            const url = new URL(location, request.url);
+            url.searchParams.delete("locale");
+            response = NextResponse.redirect(url);
+        }
+    }
+
     return addUnleashCookie(request, response);
 }
