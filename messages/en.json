@@ -386,32 +386,43 @@
         "breadcrumbTitle": "Payments"
     },
     "Utbetalinger": {
-        "tittel": "Payments for financial assistance"
-    },
-    "UtbetalingerChips": {
+        "tittel": "Payments for financial assistance",
         "periode": "Choose period",
         "til": "To",
         "fra": "From",
         "visUtbetalinger": "Show payments",
-        "kommende": {
-            "kort": "Upcoming",
-            "lang": "Upcoming payments"
-        },
+        "kommende": "Upcoming",
         "siste3": "Last 3 months",
         "hittil": "So far this year",
         "fjor": "Last year",
         "egendefinert": "Customize"
     },
-    "IngenPeriodeUtbetalinger": {
-        "tittel": "You have no payments for this period.",
-        "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
+    "UtbetalingerListe": {
+        "tittel": {
+            "kommende": "Upcoming",
+            "siste3": "Last 3 months",
+            "hittil": "So far this year",
+            "fjor": "Last year",
+            "egendefinert": "Customize"
+        }
     },
-    "IngenKommendeUtbetalinger": {
-        "tittel": "You have no upcoming payments",
-        "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
-        "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
+    "IngenUtbetalinger": {
+        "kommende": {
+            "tittel": "You have no upcoming payments"
+        },
+        "periode": {
+            "tittel": "You have no payments for this period."
+        },
+        "Description": {
+            "kommende": {
+                "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
+                "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
+            },
+            "periode": {
+                "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
+            }
+        }
     },
-    "UtbetalingerHeaderCard": {},
     "UtbetalingerContentCard": {
         "periode": "Period:",
         "mottaker": "Recipient:",

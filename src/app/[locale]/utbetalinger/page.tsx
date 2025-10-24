@@ -17,10 +17,10 @@ import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", await getToggles());
-    const t = await getTranslations("UtbetalingerPage");
     if (!toggle.enabled) {
         return notFound();
     }
+    const t = await getTranslations("UtbetalingerPage");
     const queryClient = getQueryClient();
 
     prefetchHentNyeUtbetalingerQuery(queryClient);

@@ -1,15 +1,15 @@
 import { BodyShort, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
-import NextLink from "next/link";
 import { Link } from "@navikt/ds-react/Link";
 import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 
+import { Link as NextLink } from "@i18n/navigation";
 import { ManedUtbetaling } from "@generated/ssr/model";
 import { useFlag } from "@featuretoggles/context";
 
-import styles from "../../../../utbetalinger/utbetalinger.module.css";
+import styles from "../../../../../utbetalinger/utbetalinger.module.css";
 
 import { Utbetalingsmetode } from "./Utbetalingsmetode";
 
