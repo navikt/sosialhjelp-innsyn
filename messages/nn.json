@@ -385,9 +385,6 @@
         "tittel": "Utbetalingar for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalingar"
     },
-    "Utbetalinger": {
-        "tittel": "Utbetalingar for økonomisk sosialhjelp"
-    },
     "UtbetalingerChips": {
         "periode": "Vel periode",
         "til": "Til",
@@ -402,16 +399,44 @@
         "fjor": "I fjor",
         "egendefinert": "Eigendefinert"
     },
-    "IngenPeriodeUtbetalinger": {
-        "tittel": "Du har ingen utbetalingar for denne perioden",
-        "beskrivelse": "Prøv å endre periode. Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
+    "Utbetalinger": {
+        "tittel": "Utbetalingar for økonomisk sosialhjelp",
+        "periode": "Vel periode",
+        "til": "Til",
+        "fra": "Frå",
+        "visUtbetalinger": "Vis utbetalinger",
+        "kommende": "Komande",
+        "siste3": "Siste 3 månader",
+        "hittil": "Hittil i år",
+        "fjor": "I fjor",
+        "egendefinert": "Eigendefinert"
     },
-    "IngenKommendeUtbetalinger": {
-        "tittel": "Du har ingen komande utbetalingar",
-        "beskrivelse1": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
-        "beskrivelse2": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
+    "UtbetalingerListe": {
+        "tittel": {
+            "kommende": "Komande",
+            "siste3": "Siste 3 månader",
+            "hittil": "Hittil i år",
+            "fjor": "I fjor",
+            "egendefinert": "Eigendefinert"
+        }
     },
-    "UtbetalingerHeaderCard": {},
+    "IngenUtbetalinger": {
+        "kommende": {
+            "tittel": "Du har ingen komande utbetalingar"
+        },
+        "periode": {
+            "tittel": "Du har ingen utbetalingar for denne perioden"
+        },
+        "Description": {
+            "kommende": {
+                "beskrivelse1": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
+                "beskrivelse2": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
+            },
+            "periode": {
+                "beskrivelse": "Prøv å endre periode. Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
+            }
+        }
+    },
     "UtbetalingerContentCard": {
         "periode": "Periode:",
         "mottaker": "Mottakar:",
