@@ -30,3 +30,4 @@ tsconfig.tsbuildinfo
 src/generated
 playwright-report/
 test-results/
+mise.toml
