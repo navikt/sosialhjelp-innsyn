@@ -415,7 +415,7 @@
         },
         "Description": {
             "kommende": {
-                "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
+                "beskrivelse": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
                 "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
             },
             "periode": {

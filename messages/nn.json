@@ -429,7 +429,7 @@
         },
         "Description": {
             "kommende": {
-                "beskrivelse1": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
+                "beskrivelse": "Dersom du har søkt om og fått innvilga økonomisk sosialhjelp, kan det vere at stønaden din allereie har vorte betalt. Prøv å endre periode.",
                 "beskrivelse2": "Dersom du framleis ikkje finn ein utbetaling eller har andre spørsmål om utbetalingar, kan du kontakte våre rettleiarar på 55 55 33 33."
             },
             "periode": {
