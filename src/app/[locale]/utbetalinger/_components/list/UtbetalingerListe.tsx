@@ -4,8 +4,6 @@ import React from "react";
 import { VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { ManedUtbetalingStatus } from "@generated/ssr/model";
-
 import type { State } from "../utbetalingerReducer";
 import { UtbetalingerCard } from "../utbetaling/UtbetalingerCard";
 
@@ -34,11 +32,7 @@ const UtbetalingerListe = ({ selectedState }: Props) => {
                     datas
                         .toReversed()
                         .map((gruppe) => (
-                            <UtbetalingerCard
-                                key={`${gruppe.ar}-${gruppe.maned}`}
-                                utbetalinger={gruppe}
-                                manedsUtbetalingerSummert={[ManedUtbetalingStatus.PLANLAGT_UTBETALING]}
-                            />
+                            <UtbetalingerCard key={`${gruppe.ar}-${gruppe.maned}`} utbetalinger={gruppe} />
                         ))
                 )}
             </UtbetalingerListView>

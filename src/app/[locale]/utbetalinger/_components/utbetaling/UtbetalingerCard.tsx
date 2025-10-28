@@ -3,25 +3,22 @@ import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
-    manedsUtbetalingerSummert?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerCard = ({ utbetalinger, manedsUtbetalingerSummert }: Props) => {
+export const UtbetalingerCard = ({ utbetalinger }: Props) => {
     const format = useFormatter();
 
     const utbetalingerForManed = utbetalinger.utbetalingerForManed;
 
     if (utbetalingerForManed.length === 0) return null;
 
-    const utbetalingSum = utbetalingerForManed
-        .filter((utbetalinger) => !manedsUtbetalingerSummert || manedsUtbetalingerSummert.includes(utbetalinger.status))
-        .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
+    const utbetalingSum = utbetalingerForManed.reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
         <VStack gap="05">
