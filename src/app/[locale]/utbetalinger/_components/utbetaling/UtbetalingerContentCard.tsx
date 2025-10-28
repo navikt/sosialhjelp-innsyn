@@ -57,12 +57,17 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                                     {t(manedUtbetaling.status)}
                                 </BodyShort>
                                 <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
-                                    {manedUtbetaling.forfallsdato
-                                        ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                    {manedUtbetaling.utbetalingsdato
+                                        ? format.dateTime(new Date(manedUtbetaling.utbetalingsdato), {
                                               day: "numeric",
                                               month: "long",
                                           })
-                                        : t("ukjentDato")}
+                                        : manedUtbetaling.forfallsdato
+                                          ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                                day: "numeric",
+                                                month: "long",
+                                            })
+                                          : t("ukjentDato")}
                                 </BodyShort>
                             </HStack>
                         </HStack>
