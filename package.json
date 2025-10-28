@@ -22,7 +22,7 @@
         "date-fns": "^4.1.0",
         "filesize": "^11.0.13",
         "js-cookie": "^3.0.1",
-        "next": "^15.5.4",
+        "next": "^16.0.0",
         "next-intl": "^4.4.0",
         "next-logger": "^5.0.2",
         "next-navigation-guard": "^0.2.0",
