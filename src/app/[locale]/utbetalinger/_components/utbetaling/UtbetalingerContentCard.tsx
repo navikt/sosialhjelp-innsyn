@@ -26,7 +26,6 @@ const cardBorder = (id: number, count: number) => {
 
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
-    const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard
     const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknadensiden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
@@ -36,37 +35,45 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             size="small"
             aria-label={t("arialabel") + manedUtbetaling.tittel}
             data-color="accent"
-            className={cx("hover:outline-none hover:shadow-none", cardBorder(index, count))}
+            className={cx("hover:outline-none hover:shadow-none", cardBorder(index, count), styles.headerFill)}
         >
             <ExpansionCard.Header
-                className={cx("gap-2 data-[open=true]:after:content-none", cardBorder(index, count), styles.headerFill)}
+                className={cx(
+                    "gap-2 data-[open=true]:after:content-none",
+                    cardBorder(index, count),
+                    styles.headerFill,
+                    styles.chevronTight
+                )}
             >
                 <ExpansionCard.Title as="h4">
-                    <HStack align="center" wrap={false} className="w-full" justify="space-between">
+                    <HStack align="center" wrap={false} className="w-full min-w-0" justify="space-between">
                         <HStack gap="2" align="center" className="min-w-0" wrap={false}>
-                            <BodyShort
-                                lang="no"
-                                size="medium"
-                                weight="semibold"
-                                className={cx("truncate", alignmentWithChevron)}
-                            >
-                                {manedUtbetaling.tittel}
-                            </BodyShort>
-                            <HStack gap="1">
-                                <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
-                                    {t(manedUtbetaling.status)}
+                            <VStack gap="2" className="min-w-0">
+                                <HStack gap="1">
+                                    <BodyShort size="small">{t(manedUtbetaling.status)}</BodyShort>
+                                    <BodyShort size="small">
+                                        {manedUtbetaling.forfallsdato
+                                            ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                                  day: "numeric",
+                                                  month: "long",
+                                              })
+                                            : t("ukjentDato")}
+                                    </BodyShort>
+                                </HStack>
+                                <BodyShort
+                                    lang="no"
+                                    size="medium"
+                                    weight="semibold"
+                                    className={cx("truncate", styles.truncateWhenClosed)}
+                                >
+                                    {manedUtbetaling.tittel}
                                 </BodyShort>
-                                <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
-                                    {manedUtbetaling.forfallsdato
-                                        ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
-                                              day: "numeric",
-                                              month: "long",
-                                          })
-                                        : t("ukjentDato")}
-                                </BodyShort>
-                            </HStack>
+                            </VStack>
                         </HStack>
-                        <BodyShort weight="semibold" className={cx("truncate tabular-nums", alignmentWithChevron)}>
+                        <BodyShort
+                            weight="semibold"
+                            className="tabular-nums whitespace-nowrap shrink-0 self-center leading-none"
+                        >
                             {format.number(manedUtbetaling.belop)} kr
                         </BodyShort>
                     </HStack>
