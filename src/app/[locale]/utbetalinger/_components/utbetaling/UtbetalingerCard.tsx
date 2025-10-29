@@ -1,7 +1,6 @@
 import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
 import { useFormatter } from "next-intl";
-import { parseISO } from "date-fns";
 
 import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
@@ -27,7 +26,7 @@ export const UtbetalingerCard = ({ utbetalinger }: Props) => {
             <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
                 <HStack className="pr-2" align="center">
                     <Heading size="small" level="3" className="capitalize">
-                        {format.dateTime(parseISO(`${utbetalinger.ar}-${utbetalinger.maned}-15`), {
+                        {format.dateTime(new Date(utbetalinger.ar, utbetalinger.maned - 1, 10), {
                             month: "long",
                             year: "numeric",
                         })}
