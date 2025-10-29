@@ -79,19 +79,19 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             </ExpansionCard.Header>
             <ExpansionCard.Content>
                 <VStack gap="4">
-                    <VStack>
-                        <BodyShort size="medium" weight="semibold">
-                            {t("periode")}
-                        </BodyShort>
-                        {manedUtbetaling.fom && manedUtbetaling.tom && (
+                    {manedUtbetaling.fom && manedUtbetaling.tom && (
+                        <VStack>
+                            <BodyShort size="medium" weight="semibold">
+                                {t("periode")}
+                            </BodyShort>
                             <BodyShort>
                                 {t.rich("datoRange", {
                                     fom: new Date(manedUtbetaling.fom),
                                     tom: new Date(manedUtbetaling.tom),
                                 })}
                             </BodyShort>
-                        )}
-                    </VStack>
+                        </VStack>
+                    )}
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             {t("utbetalingsmetode")}

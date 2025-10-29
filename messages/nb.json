@@ -402,7 +402,7 @@
         "tilDeg": "Til deg",
         "utbetalesTil": "Utbetales til {mottaker}",
         "utbetalesTilUkjent": "Utbetales til annen mottaker",
-        "bankkonto": "Din bankkonto: <norsk>{konto}</norsk>",
+        "bankkonto": "Din bankkonto: {konto}",
         "lenke": "Se søknaden og vedtaket du fikk",
         "STOPPET": "Stoppet",
         "PLANLAGT_UTBETALING": "Planlagt",
