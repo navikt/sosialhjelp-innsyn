@@ -348,7 +348,7 @@
         "validering": {
             "maksLengde": "You can write a maximum of 1000 characters"
         },
-        "sendKlage": "Send inn",
+        "sendKlage": "Send",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
     "KlageFileUpload": {
