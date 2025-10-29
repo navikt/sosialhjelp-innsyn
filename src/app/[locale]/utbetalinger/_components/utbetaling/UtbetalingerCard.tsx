@@ -1,6 +1,7 @@
 import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
 import { useFormatter } from "next-intl";
+import { parse } from "date-fns";
 
 import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
@@ -18,7 +19,7 @@ export const UtbetalingerCard = ({ utbetalinger }: Props) => {
     if (utbetalingerForManed.length === 0) return null;
 
     const utbetalingSum = utbetalingerForManed
-        .filter((it) => it.status !== "STOPPET" && it.status !== "ANNULLERT")
+        .filter((it) => !["STOPPET", "ANNULLERT"].includes(it.status))
         .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
@@ -26,7 +27,7 @@ export const UtbetalingerCard = ({ utbetalinger }: Props) => {
             <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
                 <HStack className="pr-2" align="center">
                     <Heading size="small" level="3" className="capitalize">
-                        {format.dateTime(new Date(utbetalinger.ar, utbetalinger.maned - 1), {
+                        {format.dateTime(parse(`${utbetalinger.ar}-${utbetalinger.maned}`, "yyyy-M", new Date()), {
                             month: "long",
                             year: "numeric",
                         })}
