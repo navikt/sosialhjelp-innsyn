@@ -18,7 +18,7 @@ interface Props {
 const UtbetalingerListe = ({ selectedState }: Props) => {
     const t = useTranslations("UtbetalingerListe");
 
-    const datas = useUtbetalinger({
+    const { data } = useUtbetalinger({
         selectedState,
     });
 
@@ -26,10 +26,10 @@ const UtbetalingerListe = ({ selectedState }: Props) => {
     return (
         <VStack gap="16">
             <UtbetalingerListView tittel={tittel}>
-                {datas.length === 0 ? (
+                {data.length === 0 ? (
                     <IngenUtbetalinger selectedChip={selectedState.chip} />
                 ) : (
-                    datas
+                    data
                         .toReversed()
                         .map((gruppe) => (
                             <UtbetalingerCard key={`${gruppe.ar}-${gruppe.maned}`} utbetalinger={gruppe} />

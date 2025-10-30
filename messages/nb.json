@@ -354,8 +354,12 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-        "tittel": "Mine utbetalinger for økonomisk sosialhjelp",
-        "breadcrumbTitle": "Utbetalinger"
+        "tittel": "Mine Utbetalinger for økonomisk sosialhjelp",
+        "breadcrumbTitle": "Utbetalinger",
+        "feil": {
+            "tittel": "Noe gikk galt med visning av utbetalinger",
+            "melding": "Her har det skjedd noe kluss. Trykk på knappen under for å laste siden på nytt."
+        }
     },
     "Utbetalinger": {
         "tittel": "Utbetalinger for økonomisk sosialhjelp",

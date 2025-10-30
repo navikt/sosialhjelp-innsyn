@@ -383,7 +383,11 @@
     },
     "UtbetalingerPage": {
         "tittel": "Mine utbetalingar for økonomisk sosialhjelp",
-        "breadcrumbTitle": "Utbetalingar"
+        "breadcrumbTitle": "Utbetalingar",
+        "feil": {
+            "tittel": "Noko gjekk galt med visning av utbetalingar",
+            "melding": "Her har det skjedd noko kluss. Trykk på knappen under for å laste sida på nytt."
+        }
     },
     "UtbetalingerChips": {
         "periode": "Vel periode",

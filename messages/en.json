@@ -383,7 +383,11 @@
     },
     "UtbetalingerPage": {
         "tittel": "My payments for financial assistance",
-        "breadcrumbTitle": "Payments"
+        "breadcrumbTitle": "Payments",
+        "feil": {
+            "tittel": "Something went wrong displaying payments",
+            "melding": "Something has gone wrong here. Click the button below to reload the page."
+        }
     },
     "Utbetalinger": {
         "tittel": "Payments for financial assistance",
