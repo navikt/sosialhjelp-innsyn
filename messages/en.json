@@ -379,14 +379,14 @@
     },
     "Breadcrumbs": {
         "MinSide": "My page",
-        "Sosialhjelp": "Financial assistance"
+        "Sosialhjelp": "Financial support"
     },
     "UtbetalingerPage": {
-        "tittel": "My payments for financial assistance",
+        "tittel": "My payments for financial support",
         "breadcrumbTitle": "Payments"
     },
     "Utbetalinger": {
-        "tittel": "Payments for financial assistance",
+        "tittel": "Payments for financial support",
         "periode": "Choose period",
         "til": "To",
         "fra": "From",
@@ -411,7 +411,7 @@
             "tittel": "You have no upcoming payments"
         },
         "periode": {
-            "tittel": "You have no payments for this period."
+            "tittel": "You have no payments for this selected period."
         },
         "Description": {
             "kommende": {
@@ -433,7 +433,7 @@
         "bankkonto": "Your bank account: {konto}",
         "lenke": "View the application and the decision letter you received",
         "STOPPET": "Stopped",
-        "PLANLAGT_UTBETALING": "Planned",
+        "PLANLAGT_UTBETALING": "Scheduled payments",
         "UTBETALT": "Paid",
         "ANNULLERT": "Annulled",
         "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}",
