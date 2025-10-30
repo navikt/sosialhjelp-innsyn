@@ -14,8 +14,7 @@ import {
     erInnenforIntervall,
     utbetalingInnenforIntervall,
 } from "../../_utils/utbetalinger-utils";
-import type { Option } from "../Utbetalinger";
-import { State } from "../utbetalingerReducer";
+import { Option, State } from "../utbetalingerReducer";
 
 interface Props {
     selectedState: State;

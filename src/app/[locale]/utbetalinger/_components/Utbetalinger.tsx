@@ -7,11 +7,7 @@ import React, { useReducer } from "react";
 import { endOfDay, interval, startOfMonth, subMonths } from "date-fns";
 
 import UtbetalingerListe from "./list/UtbetalingerListe";
-import { reducer, initialState } from "./utbetalingerReducer";
-
-export type Option = "kommende" | "siste3" | "hittil" | "fjor" | "egendefinert";
-
-const options = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly Option[];
+import { reducer, initialState, options } from "./utbetalingerReducer";
 
 const today = new Date();
 const earliest = startOfMonth(subMonths(today, 15));

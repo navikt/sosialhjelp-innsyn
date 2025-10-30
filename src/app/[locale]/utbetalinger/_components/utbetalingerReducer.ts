@@ -1,6 +1,8 @@
 import { Interval } from "date-fns";
 
-import { Option } from "./Utbetalinger";
+export type Option = "kommende" | "siste3" | "hittil" | "fjor" | "egendefinert";
+
+export const options = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly Option[];
 
 type ActionType = "updateAndRender" | "setEgendefinert" | "updateInterval";
 

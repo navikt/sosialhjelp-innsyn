@@ -55,12 +55,12 @@ export default async function LocaleLayout({ children, params }: PropsWithChildr
         notFound();
     }
 
-    const toggles = await getToggles();
+    const toggles = getToggles();
 
-    const harTilgangResponse = await harTilgang();
+    const harTilgangResponse = harTilgang();
     return (
         <NextIntlClientProvider>
-            <Providers toggles={toggles} tilgang={harTilgangResponse}>
+            <Providers togglesPromise={toggles} tilgang={harTilgangResponse}>
                 {children}
             </Providers>
         </NextIntlClientProvider>
