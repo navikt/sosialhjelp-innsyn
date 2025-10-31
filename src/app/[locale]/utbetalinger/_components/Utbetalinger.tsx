@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Chips, DatePicker, Heading, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
+import { Button, Chips, DatePicker, Heading, HStack, useDatepicker, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 import { useTranslations } from "next-intl";
 import React, { useReducer } from "react";
@@ -16,18 +16,33 @@ const options = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as cons
 const today = new Date();
 const earliest = startOfMonth(subMonths(today, 15));
 
-const toInterval = (from?: Date, to?: Date) => {
-    if (!from || !to) return undefined;
-    return interval(from, endOfDay(to));
-};
+const toInterval = (from?: Date, to?: Date) => (from && to ? interval(from, endOfDay(to)) : undefined);
 
 const Utbetalinger = () => {
     const t = useTranslations("Utbetalinger");
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { datepickerProps, fromInputProps, toInputProps, selectedRange } = useRangeDatepicker({
-        fromDate: earliest,
+
+    const {
+        datepickerProps: fraPicker,
+        inputProps: fraInput,
+        selectedDay: fra,
+    } = useDatepicker({
         defaultMonth: today,
+        fromDate: earliest,
     });
+
+    const {
+        datepickerProps: tilPicker,
+        inputProps: tilInput,
+        selectedDay: til,
+    } = useDatepicker({
+        defaultMonth: today,
+        fromDate: earliest,
+    });
+
+    const fraProps = { ...fraPicker, toDate: til };
+    const tilProps = { ...tilPicker, fromDate: fra ?? earliest };
+
     return (
         <VStack gap="16">
             <VStack gap="4">
@@ -44,7 +59,7 @@ const Utbetalinger = () => {
                                 if (chip === "egendefinert") {
                                     dispatch({
                                         type: "setEgendefinert",
-                                        payload: { chip, interval: toInterval(selectedRange?.from, selectedRange?.to) },
+                                        payload: { chip, interval: toInterval(fra, til) },
                                     });
                                 } else {
                                     dispatch({ type: "updateAndRender", payload: { chip } });
@@ -58,23 +73,22 @@ const Utbetalinger = () => {
             </VStack>
             {state.selectedChip === "egendefinert" && (
                 <HStack gap="4" align="end">
-                    <DatePicker {...datepickerProps}>
-                        <HStack gap="4">
-                            <DatePicker.Input {...fromInputProps} label={t("fra")} />
-                            <DatePicker.Input {...toInputProps} label={t("til")} />
-                        </HStack>
-                    </DatePicker>
+                    <HStack gap="4">
+                        <DatePicker {...fraProps}>
+                            <DatePicker.Input {...fraInput} label={t("fra")} />
+                        </DatePicker>
+                        <DatePicker {...tilProps}>
+                            <DatePicker.Input {...tilInput} label={t("til")} />
+                        </DatePicker>
+                    </HStack>
                     <Button
                         onClick={() => {
                             dispatch({
                                 type: "updateInterval",
-                                payload: {
-                                    chip: "egendefinert",
-                                    interval: toInterval(selectedRange?.from, selectedRange?.to),
-                                },
+                                payload: { chip: "egendefinert", interval: toInterval(fra, til) },
                             });
                         }}
-                        disabled={!selectedRange?.from || !selectedRange?.to}
+                        disabled={!fra || !til}
                     >
                         {t("visUtbetalinger")}
                     </Button>
