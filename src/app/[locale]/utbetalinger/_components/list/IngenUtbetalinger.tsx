@@ -2,7 +2,7 @@ import { BodyShort, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import React from "react";
 import { useTranslations } from "next-intl";
 
-import { Option } from "../Utbetalinger";
+import { Option } from "../utbetalingerReducer";
 
 interface Props {
     selectedChip: Option;
