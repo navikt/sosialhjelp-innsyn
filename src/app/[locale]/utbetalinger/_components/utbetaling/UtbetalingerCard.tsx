@@ -1,5 +1,4 @@
 import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
-import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
 
@@ -18,23 +17,19 @@ export const UtbetalingerCard = ({ utbetalinger }: Props) => {
 
     if (utbetalingerForManed.length === 0) return null;
 
-    const utbetalingSum = utbetalingerForManed.reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
+    const utbetalingSum = utbetalingerForManed
+        .filter((it) => !["STOPPET", "ANNULLERT"].includes(it.status))
+        .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
         <VStack gap="05">
             <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
                 <HStack className="pr-2" align="center">
                     <Heading size="small" level="3" className="capitalize">
-                        {format.dateTime(
-                            set(new Date(0), {
-                                year: utbetalinger.ar,
-                                month: utbetalinger.maned - 1,
-                            }),
-                            {
-                                month: "long",
-                                year: "numeric",
-                            }
-                        )}
+                        {format.dateTime(new Date(utbetalinger.ar, utbetalinger.maned - 1, 10), {
+                            month: "long",
+                            year: "numeric",
+                        })}
                     </Heading>
                     <BodyShort className="ml-auto tabular-nums" weight="semibold">
                         {format.number(utbetalingSum)} kr

@@ -382,7 +382,7 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-        "tittel": "Utbetalingar for økonomisk sosialhjelp",
+        "tittel": "Mine utbetalingar for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalingar"
     },
     "UtbetalingerChips": {
@@ -444,7 +444,7 @@
         "tilDeg": "Til deg",
         "utbetalesTil": "Blir utbetalt til {mottaker}",
         "utbetalesTilUkjent": "Blir utbetalt til annan mottakar",
-        "bankkonto": "Di bankkonto: <norsk>{konto}</norsk>",
+        "bankkonto": "Di bankkonto: {konto}",
         "lenke": "Se søknaden og vedtaket du fikk",
         "STOPPET": "Stoppa",
         "PLANLAGT_UTBETALING": "Planlagt",

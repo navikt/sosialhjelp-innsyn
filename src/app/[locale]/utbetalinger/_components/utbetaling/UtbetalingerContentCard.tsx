@@ -18,7 +18,7 @@ interface Props {
     index: number;
     count: number;
 }
-const cardBorder = (id: number, count: number) => {
+export const cardBorder = (id: number, count: number) => {
     if (count <= 1) return "border-none rounded-t-none rounded-b-lg";
     if (id === count - 1) return "border-none rounded-t-none rounded-b-lg";
     return "border-none rounded-none";
@@ -52,12 +52,17 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                                 <HStack gap="1">
                                     <BodyShort size="small">{t(manedUtbetaling.status)}</BodyShort>
                                     <BodyShort size="small">
-                                        {manedUtbetaling.forfallsdato
-                                            ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                        {manedUtbetaling.utbetalingsdato
+                                            ? format.dateTime(new Date(manedUtbetaling.utbetalingsdato), {
                                                   day: "numeric",
                                                   month: "long",
                                               })
-                                            : t("ukjentDato")}
+                                            : manedUtbetaling.forfallsdato
+                                              ? format.dateTime(new Date(manedUtbetaling.forfallsdato), {
+                                                    day: "numeric",
+                                                    month: "long",
+                                                })
+                                              : t("ukjentDato")}
                                     </BodyShort>
                                 </HStack>
                                 <BodyShort
@@ -81,19 +86,19 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             </ExpansionCard.Header>
             <ExpansionCard.Content>
                 <VStack gap="4">
-                    <VStack>
-                        <BodyShort size="medium" weight="semibold">
-                            {t("periode")}
-                        </BodyShort>
-                        {manedUtbetaling.fom && manedUtbetaling.tom && (
+                    {manedUtbetaling.fom && manedUtbetaling.tom && (
+                        <VStack>
+                            <BodyShort size="medium" weight="semibold">
+                                {t("periode")}
+                            </BodyShort>
                             <BodyShort>
                                 {t.rich("datoRange", {
                                     fom: new Date(manedUtbetaling.fom),
                                     tom: new Date(manedUtbetaling.tom),
                                 })}
                             </BodyShort>
-                        )}
-                    </VStack>
+                        </VStack>
+                    )}
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             {t("utbetalingsmetode")}

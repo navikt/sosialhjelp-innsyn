@@ -382,7 +382,7 @@
         "Sosialhjelp": "Financial assistance"
     },
     "UtbetalingerPage": {
-        "tittel": "Payments for financial assistance",
+        "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "Payments"
     },
     "Utbetalinger": {
@@ -430,7 +430,7 @@
         "tilDeg": "To you",
         "utbetalesTil": "Paid to {mottaker}",
         "utbetalesTilUkjent": "Paid to another recipient",
-        "bankkonto": "Your bank account: <norsk>{konto}</norsk>",
+        "bankkonto": "Your bank account: {konto}",
         "lenke": "View the application and the decision letter you received",
         "STOPPET": "Stopped",
         "PLANLAGT_UTBETALING": "Planned",

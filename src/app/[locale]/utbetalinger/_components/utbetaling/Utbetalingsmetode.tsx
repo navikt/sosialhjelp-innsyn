@@ -19,24 +19,24 @@ export const Utbetalingsmetode = ({ utbetaling }: Props) => {
 
     if (utbetaling.annenMottaker) {
         const navn = (utbetaling.mottaker ?? "").trim();
-        return <>{navn ? t.rich("utbetalesTil", { mottaker: navn }) : t("utbetalesTilUkjent")}</>;
+        return <>{navn ? t("utbetalesTil", { mottaker: navn }) : t("utbetalesTilUkjent")}</>;
     }
 
     if (metode && konto) {
         if (/konto/i.test(metode)) {
-            return <>{t.rich("bankkonto", { norsk: (c) => <span lang="no">{c}</span>, konto })}</>;
+            return <>{t("bankkonto", { konto })}</>;
         }
         return (
             <>
                 <span>{metode}</span>
                 {": "}
-                <span lang="no">{konto}</span>
+                <span>{konto}</span>
             </>
         );
     }
 
     if (metode) return <span>{metode}</span>;
-    if (konto) return <>{t.rich("bankkonto", { konto })}</>;
+    if (konto) return <>{t("bankkonto", { konto })}</>;
 
     return <>{t("tilDeg")}</>;
 };

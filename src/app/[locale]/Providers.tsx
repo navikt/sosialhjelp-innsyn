@@ -1,6 +1,6 @@
 "use client";
 
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, use } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
@@ -23,11 +23,13 @@ configureLogger({
 });
 
 interface Props {
-    toggles: IToggle[];
-    tilgang?: TilgangResponse;
+    togglesPromise: Promise<IToggle[]>;
+    tilgang: Promise<TilgangResponse | undefined>;
 }
 
-const Providers = ({ toggles, tilgang, children }: PropsWithChildren<Props>) => {
+const Providers = ({ togglesPromise, tilgang, children }: PropsWithChildren<Props>) => {
+    const harTilgang = use(tilgang);
+    const toggles = use(togglesPromise);
     const router = useRouter();
     const pathname = usePathname();
     // Default options for query clienten blir satt i orval.config.ts
@@ -42,7 +44,7 @@ const Providers = ({ toggles, tilgang, children }: PropsWithChildren<Props>) => 
     return (
         <QueryClientProvider client={queryClient}>
             <FlagProvider toggles={toggles}>
-                <TilgangskontrollsideApp harTilgang={tilgang}>{children}</TilgangskontrollsideApp>
+                <TilgangskontrollsideApp harTilgang={harTilgang}>{children}</TilgangskontrollsideApp>
             </FlagProvider>
         </QueryClientProvider>
     );
