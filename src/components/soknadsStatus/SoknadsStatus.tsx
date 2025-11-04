@@ -150,6 +150,7 @@ const SoknadsStatus = () => {
                                                             onClick={() =>
                                                                 umamiTrack("knapp klikket", {
                                                                     tekst: "Åpner vedtak",
+                                                                    digisosId: fiksDigisosId,
                                                                 })
                                                             }
                                                         >
