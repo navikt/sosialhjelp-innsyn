@@ -373,7 +373,7 @@
         "finnKontor": "Finn Nav-kontor",
         "finnDittNavkontor": "Finn ditt Nav-kontor (innlogget)",
         "sokOppDittNavKontor": "Søk opp Nav-kontor",
-        "nødhjelp": "Har du ikke penger til det aller mest nødvendige som mat, må du kontakte Nav-kontoret ditt.",
+        "nodhjelp": "Har du ikke penger til det aller mest nødvendige som mat, må du kontakte Nav-kontoret ditt.",
         "botilbud": "Nav skal også hjelpe deg med å finne et midlertidig botilbud hvis du ikke har et sted å sove eller oppholde deg de nærmeste dagene.",
         "forsideSosialhjelp": "Gå til forsiden for økonomisk sosialhjelp",
         "forsideNav": "Gå til forsiden for nav.no",
@@ -630,7 +630,6 @@
             "saksOversikt": "Vi klarte ikke å hente inn all informasjonen på siden.",
             "saksOversikt2": "Du kan forsøke å oppdatere siden, eller prøve igjen senere."
         },
-        "dineSoknader": "Dine søknader",
         "dineSoknader": "Dine søknader",
         "nySoknad": "Ny søknad",
         "relatertInfo": "Relatert informasjon",

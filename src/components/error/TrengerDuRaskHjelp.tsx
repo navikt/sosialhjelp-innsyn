@@ -26,7 +26,7 @@ const TrengerDuRaskHjelp = (): React.JSX.Element => {
                                 <Link href="https://www.nav.no/sok-nav-kontor">{t("sokOppDittNavKontor")}</Link>
                             </ListItem>
                         </List>
-                        <BodyShort>{t("nødhjelp")}</BodyShort>
+                        <BodyShort>{t("nodhjelp")}</BodyShort>
                         <BodyShort>{t("botilbud")}</BodyShort>
 
                         <BodyShort>
