@@ -30,6 +30,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* Gjør sånn at det er litt mellomrom mellom tittel og beløp om det er nødvendig */
+:global([data-open="false"]) .titleClamp {
+    --amount-reserve: 8ch;
+    --right-gap: 1rem;
+
+    max-width: calc(100% - (var(--amount-reserve) + var(--right-gap)));
+}
+
 /*Tittelen er ikke truncate når <ExpansionCard/> er åpen*/
 :global([data-open="true"]) .truncateWhenClosed {
     overflow: visible;

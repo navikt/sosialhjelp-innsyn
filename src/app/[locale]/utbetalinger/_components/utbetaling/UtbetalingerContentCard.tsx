@@ -47,8 +47,16 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             >
                 <ExpansionCard.Title as="h4">
                     <HStack align="center" wrap={false} className="w-full min-w-0" justify="space-between">
-                        <HStack gap="2" align="center" className="min-w-0" wrap={false}>
+                        <HStack gap="2" align="center" className={cx("min-w-0", styles.titleClamp)} wrap={false}>
                             <VStack gap="2" className="min-w-0">
+                                <BodyShort
+                                    lang="no"
+                                    size="medium"
+                                    weight="semibold"
+                                    className={cx(styles.truncateWhenClosed)}
+                                >
+                                    {manedUtbetaling.tittel}
+                                </BodyShort>
                                 <HStack gap="1">
                                     <BodyShort size="small">{t(manedUtbetaling.status)}</BodyShort>
                                     <BodyShort size="small">
@@ -65,14 +73,6 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                                               : t("ukjentDato")}
                                     </BodyShort>
                                 </HStack>
-                                <BodyShort
-                                    lang="no"
-                                    size="medium"
-                                    weight="semibold"
-                                    className={cx("truncate", styles.truncateWhenClosed)}
-                                >
-                                    {manedUtbetaling.tittel}
-                                </BodyShort>
                             </VStack>
                         </HStack>
                         <BodyShort
@@ -84,7 +84,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                     </HStack>
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
-            <ExpansionCard.Content>
+            <ExpansionCard.Content data-color="neutral">
                 <VStack gap="4">
                     {manedUtbetaling.fom && manedUtbetaling.tom && (
                         <VStack>
