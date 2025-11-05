@@ -2,6 +2,23 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
+    "VilkarAlert": {
+        "tittel": "Du har fått vilkår",
+        "beskrivelse": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav."
+    },
+    "SoknadStatusAlert": {
+        "tittel": {
+            "UNDER_BEHANDLING": "Søknaden din er under behandling",
+            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandlet"
+        },
+        "beskrivelse": {
+            "UNDER_BEHANDLING": "Forventet saksbehandling er 4 uker.",
+            "FERDIGBEHANDLET": "Husk å les vedtaksbrevet."
+        }
+    },
+    "SingleSak": {
+        "vedtak": "Vedtak"
+    },
     "FileUploadItem": {
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskyttet og vi kan ikke behandle den",
@@ -343,36 +360,70 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-        "tittel": "Utbetalinger for økonomisk sosialhjelp",
+        "tittel": "Mine utbetalinger for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalinger"
     },
-    "Utbetalinger": {
-        "tittel": "Utbetalinger for økonomisk sosialhjelp"
+    "UtbetalingerError": {
+        "tittel": "Noe gikk galt med visning av utbetalinger",
+        "retry": "Prøv på nytt"
     },
-    "UtbetalingerChips": {
+    "ErrorAlert": {
+        "tittel": "Kunne ikke laste innholdet",
+        "description": "På grunn av tekniske problemer klarte vi ikke å laste inn innholdet som skulle være her. Du kan prøve å:",
+        "oppdatere": "Oppdatere innholdet",
+        "relogge": "Logge ut og logge inn på nytt",
+        "vente": "Komme tilbake om noen minutter"
+    },
+    "TrengerDuRaskHjelp": {
+        "tittel": "Trenger du rask hjelp?",
+        "finnKontor": "Finn Nav-kontor",
+        "finnDittNavkontor": "Finn ditt Nav-kontor (innlogget)",
+        "sokOppDittNavKontor": "Søk opp Nav-kontor",
+        "nodhjelp": "Har du ikke penger til det aller mest nødvendige som mat, må du kontakte Nav-kontoret ditt.",
+        "botilbud": "Nav skal også hjelpe deg med å finne et midlertidig botilbud hvis du ikke har et sted å sove eller oppholde deg de nærmeste dagene.",
+        "forsideSosialhjelp": "Gå til forsiden for økonomisk sosialhjelp",
+        "forsideNav": "Gå til forsiden for nav.no",
+        "mineSider": "Gå til forsiden for Mine sider",
+        "feilRapport": "Send feilrapport"
+    },
+    "Utbetalinger": {
+        "tittel": "Utbetalinger for økonomisk sosialhjelp",
         "periode": "Velg periode",
         "til": "Til",
         "fra": "Fra",
         "visUtbetalinger": "Vis utbetalinger",
-        "kommende": {
-            "kort": "Kommende",
-            "lang": "Kommende utbetalinger"
-        },
+        "kommende": "Kommende",
         "siste3": "Siste 3 måneder",
         "hittil": "Hittil i år",
         "fjor": "I fjor",
         "egendefinert": "Egendefinert"
     },
-    "IngenPeriodeUtbetalinger": {
-        "tittel": "Du har ingen utbetalinger for denne perioden",
-        "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
+    "UtbetalingerListe": {
+        "tittel": {
+            "kommende": "Kommende utbetalinger",
+            "siste3": "Siste 3 måneder",
+            "hittil": "Hittil i år",
+            "fjor": "I fjor",
+            "egendefinert": "Egendefinert"
+        }
     },
-    "IngenKommendeUtbetalinger": {
-        "tittel": "Du har ingen kommende utbetalinger",
-        "beskrivelse1": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode.",
-        "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+    "IngenUtbetalinger": {
+        "kommende": {
+            "tittel": "Du har ingen kommende utbetalinger"
+        },
+        "periode": {
+            "tittel": "Du har ingen utbetalinger for denne perioden"
+        },
+        "Description": {
+            "kommende": {
+                "beskrivelse": "Dersom du har søkt om og fått innvilget økonomisk sosialhjelp, kan det være at stønaden din allerede har blitt betalt. Prøv å endre periode.",
+                "beskrivelse2": "Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på 55 55 33 33."
+            },
+            "periode": {
+                "beskrivelse": "Prøv å endre periode. Dersom du fortsatt ikke finner en utbetaling eller har andre spørsmål om utbetalinger, kan du kontakte våre veiledere på  55 55 33 33."
+            }
+        }
     },
-    "UtbetalingerHeaderCard": {},
     "UtbetalingerContentCard": {
         "periode": "Periode:",
         "mottaker": "Mottaker:",
@@ -380,7 +431,7 @@
         "tilDeg": "Til deg",
         "utbetalesTil": "Utbetales til {mottaker}",
         "utbetalesTilUkjent": "Utbetales til annen mottaker",
-        "bankkonto": "Din bankkonto: <norsk>{konto}</norsk>",
+        "bankkonto": "Din bankkonto: {konto}",
         "lenke": "Se søknaden og vedtaket du fikk",
         "STOPPET": "Stoppet",
         "PLANLAGT_UTBETALING": "Planlagt",
@@ -585,7 +636,6 @@
             "saksOversikt": "Vi klarte ikke å hente inn all informasjonen på siden.",
             "saksOversikt2": "Du kan forsøke å oppdatere siden, eller prøve igjen senere."
         },
-        "dineSoknader": "Dine søknader",
         "dineSoknader": "Dine søknader",
         "nySoknad": "Ny søknad",
         "relatertInfo": "Relatert informasjon",

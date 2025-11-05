@@ -24,7 +24,7 @@ jobs:
                   NEXT_PUBLIC_RUNTIME_ENVIRONMENT: mock
                   NEXT_PUBLIC_INNSYN_ORIGIN: http://whatever.com
               with:
-                  node-version: 22
+                  node-version: 24
                   build-less: "false"
                   run-orval: "true"
                   reader-token: ${{ secrets.READER_TOKEN }}

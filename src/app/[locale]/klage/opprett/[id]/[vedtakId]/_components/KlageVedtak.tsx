@@ -7,7 +7,7 @@ import { FilePdfIcon } from "@navikt/aksel-icons";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { SakResponse } from "@generated/model";
 
-import Sakstittel from "../../../../../soknad/[id]/_components/saker/Sakstittel";
+import Sakstittel from "../../../../../soknad/[id]/_components/saker/sak/Sakstittel";
 
 interface Props {
     sak: SakResponse;

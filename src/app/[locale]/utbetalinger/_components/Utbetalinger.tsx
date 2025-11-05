@@ -1,20 +1,29 @@
 "use client";
 
-import { Chips, Heading, VStack } from "@navikt/ds-react";
+import { Button, Chips, DatePicker, Heading, HStack, useRangeDatepicker, VStack } from "@navikt/ds-react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import React, { useReducer } from "react";
+import { endOfDay, interval, startOfMonth, subMonths } from "date-fns";
 
-import UtbetalingerListe from "./UtbetalingerListe";
+import UtbetalingerListe from "./list/UtbetalingerListe";
+import { reducer, initialState, options } from "./utbetalingerReducer";
 
-export type ChipsChip = "kommende.kort" | "siste3" | "hittil" | "fjor" | "egendefinert";
+const today = new Date();
+const earliest = startOfMonth(subMonths(today, 15));
 
-const ChipRekke = ["kommende.kort", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly ChipsChip[];
+const toInterval = (from?: Date, to?: Date) => {
+    if (!from || !to) return undefined;
+    return interval(from, endOfDay(to));
+};
 
 const Utbetalinger = () => {
-    const t = useTranslations("UtbetalingerChips");
-    const [selectedChip, setSelectedChip] = useState<ChipsChip>("kommende.kort");
-
+    const t = useTranslations("Utbetalinger");
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { datepickerProps, fromInputProps, toInputProps, selectedRange } = useRangeDatepicker({
+        fromDate: earliest,
+        defaultMonth: today,
+    });
     return (
         <VStack gap="16">
             <VStack gap="4">
@@ -22,19 +31,52 @@ const Utbetalinger = () => {
                     {t("periode")}
                 </Heading>
                 <Chips>
-                    {ChipRekke.map((chip) => (
+                    {options.map((chip) => (
                         <ChipsToggle
                             key={chip}
                             checkmark={false}
-                            selected={selectedChip === chip}
-                            onClick={() => setSelectedChip(chip)}
+                            selected={state.selectedChip === chip}
+                            onClick={() => {
+                                if (chip === "egendefinert") {
+                                    dispatch({
+                                        type: "setEgendefinert",
+                                        payload: { chip, interval: toInterval(selectedRange?.from, selectedRange?.to) },
+                                    });
+                                } else {
+                                    dispatch({ type: "updateAndRender", payload: { chip } });
+                                }
+                            }}
                         >
                             {t(chip)}
                         </ChipsToggle>
                     ))}
                 </Chips>
             </VStack>
-            <UtbetalingerListe valgteChip={selectedChip} />
+            {state.selectedChip === "egendefinert" && (
+                <HStack gap="4" align="end">
+                    <DatePicker {...datepickerProps}>
+                        <HStack gap="4">
+                            <DatePicker.Input {...fromInputProps} label={t("fra")} />
+                            <DatePicker.Input {...toInputProps} label={t("til")} />
+                        </HStack>
+                    </DatePicker>
+                    <Button
+                        onClick={() => {
+                            dispatch({
+                                type: "updateInterval",
+                                payload: {
+                                    chip: "egendefinert",
+                                    interval: toInterval(selectedRange?.from, selectedRange?.to),
+                                },
+                            });
+                        }}
+                        disabled={!selectedRange?.from || !selectedRange?.to}
+                    >
+                        {t("visUtbetalinger")}
+                    </Button>
+                </HStack>
+            )}
+            <UtbetalingerListe selectedState={state.state} />
         </VStack>
     );
 };

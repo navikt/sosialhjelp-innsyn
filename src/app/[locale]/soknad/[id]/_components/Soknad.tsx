@@ -22,12 +22,13 @@ import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
 import Filopplasting from "./dokumenter/Filopplasting";
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
-import Saker, { SakerSkeleton } from "./saker/Saker";
+import Saker from "./saker/Saker";
 import InfoAlert from "./alert/InfoAlert";
 import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./oppgaver/OppgaveAlert";
+import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 
 interface Props {
@@ -71,7 +72,8 @@ export const Soknad = async ({ id }: Props) => {
                         <OppgaveAlert />
                     </HydrationBoundary>
                 </Suspense>
-                <InfoAlert navKontor={navKontor} soknadstatus={status} />
+                <InfoAlert navKontor={navKontor} soknadstatus={status} sakerPromise={sakerPromise} />
+                {vilkarPromise && <VilkarAlert vilkarPromise={vilkarPromise} />}
                 {sakerPromise && (
                     <Suspense fallback={null}>
                         <DeltSoknadAlert sakerPromise={sakerPromise} />
@@ -84,7 +86,7 @@ export const Soknad = async ({ id }: Props) => {
                 </Suspense>
             )}
             {sakerPromise && klagerPromise && (
-                <Suspense fallback={<SakerSkeleton />}>
+                <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
                         <Saker
                             sakerPromise={sakerPromise}

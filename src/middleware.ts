@@ -6,29 +6,14 @@ import { getFlag, getToggles, UNLEASH_COOKIE_NAME } from "@featuretoggles/unleas
 
 const PUBLIC_FILE = /\.(.*)$/;
 
-const rewrite = async (request: NextRequest) => {
-    const toggles = await getToggles();
-    const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
-    // Eksempel: /nb -> ['', 'nb'], segments = []
-    const [, , ...segments] = request.nextUrl.pathname.split("/");
-
-    // Rewrite til landingsside hvis landingssideToggle er på og bruker besøker index
-    if (landingssideToggle.enabled && segments.length === 0) {
-        return NextResponse.rewrite(request.nextUrl.href + "/landingsside");
-    }
-
-    const utbetalingsideToggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", toggles);
-    if (segments[0] === "utbetaling" && utbetalingsideToggle.enabled) {
-        return NextResponse.rewrite(request.nextUrl.href.replace("/utbetaling", "/utbetalinger"));
-    }
-};
-
 const addUnleashCookie = (request: NextRequest, response: NextResponse) => {
     if (request.cookies.get(UNLEASH_COOKIE_NAME)?.value == null) {
         response.cookies.set(UNLEASH_COOKIE_NAME, crypto.randomUUID());
     }
     return response;
 };
+
+const handleI18nRouting = createMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
@@ -37,13 +22,33 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith("/_next") || pathname.includes("/api") || PUBLIC_FILE.test(pathname)) {
         return;
     }
+    let response = handleI18nRouting(request);
 
-    const i18nMiddleware = createMiddleware(routing);
-
-    let response: NextResponse = i18nMiddleware(request);
-    // Hvis bruker må redirectes for språket, så blir det satt som en 3XX, dvs. !ok.
     if (response.ok) {
-        response = (await rewrite(request)) ?? response;
+        const toggles = await getToggles();
+
+        const utbetalingsideToggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", toggles);
+        const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
+
+        const [, , , locale, ...rest] = new URL(
+            response.headers.get("x-middleware-rewrite") || request.url
+        ).pathname.split("/");
+        const pathname = "/" + rest.join("/");
+
+        if (pathname === "/" && landingssideToggle.enabled) {
+            response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/landingsside`, request.url), {
+                headers: response.headers,
+            });
+        } else if (pathname === "/utbetaling" && utbetalingsideToggle.enabled) {
+            response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/utbetalinger`, request.url), {
+                headers: response.headers,
+            });
+        }
     }
+
     return addUnleashCookie(request, response);
 }
+
+export const config = {
+    runtime: "nodejs",
+};

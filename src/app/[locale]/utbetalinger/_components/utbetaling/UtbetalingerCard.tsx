@@ -1,18 +1,16 @@
 import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
-import { set } from "date-fns";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
 import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
     utbetalinger: NyeOgTidligereUtbetalingerResponse;
-    manedsUtbetalingerSummert?: ManedUtbetalingStatus[];
 }
 
-export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert }: Props) => {
+export const UtbetalingerCard = ({ utbetalinger }: Props) => {
     const format = useFormatter();
 
     const utbetalingerForManed = utbetalinger.utbetalingerForManed;
@@ -20,7 +18,7 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert
     if (utbetalingerForManed.length === 0) return null;
 
     const utbetalingSum = utbetalingerForManed
-        .filter((utbetalinger) => !manedsUtbetalingerSummert || manedsUtbetalingerSummert.includes(utbetalinger.status))
+        .filter((it) => !["STOPPET", "ANNULLERT"].includes(it.status))
         .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
 
     return (
@@ -28,16 +26,10 @@ export const UtbetalingerHeaderCard = ({ utbetalinger, manedsUtbetalingerSummert
             <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
                 <HStack className="pr-2" align="center">
                     <Heading size="small" level="3" className="capitalize">
-                        {format.dateTime(
-                            set(new Date(0), {
-                                year: utbetalinger.ar,
-                                month: utbetalinger.maned - 1,
-                            }),
-                            {
-                                month: "long",
-                                year: "numeric",
-                            }
-                        )}
+                        {format.dateTime(new Date(utbetalinger.ar, utbetalinger.maned - 1, 10), {
+                            month: "long",
+                            year: "numeric",
+                        })}
                     </Heading>
                     <BodyShort className="ml-auto tabular-nums" weight="semibold">
                         {format.number(utbetalingSum)} kr

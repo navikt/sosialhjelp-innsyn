@@ -9,10 +9,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-#decorator-header {
-    border-bottom: 1px solid var(--a-border-subtle);
-}
-
 /*
  * "Hack" for å skjule tallet i Stepper (søknadsoversikt)
  * TODO: Fjern når Progress-komponenten er på plass i aksel

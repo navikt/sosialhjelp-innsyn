@@ -2,6 +2,23 @@
     "Landingsside": {
         "tittel": "Financial assistance"
     },
+    "VilkarAlert": {
+        "tittel": "You have a condition",
+        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
+    },
+    "SoknadStatusAlert": {
+        "tittel": {
+            "UNDER_BEHANDLING": "Your application is being processed",
+            "FERDIGBEHANDLET": "Your application has been processed"
+        },
+        "beskrivelse": {
+            "UNDER_BEHANDLING": "Expected processing time is 4 weeks.",
+            "FERDIGBEHANDLET": "Remember to read the notice of decision."
+        }
+    },
+    "SingleSak": {
+        "vedtak": "Decision"
+    },
     "FileUploadItem": {
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
@@ -371,36 +388,70 @@
         "Sosialhjelp": "Financial assistance"
     },
     "UtbetalingerPage": {
-        "tittel": "Payments for financial assistance",
+        "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "Payments"
     },
-    "Utbetalinger": {
-        "tittel": "Payments for financial assistance"
+    "UtbetalingerError": {
+        "tittel": "Something went wrong displaying payments",
+        "retry": "Try again"
     },
-    "UtbetalingerChips": {
+    "ErrorAlert": {
+        "tittel": "Could not load content",
+        "description": "Due to technical problems, we were unable to load the content that should be here. You can try to:",
+        "oppdatere": "Refresh the content",
+        "relogge": "Log out and log in again",
+        "vente": "Come back in a few minutes"
+    },
+    "TrengerDuRaskHjelp": {
+        "tittel": "Do you need urgent help?",
+        "finnKontor": "Find Nav office",
+        "finnDittNavkontor": "Find your Nav office (logged in)",
+        "sokOppDittNavKontor": "Search for Nav office",
+        "nodhjelp": "If you don't have money for the most essential things like food, you must contact your Nav office.",
+        "botilbud": "Nav should also help you find temporary accommodation if you don't have a place to sleep or stay for the next few days.",
+        "forsideSosialhjelp": "Go to the front page for financial assistance",
+        "forsideNav": "Go to the front page for nav.no",
+        "mineSider": "Go to the front page for My pages",
+        "feilRapport": "Send error report"
+    },
+    "Utbetalinger": {
+        "tittel": "Payments for financial assistance",
         "periode": "Choose period",
         "til": "To",
         "fra": "From",
         "visUtbetalinger": "Show payments",
-        "kommende": {
-            "kort": "Upcoming",
-            "lang": "Upcoming payments"
-        },
+        "kommende": "Upcoming",
         "siste3": "Last 3 months",
         "hittil": "So far this year",
         "fjor": "Last year",
         "egendefinert": "Customize"
     },
-    "IngenPeriodeUtbetalinger": {
-        "tittel": "You have no payments for this period.",
-        "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
+    "UtbetalingerListe": {
+        "tittel": {
+            "kommende": "Upcoming",
+            "siste3": "Last 3 months",
+            "hittil": "So far this year",
+            "fjor": "Last year",
+            "egendefinert": "Customize"
+        }
     },
-    "IngenKommendeUtbetalinger": {
-        "tittel": "You have no upcoming payments",
-        "beskrivelse1": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
-        "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
+    "IngenUtbetalinger": {
+        "kommende": {
+            "tittel": "You have no upcoming payments"
+        },
+        "periode": {
+            "tittel": "You have no payments for this selected period."
+        },
+        "Description": {
+            "kommende": {
+                "beskrivelse": "If you have applied for and been granted financial social assistance, your benefit may have already been paid. Try changing the period.",
+                "beskrivelse2": "If you still cannot find a payment or have other questions about payments, you can contact our supervisors at 55 55 33 33."
+            },
+            "periode": {
+                "beskrivelse": "Try changing the period. If you still can't find a payout or have other questions about payouts, you can contact our advisors at 55 55 33 33."
+            }
+        }
     },
-    "UtbetalingerHeaderCard": {},
     "UtbetalingerContentCard": {
         "periode": "Period:",
         "mottaker": "Recipient:",
@@ -408,10 +459,10 @@
         "tilDeg": "To you",
         "utbetalesTil": "Paid to {mottaker}",
         "utbetalesTilUkjent": "Paid to another recipient",
-        "bankkonto": "Your bank account: <norsk>{konto}</norsk>",
+        "bankkonto": "Your bank account: {konto}",
         "lenke": "View the application and the decision letter you received",
         "STOPPET": "Stopped",
-        "PLANLAGT_UTBETALING": "Planned",
+        "PLANLAGT_UTBETALING": "Scheduled payments",
         "UTBETALT": "Paid",
         "ANNULLERT": "Annulled",
         "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}",

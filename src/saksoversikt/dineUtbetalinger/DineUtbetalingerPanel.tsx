@@ -2,6 +2,7 @@ import React from "react";
 import { BodyShort, Heading, LinkPanel } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import HandCoinsIcon from "../../components/ikoner/HandCoins";
 import { umamiTrack } from "../../app/umami";
@@ -10,9 +11,11 @@ import styles from "./dineUtbetalingerPanel.module.css";
 
 const DineUtbetalingerPanel = () => {
     const t = useTranslations("utbetalinger");
+    const params = useRouter();
+    const locale = params.query.locale;
     return (
         <LinkPanel
-            href="/utbetaling"
+            href={`/${locale}/utbetaling`}
             as={Link}
             className={styles.dine_utbetalinger_panel}
             border={false}
