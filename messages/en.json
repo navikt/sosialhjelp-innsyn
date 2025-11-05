@@ -385,6 +385,29 @@
         "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "Payments"
     },
+    "UtbetalingerError": {
+        "tittel": "Something went wrong displaying payments",
+        "retry": "Try again"
+    },
+    "ErrorAlert": {
+        "tittel": "Could not load content",
+        "description": "Due to technical problems, we were unable to load the content that should be here. You can try to:",
+        "oppdatere": "Refresh the content",
+        "relogge": "Log out and log in again",
+        "vente": "Come back in a few minutes"
+    },
+    "TrengerDuRaskHjelp": {
+        "tittel": "Do you need urgent help?",
+        "finnKontor": "Find Nav office",
+        "finnDittNavkontor": "Find your Nav office (logged in)",
+        "sokOppDittNavKontor": "Search for Nav office",
+        "nodhjelp": "If you don't have money for the most essential things like food, you must contact your Nav office.",
+        "botilbud": "Nav should also help you find temporary accommodation if you don't have a place to sleep or stay for the next few days.",
+        "forsideSosialhjelp": "Go to the front page for financial assistance",
+        "forsideNav": "Go to the front page for nav.no",
+        "mineSider": "Go to the front page for My pages",
+        "feilRapport": "Send error report"
+    },
     "Utbetalinger": {
         "tittel": "Payments for financial assistance",
         "periode": "Choose period",

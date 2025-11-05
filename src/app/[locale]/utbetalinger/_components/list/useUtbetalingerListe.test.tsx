@@ -88,12 +88,12 @@ describe("FiltreringAvUtbetalinger (updated for hook)", () => {
         });
 
         await waitFor(() => {
-            expect(result.current).toHaveLength(1);
+            expect(result.current.data).toHaveLength(1);
         });
 
-        const datas = result.current as NyeOgTidligereUtbetalingerResponse[];
-        expect(datas[0].maned).toBe(10);
-        expect(datas[0].utbetalingerForManed.map((u) => u.referanse)).toEqual(["ny-planlagt", "ny-stoppet"]);
+        const { data } = result.current;
+        expect(data[0].maned).toBe(10);
+        expect(data[0].utbetalingerForManed.map((u) => u.referanse)).toEqual(["ny-planlagt", "ny-stoppet"]);
     });
 
     it("Hittil i år: tar UTBETALT/STOPPET fra både 'nye' og 'tidligere' innen intervallet, filtrerer bort PLANLAGT", async () => {
@@ -118,10 +118,10 @@ describe("FiltreringAvUtbetalinger (updated for hook)", () => {
         const { result } = renderHook(() => useUtbetalinger({ selectedState: { chip: "hittil" } }), { wrapper });
 
         await waitFor(() => {
-            expect(result.current.length).toBeGreaterThan(0);
+            expect(result.current.data.length).toBeGreaterThan(0);
         });
 
-        const periodeUtbetalinger = result.current as NyeOgTidligereUtbetalingerResponse[];
+        const periodeUtbetalinger = result.current.data;
         expect(periodeUtbetalinger.map((g) => g.maned)).toEqual([9, 10]);
 
         const sept = periodeUtbetalinger.find((g) => g.maned === 9)!;
@@ -176,10 +176,10 @@ describe("FiltreringAvUtbetalinger (updated for hook)", () => {
         const { result } = renderHook(() => useUtbetalinger({ selectedState: { chip: "siste3" } }), { wrapper });
 
         await waitFor(() => {
-            expect(result.current.length).toBeGreaterThan(0);
+            expect(result.current.data.length).toBeGreaterThan(0);
         });
 
-        const periode = result.current as NyeOgTidligereUtbetalingerResponse[];
+        const periode = result.current.data;
         expect(periode.map((g) => [g.ar, g.maned])).toEqual([
             [2024, 11],
             [2024, 12],
@@ -241,10 +241,10 @@ describe("FiltreringAvUtbetalinger (updated for hook)", () => {
         );
 
         await waitFor(() => {
-            expect(result.current.length).toBeGreaterThan(0);
+            expect(result.current.data.length).toBeGreaterThan(0);
         });
 
-        const egendefinertUtbetalinger = result.current as NyeOgTidligereUtbetalingerResponse[];
+        const egendefinertUtbetalinger = result.current.data;
         expect(egendefinertUtbetalinger).toHaveLength(1);
         const [sept] = egendefinertUtbetalinger;
         expect(sept.maned).toBe(9);
@@ -266,7 +266,7 @@ describe("FiltreringAvUtbetalinger (updated for hook)", () => {
         );
 
         await waitFor(() => {
-            expect(result.current).toEqual([]);
+            expect(result.current.data).toEqual([]);
         });
     });
 });

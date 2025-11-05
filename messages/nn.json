@@ -385,6 +385,29 @@
         "tittel": "Mine utbetalingar for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalingar"
     },
+    "UtbetalingerError": {
+        "tittel": "Noko gjekk galt med visning av utbetalingar",
+        "retry": "Prøv på nytt"
+    },
+    "ErrorAlert": {
+        "tittel": "Kunne ikkje laste innhaldet",
+        "description": "På grunn av tekniske problem klarte vi ikkje å laste inn innhaldet som skulle vere her. Du kan prøve å:",
+        "oppdatere": "Oppdatere innhaldet",
+        "relogge": "Logge ut og logge inn på nytt",
+        "vente": "Komme tilbake om nokre minutt"
+    },
+    "TrengerDuRaskHjelp": {
+        "tittel": "Treng du rask hjelp?",
+        "finnKontor": "Finn Nav-kontor",
+        "finnDittNavkontor": "Finn ditt Nav-kontor (innlogga)",
+        "sokOppDittNavKontor": "Søk opp Nav-kontor",
+        "nodhjelp": "Har du ikkje pengar til det aller mest nødvendige som mat, må du kontakte Nav-kontoret ditt.",
+        "botilbud": "Nav skal også hjelpe deg med å finne eit mellombels botilbod dersom du ikkje har ein stad å sove eller opphalda deg dei nærmaste dagane.",
+        "forsideSosialhjelp": "Gå til forsida for økonomisk sosialhjelp",
+        "forsideNav": "Gå til forsida for nav.no",
+        "mineSider": "Gå til forsida for Mine sider",
+        "feilRapport": "Send feilrapport"
+    },
     "UtbetalingerChips": {
         "periode": "Vel periode",
         "til": "Til",
