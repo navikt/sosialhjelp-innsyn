@@ -114,4 +114,4 @@ Deploy til dev-gcp gjøres via Github Actions, se: https://github.com/navikt/sos
 
 ## Hvordan komme i gang
 
-[Felles dokumentasjon for våre frontend apper](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling#frontend)
+[Felles dokumentasjon for våre frontend apper](https://teamdigisos.ansatt.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling#frontend)
