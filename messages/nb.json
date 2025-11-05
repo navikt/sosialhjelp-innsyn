@@ -337,6 +337,11 @@
             "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
             "maksFiler": "Du kan laste opp maks {maksFiler} filer"
         },
+        "forkastKlageKnapp": "Forkast",
+        "forkastKlageModalOverskrift": "Er du sikker på at du vil forkaste klagen?",
+        "forkastKlageModalBeskrivelse": "Dine kommentarer eller vedlegg vil ikke bli lagret.",
+        "forkastKlageModalBekreft": "Ja, forkast klagen",
+        "forkastKlageModalAvbryt": "Avbryt",
         "sendKlage": "Send",
         "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
     },
