@@ -68,6 +68,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                             tekst: "Send dokumentasjon",
                             antallDokumenter: R.flat(Object.values(files)).length,
                             dokumentKontekst: "dokumentasjonkrav",
+                            digisosId: fiksDigisosId,
                         });
                         return upload();
                     }}
@@ -101,6 +102,7 @@ export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElemen
                                                     tekst: "Last opp",
                                                     antallDokumenter: files?.length ?? 0,
                                                     dokumentKontekst: "dokumentasjonkrav",
+                                                    digisosId: fiksDigisosId,
                                                 });
                                                 onChange(files, index);
                                             }}

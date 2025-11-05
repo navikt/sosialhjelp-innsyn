@@ -83,12 +83,12 @@ export const useUtbetalinger = ({ selectedState }: Props) => {
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
     const kombinert = useMemo(() => kombinertManed(nye, tidligere), [nye, tidligere]);
 
-    const datas = chipToData(
+    const data = chipToData(
         selectedState.chip,
         nye,
         kombinert,
         selectedState.chip === "egendefinert" ? selectedState.interval : undefined
     );
 
-    return datas ?? [];
+    return { data: data || [] };
 };
