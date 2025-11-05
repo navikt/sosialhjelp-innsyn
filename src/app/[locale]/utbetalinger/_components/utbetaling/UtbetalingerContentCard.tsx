@@ -84,14 +84,14 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                     </HStack>
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
-            <ExpansionCard.Content data-color="neutral">
+            <ExpansionCard.Content>
                 <VStack gap="4">
                     {manedUtbetaling.fom && manedUtbetaling.tom && (
                         <VStack>
-                            <BodyShort size="medium" weight="semibold">
+                            <BodyShort textColor="default" size="medium" weight="semibold">
                                 {t("periode")}
                             </BodyShort>
-                            <BodyShort>
+                            <BodyShort textColor="default">
                                 {t.rich("datoRange", {
                                     fom: new Date(manedUtbetaling.fom),
                                     tom: new Date(manedUtbetaling.tom),
@@ -100,10 +100,10 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                         </VStack>
                     )}
                     <VStack>
-                        <BodyShort size="medium" weight="semibold">
+                        <BodyShort textColor="default" size="medium" weight="semibold">
                             {t("utbetalingsmetode")}
                         </BodyShort>
-                        <BodyShort>
+                        <BodyShort textColor="default">
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
