@@ -84,8 +84,8 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         }
     };
     const forkastKlageButtonEvent = () => {
-        const background = getValues("background");
-        const hasCharacters = !!background && background.trim().length > 0;
+        const backgroundText = getValues("background");
+        const hasCharacters = !!backgroundText && backgroundText.trim().length > 0;
 
         if (files.length > 0 || hasCharacters) {
             setVisBekreftForkastModal(true);
