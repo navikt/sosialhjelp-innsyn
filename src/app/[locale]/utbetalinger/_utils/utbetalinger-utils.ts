@@ -16,7 +16,7 @@ import {
 
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
 
-import { Option } from "../_components/Utbetalinger";
+import { Option } from "../_components/utbetalingerReducer";
 
 type PeriodeChip = "siste3" | "hittil" | "fjor";
 
