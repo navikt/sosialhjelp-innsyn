@@ -428,7 +428,7 @@
     },
     "UtbetalingerListe": {
         "tittel": {
-            "kommende": "Upcoming",
+            "kommende": "Upcoming payments",
             "siste3": "Last 3 months",
             "hittil": "So far this year",
             "fjor": "Last year",
@@ -462,7 +462,7 @@
         "bankkonto": "Your bank account: {konto}",
         "lenke": "View the application and the decision letter you received",
         "STOPPET": "Stopped",
-        "PLANLAGT_UTBETALING": "Scheduled payments",
+        "PLANLAGT_UTBETALING": "Scheduled",
         "UTBETALT": "Paid",
         "ANNULLERT": "Annulled",
         "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}",

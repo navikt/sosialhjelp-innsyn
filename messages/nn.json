@@ -442,7 +442,7 @@
     },
     "UtbetalingerListe": {
         "tittel": {
-            "kommende": "Komande",
+            "kommende": "Komande utbetalingar",
             "siste3": "Siste 3 månader",
             "hittil": "Hittil i år",
             "fjor": "I fjor",

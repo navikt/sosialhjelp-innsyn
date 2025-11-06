@@ -20,7 +20,7 @@ const DineUtbetalingerPanel = () => {
             className={styles.dine_utbetalinger_panel}
             border={false}
             onClick={() => {
-                umamiTrack("lenket klikket", {
+                umamiTrack("lenke klikket", {
                     tekst: "Åpnet Dine utbetalinger",
                 });
             }}
