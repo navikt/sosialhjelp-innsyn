@@ -9,7 +9,7 @@ import { UtbetalingerCard } from "../utbetaling/UtbetalingerCard";
 
 import UtbetalingerListView from "./UtbetalingerListView";
 import IngenUtbetalinger from "./IngenUtbetalinger";
-import { useUtbetalinger2 } from "./useUtbetalingerListe";
+import { useUtbetalinger } from "./useUtbetalingerListe";
 
 interface Props {
     selectedState: State;
@@ -18,7 +18,7 @@ interface Props {
 const UtbetalingerListe = ({ selectedState }: Props) => {
     const t = useTranslations("UtbetalingerListe");
 
-    const { data } = useUtbetalinger2({
+    const { data } = useUtbetalinger({
         selectedState,
     });
 

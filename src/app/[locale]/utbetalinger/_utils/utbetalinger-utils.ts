@@ -1,7 +1,5 @@
 import {
     isWithinInterval,
-    startOfMonth,
-    areIntervalsOverlapping,
     subMonths,
     Interval,
     interval,
@@ -11,12 +9,11 @@ import {
     addDays,
     endOfDay,
     startOfDay,
-    endOfMonth,
     getMonth,
     getYear,
 } from "date-fns";
 
-import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse, UtbetalingDto } from "@generated/ssr/model";
+import { ManedUtbetaling, UtbetalingDto } from "@generated/ssr/model";
 
 import { Option } from "../_components/utbetalingerReducer";
 
@@ -34,30 +31,6 @@ type PeriodeChip = "siste3" | "hittil" | "fjor";
 
 export const erPeriodeChip = (c: Option): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";
-};
-
-export const kombinertManed = (
-    nye: NyeOgTidligereUtbetalingerResponse[] = [],
-    tidligere: NyeOgTidligereUtbetalingerResponse[] = []
-): NyeOgTidligereUtbetalingerResponse[] => {
-    const map = new Map<string, NyeOgTidligereUtbetalingerResponse>();
-
-    for (const kombinertList of [nye, tidligere]) {
-        for (const maned of kombinertList) {
-            const key = `${maned.ar}-${maned.maned}`;
-            const existing = map.get(key);
-            if (existing) {
-                existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...maned.utbetalingerForManed];
-            } else {
-                map.set(key, {
-                    ar: maned.ar,
-                    maned: maned.maned,
-                    utbetalingerForManed: [...maned.utbetalingerForManed],
-                });
-            }
-        }
-    }
-    return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
 };
 
 export const sorterUtbetalingerEtterDato = (utbetalinger: UtbetalingDto[]): UtbetalingDto[] => {
@@ -123,13 +96,6 @@ export const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Inte
     }
 
     return false;
-};
-
-export const erInnenforIntervall = (item: NyeOgTidligereUtbetalingerResponse, intervall: Interval | null | false) => {
-    if (!intervall) return true;
-    const date = new Date(item.ar, item.maned - 1);
-    const itemInterval = interval(startOfMonth(date), endOfMonth(date));
-    return areIntervalsOverlapping(itemInterval, intervall);
 };
 
 export const formaterKontonummer = (kontonummer?: string | null): string | undefined => {
