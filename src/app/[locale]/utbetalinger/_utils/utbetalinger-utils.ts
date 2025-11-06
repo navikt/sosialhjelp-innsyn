@@ -18,7 +18,7 @@ import {
 
 import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse, UtbetalingDto } from "@generated/ssr/model";
 
-import { Option } from "../_components/Utbetalinger";
+import { Option } from "../_components/utbetalingerReducer";
 
 /**
  * New type for grouping utbetalinger by month using the new UtbetalingDto type.

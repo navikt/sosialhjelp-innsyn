@@ -76,6 +76,7 @@ const EttersendelseView = (props: Props) => {
             tekst: "Send dokumentasjon",
             antallDokumenter: files?.length ?? 0,
             dokumentKontekst: "ettersendelse",
+            digisosId: fiksDigisosId,
         });
         return upload();
     };
@@ -102,6 +103,7 @@ const EttersendelseView = (props: Props) => {
                                         tekst: "Last opp",
                                         antallDokumenter: files?.length ?? 0,
                                         dokumentKontekst: "ettersendelse",
+                                        digisosId: fiksDigisosId,
                                     });
                                     onChange(files);
                                 }}

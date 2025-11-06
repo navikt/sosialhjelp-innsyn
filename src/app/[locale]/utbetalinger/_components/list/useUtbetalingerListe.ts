@@ -16,8 +16,7 @@ import {
     utbetalingInnenforIntervall,
     grupperUtbetalingerEtterManed,
 } from "../../_utils/utbetalinger-utils";
-import type { Option } from "../Utbetalinger";
-import { State } from "../utbetalingerReducer";
+import { Option, State } from "../utbetalingerReducer";
 
 interface Props {
     selectedState: State;
@@ -109,14 +108,14 @@ export const useUtbetalinger = ({ selectedState }: Props) => {
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
     const kombinert = useMemo(() => kombinertManed(nye, tidligere), [nye, tidligere]);
 
-    const datas = chipToData(
+    const data = chipToData(
         selectedState.chip,
         nye,
         kombinert,
         selectedState.chip === "egendefinert" ? selectedState.interval : undefined
     );
 
-    return datas ?? [];
+    return { data: data || [] };
 };
 
 export const useUtbetalinger2 = ({ selectedState }: Props) => {

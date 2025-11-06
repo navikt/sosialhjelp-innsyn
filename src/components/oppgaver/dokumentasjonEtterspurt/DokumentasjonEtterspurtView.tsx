@@ -73,6 +73,7 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                             tekst: "Send dokumentasjon",
                             antallDokumenter: R.flat(Object.values(files)).length,
                             dokumentKontekst: "dokumentasjonEtterspurt",
+                            digisosId: fiksDigisosId,
                         });
                         return upload();
                     }}
@@ -111,6 +112,7 @@ export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist
                                                     tekst: "Last opp",
                                                     antallDokumenter: files?.length ?? 0,
                                                     dokumentKontekst: "dokumentasjonEtterspurt",
+                                                    digisosId: fiksDigisosId,
                                                 });
                                                 onChange(files, index);
                                             }}

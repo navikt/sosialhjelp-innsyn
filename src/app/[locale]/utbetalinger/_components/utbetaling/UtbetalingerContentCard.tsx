@@ -18,7 +18,7 @@ interface Props {
     index: number;
     count: number;
 }
-const cardBorder = (id: number, count: number) => {
+export const cardBorder = (id: number, count: number) => {
     if (count <= 1) return "border-none rounded-t-none rounded-b-lg";
     if (id === count - 1) return "border-none rounded-t-none rounded-b-lg";
     return "border-none rounded-none";

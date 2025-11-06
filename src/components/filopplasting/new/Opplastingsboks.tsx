@@ -46,6 +46,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             tekst: "Last opp",
             antallDokumenter: newFiles.length,
             dokumentKontekst: metadata.dokumentKontekst,
+            digisosId: fiksDigisosId,
         });
         addFiler(newFiles.map((it) => it.file));
         resetMutation();
@@ -129,6 +130,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                                     tekst: "Send dokumentasjon",
                                     antallDokumenter: files.length,
                                     dokumentKontekst: metadata.dokumentKontekst,
+                                    digisosId: fiksDigisosId,
                                 });
                                 upload(files, metadata);
                             }}
