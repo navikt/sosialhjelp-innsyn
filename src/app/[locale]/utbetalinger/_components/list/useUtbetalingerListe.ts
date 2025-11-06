@@ -6,7 +6,7 @@ import {
     useHentNyeUtbetalingerSuspense,
     useHentTidligereUtbetalingerSuspense,
 } from "@generated/utbetalinger-controller/utbetalinger-controller";
-import { useHentUtbetalinger } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
+import { useHentUtbetalingerSuspense } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
 import {
     kombinertManed,
@@ -119,10 +119,10 @@ export const useUtbetalinger = ({ selectedState }: Props) => {
 };
 
 export const useUtbetalinger2 = ({ selectedState }: Props) => {
-    const { data } = useHentUtbetalinger();
+    const { data } = useHentUtbetalingerSuspense();
 
     if (!data) {
-        return [];
+        return { data: [] };
     }
 
     const datas = chipToData2(
@@ -131,5 +131,5 @@ export const useUtbetalinger2 = ({ selectedState }: Props) => {
         selectedState.chip === "egendefinert" ? selectedState.interval : undefined
     );
 
-    return datas ? grupperUtbetalingerEtterManed(datas) : [];
+    return { data: datas ? grupperUtbetalingerEtterManed(datas) : [] };
 };
