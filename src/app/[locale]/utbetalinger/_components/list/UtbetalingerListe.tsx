@@ -9,7 +9,7 @@ import { UtbetalingerCard } from "../utbetaling/UtbetalingerCard";
 
 import UtbetalingerListView from "./UtbetalingerListView";
 import IngenUtbetalinger from "./IngenUtbetalinger";
-import { useUtbetalinger } from "./useUtbetalingerListe";
+import { useUtbetalinger2 } from "./useUtbetalingerListe";
 
 interface Props {
     selectedState: State;
@@ -18,7 +18,7 @@ interface Props {
 const UtbetalingerListe = ({ selectedState }: Props) => {
     const t = useTranslations("UtbetalingerListe");
 
-    const datas = useUtbetalinger({
+    const datas = useUtbetalinger2({
         selectedState,
     });
 
@@ -32,7 +32,7 @@ const UtbetalingerListe = ({ selectedState }: Props) => {
                     datas
                         .toReversed()
                         .map((gruppe) => (
-                            <UtbetalingerCard key={`${gruppe.ar}-${gruppe.maned}`} utbetalinger={gruppe} />
+                            <UtbetalingerCard key={`${gruppe.ar}-${gruppe.maned}`} manedMedUtbetalinger={gruppe} />
                         ))
                 )}
             </UtbetalingerListView>

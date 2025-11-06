@@ -2,18 +2,18 @@ import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedMedUtbetalinger } from "../../_utils/utbetalinger-utils";
 
 import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
-    utbetalinger: NyeOgTidligereUtbetalingerResponse;
+    manedMedUtbetalinger: ManedMedUtbetalinger;
 }
 
-export const UtbetalingerCard = ({ utbetalinger }: Props) => {
+export const UtbetalingerCard = ({ manedMedUtbetalinger }: Props) => {
     const format = useFormatter();
 
-    const utbetalingerForManed = utbetalinger.utbetalingerForManed;
+    const utbetalingerForManed = manedMedUtbetalinger.utbetalinger;
 
     if (utbetalingerForManed.length === 0) return null;
 
@@ -26,7 +26,7 @@ export const UtbetalingerCard = ({ utbetalinger }: Props) => {
             <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
                 <HStack className="pr-2" align="center">
                     <Heading size="small" level="3" className="capitalize">
-                        {format.dateTime(new Date(utbetalinger.ar, utbetalinger.maned - 1, 10), {
+                        {format.dateTime(new Date(manedMedUtbetalinger.ar, manedMedUtbetalinger.maned - 1, 10), {
                             month: "long",
                             year: "numeric",
                         })}

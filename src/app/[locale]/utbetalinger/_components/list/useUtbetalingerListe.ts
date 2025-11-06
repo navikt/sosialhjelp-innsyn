@@ -1,11 +1,12 @@
 import { useMemo } from "react";
 import { Interval } from "date-fns";
 
-import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse } from "@generated/model";
+import { ManedUtbetalingStatus, NyeOgTidligereUtbetalingerResponse, UtbetalingDto } from "@generated/model";
 import {
     useHentNyeUtbetalingerSuspense,
     useHentTidligereUtbetalingerSuspense,
 } from "@generated/utbetalinger-controller/utbetalinger-controller";
+import { useHentUtbetalinger } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
 import {
     kombinertManed,
@@ -13,6 +14,7 @@ import {
     datoIntervall,
     erInnenforIntervall,
     utbetalingInnenforIntervall,
+    grupperUtbetalingerEtterManed,
 } from "../../_utils/utbetalinger-utils";
 import type { Option } from "../Utbetalinger";
 import { State } from "../utbetalingerReducer";
@@ -79,6 +81,29 @@ const chipToData = (
     }
 };
 
+const chipToData2 = (selectedChip: Option, data: UtbetalingDto[], selectedRange?: Interval) => {
+    const intervall = erPeriodeChip(selectedChip) && datoIntervall(selectedChip);
+    switch (selectedChip) {
+        case "kommende":
+            return data.filter(
+                (utbetaling) =>
+                    tillatteStatuserKommende.has(utbetaling.status) ||
+                    (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) > new Date())
+            );
+        case "egendefinert":
+            if (!selectedRange) return null;
+            return data.filter((utbetaling) => utbetalingInnenforIntervall(utbetaling, selectedRange));
+        case "siste3":
+        case "hittil":
+        case "fjor":
+            if (!intervall) return null;
+            return data.filter(
+                (utbetaling) =>
+                    tillateStatuserPeriode.has(utbetaling.status) && utbetalingInnenforIntervall(utbetaling, intervall)
+            );
+    }
+};
+
 export const useUtbetalinger = ({ selectedState }: Props) => {
     const { data: nye } = useHentNyeUtbetalingerSuspense();
     const { data: tidligere } = useHentTidligereUtbetalingerSuspense();
@@ -92,4 +117,20 @@ export const useUtbetalinger = ({ selectedState }: Props) => {
     );
 
     return datas ?? [];
+};
+
+export const useUtbetalinger2 = ({ selectedState }: Props) => {
+    const { data } = useHentUtbetalinger();
+
+    if (!data) {
+        return [];
+    }
+
+    const datas = chipToData2(
+        selectedState.chip,
+        data,
+        selectedState.chip === "egendefinert" ? selectedState.interval : undefined
+    );
+
+    return datas ? grupperUtbetalingerEtterManed(datas) : [];
 };

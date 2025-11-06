@@ -12,11 +12,23 @@ import {
     endOfDay,
     startOfDay,
     endOfMonth,
+    getMonth,
+    getYear,
 } from "date-fns";
 
-import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse, UtbetalingDto } from "@generated/ssr/model";
 
 import { Option } from "../_components/Utbetalinger";
+
+/**
+ * New type for grouping utbetalinger by month using the new UtbetalingDto type.
+ * Replaces NyeOgTidligereUtbetalingerResponse which uses the old ManedUtbetaling type.
+ */
+export type ManedMedUtbetalinger = {
+    ar: number;
+    maned: number;
+    utbetalinger: UtbetalingDto[];
+};
 
 type PeriodeChip = "siste3" | "hittil" | "fjor";
 
@@ -46,6 +58,43 @@ export const kombinertManed = (
         }
     }
     return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
+};
+
+export const sorterUtbetalingerEtterDato = (utbetalinger: UtbetalingDto[]): UtbetalingDto[] => {
+    return [...utbetalinger].sort((a, b) => {
+        const datoA = new Date(a.utbetalingsdato ?? a.forfallsdato ?? 0);
+        const datoB = new Date(b.utbetalingsdato ?? b.forfallsdato ?? 0);
+        return datoA.getTime() - datoB.getTime();
+    });
+};
+
+export const sorterManeder = (maneder: ManedMedUtbetalinger[]): ManedMedUtbetalinger[] =>
+    [...maneder].sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
+
+export const grupperUtbetalingerEtterManed = (utbetalinger: UtbetalingDto[]): ManedMedUtbetalinger[] => {
+    const grouped = Object.values(
+        utbetalinger.reduce<Record<string, ManedMedUtbetalinger>>((acc, utbetaling) => {
+            const referanseDato = utbetaling.utbetalingsdato ?? utbetaling.forfallsdato;
+            const dato = new Date(referanseDato!);
+            const ar = getYear(dato);
+            const maned = getMonth(dato) + 1;
+            const key = `${ar}-${maned}`;
+
+            if (!acc[key]) {
+                acc[key] = { ar, maned, utbetalinger: [] };
+            }
+            acc[key].utbetalinger.push(utbetaling);
+
+            return acc;
+        }, {})
+    );
+
+    const withSortedUtbetalinger = grouped.map((item) => ({
+        ...item,
+        utbetalinger: sorterUtbetalingerEtterDato(item.utbetalinger),
+    }));
+
+    return sorterManeder(withSortedUtbetalinger);
 };
 
 export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
