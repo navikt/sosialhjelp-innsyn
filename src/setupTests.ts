@@ -11,7 +11,7 @@ configure({ asyncUtilTimeout: 3000 });
 
 vi.mock("@navikt/nav-dekoratoren-moduler", () => ({ setBreadcrumbs: vi.fn() }));
 vi.mock("next/router", async () => ({ ...(await import("next-router-mock")) }));
-vi.mock("unleash-proxy-client", vi.fn());
+vi.mock("unleash-proxy-client", () => ({}));
 
 Object.defineProperty(window, "matchMedia", {
     writable: true,
