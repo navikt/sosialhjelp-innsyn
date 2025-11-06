@@ -10,9 +10,38 @@
     flex: 1 1 auto;
     min-width: 0;
 }
+/*Finner ingen grei  måte å midtstille beløp og chevron mellom dato/status og tittel når de  er i samme kolonne, jukser frem noe*/
+.chevronTight :global(.aksel-expansioncard__header-button) {
+    align-self: stretch;
+    display: grid;
+    place-content: center;
+    margin-inline-start: var(--ax-space-4);
+}
 
-/* Remove hover ring */
+/* fjerner hover ring */
 .noHoverRing:hover {
     outline: none;
     box-shadow: none;
+}
+
+/*Tittelen er truncate når <ExpansionCard/> er lukket*/
+.truncateWhenClosed {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Gjør sånn at det er litt mellomrom mellom tittel og beløp om det er nødvendig */
+:global([data-open="false"]) .titleClamp {
+    --amount-reserve: 8ch;
+    --right-gap: 1rem;
+
+    max-width: calc(100% - (var(--amount-reserve) + var(--right-gap)));
+}
+
+/*Tittelen er ikke truncate når <ExpansionCard/> er åpen*/
+:global([data-open="true"]) .truncateWhenClosed {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
 }
