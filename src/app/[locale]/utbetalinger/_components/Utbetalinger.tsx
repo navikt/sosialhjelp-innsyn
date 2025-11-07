@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import React, { useReducer } from "react";
 import { endOfDay, interval, startOfMonth, subMonths } from "date-fns";
 
-import { options } from "../_types/types";
+import { Option } from "../_types/types";
 
 import UtbetalingerListe from "./list/UtbetalingerListe";
 import { reducer, initialState } from "./utbetalingerReducer";
@@ -15,6 +15,8 @@ const today = new Date();
 const earliest = startOfMonth(subMonths(today, 15));
 
 const toInterval = (from?: Date, to?: Date) => (from && to ? interval(from, endOfDay(to)) : undefined);
+
+export const options = ["kommende", "siste3", "hittil", "fjor", "egendefinert"] as const satisfies readonly Option[];
 
 const Utbetalinger = () => {
     const t = useTranslations("Utbetalinger");
