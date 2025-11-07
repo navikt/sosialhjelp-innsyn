@@ -163,6 +163,7 @@
     },
     "Oppgaver": {
         "tittel": "Requested documents",
+        "visFullforte": "Show completed tasks",
         "ingenOppgaver": {
             "tittel": "You have no tasks",
             "beskrivelse": "If you are asked to submit documentation, it will appear here."

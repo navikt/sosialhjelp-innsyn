@@ -23,7 +23,7 @@ interface IconProps {
     variant?: "info" | "warning";
 }
 
-const Icon = ({ icon, variant = "info" }: IconProps) => (
+export const Icon = ({ icon, variant = "info" }: IconProps) => (
     <VStack
         justify="center"
         align="center"

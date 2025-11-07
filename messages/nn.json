@@ -163,6 +163,7 @@
     },
     "Oppgaver": {
         "tittel": "Etterspurde dokument",
+        "visFullforte": "Vis fullførte oppgåver",
         "ingenOppgaver": {
             "tittel": "Du har ingen oppgåver",
             "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
