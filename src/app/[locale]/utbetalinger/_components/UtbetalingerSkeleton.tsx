@@ -3,8 +3,9 @@ import React from "react";
 import { ChipsToggle } from "@navikt/ds-react/Chips";
 import { getTranslations } from "next-intl/server";
 
+import { options } from "../_types/types";
+
 import UtbetalingerListeSkeleton from "./list/UtbetalingerListeSkeleton";
-import { options } from "./utbetalingerReducer";
 
 export const UtbetalingerSkeleton = async () => {
     const t = await getTranslations("Utbetalinger");

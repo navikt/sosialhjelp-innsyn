@@ -15,19 +15,7 @@ import {
 
 import { ManedUtbetaling, UtbetalingDto } from "@generated/ssr/model";
 
-import { Option } from "../_components/utbetalingerReducer";
-
-/**
- * New type for grouping utbetalinger by month using the new UtbetalingDto type.
- * Replaces NyeOgTidligereUtbetalingerResponse which uses the old ManedUtbetaling type.
- */
-export type ManedMedUtbetalinger = {
-    ar: number;
-    maned: number;
-    utbetalinger: UtbetalingDto[];
-};
-
-type PeriodeChip = "siste3" | "hittil" | "fjor";
+import { PeriodeChip, Option, ManedMedUtbetalinger } from "../_types/types";
 
 export const erPeriodeChip = (c: Option): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";

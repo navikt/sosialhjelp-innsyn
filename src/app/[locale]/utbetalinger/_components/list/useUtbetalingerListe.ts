@@ -10,7 +10,8 @@ import {
     utbetalingInnenforIntervall,
     grupperUtbetalingerEtterManed,
 } from "../../_utils/utbetalinger-utils";
-import { Option, State } from "../utbetalingerReducer";
+import { Option } from "../../_types/types";
+import { State } from "../utbetalingerReducer";
 
 interface Props {
     selectedState: State;

@@ -3,13 +3,14 @@ import { interval } from "date-fns";
 
 import { UtbetalingDto, UtbetalingDtoStatus } from "@generated/ssr/model";
 
+import { ManedMedUtbetalinger } from "../_types/types";
+
 import {
     sorterUtbetalingerEtterDato,
     sorterManeder,
     grupperUtbetalingerEtterManed,
     utbetalingInnenforIntervall,
     formaterKontonummer,
-    ManedMedUtbetalinger,
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<UtbetalingDto> = {}): UtbetalingDto => ({

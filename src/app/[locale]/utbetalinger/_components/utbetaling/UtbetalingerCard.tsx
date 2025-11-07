@@ -2,7 +2,7 @@ import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
 import { useFormatter } from "next-intl";
 
-import { ManedMedUtbetalinger } from "../../_utils/utbetalinger-utils";
+import { ManedMedUtbetalinger } from "../../_types/types";
 
 import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 

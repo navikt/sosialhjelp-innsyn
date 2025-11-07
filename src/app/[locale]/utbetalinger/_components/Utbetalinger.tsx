@@ -6,8 +6,10 @@ import { useTranslations } from "next-intl";
 import React, { useReducer } from "react";
 import { endOfDay, interval, startOfMonth, subMonths } from "date-fns";
 
+import { options } from "../_types/types";
+
 import UtbetalingerListe from "./list/UtbetalingerListe";
-import { reducer, initialState, options } from "./utbetalingerReducer";
+import { reducer, initialState } from "./utbetalingerReducer";
 
 const today = new Date();
 const earliest = startOfMonth(subMonths(today, 15));

@@ -4,8 +4,8 @@ import React from "react";
 import { VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import type { State } from "../utbetalingerReducer";
 import { UtbetalingerCard } from "../utbetaling/UtbetalingerCard";
+import { State } from "../utbetalingerReducer";
 
 import UtbetalingerListView from "./UtbetalingerListView";
 import IngenUtbetalinger from "./IngenUtbetalinger";
