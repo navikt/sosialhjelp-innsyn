@@ -225,7 +225,7 @@
         "suksess": "Thank you! Your documentation have been submitted."
     },
     "Dokumenter": {
-        "tittel": "Documents"
+        "tittel": "Your documents"
     },
     "Filopplasting": {
         "tittel": "Submit additional documentation"
@@ -233,6 +233,12 @@
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Appliation for financial assistance",
+        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
+    },
+    "SoknadenDin": {
+      "tittel": "Your application",
+        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Appliation for financial assistance.pdf",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {

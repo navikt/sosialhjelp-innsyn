@@ -1,52 +1,49 @@
 "use client";
 
-import { FileUpload, HStack, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
+import React from "react";
 
-import { OriginalSoknadDto, UrlResponse, VedleggResponse } from "@generated/model";
+import { UrlResponse, VedleggResponse } from "@generated/model";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+
+import IkonBilde from "./IkonBilde";
 
 export type SoknadFile = UrlResponse & { date?: string };
 
 interface Props {
     vedlegg: VedleggResponse[];
-    originalSoknad?: OriginalSoknadDto;
 }
 
-const VedleggListe = ({ vedlegg, originalSoknad }: Props) => {
+const VedleggListe = ({ vedlegg }: Props) => {
     const t = useTranslations("VedleggListe");
     return (
         <VStack as="ul" gap="2">
-            {originalSoknad && (
-                <FileUpload.Item
-                    as="li"
-                    href={originalSoknad.url}
-                    description={
-                        originalSoknad.date
-                            ? `${t("sendt", {
-                                  dato: new Date(originalSoknad.date),
-                              })}`
-                            : undefined
-                    }
-                    file={{
-                        name: originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename"),
-                        size: originalSoknad.size,
-                    }}
-                    className="w-full"
-                />
-            )}
             {vedlegg.map((fil) => (
-                <FileUpload.Item
-                    as="li"
-                    key={`${fil.filnavn}-${fil.datoLagtTil}`}
-                    href={fil.url}
-                    description={`${filesize(fil.storrelse)}, ${t("lastetOpp", { dato: new Date(fil.datoLagtTil) })}`}
-                    file={{
-                        name: fil.filnavn,
-                        size: fil.storrelse,
-                    }}
-                    className="w-full"
-                />
+                <>
+                    <DigisosLinkCard
+                        href={fil.url}
+                        icon={IkonBilde(fil)}
+                        underline={true}
+                        cardIcon="expand"
+                        description={
+                            <>
+                                <HStack gap="1">
+                                    <BodyShort>{filesize(fil.storrelse)},</BodyShort>
+                                    <BodyShort>
+                                        {t.rich("lastetOpp", {
+                                            norsk: (chunks) => <span lang="no">{chunks}</span>,
+                                            dato: new Date(fil.datoLagtTil),
+                                        })}
+                                    </BodyShort>
+                                </HStack>
+                            </>
+                        }
+                    >
+                        {fil.filnavn}
+                    </DigisosLinkCard>
+                </>
             ))}
         </VStack>
     );

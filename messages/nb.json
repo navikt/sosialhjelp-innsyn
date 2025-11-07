@@ -196,7 +196,7 @@
         "suksess": "Takk! Dokumentasjonen din ble sendt inn."
     },
     "Dokumenter": {
-        "tittel": "Dokumenter"
+        "tittel": "Dine dokumenter"
     },
     "Filopplasting": {
         "tittel": "Ettersend dokumentasjon"
@@ -206,6 +206,12 @@
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
         "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
     },
+  "SoknadenDin": {
+    "tittel": "Søknaden din",
+    "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
+    "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
+    "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+  },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."

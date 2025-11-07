@@ -25,7 +25,7 @@ const KlageVedtak = ({ sak }: Props) => {
             {sak.vedtaksfilUrlList &&
                 sak.vedtaksfilUrlList.map((fil, index) => (
                     <DigisosLinkCard
-                        downloadIcon={true}
+                        cardIcon="download"
                         key={index}
                         href={fil.url}
                         icon={<FilePdfIcon />}

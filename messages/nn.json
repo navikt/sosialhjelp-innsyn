@@ -225,7 +225,7 @@
         "suksess": "Takk! Dokumentasjonen din vart sendt inn."
     },
     "Dokumenter": {
-        "tittel": "Dokument"
+        "tittel": "Dine dokument"
     },
     "Filopplasting": {
         "tittel": "Ettersend dokumentasjon"
@@ -233,6 +233,12 @@
     "VedleggListe": {
         "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
+        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+    },
+    "SoknadenDin": {
+      "tittel":"Søknaden din",
+        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
+        "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
         "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
