@@ -13,7 +13,7 @@ import {
     useGetVilkar,
 } from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
-import { useHentUtbetalinger } from "../../generated/utbetalinger-controller/utbetalinger-controller";
+import { useHentUtbetalinger1 } from "../../generated/utbetalinger-controller/utbetalinger-controller";
 import { useHentSaksStatuser } from "../../generated/saks-status-controller/saks-status-controller";
 import useDokumentasjonEtterspurt from "../../hooks/useDokumentasjonEtterspurt";
 import DriftsmeldingVedlegg from "../driftsmelding/DriftsmeldingVedlegg";
@@ -74,7 +74,7 @@ const Oppgaver = () => {
         useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
 
     const { data: saksStatuser, ...saksStatusQuery } = useHentSaksStatuser(fiksDigisosId);
-    const utbetalingerQuery = useHentUtbetalinger();
+    const utbetalingerQuery = useHentUtbetalinger1();
 
     useEffect(() => {
         const { error } = utbetalingerQuery;

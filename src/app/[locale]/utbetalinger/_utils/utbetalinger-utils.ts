@@ -1,7 +1,5 @@
 import {
     isWithinInterval,
-    startOfMonth,
-    areIntervalsOverlapping,
     subMonths,
     Interval,
     interval,
@@ -11,41 +9,53 @@ import {
     addDays,
     endOfDay,
     startOfDay,
-    endOfMonth,
+    getMonth,
+    getYear,
 } from "date-fns";
 
-import { ManedUtbetaling, NyeOgTidligereUtbetalingerResponse } from "@generated/ssr/model";
+import { ManedUtbetaling, UtbetalingDto } from "@generated/ssr/model";
 
-import { Option } from "../_components/utbetalingerReducer";
-
-type PeriodeChip = "siste3" | "hittil" | "fjor";
+import { PeriodeChip, Option, ManedMedUtbetalinger } from "../_types/types";
 
 export const erPeriodeChip = (c: Option): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";
 };
 
-export const kombinertManed = (
-    nye: NyeOgTidligereUtbetalingerResponse[] = [],
-    tidligere: NyeOgTidligereUtbetalingerResponse[] = []
-): NyeOgTidligereUtbetalingerResponse[] => {
-    const map = new Map<string, NyeOgTidligereUtbetalingerResponse>();
+export const sorterUtbetalingerEtterDato = (utbetalinger: UtbetalingDto[]): UtbetalingDto[] => {
+    return [...utbetalinger].sort((a, b) => {
+        const datoA = new Date(a.utbetalingsdato ?? a.forfallsdato ?? 0);
+        const datoB = new Date(b.utbetalingsdato ?? b.forfallsdato ?? 0);
+        return datoA.getTime() - datoB.getTime();
+    });
+};
 
-    for (const kombinertList of [nye, tidligere]) {
-        for (const maned of kombinertList) {
-            const key = `${maned.ar}-${maned.maned}`;
-            const existing = map.get(key);
-            if (existing) {
-                existing.utbetalingerForManed = [...existing.utbetalingerForManed, ...maned.utbetalingerForManed];
-            } else {
-                map.set(key, {
-                    ar: maned.ar,
-                    maned: maned.maned,
-                    utbetalingerForManed: [...maned.utbetalingerForManed],
-                });
+export const sorterManeder = (maneder: ManedMedUtbetalinger[]): ManedMedUtbetalinger[] =>
+    [...maneder].sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
+
+export const grupperUtbetalingerEtterManed = (utbetalinger: UtbetalingDto[]): ManedMedUtbetalinger[] => {
+    const grouped = Object.values(
+        utbetalinger.reduce<Record<string, ManedMedUtbetalinger>>((acc, utbetaling) => {
+            const referanseDato = utbetaling.utbetalingsdato ?? utbetaling.forfallsdato;
+            const dato = new Date(referanseDato!);
+            const ar = getYear(dato);
+            const maned = getMonth(dato) + 1;
+            const key = `${ar}-${maned}`;
+
+            if (!acc[key]) {
+                acc[key] = { ar, maned, utbetalinger: [] };
             }
-        }
-    }
-    return Array.from(map.values()).sort((a, b) => (a.ar === b.ar ? a.maned - b.maned : a.ar - b.ar));
+            acc[key].utbetalinger.push(utbetaling);
+
+            return acc;
+        }, {})
+    );
+
+    const withSortedUtbetalinger = grouped.map((item) => ({
+        ...item,
+        utbetalinger: sorterUtbetalingerEtterDato(item.utbetalinger),
+    }));
+
+    return sorterManeder(withSortedUtbetalinger);
 };
 
 export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
@@ -74,13 +84,6 @@ export const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Inte
     }
 
     return false;
-};
-
-export const erInnenforIntervall = (item: NyeOgTidligereUtbetalingerResponse, intervall: Interval | null | false) => {
-    if (!intervall) return true;
-    const date = new Date(item.ar, item.maned - 1);
-    const itemInterval = interval(startOfMonth(date), endOfMonth(date));
-    return areIntervalsOverlapping(itemInterval, intervall);
 };
 
 export const formaterKontonummer = (kontonummer?: string | null): string | undefined => {
