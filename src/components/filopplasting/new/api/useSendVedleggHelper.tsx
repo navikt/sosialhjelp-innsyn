@@ -12,7 +12,7 @@ import {
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
     GetOppgaverBetaQueryResult,
-} from "@generated/oppgave-controller/oppgave-controller";
+} from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import { FancyFile, Error, Metadata, Feil } from "../types";
 import { determineErrorType } from "../utils/mapErrors";

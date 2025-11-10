@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 import { VilkarResponse } from "@generated/ssr/model";
-import { useGetDokumentasjonkravBetaSuspense } from "@generated/oppgave-controller/oppgave-controller";
+import { useGetDokumentasjonkravBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import Vedtak from "../vedtak/Vedtak";
 import VilkarListe from "../vilkar/VilkarListe";

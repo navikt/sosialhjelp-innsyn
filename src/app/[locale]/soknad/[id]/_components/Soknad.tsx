@@ -5,11 +5,6 @@ import { getTranslations } from "next-intl/server";
 
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
-import {
-    getVilkar,
-    prefetchGetDokumentasjonkravBetaQuery,
-    prefetchGetOppgaverBetaQuery,
-} from "@generated/ssr/oppgave-controller/oppgave-controller";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
 import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
 import {
@@ -17,6 +12,11 @@ import {
     prefetchHentOriginalSoknadQuery,
 } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
 import { hentKlager } from "@generated/ssr/klage-controller/klage-controller";
+import {
+    prefetchGetDokumentasjonkravBetaQuery,
+    prefetchGetOppgaverBetaQuery,
+    getVilkar,
+} from "@generated/ssr/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import Oversikt from "./oversikt/Oversikt";
 import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
