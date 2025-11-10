@@ -6,11 +6,8 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import { getQueryClient } from "@api/queryClient";
-import {
-    prefetchHentNyeUtbetalingerQuery,
-    prefetchHentTidligereUtbetalingerQuery,
-} from "@generated/ssr/utbetalinger-controller/utbetalinger-controller";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
+import { prefetchHentUtbetalingerQuery } from "@generated/ssr/utbetalinger-controller-2/utbetalinger-controller-2";
 
 import Utbetalinger from "./_components/Utbetalinger";
 import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
@@ -23,8 +20,7 @@ const Page = async () => {
     const t = await getTranslations("UtbetalingerPage");
     const queryClient = getQueryClient();
 
-    prefetchHentNyeUtbetalingerQuery(queryClient);
-    prefetchHentTidligereUtbetalingerQuery(queryClient);
+    prefetchHentUtbetalingerQuery(queryClient);
 
     return (
         <>

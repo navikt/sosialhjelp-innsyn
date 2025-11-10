@@ -56,8 +56,8 @@ import ArkfanePanel from "../../../components/arkfanePanel/ArkfanePanel";
 import { customFetchSSR } from "../../../custom-fetch";
 import { extractAuthHeader } from "../../../utils/authUtils";
 import {
-    getHentUtbetalingerQueryKey,
-    getHentUtbetalingerUrl,
+    getHentUtbetalinger1QueryKey,
+    getHentUtbetalinger1Url,
 } from "../../../generated/utbetalinger-controller/utbetalinger-controller";
 import {
     getHentHendelserQueryKey,
@@ -177,7 +177,7 @@ const getQueries = (id: string) => [
     { url: getGetDokumentasjonkravUrl(id), key: getGetDokumentasjonkravQueryKey(id) },
     { url: getGetHarLevertDokumentasjonkravUrl(id), key: getGetHarLevertDokumentasjonkravQueryKey(id) },
     { url: getGetfagsystemHarDokumentasjonkravUrl(id), key: getGetfagsystemHarDokumentasjonkravQueryKey(id) },
-    { url: getHentUtbetalingerUrl(), key: getHentUtbetalingerQueryKey() },
+    { url: getHentUtbetalinger1Url(), key: getHentUtbetalinger1QueryKey() },
     { url: getHentHendelserUrl(id), key: getHentHendelserQueryKey(id) },
     { url: getHentVedleggUrl(id), key: getHentVedleggQueryKey(id) },
     { url: getHentKommuneInfoUrl(id), key: getHentKommuneInfoQueryKey(id) },

@@ -185,6 +185,22 @@
                 }
             }
         },
+        "/api/v2/innsyn/utbetalinger": {
+            "get": {
+                "tags": ["utbetalinger-controller-2"],
+                "operationId": "hentUtbetalinger",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/UtbetalingDto" } }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/vilkar": {
             "get": {
                 "tags": ["oppgave-controller"],
@@ -608,7 +624,7 @@
         "/api/v1/innsyn/utbetalinger": {
             "get": {
                 "tags": ["utbetalinger-controller"],
-                "operationId": "hentUtbetalinger",
+                "operationId": "hentUtbetalinger_1",
                 "parameters": [
                     {
                         "name": "month",
@@ -813,6 +829,25 @@
                     "tekst": { "type": "string" }
                 },
                 "required": ["klageId", "tekst", "vedtakId"]
+            },
+            "UtbetalingDto": {
+                "type": "object",
+                "properties": {
+                    "referanse": { "type": "string" },
+                    "tittel": { "type": "string" },
+                    "belop": { "type": "number" },
+                    "utbetalingsdato": { "type": "string", "format": "date" },
+                    "forfallsdato": { "type": "string", "format": "date" },
+                    "status": { "type": "string", "enum": ["PLANLAGT_UTBETALING", "UTBETALT", "STOPPET", "ANNULLERT"] },
+                    "fiksDigisosId": { "type": "string" },
+                    "fom": { "type": "string", "format": "date" },
+                    "tom": { "type": "string", "format": "date" },
+                    "mottaker": { "type": "string" },
+                    "annenMottaker": { "type": "boolean" },
+                    "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
+                    "utbetalingsmetode": { "type": "string" }
+                },
+                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
             },
             "VilkarResponse": {
                 "type": "object",
