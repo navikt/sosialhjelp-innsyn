@@ -246,6 +246,12 @@
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
     },
+    "VisKommendeUtbetalinger": {
+        "tittel": "Upcoming payments",
+        "beskrivelse": "You will receive {amount} kr",
+        "ukjentDato": "Unknown date",
+      "utbetales": "Payment date"
+    },
     "AktiveSoknader": {
         "tittel": "Active applications",
         "EmptyState": {

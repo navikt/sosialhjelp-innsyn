@@ -9,6 +9,8 @@ import SokButton from "@components/sokButton/SokButton";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
 
+import VisKommendeUtbetalinger from "../utbetalinger/_components/VisKommendeUtbetalinger";
+
 import Snarveier from "./_components/snarveier/Snarveier";
 
 const Page = async () => {
@@ -36,6 +38,7 @@ const Page = async () => {
                         </Heading>
                     </Stack>
                 </Bleed>
+                <VisKommendeUtbetalinger />
                 <AktiveSoknader />
                 <Snarveier />
                 <SokButton />
