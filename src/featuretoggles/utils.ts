@@ -6,7 +6,7 @@ export function localDevelopmentToggles(): IToggle[] {
     return EXPECTED_TOGGLES.map(
         (it): IToggle => ({
             name: it,
-            enabled: it === "sosialhjelp.innsyn.ny_utbetalinger_side",
+            enabled: true,
             impressionData: false,
             variant: {
                 name: "disabled",
