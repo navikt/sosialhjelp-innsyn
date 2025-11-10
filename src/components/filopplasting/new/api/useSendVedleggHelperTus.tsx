@@ -6,13 +6,13 @@ import {
     getHentHendelserBetaQueryKey,
 } from "@generated/hendelse-controller/hendelse-controller";
 import { getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
+import { browserEnv } from "@config/env";
 import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
     GetOppgaverBetaQueryResult,
-} from "@generated/oppgave-controller/oppgave-controller";
-import { browserEnv } from "@config/env";
+} from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import { Metadata } from "../types";
 

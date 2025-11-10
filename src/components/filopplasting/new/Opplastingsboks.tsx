@@ -1,16 +1,31 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import {
+    Alert,
+    BodyShort,
+    Box,
+    Button,
+    FileObject,
+    FileUpload,
+    Heading,
+    HStack,
+    Link,
+    List,
+    VStack,
+} from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
+import { ListItem } from "@navikt/ds-react/List";
+import { filesize } from "filesize";
 
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
+import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import { umamiTrack } from "../../../app/umami";
 
@@ -33,6 +48,10 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
         isPending,
         isUploadSuccess,
     } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
+
+    const { data } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
+        query: { enabled: !!fiksDigisosId && !!metadata.hendelsereferanse },
+    });
 
     useNavigationGuard({
         enabled: files.length > 0,
@@ -68,6 +87,17 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     <Alert closeButton onClose={resetMutation} variant="success">
                         {t("common.vedlegg.suksess")}
                     </Alert>
+                )}
+                {data?.length && (
+                    <List>
+                        {data.map((item) => (
+                            <ListItem key={item.url}>
+                                <Link href={item.url}>
+                                    {item.filnavn} ({filesize(item.storrelse)})
+                                </Link>
+                            </ListItem>
+                        ))}
+                    </List>
                 )}
             </VStack>
         );

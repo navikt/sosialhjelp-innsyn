@@ -8,9 +8,9 @@ import { logger } from "@navikt/next-logger";
 import Lastestriper from "../lastestriper/Lasterstriper";
 import {
     useGetDokumentasjonkrav,
-    useGetfagsystemHarDokumentasjonkrav,
-    useGetHarLevertDokumentasjonkrav,
-    useGetVilkar,
+    useGetfagsystemHarDokumentasjonkrav1,
+    useGetHarLevertDokumentasjonkrav1,
+    useGetVilkar1,
 } from "../../generated/oppgave-controller/oppgave-controller";
 import useFiksDigisosId from "../../hooks/useFiksDigisosId";
 import { useHentUtbetalinger1 } from "../../generated/utbetalinger-controller/utbetalinger-controller";
@@ -65,13 +65,13 @@ const DAGER_SIDEN_UTBETALINGSPERIODEN_ER_FORBIGAATT = 21;
 const Oppgaver = () => {
     const t = useTranslations("common");
     const fiksDigisosId = useFiksDigisosId();
-    const vilkarQuery = useGetVilkar(fiksDigisosId);
+    const vilkarQuery = useGetVilkar1(fiksDigisosId);
     const dokumentasjonskravQuery = useGetDokumentasjonkrav(fiksDigisosId);
     const { dokumentasjonEtterspurt, ...oppgaverQuery } = useDokumentasjonEtterspurt(fiksDigisosId);
     const { data: harLevertDokumentasjonskrav, ...harLevertDokumentasjonskravQuery } =
-        useGetHarLevertDokumentasjonkrav(fiksDigisosId);
+        useGetHarLevertDokumentasjonkrav1(fiksDigisosId);
     const { data: fagsystemHarDokumentasjonkrav, ...fagsystemHarDokumentasjonkravQuery } =
-        useGetfagsystemHarDokumentasjonkrav(fiksDigisosId);
+        useGetfagsystemHarDokumentasjonkrav1(fiksDigisosId);
 
     const { data: saksStatuser, ...saksStatusQuery } = useHentSaksStatuser(fiksDigisosId);
     const utbetalingerQuery = useHentUtbetalinger1();

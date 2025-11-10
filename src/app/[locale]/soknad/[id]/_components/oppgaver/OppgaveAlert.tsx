@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import StatusAlert from "@components/alert/StatusAlert";
-import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller/oppgave-controller";
+import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 const OppgaveAlert = () => {
     const { id } = useParams<{ id: string }>();
