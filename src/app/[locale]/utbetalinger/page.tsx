@@ -38,4 +38,12 @@ const Page = async () => {
         </>
     );
 };
+
+export const generateMetadata = async () => {
+    const t = await getTranslations("UtbetalingerPage");
+    return {
+        title: t("tittel"),
+    };
+};
+
 export default Page;
