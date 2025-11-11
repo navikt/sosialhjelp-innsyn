@@ -151,11 +151,17 @@ describe("FiltreringAvUtbetalinger (updated for new flat list endpoint)", () => 
 
         const periode = result.current.data;
         expect(periode.map((g) => [g.ar, g.maned])).toEqual([
+            [2024, 10],
             [2024, 11],
             [2024, 12],
             [2025, 1],
         ]);
-        expect(periode.flatMap((g) => g.utbetalinger.map((u) => u.referanse))).toEqual(["nov24", "des24", "jan25"]);
+        expect(periode.flatMap((g) => g.utbetalinger.map((u) => u.referanse))).toEqual([
+            "okt24",
+            "nov24",
+            "des24",
+            "jan25",
+        ]);
 
         vi.useRealTimers();
     });
