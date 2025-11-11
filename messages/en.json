@@ -163,7 +163,6 @@
     },
     "Oppgaver": {
         "tittel": "Requested documents",
-        "visFullforte": "Show completed tasks",
         "ingenOppgaver": {
             "tittel": "You have no tasks",
             "beskrivelse": "If you are asked to submit documentation, it will appear here."
@@ -226,7 +225,7 @@
         "suksess": "Thank you! Your documentation have been submitted."
     },
     "Dokumenter": {
-        "tittel": "Your documents"
+        "tittel": "Documents"
     },
     "Filopplasting": {
         "tittel": "Submit additional documentation"
@@ -236,31 +235,15 @@
         "soknadFilename": "Appliation for financial assistance",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
-    "SoknadenDin": {
-        "tittel": "Your application",
-        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Appliation for financial assistance.pdf",
-        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
-    },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
     },
-    "VisKommendeUtbetalinger": {
-        "tittel": "Upcoming payments",
-        "ukjentDato": "Unknown date"
-    },
-  "KommendeUtbetalingerListe": {
-    "beskrivelse": "You will receive {amount} kr",
-    "utbetales": "Payment date",
-    "visFlere": "Show more",
-    "visFærre": "Show less"
-  },
     "AktiveSoknader": {
         "tittel": "Active applications",
         "EmptyState": {
-            "tittel": "We can't find any applications from you",
-            "beskrivelse": "This can be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
+            "tittel": "You currently have no applications for financial social assistance",
+            "beskrivelse": "If you apply for financial social assistance, you will be able to find your applications here."
         },
         "visFlere": "Show more",
         "visFærre": "Show less"
@@ -365,7 +348,13 @@
         "validering": {
             "maksLengde": "You can write a maximum of 1000 characters"
         },
-        "sendKlage": "Send inn",
+        "forkastKlageKnapp": "Discard",
+        "forkastKlageModalOverskrift": "Are you sure you want to discard the complaint?",
+        "forkastKlageModalBeskrivelse": "Your complaint and attachments will not be saved.",
+        "forkastKlageModalBekreft": "Yes, discard the complaint",
+        "forkastKlageModalAvbryt": "Cancel",
+
+        "sendKlage": "Send",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
     "KlageFileUpload": {
@@ -402,17 +391,19 @@
         "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "Payments"
     },
-    "ErrorPage": {
-        "tittel": "Sorry, something went wrong",
-        "back": "Go back",
-        "description": "We were unable to load the page correctly. This may be due to temporary technical issues and nothing you did. You can try to",
-        "oppdatere": "refresh the page",
-        "relogge": "log out and log in again",
-        "vente": "come back in a few minutes"
+    "UtbetalingerError": {
+        "tittel": "Something went wrong displaying payments",
+        "retry": "Try again"
+    },
+    "ErrorAlert": {
+        "tittel": "Could not load content",
+        "description": "Due to technical problems, we were unable to load the content that should be here. You can try to:",
+        "oppdatere": "Refresh the content",
+        "relogge": "Log out and log in again",
+        "vente": "Come back in a few minutes"
     },
     "TrengerDuRaskHjelp": {
         "tittel": "Do you need urgent help?",
-        "sokePapir": "You can also <link>apply for financial assistance on paper</link> at you Nav office.",
         "finnKontor": "Find Nav office",
         "finnDittNavkontor": "Find your Nav office (logged in)",
         "sokOppDittNavKontor": "Search for Nav office",
@@ -437,7 +428,7 @@
     },
     "UtbetalingerListe": {
         "tittel": {
-            "kommende": "Upcoming payments",
+            "kommende": "Upcoming",
             "siste3": "Last 3 months",
             "hittil": "So far this year",
             "fjor": "Last year",
@@ -471,7 +462,7 @@
         "bankkonto": "Your bank account: {konto}",
         "lenke": "View the application and the decision letter you received",
         "STOPPET": "Stopped",
-        "PLANLAGT_UTBETALING": "Scheduled",
+        "PLANLAGT_UTBETALING": "Scheduled payments",
         "UTBETALT": "Paid",
         "ANNULLERT": "Annulled",
         "datoRange": "{fom, date, ::ddMMyyyy} - {tom, date, ::ddMMyyyy}",
