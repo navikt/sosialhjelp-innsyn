@@ -47,7 +47,7 @@ const VisKommendeUtbetalinger = async () => {
                             href="/utbetalinger"
                             description={
                                 <>
-                                    <strong>{utbetaling.tittel}</strong>
+                                    {utbetaling.tittel}
                                     {utbetaling.utbetalingsdato && (
                                         <>
                                             <br />
