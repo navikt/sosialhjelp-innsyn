@@ -50,13 +50,15 @@ describe("FiltreringAvUtbetalinger (updated for new flat list endpoint)", () => 
     );
 
     it("Kommende: inkluderer kun PLANLAGT_UTBETALING og STOPPET statuser", async () => {
+        vi.useFakeTimers({ shouldAdvanceTime: true });
+        vi.setSystemTime(new Date(2025, 9, 15)); // 15. oktober 2025
         const alleUtbetalinger = [
             utb({
                 status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
                 referanse: "planlagt",
-                utbetalingsdato: "2025-10-15",
+                forfallsdato: "2025-10-15",
             }),
-            utb({ status: UtbetalingDtoStatus.STOPPET, referanse: "stoppet", utbetalingsdato: "2025-10-20" }),
+            utb({ status: UtbetalingDtoStatus.STOPPET, referanse: "stoppet", forfallsdato: "2025-10-20" }),
             utb({ status: UtbetalingDtoStatus.UTBETALT, referanse: "utbetalt", utbetalingsdato: "2025-10-05" }),
         ];
 
@@ -149,11 +151,17 @@ describe("FiltreringAvUtbetalinger (updated for new flat list endpoint)", () => 
 
         const periode = result.current.data;
         expect(periode.map((g) => [g.ar, g.maned])).toEqual([
+            [2024, 10],
             [2024, 11],
             [2024, 12],
             [2025, 1],
         ]);
-        expect(periode.flatMap((g) => g.utbetalinger.map((u) => u.referanse))).toEqual(["nov24", "des24", "jan25"]);
+        expect(periode.flatMap((g) => g.utbetalinger.map((u) => u.referanse))).toEqual([
+            "okt24",
+            "nov24",
+            "des24",
+            "jan25",
+        ]);
 
         vi.useRealTimers();
     });

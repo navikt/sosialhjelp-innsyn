@@ -1,8 +1,8 @@
 import { Interval } from "date-fns";
 import { useMemo } from "react";
+import { useHentUtbetalingerSuspense } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
 import { ManedUtbetalingStatus, UtbetalingDto } from "@generated/model";
-import { useHentUtbetalingerSuspense } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
 import {
     erPeriodeChip,
@@ -33,8 +33,9 @@ const chipToData = (selectedChip: Option, data: UtbetalingDto[], selectedRange?:
         case "kommende":
             return data.filter(
                 (utbetaling) =>
-                    tillatteStatuserKommende.has(utbetaling.status) ||
-                    (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) > new Date())
+                    tillatteStatuserKommende.has(utbetaling.status) &&
+                    utbetaling.forfallsdato &&
+                    new Date(utbetaling.forfallsdato) > new Date()
             );
         case "egendefinert":
             if (!selectedRange) return null;

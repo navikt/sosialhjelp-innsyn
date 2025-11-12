@@ -63,7 +63,7 @@ export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | nu
 
     switch (chip) {
         case "siste3": {
-            const startDato = subMonths(dagens, 2);
+            const startDato = subMonths(dagens, 3);
             return interval(startOfDay(startDato), endOfDay(addDays(dagens, 1)));
         }
         case "hittil":
