@@ -1,11 +1,11 @@
 import { BodyShort, Heading, HStack, Tag, VStack } from "@navikt/ds-react";
 import { getTranslations, getFormatter } from "next-intl/server";
-import { CalendarIcon } from "@navikt/aksel-icons";
+import { ClockIcon } from "@navikt/aksel-icons";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { ManedUtbetalingStatus } from "@generated/model";
 
-import { getKommendeUtbetalinger } from "../../_utils/getKommendeUtbetalinger";
+import { getKommendeUtbetalinger } from "./getKommendeUtbetalinger";
 
 const VisKommendeUtbetalinger = async () => {
     const t = await getTranslations("VisKommendeUtbetalinger");
@@ -17,13 +17,14 @@ const VisKommendeUtbetalinger = async () => {
         .filter(
             (utbetaling) =>
                 utbetaling.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING ||
-                (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) > new Date())
+                (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) >= new Date())
         );
 
+    // Sort by forfallsdato - items without forfallsdato go to the end
     alleKommende.sort((a, b) => {
         if (!a.forfallsdato && !b.forfallsdato) return 0;
-        if (!a.forfallsdato) return 1;
-        if (!b.forfallsdato) return -1;
+        if (!a.forfallsdato) return 1; // a goes after b
+        if (!b.forfallsdato) return -1; // b goes after a
 
         return new Date(a.forfallsdato).getTime() - new Date(b.forfallsdato).getTime();
     });
@@ -53,7 +54,7 @@ const VisKommendeUtbetalinger = async () => {
                                             <br />
                                             <Tag variant="info-moderate" className="mt-2">
                                                 <HStack gap="2" align="center">
-                                                    <CalendarIcon aria-hidden fontSize="1.5rem" />
+                                                    <ClockIcon aria-hidden fontSize="1.5rem" />
                                                     <BodyShort size="small" className="whitespace-nowrap">
                                                         {t("utbetales")}{" "}
                                                         {format.dateTime(new Date(utbetaling.utbetalingsdato), {

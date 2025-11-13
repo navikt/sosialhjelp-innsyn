@@ -250,7 +250,7 @@
         "tittel": "Upcoming payments",
         "beskrivelse": "You will receive {amount} kr",
         "ukjentDato": "Unknown date",
-      "utbetales": "Payment date"
+        "utbetales": "Payment date"
     },
     "AktiveSoknader": {
         "tittel": "Active applications",
