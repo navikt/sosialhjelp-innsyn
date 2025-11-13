@@ -30,7 +30,6 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                                 {utbetaling.tittel}
                                 {utbetaling.utbetalingsdato && (
                                     <HStack>
-                                        <br />
                                         <Tag variant="info-moderate" className="mt-2">
                                             <HStack gap="2" align="center">
                                                 <ClockIcon aria-hidden fontSize="1.5rem" />
