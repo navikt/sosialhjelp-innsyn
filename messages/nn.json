@@ -249,9 +249,12 @@
     "VisKommendeUtbetalinger": {
         "tittel": "Komande utbetalingar",
         "beskrivelse": "Du vil motta {amount} kr",
-        "ukjentDato": "Ukjend dato",
-        "utbetales": "Blir utbetalt"
+        "ukjentDato": "Ukjend dato"
     },
+  "KommendeUtbetalingerListe": {
+    "beskrivelse": "Du vil motta {amount} kr",
+    "utbetales": "Blir utbetalt"
+  },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {

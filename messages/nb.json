@@ -219,8 +219,10 @@
     },
   "VisKommendeUtbetalinger": {
     "tittel": "Kommende utbetalinger",
+    "ukjentDato": "Ukjent dato"
+  },
+  "KommendeUtbetalingerListe": {
     "beskrivelse": "Du vil motta {amount} kr",
-    "ukjentDato": "Ukjent dato",
     "utbetales": "Utbetales"
   },
     "AktiveSoknader": {

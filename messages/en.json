@@ -249,9 +249,12 @@
     "VisKommendeUtbetalinger": {
         "tittel": "Upcoming payments",
         "beskrivelse": "You will receive {amount} kr",
-        "ukjentDato": "Unknown date",
-        "utbetales": "Payment date"
+        "ukjentDato": "Unknown date"
     },
+  "KommendeUtbetalingerListe": {
+    "beskrivelse": "You will receive {amount} kr",
+    "utbetales": "Payment date"
+  },
     "AktiveSoknader": {
         "tittel": "Active applications",
         "EmptyState": {

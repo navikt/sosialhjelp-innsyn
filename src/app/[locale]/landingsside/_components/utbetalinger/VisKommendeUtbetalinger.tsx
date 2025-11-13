@@ -1,15 +1,13 @@
-import { BodyShort, Heading, HStack, Tag, VStack } from "@navikt/ds-react";
-import { getTranslations, getFormatter } from "next-intl/server";
-import { ClockIcon } from "@navikt/aksel-icons";
+import { Heading, VStack } from "@navikt/ds-react";
+import { getTranslations } from "next-intl/server";
 
-import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { ManedUtbetalingStatus } from "@generated/model";
 
 import { getKommendeUtbetalinger } from "./getKommendeUtbetalinger";
+import KommendeUtbetalingerListe from "./KommendeUtbetalingerListe";
 
 const VisKommendeUtbetalinger = async () => {
     const t = await getTranslations("VisKommendeUtbetalinger");
-    const format = await getFormatter();
     const kommendeUtbetalinger = await getKommendeUtbetalinger();
 
     const alleKommende = kommendeUtbetalinger
@@ -38,41 +36,7 @@ const VisKommendeUtbetalinger = async () => {
                 {t("tittel")}
             </Heading>
             <VStack gap="4">
-                {alleKommende.map((utbetaling) => {
-                    const amount = format.number(utbetaling.belop);
-
-                    return (
-                        <DigisosLinkCard
-                            key={utbetaling.referanse}
-                            href="/utbetalinger"
-                            description={
-                                <>
-                                    {utbetaling.tittel}
-                                    {utbetaling.utbetalingsdato && (
-                                        <>
-                                            <br />
-                                            <Tag variant="info-moderate" className="mt-2">
-                                                <HStack gap="2" align="center">
-                                                    <ClockIcon aria-hidden fontSize="1.5rem" />
-                                                    <BodyShort size="small" className="whitespace-nowrap">
-                                                        {t("utbetales")}{" "}
-                                                        {format.dateTime(new Date(utbetaling.utbetalingsdato), {
-                                                            day: "numeric",
-                                                            month: "long",
-                                                            year: "numeric",
-                                                        })}
-                                                    </BodyShort>
-                                                </HStack>
-                                            </Tag>
-                                        </>
-                                    )}
-                                </>
-                            }
-                        >
-                            {t("beskrivelse", { amount })}
-                        </DigisosLinkCard>
-                    );
-                })}
+                <KommendeUtbetalingerListe alleKommende={alleKommende} />
             </VStack>
         </VStack>
     );
