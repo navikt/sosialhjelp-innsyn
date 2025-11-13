@@ -253,7 +253,9 @@
     },
   "KommendeUtbetalingerListe": {
     "beskrivelse": "You will receive {amount} kr",
-    "utbetales": "Payment date"
+    "utbetales": "Payment date",
+    "visFlere": "Show more",
+    "visFærre": "Show less"
   },
     "AktiveSoknader": {
         "tittel": "Active applications",

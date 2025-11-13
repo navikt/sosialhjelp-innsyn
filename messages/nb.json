@@ -223,7 +223,9 @@
   },
   "KommendeUtbetalingerListe": {
     "beskrivelse": "Du vil motta {amount} kr",
-    "utbetales": "Utbetales"
+    "utbetales": "Utbetales",
+    "visFlere": "Vis flere",
+    "visFærre": "Vis færre"
   },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",

@@ -1,11 +1,12 @@
 "use client";
 
-import { BodyShort, HStack, Tag, VStack } from "@navikt/ds-react";
-import { ClockIcon } from "@navikt/aksel-icons";
+import { BodyShort, Box, Button, HStack, Tag, VStack } from "@navikt/ds-react";
+import { ChevronDownIcon, ChevronUpIcon, ClockIcon } from "@navikt/aksel-icons";
 import { useFormatter, useTranslations } from "next-intl";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { ManedUtbetaling } from "@generated/ssr/model";
+import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";
 
 interface Props {
     alleKommende: ManedUtbetaling[];
@@ -14,10 +15,11 @@ interface Props {
 const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
     const format = useFormatter();
     const t = useTranslations("KommendeUtbetalingerListe");
+    const { hasMore, showAll, setShowAll } = useShowMore(alleKommende);
 
     return (
         <VStack gap="4">
-            {alleKommende.map((utbetaling) => {
+            {alleKommende.slice(0, showAll ? alleKommende.length : ITEMS_LIMIT).map((utbetaling) => {
                 const amount = format.number(utbetaling.belop);
                 return (
                     <DigisosLinkCard
@@ -51,6 +53,18 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                     </DigisosLinkCard>
                 );
             })}
+            <Box className="self-start">
+                {!showAll && hasMore && (
+                    <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
+                        {t("visFlere")} ({alleKommende.length - ITEMS_LIMIT})
+                    </Button>
+                )}
+                {showAll && hasMore && (
+                    <Button onClick={() => setShowAll(false)} variant="tertiary" icon={<ChevronUpIcon />}>
+                        {t("visFærre")}
+                    </Button>
+                )}
+            </Box>
         </VStack>
     );
 };
