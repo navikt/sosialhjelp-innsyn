@@ -237,7 +237,7 @@
         "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
     },
     "SoknadenDin": {
-      "tittel":"Søknaden din",
+        "tittel": "Søknaden din",
         "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
         "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
@@ -393,18 +393,16 @@
         "breadcrumbTitle": "Utbetalingar"
     },
     "UtbetalingerError": {
-        "tittel": "Noko gjekk galt med visning av utbetalingar",
-        "retry": "Prøv på nytt"
-    },
-    "ErrorAlert": {
-        "tittel": "Kunne ikkje laste innhaldet",
-        "description": "På grunn av tekniske problem klarte vi ikkje å laste inn innhaldet som skulle vere her. Du kan prøve å:",
-        "oppdatere": "Oppdatere innhaldet",
-        "relogge": "Logge ut og logge inn på nytt",
-        "vente": "Komme tilbake om nokre minutt"
+        "tittel": "Beklagar, noko gjekk gale",
+        "description": "Vi klarte ikkje å laste inn sidan rett. Dette kan komme av mellombelse tekniske problem, og ikkje noko du gjorde. Du kan prøve å",
+        "back": "Gå tilbake",
+        "oppdatere": "oppdatere sida",
+        "relogge": "logge ut og logge inn igjen",
+        "vente": "komme tilbake om nokre minutt"
     },
     "TrengerDuRaskHjelp": {
         "tittel": "Treng du rask hjelp?",
+        "sokePapir": "Du kan også <link>søkje om økonomisk sosialhjelp på papir</link> hos Nav-kontoret ditt.",
         "finnKontor": "Finn Nav-kontor",
         "finnDittNavkontor": "Finn ditt Nav-kontor (innlogga)",
         "sokOppDittNavKontor": "Søk opp Nav-kontor",
