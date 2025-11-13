@@ -13,7 +13,7 @@ import {
     getYear,
 } from "date-fns";
 
-import { ManedUtbetaling, UtbetalingDto } from "@generated/ssr/model";
+import { ManedUtbetaling, ManedUtbetalingStatus, UtbetalingDto } from "@generated/ssr/model";
 
 import { PeriodeChip, Option, ManedMedUtbetalinger } from "../_types/types";
 
@@ -95,4 +95,22 @@ export const formaterKontonummer = (kontonummer?: string | null): string | undef
     const kontonr = kontonummer.replace(/\D/g, "");
     if (kontonr.length !== 11) return kontonummer;
     return `${kontonr.slice(0, 4)} ${kontonr.slice(4, 6)} ${kontonr.slice(6)}`;
+};
+
+export const filtrerKommendeUtbetalinger = (utbetalinger: ManedUtbetaling[]): ManedUtbetaling[] => {
+    return utbetalinger.filter(
+        (utbetaling) =>
+            utbetaling.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING ||
+            (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) >= new Date())
+    );
+};
+
+export const sorterUtbetalingerEtterForfallsdato = (utbetalinger: ManedUtbetaling[]): ManedUtbetaling[] => {
+    return [...utbetalinger].sort((a, b) => {
+        if (!a.forfallsdato && !b.forfallsdato) return 0;
+        if (!a.forfallsdato) return 1;
+        if (!b.forfallsdato) return -1;
+
+        return new Date(a.forfallsdato).getTime() - new Date(b.forfallsdato).getTime();
+    });
 };
