@@ -16,10 +16,9 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
     const t = useTranslations("KommendeUtbetalingerListe");
 
     return (
-        <>
+        <VStack gap="4">
             {alleKommende.map((utbetaling) => {
                 const amount = format.number(utbetaling.belop);
-
                 return (
                     <DigisosLinkCard
                         key={utbetaling.referanse}
@@ -52,7 +51,7 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                     </DigisosLinkCard>
                 );
             })}
-        </>
+        </VStack>
     );
 };
 
