@@ -20,11 +20,10 @@ const VisKommendeUtbetalinger = async () => {
                 (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) >= new Date())
         );
 
-    // Sort by forfallsdato - items without forfallsdato go to the end
     alleKommende.sort((a, b) => {
         if (!a.forfallsdato && !b.forfallsdato) return 0;
-        if (!a.forfallsdato) return 1; // a goes after b
-        if (!b.forfallsdato) return -1; // b goes after a
+        if (!a.forfallsdato) return 1;
+        if (!b.forfallsdato) return -1;
 
         return new Date(a.forfallsdato).getTime() - new Date(b.forfallsdato).getTime();
     });
