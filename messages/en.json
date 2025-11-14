@@ -248,7 +248,6 @@
     },
     "VisKommendeUtbetalinger": {
         "tittel": "Upcoming payments",
-        "beskrivelse": "You will receive {amount} kr",
         "ukjentDato": "Unknown date"
     },
   "KommendeUtbetalingerListe": {
