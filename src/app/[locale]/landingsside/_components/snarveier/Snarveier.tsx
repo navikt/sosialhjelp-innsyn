@@ -13,9 +13,11 @@ const Snarveier = async () => {
         hentUtbetalinger(),
         getTranslations("Snarveier"),
     ]);
+
     if (!utbetalingerResponse.length && !alleSakerResponse.length) {
         return null;
     }
+
     return (
         <VStack gap="2">
             <Heading size="medium" level="2">

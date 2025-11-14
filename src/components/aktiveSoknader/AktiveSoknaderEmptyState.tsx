@@ -5,7 +5,7 @@ const AktiveSoknaderEmptyState = () => {
     const t = useTranslations("AktiveSoknader.EmptyState");
     return (
         <Alert variant="info">
-            <Heading level="2" size="medium">
+            <Heading level="2" size="small" spacing>
                 {t("tittel")}
             </Heading>
             <BodyShort>{t("beskrivelse")}</BodyShort>
