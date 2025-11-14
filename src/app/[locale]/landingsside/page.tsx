@@ -5,7 +5,6 @@ import { getTranslations } from "next-intl/server";
 import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
-import SokButton from "@components/sokButton/SokButton";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
 
@@ -38,7 +37,6 @@ const Page = async () => {
                 </Bleed>
                 <AktiveSoknader />
                 <Snarveier />
-                <SokButton />
                 <NyttigInformasjon />
             </VStack>
         </>
