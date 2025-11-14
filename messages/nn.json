@@ -249,8 +249,8 @@
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {
-            "tittel": "Du har førebels ingen søknader om økonomisk sosialhjelp",
-            "beskrivelse": "Dersom du søkjer om økonomisk sosialhjelp, vil du kunne finne igjen søknadene her."
+            "tittel": "Vi finn ingen søknader frå deg",
+            "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
         },
         "visFlere": "Vis fleire",
         "visFærre": "Vis færre"

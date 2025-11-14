@@ -51,7 +51,7 @@ describe("FiltreringAvUtbetalinger (updated for new flat list endpoint)", () => 
 
     it("Kommende: inkluderer kun PLANLAGT_UTBETALING og STOPPET statuser", async () => {
         vi.useFakeTimers({ shouldAdvanceTime: true });
-        vi.setSystemTime(new Date(2025, 9, 15)); // 15. oktober 2025
+        vi.setSystemTime(new Date(2025, 9, 14)); // 15. oktober 2025
         const alleUtbetalinger = [
             utb({
                 status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
