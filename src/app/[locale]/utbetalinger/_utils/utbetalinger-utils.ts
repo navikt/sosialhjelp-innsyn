@@ -11,6 +11,7 @@ import {
     startOfDay,
     getMonth,
     getYear,
+    startOfToday,
 } from "date-fns";
 
 import { ManedUtbetaling, ManedUtbetalingStatus, UtbetalingDto } from "@generated/ssr/model";
@@ -101,7 +102,7 @@ export const filtrerKommendeUtbetalinger = (utbetalinger: ManedUtbetaling[]): Ma
     return utbetalinger.filter(
         (utbetaling) =>
             utbetaling.status === ManedUtbetalingStatus.PLANLAGT_UTBETALING ||
-            (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) >= new Date())
+            (utbetaling.forfallsdato && new Date(utbetaling.forfallsdato) >= startOfToday())
     );
 };
 
