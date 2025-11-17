@@ -9,7 +9,6 @@ import {
     datoIntervall,
     utbetalingInnenforIntervall,
     grupperUtbetalingerEtterManed,
-    filtrerKommendeUtbetalinger,
 } from "../../_utils/utbetalinger-utils";
 import { Option } from "../../_types/types";
 import { State } from "../utbetalingerReducer";
@@ -17,6 +16,11 @@ import { State } from "../utbetalingerReducer";
 interface Props {
     selectedState: State;
 }
+
+const tillatteStatuserKommende = new Set<ManedUtbetalingStatus>([
+    ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+    ManedUtbetalingStatus.STOPPET,
+]);
 
 const tillateStatuserPeriode = new Set<ManedUtbetalingStatus>([
     ManedUtbetalingStatus.UTBETALT,
@@ -27,7 +31,12 @@ const chipToData = (selectedChip: Option, data: UtbetalingDto[], selectedRange?:
     const intervall = erPeriodeChip(selectedChip) && datoIntervall(selectedChip);
     switch (selectedChip) {
         case "kommende":
-            return filtrerKommendeUtbetalinger(data);
+            return data.filter(
+                (utbetaling) =>
+                    tillatteStatuserKommende.has(utbetaling.status) &&
+                    utbetaling.forfallsdato &&
+                    new Date(utbetaling.forfallsdato) > new Date()
+            );
         case "egendefinert":
             if (!selectedRange) return null;
             return data.filter((utbetaling) => utbetalingInnenforIntervall(utbetaling, selectedRange));

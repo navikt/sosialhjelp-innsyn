@@ -1,7 +1,7 @@
 "use client";
 
 import { BodyShort, Box, Button, HStack, Tag, VStack } from "@navikt/ds-react";
-import { ChevronDownIcon, ChevronUpIcon, ClockIcon } from "@navikt/aksel-icons";
+import { CalendarIcon, ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { useFormatter, useTranslations } from "next-intl";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
@@ -32,7 +32,7 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                                     <HStack>
                                         <Tag variant="info-moderate" className="mt-2">
                                             <HStack gap="2" align="center">
-                                                <ClockIcon aria-hidden fontSize="1.5rem" />
+                                                <CalendarIcon aria-hidden fontSize="1.5rem" />
                                                 <BodyShort size="small" className="whitespace-nowrap">
                                                     {t("utbetales")}{" "}
                                                     {format.dateTime(new Date(utbetaling.utbetalingsdato), {
