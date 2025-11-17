@@ -364,8 +364,7 @@
         "tittel": "Mine utbetalinger for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalinger"
     },
-
-    "UtbetalingerError": {
+    "ErrorPage": {
         "tittel": "Beklager, noe gikk galt",
         "back": "Gå tilbake",
         "description": "Vi klarte ikke å laste inn siden riktig. Dette kan skyldes midlertidige tekniske problemer, og ikke noe du gjorde. Du kan prøve å",

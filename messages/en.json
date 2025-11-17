@@ -392,7 +392,7 @@
         "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "Payments"
     },
-    "UtbetalingerError": {
+    "ErrorPage": {
         "tittel": "Sorry, something went wrong",
         "back": "Go back",
         "description": "We were unable to load the page correctly. This may be due to temporary technical issues and nothing you did. You can try to",

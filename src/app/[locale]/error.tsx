@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const Error = ({ error }: Props) => {
-    const t = useTranslations("UtbetalingerError");
+    const t = useTranslations("ErrorPage");
     useEffect(() => {
         logger.error(error);
     }, [error]);

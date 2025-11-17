@@ -392,7 +392,7 @@
         "tittel": "Mine utbetalingar for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalingar"
     },
-    "UtbetalingerError": {
+    "ErrorPage": {
         "tittel": "Beklagar, noko gjekk gale",
         "description": "Vi klarte ikkje å laste inn sidan rett. Dette kan komme av mellombelse tekniske problem, og ikkje noko du gjorde. Du kan prøve å",
         "back": "Gå tilbake",
