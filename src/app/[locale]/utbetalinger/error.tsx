@@ -2,34 +2,42 @@
 
 import React, { useEffect } from "react";
 import { logger } from "@navikt/next-logger";
-import { Button, Heading, VStack } from "@navikt/ds-react";
+import { BodyShort, Box, Button, Heading, List } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { ListItem } from "@navikt/ds-react/List";
+import { ArrowLeftIcon } from "@navikt/aksel-icons";
 
 import TrengerDuRaskHjelp from "@components/error/TrengerDuRaskHjelp";
-import ErrorAlert from "@components/error/ErrorAlert";
+import { Link } from "@i18n/navigation";
 
 interface Props {
     error: Error & { digest?: string };
-    reset: () => void;
 }
 
-export const Error = ({ error, reset }: Props) => {
+export const Error = ({ error }: Props) => {
     const t = useTranslations("UtbetalingerError");
     useEffect(() => {
         logger.error(error);
     }, [error]);
 
     return (
-        <VStack gap="16" className="mt-20">
-            <Heading size="xlarge" level="1">
-                {t("tittel")}
-            </Heading>
-            <ErrorAlert />
-            <Button variant="secondary" onClick={() => reset()} className="self-start">
-                {t("retry")}
-            </Button>
+        <>
+            <Box.New className="my-20">
+                <Heading size="xlarge" level="1" className="mb-4">
+                    {t("tittel")}
+                </Heading>
+                <BodyShort className="mb-8">{t("description")}</BodyShort>
+                <List className="mb-8">
+                    <ListItem>{t("oppdatere")}</ListItem>
+                    <ListItem>{t("relogge")}</ListItem>
+                    <ListItem>{t("vente")}</ListItem>
+                </List>
+                <Button as={Link} href="/" variant="secondary" className="self-start" icon={<ArrowLeftIcon />}>
+                    {t("back")}
+                </Button>
+            </Box.New>
             <TrengerDuRaskHjelp />
-        </VStack>
+        </>
     );
 };
 
