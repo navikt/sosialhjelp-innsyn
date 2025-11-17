@@ -259,8 +259,8 @@
     "AktiveSoknader": {
         "tittel": "Active applications",
         "EmptyState": {
-            "tittel": "You currently have no applications for financial social assistance",
-            "beskrivelse": "If you apply for financial social assistance, you will be able to find your applications here."
+            "tittel": "We can't find any applications from you",
+            "beskrivelse": "This can be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
         },
         "visFlere": "Show more",
         "visFærre": "Show less"
