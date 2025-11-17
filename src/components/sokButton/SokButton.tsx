@@ -1,6 +1,5 @@
 import { PencilIcon } from "@navikt/aksel-icons";
 import { getTranslations } from "next-intl/server";
-import React from "react";
 
 import { getServerEnv } from "@config/env";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";

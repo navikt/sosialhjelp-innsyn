@@ -7,24 +7,17 @@ import { getFlag, getToggles } from "@featuretoggles/unleash";
 import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
-import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
-import { hentUtbetalinger } from "@generated/ssr/utbetalinger-controller-2/utbetalinger-controller-2";
 import Snarveier from "@components/snarveier/Snarveier";
 
 import VisKommendeUtbetalinger from "./_components/utbetalinger/VisKommendeUtbetalinger";
-import SoknaderSnarvei from "./_components/snarveier/SoknaderSnarvei";
-import UtbetalingerSnarvei from "./_components/snarveier/UtbetalingerSnarvei";
+import LandingssideSnarveier from "./_components/snarveier/LandingssideSnarveier";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
     if (!toggle.enabled) {
         return notFound();
     }
-    const [alleSakerResponse, utbetalingerResponse, t] = await Promise.all([
-        hentAlleSaker(),
-        hentUtbetalinger(),
-        getTranslations("Landingsside"),
-    ]);
+    const t = await getTranslations("Landingsside");
     return (
         <>
             <ClientBreadcrumbs />
@@ -47,8 +40,7 @@ const Page = async () => {
                 <VisKommendeUtbetalinger />
                 <AktiveSoknader />
                 <Snarveier>
-                    {alleSakerResponse.length > 0 && <SoknaderSnarvei />}
-                    {utbetalingerResponse.length > 0 && <UtbetalingerSnarvei />}
+                    <LandingssideSnarveier />
                 </Snarveier>
                 <NyttigInformasjon />
             </VStack>
