@@ -3,13 +3,7 @@
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { SaksListeResponse } from "@generated/model";
 
-import MottattCard from "./status/MottattCard";
-import SendtCard from "./status/SendtCard";
-import UnderBehandlingCard from "./status/UnderBehandlingCard";
-import VilkarCard from "./status/VilkarCard";
-import OppgaveCard from "./status/OppgaveCard";
-import ForelopigSvarCard from "./status/ForelopigSvarCard";
-import VedtakCard from "./status/VedtakCard";
+import StatusCard from "./status/StatusCard";
 
 interface Props {
     sak: Partial<SaksDetaljerResponse> & SaksListeResponse;
@@ -17,30 +11,61 @@ interface Props {
 
 const SoknadCard = ({ sak }: Props) => {
     const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : "Søknad om økonomisk sosialhjelp";
+    const id = sak.fiksDigisosId!;
+
     if ((sak.antallNyeOppgaver ?? 0) > 0) {
-        return <OppgaveCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} frist={sak.forsteOppgaveFrist} />;
+        const alertText = `Oppgaver med frist ${sak.forsteOppgaveFrist}`;
+        return (
+            <StatusCard
+                id={id}
+                tittel={sakTittel}
+                sendtDato={new Date(sak.sistOppdatert)}
+                behandlingsStatus="under_behandling"
+                alertText={alertText}
+            />
+        );
     }
     if (sak.status === "MOTTATT") {
-        return <MottattCard fiksDigisosId={sak.fiksDigisosId!} mottattDato={new Date(sak.sistOppdatert)} />;
+        return (
+            <StatusCard
+                id={id}
+                tittel={sakTittel}
+                sendtDato={new Date(sak.sistOppdatert)}
+                behandlingsStatus="mottatt"
+            />
+        );
     }
     if (sak.status === "SENDT") {
-        return <SendtCard fiksDigisosId={sak.fiksDigisosId!} sendtDato={new Date(sak.sistOppdatert)} />;
+        return <StatusCard id={id} tittel={sakTittel} sendtDato={new Date(sak.sistOppdatert)} />;
     }
     if (sak.status === "UNDER_BEHANDLING") {
-        if (sak.forelopigSvar?.harMottattForelopigSvar) {
-            return <ForelopigSvarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} />;
-        }
-        return <UnderBehandlingCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} />;
+        const alertText = sak.forelopigSvar?.harMottattForelopigSvar ? "Forlenget saksbehandlingstid" : undefined;
+        return (
+            <StatusCard
+                id={id}
+                tittel={sakTittel}
+                sendtDato={new Date(sak.sistOppdatert)}
+                behandlingsStatus="under_behandling"
+                alertText={alertText}
+            />
+        );
     }
     if (sak.status === "FERDIGBEHANDLET") {
-        // TODO: Kan den være ferdigbehandlet uten vedtak?
-        const count = sak.saker?.map((it) => it.antallVedtak).reduce((acc, antallVedtak) => acc + antallVedtak) ?? 0;
+        //const count = sak.saker?.map((it) => it.antallVedtak).reduce((acc, antallVedtak) => acc + antallVedtak) ?? 0;
+
+        let alertText;
         if (sak.vilkar) {
-            return <VilkarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} vedtakCount={count} />;
+            alertText = sak.forsteOppgaveFrist ? "Vilkår" : `Vilkår med frist ${sak.forsteOppgaveFrist}`;
         }
-        if (count > 0) {
-            return <VedtakCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} vedtakCount={count} />;
-        }
+        return (
+            <StatusCard
+                id={id}
+                tittel={sakTittel}
+                sendtDato={new Date(sak.sistOppdatert)}
+                behandlingsStatus="ferdigbehandlet_nylig"
+                alertText={alertText}
+            />
+        );
     }
     return null;
 };
