@@ -2,7 +2,7 @@ import { startOfToday, isAfter, isEqual } from "date-fns";
 
 import { ManedUtbetaling, ManedUtbetalingStatus } from "@generated/ssr/model";
 
-export const erKommendeGrouped = (utbetaling: ManedUtbetaling) => {
+export const kommendeGrouped = (utbetaling: ManedUtbetaling) => {
     if (!utbetaling.forfallsdato) return false;
     const date = new Date(utbetaling.forfallsdato);
     const today = startOfToday();
