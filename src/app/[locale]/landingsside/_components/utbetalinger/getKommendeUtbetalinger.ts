@@ -1,13 +1,13 @@
-import { hentNyeUtbetalinger } from "@generated/ssr/utbetalinger-controller/utbetalinger-controller";
+import { hentUtbetalinger } from "@generated/ssr/utbetalinger-controller-2/utbetalinger-controller-2";
 
-import { kommendeGrouped } from "./kommende";
+import { filtrerUtbetalinger, sorterUtbetalingerEtterDato } from "../../../utbetalinger/_utils/utbetalinger-utils";
 
-export const getKommendeUtbetalinger = async () => {
-    const nye = await hentNyeUtbetalinger();
-    return nye
-        .map((gruppe) => ({
-            ...gruppe,
-            utbetalingerForManed: gruppe.utbetalingerForManed.filter(kommendeGrouped),
-        }))
-        .filter((gruppe) => gruppe.utbetalingerForManed.length > 0);
+export const getKommendeUtbetalinger = async (limit = 12) => {
+    const alleUtbetalinger = await hentUtbetalinger();
+    const kommendeUtbetalinger = filtrerUtbetalinger("kommende", alleUtbetalinger);
+
+    if (!kommendeUtbetalinger) return [];
+
+    const sorterte = sorterUtbetalingerEtterDato(kommendeUtbetalinger);
+    return sorterte.slice(0, limit);
 };

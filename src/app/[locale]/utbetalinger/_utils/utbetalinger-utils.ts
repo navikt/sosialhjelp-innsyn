@@ -13,11 +13,21 @@ import {
     getYear,
 } from "date-fns";
 
-import { ManedUtbetaling, UtbetalingDto } from "@generated/ssr/model";
+import { ManedUtbetaling, ManedUtbetalingStatus, UtbetalingDto } from "@generated/ssr/model";
 
 import { PeriodeChip, Option, ManedMedUtbetalinger } from "../_types/types";
 
-export const erPeriodeChip = (c: Option): c is PeriodeChip => {
+const tillatteStatuserKommende = new Set<ManedUtbetalingStatus>([
+    ManedUtbetalingStatus.PLANLAGT_UTBETALING,
+    ManedUtbetalingStatus.STOPPET,
+]);
+
+const tillateStatuserPeriode = new Set<ManedUtbetalingStatus>([
+    ManedUtbetalingStatus.UTBETALT,
+    ManedUtbetalingStatus.STOPPET,
+]);
+
+const erPeriodeChip = (c: Option): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";
 };
 
@@ -58,7 +68,7 @@ export const grupperUtbetalingerEtterManed = (utbetalinger: UtbetalingDto[]): Ma
     return sorterManeder(withSortedUtbetalinger);
 };
 
-export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
+const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
     const dagens = new Date();
 
     switch (chip) {
@@ -77,7 +87,7 @@ export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | nu
     }
 };
 
-export const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Interval): boolean => {
+const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Interval): boolean => {
     const referanseDato = utb.utbetalingsdato ?? utb.forfallsdato;
     if (referanseDato) {
         return isWithinInterval(new Date(referanseDato), interval);
@@ -95,4 +105,28 @@ export const formaterKontonummer = (kontonummer?: string | null): string | undef
     const kontonr = kontonummer.replace(/\D/g, "");
     if (kontonr.length !== 11) return kontonummer;
     return `${kontonr.slice(0, 4)} ${kontonr.slice(4, 6)} ${kontonr.slice(6)}`;
+};
+
+export const filtrerUtbetalinger = (selectedChip: Option, data: UtbetalingDto[], selectedRange?: Interval) => {
+    const intervall = erPeriodeChip(selectedChip) && datoIntervall(selectedChip);
+    switch (selectedChip) {
+        case "kommende":
+            return data.filter(
+                (utbetaling) =>
+                    tillatteStatuserKommende.has(utbetaling.status) &&
+                    utbetaling.forfallsdato &&
+                    new Date(utbetaling.forfallsdato) > new Date()
+            );
+        case "egendefinert":
+            if (!selectedRange) return null;
+            return data.filter((utbetaling) => utbetalingInnenforIntervall(utbetaling, selectedRange));
+        case "siste3":
+        case "hittil":
+        case "fjor":
+            if (!intervall) return null;
+            return data.filter(
+                (utbetaling) =>
+                    tillateStatuserPeriode.has(utbetaling.status) && utbetalingInnenforIntervall(utbetaling, intervall)
+            );
+    }
 };
