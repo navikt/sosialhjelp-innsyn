@@ -68,7 +68,7 @@ export const grupperUtbetalingerEtterManed = (utbetalinger: UtbetalingDto[]): Ma
     return sorterManeder(withSortedUtbetalinger);
 };
 
-const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
+export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
     const dagens = new Date();
 
     switch (chip) {
@@ -87,7 +87,7 @@ const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
     }
 };
 
-const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Interval): boolean => {
+export const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Interval): boolean => {
     const referanseDato = utb.utbetalingsdato ?? utb.forfallsdato;
     if (referanseDato) {
         return isWithinInterval(new Date(referanseDato), interval);
