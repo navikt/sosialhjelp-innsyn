@@ -217,6 +217,16 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
     },
+  "VisKommendeUtbetalinger": {
+    "tittel": "Kommende utbetalinger",
+    "ukjentDato": "Ukjent dato"
+  },
+  "KommendeUtbetalingerListe": {
+    "beskrivelse": "Du vil motta {amount} kr",
+    "utbetales": "Utbetales",
+    "visFlere": "Vis flere",
+    "visFærre": "Vis færre"
+  },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {
