@@ -9,36 +9,52 @@ import { logger } from "@navikt/next-logger";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 
-import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
-import useKommune from "../../../hooks/useKommune";
+import {
+    getGetfagsystemHarDokumentasjonkrav1QueryKey,
+    getGetfagsystemHarDokumentasjonkrav1Url,
+    getGetHarLevertDokumentasjonkrav1QueryKey,
+    getGetHarLevertDokumentasjonkrav1Url,
+    getGetVilkar1Url,
+    getGetDokumentasjonkravQueryKey,
+    getGetDokumentasjonkravUrl,
+    getGetOppgaverQueryKey,
+    getGetOppgaverUrl,
+    getGetVilkar1QueryKey,
+} from "@generated/oppgave-controller/oppgave-controller";
 import {
     getHentSaksStatuserQueryKey,
     getHentSaksStatuserUrl,
     useHentSaksStatuser,
-} from "../../../generated/saks-status-controller/saks-status-controller";
-import {
-    getGetDokumentasjonkravQueryKey,
-    getGetDokumentasjonkravUrl,
-    getGetfagsystemHarDokumentasjonkravQueryKey,
-    getGetfagsystemHarDokumentasjonkravUrl,
-    getGetHarLevertDokumentasjonkravQueryKey,
-    getGetHarLevertDokumentasjonkravUrl,
-    getGetOppgaverQueryKey,
-    getGetOppgaverUrl,
-    getGetVilkarQueryKey,
-    getGetVilkarUrl,
-} from "../../../generated/oppgave-controller/oppgave-controller";
+} from "@generated/saks-status-controller/saks-status-controller";
 import {
     getHentSoknadsStatusQueryKey,
     getHentSoknadsStatusUrl,
     useHentSoknadsStatus,
-} from "../../../generated/soknads-status-controller/soknads-status-controller";
+} from "@generated/soknads-status-controller/soknads-status-controller";
 import {
     getHentForelopigSvarStatusQueryKey,
     getHentForelopigSvarStatusUrl,
-} from "../../../generated/forelopig-svar-controller/forelopig-svar-controller";
+} from "@generated/forelopig-svar-controller/forelopig-svar-controller";
+import { DriftsmeldingKommune } from "@components/driftsmelding/DriftsmeldingKommune";
+import { FilUploadSuccesfulProvider } from "@components/filopplasting/FilUploadSuccessfulContext";
+import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "@generated/model";
+import { useHentVedlegg } from "@generated/vedlegg-controller/vedlegg-controller";
+import { extractAuthHeader } from "@utils/authUtils";
+import { getHentHendelserQueryKey, getHentHendelserUrl } from "@generated/hendelse-controller/hendelse-controller";
+import { getHentVedleggQueryKey, getHentVedleggUrl } from "@generated/vedlegg-controller/vedlegg-controller";
+import { getHentKommuneInfoQueryKey, getHentKommuneInfoUrl } from "@generated/kommune-controller/kommune-controller";
+import {
+    getHentAlleSakerQueryKey,
+    getHentAlleSakerUrl,
+} from "@generated/saks-oversikt-controller/saks-oversikt-controller";
+import {
+    getHentUtbetalinger1QueryKey,
+    getHentUtbetalinger1Url,
+} from "@generated/utbetalinger-controller/utbetalinger-controller";
+
+import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
+import useKommune from "../../../hooks/useKommune";
 import { LoadingResourcesFailedAlert } from "../../../innsyn/LoadingResourcesFailedAlert";
-import { DriftsmeldingKommune } from "../../../components/driftsmelding/DriftsmeldingKommune";
 import ForelopigSvarAlertstripe from "../../../components/forelopigSvar/ForelopigSvar";
 import SoknadsStatus from "../../../components/soknadsStatus/SoknadsStatus";
 import Oppgaver from "../../../components/oppgaver/Oppgaver";
@@ -46,32 +62,11 @@ import VedleggView from "../../../components/vedlegg/VedleggView";
 import Historikk from "../../../components/historikk/Historikk";
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
-import { FilUploadSuccesfulProvider } from "../../../components/filopplasting/FilUploadSuccessfulContext";
-import { SaksStatusResponseStatus, SoknadsStatusResponseStatus } from "../../../generated/model";
 import pageHandler from "../../../pagehandler/pageHandler";
 import Panel from "../../../components/panel/Panel";
 import EttersendelseView from "../../../components/ettersendelse/EttersendelseView";
-import { useHentVedlegg } from "../../../generated/vedlegg-controller/vedlegg-controller";
 import ArkfanePanel from "../../../components/arkfanePanel/ArkfanePanel";
 import { customFetchSSR } from "../../../custom-fetch";
-import { extractAuthHeader } from "../../../utils/authUtils";
-import {
-    getHentUtbetalinger1QueryKey,
-    getHentUtbetalinger1Url,
-} from "../../../generated/utbetalinger-controller/utbetalinger-controller";
-import {
-    getHentHendelserQueryKey,
-    getHentHendelserUrl,
-} from "../../../generated/hendelse-controller/hendelse-controller";
-import { getHentVedleggQueryKey, getHentVedleggUrl } from "../../../generated/vedlegg-controller/vedlegg-controller";
-import {
-    getHentKommuneInfoQueryKey,
-    getHentKommuneInfoUrl,
-} from "../../../generated/kommune-controller/kommune-controller";
-import {
-    getHentAlleSakerQueryKey,
-    getHentAlleSakerUrl,
-} from "../../../generated/saks-oversikt-controller/saks-oversikt-controller";
 import PapirKlageSection from "../../../components/klage/PapirKlageSection";
 
 const StyledPanel = styled(NavDsPanel)`
@@ -173,10 +168,10 @@ const getQueries = (id: string) => [
     { url: getGetOppgaverUrl(id), key: getGetOppgaverQueryKey(id) },
     { url: getHentSoknadsStatusUrl(id), key: getHentSoknadsStatusQueryKey(id) },
     { url: getHentForelopigSvarStatusUrl(id), key: getHentForelopigSvarStatusQueryKey(id) },
-    { url: getGetVilkarUrl(id), key: getGetVilkarQueryKey(id) },
+    { url: getGetVilkar1Url(id), key: getGetVilkar1QueryKey(id) },
     { url: getGetDokumentasjonkravUrl(id), key: getGetDokumentasjonkravQueryKey(id) },
-    { url: getGetHarLevertDokumentasjonkravUrl(id), key: getGetHarLevertDokumentasjonkravQueryKey(id) },
-    { url: getGetfagsystemHarDokumentasjonkravUrl(id), key: getGetfagsystemHarDokumentasjonkravQueryKey(id) },
+    { url: getGetHarLevertDokumentasjonkrav1Url(id), key: getGetHarLevertDokumentasjonkrav1QueryKey(id) },
+    { url: getGetfagsystemHarDokumentasjonkrav1Url(id), key: getGetfagsystemHarDokumentasjonkrav1QueryKey(id) },
     { url: getHentUtbetalinger1Url(), key: getHentUtbetalinger1QueryKey() },
     { url: getHentHendelserUrl(id), key: getHentHendelserQueryKey(id) },
     { url: getHentVedleggUrl(id), key: getHentVedleggQueryKey(id) },
