@@ -15,9 +15,7 @@ const VisKommendeUtbetalinger = async () => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            <VStack gap="4">
-                <KommendeUtbetalingerListe alleKommende={alleKommende} />
-            </VStack>
+            <KommendeUtbetalingerListe alleKommende={alleKommende} />
         </VStack>
     );
 };
