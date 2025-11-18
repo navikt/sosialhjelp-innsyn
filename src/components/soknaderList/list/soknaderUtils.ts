@@ -24,7 +24,11 @@ export const filterAndSort = (
     // Påbegynte saker skal legges til etter filtrering, da de alltid er aktive.
     const alleSaker = [...combined, ...(paabegynteSaker ?? [])];
     // Sorterer først på antall nye oppgaver (eller 0), deretter på sist oppdatert.
-    return R.sortBy(alleSaker, [R.pathOr(["antallNyeOppgaver"], 0), "desc"], [R.prop("sistOppdatert"), "desc"]);
+    return R.sortBy(
+        alleSaker,
+        [(sak) => R.pipe(sak, R.prop("antallNyeOppgaver"), R.defaultTo(0)), "desc"],
+        [R.prop("sistOppdatert"), "desc"]
+    );
 };
 
 export const ferdigbehandletAndOlderThan21Days = (sak: Soknad): boolean =>

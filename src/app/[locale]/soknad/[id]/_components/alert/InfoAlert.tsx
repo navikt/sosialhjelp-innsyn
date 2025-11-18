@@ -24,38 +24,33 @@ const InfoAlert = async ({ soknadstatus, navKontor, sakerPromise }: Props) => {
                     navKontor: navKontor ?? "et Nav-kontor",
                     norsk: (chunks) => <span lang="no">{chunks}</span>,
                 })}
-                beskrivelse={t(`SENDT.beskrivelse`)}
-            />
+            >
+                {t(`SENDT.beskrivelse`)}
+            </StatusAlert>
         );
     }
     if (soknadstatus === "MOTTATT") {
         return (
-            <StatusAlert
-                variant="info"
-                tittel={t("MOTTATT.tittel")}
-                beskrivelse={
-                    <>
-                        <BodyLong spacing>
-                            {t.rich(`MOTTATT.beskrivelse`, {
-                                lenke: (chunks) => (
-                                    <Link href="https://www.nav.no/okonomisk-sosialhjelp#melde" inlineText>
-                                        {chunks}
-                                    </Link>
-                                ),
-                            })}
-                        </BodyLong>
-                        <BodyShort>
-                            {t.rich("MOTTATT.beskrivelse2", {
-                                tel: (chunks) => (
-                                    <Link href="tel:55553333" inlineText>
-                                        {chunks}
-                                    </Link>
-                                ),
-                            })}
-                        </BodyShort>
-                    </>
-                }
-            />
+            <StatusAlert variant="info" tittel={t("MOTTATT.tittel")}>
+                <BodyLong spacing>
+                    {t.rich(`MOTTATT.beskrivelse`, {
+                        lenke: (chunks) => (
+                            <Link href="https://www.nav.no/okonomisk-sosialhjelp#melde" inlineText>
+                                {chunks}
+                            </Link>
+                        ),
+                    })}
+                </BodyLong>
+                <BodyShort>
+                    {t.rich("MOTTATT.beskrivelse2", {
+                        tel: (chunks) => (
+                            <Link href="tel:55553333" inlineText>
+                                {chunks}
+                            </Link>
+                        ),
+                    })}
+                </BodyShort>
+            </StatusAlert>
         );
     }
     if (sakerPromise) {

@@ -42,8 +42,13 @@
         "lastNed": "Download letter regarding processing time"
     },
     "OppgaveAlert": {
-        "tittel": "Nav needs more documents to process your case",
-        "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
+        "tittel": "You have been given tasks with deadline {frist, date, ::dMMMM}",
+        "beskrivelse": "<norsk>{navKontor}</norsk> needs more documents to process your case.",
+        "beskrivelseUtenNavkontor": "Your Nav office needs more documents to process your case.",
+        "readMore": {
+            "tittel": "What happens if you don't submit by the deadline?",
+            "innhold": "If you do not submit the necessary documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again."
+        }
     },
     "VilkarListe": {
         "tittel": "Conditions",
@@ -250,12 +255,12 @@
         "tittel": "Upcoming payments",
         "ukjentDato": "Unknown date"
     },
-  "KommendeUtbetalingerListe": {
-    "beskrivelse": "You will receive {amount} kr",
-    "utbetales": "Payment date",
-    "visFlere": "Show more",
-    "visFærre": "Show less"
-  },
+    "KommendeUtbetalingerListe": {
+        "beskrivelse": "You will receive {amount} kr",
+        "utbetales": "Payment date",
+        "visFlere": "Show more",
+        "visFærre": "Show less"
+    },
     "AktiveSoknader": {
         "tittel": "Active applications",
         "EmptyState": {

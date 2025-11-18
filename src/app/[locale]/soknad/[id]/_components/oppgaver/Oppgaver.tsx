@@ -50,14 +50,14 @@ const Oppgaver = () => {
                                 oppgave.dokumenttype,
                                 oppgave.tilleggsinformasjon
                             );
-                            const metadata = {
+                            const metadata: Metadata = {
                                 dokumentKontekst: "dokumentasjonetterspurt",
                                 innsendelsesfrist: oppgave.innsendelsesfrist,
                                 hendelsereferanse: oppgave.hendelsereferanse,
                                 type: oppgave.dokumenttype,
                                 tilleggsinfo: oppgave.tilleggsinformasjon,
                                 hendelsetype: oppgave.hendelsetype,
-                            } satisfies Metadata;
+                            };
                             return (
                                 <Box.New
                                     key={oppgave.oppgaveId}

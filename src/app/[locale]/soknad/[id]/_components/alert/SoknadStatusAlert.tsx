@@ -19,7 +19,11 @@ const SoknadStatusAlert = ({ sakerPromise, status }: Props): React.JSX.Element |
     if (saker.length > 1) {
         return null;
     }
-    return <StatusAlert variant="info" tittel={t(`tittel.${status}`)} beskrivelse={t(`beskrivelse.${status}`)} />;
+    return (
+        <StatusAlert variant="info" tittel={t(`tittel.${status}`)}>
+            {t(`beskrivelse.${status}`)}
+        </StatusAlert>
+    );
 };
 
 export default SoknadStatusAlert;
