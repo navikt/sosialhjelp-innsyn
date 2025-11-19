@@ -26,7 +26,7 @@ export interface Props {
     analyticsData?: Record<string, unknown>;
 }
 
-interface Tag {
+export interface Tag {
     title: string;
     variant: TagProps["variant"];
     icon?: JSX.Element;
