@@ -5,8 +5,8 @@ import { FileTextIcon } from "@navikt/aksel-icons";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
-import StatusCard from "@components/soknaderList/list/soknadCard/status/StatusCard";
 import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import ProsessenVidere from "./_components/prosessenVidere";
@@ -38,9 +38,9 @@ const Page = async ({
                     {t("tittel")}
                 </Heading>
                 <UnderUtviklingInfo />
-                <StatusCard id={fiksDigisosId} icon={<FileTextIcon />}>
+                <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<FileTextIcon />}>
                     {t("seVedtak")}
-                </StatusCard>
+                </DigisosLinkCard>
                 <ProsessenVidere klagePdf={klage.klagePdf} />
                 <Dokumenter klagePdf={klage.klagePdf} />
             </VStack>
