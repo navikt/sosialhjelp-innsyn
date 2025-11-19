@@ -12,7 +12,11 @@ const VilkarAlert = ({ vilkarPromise }: Props): React.JSX.Element | null => {
     const t = useTranslations("VilkarAlert");
     const vilkar = use(vilkarPromise);
     if (vilkar?.length) {
-        return <StatusAlert variant="warning" tittel={t("tittel")} beskrivelse={t("beskrivelse")} />;
+        return (
+            <StatusAlert variant="warning" tittel={t("tittel")}>
+                {t("beskrivelse")}
+            </StatusAlert>
+        );
     }
     return null;
 };

@@ -55,8 +55,13 @@
         "lastNed": "Last ned brev om saksbehandlingstid"
     },
     "OppgaveAlert": {
-        "tittel": "Nav trenger flere dokumenter for å kunne behandle saken din",
-        "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
+        "tittel": "Du har fått oppgaver med frist {frist, date, ::dMMMM}",
+        "beskrivelse": "<norsk>{navKontor}</norsk> trenger flere dokumenter for å kunne behandle saken din.",
+        "beskrivelseUtenNavkontor": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din.",
+        "readMore": {
+            "tittel": "Hva skjer om du ikke sender inn innen fristen?",
+            "innhold": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås, og at du må søke på nytt."
+        }
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -217,6 +222,16 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
     },
+    "VisKommendeUtbetalinger": {
+        "tittel": "Kommende utbetalinger",
+        "ukjentDato": "Ukjent dato"
+    },
+    "KommendeUtbetalingerListe": {
+        "beskrivelse": "Du vil motta {amount} kr",
+        "utbetales": "Utbetales",
+        "visFlere": "Vis flere",
+        "visFærre": "Vis færre"
+    },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {
@@ -370,19 +385,17 @@
         "tittel": "Mine utbetalinger for økonomisk sosialhjelp",
         "breadcrumbTitle": "Utbetalinger"
     },
-    "UtbetalingerError": {
-        "tittel": "Noe gikk galt med visning av utbetalinger",
-        "retry": "Prøv på nytt"
-    },
-    "ErrorAlert": {
-        "tittel": "Kunne ikke laste innholdet",
-        "description": "På grunn av tekniske problemer klarte vi ikke å laste inn innholdet som skulle være her. Du kan prøve å:",
-        "oppdatere": "Oppdatere innholdet",
-        "relogge": "Logge ut og logge inn på nytt",
-        "vente": "Komme tilbake om noen minutter"
+    "ErrorPage": {
+        "tittel": "Beklager, noe gikk galt",
+        "back": "Gå tilbake",
+        "description": "Vi klarte ikke å laste inn siden riktig. Dette kan skyldes midlertidige tekniske problemer, og ikke noe du gjorde. Du kan prøve å",
+        "oppdatere": "oppdatere siden",
+        "relogge": "logge ut og logge inn igjen",
+        "vente": "komme tilbake om noen minutter"
     },
     "TrengerDuRaskHjelp": {
         "tittel": "Trenger du rask hjelp?",
+        "sokePapir": "Du kan også <link>søke om økonomisk sosialhjelp på papir</link> hos ditt Nav-kontor.",
         "finnKontor": "Finn Nav-kontor",
         "finnDittNavkontor": "Finn ditt Nav-kontor (innlogget)",
         "sokOppDittNavKontor": "Søk opp Nav-kontor",

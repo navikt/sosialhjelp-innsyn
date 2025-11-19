@@ -42,8 +42,13 @@
         "lastNed": "Download letter regarding processing time"
     },
     "OppgaveAlert": {
-        "tittel": "Nav needs more documents to process your case",
-        "beskrivelse": "If you have already submitted the requested documents directly to the Nav-office, you can ignore this message."
+        "tittel": "You have been given tasks with deadline {frist, date, ::dMMMM}",
+        "beskrivelse": "<norsk>{navKontor}</norsk> needs more documents to process your case.",
+        "beskrivelseUtenNavkontor": "Your Nav office needs more documents to process your case.",
+        "readMore": {
+            "tittel": "What happens if you don't submit by the deadline?",
+            "innhold": "If you do not submit the necessary documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again."
+        }
     },
     "VilkarListe": {
         "tittel": "Conditions",
@@ -237,7 +242,7 @@
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "SoknadenDin": {
-      "tittel": "Your application",
+        "tittel": "Your application",
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Appliation for financial assistance.pdf",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
@@ -245,6 +250,16 @@
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
+    },
+    "VisKommendeUtbetalinger": {
+        "tittel": "Upcoming payments",
+        "ukjentDato": "Unknown date"
+    },
+    "KommendeUtbetalingerListe": {
+        "beskrivelse": "You will receive {amount} kr",
+        "utbetales": "Payment date",
+        "visFlere": "Show more",
+        "visFærre": "Show less"
     },
     "AktiveSoknader": {
         "tittel": "Active applications",
@@ -392,19 +407,17 @@
         "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "Payments"
     },
-    "UtbetalingerError": {
-        "tittel": "Something went wrong displaying payments",
-        "retry": "Try again"
-    },
-    "ErrorAlert": {
-        "tittel": "Could not load content",
-        "description": "Due to technical problems, we were unable to load the content that should be here. You can try to:",
-        "oppdatere": "Refresh the content",
-        "relogge": "Log out and log in again",
-        "vente": "Come back in a few minutes"
+    "ErrorPage": {
+        "tittel": "Sorry, something went wrong",
+        "back": "Go back",
+        "description": "We were unable to load the page correctly. This may be due to temporary technical issues and nothing you did. You can try to",
+        "oppdatere": "refresh the page",
+        "relogge": "log out and log in again",
+        "vente": "come back in a few minutes"
     },
     "TrengerDuRaskHjelp": {
         "tittel": "Do you need urgent help?",
+        "sokePapir": "You can also <link>apply for financial assistance on paper</link> at you Nav office.",
         "finnKontor": "Find Nav office",
         "finnDittNavkontor": "Find your Nav office (logged in)",
         "sokOppDittNavKontor": "Search for Nav office",

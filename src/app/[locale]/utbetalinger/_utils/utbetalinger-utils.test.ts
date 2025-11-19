@@ -1,4 +1,4 @@
-import { expect, describe, it } from "vitest";
+import { expect, describe, it, vi, beforeEach, afterEach } from "vitest";
 import { interval } from "date-fns";
 
 import { UtbetalingDto, UtbetalingDtoStatus } from "@generated/ssr/model";
@@ -11,6 +11,7 @@ import {
     grupperUtbetalingerEtterManed,
     utbetalingInnenforIntervall,
     formaterKontonummer,
+    filtrerUtbetalinger,
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<UtbetalingDto> = {}): UtbetalingDto => ({
@@ -198,5 +199,222 @@ describe("formaterKontonummer", () => {
 
     it("kontonummeret blir uendret", () => {
         expect(formaterKontonummer("1234 56 78901")).toBe("1234 56 78901");
+    });
+});
+
+describe("filtrerUtbetalinger", () => {
+    beforeEach(() => {
+        // Mock current date to November 18, 2025
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2025-11-18"));
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
+    describe('chip: "kommende"', () => {
+        it("inkluderer kun PLANLAGT_UTBETALING og STOPPET statuser med fremtidig forfallsdato", () => {
+            const utbetalinger = [
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    forfallsdato: "2025-11-25",
+                    referanse: "planlagt",
+                }),
+                utb({ status: UtbetalingDtoStatus.STOPPET, forfallsdato: "2025-11-30", referanse: "stoppet" }),
+                utb({ status: UtbetalingDtoStatus.UTBETALT, forfallsdato: "2025-11-25", referanse: "utbetalt" }),
+                utb({ status: UtbetalingDtoStatus.ANNULLERT, forfallsdato: "2025-11-25", referanse: "annullert" }),
+            ];
+
+            const result = filtrerUtbetalinger("kommende", utbetalinger);
+
+            expect(result).toHaveLength(2);
+            expect(result?.map((u) => u.referanse)).toEqual(["planlagt", "stoppet"]);
+        });
+
+        it("filtrerer bort utbetalinger med forfallsdato i fortiden", () => {
+            const utbetalinger = [
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    forfallsdato: "2025-11-17",
+                    referanse: "gammel",
+                }),
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    forfallsdato: "2025-11-25",
+                    referanse: "fremtidig",
+                }),
+            ];
+
+            const result = filtrerUtbetalinger("kommende", utbetalinger);
+
+            expect(result).toHaveLength(1);
+            expect(result?.[0].referanse).toBe("fremtidig");
+        });
+
+        it("filtrerer bort utbetalinger uten forfallsdato", () => {
+            const utbetalinger = [
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    forfallsdato: undefined,
+                    referanse: "uten-dato",
+                }),
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    forfallsdato: "2025-11-25",
+                    referanse: "med-dato",
+                }),
+            ];
+
+            const result = filtrerUtbetalinger("kommende", utbetalinger);
+
+            expect(result).toHaveLength(1);
+            expect(result?.[0].referanse).toBe("med-dato");
+        });
+
+        it("returnerer tom array når ingen utbetalinger matcher", () => {
+            const utbetalinger = [
+                utb({ status: UtbetalingDtoStatus.UTBETALT, forfallsdato: "2025-11-25" }),
+                utb({ status: UtbetalingDtoStatus.PLANLAGT_UTBETALING, forfallsdato: "2025-11-01" }),
+            ];
+
+            const result = filtrerUtbetalinger("kommende", utbetalinger);
+
+            expect(result).toEqual([]);
+        });
+    });
+
+    describe('chip: "egendefinert"', () => {
+        it("filtrerer utbetalinger innenfor valgt intervall", () => {
+            const utbetalinger = [
+                utb({ utbetalingsdato: "2025-09-15", referanse: "september" }),
+                utb({ utbetalingsdato: "2025-10-20", referanse: "oktober" }),
+                utb({ utbetalingsdato: "2025-11-05", referanse: "november" }),
+            ];
+
+            const selectedRange = interval(new Date("2025-10-01"), new Date("2025-10-31"));
+            const result = filtrerUtbetalinger("egendefinert", utbetalinger, selectedRange);
+
+            expect(result).toHaveLength(1);
+            expect(result?.[0].referanse).toBe("oktober");
+        });
+
+        it("returnerer null når ingen intervall er gitt", () => {
+            const utbetalinger = [utb({ utbetalingsdato: "2025-10-20" })];
+
+            const result = filtrerUtbetalinger("egendefinert", utbetalinger);
+
+            expect(result).toBeNull();
+        });
+
+        it("bruker forfallsdato når utbetalingsdato mangler", () => {
+            const utbetalinger = [
+                utb({ utbetalingsdato: undefined, forfallsdato: "2025-10-15", referanse: "innenfor" }),
+                utb({ utbetalingsdato: undefined, forfallsdato: "2025-09-15", referanse: "utenfor" }),
+            ];
+
+            const selectedRange = interval(new Date("2025-10-01"), new Date("2025-10-31"));
+            const result = filtrerUtbetalinger("egendefinert", utbetalinger, selectedRange);
+
+            expect(result).toHaveLength(1);
+            expect(result?.[0].referanse).toBe("innenfor");
+        });
+    });
+
+    describe('chip: "siste3"', () => {
+        it("filtrerer utbetalinger fra siste 3 måneder med UTBETALT eller STOPPET status", () => {
+            const utbetalinger = [
+                utb({ status: UtbetalingDtoStatus.UTBETALT, utbetalingsdato: "2025-11-10", referanse: "nov-utbetalt" }),
+                utb({ status: UtbetalingDtoStatus.STOPPET, utbetalingsdato: "2025-10-15", referanse: "okt-stoppet" }),
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    utbetalingsdato: "2025-11-10",
+                    referanse: "nov-planlagt",
+                }),
+                utb({
+                    status: UtbetalingDtoStatus.UTBETALT,
+                    utbetalingsdato: "2025-07-10",
+                    referanse: "juli-utbetalt",
+                }),
+            ];
+
+            const result = filtrerUtbetalinger("siste3", utbetalinger);
+
+            expect(result).toHaveLength(2);
+            expect(result?.map((u) => u.referanse)).toEqual(["nov-utbetalt", "okt-stoppet"]);
+        });
+
+        it("filtrerer bort PLANLAGT_UTBETALING status", () => {
+            const utbetalinger = [
+                utb({ status: UtbetalingDtoStatus.PLANLAGT_UTBETALING, utbetalingsdato: "2025-11-10" }),
+                utb({ status: UtbetalingDtoStatus.UTBETALT, utbetalingsdato: "2025-11-10", referanse: "utbetalt" }),
+            ];
+
+            const result = filtrerUtbetalinger("siste3", utbetalinger);
+
+            expect(result).toHaveLength(1);
+            expect(result?.[0].referanse).toBe("utbetalt");
+        });
+    });
+
+    describe('chip: "hittil"', () => {
+        it("filtrerer utbetalinger hittil i år med UTBETALT eller STOPPET status", () => {
+            const utbetalinger = [
+                utb({ status: UtbetalingDtoStatus.UTBETALT, utbetalingsdato: "2025-01-15", referanse: "januar" }),
+                utb({ status: UtbetalingDtoStatus.STOPPET, utbetalingsdato: "2025-06-20", referanse: "juni" }),
+                utb({ status: UtbetalingDtoStatus.UTBETALT, utbetalingsdato: "2024-12-20", referanse: "fjor" }),
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    utbetalingsdato: "2025-05-10",
+                    referanse: "planlagt",
+                }),
+            ];
+
+            const result = filtrerUtbetalinger("hittil", utbetalinger);
+
+            expect(result).toHaveLength(2);
+            expect(result?.map((u) => u.referanse)).toEqual(["januar", "juni"]);
+        });
+    });
+
+    describe('chip: "fjor"', () => {
+        it("filtrerer utbetalinger fra fjoråret med UTBETALT eller STOPPET status", () => {
+            const utbetalinger = [
+                utb({ status: UtbetalingDtoStatus.UTBETALT, utbetalingsdato: "2024-03-15", referanse: "mars-2024" }),
+                utb({ status: UtbetalingDtoStatus.STOPPET, utbetalingsdato: "2024-09-20", referanse: "sept-2024" }),
+                utb({ status: UtbetalingDtoStatus.UTBETALT, utbetalingsdato: "2025-01-15", referanse: "i-år" }),
+                utb({
+                    status: UtbetalingDtoStatus.UTBETALT,
+                    utbetalingsdato: "2023-12-20",
+                    referanse: "for-lenge-siden",
+                }),
+            ];
+
+            const result = filtrerUtbetalinger("fjor", utbetalinger);
+
+            expect(result).toHaveLength(2);
+            expect(result?.map((u) => u.referanse)).toEqual(["mars-2024", "sept-2024"]);
+        });
+    });
+
+    describe("edge cases", () => {
+        it("returnerer tom array for tom input", () => {
+            const result = filtrerUtbetalinger("kommende", []);
+            expect(result).toEqual([]);
+        });
+
+        it("håndterer utbetalinger med kun utbetalingsdato for kommende", () => {
+            const utbetalinger = [
+                utb({
+                    status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+                    utbetalingsdato: "2025-11-25",
+                    forfallsdato: undefined,
+                }),
+            ];
+
+            const result = filtrerUtbetalinger("kommende", utbetalinger);
+
+            expect(result).toEqual([]); // Kommende krever forfallsdato
+        });
     });
 });
