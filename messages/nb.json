@@ -249,35 +249,15 @@
         "BehandlingsStatus": {
             "mottatt": " Mottatt",
             "underBehandling": " Under behandling",
-            "ferdigbehandlet": " Ferdigbehandlet"
+            "ferdigbehandlet": " Ferdigbehandlet",
+            "nSakerFerdig": "{ferdigeSaker} av {antallSaker} ferdig behandlet"
         },
-        "MottattCard": {
-            "title": "Søknad om økonomisk sosialhjelp",
-            "description": "Mottatt {date, date, ::ddMMyyyy}"
-        },
-        "SendtCard": {
-            "title": "Søknad om økonomisk sosialhjelp",
-            "description": "Sendt {date, date, ::ddMMyyyy}"
-        },
-        "PaabegyntCard": {
-            "title": "Påbegynt søknad om økonomisk sosialhjelp",
-            "description": "Søknaden beholdes til og med {date, date, ::ddMMyyyy}"
-        },
-        "VedtakCard": {
-            "description": "Ferdigbehandlet. Du har fått {count, plural, =1 {et} other {#}} vedtak"
-        },
-        "VilkarCard": {
-            "description": "Ferdigbehandlet. Du har fått vedtak med vilkår"
-        },
-        "OppgaveCard": {
-            "description": "Du må levere flere opplysninger innen {date, date, ::ddMMyyyy}",
-            "descriptionUtenFrist": "Du må levere flere opplysninger"
-        },
-        "UnderBehandlingCard": {
-            "description": "Under behandling"
-        },
-        "ForelopigSvarCard": {
-            "description": "Du har fått et brev om saksbehandlingstiden for søknaden din"
+        "AlertTexts": {
+            "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
+            "oppgaver": "Oppgaver",
+            "oppgaveMedFrist": "Oppgave med frist {frist, date, ::ddMMyyyy}",
+            "vilkar": "Vilkår",
+            "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
         }
     },
     "Snarveier": {

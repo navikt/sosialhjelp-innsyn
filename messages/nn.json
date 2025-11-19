@@ -274,33 +274,19 @@
         "tittel": "Tidlegare søknader"
     },
     "StatusCard": {
-        "MottattCard": {
-            "title": "Søknad om økonomisk sosialhjelp",
-            "description": "Teke imot {date, date, ::ddMMyyyy}"
+        "sendt": "Sent {dato, date, ::ddMMyyyy}",
+        "BehandlingsStatus": {
+            "mottatt": " Motteke",
+            "underBehandling": " Under behandling",
+            "ferdigbehandlet": " Ferdigbehandla",
+            "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker ferdigbehandla"
         },
-        "SendtCard": {
-            "title": "Søknad om økonomisk sosialhjelp",
-            "description": "Sendt {date, date, ::ddMMyyyy}"
-        },
-        "PaabegyntCard": {
-            "title": "Påbyrja søknad om økonomisk sosialhjelp",
-            "description": "Søknaden blir behalden til og med {date, date, ::ddMMyyyy}"
-        },
-        "VedtakCard": {
-            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak"
-        },
-        "VilkarCard": {
-            "description": "Ferdigbehandla. Du har fått {count, plural, =1 {eit} other {#}} vedtak med vilkår"
-        },
-        "OppgaveCard": {
-            "description": "Du må levere fleire opplysningar innan {date, date, ::ddMMyyyy}",
-            "descriptionUtenFrist": "Du må levere fleire opplysningar"
-        },
-        "UnderBehandlingCard": {
-            "description": "Under behandling"
-        },
-        "ForelopigSvarCard": {
-            "description": "Du har fått eit brev om saksbehandlingstida for søknaden din"
+        "AlertTexts": {
+            "forlengetSaksbehandlingsTid": "Forlengde saksbehandlingstid",
+            "oppgaver": "Oppgåver",
+            "oppgaveMedFrist": "Oppgåve med frist {frist, date, ::ddMMyyyy}",
+            "vilkar": "Vilkår",
+            "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
         }
     },
     "Snarveier": {

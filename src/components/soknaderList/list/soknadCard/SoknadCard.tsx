@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { SaksListeResponse } from "@generated/model";
 
@@ -10,7 +12,9 @@ interface Props {
 }
 
 const SoknadCard = ({ sak }: Props) => {
-    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : "Søknad om økonomisk sosialhjelp";
+    const tSoknad = useTranslations("Soknad");
+    const t = useTranslations();
+    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : tSoknad("defaultTittel");
     const id = sak.fiksDigisosId!;
     const sistOppdatert = new Date(sak.sistOppdatert);
 
@@ -27,10 +31,14 @@ const SoknadCard = ({ sak }: Props) => {
 
         const alertTexts = [];
         if ((sak.antallNyeOppgaver ?? 0) > 0) {
-            alertTexts.push(`Oppgaver med frist ${sak.forsteOppgaveFrist}`);
+            alertTexts.push(
+                sak.forsteOppgaveFrist
+                    ? t("StatusCard.AlertTexts.oppgaveMedFrist", { frist: new Date(sak.forsteOppgaveFrist) })
+                    : t("StatusCard.AlertTexts.oppgaver")
+            );
         }
         if (sak.forelopigSvar?.harMottattForelopigSvar) {
-            alertTexts.push("Forlenget saksbehandlingstid");
+            alertTexts.push(t("StatusCard.AlertTexts.forlengetSaksbehandlingsTid"));
         }
 
         return (
@@ -51,7 +59,11 @@ const SoknadCard = ({ sak }: Props) => {
 
         const alertTexts = [];
         if (sak.vilkar) {
-            alertTexts.push(sak.forsteOppgaveFrist ? `Vilkår med frist ${sak.forsteOppgaveFrist}` : "Vilkår");
+            alertTexts.push(
+                sak.forsteOppgaveFrist
+                    ? t("StatusCard.AlertTexts.vilkarsfrist", { frist: new Date(sak.forsteOppgaveFrist) })
+                    : t("StatusCard.AlertTexts.vilkar")
+            );
         }
 
         return (

@@ -274,6 +274,20 @@
         "tittel": "Previous applications"
     },
     "StatusCard": {
+        "sendt": "Sent {dato, date, ::ddMMyyyy}",
+        "BehandlingsStatus": {
+            "mottatt": " Received",
+            "underBehandling": " Being processed",
+            "ferdigbehandlet": " Processed",
+            "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
+        },
+        "AlertTexts": {
+            "forlengetSaksbehandlingsTid": "Extended processing time",
+            "oppgaver": "Tasks",
+            "oppgaveMedFrist": "Task with deadline {frist, date, ::ddMMyyyy}",
+            "vilkar": "Conditions",
+            "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}"
+        },
         "MottattCard": {
             "title": "Application for financial social assistance",
             "description": "Received {date, date, ::ddMMyyyy}"

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { PropsWithChildren } from "react";
 import { useLocale, useTranslations } from "next-intl";
@@ -22,7 +23,7 @@ type StatusCardProps = Omit<PropsWithChildren<Props>, "href"> & {
 };
 
 const getBehandlingsStatusTag = (
-    t: (key: string) => string,
+    t: (key: string, args?: Record<string, any>) => string,
     status?: BehandlingsStatus,
     vedtakProgress?: VedtakProgress
 ): Tag | null => {
@@ -30,20 +31,23 @@ const getBehandlingsStatusTag = (
     if (vedtakProgress) {
         const { ferdigeSaker, antallSaker } = vedtakProgress;
         return {
-            title: `${ferdigeSaker} av ${antallSaker} saker ferdig behandlet`,
-            variant: "info-moderate" as const,
+            title: t("BehandlingsStatus.nSakerFerdig", {
+                ferdigeSaker,
+                antallSaker,
+            }),
+            variant: "info-moderate",
         };
     }
 
     switch (status) {
         case "mottatt":
-            return { title: t("BehandlingsStatus.mottatt"), variant: "info-moderate" as const };
+            return { title: t("BehandlingsStatus.mottatt"), variant: "info-moderate" };
         case "under_behandling":
-            return { title: t("BehandlingsStatus.underBehandling"), variant: "info-moderate" as const };
+            return { title: t("BehandlingsStatus.underBehandling"), variant: "info-moderate" };
         case "ferdigbehandlet_nylig":
-            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "info-moderate" as const };
+            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "info-moderate" };
         case "ferdigbehandlet_eldre":
-            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "neutral-moderate" as const };
+            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "neutral-moderate" };
         default:
             return null;
     }
@@ -61,7 +65,11 @@ const StatusCard = (props: StatusCardProps) => {
         ? { title: t("sendt", { dato: sendtDato }), variant: "neutral-moderate" as const }
         : null;
 
-    const alertTags = alertTexts?.map((text) => ({ title: text, variant: "warning-moderate" as const })) ?? [];
+    const alertTags =
+        alertTexts?.map((alertText) => ({
+            title: alertText,
+            variant: "warning-moderate" as const,
+        })) ?? [];
 
     const tags = [sendtTag, getBehandlingsStatusTag(t, behandlingsStatus, vedtakProgress)]
         .concat(alertTags)
