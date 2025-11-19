@@ -1,11 +1,12 @@
-import React from "react";
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { GavelIcon } from "@navikt/aksel-icons";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
-const KlagerSnarvei = async () => {
-    const t = await getTranslations("Snarveier");
+const KlagerSnarvei = () => {
+    const t = useTranslations("Snarveier");
     return (
         <DigisosLinkCard href="/klager" icon={<GavelIcon />}>
             {t("klager")}

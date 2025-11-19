@@ -7,16 +7,17 @@ import { getFlag, getToggles } from "@featuretoggles/unleash";
 import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
+import Snarveier from "@components/snarveier/Snarveier";
 
 import VisKommendeUtbetalinger from "./_components/utbetalinger/VisKommendeUtbetalinger";
-import Snarveier from "./_components/snarveier/Snarveier";
+import LandingssideSnarveier from "./_components/snarveier/LandingssideSnarveier";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
-    const t = await getTranslations("Landingsside");
     if (!toggle.enabled) {
         return notFound();
     }
+    const t = await getTranslations("Landingsside");
     return (
         <>
             <ClientBreadcrumbs />
@@ -38,7 +39,9 @@ const Page = async () => {
                 </Bleed>
                 <VisKommendeUtbetalinger />
                 <AktiveSoknader />
-                <Snarveier />
+                <Snarveier>
+                    <LandingssideSnarveier />
+                </Snarveier>
                 <NyttigInformasjon />
             </VStack>
         </>

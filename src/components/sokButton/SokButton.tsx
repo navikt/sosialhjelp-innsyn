@@ -1,22 +1,15 @@
-import Link from "next/link";
 import { PencilIcon } from "@navikt/aksel-icons";
-import { Button } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 
 import { getServerEnv } from "@config/env";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 const SokButton = async () => {
     const t = await getTranslations("SokButton");
     return (
-        <Button
-            as={Link}
-            href={`${getServerEnv().NEXT_PUBLIC_INNSYN_ORIGIN}/sosialhjelp/soknad`}
-            variant="secondary"
-            icon={<PencilIcon />}
-            className="self-start"
-        >
+        <DigisosLinkCard href={`${getServerEnv().NEXT_PUBLIC_INNSYN_ORIGIN}/sosialhjelp/soknad`} icon={<PencilIcon />}>
             {t("sokOmSosialhjelp")}
-        </Button>
+        </DigisosLinkCard>
     );
 };
 

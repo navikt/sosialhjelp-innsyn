@@ -1,12 +1,13 @@
-import React from "react";
+"use client";
+
 import { BankNoteIcon } from "@navikt/aksel-icons";
-import { getLocale, getTranslations } from "next-intl/server";
+import { useLocale, useTranslations } from "next-intl";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
-const UtbetalingerSnarvei = async () => {
-    const t = await getTranslations("Snarveier");
-    const locale = await getLocale();
+const UtbetalingerSnarvei = () => {
+    const t = useTranslations("Snarveier");
+    const locale = useLocale();
     return (
         <DigisosLinkCard href={`/${locale}/utbetaling`} icon={<BankNoteIcon />}>
             {t("utbetalinger")}
