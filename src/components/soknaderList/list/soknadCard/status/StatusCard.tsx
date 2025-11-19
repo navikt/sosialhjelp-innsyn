@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
+import { ExclamationmarkTriangleIcon, InboxIcon, PersonGavelIcon, CheckmarkIcon } from "@navikt/aksel-icons";
 import { PropsWithChildren } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -41,13 +43,21 @@ const getBehandlingsStatusTag = (
 
     switch (status) {
         case "mottatt":
-            return { title: t("BehandlingsStatus.mottatt"), variant: "info-moderate" };
+            return { title: t("BehandlingsStatus.mottatt"), variant: "info-moderate", icon: <InboxIcon /> };
         case "under_behandling":
-            return { title: t("BehandlingsStatus.underBehandling"), variant: "info-moderate" };
+            return {
+                title: t("BehandlingsStatus.underBehandling"),
+                variant: "info-moderate",
+                icon: <PersonGavelIcon />,
+            };
         case "ferdigbehandlet_nylig":
-            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "info-moderate" };
+            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "info-moderate", icon: <CheckmarkIcon /> };
         case "ferdigbehandlet_eldre":
-            return { title: t("BehandlingsStatus.ferdigbehandlet"), variant: "neutral-moderate" };
+            return {
+                title: t("BehandlingsStatus.ferdigbehandlet"),
+                variant: "neutral-moderate",
+                icon: <CheckmarkIcon />,
+            };
         default:
             return null;
     }
@@ -61,14 +71,15 @@ const StatusCard = (props: StatusCardProps) => {
 
     const href = nySoknadSideToggle.enabled ? `/${locale}/soknad/${props.id}` : `/${locale}/${props.id}/status`;
 
-    const sendtTag = sendtDato
-        ? { title: t("sendt", { dato: sendtDato }), variant: "neutral-moderate" as const }
+    const sendtTag: Tag | null = sendtDato
+        ? { title: t("sendt", { dato: sendtDato }), variant: "neutral-moderate" }
         : null;
 
     const alertTags =
         alertTexts?.map((alertText) => ({
             title: alertText,
             variant: "warning-moderate" as const,
+            icon: <ExclamationmarkTriangleIcon />,
         })) ?? [];
 
     const tags = [sendtTag, getBehandlingsStatusTag(t, behandlingsStatus, vedtakProgress)]
