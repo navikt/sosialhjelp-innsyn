@@ -309,6 +309,38 @@
         "utbetalinger": "Payments",
         "klager": "Complaints"
     },
+    "Footer": {
+        "trengerDuHjelp": "Do you need help?",
+        "kontaktNavKontor": "Contact <lenke>your local Nav office</lenke> or call NAV at <tel>55 55 33 33</tel>.",
+        "faq": "Frequently asked questions",
+        "ettersende": {
+            "tittel": "How can I submit additional documentation?",
+            "content1": "You can submit documents, images, and other file types to an application you have already submitted.",
+            "content2": "To submit digitally, go to the relevant application and upload the documentation there. You can also send documentation by mail to your Nav office, or visit your Nav office in person and deliver the documents there."
+        },
+        "melde": {
+            "tittel": "How can I report changes?",
+            "melde": "notify",
+            "content1": "If there are changes in your situation, it may affect the follow-up or payment you receive from Nav. This could include changes in your income, family situation, or employment status. If you are married, you must also notify Nav if there are changes in your spouse's situation. <lenke>See examples of situations that may affect your payments</lenke>.",
+            "content2": "To report changes, you can call us at <tel>55 55 33 33</tel> or <lenke>send us a letter by mail</lenke>. You can also report digitally by going to your application and uploading the documentation there.",
+            "content3": "If you are unsure whether the change will affect your follow-up or payment, you can contact us by phone at <tel>55 55 33 33</tel>."
+        },
+        "svar": {
+            "tittel": "When can I expect a response to my application?",
+            "content1": "Processing times vary at different Nav offices and can be affected by the complexity of the case and the documentation provided. If the Nav office needs more information or documentation, you will be notified.",
+            "content2": "The application should be processed within 4 weeks. If more than 31 days have passed since you applied without a response, you should receive a letter stating that the processing time has been extended."
+        },
+        "relevantInnhold": "Relevant content",
+        "lenker": {
+            "klagerettigheter": "Your right to appeal",
+            "okonomiskSosialhjelp": "About financial social assistance",
+            "nodsituasjon": "Emergency and temporary housing",
+            "radgivning": "Financial and debt counseling",
+            "snakke": "Counseling about work, housing or childcare",
+            "personopplysninger": "Processing of personal data",
+            "klage": "complain"
+        }
+    },
     "NyttigInformasjon": {
         "tittel": "Useful information",
         "endringer": "How to report changes",

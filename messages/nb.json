@@ -280,6 +280,38 @@
         "utbetalinger": "Utbetalinger",
         "klager": "Klager"
     },
+    "Footer": {
+        "trengerDuHjelp": "Trenger du hjelp?",
+        "kontaktNavKontor": "Kontakt <lenke>ditt Nav-kontor</lenke> eller ring NAV på <tel>55 55 33 33</tel>.",
+        "faq": "Ofte stilte spørsmål",
+        "ettersende": {
+            "tittel": "Hvordan kan jeg ettersende dokumentasjon?",
+            "content1": "Du kan ettersende dokumenter, bilder og andre filtyper til en søknad du allerede har sendt.",
+            "content2": "For å sende inn digitalt, gå inn på den aktuelle søknaden og last opp dokumentasjonen der. Du kan også sende dokumentasjon i posten til ditt Nav-kontor, eller møte opp fysisk på Nav-kontoret ditt og levere dokumentene der."
+        },
+        "melde": {
+            "tittel": "Hvordan kan jeg melde fra om endringer?",
+            "melde": "melde",
+            "content1": "Hvis det skjer endringer i situasjonen din, kan det påvirke oppfølgingen eller utbetalingen du får fra Nav. Det kan for eksempel være endringer i din inntekt, familiesituasjon eller jobbsituasjon. Er du gift må du også melde fra til Nav hvis det skjer endringer i situasjonen til din ektefelle. <lenke>Se eksempler på situasjoner som kan påvirke utbetalingene dine</lenke>.",
+            "content2": "For å melde fra om endringer kan du ringe oss på <tel>55 55 33 33</tel> eller <lenke>sende oss et brev i posten</lenke>. Du kan også melde fra digitalt ved å gå inn på søknaden din og laste opp dokumentasjonen der.",
+            "content3": "Hvis du er usikker på om endringen vil påvirke oppfølgingen eller utbetalingen din, kan du kontakte oss på telefon <tel>55 55 33 33</tel>."
+        },
+        "svar": {
+            "tittel": "Når kan jeg forvente svar på søknaden?",
+            "content1": "Behandlingstiden varierer på de ulike Nav-kontorene, og kan påvirkes av sakens kompleksitet og dokumentasjonsgrunnlag. Hvis Nav-kontoret trenger mer informasjon eller dokumentasjon, vil du få beskjed om dette.",
+            "content2": "Søknaden skal behandles innen 4 uker. Hvis det har gått mer enn 31 dager fra du søkte uten svar, skal du få et brev om at saksbehandlingstiden er forlenget."
+        },
+        "relevantInnhold": "Relevant innhold",
+        "lenker": {
+            "klagerettigheter": "Dine klagerettigheter",
+            "okonomiskSosialhjelp": "Om økonomisk sosialhjelp",
+            "nodsituasjon": "Nødsituasjon og midlertidig bolig",
+            "radgivning": "Rådgivning om økonomi og gjeld",
+            "snakke": "Rådgivning om jobb, bosituasjon eller omsorg for barn",
+            "personopplysninger": "Behandling av personopplysninger",
+            "klage": "klage"
+        }
+    },
     "NyttigInformasjon": {
         "tittel": "Nyttig informasjon",
         "endringer": "Hvordan du melder fra om endringer",
