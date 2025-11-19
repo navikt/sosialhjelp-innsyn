@@ -27,7 +27,7 @@ import InfoAlert from "./alert/InfoAlert";
 import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import DeltSoknadAlert from "./saker/DeltSoknadAlert";
-import OppgaveAlert from "./oppgaver/OppgaveAlert";
+import OppgaveAlert from "./alert/OppgaveAlert";
 import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 
@@ -69,7 +69,7 @@ export const Soknad = async ({ id }: Props) => {
                 )}
                 <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                        <OppgaveAlert />
+                        <OppgaveAlert navKontor={navKontor} />
                     </HydrationBoundary>
                 </Suspense>
                 <InfoAlert navKontor={navKontor} soknadstatus={status} sakerPromise={sakerPromise} />

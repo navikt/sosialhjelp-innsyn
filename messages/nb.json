@@ -55,8 +55,13 @@
         "lastNed": "Last ned brev om saksbehandlingstid"
     },
     "OppgaveAlert": {
-        "tittel": "Nav trenger flere dokumenter for å kunne behandle saken din",
-        "beskrivelse": "Dersom du allerede har levert de etterspurte dokumentene direkte til Nav-kontoret ditt, kan du se bort ifra denne meldingen."
+        "tittel": "Du har fått oppgaver med frist {frist, date, ::dMMMM}",
+        "beskrivelse": "<norsk>{navKontor}</norsk> trenger flere dokumenter for å kunne behandle saken din.",
+        "beskrivelseUtenNavkontor": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din.",
+        "readMore": {
+            "tittel": "Hva skjer om du ikke sender inn innen fristen?",
+            "innhold": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås, og at du må søke på nytt."
+        }
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -217,16 +222,16 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
     },
-  "VisKommendeUtbetalinger": {
-    "tittel": "Kommende utbetalinger",
-    "ukjentDato": "Ukjent dato"
-  },
-  "KommendeUtbetalingerListe": {
-    "beskrivelse": "Du vil motta {amount} kr",
-    "utbetales": "Utbetales",
-    "visFlere": "Vis flere",
-    "visFærre": "Vis færre"
-  },
+    "VisKommendeUtbetalinger": {
+        "tittel": "Kommende utbetalinger",
+        "ukjentDato": "Ukjent dato"
+    },
+    "KommendeUtbetalingerListe": {
+        "beskrivelse": "Du vil motta {amount} kr",
+        "utbetales": "Utbetales",
+        "visFlere": "Vis flere",
+        "visFærre": "Vis færre"
+    },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {

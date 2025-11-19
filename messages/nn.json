@@ -42,8 +42,13 @@
         "lastNed": "Last ned brev om saksbehandlingstid"
     },
     "OppgaveAlert": {
-        "tittel": "Nav treng fleire dokument for å kunne behandle saka di",
-        "beskrivelse": "Dersom du allereie har levert dei etterspurde dokumenta direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+        "tittel": "Du har fått oppgåver med frist {frist, date, ::dMMMM}",
+        "beskrivelse": "<norsk>{navKontor}</norsk> treng fleire dokument for å kunne behandle saka di.",
+        "beskrivelseUtenNavkontor": "Nav-kontoret ditt treng fleire dokument for å kunne behandle saka di.",
+        "readMore": {
+            "tittel": "Kva skjer om du ikkje sender inn innan fristen?",
+            "innhold": "Om du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden blir avslått, og at du må søkje på nytt."
+        }
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -250,12 +255,12 @@
         "tittel": "Komande utbetalingar",
         "ukjentDato": "Ukjend dato"
     },
-  "KommendeUtbetalingerListe": {
-    "beskrivelse": "Du vil motta {amount} kr",
-    "utbetales": "Blir utbetalt",
-    "visFlere": "Vis fleire",
-    "visFærre": "Vis færre"
-  },
+    "KommendeUtbetalingerListe": {
+        "beskrivelse": "Du vil motta {amount} kr",
+        "utbetales": "Blir utbetalt",
+        "visFlere": "Vis fleire",
+        "visFærre": "Vis færre"
+    },
     "AktiveSoknader": {
         "tittel": "Aktive søknader",
         "EmptyState": {
