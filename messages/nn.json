@@ -276,7 +276,7 @@
     "StatusCard": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "BehandlingsStatus": {
-            "mottatt": " Motteke",
+            "mottatt": " Motteken",
             "underBehandling": " Under behandling",
             "ferdigbehandlet": " Ferdigbehandla",
             "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker ferdigbehandla"
@@ -287,6 +287,11 @@
             "oppgaveMedFrist": "Oppgåve med frist {frist, date, ::ddMMyyyy}",
             "vilkar": "Vilkår",
             "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
+        },
+        "PaabegyntCard": {
+            "title": "Påbyrja søknad om økonomisk sosialhjelp",
+            "paabegynt": "Påbyrja",
+            "keptUntil": "Blir behalde fram til {date, date, ::ddMMyyyy}"
         }
     },
     "Snarveier": {

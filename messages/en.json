@@ -288,33 +288,10 @@
             "vilkar": "Conditions",
             "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}"
         },
-        "MottattCard": {
-            "title": "Application for financial social assistance",
-            "description": "Received {date, date, ::ddMMyyyy}"
-        },
-        "SendtCard": {
-            "title": "Application for financial social assistance",
-            "description": "Sent {date, date, ::ddMMyyyy}"
-        },
         "PaabegyntCard": {
             "title": "Begun application for financial social assistance",
-            "description": "The application is kept until {date, date, ::ddMMyyyy}"
-        },
-        "VedtakCard": {
-            "description": "Finished processing. You have received {count, plural, =1 {a notice} other {# notices}} of decision"
-        },
-        "VilkarCard": {
-            "description": "Finished processing. You have received {count, plural, =1 {a notice} other {# notices}} of decisions with conditions"
-        },
-        "OppgaveCard": {
-            "description": "You need to deliver more information by {date, date, ::ddMMyyyy}",
-            "descriptionUtenFrist": "You need to deliver more information"
-        },
-        "UnderBehandlingCard": {
-            "description": "Being processed"
-        },
-        "ForelopigSvarCard": {
-            "description": "You have received a letter about the processing time for your application."
+            "paabegynt": "Begun",
+            "keptUntil": "Saved until {date, date, ::ddMMyyyy}"
         }
     },
     "Snarveier": {
