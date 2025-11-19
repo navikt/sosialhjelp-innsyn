@@ -4,8 +4,8 @@ import { getTranslations } from "next-intl/server";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
-import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
+import Footer from "@components/footer/Footer";
 import Snarveier from "@components/snarveier/Snarveier";
 
 import TidligereSoknader from "./_components/TidligereSoknader";
@@ -28,7 +28,7 @@ const Page = async () => {
                 <AktiveSoknader />
                 <TidligereSoknader />
                 <Snarveier />
-                <NyttigInformasjon />
+                <Footer />
             </VStack>
         </>
     );

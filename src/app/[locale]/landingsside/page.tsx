@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
-import NyttigInformasjon from "@components/nyttigInformasjon/NyttigInformasjon";
+import Footer from "@components/footer/Footer";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
 import Snarveier from "@components/snarveier/Snarveier";
@@ -42,7 +42,7 @@ const Page = async () => {
                 <Snarveier>
                     <LandingssideSnarveier />
                 </Snarveier>
-                <NyttigInformasjon />
+                <Footer />
             </VStack>
         </>
     );
