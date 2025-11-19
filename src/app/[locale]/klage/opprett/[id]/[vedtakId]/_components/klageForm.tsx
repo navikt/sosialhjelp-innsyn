@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, BodyLong, Button, FileObject, Modal, Textarea } from "@navikt/ds-react";
+import { Alert, Button, FileObject, Textarea } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React, { useState } from "react";
@@ -17,6 +17,8 @@ import FileSelect from "@components/filopplasting/new/FileSelect";
 import { Metadata } from "@components/filopplasting/new/types";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
+
+import BekreftForkastModal from "./BekreftForkastModal";
 
 export type FormValues = {
     background: string | null;
@@ -126,7 +128,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
                     >
                         {t("sendKlage")}
                     </Button>
-                    <Button onClick={() => forkastKlageButtonEvent()} type="button" className="mb-4" variant="tertiary">
+                    <Button onClick={forkastKlageButtonEvent} type="button" className="mb-4" variant="tertiary">
                         {t("forkastKlageKnapp")}
                     </Button>
                     {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
@@ -135,29 +137,12 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
                 </div>
             </form>
 
-            <Modal
+            <BekreftForkastModal
                 open={visBekreftForkastModal}
                 onClose={() => setVisBekreftForkastModal(false)}
-                header={{
-                    heading: t("forkastKlageModalOverskrift"),
-                    size: "small",
-                    closeButton: false,
-                }}
-                width="small"
-            >
-                <Modal.Body className="py-4 px-5">
-                    <BodyLong>{t("forkastKlageModalBeskrivelse")}</BodyLong>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button type="button" variant="danger" onClick={() => forkastKlage()}>
-                        {t("forkastKlageModalBekreft")}
-                    </Button>
-                    <Button type="button" variant="secondary" onClick={() => setVisBekreftForkastModal(false)}>
-                        {t("forkastKlageModalAvbryt")}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                t={t}
+                forkastKlage={forkastKlage}
+            />
         </>
     );
 };
