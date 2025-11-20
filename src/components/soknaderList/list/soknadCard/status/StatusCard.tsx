@@ -71,20 +71,26 @@ const StatusCard = (props: StatusCardProps) => {
 
     const href = nySoknadSideToggle.enabled ? `/${locale}/soknad/${props.id}` : `/${locale}/${props.id}/status`;
 
-    const sendtTag: Tag | null = sendtDato
-        ? { title: t("sendt", { dato: sendtDato }), variant: "neutral-moderate" }
-        : null;
+    const tags: Tag[] = [];
 
-    const alertTags =
-        alertTexts?.map((alertText) => ({
-            title: alertText,
-            variant: "warning-moderate" as const,
-            icon: <ExclamationmarkTriangleIcon />,
-        })) ?? [];
+    if (sendtDato) {
+        tags.push({ title: t("sendt", { dato: sendtDato }), variant: "neutral-moderate" });
+    }
 
-    const tags = [sendtTag, getBehandlingsStatusTag(t, behandlingsStatus, vedtakProgress)]
-        .concat(alertTags)
-        .filter((tag) => tag != null);
+    const behandlingsStatusTag = getBehandlingsStatusTag(t, behandlingsStatus, vedtakProgress);
+    if (behandlingsStatusTag) {
+        tags.push(behandlingsStatusTag);
+    }
+
+    if (alertTexts) {
+        tags.push(
+            ...alertTexts.map((alertText) => ({
+                title: alertText,
+                variant: "warning-moderate" as const,
+                icon: <ExclamationmarkTriangleIcon />,
+            }))
+        );
+    }
 
     return (
         <DigisosLinkCard href={href} tags={tags} {...props}>

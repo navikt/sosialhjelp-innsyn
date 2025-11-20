@@ -245,7 +245,7 @@
         "tittel": "Tidligere søknader"
     },
     "StatusCard": {
-        "sendt": "Sent {dato, date, ::ddMMyyyy}",
+        "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "BehandlingsStatus": {
             "mottatt": " Mottatt",
             "underBehandling": " Under behandling",

@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { SaksListeResponse } from "@generated/model";
 
+import { ferdigbehandletAndOlderThan21Days } from "../soknaderUtils";
+
 import StatusCard from "./status/StatusCard";
 
 interface Props {
@@ -14,8 +16,9 @@ interface Props {
 const SoknadCard = ({ sak }: Props) => {
     const tSoknad = useTranslations("Soknad");
     const t = useTranslations();
-    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : tSoknad("defaultTittel");
+
     const id = sak.fiksDigisosId!;
+    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : tSoknad("defaultTittel");
     const sistOppdatert = new Date(sak.sistOppdatert);
 
     if (sak.status === "MOTTATT") {
@@ -53,10 +56,6 @@ const SoknadCard = ({ sak }: Props) => {
         );
     }
     if (sak.status === "FERDIGBEHANDLET") {
-        const threeWeeksAgo = new Date();
-        threeWeeksAgo.setDate(threeWeeksAgo.getDate() - 21);
-        const behandlingsStatus = sistOppdatert > threeWeeksAgo ? "ferdigbehandlet_nylig" : "ferdigbehandlet_eldre";
-
         const alertTexts = [];
         if (sak.vilkar) {
             alertTexts.push(
@@ -71,7 +70,9 @@ const SoknadCard = ({ sak }: Props) => {
                 id={id}
                 tittel={sakTittel}
                 sendtDato={sistOppdatert}
-                behandlingsStatus={behandlingsStatus}
+                behandlingsStatus={
+                    ferdigbehandletAndOlderThan21Days(sak) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"
+                }
                 alertTexts={alertTexts}
             />
         );
