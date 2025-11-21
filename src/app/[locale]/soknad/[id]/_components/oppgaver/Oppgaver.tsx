@@ -66,6 +66,7 @@ const Oppgaver = () => {
                                     background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                     padding="space-24"
                                     borderRadius="xlarge"
+                                    borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
                                 >
                                     {newUploadEnabled ? (
                                         <OpplastingsboksTus
