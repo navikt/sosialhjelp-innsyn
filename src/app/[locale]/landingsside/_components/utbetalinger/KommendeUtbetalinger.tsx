@@ -4,8 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { getKommendeUtbetalinger } from "./getKommendeUtbetalinger";
 import KommendeUtbetalingerListe from "./KommendeUtbetalingerListe";
 
-const VisKommendeUtbetalinger = async () => {
-    const t = await getTranslations("VisKommendeUtbetalinger");
+const KommendeUtbetalinger = async () => {
+    const t = await getTranslations("KommendeUtbetalinger");
     const alleKommende = await getKommendeUtbetalinger();
 
     if (alleKommende.length === 0) return null;
@@ -20,4 +20,4 @@ const VisKommendeUtbetalinger = async () => {
     );
 };
 
-export default VisKommendeUtbetalinger;
+export default KommendeUtbetalinger;

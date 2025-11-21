@@ -60,18 +60,20 @@ const SoknaderList = ({ soknader }: Props) => {
                     )}
                 </Fragment>
             ))}
-            <Box className="self-start">
-                {!showAll && hasMore && (
-                    <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
-                        {t("visFlere")} ({soknader.length - ITEMS_LIMIT})
-                    </Button>
-                )}
-                {showAll && (
-                    <Button onClick={() => setShowAll(false)} variant="tertiary" icon={<ChevronUpIcon />}>
-                        {t("visFærre")}
-                    </Button>
-                )}
-            </Box>
+            {hasMore && (
+                <Box className="self-start">
+                    {!showAll && (
+                        <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
+                            {t("visFlere")} ({soknader.length - ITEMS_LIMIT})
+                        </Button>
+                    )}
+                    {showAll && (
+                        <Button onClick={() => setShowAll(false)} variant="tertiary" icon={<ChevronUpIcon />}>
+                            {t("visFærre")}
+                        </Button>
+                    )}
+                </Box>
+            )}
         </>
     );
 };

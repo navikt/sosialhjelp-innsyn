@@ -9,7 +9,7 @@ import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
 import Snarveier from "@components/snarveier/Snarveier";
 
-import VisKommendeUtbetalinger from "./_components/utbetalinger/VisKommendeUtbetalinger";
+import KommendeUtbetalinger from "./_components/utbetalinger/KommendeUtbetalinger";
 import LandingssideSnarveier from "./_components/snarveier/LandingssideSnarveier";
 
 const Page = async () => {
@@ -37,7 +37,7 @@ const Page = async () => {
                         </Heading>
                     </Stack>
                 </Bleed>
-                <VisKommendeUtbetalinger />
+                <KommendeUtbetalinger />
                 <AktiveSoknader />
                 <Snarveier>
                     <LandingssideSnarveier />

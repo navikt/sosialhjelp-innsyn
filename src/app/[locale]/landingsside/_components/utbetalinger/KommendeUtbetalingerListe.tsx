@@ -18,7 +18,7 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
     const { hasMore, showAll, setShowAll } = useShowMore(alleKommende);
 
     return (
-        <VStack gap="4">
+        <>
             {alleKommende.slice(0, showAll ? alleKommende.length : ITEMS_LIMIT).map((utbetaling) => {
                 const amount = format.number(utbetaling.belop);
                 return (
@@ -52,19 +52,21 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                     </DigisosLinkCard>
                 );
             })}
-            <Box className="self-start">
-                {!showAll && hasMore && (
-                    <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
-                        {t("visFlere")} ({alleKommende.length - ITEMS_LIMIT})
-                    </Button>
-                )}
-                {showAll && hasMore && (
-                    <Button onClick={() => setShowAll(false)} variant="tertiary" icon={<ChevronUpIcon />}>
-                        {t("visFærre")}
-                    </Button>
-                )}
-            </Box>
-        </VStack>
+            {hasMore && (
+                <Box className="self-start">
+                    {!showAll && (
+                        <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
+                            {t("visFlere")} ({alleKommende.length - ITEMS_LIMIT})
+                        </Button>
+                    )}
+                    {showAll && (
+                        <Button onClick={() => setShowAll(false)} variant="tertiary" icon={<ChevronUpIcon />}>
+                            {t("visFærre")}
+                        </Button>
+                    )}
+                </Box>
+            )}
+        </>
     );
 };
 

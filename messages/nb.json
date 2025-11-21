@@ -222,7 +222,7 @@
         "tittel": "Økonomisk sosialhjelp - nav.no",
         "beskrivelse": "Søk om økonomisk sosialhjelp, se status på søknaden din, og send inn dokumentasjon."
     },
-    "VisKommendeUtbetalinger": {
+    "KommendeUtbetalinger": {
         "tittel": "Kommende utbetalinger",
         "ukjentDato": "Ukjent dato"
     },

@@ -251,7 +251,7 @@
         "tittel": "Financial assistance - nav.no",
         "beskrivelse": "Apply for financial assistance, see the status of your application, and send documentation."
     },
-    "VisKommendeUtbetalinger": {
+    "KommendeUtbetalinger": {
         "tittel": "Upcoming payments",
         "ukjentDato": "Unknown date"
     },
