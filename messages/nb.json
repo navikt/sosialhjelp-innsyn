@@ -228,7 +228,7 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "Du vil motta {amount} kr",
-        "utbetales": "Utbetales",
+        "utbetales": "Utbetales {dato, date, ::ddMMyyyy}",
         "visFlere": "Vis flere",
         "visFærre": "Vis færre"
     },
@@ -245,34 +245,25 @@
         "tittel": "Tidligere søknader"
     },
     "StatusCard": {
-        "MottattCard": {
-            "title": "Søknad om økonomisk sosialhjelp",
-            "description": "Mottatt {date, date, ::ddMMyyyy}"
-        },
-        "SendtCard": {
-            "title": "Søknad om økonomisk sosialhjelp",
-            "description": "Sendt {date, date, ::ddMMyyyy}"
-        },
+        "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "PaabegyntCard": {
             "title": "Påbegynt søknad om økonomisk sosialhjelp",
-            "description": "Søknaden beholdes til og med {date, date, ::ddMMyyyy}"
-        },
-        "VedtakCard": {
-            "description": "Ferdigbehandlet. Du har fått {count, plural, =1 {et} other {#}} vedtak"
-        },
-        "VilkarCard": {
-            "description": "Ferdigbehandlet. Du har fått vedtak med vilkår"
-        },
-        "OppgaveCard": {
-            "description": "Du må levere flere opplysninger innen {date, date, ::ddMMyyyy}",
-            "descriptionUtenFrist": "Du må levere flere opplysninger"
-        },
-        "UnderBehandlingCard": {
-            "description": "Under behandling"
-        },
-        "ForelopigSvarCard": {
-            "description": "Du har fått et brev om saksbehandlingstiden for søknaden din"
+            "paabegynt": "Påbegynt",
+            "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}"
         }
+    },
+    "AlertTexts": {
+        "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
+        "oppgaver": "Oppgaver",
+        "oppgaveMedFrist": "Oppgave med frist {frist, date, ::ddMMyyyy}",
+        "vilkar": "Vilkår",
+        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
+    },
+    "BehandlingsStatus": {
+        "mottatt": " Mottatt",
+        "underBehandling": "Under behandling",
+        "ferdigbehandlet": "Ferdigbehandlet",
+        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} ferdig behandlet"
     },
     "Snarveier": {
         "tittel": "Snarveier",

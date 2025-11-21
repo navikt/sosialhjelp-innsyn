@@ -4,7 +4,7 @@ import React, { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
 import { Box, VStack } from "@navikt/ds-react";
 
-import HoyreIkon from "../../app/[locale]/soknad/[id]/_components/dokumenter/HoyreIkon";
+import HoyreIkon from "./HoyreIkon";
 
 export interface Props {
     href: string;
@@ -16,6 +16,7 @@ export interface Props {
     underline?: boolean;
     analyticsEvent?: string;
     analyticsData?: Record<string, unknown>;
+    footer?: ReactNode;
 }
 
 interface IconProps {
@@ -54,6 +55,7 @@ const DigisosLinkCard = ({
     underline = false,
     analyticsEvent,
     analyticsData,
+    footer,
 }: PropsWithChildren<Props>) => {
     const dataAttrs: Record<string, string> = {};
     if (analyticsEvent) {
@@ -90,6 +92,7 @@ const DigisosLinkCard = ({
             </LinkCardTitle>
             {description && <LinkCardDescription>{description}</LinkCardDescription>}
             <HoyreIkon ikon={cardIcon} />
+            {footer}
         </LinkCard>
     );
 };

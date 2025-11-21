@@ -1,47 +1,72 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { SaksListeResponse } from "@generated/model";
 
-import MottattCard from "./status/MottattCard";
-import SendtCard from "./status/SendtCard";
-import UnderBehandlingCard from "./status/UnderBehandlingCard";
-import VilkarCard from "./status/VilkarCard";
-import OppgaveCard from "./status/OppgaveCard";
-import ForelopigSvarCard from "./status/ForelopigSvarCard";
-import VedtakCard from "./status/VedtakCard";
+import { ferdigbehandletAndOlderThan21Days } from "../soknaderUtils";
+
+import StatusCard from "./status/StatusCard";
+import AlertTag from "./status/AlertTag";
 
 interface Props {
     sak: Partial<SaksDetaljerResponse> & SaksListeResponse;
 }
 
 const SoknadCard = ({ sak }: Props) => {
-    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : "Søknad om økonomisk sosialhjelp";
-    if ((sak.antallNyeOppgaver ?? 0) > 0) {
-        return <OppgaveCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} frist={sak.forsteOppgaveFrist} />;
-    }
+    const t = useTranslations("Soknad");
+
+    const id = sak.fiksDigisosId!;
+    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : t("defaultTittel");
+    const sistOppdatert = new Date(sak.sistOppdatert);
+    const forsteOppgaveFrist = sak.forsteOppgaveFrist ? new Date(sak.forsteOppgaveFrist) : undefined;
+
     if (sak.status === "MOTTATT") {
-        return <MottattCard fiksDigisosId={sak.fiksDigisosId!} mottattDato={new Date(sak.sistOppdatert)} />;
+        return <StatusCard id={id} tittel={sakTittel} sendtDato={sistOppdatert} behandlingsStatus="mottatt" />;
     }
     if (sak.status === "SENDT") {
-        return <SendtCard fiksDigisosId={sak.fiksDigisosId!} sendtDato={new Date(sak.sistOppdatert)} />;
+        return <StatusCard id={id} tittel={sakTittel} sendtDato={sistOppdatert} />;
     }
     if (sak.status === "UNDER_BEHANDLING") {
-        if (sak.forelopigSvar?.harMottattForelopigSvar) {
-            return <ForelopigSvarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} />;
-        }
-        return <UnderBehandlingCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} />;
+        const antallSaker = sak.saker?.length || 1;
+        const ferdigeSaker = sak.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
+        const vedtakProgress = antallSaker > 1 && ferdigeSaker > 0 ? { ferdigeSaker, antallSaker } : undefined;
+        const antallNyeOppgaver = sak.antallNyeOppgaver ?? 0;
+
+        const oppgaveAlert =
+            antallNyeOppgaver > 0 ? <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} /> : undefined;
+        const behandlingstidAlert = sak.forelopigSvar?.harMottattForelopigSvar ? (
+            <AlertTag alertType="forlenget_behandlingstid" />
+        ) : undefined;
+
+        return (
+            <StatusCard
+                id={id}
+                tittel={sakTittel}
+                sendtDato={sistOppdatert}
+                behandlingsStatus="under_behandling"
+                vedtakProgress={vedtakProgress}
+                extraTags={[oppgaveAlert, behandlingstidAlert]}
+            />
+        );
     }
     if (sak.status === "FERDIGBEHANDLET") {
-        // TODO: Kan den være ferdigbehandlet uten vedtak?
-        const count = sak.saker?.map((it) => it.antallVedtak).reduce((acc, antallVedtak) => acc + antallVedtak) ?? 0;
-        if (sak.vilkar) {
-            return <VilkarCard fiksDigisosId={sak.fiksDigisosId!} sakTittel={sakTittel} vedtakCount={count} />;
-        }
-        if (count > 0) {
-            return <VedtakCard sakTittel={sakTittel} fiksDigisosId={sak.fiksDigisosId!} vedtakCount={count} />;
-        }
+        const vilkarAlert = sak.vilkar ? <AlertTag alertType="vilkaar" deadline={forsteOppgaveFrist} /> : undefined;
+
+        return (
+            <StatusCard
+                id={id}
+                tittel={sakTittel}
+                sendtDato={sistOppdatert}
+                behandlingsStatus={
+                    ferdigbehandletAndOlderThan21Days(sak) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"
+                }
+                extraTags={[vilkarAlert]}
+            />
+        );
     }
+
     return null;
 };
 
