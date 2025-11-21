@@ -39,7 +39,7 @@ const StatusCard = (props: StatusCardProps) => {
                         </Tag>
                     )}
                     <BehandlingsStatusTag status={behandlingsStatus} vedtakProgress={vedtakProgress} />
-                    {extraTags?.map((tag) => tag)}
+                    {extraTags}
                 </LinkCardFooter>
             }
             {...props}
