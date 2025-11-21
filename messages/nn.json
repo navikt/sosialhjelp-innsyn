@@ -316,7 +316,7 @@
         "ettersende": {
             "tittel": "Korleis kan eg ettersende dokumentasjon?",
             "content1": "Du kan ettersende dokument, bilete og andre filtypar til ein søknad du allereie har sendt.",
-            "content2": "For å sende inn digitalt, gå inn på den aktuelle søknaden og last opp dokumentasjonen der. Du kan også sende dokumentasjon i posten til ditt Nav-kontor, eller møte opp fysisk på Nav-kontoret ditt og levere dokumenta der."
+            "content2": "For å sende inn digitalt, gå inn på den aktuelle søknaden og last opp dokumentasjonen der. Du kan også <lenke>sende dokumentasjon i posten</lenke> til ditt Nav-kontor, eller møte opp fysisk på <lenke>Nav-kontoret ditt</lenke> og levere dokumenta der."
         },
         "melde": {
             "tittel": "Korleis kan eg melde frå om endringar?",

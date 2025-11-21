@@ -1,5 +1,12 @@
 import { Bleed, BodyShort, BoxNew, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { getLocale, getTranslations } from "next-intl/server";
+import { PropsWithChildren } from "react";
+
+const NavKontorSok = async ({ children }: PropsWithChildren) => {
+    const locale = await getLocale();
+    const localeSuffix = locale === "nb" ? "" : `/${locale}`;
+    return <Link href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>{children}</Link>;
+};
 
 const Footer = async () => {
     const t = await getTranslations("Footer");
@@ -15,9 +22,7 @@ const Footer = async () => {
                     <BodyShort>
                         {t.rich("kontaktNavKontor", {
                             tel: (chunks) => <Link href="tel:+4755553333">{chunks}</Link>,
-                            lenke: (chunks) => (
-                                <Link href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>{chunks}</Link>
-                            ),
+                            lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                         })}
                     </BodyShort>
                 </VStack>
@@ -28,7 +33,11 @@ const Footer = async () => {
                     <ReadMore header={t("ettersende.tittel")}>
                         <VStack gap="7">
                             <BodyShort>{t("ettersende.content1")}</BodyShort>
-                            <BodyShort>{t("ettersende.content2")}</BodyShort>
+                            <BodyShort>
+                                {t.rich("ettersende.content2", {
+                                    lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
+                                })}
+                            </BodyShort>
                         </VStack>
                     </ReadMore>
                     <ReadMore header={t("melde.tittel")}>
@@ -47,9 +56,7 @@ const Footer = async () => {
                             <BodyShort>
                                 {t.rich("melde.content2", {
                                     tel: (chunks) => <Link href="tel:+4755553333">{chunks}</Link>,
-                                    lenke: (chunks) => (
-                                        <Link href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>{chunks}</Link>
-                                    ),
+                                    lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                                 })}
                             </BodyShort>
                             <BodyShort>

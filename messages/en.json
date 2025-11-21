@@ -316,7 +316,7 @@
         "ettersende": {
             "tittel": "How can I submit additional documentation?",
             "content1": "You can submit documents, images, and other file types to an application you have already submitted.",
-            "content2": "To submit digitally, go to the relevant application and upload the documentation there. You can also send documentation by mail to your Nav office, or visit your Nav office in person and deliver the documents there."
+            "content2": "To submit digitally, go to the relevant application and upload the documentation there. You can also <lenke>send documentation by mail</lenke> to your Nav office, or visit <lenke>your Nav office</lenke> in person and deliver the documents there."
         },
         "melde": {
             "tittel": "How can I report changes?",
