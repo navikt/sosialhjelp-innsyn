@@ -5,7 +5,11 @@ import { PropsWithChildren } from "react";
 const NavKontorSok = async ({ children }: PropsWithChildren) => {
     const locale = await getLocale();
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
-    return <Link href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>{children}</Link>;
+    return (
+        <Link inlineText href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>
+            {children}
+        </Link>
+    );
 };
 
 const Footer = async () => {
@@ -21,7 +25,11 @@ const Footer = async () => {
                     </Heading>
                     <BodyShort>
                         {t.rich("kontaktNavKontor", {
-                            tel: (chunks) => <Link href="tel:+4755553333">{chunks}</Link>,
+                            tel: (chunks) => (
+                                <Link inlineText href="tel:+4755553333">
+                                    {chunks}
+                                </Link>
+                            ),
                             lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                         })}
                     </BodyShort>
@@ -46,6 +54,7 @@ const Footer = async () => {
                                 {t.rich("melde.content1", {
                                     lenke: (chunks) => (
                                         <Link
+                                            inlineText
                                             href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}#${t("melde.melde")}`}
                                         >
                                             {chunks}
@@ -55,13 +64,21 @@ const Footer = async () => {
                             </BodyShort>
                             <BodyShort>
                                 {t.rich("melde.content2", {
-                                    tel: (chunks) => <Link href="tel:+4755553333">{chunks}</Link>,
+                                    tel: (chunks) => (
+                                        <Link inlineText href="tel:+4755553333">
+                                            {chunks}
+                                        </Link>
+                                    ),
                                     lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                                 })}
                             </BodyShort>
                             <BodyShort>
                                 {t.rich("melde.content3", {
-                                    tel: (chunks) => <Link href="tel:+4755553333">{chunks}</Link>,
+                                    tel: (chunks) => (
+                                        <Link inlineText href="tel:+4755553333">
+                                            {chunks}
+                                        </Link>
+                                    ),
                                 })}
                             </BodyShort>
                         </VStack>
@@ -73,11 +90,11 @@ const Footer = async () => {
                         </VStack>
                     </ReadMore>
                 </VStack>
-                <VStack gap="2">
+                <VStack gap="5">
                     <Heading size="small" level="2">
                         {t("relevantInnhold")}
                     </Heading>
-                    <VStack gap="2" as="ul">
+                    <VStack gap="5" as="ul">
                         <li>
                             <Link href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}#${t("lenker.klage")}`}>
                                 {t("lenker.klagerettigheter")}
