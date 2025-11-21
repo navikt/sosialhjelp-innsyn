@@ -1,8 +1,9 @@
 "use client";
 
-import { BodyShort, Box, Button, HStack, Tag, VStack } from "@navikt/ds-react";
+import { Box, Button, Tag, VStack } from "@navikt/ds-react";
 import { CalendarIcon, ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { useFormatter, useTranslations } from "next-intl";
+import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { ManedUtbetaling } from "@generated/ssr/model";
@@ -25,27 +26,24 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                     <DigisosLinkCard
                         key={utbetaling.referanse}
                         href="/utbetalinger"
-                        description={
-                            <VStack>
-                                {utbetaling.tittel}
-                                {utbetaling.utbetalingsdato && (
-                                    <HStack>
-                                        <Tag variant="info-moderate" className="mt-2">
-                                            <HStack gap="2" align="center">
-                                                <CalendarIcon aria-hidden fontSize="1.5rem" />
-                                                <BodyShort size="small" className="whitespace-nowrap">
-                                                    {t("utbetales")}{" "}
-                                                    {format.dateTime(new Date(utbetaling.utbetalingsdato), {
-                                                        day: "numeric",
-                                                        month: "long",
-                                                        year: "numeric",
-                                                    })}
-                                                </BodyShort>
-                                            </HStack>
-                                        </Tag>
-                                    </HStack>
-                                )}
-                            </VStack>
+                        description={utbetaling.tittel}
+                        footer={
+                            utbetaling.utbetalingsdato && (
+                                <LinkCardFooter>
+                                    <Tag
+                                        variant="info-moderate"
+                                        size="small"
+                                        icon={<CalendarIcon aria-hidden={true} />}
+                                    >
+                                        {t("utbetales")}{" "}
+                                        {format.dateTime(new Date(utbetaling.utbetalingsdato), {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric",
+                                        })}
+                                    </Tag>
+                                </LinkCardFooter>
+                            )
                         }
                     >
                         {t("beskrivelse", { amount })}
