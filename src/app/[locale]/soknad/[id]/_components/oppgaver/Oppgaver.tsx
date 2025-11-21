@@ -63,7 +63,7 @@ const Oppgaver = () => {
                             return (
                                 <Box.New
                                     key={oppgave.oppgaveId}
-                                    background="neutral-soft"
+                                    background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                     padding="space-24"
                                     borderRadius="xlarge"
                                 >
