@@ -257,7 +257,7 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "You will receive {amount} kr",
-        "utbetales": "Payment date",
+        "utbetales": "Paid on {dato, date, ::ddMMyyyy}",
         "visFlere": "Show more",
         "visFærre": "Show less"
     },
@@ -275,12 +275,6 @@
     },
     "StatusCard": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
-        "BehandlingsStatus": {
-            "mottatt": " Received",
-            "underBehandling": "Being processed",
-            "ferdigbehandlet": "Processed",
-            "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
-        },
         "AlertTexts": {
             "forlengetSaksbehandlingsTid": "Extended processing time",
             "oppgaver": "Tasks",
@@ -293,6 +287,12 @@
             "paabegynt": "Begun",
             "keptUntil": "Saved until {date, date, ::ddMMyyyy}"
         }
+    },
+    "BehandlingsStatus": {
+        "mottatt": " Received",
+        "underBehandling": "Being processed",
+        "ferdigbehandlet": "Processed",
+        "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
     },
     "Snarveier": {
         "tittel": "Shortcuts",

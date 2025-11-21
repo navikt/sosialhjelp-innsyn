@@ -228,7 +228,7 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "Du vil motta {amount} kr",
-        "utbetales": "Utbetales",
+        "utbetales": "Utbetales {dato, date, ::ddMMyyyy}",
         "visFlere": "Vis flere",
         "visFærre": "Vis færre"
     },
@@ -246,12 +246,6 @@
     },
     "StatusCard": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
-        "BehandlingsStatus": {
-            "mottatt": " Mottatt",
-            "underBehandling": "Under behandling",
-            "ferdigbehandlet": "Ferdigbehandlet",
-            "nSakerFerdig": "{ferdigeSaker} av {antallSaker} ferdig behandlet"
-        },
         "AlertTexts": {
             "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
             "oppgaver": "Oppgaver",
@@ -264,6 +258,12 @@
             "paabegynt": "Påbegynt",
             "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}"
         }
+    },
+    "BehandlingsStatus": {
+        "mottatt": " Mottatt",
+        "underBehandling": "Under behandling",
+        "ferdigbehandlet": "Ferdigbehandlet",
+        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} ferdig behandlet"
     },
     "Snarveier": {
         "tittel": "Snarveier",

@@ -15,9 +15,8 @@ interface Props {
 }
 
 const BehandlingsStatusTag = ({ status, vedtakProgress }: Props) => {
-    const t = useTranslations("StatusCard.BehandlingsStatus");
+    const t = useTranslations("BehandlingsStatus");
 
-    // If vedtakProgress is provided, show vedtak count instead of status
     if (vedtakProgress) {
         const { ferdigeSaker, antallSaker } = vedtakProgress;
 

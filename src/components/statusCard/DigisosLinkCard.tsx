@@ -92,7 +92,7 @@ const DigisosLinkCard = ({
             </LinkCardTitle>
             {description && <LinkCardDescription>{description}</LinkCardDescription>}
             <HoyreIkon ikon={cardIcon} />
-            {footer && footer}
+            {footer}
         </LinkCard>
     );
 };

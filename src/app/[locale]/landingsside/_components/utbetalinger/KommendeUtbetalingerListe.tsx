@@ -35,12 +35,7 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                                         size="small"
                                         icon={<CalendarIcon aria-hidden={true} />}
                                     >
-                                        {t("utbetales")}{" "}
-                                        {format.dateTime(new Date(utbetaling.utbetalingsdato), {
-                                            day: "numeric",
-                                            month: "long",
-                                            year: "numeric",
-                                        })}
+                                        {t("utbetales", { dato: new Date(utbetaling.utbetalingsdato) })}
                                     </Tag>
                                 </LinkCardFooter>
                             )
