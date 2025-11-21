@@ -11,16 +11,18 @@ import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
+    getGetVedleggForOppgaveQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import { Metadata } from "../types";
 
-const getQueryKeysForInvalidation = (fiksDigisosId: string): string[] =>
+const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
     [
         getHentVedleggQueryKey(fiksDigisosId),
         getHentHendelserQueryKey(fiksDigisosId),
         getHentHendelserBetaQueryKey(fiksDigisosId),
+        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
     ].flat();
 
 const submitUpload = async ({
@@ -80,7 +82,10 @@ const useSendVedleggHelper = (metadata: Metadata) => {
             );
 
             await queryClient.invalidateQueries({
-                predicate: ({ queryKey }) => getQueryKeysForInvalidation(fiksDigisosId).includes(queryKey[0] as string),
+                predicate: ({ queryKey }) =>
+                    getQueryKeysForInvalidation(fiksDigisosId, metadata.hendelsereferanse).includes(
+                        queryKey[0] as string
+                    ),
             });
         },
     });

@@ -11,6 +11,7 @@ import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
+    getGetVedleggForOppgaveQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
@@ -18,11 +19,12 @@ import { FancyFile, Error, Metadata, Feil } from "../types";
 import { determineErrorType } from "../utils/mapErrors";
 import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
 
-const getQueryKeysForInvalidation = (fiksDigisosId: string): string[] =>
+const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
     [
         getHentVedleggQueryKey(fiksDigisosId),
         getHentHendelserQueryKey(fiksDigisosId),
         getHentHendelserBetaQueryKey(fiksDigisosId),
+        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
     ].flat();
 
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
@@ -93,7 +95,9 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
 
                         await queryClient.invalidateQueries({
                             predicate: ({ queryKey }) =>
-                                getQueryKeysForInvalidation(fiksDigisosId).includes(queryKey[0] as string),
+                                getQueryKeysForInvalidation(fiksDigisosId, metadata.hendelsereferanse).includes(
+                                    queryKey[0] as string
+                                ),
                         });
                     }
                 },

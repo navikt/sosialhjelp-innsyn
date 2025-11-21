@@ -166,15 +166,17 @@
     "Saksprosessen": {
         "tittel": "The case process"
     },
+    "OppgaveTag": {
+        "frist": "Due: {frist, date, ::ddMMyyyy}",
+        "completed": "Submitted"
+    },
     "Oppgaver": {
-        "tittel": "Requested documents",
+        "tittel": "Your tasks",
         "visFullforte": "Show completed tasks",
         "ingenOppgaver": {
             "tittel": "You have no tasks",
             "beskrivelse": "If you are asked to submit documentation, it will appear here."
         },
-        "frist": "Due: {frist, date, ::ddMMyyyy}",
-        "løst": "Submitted",
         "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}"
     },
     "OversiktSteps": {

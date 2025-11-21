@@ -166,15 +166,17 @@
     "Saksprosessen": {
         "tittel": "Saksprosessen"
     },
+    "OppgaveTag": {
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "completed": "Sendt inn"
+    },
     "Oppgaver": {
-        "tittel": "Etterspurde dokument",
+        "tittel": "Oppgåvene dine",
         "visFullforte": "Vis fullførte oppgåver",
         "ingenOppgaver": {
             "tittel": "Du har ingen oppgåver",
             "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
         },
-        "frist": "Frist: {frist, date, ::ddMMyyyy}",
-        "løst": "Sendt inn",
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
     "OversiktSteps": {
