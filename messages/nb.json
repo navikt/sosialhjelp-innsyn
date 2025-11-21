@@ -137,6 +137,10 @@
     "Saksprosessen": {
         "tittel": "Saksprosessen"
     },
+    "OppgaveTag": {
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "completed": "Sendt inn"
+    },
     "Oppgaver": {
         "tittel": "Dine opppgaver",
         "visFullforte": "Vis fullførte oppgaver",
@@ -144,8 +148,6 @@
             "tittel": "Du har ingen oppgaver",
             "beskrivelse": "Dersom du blir bedt om å ettersende dokumentasjon, vil det dukke opp her."
         },
-        "frist": "Frist: {frist, date, ::ddMMyyyy}",
-        "løst": "Sendt inn",
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
     "OversiktSteps": {

@@ -1,10 +1,10 @@
 "use client";
 
-import { Alert, Box, Button, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { Alert, Box, Button, Heading, HStack, Loader, Skeleton, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CheckmarkIcon, ChevronDownIcon, FaceSmileIcon } from "@navikt/aksel-icons";
+import { ChevronDownIcon, FaceSmileIcon } from "@navikt/aksel-icons";
 import React from "react";
 import { LinkCard } from "@navikt/ds-react/LinkCard";
 
@@ -15,6 +15,8 @@ import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/new/types";
 import { Icon } from "@components/statusCard/DigisosLinkCard";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+
+import OppgaveTag from "./OppgaveTag";
 
 const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
@@ -78,17 +80,10 @@ const Oppgaver = () => {
                                                 )
                                             }
                                             tag={
-                                                oppgave.erLastetOpp ? (
-                                                    <Tag variant="success" icon={<CheckmarkIcon />}>
-                                                        {t("løst")}
-                                                    </Tag>
-                                                ) : (
-                                                    oppgave.innsendelsesfrist && (
-                                                        <Tag variant="warning">
-                                                            {t("frist", { frist: new Date(oppgave.innsendelsesfrist) })}
-                                                        </Tag>
-                                                    )
-                                                )
+                                                <OppgaveTag
+                                                    frist={oppgave.innsendelsesfrist}
+                                                    completed={oppgave.erLastetOpp}
+                                                />
                                             }
                                             metadata={metadata}
                                         />
@@ -105,17 +100,10 @@ const Oppgaver = () => {
                                                 )
                                             }
                                             tag={
-                                                oppgave.erLastetOpp ? (
-                                                    <Tag variant="success" icon={<CheckmarkIcon />}>
-                                                        {t("løst")}
-                                                    </Tag>
-                                                ) : (
-                                                    oppgave.innsendelsesfrist && (
-                                                        <Tag variant="warning">
-                                                            {t("frist", { frist: new Date(oppgave.innsendelsesfrist) })}
-                                                        </Tag>
-                                                    )
-                                                )
+                                                <OppgaveTag
+                                                    frist={oppgave.innsendelsesfrist}
+                                                    completed={oppgave.erLastetOpp}
+                                                />
                                             }
                                         />
                                     )}
