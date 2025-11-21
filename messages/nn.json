@@ -276,9 +276,9 @@
     "StatusCard": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "BehandlingsStatus": {
-            "mottatt": " Motteken",
-            "underBehandling": " Under behandling",
-            "ferdigbehandlet": " Ferdigbehandla",
+            "mottatt": "Motteken",
+            "underBehandling": "Under behandling",
+            "ferdigbehandlet": "Ferdigbehandla",
             "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker ferdigbehandla"
         },
         "AlertTexts": {

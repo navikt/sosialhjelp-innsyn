@@ -248,8 +248,8 @@
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "BehandlingsStatus": {
             "mottatt": " Mottatt",
-            "underBehandling": " Under behandling",
-            "ferdigbehandlet": " Ferdigbehandlet",
+            "underBehandling": "Under behandling",
+            "ferdigbehandlet": "Ferdigbehandlet",
             "nSakerFerdig": "{ferdigeSaker} av {antallSaker} ferdig behandlet"
         },
         "AlertTexts": {

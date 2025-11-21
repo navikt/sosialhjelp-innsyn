@@ -277,8 +277,8 @@
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "BehandlingsStatus": {
             "mottatt": " Received",
-            "underBehandling": " Being processed",
-            "ferdigbehandlet": " Processed",
+            "underBehandling": "Being processed",
+            "ferdigbehandlet": "Processed",
             "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
         },
         "AlertTexts": {
