@@ -30,7 +30,7 @@ const Oppgaver = () => {
         <>
             <VStack gap="4">
                 <HStack justify="space-between" align="center">
-                    <Heading size="large" level="2">
+                    <Heading size="medium" level="2">
                         {t("tittel")}
                     </Heading>
                     {isFetching && <Loader />}
