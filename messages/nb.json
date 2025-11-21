@@ -246,18 +246,18 @@
     },
     "StatusCard": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
-        "AlertTexts": {
-            "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
-            "oppgaver": "Oppgaver",
-            "oppgaveMedFrist": "Oppgave med frist {frist, date, ::ddMMyyyy}",
-            "vilkar": "Vilkår",
-            "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
-        },
         "PaabegyntCard": {
             "title": "Påbegynt søknad om økonomisk sosialhjelp",
             "paabegynt": "Påbegynt",
             "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}"
         }
+    },
+    "AlertTexts": {
+        "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
+        "oppgaver": "Oppgaver",
+        "oppgaveMedFrist": "Oppgave med frist {frist, date, ::ddMMyyyy}",
+        "vilkar": "Vilkår",
+        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
     },
     "BehandlingsStatus": {
         "mottatt": " Mottatt",

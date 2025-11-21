@@ -10,7 +10,7 @@ type Props = {
 };
 
 const AlertTag = ({ alertType, deadline }: Props) => {
-    const t = useTranslations("StatusCard.AlertTexts");
+    const t = useTranslations("AlertTexts");
 
     const getAlertText = (): string => {
         switch (alertType) {
