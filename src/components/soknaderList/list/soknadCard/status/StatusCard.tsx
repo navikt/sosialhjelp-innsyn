@@ -1,7 +1,6 @@
 "use client";
 
-import { ExclamationmarkTriangleIcon } from "@navikt/aksel-icons";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
 import { Tag } from "@navikt/ds-react";
@@ -9,9 +8,7 @@ import { Tag } from "@navikt/ds-react";
 import DigisosLinkCard, { Props } from "@components/statusCard/DigisosLinkCard";
 import { useFlag } from "@featuretoggles/context";
 
-import BehandlingsStatusTag, { VedtakProgress } from "./BehandlingStatusTag";
-
-export type BehandlingsStatus = "mottatt" | "under_behandling" | "ferdigbehandlet_nylig" | "ferdigbehandlet_eldre";
+import BehandlingsStatusTag, { BehandlingsStatus, VedtakProgress } from "./BehandlingStatusTag";
 
 type StatusCardProps = Omit<PropsWithChildren<Props>, "href"> & {
     id: string;
@@ -20,10 +17,11 @@ type StatusCardProps = Omit<PropsWithChildren<Props>, "href"> & {
     behandlingsStatus?: BehandlingsStatus;
     vedtakProgress?: VedtakProgress;
     alertTexts?: string[];
+    extraTags?: ReactNode[];
 };
 
 const StatusCard = (props: StatusCardProps) => {
-    const { tittel, sendtDato, behandlingsStatus, vedtakProgress, alertTexts } = props;
+    const { tittel, sendtDato, behandlingsStatus, vedtakProgress, extraTags } = props;
     const nySoknadSideToggle = useFlag("sosialhjelp.innsyn.ny_soknadside");
     const locale = useLocale();
     const t = useTranslations("StatusCard");
@@ -41,17 +39,7 @@ const StatusCard = (props: StatusCardProps) => {
                         </Tag>
                     )}
                     <BehandlingsStatusTag status={behandlingsStatus} vedtakProgress={vedtakProgress} />
-                    {alertTexts &&
-                        alertTexts.map((alertText) => (
-                            <Tag
-                                key={alertText}
-                                variant="warning-moderate"
-                                size="small"
-                                icon={<ExclamationmarkTriangleIcon />}
-                            >
-                                {alertText}
-                            </Tag>
-                        ))}
+                    {extraTags?.map((tag) => tag)}
                 </LinkCardFooter>
             }
             {...props}

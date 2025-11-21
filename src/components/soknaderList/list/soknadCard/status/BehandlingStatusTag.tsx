@@ -2,7 +2,7 @@ import { InboxIcon, PersonGavelIcon, CheckmarkIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { Tag } from "@navikt/ds-react";
 
-import { BehandlingsStatus } from "./StatusCard";
+export type BehandlingsStatus = "mottatt" | "under_behandling" | "ferdigbehandlet_nylig" | "ferdigbehandlet_eldre";
 
 export type VedtakProgress = {
     ferdigeSaker: number;
