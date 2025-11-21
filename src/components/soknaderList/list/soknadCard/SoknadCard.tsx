@@ -36,7 +36,7 @@ const SoknadCard = ({ sak }: Props) => {
 
         const oppgaveAlert =
             antallNyeOppgaver > 0 ? <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} /> : undefined;
-        const behandlingsTidAlert = sak.forelopigSvar?.harMottattForelopigSvar ? (
+        const behandlingstidAlert = sak.forelopigSvar?.harMottattForelopigSvar ? (
             <AlertTag alertType="forlenget_behandlingstid" />
         ) : undefined;
 
@@ -47,7 +47,7 @@ const SoknadCard = ({ sak }: Props) => {
                 sendtDato={sistOppdatert}
                 behandlingsStatus="under_behandling"
                 vedtakProgress={vedtakProgress}
-                extraTags={[oppgaveAlert, behandlingsTidAlert]}
+                extraTags={[oppgaveAlert, behandlingstidAlert]}
             />
         );
     }
