@@ -12,7 +12,7 @@ const OppgaveTag = ({ frist, completed }: FristTagProps) => {
     const t = useTranslations("OppgaveTag");
     if (completed) {
         return (
-            <Tag variant="success" icon={<CheckmarkIcon />}>
+            <Tag variant="success-moderate" icon={<CheckmarkIcon />}>
                 {t("completed")}
             </Tag>
         );
