@@ -1,15 +1,8 @@
 import Link from "next/link";
-import {
-    LinkCard,
-    LinkCardTitle,
-    LinkCardDescription,
-    LinkCardAnchor,
-    LinkCardIcon,
-    LinkCardFooter,
-} from "@navikt/ds-react/LinkCard";
+import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor, LinkCardIcon } from "@navikt/ds-react/LinkCard";
 import React, { JSX, PropsWithChildren, ReactNode } from "react";
 import cx from "classnames";
-import { Box, VStack, Tag, TagProps } from "@navikt/ds-react";
+import { Box, VStack } from "@navikt/ds-react";
 
 import HoyreIkon from "./HoyreIkon";
 
@@ -17,19 +10,13 @@ export interface Props {
     href: string;
     description?: ReactNode;
     icon?: JSX.Element;
-    tags?: Tag[];
     variant?: "info" | "warning";
     dashed?: boolean;
     cardIcon?: "download" | "expand";
     underline?: boolean;
     analyticsEvent?: string;
     analyticsData?: Record<string, unknown>;
-}
-
-export interface Tag {
-    title: string;
-    variant: TagProps["variant"];
-    icon?: JSX.Element;
+    footer?: ReactNode;
 }
 
 interface IconProps {
@@ -62,13 +49,13 @@ const DigisosLinkCard = ({
     children,
     description,
     icon,
-    tags,
     variant = "info",
     dashed,
     cardIcon,
     underline = false,
     analyticsEvent,
     analyticsData,
+    footer,
 }: PropsWithChildren<Props>) => {
     const dataAttrs: Record<string, string> = {};
     if (analyticsEvent) {
@@ -105,15 +92,7 @@ const DigisosLinkCard = ({
             </LinkCardTitle>
             {description && <LinkCardDescription>{description}</LinkCardDescription>}
             <HoyreIkon ikon={cardIcon} />
-            {tags && (
-                <LinkCardFooter>
-                    {tags.map((tag) => (
-                        <Tag key={tag.title} variant={tag.variant} icon={tag.icon} size="small">
-                            {tag.title}
-                        </Tag>
-                    ))}
-                </LinkCardFooter>
-            )}
+            {footer && footer}
         </LinkCard>
     );
 };
