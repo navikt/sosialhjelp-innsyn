@@ -35,7 +35,7 @@
     },
     "ForelopigSvarAlert": {
         "tittel": "You have received a letter regarding an extended processing time.",
-        "beskrivelse": "<norsk>{navKontor}</norsk> sees that they are unable to process your application by the deadline and has sent you a letter. Open the letter to see when you can expect a response to your application."
+        "beskrivelse": "<norsk>{navKontor}</norsk> sees that they are unable to process your application by the deadline and has sent you a letter. Open the letter to see when you can expect a response to your application. <lenke>Click to scroll to the letter</lenke>."
     },
     "ForelopigSvar": {
         "tittel": "Letter from Nav",
