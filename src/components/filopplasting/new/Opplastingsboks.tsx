@@ -1,31 +1,17 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import {
-    Alert,
-    BodyShort,
-    Box,
-    Button,
-    FileObject,
-    FileUpload,
-    Heading,
-    HStack,
-    Link,
-    List,
-    VStack,
-} from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
-import { ListItem } from "@navikt/ds-react/List";
-import { filesize } from "filesize";
 
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
-import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
 
 import { umamiTrack } from "../../../app/umami";
 
@@ -48,10 +34,6 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
         isPending,
         isUploadSuccess,
     } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
-
-    const { data } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
-        query: { enabled: !!fiksDigisosId && !!metadata.hendelsereferanse },
-    });
 
     useNavigationGuard({
         enabled: files.length > 0,
@@ -83,21 +65,11 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     </HStack>
                     <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
                 </Box.New>
+                <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 {isUploadSuccess && (
                     <Alert closeButton onClose={resetMutation} variant="success">
                         {t("common.vedlegg.suksess")}
                     </Alert>
-                )}
-                {data?.length && (
-                    <List>
-                        {data.map((item) => (
-                            <ListItem key={item.url}>
-                                <Link href={item.url}>
-                                    {item.filnavn} ({filesize(item.storrelse)})
-                                </Link>
-                            </ListItem>
-                        ))}
-                    </List>
                 )}
             </VStack>
         );
@@ -132,7 +104,11 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     accept={allowedFileTypes}
                     error={
                         outerErrors.length > 0 ? (
-                            <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
+                            <ul>
+                                {outerErrors.map((it) => (
+                                    <li key={it.feil}>{t(`common.${errorStatusToMessage[it.feil]}`)}</li>
+                                ))}
+                            </ul>
                         ) : null
                     }
                 />
