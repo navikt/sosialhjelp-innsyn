@@ -1,10 +1,12 @@
 name: "Deploy Wonderwall for App"
-run-name: "Deploy Wonderwall for '${{ github.event.inputs.app-name }}'"
+run-name: "Deploy Wonderwall"
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'wonderwall/**'
   workflow_dispatch:
     inputs:
       app-name:
