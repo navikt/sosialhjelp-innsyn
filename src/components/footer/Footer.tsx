@@ -1,4 +1,4 @@
-import { Bleed, BodyShort, BoxNew, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
+import { Bleed, BodyLong, BoxNew, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { PropsWithChildren } from "react";
 
@@ -23,7 +23,7 @@ const Footer = async () => {
                     <Heading size="medium" level="2">
                         {t("trengerDuHjelp")}
                     </Heading>
-                    <BodyShort>
+                    <BodyLong>
                         {t.rich("kontaktNavKontor", {
                             tel: (chunks) => (
                                 <Link inlineText href="tel:+4755553333">
@@ -32,7 +32,7 @@ const Footer = async () => {
                             ),
                             lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                         })}
-                    </BodyShort>
+                    </BodyLong>
                 </VStack>
                 <VStack gap="2">
                     <Heading size="small" level="2">
@@ -40,17 +40,17 @@ const Footer = async () => {
                     </Heading>
                     <ReadMore header={t("ettersende.tittel")}>
                         <VStack gap="7">
-                            <BodyShort>{t("ettersende.content1")}</BodyShort>
-                            <BodyShort>
+                            <BodyLong>{t("ettersende.content1")}</BodyLong>
+                            <BodyLong>
                                 {t.rich("ettersende.content2", {
                                     lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                                 })}
-                            </BodyShort>
+                            </BodyLong>
                         </VStack>
                     </ReadMore>
                     <ReadMore header={t("melde.tittel")}>
                         <VStack gap="7">
-                            <BodyShort>
+                            <BodyLong>
                                 {t.rich("melde.content1", {
                                     lenke: (chunks) => (
                                         <Link
@@ -61,8 +61,8 @@ const Footer = async () => {
                                         </Link>
                                     ),
                                 })}
-                            </BodyShort>
-                            <BodyShort>
+                            </BodyLong>
+                            <BodyLong>
                                 {t.rich("melde.content2", {
                                     tel: (chunks) => (
                                         <Link inlineText href="tel:+4755553333">
@@ -71,8 +71,8 @@ const Footer = async () => {
                                     ),
                                     lenke: (chunks) => <NavKontorSok>{chunks}</NavKontorSok>,
                                 })}
-                            </BodyShort>
-                            <BodyShort>
+                            </BodyLong>
+                            <BodyLong>
                                 {t.rich("melde.content3", {
                                     tel: (chunks) => (
                                         <Link inlineText href="tel:+4755553333">
@@ -80,13 +80,13 @@ const Footer = async () => {
                                         </Link>
                                     ),
                                 })}
-                            </BodyShort>
+                            </BodyLong>
                         </VStack>
                     </ReadMore>
                     <ReadMore header={t("svar.tittel")}>
                         <VStack gap="7">
-                            <BodyShort>{t("svar.content1")}</BodyShort>
-                            <BodyShort>{t("svar.content2")}</BodyShort>
+                            <BodyLong>{t("svar.content1")}</BodyLong>
+                            <BodyLong>{t("svar.content2")}</BodyLong>
                         </VStack>
                     </ReadMore>
                 </VStack>
