@@ -19,14 +19,14 @@ const SoknadCard = ({ sak }: Props) => {
 
     const id = sak.fiksDigisosId!;
     const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : t("defaultTittel");
-    const sistOppdatert = new Date(sak.sistOppdatert);
+    const sendtDato = sak.soknadOpprettet ? new Date(sak.soknadOpprettet) : undefined;
     const forsteOppgaveFrist = sak.forsteOppgaveFrist ? new Date(sak.forsteOppgaveFrist) : undefined;
 
     if (sak.status === "MOTTATT") {
-        return <StatusCard id={id} tittel={sakTittel} sendtDato={sistOppdatert} behandlingsStatus="mottatt" />;
+        return <StatusCard id={id} tittel={sakTittel} sendtDato={sendtDato} behandlingsStatus="mottatt" />;
     }
     if (sak.status === "SENDT") {
-        return <StatusCard id={id} tittel={sakTittel} sendtDato={sistOppdatert} />;
+        return <StatusCard id={id} tittel={sakTittel} sendtDato={sendtDato} />;
     }
     if (sak.status === "UNDER_BEHANDLING") {
         const antallSaker = sak.saker?.length || 1;
@@ -44,7 +44,7 @@ const SoknadCard = ({ sak }: Props) => {
             <StatusCard
                 id={id}
                 tittel={sakTittel}
-                sendtDato={sistOppdatert}
+                sendtDato={sendtDato}
                 behandlingsStatus="under_behandling"
                 vedtakProgress={vedtakProgress}
                 extraTags={[oppgaveAlert, behandlingstidAlert]}
@@ -58,7 +58,7 @@ const SoknadCard = ({ sak }: Props) => {
             <StatusCard
                 id={id}
                 tittel={sakTittel}
-                sendtDato={sistOppdatert}
+                sendtDato={sendtDato}
                 behandlingsStatus={
                     ferdigbehandletAndOlderThan21Days(sak) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"
                 }
