@@ -74,7 +74,6 @@ const SaksoversiktDineSaker = ({ saker }: { saker: SaksListeResponse[] }) => {
                                 fiksDigisosId={sak.fiksDigisosId}
                                 tittel={sak.soknadTittel}
                                 oppdatert={sak.sistOppdatert}
-                                url={sak.url}
                             />
                         </li>
                     ))}

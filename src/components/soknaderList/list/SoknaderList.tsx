@@ -7,7 +7,7 @@ import { Box, Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 
 import { SaksListeResponse } from "@generated/model";
-import { SaksDetaljerResponse } from "@generated/ssr/model";
+import { SaksDetaljerResponse } from "@generated/model";
 import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 
@@ -19,6 +19,17 @@ import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
 interface Props {
     soknader: (PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse))[];
 }
+
+const sakKey = (sak: PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse)): string => {
+    if ("fiksDigisosId" in sak) {
+        return sak.fiksDigisosId;
+    }
+    if ("soknadId" in sak) {
+        return sak.soknadId;
+    }
+    // Fallback, bør ikke skje
+    return Math.random().toString(36).substring(2, 15);
+};
 
 const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("AktiveSoknader");
@@ -41,15 +52,7 @@ const SoknaderList = ({ soknader }: Props) => {
     return (
         <>
             {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((sak) => (
-                <Fragment
-                    key={
-                        "fiksDigisosId" in sak
-                            ? sak.fiksDigisosId
-                            : "soknadId" in sak
-                              ? sak.soknadId
-                              : sak.sistOppdatert
-                    }
-                >
+                <Fragment key={sakKey(sak)}>
                     {"fiksDigisosId" in sak && <SoknadCard key={sak.fiksDigisosId} sak={sak} />}
                     {"soknadId" in sak && (
                         <PaabegyntCard
