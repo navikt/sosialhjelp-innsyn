@@ -1504,7 +1504,8 @@
                     "sistOppdatert": { "type": "string", "format": "date-time" },
                     "kilde": { "type": "string" },
                     "url": { "type": "string" },
-                    "kommunenummer": { "type": "string" }
+                    "kommunenummer": { "type": "string" },
+                    "soknadOpprettet": { "type": "string", "format": "date-time" }
                 },
                 "required": ["kilde", "sistOppdatert", "soknadTittel"]
             },
