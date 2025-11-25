@@ -19,6 +19,10 @@
     "SingleSak": {
         "vedtak": "Vedtak"
     },
+    "SakListe": {
+        "dineSaker": "Dine saker",
+      "vilkar":  "Vilkår"
+    },
     "FileUploadItem": {
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskyttet og vi kan ikke behandle den",

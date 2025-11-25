@@ -1,12 +1,15 @@
 "use client";
 
 import React, { use } from "react";
+import { useParams } from "next/navigation";
+import { VStack } from "@navikt/ds-react";
 
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 import { VilkarResponse } from "@generated/ssr/model";
+import { useGetDokumentasjonkravBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
-import Sak from "./sak/Sak";
-import SingleSak from "./sak/SingleSak";
+import SakListe from "./sak/SakListe";
+import VilkarListe from "./vilkar/VilkarListe";
 
 interface Props {
     sakerPromise: Promise<SaksStatusResponse[]>;
@@ -18,36 +21,20 @@ const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
     const saker = use(sakerPromise);
     const vilkar = use(vilkarPromise);
     const klager = use(klagerPromise);
+    const { id } = useParams<{ id: string }>();
+    const { data } = useGetDokumentasjonkravBetaSuspense(id);
 
     if (!saker.length) {
         return null;
     }
-    if (saker.length === 1) {
-        const sak = saker[0];
-        return (
-            <SingleSak
-                sak={sak}
-                vilkar={vilkar.filter((it) => it.saksReferanse === sak.referanse)}
-                innsendtKlage={klager.find((klage) =>
-                    sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                )}
-            />
-        );
-    }
+
+    const alleDokumentasjonkrav = saker.flatMap((sak) => data.filter((it) => it.saksreferanse === sak.referanse));
 
     return (
-        <>
-            {saker.map((sak, index) => (
-                <Sak
-                    key={index}
-                    sak={sak}
-                    vilkar={vilkar.filter((it) => it.saksReferanse === sak.referanse)}
-                    innsendtKlage={klager.find((klage) =>
-                        sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                    )}
-                />
-            ))}
-        </>
+        <VStack gap="20">
+            <SakListe saker={saker} klager={klager} />
+            {vilkar.length > 0 && <VilkarListe vilkar={vilkar} dokumentasjonkrav={alleDokumentasjonkrav} />}
+        </VStack>
     );
 };
 

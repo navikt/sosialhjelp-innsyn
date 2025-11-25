@@ -19,6 +19,10 @@
     "SingleSak": {
         "vedtak": "Decision"
     },
+    "SakListe": {
+        "dineSaker": "Your cases",
+      "vilkar": "Conditions"
+    },
     "FileUploadItem": {
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
