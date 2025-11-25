@@ -78,7 +78,7 @@ const DigisosLinkCard = ({
             )}
         >
             {icon && <Icon variant={variant} icon={icon} />}
-            <LinkCardTitle className="items-center">
+            <LinkCardTitle className="flex items-center justify-between">
                 <LinkCardAnchor
                     asChild
                     className={cx(
@@ -89,9 +89,9 @@ const DigisosLinkCard = ({
                         {children}
                     </Link>
                 </LinkCardAnchor>
+                <HoyreIkon ikon={cardIcon} />
             </LinkCardTitle>
             {description && <LinkCardDescription>{description}</LinkCardDescription>}
-            <HoyreIkon ikon={cardIcon} />
             {footer}
         </LinkCard>
     );

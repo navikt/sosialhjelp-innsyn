@@ -9,24 +9,13 @@ const HoyreIkon = ({ ikon }: HoyreIkonProps) => {
     switch (ikon) {
         case "download":
             return (
-                <DownloadIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
+                <DownloadIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />
             );
         case "expand":
-            return (
-                <ExpandIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
-            );
+            return <ExpandIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />;
         default:
             return (
-                <ArrowRightIcon
-                    fontSize="1.75rem"
-                    className="navds-link-anchor__arrow pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                />
+                <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />
             );
     }
 };
