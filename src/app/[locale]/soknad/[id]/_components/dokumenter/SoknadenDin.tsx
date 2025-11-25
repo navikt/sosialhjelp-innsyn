@@ -25,7 +25,6 @@ const SoknadenDin = () => {
                 <DigisosLinkCard
                     href={originalSoknad.url}
                     icon={<FileIcon />}
-                    underline={true}
                     cardIcon="expand"
                     description={
                         <>

@@ -1,4 +1,4 @@
-import { ArrowRightIcon, DownloadIcon, ExpandIcon } from "@navikt/aksel-icons";
+import { DownloadIcon, ExpandIcon } from "@navikt/aksel-icons";
 import React from "react";
 
 interface HoyreIkonProps {
@@ -14,9 +14,7 @@ const HoyreIkon = ({ ikon }: HoyreIkonProps) => {
         case "expand":
             return <ExpandIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />;
         default:
-            return (
-                <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />
-            );
+            return null;
     }
 };
 
