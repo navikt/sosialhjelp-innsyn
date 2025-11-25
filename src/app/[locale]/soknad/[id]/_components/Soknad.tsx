@@ -80,11 +80,6 @@ export const Soknad = async ({ id }: Props) => {
                     </Suspense>
                 )}
             </VStack>
-            {forelopigSvarPromise && (
-                <Suspense fallback={null}>
-                    <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
-                </Suspense>
-            )}
             {sakerPromise && klagerPromise && (
                 <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
@@ -107,6 +102,11 @@ export const Soknad = async ({ id }: Props) => {
                     <Dokumenter />
                 </HydrationBoundary>
             </Suspense>
+            {forelopigSvarPromise && (
+                <Suspense fallback={null}>
+                    <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
+                </Suspense>
+            )}
             <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
                 <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
