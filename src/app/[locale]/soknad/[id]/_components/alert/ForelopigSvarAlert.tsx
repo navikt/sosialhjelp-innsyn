@@ -3,6 +3,8 @@
 import { use } from "react";
 import { useTranslations } from "next-intl";
 import { BodyShort, Heading } from "@navikt/ds-react";
+import Link from "next/link";
+import { Link as AkselLink } from "@navikt/ds-react";
 
 import { ForelopigSvarResponse } from "@generated/ssr/model";
 import AlertWithCloseButton from "@components/alert/AlertWithCloseButton";
@@ -24,7 +26,15 @@ const ForelopigSvarAlert = ({ forelopigSvarPromise, navKontor }: Props) => {
                 {t("tittel")}
             </Heading>
             <BodyShort>
-                {t.rich("beskrivelse", { norsk: (chunks) => <span lang="no">{chunks}</span>, navKontor })}
+                {t.rich("beskrivelse", {
+                    norsk: (chunks) => <span lang="no">{chunks}</span>,
+                    navKontor,
+                    lenke: (chunks) => (
+                        <AkselLink as={Link} href="#forsinket-saksbehandling" inlineText>
+                            {chunks}
+                        </AkselLink>
+                    ),
+                })}
             </BodyShort>
         </AlertWithCloseButton>
     );

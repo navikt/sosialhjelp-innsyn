@@ -49,7 +49,7 @@
     },
     "ForelopigSvarAlert": {
         "tittel": "Du har fått et brev om forlenget saksbehandlingstid",
-        "beskrivelse": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen fristen, og har sendt deg et brev. Åpne brevet for å se når du kan forvente svar på søknaden din."
+        "beskrivelse": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen fristen, og har sendt deg et brev. Åpne brevet for å se når du kan forvente svar på søknaden din. <lenke>Trykk for å skrolle ned til brevet</lenke>."
     },
     "ForelopigSvar": {
         "tittel": "Brev fra Nav",
@@ -138,15 +138,17 @@
     "Saksprosessen": {
         "tittel": "Saksprosessen"
     },
+    "OppgaveTag": {
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "completed": "Sendt inn"
+    },
     "Oppgaver": {
-        "tittel": "Etterspurte dokumenter",
+        "tittel": "Dine opppgaver",
         "visFullforte": "Vis fullførte oppgaver",
         "ingenOppgaver": {
             "tittel": "Du har ingen oppgaver",
             "beskrivelse": "Dersom du blir bedt om å ettersende dokumentasjon, vil det dukke opp her."
         },
-        "frist": "Frist: {frist, date, ::ddMMyyyy}",
-        "løst": "Sendt inn",
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
     "OversiktSteps": {
