@@ -18,7 +18,7 @@ const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
     }
     return (
         <HStack gap="4">
-            <Sakstittel fontSize="medium" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
+            <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
             <Vedtak
                 vedtakUtfall={sak.utfallVedtak}
                 vedtaksliste={sak.vedtaksfilUrlList}

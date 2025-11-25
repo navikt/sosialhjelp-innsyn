@@ -17,7 +17,7 @@ const Sak = ({ sak, innsendtKlage }: Props) => {
     }
     return (
         <VStack gap="4">
-            <Sakstittel fontSize="medium" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
+            <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
             <Vedtak
                 vedtakUtfall={sak.utfallVedtak}
                 vedtaksliste={sak.vedtaksfilUrlList}

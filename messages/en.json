@@ -16,9 +16,6 @@
             "FERDIGBEHANDLET": "Remember to read the notice of decision."
         }
     },
-    "SingleSak": {
-        "vedtak": "Decision"
-    },
     "SakListe": {
         "dineSaker": "Your cases",
       "vilkar": "Conditions"
