@@ -51,9 +51,9 @@ const SoknaderList = ({ soknader }: Props) => {
                     }
                 >
                     {"fiksDigisosId" in sak && <SoknadCard key={sak.fiksDigisosId} sak={sak} />}
-                    {true && (
+                    {"soknadId" in sak && (
                         <PaabegyntCard
-                            soknadId="hhh"
+                            soknadId={sak.soknadId}
                             keptUntil={addDays(new Date(sak.sistOppdatert), 21)}
                             key={sak.sistOppdatert}
                         />
