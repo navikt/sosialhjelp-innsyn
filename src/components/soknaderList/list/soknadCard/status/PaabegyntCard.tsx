@@ -12,14 +12,12 @@ interface Props {
 }
 
 const PaabegyntCard = ({ soknadId, keptUntil }: Props) => {
-    const t = useTranslations("StatusCard.PaabegyntCard");
+    const t = useTranslations("PaabegyntCard");
     const locale = useLocale();
 
     return (
         <DigisosLinkCard
             href={`${browserEnv.NEXT_PUBLIC_INNSYN_ORIGIN}/sosialhjelp/soknad/${locale}/skjema/${soknadId}/1`}
-            variant="info"
-            dashed
             footer={
                 <LinkCardFooter>
                     <Tag key="paabegynt" variant="neutral-moderate" icon={<NotePencilDashIcon />} size="small">

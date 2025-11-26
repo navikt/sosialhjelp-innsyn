@@ -280,6 +280,11 @@
         "defaultTittel": "Application for financial assistance",
         "status": "Status: {status}"
     },
+    "PaabegyntCard": {
+        "title": "Begun application for financial social assistance",
+        "keptUntil": "Saved until {date, date, ::ddMMyyyy}",
+        "paabegynt": "Begun"
+    },
     "DatoTag": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "mottatt": "Received {dato, date, ::ddMMyyyy}"
