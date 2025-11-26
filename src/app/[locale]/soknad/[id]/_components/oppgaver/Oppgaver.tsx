@@ -39,7 +39,7 @@ const Oppgaver = () => {
                 </HStack>
                 {!showCompletedOppgaver && oppgaver.every((oppgave) => oppgave.erLastetOpp) && (
                     <LinkCard arrow={false} className="pointer-events-none">
-                        <Icon icon={<FaceSmileIcon />} variant="info" />
+                        <Icon icon={<FaceSmileIcon />} />
                         <LinkCard.Title as="h3">{t("ingenOppgaver.tittel")}</LinkCard.Title>
                         <LinkCard.Description>{t("ingenOppgaver.beskrivelse")}</LinkCard.Description>
                     </LinkCard>
