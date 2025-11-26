@@ -24,7 +24,7 @@ export const Icon = ({ icon }: IconProps) => (
         justify="center"
         align="center"
         asChild
-        className="rounded-xl p-4  bg-ax-bg-accent-soft text-ax-bg-accent-strong group-hover:bg-ax-bg-accent-moderate group-hover:text-ax-bg-accent-strong-hover"
+        className="rounded-xl p-4 bg-ax-bg-accent-soft text-ax-bg-accent-strong"
     >
         <LinkCardIcon>
             <Box asChild className="w-8 h-8">
