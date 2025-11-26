@@ -1502,12 +1502,11 @@
                     "fiksDigisosId": { "type": "string" },
                     "soknadTittel": { "type": "string" },
                     "sistOppdatert": { "type": "string", "format": "date-time" },
-                    "kilde": { "type": "string" },
-                    "url": { "type": "string" },
                     "kommunenummer": { "type": "string" },
-                    "soknadOpprettet": { "type": "string", "format": "date-time" }
+                    "soknadOpprettet": { "type": "string", "format": "date-time" },
+                    "isPapirSoknad": { "type": "boolean" }
                 },
-                "required": ["kilde", "sistOppdatert", "soknadTittel"]
+                "required": ["fiksDigisosId", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
             },
             "ForelopigSvar": {
                 "type": "object",
@@ -1546,7 +1545,8 @@
                     "vilkar": { "type": "boolean" },
                     "forelopigSvar": { "$ref": "#/components/schemas/ForelopigSvar" },
                     "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } },
-                    "forsteOppgaveFrist": { "type": "string", "format": "date" }
+                    "forsteOppgaveFrist": { "type": "string", "format": "date" },
+                    "mottattTidspunkt": { "type": "string", "format": "date-time" }
                 },
                 "required": [
                     "dokumentasjonEtterspurt",
