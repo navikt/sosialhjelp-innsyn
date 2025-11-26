@@ -20,7 +20,12 @@ interface IconProps {
 }
 
 export const Icon = ({ icon }: IconProps) => (
-    <VStack justify="center" align="center" asChild className="rounded-xl p-4">
+    <VStack
+        justify="center"
+        align="center"
+        asChild
+        className="rounded-xl p-4  bg-ax-bg-accent-soft text-ax-bg-accent-strong group-hover:bg-ax-bg-accent-moderate group-hover:text-ax-bg-accent-strong-hover"
+    >
         <LinkCardIcon>
             <Box asChild className="w-8 h-8">
                 {icon}
