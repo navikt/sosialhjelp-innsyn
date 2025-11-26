@@ -1,4 +1,4 @@
-import { ExclamationmarkTriangleIcon } from "@navikt/aksel-icons";
+import { ExclamationmarkTriangleIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 import { Tag } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
@@ -9,31 +9,28 @@ type Props = {
     deadline?: Date;
 };
 
-const AlertTag = ({ alertType, deadline }: Props) => {
+const AlertTagText = ({ alertType, deadline }: Props) => {
     const t = useTranslations("AlertTexts");
-
-    const getAlertText = (): string => {
-        switch (alertType) {
-            case "oppgave":
-                return deadline ? t("oppgaveMedFrist", { frist: deadline }) : t("oppgaver");
-            case "vilkaar":
-                return deadline ? t("vilkarsfrist", { frist: deadline }) : t("vilkar");
-            case "forlenget_behandlingstid":
-                return t("forlengetSaksbehandlingsTid");
-            default:
-                return "";
-        }
-    };
-
-    const alertText = getAlertText();
-
-    if (!alertText) {
-        return null;
+    switch (alertType) {
+        case "oppgave":
+            return deadline ? t("oppgaveMedFrist", { frist: deadline }) : t("oppgaver");
+        case "vilkaar":
+            return deadline ? t("vilkarsfrist", { frist: deadline }) : t("vilkar");
+        case "forlenget_behandlingstid":
+            return t("forlengetSaksbehandlingsTid");
     }
+};
 
+const AlertTag = ({ alertType, deadline }: Props) => {
     return (
-        <Tag variant="warning-moderate" size="small" icon={<ExclamationmarkTriangleIcon />}>
-            {alertText}
+        <Tag
+            variant="warning-moderate"
+            size="small"
+            icon={
+                alertType === "forlenget_behandlingstid" ? <InformationSquareIcon /> : <ExclamationmarkTriangleIcon />
+            }
+        >
+            <AlertTagText alertType={alertType} deadline={deadline} />
         </Tag>
     );
 };
