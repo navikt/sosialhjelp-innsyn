@@ -28,14 +28,14 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
                         href="/utbetalinger"
                         description={utbetaling.tittel}
                         footer={
-                            utbetaling.utbetalingsdato && (
+                            utbetaling.forfallsdato && (
                                 <LinkCardFooter>
                                     <Tag
                                         variant="info-moderate"
                                         size="small"
                                         icon={<CalendarIcon aria-hidden={true} />}
                                     >
-                                        {t("utbetales", { dato: new Date(utbetaling.utbetalingsdato) })}
+                                        {t("utbetales", { dato: new Date(utbetaling.forfallsdato) })}
                                     </Tag>
                                 </LinkCardFooter>
                             )
