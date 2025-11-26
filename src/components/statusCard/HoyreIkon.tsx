@@ -8,11 +8,9 @@ interface HoyreIkonProps {
 const HoyreIkon = ({ ikon }: HoyreIkonProps) => {
     switch (ikon) {
         case "download":
-            return (
-                <DownloadIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />
-            );
+            return <DownloadIcon fontSize="1.75rem" className="shrink-0" />;
         case "expand":
-            return <ExpandIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none shrink-0" />;
+            return <ExpandIcon fontSize="1.75rem" className="shrink-0" />;
         default:
             return null;
     }
