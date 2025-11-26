@@ -1,12 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Tag } from "@navikt/ds-react";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
 
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { SaksListeResponse } from "@generated/model";
 import BehandlingsStatusTag from "@components/soknaderList/list/soknadCard/status/BehandlingStatusTag";
+import DatoTag from "@components/soknaderList/list/soknadCard/DatoTag";
 
 import { ferdigbehandletAndOlderThan21Days } from "../soknaderUtils";
 
@@ -30,15 +30,7 @@ const SoknadCard = ({ sak }: Props) => {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
-                    {mottattDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("mottatt", { dato: mottattDato })}
-                        </Tag>
-                    ) : sendtDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("sendt", { dato: sendtDato })}
-                        </Tag>
-                    ) : null}
+                    <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     {!mottattDato && <BehandlingsStatusTag status="mottatt" />}
                 </LinkCardFooter>
             </StatusCard>
@@ -48,15 +40,7 @@ const SoknadCard = ({ sak }: Props) => {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
-                    {mottattDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("mottatt", { dato: mottattDato })}
-                        </Tag>
-                    ) : sendtDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("sendt", { dato: sendtDato })}
-                        </Tag>
-                    ) : null}
+                    <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                 </LinkCardFooter>
             </StatusCard>
         );
@@ -70,15 +54,7 @@ const SoknadCard = ({ sak }: Props) => {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
-                    {mottattDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("mottatt", { dato: mottattDato })}
-                        </Tag>
-                    ) : sendtDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("sendt", { dato: sendtDato })}
-                        </Tag>
-                    ) : null}
+                    <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     <BehandlingsStatusTag status="under_behandling" vedtakProgress={vedtakProgress} />
                     {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
                     {sak.forelopigSvar?.harMottattForelopigSvar && <AlertTag alertType="forlenget_behandlingstid" />}
@@ -90,15 +66,7 @@ const SoknadCard = ({ sak }: Props) => {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
-                    {mottattDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("mottatt", { dato: mottattDato })}
-                        </Tag>
-                    ) : sendtDato ? (
-                        <Tag variant="neutral-moderate" size="small">
-                            {t("sendt", { dato: sendtDato })}
-                        </Tag>
-                    ) : null}
+                    <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     <BehandlingsStatusTag
                         status={
                             ferdigbehandletAndOlderThan21Days(sak) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"

@@ -248,9 +248,11 @@
     },
     "SoknadCard": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
-        "sendt": "Sendt {dato, date, ::ddMMyyyy}",
-        "mottatt": "Mottatt {dato, date, ::ddMMyyyy}",
         "status": "Status: {status}"
+    },
+    "DatoTag": {
+        "sendt": "Sendt {dato, date, ::ddMMyyyy}",
+        "mottatt": "Mottatt {dato, date, ::ddMMyyyy}"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",

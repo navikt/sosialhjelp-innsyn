@@ -277,9 +277,11 @@
     },
     "SoknadCard": {
         "defaultTittel": "Application for financial assistance",
-        "sendt": "Sent {dato, date, ::ddMMyyyy}",
-        "mottatt": "Received {dato, date, ::ddMMyyyy}",
         "status": "Status: {status}"
+    },
+    "DatoTag": {
+        "sendt": "Sent {dato, date, ::ddMMyyyy}",
+        "mottatt": "Received {dato, date, ::ddMMyyyy}"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Extended processing time",
