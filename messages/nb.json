@@ -254,6 +254,11 @@
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "mottatt": "Mottatt {dato, date, ::ddMMyyyy}"
     },
+    "PaabegyntCard": {
+        "title": "Påbegynt søknad om økonomisk sosialhjelp",
+        "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}",
+        "paabegynt": "Påbegynt"
+    },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
         "oppgaver": "Oppgaver",

@@ -12,7 +12,7 @@ interface Props {
 }
 
 const PaabegyntCard = ({ soknadId, keptUntil }: Props) => {
-    const t = useTranslations("StatusCard.PaabegyntCard");
+    const t = useTranslations("PaabegyntCard");
     const locale = useLocale();
 
     return (

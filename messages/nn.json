@@ -279,6 +279,11 @@
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
         "status": "Status: {status}"
     },
+    "PaabegyntCard": {
+        "title": "Påbyrja søknad om økonomisk sosialhjelp",
+        "keptUntil": "Blir behalde fram til {date, date, ::ddMMyyyy}",
+        "paabegynt": "Påbyrja"
+    },
     "DatoTag": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "mottatt": "Teke imot {dato, date, ::ddMMyyyy}"
