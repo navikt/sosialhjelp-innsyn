@@ -31,9 +31,7 @@ const loading = http.get("*/api/v1/innsyn/saker", async () => {
 
 const success = getHentAlleSakerMockHandler([
     {
-        kilde: "innsyn-api",
         soknadTittel: "Default søknad",
-        url: faker.internet.url(),
         sistOppdatert: `${faker.date.past().toISOString().split(".")[0]}Z`,
         fiksDigisosId: faker.string.alphanumeric(5),
     } as SaksListeResponse,

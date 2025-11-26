@@ -14,19 +14,17 @@ const SakPanel = ({
     fiksDigisosId,
     tittel,
     oppdatert,
-    url,
 }: {
-    fiksDigisosId?: string;
+    fiksDigisosId: string;
     tittel: string;
     oppdatert: string;
-    url: string | undefined;
 }) => {
     const { data: saksdetaljer, isLoading } = useGetSaksDetaljer(fiksDigisosId ?? "", {
         query: { enabled: !!fiksDigisosId },
     });
     const locale = useLocale();
     const t = useTranslations("common");
-    const linkpanelUrl = fiksDigisosId ? `${locale}/${fiksDigisosId}/status` : url;
+    const linkpanelUrl = `${locale}/${fiksDigisosId}/status`;
 
     const oppdatertTittel = useMemo(() => {
         if (saksdetaljer && saksdetaljer.soknadTittel?.length > 0) {

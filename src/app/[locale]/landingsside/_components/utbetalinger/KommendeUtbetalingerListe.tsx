@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Tag, VStack } from "@navikt/ds-react";
+import { Box, Button, Tag } from "@navikt/ds-react";
 import { CalendarIcon, ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { useFormatter, useTranslations } from "next-intl";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";

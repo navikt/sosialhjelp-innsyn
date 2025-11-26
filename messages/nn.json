@@ -276,13 +276,13 @@
     "TidligereSoknader": {
         "tittel": "Tidlegare søknader"
     },
-    "StatusCard": {
+    "SoknadCard": {
+        "defaultTittel": "Søknad om økonomisk sosialhjelp",
+        "status": "Status: {status}"
+    },
+    "DatoTag": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
-        "PaabegyntCard": {
-            "title": "Påbyrja søknad om økonomisk sosialhjelp",
-            "paabegynt": "Påbyrja",
-            "keptUntil": "Blir behalde fram til {date, date, ::ddMMyyyy}"
-        }
+        "mottatt": "Teke imot {dato, date, ::ddMMyyyy}"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlengde saksbehandlingstid",

@@ -276,13 +276,13 @@
     "TidligereSoknader": {
         "tittel": "Previous applications"
     },
-    "StatusCard": {
+    "SoknadCard": {
+        "defaultTittel": "Application for financial assistance",
+        "status": "Status: {status}"
+    },
+    "DatoTag": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
-        "PaabegyntCard": {
-            "title": "Begun application for financial social assistance",
-            "paabegynt": "Begun",
-            "keptUntil": "Saved until {date, date, ::ddMMyyyy}"
-        }
+        "mottatt": "Received {dato, date, ::ddMMyyyy}"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Extended processing time",
