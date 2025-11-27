@@ -1,25 +1,14 @@
-"use client";
-
-import React, { useEffect } from "react";
-import { logger } from "@navikt/next-logger";
+import React, { ReactNode } from "react";
 import { BodyShort, Box, Button, Heading, List } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
 import { ListItem } from "@navikt/ds-react/List";
 import { ArrowLeftIcon } from "@navikt/aksel-icons";
+import { useTranslations } from "next-intl";
 
-import TrengerDuRaskHjelp from "@components/error/TrengerDuRaskHjelp";
 import { Link } from "@i18n/navigation";
+import TrengerDuRaskHjelp from "@components/error/TrengerDuRaskHjelp";
 
-interface Props {
-    error: Error & { digest?: string };
-}
-
-export const Error = ({ error }: Props) => {
+const ErrorPage = (): ReactNode => {
     const t = useTranslations("ErrorPage");
-    useEffect(() => {
-        logger.error(error);
-    }, [error]);
-
     return (
         <>
             <Box.New className="my-20">
@@ -41,4 +30,4 @@ export const Error = ({ error }: Props) => {
     );
 };
 
-export default Error;
+export default ErrorPage;

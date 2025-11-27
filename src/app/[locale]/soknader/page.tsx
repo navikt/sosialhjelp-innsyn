@@ -16,7 +16,6 @@ const Page = async () => {
     if (!toggle.enabled) {
         return notFound();
     }
-
     return (
         <>
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
