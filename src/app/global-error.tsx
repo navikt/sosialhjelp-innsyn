@@ -2,27 +2,67 @@
 
 import Cookie from "js-cookie";
 import { logger } from "@navikt/next-logger";
+import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
+import React, { useEffect, useState } from "react";
+import { NextIntlClientProvider } from "next-intl";
+import { pick } from "remeda";
+import { Loader, Theme } from "@navikt/ds-react";
+import { Page, PageBlock } from "@navikt/ds-react/Page";
 
-import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "../i18n/common";
-import ServerError from "../pages/500";
+import decoratorParams from "@config/decoratorConfig";
+import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
+import ErrorPage from "@components/error/ErrorPage";
+
+import Preload from "./preload";
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
     const langCookie = Cookie.get(DECORATOR_LOCALE_COOKIE_NAME);
     const locale = langCookie && isSupportedLocale(langCookie) ? langCookie : "nb";
 
     logger.error(`Uncaught clientside error: ${error.name}, global-error.tsx shown. Error: ${error}`);
+    const [messages, setMessages] = useState<Record<string, unknown> | null>();
 
+    useEffect(() => {
+        import(`../../messages/${locale}.json`)
+            .then((messages) => {
+                setMessages(pick(messages, ["ErrorPage", "TrengerDuRaskHjelp"]));
+            })
+            .catch((e) => {
+                logger.error(`Klarte ikke å hente messages i global-error.tsx. ${e}`);
+            });
+    }, [locale]);
+
+    useEffect(() => {
+        if (messages) {
+            injectDecoratorClientSide(decoratorParams(locale));
+        }
+    }, [messages, locale]);
+
+    if (!messages) {
+        return <Loader />;
+    }
+
+    const htmlTitle = (messages["ErrorPage"] as Record<string, string>)["htmlTitle"];
     return (
         <html lang={locale}>
             <head>
-                <title>Teknisk feil | Økonomisk sosialhjelp</title>
+                <title>{htmlTitle}</title>
+                <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
+            <Preload />
             <body>
-                <div id="root" role="none">
-                    <div className="min-h-[50vh]">
-                        <ServerError />
-                    </div>
-                </div>
+                <Page>
+                    <Theme theme="light">
+                        <PageBlock as="main" width="md" gutters className="mb-16">
+                            {!messages && <Loader size="3xlarge" />}
+                            {messages && (
+                                <NextIntlClientProvider locale={locale} messages={messages}>
+                                    <ErrorPage />
+                                </NextIntlClientProvider>
+                            )}
+                        </PageBlock>
+                    </Theme>
+                </Page>
             </body>
         </html>
     );
