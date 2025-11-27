@@ -299,7 +299,7 @@
         "mottatt": "Motteken",
         "underBehandling": "Under behandling",
         "ferdigbehandlet": "Ferdigbehandla",
-        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker ferdigbehandla"
+        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandla"
     },
     "Snarveier": {
         "tittel": "Snarvegar",
