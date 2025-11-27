@@ -12,17 +12,16 @@ interface Props {
 }
 
 const Sak = ({ sak, innsendtKlage }: Props) => {
-    if (!sak.utfallVedtak) {
-        return null;
-    }
     return (
         <VStack gap="4">
             <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
-            <Vedtak
-                vedtakUtfall={sak.utfallVedtak}
-                vedtaksliste={sak.vedtaksfilUrlList}
-                innsendtKlage={innsendtKlage}
-            />
+            {sak.utfallVedtak && (
+                <Vedtak
+                    vedtakUtfall={sak.utfallVedtak}
+                    vedtaksliste={sak.vedtaksfilUrlList}
+                    innsendtKlage={innsendtKlage}
+                />
+            )}
         </VStack>
     );
 };

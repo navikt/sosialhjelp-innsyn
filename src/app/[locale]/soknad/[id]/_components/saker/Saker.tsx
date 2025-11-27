@@ -31,7 +31,7 @@ const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
     const alleDokumentasjonkrav = saker.flatMap((sak) => data.filter((it) => it.saksreferanse === sak.referanse));
 
     return (
-        <VStack gap="20">
+        <VStack gap="16">
             <SakListe saker={saker} klager={klager} />
             {vilkar.length > 0 && <VilkarListe vilkar={vilkar} dokumentasjonkrav={alleDokumentasjonkrav} />}
         </VStack>
