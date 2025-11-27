@@ -28,7 +28,7 @@ const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
         return null;
     }
 
-    const alleDokumentasjonkrav = saker.flatMap((sak) => data.filter((it) => it.saksreferanse === sak.referanse));
+    const alleDokumentasjonkrav = data;
 
     return (
         <VStack gap="16">
