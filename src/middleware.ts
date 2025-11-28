@@ -27,7 +27,6 @@ export async function middleware(request: NextRequest) {
     if (response.ok) {
         const toggles = await getToggles();
 
-        const utbetalingsideToggle = getFlag("sosialhjelp.innsyn.ny_utbetalinger_side", toggles);
         const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
 
         const [, , , locale, ...rest] = new URL(
@@ -39,7 +38,7 @@ export async function middleware(request: NextRequest) {
             response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/landingsside`, request.url), {
                 headers: response.headers,
             });
-        } else if (pathname === "/utbetaling" && utbetalingsideToggle.enabled) {
+        } else if (pathname === "/utbetaling") {
             response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/utbetalinger`, request.url), {
                 headers: response.headers,
             });

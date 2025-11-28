@@ -271,7 +271,7 @@
         "mottatt": " Mottatt",
         "underBehandling": "Under behandling",
         "ferdigbehandlet": "Ferdigbehandlet",
-        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} ferdig behandlet"
+        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdig behandlet"
     },
     "Snarveier": {
         "tittel": "Snarveier",
