@@ -16,8 +16,9 @@
             "FERDIGBEHANDLET": "Husk å les vedtaksbrevet."
         }
     },
-    "SingleSak": {
-        "vedtak": "Vedtak"
+    "SakListe": {
+        "dineSaker": "Dine saker",
+      "vilkar":  "Vilkår"
     },
     "FileUploadItem": {
         "validation": {
