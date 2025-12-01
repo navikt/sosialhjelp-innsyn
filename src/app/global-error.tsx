@@ -55,20 +55,15 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
 
     onLanguageSelect(async () => {
         router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
-        window.location.reload();
+        router.refresh();
     });
 
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
 
-    if (!messages) {
-        return <Loader />;
-    }
-
-    const htmlTitle = (messages["ErrorPage"] as Record<string, string>)["htmlTitle"];
     return (
         <html lang={locale}>
             <head>
-                <title>{htmlTitle}</title>
+                {messages && <title>{(messages["ErrorPage"] as Record<string, string>)["htmlTitle"]}</title>}
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
             <Preload />
