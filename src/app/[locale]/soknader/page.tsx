@@ -9,6 +9,7 @@ import Footer from "@components/footer/Footer";
 import Snarveier from "@components/snarveier/Snarveier";
 
 import TidligereSoknader from "./_components/TidligereSoknader";
+import SoknaderSnarveier from "./_components/SoknaderSnarveier";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_soknaderside", await getToggles());
@@ -27,7 +28,9 @@ const Page = async () => {
 
                 <AktiveSoknader />
                 <TidligereSoknader />
-                <Snarveier />
+                <Snarveier>
+                    <SoknaderSnarveier />
+                </Snarveier>
                 <Footer />
             </VStack>
         </>
