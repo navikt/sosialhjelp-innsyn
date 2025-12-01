@@ -1,7 +1,7 @@
 "use client";
 
 import Cookie from "js-cookie";
-import { logger } from "@navikt/next-logger";
+import { configureLogger, logger } from "@navikt/next-logger";
 import { injectDecoratorClientSide, onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import React, { useEffect, useState } from "react";
 import { NextIntlClientProvider } from "next-intl";
@@ -13,8 +13,18 @@ import { usePathname, useRouter } from "next/navigation";
 import decoratorParams from "@config/decoratorConfig";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import ErrorPage from "@components/error/ErrorPage";
+import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 
 import Preload from "./preload";
+
+initInstrumentation();
+configureLogger({
+    basePath: "/sosialhjelp/innsyn",
+    onLog: (log) =>
+        getFaro()?.api.pushLog(log.messages, {
+            level: pinoLevelToFaroLevel(log.level.label),
+        }),
+});
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
     const langCookie = Cookie.get(DECORATOR_LOCALE_COOKIE_NAME);
@@ -42,16 +52,16 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
     const router = useRouter();
     const pathname = usePathname();
 
-    if (!messages) {
-        return <Loader />;
-    }
-
     onLanguageSelect(async () => {
         router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
         return router.refresh();
     });
 
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
+
+    if (!messages) {
+        return <Loader />;
+    }
 
     const htmlTitle = (messages["ErrorPage"] as Record<string, string>)["htmlTitle"];
     return (
