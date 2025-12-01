@@ -26,6 +26,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     const Decorator = await fetchDecoratorReact(props);
     const messages = await getMessages({ locale });
 
+    throw new Error("Dette er en test");
     return (
         <html lang={locale || "nb"}>
             <head>
