@@ -55,7 +55,7 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
 
     onLanguageSelect(async () => {
         router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
-        return router.refresh();
+        window.location.reload();
     });
 
     onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
