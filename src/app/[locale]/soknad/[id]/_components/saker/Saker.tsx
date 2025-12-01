@@ -22,13 +22,11 @@ const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
     const vilkar = use(vilkarPromise);
     const klager = use(klagerPromise);
     const { id } = useParams<{ id: string }>();
-    const { data } = useGetDokumentasjonkravBetaSuspense(id);
+    const { data: alleDokumentasjonkrav } = useGetDokumentasjonkravBetaSuspense(id);
 
     if (!saker.length) {
         return null;
     }
-
-    const alleDokumentasjonkrav = data;
 
     return (
         <VStack gap="16">
