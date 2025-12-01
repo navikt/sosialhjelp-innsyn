@@ -12,7 +12,7 @@ function createDecoratorEnv(): "dev" | "prod" {
         case "prod":
             return "prod";
         default:
-            throw new Error(`Unknown runtime environment: ${process.env.DEKORATOR_MILJO}`);
+            throw new Error(`Unknown runtime environment: ${process.env.NEXT_PUBLIC_DEKORATOR_MILJO}`);
     }
 }
 
