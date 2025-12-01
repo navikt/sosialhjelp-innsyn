@@ -18,6 +18,7 @@
     },
     "SakListe": {
         "dineSaker": "Dine saker",
+      "vedtak": "Vedtak",
       "vilkar":  "Vilkår"
     },
     "FileUploadItem": {

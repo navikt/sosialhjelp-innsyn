@@ -22,7 +22,7 @@ const SakListe = ({ saker, klager }: Props) => {
         return (
             <VStack gap="2">
                 <Heading size="large" level="2">
-                    {t("dineSaker")}
+                    {t("vedtak")}
                 </Heading>
                 <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8">
                     <SingleSak

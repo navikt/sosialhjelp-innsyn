@@ -18,6 +18,7 @@
     },
     "SakListe": {
         "dineSaker": "Your cases",
+      "vedtak": "Vedtak",
       "vilkar": "Conditions"
     },
     "FileUploadItem": {
