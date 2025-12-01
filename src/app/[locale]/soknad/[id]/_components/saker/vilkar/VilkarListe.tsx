@@ -1,18 +1,15 @@
 import { BodyLong, BodyShort, Box, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import { DokumentasjonkravDto, VilkarResponse } from "@generated/model";
-
-import Dokumentasjonkrav from "../dokumentasjonkrav/Dokumentasjonkrav";
+import { VilkarResponse } from "@generated/model";
 
 import Vilkar from "./Vilkar";
 
 interface Props {
     vilkar: VilkarResponse[];
-    dokumentasjonkrav: DokumentasjonkravDto[];
 }
 
-const VilkarListe = ({ vilkar, dokumentasjonkrav }: Props) => {
+const VilkarListe = ({ vilkar }: Props) => {
     const t = useTranslations("VilkarListe");
     return (
         <VStack gap="4">
@@ -37,7 +34,6 @@ const VilkarListe = ({ vilkar, dokumentasjonkrav }: Props) => {
                     })}
                 </BodyShort>
             </ReadMore>
-            {dokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={dokumentasjonkrav} />}
         </VStack>
     );
 };

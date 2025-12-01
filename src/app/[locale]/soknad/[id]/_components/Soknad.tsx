@@ -82,18 +82,14 @@ export const Soknad = async ({ id }: Props) => {
             </VStack>
             {sakerPromise && klagerPromise && (
                 <Suspense fallback={null}>
-                    <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
-                        <Saker
-                            sakerPromise={sakerPromise}
-                            vilkarPromise={vilkarPromise}
-                            klagerPromise={klagerPromise}
-                        />
-                    </HydrationBoundary>
+                    <Saker sakerPromise={sakerPromise} klagerPromise={klagerPromise} />
                 </Suspense>
             )}
             <Suspense fallback={<OppgaverSkeleton />}>
                 <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                    <Oppgaver />
+                    <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
+                        <Oppgaver vilkarPromise={vilkarPromise} />
+                    </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
             <Filopplasting id={id} />

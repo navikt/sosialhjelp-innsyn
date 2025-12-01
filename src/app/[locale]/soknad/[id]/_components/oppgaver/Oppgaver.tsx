@@ -5,7 +5,7 @@ import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ChevronDownIcon, FaceSmileIcon } from "@navikt/aksel-icons";
-import React from "react";
+import React, { use } from "react";
 import { LinkCard } from "@navikt/ds-react/LinkCard";
 
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
@@ -14,16 +14,29 @@ import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/new/types";
 import { Icon } from "@components/statusCard/DigisosLinkCard";
-import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import {
+    useGetOppgaverBetaSuspense,
+    useGetDokumentasjonkravBetaSuspense,
+} from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { VilkarResponse } from "@generated/ssr/model";
+
+import VilkarListe from "../saker/vilkar/VilkarListe";
+import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
 
 import OppgaveTag from "./OppgaveTag";
 
-const Oppgaver = () => {
+interface Props {
+    vilkarPromise?: Promise<VilkarResponse[]>;
+}
+
+const Oppgaver = ({ vilkarPromise }: Props) => {
     const t = useTranslations("Oppgaver");
     const { id } = useParams<{ id: string }>();
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
+    const { data: alleDokumentasjonkrav } = useGetDokumentasjonkravBetaSuspense(id);
+    const vilkar = vilkarPromise ? use(vilkarPromise) : [];
     const [showCompletedOppgaver, setShowCompletedOppgaver] = React.useState(false);
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
@@ -122,6 +135,8 @@ const Oppgaver = () => {
                         {t("visFullforte")} ({fullforteOppgaver.length})
                     </Button>
                 )}
+                {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
+                {alleDokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={alleDokumentasjonkrav} />}
             </VStack>
         </>
     );
