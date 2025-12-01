@@ -2,12 +2,13 @@
 
 import Cookie from "js-cookie";
 import { logger } from "@navikt/next-logger";
-import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
+import { injectDecoratorClientSide, onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import React, { useEffect, useState } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { pick } from "remeda";
 import { Loader, Theme } from "@navikt/ds-react";
 import { Page, PageBlock } from "@navikt/ds-react/Page";
+import { usePathname, useRouter } from "next/navigation";
 
 import decoratorParams from "@config/decoratorConfig";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
@@ -38,9 +39,19 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
         }
     }, [messages, locale]);
 
+    const router = useRouter();
+    const pathname = usePathname();
+
     if (!messages) {
         return <Loader />;
     }
+
+    onLanguageSelect(async () => {
+        router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
+        return router.refresh();
+    });
+
+    onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
 
     const htmlTitle = (messages["ErrorPage"] as Record<string, string>)["htmlTitle"];
     return (
