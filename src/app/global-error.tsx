@@ -1,5 +1,6 @@
 "use client";
 
+import "./globals.css";
 import Cookie from "js-cookie";
 import { configureLogger, logger } from "@navikt/next-logger";
 import { injectDecoratorClientSide, onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
