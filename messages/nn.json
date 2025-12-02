@@ -291,7 +291,7 @@
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlengde saksbehandlingstid",
         "oppgaver": "Oppgåver",
-        "oppgaveMedFrist": "Oppgåve med frist {frist, date, ::ddMMyyyy}",
+        "oppgaveMedFrist": "Oppgåver med frist {frist, date, ::ddMMyyyy}",
         "vilkar": "Vilkår",
         "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
     },
