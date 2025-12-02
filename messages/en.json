@@ -438,6 +438,7 @@
         "breadcrumbTitle": "Payments"
     },
     "ErrorPage": {
+        "htmlTitle": "Technical error - nav.no",
         "tittel": "Sorry, something went wrong",
         "back": "Go back",
         "description": "We were unable to load the page correctly. This may be due to temporary technical issues and nothing you did. You can try to",
