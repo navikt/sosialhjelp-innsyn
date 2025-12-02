@@ -12,7 +12,7 @@ interface Props {
 
 const Sakstittel = ({ tittel, vedtakUtfall, fontSize = "large" }: Props) => {
     return (
-        <HStack gap="4">
+        <HStack gap="2">
             <Heading size={fontSize} level="2">
                 {tittel}
             </Heading>
