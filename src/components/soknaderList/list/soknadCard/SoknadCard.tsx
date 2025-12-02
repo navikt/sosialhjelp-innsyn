@@ -72,7 +72,7 @@ const SoknadCard = ({ sak }: Props) => {
                             ferdigbehandletAndOlderThan21Days(sak) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"
                         }
                     />
-                    {sak.vilkar && <AlertTag alertType="vilkaar" deadline={forsteOppgaveFrist} />}
+                    {sak.vilkar && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
                 </LinkCardFooter>
             </StatusCard>
         );

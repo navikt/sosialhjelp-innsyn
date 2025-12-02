@@ -4,7 +4,7 @@ on:
         branches:
             - "**" # Build all branches
         tags-ignore:
-            - "**" # Don't build any tags1
+            - "**" # Don't build any tags
     workflow_dispatch:
 
 jobs:
