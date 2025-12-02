@@ -38,7 +38,7 @@ jobs:
                   cp nais/envs/.env.${{ inputs.config-file-name }} .env.production
 
             - name: "Build npm project"
-              uses: navikt/sosialhjelp-ci/actions/build-npm@main
+              uses: navikt/sosialhjelp-ci/actions/build-node@v12
               with:
                   node-version: 24
                   build-less: "false"
