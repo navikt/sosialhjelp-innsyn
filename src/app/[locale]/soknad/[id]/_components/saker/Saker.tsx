@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 
 import Sak from "./sak/Sak";
+import SingleSak from "./sak/SingleSak";
 
 interface Props {
     sakerPromise: Promise<SaksStatusResponse[]>;
@@ -21,22 +22,16 @@ const Saker = ({ sakerPromise, klagerPromise }: Props) => {
     if (!saker.length) {
         return null;
     }
-
     if (saker.length === 1) {
         const sak = saker[0];
         return (
             <VStack gap="2">
-                <Heading size="large" level="2">
-                    {t("vedtak")}
-                </Heading>
-                <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8">
-                    <Sak
-                        sak={sak}
-                        innsendtKlage={klager.find((klage) =>
-                            sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                        )}
-                    />
-                </BoxNew>
+                <SingleSak
+                    sak={sak}
+                    innsendtKlage={klager.find((klage) =>
+                        sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
+                    )}
+                />
             </VStack>
         );
     }

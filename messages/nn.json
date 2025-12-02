@@ -16,10 +16,11 @@
             "FERDIGBEHANDLET": "Hugs å les vedtaksbrevet."
         }
     },
+  "SingleSak": {
+    "vedtak": "Vedtak"
+  },
     "Saker": {
-        "dineSaker": "Sakene dine",
-      "vedtak": "Decision",
-      "vilkar": "Vilkår"
+        "dineSaker": "Sakene dine"
     },
     "FileUploadItem": {
         "validation": {

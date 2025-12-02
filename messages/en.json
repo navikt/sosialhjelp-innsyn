@@ -16,10 +16,11 @@
             "FERDIGBEHANDLET": "Remember to read the notice of decision."
         }
     },
+  "SingleSak": {
+  "vedtak": "Decision"
+},
     "Saker": {
-        "dineSaker": "Your cases",
-      "vedtak": "Vedtak",
-      "vilkar": "Conditions"
+        "dineSaker": "Your cases"
     },
     "FileUploadItem": {
         "validation": {

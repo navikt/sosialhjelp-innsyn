@@ -1,9 +1,9 @@
-import { Heading, HStack } from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
+import { useTranslations } from "next-intl";
 
 import { SaksStatusResponseUtfallVedtak } from "@generated/model";
 
 import StatusTag from "./StatusTag";
-
 interface Props {
     tittel: string;
     vedtakUtfall?: SaksStatusResponseUtfallVedtak;
@@ -11,13 +11,17 @@ interface Props {
 }
 
 const Sakstittel = ({ tittel, vedtakUtfall, fontSize = "large" }: Props) => {
+    const t = useTranslations("Sakstittel");
     return (
-        <HStack gap="2">
-            <Heading size={fontSize} level="3">
-                {tittel}
+        <>
+            <Heading size={fontSize} level="2">
+                {t.rich("tittel", {
+                    sakstittel: tittel,
+                    norsk: (chunks) => <span lang="no">{chunks}</span>,
+                })}
             </Heading>
             <StatusTag vedtakUtfall={vedtakUtfall} className="self-start" />
-        </HStack>
+        </>
     );
 };
 
