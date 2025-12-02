@@ -6,7 +6,7 @@ import { KlageRef, SaksStatusResponse } from "@generated/model";
 
 import Vedtak from "../vedtak/Vedtak";
 
-import StatusTag from "./StatusTag";
+import Sakstittel from "./Sakstittel";
 
 interface Props {
     sak: SaksStatusResponse;
@@ -15,7 +15,6 @@ interface Props {
 
 const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
     const t = useTranslations("SingleSak");
-    const vedtakUtfall = sak.utfallVedtak;
     if (!sak.utfallVedtak) {
         return null;
     }
@@ -27,10 +26,7 @@ const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
                         {t("vedtak")}
                     </Heading>
                     <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8">
-                        <Heading size="medium" level="2">
-                            {t("vedtak")}
-                        </Heading>
-                        <StatusTag vedtakUtfall={vedtakUtfall} className="self-start" />
+                        <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
                         <Vedtak
                             vedtakUtfall={sak.utfallVedtak}
                             vedtaksliste={sak.vedtaksfilUrlList}

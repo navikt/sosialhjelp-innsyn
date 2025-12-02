@@ -128,9 +128,6 @@
         "beskrivelse": "Dersom du er uenig i vedtaket, har du rett til å klage. <lenke>Les mer om dine klagerettigheter</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
         "klageKnapp": "Klag på vedtaket"
     },
-    "Sakstittel": {
-        "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
-    },
     "SakSkeleton": {
         "tittel": "Søknad om økonomisk sosialhjelp"
     },
