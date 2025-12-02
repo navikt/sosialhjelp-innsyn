@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { SaksStatusResponseUtfallVedtak } from "@generated/model";
 
 import StatusTag from "./StatusTag";
+
 interface Props {
     tittel: string;
     vedtakUtfall?: SaksStatusResponseUtfallVedtak;
