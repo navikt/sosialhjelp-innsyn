@@ -19,7 +19,7 @@ const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
         return null;
     }
     return (
-        <VStack gap="16">
+        <>
             {sak.utfallVedtak && (
                 <VStack gap="4">
                     <Heading size="large" level="2">
@@ -35,7 +35,7 @@ const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
                     </BoxNew>
                 </VStack>
             )}
-        </VStack>
+        </>
     );
 };
 
