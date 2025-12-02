@@ -25,14 +25,12 @@ const Saker = ({ sakerPromise, klagerPromise }: Props) => {
     if (saker.length === 1) {
         const sak = saker[0];
         return (
-            <>
-                <SingleSak
-                    sak={sak}
-                    innsendtKlage={klager.find((klage) =>
-                        sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                    )}
-                />
-            </>
+            <SingleSak
+                sak={sak}
+                innsendtKlage={klager.find((klage) =>
+                    sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
+                )}
+            />
         );
     }
 
