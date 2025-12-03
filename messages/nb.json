@@ -262,7 +262,7 @@
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
         "oppgaver": "Oppgaver",
-        "oppgaveMedFrist": "Oppgave med frist {frist, date, ::ddMMyyyy}",
+        "oppgaveMedFrist": "Oppgaver med frist {frist, date, ::ddMMyyyy}",
         "vilkar": "Vilkår",
         "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
     },
@@ -270,7 +270,7 @@
         "mottatt": " Mottatt",
         "underBehandling": "Under behandling",
         "ferdigbehandlet": "Ferdigbehandlet",
-        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdig behandlet"
+        "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandlet"
     },
     "Snarveier": {
         "tittel": "Snarveier",
