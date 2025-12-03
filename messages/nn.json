@@ -16,8 +16,11 @@
             "FERDIGBEHANDLET": "Hugs å les vedtaksbrevet."
         }
     },
-    "SingleSak": {
-        "vedtak": "Vedtak"
+  "SingleSak": {
+    "vedtak": "Vedtak"
+  },
+    "Saker": {
+        "dineSaker": "Sakene dine"
     },
     "FileUploadItem": {
         "validation": {
@@ -131,9 +134,6 @@
         "tittel": "Usamd i vedtaket",
         "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
         "klageKnapp": "Klag på vedtaket"
-    },
-    "Sakstittel": {
-        "tittel": "Søknad om <norsk>{sakstittel}</norsk>"
     },
     "SakSkeleton": {
         "tittel": "Søknad om økonomisk sosialhjelp"

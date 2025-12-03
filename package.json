@@ -55,7 +55,8 @@
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
         "tsc": "tsc",
         "prepare": "husky",
-        "test:e2e": "playwright test"
+        "test:e2e": "playwright test",
+        "preinstall": "npx -y only-allow pnpm"
     },
     "browserslist": {
         "production": [
@@ -70,7 +71,6 @@
         ]
     },
     "devDependencies": {
-        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@eslint/eslintrc": "^3.3.1",
         "@eslint/js": "^9.38.0",
         "@faker-js/faker": "^10.1.0",

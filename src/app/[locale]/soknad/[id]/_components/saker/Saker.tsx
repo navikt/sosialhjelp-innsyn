@@ -1,23 +1,23 @@
 "use client";
 
 import React, { use } from "react";
+import { BoxNew, Heading, VStack } from "@navikt/ds-react";
+import { useTranslations } from "next-intl";
 
 import { KlageRef, SaksStatusResponse } from "@generated/model";
-import { VilkarResponse } from "@generated/ssr/model";
 
 import Sak from "./sak/Sak";
 import SingleSak from "./sak/SingleSak";
 
 interface Props {
     sakerPromise: Promise<SaksStatusResponse[]>;
-    vilkarPromise: Promise<VilkarResponse[]>;
     klagerPromise: Promise<KlageRef[]>;
 }
 
-const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
+const Saker = ({ sakerPromise, klagerPromise }: Props) => {
     const saker = use(sakerPromise);
-    const vilkar = use(vilkarPromise);
     const klager = use(klagerPromise);
+    const t = useTranslations("Saker");
 
     if (!saker.length) {
         return null;
@@ -27,7 +27,6 @@ const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
         return (
             <SingleSak
                 sak={sak}
-                vilkar={vilkar.filter((it) => it.saksReferanse === sak.referanse)}
                 innsendtKlage={klager.find((klage) =>
                     sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
                 )}
@@ -36,18 +35,24 @@ const Saker = ({ sakerPromise, vilkarPromise, klagerPromise }: Props) => {
     }
 
     return (
-        <>
-            {saker.map((sak, index) => (
-                <Sak
-                    key={index}
-                    sak={sak}
-                    vilkar={vilkar.filter((it) => it.saksReferanse === sak.referanse)}
-                    innsendtKlage={klager.find((klage) =>
-                        sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                    )}
-                />
-            ))}
-        </>
+        <VStack gap="2">
+            <Heading size="large" level="2">
+                {t("dineSaker")}
+            </Heading>
+            <VStack gap="16">
+                {saker.map((sak, index) => (
+                    <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8" key={index}>
+                        <Sak
+                            key={index}
+                            sak={sak}
+                            innsendtKlage={klager.find((klage) =>
+                                sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
+                            )}
+                        />
+                    </BoxNew>
+                ))}
+            </VStack>
+        </VStack>
     );
 };
 
