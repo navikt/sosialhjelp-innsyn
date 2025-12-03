@@ -16,8 +16,11 @@
             "FERDIGBEHANDLET": "Remember to read the notice of decision."
         }
     },
-    "SingleSak": {
-        "vedtak": "Decision"
+  "SingleSak": {
+  "vedtak": "Decision"
+},
+    "Saker": {
+        "dineSaker": "Your cases"
     },
     "FileUploadItem": {
         "validation": {
@@ -131,9 +134,6 @@
         "tittel": "Disagree with the decision?",
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision.",
         "klageKnapp": "Appeal the decision"
-    },
-    "Sakstittel": {
-        "tittel": "Application for <norsk>{sakstittel}</norsk>"
     },
     "SakSkeleton": {
         "tittel": "Application for financial assistance"
