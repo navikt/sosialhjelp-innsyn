@@ -23,17 +23,22 @@ const UtbetalingerListe = ({ selectedState }: Props) => {
     });
 
     const tittel = t(`tittel.${selectedState?.chip}`);
+    const erKommende = selectedState.chip === "kommende";
+    const sorterteData = erKommende ? data : data.toReversed();
+
     return (
         <VStack gap="16">
             <UtbetalingerListView tittel={tittel}>
                 {data.length === 0 ? (
                     <IngenUtbetalinger selectedChip={selectedState.chip} />
                 ) : (
-                    data
-                        .toReversed()
-                        .map((gruppe) => (
-                            <UtbetalingerCard key={`${gruppe.ar}-${gruppe.maned}`} manedMedUtbetalinger={gruppe} />
-                        ))
+                    sorterteData.map((gruppe) => (
+                        <UtbetalingerCard
+                            key={`${gruppe.ar}-${gruppe.maned}`}
+                            manedMedUtbetalinger={gruppe}
+                            erKommende={erKommende}
+                        />
+                    ))
                 )}
             </UtbetalingerListView>
         </VStack>
