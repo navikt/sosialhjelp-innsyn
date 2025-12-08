@@ -30,6 +30,7 @@ const PaabegyntCard = ({ soknadId, keptUntil }: Props) => {
                 </LinkCardFooter>
             }
         >
+            <span className="sr-only">{t("paabegynt") + " "}</span>
             {t("title")}
         </DigisosLinkCard>
     );
