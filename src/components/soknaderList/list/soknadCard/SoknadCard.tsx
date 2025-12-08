@@ -25,6 +25,7 @@ const SoknadCard = ({ sak }: Props) => {
     const sendtDato = sak.soknadOpprettet ? new Date(sak.soknadOpprettet) : undefined;
     const mottattDato = sak.mottattTidspunkt ? new Date(sak.mottattTidspunkt) : undefined;
     const forsteOppgaveFrist = sak.forsteOppgaveFrist ? new Date(sak.forsteOppgaveFrist) : undefined;
+    const antallNyeOppgaver = sak.antallNyeOppgaver ?? 0;
 
     if (sak.status === "MOTTATT") {
         return (
@@ -32,6 +33,7 @@ const SoknadCard = ({ sak }: Props) => {
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     {!mottattDato && <BehandlingsStatusTag status="mottatt" />}
+                    {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
                 </LinkCardFooter>
             </StatusCard>
         );
@@ -41,6 +43,7 @@ const SoknadCard = ({ sak }: Props) => {
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
+                    {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
                 </LinkCardFooter>
             </StatusCard>
         );
@@ -49,7 +52,6 @@ const SoknadCard = ({ sak }: Props) => {
         const antallSaker = sak.saker?.length || 1;
         const ferdigeSaker = sak.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
         const vedtakProgress = antallSaker > 1 && ferdigeSaker > 0 ? { ferdigeSaker, antallSaker } : undefined;
-        const antallNyeOppgaver = sak.antallNyeOppgaver ?? 0;
 
         return (
             <StatusCard id={id} tittel={sakTittel}>

@@ -75,7 +75,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                             };
                             return (
                                 <Box.New
-                                    key={oppgave.oppgaveId}
+                                    key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                     background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                     padding="space-24"
                                     borderRadius="xlarge"
