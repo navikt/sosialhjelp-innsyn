@@ -280,7 +280,7 @@
         "status": "Status: {status}"
     },
     "PaabegyntCard": {
-        "title": "Påbyrja søknad om økonomisk sosialhjelp",
+        "title": "Søknad om økonomisk sosialhjelp",
         "keptUntil": "Blir behalde fram til {date, date, ::ddMMyyyy}",
         "paabegynt": "Påbyrja"
     },

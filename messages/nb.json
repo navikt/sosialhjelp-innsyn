@@ -255,7 +255,7 @@
         "mottatt": "Mottatt {dato, date, ::ddMMyyyy}"
     },
     "PaabegyntCard": {
-        "title": "Påbegynt søknad om økonomisk sosialhjelp",
+        "title": "Søknad om økonomisk sosialhjelp",
         "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}",
         "paabegynt": "Påbegynt"
     },
