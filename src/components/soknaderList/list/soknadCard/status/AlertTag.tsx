@@ -2,7 +2,7 @@ import { ExclamationmarkTriangleIcon, InformationSquareIcon } from "@navikt/akse
 import { Tag } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-export type AlertType = "oppgave" | "vilkaar" | "forlenget_behandlingstid";
+export type AlertType = "oppgave" | "forlenget_behandlingstid";
 
 type Props = {
     alertType: AlertType;
@@ -14,8 +14,6 @@ const AlertTagText = ({ alertType, deadline }: Props) => {
     switch (alertType) {
         case "oppgave":
             return deadline ? t("oppgaveMedFrist", { frist: deadline }) : t("oppgaver");
-        case "vilkaar":
-            return deadline ? t("vilkarsfrist", { frist: deadline }) : t("vilkar");
         case "forlenget_behandlingstid":
             return t("forlengetSaksbehandlingsTid");
     }
