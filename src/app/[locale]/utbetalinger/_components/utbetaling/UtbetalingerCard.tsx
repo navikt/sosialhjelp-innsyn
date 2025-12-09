@@ -8,9 +8,10 @@ import { UtbetalingerContentCard } from "./UtbetalingerContentCard";
 
 interface Props {
     manedMedUtbetalinger: ManedMedUtbetalinger;
+    erKommende?: boolean;
 }
 
-export const UtbetalingerCard = ({ manedMedUtbetalinger }: Props) => {
+export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: Props) => {
     const format = useFormatter();
 
     const utbetalingerForManed = manedMedUtbetalinger.utbetalinger;
@@ -20,6 +21,8 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger }: Props) => {
     const utbetalingSum = utbetalingerForManed
         .filter((it) => !["STOPPET", "ANNULLERT"].includes(it.status))
         .reduce((acc, utbetaling) => acc + utbetaling.belop, 0);
+
+    const sorterteUtbetalinger = erKommende ? utbetalingerForManed : utbetalingerForManed.toReversed();
 
     return (
         <VStack gap="05">
@@ -36,7 +39,7 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger }: Props) => {
                     </BodyShort>
                 </HStack>
             </BoxNew>
-            {utbetalingerForManed.toReversed().map((utb, index) => (
+            {sorterteUtbetalinger.map((utb, index) => (
                 <UtbetalingerContentCard
                     index={index}
                     key={utb.referanse}
