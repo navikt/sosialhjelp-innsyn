@@ -16,9 +16,9 @@
             "FERDIGBEHANDLET": "Husk å les vedtaksbrevet."
         }
     },
-  "SingleSak": {
-    "vedtak": "Vedtak"
-  },
+    "SingleSak": {
+        "vedtak": "Vedtak"
+    },
     "Saker": {
         "dineSaker": "Dine saker"
     },
@@ -372,8 +372,15 @@
             "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
             "maksFiler": "Du kan laste opp maks {maksFiler} filer"
         },
+        "forkastKlageKnapp": "Forkast",
         "sendKlage": "Send",
         "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
+    },
+    "ForkastKlageModal": {
+        "overskrift": "Er du sikker på at du vil forkaste klagen?",
+        "beskrivelse": "Dine kommentarer eller vedlegg vil ikke bli lagret.",
+        "bekreft": "Ja, forkast klagen",
+        "avbryt": "Avbryt"
     },
     "KlageFileUpload": {
         "label": "Legg ved dokumentasjon",

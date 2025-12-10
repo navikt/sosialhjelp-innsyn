@@ -16,9 +16,9 @@
             "FERDIGBEHANDLET": "Remember to read the notice of decision."
         }
     },
-  "SingleSak": {
-  "vedtak": "Decision"
-},
+    "SingleSak": {
+        "vedtak": "Decision"
+    },
     "Saker": {
         "dineSaker": "Your cases"
     },
@@ -400,8 +400,15 @@
         "validering": {
             "maksLengde": "You can write a maximum of 1000 characters"
         },
-        "sendKlage": "Send inn",
+        "forkastKlageKnapp": "Discard",
+        "sendKlage": "Send",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
+    },
+    "ForkastKlageModal": {
+        "overskrift": "Are you sure you want to discard the complaint?",
+        "beskrivelse": "Your complaint and attachments will not be saved.",
+        "bekreft": "Yes, discard the complaint",
+        "avbryt": "Cancel"
     },
     "KlageFileUpload": {
         "label": "Attach documentation",

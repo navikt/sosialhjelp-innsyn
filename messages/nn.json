@@ -16,9 +16,9 @@
             "FERDIGBEHANDLET": "Hugs å les vedtaksbrevet."
         }
     },
-  "SingleSak": {
-    "vedtak": "Vedtak"
-  },
+    "SingleSak": {
+        "vedtak": "Vedtak"
+    },
     "Saker": {
         "dineSaker": "Sakene dine"
     },
@@ -400,8 +400,15 @@
         "validering": {
             "maksLengde": "Du kan skrive inn maks 1000 teikn"
         },
+        "forkastKlageKnapp": "Forkast",
         "sendKlage": "Send inn",
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
+    },
+    "ForkastKlageModal": {
+        "overskrift": "Er du sikker på at du vil forkaste klaga?",
+        "beskrivelse": "Dine kommentarar eller vedlegg vil ikkje bli lagra.",
+        "bekreft": "Ja, forkast klaga",
+        "avbryt": "Avbryt"
     },
     "KlageFileUpload": {
         "label": "Legg ved dokumentasjon",
