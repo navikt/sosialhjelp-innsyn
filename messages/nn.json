@@ -301,6 +301,9 @@
         "ferdigbehandlet": "Ferdigbehandla",
         "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandla"
     },
+  "VedtakTag": {
+    "tittel": "Nytt vedtak"
+  },
     "Snarveier": {
         "tittel": "Snarvegar",
         "soknader": "Mine søknader",

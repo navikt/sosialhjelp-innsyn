@@ -301,6 +301,9 @@
         "ferdigbehandlet": "Processed",
         "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
     },
+  "VedtakTag": {
+    "tittel": "New decision"
+  },
     "Snarveier": {
         "tittel": "Shortcuts",
         "soknader": "My applications",
