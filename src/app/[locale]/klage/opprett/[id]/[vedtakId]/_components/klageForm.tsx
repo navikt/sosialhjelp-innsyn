@@ -3,6 +3,7 @@
 import { Alert, Button, FileObject, Textarea } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,6 +17,8 @@ import FileSelect from "@components/filopplasting/new/FileSelect";
 import { Metadata } from "@components/filopplasting/new/types";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
+
+import BekreftForkastModal from "./BekreftForkastModal";
 
 export type FormValues = {
     background: string | null;
@@ -38,6 +41,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const t = useTranslations("KlageForm");
     const queryClient = useQueryClient();
     const router = useRouter();
+    const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
 
     const { addFiler, files, removeFil, outerErrors } = useFiles();
 
@@ -45,6 +49,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         register,
         handleSubmit,
         formState: { errors },
+        getValues,
     } = useForm<FormValues>({
         resolver: zodResolver(klageSchema),
         defaultValues: {
@@ -80,38 +85,65 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
         }
     };
+    const forkastKlageButtonEvent = () => {
+        const backgroundText = getValues("background");
+        const hasCharacters = !!backgroundText && backgroundText.trim().length > 0;
+
+        if (files.length > 0 || hasCharacters) {
+            setVisBekreftForkastModal(true);
+        } else {
+            forkastKlage();
+        }
+    };
+
+    const forkastKlage = () => {
+        setVisBekreftForkastModal(false);
+        router.back();
+    };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
-            <Textarea
-                id={"klageTextarea" + vedtakId}
-                resize
-                label={t("bakgrunn.label")}
-                description={t("bakgrunn.beskrivelse")}
-                error={errors.background?.message && t(errors.background.message)}
-                {...register("background")}
+        <>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
+                <Textarea
+                    id={"klageTextarea" + vedtakId}
+                    resize
+                    label={t("bakgrunn.label")}
+                    description={t("bakgrunn.beskrivelse")}
+                    error={errors.background?.message && t(errors.background.message)}
+                    {...register("background")}
+                />
+                <FileSelect
+                    id={"klageVedlegg" + vedtakId}
+                    files={files}
+                    addFiler={addFiler}
+                    removeFil={removeFil}
+                    outerErrors={outerErrors}
+                    filesLabel={t("filOpplasting.dineVedlegg")}
+                />
+                <div>
+                    <Button
+                        loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending}
+                        type="submit"
+                        className="mb-4"
+                    >
+                        {t("sendKlage")}
+                    </Button>
+                    <Button onClick={forkastKlageButtonEvent} type="button" className="mb-4" variant="tertiary">
+                        {t("forkastKlageKnapp")}
+                    </Button>
+                    {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
+                        <Alert variant="error">{t("sendingFeilet")}</Alert>
+                    )}
+                </div>
+            </form>
+
+            <BekreftForkastModal
+                open={visBekreftForkastModal}
+                onClose={() => setVisBekreftForkastModal(false)}
+                t={t}
+                forkastKlage={forkastKlage}
             />
-            <FileSelect
-                id={"klageVedlegg" + vedtakId}
-                files={files}
-                addFiler={addFiler}
-                removeFil={removeFil}
-                outerErrors={outerErrors}
-                filesLabel={t("filOpplasting.dineVedlegg")}
-            />
-            <div>
-                <Button
-                    loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending}
-                    type="submit"
-                    className="mb-4"
-                >
-                    {t("sendKlage")}
-                </Button>
-                {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
-                    <Alert variant="error">{t("sendingFeilet")}</Alert>
-                )}
-            </div>
-        </form>
+        </>
     );
 };
 

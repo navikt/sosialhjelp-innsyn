@@ -400,7 +400,12 @@
         "validering": {
             "maksLengde": "You can write a maximum of 1000 characters"
         },
-        "sendKlage": "Send inn",
+        "forkastKlageKnapp": "Discard",
+        "forkastKlageModalOverskrift": "Are you sure you want to discard the complaint?",
+        "forkastKlageModalBeskrivelse": "Your complaint and attachments will not be saved.",
+        "forkastKlageModalBekreft": "Yes, discard the complaint",
+        "forkastKlageModalAvbryt": "Cancel",
+        "sendKlage": "Send",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
     "KlageFileUpload": {
