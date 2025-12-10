@@ -14,16 +14,17 @@ const localServer = process.env.NEXT_PUBLIC_INNSYN_ORIGIN ?? "";
 const fileStorageOrigin = isLocal ? "http://localhost:3007" : "https://storage.googleapis.com";
 const innsynApiLocalhost = "http://localhost:8989";
 const uxsignalsScriptSrc = "https://uxsignals-frontend.uxsignals.app.iterate.no";
+const pdfjsDistCdnOrigin = "https://cdnjs.cloudflare.com";
 
 const appDirectives = {
     "default-src": [SELF],
-    "script-src": [SELF, UNSAFE_EVAL, uxsignalsScriptSrc],
-    "script-src-elem": [SELF, uxsignalsScriptSrc],
+    "script-src": [SELF, UNSAFE_EVAL, uxsignalsScriptSrc, pdfjsDistCdnOrigin],
+    "script-src-elem": [SELF, uxsignalsScriptSrc, pdfjsDistCdnOrigin],
     "style-src": [SELF, UNSAFE_INLINE, localServer],
     "style-src-elem": [SELF, UNSAFE_INLINE, localServer],
     "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc, fileStorageOrigin],
     "font-src": [SELF],
-    "worker-src": [SELF, fileStorageOrigin],
+    "worker-src": [SELF, fileStorageOrigin, pdfjsDistCdnOrigin],
     "connect-src": [SELF, fileStorageOrigin, ...(isLocal ? [innsynApiLocalhost, localServer] : [])],
 };
 
