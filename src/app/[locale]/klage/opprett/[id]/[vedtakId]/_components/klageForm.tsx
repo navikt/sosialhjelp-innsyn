@@ -140,7 +140,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             <BekreftForkastModal
                 open={visBekreftForkastModal}
                 onClose={() => setVisBekreftForkastModal(false)}
-                t={t}
                 forkastKlage={forkastKlage}
             />
         </>
