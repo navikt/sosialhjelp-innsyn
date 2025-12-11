@@ -272,6 +272,9 @@
         "ferdigbehandlet": "Ferdigbehandlet",
         "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandlet"
     },
+  "VedtakTag": {
+    "tittel": "Nytt vedtak"
+  },
     "Snarveier": {
         "tittel": "Snarveier",
         "soknader": "Mine søknader",
