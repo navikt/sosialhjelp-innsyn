@@ -291,7 +291,7 @@
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Extended processing time",
         "oppgaver": "Tasks",
-        "oppgaveMedFrist": "Task with deadline {frist, date, ::ddMMyyyy}",
+        "oppgaveMedFrist": "Tasks with deadline {frist, date, ::ddMMyyyy}",
         "vilkar": "Conditions",
         "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}"
     },
