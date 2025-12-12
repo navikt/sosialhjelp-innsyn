@@ -1,5 +1,7 @@
 import { proxyRouteHandler } from "@navikt/next-api-proxy";
 
+import { getServerEnv } from "@config/env";
+
 export type RouteHandlerProxyTarget = {
     hostname: string;
     path: string;
@@ -14,6 +16,9 @@ const apiProxy = async (
     func: (params: Promise<{ slug: string[] }>, bearerToken: string | undefined) => Promise<RouteHandlerProxyTarget>
 ): Promise<ProxyRequestHandler> => {
     return async (request, { params }) => {
+        if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
+            return proxyRouteHandler(request, await func(params, "token"));
+        }
         const headers = request.headers;
         if (!headers.has("Authorization")) {
             return new Response("Missing auth header", { status: 401 });

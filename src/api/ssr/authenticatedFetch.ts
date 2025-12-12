@@ -20,11 +20,13 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 
 const getHeaders = async (initHeaders?: HeadersInit): Promise<HeadersInit> => {
     const headers = new Headers(initHeaders);
-    const authHeader = await getAuthorizationHeader();
-    if (!authHeader) {
-        throw new Error("Missing Authorization header");
+    if (process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT !== "e2e") {
+        const authHeader = await getAuthorizationHeader();
+        if (!authHeader) {
+            throw new Error("Missing Authorization header");
+        }
+        headers.set("Authorization", authHeader);
     }
-    headers.set("Authorization", authHeader);
 
     const requestCookies = await getRequestCookies();
     if (requestCookies) headers.set("Cookie", requestCookies);

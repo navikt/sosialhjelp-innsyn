@@ -44,6 +44,7 @@
     "scripts": {
         "dev": "next dev --turbo -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
         "build": "next build",
+        "build:e2e": "NEXT_PUBLIC_ASSET_PREFIX= NEXT_PUBLIC_RUNTIME_ENVIRONMENT=e2e pnpm build && cp -R .next/static .next/standalone/.next",
         "start": "next start",
         "test": "vitest",
         "lintStaged": "lint-staged",
@@ -55,7 +56,8 @@
         "prettier": "prettier --write src/**/*.{ts,tsx,css,js}",
         "tsc": "tsc",
         "prepare": "husky",
-        "test:e2e": "playwright test",
+        "e2e": "playwright test",
+        "e2e:ui": "playwright test --ui",
         "preinstall": "npx -y only-allow pnpm"
     },
     "browserslist": {

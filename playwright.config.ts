@@ -3,20 +3,20 @@ import path from "path";
 import { defineConfig, devices, PlaywrightTestConfig } from "@playwright/test";
 
 // Use process.env.PORT by default and fallback to port 3000
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 type OptionsType = { baseURL: string; timeout: number; server: PlaywrightTestConfig["webServer"] | undefined };
 const opts: OptionsType = process.env.CI
     ? {
-          baseURL: `http://localhost:3000/sosialhjelp/innsyn/nb`,
+          baseURL: `http://localhost:3002/sosialhjelp/innsyn`,
           timeout: 30 * 1000,
           // Uses service container app
           server: undefined,
       }
     : {
-          baseURL: `http://localhost:${PORT}/sosialhjelp/innsyn/nb`,
+          baseURL: `http://localhost:${PORT}/sosialhjelp/innsyn`,
           timeout: 30 * 1000,
           server: {
-              command: "NODE_ENV=test npm run dev --turbo",
+              command: "NODE_ENV=test pnpm run dev",
               url: `http://localhost:${PORT}/sosialhjelp/innsyn/api/internal/is_alive`,
               timeout: 120 * 1000,
               reuseExistingServer: true,
@@ -38,19 +38,21 @@ export default defineConfig({
 
     use: {
         baseURL: opts.baseURL,
-        trace: "retry-with-trace",
+        trace: "on",
     },
 
     projects: [
         {
             name: "Desktop Chrome",
             use: {
+                locale: "nb",
                 ...devices["Desktop Chrome"],
             },
         },
         {
             name: "Mobile Chrome",
             use: {
+                locale: "nb",
                 ...devices["Pixel 5"],
             },
         },

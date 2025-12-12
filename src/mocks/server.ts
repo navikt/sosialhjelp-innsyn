@@ -11,6 +11,7 @@ import { getSaksStatusControllerMock } from "../generated/saks-status-controller
 import { getSoknadMedInnsynControllerMock } from "../generated/soknad-med-innsyn-controller/soknad-med-innsyn-controller.msw";
 import { getSoknadsStatusControllerMock } from "../generated/soknads-status-controller/soknads-status-controller.msw";
 import { getUtbetalingerControllerMock } from "../generated/utbetalinger-controller/utbetalinger-controller.msw";
+import { getUtbetalingerController2Mock } from "../generated/utbetalinger-controller-2/utbetalinger-controller-2.msw";
 import { getVedleggControllerMock } from "../generated/vedlegg-controller/vedlegg-controller.msw";
 
 export const server = setupServer(
@@ -25,5 +26,6 @@ export const server = setupServer(
     ...getSoknadMedInnsynControllerMock(),
     ...getSoknadsStatusControllerMock(),
     ...getUtbetalingerControllerMock(),
+    ...getUtbetalingerController2Mock(),
     ...getVedleggControllerMock()
 );
