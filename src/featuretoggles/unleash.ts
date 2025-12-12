@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { connection } from "next/server";
 
 import { isLocalhost, isMock } from "@utils/restUtils";
-import { getServerEnv } from "@config/env";
 import { getAndValidateDefinitions } from "@featuretoggles/definitions";
+import { getServerEnv } from "@config/env";
 
 import { EXPECTED_TOGGLES, ExpectedToggles } from "./toggles";
 import { localDevelopmentToggles } from "./utils";

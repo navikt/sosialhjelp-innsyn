@@ -1,6 +1,6 @@
-name: "Build code and run tests"
+name: "Build code and run tests on PR"
 on:
-    push:
+    pull_request:
         branches:
             - "**" # Build all branches
         tags-ignore:
@@ -27,4 +27,20 @@ jobs:
                   node-version: 24
                   build-less: "false"
                   run-orval: "true"
-                  reader-token: ${{ secrets.READER_TOKEN }}
+                  reader-token: ${{ secrets.GITHUB_TOKEN }}
+            - name: lint
+              run: pnpm run lint
+              shell: bash
+            - name: tsc
+              run: pnpm run tsc
+              shell: bash
+            - name: test
+              run: pnpm run test
+              shell: bash
+    playwright-tests:
+        name: Playwright Tests
+        uses: ./.github/workflows/playwright-tests.yml
+        permissions:
+            contents: read
+            id-token: write
+            packages: write
