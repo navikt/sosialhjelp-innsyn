@@ -29,7 +29,8 @@ export default defineConfig({
     timeout: opts.timeout,
     testDir: path.join(__dirname, "e2e"),
     retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
+    // Must use single worker because e2eServer is shared via globalThis - parallel tests would interfere with each other's mocks
+    workers: 1,
     reporter: process.env.CI ? "blob" : "html",
     forbidOnly: !!process.env.CI,
     outputDir: "test-results/",

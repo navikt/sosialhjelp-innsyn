@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 
 import { createMswHelper } from "../helpers/msw-helpers";
-import { getHarTilgangMockHandler } from "../../src/generated/tilgang-controller/tilgang-controller.msw";
 
 // Mock data for a søknad
 const mockSakerData = [
@@ -37,10 +36,7 @@ test.afterEach(async ({ request, baseURL }) => {
 test.beforeEach(async ({ request, baseURL }) => {
     // Reset MSW handlers after each test to avoid interference between tests
     const msw = createMswHelper(request, baseURL!);
-    await msw.mockEndpoint(
-        "*/api/v1/innsyn/tilgang",
-        getHarTilgangMockHandler({ harTilgang: true, fornavn: "whatever" })
-    );
+    await msw.mockEndpoint("/api/v1/innsyn/tilgang", { harTilgang: true, fornavn: "whatever" });
 });
 
 test("should render snarveier", async ({ page, request, baseURL }) => {
@@ -53,6 +49,8 @@ test("should render snarveier", async ({ page, request, baseURL }) => {
     await page.goto("/sosialhjelp/innsyn/nb/landingsside");
     await page.getByRole("button", { name: "Nei" }).click();
     await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Søknader" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Utbetalinger" })).toBeVisible();
 });
 
 test("should not render snarveier when no soknader, klager or utbetalinger", async ({ page, request, baseURL }) => {
@@ -63,5 +61,7 @@ test("should not render snarveier when no soknader, klager or utbetalinger", asy
 
     await page.goto("/sosialhjelp/innsyn/nb/landingsside");
     await page.getByRole("button", { name: "Nei" }).click();
-    await expect(page.getByRole("heading", { name: "Snarveier" })).not.toBeVisible();
+    await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Søknader" })).not.toBeVisible();
+    await expect(page.getByRole("link", { name: "Utbetalinger" })).not.toBeVisible();
 });

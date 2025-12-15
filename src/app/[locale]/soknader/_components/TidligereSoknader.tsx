@@ -1,26 +1,15 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
-import { logger } from "@navikt/next-logger";
 
-import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
 import fetchSoknadsdetaljer from "@api/fetch/saksdetaljer/fetchSoknadsdetaljer";
 import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "@components/soknaderList/list/soknaderUtils";
 import SoknaderList from "@components/soknaderList/list/SoknaderList";
-
-const fetchSaker = async () => {
-    try {
-        const alleSaker = await hentAlleSaker();
-        return alleSaker;
-    } catch (error: unknown) {
-        logger.error(`Fikk feil under henting av alle saker. Error: ${error}`);
-        return [];
-    }
-};
+import fetchAlleSoknader from "@api/fetch/alleSoknader/fetchAlleSoknader";
 
 const TidligereSoknader = async () => {
     const t = await getTranslations("TidligereSoknader");
 
-    const innsendteSoknader = await fetchSaker();
+    const innsendteSoknader = await fetchAlleSoknader();
 
     const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
 

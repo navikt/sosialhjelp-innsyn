@@ -20,7 +20,8 @@ export const filterAndSort = (
     filter: (sak: Soknad) => boolean,
     paabegynteSaker?: PaabegyntSoknad[]
 ) => {
-    const combined: Soknad[] = combineSakAndSaksdetaljer(saker, soknadsdetaljer).filter(filter);
+    const combineSakAndSaksdetaljer1 = combineSakAndSaksdetaljer(saker, soknadsdetaljer);
+    const combined: Soknad[] = combineSakAndSaksdetaljer1.filter(filter);
     // Påbegynte saker skal legges til etter filtrering, da de alltid er aktive.
     const alleSaker = [...combined, ...(paabegynteSaker ?? [])];
     // Sorterer først på antall nye oppgaver (eller 0), deretter på sist oppdatert.

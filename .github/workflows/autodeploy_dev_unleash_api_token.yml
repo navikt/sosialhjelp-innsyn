@@ -2,7 +2,7 @@ name: 'Auto-deploy unleash api token to dev'
 on:
   push: # Deploys automatically to dev-gcp if there are any changes to api-token config
     paths:
-      - "../../.nais/dev/unleash-api-token.yaml"
+      - ".nais/dev/unleash-api-token.yaml"
       - ".github/workflows/autodeploy_dev_unleash_api_token.yml"
     branches:
       - 'main'
