@@ -15,7 +15,6 @@ const AktiveSoknader = async () => {
 
     const [innsendteSoknader, paabegynteSaker] = await Promise.all([fetchAlleSoknader(), fetchPaabegynteSaker()]);
     const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
-
     const sorted = filterAndSort(
         innsendteSoknader,
         soknadsdetaljer,

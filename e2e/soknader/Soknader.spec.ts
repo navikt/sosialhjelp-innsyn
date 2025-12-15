@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { subDays } from "date-fns";
 
 import { createMswHelper } from "../helpers/msw-helpers";
-import { SaksDetaljerResponse } from "../../src/generated/model";
+import { SaksDetaljerResponse, SaksListeResponse } from "../../src/generated/model";
 
 test.afterEach(async ({ request, baseURL }) => {
     // Reset MSW handlers after each test to avoid interference between tests
@@ -12,6 +12,7 @@ test.afterEach(async ({ request, baseURL }) => {
 
 test.beforeEach(async ({ request, baseURL }) => {
     const msw = createMswHelper(request, baseURL!);
+    await msw.reset();
     await msw.mockEndpoint("/api/v1/innsyn/tilgang", { harTilgang: true, fornavn: "Test User" });
 });
 
@@ -283,5 +284,332 @@ test.describe("Soknader page - application categorization", () => {
 
         // "Tidligere søknader" section should not exist
         await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).not.toBeVisible();
+    });
+});
+
+test.describe("SoknadCard rendering logic", () => {
+    test.beforeEach(async ({ request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        await msw.mockEndpoint("/api/v1/innsyn/tilgang", { harTilgang: true, fornavn: "Test" });
+        await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", []);
+    });
+
+    test("MOTTATT status with sendtDato should show DatoTag and BehandlingsStatusTag", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-mottatt-1",
+            soknadTittel: "Søknad mottatt",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-15T10:00:00Z",
+            status: "MOTTATT",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        // Should show the søknad card
+        await expect(page.getByRole("link", { name: /Søknad mottatt/ })).toBeVisible();
+        // Should show "Sendt" tag
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
+        // Should show "Mottatt" behandlingsstatus tag
+        await expect(page.getByText(/Mottatt/).last()).toBeVisible();
+    });
+
+    test("MOTTATT status with oppgaver should show AlertTag for oppgave", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-mottatt-oppgave",
+            soknadTittel: "Søknad med oppgave",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-15T10:00:00Z",
+            status: "MOTTATT",
+            antallNyeOppgaver: 2,
+            forsteOppgaveFrist: "2025-12-20T10:00:00Z",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            antallNyeOppgaver: 2,
+            forsteOppgaveFrist: "2025-12-20T10:00:00Z",
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad med oppgave/ })).toBeVisible();
+        // Should show oppgave alert tag with deadline
+        await expect(page.getByText(/20\.12\.2025/)).toBeVisible();
+    });
+
+    test("SENDT status should show DatoTag without BehandlingsStatusTag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-sendt-1",
+            soknadTittel: "Søknad sendt",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-20T10:00:00Z",
+            status: "SENDT",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad sendt/ })).toBeVisible();
+        // Should show "Sendt" tag
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
+        // Should NOT show "Mottatt" behandlingsstatus (SENDT doesn't show behandlingsstatus unless mottattDato exists)
+    });
+
+    test("UNDER_BEHANDLING status should show BehandlingsStatusTag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-under-behandling-1",
+            soknadTittel: "Søknad under behandling",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-10T10:00:00Z",
+            mottattTidspunkt: "2025-11-11T10:00:00Z",
+            status: "UNDER_BEHANDLING",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0 }],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad under behandling/ })).toBeVisible();
+        // Should show "Mottatt" date tag
+        await expect(page.getByText(/Mottatt/).first()).toBeVisible();
+        // Should show "Under behandling" status tag
+        await expect(page.getByText(/Under behandling/)).toBeVisible();
+    });
+
+    test("UNDER_BEHANDLING with multiple saker should show vedtak progress", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-under-behandling-progress",
+            soknadTittel: "Søknad med flere saker",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-05T10:00:00Z",
+            status: "UNDER_BEHANDLING",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            fiksDigisosId: mockSak.fiksDigisosId,
+            antallNyeOppgaver: 0,
+            dokumentasjonEtterspurt: false,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            dokumentasjonkrav: false,
+            status: "UNDER_BEHANDLING",
+            soknadTittel: "Søknad med flere saker",
+            vilkar: false,
+            saker: [
+                { status: "FERDIGBEHANDLET", antallVedtak: 1 },
+                { status: "FERDIGBEHANDLET", antallVedtak: 1 },
+                { status: "UNDER_BEHANDLING", antallVedtak: 0 },
+            ],
+        } satisfies SaksDetaljerResponse);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad med flere saker/ })).toBeVisible();
+        // Should show vedtak progress "2 av 3 saker er ferdigbehandlet"
+        await expect(page.getByText(/2 av 3 saker er ferdigbehandlet/)).toBeVisible();
+    });
+
+    test("UNDER_BEHANDLING with multiple vedtak should show VedtakTag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-ferdigbehandlet-vedtak",
+            soknadTittel: "Søknad med flere vedtak",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-01T10:00:00Z",
+            status: "FERDIGBEHANDLET",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            fiksDigisosId: "test-ferdigbehandlet-vedtak",
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 2 }],
+            status: "FERDIGBEHANDLET",
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad med flere vedtak/ })).toBeVisible();
+        // Should show "Nytt vedtak" tag
+        await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
+    });
+
+    test("UNDER_BEHANDLING with forelopigSvar should show forlenget behandlingstid alert", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-under-behandling-forelopig",
+            soknadTittel: "Søknad med forlenget behandlingstid",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            isPapirSoknad: false,
+        } satisfies SaksListeResponse;
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            status: "UNDER_BEHANDLING",
+            fiksDigisosId: "test-under-behandling-forelopig",
+            forelopigSvar: { harMottattForelopigSvar: true, link: "link.no" },
+            saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0 }],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad med forlenget behandlingstid/ })).toBeVisible();
+        // Should show forlenget behandlingstid alert
+        await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
+    });
+
+    test("FERDIGBEHANDLET status newer than 21 days should show ferdigbehandlet_nylig", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const recentDate = new Date();
+        recentDate.setDate(recentDate.getDate() - 10); // 10 days ago
+        const mockSak = {
+            fiksDigisosId: "test-ferdigbehandlet-nylig",
+            soknadTittel: "Søknad ferdigbehandlet nylig",
+            sistOppdatert: recentDate.toISOString(),
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-01T10:00:00Z",
+            status: "FERDIGBEHANDLET",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet nylig/ })).toBeVisible();
+        // Should show "Ferdigbehandlet" status tag
+        await expect(page.getByText(/Ferdigbehandlet/)).toBeVisible();
+    });
+
+    test("FERDIGBEHANDLET status older than 21 days should show ferdigbehandlet_eldre", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const oldDate = new Date();
+        oldDate.setDate(oldDate.getDate() - 30); // 30 days ago
+        const mockSak = {
+            fiksDigisosId: "test-ferdigbehandlet-eldre",
+            soknadTittel: "Søknad ferdigbehandlet for lenge siden",
+            sistOppdatert: oldDate.toISOString(),
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            status: "FERDIGBEHANDLET",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            fiksDigisosId: "test-ferdigbehandlet-eldre",
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet for lenge siden/ })).toBeVisible();
+        // Should show "Ferdigbehandlet" status tag (same text, but different internal status)
+        await expect(page.getByText(/Ferdigbehandlet/)).toBeVisible();
+    });
+
+    test("FERDIGBEHANDLET with vilkar should show oppgave AlertTag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-ferdigbehandlet-vilkar",
+            soknadTittel: "Søknad ferdigbehandlet med vilkår",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-01T10:00:00Z",
+            status: "FERDIGBEHANDLET",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            vilkar: true,
+            forsteOppgaveFrist: "2025-12-25T10:00:00Z",
+            fiksDigisosId: "test-ferdigbehandlet-vilkar",
+            antallNyeOppgaver: 1,
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet med vilkår/ })).toBeVisible();
+        // Should show oppgave alert with deadline
+        await expect(page.getByText(/25\.12\.2025/)).toBeVisible();
+    });
+
+    test("Complex scenario: UNDER_BEHANDLING with all possible tags", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-complex",
+            soknadTittel: "Kompleks søknad",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            mottattTidspunkt: "2025-10-02T10:00:00Z",
+            status: "UNDER_BEHANDLING",
+            antallNyeOppgaver: 1,
+            forsteOppgaveFrist: "2025-12-18T10:00:00Z",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            antallNyeOppgaver: 1,
+            fiksDigisosId: "test-complex",
+            forsteOppgaveFrist: "2025-12-18T10:00:00Z",
+            forelopigSvar: { harMottattForelopigSvar: true },
+            saker: [
+                { status: "FERDIGBEHANDLET", antallVedtak: 2 },
+                { status: "UNDER_BEHANDLING", antallVedtak: 0 },
+            ],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        await expect(page.getByRole("link", { name: /Kompleks søknad/ })).toBeVisible();
+        // Should show date tag
+        await expect(page.getByText(/Mottatt/).first()).toBeVisible();
+        // Should show vedtak progress
+        await expect(page.getByText(/1 av 2 saker er ferdigbehandlet/)).toBeVisible();
+        // Should show VedtakTag (one sak has 2 vedtak)
+        await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
+        // Should show oppgave alert
+        await expect(page.getByText(/18\.12\.2025/)).toBeVisible();
+        // Should show forlenget behandlingstid
+        await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
     });
 });

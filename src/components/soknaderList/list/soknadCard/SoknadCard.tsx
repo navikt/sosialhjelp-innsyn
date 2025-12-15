@@ -15,21 +15,20 @@ import StatusCard from "./status/StatusCard";
 import AlertTag from "./status/AlertTag";
 
 interface Props {
-    sak: Partial<SaksDetaljerResponse> & SaksListeResponse;
+    soknad: Partial<SaksDetaljerResponse> & SaksListeResponse;
 }
 
-const SoknadCard = ({ sak }: Props) => {
+const SoknadCard = ({ soknad }: Props) => {
     const t = useTranslations("SoknadCard");
+    const id = soknad.fiksDigisosId!;
+    const sakTittel = soknad.soknadTittel?.length ? soknad.soknadTittel : t("defaultTittel");
+    const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined;
+    const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined;
+    const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
+    const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
+    const harSakMedFlereVedtak = soknad.saker?.some((s) => s.antallVedtak > 1) ?? false;
 
-    const id = sak.fiksDigisosId!;
-    const sakTittel = sak.soknadTittel?.length ? sak.soknadTittel : t("defaultTittel");
-    const sendtDato = sak.soknadOpprettet ? new Date(sak.soknadOpprettet) : undefined;
-    const mottattDato = sak.mottattTidspunkt ? new Date(sak.mottattTidspunkt) : undefined;
-    const forsteOppgaveFrist = sak.forsteOppgaveFrist ? new Date(sak.forsteOppgaveFrist) : undefined;
-    const antallNyeOppgaver = sak.antallNyeOppgaver ?? 0;
-    const harSakMedFlereVedtak = sak.saker?.some((s) => s.antallVedtak > 1) ?? false;
-
-    if (sak.status === "MOTTATT") {
+    if (soknad.status === "MOTTATT") {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
@@ -40,7 +39,7 @@ const SoknadCard = ({ sak }: Props) => {
             </StatusCard>
         );
     }
-    if (sak.status === "SENDT") {
+    if (soknad.status === "SENDT") {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
@@ -50,11 +49,10 @@ const SoknadCard = ({ sak }: Props) => {
             </StatusCard>
         );
     }
-    if (sak.status === "UNDER_BEHANDLING") {
-        const antallSaker = sak.saker?.length || 1;
-        const ferdigeSaker = sak.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
+    if (soknad.status === "UNDER_BEHANDLING") {
+        const antallSaker = soknad.saker?.length || 1;
+        const ferdigeSaker = soknad.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
         const vedtakProgress = antallSaker > 1 && ferdigeSaker > 0 ? { ferdigeSaker, antallSaker } : undefined;
-
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
@@ -62,23 +60,25 @@ const SoknadCard = ({ sak }: Props) => {
                     <BehandlingsStatusTag status="under_behandling" vedtakProgress={vedtakProgress} />
                     {harSakMedFlereVedtak && <VedtakTag />}
                     {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
-                    {sak.forelopigSvar?.harMottattForelopigSvar && <AlertTag alertType="forlenget_behandlingstid" />}
+                    {soknad.forelopigSvar?.harMottattForelopigSvar && <AlertTag alertType="forlenget_behandlingstid" />}
                 </LinkCardFooter>
             </StatusCard>
         );
     }
-    if (sak.status === "FERDIGBEHANDLET") {
+    if (soknad.status === "FERDIGBEHANDLET") {
         return (
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     <BehandlingsStatusTag
                         status={
-                            ferdigbehandletAndOlderThan21Days(sak) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"
+                            ferdigbehandletAndOlderThan21Days(soknad)
+                                ? "ferdigbehandlet_eldre"
+                                : "ferdigbehandlet_nylig"
                         }
                     />
                     {harSakMedFlereVedtak && <VedtakTag />}
-                    {sak.vilkar && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
+                    {soknad.vilkar && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
                 </LinkCardFooter>
             </StatusCard>
         );

@@ -39,29 +39,31 @@ test.beforeEach(async ({ request, baseURL }) => {
     await msw.mockEndpoint("/api/v1/innsyn/tilgang", { harTilgang: true, fornavn: "whatever" });
 });
 
-test("should render snarveier", async ({ page, request, baseURL }) => {
-    // Configure MSW to mock server-side API responses with data
-    // This mocks both the Server Component fetches and client-side fetches
-    const msw = createMswHelper(request, baseURL!);
-    await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
-    await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
+test.describe("Snarveier on Landingsside", () => {
+    test("should render snarveier", async ({ page, request, baseURL }) => {
+        // Configure MSW to mock server-side API responses with data
+        // This mocks both the Server Component fetches and client-side fetches
+        const msw = createMswHelper(request, baseURL!);
+        await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
+        await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
-    await page.goto("/sosialhjelp/innsyn/nb/landingsside");
-    await page.getByRole("button", { name: "Nei" }).click();
-    await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Søknader" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Utbetalinger" })).toBeVisible();
-});
+        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.getByRole("button", { name: "Nei" }).click();
+        await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
+        await expect(page.getByRole("link", { name: "Søknader" })).toBeVisible();
+        await expect(page.getByRole("link", { name: "Utbetalinger" })).toBeVisible();
+    });
 
-test("should not render snarveier when no soknader, klager or utbetalinger", async ({ page, request, baseURL }) => {
-    // Configure MSW to mock server-side API responses with empty arrays
-    // This ensures no data is available for both server and client components
-    const msw = createMswHelper(request, baseURL!);
-    await msw.mockEmptyState();
+    test("should not render snarveier when no soknader, klager or utbetalinger", async ({ page, request, baseURL }) => {
+        // Configure MSW to mock server-side API responses with empty arrays
+        // This ensures no data is available for both server and client components
+        const msw = createMswHelper(request, baseURL!);
+        await msw.mockEmptyState();
 
-    await page.goto("/sosialhjelp/innsyn/nb/landingsside");
-    await page.getByRole("button", { name: "Nei" }).click();
-    await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Søknader" })).not.toBeVisible();
-    await expect(page.getByRole("link", { name: "Utbetalinger" })).not.toBeVisible();
+        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.getByRole("button", { name: "Nei" }).click();
+        await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
+        await expect(page.getByRole("link", { name: "Søknader" })).not.toBeVisible();
+        await expect(page.getByRole("link", { name: "Utbetalinger" })).not.toBeVisible();
+    });
 });

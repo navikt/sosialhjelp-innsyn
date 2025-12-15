@@ -7,7 +7,7 @@ import { SaksDetaljerResponse } from "@generated/ssr/model";
 const fetchSoknadsdetaljer = (saker: SaksListeResponse[]): Promise<SaksDetaljerResponse>[] =>
     R.pipe(
         saker,
-        R.map((sak) => getSaksDetaljer(sak.fiksDigisosId, { cache: "force-cache" }))
+        R.map((sak) => getSaksDetaljer(sak.fiksDigisosId))
     );
 
 export default fetchSoknadsdetaljer;
