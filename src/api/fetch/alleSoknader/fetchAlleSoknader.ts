@@ -4,7 +4,7 @@ import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-over
 
 const fetchAlleSoknader = async () => {
     try {
-        return await hentAlleSaker({ cache: "force-cache" });
+        return await hentAlleSaker();
     } catch (e: unknown) {
         logger.error(`Fikk feil under henting av alle saker. Feil: ${e}`);
         return [];

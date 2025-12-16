@@ -9,6 +9,10 @@ on:
 jobs:
     playwright-tests:
         name: Playwright Tests
+        permissions:
+            contents: read
+            id-token: write
+            packages: write
         uses: ./.github/workflows/playwright-tests.yml
     build-image:
         name: "Build Image for Deploy"
