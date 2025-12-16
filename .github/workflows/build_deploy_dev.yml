@@ -20,6 +20,9 @@ on:
                 type: string
 
 jobs:
+    playwright-tests:
+        name: Playwright Tests
+        uses: ./.github/workflows/playwright-tests.yml
     build-image:
         name: "Build Image for Deploy"
         runs-on: ubuntu-latest

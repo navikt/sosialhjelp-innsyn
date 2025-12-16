@@ -39,7 +39,7 @@ export default defineConfig({
 
     use: {
         baseURL: opts.baseURL,
-        trace: "on",
+        trace: "on-first-retry",
     },
 
     projects: [
