@@ -1,11 +1,14 @@
 name: "Build image and deploy to production"
 on:
-    workflow_call:
-    workflow_run:
-        workflows: ["Build code and run tests"]
+    push:
         branches: [main]
-        types:
-            - completed
+        paths-ignore:
+            - README.md
+            - wonderwall/
+            - e2e/
+            - .husky/
+        tags-ignore:
+            - "**" # Don't build any tags
 jobs:
     playwright-tests:
         name: Playwright Tests
