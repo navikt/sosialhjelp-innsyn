@@ -51,14 +51,14 @@ const SoknaderList = ({ soknader }: Props) => {
     }, [soknader]);
     return (
         <>
-            {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((sak) => (
-                <Fragment key={sakKey(sak)}>
-                    {"fiksDigisosId" in sak && <SoknadCard key={sak.fiksDigisosId} sak={sak} />}
-                    {"soknadId" in sak && (
+            {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((soknad) => (
+                <Fragment key={sakKey(soknad)}>
+                    {"fiksDigisosId" in soknad && <SoknadCard key={soknad.fiksDigisosId} soknad={soknad} />}
+                    {"soknadId" in soknad && (
                         <PaabegyntCard
-                            soknadId={sak.soknadId}
-                            keptUntil={addDays(new Date(sak.sistOppdatert), 21)}
-                            key={sak.sistOppdatert}
+                            soknadId={soknad.soknadId}
+                            keptUntil={addDays(new Date(soknad.sistOppdatert), 21)}
+                            key={soknad.sistOppdatert}
                         />
                     )}
                 </Fragment>

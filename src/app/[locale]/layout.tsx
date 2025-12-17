@@ -27,13 +27,22 @@ const getToken = async (): Promise<string | null> => {
     return readOnlyHeaders.get("Authorization");
 };
 
-const harTilgang = async (): Promise<TilgangResponse | undefined> => {
+const buildHeaders = async () => {
+    if (process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
+        return new Headers();
+    }
     const token = await getToken();
     if (!token) {
         throw new Error("Missing auth header");
     }
     const headers: HeadersInit = new Headers();
     headers.append("Authorization", token);
+    return headers;
+};
+
+const harTilgang = async (): Promise<TilgangResponse | undefined> => {
+    const headers = await buildHeaders();
+
     try {
         const tilgangResponse = await fetch(buildUrl("/tilgang"), { headers });
         if (tilgangResponse.ok) {

@@ -21,8 +21,8 @@ jobs:
             - name: "Copy appropriate env file to root"
               shell: bash
               run: |
-                  echo "Copying nais/envs/.env.preprod..."
-                  cp nais/envs/.env.preprod .env.production
+                  echo "Copying .nais/envs/.env.preprod..."
+                  cp .nais/envs/.env.preprod .env.production
 
             - name: "Build"
               uses: navikt/sosialhjelp-ci/actions/build-node@v12
@@ -60,7 +60,7 @@ jobs:
             - name: "Deploy til dev"
               uses: nais/deploy/actions/deploy@v2
               env:
-                  RESOURCE: nais/dev/preprod.yaml
+                  RESOURCE: .nais/dev/preprod.yaml
                   CLUSTER: dev-gcp
                   REF: ${{ github.sha }}
                   PRINT_PAYLOAD: true

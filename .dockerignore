@@ -11,7 +11,7 @@
 
 !package.json
 !package-lock.json
-!nais.yaml
+!.nais.yaml
 !next.config.ts
 !next-logger.config.js
 !.env

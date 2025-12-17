@@ -24,7 +24,9 @@ const fetchPaabegynteSaker = async (): Promise<PaabegyntSoknad[]> => {
             getServerEnv().SOKNAD_API_PORT
         );
     } catch (e: unknown) {
-        logger.error(`Feil ved henting av paabegynte saker ${e}`);
+        if (!["local", "e2e"].includes(getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
+            logger.error(`Feil ved henting av paabegynte saker ${e}`);
+        }
         return [];
     }
 };

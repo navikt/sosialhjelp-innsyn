@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { connection } from "next/server";
 
 import { isLocalhost, isMock } from "@utils/restUtils";
-import { getServerEnv } from "@config/env";
 import { getAndValidateDefinitions } from "@featuretoggles/definitions";
+import { getServerEnv } from "@config/env";
 
 import { EXPECTED_TOGGLES, ExpectedToggles } from "./toggles";
 import { localDevelopmentToggles } from "./utils";
@@ -50,10 +50,10 @@ export async function getToggles(): Promise<IToggle[]> {
 
         return overrideTogglesWithCookies(localDevelopmentToggles());
     } else if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "e2e") {
-        unleashLogger.warn("Running in e2e mode");
+        unleashLogger.debug("Running in e2e mode");
         return EXPECTED_TOGGLES.map((it) => ({
             name: it,
-            enabled: it === "sosialhjelp.innsyn.ny_landingsside",
+            enabled: it !== "sosialhjelp.innsyn.ny_upload",
             impressionData: false,
             variant: {
                 name: "disabled",

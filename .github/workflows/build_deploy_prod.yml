@@ -7,6 +7,13 @@ on:
         types:
             - completed
 jobs:
+    playwright-tests:
+        name: Playwright Tests
+        permissions:
+            contents: read
+            id-token: write
+            packages: write
+        uses: ./.github/workflows/playwright-tests.yml
     build-image:
         name: "Build Image for Deploy"
         runs-on: ubuntu-latest
@@ -21,8 +28,8 @@ jobs:
             - name: "Copy appropriate env file to root"
               shell: bash
               run: |
-                  echo "Copying nais/envs/.env.production..."
-                  cp nais/envs/.env.production .env.production
+                  echo "Copying .nais/envs/.env.production..."
+                  cp .nais/envs/.env.production .env.production
 
             - name: "Build npm project"
               uses: navikt/sosialhjelp-ci/actions/build-node@v12
@@ -60,7 +67,7 @@ jobs:
             - name: "Deploy til prod"
               uses: nais/deploy/actions/deploy@v2
               env:
-                  RESOURCE: nais/prod/prod.yaml
+                  RESOURCE: .nais/prod/prod.yaml
                   CLUSTER: prod-gcp
                   REF: ${{ github.sha }}
                   PRINT_PAYLOAD: true
