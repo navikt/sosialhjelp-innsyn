@@ -47,7 +47,8 @@
         "neste": "Neste side"
     },
     "SoknaderSide": {
-        "tittel": "Mine søknader"
+        "tittel": "Mine søknader",
+        "htmlTitle": "Mine søknader om økonomisk sosialhjelp"
     },
     "ForelopigSvarAlert": {
         "tittel": "Du har fått et brev om forlenget saksbehandlingstid",

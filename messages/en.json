@@ -34,7 +34,8 @@
         "seOver": "Please review the contents of this file and ensure it looks correct."
     },
     "SoknaderSide": {
-        "tittel": "My applications"
+        "tittel": "My applications",
+        "htmlTitle": "My applications for financial assistance"
     },
     "ForelopigSvarAlert": {
         "tittel": "You have received a letter regarding an extended processing time.",

@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Heading, VStack } from "@navikt/ds-react";
 import { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { Metadata } from "next";
 
 import { getQueryClient } from "@api/queryClient";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
@@ -33,7 +34,7 @@ const Page = async () => {
     );
 };
 
-export const generateMetadata = async () => {
+export const generateMetadata = async (): Promise<Metadata> => {
     const t = await getTranslations("UtbetalingerPage");
     return {
         title: t("tittel"),

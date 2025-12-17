@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
 
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
@@ -34,6 +35,13 @@ const Page = async () => {
             </VStack>
         </>
     );
+};
+
+export const generateMetadata = async (): Promise<Metadata> => {
+    const t = await getTranslations("SoknaderSide");
+    return {
+        title: t("htmlTitle"),
+    };
 };
 
 export default Page;

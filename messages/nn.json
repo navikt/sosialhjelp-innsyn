@@ -34,7 +34,8 @@
         "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg."
     },
     "SoknaderSide": {
-        "tittel": "Søknadene mine"
+        "tittel": "Søknadene mine",
+        "htmlTitle": "Søknadene mine om økonomisk sosialhjelp"
     },
     "ForelopigSvarAlert": {
         "tittel": "Du har fått eit brev om forlengd saksbehandlingstid",
@@ -301,9 +302,9 @@
         "ferdigbehandlet": "Ferdigbehandla",
         "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandla"
     },
-  "VedtakTag": {
-    "tittel": "Nytt vedtak"
-  },
+    "VedtakTag": {
+        "tittel": "Nytt vedtak"
+    },
     "Snarveier": {
         "tittel": "Snarvegar",
         "soknader": "Mine søknader",

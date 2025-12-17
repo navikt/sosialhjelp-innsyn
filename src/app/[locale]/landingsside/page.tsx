@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
 
 import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
@@ -46,6 +47,13 @@ const Page = async () => {
             </VStack>
         </>
     );
+};
+
+export const generateMetadata = async (): Promise<Metadata> => {
+    const t = await getTranslations("Landingsside");
+    return {
+        title: t("tittel"),
+    };
 };
 
 export default Page;
