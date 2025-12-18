@@ -53,33 +53,33 @@ const empty = getHentAlleSakerMockHandler([]);
 describe("Saksoversikt", () => {
     it("Skal vise feil ved server-feil", async () => {
         server.use(notFound);
-        render(<Saksoversikt />);
+        render(<Saksoversikt driftsmeldinger={[]} />);
         await screen.findByText("Vi klarte ikke å hente inn all informasjonen på siden.");
         expect(screen.getByText("Vi klarte ikke å hente inn all informasjonen på siden.")).toBeVisible();
     });
 
     it("Skal vise lasteindikator under innlasting", async () => {
         server.use(loading);
-        render(<Saksoversikt />);
+        render(<Saksoversikt driftsmeldinger={[]} />);
         expect(screen.getByText("Venter", { exact: false })).toBeInTheDocument();
     });
 
     it("Skal vise lasteindikator ved 401 unauthorized", async () => {
         server.use(unauthorized);
-        render(<Saksoversikt />);
+        render(<Saksoversikt driftsmeldinger={[]} />);
         expect(screen.getByText("Venter", { exact: false })).toBeInTheDocument();
     });
 
     it("Skal vise tom tilstand ved ingen saker", async () => {
         server.use(empty);
-        render(<Saksoversikt />);
+        render(<Saksoversikt driftsmeldinger={[]} />);
         await waitForElementToBeRemoved(() => screen.queryByText("Venter", { exact: false }));
         expect(screen.getAllByRole("heading")[1]).toHaveTextContent("Vi finner ingen søknader fra deg");
     });
 
     it("Skal vise innhold ved resultat", async () => {
         server.use(success, saksdetaljer, utbetalingerDoesntExist);
-        render(<Saksoversikt />);
+        render(<Saksoversikt driftsmeldinger={[]} />);
         const soknadSection = await screen.findByRole("region", { name: "Dine søknader" });
         expect(soknadSection).toBeVisible();
         const links = await within(soknadSection).findAllByRole("link", { name: /Min kule søknad/ });

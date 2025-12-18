@@ -4,6 +4,8 @@ import { logger } from "@navikt/next-logger";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { Messages } from "next-intl";
 
+import { Driftsmelding, getDriftsmeldinger } from "@components/driftsmelding/getDriftsmeldinger";
+
 import { TilgangResponse } from "../generated/model";
 import { extractAuthHeader } from "../utils/authUtils";
 import { getToggles } from "../featuretoggles/deprecated_pages/unleash";
@@ -14,6 +16,7 @@ export interface PageProps {
     toggles: IToggle[];
     dehydratedState: DehydratedState | null;
     messages: Messages;
+    driftsmeldinger: Driftsmelding[];
 }
 
 export function buildUrl(path: string) {
@@ -35,7 +38,7 @@ const pageHandler = async (
             },
         };
     }
-    const { messages, toggles, tilgang } = await getCommonProps(context, token);
+    const { messages, toggles, tilgang, driftsmeldinger } = await getCommonProps(context, token);
     if (!tilgang && getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local") {
         logger.warn("Fikk ikke henta tilgangsdata fra innsyn-api, har du huska å skru på backends?");
     }
@@ -47,10 +50,31 @@ const pageHandler = async (
         props: {
             messages,
             toggles,
+            driftsmeldinger,
             tilgang: tilgang ?? null,
             dehydratedState: dehydrate(queryClient),
         },
     };
+};
+
+const getTilgang = async (
+    token: string,
+    resolvedUrl: string
+): Promise<{ harTilgang: boolean; fornavn: string } | undefined> => {
+    const headers: HeadersInit = new Headers();
+    headers.append("Authorization", token);
+    try {
+        const tilgangResponse = await fetch(buildUrl("/api/v1/innsyn/tilgang"), { headers });
+        if (tilgangResponse.ok) {
+            return await tilgangResponse.json();
+        } else {
+            logger.error(
+                `Fikk feil ved innhenting av tilgangsdata. Status: ${tilgangResponse.status}, data: ${await tilgangResponse.text()}`
+            );
+        }
+    } catch (e: unknown) {
+        logger.error(`Something happened during fetch in getServerSideProps for url ${resolvedUrl}. Error: ${e}`);
+    }
 };
 
 export const getCommonProps = async (
@@ -60,22 +84,8 @@ export const getCommonProps = async (
     const locale = params?.locale ?? "nb";
     const messages = (await import(`../../messages/${locale}.json`)).default;
     const toggles = await getToggles(req.cookies);
-    const headers: HeadersInit = new Headers();
-    headers.append("Authorization", token);
-    try {
-        const tilgangResponse = await fetch(buildUrl("/api/v1/innsyn/tilgang"), { headers });
-        if (tilgangResponse.ok) {
-            const data: { harTilgang: boolean; fornavn: string } = await tilgangResponse.json();
-            return { messages, toggles, tilgang: data };
-        } else {
-            logger.error(
-                `Fikk feil ved innhenting av tilgangsdata. Status: ${tilgangResponse.status}, data: ${await tilgangResponse.text()}`
-            );
-        }
-    } catch (e: unknown) {
-        logger.error(`Something happened during fetch in getServerSideProps for url ${resolvedUrl}. Error: ${e}`);
-    }
-    return { messages, toggles };
+    const [driftsmeldinger, tilgang] = await Promise.all([getDriftsmeldinger(), getTilgang(token, resolvedUrl)]);
+    return { messages, toggles, driftsmeldinger, tilgang };
 };
 
 export default pageHandler;

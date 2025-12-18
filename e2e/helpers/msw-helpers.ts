@@ -42,12 +42,17 @@ export class MswHelper {
         await this.mockEndpoint("/api/v2/innsyn/utbetalinger", []);
     }
 
+    async mockEmptyDriftsmeldinger() {
+        await this.mockEndpoint("/api/status?audience=innsyn", []);
+    }
+
     /**
      * Mock both saker and utbetalinger with empty arrays
      */
     async mockEmptyState() {
         await this.mockEmptySaker();
         await this.mockEmptyUtbetalinger();
+        await this.mockEmptyDriftsmeldinger();
     }
 }
 

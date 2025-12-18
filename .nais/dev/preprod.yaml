@@ -39,6 +39,7 @@ spec:
         - application: sosialhjelp-innsyn-api
         - application: sosialhjelp-soknad-api
         - application: sosialhjelp-upload-dev
+        - application: sosialhjelp-driftsmeldinger
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io

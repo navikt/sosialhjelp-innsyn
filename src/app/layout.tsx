@@ -4,7 +4,7 @@ import { fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import Script from "next/script";
 import { cookies } from "next/headers";
 import { Page, PageBlock } from "@navikt/ds-react/Page";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import { Theme } from "@navikt/ds-react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -12,6 +12,7 @@ import { pick } from "remeda";
 
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import decoratorParams from "@config/decoratorConfig";
+import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
 
 import Preload from "./preload";
 
@@ -39,6 +40,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                         <Page footer={<Decorator.Footer />}>
                             <Decorator.Header />
                             <PageBlock as="main" width="md" gutters id="maincontent" tabIndex={-1}>
+                                <Driftsmeldinger />
                                 {children}
                             </PageBlock>
                         </Page>

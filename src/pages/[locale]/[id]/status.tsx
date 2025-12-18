@@ -51,6 +51,7 @@ import {
     getHentUtbetalinger1QueryKey,
     getHentUtbetalinger1Url,
 } from "@generated/utbetalinger-controller/utbetalinger-controller";
+import { Driftsmelding } from "@components/driftsmelding/getDriftsmeldinger";
 
 import useFiksDigisosId from "../../../hooks/useFiksDigisosId";
 import useKommune from "../../../hooks/useKommune";
@@ -62,7 +63,7 @@ import VedleggView from "../../../components/vedlegg/VedleggView";
 import Historikk from "../../../components/historikk/Historikk";
 import MainLayout from "../../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../../hooks/useUpdateBreadcrumbs";
-import pageHandler from "../../../pagehandler/pageHandler";
+import pageHandler, { PageProps } from "../../../pagehandler/pageHandler";
 import Panel from "../../../components/panel/Panel";
 import EttersendelseView from "../../../components/ettersendelse/EttersendelseView";
 import ArkfanePanel from "../../../components/arkfanePanel/ArkfanePanel";
@@ -80,7 +81,12 @@ const StyledSpace = styled.div`
     padding: 2rem 0 2rem 0;
 `;
 
-const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
+interface Props {
+    fiksDigisosId: string;
+    driftsmeldinger: Driftsmelding[];
+}
+
+const SakStatus = ({ fiksDigisosId, driftsmeldinger }: Props) => {
     const t = useTranslations("common");
     const pathname = usePathname();
     useUpdateBreadcrumbs(() => [{ title: t("soknadStatus.tittel"), url: `/sosialhjelp${pathname}` }]);
@@ -102,7 +108,7 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
             ));
 
     return (
-        <MainLayout title={t("app.tittel")}>
+        <MainLayout title={t("app.tittel")} driftsmeldinger={driftsmeldinger}>
             <StyledSpace />
             <LoadingResourcesFailedAlert />
 
@@ -143,11 +149,13 @@ const SakStatus = ({ fiksDigisosId }: { fiksDigisosId: string }) => {
     );
 };
 
+type StatusPageProps = Pick<PageProps, "driftsmeldinger">;
+
 /**
  * Dette er en liten hack som forhindrer at en request mot en søknad bruker ikke
  * eier, fører til 20-30 mislykkede kall og loggstøy.
  */
-const SaksStatusView: NextPage = () => {
+const SaksStatusView: NextPage<StatusPageProps> = ({ driftsmeldinger }: StatusPageProps) => {
     const fiksDigisosId = useFiksDigisosId();
     const { isPending, error } = useHentSoknadsStatus(fiksDigisosId);
     const router = useRouter();
@@ -160,7 +168,7 @@ const SaksStatusView: NextPage = () => {
 
     if (isPending) return null;
 
-    return error ? null : <SakStatus fiksDigisosId={fiksDigisosId} />;
+    return error ? null : <SakStatus fiksDigisosId={fiksDigisosId} driftsmeldinger={driftsmeldinger} />;
 };
 
 const getQueries = (id: string) => [
