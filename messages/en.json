@@ -261,17 +261,21 @@
     "KommendeUtbetalingerListe": {
         "beskrivelse": "You will receive {amount} kr",
         "utbetales": "Paid on {dato, date, ::ddMMyyyy}",
-        "visFlere": "Show more",
-        "visFærre": "Show less"
+        "utbetalinger": "payments"
     },
     "AktiveSoknader": {
         "tittel": "Active applications",
         "EmptyState": {
             "tittel": "We can't find any applications from you",
             "beskrivelse": "This can be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
-        },
+        }
+    },
+    "ShowMoreButton": {
         "visFlere": "Show more",
         "visFærre": "Show less"
+    },
+    "SoknaderList": {
+        "soknader": "applications"
     },
     "TidligereSoknader": {
         "tittel": "Previous applications"
@@ -302,9 +306,9 @@
         "ferdigbehandlet": "Processed",
         "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
     },
-  "VedtakTag": {
-    "tittel": "New decision"
-  },
+    "VedtakTag": {
+        "tittel": "New decision"
+    },
     "Snarveier": {
         "tittel": "Shortcuts",
         "soknader": "My applications",

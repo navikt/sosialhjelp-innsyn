@@ -1,14 +1,13 @@
 "use client";
 
 import { addDays } from "date-fns";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { Box, Button } from "@navikt/ds-react";
-import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/model";
-import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";
+import { ITEMS_LIMIT } from "@components/showmore/useShowMore";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
+import ExpandableList from "@components/showmore/ExpandableList";
 
 import { umamiTrack } from "../../../app/umami";
 
@@ -31,8 +30,8 @@ const sakKey = (sak: PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksList
 };
 
 const SoknaderList = ({ soknader }: Props) => {
-    const t = useTranslations("AktiveSoknader");
-    const { hasMore, showAll, setShowAll } = useShowMore(soknader);
+    const t = useTranslations("SoknaderList");
+
     // Denne skal bare tracke søknader som ligger under "Aktive søknader"
     // med dokumentasjonetterspurt, så lenge tilfellene er oppfylt.
     useEffect(() => {
@@ -48,35 +47,23 @@ const SoknaderList = ({ soknader }: Props) => {
             });
         }
     }, [soknader]);
+
     return (
-        <>
-            {soknader.slice(0, showAll ? soknader.length : ITEMS_LIMIT).map((soknad) => (
-                <Fragment key={sakKey(soknad)}>
-                    {"fiksDigisosId" in soknad && <SoknadCard key={soknad.fiksDigisosId} soknad={soknad} />}
-                    {"soknadId" in soknad && (
-                        <PaabegyntCard
-                            soknadId={soknad.soknadId}
-                            keptUntil={addDays(new Date(soknad.sistOppdatert), 21)}
-                            key={soknad.sistOppdatert}
-                        />
-                    )}
-                </Fragment>
-            ))}
-            {hasMore && (
-                <Box className="self-start">
-                    {!showAll && (
-                        <Button onClick={() => setShowAll(true)} variant="tertiary" icon={<ChevronDownIcon />}>
-                            {t("visFlere")} ({soknader.length - ITEMS_LIMIT})
-                        </Button>
-                    )}
-                    {showAll && (
-                        <Button onClick={() => setShowAll(false)} variant="tertiary" icon={<ChevronUpIcon />}>
-                            {t("visFærre")}
-                        </Button>
-                    )}
-                </Box>
-            )}
-        </>
+        <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")}>
+            {(item, index, ref) => {
+                return (
+                    <li key={sakKey(item)} ref={index === ITEMS_LIMIT ? ref : null} tabIndex={-1}>
+                        {"fiksDigisosId" in item && <SoknadCard soknad={item} />}
+                        {"soknadId" in item && (
+                            <PaabegyntCard
+                                soknadId={item.soknadId}
+                                keptUntil={addDays(new Date(item.sistOppdatert), 21)}
+                            />
+                        )}
+                    </li>
+                );
+            }}
+        </ExpandableList>
     );
 };
 
