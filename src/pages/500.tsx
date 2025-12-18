@@ -11,7 +11,7 @@ const FeilsideWrapper = styled.div.attrs({ className: "blokk-center" })`
 
 //TODO: i18n?
 const ServerError = (): React.JSX.Element => (
-    <MainLayout title="Tekniske problemer">
+    <MainLayout title="Tekniske problemer" driftsmeldinger={[]}>
         <div className="informasjon-side">
             <FeilsideWrapper>
                 <UthevetPanel>

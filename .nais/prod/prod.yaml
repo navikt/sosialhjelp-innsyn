@@ -41,6 +41,7 @@ spec:
         - application: sosialhjelp-upload
         - application: nav-dekoratoren
           namespace: personbruker
+        - application: sosialhjelp-driftsmeldinger
       external:
         - host: dekoratoren.nav.no
         - host: teamdigisos-unleash-api.nav.cloud.nais.io

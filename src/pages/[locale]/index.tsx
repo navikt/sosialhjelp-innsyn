@@ -15,7 +15,7 @@ import SaksoversiktDineSaker from "../../saksoversikt/SaksoversiktDineSaker";
 import SaksoversiktIngenSoknader from "../../saksoversikt/SaksoversiktIngenSoknader";
 import MainLayout from "../../components/MainLayout";
 import useUpdateBreadcrumbs from "../../hooks/useUpdateBreadcrumbs";
-import pageHandler from "../../pagehandler/pageHandler";
+import pageHandler, { PageProps } from "../../pagehandler/pageHandler";
 import { extractAuthHeader } from "../../utils/authUtils";
 import { browserEnv } from "../../config/env";
 
@@ -23,14 +23,16 @@ const Preamble = styled("div")`
     margin-bottom: 1.5rem;
 `;
 
-const Saksoversikt: NextPage = () => {
+type Props = Pick<PageProps, "driftsmeldinger">;
+
+const Saksoversikt: NextPage<Props> = ({ driftsmeldinger }: Props) => {
     const t = useTranslations("common");
     useUpdateBreadcrumbs(() => []);
 
     const { data: saker, isLoading, error } = useHentAlleSaker();
 
     return (
-        <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")}>
+        <MainLayout title={t("app.tittel")} bannerTitle={t("app.tittel")} driftsmeldinger={driftsmeldinger}>
             {isLoading && <ApplicationSpinner />}
             {!isLoading && (
                 <>
