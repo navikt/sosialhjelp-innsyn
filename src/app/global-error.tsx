@@ -70,7 +70,7 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
             <body>
                 <Page>
                     <Theme theme="light">
-                        <PageBlock as="main" width="md" gutters className="mb-16">
+                        <PageBlock as="main" width="md" gutters className="mb-16" id="maincontent" tabIndex={-1}>
                             {!messages && <Loader size="3xlarge" />}
                             {messages && (
                                 <NextIntlClientProvider locale={locale} messages={messages}>

@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                     <Theme theme="light">
                         <Page footer={<Decorator.Footer />}>
                             <Decorator.Header />
-                            <PageBlock as="main" width="md" gutters>
+                            <PageBlock as="main" width="md" gutters id="maincontent" tabIndex={-1}>
                                 {children}
                             </PageBlock>
                         </Page>
