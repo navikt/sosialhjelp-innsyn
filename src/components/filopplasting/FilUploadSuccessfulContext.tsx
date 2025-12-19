@@ -13,7 +13,7 @@ const initState: UploadType = {
     setEttersendelseUploadSuccess: () => false,
 };
 
-export const FilUploadSuccessfulContext = createContext(initState);
+const FilUploadSuccessfulContext = createContext(initState);
 
 export const useFilUploadSuccessful = () => useContext(FilUploadSuccessfulContext);
 

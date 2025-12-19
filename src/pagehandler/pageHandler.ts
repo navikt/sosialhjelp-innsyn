@@ -18,7 +18,7 @@ export interface PageProps {
     driftsmeldinger: Driftsmelding[];
 }
 
-export function buildUrl(path: string) {
+function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
     const portPart = isLocal ? ":8080" : "";
     return `http://${process.env.NEXT_INNSYN_API_HOSTNAME}${portPart}/sosialhjelp/innsyn-api${path}`;
@@ -76,7 +76,7 @@ const getTilgang = async (
     }
 };
 
-export const getCommonProps = async (
+const getCommonProps = async (
     { req, resolvedUrl, params }: GetServerSidePropsContext<{ locale: "nb" | "nn" | "en" }>,
     token: string
 ) => {

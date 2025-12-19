@@ -48,5 +48,3 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
     }
     return data as T;
 };
-
-export default authenticatedFetch;

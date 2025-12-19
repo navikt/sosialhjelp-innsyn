@@ -1,7 +1,7 @@
 import { z, ZodError } from "zod";
 
 export type PublicEnv = z.infer<typeof publicEnvSchema>;
-export const publicEnvSchema = z.object({
+const publicEnvSchema = z.object({
     NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.enum(["local", "mock", "dev", "preprod", "prod", "e2e"]),
     NEXT_PUBLIC_INNSYN_ORIGIN: z.string(),
     NEXT_PUBLIC_BASE_PATH: z.string(),
@@ -12,7 +12,7 @@ export const publicEnvSchema = z.object({
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
-export const serverEnvSchema = z.object({
+const serverEnvSchema = z.object({
     NEXT_INNSYN_API_HOSTNAME: z.string(),
     SOKNAD_API_HOSTNAME: z.string(),
     SOKNAD_API_AUDIENCE: z.string(),

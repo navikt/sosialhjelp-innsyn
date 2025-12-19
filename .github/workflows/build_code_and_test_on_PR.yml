@@ -37,6 +37,9 @@ jobs:
             - name: test
               run: pnpm run test
               shell: bash
+            - name: knip
+              run: pnpm run knip
+              shell: bash
     playwright-tests:
         name: Playwright Tests
         uses: ./.github/workflows/playwright-tests.yml

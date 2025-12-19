@@ -22,7 +22,7 @@ interface Props {
     showFrist: boolean;
 }
 
-export const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
+const DokumentasjonEtterspurtView = ({ dokumentasjonEtterspurt, showFrist }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const fileUploadError = useFileUploadError();
     const metadatas = useMemo(

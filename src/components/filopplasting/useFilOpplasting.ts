@@ -41,7 +41,7 @@ export interface ErrorWithFile extends Error {
     filnavn: string;
 }
 
-export enum Feil {
+enum Feil {
     FILE_TOO_LARGE,
     ILLEGAL_FILE_TYPE,
     PDF_ENCRYPTED,

@@ -23,7 +23,7 @@ function createCompleteCrumbs(
     return [...getBaseCrumbs(t), ...prefixedCrumbs];
 }
 
-export function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCrumb] | [], deps?: DependencyList): void {
+function useUpdateBreadcrumbs(makeCrumbs: () => [...Breadcrumb[], LastCrumb] | [], deps?: DependencyList): void {
     const t = useTranslations("Breadcrumbs");
     const makeCrumbsRef = useRef(makeCrumbs);
     useEffect(() => {

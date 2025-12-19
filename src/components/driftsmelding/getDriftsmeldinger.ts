@@ -23,13 +23,13 @@ export const getDriftsmeldinger = async () => {
     }
 };
 
-export const DriftsmeldingAudience = {
+const DriftsmeldingAudience = {
     soknad: "soknad",
     innsyn: "innsyn",
     modia: "modia",
 } as const;
 
-export const DriftsmeldingAudienceParam = "audience";
+const DriftsmeldingAudienceParam = "audience";
 
 /**
  * Hvordan driftsmeldingen skal vises; samsvarer med Aksel sin Alert-komponent

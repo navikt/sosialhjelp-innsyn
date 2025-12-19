@@ -1,5 +1,3 @@
-import { VedleggOpplastingResponseStatus } from "@generated/model";
-
 export interface FancyFile {
     file: File;
     error?: Feil;
@@ -19,18 +17,6 @@ export interface Metadata {
 
 export interface Error {
     feil: Feil;
-}
-
-export interface ErrorWithFile extends Error {
-    fil: File;
-    filnavn: string;
-}
-
-export interface Mutation {
-    isLoading: boolean;
-    isError?: boolean;
-    error?: Error | ErrorWithFile;
-    data?: { filer: { status: VedleggOpplastingResponseStatus; filnavn: string }[] }[];
 }
 
 export enum Feil {
