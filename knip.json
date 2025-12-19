@@ -1,0 +1,14 @@
+{
+    "$schema": "https://unpkg.com/knip@5/schema.json",
+    "ignoreExportsUsedInFile": {
+        "interface": true,
+        "type": true
+    },
+    "ignore": ["**/generated/**", "*.config.ts", "*.config.js", "*.config.mjs", "**/*.d.ts", ""],
+    "ignoreIssues": {
+        "src/i18n/navigation.ts": ["exports"],
+        "src/custom-fetch.ts": ["exports", "types"],
+        "src/api/ssr/authenticatedFetch.ts": ["exports"]
+    },
+    "tags": ["-lintignore"]
+}

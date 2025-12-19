@@ -8,17 +8,12 @@ import { ArrowRightIcon } from "@navikt/aksel-icons";
 import { Link as NextLink } from "@i18n/navigation";
 
 import styles from "../../../../../utbetalinger/utbetalinger.module.css";
+import { cardBorder } from "./UtbetalingerContentCard";
 
 interface Props {
     index: number;
     count: number;
 }
-
-export const cardBorder = (id: number, count: number) => {
-    if (count <= 1) return "border-none rounded-t-none rounded-b-lg";
-    if (id === count - 1) return "border-none rounded-t-none rounded-b-lg";
-    return "border-none rounded-none";
-};
 
 const UtbetalingerContentCardSkeleton = ({ index, count }: Props) => {
     const alignmentWithChevron = "leading-[1.75]"; // Justerer linjehøyde for å matche høyden på chevron i ExpansionCard

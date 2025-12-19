@@ -67,7 +67,7 @@ export const grupperUtbetalingerEtterManed = (utbetalinger: UtbetalingDto[]): Ma
     return sorterManeder(withSortedUtbetalinger);
 };
 
-export const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
+const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
     const dagens = new Date();
 
     switch (chip) {
