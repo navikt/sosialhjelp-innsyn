@@ -1,5 +1,4 @@
 import { VStack } from "@navikt/ds-react";
-
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 
 import Vedtak from "../vedtak/Vedtak";

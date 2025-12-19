@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
-
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { FancyFile, Error } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";

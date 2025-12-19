@@ -1,5 +1,4 @@
 import { cookies, headers } from "next/headers";
-
 import { getServerEnv } from "@config/env";
 
 const getAuthorizationHeader = async (): Promise<string | null> => (await headers()).get("authorization");

@@ -1,6 +1,5 @@
 import * as R from "remeda";
 import { differenceInDays } from "date-fns";
-
 import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";

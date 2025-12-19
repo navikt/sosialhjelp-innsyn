@@ -5,7 +5,6 @@ import cx from "classnames";
 import { BodyShort, ExpansionCard, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { Link } from "@navikt/ds-react/Link";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
-
 import { Link as NextLink } from "@i18n/navigation";
 
 import styles from "../../../../../utbetalinger/utbetalinger.module.css";

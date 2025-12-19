@@ -1,6 +1,5 @@
 import { Alert, VStack } from "@navikt/ds-react";
 import Markdown from "markdown-to-jsx/react";
-
 import { getDriftsmeldinger } from "@components/driftsmelding/getDriftsmeldinger";
 
 export const Driftsmeldinger = async () => {

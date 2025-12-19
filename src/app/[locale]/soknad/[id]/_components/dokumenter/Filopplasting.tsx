@@ -1,7 +1,6 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { NavigationGuardProvider } from "next-navigation-guard";
-
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import { Metadata } from "@components/filopplasting/new/types";

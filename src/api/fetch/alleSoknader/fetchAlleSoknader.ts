@@ -1,5 +1,4 @@
 import { logger } from "@navikt/next-logger";
-
 import { hentAlleSaker } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
 
 const fetchAlleSoknader = async () => {

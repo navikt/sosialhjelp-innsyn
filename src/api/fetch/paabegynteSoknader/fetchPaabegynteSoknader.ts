@@ -1,5 +1,4 @@
 import { logger } from "@navikt/next-logger";
-
 import { getServerEnv } from "@config/env";
 import exchangedFetch from "@api/ssr/exchangedFetch";
 

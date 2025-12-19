@@ -2,7 +2,6 @@
 
 import React, { use } from "react";
 import { useTranslations } from "next-intl";
-
 import { SaksStatusResponse } from "@generated/model";
 import StatusAlert from "@components/alert/StatusAlert";
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";

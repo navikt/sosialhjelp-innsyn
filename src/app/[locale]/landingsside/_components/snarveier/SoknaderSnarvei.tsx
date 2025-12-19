@@ -2,7 +2,6 @@
 
 import { FilesIcon } from "@navikt/aksel-icons";
 import { useLocale, useTranslations } from "next-intl";
-
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 const SoknaderSnarvei = () => {

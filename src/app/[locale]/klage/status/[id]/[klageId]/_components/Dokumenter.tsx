@@ -1,7 +1,6 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { FileUploadItem } from "@navikt/ds-react/FileUpload";
 import { getTranslations } from "next-intl/server";
-
 import { VedleggResponse } from "@generated/model";
 
 type Props = {

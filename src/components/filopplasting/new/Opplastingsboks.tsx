@@ -5,7 +5,6 @@ import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack,
 import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
-
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";

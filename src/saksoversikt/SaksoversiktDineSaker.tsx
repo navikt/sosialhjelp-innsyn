@@ -4,7 +4,6 @@ import { Button, Heading, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
 import { sort } from "remeda";
-
 import UxSignalsWidget from "@components/widgets/UxSignalsWidget";
 import { SakspanelMaxBreakpoint } from "@styles/constants";
 import { SaksListeResponse } from "@generated/model";

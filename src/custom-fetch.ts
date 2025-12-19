@@ -1,6 +1,5 @@
 import { logger } from "@navikt/next-logger";
 import { isAbortError } from "next/dist/server/pipe-readable";
-
 import { browserEnv, getServerEnv } from "@config/env";
 
 const getBody = <T>(c: Response | Request): Promise<T> => {

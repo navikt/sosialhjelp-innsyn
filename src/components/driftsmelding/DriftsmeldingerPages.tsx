@@ -1,6 +1,5 @@
 import { Alert, VStack } from "@navikt/ds-react";
 import Markdown from "markdown-to-jsx/react";
-
 import { Driftsmelding } from "@components/driftsmelding/getDriftsmeldinger";
 
 interface Props {

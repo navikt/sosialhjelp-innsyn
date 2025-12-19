@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import { Link, List, Skeleton } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
 import { LinkIcon } from "@navikt/aksel-icons";
-
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 interface Props {

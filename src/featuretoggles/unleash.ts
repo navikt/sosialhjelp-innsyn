@@ -2,7 +2,6 @@ import { evaluateFlags, IToggle } from "@unleash/nextjs";
 import { logger as pinoLogger } from "@navikt/next-logger";
 import { cookies } from "next/headers";
 import { connection } from "next/server";
-
 import { isLocalhost, isMock } from "@utils/restUtils";
 import { getAndValidateDefinitions } from "@featuretoggles/definitions";
 import { getServerEnv } from "@config/env";

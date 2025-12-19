@@ -1,7 +1,6 @@
 import { getDefinitions } from "@unleash/nextjs";
 import * as R from "remeda";
 import QuickLRU from "quick-lru";
-
 import { unleashLogger } from "@featuretoggles/unleash";
 import { EXPECTED_TOGGLES } from "@featuretoggles/toggles";
 

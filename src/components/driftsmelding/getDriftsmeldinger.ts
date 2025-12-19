@@ -1,5 +1,4 @@
 import { logger } from "@navikt/next-logger";
-
 import { getServerEnv } from "@config/env";
 
 export const getDriftsmeldinger = async () => {
@@ -35,14 +34,14 @@ export const DriftsmeldingAudienceParam = "audience";
 /**
  * Hvordan driftsmeldingen skal vises; samsvarer med Aksel sin Alert-komponent
  */
-export type Severity = (typeof Severity)[keyof typeof Severity];
-
 export const Severity = {
     info: "info",
     success: "success",
     error: "error",
     warning: "warning",
 } as const;
+
+export type Severity = (typeof Severity)[keyof typeof Severity];
 
 export interface Driftsmelding {
     createdAt: string;

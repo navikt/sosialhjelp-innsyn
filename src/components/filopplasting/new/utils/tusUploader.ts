@@ -1,7 +1,6 @@
 import { logger } from "@navikt/next-logger";
 import { Upload, UploadOptions } from "tus-js-client";
 import { FileObject } from "@navikt/ds-react";
-
 import { browserEnv } from "@config/env";
 
 export const getTusUploader = ({

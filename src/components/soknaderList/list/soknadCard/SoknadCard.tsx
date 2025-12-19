@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
-
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { SaksListeResponse } from "@generated/model";
 import BehandlingsStatusTag from "@components/soknaderList/list/soknadCard/status/BehandlingStatusTag";

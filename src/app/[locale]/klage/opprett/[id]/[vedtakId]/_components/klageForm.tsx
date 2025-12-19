@@ -9,7 +9,6 @@ import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
-
 import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";

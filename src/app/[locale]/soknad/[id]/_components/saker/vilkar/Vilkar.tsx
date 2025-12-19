@@ -1,5 +1,4 @@
 import { BodyShort, Box, Heading } from "@navikt/ds-react";
-
 import { VilkarResponse } from "@generated/model";
 
 interface Props {

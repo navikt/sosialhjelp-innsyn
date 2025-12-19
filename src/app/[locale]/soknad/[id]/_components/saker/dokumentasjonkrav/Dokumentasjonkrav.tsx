@@ -1,7 +1,6 @@
 import { BodyShort, Box, Heading, Tag, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { NavigationGuardProvider } from "next-navigation-guard";
-
 import { DokumentasjonkravDto } from "@generated/model";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";

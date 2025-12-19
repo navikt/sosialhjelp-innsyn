@@ -7,7 +7,6 @@ import {
     FileTextIcon,
     FileWordIcon,
 } from "@navikt/aksel-icons";
-
 import { VedleggResponse } from "@generated/model";
 
 // Copy-paste fra aksel sin ItemIcon komponent

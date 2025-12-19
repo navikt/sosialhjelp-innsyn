@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { GavelIcon } from "@navikt/aksel-icons";
-
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 const KlagerSnarvei = () => {
