@@ -13,7 +13,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "noFallthroughCasesInSwitch": true,
         "incremental": true,
         "plugins": [
@@ -36,6 +36,14 @@
             "@utils/*": ["src/utils/*"]
         }
     },
-    "include": ["./src", ".next/types/**/*.ts", "vitest.config.mts", "@testing-library/jest-dom", "tailwind.config.ts", "next.config.ts"],
+    "include": [
+        "./src",
+        ".next/types/**/*.ts",
+        "vitest.config.mts",
+        "@testing-library/jest-dom",
+        "tailwind.config.ts",
+        "next.config.ts",
+        ".next/dev/types/**/*.ts"
+    ],
     "exclude": ["node_modules"]
 }

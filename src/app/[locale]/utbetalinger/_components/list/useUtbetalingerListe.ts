@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-
 import { useHentUtbetalingerSuspense } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
 import { grupperUtbetalingerEtterManed, filtrerUtbetalinger } from "../../_utils/utbetalinger-utils";

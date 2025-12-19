@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import React, { PropsWithChildren } from "react";
 import { getTranslations } from "next-intl/server";
-
 import { routing } from "@i18n/routing";
 import { TilgangResponse } from "@generated/model";
 import { getToggles } from "@featuretoggles/unleash";

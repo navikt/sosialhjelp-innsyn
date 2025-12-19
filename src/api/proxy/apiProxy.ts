@@ -1,5 +1,4 @@
 import { proxyRouteHandler } from "@navikt/next-api-proxy";
-
 import { getServerEnv } from "@config/env";
 
 export type RouteHandlerProxyTarget = {

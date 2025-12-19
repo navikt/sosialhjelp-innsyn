@@ -1,7 +1,6 @@
 import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { FilUrl, KlageRef, SaksStatusResponseUtfallVedtak } from "@generated/model";
 

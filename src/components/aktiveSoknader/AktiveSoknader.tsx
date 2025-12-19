@@ -1,7 +1,6 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import * as R from "remeda";
-
 import fetchPaabegynteSaker from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 import fetchSoknadsdetaljer from "@api/fetch/saksdetaljer/fetchSoknadsdetaljer";
 import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "@components/soknaderList/list/soknaderUtils";

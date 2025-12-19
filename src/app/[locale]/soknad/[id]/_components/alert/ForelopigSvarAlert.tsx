@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import Link from "next/link";
 import { Link as AkselLink } from "@navikt/ds-react";
-
 import { ForelopigSvarResponse } from "@generated/ssr/model";
 import AlertWithCloseButton from "@components/alert/AlertWithCloseButton";
 

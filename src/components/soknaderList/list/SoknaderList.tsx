@@ -5,7 +5,6 @@ import { Fragment, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Box, Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
-
 import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/model";
 import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";

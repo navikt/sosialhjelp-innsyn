@@ -3,7 +3,6 @@ import { forwardRef, Ref, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
-
 import { PdfPreviewDisplay } from "@components/filopplasting/new/preview/PdfPreviewDisplay";
 import ImgPreview from "@components/filopplasting/new/preview/ImgPreview";
 import FilePreviewErrorBody from "@components/filopplasting/new/preview/FilePreviewErrorBody";

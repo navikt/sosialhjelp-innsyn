@@ -6,7 +6,6 @@ import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-mod
 import { configureLogger } from "@navikt/next-logger";
 import { IToggle } from "@unleash/nextjs";
 import { usePathname, useRouter } from "next/navigation";
-
 import { FlagProvider } from "@featuretoggles/context";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 import { TilgangResponse } from "@generated/model";

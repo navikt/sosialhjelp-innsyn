@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useTranslations } from "next-intl";
 import { FileCheckmarkIcon } from "@navikt/aksel-icons";
 import { chunk, sort, take } from "remeda";
-
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 
 import { formatBytes } from "../../utils/formatting";

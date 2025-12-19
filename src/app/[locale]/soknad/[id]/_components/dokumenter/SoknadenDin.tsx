@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import { useParams } from "next/navigation";
 import { FileIcon } from "@navikt/aksel-icons";
-
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 

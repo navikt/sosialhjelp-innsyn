@@ -1,6 +1,5 @@
 import { expect, describe, it, vi, beforeEach, afterEach } from "vitest";
 import { interval } from "date-fns";
-
 import { UtbetalingDto, UtbetalingDtoStatus } from "@generated/ssr/model";
 
 import { ManedMedUtbetalinger } from "../_types/types";

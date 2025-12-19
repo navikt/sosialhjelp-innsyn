@@ -1,6 +1,5 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
-
 import fetchSoknadsdetaljer from "@api/fetch/saksdetaljer/fetchSoknadsdetaljer";
 import { ferdigbehandletAndOlderThan21Days, filterAndSort } from "@components/soknaderList/list/soknaderUtils";
 import SoknaderList from "@components/soknaderList/list/SoknaderList";

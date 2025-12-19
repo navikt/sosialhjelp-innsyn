@@ -12,7 +12,6 @@ import {
     getMonth,
     getYear,
 } from "date-fns";
-
 import { ManedUtbetaling, ManedUtbetalingStatus, UtbetalingDto } from "@generated/ssr/model";
 
 import { PeriodeChip, Option, ManedMedUtbetalinger } from "../_types/types";

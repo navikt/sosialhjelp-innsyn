@@ -4,7 +4,6 @@ import * as R from "remeda";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { BodyShort, ReadMore } from "@navikt/ds-react";
-
 import StatusAlert from "@components/alert/StatusAlert";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 

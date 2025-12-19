@@ -3,7 +3,6 @@
 import { Heading } from "@navikt/ds-react";
 import React, { use } from "react";
 import { useTranslations } from "next-intl";
-
 import { SaksStatusResponse } from "@generated/model";
 import AlertWithCloseButton from "@components/alert/AlertWithCloseButton";
 

@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { ChevronDownIcon, FaceSmileIcon } from "@navikt/aksel-icons";
 import React, { use } from "react";
 import { LinkCard } from "@navikt/ds-react/LinkCard";
-
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";

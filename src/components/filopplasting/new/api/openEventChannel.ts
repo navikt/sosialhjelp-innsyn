@@ -1,5 +1,4 @@
 import { logger } from "@navikt/next-logger";
-
 import { browserEnv } from "@config/env";
 import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";
 

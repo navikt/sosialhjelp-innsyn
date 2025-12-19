@@ -76,6 +76,7 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
 
     useEffect(() => {
         if (!["local", "mock", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT)) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsLoading(true);
             fetchDekoratorSession()
                 .then((result) => {

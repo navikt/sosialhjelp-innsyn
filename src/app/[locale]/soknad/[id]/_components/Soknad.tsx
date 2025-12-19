@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import { Bleed, BoxNew, Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
 import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";

@@ -1,7 +1,6 @@
 import React from "react";
 import { BoxNew, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 
 import Vedtak from "../vedtak/Vedtak";

@@ -4,7 +4,6 @@ import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
-
 import { Link as NextLink } from "@i18n/navigation";
 import { ManedUtbetaling } from "@generated/ssr/model";
 import { useFlag } from "@featuretoggles/context";

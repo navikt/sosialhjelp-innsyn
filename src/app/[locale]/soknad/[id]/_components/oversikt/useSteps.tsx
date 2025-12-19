@@ -1,6 +1,5 @@
 import { useParams } from "next/navigation";
 import * as R from "remeda";
-
 import { useHentHendelserBetaSuspense } from "@generated/hendelse-controller/hendelse-controller";
 
 import SendtStep from "./steps/SendtStep";

@@ -1,5 +1,4 @@
 import { DecoratorFetchProps } from "@navikt/nav-dekoratoren-moduler/ssr";
-
 import { SupportedLocale } from "@i18n/common";
 import { getBaseCrumbs } from "@utils/breadcrumbs";
 

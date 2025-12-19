@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { logger } from "@navikt/next-logger";
-
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { getTusUploader } from "@components/filopplasting/new/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";

@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-
 import { render, screen } from "@test/test-utils";
 import SoknadCard from "@components/soknaderList/list/soknadCard/SoknadCard";
 import { getGetSaksDetaljerResponseMock } from "@generated/saks-oversikt-controller/saks-oversikt-controller.msw";

@@ -3,7 +3,6 @@
 import React, { use } from "react";
 import { BoxNew, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 
 import Sak from "./sak/Sak";

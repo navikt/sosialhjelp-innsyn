@@ -1,6 +1,5 @@
 import { BodyLong, BodyShort, Box, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-
 import { VilkarResponse } from "@generated/model";
 
 import Vilkar from "./Vilkar";

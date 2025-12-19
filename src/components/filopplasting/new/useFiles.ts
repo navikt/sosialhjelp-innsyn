@@ -11,6 +11,7 @@ const useFiles = () => {
         setFiles([]);
         setOuterErrors([]);
     }, [setFiles, setOuterErrors]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     useEffect(reset, [reset]);
 
     const addFiler = useCallback(

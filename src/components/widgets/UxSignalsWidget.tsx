@@ -1,6 +1,5 @@
 import Script from "next/script";
 import { ReactElement } from "react";
-
 import { isProd } from "@utils/restUtils";
 
 interface Props {

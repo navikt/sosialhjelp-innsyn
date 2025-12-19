@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-
 import type { ManedUtbetaling } from "@generated/ssr/model";
 
 import { formaterKontonummer } from "../../_utils/utbetalinger-utils";

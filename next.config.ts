@@ -65,10 +65,6 @@ const nextConfig: NextConfig = {
         scrollRestoration: true,
         optimizePackageImports: ["@navikt/ds-react", "@navikt/aksel-icons"],
     },
-    eslint: {
-        ignoreDuringBuilds: true,
-        dirs: ["src"],
-    },
     productionBrowserSourceMaps: true,
 };
 

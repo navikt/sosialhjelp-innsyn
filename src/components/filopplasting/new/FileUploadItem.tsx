@@ -6,7 +6,6 @@ import { Upload } from "tus-js-client";
 import { BodyShort, Button, HStack, Link, List, Loader, VStack } from "@navikt/ds-react";
 import cx from "classnames";
 import { ExclamationmarkTriangleFillIcon, FilePdfIcon, TrashIcon } from "@navikt/aksel-icons";
-
 import { browserEnv } from "@config/env";
 import { ValidationCode } from "@components/filopplasting/new/api/useDocumentState";
 

@@ -2,7 +2,6 @@ import { setupServer } from "msw/node";
 import type { SetupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
 import { logger } from "@navikt/next-logger";
-
 import { getGetSaksDetaljerResponseMock } from "@generated/saks-oversikt-controller/saks-oversikt-controller.msw";
 
 /**

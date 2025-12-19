@@ -2,7 +2,6 @@ import React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Bleed, BodyShort, Box, Heading, Link, List, VStack } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
-
 import { SupportedLocale } from "@i18n/common";
 
 const TrengerDuRaskHjelp = (): React.JSX.Element => {

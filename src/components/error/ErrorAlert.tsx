@@ -2,7 +2,6 @@ import React from "react";
 import { BodyShort, Heading, List } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
 import { useTranslations } from "next-intl";
-
 import AlertWithCloseButton from "@components/alert/AlertWithCloseButton";
 
 const ErrorAlert = (): React.JSX.Element => {

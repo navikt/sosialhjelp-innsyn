@@ -2,7 +2,6 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { FileTextIcon } from "@navikt/aksel-icons";
-
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";

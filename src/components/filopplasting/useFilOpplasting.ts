@@ -126,6 +126,7 @@ const useFilOpplasting = (
         setInnerErrors(recordFromMetadatas(metadatas));
         setOuterErrors([]);
     }, [metadatas, setFiles, setInnerErrors, setOuterErrors]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     useEffect(reset, [reset]);
     const allFiles = useMemo(() => Object.values(files).flat(), [files]);
     const [leaveConfirmed, setLeaveConfirmed] = useState(false);

@@ -4,7 +4,6 @@ import { Box, Button, Tag } from "@navikt/ds-react";
 import { CalendarIcon, ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { useFormatter, useTranslations } from "next-intl";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
-
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { ManedUtbetaling } from "@generated/ssr/model";
 import useShowMore, { ITEMS_LIMIT } from "@hooks/useShowMore";

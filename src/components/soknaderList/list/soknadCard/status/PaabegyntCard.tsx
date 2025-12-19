@@ -2,7 +2,6 @@ import { NotePencilDashIcon, FloppydiskIcon } from "@navikt/aksel-icons";
 import { useLocale, useTranslations } from "next-intl";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
 import { Tag } from "@navikt/ds-react";
-
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { browserEnv } from "@config/env";
 

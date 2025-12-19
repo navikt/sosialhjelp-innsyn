@@ -3,7 +3,6 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
-
 import { getQueryClient } from "@api/queryClient";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { prefetchHentUtbetalingerQuery } from "@generated/ssr/utbetalinger-controller-2/utbetalinger-controller-2";

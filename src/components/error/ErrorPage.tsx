@@ -3,7 +3,6 @@ import { BodyShort, Box, Button, Heading, List } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
 import { ArrowLeftIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
-
 import { Link } from "@i18n/navigation";
 import TrengerDuRaskHjelp from "@components/error/TrengerDuRaskHjelp";
 

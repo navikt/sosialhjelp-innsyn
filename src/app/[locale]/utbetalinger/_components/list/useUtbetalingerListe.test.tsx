@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
-
 import { UtbetalingDtoStatus, type UtbetalingDto } from "@generated/model";
 import { getHentUtbetalingerMockHandler } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2.msw";
 

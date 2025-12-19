@@ -2,7 +2,6 @@
 
 import { PropsWithChildren } from "react";
 import { useLocale } from "next-intl";
-
 import DigisosLinkCard, { Props } from "@components/statusCard/DigisosLinkCard";
 import { useFlag } from "@featuretoggles/context";
 

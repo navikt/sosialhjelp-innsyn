@@ -1,7 +1,6 @@
 import { Heading, Link } from "@navikt/ds-react";
 import { Process, ProcessEvent } from "@navikt/ds-react/Process";
 import { getFormatter, getTranslations } from "next-intl/server";
-
 import { VedleggResponse } from "@generated/model";
 
 type Props = {

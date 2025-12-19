@@ -14,7 +14,7 @@
         "@navikt/next-api-proxy": "^4.1.5",
         "@navikt/next-logger": "^4.4.1",
         "@navikt/oasis": "^3.8.0",
-        "@next/env": "^15.5.7",
+        "@next/env": "16.0.10",
         "@tailwindcss/postcss": "^4.1.16",
         "@tanstack/react-query": "^5.90.5",
         "@unleash/nextjs": "^1.6.2",
@@ -23,16 +23,16 @@
         "filesize": "^11.0.13",
         "js-cookie": "^3.0.1",
         "markdown-to-jsx": "^9.3.4",
-        "next": "15.5.9",
+        "next": "16.0.10",
         "next-intl": "^4.4.0",
         "next-logger": "^5.0.2",
         "next-navigation-guard": "^0.2.0",
         "pino": "^10.1.0",
         "prom-client": "^15.1.3",
         "quick-lru": "^7.3.0",
-        "react": "^19.2.1",
+        "react": "19.2.3",
         "react-collapse": "^5.1.0",
-        "react-dom": "^19.2.1",
+        "react-dom": "19.2.3",
         "react-error-boundary": "^6.0.0",
         "react-hook-form": "^7.65.0",
         "react-pdf": "^10.2.0",
@@ -43,14 +43,13 @@
         "zod": "^4.1.12"
     },
     "scripts": {
-        "dev": "next dev --turbo -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
-        "build": "next build",
+        "dev": "next dev -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
+        "build": "next build --webpack",
         "build:e2e": "NEXT_PUBLIC_ASSET_PREFIX= NEXT_PUBLIC_RUNTIME_ENVIRONMENT=e2e pnpm build && cp -R .next/static .next/standalone/.next",
         "start": "next start",
         "test": "vitest",
         "lintStaged": "lint-staged",
-        "lint": "next lint",
-        "eslint": "eslint",
+        "lint": "eslint",
         "fetch-api-docs": "curl -o ./innsyn-api.json https://digisos.ekstern.dev.nav.no/sosialhjelp/innsyn-api/v3/api-docs && prettier --write innsyn-api.json",
         "fetch-api-docs-local": "curl -o ./innsyn-api.json  http://localhost:8080/sosialhjelp/innsyn-api/v3/api-docs  && prettier --write innsyn-api.json",
         "orval": "rm -rf src/generated && orval --prettier",
@@ -74,8 +73,6 @@
         ]
     },
     "devDependencies": {
-        "@eslint/eslintrc": "^3.3.1",
-        "@eslint/js": "^9.38.0",
         "@faker-js/faker": "^10.1.0",
         "@playwright/test": "^1.56.1",
         "@tanstack/react-query-devtools": "^5.90.2",
@@ -84,16 +81,16 @@
         "@testing-library/react": "^16.3.0",
         "@types/js-cookie": "^3.0.6",
         "@types/node": "^22.15.29",
-        "@types/react": "^19.2.2",
+        "@types/react": "19.2.7",
         "@types/react-collapse": "^5.0.4",
-        "@types/react-dom": "^19.2.2",
-        "@typescript-eslint/eslint-plugin": "^8.46.2",
+        "@types/react-dom": "19.2.3",
         "@vitejs/plugin-react": "^5.1.0",
         "autoprefixer": "^10.4.21",
-        "eslint-config-next": "^15.5.7",
+        "eslint": "^9.39.1",
+        "eslint-config-next": "16.0.10",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-testing-library": "^7.13.3",
+        "globals": "^15.14.0",
         "husky": "^9.1.7",
         "jsdom": "^27.0.1",
         "lint-staged": "^16.2.6",
@@ -117,6 +114,15 @@
         "optionator": "0.9.3",
         "react-day-picker": {
             "react": "^19.0.0"
+        },
+        "next-navigation-guard": {
+            "next": "^16.0.0"
+        }
+    },
+    "pnpm": {
+        "overrides": {
+            "@types/react": "19.2.7",
+            "@types/react-dom": "19.2.3"
         }
     }
 }

@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 

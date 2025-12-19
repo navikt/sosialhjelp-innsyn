@@ -9,7 +9,6 @@ import { Theme } from "@navikt/ds-react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { pick } from "remeda";
-
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import decoratorParams from "@config/decoratorConfig";
 import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
