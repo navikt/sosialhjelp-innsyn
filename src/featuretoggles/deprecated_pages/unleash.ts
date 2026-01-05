@@ -4,10 +4,10 @@ import * as R from "remeda";
 import { NextApiRequestCookies } from "next/dist/server/api-utils";
 
 import { isLocalhost, isMock } from "../../utils/restUtils";
-import { EXPECTED_TOGGLES, ExpectedToggles } from "../toggles";
+import { EXPECTED_TOGGLES } from "../toggles";
 import { localDevelopmentToggles } from "../utils";
 
-export const UNLEASH_COOKIE_NAME = "unleash-session-id";
+const UNLEASH_COOKIE_NAME = "unleash-session-id";
 
 const logger = pinoLogger.child({}, { msgPrefix: "[UNLEASH-TOGGLES-DEPRECATED-PAGES] " });
 
@@ -57,16 +57,6 @@ export async function getToggles(cookies: NextApiRequestCookies): Promise<IToggl
             })
         );
     }
-}
-
-export function getFlag(flag: ExpectedToggles, toggles: IToggle[]): IToggle {
-    const toggle = toggles.find((it) => it.name === flag);
-
-    if (toggle == null) {
-        return { name: flag, enabled: false, impressionData: false, variant: { name: "disabled", enabled: false } };
-    }
-
-    return toggle;
 }
 
 async function getAndValidateDefinitions(): Promise<Awaited<ReturnType<typeof getDefinitions>>> {

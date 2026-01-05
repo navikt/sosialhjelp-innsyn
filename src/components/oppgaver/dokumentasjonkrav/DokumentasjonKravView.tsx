@@ -20,7 +20,7 @@ interface Props {
     dokumentasjonkrav: DokumentasjonkravResponse;
 }
 
-export const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElement => {
+const DokumentasjonKravView = ({ dokumentasjonkrav }: Props): ReactElement => {
     const fiksDigisosId = useFiksDigisosId();
     const queryClient = useQueryClient();
     const fileUploadError = useFileUploadError();

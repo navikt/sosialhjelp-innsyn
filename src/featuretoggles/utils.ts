@@ -15,15 +15,3 @@ export function localDevelopmentToggles(): IToggle[] {
         })
     );
 }
-
-export function getUnleashEnvironment(): "development" | "production" | undefined {
-    switch (process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT) {
-        case "dev":
-        case "dev-sbs":
-        case "local":
-        case "mock":
-            return "development";
-        case "prod":
-            return "production";
-    }
-}

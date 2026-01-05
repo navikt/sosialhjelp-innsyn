@@ -4,12 +4,10 @@ import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
 import React from "react";
-import { UrlResponse, VedleggResponse } from "@generated/model";
+import { VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import IkonBilde from "./IkonBilde";
-
-export type SoknadFile = UrlResponse & { date?: string };
 
 interface Props {
     vedlegg: VedleggResponse[];
