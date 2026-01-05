@@ -19,6 +19,7 @@ const ExpandableList = <T,>({ itemsLimit, children, items, id, showMoreSuffix }:
     return (
         <>
             <VStack as="ol" gap="2" id={id}>
+                {/* eslint-disable-next-line react-hooks/refs */}
                 {items.slice(0, showAll ? items.length : ITEMS_LIMIT).map((item, index) => children(item, index, ref))}
             </VStack>
             {hasMore && <ShowMoreButton items={items} ref={ref} id={id} suffix={showMoreSuffix} {...showMore} />}
