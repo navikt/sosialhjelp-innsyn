@@ -40,6 +40,8 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
     const hostname = getServerEnv().NEXT_INNSYN_API_HOSTNAME;
     const absoluteUrl = new URL(`http://${hostname}${portPart}/sosialhjelp/innsyn-api${url}`);
 
+    console.log(absoluteUrl)
+
     const response = await fetch(absoluteUrl, { ...options, headers: await getHeaders(options.headers) });
     if (!response.ok) throw new Error(`Failed to fetch ${absoluteUrl}: ${response.status} ${response.statusText}`);
 
