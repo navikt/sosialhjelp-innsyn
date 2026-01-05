@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from "react";
 import { logger } from "@navikt/next-logger";
-
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/new/api/openEventChannel";
 
 export type UploadState = {

@@ -1,6 +1,5 @@
 import React, { use } from "react";
 import { useTranslations } from "next-intl";
-
 import { VilkarResponse } from "@generated/ssr/model";
 import StatusAlert from "@components/alert/StatusAlert";
 

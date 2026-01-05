@@ -1,7 +1,6 @@
 import { logger } from "@navikt/next-logger";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-
 import {
     getHentHendelserQueryKey,
     getHentHendelserBetaQueryKey,

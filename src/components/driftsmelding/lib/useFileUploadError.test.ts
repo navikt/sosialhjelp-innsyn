@@ -1,6 +1,5 @@
 import { waitFor } from "@testing-library/react";
 import { expect, describe, it, beforeEach, vi, Mock } from "vitest";
-
 import {
     getHentKommuneInfoMockHandler,
     getHentKommuneInfoResponseMock,

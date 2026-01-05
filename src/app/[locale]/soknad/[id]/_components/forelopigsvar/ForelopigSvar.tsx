@@ -4,7 +4,6 @@ import { use } from "react";
 import { Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { FilePdfIcon } from "@navikt/aksel-icons";
-
 import { ForelopigSvarResponse } from "@generated/ssr/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 

@@ -2,7 +2,6 @@ import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import { expect, test } from "vitest";
-
 import { OppgaveElementHendelsetype } from "@generated/model";
 
 import { render } from "../../../test/test-utils";

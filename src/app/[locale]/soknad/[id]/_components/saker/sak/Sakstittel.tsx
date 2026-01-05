@@ -1,5 +1,4 @@
 import { Heading, HStack } from "@navikt/ds-react";
-
 import { SaksStatusResponseUtfallVedtak } from "@generated/model";
 
 import StatusTag from "./StatusTag";

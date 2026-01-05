@@ -10,7 +10,6 @@ import { pick } from "remeda";
 import { Loader, Theme } from "@navikt/ds-react";
 import { Page, PageBlock } from "@navikt/ds-react/Page";
 import { usePathname, useRouter } from "next/navigation";
-
 import decoratorParams from "@config/decoratorConfig";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import ErrorPage from "@components/error/ErrorPage";

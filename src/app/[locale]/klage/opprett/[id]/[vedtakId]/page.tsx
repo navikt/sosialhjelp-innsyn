@@ -2,7 +2,6 @@ import { BodyShort, Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import React from "react";
-
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";

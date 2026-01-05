@@ -1,6 +1,5 @@
 import { AlertProps, Heading } from "@navikt/ds-react";
 import { PropsWithChildren, ReactNode } from "react";
-
 import AlertWithCloseButton from "@components/alert/AlertWithCloseButton";
 
 interface Props {

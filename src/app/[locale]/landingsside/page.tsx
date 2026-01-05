@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
-
 import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import Footer from "@components/footer/Footer";

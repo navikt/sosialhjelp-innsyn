@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import { BodyLong, BodyShort, Link } from "@navikt/ds-react";
-
 import StatusAlert from "@components/alert/StatusAlert";
 import { SoknadsStatusResponseStatus } from "@generated/ssr/model";
 import { SaksStatusResponse } from "@generated/model";

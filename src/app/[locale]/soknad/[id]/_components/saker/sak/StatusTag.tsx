@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 import { BodyShort, Tag, TagProps } from "@navikt/ds-react";
-
 import { SaksStatusResponseUtfallVedtak } from "@generated/model";
 
 const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]> = {

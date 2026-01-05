@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
-
 import { routing } from "@i18n/routing";
 import { getFlag, getToggles, UNLEASH_COOKIE_NAME } from "@featuretoggles/unleash";
 
@@ -15,7 +14,7 @@ const addUnleashCookie = (request: NextRequest, response: NextResponse) => {
 
 const handleI18nRouting = createMiddleware(routing);
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
     // Ikke gjør noe med requests til /api eller statiske filer
@@ -47,7 +46,3 @@ export async function middleware(request: NextRequest) {
 
     return addUnleashCookie(request, response);
 }
-
-export const config = {
-    runtime: "nodejs",
-};

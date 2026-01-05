@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import Head from "next/head";
 import { Page } from "@navikt/ds-react";
-
 import DriftsmeldingerPages from "@components/driftsmelding/DriftsmeldingerPages";
 import { Driftsmelding } from "@components/driftsmelding/getDriftsmeldinger";
 

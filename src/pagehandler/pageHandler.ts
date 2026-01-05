@@ -3,7 +3,6 @@ import { IToggle } from "@unleash/nextjs";
 import { logger } from "@navikt/next-logger";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { Messages } from "next-intl";
-
 import { Driftsmelding, getDriftsmeldinger } from "@components/driftsmelding/getDriftsmeldinger";
 
 import { TilgangResponse } from "../generated/model";

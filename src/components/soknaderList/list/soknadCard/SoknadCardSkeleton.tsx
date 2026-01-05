@@ -1,5 +1,4 @@
 import { Skeleton } from "@navikt/ds-react";
-
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 const SoknadCardSkeleton = () => (

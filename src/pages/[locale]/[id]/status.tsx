@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { logger } from "@navikt/next-logger";
 import { GetServerSidePropsContext } from "next/dist/types";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
-
 import {
     getGetfagsystemHarDokumentasjonkrav1QueryKey,
     getGetfagsystemHarDokumentasjonkrav1Url,

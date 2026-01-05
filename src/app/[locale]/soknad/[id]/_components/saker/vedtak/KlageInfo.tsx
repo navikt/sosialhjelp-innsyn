@@ -2,7 +2,6 @@ import { Button, Link as AkselLink, Heading } from "@navikt/ds-react";
 import { GavelIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-
 import { FilUrl, KlageRef } from "@generated/model";
 import { useFlag } from "@featuretoggles/context";
 import { Link } from "@i18n/navigation";

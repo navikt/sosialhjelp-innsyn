@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { useParams } from "next/navigation";
-
 import { Metadata } from "@components/filopplasting/new/types";
 import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/new/api/useSendVedleggHelperTus";
