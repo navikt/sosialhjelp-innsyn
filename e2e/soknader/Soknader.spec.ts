@@ -343,9 +343,39 @@ test.describe("SoknadCard rendering logic", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
 
+        // Should show the søknad card
         await expect(page.getByRole("link", { name: /Søknad med oppgave/ })).toBeVisible();
+        // Should show "Sendt" tag
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
+        // Should show "Mottatt" behandlingsstatus tag
+        await expect(page.getByText(/Mottatt/).last()).toBeVisible();
         // Should show oppgave alert tag with deadline
         await expect(page.getByText(/20\.12\.2025/)).toBeVisible();
+    });
+
+    test("MOTTATT status for paper sent application should show mottatt date tag", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-mottatt-oppgave",
+            soknadTittel: "Papirsøknad",
+            kommunenummer: "0301",
+            mottattTidspunkt: "2025-11-15T10:00:00Z",
+            status: "MOTTATT",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        // Should show the søknad card
+        await expect(page.getByRole("link", { name: /Papirsøknad/ })).toBeVisible();
+        // Should show the date tag with mottatt text
+        await expect(page.getByText("Mottatt 15.11.2025")).toBeVisible();
     });
 
     test("SENDT status should show DatoTag without BehandlingsStatusTag", async ({ page, request, baseURL }) => {
@@ -390,8 +420,8 @@ test.describe("SoknadCard rendering logic", () => {
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad under behandling/ })).toBeVisible();
-        // Should show "Mottatt" date tag
-        await expect(page.getByText(/Mottatt/).first()).toBeVisible();
+        // Should show "Sendt" date tag
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
         // Should show "Under behandling" status tag
         await expect(page.getByText(/Under behandling/)).toBeVisible();
     });
@@ -602,7 +632,7 @@ test.describe("SoknadCard rendering logic", () => {
 
         await expect(page.getByRole("link", { name: /Kompleks søknad/ })).toBeVisible();
         // Should show date tag
-        await expect(page.getByText(/Mottatt/).first()).toBeVisible();
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
         // Should show vedtak progress
         await expect(page.getByText(/1 av 2 saker er ferdigbehandlet/)).toBeVisible();
         // Should show VedtakTag (one sak has 2 vedtak)

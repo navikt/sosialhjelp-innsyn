@@ -21,8 +21,8 @@ const SoknadCard = ({ soknad }: Props) => {
     const t = useTranslations("SoknadCard");
     const id = soknad.fiksDigisosId!;
     const sakTittel = soknad.soknadTittel?.length ? soknad.soknadTittel : t("defaultTittel");
-    const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined; // Kun satt når man har digital søknad
-    const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined; // Satt for begge
+    const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined; // Kun satt ved digital søknad
+    const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined;
     const isDigitalSoknad = !!sendtDato;
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
