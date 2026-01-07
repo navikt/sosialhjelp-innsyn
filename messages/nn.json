@@ -265,7 +265,7 @@
         "visFærre": "Vis færre"
     },
     "AktiveSoknader": {
-        "tittel": "Aktive søknader",
+        "tittel": "Aktive saker",
         "EmptyState": {
             "tittel": "Vi finn ingen søknader frå deg",
             "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
@@ -274,7 +274,7 @@
         "visFærre": "Vis færre"
     },
     "TidligereSoknader": {
-        "tittel": "Tidlegare søknader"
+        "tittel": "Tidlegare saker"
     },
     "SoknadCard": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
@@ -308,7 +308,7 @@
     "Snarveier": {
         "tittel": "Snarvegar",
         "soknader": "Mine søknader",
-        "utbetalinger": "Utbetalinger",
+        "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
     },
     "Footer": {

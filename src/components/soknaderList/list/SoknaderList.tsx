@@ -33,7 +33,7 @@ const sakKey = (sak: PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksList
 const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("AktiveSoknader");
     const { hasMore, showAll, setShowAll } = useShowMore(soknader);
-    // Denne skal bare tracke søknader som ligger under "Aktive søknader"
+    // Denne skal bare tracke søknader som ligger under "Aktive saker"
     // med dokumentasjonetterspurt, så lenge tilfellene er oppfylt.
     useEffect(() => {
         const antallMedDokumentasjonEtterspurt = soknader.filter(
