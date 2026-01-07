@@ -259,13 +259,13 @@
         "ukjentDato": "Unknown date"
     },
     "KommendeUtbetalingerListe": {
-        "beskrivelse": "You will receive {amount} kr",
+        "beskrivelse": "You will receive {amount} NOK",
         "utbetales": "Paid on {dato, date, ::ddMMyyyy}",
         "visFlere": "Show more",
         "visFærre": "Show less"
     },
     "AktiveSoknader": {
-        "tittel": "Active applications",
+        "tittel": "Active cases",
         "EmptyState": {
             "tittel": "We can't find any applications from you",
             "beskrivelse": "This can be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
@@ -274,7 +274,7 @@
         "visFærre": "Show less"
     },
     "TidligereSoknader": {
-        "tittel": "Previous applications"
+        "tittel": "Previous cases"
     },
     "SoknadCard": {
         "defaultTittel": "Application for financial assistance",
@@ -283,7 +283,7 @@
     "PaabegyntCard": {
         "title": "Application for financial social assistance",
         "keptUntil": "Saved until {date, date, ::ddMMyyyy}",
-        "paabegynt": "Begun"
+        "paabegynt": "Started"
     },
     "DatoTag": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
@@ -308,7 +308,7 @@
     "Snarveier": {
         "tittel": "Shortcuts",
         "soknader": "My applications",
-        "utbetalinger": "Payments",
+        "utbetalinger": "My payments",
         "klager": "Complaints"
     },
     "Footer": {
