@@ -50,19 +50,14 @@ const SoknaderList = ({ soknader }: Props) => {
 
     return (
         <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")}>
-            {(item, index, ref) => {
-                return (
-                    <li key={sakKey(item)} ref={index === ITEMS_LIMIT ? ref : null} tabIndex={-1}>
-                        {"fiksDigisosId" in item && <SoknadCard soknad={item} />}
-                        {"soknadId" in item && (
-                            <PaabegyntCard
-                                soknadId={item.soknadId}
-                                keptUntil={addDays(new Date(item.sistOppdatert), 21)}
-                            />
-                        )}
-                    </li>
-                );
-            }}
+            {(item, index, firstExpandedItemRef) => (
+                <li key={sakKey(item)} ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null} tabIndex={-1}>
+                    {"fiksDigisosId" in item && <SoknadCard soknad={item} />}
+                    {"soknadId" in item && (
+                        <PaabegyntCard soknadId={item.soknadId} keptUntil={addDays(new Date(item.sistOppdatert), 21)} />
+                    )}
+                </li>
+            )}
         </ExpandableList>
     );
 };

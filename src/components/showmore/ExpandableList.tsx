@@ -6,7 +6,7 @@ import ShowMoreButton from "@components/showmore/ShowMoreButton";
 
 interface Props<T> {
     items: T[];
-    children: (item: T, index: number, ref: RefObject<HTMLLIElement | null>) => React.JSX.Element;
+    children: (item: T, index: number, firstExpandedItemRef: RefObject<HTMLLIElement | null>) => React.JSX.Element;
     id: string;
     showMoreSuffix: string;
     itemsLimit?: number;
@@ -15,14 +15,23 @@ interface Props<T> {
 const ExpandableList = <T,>({ itemsLimit, children, items, id, showMoreSuffix }: Props<T>): React.JSX.Element => {
     const showMore = useShowMore(items, itemsLimit);
     const { hasMore, showAll } = showMore;
-    const ref = useRef<HTMLLIElement>(null);
+    const firstExpandedItemRef = useRef<HTMLLIElement>(null);
+    const visibleItems = showAll ? items : items.slice(0, ITEMS_LIMIT);
     return (
         <>
-            <VStack as="ol" gap="2" id={id}>
+            <VStack as="ul" gap="2" id={id}>
                 {/* eslint-disable-next-line react-hooks/refs */}
-                {items.slice(0, showAll ? items.length : ITEMS_LIMIT).map((item, index) => children(item, index, ref))}
+                {visibleItems.map((item, index) => children(item, index, firstExpandedItemRef))}
             </VStack>
-            {hasMore && <ShowMoreButton items={items} ref={ref} id={id} suffix={showMoreSuffix} {...showMore} />}
+            {hasMore && (
+                <ShowMoreButton
+                    items={items}
+                    ref={firstExpandedItemRef}
+                    id={id}
+                    suffix={showMoreSuffix}
+                    {...showMore}
+                />
+            )}
         </>
     );
 };
