@@ -1546,7 +1546,8 @@
                     "forelopigSvar": { "$ref": "#/components/schemas/ForelopigSvar" },
                     "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } },
                     "forsteOppgaveFrist": { "type": "string", "format": "date" },
-                    "mottattTidspunkt": { "type": "string", "format": "date-time" }
+                    "mottattTidspunkt": { "type": "string", "format": "date-time" },
+                    "sisteDokumentasjonKravFrist": { "type": "string", "format": "date" }
                 },
                 "required": [
                     "dokumentasjonEtterspurt",

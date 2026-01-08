@@ -8,7 +8,7 @@ import BehandlingsStatusTag from "@components/soknaderList/list/soknadCard/statu
 import DatoTag from "@components/soknaderList/list/soknadCard/DatoTag";
 import VedtakTag from "@components/soknaderList/list/soknadCard/VedtakTag";
 
-import { ferdigbehandletAndOlderThan21Days } from "../soknaderUtils";
+import { isActiveSoknad } from "../soknaderUtils";
 
 import StatusCard from "./status/StatusCard";
 import AlertTag from "./status/AlertTag";
@@ -71,11 +71,7 @@ const SoknadCard = ({ soknad }: Props) => {
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     <BehandlingsStatusTag
-                        status={
-                            ferdigbehandletAndOlderThan21Days(soknad)
-                                ? "ferdigbehandlet_eldre"
-                                : "ferdigbehandlet_nylig"
-                        }
+                        status={!isActiveSoknad(soknad) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"}
                     />
                     {harSakMedFlereVedtak && <VedtakTag />}
                     {soknad.vilkar && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
