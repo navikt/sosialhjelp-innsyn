@@ -28,7 +28,6 @@ test.describe("Soknader page - application categorization", () => {
         const recentDate = subDays(now, 5); // 5 days old - should be in "Active"
         const oldDate = subDays(now, 30); // 30 days old - should be in "Earlier"
 
-        // Mock saker list endpoint
         const mockSakerData = [
             {
                 fiksDigisosId: "recent-soknad-1",
@@ -80,24 +79,19 @@ test.describe("Soknader page - application categorization", () => {
             saker: [],
         } satisfies SaksDetaljerResponse);
 
-        // Navigate to the soknader page
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
         // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        // Check that "Aktive søknader" section exists and contains the recent application
-        const activeSoknaderHeading = page.getByRole("heading", { name: "Aktive søknader", level: 2 });
+        const activeSoknaderHeading = page.getByRole("heading", { name: "Aktive saker", level: 2 });
         await expect(activeSoknaderHeading).toBeVisible();
 
-        // The recent application should be visible in the active section
         await expect(page.getByText("Recent Application")).toBeVisible();
 
-        // Check that "Tidligere søknader" section exists
-        const tidligereSoknaderHeading = page.getByRole("heading", { name: "Tidligere søknader", level: 2 });
+        const tidligereSoknaderHeading = page.getByRole("heading", { name: "Tidligere saker", level: 2 });
         await expect(tidligereSoknaderHeading).toBeVisible();
 
-        // The old application should be visible in the earlier section
         await expect(page.getByText("Old Application")).toBeVisible();
     });
 
@@ -142,17 +136,13 @@ test.describe("Soknader page - application categorization", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
-        // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        // Check that "Aktive søknader" section exists
-        await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
 
-        // The recent finished application should be in active section
         await expect(page.getByText("Recent Finished Application")).toBeVisible();
 
-        // "Tidligere søknader" section should not exist since we have no old applications
-        await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
     });
 
     test("should show only Earlier applications when all applications are old and finished", async ({
@@ -166,7 +156,6 @@ test.describe("Soknader page - application categorization", () => {
         const oldDate1 = subDays(now, 30);
         const oldDate2 = subDays(now, 45);
 
-        // Mock saker list endpoint with only old applications
         const mockSakerData = [
             {
                 fiksDigisosId: "old-soknad-1",
@@ -188,7 +177,6 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        // Mock saksdetaljer for both old applications
         await msw.mockEndpoint("/api/v1/innsyn/sak/old-soknad-1/detaljer", {
             fiksDigisosId: "old-soknad-1",
             soknadTittel: "Old Application 1",
@@ -220,15 +208,12 @@ test.describe("Soknader page - application categorization", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
 
-        // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        // "Aktive søknader" section should show empty state or not contain old applications
         const emptyStateHeading = page.getByRole("heading", { name: "Vi finner ingen søknader fra deg" });
         await expect(emptyStateHeading).toBeVisible();
 
-        // "Tidligere søknader" section should exist and contain both applications
-        await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).toBeVisible();
         await expect(page.getByText("Old Application 1")).toBeVisible();
         await expect(page.getByText("Old Application 2")).toBeVisible();
     });
@@ -243,7 +228,6 @@ test.describe("Soknader page - application categorization", () => {
         const now = new Date();
         const oldDate = subDays(now, 40); // Even though it's old, non-FERDIGBEHANDLET should be active
 
-        // Mock saker list endpoint
         const mockSakerData = [
             {
                 fiksDigisosId: "old-active-1",
@@ -257,7 +241,6 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        // Mock saksdetaljer with UNDER_BEHANDLING status
         await msw.mockEndpoint("/api/v1/innsyn/sak/old-active-1/detaljer", {
             fiksDigisosId: "old-active-1",
             soknadTittel: "Old But Still Active Application",
@@ -275,15 +258,12 @@ test.describe("Soknader page - application categorization", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
 
-        // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        // Check that "Aktive søknader" section exists and contains the application
-        await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
         await expect(page.getByText("Old But Still Active Application")).toBeVisible();
 
-        // "Tidligere søknader" section should not exist
-        await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
     });
 });
 
@@ -314,11 +294,8 @@ test.describe("SoknadCard rendering logic", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
 
-        // Should show the søknad card
         await expect(page.getByRole("link", { name: /Søknad mottatt/ })).toBeVisible();
-        // Should show "Sendt" tag
         await expect(page.getByText(/Sendt/).first()).toBeVisible();
-        // Should show "Mottatt" behandlingsstatus tag
         await expect(page.getByText(/Mottatt/).last()).toBeVisible();
     });
 
@@ -343,9 +320,39 @@ test.describe("SoknadCard rendering logic", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
 
+        // Should show the søknad card
         await expect(page.getByRole("link", { name: /Søknad med oppgave/ })).toBeVisible();
+        // Should show "Sendt" tag
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
+        // Should show "Mottatt" behandlingsstatus tag
+        await expect(page.getByText(/Mottatt/).last()).toBeVisible();
         // Should show oppgave alert tag with deadline
         await expect(page.getByText(/20\.12\.2025/)).toBeVisible();
+    });
+
+    test("MOTTATT status for paper sent application should show mottatt date tag", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-mottatt-oppgave",
+            soknadTittel: "Papirsøknad",
+            kommunenummer: "0301",
+            mottattTidspunkt: "2025-11-15T10:00:00Z",
+            status: "MOTTATT",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        // Should show the søknad card
+        await expect(page.getByRole("link", { name: /Papirsøknad/ })).toBeVisible();
+        // Should show the date tag with mottatt text
+        await expect(page.getByText("Mottatt 15.11.2025")).toBeVisible();
     });
 
     test("SENDT status should show DatoTag without BehandlingsStatusTag", async ({ page, request, baseURL }) => {
@@ -367,7 +374,6 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByRole("link", { name: /Søknad sendt/ })).toBeVisible();
         // Should show "Sendt" tag
         await expect(page.getByText(/Sendt/).first()).toBeVisible();
-        // Should NOT show "Mottatt" behandlingsstatus (SENDT doesn't show behandlingsstatus unless mottattDato exists)
     });
 
     test("UNDER_BEHANDLING status should show BehandlingsStatusTag", async ({ page, request, baseURL }) => {
@@ -390,8 +396,8 @@ test.describe("SoknadCard rendering logic", () => {
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad under behandling/ })).toBeVisible();
-        // Should show "Mottatt" date tag
-        await expect(page.getByText(/Mottatt/).first()).toBeVisible();
+        // Should show "Sendt" date tag
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
         // Should show "Under behandling" status tag
         await expect(page.getByText(/Under behandling/)).toBeVisible();
     });
@@ -427,7 +433,6 @@ test.describe("SoknadCard rendering logic", () => {
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad med flere saker/ })).toBeVisible();
-        // Should show vedtak progress "2 av 3 saker er ferdigbehandlet"
         await expect(page.getByText(/2 av 3 saker er ferdigbehandlet/)).toBeVisible();
     });
 
@@ -452,7 +457,6 @@ test.describe("SoknadCard rendering logic", () => {
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad med flere vedtak/ })).toBeVisible();
-        // Should show "Nytt vedtak" tag
         await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
     });
 
@@ -482,7 +486,6 @@ test.describe("SoknadCard rendering logic", () => {
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad med forlenget behandlingstid/ })).toBeVisible();
-        // Should show forlenget behandlingstid alert
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
     });
 
@@ -541,7 +544,7 @@ test.describe("SoknadCard rendering logic", () => {
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet for lenge siden/ })).toBeVisible();
-        // Should show "Ferdigbehandlet" status tag (same text, but different internal status)
+        // Should show "Ferdigbehandlet" status tag
         await expect(page.getByText(/Ferdigbehandlet/)).toBeVisible();
     });
 
@@ -602,12 +605,10 @@ test.describe("SoknadCard rendering logic", () => {
 
         await expect(page.getByRole("link", { name: /Kompleks søknad/ })).toBeVisible();
         // Should show date tag
-        await expect(page.getByText(/Mottatt/).first()).toBeVisible();
+        await expect(page.getByText(/Sendt/).first()).toBeVisible();
         // Should show vedtak progress
         await expect(page.getByText(/1 av 2 saker er ferdigbehandlet/)).toBeVisible();
-        // Should show VedtakTag (one sak has 2 vedtak)
         await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
-        // Should show oppgave alert
         await expect(page.getByText(/18\.12\.2025/)).toBeVisible();
         // Should show forlenget behandlingstid
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();

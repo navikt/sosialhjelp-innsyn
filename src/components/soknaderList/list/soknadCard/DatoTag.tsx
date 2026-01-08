@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Tag } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
@@ -9,13 +9,6 @@ interface Props {
 
 const DatoTag = ({ mottattDato, sendtDato }: Props): ReactNode => {
     const t = useTranslations("DatoTag");
-    if (mottattDato) {
-        return (
-            <Tag variant="neutral-moderate" size="small">
-                {t("mottatt", { dato: mottattDato })}
-            </Tag>
-        );
-    }
     if (sendtDato) {
         return (
             <Tag variant="neutral-moderate" size="small">
@@ -23,6 +16,15 @@ const DatoTag = ({ mottattDato, sendtDato }: Props): ReactNode => {
             </Tag>
         );
     }
+
+    if (mottattDato) {
+        return (
+            <Tag variant="neutral-moderate" size="small">
+                {t("mottatt", { dato: mottattDato })}
+            </Tag>
+        );
+    }
+
     return null;
 };
 
