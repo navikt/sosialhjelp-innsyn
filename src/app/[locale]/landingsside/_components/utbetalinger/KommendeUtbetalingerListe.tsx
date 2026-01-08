@@ -19,10 +19,10 @@ const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
 
     return (
         <ExpandableList items={alleKommende} id="kommende-utbetalinger" showMoreSuffix={t("utbetalinger")}>
-            {(utbetaling, index, ref) => {
+            {(utbetaling, index, firstExpandedItemRef) => {
                 const amount = format.number(utbetaling.belop);
                 return (
-                    <li ref={index === ITEMS_LIMIT ? ref : null} tabIndex={-1}>
+                    <li ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null} tabIndex={-1}>
                         <DigisosLinkCard
                             key={utbetaling.referanse}
                             href="/utbetalinger"
