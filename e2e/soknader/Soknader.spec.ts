@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { subDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 
 import { createMswHelper } from "../helpers/msw-helpers";
 import { SaksDetaljerResponse, SaksListeResponse } from "../../src/generated/model";
@@ -495,8 +495,7 @@ test.describe("SoknadCard rendering logic", () => {
         baseURL,
     }) => {
         const msw = createMswHelper(request, baseURL!);
-        const recentDate = new Date();
-        recentDate.setDate(recentDate.getDate() - 10); // 10 days ago
+        const recentDate = subDays(new Date(), 10); // 10 days ago
         const mockSak = {
             fiksDigisosId: "test-ferdigbehandlet-nylig",
             soknadTittel: "Søknad ferdigbehandlet nylig",
@@ -524,8 +523,7 @@ test.describe("SoknadCard rendering logic", () => {
         baseURL,
     }) => {
         const msw = createMswHelper(request, baseURL!);
-        const oldDate = new Date();
-        oldDate.setDate(oldDate.getDate() - 30); // 30 days ago
+        const oldDate = subDays(new Date(), 30); // 30 days ago
         const mockSak = {
             fiksDigisosId: "test-ferdigbehandlet-eldre",
             soknadTittel: "Søknad ferdigbehandlet for lenge siden",
@@ -612,5 +610,148 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/18\.12\.2025/)).toBeVisible();
         // Should show forlenget behandlingstid
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
+    });
+});
+
+test.describe("Sorting", () => {
+    test("should sort by: 1) deadline (earliest first), 2) tasks without deadline, 3) no tasks (by sistOppdatert)", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        const now = new Date();
+        const tomorrow = addDays(now, 1);
+        const nextWeek = addDays(now, 7);
+
+        const mockSakerData: SaksListeResponse[] = [
+            {
+                fiksDigisosId: "soknad-no-tasks-oldest",
+                soknadTittel: "No tasks oldest",
+                sistOppdatert: subDays(now, 10).toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 15).toISOString(),
+                isPapirSoknad: false,
+            },
+            {
+                fiksDigisosId: "soknad-deadline-later",
+                soknadTittel: "Deadline next week",
+                sistOppdatert: now.toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 5).toISOString(),
+                isPapirSoknad: false,
+            },
+            {
+                fiksDigisosId: "soknad-tasks-no-deadline",
+                soknadTittel: "Tasks without deadline",
+                sistOppdatert: now.toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 3).toISOString(),
+                isPapirSoknad: false,
+            },
+            {
+                fiksDigisosId: "soknad-deadline-soon",
+                soknadTittel: "Deadline tomorrow",
+                sistOppdatert: subDays(now, 2).toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 10).toISOString(),
+                isPapirSoknad: false,
+            },
+            {
+                fiksDigisosId: "soknad-no-tasks-newest",
+                soknadTittel: "No tasks newest",
+                sistOppdatert: subDays(now, 1).toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 2).toISOString(),
+                isPapirSoknad: false,
+            },
+        ];
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-deadline-soon/detaljer", {
+            fiksDigisosId: "soknad-deadline-soon",
+            soknadTittel: "Deadline tomorrow",
+            status: "UNDER_BEHANDLING",
+            antallNyeOppgaver: 1,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: false,
+            vilkar: false,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            forsteOppgaveFrist: tomorrow.toISOString(),
+            saker: [],
+        } satisfies SaksDetaljerResponse);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-deadline-later/detaljer", {
+            fiksDigisosId: "soknad-deadline-later",
+            soknadTittel: "Deadline next week",
+            status: "UNDER_BEHANDLING",
+            antallNyeOppgaver: 1,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: false,
+            vilkar: false,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            forsteOppgaveFrist: nextWeek.toISOString(),
+            saker: [],
+        } satisfies SaksDetaljerResponse);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-tasks-no-deadline/detaljer", {
+            fiksDigisosId: "soknad-tasks-no-deadline",
+            soknadTittel: "Tasks without deadline",
+            status: "UNDER_BEHANDLING",
+            antallNyeOppgaver: 2,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: false,
+            vilkar: false,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            saker: [],
+        } satisfies SaksDetaljerResponse);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-no-tasks-oldest/detaljer", {
+            fiksDigisosId: "soknad-no-tasks-oldest",
+            soknadTittel: "No tasks oldest",
+            status: "UNDER_BEHANDLING",
+            antallNyeOppgaver: 0,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: false,
+            vilkar: false,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            saker: [],
+        } satisfies SaksDetaljerResponse);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-no-tasks-newest/detaljer", {
+            fiksDigisosId: "soknad-no-tasks-newest",
+            soknadTittel: "No tasks newest",
+            status: "UNDER_BEHANDLING",
+            antallNyeOppgaver: 0,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: false,
+            vilkar: false,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            saker: [],
+        } satisfies SaksDetaljerResponse);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).toBeVisible();
+
+        // Get all application links in order
+        const applicationLinks = aktiveSaker.getByRole("link");
+        const titles = await applicationLinks.allTextContents();
+
+        // Expected order:
+        // 1. Deadline tomorrow (earliest deadline)
+        // 2. Deadline next week (later deadline)
+        // 3. Tasks without deadline (has tasks but no deadline)
+        // 4. No tasks newest (no tasks, most recent sistOppdatert)
+        // 5. No tasks oldest (no tasks, oldest sistOppdatert)
+        expect(titles[0]).toContain("Deadline tomorrow");
+        expect(titles[1]).toContain("Deadline next week");
+        expect(titles[2]).toContain("Tasks without deadline");
+        expect(titles[3]).toContain("No tasks newest");
+        expect(titles[4]).toContain("No tasks oldest");
     });
 });

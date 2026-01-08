@@ -13,23 +13,28 @@ const combineSakAndSaksdetaljer = (saker: SaksListeResponse[], saksdetaljer: Sak
     }));
 };
 
+const getForsteOppgaveFrist = (sak: Soknad): number =>
+    R.pipe(sak, R.prop("forsteOppgaveFrist"), (frist) => (frist ? new Date(frist).getTime() : Number.MAX_SAFE_INTEGER));
+
+const hasOppgaver = (sak: Soknad): number =>
+    R.pipe(sak, R.prop("antallNyeOppgaver"), R.defaultTo(0), (antall) => (antall > 1 ? 1 : 0));
+
 export const filterAndSort = (
     saker: SaksListeResponse[],
     soknadsdetaljer: SaksDetaljerResponse[],
     filter: (sak: Soknad) => boolean,
     paabegynteSaker?: PaabegyntSoknad[]
-) => {
-    const combineSakAndSaksdetaljer1 = combineSakAndSaksdetaljer(saker, soknadsdetaljer);
-    const combined: Soknad[] = combineSakAndSaksdetaljer1.filter(filter);
-    // Påbegynte saker skal legges til etter filtrering, da de alltid er aktive.
-    const alleSaker = [...combined, ...(paabegynteSaker ?? [])];
-    // Sorterer først på antall nye oppgaver (eller 0), deretter på sist oppdatert.
-    return R.sortBy(
-        alleSaker,
-        [(sak) => R.pipe(sak, R.prop("antallNyeOppgaver"), R.defaultTo(0)), "desc"],
-        [R.prop("sistOppdatert"), "desc"]
+) =>
+    R.pipe(
+        saker,
+        (s) => combineSakAndSaksdetaljer(s, soknadsdetaljer),
+        R.filter(filter),
+        (combined) => [...combined, ...(paabegynteSaker ?? [])],
+        // Sorterer først på om saken har frist (de med frist kommer først),
+        // deretter på fristdato (nærmeste frist først),
+        // så på om saken har oppgaver, og til slutt på sist oppdatert.
+        R.sortBy([getForsteOppgaveFrist, "asc"], [hasOppgaver, "desc"], [R.prop("sistOppdatert"), "desc"])
     );
-};
 
 export const ferdigbehandletAndOlderThan21Days = (sak: Soknad): boolean =>
     "status" in sak &&
