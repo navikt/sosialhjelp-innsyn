@@ -16,12 +16,14 @@ const TidligereSoknader = async () => {
     if (sorted.length === 0) {
         return null;
     }
+    const headingId = "tidligere-soknader-heading";
+
     return (
         <VStack gap="2">
-            <Heading size="medium" level="2">
+            <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>
-            <SoknaderList soknader={sorted} />
+            <SoknaderList soknader={sorted} labelledById={headingId} />
         </VStack>
     );
 };

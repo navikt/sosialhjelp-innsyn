@@ -16,6 +16,7 @@ import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
 
 interface Props {
     soknader: (PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse))[];
+    labelledById: string;
 }
 
 const sakKey = (sak: PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse)): string => {
@@ -29,7 +30,7 @@ const sakKey = (sak: PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksList
     return Math.random().toString(36).substring(2, 15);
 };
 
-const SoknaderList = ({ soknader }: Props) => {
+const SoknaderList = ({ soknader, labelledById }: Props) => {
     const t = useTranslations("SoknaderList");
 
     // Denne skal bare tracke søknader som ligger under "Aktive saker"
@@ -49,7 +50,7 @@ const SoknaderList = ({ soknader }: Props) => {
     }, [soknader]);
 
     return (
-        <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")}>
+        <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")} labelledById={labelledById}>
             {(item, index, firstExpandedItemRef) => (
                 <li key={sakKey(item)} ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null} tabIndex={-1}>
                     {"fiksDigisosId" in item && <SoknadCard soknad={item} />}

@@ -10,12 +10,14 @@ const KommendeUtbetalinger = async () => {
 
     if (alleKommende.length === 0) return null;
 
+    const headingId = "kommende-utbetalinger-heading";
+
     return (
         <VStack gap="2">
-            <Heading size="medium" level="2">
+            <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>
-            <KommendeUtbetalingerListe alleKommende={alleKommende} />
+            <KommendeUtbetalingerListe alleKommende={alleKommende} labelledById={headingId} />
         </VStack>
     );
 };

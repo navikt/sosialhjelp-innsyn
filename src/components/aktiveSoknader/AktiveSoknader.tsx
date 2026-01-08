@@ -25,12 +25,13 @@ const AktiveSoknader = async () => {
         return <AktiveSoknaderEmptyState />;
     }
 
+    const headingId = "aktive-soknader-heading";
     return (
         <VStack gap="2">
-            <Heading size="medium" level="2">
+            <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>
-            <SoknaderList soknader={sorted} />
+            <SoknaderList soknader={sorted} labelledById={headingId} />
         </VStack>
     );
 };
