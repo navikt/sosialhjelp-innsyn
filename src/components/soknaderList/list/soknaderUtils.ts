@@ -1,5 +1,5 @@
 import * as R from "remeda";
-import { differenceInDays } from "date-fns";
+import { differenceInDays, differenceInMonths, isAfter, parseISO } from "date-fns";
 import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
@@ -36,7 +36,18 @@ export const filterAndSort = (
         R.sortBy([getForsteOppgaveFrist, "asc"], [hasOppgaver, "desc"], [R.prop("sistOppdatert"), "desc"])
     );
 
-export const ferdigbehandletAndOlderThan21Days = (sak: Soknad): boolean =>
+const ferdigbehandletAndOlderThan21Days = (sak: Soknad): boolean =>
     "status" in sak &&
     sak.status === "FERDIGBEHANDLET" &&
     differenceInDays(new Date(), new Date(sak.sistOppdatert)) > 21;
+
+const hasActiveDokumentasjonkrav = (sak: Soknad): boolean =>
+    "status" in sak &&
+    !!sak.sisteDokumentasjonKravFrist &&
+    isAfter(parseISO(sak.sisteDokumentasjonKravFrist), new Date());
+
+const isOlderThan2Months = (sak: Soknad): boolean =>
+    "status" in sak && differenceInMonths(new Date(), parseISO(sak.sistOppdatert)) >= 2;
+
+export const isActiveSoknad = (sak: Soknad) =>
+    !isOlderThan2Months(sak) && (!ferdigbehandletAndOlderThan21Days(sak) || hasActiveDokumentasjonkrav(sak));

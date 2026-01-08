@@ -265,6 +265,97 @@ test.describe("Soknader page - application categorization", () => {
 
         await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
     });
+
+    test("Application which is ferdigbehandlet and older than 3 weeks, but has upcoming dokumentasjonkrav should be active", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const now = new Date();
+        const oldDate = subDays(now, 40);
+        const mockSakerData = [
+            {
+                fiksDigisosId: "active-dokkrav",
+                soknadTittel: "Old But Still Active Application",
+                sistOppdatert: oldDate.toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 50).toISOString(),
+                isPapirSoknad: false,
+            } satisfies SaksListeResponse,
+        ];
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/active-dokkrav/detaljer", {
+            fiksDigisosId: "active-dokkrav",
+            soknadTittel: "Old But Still Active Application",
+            status: "FERDIGBEHANDLET",
+            antallNyeOppgaver: 1,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: true,
+            vilkar: false,
+            forelopigSvar: {
+                harMottattForelopigSvar: false,
+            },
+            saker: [],
+            sisteDokumentasjonKravFrist: addDays(now, 25).toISOString(),
+        } satisfies SaksDetaljerResponse);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(aktiveSaker.getByText("Old But Still Active Application")).toBeVisible();
+    });
+
+    test("Application which is ferdigbehandlet and older than 3 weeks, has upcoming dokumentasjonkrav, but 2 months have passed should not be active", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const now = new Date();
+        const oldDate = subDays(now, 65);
+        const mockSakerData = [
+            {
+                fiksDigisosId: "non-active-dokkrav",
+                soknadTittel: "Dette er en tittel",
+                sistOppdatert: oldDate.toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 70).toISOString(),
+                isPapirSoknad: false,
+            } satisfies SaksListeResponse,
+        ];
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/non-active-dokkrav/detaljer", {
+            fiksDigisosId: "non-active-dokkrav",
+            soknadTittel: "Dette er en tittel",
+            status: "FERDIGBEHANDLET",
+            antallNyeOppgaver: 1,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: true,
+            vilkar: false,
+            forelopigSvar: {
+                harMottattForelopigSvar: false,
+            },
+            saker: [],
+            sisteDokumentasjonKravFrist: addDays(now, 25).toISOString(),
+        } satisfies SaksDetaljerResponse);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).not.toBeVisible();
+
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        await expect(tidligereSaker).toBeVisible();
+        await expect(tidligereSaker.getByText("Dette er en tittel")).toBeVisible();
+    });
 });
 
 test.describe("SoknadCard rendering logic", () => {
