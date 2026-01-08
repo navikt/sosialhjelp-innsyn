@@ -261,17 +261,21 @@
     "KommendeUtbetalingerListe": {
         "beskrivelse": "Du vil motta {amount} kr",
         "utbetales": "Blir utbetalt {dato, date, ::ddMMyyyy}",
-        "visFlere": "Vis fleire",
-        "visFærre": "Vis færre"
+        "utbetalinger": "utbetalingar"
     },
     "AktiveSoknader": {
         "tittel": "Aktive saker",
         "EmptyState": {
             "tittel": "Vi finn ingen søknader frå deg",
             "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
-        },
+        }
+    },
+    "ShowMoreButton": {
         "visFlere": "Vis fleire",
         "visFærre": "Vis færre"
+    },
+    "SoknaderList": {
+        "soknader": "søknader"
     },
     "TidligereSoknader": {
         "tittel": "Tidlegare saker"
