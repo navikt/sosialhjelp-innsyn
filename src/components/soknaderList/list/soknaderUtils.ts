@@ -33,13 +33,7 @@ export const filterAndSort = (
         // Sorterer først på om saken har frist (de med frist kommer først),
         // deretter på fristdato (nærmeste frist først),
         // så på om saken har oppgaver, og til slutt på sist oppdatert.
-        (alleSaker) =>
-            R.sortBy(
-                alleSaker,
-                [getForsteOppgaveFrist, "asc"],
-                [hasOppgaver, "desc"],
-                [R.prop("sistOppdatert"), "desc"]
-            )
+        R.sortBy([getForsteOppgaveFrist, "asc"], [hasOppgaver, "desc"], [R.prop("sistOppdatert"), "desc"])
     );
 
 export const ferdigbehandletAndOlderThan21Days = (sak: Soknad): boolean =>
