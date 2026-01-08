@@ -1,49 +1,78 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": ["dom", "dom.iterable", "esnext"],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "esnext",
-        "moduleResolution": "bundler",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-        "noFallthroughCasesInSwitch": true,
-        "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
-        "baseUrl": "./",
-        "paths": {
-            "@api/*": ["src/api/*"],
-            "@components/*": ["src/components/*"],
-            "@config/*": ["src/config/*"],
-            "@faro/*": ["src/faro/*"],
-            "@featuretoggles/*": ["src/featuretoggles/*"],
-            "@generated/*": ["src/generated/*"],
-            "@hooks/*": ["src/hooks/*"],
-            "@i18n/*": ["src/i18n/*"],
-            "@styles/*": ["src/styles/*"],
-            "@test/*": ["src/test/*"],
-            "@utils/*": ["src/utils/*"]
-        }
-    },
-    "include": [
-        "./src",
-        ".next/types/**/*.ts",
-        "vitest.config.mts",
-        "@testing-library/jest-dom",
-        "tailwind.config.ts",
-        "next.config.ts",
-        ".next/dev/types/**/*.ts"
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "exclude": ["node_modules"]
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "noFallthroughCasesInSwitch": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@faro/*": [
+        "src/faro/*"
+      ],
+      "@featuretoggles/*": [
+        "src/featuretoggles/*"
+      ],
+      "@generated/*": [
+        "src/generated/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@i18n/*": [
+        "src/i18n/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@test/*": [
+        "src/test/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
+    }
+  },
+  "include": [
+    "./src",
+    ".next/types/**/*.ts",
+    "vitest.config.mts",
+    "@testing-library/jest-dom",
+    "tailwind.config.ts",
+    "next.config.ts",
+    ".next/dev/types/**/*.ts",
+    ".next/dev/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
