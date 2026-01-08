@@ -21,8 +21,9 @@ const SoknadCard = ({ soknad }: Props) => {
     const t = useTranslations("SoknadCard");
     const id = soknad.fiksDigisosId!;
     const sakTittel = soknad.soknadTittel?.length ? soknad.soknadTittel : t("defaultTittel");
-    const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined;
+    const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined; // Kun satt ved digital søknad
     const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined;
+    const isDigitalSoknad = !!sendtDato;
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
     const harSakMedFlereVedtak = soknad.saker?.some((s) => s.antallVedtak > 1) ?? false;
@@ -32,7 +33,7 @@ const SoknadCard = ({ soknad }: Props) => {
             <StatusCard id={id} tittel={sakTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
-                    {!mottattDato && <BehandlingsStatusTag status="mottatt" />}
+                    {isDigitalSoknad && <BehandlingsStatusTag status="mottatt" />}
                     {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
                 </LinkCardFooter>
             </StatusCard>

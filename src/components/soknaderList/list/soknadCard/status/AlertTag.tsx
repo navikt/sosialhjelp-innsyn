@@ -25,7 +25,11 @@ const AlertTag = ({ alertType, deadline }: Props) => {
             variant="warning-moderate"
             size="small"
             icon={
-                alertType === "forlenget_behandlingstid" ? <InformationSquareIcon /> : <ExclamationmarkTriangleIcon />
+                alertType === "forlenget_behandlingstid" ? (
+                    <InformationSquareIcon aria-hidden="true" />
+                ) : (
+                    <ExclamationmarkTriangleIcon aria-hidden="true" />
+                )
             }
         >
             <AlertTagText alertType={alertType} deadline={deadline} />

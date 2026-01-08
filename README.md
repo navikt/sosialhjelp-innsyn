@@ -22,7 +22,7 @@ docker-compose up \
 
 Vi bruker Github sitt package registry for npm pakker, siden flere av Nav sine pakker kun blir publisert her.
 
-For å kunne kjøre `npm install` lokalt må du logge inn mot Github package registry:
+For å kunne kjøre `pnpm install` lokalt må du logge inn mot Github package registry:
 
 - Lag/forny access token med repo og read:packages rettigheter i github ( under developer settings). husk enable sso
 - Login på npm med `npm login --scope=@navikt --registry=https://npm.pkg.github.com` og benytt github brukernavn, og tokenet du nettopp genererte som passord.
@@ -54,30 +54,45 @@ SOKNAD_API_PORT=8181
 #### Lokal server
 
 ```shell
-npm install # Hent avhengigheter
-npm run dev #  starter dev-server
-npm test # Kjør enhetstestene
+pnpm install # Hent avhengigheter
+pnpm run dev #  starter dev-server
+pnpm test # Kjør enhetstestene
 ```
 
 Hvis det er skjedd endringer i apiet må man også oppdatere typegenerering fra swagger-dokumentasjon. Dette gjøres via  
-`npm run orval`
+`pnpm run orval`
 
 Swagger-docs hentes inn fra mock-miljø via kommonadoen  
-`npm run fetch-api-docs`
+`pnpm run fetch-api-docs`
 
 Se også [utviklerdokumentasjonen](https://teamdigisos.intern.nav.no/docs/utviklerdokumentasjon/kom%20igang%20med%20utvikling/#frontend) vår.
 
 ## Ved endringer i innsyn-api
 
 ```shell
-npm run fetch-api-docs # Hent OpenAPI definition for innsyn-api fra mock-miljø og lagrer i innsyn-api.json
-npm run orval # genererer typer fra innsyn-api.json
+pnpm run fetch-api-docs # Hent OpenAPI definition for innsyn-api fra mock-miljø og lagrer i innsyn-api.json
+pnpm run orval # genererer typer fra innsyn-api.json
 ```
 
 Eventuelt kan innsyn-api.json genereres fra lokal backend ved å kjøre
 
 ```shell
-npm run fetch-api-docs-local
+pnpm run fetch-api-docs-local
+```
+
+## E2E Testing med Playwright
+
+Prosjektet bruker Playwright for end-to-end testing. Testene ligger i `e2e/`-mappen
+
+Første gang man kjører Playwright lokalt, må man installere browserverktøy:
+
+```shell
+pnpm exec playwright install
+```
+
+```shell
+pnpm run e2e        # Kjør alle e2e-tester headless
+pnpm run e2e:ui     # Kjør tester med Playwright UI - anbefalt for debugging
 ```
 
 ## How-to
