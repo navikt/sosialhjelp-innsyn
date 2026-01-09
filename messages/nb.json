@@ -262,14 +262,15 @@
     "PaabegyntCard": {
         "title": "Søknad om økonomisk sosialhjelp",
         "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}",
-        "paabegynt": "Påbegynt"
+        "utkast": "Utkast"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
         "oppgaver": "Oppgaver",
         "oppgaveMedFrist": "Oppgaver med frist {frist, date, ::ddMMyyyy}",
         "vilkar": "Vilkår",
-        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
+        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}",
+        "advarselIconAltText": "Varseltrekant ikon"
     },
     "BehandlingsStatus": {
         "mottatt": " Mottatt",
