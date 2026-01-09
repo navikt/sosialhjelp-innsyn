@@ -262,7 +262,7 @@
     "PaabegyntCard": {
         "title": "Søknad om økonomisk sosialhjelp",
         "keptUntil": "Beholdes frem til {date, date, ::ddMMyyyy}",
-        "paabegynt": "Påbegynt"
+        "utkast": "Utkast"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlenget saksbehandlingstid",
