@@ -15,7 +15,9 @@ const AktiveSoknader = async () => {
     const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
     const sorted = filterAndSort(innsendteSoknader, soknadsdetaljer, isActiveSoknad, paabegynteSaker);
 
-    if (sorted.length === 0) {
+    const soknadCount = innsendteSoknader.length + paabegynteSaker.length;
+
+    if (soknadCount === 0) {
         return <AktiveSoknaderEmptyState />;
     }
 

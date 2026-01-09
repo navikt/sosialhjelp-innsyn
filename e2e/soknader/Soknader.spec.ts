@@ -210,9 +210,6 @@ test.describe("Soknader page - application categorization", () => {
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        const emptyStateHeading = page.getByRole("heading", { name: "Vi finner ingen søknader fra deg" });
-        await expect(emptyStateHeading).toBeVisible();
-
         await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).toBeVisible();
         await expect(page.getByText("Old Application 1")).toBeVisible();
         await expect(page.getByText("Old Application 2")).toBeVisible();
@@ -355,6 +352,49 @@ test.describe("Soknader page - application categorization", () => {
         const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
         await expect(tidligereSaker).toBeVisible();
         await expect(tidligereSaker.getByText("Dette er en tittel")).toBeVisible();
+    });
+
+    test("Should not show empty state when there are applications", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const now = new Date();
+        const oldDate = subDays(now, 30);
+        const mockSakerData = [
+            {
+                fiksDigisosId: "tidligere-soknad",
+                soknadTittel: "Gammel søknad",
+                sistOppdatert: oldDate.toISOString(),
+                kommunenummer: "0301",
+                soknadOpprettet: subDays(now, 70).toISOString(),
+                isPapirSoknad: false,
+            } satisfies SaksListeResponse,
+        ];
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
+
+        await msw.mockEndpoint("/api/v1/innsyn/sak/tidligere-soknad/detaljer", {
+            fiksDigisosId: "tidligere-soknad",
+            soknadTittel: "Gammel søknad",
+            status: "FERDIGBEHANDLET",
+            antallNyeOppgaver: 0,
+            dokumentasjonEtterspurt: false,
+            dokumentasjonkrav: false,
+            vilkar: false,
+            forelopigSvar: {
+                harMottattForelopigSvar: false,
+            },
+            saker: [],
+        } satisfies SaksDetaljerResponse);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).not.toBeVisible();
+
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        await expect(tidligereSaker).toBeVisible();
+
+        await expect(page.getByText("Vi finner ingen søknader fra deg")).not.toBeVisible();
     });
 });
 
