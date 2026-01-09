@@ -269,8 +269,7 @@
         "oppgaver": "Oppgaver",
         "oppgaveMedFrist": "Oppgaver med frist {frist, date, ::ddMMyyyy}",
         "vilkar": "Vilkår",
-        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}",
-        "advarselIconAltText": "Varseltrekant ikon"
+        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
     },
     "BehandlingsStatus": {
         "mottatt": " Mottatt",
