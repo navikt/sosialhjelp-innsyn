@@ -7,7 +7,7 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 const UtbetalingerSnarvei = () => {
     const t = useTranslations("Snarveier");
     return (
-        <DigisosLinkCard href={`/utbetaling`} icon={<BankNoteIcon />}>
+        <DigisosLinkCard href={`/utbetaling`} icon={<BankNoteIcon aria-hidden />}>
             {t("utbetalinger")}
         </DigisosLinkCard>
     );
