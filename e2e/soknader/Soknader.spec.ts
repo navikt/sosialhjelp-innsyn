@@ -431,11 +431,23 @@ test.describe("SoknadCard rendering logic", () => {
             fiksDigisosId: "test-mottatt-oppgave",
             soknadTittel: "Papirsøknad",
             kommunenummer: "0301",
-            mottattTidspunkt: "2025-11-15T10:00:00Z",
-            status: "MOTTATT",
-        };
+            sistOppdatert: new Date().toISOString(),
+            isPapirSoknad: true,
+        } satisfies SaksListeResponse;
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            status: "MOTTATT",
+            saker: [],
+            vilkar: false,
+            soknadTittel: "Papirsøknad",
+            dokumentasjonkrav: false,
+            forelopigSvar: {
+                harMottattForelopigSvar: false,
+            },
+            dokumentasjonEtterspurt: false,
+            mottattTidspunkt: "2025-11-15T10:00:00Z",
+            fiksDigisosId: "test-mottatt-oppgave",
+        } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await page.getByRole("button", { name: "Nei" }).click();
