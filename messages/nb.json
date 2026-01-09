@@ -231,7 +231,8 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "Du vil motta {amount} kr",
-        "utbetales": "Utbetales {dato, date, ::ddMMyyyy}",
+        "beskrivelseAriaLabel": "Du får {amount} kr utbetalt den {date, date, ::d MMMM yyyy}",
+        "utbetales": "Utbetales {date, date, ::ddMMyyyy}",
         "utbetalinger": "utbetalinger"
     },
     "AktiveSoknader": {

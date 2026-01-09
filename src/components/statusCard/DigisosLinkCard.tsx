@@ -8,6 +8,7 @@ import HoyreIkon from "./HoyreIkon";
 export interface Props {
     href: string;
     description?: ReactNode;
+    titleAriaLabel?: string;
     icon?: JSX.Element;
     cardIcon?: "download" | "expand";
     analyticsEvent?: string;
@@ -38,6 +39,7 @@ const DigisosLinkCard = ({
     href,
     children,
     description,
+    titleAriaLabel,
     icon,
     cardIcon,
     analyticsEvent,
@@ -58,7 +60,7 @@ const DigisosLinkCard = ({
         <LinkCard arrow={!cardIcon}>
             {icon && <Icon icon={icon} />}
             <LinkCardTitle className="flex items-center justify-between">
-                <LinkCardAnchor asChild>
+                <LinkCardAnchor asChild aria-label={titleAriaLabel}>
                     <Link href={href} {...dataAttrs}>
                         {children}
                     </Link>

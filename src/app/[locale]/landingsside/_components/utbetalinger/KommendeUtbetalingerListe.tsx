@@ -27,12 +27,17 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
         >
             {(utbetaling, index, firstExpandedItemRef) => {
                 const amount = format.number(utbetaling.belop);
+                const date = new Date(utbetaling.forfallsdato!);
                 return (
                     <li ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null} tabIndex={-1}>
                         <DigisosLinkCard
                             key={utbetaling.referanse}
                             href="/utbetalinger"
                             description={utbetaling.tittel}
+                            titleAriaLabel={t("beskrivelseAriaLabel", {
+                                amount,
+                                date,
+                            })}
                             footer={
                                 utbetaling.forfallsdato && (
                                     <LinkCardFooter>
@@ -41,7 +46,7 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
                                             size="small"
                                             icon={<CalendarIcon aria-hidden={true} />}
                                         >
-                                            {t("utbetales", { dato: new Date(utbetaling.forfallsdato) })}
+                                            {t("utbetales", { date })}
                                         </Tag>
                                     </LinkCardFooter>
                                 )
