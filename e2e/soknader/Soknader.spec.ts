@@ -213,6 +213,8 @@ test.describe("Soknader page - application categorization", () => {
         await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).toBeVisible();
         await expect(page.getByText("Old Application 1")).toBeVisible();
         await expect(page.getByText("Old Application 2")).toBeVisible();
+
+        await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).not.toBeVisible();
     });
 
     test("applications with status other than FERDIGBEHANDLET should always be in Active applications", async ({

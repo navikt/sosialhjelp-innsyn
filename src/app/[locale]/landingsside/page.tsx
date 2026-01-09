@@ -6,11 +6,11 @@ import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import Footer from "@components/footer/Footer";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
-import AktiveSoknader from "@components/aktiveSoknader/AktiveSoknader";
 import Snarveier from "@components/snarveier/Snarveier";
 
 import KommendeUtbetalinger from "./_components/utbetalinger/KommendeUtbetalinger";
 import LandingssideSnarveier from "./_components/snarveier/LandingssideSnarveier";
+import Soknader from "@components/soknader/Soknader";
 
 const Page = async () => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
@@ -38,7 +38,8 @@ const Page = async () => {
                     </Stack>
                 </Bleed>
                 <KommendeUtbetalinger />
-                <AktiveSoknader />
+                <Soknader hideInactive />
+
                 <Snarveier>
                     <LandingssideSnarveier />
                 </Snarveier>
