@@ -3,8 +3,8 @@
 import { useHentAlleSaker } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 import { useHentUtbetalinger } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
-import SoknaderSnarvei from "./SoknaderSnarvei";
-import UtbetalingerSnarvei from "./UtbetalingerSnarvei";
+import SoknaderSnarvei from "@components/snarveier/SoknaderSnarvei";
+import UtbetalingerSnarvei from "@components/snarveier/UtbetalingerSnarvei";
 
 const LandingssideSnarveier = (): React.JSX.Element | null => {
     const { data: alleSaker } = useHentAlleSaker();

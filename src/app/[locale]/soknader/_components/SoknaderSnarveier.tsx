@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { useHentUtbetalinger } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2";
 
-import UtbetalingerSnarvei from "../../landingsside/_components/snarveier/UtbetalingerSnarvei";
+import UtbetalingerSnarvei from "@components/snarveier/UtbetalingerSnarvei";
 
 const SoknaderSnarveier = (): ReactNode => {
     const { data: utbetalinger } = useHentUtbetalinger();

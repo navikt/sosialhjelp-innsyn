@@ -9,6 +9,8 @@ import { prefetchHentUtbetalingerQuery } from "@generated/ssr/utbetalinger-contr
 
 import Utbetalinger from "./_components/Utbetalinger";
 import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
+import Snarveier from "@components/snarveier/Snarveier";
+import SoknaderSnarvei from "@components/snarveier/SoknaderSnarvei";
 
 const Page = async () => {
     const t = await getTranslations("UtbetalingerPage");
@@ -28,6 +30,9 @@ const Page = async () => {
                         <Utbetalinger />
                     </HydrationBoundary>
                 </Suspense>
+                <Snarveier>
+                    <SoknaderSnarvei />
+                </Snarveier>
             </VStack>
         </>
     );

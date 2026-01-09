@@ -28,7 +28,11 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
             {(utbetaling, index, firstExpandedItemRef) => {
                 const amount = format.number(utbetaling.belop);
                 return (
-                    <li ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null} tabIndex={-1}>
+                    <li
+                        key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}
+                        ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null}
+                        tabIndex={-1}
+                    >
                         <DigisosLinkCard
                             key={utbetaling.referanse}
                             href="/utbetalinger"
