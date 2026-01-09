@@ -298,7 +298,8 @@
         "oppgaver": "Tasks",
         "oppgaveMedFrist": "Tasks with deadline {frist, date, ::ddMMyyyy}",
         "vilkar": "Conditions",
-        "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}"
+        "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}",
+        "varselTrekantAltText": "Important information"
     },
     "BehandlingsStatus": {
         "mottatt": " Received",
@@ -307,7 +308,8 @@
         "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
     },
     "VedtakTag": {
-        "tittel": "New decision"
+        "tittel": "New decision",
+        "varselTrekantAltText": "Important information"
     },
     "Snarveier": {
         "tittel": "Shortcuts",

@@ -298,7 +298,8 @@
         "oppgaver": "Oppgåver",
         "oppgaveMedFrist": "Oppgåver med frist {frist, date, ::ddMMyyyy}",
         "vilkar": "Vilkår",
-        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
+        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}",
+        "varselTrekantAltText": "Viktig informasjon"
     },
     "BehandlingsStatus": {
         "mottatt": "Motteken",
@@ -307,7 +308,8 @@
         "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandla"
     },
     "VedtakTag": {
-        "tittel": "Nytt vedtak"
+        "tittel": "Nytt vedtak",
+        "varselTrekantAltText": "Viktig informasjon"
     },
     "Snarveier": {
         "tittel": "Snarvegar",
