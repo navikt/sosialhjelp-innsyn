@@ -13,6 +13,35 @@ vi.mock("@navikt/nav-dekoratoren-moduler", () => ({ setBreadcrumbs: vi.fn() }));
 vi.mock("next/router", async () => ({ ...(await import("next-router-mock")) }));
 vi.mock("unleash-proxy-client", () => ({}));
 
+// Mock next/navigation for next-intl
+vi.mock("next/navigation", () => ({
+    useRouter: () => ({
+        push: vi.fn(),
+        replace: vi.fn(),
+        prefetch: vi.fn(),
+        back: vi.fn(),
+        forward: vi.fn(),
+        refresh: vi.fn(),
+    }),
+    usePathname: () => "/",
+    useSearchParams: () => new URLSearchParams(),
+    useParams: () => ({}),
+}));
+
+// Mock @i18n/navigation
+vi.mock("@i18n/navigation", () => ({
+    Link: vi.fn(({ children }) => children),
+    useRouter: () => ({
+        push: vi.fn(),
+        replace: vi.fn(),
+        prefetch: vi.fn(),
+        back: vi.fn(),
+    }),
+    usePathname: () => "/",
+    redirect: vi.fn(),
+    getPathname: vi.fn(),
+}));
+
 Object.defineProperty(window, "matchMedia", {
     writable: true,
     value: vi.fn().mockImplementation((query) => ({

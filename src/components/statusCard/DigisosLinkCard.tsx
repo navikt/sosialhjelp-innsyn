@@ -1,9 +1,11 @@
-import Link from "next/link";
+"use client";
+
 import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor, LinkCardIcon } from "@navikt/ds-react/LinkCard";
 import React, { JSX, PropsWithChildren, ReactNode } from "react";
 import { Box, VStack } from "@navikt/ds-react";
 
 import HoyreIkon from "./HoyreIkon";
+import { Link } from "@i18n/navigation";
 
 export interface Props {
     href: string;
