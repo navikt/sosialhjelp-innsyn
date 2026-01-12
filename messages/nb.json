@@ -254,7 +254,7 @@
     },
     "SoknadCard": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
-        "ariaTittel": ", søknad sendt {dato, date, ::ddMMyyyy}",
+        "ariaTittel": ", søknad sendt {dato, date, ::dMMMMyyyy}",
         "status": "Status: {status}"
     },
     "DatoTag": {
