@@ -49,6 +49,10 @@ UPLOAD_API_HOSTNAME=localhost
 SOKNAD_API_HOSTNAME=localhost
 SOKNAD_API_AUDIENCE=dev-gcp:teamdigisos:sosialhjelp-soknad-api-mock
 SOKNAD_API_PORT=8181
+TOKEN_X_ISSUER=http://localhost:8888/tokenx
+NAIS_TOKEN_ENDPOINT=http://localhost:8081/api/v1/token
+NAIS_TOKEN_EXCHANGE_ENDPOINT=http://localhost:8081/api/v1/token/exchange
+NAIS_TOKEN_INTROSPECTION_ENDPOINT=http://localhost:8081/api/v1/introspect
 ```
 
 #### Lokal server
