@@ -27,10 +27,13 @@ const SoknadCard = ({ soknad }: Props) => {
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
     const harSakMedFlereVedtak = soknad.saker?.some((s) => s.antallVedtak > 1) ?? false;
+    const ariaTittel = t("ariaTittel", {
+        dato: sendtDato || mottattDato || "",
+    });
 
     if (soknad.status === "MOTTATT") {
         return (
-            <StatusCard id={id} tittel={sakTittel}>
+            <StatusCard id={id} tittel={sakTittel} ariaTittel={ariaTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     {isDigitalSoknad && <BehandlingsStatusTag status="mottatt" />}
@@ -41,7 +44,7 @@ const SoknadCard = ({ soknad }: Props) => {
     }
     if (soknad.status === "SENDT") {
         return (
-            <StatusCard id={id} tittel={sakTittel}>
+            <StatusCard id={id} tittel={sakTittel} ariaTittel={ariaTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
@@ -54,7 +57,7 @@ const SoknadCard = ({ soknad }: Props) => {
         const ferdigeSaker = soknad.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
         const vedtakProgress = antallSaker > 1 && ferdigeSaker > 0 ? { ferdigeSaker, antallSaker } : undefined;
         return (
-            <StatusCard id={id} tittel={sakTittel}>
+            <StatusCard id={id} tittel={sakTittel} ariaTittel={ariaTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     <BehandlingsStatusTag status="under_behandling" vedtakProgress={vedtakProgress} />
@@ -67,7 +70,7 @@ const SoknadCard = ({ soknad }: Props) => {
     }
     if (soknad.status === "FERDIGBEHANDLET") {
         return (
-            <StatusCard id={id} tittel={sakTittel}>
+            <StatusCard id={id} tittel={sakTittel} ariaTittel={ariaTittel}>
                 <LinkCardFooter>
                     <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                     <BehandlingsStatusTag

@@ -34,10 +34,6 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
                             key={utbetaling.referanse}
                             href="/utbetalinger"
                             description={utbetaling.tittel}
-                            titleAriaLabel={t("beskrivelseAriaLabel", {
-                                amount,
-                                date,
-                            })}
                             footer={
                                 utbetaling.forfallsdato && (
                                     <LinkCardFooter>
@@ -53,6 +49,7 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
                             }
                         >
                             {t("beskrivelse", { amount })}
+                            <span className="sr-only">{t("beskrivelseSrOnly", { date })}</span>
                         </DigisosLinkCard>
                     </li>
                 );

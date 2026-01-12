@@ -260,7 +260,7 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "You will receive {amount} NOK",
-        "beskrivelseAriaLabel": "You will receive {amount} NOK on {date, date, ::d MMMM yyyy}",
+        "beskrivelseSrOnly": " on {date, date, ::d MMMM yyyy}",
         "utbetales": "Paid on {date, date, ::ddMMyyyy}",
         "utbetalinger": "payments"
     },
@@ -283,6 +283,7 @@
     },
     "SoknadCard": {
         "defaultTittel": "Application for financial assistance",
+        "ariaTittel": ", application sent {dato, date, ::ddMMyyyy}",
         "status": "Status: {status}"
     },
     "PaabegyntCard": {

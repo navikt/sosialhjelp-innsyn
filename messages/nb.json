@@ -231,7 +231,7 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "Du vil motta {amount} kr",
-        "beskrivelseAriaLabel": "Du får {amount} kr utbetalt den {date, date, ::d MMMM yyyy}",
+        "beskrivelseSrOnly": " den {date, date, ::d MMMM yyyy}",
         "utbetales": "Utbetales {date, date, ::ddMMyyyy}",
         "utbetalinger": "utbetalinger"
     },
@@ -254,6 +254,7 @@
     },
     "SoknadCard": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
+        "ariaTittel": ", søknad sendt {dato, date, ::ddMMyyyy}",
         "status": "Status: {status}"
     },
     "DatoTag": {
