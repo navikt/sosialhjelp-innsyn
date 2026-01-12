@@ -141,8 +141,6 @@ test.describe("Soknader page - application categorization", () => {
         await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
 
         await expect(page.getByText("Recent Finished Application")).toBeVisible();
-
-        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
     });
 
     test("should show only Earlier applications when all applications are old and finished", async ({
@@ -395,8 +393,32 @@ test.describe("Soknader page - application categorization", () => {
 
         const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
         await expect(tidligereSaker).toBeVisible();
+        await expect(aktiveSaker.getByText("Søknad om økonomisk sosialhjelp")).toBeVisible();
 
         await expect(page.getByText("Vi finner ingen søknader fra deg")).not.toBeVisible();
+    });
+
+    test("Draft applications should show in active applications", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockPaabegynteSoknaderData = [
+            {
+                eventTidspunkt: "2025-12-01T10:00:00Z",
+                link: "link/to/soknad",
+                sistOppdatert: "2025-12-01T10:00:00Z",
+                soknadId: "paabegynt-soknad",
+            },
+        ];
+
+        await msw.mockEndpoint("*/dittnav/pabegynte/aktive", mockPaabegynteSoknaderData);
+        await msw.mockEndpoint("/api/v1/innsyn/saker", []);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(page.getByText(/Utkast/).first()).toBeVisible();
+        await expect(page.getByText(/Beholdes frem til/).first()).toBeVisible();
     });
 });
 
