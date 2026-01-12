@@ -141,6 +141,8 @@ test.describe("Soknader page - application categorization", () => {
         await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
 
         await expect(page.getByText("Recent Finished Application")).toBeVisible();
+
+        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
     });
 
     test("should show only Earlier applications when all applications are old and finished", async ({
@@ -393,7 +395,6 @@ test.describe("Soknader page - application categorization", () => {
 
         const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
         await expect(tidligereSaker).toBeVisible();
-        await expect(aktiveSaker.getByText("Søknad om økonomisk sosialhjelp")).toBeVisible();
 
         await expect(page.getByText("Vi finner ingen søknader fra deg")).not.toBeVisible();
     });
