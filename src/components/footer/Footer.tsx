@@ -20,7 +20,7 @@ const Footer = async () => {
         <Bleed marginInline="full" marginBlock="0 space-64" asChild reflectivePadding>
             <BoxNew background="accent-soft" className="flex flex-col gap-16 py-20">
                 <VStack gap="2">
-                    <Heading size="medium" level="2">
+                    <Heading size="small" level="2">
                         {t("trengerDuHjelp")}
                     </Heading>
                     <BodyLong>
