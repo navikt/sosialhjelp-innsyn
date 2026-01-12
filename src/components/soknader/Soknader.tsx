@@ -24,7 +24,7 @@ const Soknader = async ({ hideInactive }: Props): Promise<React.JSX.Element> => 
 
     return (
         <>
-            <AktiveSoknader soknader={active} />
+            <AktiveSoknader soknader={activeAndStarted} />
             {!hideInactive && <TidligereSoknader soknader={inactive} />}
         </>
     );
