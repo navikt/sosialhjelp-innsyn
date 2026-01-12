@@ -27,6 +27,7 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
         >
             {(utbetaling, index, firstExpandedItemRef) => {
                 const amount = format.number(utbetaling.belop);
+                const date = new Date(utbetaling.forfallsdato!);
                 return (
                     <li
                         key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}
@@ -45,13 +46,14 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
                                             size="small"
                                             icon={<CalendarIcon aria-hidden={true} />}
                                         >
-                                            {t("utbetales", { dato: new Date(utbetaling.forfallsdato) })}
+                                            {t("utbetales", { date })}
                                         </Tag>
                                     </LinkCardFooter>
                                 )
                             }
                         >
                             {t("beskrivelse", { amount })}
+                            <span className="sr-only">{t("beskrivelseSrOnly", { date })}</span>
                         </DigisosLinkCard>
                     </li>
                 );

@@ -1,5 +1,4 @@
 import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
-import React from "react";
 import { useFormatter } from "next-intl";
 
 import { ManedMedUtbetalinger } from "../../_types/types";

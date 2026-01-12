@@ -231,7 +231,8 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "Du vil motta {amount} kr",
-        "utbetales": "Utbetales {dato, date, ::ddMMyyyy}",
+        "beskrivelseSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "utbetales": "Utbetales {date, date, ::ddMMyyyy}",
         "utbetalinger": "utbetalinger"
     },
     "AktiveSoknader": {
@@ -253,6 +254,7 @@
     },
     "SoknadCard": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
+        "ariaTittel": ", søknad sendt {dato, date, ::ddMMyyyy}",
         "status": "Status: {status}"
     },
     "DatoTag": {
@@ -269,7 +271,8 @@
         "oppgaver": "Oppgaver",
         "oppgaveMedFrist": "Oppgaver med frist {frist, date, ::ddMMyyyy}",
         "vilkar": "Vilkår",
-        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}"
+        "vilkarsfrist": "Vilkår med frist {frist, date, ::ddMMyyyy}",
+        "varselTrekantAltText": "Viktig informasjon"
     },
     "BehandlingsStatus": {
         "mottatt": " Mottatt",
@@ -278,7 +281,8 @@
         "nSakerFerdig": "{ferdigeSaker} av {antallSaker} saker er ferdigbehandlet"
     },
     "VedtakTag": {
-        "tittel": "Nytt vedtak"
+        "tittel": "Nytt vedtak",
+        "varselTrekantAltText": "Viktig informasjon"
     },
     "Snarveier": {
         "tittel": "Snarveier",

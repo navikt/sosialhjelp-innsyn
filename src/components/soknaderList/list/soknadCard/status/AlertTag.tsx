@@ -20,6 +20,8 @@ const AlertTagText = ({ alertType, deadline }: Props) => {
 };
 
 const AlertTag = ({ alertType, deadline }: Props) => {
+    const t = useTranslations("AlertTexts");
+
     return (
         <Tag
             variant="warning-moderate"
@@ -28,7 +30,7 @@ const AlertTag = ({ alertType, deadline }: Props) => {
                 alertType === "forlenget_behandlingstid" ? (
                     <InformationSquareIcon aria-hidden="true" />
                 ) : (
-                    <ExclamationmarkTriangleIcon aria-hidden="true" />
+                    <ExclamationmarkTriangleIcon title={t("varselTrekantAltText")} />
                 )
             }
         >

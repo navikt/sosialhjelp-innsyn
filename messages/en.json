@@ -260,7 +260,8 @@
     },
     "KommendeUtbetalingerListe": {
         "beskrivelse": "You will receive {amount} NOK",
-        "utbetales": "Paid on {dato, date, ::ddMMyyyy}",
+        "beskrivelseSrOnly": " on {date, date, ::d MMMM yyyy}",
+        "utbetales": "Paid on {date, date, ::ddMMyyyy}",
         "utbetalinger": "payments"
     },
     "AktiveSoknader": {
@@ -282,6 +283,7 @@
     },
     "SoknadCard": {
         "defaultTittel": "Application for financial assistance",
+        "ariaTittel": ", application sent {dato, date, ::ddMMyyyy}",
         "status": "Status: {status}"
     },
     "PaabegyntCard": {
@@ -298,7 +300,8 @@
         "oppgaver": "Tasks",
         "oppgaveMedFrist": "Tasks with deadline {frist, date, ::ddMMyyyy}",
         "vilkar": "Conditions",
-        "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}"
+        "vilkarsfrist": "Conditions with deadline {frist, date, ::ddMMyyyy}",
+        "varselTrekantAltText": "Important information"
     },
     "BehandlingsStatus": {
         "mottatt": " Received",
@@ -307,7 +310,8 @@
         "nSakerFerdig": "{ferdigeSaker} of {antallSaker} cases completed"
     },
     "VedtakTag": {
-        "tittel": "New decision"
+        "tittel": "New decision",
+        "varselTrekantAltText": "Important information"
     },
     "Snarveier": {
         "tittel": "Shortcuts",
