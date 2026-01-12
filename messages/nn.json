@@ -321,7 +321,7 @@
     },
     "Footer": {
         "trengerDuHjelp": "Treng du hjelp?",
-        "kontaktNavKontor": "<lenke>Kontakt ditt Nav-kontor</lenke> eller <tel>ring oss på <tel>55 55 33 33</tel>.",
+        "kontaktNavKontor": "<lenke>Kontakt ditt Nav-kontor</lenke> eller <tel>ring oss på 55 55 33 33</tel>.",
         "faq": "Ofte stilte spørsmål",
         "ettersende": {
             "tittel": "Korleis kan eg ettersende dokumentasjon?",
