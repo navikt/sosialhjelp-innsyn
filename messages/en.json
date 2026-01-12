@@ -283,7 +283,7 @@
     },
     "SoknadCard": {
         "defaultTittel": "Application for financial assistance",
-        "ariaTittel": ", application sent {dato, date, ::ddMMyyyy}",
+        "ariaTittel": ", application sent {dato, date, ::dMMMMyyyy}",
         "status": "Status: {status}"
     },
     "PaabegyntCard": {
