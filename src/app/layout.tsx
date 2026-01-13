@@ -36,7 +36,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             <body>
                 <NextIntlClientProvider locale={locale} messages={pick(messages, ["ErrorPage", "TrengerDuRaskHjelp"])}>
                     <Theme theme="light">
-                        <Page footer={<Decorator.Footer />}>
+                        <Page footerPosition="belowFold" footer={<Decorator.Footer />}>
                             <Decorator.Header />
                             <PageBlock as="main" width="md" gutters id="maincontent" tabIndex={-1}>
                                 <Driftsmeldinger />
