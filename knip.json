@@ -5,10 +5,13 @@
         "type": true
     },
     "ignore": ["**/generated/**", "*.config.ts", "*.config.js", "*.config.mjs", "**/*.d.ts", ""],
+    "ignoreDependencies": ["@faker-js/faker"],
     "ignoreIssues": {
         "src/i18n/navigation.ts": ["exports"],
         "src/custom-fetch.ts": ["exports", "types"],
-        "src/api/ssr/authenticatedFetch.ts": ["exports"]
+        "src/api/ssr/authenticatedFetch.ts": ["exports"],
+        "src/utils/restUtils.ts": ["exports"],
+        "src/components/widgets/UxSignalsWidget.tsx": ["files"]
     },
     "tags": ["-lintignore"]
 }

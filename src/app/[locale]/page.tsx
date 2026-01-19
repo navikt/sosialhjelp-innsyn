@@ -1,9 +1,7 @@
-import { notFound } from "next/navigation";
 import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
-import { getFlag, getToggles } from "@featuretoggles/unleash";
 import Footer from "@components/footer/Footer";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import Snarveier from "@components/snarveier/Snarveier";
@@ -13,10 +11,6 @@ import LandingssideSnarveier from "./_components/snarveier/LandingssideSnarveier
 import Soknader from "@components/soknader/Soknader";
 
 const Page = async () => {
-    const toggle = getFlag("sosialhjelp.innsyn.ny_landingsside", await getToggles());
-    if (!toggle.enabled) {
-        return notFound();
-    }
     const t = await getTranslations("Landingsside");
     return (
         <>

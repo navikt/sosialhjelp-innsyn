@@ -6,7 +6,6 @@
 @import "./components/banner/banner.css";
 @import "./components/paneler/paneler.css";
 @import "./components/ellaBlunk/EllaBlunk.css";
-@import "./saksoversikt/banner/saksoversiktBanner.css";
 @import "./App.css";
 
 @config '../tailwind.config.ts';

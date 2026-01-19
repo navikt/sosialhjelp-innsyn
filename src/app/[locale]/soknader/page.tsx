@@ -1,8 +1,6 @@
-import { notFound } from "next/navigation";
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
-import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import Footer from "@components/footer/Footer";
 import Snarveier from "@components/snarveier/Snarveier";
@@ -11,11 +9,8 @@ import SoknaderSnarveier from "./_components/SoknaderSnarveier";
 import Soknader from "@components/soknader/Soknader";
 
 const Page = async () => {
-    const toggle = getFlag("sosialhjelp.innsyn.ny_soknaderside", await getToggles());
     const t = await getTranslations("SoknaderSide");
-    if (!toggle.enabled) {
-        return notFound();
-    }
+
     return (
         <>
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />

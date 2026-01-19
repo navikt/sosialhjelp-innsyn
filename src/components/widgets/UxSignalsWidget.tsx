@@ -7,7 +7,11 @@ interface Props {
     enabled?: boolean;
     className?: string;
 }
-
+/*
+    To enable UxSignalsWidget, paste the code below where you want the widget to appear.
+    Enable with a feature toggle for more control.
+    <UxSignalsWidget embedCode="panel-wq2simqr8t" className="mb-4" enabled={true} />
+*/
 function UxSignalsWidget({ enabled = true, embedCode, className }: Props): ReactElement | null {
     if (!enabled) return null;
     return (
