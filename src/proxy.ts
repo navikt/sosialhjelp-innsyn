@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "@i18n/routing";
-import { getFlag, getToggles, UNLEASH_COOKIE_NAME } from "@featuretoggles/unleash";
+import { UNLEASH_COOKIE_NAME } from "@featuretoggles/unleash";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -24,16 +24,12 @@ export async function proxy(request: NextRequest) {
     let response = handleI18nRouting(request);
 
     if (response.ok) {
-        const toggles = await getToggles();
-
-        const landingssideToggle = getFlag("sosialhjelp.innsyn.ny_landingsside", toggles);
-
         const [, , , locale, ...rest] = new URL(
             response.headers.get("x-middleware-rewrite") || request.url
         ).pathname.split("/");
         const pathname = "/" + rest.join("/");
 
-        if (pathname === "/" && landingssideToggle.enabled) {
+        if (pathname === "/") {
             response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/landingsside`, request.url), {
                 headers: response.headers,
             });
