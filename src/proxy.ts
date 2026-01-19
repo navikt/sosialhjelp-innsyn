@@ -29,11 +29,8 @@ export async function proxy(request: NextRequest) {
         ).pathname.split("/");
         const pathname = "/" + rest.join("/");
 
-        if (pathname === "/") {
-            response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/landingsside`, request.url), {
-                headers: response.headers,
-            });
-        } else if (pathname === "/utbetaling") {
+        if (pathname === "/utbetaling") {
+            // Keeping for backwards compatibility for old utbetaling links
             response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/utbetalinger`, request.url), {
                 headers: response.headers,
             });
