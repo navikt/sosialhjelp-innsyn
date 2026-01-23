@@ -29,6 +29,8 @@ import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./alert/OppgaveAlert";
 import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
+import Snarveier from "@components/snarveier/Snarveier";
+import SoknadSnarveier from "./snarveier/SoknadSnarveier";
 
 interface Props {
     id: string;
@@ -102,7 +104,7 @@ export const Soknad = async ({ id }: Props) => {
                     <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
-            <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
+            <Bleed marginInline="full" className="pt-20 pb-20" asChild>
                 <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
                         <VStack gap="20">
@@ -116,6 +118,9 @@ export const Soknad = async ({ id }: Props) => {
                     </div>
                 </BoxNew>
             </Bleed>
+            <Snarveier hideSokButton={true}>
+                <SoknadSnarveier />
+            </Snarveier>
         </VStack>
     );
 };
