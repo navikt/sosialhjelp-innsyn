@@ -897,13 +897,15 @@
                     "klageId": { "type": "string", "format": "uuid" },
                     "documentId": { "type": "string", "format": "uuid" },
                     "filename": { "type": "string" }
-                }
+                },
+                "required": ["documentId", "filename", "klageId"]
             },
             "DocumentsForKlage": {
                 "type": "object",
                 "properties": {
                     "documents": { "type": "array", "items": { "$ref": "#/components/schemas/DocumentForKlage" } }
-                }
+                },
+                "required": ["documents"]
             },
             "OppgaveOpplastingResponse": {
                 "type": "object",
@@ -917,7 +919,8 @@
                     },
                     "hendelsereferanse": { "type": "string" },
                     "filer": { "type": "array", "items": { "$ref": "#/components/schemas/VedleggOpplastingResponse" } }
-                }
+                },
+                "required": ["filer", "type"]
             },
             "VedleggOpplastingResponse": {
                 "type": "object",
@@ -934,7 +937,8 @@
                             "FILE_TOO_LARGE"
                         ]
                     }
-                }
+                },
+                "required": ["status"]
             },
             "KlageInput": {
                 "type": "object",
@@ -942,7 +946,8 @@
                     "klageId": { "type": "string", "format": "uuid" },
                     "vedtakId": { "type": "string", "format": "uuid" },
                     "tekst": { "type": "string" }
-                }
+                },
+                "required": ["klageId", "tekst", "vedtakId"]
             },
             "VilkarResponse": {
                 "type": "object",
@@ -957,7 +962,8 @@
                     },
                     "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } },
                     "saksReferanse": { "type": "string" }
-                }
+                },
+                "required": ["hendelsetidspunkt", "status", "vilkarReferanse"]
             },
             "OppgaveVedleggFil": {
                 "type": "object",
@@ -966,7 +972,8 @@
                     "filnavn": { "type": "string" },
                     "storrelse": { "type": "integer", "format": "int64" },
                     "tidspunktLastetOpp": { "type": "string", "format": "date-time" }
-                }
+                },
+                "required": ["filnavn", "storrelse", "tidspunktLastetOpp", "url"]
             },
             "OppgaveResponseBeta": {
                 "type": "object",
@@ -983,7 +990,8 @@
                     "erFraInnsyn": { "type": "boolean" },
                     "erLastetOpp": { "type": "boolean" },
                     "opplastetDato": { "type": "string", "format": "date-time" }
-                }
+                },
+                "required": ["dokumenttype", "erFraInnsyn", "erLastetOpp", "oppgaveId"]
             },
             "DokumentasjonkravDto": {
                 "type": "object",
@@ -1006,7 +1014,15 @@
                     "saksreferanse": { "type": "string" },
                     "erLastetOpp": { "type": "boolean" },
                     "opplastetDato": { "type": "string", "format": "date-time" }
-                }
+                },
+                "required": [
+                    "dokumentasjonkravId",
+                    "dokumentasjonkravReferanse",
+                    "erLastetOpp",
+                    "hendelsetidspunkt",
+                    "status",
+                    "utbetalingsReferanse"
+                ]
             },
             "UtbetalingDto": {
                 "type": "object",
@@ -1022,9 +1038,10 @@
                     "tom": { "type": "string", "format": "date" },
                     "mottaker": { "type": "string" },
                     "annenMottaker": { "type": "boolean" },
-                    "kontonummer": { "type": "string" },
+                    "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
                     "utbetalingsmetode": { "type": "string" }
-                }
+                },
+                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
             },
             "VedleggResponse": {
                 "type": "object",
@@ -1035,7 +1052,8 @@
                     "type": { "type": "string" },
                     "tilleggsinfo": { "type": "string" },
                     "datoLagtTil": { "type": "string", "format": "date-time" }
-                }
+                },
+                "required": ["datoLagtTil", "filnavn", "storrelse", "type", "url"]
             },
             "SoknadsStatusResponse": {
                 "type": "object",
@@ -1050,7 +1068,8 @@
                     "navKontor": { "type": "string" },
                     "filUrl": { "$ref": "#/components/schemas/UrlResponse" },
                     "tittel": { "type": "string" }
-                }
+                },
+                "required": ["status"]
             },
             "UrlResponse": {
                 "type": "object",
@@ -1087,7 +1106,8 @@
                         ]
                     },
                     "link": { "type": "string" }
-                }
+                },
+                "required": ["link", "linkTekst"]
             },
             "FilUrl": {
                 "type": "object",
@@ -1095,7 +1115,8 @@
                     "dato": { "type": "string", "format": "date" },
                     "url": { "type": "string" },
                     "id": { "type": "string" }
-                }
+                },
+                "required": ["id", "url"]
             },
             "SaksStatusResponse": {
                 "type": "object",
@@ -1118,7 +1139,8 @@
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
                     "referanse": { "type": "string" }
-                }
+                },
+                "required": ["skalViseVedtakInfoPanel", "tittel"]
             },
             "SakResponse": {
                 "type": "object",
@@ -1130,7 +1152,8 @@
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
                     "navEnhetNavn": { "type": "string" }
-                }
+                },
+                "required": ["tittel"]
             },
             "OriginalSoknadDto": {
                 "type": "object",
@@ -1139,7 +1162,8 @@
                     "size": { "type": "integer", "format": "int64" },
                     "filename": { "type": "string" },
                     "date": { "type": "string", "format": "date-time" }
-                }
+                },
+                "required": ["url"]
             },
             "OppgaveElement": {
                 "type": "object",
@@ -1152,7 +1176,8 @@
                     },
                     "hendelsereferanse": { "type": "string" },
                     "erFraInnsyn": { "type": "boolean" }
-                }
+                },
+                "required": ["dokumenttype", "erFraInnsyn"]
             },
             "OppgaveResponse": {
                 "type": "object",
@@ -1160,7 +1185,8 @@
                     "oppgaveId": { "type": "string" },
                     "innsendelsesfrist": { "type": "string", "format": "date" },
                     "oppgaveElementer": { "type": "array", "items": { "$ref": "#/components/schemas/OppgaveElement" } }
-                }
+                },
+                "required": ["oppgaveElementer", "oppgaveId"]
             },
             "KommuneResponse": {
                 "type": "object",
@@ -1171,14 +1197,22 @@
                     "erInnsendingEttersendelseMidlertidigDeaktivert": { "type": "boolean" },
                     "tidspunkt": { "type": "string", "format": "date-time" },
                     "kommunenummer": { "type": "string" }
-                }
+                },
+                "required": [
+                    "erInnsendingEttersendelseDeaktivert",
+                    "erInnsendingEttersendelseMidlertidigDeaktivert",
+                    "erInnsynDeaktivert",
+                    "erInnsynMidlertidigDeaktivert",
+                    "tidspunkt"
+                ]
             },
             "KlageRef": {
                 "type": "object",
                 "properties": {
                     "klageId": { "type": "string", "format": "uuid" },
                     "vedtakId": { "type": "string", "format": "uuid" }
-                }
+                },
+                "required": ["klageId", "vedtakId"]
             },
             "EttersendelseDto": {
                 "type": "object",
@@ -1186,7 +1220,8 @@
                     "navEksternRefId": { "type": "string", "format": "uuid" },
                     "vedlegg": { "type": "array", "items": { "$ref": "#/components/schemas/VedleggResponse" } },
                     "timestampSendt": { "type": "integer", "format": "int64" }
-                }
+                },
+                "required": ["navEksternRefId", "timestampSendt", "vedlegg"]
             },
             "KlageDto": {
                 "type": "object",
@@ -1201,14 +1236,24 @@
                     },
                     "ettersendelser": { "type": "array", "items": { "$ref": "#/components/schemas/EttersendelseDto" } },
                     "timestampSendt": { "type": "integer", "format": "int64" }
-                }
+                },
+                "required": [
+                    "digisosId",
+                    "ettersendelser",
+                    "klageId",
+                    "klagePdf",
+                    "opplastedeVedlegg",
+                    "timestampSendt",
+                    "vedtakId"
+                ]
             },
-            "BehandlesIkke": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }] },
+            "BehandlesIkke": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
             "DokumentasjonKrav": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "link": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "EtterspurtDokumentasjon": {
                 "allOf": [
@@ -1217,7 +1262,8 @@
                         "type": "object",
                         "properties": { "link": { "type": "string" }, "navKontor": { "type": "string" } }
                     }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "ForelopigSvarHendelse": {
                 "allOf": [
@@ -1226,7 +1272,8 @@
                         "type": "object",
                         "properties": { "link": { "type": "string" }, "navKontor": { "type": "string" } }
                     }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "HendelseDto": {
                 "type": "object",
@@ -1254,19 +1301,21 @@
                     "tidspunkt": { "type": "string", "format": "date-time" },
                     "type": { "type": "string" }
                 },
-                "required": ["type"]
+                "required": ["tidspunkt", "type"]
             },
             "LevertEtterspurtDokumentasjon": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "antallDokumenter": { "type": "integer", "format": "int32" } } }
-                ]
+                ],
+                "required": ["antallDokumenter", "tidspunkt"]
             },
             "Mottatt": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "navKontor": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "SakFerdigBehandlet": {
                 "allOf": [
@@ -1275,19 +1324,22 @@
                         "type": "object",
                         "properties": { "sakstittel": { "type": "string" }, "url": { "type": "string" } }
                     }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "SakKanIkkeViseStatus": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "sakstittel": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "SakUnderBehandling": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "sakstittel": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "Sendt": {
                 "allOf": [
@@ -1296,27 +1348,34 @@
                         "type": "object",
                         "properties": { "navKontor": { "type": "string" }, "url": { "type": "string" } }
                     }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "SoknadFerdigBehandlet": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "url": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "SoknadKanIkkeViseStatus": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "soknadstittel": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
             "SoknadUnderBehandling": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
                     { "type": "object", "properties": { "navKontor": { "type": "string" } } }
-                ]
+                ],
+                "required": ["tidspunkt"]
             },
-            "UtbetalingerOppdatert": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }] },
+            "UtbetalingerOppdatert": {
+                "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }],
+                "required": ["tidspunkt"]
+            },
             "Videresendt": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
@@ -1324,7 +1383,8 @@
                         "type": "object",
                         "properties": { "navKontor": { "type": "string" }, "papirsoknad": { "type": "boolean" } }
                     }
-                ]
+                ],
+                "required": ["papirsoknad", "tidspunkt"]
             },
             "HendelseResponse": {
                 "type": "object",
@@ -1337,11 +1397,13 @@
                     "navEnhetsNummer": { "type": "string" },
                     "navEnhetsNavn": { "type": "string" },
                     "kommuneNummer": { "type": "string" }
-                }
+                },
+                "required": ["hendelseType", "tidspunkt"]
             },
             "ForelopigSvarResponse": {
                 "type": "object",
-                "properties": { "harMottattForelopigSvar": { "type": "boolean" }, "link": { "type": "string" } }
+                "properties": { "harMottattForelopigSvar": { "type": "boolean" }, "link": { "type": "string" } },
+                "required": ["harMottattForelopigSvar"]
             },
             "DokumentasjonkravElement": {
                 "type": "object",
@@ -1359,7 +1421,8 @@
                         "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
                     },
                     "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } }
-                }
+                },
+                "required": ["dokumentasjonkravReferanse", "hendelsetidspunkt", "status"]
             },
             "DokumentasjonkravResponse": {
                 "type": "object",
@@ -1370,7 +1433,8 @@
                     },
                     "frist": { "type": "string", "format": "date" },
                     "dokumentasjonkravId": { "type": "string" }
-                }
+                },
+                "required": ["dokumentasjonkravElementer", "dokumentasjonkravId"]
             },
             "ManedUtbetaling": {
                 "type": "object",
@@ -1386,22 +1450,30 @@
                     "tom": { "type": "string", "format": "date" },
                     "mottaker": { "type": "string" },
                     "annenMottaker": { "type": "boolean" },
-                    "kontonummer": { "type": "string" },
+                    "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
                     "utbetalingsmetode": { "type": "string" }
-                }
+                },
+                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
             },
             "UtbetalingerResponse": {
                 "type": "object",
                 "properties": {
                     "ar": { "type": "integer", "format": "int32" },
                     "maned": { "type": "integer", "format": "int32" },
-                    "foersteIManeden": { "type": "string", "format": "date" },
+                    "foersteIManeden": {
+                        "type": "string",
+                        "format": "date",
+                        "deprecated": true,
+                        "description": "Bruk ar og maned"
+                    },
                     "utbetalinger": { "type": "array", "items": { "$ref": "#/components/schemas/ManedUtbetaling" } }
-                }
+                },
+                "required": ["ar", "foersteIManeden", "maned", "utbetalinger"]
             },
             "TilgangResponse": {
                 "type": "object",
-                "properties": { "harTilgang": { "type": "boolean" }, "fornavn": { "type": "string" } }
+                "properties": { "harTilgang": { "type": "boolean" }, "fornavn": { "type": "string" } },
+                "required": ["fornavn", "harTilgang"]
             },
             "NyeOgTidligereUtbetalingerResponse": {
                 "type": "object",
@@ -1412,7 +1484,8 @@
                     },
                     "ar": { "type": "integer", "format": "int32" },
                     "maned": { "type": "integer", "format": "int32" }
-                }
+                },
+                "required": ["ar", "maned", "utbetalingerForManed"]
             },
             "SessionMetadata": {
                 "type": "object",
@@ -1420,7 +1493,8 @@
                     "fornavn": { "type": "string" },
                     "harAdressebeskyttelse": { "type": "boolean" },
                     "personId": { "type": "string" }
-                }
+                },
+                "required": ["fornavn", "harAdressebeskyttelse", "personId"]
             },
             "SaksListeResponse": {
                 "type": "object",
@@ -1430,12 +1504,14 @@
                     "sistOppdatert": { "type": "string", "format": "date-time" },
                     "kommunenummer": { "type": "string" },
                     "soknadOpprettet": { "type": "string", "format": "date-time" },
-                    "papirSoknad": { "type": "boolean" }
-                }
+                    "isPapirSoknad": { "type": "boolean" }
+                },
+                "required": ["fiksDigisosId", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
             },
             "ForelopigSvar": {
                 "type": "object",
-                "properties": { "harMottattForelopigSvar": { "type": "boolean" }, "link": { "type": "string" } }
+                "properties": { "harMottattForelopigSvar": { "type": "boolean" }, "link": { "type": "string" } },
+                "required": ["harMottattForelopigSvar"]
             },
             "Sak": {
                 "type": "object",
@@ -1451,7 +1527,8 @@
                             "FEILREGISTRERT"
                         ]
                     }
-                }
+                },
+                "required": ["antallVedtak", "status"]
             },
             "SaksDetaljerResponse": {
                 "type": "object",
@@ -1471,7 +1548,17 @@
                     "forsteOppgaveFrist": { "type": "string", "format": "date" },
                     "mottattTidspunkt": { "type": "string", "format": "date-time" },
                     "sisteDokumentasjonKravFrist": { "type": "string", "format": "date" }
-                }
+                },
+                "required": [
+                    "dokumentasjonEtterspurt",
+                    "dokumentasjonkrav",
+                    "fiksDigisosId",
+                    "forelopigSvar",
+                    "saker",
+                    "soknadTittel",
+                    "status",
+                    "vilkar"
+                ]
             }
         }
     }
