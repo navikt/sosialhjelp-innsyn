@@ -34,7 +34,7 @@
         "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg."
     },
     "SoknaderSide": {
-        "tittel": "Søknadene mine",
+        "tittel": "Søknadene mine om økonomisk sosialhjelp",
         "htmlTitle": "Søknadene mine om økonomisk sosialhjelp"
     },
     "ForelopigSvarAlert": {
@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-            "soknader": "Søknader",
-            "soknad": "Søknad"
+          "soknader": "Mine søknader",
+          "soknad": "Min søknad"
         }
     },
     "Soknad": {
@@ -315,6 +315,7 @@
     },
     "Snarveier": {
         "tittel": "Snarvegar",
+      "landingsside": "Økonomisk sosialhjelp",
         "soknader": "Mine søknader",
         "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
@@ -453,8 +454,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-        "tittel": "Mine utbetalingar for økonomisk sosialhjelp",
-        "breadcrumbTitle": "Utbetalingar"
+      "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
+      "breadcrumbTitle": "Mine utbetalingar"
     },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",
