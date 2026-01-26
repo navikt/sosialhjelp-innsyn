@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-            "soknader": "My applications",
-            "soknad": "My application"
+            "soknader": "Applications",
+            "soknad": "Application"
         }
     },
     "Soknad": {
@@ -315,8 +315,7 @@
     },
     "Snarveier": {
         "tittel": "Shortcuts",
-      "landingsside": "Financial assistance",
-      "soknader": "My applications",
+        "soknader": "My applications",
         "utbetalinger": "My payments",
         "klager": "Complaints"
     },
@@ -455,7 +454,7 @@
     },
     "UtbetalingerPage": {
         "tittel": "My payments for financial assistance",
-        "breadcrumbTitle": "My payments"
+        "breadcrumbTitle": "Payments"
     },
     "ErrorPage": {
         "htmlTitle": "Technical error - nav.no",
