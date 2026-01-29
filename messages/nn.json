@@ -225,7 +225,7 @@
         "uploading": "Lastar opp...",
         "delete": "Fjern fila",
         "sendInn": "Send dakumentasjon",
-        "filerTilOpplasting": "Filer som bli lasta opp",
+        "valgteFiler": "Valde filer ({antall_filer})",
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",
             "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."

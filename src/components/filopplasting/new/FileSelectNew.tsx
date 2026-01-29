@@ -75,7 +75,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 {!!docState.uploads?.length && (
                     <VStack gap="2">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("filerTilOpplasting")}
+                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
                             <Alert variant="warning">

@@ -71,7 +71,7 @@ const FileSelect = ({
                 {files.length > 0 && (
                     <VStack gap="2">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("Opplastingsboks.filerTilOpplasting")}
+                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <VStack as="ul" gap="2">
                             {files.map((file) => (

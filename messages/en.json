@@ -225,7 +225,7 @@
         "uploading": "Uploading...",
         "delete": "Remove file",
         "sendInn": "Send documentation",
-        "filerTilOpplasting": "Files for upload",
+        "valgteFiler": "Selected files ({antall_filer})",
         "konvertert": {
             "tittel": "Some files may have been changed",
             "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."

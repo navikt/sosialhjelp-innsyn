@@ -114,7 +114,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 {files.length > 0 && (
                     <VStack gap="2">
                         <Heading size="small" level="3">
-                            {t("Opplastingsboks.filerTilOpplasting")}
+                            {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <VStack as="ul" gap="2">
                             {files.map((file) => (

@@ -1,6 +1,6 @@
 "use client";
 
-import { Heading, VStack } from "@navikt/ds-react";
+import { Heading, VStack, Box } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
@@ -30,21 +30,23 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             <Heading size="large" level="2">
                 {t("tittel")}
             </Heading>
-            <NavigationGuardProvider>
-                {newUploadEnabled ? (
-                    <OpplastingsboksTus metadata={metadata} id={id} />
-                ) : (
-                    <Opplastingsboks metadata={metadata} />
+            <Box.New background="info-soft" key={id} padding="space-24" borderRadius="xlarge">
+                <NavigationGuardProvider>
+                    {newUploadEnabled ? (
+                        <OpplastingsboksTus metadata={metadata} id={id} />
+                    ) : (
+                        <Opplastingsboks metadata={metadata} />
+                    )}
+                </NavigationGuardProvider>
+                {ettersendelseDokumenter.length > 0 && (
+                    <VStack gap="2" className="mt-4">
+                        <Heading size="small" level="3">
+                            {t("opplastedeVedlegg")}
+                        </Heading>
+                        <VedleggListe vedlegg={ettersendelseDokumenter} />
+                    </VStack>
                 )}
-            </NavigationGuardProvider>
-            {ettersendelseDokumenter.length > 0 && (
-                <VStack gap="2" className="mt-4">
-                    <Heading size="small" level="3">
-                        {t("opplastedeVedlegg")}
-                    </Heading>
-                    <VedleggListe vedlegg={ettersendelseDokumenter} />
-                </VStack>
-            )}
+            </Box.New>
         </VStack>
     );
 };

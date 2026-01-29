@@ -196,7 +196,7 @@
         "uploading": "Laster opp...",
         "delete": "Fjern fil",
         "sendInn": "Send dokumentasjon",
-        "filerTilOpplasting": "Filer til opplasting",
+        "valgteFiler": "Valgte filer ({antall_filer})",
         "konvertert": {
             "tittel": "Noen filer kan ha blitt forandret",
             "beskrivelse": "Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke støttes. Du må se gjennom og godkjenne filene før du kan fortsette."
