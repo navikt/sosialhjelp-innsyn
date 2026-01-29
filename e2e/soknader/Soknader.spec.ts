@@ -421,6 +421,32 @@ test.describe("Soknader page - application categorization", () => {
         await expect(page.getByText(/Utkast/).first()).toBeVisible();
         await expect(page.getByText(/Beholdes frem til/).first()).toBeVisible();
     });
+
+    test("Applications that are BEHANDLES_IKKE and older than 21 days should be in earlier applications", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const oldDate = subDays(new Date(), 30); // 30 days old - should be in "Earlier"
+
+        const mockSak = {
+            fiksDigisosId: "behandles-ikke",
+            soknadTittel: "Behandles ikke",
+            sistOppdatert: oldDate.toISOString(),
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            status: "BEHANDLES_IKKE",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        await expect(tidligereSaker).toBeVisible();
+        await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
+    });
 });
 
 test.describe("SoknadCard rendering logic", () => {
@@ -778,6 +804,28 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/18\.12\.2025/)).toBeVisible();
         // Should show forlenget behandlingstid
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
+    });
+
+    test("BEHANDLES_IKKE should be visible and show as ferdigbehandlet", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        const mockSak = {
+            fiksDigisosId: "behandles-ikke",
+            soknadTittel: "Behandles ikke",
+            sistOppdatert: new Date(),
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            status: "BEHANDLES_IKKE",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.getByRole("button", { name: "Nei" }).click();
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
+        await expect(page.getByText(/Ferdigbehandlet/).first()).toBeVisible();
     });
 });
 
