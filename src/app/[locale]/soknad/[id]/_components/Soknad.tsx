@@ -16,10 +16,10 @@ import {
     prefetchGetOppgaverBetaQuery,
     getVilkar,
 } from "@generated/ssr/oppgave-controller-v-2/oppgave-controller-v-2";
+import { getFlag, getToggles } from "@featuretoggles/unleash";
 
 import Oversikt from "./oversikt/Oversikt";
-import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
-import Filopplasting from "./dokumenter/Filopplasting";
+import Filopplasting, { FilopplastingSkeleton } from "./dokumenter/Filopplasting";
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
 import Saker from "./saker/Saker";
 import InfoAlert from "./alert/InfoAlert";
@@ -43,6 +43,11 @@ export const Soknad = async ({ id }: Props) => {
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
     const ferdigbehandlet = status === "FERDIGBEHANDLET";
+
+    // Fetch feature flag flyttet ut av FIlopplasting komponenten
+    const toggle = getFlag("sosialhjelp.innsyn.ny_upload", await getToggles());
+    const newUploadEnabled = toggle?.enabled ?? false;
+
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
     prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
@@ -91,10 +96,9 @@ export const Soknad = async ({ id }: Props) => {
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
-            <Filopplasting id={id} />
-            <Suspense fallback={<DokumenterSkeleton />}>
+            <Suspense fallback={<FilopplastingSkeleton />}>
                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                    <Dokumenter />
+                    <Filopplasting id={id} newUploadEnabled={newUploadEnabled} />
                 </HydrationBoundary>
             </Suspense>
             {forelopigSvarPromise && (

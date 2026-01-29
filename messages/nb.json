@@ -208,7 +208,8 @@
         "tittel": "Dine dokumenter"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon"
+        "tittel": "Ettersend dokumentasjon",
+        "opplastedeVedlegg": "Dokumenter"
     },
     "VedleggListe": {
         "lastetOpp": "lastet opp: {dato, date, ::ddMMyyyy}",

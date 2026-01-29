@@ -237,7 +237,8 @@
         "tittel": "Your documents"
     },
     "Filopplasting": {
-        "tittel": "Submit additional documentation"
+        "tittel": "Submit additional documentation",
+        "opplastedeVedlegg": "Documents"
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
