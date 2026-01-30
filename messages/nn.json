@@ -319,6 +319,19 @@
         "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
     },
+    "IkonBilde": {
+        "image": "Bildefil",
+        "pdf": "PDF-fil",
+        "txt": "Tekstfil",
+        "csv": "CSV-fil",
+        "excel": "Excel-fil",
+        "word": "Word-fil",
+        "fil": "Fil"
+    },
+    "HoyreIkon": {
+        "download": "Last ned",
+        "expand": "Utvid"
+    },
     "Footer": {
         "trengerDuHjelp": "Treng du hjelp?",
         "kontaktNavKontor": "<lenke>Kontakt ditt Nav-kontor</lenke> eller <tel>ring oss på 55 55 33 33</tel>.",

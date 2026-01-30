@@ -20,7 +20,10 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
 
     if (klageToggle.enabled && innsendtKlage) {
         return (
-            <DigisosLinkCard href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`} icon={<GavelIcon />}>
+            <DigisosLinkCard
+                href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
+                icon={<GavelIcon aria-hidden />}
+            >
                 {t("seKlage")}
             </DigisosLinkCard>
         );
@@ -42,7 +45,7 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
             </p>
             {klageToggle.enabled && newestVedtak && (
                 <Button
-                    icon={<GavelIcon />}
+                    icon={<GavelIcon aria-hidden />}
                     variant="secondary"
                     className="mt-4"
                     href={`/klage/opprett/${fiksDigisosId}/${newestVedtak.id}`}

@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     const messages = await getMessages({ locale });
 
     return (
-        <html lang={locale || "nb"}>
+        <html lang={locale || "no"}>
             <head>
                 <Decorator.HeadAssets />
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />

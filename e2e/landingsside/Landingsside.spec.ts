@@ -48,7 +48,6 @@ test.describe("Snarveier on Landingsside", () => {
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
         await page.goto("/sosialhjelp/innsyn/nb");
-        await page.getByRole("button", { name: "Nei" }).click();
         await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Søknader" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Utbetalinger" })).toBeVisible();
@@ -61,7 +60,6 @@ test.describe("Snarveier on Landingsside", () => {
         await msw.mockEmptyState();
 
         await page.goto("/sosialhjelp/innsyn/nb");
-        await page.getByRole("button", { name: "Nei" }).click();
         await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Søknader" })).not.toBeVisible();
         await expect(page.getByRole("link", { name: "Utbetalinger" })).not.toBeVisible();

@@ -27,7 +27,7 @@ const KlageVedtak = ({ sak }: Props) => {
                         cardIcon="download"
                         key={index}
                         href={fil.url}
-                        icon={<FilePdfIcon />}
+                        icon={<FilePdfIcon title="PDF-fil" />}
                         description={fil.dato}
                     >
                         {t("vedtaksBrev")}

@@ -319,6 +319,19 @@
         "utbetalinger": "My payments",
         "klager": "Complaints"
     },
+    "IkonBilde": {
+        "image": "Image file",
+        "pdf": "PDF file",
+        "txt": "Text file",
+        "csv": "CSV file",
+        "excel": "Excel file",
+        "word": "Word file",
+        "fil": "File"
+    },
+    "HoyreIkon": {
+        "download": "Download",
+        "expand": "Expand"
+    },
     "Footer": {
         "trengerDuHjelp": "Do you need help?",
         "kontaktNavKontor": "<lenke>Contact your local Nav office</lenke> or <tel>call us at 55 55 33 33</tel>.",

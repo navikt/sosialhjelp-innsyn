@@ -51,7 +51,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                 </HStack>
                 {!showCompletedOppgaver && oppgaver.every((oppgave) => oppgave.erLastetOpp) && (
                     <LinkCard arrow={false} className="pointer-events-none">
-                        <Icon icon={<FaceSmileIcon />} />
+                        <Icon icon={<FaceSmileIcon aria-hidden />} />
                         <LinkCard.Title as="h3">{t("ingenOppgaver.tittel")}</LinkCard.Title>
                         <LinkCard.Description>{t("ingenOppgaver.beskrivelse")}</LinkCard.Description>
                     </LinkCard>
@@ -128,7 +128,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                     <Button
                         onClick={() => setShowCompletedOppgaver(true)}
                         variant="tertiary"
-                        icon={<ChevronDownIcon />}
+                        icon={<ChevronDownIcon aria-hidden />}
                         className="self-center"
                     >
                         {t("visFullforte")} ({fullforteOppgaver.length})

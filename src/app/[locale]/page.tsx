@@ -24,7 +24,7 @@ const Page = async () => {
                         wrap={false}
                     >
                         <Show above="sm">
-                            <OkonomiskSosialhjelpIcon className="mr-4" />
+                            <OkonomiskSosialhjelpIcon className="mr-4" aria-hidden />
                         </Show>
                         <Heading size="xlarge" level="1">
                             {t("tittel")}
