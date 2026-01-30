@@ -18,7 +18,7 @@ const Footer = async () => {
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
     return (
         <Bleed marginInline="full" marginBlock="0 space-64" asChild reflectivePadding>
-            <BoxNew background="accent-soft" className="flex flex-col gap-16 py-20">
+            <BoxNew background="accent-soft" className="flex flex-col gap-16 py-20" as="aside">
                 <VStack gap="2">
                     <Heading size="small" level="2">
                         {t("trengerDuHjelp")}

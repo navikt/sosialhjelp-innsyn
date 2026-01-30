@@ -11,20 +11,14 @@ import ExpandableList from "@components/showmore/ExpandableList";
 
 interface Props {
     alleKommende: ManedUtbetaling[];
-    labelledById: string;
 }
 
-const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
+const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
     const format = useFormatter();
     const t = useTranslations("KommendeUtbetalingerListe");
 
     return (
-        <ExpandableList
-            items={alleKommende}
-            id="kommende-utbetalinger"
-            showMoreSuffix={t("utbetalinger")}
-            labelledById={labelledById}
-        >
+        <ExpandableList items={alleKommende} id="kommende-utbetalinger" showMoreSuffix={t("utbetalinger")}>
             {(utbetaling, index, firstExpandedItemRef) => {
                 const amount = format.number(utbetaling.belop);
                 const date = new Date(utbetaling.forfallsdato!);
