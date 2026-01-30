@@ -19,11 +19,11 @@ const TidligereSoknader = async ({ soknader }: Props) => {
     const headingId = "tidligere-soknader-heading";
 
     return (
-        <VStack gap="space-8">
+        <VStack gap="space-8" as="section" aria-labelledby={headingId}>
             <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>
-            <SoknaderList soknader={sorted} labelledById={headingId} />
+            <SoknaderList soknader={sorted} />
         </VStack>
     );
 };

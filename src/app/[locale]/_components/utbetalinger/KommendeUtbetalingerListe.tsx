@@ -7,19 +7,13 @@ import KommendeUtbetalingCard from "./KommendeUtbetalingCard";
 
 interface Props {
     alleKommende: ManedUtbetaling[];
-    labelledById: string;
 }
 
-const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
+const KommendeUtbetalingerListe = ({ alleKommende }: Props) => {
     const t = useTranslations("KommendeUtbetalingerListe");
 
     return (
-        <ExpandableList
-            items={alleKommende}
-            id="kommende-utbetalinger"
-            showMoreSuffix={t("utbetalinger")}
-            labelledById={labelledById}
-        >
+        <ExpandableList items={alleKommende} id="kommende-utbetalinger" showMoreSuffix={t("utbetalinger")}>
             {(utbetaling, ref) => (
                 <li
                     key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}

@@ -19,7 +19,7 @@ const Footer = async () => {
     return (
         <Bleed marginInline="full" marginBlock="space-0 space-64" asChild reflectivePadding>
             <Box background="accent-soft">
-                <VStack paddingBlock="space-64 space-0" gap="space-64">
+                <VStack paddingBlock="space-64 space-0" gap="space-64" as="aside">
                     <VStack gap="space-8">
                         <Heading size="small" level="2">
                             {t("trengerDuHjelp")}

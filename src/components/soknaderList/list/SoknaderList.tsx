@@ -13,7 +13,6 @@ import { Soknad } from "@components/soknaderList/list/soknaderUtils";
 
 interface Props {
     soknader: Soknad[];
-    labelledById: string;
 }
 
 const sakKey = (sak: Soknad): string => {
@@ -27,7 +26,7 @@ const sakKey = (sak: Soknad): string => {
     return Math.random().toString(36).substring(2, 15);
 };
 
-const SoknaderList = ({ soknader, labelledById }: Props) => {
+const SoknaderList = ({ soknader }: Props) => {
     const t = useTranslations("SoknaderList");
 
     // Denne skal bare tracke søknader som ligger under "Aktive saker"
@@ -46,7 +45,7 @@ const SoknaderList = ({ soknader, labelledById }: Props) => {
     }, [soknader]);
 
     return (
-        <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")} labelledById={labelledById}>
+        <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")}>
             {(item, ref) => (
                 <li key={sakKey(item)} ref={ref} tabIndex={-1}>
                     {"fiksDigisosId" in item && <SoknadCard soknad={item} />}

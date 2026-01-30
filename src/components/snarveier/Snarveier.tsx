@@ -12,12 +12,15 @@ const Snarveier = async ({ children, hideSokButton = false }: SnarveierProps) =>
     const t = await getTranslations("Snarveier");
 
     return (
-        <VStack gap="space-8">
-            <Heading size="medium" level="2">
+        <VStack gap="space-8" as="nav" aria-labelledby="snarveier-heading">
+            <Heading size="medium" level="2" id="snarveier-heading">
                 {t("tittel")}
             </Heading>
-            {!hideSokButton && <SokButton />}
-            {children}
+
+            <VStack gap="space-8" as="ul">
+                {!hideSokButton && <SokButton />}
+                {children}
+            </VStack>
         </VStack>
     );
 };
