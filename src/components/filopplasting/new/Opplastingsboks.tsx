@@ -13,6 +13,7 @@ import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErr
 import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
 
 import { umamiTrack } from "../../../app/umami";
+import { UploadIcon } from "@navikt/aksel-icons";
 
 interface Props {
     metadata: Metadata;
@@ -89,28 +90,44 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             }}
         >
             <VStack gap="6">
-                <FileUpload.Dropzone
-                    className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
-                    label={
-                        <HStack justify="space-between">
-                            <div>{label ?? t("Opplastingsboks.tittel")}</div>
-                            {tag}
-                        </HStack>
-                    }
-                    description={description ?? t("Opplastingsboks.beskrivelse")}
-                    onSelect={onFilesSelect}
-                    accept={allowedFileTypes}
-                    error={
-                        outerErrors.length > 0 ? (
-                            <ul>
-                                {outerErrors.map((it) => (
-                                    <li key={it.feil}>{t(`common.${errorStatusToMessage[it.feil]}`)}</li>
-                                ))}
-                            </ul>
-                        ) : null
-                    }
-                />
+                <div className="hidden sm:block">
+                    <FileUpload.Dropzone
+                        className="flex flex-col"
+                        // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
+                        label={
+                            <HStack justify="space-between">
+                                <div>{label ?? t("Opplastingsboks.tittel")}</div>
+                                {tag}
+                            </HStack>
+                        }
+                        description={description ?? t("Opplastingsboks.beskrivelse")}
+                        onSelect={onFilesSelect}
+                        accept={allowedFileTypes}
+                        error={
+                            outerErrors.length > 0 ? (
+                                <ul>
+                                    {outerErrors.map((it) => (
+                                        <li key={it.feil}>{t(`common.${errorStatusToMessage[it.feil]}`)}</li>
+                                    ))}
+                                </ul>
+                            ) : null
+                        }
+                    />
+                </div>
+                <div className="block sm:hidden">
+                    <BodyShort>
+                        Hvis du har andre opplysninger som kan ha betydning for søknaden din, kan du laste de opp her.
+                    </BodyShort>
+                    <FileUpload.Trigger
+                        accept={allowedFileTypes}
+                        maxSizeInBytes={10 * 1024 * 1024}
+                        onSelect={onFilesSelect}
+                    >
+                        <Button variant="secondary" icon={<UploadIcon aria-hidden />}>
+                            wat wat
+                        </Button>
+                    </FileUpload.Trigger>
+                </div>
                 {files.length > 0 && (
                     <VStack gap="2">
                         <Heading size="small" level="3">
