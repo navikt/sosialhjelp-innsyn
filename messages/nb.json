@@ -121,6 +121,7 @@
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
         },
         "vedtaksBrev": "Last ned vedtaksbrev",
+        "vedtaksBrevNytt": "Åpne vedtaksbrev (nytt)",
         "kommendeUtbetaling": "Se kommende utbetaling",
         "pdf": "PDF-fil"
     },

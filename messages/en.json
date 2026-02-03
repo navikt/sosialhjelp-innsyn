@@ -128,6 +128,7 @@
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
         "vedtaksBrev": "Download decision letter",
+        "vedtaksBrevNytt": "Open decision letter (new)",
         "kommendeUtbetaling": "Check upcoming payout",
         "pdf": "PDF file"
     },
