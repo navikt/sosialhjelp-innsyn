@@ -1,14 +1,15 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
+import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/new/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/new/FileSelectNew";
 import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
+import AccessibleAlert, { LiveRegion } from "@components/filopplasting/new/AccessibleAlert";
 
 interface Props {
     metadata: Metadata;
@@ -30,6 +31,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
         isUploadSuccess,
         error: mutationError,
     } = useSendVedleggHelperTus(metadata);
+    const liveRegionRef = useRef<HTMLDivElement>(null);
+
+    // Move focus to live region when upload completes to prevent "leaving main content" announcement
+    useEffect(() => {
+        if (isUploadSuccess && liveRegionRef.current) {
+            liveRegionRef.current.focus();
+        }
+    }, [isUploadSuccess]);
 
     if (completed) {
         return (
@@ -45,9 +54,9 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                 </Box.New>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 {isUploadSuccess && (
-                    <Alert closeButton onClose={resetMutation} variant="success">
+                    <AccessibleAlert closeButton onClose={resetMutation} variant="success">
                         {t("suksess")}
-                    </Alert>
+                    </AccessibleAlert>
                 )}
             </VStack>
         );
@@ -69,8 +78,10 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     {t("sendInn")}
                 </Button>
             )}
-            {isUploadSuccess && <Alert variant="success">{t("suksess")}</Alert>}
-            {mutationError && <Alert variant="error">{t("error")}</Alert>}
+            <LiveRegion ref={liveRegionRef} variant={mutationError ? "error" : "success"}>
+                {isUploadSuccess && <AccessibleAlert variant="success">{t("suksess")}</AccessibleAlert>}
+                {mutationError && <AccessibleAlert variant="error">{t("error")}</AccessibleAlert>}
+            </LiveRegion>
         </>
     );
 };

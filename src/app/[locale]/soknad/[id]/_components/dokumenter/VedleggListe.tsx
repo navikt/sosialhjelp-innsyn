@@ -18,7 +18,7 @@ const VedleggListe = ({ vedlegg }: Props) => {
     return (
         <VStack as="ul" gap="2">
             {vedlegg.map((fil, index) => (
-                <li key={index}>
+                <li key={fil.filnavn + index}>
                     <DigisosLinkCard
                         href={fil.url}
                         icon={<IkonBilde filename={fil.filnavn} />}
