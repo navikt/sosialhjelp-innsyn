@@ -21,7 +21,7 @@ const VedleggListe = ({ vedlegg }: Props) => {
                 <li key={index}>
                     <DigisosLinkCard
                         href={fil.url}
-                        icon={IkonBilde(fil)}
+                        icon={<IkonBilde filename={fil.filnavn} />}
                         cardIcon="expand"
                         description={
                             <>

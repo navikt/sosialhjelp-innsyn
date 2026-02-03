@@ -9,14 +9,11 @@ import {
     FileTextIcon,
     FileWordIcon,
 } from "@navikt/aksel-icons";
-import { VedleggResponse } from "@generated/model";
 import { useTranslations } from "next-intl";
 
-// Copy-paste fra aksel sin ItemIcon komponent
-// fordi det er ikke en direkte måte å bruke det komponentet på
-const IkonBilde = (fil: VedleggResponse) => {
-    const extension = fil.filnavn.substring(fil.filnavn.lastIndexOf(".") + 1);
+const IkonBilde = ({ filename }: { filename: string }) => {
     const t = useTranslations("IkonBilde");
+    const extension = filename.substring(filename.lastIndexOf(".") + 1);
     switch (extension) {
         case "jpg":
         case "jpeg":
