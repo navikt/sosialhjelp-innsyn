@@ -14,15 +14,19 @@ const useSteps = () => {
     const { id } = useParams<{ id: string }>();
     const { data } = useHentHendelserBetaSuspense(id);
     const isProcessing = data.some((hendelse) => hendelse.type === "SoknadUnderBehandling");
-    const isFinishedProcessing = data.some((hendelse) => hendelse.type === "SoknadFerdigBehandlet");
+    const isFinishedProcessing = data.some(
+        (hendelse) => hendelse.type === "SoknadFerdigBehandlet" || hendelse.type === "SakFerdigBehandlet"
+    );
     const steps = R.pipe(
         data,
         R.sortBy(R.prop("tidspunkt")),
-        R.map((hendelse) => {
+        R.map((hendelse, index) => {
+            const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
             switch (hendelse.type) {
                 case "Sendt":
                     return (
                         <SendtStep
+                            key={key}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? ""}
                             url={hendelse.url}
@@ -30,11 +34,12 @@ const useSteps = () => {
                     );
                 case "Mottatt":
                     return (
-                        <MottattStep tidspunkt={new Date(hendelse.tidspunkt)} navKontor={hendelse.navKontor ?? ""} />
+                        <MottattStep key={key} tidspunkt={new Date(hendelse.tidspunkt)} navKontor={hendelse.navKontor ?? ""} />
                     );
                 case "SoknadUnderBehandling":
                     return (
                         <UnderBehandlingStep
+                            key={key}
                             completed
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor}
@@ -42,11 +47,16 @@ const useSteps = () => {
                     );
                 case "SoknadFerdigBehandlet":
                     return (
-                        <FerdigBehandletStep completed url={hendelse.url} tidspunkt={new Date(hendelse.tidspunkt)} />
+                        <FerdigBehandletStep key={key} completed url={hendelse.url} tidspunkt={new Date(hendelse.tidspunkt)} />
+                    );
+                case "SakFerdigBehandlet":
+                    return (
+                        <FerdigBehandletStep key={key} completed url={hendelse.url} tidspunkt={new Date(hendelse.tidspunkt)} />
                     );
                 case "ForelopigSvar":
                     return (
                         <ForelopigSvarStep
+                            key={key}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
                         />
@@ -54,12 +64,13 @@ const useSteps = () => {
                 case "EtterspurtDokumentasjon":
                     return (
                         <EtterspurtDokumentasjonStep
+                            key={key}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
                         />
                     );
                 case "LevertEtterspurtDokumentasjon":
-                    return <EtterspurtDokumentasjonLevertStep tidspunkt={new Date(hendelse.tidspunkt)} />;
+                    return <EtterspurtDokumentasjonLevertStep key={key} tidspunkt={new Date(hendelse.tidspunkt)} />;
             }
         }),
         R.filter((step) => !!step)
