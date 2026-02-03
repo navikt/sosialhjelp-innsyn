@@ -165,7 +165,8 @@
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
     "Saksprosessen": {
-        "tittel": "The case process"
+        "tittel": "The case process",
+        "beskrivelse": "Events and further process for your application."
     },
     "OppgaveTag": {
         "frist": "Due: {frist, date, ::ddMMyyyy}",
