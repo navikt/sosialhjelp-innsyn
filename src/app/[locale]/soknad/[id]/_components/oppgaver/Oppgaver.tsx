@@ -145,7 +145,7 @@ export const OppgaverSkeleton = () => {
     const t = useTranslations("Oppgaver");
     return (
         <VStack gap="4">
-            <Heading size="large" level="2" spacing>
+            <Heading size="medium" level="2" spacing>
                 {t("tittel")}
             </Heading>
             <Alert variant="info">
