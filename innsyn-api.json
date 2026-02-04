@@ -1138,9 +1138,20 @@
                         "type": "string",
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
-                    "referanse": { "type": "string" }
+                    "referanse": { "type": "string" },
+                    "vedtak": { "type": "array", "items": { "$ref": "#/components/schemas/VedtakDto" } }
                 },
-                "required": ["skalViseVedtakInfoPanel", "tittel"]
+                "required": ["skalViseVedtakInfoPanel", "tittel", "vedtak"]
+            },
+            "VedtakDto": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string" },
+                    "utfall": { "type": "string", "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"] },
+                    "vedtaksFilUrl": { "type": "string" },
+                    "dato": { "type": "string", "format": "date" }
+                },
+                "required": ["id", "vedtaksFilUrl"]
             },
             "SakResponse": {
                 "type": "object",

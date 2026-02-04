@@ -1,23 +1,21 @@
 import { Heading, HStack } from "@navikt/ds-react";
-import { SaksStatusResponseUtfallVedtak } from "@generated/model";
+import { VedtakDtoUtfall } from "@generated/model";
 
 import StatusTag from "./StatusTag";
 
 interface Props {
     tittel: string;
-    vedtakUtfall?: SaksStatusResponseUtfallVedtak;
+    latestVedtakUtfall?: VedtakDtoUtfall;
     fontSize?: "large" | "small" | "xlarge" | "medium" | "xsmall";
 }
 
-const Sakstittel = ({ tittel, vedtakUtfall, fontSize = "large" }: Props) => {
-    return (
-        <HStack gap="2">
-            <Heading size={fontSize} level="2">
-                {tittel}
-            </Heading>
-            <StatusTag vedtakUtfall={vedtakUtfall} className="self-start" />
-        </HStack>
-    );
-};
+const Sakstittel = ({ tittel, latestVedtakUtfall, fontSize = "large" }: Props) => (
+    <HStack gap="2">
+        <Heading size={fontSize} level="2">
+            {tittel}
+        </Heading>
+        <StatusTag vedtakUtfall={latestVedtakUtfall} className="self-start" />
+    </HStack>
+);
 
 export default Sakstittel;

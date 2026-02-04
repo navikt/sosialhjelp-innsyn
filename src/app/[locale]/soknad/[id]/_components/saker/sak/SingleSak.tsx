@@ -25,12 +25,8 @@ const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
                         {t("vedtak")}
                     </Heading>
                     <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8">
-                        <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
-                        <Vedtak
-                            vedtakUtfall={sak.utfallVedtak}
-                            vedtaksliste={sak.vedtaksfilUrlList}
-                            innsendtKlage={innsendtKlage}
-                        />
+                        <Sakstittel fontSize="small" tittel={sak.tittel} latestVedtakUtfall={sak.utfallVedtak} />
+                        <Vedtak vedtak={sak.vedtak} innsendtKlage={innsendtKlage} />
                     </BoxNew>
                 </VStack>
             )}
