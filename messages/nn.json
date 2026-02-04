@@ -218,13 +218,13 @@
     },
     "Opplastingsboks": {
         "tittel": "Vil du sende inn fleire dokument?",
-        "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
+        "beskrivelse": "Om du har andre opplysningar som kan ha noko å seie for søknaden din, kan du laste dei opp her.",
         "dragAndDrop": "Dra og slepp filer her",
         "eller": "eller",
         "button": "Vel filer",
         "uploading": "Lastar opp...",
         "delete": "Fjern fila",
-        "sendInn": "Send dakumentasjon",
+        "sendInn": "Send inn",
         "valgteFiler": "Valde filer ({antall_filer})",
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",

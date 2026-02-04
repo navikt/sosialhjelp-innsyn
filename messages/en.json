@@ -218,13 +218,13 @@
     },
     "Opplastingsboks": {
         "tittel": "Do you want to submit more documents?",
-        "beskrivelse": "Here you can upload documents and screenshots that may be important for your application.",
+        "beskrivelse": "If you have other information that may be relevant to your application, you can upload it here.",
         "dragAndDrop": "Drag and drop files here",
         "eller": "or",
         "button": "Choose files",
         "uploading": "Uploading...",
         "delete": "Remove file",
-        "sendInn": "Send documentation",
+        "sendInn": "Send in",
         "valgteFiler": "Selected files ({antall_filer})",
         "konvertert": {
             "tittel": "Some files may have been changed",

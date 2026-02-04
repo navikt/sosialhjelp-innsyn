@@ -114,20 +114,24 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         }
                     />
                 </div>
-                <div className="block sm:hidden">
-                    <BodyShort>
-                        Hvis du har andre opplysninger som kan ha betydning for søknaden din, kan du laste de opp her.
-                    </BodyShort>
+                <VStack className="block sm:hidden">
+                    <HStack justify="space-between">
+                        {tag}
+                        <Heading size="small" level="3" lang="no">
+                            {label ?? t("Opplastingsboks.tittel")}
+                        </Heading>
+                    </HStack>
+                    <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
                     <FileUpload.Trigger
                         accept={allowedFileTypes}
                         maxSizeInBytes={10 * 1024 * 1024}
                         onSelect={onFilesSelect}
                     >
-                        <Button variant="secondary" icon={<UploadIcon aria-hidden />}>
-                            wat wat
+                        <Button className="mt-4" variant="secondary" icon={<UploadIcon aria-hidden />}>
+                            {t("Opplastingsboks.lastOppFiler")}
                         </Button>
                     </FileUpload.Trigger>
-                </div>
+                </VStack>
                 {files.length > 0 && (
                     <VStack gap="2">
                         <Heading size="small" level="3">
