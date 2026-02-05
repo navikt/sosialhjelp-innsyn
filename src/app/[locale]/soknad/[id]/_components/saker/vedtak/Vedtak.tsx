@@ -25,7 +25,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
                         cardIcon="download"
                         key={index}
                         href={fil.url}
-                        icon={<FilePdfIcon title="Pdf" />}
+                        icon={<FilePdfIcon title={t("pdf")} />}
                         description={fil.dato}
                         analyticsEvent="knapp klikket"
                         analyticsData={{ tekst: "Åpner vedtak" }}

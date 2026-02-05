@@ -128,7 +128,8 @@
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
         "vedtaksBrev": "Download decision letter",
-        "kommendeUtbetaling": "Check upcoming payout"
+        "kommendeUtbetaling": "Check upcoming payout",
+        "pdf": "PDF file"
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",
@@ -412,7 +413,8 @@
             "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
-        "vedtaksBrev": "Download decision letter"
+        "vedtaksBrev": "Download decision letter",
+        "pdf": "PDF file"
     },
     "KlageForm": {
         "bakgrunn": {

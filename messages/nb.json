@@ -121,7 +121,8 @@
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
         },
         "vedtaksBrev": "Last ned vedtaksbrev",
-        "kommendeUtbetaling": "Se kommende utbetaling"
+        "kommendeUtbetaling": "Se kommende utbetaling",
+        "pdf": "PDF-fil"
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
@@ -383,7 +384,8 @@
             "AVVIST": "Søknaden din er avvist. Les vedtaket for å se begrunnelsen.",
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
         },
-        "vedtaksBrev": "Last ned vedtaksbrev"
+        "vedtaksBrev": "Last ned vedtaksbrev",
+        "pdf": "PDF-fil"
     },
     "KlageForm": {
         "bakgrunn": {
