@@ -29,17 +29,15 @@ const VedleggListe = ({ vedlegg }: Props) => {
                                     <BodyShort>{filesize(fil.storrelse)},</BodyShort>
                                     <BodyShort>
                                         {t.rich("lastetOpp", {
-                                            norsk: (chunks) => <span lang="no">{chunks}</span>,
                                             dato: new Date(fil.datoLagtTil),
-                                        })}
-                                    </BodyShort>
-                                </HStack>
-                            </>
-                        }
-                    >
-                        {fil.filnavn}
-                    </DigisosLinkCard>
-                </li>
+                                    })}
+                                </BodyShort>
+                            </HStack>
+                        </>
+                    }
+                >
+                    {fil.filnavn}
+                </DigisosLinkCard></li>
             ))}
         </VStack>
     );
