@@ -128,7 +128,8 @@
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
         "vedtaksBrev": "Download decision letter",
-        "kommendeUtbetaling": "Check upcoming payout"
+        "kommendeUtbetaling": "Check upcoming payout",
+        "pdf": "PDF file"
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",
@@ -242,7 +243,7 @@
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Appliation for financial assistance",
+        "soknadFilename": "Application for financial assistance",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "SoknadenDin": {
@@ -319,6 +320,19 @@
         "soknader": "My applications",
         "utbetalinger": "My payments",
         "klager": "Complaints"
+    },
+    "IkonBilde": {
+        "image": "Image file",
+        "pdf": "PDF file",
+        "txt": "Text file",
+        "csv": "CSV file",
+        "excel": "Excel file",
+        "word": "Word file",
+        "fil": "File"
+    },
+    "HoyreIkon": {
+        "download": "Download",
+        "expand": "Expand"
     },
     "Footer": {
         "trengerDuHjelp": "Do you need help?",
@@ -400,7 +414,8 @@
             "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
-        "vedtaksBrev": "Download decision letter"
+        "vedtaksBrev": "Download decision letter",
+        "pdf": "PDF file"
     },
     "KlageForm": {
         "bakgrunn": {
