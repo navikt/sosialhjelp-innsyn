@@ -127,7 +127,8 @@
             "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
-        "vedtaksBrev": "Download decision letter",
+        "vedtaksBrev": "Open decision letter",
+        "vedtaksBrevNytt": "Open decision letter (new)",
         "kommendeUtbetaling": "Check upcoming payout",
         "pdf": "PDF file"
     },
@@ -216,6 +217,10 @@
         },
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "You provided requested documents"
+        },
+        "VedtakFattet": {
+            "tittel": "You have received a{nytt, select, true { new} other {}} decision",
+            "visVedtaket": "View the decision (opens in new tab)"
         }
     },
     "Opplastingsboks": {

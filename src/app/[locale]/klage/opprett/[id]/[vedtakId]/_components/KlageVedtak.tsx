@@ -19,7 +19,7 @@ const KlageVedtak = ({ sak }: Props) => {
 
     return (
         <VStack gap="4">
-            <Sakstittel tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} fontSize="medium" />
+            <Sakstittel tittel={sak.tittel} latestVedtakUtfall={sak.utfallVedtak} fontSize="medium" />
             <BodyShort>{t(`beskrivelse.${sak.utfallVedtak}`)}</BodyShort>
             {sak.vedtaksfilUrlList &&
                 sak.vedtaksfilUrlList.map((fil, index) => (
