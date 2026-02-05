@@ -225,6 +225,7 @@
         "uploading": "Lastar opp...",
         "delete": "Fjern fila",
         "sendInn": "Send inn",
+        "lastOppFiler": "Lasta opp fila",
         "valgteFiler": "Valde filer ({antall_filer})",
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",

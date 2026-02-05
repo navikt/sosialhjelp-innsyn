@@ -225,6 +225,7 @@
         "uploading": "Uploading...",
         "delete": "Remove file",
         "sendInn": "Send in",
+        "lastOppFiler": "Upload files",
         "valgteFiler": "Selected files ({antall_filer})",
         "konvertert": {
             "tittel": "Some files may have been changed",
