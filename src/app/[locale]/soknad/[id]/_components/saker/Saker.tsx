@@ -35,7 +35,7 @@ const Saker = ({ sakerPromise, klagerPromise }: Props) => {
 
     return (
         <VStack gap="2">
-            <Heading size="large" level="2">
+            <Heading size="medium" level="2">
                 {t("dineSaker")}
             </Heading>
             <VStack gap="16">

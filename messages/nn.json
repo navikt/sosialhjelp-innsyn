@@ -165,7 +165,8 @@
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Saksprosessen": {
-        "tittel": "Saksprosessen"
+        "tittel": "Saksprosessen",
+        "beskrivelse": "Hendingar og vidare prosess for søknaden din."
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
