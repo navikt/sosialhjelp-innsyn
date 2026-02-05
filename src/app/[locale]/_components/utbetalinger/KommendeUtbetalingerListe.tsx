@@ -1,13 +1,13 @@
 "use client";
 
-import { Tag } from "@navikt/ds-react";
-import { CalendarIcon } from "@navikt/aksel-icons";
-import { useFormatter, useTranslations } from "next-intl";
-import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
-import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
-import { ManedUtbetaling } from "@generated/ssr/model";
-import { ITEMS_LIMIT } from "@components/showmore/useShowMore";
 import ExpandableList from "@components/showmore/ExpandableList";
+import { ITEMS_LIMIT } from "@components/showmore/useShowMore";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+import { ManedUtbetaling, ManedUtbetalingStatus } from "@generated/model";
+import { CalendarIcon, ExclamationmarkTriangleIcon } from "@navikt/aksel-icons";
+import { Tag } from "@navikt/ds-react";
+import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
+import { useFormatter, useTranslations } from "next-intl";
 
 interface Props {
     alleKommende: ManedUtbetaling[];
@@ -28,6 +28,7 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
             {(utbetaling, index, firstExpandedItemRef) => {
                 const amount = format.number(utbetaling.belop);
                 const date = new Date(utbetaling.forfallsdato!);
+                const stopped = utbetaling.status === ManedUtbetalingStatus.STOPPET;
                 return (
                     <li
                         key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}
@@ -35,25 +36,34 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
                         tabIndex={-1}
                     >
                         <DigisosLinkCard
-                            key={utbetaling.referanse}
                             href="/utbetalinger"
                             description={utbetaling.tittel}
                             footer={
                                 utbetaling.forfallsdato && (
                                     <LinkCardFooter>
-                                        <Tag
-                                            variant="info-moderate"
-                                            size="small"
-                                            icon={<CalendarIcon aria-hidden={true} />}
-                                        >
-                                            {t("utbetales", { date })}
-                                        </Tag>
+                                        {stopped ? (
+                                            <Tag
+                                                variant="warning-moderate"
+                                                size="small"
+                                                icon={<ExclamationmarkTriangleIcon aria-hidden={true} />}
+                                            >
+                                                {t("utbetalingStoppet")}
+                                            </Tag>
+                                        ) : (
+                                            <Tag
+                                                variant="info-moderate"
+                                                size="small"
+                                                icon={<CalendarIcon aria-hidden={true} />}
+                                            >
+                                                {t("utbetales", { date })}
+                                            </Tag>
+                                        )}
                                     </LinkCardFooter>
                                 )
                             }
                         >
-                            {t("beskrivelse", { amount })}
-                            <span className="sr-only">{t("beskrivelseSrOnly", { date })}</span>
+                            {stopped ? t("titleStoppet") : t("title", { amount })}
+                            {!stopped && <span className="sr-only">{t("titleSrOnly", { date })}</span>}
                         </DigisosLinkCard>
                     </li>
                 );

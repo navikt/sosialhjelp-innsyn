@@ -230,9 +230,11 @@
         "ukjentDato": "Ukjent dato"
     },
     "KommendeUtbetalingerListe": {
-        "beskrivelse": "Du vil motta {amount} kr",
-        "beskrivelseSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "title": "Du vil motta {amount} kr",
+        "titleSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "titleStoppet": "Utbetalingen er stanset",
         "utbetales": "Utbetales {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Utbetales ikke",
         "utbetalinger": "utbetalinger"
     },
     "AktiveSoknader": {

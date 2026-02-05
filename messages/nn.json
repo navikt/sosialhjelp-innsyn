@@ -259,16 +259,18 @@
         "ukjentDato": "Ukjend dato"
     },
     "KommendeUtbetalingerListe": {
-        "beskrivelse": "Du vil motta {amount} kr",
-        "beskrivelseSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "title": "Du vil motta {amount} kr",
+        "titleSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "titleStoppet": "Utbetalinga er stansa",
         "utbetales": "Blir utbetalt {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Blir ikkje utbetalt",
         "utbetalinger": "utbetalingar"
     },
     "AktiveSoknader": {
         "tittel": "Aktive saker",
         "EmptyState": {
             "tittel": "Vi finn ingen søknader frå deg",
-            "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
+            "title": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
         }
     },
     "ShowMoreButton": {

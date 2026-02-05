@@ -259,9 +259,11 @@
         "ukjentDato": "Unknown date"
     },
     "KommendeUtbetalingerListe": {
-        "beskrivelse": "You will receive {amount} NOK",
-        "beskrivelseSrOnly": " on {date, date, ::d MMMM yyyy}",
+        "title": "You will receive {amount} NOK",
+        "titleSrOnly": " on {date, date, ::d MMMM yyyy}",
+        "titleStoppet": "The payment is stopped",
         "utbetales": "Paid on {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Payment stopped",
         "utbetalinger": "payments"
     },
     "AktiveSoknader": {
