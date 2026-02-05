@@ -24,20 +24,19 @@ const VedleggListe = ({ vedlegg }: Props) => {
                         icon={<IkonBilde filename={fil.filnavn} />}
                         cardIcon="expand"
                         description={
-                            <>
-                                <HStack gap="1">
-                                    <BodyShort>{filesize(fil.storrelse)},</BodyShort>
-                                    <BodyShort>
-                                        {t.rich("lastetOpp", {
-                                            dato: new Date(fil.datoLagtTil),
+                            <HStack gap="1">
+                                <BodyShort>{filesize(fil.storrelse)},</BodyShort>
+                                <BodyShort>
+                                    {t.rich("lastetOpp", {
+                                        dato: new Date(fil.datoLagtTil),
                                     })}
                                 </BodyShort>
                             </HStack>
-                        </>
-                    }
-                >
-                    {fil.filnavn}
-                </DigisosLinkCard></li>
+                        }
+                    >
+                        {fil.filnavn}
+                    </DigisosLinkCard>
+                </li>
             ))}
         </VStack>
     );
