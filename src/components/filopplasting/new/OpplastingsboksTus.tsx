@@ -13,7 +13,7 @@ import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
 interface Props {
     metadata: Metadata;
     label?: string;
-    description?: ReactNode;
+    description?: string;
     tag?: ReactNode;
     completed?: boolean;
     id: string;

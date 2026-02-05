@@ -18,7 +18,7 @@ import { UploadIcon } from "@navikt/aksel-icons";
 interface Props {
     metadata: Metadata;
     label?: string;
-    description?: ReactNode;
+    description?: string;
     tag?: ReactNode;
     completed?: boolean;
 }
