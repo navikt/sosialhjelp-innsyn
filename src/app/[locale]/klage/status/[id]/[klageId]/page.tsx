@@ -37,7 +37,7 @@ const Page = async ({
                     {t("tittel")}
                 </Heading>
                 <UnderUtviklingInfo />
-                <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<FileTextIcon />}>
+                <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<FileTextIcon aria-hidden />}>
                     {t("seVedtak")}
                 </DigisosLinkCard>
                 <ProsessenVidere klagePdf={klage.klagePdf} />

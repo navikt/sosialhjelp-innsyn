@@ -56,7 +56,7 @@ export const Soknad = async ({ id }: Props) => {
     const klagerPromise = !mottattOrSendt && hentKlager(id);
     return (
         <VStack gap="20" className="mt-20">
-            <Heading size="xlarge" level="1" lang={tittel ? "no" : ""}>
+            <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
                 {tittel ?? t("defaultTittel")}
             </Heading>
             <VStack gap="2">

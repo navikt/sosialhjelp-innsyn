@@ -17,11 +17,11 @@ const VedleggListe = ({ vedlegg }: Props) => {
     const t = useTranslations("VedleggListe");
     return (
         <VStack as="ul" gap="2">
-            {vedlegg.map((fil) => (
-                <>
+            {vedlegg.map((fil, index) => (
+                <li key={index}>
                     <DigisosLinkCard
                         href={fil.url}
-                        icon={IkonBilde(fil)}
+                        icon={<IkonBilde filename={fil.filnavn} />}
                         cardIcon="expand"
                         description={
                             <>
@@ -39,7 +39,7 @@ const VedleggListe = ({ vedlegg }: Props) => {
                     >
                         {fil.filnavn}
                     </DigisosLinkCard>
-                </>
+                </li>
             ))}
         </VStack>
     );

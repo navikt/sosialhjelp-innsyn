@@ -24,13 +24,13 @@ const PageFlipperButtons = ({ numPages, pageNumber, setPageNumber }: Props) => {
     return (
         <HStack justify="end" gap="4">
             <Button
-                icon={<ChevronLeftIcon />}
+                icon={<ChevronLeftIcon aria-hidden />}
                 onClick={() => navigate("prev")}
                 disabled={pageNumber === 0}
                 aria-label={t("forrige")}
             />
             <Button
-                icon={<ChevronRightIcon />}
+                icon={<ChevronRightIcon aria-hidden />}
                 onClick={() => navigate("next")}
                 disabled={pageNumber === numPages}
                 aria-label={t("neste")}

@@ -58,7 +58,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                     </HStack>
                     {convertedFilename && (
                         <HStack align="center" gap="2" className="text-ax-text-warning-subtle">
-                            <ExclamationmarkTriangleFillIcon />
+                            <ExclamationmarkTriangleFillIcon aria-hidden />
                             <BodyShort>{t("seOver")}</BodyShort>
                         </HStack>
                     )}

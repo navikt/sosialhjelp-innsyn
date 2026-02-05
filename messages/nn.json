@@ -128,7 +128,8 @@
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
         },
         "vedtaksBrev": "Last ned vedtaksbrevet",
-        "kommendeUtbetaling": "Se komande utbetaling"
+        "kommendeUtbetaling": "Se komande utbetaling",
+        "pdf": "PDF-fil"
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
@@ -165,7 +166,8 @@
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Saksprosessen": {
-        "tittel": "Saksprosessen"
+        "tittel": "Saksprosessen",
+        "beskrivelse": "Hendingar og vidare prosess for søknaden din."
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
@@ -320,6 +322,19 @@
         "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
     },
+    "IkonBilde": {
+        "image": "Bildefil",
+        "pdf": "PDF-fil",
+        "txt": "Tekstfil",
+        "csv": "CSV-fil",
+        "excel": "Excel-fil",
+        "word": "Word-fil",
+        "fil": "Fil"
+    },
+    "HoyreIkon": {
+        "download": "Last ned",
+        "expand": "Utvid"
+    },
     "Footer": {
         "trengerDuHjelp": "Treng du hjelp?",
         "kontaktNavKontor": "<lenke>Kontakt ditt Nav-kontor</lenke> eller <tel>ring oss på 55 55 33 33</tel>.",
@@ -400,7 +415,8 @@
             "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
         },
-        "vedtaksBrev": "Last ned vedtaksbrev"
+        "vedtaksBrev": "Last ned vedtaksbrev",
+        "pdf": "PDF-fil"
     },
     "KlageForm": {
         "bakgrunn": {

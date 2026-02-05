@@ -21,7 +21,7 @@ const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
         <>
             {sak.utfallVedtak && (
                 <VStack gap="4">
-                    <Heading size="large" level="2">
+                    <Heading size="medium" level="2">
                         {t("vedtak")}
                     </Heading>
                     <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8">
