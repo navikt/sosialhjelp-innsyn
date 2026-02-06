@@ -7,9 +7,11 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 const SoknaderSnarvei = () => {
     const t = useTranslations("Snarveier");
     return (
-        <DigisosLinkCard href={`/soknader`} icon={<FilesIcon aria-hidden />}>
-            {t("soknader")}
-        </DigisosLinkCard>
+        <li>
+            <DigisosLinkCard href={`/soknader`} icon={<FilesIcon aria-hidden />}>
+                {t("soknader")}
+            </DigisosLinkCard>
+        </li>
     );
 };
 

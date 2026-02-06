@@ -13,11 +13,11 @@ const KommendeUtbetalinger = async () => {
     const headingId = "kommende-utbetalinger-heading";
 
     return (
-        <VStack gap="2">
+        <VStack gap="2" as="section" aria-labelledby={headingId}>
             <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>
-            <KommendeUtbetalingerListe alleKommende={alleKommende} labelledById={headingId} />
+            <KommendeUtbetalingerListe alleKommende={alleKommende} />
         </VStack>
     );
 };
