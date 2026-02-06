@@ -17,26 +17,29 @@ const VedleggListe = ({ vedlegg }: Props) => {
     const t = useTranslations("VedleggListe");
     return (
         <VStack as="ul" gap="2">
-            {vedlegg.map((fil) => (
-                <DigisosLinkCard
-                    key={fil.url}
-                    href={fil.url}
-                    icon={IkonBilde(fil)}
-                    cardIcon="expand"
-                    description={
-                        <HStack gap="1">
-                            <BodyShort>{filesize(fil.storrelse)},</BodyShort>
-                            <BodyShort>
-                                {t.rich("lastetOpp", {
-                                    norsk: (chunks) => <span lang="no">{chunks}</span>,
-                                    dato: new Date(fil.datoLagtTil),
-                                })}
-                            </BodyShort>
-                        </HStack>
-                    }
-                >
-                    {fil.filnavn}
-                </DigisosLinkCard>
+            {vedlegg.map((fil, index) => (
+                <li key={index}>
+                    <DigisosLinkCard
+                        href={fil.url}
+                        icon={<IkonBilde filename={fil.filnavn} />}
+                        cardIcon="expand"
+                        description={
+                            <>
+                                <HStack gap="1">
+                                    <BodyShort>{filesize(fil.storrelse)},</BodyShort>
+                                    <BodyShort>
+                                        {t.rich("lastetOpp", {
+                                            norsk: (chunks) => <span lang="no">{chunks}</span>,
+                                            dato: new Date(fil.datoLagtTil),
+                                        })}
+                                    </BodyShort>
+                                </HStack>
+                            </>
+                        }
+                    >
+                        {fil.filnavn}
+                    </DigisosLinkCard>
+                </li>
             ))}
         </VStack>
     );

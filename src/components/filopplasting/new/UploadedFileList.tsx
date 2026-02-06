@@ -17,7 +17,7 @@ const UploadedFileList = ({ fiksDigisosId, oppgaveId }: Props): ReactNode | null
     if (isLoading) {
         return (
             <List>
-                <ListItem icon={<LinkIcon />}>
+                <ListItem icon={<LinkIcon aria-hidden />}>
                     <Skeleton width="80px" />
                 </ListItem>
             </List>
@@ -30,7 +30,7 @@ const UploadedFileList = ({ fiksDigisosId, oppgaveId }: Props): ReactNode | null
     return (
         <List>
             {data.map((item) => (
-                <ListItem key={item.url} icon={<LinkIcon />}>
+                <ListItem key={item.url} icon={<LinkIcon aria-hidden />}>
                     <Link href={item.url}>{item.filnavn}</Link>
                 </ListItem>
             ))}

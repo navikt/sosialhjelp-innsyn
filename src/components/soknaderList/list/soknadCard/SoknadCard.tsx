@@ -82,6 +82,16 @@ const SoknadCard = ({ soknad }: Props) => {
             </StatusCard>
         );
     }
+    if (soknad.status === "BEHANDLES_IKKE") {
+        return (
+            <StatusCard id={id} tittel={sakTittel} ariaTittel={ariaTittel}>
+                <LinkCardFooter>
+                    <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
+                    <BehandlingsStatusTag status={"ferdigbehandlet_eldre"} />
+                </LinkCardFooter>
+            </StatusCard>
+        );
+    }
 
     return null;
 };

@@ -80,7 +80,6 @@ test.describe("Soknader page - application categorization", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
         // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
@@ -135,7 +134,6 @@ test.describe("Soknader page - application categorization", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
         await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
@@ -206,7 +204,6 @@ test.describe("Soknader page - application categorization", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
@@ -255,7 +252,6 @@ test.describe("Soknader page - application categorization", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
@@ -302,7 +298,6 @@ test.describe("Soknader page - application categorization", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
         await expect(aktiveSaker).toBeVisible();
@@ -346,7 +341,6 @@ test.describe("Soknader page - application categorization", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
         await expect(aktiveSaker).not.toBeVisible();
@@ -388,7 +382,6 @@ test.describe("Soknader page - application categorization", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
         await expect(aktiveSaker).not.toBeVisible();
@@ -414,12 +407,36 @@ test.describe("Soknader page - application categorization", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", []);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
         await expect(aktiveSaker).toBeVisible();
         await expect(page.getByText(/Utkast/).first()).toBeVisible();
         await expect(page.getByText(/Beholdes frem til/).first()).toBeVisible();
+    });
+
+    test("Applications that are BEHANDLES_IKKE and older than 21 days should be in earlier applications", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const oldDate = subDays(new Date(), 30); // 30 days old - should be in "Earlier"
+
+        const mockSak = {
+            fiksDigisosId: "behandles-ikke",
+            soknadTittel: "Behandles ikke",
+            sistOppdatert: oldDate.toISOString(),
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            status: "BEHANDLES_IKKE",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        await expect(tidligereSaker).toBeVisible();
+        await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
     });
 });
 
@@ -448,7 +465,6 @@ test.describe("SoknadCard rendering logic", () => {
         await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad mottatt/ })).toBeVisible();
         await expect(page.getByText(/Sendt/).first()).toBeVisible();
@@ -474,7 +490,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         // Should show the søknad card
         await expect(page.getByRole("link", { name: /Søknad med oppgave/ })).toBeVisible();
@@ -515,7 +530,6 @@ test.describe("SoknadCard rendering logic", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         // Should show the søknad card
         await expect(page.getByRole("link", { name: /Papirsøknad/ })).toBeVisible();
@@ -537,7 +551,6 @@ test.describe("SoknadCard rendering logic", () => {
         await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad sendt/ })).toBeVisible();
         // Should show "Sendt" tag
@@ -561,7 +574,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad under behandling/ })).toBeVisible();
         // Should show "Sendt" date tag
@@ -598,7 +610,6 @@ test.describe("SoknadCard rendering logic", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad med flere saker/ })).toBeVisible();
         await expect(page.getByText(/2 av 3 saker er ferdigbehandlet/)).toBeVisible();
@@ -622,7 +633,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad med flere vedtak/ })).toBeVisible();
         await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
@@ -651,7 +661,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad med forlenget behandlingstid/ })).toBeVisible();
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
@@ -678,7 +687,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet nylig/ })).toBeVisible();
         // Should show "Ferdigbehandlet" status tag
@@ -707,7 +715,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet for lenge siden/ })).toBeVisible();
         // Should show "Ferdigbehandlet" status tag
@@ -734,7 +741,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet med vilkår/ })).toBeVisible();
         // Should show oppgave alert with deadline
@@ -767,7 +773,6 @@ test.describe("SoknadCard rendering logic", () => {
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("link", { name: /Kompleks søknad/ })).toBeVisible();
         // Should show date tag
@@ -778,6 +783,27 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/18\.12\.2025/)).toBeVisible();
         // Should show forlenget behandlingstid
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
+    });
+
+    test("BEHANDLES_IKKE should be visible and show as ferdigbehandlet", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        const mockSak = {
+            fiksDigisosId: "behandles-ikke",
+            soknadTittel: "Behandles ikke",
+            sistOppdatert: new Date(),
+            soknadOpprettet: "2025-10-01T10:00:00Z",
+            status: "BEHANDLES_IKKE",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
+        await expect(page.getByText(/Ferdigbehandlet/).first()).toBeVisible();
     });
 });
 
@@ -901,7 +927,6 @@ test.describe("Sorting", () => {
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
-        await page.getByRole("button", { name: "Nei" }).click();
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
         await expect(aktiveSaker).toBeVisible();

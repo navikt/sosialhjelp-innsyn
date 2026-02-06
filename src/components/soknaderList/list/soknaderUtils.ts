@@ -35,7 +35,7 @@ export const sortInactive = R.sortBy<Soknad[]>([R.prop("sistOppdatert"), "desc"]
 
 const ferdigbehandletAndOlderThan21Days = (sak: Soknad): boolean =>
     "status" in sak &&
-    sak.status === "FERDIGBEHANDLET" &&
+    (sak.status === "FERDIGBEHANDLET" || sak.status === "BEHANDLES_IKKE") && // Status BEHANDLES_IKKE skal i denne konteksten anses som ferdigbehandlet
     differenceInDays(new Date(), new Date(sak.sistOppdatert)) > 21;
 
 const hasActiveDokumentasjonkrav = (sak: Soknad): boolean =>

@@ -27,7 +27,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
 
     return (
         <VStack gap="2">
-            <Heading size="large" level="2">
+            <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
             <Box.New background="info-soft" key={id} padding="space-24" borderRadius="xlarge">
