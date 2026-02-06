@@ -32,3 +32,4 @@ src/generated
 playwright-report/
 test-results/
 mise.toml
+e2e/.auth/

@@ -18,7 +18,7 @@ const Filopplasting = async ({ id }: Props) => {
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
         <VStack gap="2">
-            <Heading size="large" level="2">
+            <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
             <NavigationGuardProvider>

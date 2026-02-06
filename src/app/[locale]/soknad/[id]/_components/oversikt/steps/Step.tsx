@@ -12,7 +12,7 @@ const Step = ({ heading, className, children, ...rest }: PropsWithChildren<Props
     <>
         {/* @ts-expect-error StepperStep tar bare imot string som children, men det funker fint med jsx også */}
         <StepperStep className={cx("mb-4 text-ax-text-info", className)} {...rest}>
-            <Heading size="small" level="4" className="font-ax-bold">
+            <Heading size="small" level="3" className="font-ax-bold">
                 {heading}
             </Heading>
             <VStack className="font-ax-regular">{children}</VStack>

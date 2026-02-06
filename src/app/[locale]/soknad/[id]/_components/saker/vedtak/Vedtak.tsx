@@ -25,7 +25,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
                         cardIcon="download"
                         key={index}
                         href={fil.url}
-                        icon={<FilePdfIcon />}
+                        icon={<FilePdfIcon title={t("pdf")} />}
                         description={fil.dato}
                         analyticsEvent="knapp klikket"
                         analyticsData={{ tekst: "Åpner vedtak" }}
@@ -34,7 +34,7 @@ const Vedtak = ({ vedtakUtfall, vedtaksliste, innsendtKlage }: Props) => {
                     </DigisosLinkCard>
                 ))}
             {isInnvilget && (
-                <DigisosLinkCard href="/utbetaling" icon={<BankNoteIcon />}>
+                <DigisosLinkCard href="/utbetaling" icon={<BankNoteIcon aria-hidden />}>
                     {t("kommendeUtbetaling")}
                 </DigisosLinkCard>
             )}

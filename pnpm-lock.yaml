@@ -121,6 +121,9 @@ importers:
         specifier: ^4.2.1
         version: 4.3.2
     devDependencies:
+      '@axe-core/playwright':
+        specifier: ^4.10.2
+        version: 4.11.0(playwright-core@1.57.0)
       '@faker-js/faker':
         specifier: ^10.1.0
         version: 10.2.0
@@ -248,6 +251,11 @@ packages:
 
   '@asyncapi/specs@6.10.0':
     resolution: {integrity: sha512-vB5oKLsdrLUORIZ5BXortZTlVyGWWMC1Nud/0LtgxQ3Yn2738HigAD6EVqScvpPsDUI/bcLVsYEXN4dtXQHVng==}
+
+  '@axe-core/playwright@4.11.0':
+    resolution: {integrity: sha512-70vBT/Ylqpm65RQz2iCG2o0JJCEG/WCNyefTr2xcOcr1CoSee60gNQYUMZZ7YukoKkFLv26I/jjlsvwwp532oQ==}
+    peerDependencies:
+      playwright-core: '>= 1.0.0'
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -5400,6 +5408,11 @@ snapshots:
   '@asyncapi/specs@6.10.0':
     dependencies:
       '@types/json-schema': 7.0.15
+
+  '@axe-core/playwright@4.11.0(playwright-core@1.57.0)':
+    dependencies:
+      axe-core: 4.11.0
+      playwright-core: 1.57.0
 
   '@babel/code-frame@7.27.1':
     dependencies:

@@ -1,4 +1,4 @@
-import { Heading, VStack } from "@navikt/ds-react";
+import { BodyLong, Heading, VStack } from "@navikt/ds-react";
 import React, { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -17,9 +17,12 @@ const Oversikt = async ({ id }: Props) => {
     prefetchHentHendelserBetaQuery(queryClient, id);
     return (
         <VStack gap="4">
-            <Heading size="large" level="2">
-                {t("tittel")}
-            </Heading>
+            <div>
+                <Heading size="medium" level="2">
+                    {t("tittel")}
+                </Heading>
+                <BodyLong>{t("beskrivelse")}</BodyLong>
+            </div>
             <Suspense fallback={<StepsSkeleton />}>
                 <HydrationBoundary state={dehydrate(queryClient)}>
                     <Steps />
