@@ -12,12 +12,17 @@ interface Props {
 
 const SakPanel = ({ sak, innsendtKlage }: Props): React.JSX.Element => (
     <BoxNew borderWidth="1" borderColor="neutral-subtle" borderRadius="xlarge" overflow="hidden">
-        <BoxNew padding="8">
+        <BoxNew padding={{ xs: "space-20", md: "space-24" }}>
             <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
             <Vedtak vedtakUtfall={sak.utfallVedtak} vedtaksliste={sak.vedtaksfilUrlList} tittel={sak.tittel} />
         </BoxNew>
         {sak?.utfallVedtak && (
-            <BoxNew padding="8" borderWidth="1 0 0 0" borderColor="neutral-subtle" background="neutral-soft">
+            <BoxNew
+                padding={{ xs: "space-20", md: "space-24" }}
+                borderWidth="1 0 0 0"
+                borderColor="neutral-subtle"
+                background="neutral-soft"
+            >
                 <KlageInfo vedtaksliste={sak.vedtaksfilUrlList} innsendtKlage={innsendtKlage} />
             </BoxNew>
         )}
