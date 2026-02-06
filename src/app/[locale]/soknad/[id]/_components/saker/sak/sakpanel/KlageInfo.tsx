@@ -30,7 +30,7 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
     }
 
     return (
-        <div className="p-4 bg-ax-bg-info-soft rounded-lg">
+        <div>
             <Heading size="small" level="3">
                 {t("tittel")}
             </Heading>
@@ -43,7 +43,15 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
                     ),
                 })}
             </p>
-            {klageToggle.enabled && newestVedtak && (
+            {klageToggle.enabled && innsendtKlage && (
+                <DigisosLinkCard
+                    href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
+                    icon={<GavelIcon aria-hidden />}
+                >
+                    {t("seKlage")}
+                </DigisosLinkCard>
+            )}
+            {klageToggle.enabled && !innsendtKlage && newestVedtak && (
                 <Button
                     icon={<GavelIcon aria-hidden />}
                     variant="secondary"
