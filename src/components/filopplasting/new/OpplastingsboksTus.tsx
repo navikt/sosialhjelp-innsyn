@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
@@ -30,6 +30,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
         isUploadSuccess,
         error: mutationError,
     } = useSendVedleggHelperTus(metadata);
+    const liveRegionRef = useRef<HTMLDivElement>(null);
+
+    // Move focus to live region when upload completes to prevent "leaving main content" announcement
+    useEffect(() => {
+        if (isUploadSuccess && liveRegionRef.current) {
+            liveRegionRef.current.focus();
+        }
+    }, [isUploadSuccess]);
 
     if (completed) {
         return (
@@ -45,7 +53,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                 </Box.New>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 {isUploadSuccess && (
-                    <Alert closeButton onClose={resetMutation} variant="success">
+                    <Alert role="alert" closeButton onClose={resetMutation} variant="success">
                         {t("suksess")}
                     </Alert>
                 )}
@@ -69,8 +77,16 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     {t("sendInn")}
                 </Button>
             )}
-            {isUploadSuccess && <Alert variant="success">{t("suksess")}</Alert>}
-            {mutationError && <Alert variant="error">{t("error")}</Alert>}
+            {isUploadSuccess && (
+                <Alert role="alert" variant="success">
+                    {t("suksess")}
+                </Alert>
+            )}
+            {mutationError && (
+                <Alert role="alert" variant="error">
+                    {t("error")}
+                </Alert>
+            )}
         </>
     );
 };
