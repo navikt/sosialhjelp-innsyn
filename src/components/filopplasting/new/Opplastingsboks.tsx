@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
@@ -11,7 +11,6 @@ import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
-import AccessibleAlert, { LiveRegion } from "@components/filopplasting/new/AccessibleAlert";
 
 import { umamiTrack } from "../../../app/umami";
 
@@ -75,9 +74,9 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 </Box.New>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 {isUploadSuccess && (
-                    <AccessibleAlert closeButton onClose={resetMutation} variant="success">
+                    <Alert role="alert" closeButton onClose={resetMutation} variant="success">
                         {t("common.vedlegg.suksess")}
-                    </AccessibleAlert>
+                    </Alert>
                 )}
             </VStack>
         );
@@ -158,16 +157,16 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         </Button>
                     </VStack>
                 )}
-                <LiveRegion ref={liveRegionRef} variant={mutationErrors.length > 0 ? "error" : "success"}>
-                    {isUploadSuccess && (
-                        <AccessibleAlert variant="success">{t("common.vedlegg.suksess")}</AccessibleAlert>
-                    )}
-                    {mutationErrors.length > 0 && (
-                        <AccessibleAlert variant="error">
-                            {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
-                        </AccessibleAlert>
-                    )}
-                </LiveRegion>
+                {isUploadSuccess && (
+                    <Alert role="alert" variant="success">
+                        {t("common.vedlegg.suksess")}
+                    </Alert>
+                )}
+                {mutationErrors.length > 0 && (
+                    <Alert role="alert" variant="error">
+                        {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
+                    </Alert>
+                )}
             </VStack>
         </FileUpload>
     );
