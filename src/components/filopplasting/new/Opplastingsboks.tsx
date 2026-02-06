@@ -13,11 +13,12 @@ import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErr
 import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
 
 import { umamiTrack } from "../../../app/umami";
+import { UploadIcon } from "@navikt/aksel-icons";
 
 interface Props {
     metadata: Metadata;
     label?: string;
-    description?: ReactNode;
+    description?: string;
     tag?: ReactNode;
     completed?: boolean;
 }
@@ -89,32 +90,52 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             }}
         >
             <VStack gap="6">
-                <FileUpload.Dropzone
-                    className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
-                    label={
-                        <HStack justify="space-between">
-                            <div>{label ?? t("Opplastingsboks.tittel")}</div>
-                            {tag}
-                        </HStack>
-                    }
-                    description={description ?? t("Opplastingsboks.beskrivelse")}
-                    onSelect={onFilesSelect}
-                    accept={allowedFileTypes}
-                    error={
-                        outerErrors.length > 0 ? (
-                            <ul>
-                                {outerErrors.map((it) => (
-                                    <li key={it.feil}>{t(`common.${errorStatusToMessage[it.feil]}`)}</li>
-                                ))}
-                            </ul>
-                        ) : null
-                    }
-                />
+                <div className="hidden sm:block">
+                    <FileUpload.Dropzone
+                        className="flex flex-col"
+                        // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
+                        label={
+                            <HStack justify="space-between">
+                                <div>{label ?? t("Opplastingsboks.tittel")}</div>
+                                {tag}
+                            </HStack>
+                        }
+                        description={description ?? t("Opplastingsboks.beskrivelse")}
+                        onSelect={onFilesSelect}
+                        accept={allowedFileTypes}
+                        error={
+                            outerErrors.length > 0 ? (
+                                <ul>
+                                    {outerErrors.map((it) => (
+                                        <li key={it.feil}>{t(`common.${errorStatusToMessage[it.feil]}`)}</li>
+                                    ))}
+                                </ul>
+                            ) : null
+                        }
+                    />
+                </div>
+                <VStack className="block sm:hidden">
+                    <HStack justify="space-between">
+                        {tag}
+                        <Heading size="small" level="3" lang="no">
+                            {label ?? t("Opplastingsboks.tittel")}
+                        </Heading>
+                    </HStack>
+                    <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
+                    <FileUpload.Trigger
+                        accept={allowedFileTypes}
+                        maxSizeInBytes={10 * 1024 * 1024}
+                        onSelect={onFilesSelect}
+                    >
+                        <Button className="mt-4" variant="secondary" icon={<UploadIcon aria-hidden />}>
+                            {t("Opplastingsboks.lastOppFiler")}
+                        </Button>
+                    </FileUpload.Trigger>
+                </VStack>
                 {files.length > 0 && (
                     <VStack gap="2">
                         <Heading size="small" level="3">
-                            {t("Opplastingsboks.filerTilOpplasting")}
+                            {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <VStack as="ul" gap="2">
                             {files.map((file) => (

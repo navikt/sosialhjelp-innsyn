@@ -4,11 +4,11 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { logger } from "@navikt/next-logger";
-import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { getTusUploader } from "@components/filopplasting/new/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
+import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
 
 interface Props {
     id?: string;
@@ -56,9 +56,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
             }}
         >
             <VStack gap="6">
-                <FileUpload.Dropzone
-                    className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
+                <FileSelectUpload
                     label={
                         <HStack justify="space-between">
                             <div>{label ?? t("tittel")}</div>
@@ -67,15 +65,13 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     }
                     description={description ?? t("beskrivelse")}
                     onSelect={onSelect}
-                    accept={allowedFileTypes}
-                    maxSizeInBytes={10 * 1024 * 1024}
-                    multiple
                     disabled={(docState.uploads?.length ?? 0) >= 30}
                 />
+
                 {!!docState.uploads?.length && (
                     <VStack gap="2">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("filerTilOpplasting")}
+                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
                             <Alert variant="warning">

@@ -86,11 +86,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                             completed={oppgave.erLastetOpp}
                                             label={typeTekst}
                                             description={
-                                                oppgave.erLastetOpp ? (
-                                                    t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                                ) : (
-                                                    <Box.New lang="no">{tilleggsinfoTekst}</Box.New>
-                                                )
+                                                oppgave.erLastetOpp
+                                                    ? t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
+                                                    : tilleggsinfoTekst
                                             }
                                             tag={
                                                 <OppgaveTag
@@ -106,11 +104,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                             completed={oppgave.erLastetOpp}
                                             label={typeTekst}
                                             description={
-                                                oppgave.erLastetOpp ? (
-                                                    t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                                ) : (
-                                                    <Box.New lang="no">{tilleggsinfoTekst}</Box.New>
-                                                )
+                                                oppgave.erLastetOpp
+                                                    ? t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
+                                                    : tilleggsinfoTekst
                                             }
                                             tag={
                                                 <OppgaveTag

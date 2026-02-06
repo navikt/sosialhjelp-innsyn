@@ -432,7 +432,7 @@ test.describe("Soknader page - application categorization", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
         await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader")
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
         const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
         await expect(tidligereSaker).toBeVisible();

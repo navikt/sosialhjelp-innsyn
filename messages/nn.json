@@ -220,14 +220,15 @@
     },
     "Opplastingsboks": {
         "tittel": "Vil du sende inn fleire dokument?",
-        "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
+        "beskrivelse": "Om du har andre opplysningar som kan ha noko å seie for søknaden din, kan du laste dei opp her.",
         "dragAndDrop": "Dra og slepp filer her",
         "eller": "eller",
         "button": "Vel filer",
         "uploading": "Lastar opp...",
         "delete": "Fjern fila",
-        "sendInn": "Send dakumentasjon",
-        "filerTilOpplasting": "Filer som bli lasta opp",
+        "sendInn": "Send inn",
+        "lastOppFiler": "Lasta opp fila",
+        "valgteFiler": "Valde filer ({antall_filer})",
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",
             "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
@@ -239,7 +240,8 @@
         "tittel": "Dine dokument"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon"
+        "tittel": "Ettersend dokumentasjon",
+        "opplastedeVedlegg": "Dokumenta"
     },
     "VedleggListe": {
         "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
