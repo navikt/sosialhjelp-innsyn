@@ -77,9 +77,7 @@ const FileSelect = ({
                         maxSizeInBytes={10 * 1024 * 1024}
                         onSelect={(_files) => addFiler(_files.map((it) => it.file))}
                     >
-                        <Button variant="secondary" icon={<UploadIcon aria-hidden />}>
-                            wat wat
-                        </Button>
+                        <Button variant="secondary" icon={<UploadIcon aria-hidden />} />
                     </FileUpload.Trigger>
                 </div>
 

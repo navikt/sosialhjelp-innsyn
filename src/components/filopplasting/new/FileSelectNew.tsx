@@ -82,9 +82,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         multiple
                         onSelect={onSelect}
                     >
-                        <Button variant="secondary" icon={<UploadIcon aria-hidden />}>
-                            wat wat
-                        </Button>
+                        <Button variant="secondary" icon={<UploadIcon aria-hidden />} />
                     </FileUpload.Trigger>
                 </div>
 
