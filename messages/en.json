@@ -220,7 +220,7 @@
     },
     "Opplastingsboks": {
         "tittel": "Do you want to submit more documents?",
-        "beskrivelse": "If you have other information that may be relevant to your application, you can upload it here.",
+        "beskrivelse": "If you have any additional information that may be relevant to your application, you can upload it here.",
         "dragAndDrop": "Drag and drop files here",
         "eller": "or",
         "button": "Choose files",
