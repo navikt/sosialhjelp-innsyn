@@ -1,9 +1,11 @@
-import { HouseIcon } from "@navikt/aksel-icons";
-import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-const LandingssideSnarvei = async () => {
-    const t = await getTranslations("Snarveier");
+import { HouseIcon } from "@navikt/aksel-icons";
+import { useTranslations } from "next-intl";
+import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+
+const LandingssideSnarvei = () => {
+    const t = useTranslations("Snarveier");
     return (
         <DigisosLinkCard href="/" icon={<HouseIcon aria-hidden />}>
             {t("landingsside")}
