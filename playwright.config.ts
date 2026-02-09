@@ -35,7 +35,7 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     outputDir: "test-results/",
 
-    globalSetup: require.resolve("./e2e/global-setup"),
+    globalSetup: "./e2e/global-setup",
 
     webServer: opts.server,
 
