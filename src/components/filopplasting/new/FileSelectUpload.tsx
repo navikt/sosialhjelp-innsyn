@@ -1,4 +1,4 @@
-import { Button, FileObject, FileUpload } from "@navikt/ds-react";
+import { Alert, Button, FileObject, FileUpload, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
@@ -35,16 +35,21 @@ export const FileSelectUpload = ({
                 />
             </div>
 
-            <div className="block sm:hidden">
+            <VStack gap="2" className="block sm:hidden">
                 <FileUpload.Trigger
                     accept={allowedFileTypes}
                     maxSizeInBytes={10 * 1024 * 1024}
                     multiple
                     onSelect={onSelect}
                 >
-                    <Button variant="secondary" icon={<UploadIcon aria-hidden />} />
+                    <Button variant="secondary" icon={<UploadIcon aria-hidden />} disabled={disabled} />
                 </FileUpload.Trigger>
-            </div>
+                {error && (
+                    <Alert variant="error" size="small">
+                        {error}
+                    </Alert>
+                )}
+            </VStack>
         </>
     );
 };
