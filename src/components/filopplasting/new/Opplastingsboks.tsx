@@ -32,6 +32,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
         errors: mutationErrors,
         isPending,
         isUploadSuccess,
+        feedbackRef,
     } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
     const liveRegionRef = useRef<HTMLDivElement>(null);
 
@@ -157,16 +158,18 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         </Button>
                     </VStack>
                 )}
-                {isUploadSuccess && (
-                    <Alert role="alert" variant="success">
-                        {t("common.vedlegg.suksess")}
-                    </Alert>
-                )}
-                {mutationErrors.length > 0 && (
-                    <Alert role="alert" variant="error">
-                        {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
-                    </Alert>
-                )}
+                <div ref={feedbackRef} tabIndex={-1}>
+                    {isUploadSuccess && (
+                        <Alert role="alert" variant="success">
+                            {t("common.vedlegg.suksess")}
+                        </Alert>
+                    )}
+                    {mutationErrors.length > 0 && (
+                        <Alert role="alert" variant="error">
+                            {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
+                        </Alert>
+                    )}
+                </div>
             </VStack>
         </FileUpload>
     );
