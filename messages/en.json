@@ -34,7 +34,7 @@
         "seOver": "Please review the contents of this file and ensure it looks correct."
     },
     "SoknaderSide": {
-        "tittel": "My applications for financial assistance",
+        "tittel": "My applications",
         "htmlTitle": "My applications for financial assistance"
     },
     "ForelopigSvarAlert": {
@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "My applications",
-          "soknad": "My application"
+            "soknader": "Applications",
+            "soknad": "Application"
         }
     },
     "Soknad": {
@@ -318,7 +318,6 @@
     },
     "Snarveier": {
         "tittel": "Shortcuts",
-        "landingsside": "Financial assistance",
         "soknader": "My applications",
         "utbetalinger": "My payments",
         "klager": "Complaints"
@@ -472,7 +471,7 @@
     },
     "UtbetalingerPage": {
         "tittel": "My payments for financial assistance",
-        "breadcrumbTitle": "My payments"
+        "breadcrumbTitle": "Payments"
     },
     "ErrorPage": {
         "htmlTitle": "Technical error - nav.no",

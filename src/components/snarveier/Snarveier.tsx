@@ -4,11 +4,7 @@ import { PropsWithChildren } from "react";
 
 import SokButton from "@components/snarveier/SokButton";
 
-interface SnarveierProps extends PropsWithChildren {
-    hideSokButton?: boolean;
-}
-
-const Snarveier = async ({ children, hideSokButton = false }: SnarveierProps) => {
+const Snarveier = async ({ children }: PropsWithChildren) => {
     const t = await getTranslations("Snarveier");
 
     return (
@@ -16,7 +12,7 @@ const Snarveier = async ({ children, hideSokButton = false }: SnarveierProps) =>
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            {!hideSokButton && <SokButton />}
+            <SokButton />
             {children}
         </VStack>
     );
