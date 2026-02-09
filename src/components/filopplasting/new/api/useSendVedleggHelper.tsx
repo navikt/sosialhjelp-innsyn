@@ -1,6 +1,6 @@
 import { logger } from "@navikt/next-logger";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
     getHentHendelserQueryKey,
     getHentHendelserBetaQueryKey,
@@ -29,6 +29,7 @@ const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string):
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
     const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
     const queryClient = useQueryClient();
+    const feedbackRef = useRef<HTMLDivElement>(null);
     const [errors, setErrors] = useState<Error[]>([]);
     const isUploadSuccess = isSuccess && errors.length === 0;
 
@@ -108,11 +109,14 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
                         setErrors([{ feil: Feil.KLIENTFEIL }]);
                     }
                 },
+                onSettled: () => {
+                    feedbackRef.current?.focus();
+                },
             }
         );
     };
 
-    return { upload, resetMutation, errors, isPending, isUploadSuccess };
+    return { upload, resetMutation, errors, isPending, isUploadSuccess, feedbackRef };
 };
 
 export default useSendVedleggHelper;
