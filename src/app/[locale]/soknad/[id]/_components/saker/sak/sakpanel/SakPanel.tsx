@@ -1,6 +1,6 @@
 import React from "react";
 import Vedtak from "./Vedtak";
-import { BoxNew } from "@navikt/ds-react";
+import { BoxNew, VStack } from "@navikt/ds-react";
 import KlageInfo from "./KlageInfo";
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 import Sakstittel from "../Sakstittel";
@@ -12,10 +12,10 @@ interface Props {
 
 const SakPanel = ({ sak, innsendtKlage }: Props): React.JSX.Element => (
     <BoxNew borderWidth="1" borderColor="neutral-subtle" borderRadius="xlarge" overflow="hidden">
-        <BoxNew padding={{ xs: "space-20", md: "space-24" }}>
+        <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
             <Sakstittel fontSize="small" tittel={sak.tittel} vedtakUtfall={sak.utfallVedtak} />
             <Vedtak vedtakUtfall={sak.utfallVedtak} vedtaksliste={sak.vedtaksfilUrlList} tittel={sak.tittel} />
-        </BoxNew>
+        </VStack>
         {sak?.utfallVedtak && (
             <BoxNew
                 padding={{ xs: "space-20", md: "space-24" }}

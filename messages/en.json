@@ -114,11 +114,11 @@
         "defaultTittel": "Application for financial assistance"
     },
     "StatusTag": {
-        "INNVILGET": "Decision: Granted",
-        "DELVIS_INNVILGET": "Decision: Partially granted",
-        "AVVIST": "Decision: Rejected",
-        "AVSLATT": "Decision: Refused",
-        "UNDER_BEHANDLING": "Under behandling"
+        "INNVILGET": "Outcome: Granted",
+        "DELVIS_INNVILGET": "Outcome: Partially granted",
+        "AVVIST": "Outcome: Rejected",
+        "AVSLATT": "Outcome: Refused",
+        "UNDER_BEHANDLING": "Processing"
     },
     "Vedtak": {
         "beskrivelse": {

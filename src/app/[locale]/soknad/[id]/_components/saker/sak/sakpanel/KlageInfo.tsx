@@ -1,4 +1,4 @@
-import { Button, Link as AkselLink, Heading } from "@navikt/ds-react";
+import { Button, Link as AkselLink, Heading, BodyLong, VStack } from "@navikt/ds-react";
 import { GavelIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
@@ -30,11 +30,11 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
     }
 
     return (
-        <div>
+        <VStack gap="space-16" align="start">
             <Heading size="small" level="3">
                 {t("tittel")}
             </Heading>
-            <p>
+            <BodyLong>
                 {t.rich("beskrivelse", {
                     lenke: (chunks) => (
                         <AkselLink href="https://www.nav.no/klagerettigheter" inlineText>
@@ -42,7 +42,7 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
                         </AkselLink>
                     ),
                 })}
-            </p>
+            </BodyLong>
             {klageToggle.enabled && innsendtKlage && (
                 <DigisosLinkCard
                     href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
@@ -62,7 +62,7 @@ const KlageInfo = ({ vedtaksliste, innsendtKlage }: Props) => {
                     {t("klageKnapp")}
                 </Button>
             )}
-        </div>
+        </VStack>
     );
 };
 
