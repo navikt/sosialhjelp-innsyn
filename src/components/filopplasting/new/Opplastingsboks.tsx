@@ -74,11 +74,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
                 </Box.New>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
-                {isUploadSuccess && (
-                    <Alert role="alert" closeButton onClose={resetMutation} variant="success">
-                        {t("common.vedlegg.suksess")}
-                    </Alert>
-                )}
+                <div ref={feedbackRef} tabIndex={-1}>
+                    {isUploadSuccess && (
+                        <Alert role="alert" aria-live="assertive" closeButton onClose={resetMutation} variant="success">
+                            {t("common.vedlegg.suksess")}
+                        </Alert>
+                    )}
+                </div>
             </VStack>
         );
     }
@@ -160,12 +162,12 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 )}
                 <div ref={feedbackRef} tabIndex={-1}>
                     {isUploadSuccess && (
-                        <Alert role="alert" variant="success">
+                        <Alert role="alert" aria-live="assertive" variant="success">
                             {t("common.vedlegg.suksess")}
                         </Alert>
                     )}
                     {mutationErrors.length > 0 && (
-                        <Alert role="alert" variant="error">
+                        <Alert role="alert" aria-live="assertive" variant="error">
                             {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
                         </Alert>
                     )}
