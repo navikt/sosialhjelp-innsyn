@@ -120,7 +120,8 @@
             "AVVIST": "Søknaden din er avvist. Les vedtaket for å se begrunnelsen.",
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å se begrunnelsen."
         },
-        "vedtaksBrev": "Last ned vedtaksbrev",
+        "vedtaksBrev": "Åpne vedtaksbrev",
+        "vedtaksBrevNytt": "Åpne vedtaksbrev (nytt)",
         "kommendeUtbetaling": "Se kommende utbetaling",
         "pdf": "PDF-fil"
     },
@@ -187,6 +188,10 @@
         },
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "Du leverte etterspurte dokumenter"
+        },
+        "VedtakFattet": {
+            "tittel": "Du har fått et{nytt, select, true { nytt} other {}} vedtak",
+            "visVedtaket": "Vis vedtaket (åpnes i ny fane)"
         }
     },
     "Opplastingsboks": {

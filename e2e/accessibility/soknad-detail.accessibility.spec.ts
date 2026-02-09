@@ -99,12 +99,19 @@ test.describe("Soknad detail page accessibility", () => {
         } satisfies ForelopigSvarResponse);
         await msw.mockEndpoint("/api/v2/innsyn/test-soknad-1/vilkar", [] satisfies VilkarResponse[]);
         await msw.mockEndpoint("/api/v1/innsyn/test-soknad-1/saksStatus", [
-            { status: "UNDER_BEHANDLING", tittel: "Sak 1", referanse: "9823", skalViseVedtakInfoPanel: false },
+            {
+                status: "UNDER_BEHANDLING",
+                tittel: "Sak 1",
+                referanse: "9823",
+                skalViseVedtakInfoPanel: false,
+                vedtak: [],
+            },
             {
                 status: "FERDIGBEHANDLET",
                 tittel: "Sak 2 om nødhjelp",
                 referanse: "9824",
                 skalViseVedtakInfoPanel: false,
+                vedtak: [{ utfall: "INNVILGET", id: "879324", vedtaksFilUrl: "/abc" }],
                 utfallVedtak: "INNVILGET",
                 vedtaksfilUrlList: [{ url: "/abc", id: "879324" }],
             },

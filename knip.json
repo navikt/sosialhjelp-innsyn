@@ -4,7 +4,7 @@
         "interface": true,
         "type": true
     },
-    "ignore": ["**/generated/**", "*.config.ts", "*.config.js", "*.config.mjs", "**/*.d.ts", ""],
+    "ignore": ["**/generated/**", "*.config.ts", "*.config.js", "*.config.mjs", "**/*.d.ts", "e2e/global-setup.ts"],
     "ignoreDependencies": ["@faker-js/faker"],
     "ignoreIssues": {
         "src/i18n/navigation.ts": ["exports"],

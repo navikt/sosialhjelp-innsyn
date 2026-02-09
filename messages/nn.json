@@ -127,7 +127,8 @@
             "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
         },
-        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "vedtaksBrev": "Opne vedtaksbrev",
+        "vedtaksBrevNytt": "Opne vedtaksbrev (nytt)",
         "kommendeUtbetaling": "Se komande utbetaling",
         "pdf": "PDF-fil"
     },
@@ -216,6 +217,10 @@
         },
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "Du leverte etterspurde dokument"
+        },
+        "VedtakFattet": {
+            "tittel": "Du har fått eit{nytt, select, true { nytt} other {}} vedtak",
+            "visVedtaket": "Vis vedtaket (blir opna i ei ny fane)"
         }
     },
     "Opplastingsboks": {
