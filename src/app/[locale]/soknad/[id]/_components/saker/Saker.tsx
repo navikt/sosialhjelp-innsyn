@@ -14,7 +14,7 @@ interface Props {
 }
 
 const findKlageForSak = (sak: SaksStatusResponse, klager: KlageRef[]): KlageRef | undefined =>
-    klager.find((klage) => sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId));
+    klager.find((klage) => sak.vedtak?.some((vedtak) => vedtak.id === klage.vedtakId));
 
 const Saker = ({ sakerPromise, klagerPromise }: Props) => {
     const t = useTranslations("Saker");
