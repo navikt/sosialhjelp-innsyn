@@ -20,7 +20,7 @@ const SakPanel = ({ sak, innsendtKlage }: Props): React.JSX.Element => {
     return (
         <BoxNew borderWidth="1" borderColor="neutral-subtle" borderRadius="xlarge" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
-                <Sakstittel fontSize="small" tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} />
+                <Sakstittel tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} />
                 {latestVedtak && <Vedtak sortedVedtak={sak.vedtak} latestVedtak={latestVedtak} />}
             </VStack>
             {latestVedtak && (
