@@ -17,10 +17,12 @@ const Oversikt = async ({ id }: Props) => {
     prefetchHentHendelserBetaQuery(queryClient, id);
     return (
         <VStack gap="4">
-            <Heading size="medium" level="2">
-                {t("tittel")}
-            </Heading>
-            <BodyLong>{t("beskrivelse")}</BodyLong>
+            <div>
+                <Heading size="medium" level="2">
+                    {t("tittel")}
+                </Heading>
+                <BodyLong>{t("beskrivelse")}</BodyLong>
+            </div>
             <Suspense fallback={<StepsSkeleton />}>
                 <HydrationBoundary state={dehydrate(queryClient)}>
                     <Steps />

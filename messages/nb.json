@@ -200,6 +200,8 @@
         "sendInn": "Send inn",
         "lastOppFiler": "Last opp filer",
         "valgteFiler": "Valgte filer ({antall_filer})",
+      "filerTilOpplasting": "Filer til opplasting",
+      "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": {
             "tittel": "Noen filer kan ha blitt forandret",
             "beskrivelse": "Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke støttes. Du må se gjennom og godkjenne filene før du kan fortsette."
