@@ -10,7 +10,7 @@ import {
     hentSoknadsStatus,
     prefetchHentOriginalSoknadQuery,
 } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
-import { hentKlager } from "@generated/ssr/klage-controller/klage-controller";
+import { hentKlager, prefetchHentKlagerQuery } from "@generated/ssr/klage-controller/klage-controller";
 import {
     prefetchGetDokumentasjonkravBetaQuery,
     prefetchGetOppgaverBetaQuery,
@@ -41,6 +41,7 @@ export const Soknad = async ({ id }: Props) => {
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
+    const klageQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
@@ -50,6 +51,7 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
+    prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
@@ -83,7 +85,9 @@ export const Soknad = async ({ id }: Props) => {
             </VStack>
             {sakerPromise && klagerPromise && (
                 <Suspense fallback={null}>
-                    <Saker sakerPromise={sakerPromise} klagerPromise={klagerPromise} />
+                    <HydrationBoundary state={dehydrate(klageQueryClient)}>
+                        <Saker sakerPromise={sakerPromise} />
+                    </HydrationBoundary>
                 </Suspense>
             )}
             <Suspense fallback={<OppgaverSkeleton />}>

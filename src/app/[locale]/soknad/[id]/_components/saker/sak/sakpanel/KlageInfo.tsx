@@ -2,19 +2,19 @@ import { Button, Link as AkselLink, Heading, BodyLong, VStack } from "@navikt/ds
 import { GavelIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { KlageRef, VedtakDto } from "@generated/model";
+import { KlageRef } from "@generated/model";
 import { useFlag } from "@featuretoggles/context";
 import { Link } from "@i18n/navigation";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 interface Props {
-    // En sak kan ha flere vedtak. Dette vil typisk være ved feilretting av tidligere vedtak og vi gir derfor kun mulighet til en klageknapp per sak.
-    latestVedtak: VedtakDto;
+    vedtakId: string;
     innsendtKlage?: KlageRef;
 }
 
-const KlageInfo = ({ innsendtKlage, latestVedtak }: Props) => {
+const KlageInfo = ({ vedtakId, innsendtKlage }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+
     const t = useTranslations("KlageInfo");
     const klageToggle = useFlag("sosialhjelp.innsyn.klage");
 
@@ -51,12 +51,12 @@ const KlageInfo = ({ innsendtKlage, latestVedtak }: Props) => {
                     {t("seKlage")}
                 </DigisosLinkCard>
             )}
-            {klageToggle.enabled && !innsendtKlage && latestVedtak && (
+            {klageToggle.enabled && !innsendtKlage && (
                 <Button
                     icon={<GavelIcon aria-hidden />}
                     variant="secondary"
                     className="mt-4"
-                    href={`/klage/opprett/${fiksDigisosId}/${latestVedtak.id}`}
+                    href={`/klage/opprett/${fiksDigisosId}/${vedtakId}`}
                     as={Link}
                 >
                     {t("klageKnapp")}
