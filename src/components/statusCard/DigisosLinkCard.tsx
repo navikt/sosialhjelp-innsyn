@@ -27,10 +27,10 @@ export const Icon = ({ icon }: IconProps) => (
         justify="center"
         align="center"
         asChild
-        className="rounded-xl p-4 bg-ax-bg-accent-soft text-ax-bg-accent-strong"
+        className="rounded-xl p-2 bg-ax-bg-accent-soft text-ax-bg-accent-strong"
     >
         <LinkCardIcon>
-            <Box asChild className="w-10 h-10">
+            <Box asChild className="w-8 h-8 md:h-10 md:w-10">
                 {icon}
             </Box>
         </LinkCardIcon>
