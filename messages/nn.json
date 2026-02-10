@@ -34,7 +34,7 @@
         "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg."
     },
     "SoknaderSide": {
-        "tittel": "Søknadene mine",
+        "tittel": "Søknadene mine om økonomisk sosialhjelp",
         "htmlTitle": "Søknadene mine om økonomisk sosialhjelp"
     },
     "ForelopigSvarAlert": {
@@ -106,18 +106,18 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-            "soknader": "Søknader",
-            "soknad": "Søknad"
+          "soknader": "Mine søknader",
+          "soknad": "Min søknad"
         }
     },
     "Soknad": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp"
     },
     "StatusTag": {
-        "INNVILGET": "Vedtak: Innvilga",
-        "DELVIS_INNVILGET": "Vedtak: Delvis innvilga",
-        "AVVIST": "Vedtak: Avvist",
-        "AVSLATT": "Vedtak: Avslått",
+        "INNVILGET": "Utfall: Innvilga",
+        "DELVIS_INNVILGET": "Utfall: Delvis innvilga",
+        "AVVIST": "Utfall: Avvist",
+        "AVSLATT": "Utfall: Avslått",
         "UNDER_BEHANDLING": "Under behandling"
     },
     "Vedtak": {
@@ -127,7 +127,8 @@
             "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
         },
-        "vedtaksBrev": "Last ned vedtaksbrevet",
+        "vedtaksBrev": "Opne vedtaksbrev",
+        "vedtaksBrevNytt": "Opne vedtaksbrev (nytt)",
         "kommendeUtbetaling": "Se komande utbetaling",
         "pdf": "PDF-fil"
     },
@@ -216,6 +217,10 @@
         },
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "Du leverte etterspurde dokument"
+        },
+        "VedtakFattet": {
+            "tittel": "Du har fått eit{nytt, select, true { nytt} other {}} vedtak",
+            "visVedtaket": "Vis vedtaket (blir opna i ei ny fane)"
         }
     },
     "Opplastingsboks": {
@@ -321,6 +326,7 @@
     },
     "Snarveier": {
         "tittel": "Snarvegar",
+      "landingsside": "Økonomisk sosialhjelp",
         "soknader": "Mine søknader",
         "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
@@ -473,8 +479,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-        "tittel": "Mine utbetalingar for økonomisk sosialhjelp",
-        "breadcrumbTitle": "Utbetalingar"
+      "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
+      "breadcrumbTitle": "Mine utbetalingar"
     },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",

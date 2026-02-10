@@ -4,10 +4,10 @@ import { SaksStatusResponseUtfallVedtak } from "@generated/model";
 import useIsMobile from "@utils/useIsMobile";
 
 const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]> = {
-    INNVILGET: "success-moderate",
-    DELVIS_INNVILGET: "warning-moderate",
-    AVVIST: "error-moderate",
-    AVSLATT: "error-moderate",
+    INNVILGET: "success",
+    DELVIS_INNVILGET: "warning",
+    AVVIST: "error",
+    AVSLATT: "error",
 };
 
 interface StatusTagProps {

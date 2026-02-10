@@ -12,19 +12,17 @@ interface Props {
 
 const SingleSak = ({ sak, innsendtKlage }: Props): React.JSX.Element | null => {
     const t = useTranslations("SingleSak");
-    if (!sak.utfallVedtak) {
+    if (sak.vedtak.length === 0) {
         return null;
     }
     return (
         <>
-            {sak.utfallVedtak && (
-                <VStack gap="4">
-                    <Heading size="medium" level="2">
-                        {t("vedtak")}
-                    </Heading>
-                    <SakPanel sak={sak} innsendtKlage={innsendtKlage} />
-                </VStack>
-            )}
+            <VStack gap="4">
+                <Heading size="medium" level="2">
+                    {t("vedtak")}
+                </Heading>
+                <SakPanel sak={sak} innsendtKlage={innsendtKlage} />
+            </VStack>
         </>
     );
 };
