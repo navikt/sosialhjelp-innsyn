@@ -1,7 +1,7 @@
 {
     "openapi": "3.1.0",
     "info": { "title": "OpenAPI definition", "version": "v0" },
-    "servers": [{ "url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url" }],
+    "servers": [{ "url": "http://localhost:8083/sosialhjelp/innsyn-api", "description": "Generated server url" }],
     "paths": {
         "/api/v1/innsyn/{fiksDigisosId}/{navEksternRefId}/vedlegg": {
             "post": {
@@ -1138,20 +1138,9 @@
                         "type": "string",
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
-                    "referanse": { "type": "string" },
-                    "vedtak": { "type": "array", "items": { "$ref": "#/components/schemas/VedtakDto" } }
+                    "referanse": { "type": "string" }
                 },
-                "required": ["skalViseVedtakInfoPanel", "tittel", "vedtak"]
-            },
-            "VedtakDto": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "string" },
-                    "utfall": { "type": "string", "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"] },
-                    "vedtaksFilUrl": { "type": "string" },
-                    "dato": { "type": "string", "format": "date" }
-                },
-                "required": ["id", "vedtaksFilUrl"]
+                "required": ["skalViseVedtakInfoPanel", "tittel"]
             },
             "SakResponse": {
                 "type": "object",
@@ -1557,8 +1546,7 @@
                     "forelopigSvar": { "$ref": "#/components/schemas/ForelopigSvar" },
                     "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } },
                     "forsteOppgaveFrist": { "type": "string", "format": "date" },
-                    "mottattTidspunkt": { "type": "string", "format": "date-time" },
-                    "sisteDokumentasjonKravFrist": { "type": "string", "format": "date" }
+                    "mottattTidspunkt": { "type": "string", "format": "date-time" }
                 },
                 "required": [
                     "dokumentasjonEtterspurt",
