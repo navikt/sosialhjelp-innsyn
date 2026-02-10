@@ -30,7 +30,7 @@ export const Icon = ({ icon }: IconProps) => (
         className="rounded-xl p-4 bg-ax-bg-accent-soft text-ax-bg-accent-strong"
     >
         <LinkCardIcon>
-            <Box asChild className="w-8 h-8">
+            <Box asChild className="w-10 h-10">
                 {icon}
             </Box>
         </LinkCardIcon>
