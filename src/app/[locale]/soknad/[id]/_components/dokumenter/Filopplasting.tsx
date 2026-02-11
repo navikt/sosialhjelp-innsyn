@@ -10,6 +10,7 @@ import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-co
 import useIsMobile from "@utils/useIsMobile";
 
 import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
+import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
@@ -27,6 +28,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const ettersendelseDokumenter = data.filter(
         (vedlegg) => vedlegg.type === "annet" && vedlegg.tilleggsinfo === "annet"
     );
+    const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
 
     return (
         <VStack gap="space-8">
@@ -34,13 +36,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 {t("tittel")}
             </Heading>
             {!isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
-            <Box.New
-                background="info-soft"
-                padding="space-24"
-                borderRadius="12"
-                borderWidth="1"
-                borderColor="info-subtle"
-            >
+            <Box background="info-soft" padding="space-24" borderRadius="12" borderWidth="1" borderColor="info-subtle">
                 {isMobile && <BodyLong className="mb-4">{tOpplastingsboks("beskrivelse")}</BodyLong>}
                 <NavigationGuardProvider>
                     {newUploadEnabled ? (
@@ -49,15 +45,15 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                         <Opplastingsboks metadata={metadata} />
                     )}
                 </NavigationGuardProvider>
-                {ettersendelseDokumenter.length > 0 && (
+                {(ettersendelseDokumenter.length > 0 || originalSoknad) && (
                     <VStack gap="space-8" className={isMobile ? "mt-10" : "mt-10"}>
                         <Heading size="small" level="3">
                             {t("opplastedeVedlegg")}
                         </Heading>
-                        <VedleggListe vedlegg={ettersendelseDokumenter} />
+                        <VedleggListe vedlegg={ettersendelseDokumenter} originalSoknad={originalSoknad} />
                     </VStack>
                 )}
-            </Box.New>
+            </Box>
         </VStack>
     );
 };

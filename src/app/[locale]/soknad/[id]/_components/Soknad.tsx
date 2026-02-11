@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Bleed, Box, Heading, VStack } from "@navikt/ds-react";
+import { Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
@@ -23,7 +23,6 @@ import Filopplasting, { FilopplastingSkeleton } from "./dokumenter/Filopplasting
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
 import Saker from "./saker/Saker";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
-import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknadSnarveier from "./snarveier/SoknadSnarveier";
 import TagsAdapter from "./tags/TagsAdapter";
@@ -107,19 +106,6 @@ export const Soknad = async ({ id }: Props) => {
                 </Suspense>
             )}
             <Oversikt id={id} />
-            <Bleed marginInline="full" className="pt-20 pb-20" asChild>
-                <Box background="neutral-soft" padding="space-24" className="flex-1">
-                    <div className="max-w-2xl mx-auto">
-                        <VStack gap="space-80">
-                            <Suspense fallback={<SoknadenDinSkeleton />}>
-                                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                                    <SoknadenDin />
-                                </HydrationBoundary>
-                            </Suspense>
-                        </VStack>
-                    </div>
-                </Box>
-            </Bleed>
             <Snarveier hideSokButton={true}>
                 <SoknadSnarveier />
             </Snarveier>
