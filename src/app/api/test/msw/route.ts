@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { endpoint, response } = body;
+    const { endpoint, response, statusCode } = body;
 
     if (endpoint === "reset") {
         logger.info("[MSW] Resetting all mock handlers");
@@ -24,11 +24,12 @@ export async function POST(request: NextRequest) {
     // Use wildcard pattern to match MSW handler format
     const pattern = endpoint.startsWith("*/") ? endpoint : `*${endpoint}`;
     const cleanPath = pattern.replace("*/", "");
-    logger.info(`[MSW] Mocking: ${cleanPath}`);
+    const status = statusCode || 200;
+    logger.info(`[MSW] Mocking: ${cleanPath} with status ${status}`);
 
     // Add handler using e2eServer.use() - this should take precedence over default handlers
     const runtimeHandler = http.get(pattern, async () => {
-        return HttpResponse.json(response, { status: 200 });
+        return HttpResponse.json(response, { status });
     });
 
     e2eServer.use(runtimeHandler);

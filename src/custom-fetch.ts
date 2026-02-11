@@ -69,6 +69,13 @@ const doFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
 
     // Handle non-OK responses (4xx, 5xx)
     if (!response.ok && !response.redirected) {
+        // Handle 401 Unauthorized - redirect to login (client-side only)
+        if (response.status === 401 && typeof window !== "undefined") {
+            window.location.replace("/sosialhjelp/innsyn/oauth2/login?redirect=" + window.location.href);
+            // Throw error to prevent further execution
+            throw new FetchError("Unauthorized - redirecting to login", 401, response.statusText, url);
+        }
+
         let responseBody: unknown;
         try {
             responseBody = await getBody(response);
