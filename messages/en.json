@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "My applications",
-          "soknad": "My application"
+            "soknader": "My applications",
+            "soknad": "My application"
         }
     },
     "Soknad": {
@@ -249,13 +249,7 @@
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Application for financial assistance",
-        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
-    },
-    "SoknadenDin": {
-        "tittel": "Your application",
-        "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Appliation for financial assistance.pdf",
+        "soknadFilename": "Application for economic social assistance.pdf",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
@@ -556,7 +550,9 @@
         "arialabel": "Expandable payment information about "
     },
     "common": {
-        "app": { "tittel": "Financial assistance" },
+        "app": {
+            "tittel": "Financial assistance"
+        },
         "historikk": {
             "tittel": "This has happened in the case",
             "se_vedtaksbrev": "Show letter",

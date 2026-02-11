@@ -4,19 +4,45 @@ import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
 import React from "react";
-import { VedleggResponse } from "@generated/model";
+import { FileIcon } from "@navikt/aksel-icons";
+import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import IkonBilde from "./IkonBilde";
 
 interface Props {
     vedlegg: VedleggResponse[];
+    originalSoknad?: OriginalSoknadDto;
 }
 
-const VedleggListe = ({ vedlegg }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad }: Props) => {
     const t = useTranslations("VedleggListe");
+
     return (
         <VStack as="ul" gap="2">
+            {originalSoknad && (
+                <li>
+                    <DigisosLinkCard
+                        href={originalSoknad.url}
+                        icon={<FileIcon aria-hidden />}
+                        cardIcon="expand"
+                        description={
+                            <HStack gap="1">
+                                <BodyShort>{originalSoknad.size},</BodyShort>
+                                <BodyShort>
+                                    {originalSoknad.date
+                                        ? `${t("sendt", {
+                                              dato: new Date(originalSoknad.date),
+                                          })}`
+                                        : undefined}
+                                </BodyShort>
+                            </HStack>
+                        }
+                    >
+                        {originalSoknad.filename?.length ? originalSoknad.filename : t("soknadFilename")}
+                    </DigisosLinkCard>
+                </li>
+            )}
             {vedlegg.map((fil, index) => (
                 <li key={fil.filnavn + index}>
                     <DigisosLinkCard

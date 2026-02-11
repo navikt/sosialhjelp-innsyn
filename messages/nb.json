@@ -99,8 +99,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "Mine søknader",
-          "soknad": "Min søknad"
+            "soknader": "Mine søknader",
+            "soknad": "Min søknad"
         }
     },
     "Soknad": {
@@ -220,12 +220,6 @@
     },
     "VedleggListe": {
         "lastetOpp": "lastet opp: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Søknad om økonomisk sosialhjelp",
-        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
-    },
-    "SoknadenDin": {
-        "tittel": "Søknaden din",
-        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
         "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
     },
@@ -294,19 +288,19 @@
     },
     "Snarveier": {
         "tittel": "Snarveier",
-      "landingsside": "Økonomisk sosialhjelp",
+        "landingsside": "Økonomisk sosialhjelp",
         "soknader": "Mine søknader",
         "utbetalinger": "Mine utbetalinger",
         "klager": "Klager"
     },
     "IkonBilde": {
         "image": "Bildefil",
-        "pdf":"PDF-fil",
-        "txt":"Tekstfil",
-        "csv":"CSV-fil",
-        "excel":"Excel-fil",
-        "word":"Word-fil",
-        "fil":"Fil"
+        "pdf": "PDF-fil",
+        "txt": "Tekstfil",
+        "csv": "CSV-fil",
+        "excel": "Excel-fil",
+        "word": "Word-fil",
+        "fil": "Fil"
     },
     "HoyreIkon": {
         "download": "Last ned",
@@ -448,8 +442,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-      "tittel": "Mine utbetalinger av økonomisk sosialhjelp",
-      "breadcrumbTitle": "Mine utbetalinger"
+        "tittel": "Mine utbetalinger av økonomisk sosialhjelp",
+        "breadcrumbTitle": "Mine utbetalinger"
     },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",

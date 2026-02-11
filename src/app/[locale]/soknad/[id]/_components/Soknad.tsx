@@ -28,7 +28,6 @@ import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./alert/OppgaveAlert";
 import VilkarAlert from "./alert/VilkarAlert";
-import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknadSnarveier from "./snarveier/SoknadSnarveier";
 
@@ -111,14 +110,7 @@ export const Soknad = async ({ id }: Props) => {
             <Bleed marginInline="full" className="pt-20 pb-20" asChild>
                 <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
-                        <VStack gap="20">
-                            <Oversikt id={id} />
-                            <Suspense fallback={<SoknadenDinSkeleton />}>
-                                <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                                    <SoknadenDin />
-                                </HydrationBoundary>
-                            </Suspense>
-                        </VStack>
+                        <Oversikt id={id} />
                     </div>
                 </BoxNew>
             </Bleed>
