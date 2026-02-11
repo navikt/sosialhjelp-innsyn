@@ -79,7 +79,8 @@ const Oppgaver = () => {
     useEffect(() => {
         const { error } = utbetalingerQuery;
         if (error) {
-            logger.warn(error.message);
+            const errorMsg = error instanceof Error ? error.message : String(error);
+            logger.warn(errorMsg);
         }
     }, [utbetalingerQuery, utbetalingerQuery.error]);
 

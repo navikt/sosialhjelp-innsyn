@@ -14,7 +14,7 @@ import {
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
-import { FancyFile, Error, Metadata, Feil } from "../types";
+import { FancyFile, Error as FileError, Metadata, Feil } from "../types";
 import { determineErrorType } from "../utils/mapErrors";
 import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
 
@@ -30,7 +30,7 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
     const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
     const queryClient = useQueryClient();
     const feedbackRef = useRef<HTMLDivElement>(null);
-    const [errors, setErrors] = useState<Error[]>([]);
+    const [errors, setErrors] = useState<FileError[]>([]);
     const isUploadSuccess = isSuccess && errors.length === 0;
 
     const resetMutation = () => {
@@ -49,7 +49,7 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
             {
                 onSuccess: async (data) => {
                     const filerData = data.flatMap((response) => response.filer);
-                    const errors: Error[] = filerData
+                    const errors: FileError[] = filerData
                         .filter((it) => it.status !== "OK")
                         .map((it) => ({ feil: determineErrorType(it.status)!, filnavn: it.filnavn }));
                     setErrors(errors);
@@ -102,8 +102,9 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
                     }
                 },
                 onError: (error) => {
-                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
-                    if (error.message === "Mulig virus funnet") {
+                    const errorMsg = error instanceof Error ? error.message : String(error);
+                    logger.warn("Feil med opplasting av vedlegg: " + errorMsg);
+                    if (error instanceof Error && error.message === "Mulig virus funnet") {
                         setErrors([{ feil: Feil.VIRUS }]);
                     } else {
                         setErrors([{ feil: Feil.KLIENTFEIL }]);

@@ -292,8 +292,9 @@ const useFilOpplasting = (
                 },
                 onError: (error, variables, onMutateResult, context) => {
                     options?.onError?.(error, variables, onMutateResult, context);
-                    logger.warn("Feil med opplasting av vedlegg: " + error.message);
-                    if (error.message === "Mulig virus funnet") {
+                    const errorMsg = error instanceof Error ? error.message : String(error);
+                    logger.warn("Feil med opplasting av vedlegg: " + errorMsg);
+                    if (error instanceof Error && error.message === "Mulig virus funnet") {
                         setOuterErrors([{ feil: Feil.VIRUS }]);
                     } else {
                         setOuterErrors([{ feil: Feil.KLIENTFEIL }]);

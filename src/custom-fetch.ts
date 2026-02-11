@@ -1,21 +1,47 @@
 import { logger } from "@navikt/next-logger";
-import { isAbortError } from "next/dist/server/pipe-readable";
 import { browserEnv, getServerEnv } from "@config/env";
 
-const getBody = <T>(c: Response | Request): Promise<T> => {
-    const contentType = c.headers.get("content-type");
+/**
+ * Custom error class for fetch failures with HTTP context
+ */
+export class FetchError extends Error {
+    constructor(
+        message: string,
+        public readonly status: number,
+        public readonly statusText: string,
+        public readonly url: string,
+        public readonly responseBody?: unknown
+    ) {
+        super(message);
+        this.name = "FetchError";
+        // Maintain proper stack trace for where the error was thrown (V8 only)
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, FetchError);
+        }
+    }
+}
 
-    if (contentType && contentType.includes("application/json")) {
-        return c.json();
+/**
+ * Parse response body based on content-type
+ */
+const getBody = async <T>(response: Response): Promise<T> => {
+    const contentType = response.headers.get("content-type");
+
+    if (contentType?.includes("application/json")) {
+        return response.json();
     }
 
-    if (contentType && contentType.includes("application/pdf")) {
-        return c.blob() as Promise<T>;
+    if (contentType?.includes("application/pdf")) {
+        return response.blob() as Promise<T>;
     }
 
-    return c.text() as Promise<T>;
+    return response.text() as Promise<T>;
 };
 
+/**
+ * Server-side fetch for SSR contexts
+ * @deprecated Use authenticatedFetch from @api/ssr/authenticatedFetch instead
+ */
 export const customFetchSSR = async <T>(url: string, options: RequestInit): Promise<T> => {
     const isLocal = getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
     const port = isLocal ? `:${getServerEnv().INNSYN_API_PORT}` : "";
@@ -23,65 +49,75 @@ export const customFetchSSR = async <T>(url: string, options: RequestInit): Prom
     return doFetch(`${origin}/sosialhjelp/innsyn-api${url}`, options);
 };
 
+/**
+ * Client-side fetch for browser contexts
+ */
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
     return doFetch(`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/innsyn-api${url}`, options);
 };
 
+/**
+ * Core fetch implementation with proper error handling
+ */
 const doFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
-    const response = await fetch(url, {
-        ...options,
-    });
+    const response = await fetch(url, options);
+
+    // Handle 204 No Content
     if (response.status === 204) {
         return [] as T;
     }
+
+    // Handle non-OK responses (4xx, 5xx)
     if (!response.ok && !response.redirected) {
+        // Handle 401 Unauthorized - redirect to login (client-side only)
+        if (response.status === 401 && typeof window !== "undefined") {
+            window.location.replace("/sosialhjelp/innsyn/oauth2/login?redirect=" + window.location.href);
+            // Throw error to prevent further execution
+            throw new FetchError("Unauthorized - redirecting to login", 401, response.statusText, url);
+        }
+
+        let responseBody: unknown;
         try {
-            const body = await getBody<string | unknown>(response);
-            const message = typeof body === "string" ? body : JSON.stringify(body);
-            switch (response.status) {
-                case 401:
-                    logger.warn(`Got 401 Unauthorized from ${url}. Message: ${message}`);
-                    break;
-                case 404:
-                    logger.warn(`Got 404 Not Found from ${url}. Message: ${message}`);
-                    break;
-                case 410:
-                    logger.warn(`Got 410 Gone from ${url}. Message: ${message}`);
-                    break;
-                default:
-                    logger.error(
-                        `Non-ok response from ${url}: ${response.status} ${response.statusText}. Response: ${message}`
-                    );
-                    break;
-            }
-        } catch (e) {
-            logger.error(
-                `error trying to get body from non-ok response from ${url}: ${response.status} ${response.statusText}. Exception: ${e}`
-            );
-            throw new Error(`error trying to get body from non-ok response.`);
+            responseBody = await getBody(response);
+        } catch {
+            // Failed to parse error response body - continue with undefined
         }
-        throw new Error(`Non-ok response from ${url}: ${response.status} ${response.statusText}`);
-    }
-    try {
-        const data = await getBody<T>(response);
-        // Kommer som application/json, og blir derfor parsa til json, aka "false" | "true". Konverterer derfor til boolean her.
-        if (data === "true") {
-            return true as T;
-        } else if (data === "false") {
-            return false as T;
+
+        const message = responseBody
+            ? typeof responseBody === "string"
+                ? responseBody
+                : JSON.stringify(responseBody)
+            : response.statusText;
+
+        // Log based on severity (client errors vs server errors)
+        if (response.status >= 400 && response.status < 500) {
+            // Client errors - these are expected (401, 404, etc.)
+            logger.info(`Client error from ${url}: ${response.status} ${response.statusText} - ${message}`);
+        } else {
+            // Server errors - these need attention
+            logger.error(`Server error from ${url}: ${response.status} ${response.statusText} - ${message}`);
         }
-        // Trenger å få med statuskode på /tilgang
-        if (url.includes("/tilgang")) {
-            return { data, status: response.status } as T;
-        }
-        return data as T;
-    } catch (e) {
-        if (isAbortError(e)) return {} as T;
-        logger.error(
-            `error trying to get body from ok response from ${url}: ${response.status} ${response.statusText}. Exception: ${e}`
+
+        // Throw structured error that preserves all context
+        throw new FetchError(
+            `HTTP ${response.status}: ${message}`,
+            response.status,
+            response.statusText,
+            url,
+            responseBody
         );
-        throw new Error(`error trying to get body from response.`);
     }
+
+    const data = await getBody<T>(response);
+
+    // Handle boolean strings - some API endpoints return "true"/"false" as JSON strings
+    if (data === "true") {
+        return true as T;
+    } else if (data === "false") {
+        return false as T;
+    }
+
+    return data;
 };
 
-export type ErrorType<T> = T & Error;
+export type ErrorType<T> = T;
