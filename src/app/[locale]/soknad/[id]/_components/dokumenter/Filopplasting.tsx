@@ -30,7 +30,14 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            <Box.New background="info-soft" key={id} padding="space-24" borderRadius="xlarge">
+            <Box.New
+                background="info-soft"
+                key={id}
+                padding="space-24"
+                borderRadius="xlarge"
+                borderWidth="1"
+                borderColor="info-subtle"
+            >
                 <NavigationGuardProvider>
                     {newUploadEnabled ? (
                         <OpplastingsboksTus metadata={metadata} id={id} />

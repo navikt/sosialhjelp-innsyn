@@ -1,7 +1,18 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import {
+    Alert,
+    BodyLong,
+    BodyShort,
+    Box,
+    Button,
+    FileObject,
+    FileUpload,
+    Heading,
+    HStack,
+    VStack,
+} from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
@@ -72,7 +83,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         </Heading>
                         {tag}
                     </HStack>
-                    <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
+                    <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
                 </Box.New>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 <div ref={feedbackRef} tabIndex={-1}>
