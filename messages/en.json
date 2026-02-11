@@ -31,7 +31,8 @@
             "INVALID_PDF": "The PDF is not valid",
             "POSSIBLY_INFECTED": "The file may be infected with a virus"
         },
-        "seOver": "Please review the contents of this file and ensure it looks correct."
+        "seOver": "Please review the contents of this file and ensure it looks correct.",
+        "slett": "Delete file"
     },
     "SoknaderSide": {
         "tittel": "My applications for financial assistance",

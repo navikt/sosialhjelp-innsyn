@@ -31,7 +31,8 @@
             "INVALID_PDF": "PDFen er ikke gyldig",
             "POSSIBLY_INFECTED": "Filen kan være virusinfisert"
         },
-        "seOver": "Vennligst se over at innholdet i filen er leselig."
+        "seOver": "Vennligst se over at innholdet i filen er leselig.",
+        "slett": "Slett fil"
     },
     "FilePreviewModal": {
         "error": "Noe gikk galt ved visning av filen.",

@@ -31,7 +31,8 @@
             "INVALID_PDF": "PDFen er ikkje gyldig",
             "POSSIBLY_INFECTED": "Fila kan vere virusinfisert"
         },
-        "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg."
+        "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg.",
+        "slett": "Slett fil"
     },
     "SoknaderSide": {
         "tittel": "Søknadene mine om økonomisk sosialhjelp",
