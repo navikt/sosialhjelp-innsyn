@@ -10,15 +10,12 @@ import KlageForm from "./_components/klageForm";
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     if (!toggle.enabled) {
-        console.log("Klage-toggle er: " + toggle.enabled);
         return notFound();
     }
 
     const t = await getTranslations("OpprettKlagePage");
     const { id: fiksDigisosId, vedtakId } = await params;
 
-    const sak = null;
-    // const sak = await hentSakForVedtak(fiksDigisosId, vedtakId);
     return (
         <VStack gap="16" className="mt-20">
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
@@ -29,11 +26,10 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
                 <BodyShort>
                     {t.rich("navEnhet", {
                         norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        navKontor: sak ?? t("ikkeOppgittNavEnhet"),
+                        navKontor: t("ikkeOppgittNavEnhet"),
                     })}
                 </BodyShort>
             </VStack>
-            {/*<KlageVedtak sak={sak} />*/}
             <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
         </VStack>
     );

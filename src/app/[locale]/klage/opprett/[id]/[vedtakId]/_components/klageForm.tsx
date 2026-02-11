@@ -2,20 +2,19 @@
 
 import { Alert, Button, FileObject, Textarea } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
-import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
+import { useSendKlage, useUploadDocuments } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
 import FileSelect from "@components/filopplasting/new/FileSelect";
 import { Metadata } from "@components/filopplasting/new/types";
 
-import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
+import { MAX_FILES, MAX_LEN_BACKGROUND } from "../_consts/consts";
 
 import BekreftForkastModal from "./BekreftForkastModal";
 
@@ -38,7 +37,6 @@ interface Props {
 
 const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const t = useTranslations("KlageForm");
-    const queryClient = useQueryClient();
     const router = useRouter();
     const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
 
@@ -78,7 +76,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
                 data: { klageId, vedtakId, tekst: data.background ?? "" },
             });
 
-            await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
             await router.push(`/klage/status/${fiksDigisosId}/${klageId}`);
         } catch (error) {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
