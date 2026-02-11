@@ -137,12 +137,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     />
                 </div>
                 <VStack className="block sm:hidden">
-                    <HStack justify="space-between">
-                        {tag}
-                        <Heading size="small" level="3" lang="no">
-                            {label ?? t("Opplastingsboks.tittel")}
-                        </Heading>
-                    </HStack>
+                    <HStack justify="space-between">{tag}</HStack>
                     <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
                     <FileUpload.Trigger
                         accept={allowedFileTypes}
