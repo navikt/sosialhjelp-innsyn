@@ -34,6 +34,7 @@ async function globalSetup() {
             value: createConsentCookie(),
             domain: "localhost",
             path: "/",
+            sameSite: "Lax",
         },
     ]);
 
