@@ -2,6 +2,7 @@ import { Alert, Button, FileObject, FileUpload, VStack } from "@navikt/ds-react"
 import { ReactNode } from "react";
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
+import { useTranslations } from "next-intl";
 
 interface ResponsiveFileUploadSimpleProps {
     label: ReactNode;
@@ -18,6 +19,8 @@ export const FileSelectUpload = ({
     onSelect,
     disabled = false,
 }: ResponsiveFileUploadSimpleProps) => {
+    const t = useTranslations("Opplastingsboks");
+
     return (
         <>
             <div className="hidden sm:block">
@@ -42,7 +45,12 @@ export const FileSelectUpload = ({
                     multiple
                     onSelect={onSelect}
                 >
-                    <Button variant="secondary" icon={<UploadIcon aria-hidden />} disabled={disabled} />
+                    <Button
+                        variant="secondary"
+                        icon={<UploadIcon aria-hidden />}
+                        disabled={disabled}
+                        aria-label={t("lastOppFiler")}
+                    />
                 </FileUpload.Trigger>
                 {error && (
                     <Alert variant="error" size="small">
