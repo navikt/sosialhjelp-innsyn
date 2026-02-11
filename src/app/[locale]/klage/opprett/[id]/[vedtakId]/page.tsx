@@ -12,7 +12,7 @@ import KlageVedtak from "./_components/KlageVedtak";
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     if (!toggle.enabled) {
-        // console.log("Klage-toggle er: "+toggle.enabled);
+        console.log("Klage-toggle er: " + toggle.enabled);
         return notFound();
     }
 
