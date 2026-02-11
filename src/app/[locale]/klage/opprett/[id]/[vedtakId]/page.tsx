@@ -4,10 +4,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
-import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
 
 import KlageForm from "./_components/klageForm";
-import KlageVedtak from "./_components/KlageVedtak";
 
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
@@ -19,7 +17,8 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
     const t = await getTranslations("OpprettKlagePage");
     const { id: fiksDigisosId, vedtakId } = await params;
 
-    const sak = await hentSakForVedtak(fiksDigisosId, vedtakId);
+    const sak = null;
+    // const sak = await hentSakForVedtak(fiksDigisosId, vedtakId);
     return (
         <VStack gap="16" className="mt-20">
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
@@ -30,11 +29,11 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
                 <BodyShort>
                     {t.rich("navEnhet", {
                         norsk: (chunks) => <span lang="no">{chunks}</span>,
-                        navKontor: sak.navEnhetNavn ?? t("ikkeOppgittNavEnhet"),
+                        navKontor: sak ?? t("ikkeOppgittNavEnhet"),
                     })}
                 </BodyShort>
             </VStack>
-            <KlageVedtak sak={sak} />
+            {/*<KlageVedtak sak={sak} />*/}
             <KlageForm fiksDigisosId={fiksDigisosId} vedtakId={vedtakId} />
         </VStack>
     );
