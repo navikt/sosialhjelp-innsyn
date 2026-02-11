@@ -48,7 +48,7 @@ test.describe("Vedtak functionality", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
 
         // Wait for main content to be loaded
-        await page.locator("#maincontent").waitFor({ state: "visible" });
+        await page.getByRole("main").waitFor({ state: "visible" });
 
         // Check that both vedtak are displayed
         const newestVedtakLink = page.getByRole("link", { name: /Åpne vedtaksbrev \(nytt\)/i });
@@ -99,7 +99,7 @@ test.describe("Vedtak functionality", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
 
-        await page.locator("#maincontent").waitFor({ state: "visible" });
+        await page.getByRole("main").waitFor({ state: "visible" });
 
         // Find the "Vedtak" section heading
         const vedtakSection = page.getByRole("heading", { name: "Vedtak", level: 2 });
@@ -109,9 +109,9 @@ test.describe("Vedtak functionality", () => {
         const sakTitle = page.getByRole("heading", { name: /Sak med flere vedtak/i, level: 3 });
         await expect(sakTitle).toBeVisible();
 
-        // Check that the "Avslått" status tag is visible near the title
+        // Check that the "Avslag" status tag is visible near the title
         // The StatusTag component renders the status, so we look for the text
-        const statusTag = page.locator("text=Avslått").first();
+        const statusTag = page.getByText("Avslag").first();
         await expect(statusTag).toBeVisible();
     });
 
@@ -144,7 +144,7 @@ test.describe("Vedtak functionality", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
 
-        await page.locator("#maincontent").waitFor({ state: "visible" });
+        await page.getByRole("main").waitFor({ state: "visible" });
 
         // Should show the vedtak link without "nytt" label
         const vedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev$/i });
@@ -199,7 +199,7 @@ test.describe("Vedtak functionality", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
 
-        await page.locator("#maincontent").waitFor({ state: "visible" });
+        await page.getByRole("main").waitFor({ state: "visible" });
 
         // Get all vedtak links
         const allVedtakLinks = page.getByRole("link", { name: /Åpne vedtaksbrev/ });
@@ -212,7 +212,7 @@ test.describe("Vedtak functionality", () => {
         await expect(links[2]).not.toContainText(/nytt/i);
 
         // Verify the status tag shows the latest decision (AVSLATT)
-        const statusTag = page.locator("text=Avslått").first();
+        const statusTag = page.getByText("Avslag").first();
         await expect(statusTag).toBeVisible();
     });
 });
