@@ -115,10 +115,10 @@
         "defaultTittel": "Application for financial assistance"
     },
     "StatusTag": {
-        "INNVILGET": "Outcome: Granted",
-        "DELVIS_INNVILGET": "Outcome: Partially granted",
-        "AVVIST": "Outcome: Rejected",
-        "AVSLATT": "Outcome: Refused",
+        "INNVILGET": "<b>Outcome</b>: Granted",
+        "DELVIS_INNVILGET": "<b>Outcome</b>: Partially granted",
+        "AVVIST": "<b>Outcome</b>: Rejected",
+        "AVSLATT": "<b>Outcome</b>: Declined",
         "UNDER_BEHANDLING": "Processing"
     },
     "Vedtak": {

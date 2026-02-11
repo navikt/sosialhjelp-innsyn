@@ -115,10 +115,10 @@
         "defaultTittel": "Søknad om økonomisk sosialhjelp"
     },
     "StatusTag": {
-        "INNVILGET": "Utfall: Innvilga",
-        "DELVIS_INNVILGET": "Utfall: Delvis innvilga",
-        "AVVIST": "Utfall: Avvist",
-        "AVSLATT": "Utfall: Avslått",
+        "INNVILGET": "<b>Utfall</b>: Innvilga",
+        "DELVIS_INNVILGET": "<b>Utfall</b>: Delvis innvilga",
+        "AVVIST": "<b>Utfall</b>: Avvist",
+        "AVSLATT": "<b>Utfall</b>: Avslag",
         "UNDER_BEHANDLING": "Under behandling"
     },
     "Vedtak": {
