@@ -29,18 +29,33 @@ export default defineConfig({
                 query: {
                     useSuspenseQuery: true,
                     version: 5,
-                    // Legges på alle orval-genererte queries
+                    // Default options for all orval-generated queries
                     options: {
                         staleTime: 60 * 1000,
-                        // Bare retry ved 500-feil
-                        retry: <T>(count: number, error: T) =>
-                            // Typescript-jokkeri for å få TS til å være med
-                            typeof error === "object" &&
-                            error &&
-                            "message" in error &&
-                            typeof error.message === "string"
-                                ? error.message.includes("500") && count < 3
-                                : false,
+                        // Retry strategy: only retry on server errors (5xx) and network errors
+                        retry: (count: number, error: unknown) => {
+                            // Don't retry if we've already tried 3 times
+                            if (count >= 3) return false;
+
+                            // Retry on network errors (no response)
+                            if (error instanceof Error && !("status" in error)) {
+                                return true;
+                            }
+
+                            // Retry on 5xx server errors only (not 4xx client errors)
+                            if (
+                                error &&
+                                typeof error === "object" &&
+                                "status" in error &&
+                                typeof error.status === "number"
+                            ) {
+                                return error.status >= 500 && error.status < 600;
+                            }
+
+                            return false;
+                        },
+                        // Exponential backoff for retries
+                        retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
                     },
                 },
             },

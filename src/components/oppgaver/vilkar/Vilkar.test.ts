@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 
-import { SaksStatusResponse, SaksStatusResponseStatus } from "../../../generated/model";
+import { SaksStatusResponse, SaksStatusResponseStatus } from "@generated/model";
 
 import { harSakMedInnvilgetEllerDelvisInnvilget } from "./VilkarUtils";
 
@@ -9,24 +9,28 @@ const saksStatus1: SaksStatusResponse = {
     status: SaksStatusResponseStatus.UNDER_BEHANDLING,
     skalViseVedtakInfoPanel: false,
     vedtaksfilUrlList: [],
+    vedtak: [],
 };
 const saksStatus2: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.UNDER_BEHANDLING,
     skalViseVedtakInfoPanel: false,
     vedtaksfilUrlList: [],
+    vedtak: [],
 };
 const saksStatus3: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.FERDIGBEHANDLET,
     skalViseVedtakInfoPanel: false,
     vedtaksfilUrlList: [],
+    vedtak: [],
 };
 const saksStatus4: SaksStatusResponse = {
     tittel: "Saksstatus 1",
     status: SaksStatusResponseStatus.FERDIGBEHANDLET,
     skalViseVedtakInfoPanel: true,
     vedtaksfilUrlList: [],
+    vedtak: [],
 };
 
 const listSaksStatusState_skal_gi_false: SaksStatusResponse[] = [saksStatus1, saksStatus2, saksStatus3];

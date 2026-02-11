@@ -12,7 +12,7 @@ const OppgaveTag = ({ frist, completed }: FristTagProps) => {
     const t = useTranslations("OppgaveTag");
     if (completed) {
         return (
-            <Tag variant="success-moderate" icon={<CheckmarkIcon />}>
+            <Tag variant="success-moderate" icon={<CheckmarkIcon aria-hidden />}>
                 {t("completed")}
             </Tag>
         );
@@ -20,7 +20,7 @@ const OppgaveTag = ({ frist, completed }: FristTagProps) => {
     if (frist) {
         return (
             <Tag variant="warning-moderate">
-                <CalendarIcon className="mr-0.5" />
+                <CalendarIcon className="mr-0.5" aria-hidden />
                 {t("frist", { frist: new Date(frist) })}
             </Tag>
         );

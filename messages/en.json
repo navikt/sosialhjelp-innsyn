@@ -34,7 +34,7 @@
         "seOver": "Please review the contents of this file and ensure it looks correct."
     },
     "SoknaderSide": {
-        "tittel": "My applications",
+        "tittel": "My applications for financial assistance",
         "htmlTitle": "My applications for financial assistance"
     },
     "ForelopigSvarAlert": {
@@ -106,19 +106,19 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-            "soknader": "Applications",
-            "soknad": "Application"
+          "soknader": "My applications",
+          "soknad": "My application"
         }
     },
     "Soknad": {
         "defaultTittel": "Application for financial assistance"
     },
     "StatusTag": {
-        "INNVILGET": "Decision: Granted",
-        "DELVIS_INNVILGET": "Decision: Partially granted",
-        "AVVIST": "Decision: Rejected",
-        "AVSLATT": "Decision: Refused",
-        "UNDER_BEHANDLING": "Under behandling"
+        "INNVILGET": "<b>Outcome</b>: Granted",
+        "DELVIS_INNVILGET": "<b>Outcome</b>: Partially granted",
+        "AVVIST": "<b>Outcome</b>: Rejected",
+        "AVSLATT": "<b>Outcome</b>: Declined",
+        "UNDER_BEHANDLING": "Processing"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -127,8 +127,10 @@
             "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
-        "vedtaksBrev": "Download decision letter",
-        "kommendeUtbetaling": "Check upcoming payout"
+        "vedtaksBrev": "Open decision letter",
+        "vedtaksBrevNytt": "Open decision letter (new)",
+        "kommendeUtbetaling": "Check upcoming payout",
+        "pdf": "PDF file"
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",
@@ -165,7 +167,8 @@
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
     "Saksprosessen": {
-        "tittel": "The case process"
+        "tittel": "The case process",
+        "beskrivelse": "Events and further process for your application."
     },
     "OppgaveTag": {
         "frist": "Due: {frist, date, ::ddMMyyyy}",
@@ -214,6 +217,10 @@
         },
         "EtterspurtDokumentasjonLevertStep": {
             "tittel": "You provided requested documents"
+        },
+        "VedtakFattet": {
+            "tittel": "You have received a{nytt, select, true { new} other {}} decision",
+            "visVedtaket": "View the decision (opens in new tab)"
         }
     },
     "Opplastingsboks": {
@@ -226,6 +233,7 @@
         "delete": "Remove file",
         "sendInn": "Send documentation",
         "filerTilOpplasting": "Files for upload",
+        "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
         "konvertert": {
             "tittel": "Some files may have been changed",
             "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."
@@ -241,7 +249,7 @@
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Appliation for financial assistance",
+        "soknadFilename": "Application for financial assistance",
         "sendt": "Sent: {dato, date, ::ddMMyyyy}"
     },
     "SoknadenDin": {
@@ -317,9 +325,23 @@
     },
     "Snarveier": {
         "tittel": "Shortcuts",
+        "landingsside": "Financial assistance",
         "soknader": "My applications",
         "utbetalinger": "My payments",
         "klager": "Complaints"
+    },
+    "IkonBilde": {
+        "image": "Image file",
+        "pdf": "PDF file",
+        "txt": "Text file",
+        "csv": "CSV file",
+        "excel": "Excel file",
+        "word": "Word file",
+        "fil": "File"
+    },
+    "HoyreIkon": {
+        "download": "Download",
+        "expand": "Expand"
     },
     "Footer": {
         "trengerDuHjelp": "Do you need help?",
@@ -401,7 +423,8 @@
             "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
-        "vedtaksBrev": "Download decision letter"
+        "vedtaksBrev": "Download decision letter",
+        "pdf": "PDF file"
     },
     "KlageForm": {
         "bakgrunn": {
@@ -456,7 +479,7 @@
     },
     "UtbetalingerPage": {
         "tittel": "My payments for financial assistance",
-        "breadcrumbTitle": "Payments"
+        "breadcrumbTitle": "My payments"
     },
     "ErrorPage": {
         "htmlTitle": "Technical error - nav.no",

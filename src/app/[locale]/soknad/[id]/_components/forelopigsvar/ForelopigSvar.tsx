@@ -22,7 +22,7 @@ const ForelopigSvar = ({ forelopigSvarPromise }: Props) => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            <DigisosLinkCard href={forelopigSvar.link} cardIcon="download" icon={<FilePdfIcon />}>
+            <DigisosLinkCard href={forelopigSvar.link} cardIcon="download" icon={<FilePdfIcon aria-hidden />}>
                 {t("lastNed")}
             </DigisosLinkCard>
         </VStack>

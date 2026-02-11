@@ -20,7 +20,13 @@ const ErrorPage = (): ReactNode => {
                     <ListItem>{t("relogge")}</ListItem>
                     <ListItem>{t("vente")}</ListItem>
                 </List>
-                <Button as={Link} href="/" variant="secondary" className="self-start" icon={<ArrowLeftIcon />}>
+                <Button
+                    as={Link}
+                    href="/"
+                    variant="secondary"
+                    className="self-start"
+                    icon={<ArrowLeftIcon aria-hidden />}
+                >
                     {t("back")}
                 </Button>
             </Box.New>

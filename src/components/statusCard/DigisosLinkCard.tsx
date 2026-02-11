@@ -6,6 +6,7 @@ import { Box, VStack } from "@navikt/ds-react";
 
 import HoyreIkon from "./HoyreIkon";
 import { Link } from "@i18n/navigation";
+import useIsMobile from "@utils/useIsMobile";
 
 export interface Props {
     href: string;
@@ -26,10 +27,10 @@ export const Icon = ({ icon }: IconProps) => (
         justify="center"
         align="center"
         asChild
-        className="rounded-xl p-4 bg-ax-bg-accent-soft text-ax-bg-accent-strong"
+        className="rounded-xl p-2 bg-ax-bg-accent-soft text-ax-bg-accent-strong"
     >
         <LinkCardIcon>
-            <Box asChild className="w-8 h-8">
+            <Box asChild className="w-8 h-8 md:h-10 md:w-10">
                 {icon}
             </Box>
         </LinkCardIcon>
@@ -46,6 +47,8 @@ const DigisosLinkCard = ({
     analyticsData,
     footer,
 }: PropsWithChildren<Props>) => {
+    const isMobile = useIsMobile();
+    const size = isMobile ? "small" : "medium";
     const dataAttrs: Record<string, string> = {};
     if (analyticsEvent) {
         dataAttrs["data-umami-event"] = analyticsEvent;
@@ -57,7 +60,7 @@ const DigisosLinkCard = ({
     }
 
     return (
-        <LinkCard arrow={!cardIcon}>
+        <LinkCard arrow={!cardIcon} size={size}>
             {icon && <Icon icon={icon} />}
             <LinkCardTitle className="flex items-center justify-between">
                 <LinkCardAnchor asChild>

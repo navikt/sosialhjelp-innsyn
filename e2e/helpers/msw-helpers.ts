@@ -1,4 +1,15 @@
 import { APIRequestContext } from "@playwright/test";
+import {
+    type DokumentasjonkravDto,
+    HendelseDto,
+    KlageDto,
+    OppgaveResponseBeta,
+    OriginalSoknadDto,
+    SaksStatusResponse,
+    SoknadsStatusResponse,
+    VilkarResponse,
+} from "../../src/generated/model";
+import type { ForelopigSvarResponse, VedleggResponse } from "../../src/generated/ssr/model";
 
 /**
  * Helper to configure MSW mock responses for E2E tests.
@@ -61,4 +72,55 @@ export class MswHelper {
  */
 export function createMswHelper(request: APIRequestContext, baseURL: string): MswHelper {
     return new MswHelper(request, baseURL);
+}
+
+export async function mockSoknadEndpoints(
+    msw: MswHelper,
+    soknadId: string,
+    overrides?: {
+        soknadsStatus?: Partial<SoknadsStatusResponse>;
+        vedlegg?: VedleggResponse[];
+        originalSoknad?: Partial<OriginalSoknadDto>;
+        oppgaver?: OppgaveResponseBeta[];
+        dokumentasjonkrav?: DokumentasjonkravDto[];
+        forelopigSvar?: Partial<ForelopigSvarResponse>;
+        vilkar?: VilkarResponse[];
+        saksStatus?: SaksStatusResponse[];
+        klager?: KlageDto[];
+        hendelser?: HendelseDto[];
+    }
+) {
+    const defaultSoknadsStatus: SoknadsStatusResponse = {
+        status: "UNDER_BEHANDLING",
+        kommunenummer: "0301",
+        tidspunktSendt: "2025-11-15T10:00:00Z",
+        soknadsalderIMinutter: 1000,
+        navKontor: "NAV Oslo",
+        tittel: "Søknad om økonomisk sosialhjelp",
+        ...overrides?.soknadsStatus,
+    };
+
+    const defaultOriginalSoknad: OriginalSoknadDto = {
+        url: "/original.pdf",
+        date: new Date().toISOString(),
+        size: 1000,
+        filename: "soknad.pdf",
+        ...overrides?.originalSoknad,
+    };
+
+    const defaultForelopigSvar: ForelopigSvarResponse = {
+        harMottattForelopigSvar: false,
+        ...overrides?.forelopigSvar,
+    };
+
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/soknadsStatus`, defaultSoknadsStatus);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/vedlegg`, overrides?.vedlegg ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/originalSoknad`, defaultOriginalSoknad);
+    await msw.mockEndpoint(`/api/v2/innsyn/${soknadId}/oppgaver`, overrides?.oppgaver ?? []);
+    await msw.mockEndpoint(`/api/v2/innsyn/${soknadId}/dokumentasjonkrav`, overrides?.dokumentasjonkrav ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/forelopigSvar`, defaultForelopigSvar);
+    await msw.mockEndpoint(`/api/v2/innsyn/${soknadId}/vilkar`, overrides?.vilkar ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/saksStatus`, overrides?.saksStatus ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
 }

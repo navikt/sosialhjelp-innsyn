@@ -35,11 +35,14 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     outputDir: "test-results/",
 
+    globalSetup: "./e2e/global-setup",
+
     webServer: opts.server,
 
     use: {
         baseURL: opts.baseURL,
         trace: "on-first-retry",
+        storageState: "e2e/.auth/storage.json",
     },
 
     projects: [

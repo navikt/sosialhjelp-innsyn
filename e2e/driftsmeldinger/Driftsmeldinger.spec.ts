@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 import { createMswHelper } from "../helpers/msw-helpers";
 import { Driftsmelding } from "../../src/components/driftsmelding/getDriftsmeldinger";
@@ -9,7 +9,6 @@ test.describe("Driftsmeldinger on Landingsside", () => {
         await msw.mockEmptyState();
 
         await page.goto("/sosialhjelp/innsyn/nb");
-        await page.getByRole("button", { name: "Nei" }).click();
         await expect(page.getByTestId(/driftsmelding/)).not.toBeVisible();
     });
 
@@ -39,7 +38,6 @@ test.describe("Driftsmeldinger on Landingsside", () => {
         ]);
 
         await page.goto("/sosialhjelp/innsyn/nb");
-        await page.getByRole("button", { name: "Nei" }).click();
         await expect(page.getByTestId("driftsmelding-1")).toBeVisible();
         await expect(page.getByTestId("driftsmelding-2")).toBeVisible();
         await expect(page.getByText(/Dette er en test/)).toBeVisible();

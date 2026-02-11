@@ -23,7 +23,7 @@ const SoknadenDin = () => {
                 </Heading>
                 <DigisosLinkCard
                     href={originalSoknad.url}
-                    icon={<FileIcon />}
+                    icon={<FileIcon aria-hidden />}
                     cardIcon="expand"
                     description={
                         <>

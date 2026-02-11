@@ -10,7 +10,7 @@ import {
     hentSoknadsStatus,
     prefetchHentOriginalSoknadQuery,
 } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
-import { hentKlager } from "@generated/ssr/klage-controller/klage-controller";
+import { hentKlager, prefetchHentKlagerQuery } from "@generated/ssr/klage-controller/klage-controller";
 import {
     prefetchGetDokumentasjonkravBetaQuery,
     prefetchGetOppgaverBetaQuery,
@@ -29,6 +29,8 @@ import DeltSoknadAlert from "./saker/DeltSoknadAlert";
 import OppgaveAlert from "./alert/OppgaveAlert";
 import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
+import Snarveier from "@components/snarveier/Snarveier";
+import SoknadSnarveier from "./snarveier/SoknadSnarveier";
 
 interface Props {
     id: string;
@@ -39,6 +41,7 @@ export const Soknad = async ({ id }: Props) => {
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
+    const klageQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
@@ -48,13 +51,14 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
+    prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
     return (
         <VStack gap="20" className="mt-20">
-            <Heading size="xlarge" level="1" lang={tittel ? "no" : ""}>
+            <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
                 {tittel ?? t("defaultTittel")}
             </Heading>
             <VStack gap="2">
@@ -81,7 +85,9 @@ export const Soknad = async ({ id }: Props) => {
             </VStack>
             {sakerPromise && klagerPromise && (
                 <Suspense fallback={null}>
-                    <Saker sakerPromise={sakerPromise} klagerPromise={klagerPromise} />
+                    <HydrationBoundary state={dehydrate(klageQueryClient)}>
+                        <Saker sakerPromise={sakerPromise} />
+                    </HydrationBoundary>
                 </Suspense>
             )}
             <Suspense fallback={<OppgaverSkeleton />}>
@@ -102,7 +108,7 @@ export const Soknad = async ({ id }: Props) => {
                     <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
-            <Bleed marginInline="full" className="pt-20 pb-20" marginBlock="space-0 space-64" asChild>
+            <Bleed marginInline="full" className="pt-20 pb-20" asChild>
                 <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
                         <VStack gap="20">
@@ -116,6 +122,9 @@ export const Soknad = async ({ id }: Props) => {
                     </div>
                 </BoxNew>
             </Bleed>
+            <Snarveier hideSokButton={true}>
+                <SoknadSnarveier />
+            </Snarveier>
         </VStack>
     );
 };

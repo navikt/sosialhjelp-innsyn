@@ -1,54 +1,37 @@
 "use client";
 
 import React, { use } from "react";
-import { BoxNew, Heading, VStack } from "@navikt/ds-react";
+import { Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { KlageRef, SaksStatusResponse } from "@generated/model";
+import { SaksStatusResponse } from "@generated/model";
 
-import Sak from "./sak/Sak";
 import SingleSak from "./sak/SingleSak";
+import SakPanel from "./sak/sakpanel/SakPanel";
 
 interface Props {
     sakerPromise: Promise<SaksStatusResponse[]>;
-    klagerPromise: Promise<KlageRef[]>;
 }
 
-const Saker = ({ sakerPromise, klagerPromise }: Props) => {
-    const saker = use(sakerPromise);
-    const klager = use(klagerPromise);
+const Saker = ({ sakerPromise }: Props) => {
     const t = useTranslations("Saker");
+    const saker = use(sakerPromise);
 
     if (!saker.length) {
         return null;
     }
     if (saker.length === 1) {
         const sak = saker[0];
-        return (
-            <SingleSak
-                sak={sak}
-                innsendtKlage={klager.find((klage) =>
-                    sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                )}
-            />
-        );
+        return <SingleSak sak={sak} />;
     }
 
     return (
         <VStack gap="2">
-            <Heading size="large" level="2">
+            <Heading size="medium" level="2">
                 {t("dineSaker")}
             </Heading>
             <VStack gap="16">
-                {saker.map((sak, index) => (
-                    <BoxNew borderWidth="1" borderRadius="xlarge" borderColor="neutral-subtle" padding="8" key={index}>
-                        <Sak
-                            key={index}
-                            sak={sak}
-                            innsendtKlage={klager.find((klage) =>
-                                sak.vedtaksfilUrlList?.some((vedtaksfil) => vedtaksfil.id === klage.vedtakId)
-                            )}
-                        />
-                    </BoxNew>
+                {saker.map((sak) => (
+                    <SakPanel key={sak.referanse} sak={sak} />
                 ))}
             </VStack>
         </VStack>
