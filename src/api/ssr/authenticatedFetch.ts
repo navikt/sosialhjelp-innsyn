@@ -75,6 +75,7 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
     const absoluteUrl = new URL(`http://${hostname}${portPart}/sosialhjelp/innsyn-api${url}`);
 
     const response = await fetch(absoluteUrl, { ...options, headers: await getHeaders(options.headers) });
+
     // Handle 204 No Content
     if (response.status === 204) {
         return [] as T;
@@ -115,5 +116,14 @@ export const authenticatedFetch = async <T>(url: string, options: RequestInit = 
         );
     }
 
-    return await getBody<T>(response);
+    const data = await getBody<T>(response);
+
+    // Handle boolean strings - some API endpoints return "true"/"false" as JSON strings
+    if (data === "true") {
+        return true as T;
+    } else if (data === "false") {
+        return false as T;
+    }
+
+    return data;
 };

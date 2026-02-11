@@ -101,7 +101,16 @@ const doFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
         );
     }
 
-    return await getBody<T>(response);
+    const data = await getBody<T>(response);
+
+    // Handle boolean strings - some API endpoints return "true"/"false" as JSON strings
+    if (data === "true") {
+        return true as T;
+    } else if (data === "false") {
+        return false as T;
+    }
+
+    return data;
 };
 
 export type ErrorType<T> = T;
