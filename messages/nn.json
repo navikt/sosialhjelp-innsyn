@@ -130,7 +130,9 @@
         "vedtaksBrev": "Opne vedtaksbrev",
         "vedtaksBrevNytt": "Opne vedtaksbrev (nytt)",
         "kommendeUtbetaling": "Se komande utbetaling",
-        "pdf": "PDF-fil"
+        "pdf": "PDF-fil",
+        "mottattDato": "Motteken {dato, date, ::ddMMyyyy}",
+        "vedtaksbrev": "Vedtaksbrev"
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",

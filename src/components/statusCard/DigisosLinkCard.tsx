@@ -12,10 +12,11 @@ export interface Props {
     href: string;
     description?: ReactNode;
     icon?: JSX.Element;
-    cardIcon?: "download" | "expand";
+    cardIcon?: "download" | "expand" | "external-link";
     analyticsEvent?: string;
     analyticsData?: Record<string, unknown>;
     footer?: ReactNode;
+    openInNewTab?: boolean;
 }
 
 interface IconProps {
@@ -46,6 +47,7 @@ const DigisosLinkCard = ({
     analyticsEvent,
     analyticsData,
     footer,
+    openInNewTab,
 }: PropsWithChildren<Props>) => {
     const isMobile = useIsMobile();
     const size = isMobile ? "small" : "medium";
@@ -64,7 +66,11 @@ const DigisosLinkCard = ({
             {icon && <Icon icon={icon} />}
             <LinkCardTitle className="flex items-center justify-between">
                 <LinkCardAnchor asChild>
-                    <Link href={href} {...dataAttrs}>
+                    <Link
+                        href={href}
+                        {...dataAttrs}
+                        {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+                    >
                         {children}
                     </Link>
                 </LinkCardAnchor>
