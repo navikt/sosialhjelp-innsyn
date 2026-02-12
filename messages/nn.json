@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "Mine søknader",
-          "soknad": "Min søknad"
+            "soknader": "Mine søknader",
+            "soknad": "Min søknad"
         }
     },
     "Soknad": {
@@ -267,10 +267,14 @@
         "ukjentDato": "Ukjend dato"
     },
     "KommendeUtbetalingerListe": {
-        "beskrivelse": "Du vil motta {amount} kr",
-        "beskrivelseSrOnly": " den {date, date, ::d MMMM yyyy}",
-        "utbetales": "Blir utbetalt {date, date, ::ddMMyyyy}",
+        "title": "Du vil motta {amount} kr",
+        "titleSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "titleStoppet": "Utbetalinga er stansa",
         "utbetalinger": "utbetalingar"
+    },
+    "KommendeUtbetalingerTag": {
+        "utbetales": "Blir utbetalt {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Blir ikkje utbetalt"
     },
     "AktiveSoknader": {
         "tittel": "Aktive saker",
@@ -323,7 +327,7 @@
     },
     "Snarveier": {
         "tittel": "Snarvegar",
-      "landingsside": "Økonomisk sosialhjelp",
+        "landingsside": "Økonomisk sosialhjelp",
         "soknader": "Mine søknader",
         "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
@@ -476,8 +480,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-      "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
-      "breadcrumbTitle": "Mine utbetalingar"
+        "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
+        "breadcrumbTitle": "Mine utbetalingar"
     },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",
