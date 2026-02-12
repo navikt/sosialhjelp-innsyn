@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "My applications",
-          "soknad": "My application"
+            "soknader": "My applications",
+            "soknad": "My application"
         }
     },
     "Soknad": {
@@ -270,9 +270,11 @@
         "title": "You will receive {amount} NOK",
         "titleSrOnly": " on {date, date, ::d MMMM yyyy}",
         "titleStoppet": "The payment is stopped",
-        "utbetales": "Paid on {date, date, ::ddMMyyyy}",
-        "utbetalingStoppet": "Payment stopped",
         "utbetalinger": "payments"
+    },
+    "KommendeUtbetalingerTag": {
+        "utbetales": "Paid on {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Payment stopped"
     },
     "AktiveSoknader": {
         "tittel": "Active cases",

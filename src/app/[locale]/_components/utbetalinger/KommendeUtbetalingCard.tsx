@@ -36,7 +36,7 @@ const KommendeUtbetalingCard = ({ utbetaling, index, firstExpandedItemRef }: Pro
                 footer={
                     utbetaling.forfallsdato && (
                         <LinkCardFooter>
-                            <UtbetalingStatusTag stopped={stopped} date={date} t={t} />
+                            <UtbetalingStatusTag stopped={stopped} date={date} />
                         </LinkCardFooter>
                     )
                 }

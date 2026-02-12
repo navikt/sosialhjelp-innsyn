@@ -1,13 +1,15 @@
 import { CalendarIcon, ExclamationmarkTriangleIcon } from "@navikt/aksel-icons";
 import { Tag } from "@navikt/ds-react";
+import { useTranslations } from "next-intl";
 
 interface Props {
     stopped: boolean;
     date: Date;
-    t: (key: string, values?: Record<string, string | number | Date>) => string;
 }
 
-const UtbetalingStatusTag = ({ stopped, date, t }: Props) => {
+const UtbetalingStatusTag = ({ stopped, date }: Props) => {
+    const t = useTranslations("KommendeUtbetalingerTag");
+
     if (stopped) {
         return (
             <Tag variant="warning-moderate" size="small" icon={<ExclamationmarkTriangleIcon aria-hidden={true} />}>

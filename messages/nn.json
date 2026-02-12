@@ -106,8 +106,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "Mine søknader",
-          "soknad": "Min søknad"
+            "soknader": "Mine søknader",
+            "soknad": "Min søknad"
         }
     },
     "Soknad": {
@@ -270,15 +270,17 @@
         "title": "Du vil motta {amount} kr",
         "titleSrOnly": " den {date, date, ::d MMMM yyyy}",
         "titleStoppet": "Utbetalinga er stansa",
-        "utbetales": "Blir utbetalt {date, date, ::ddMMyyyy}",
-        "utbetalingStoppet": "Blir ikkje utbetalt",
         "utbetalinger": "utbetalingar"
+    },
+    "KommendeUtbetalingerTag": {
+        "utbetales": "Blir utbetalt {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Blir ikkje utbetalt"
     },
     "AktiveSoknader": {
         "tittel": "Aktive saker",
         "EmptyState": {
             "tittel": "Vi finn ingen søknader frå deg",
-            "title": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
+            "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
         }
     },
     "ShowMoreButton": {
@@ -325,7 +327,7 @@
     },
     "Snarveier": {
         "tittel": "Snarvegar",
-      "landingsside": "Økonomisk sosialhjelp",
+        "landingsside": "Økonomisk sosialhjelp",
         "soknader": "Mine søknader",
         "utbetalinger": "Mine utbetalingar",
         "klager": "Klager"
@@ -478,8 +480,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-      "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
-      "breadcrumbTitle": "Mine utbetalingar"
+        "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
+        "breadcrumbTitle": "Mine utbetalingar"
     },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",
