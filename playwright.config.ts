@@ -35,29 +35,34 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     outputDir: "test-results/",
 
-    globalSetup: "./e2e/global-setup",
-
     webServer: opts.server,
 
     use: {
         baseURL: opts.baseURL,
         trace: "on-first-retry",
-        storageState: "e2e/.auth/storage.json",
     },
 
     projects: [
         {
+            name: "Setup",
+            testMatch: "**/setup.spec.ts",
+        },
+        {
             name: "Desktop Chrome",
+            dependencies: ["Setup"],
             use: {
                 locale: "nb",
                 ...devices["Desktop Chrome"],
+                storageState: "e2e/.auth/storage.json",
             },
         },
         {
             name: "Mobile Chrome",
+            dependencies: ["Setup"],
             use: {
                 locale: "nb",
                 ...devices["Pixel 5"],
+                storageState: "e2e/.auth/storage.json",
             },
         },
     ],
