@@ -11,7 +11,7 @@ import { Error, errorStatusToMessage, ErrorWithFile, FancyFile } from "./useFilO
 import styles from "./filopplasting.module.css";
 
 const StyledFrame = styled.div<{ $hasError?: boolean; $hasFiler?: boolean }>`
-    background-color: var(--a-gray-50);
+    background-color: var(--ax-neutral-100);
     border-radius: 4px;
 
     ${(props) => {
@@ -38,8 +38,8 @@ const StyledFrame = styled.div<{ $hasError?: boolean; $hasFiler?: boolean }>`
         ${({ $hasError }) =>
             $hasError &&
             css`
-                background-color: var(--a-red-50);
-                border: 1px solid var(--a-red-500);
+                background-color: var(--ax-danger-100);
+                border: 1px solid var(--ax-danger-600);
                 border-radius: 4px;
             `}
     }

@@ -4,7 +4,7 @@ import React from "react";
 
 const StyledPanel = styled(DsPanel)<{ $error?: boolean }>`
     position: relative;
-    border-color: ${(props) => (props.$error ? "var(--a-red-500)" : "transparent")};
+    border-color: ${(props) => (props.$error ? "var(--ax-danger-600)" : "transparent")};
     @media screen and (min-width: 641px) {
         padding: 2rem 4.25rem;
         margin-top: 1.5rem;

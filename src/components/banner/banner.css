@@ -1,6 +1,6 @@
 .banner {
     background-color: #9bd0b0;
-    color: var(--a-text-default);
+    color: var(--ax-text-neutral);
     height: 3.75rem;
     display: flex;
     align-items: center;
