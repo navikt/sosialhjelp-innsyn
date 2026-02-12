@@ -2,7 +2,7 @@ import { BodyLong, Box, Heading, Link } from "@navikt/ds-react";
 
 const SideIkkeFunnet = async () => {
     return (
-        <Box padding="8" borderRadius="small" className="max-w-3xl my-4 md:my-16 mx-auto">
+        <Box padding="8" borderRadius="small" className="max-w-3xl my-4 ax-md:my-16 mx-auto">
             <Heading level="1" size="large" spacing>
                 Fant ikke siden
             </Heading>

@@ -83,7 +83,7 @@ const EttersendelseView = (props: Props) => {
     const showLoadingState = props.isLoading || uploadIsLoading;
 
     return !!fileUploadError && !showLoadingState ? (
-        <Alert variant="error" size="medium" inline className={cx("font-bold", styles.driftsmelding)}>
+        <Alert variant="error" size="medium" inline className={cx("font-ax-bold", styles.driftsmelding)}>
             {t(fileUploadError)}
         </Alert>
     ) : (
