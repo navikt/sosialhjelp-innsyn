@@ -32,7 +32,6 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             </Heading>
             <Box.New
                 background="info-soft"
-                key={id}
                 padding="space-24"
                 borderRadius="xlarge"
                 borderWidth="1"
