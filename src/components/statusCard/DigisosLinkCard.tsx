@@ -12,7 +12,7 @@ export interface Props {
     href: string;
     description?: ReactNode;
     icon?: JSX.Element;
-    cardIcon?: "download" | "expand";
+    cardIcon?: "download" | "externalLink";
     analyticsEvent?: string;
     analyticsData?: Record<string, unknown>;
     footer?: ReactNode;

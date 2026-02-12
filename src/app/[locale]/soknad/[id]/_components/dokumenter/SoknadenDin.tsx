@@ -24,7 +24,7 @@ const SoknadenDin = () => {
                 <DigisosLinkCard
                     href={originalSoknad.url}
                     icon={<FileIcon aria-hidden />}
-                    cardIcon="expand"
+                    cardIcon="externalLink"
                     description={
                         <>
                             <HStack gap="1">
