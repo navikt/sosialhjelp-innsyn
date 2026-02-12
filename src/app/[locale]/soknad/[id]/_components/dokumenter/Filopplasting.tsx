@@ -17,7 +17,7 @@ const Filopplasting = async ({ id }: Props) => {
     const toggle = getFlag("sosialhjelp.innsyn.ny_upload", await getToggles());
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>

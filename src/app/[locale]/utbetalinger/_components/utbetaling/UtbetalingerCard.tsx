@@ -24,7 +24,7 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
     const sorterteUtbetalinger = erKommende ? utbetalingerForManed : utbetalingerForManed.toReversed();
 
     return (
-        <VStack gap="05">
+        <VStack gap="space-2">
             <BoxNew
                 borderRadius="xlarge xlarge 0 0"
                 paddingInline="4"

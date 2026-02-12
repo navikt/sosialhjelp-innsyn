@@ -19,7 +19,7 @@ const Footer = async () => {
     return (
         <Bleed marginInline="full" marginBlock="0 space-64" asChild reflectivePadding>
             <BoxNew background="accent-soft" className="flex flex-col gap-16 py-20">
-                <VStack gap="2">
+                <VStack gap="space-8">
                     <Heading size="small" level="2">
                         {t("trengerDuHjelp")}
                     </Heading>
@@ -34,12 +34,12 @@ const Footer = async () => {
                         })}
                     </BodyLong>
                 </VStack>
-                <VStack gap="2">
+                <VStack gap="space-8">
                     <Heading size="small" level="2">
                         {t("faq")}
                     </Heading>
                     <ReadMore header={t("ettersende.tittel")}>
-                        <VStack gap="7">
+                        <VStack gap="space-28">
                             <BodyLong>{t("ettersende.content1")}</BodyLong>
                             <BodyLong>
                                 {t.rich("ettersende.content2", {
@@ -49,7 +49,7 @@ const Footer = async () => {
                         </VStack>
                     </ReadMore>
                     <ReadMore header={t("melde.tittel")}>
-                        <VStack gap="7">
+                        <VStack gap="space-28">
                             <BodyLong>
                                 {t.rich("melde.content1", {
                                     lenke: (chunks) => (
@@ -84,17 +84,17 @@ const Footer = async () => {
                         </VStack>
                     </ReadMore>
                     <ReadMore header={t("svar.tittel")}>
-                        <VStack gap="7">
+                        <VStack gap="space-28">
                             <BodyLong>{t("svar.content1")}</BodyLong>
                             <BodyLong>{t("svar.content2")}</BodyLong>
                         </VStack>
                     </ReadMore>
                 </VStack>
-                <VStack gap="5">
+                <VStack gap="space-20">
                     <Heading size="small" level="2">
                         {t("relevantInnhold")}
                     </Heading>
-                    <VStack gap="5" as="ul">
+                    <VStack gap="space-20" as="ul">
                         <li>
                             <Link href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}#${t("lenker.klage")}`}>
                                 {t("lenker.klagerettigheter")}

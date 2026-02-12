@@ -63,7 +63,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack gap="2">
+            <VStack gap="space-8">
                 <Box.New>
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
@@ -99,7 +99,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 },
             }}
         >
-            <VStack gap="6">
+            <VStack gap="space-24">
                 <FileUpload.Dropzone
                     className="flex flex-col"
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
@@ -123,14 +123,14 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Heading size="small" level="3">
                             {t("Opplastingsboks.filerTilOpplasting")}
                         </Heading>
                         <div role="status" aria-live="polite" className="sr-only">
                             {t("Opplastingsboks.antallFiler", { count: files.length })}
                         </div>
-                        <VStack as="ul" gap="2" aria-live="polite" aria-relevant="additions removals">
+                        <VStack as="ul" gap="space-8" aria-live="polite" aria-relevant="additions removals">
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"

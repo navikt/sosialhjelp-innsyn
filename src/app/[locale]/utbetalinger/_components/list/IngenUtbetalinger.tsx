@@ -27,7 +27,7 @@ const IngenUtbetalinger = ({ selectedChip }: Props) => {
     const tittelKeyPrefix = selectedChip === "kommende" ? "kommende" : "periode";
     return (
         <BoxNew background="accent-soft" padding="space-24">
-            <VStack gap="2">
+            <VStack gap="space-8">
                 <Heading size="xsmall" level="3">
                     {t(`${tittelKeyPrefix}.tittel`)}
                 </Heading>

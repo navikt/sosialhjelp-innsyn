@@ -18,7 +18,7 @@ const AktiveSoknader = async ({ soknader }: Props) => {
 
     const headingId = "aktive-soknader-heading";
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>

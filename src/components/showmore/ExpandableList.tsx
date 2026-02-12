@@ -27,7 +27,7 @@ const ExpandableList = <T,>({
     const visibleItems = showAll ? items : items.slice(0, ITEMS_LIMIT);
     return (
         <>
-            <VStack as="ul" gap="2" id={id} aria-labelledby={labelledById}>
+            <VStack as="ul" gap="space-8" id={id} aria-labelledby={labelledById}>
                 {/* eslint-disable-next-line react-hooks/refs */}
                 {visibleItems.map((item, index) => children(item, index, firstExpandedItemRef))}
             </VStack>

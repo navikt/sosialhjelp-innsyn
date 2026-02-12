@@ -31,7 +31,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
         return (
             <HStack as="li" justify="space-between" className={cx("border rounded-2xl p-6")}>
                 <VStack justify="center">
-                    <HStack gap="4" align="center" wrap={false}>
+                    <HStack gap="space-16" align="center" wrap={false}>
                         <Loader />
                         <Link className="overflow-ellipsis">{originalFilename}</Link>
                     </HStack>
@@ -50,14 +50,14 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                 })}
             >
                 <VStack justify="center">
-                    <HStack gap="4" align="center" wrap={false}>
+                    <HStack gap="space-16" align="center" wrap={false}>
                         <FilePdfIcon height="32px" width="32px" />
                         <Link onClick={() => ref.current?.showModal()} className="overflow-ellipsis">
                             {originalFilename}
                         </Link>
                     </HStack>
                     {convertedFilename && (
-                        <HStack align="center" gap="2" className="text-ax-text-warning-subtle">
+                        <HStack align="center" gap="space-8" className="text-ax-text-warning-subtle">
                             <ExclamationmarkTriangleFillIcon aria-hidden />
                             <BodyShort>{t("seOver")}</BodyShort>
                         </HStack>

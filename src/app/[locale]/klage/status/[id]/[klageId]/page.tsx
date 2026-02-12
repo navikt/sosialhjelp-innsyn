@@ -32,7 +32,7 @@ const Page = async ({
     return (
         <>
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
-            <VStack gap="20" className="mt-20">
+            <VStack gap="space-80" className="mt-20">
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>

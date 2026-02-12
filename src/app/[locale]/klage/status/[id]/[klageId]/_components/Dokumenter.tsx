@@ -15,7 +15,7 @@ const Dokumenter = async ({ klagePdf }: Props) => {
             <Heading size="medium" level="2" className="mb-4">
                 {t("tittel")}
             </Heading>
-            <VStack gap="2">
+            <VStack gap="space-8">
                 {klagePdf && (
                     <FileUploadItem
                         href={klagePdf.url}

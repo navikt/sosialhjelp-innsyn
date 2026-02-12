@@ -41,7 +41,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     if (completed) {
         return (
-            <VStack gap="2">
+            <VStack gap="space-8">
                 <Box.New>
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">

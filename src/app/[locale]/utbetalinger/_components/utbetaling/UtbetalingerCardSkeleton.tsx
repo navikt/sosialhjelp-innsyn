@@ -4,7 +4,7 @@ import { BodyShort, BoxNew, Heading, HStack, Skeleton, VStack } from "@navikt/ds
 import UtbetalingerContentCardSkeleton from "./UtbetalingerContentCardSkeleton";
 
 const UtbetalingerCardSkeleton = () => (
-    <VStack gap="05">
+    <VStack gap="space-2">
         <BoxNew borderRadius="xlarge xlarge 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
             <HStack className="pr-2" align="center">
                 <Heading size="small" level="3" className="capitalize">

@@ -18,7 +18,7 @@ const ForelopigSvar = ({ forelopigSvarPromise }: Props) => {
         return null;
     }
     return (
-        <VStack gap="4" id="forsinket-saksbehandling">
+        <VStack gap="space-16" id="forsinket-saksbehandling">
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>

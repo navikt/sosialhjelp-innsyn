@@ -11,8 +11,8 @@ export const UtbetalingerSkeleton = async () => {
     const t = await getTranslations("Utbetalinger");
 
     return (
-        <VStack gap="16">
-            <VStack gap="4">
+        <VStack gap="space-64">
+            <VStack gap="space-16">
                 <Heading size="medium" level="2">
                     {t("periode")}
                 </Heading>

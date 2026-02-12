@@ -46,7 +46,7 @@ const FilePreviewModal = ({ onClose, url, filename, isPdf }: Props, ref: Ref<HTM
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <VStack gap="4">
+                    <VStack gap="space-16">
                         {numPages && (
                             <HStack justify="end">
                                 <PageFlipperButtons

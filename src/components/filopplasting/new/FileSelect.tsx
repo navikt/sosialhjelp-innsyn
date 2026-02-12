@@ -49,7 +49,7 @@ const FileSelect = ({
                 },
             }}
         >
-            <VStack gap="6">
+            <VStack gap="space-24">
                 <FileUpload.Dropzone
                     className="flex flex-col"
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
@@ -69,11 +69,11 @@ const FileSelect = ({
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
                             {filesLabel ?? t("Opplastingsboks.filerTilOpplasting")}
                         </Heading>
-                        <VStack as="ul" gap="2">
+                        <VStack as="ul" gap="space-8">
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"

@@ -46,8 +46,8 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
             >
                 <ExpansionCard.Title as="h4">
                     <HStack align="center" wrap={false} className="w-full min-w-0" justify="space-between">
-                        <HStack gap="2" align="center" className={cx("min-w-0", styles.titleClamp)} wrap={false}>
-                            <VStack gap="2" className="min-w-0">
+                        <HStack gap="space-8" align="center" className={cx("min-w-0", styles.titleClamp)} wrap={false}>
+                            <VStack gap="space-8" className="min-w-0">
                                 <BodyShort
                                     lang="no"
                                     size="medium"
@@ -56,7 +56,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                                 >
                                     {manedUtbetaling.tittel}
                                 </BodyShort>
-                                <HStack gap="1">
+                                <HStack gap="space-4">
                                     <BodyShort size="small">{t(manedUtbetaling.status)}</BodyShort>
                                     <BodyShort size="small">
                                         {manedUtbetaling.utbetalingsdato
@@ -84,7 +84,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap="4">
+                <VStack gap="space-16">
                     {manedUtbetaling.fom && manedUtbetaling.tom && (
                         <VStack>
                             <BodyShort textColor="default" size="medium" weight="semibold">

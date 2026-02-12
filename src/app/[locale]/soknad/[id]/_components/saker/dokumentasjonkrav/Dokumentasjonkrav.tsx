@@ -15,7 +15,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <Box>
                 <Heading level="3" size="medium" spacing>
                     {t("tittel")}

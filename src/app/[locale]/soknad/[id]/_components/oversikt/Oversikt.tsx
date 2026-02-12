@@ -16,7 +16,7 @@ const Oversikt = async ({ id }: Props) => {
     const queryClient = getQueryClient();
     prefetchHentHendelserBetaQuery(queryClient, id);
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <div>
                 <Heading size="medium" level="2">
                     {t("tittel")}

@@ -8,7 +8,7 @@ export const Driftsmeldinger = async () => {
         return null;
     }
     return (
-        <VStack gap="4" className="mt-4">
+        <VStack gap="space-16" className="mt-4">
             {driftsmeldinger?.map(({ severity, text, id }) => (
                 <Alert variant={severity} fullWidth key={id} data-testid={`driftsmelding-${id}`}>
                     <Markdown>{text}</Markdown>
