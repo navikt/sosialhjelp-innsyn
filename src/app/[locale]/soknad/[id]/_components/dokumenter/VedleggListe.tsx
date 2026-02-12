@@ -18,9 +18,13 @@ const VedleggListe = ({ vedlegg }: Props) => {
     const t = useTranslations("VedleggListe");
     const isMobile = useIsMobile();
 
+    const sortedVedlegg = vedlegg.toSorted(
+        (a, b) => new Date(b.datoLagtTil).getTime() - new Date(a.datoLagtTil).getTime()
+    );
+
     return (
         <VStack as="ul" gap="2">
-            {vedlegg.map((fil, index) => (
+            {sortedVedlegg.map((fil, index) => (
                 <li key={fil.filnavn + index}>
                     <DigisosLinkCard
                         href={fil.url}
