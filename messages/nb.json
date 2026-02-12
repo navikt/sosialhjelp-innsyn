@@ -100,8 +100,8 @@
     },
     "StatusPage": {
         "breadcrumbs": {
-          "soknader": "Mine søknader",
-          "soknad": "Min søknad"
+            "soknader": "Mine søknader",
+            "soknad": "Min søknad"
         }
     },
     "Soknad": {
@@ -242,10 +242,14 @@
         "ukjentDato": "Ukjent dato"
     },
     "KommendeUtbetalingerListe": {
-        "beskrivelse": "Du vil motta {amount} kr",
-        "beskrivelseSrOnly": " den {date, date, ::d MMMM yyyy}",
-        "utbetales": "Utbetales {date, date, ::ddMMyyyy}",
+        "title": "Du vil motta {amount} kr",
+        "titleSrOnly": " den {date, date, ::d MMMM yyyy}",
+        "titleStoppet": "Utbetalingen er stanset",
         "utbetalinger": "utbetalinger"
+    },
+    "KommendeUtbetalingerTag": {
+        "utbetales": "Utbetales {date, date, ::ddMMyyyy}",
+        "utbetalingStoppet": "Utbetales ikke"
     },
     "AktiveSoknader": {
         "tittel": "Aktive saker",
@@ -298,19 +302,19 @@
     },
     "Snarveier": {
         "tittel": "Snarveier",
-      "landingsside": "Økonomisk sosialhjelp",
+        "landingsside": "Økonomisk sosialhjelp",
         "soknader": "Mine søknader",
         "utbetalinger": "Mine utbetalinger",
         "klager": "Klager"
     },
     "IkonBilde": {
         "image": "Bildefil",
-        "pdf":"PDF-fil",
-        "txt":"Tekstfil",
-        "csv":"CSV-fil",
-        "excel":"Excel-fil",
-        "word":"Word-fil",
-        "fil":"Fil"
+        "pdf": "PDF-fil",
+        "txt": "Tekstfil",
+        "csv": "CSV-fil",
+        "excel": "Excel-fil",
+        "word": "Word-fil",
+        "fil": "Fil"
     },
     "HoyreIkon": {
         "download": "Last ned",
@@ -452,8 +456,8 @@
         "Sosialhjelp": "Økonomisk sosialhjelp"
     },
     "UtbetalingerPage": {
-      "tittel": "Mine utbetalinger av økonomisk sosialhjelp",
-      "breadcrumbTitle": "Mine utbetalinger"
+        "tittel": "Mine utbetalinger av økonomisk sosialhjelp",
+        "breadcrumbTitle": "Mine utbetalinger"
     },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",
