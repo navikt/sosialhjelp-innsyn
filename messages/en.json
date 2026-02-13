@@ -131,7 +131,9 @@
         "vedtaksBrev": "Open decision letter",
         "vedtaksBrevNytt": "Open decision letter (new)",
         "kommendeUtbetaling": "Check upcoming payout",
-        "pdf": "PDF file"
+        "pdf": "PDF file",
+        "mottattDato": "Received {dato, date, ::ddMMyyyy}",
+        "vedtaksbrev": "Decision letters"
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",

@@ -52,7 +52,7 @@ test.describe("Vedtak functionality", () => {
 
         // Check that both vedtak are displayed
         const newestVedtakLink = page.getByRole("link", { name: /Åpne vedtaksbrev \(nytt\)/i });
-        const olderVedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev$/i });
+        const olderVedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev(?! \(nytt\))/i });
 
         await expect(newestVedtakLink).toBeVisible();
         await expect(olderVedtakLink).toBeVisible();
@@ -147,7 +147,7 @@ test.describe("Vedtak functionality", () => {
         await page.getByRole("main").waitFor({ state: "visible" });
 
         // Should show the vedtak link without "nytt" label
-        const vedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev$/i });
+        const vedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev(?! \(nytt\))/i });
         await expect(vedtakLink).toBeVisible();
 
         // Should not show the "nytt" label
