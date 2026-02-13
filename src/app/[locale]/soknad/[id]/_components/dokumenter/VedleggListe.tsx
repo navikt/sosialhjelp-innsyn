@@ -36,7 +36,7 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
                     <DigisosLinkCard
                         href={fil.url}
                         icon={isMobile ? undefined : <IkonBilde filename={fil.filnavn} />}
-                        cardIcon="externalLink"
+                        cardIcon="external-link"
                         dataColor={isMobile ? "accent" : "neutral"}
                         description={
                             isMobile ? (
