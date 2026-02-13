@@ -78,6 +78,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                     loading={isPending}
                     variant="tertiary-neutral"
                     onClick={() => mutate()}
+                    aria-label={t("slett")}
                 />
             </HStack>
             {url && (

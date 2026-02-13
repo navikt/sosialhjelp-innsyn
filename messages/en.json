@@ -31,7 +31,8 @@
             "INVALID_PDF": "The PDF is not valid",
             "POSSIBLY_INFECTED": "The file may be infected with a virus"
         },
-        "seOver": "Please review the contents of this file and ensure it looks correct."
+        "seOver": "Please review the contents of this file and ensure it looks correct.",
+        "slett": "Delete file"
     },
     "SoknaderSide": {
         "tittel": "My applications for financial assistance",
@@ -227,15 +228,17 @@
     },
     "Opplastingsboks": {
         "tittel": "Do you want to submit more documents?",
-        "beskrivelse": "Here you can upload documents and screenshots that may be important for your application.",
+        "beskrivelse": "If you have any additional information that may be relevant to your application, you can upload it here.",
         "dragAndDrop": "Drag and drop files here",
         "eller": "or",
         "button": "Choose files",
         "uploading": "Uploading...",
         "delete": "Remove file",
-        "sendInn": "Send documentation",
-        "filerTilOpplasting": "Files for upload",
-        "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
+        "sendInn": "Send in",
+        "lastOppFiler": "Upload files",
+        "valgteFiler": "Selected files ({antall_filer})",
+      "filerTilOpplasting": "Files for upload",
+      "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
         "konvertert": {
             "tittel": "Some files may have been changed",
             "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."
@@ -247,12 +250,14 @@
         "tittel": "Your documents"
     },
     "Filopplasting": {
-        "tittel": "Submit additional documentation"
+        "tittel": "Submit additional documentation",
+        "opplastedeVedlegg": "Documents"
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Application for financial assistance",
-        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sent: {dato, date, ::ddMMyyyy}",
+        "visFlereDokumenter": "documents"
     },
     "SoknadenDin": {
         "tittel": "Your application",
@@ -345,7 +350,7 @@
     },
     "HoyreIkon": {
         "download": "Download",
-        "expand": "Expand"
+        "externalLink": "External link"
     },
     "Footer": {
         "trengerDuHjelp": "Do you need help?",

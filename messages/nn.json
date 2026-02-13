@@ -31,7 +31,8 @@
             "INVALID_PDF": "PDFen er ikkje gyldig",
             "POSSIBLY_INFECTED": "Fila kan vere virusinfisert"
         },
-        "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg."
+        "seOver": "Ver vennleg og sjå over at innhaldet i fila er leseleg.",
+        "slett": "Slett fil"
     },
     "SoknaderSide": {
         "tittel": "Søknadene mine om økonomisk sosialhjelp",
@@ -227,15 +228,17 @@
     },
     "Opplastingsboks": {
         "tittel": "Vil du sende inn fleire dokument?",
-        "beskrivelse": "Her kan du laste opp dokument og skjermbilete som kan vere viktige for søknaden din.",
+        "beskrivelse": "Om du har andre opplysningar som kan ha noko å seie for søknaden din, kan du laste dei opp her.",
         "dragAndDrop": "Dra og slepp filer her",
         "eller": "eller",
         "button": "Vel filer",
         "uploading": "Lastar opp...",
         "delete": "Fjern fila",
-        "sendInn": "Send dakumentasjon",
-        "filerTilOpplasting": "Filer som bli lasta opp",
-        "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
+        "sendInn": "Send inn",
+        "lastOppFiler": "Lasta opp fila",
+        "valgteFiler": "Valde filer ({antall_filer})",
+      "filerTilOpplasting": "Filer til opplasting",
+      "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",
             "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
@@ -247,12 +250,14 @@
         "tittel": "Dine dokument"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon"
+        "tittel": "Ettersend dokumentasjon",
+        "opplastedeVedlegg": "Dokumenta"
     },
     "VedleggListe": {
         "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
-        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sendt: {dato, date, ::ddMMyyyy}",
+        "visFlereDokumenter": "dokument"
     },
     "SoknadenDin": {
         "tittel": "Søknaden din",
@@ -345,7 +350,7 @@
     },
     "HoyreIkon": {
         "download": "Last ned",
-        "expand": "Utvid"
+        "externalLink": "Ekstern lenkje"
     },
     "Footer": {
         "trengerDuHjelp": "Treng du hjelp?",
