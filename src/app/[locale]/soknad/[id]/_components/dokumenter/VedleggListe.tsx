@@ -21,7 +21,11 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
     const t = useTranslations("VedleggListe");
     const isMobile = useIsMobile();
 
-    const sortedVedlegg = R.sortBy(vedlegg, [(v) => new Date(v.datoLagtTil).getTime(), "desc"]);
+    const sortedVedlegg = R.pipe(
+        vedlegg,
+        R.map((v, index) => ({ ...v, originalIndex: index })),
+        R.sortBy([(v) => new Date(v.datoLagtTil).getTime(), "desc"], [(v) => v.originalIndex, "desc"])
+    );
 
     return (
         <ExpandableList
