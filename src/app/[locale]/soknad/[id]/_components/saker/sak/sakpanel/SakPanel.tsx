@@ -23,7 +23,7 @@ const SakPanel = ({ sak }: Props): React.JSX.Element => {
     const allVedtakIds = sak.vedtak.map((vedtak) => vedtak.id);
     const innsendtKlage = klager.find((klage) => allVedtakIds.includes(klage.vedtakId));
     return (
-        <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="xlarge" overflow="hidden">
+        <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
                 <Sakstittel tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} />
                 {latestVedtak && <Vedtak sortedVedtak={sak.vedtak} latestVedtak={latestVedtak} />}

@@ -77,7 +77,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                     key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                     background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                     padding="space-24"
-                                    borderRadius="xlarge"
+                                    borderRadius="12"
                                     borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
                                 >
                                     {newUploadEnabled ? (

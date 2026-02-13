@@ -24,12 +24,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
             </Box>
             <NavigationGuardProvider>
                 {dokumentasjonkrav.map((it) => (
-                    <Box
-                        key={it.dokumentasjonkravId}
-                        background="neutral-soft"
-                        padding="space-24"
-                        borderRadius="xlarge"
-                    >
+                    <Box key={it.dokumentasjonkravId} background="neutral-soft" padding="space-24" borderRadius="12">
                         {newUploadEnabled ? (
                             <OpplastingsboksTus
                                 id={it.dokumentasjonkravId}

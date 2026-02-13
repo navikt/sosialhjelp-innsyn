@@ -26,7 +26,7 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
     return (
         <VStack gap="space-2">
             <Box
-                borderRadius="xlarge xlarge 0 0"
+                borderRadius="12 12 0 0"
                 paddingInline="4"
                 paddingBlock="space-12"
                 className="bg-[var(--ax-bg-accent-softA)]"
