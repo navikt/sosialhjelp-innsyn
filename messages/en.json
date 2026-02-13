@@ -169,8 +169,7 @@
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
     "Saksprosessen": {
-        "tittel": "The case process",
-        "beskrivelse": "Events and further process for your application."
+        "tittel": "Status on your case"
     },
     "OppgaveTag": {
         "frist": "Due: {frist, date, ::ddMMyyyy}",
@@ -185,15 +184,16 @@
         },
         "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}"
     },
-    "OversiktSteps": {
-        "SendtStep": {
+    "History": {
+        "suffix": "steps",
+        "SendtEvent": {
             "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
             "visSoknaden": "View application (opens in a new tab)"
         },
-        "MottattStep": {
+        "MottattEvent": {
             "tittel": "The application has been received at <norsk>{navKontor}</norsk>"
         },
-        "UnderBehandlingStep": {
+        "UnderBehandlingEvent": {
             "completed": {
                 "tittel": "<norsk>{navKontor}</norsk> has started processing your application"
             },
@@ -202,25 +202,20 @@
                 "beskrivelse": "Your application will be processed as soon as possible. The Nav office will contact you if they need more information or more documentation."
             }
         },
-        "FerdigBehandletStep": {
+        "FerdigBehandletEvent": {
             "tittel": "Your application has been processed.",
-            "completed": {
-                "visVedtaket": "View the decision (opens in new tab)"
-            },
-            "uncompleted": {
-                "beskrivelse": "You will receive a decision. Read in the decision whether you have been granted, partially granted or refused financial support."
-            }
+            "visVedtaket": "View the decision (opens in new tab)"
         },
-        "ForelopigSvarStep": {
+        "ForelopigSvarEvent": {
             "tittel": "<norsk>{navKontor}</norsk> has sent you a letter about the processing time for your application"
         },
-        "EtterspurtDokumentasjonStep": {
+        "EtterspurtDokumentasjonEvent": {
             "tittel": "<norsk>{navKontor}</norsk> needs more information on your case"
         },
-        "EtterspurtDokumentasjonLevertStep": {
+        "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "You provided requested documents"
         },
-        "VedtakFattet": {
+        "VedtakFattetEvent": {
             "tittel": "You have received a{nytt, select, true { new} other {}} decision",
             "visVedtaket": "View the decision (opens in new tab)"
         }

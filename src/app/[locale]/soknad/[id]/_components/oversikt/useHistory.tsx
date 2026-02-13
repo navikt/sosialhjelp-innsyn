@@ -2,30 +2,40 @@ import { useParams } from "next/navigation";
 import * as R from "remeda";
 import { useHentHendelserBetaSuspense } from "@generated/hendelse-controller/hendelse-controller";
 
-import SendtStep from "./steps/SendtStep";
-import MottattStep from "./steps/MottattStep";
-import UnderBehandlingStep from "./steps/UnderBehandlingStep";
-import FerdigBehandletStep from "./steps/FerdigBehandletStep";
-import ForelopigSvarStep from "./steps/ForelopigSvarStep";
-import EtterspurtDokumentasjonStep from "./steps/EtterspurtDokumentasjonStep";
-import EtterspurtDokumentasjonLevertStep from "./steps/EtterspurtDokumentasjonLevertStep";
-import VedtakFattet from "./steps/VedtakFattet";
+import SendtEvent from "./history/events/SendtEvent";
+import MottattEvent from "./history/events/MottattEvent";
+import UnderBehandlingEvent from "./history/events/UnderBehandlingEvent";
+import FerdigBehandletEvent from "./history/events/FerdigBehandletEvent";
+import ForelopigSvarEvent from "./history/events/ForelopigSvarEvent";
+import EtterspurtDokumentasjonEvent from "./history/events/EtterspurtDokumentasjonEvent";
+import EtterspurtDokumentasjonLevertEvent from "./history/events/EtterspurtDokumentasjonLevertEvent";
+import VedtakFattetEvent from "./history/events/VedtakFattetEvent";
 
-const useSteps = () => {
+type KommendeHendelse = {
+    type: "UnderBehandling-kommer";
+};
+
+const useHistory = (ref: React.RefObject<HTMLLIElement | null>, refIndex: number) => {
     const { id } = useParams<{ id: string }>();
     const { data } = useHentHendelserBetaSuspense(id);
     const isProcessing = data.some((hendelse) => hendelse.type === "SoknadUnderBehandling");
-    const isFinishedProcessing = data.some((hendelse) => hendelse.type === "SoknadFerdigBehandlet");
+    const isFinished = data.some((hendelse) => hendelse.type === "SoknadFerdigBehandlet");
     const steps = R.pipe(
         data,
         R.sortBy(R.prop("tidspunkt")),
+        R.concat(isProcessing || isFinished ? [] : [{ type: "UnderBehandling-kommer" } satisfies KommendeHendelse]),
+        R.reverse(),
         R.map((hendelse, index) => {
+            if (hendelse.type === "UnderBehandling-kommer") {
+                return <UnderBehandlingEvent key="UnderBehandling-kommer" completed={false} />;
+            }
             const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
             switch (hendelse.type) {
                 case "Sendt":
                     return (
-                        <SendtStep
+                        <SendtEvent
                             key={key}
+                            ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? ""}
                             url={hendelse.url}
@@ -33,16 +43,18 @@ const useSteps = () => {
                     );
                 case "Mottatt":
                     return (
-                        <MottattStep
+                        <MottattEvent
                             key={key}
+                            ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? ""}
                         />
                     );
                 case "SoknadUnderBehandling":
                     return (
-                        <UnderBehandlingStep
+                        <UnderBehandlingEvent
                             key={key}
+                            ref={index === refIndex ? ref : undefined}
                             completed
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor}
@@ -50,10 +62,9 @@ const useSteps = () => {
                     );
                 case "SoknadFerdigBehandlet":
                     return (
-                        <FerdigBehandletStep
+                        <FerdigBehandletEvent
                             key={key}
-                            completed
-                            url={hendelse.url}
+                            ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                         />
                     );
@@ -67,35 +78,47 @@ const useSteps = () => {
                     const isNew =
                         vedtakPaaSammeSak.length > 0 &&
                         vedtakPaaSammeSak.some((vedtakFattet) => new Date(vedtakFattet.tidspunkt) < tidspunkt);
-                    return <VedtakFattet key={key} url={hendelse.url} tidspunkt={tidspunkt} isNew={isNew} />;
+                    return (
+                        <VedtakFattetEvent
+                            ref={index === refIndex ? ref : undefined}
+                            key={key}
+                            url={hendelse.url}
+                            tidspunkt={tidspunkt}
+                            isNew={isNew}
+                        />
+                    );
                 case "ForelopigSvar":
                     return (
-                        <ForelopigSvarStep
+                        <ForelopigSvarEvent
                             key={key}
+                            ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
                         />
                     );
                 case "EtterspurtDokumentasjon":
                     return (
-                        <EtterspurtDokumentasjonStep
+                        <EtterspurtDokumentasjonEvent
                             key={key}
+                            ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
                         />
                     );
                 case "LevertEtterspurtDokumentasjon":
-                    return <EtterspurtDokumentasjonLevertStep key={key} tidspunkt={new Date(hendelse.tidspunkt)} />;
+                    return (
+                        <EtterspurtDokumentasjonLevertEvent
+                            ref={index === refIndex ? ref : undefined}
+                            key={key}
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                        />
+                    );
             }
         }),
-        R.filter((step) => !!step)
+        R.filter((item) => !!item)
     );
-    const stepsWithUncompleted = R.pipe(
-        steps,
-        R.concat(isProcessing ? [] : [<UnderBehandlingStep key="UnderBehandling-kommer" completed={false} />]),
-        R.concat(isFinishedProcessing ? [] : [<FerdigBehandletStep key="FerdigBehandlet-kommer" completed={false} />])
-    );
-    return { steps: stepsWithUncompleted, completed: steps.length };
+
+    return { steps };
 };
 
-export default useSteps;
+export default useHistory;

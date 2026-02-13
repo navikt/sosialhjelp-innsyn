@@ -1,11 +1,11 @@
-import { BodyLong, Heading, VStack } from "@navikt/ds-react";
+import { Heading, VStack } from "@navikt/ds-react";
 import React, { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { prefetchHentHendelserBetaQuery } from "@generated/ssr/hendelse-controller/hendelse-controller";
 import { getQueryClient } from "@api/queryClient";
 
-import Steps, { StepsSkeleton } from "./steps/Steps";
+import History, { StepsSkeleton } from "./history/events/History";
 
 interface Props {
     id: string;
@@ -17,15 +17,12 @@ const Oversikt = async ({ id }: Props) => {
     prefetchHentHendelserBetaQuery(queryClient, id);
     return (
         <VStack gap="4">
-            <div>
-                <Heading size="medium" level="2">
-                    {t("tittel")}
-                </Heading>
-                <BodyLong>{t("beskrivelse")}</BodyLong>
-            </div>
+            <Heading size="medium" level="2" id="Saksprosessen">
+                {t("tittel")}
+            </Heading>
             <Suspense fallback={<StepsSkeleton />}>
                 <HydrationBoundary state={dehydrate(queryClient)}>
-                    <Steps />
+                    <History labelledById="Saksprosessen" />
                 </HydrationBoundary>
             </Suspense>
         </VStack>

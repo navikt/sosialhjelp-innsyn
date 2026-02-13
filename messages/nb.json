@@ -140,8 +140,7 @@
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Saksprosessen": {
-        "tittel": "Saksprosessen",
-        "beskrivelse": "Hendelser og videre prosess for søknaden din."
+        "tittel": "Status i saken din"
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
@@ -156,15 +155,16 @@
         },
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
-    "OversiktSteps": {
-        "SendtStep": {
+    "History": {
+        "suffix": "steg",
+        "SendtEvent": {
             "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",
             "visSoknaden": "Vis søknaden (åpnes i ny fane)"
         },
-        "MottattStep": {
+        "MottattEvent": {
             "tittel": "Søknaden din er mottatt hos <norsk>{navKontor}</norsk>"
         },
-        "UnderBehandlingStep": {
+        "UnderBehandlingEvent": {
             "completed": {
                 "tittel": "<norsk>{navKontor}</norsk> har begynt å behandle søknaden din"
             },
@@ -173,25 +173,19 @@
                 "beskrivelse": "Din søknad behandles så fort som mulig. Nav-kontoret vil ta kontakt med deg dersom de trenger flere opplysninger eller mer dokumentasjon."
             }
         },
-        "FerdigBehandletStep": {
-            "tittel": "Søknaden din er ferdig behandlet",
-            "completed": {
-                "visVedtaket": "Vis vedtaket (åpnes i ny fane)"
-            },
-            "uncompleted": {
-                "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått innvilget, delvis innvilget eller avslag på økonomisk støtte."
-            }
+        "FerdigBehandletEvent": {
+            "tittel": "Søknaden din er ferdig behandlet"
         },
-        "ForelopigSvarStep": {
+        "ForelopigSvarEvent": {
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg et brev om saksbehandlingstiden for søknaden din"
         },
-        "EtterspurtDokumentasjonStep": {
+        "EtterspurtDokumentasjonEvent": {
             "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din"
         },
-        "EtterspurtDokumentasjonLevertStep": {
+        "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du leverte etterspurte dokumenter"
         },
-        "VedtakFattet": {
+        "VedtakFattetEvent": {
             "tittel": "Du har fått et{nytt, select, true { nytt} other {}} vedtak",
             "visVedtaket": "Vis vedtaket (åpnes i ny fane)"
         }

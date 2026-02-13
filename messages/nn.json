@@ -137,7 +137,7 @@
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
         "tittel": "Usamd i vedtaket",
-        "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
+        "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre veker etter vedtaksdato.",
         "klageKnapp": "Klag på vedtaket"
     },
     "SakSkeleton": {
@@ -169,8 +169,7 @@
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Saksprosessen": {
-        "tittel": "Saksprosessen",
-        "beskrivelse": "Hendingar og vidare prosess for søknaden din."
+        "tittel": "Status i saken din"
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
@@ -185,15 +184,16 @@
         },
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
-    "OversiktSteps": {
-        "SendtStep": {
+    "History": {
+        "suffx": "steg",
+        "SendtEvent": {
             "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
             "visSoknaden": "Vis søknaden (blir opna i ny fane)"
         },
-        "MottattStep": {
+        "MottattEvent": {
             "tittel": "Søknaden er motteken <norsk>{navKontor}</norsk>"
         },
-        "UnderBehandlingStep": {
+        "UnderBehandlingEvent": {
             "completed": {
                 "tittel": "<norsk>{navKontor}</norsk> har byrja å behandle søknaden din"
             },
@@ -202,25 +202,20 @@
                 "beskrivelse": "Søknaden din blir behandla så fort som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
             }
         },
-        "FerdigBehandletStep": {
+        "FerdigBehandletEvent": {
             "tittel": "Søknaden din er ferdig behandla",
-            "completed": {
-                "visVedtaket": "Vis vedtaket (blir opna i ny fane)"
-            },
-            "uncompleted": {
-                "beskrivelse": "Du vil få eit vedtak. Les i vedtaket om du har fått innvilga, delvis innvilga eller avslag på økonomisk støtte."
-            }
+            "visVedtaket": "Vis vedtaket (blir opna i ny fane)"
         },
-        "ForelopigSvarStep": {
+        "ForelopigSvarEvent": {
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg eit brev om saksbehandlingstida for søknaden din"
         },
-        "EtterspurtDokumentasjonStep": {
+        "EtterspurtDokumentasjonEvent": {
             "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di"
         },
-        "EtterspurtDokumentasjonLevertStep": {
+        "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du leverte etterspurde dokument"
         },
-        "VedtakFattet": {
+        "VedtakFattetEvent": {
             "tittel": "Du har fått eit{nytt, select, true { nytt} other {}} vedtak",
             "visVedtaket": "Vis vedtaket (blir opna i ei ny fane)"
         }
