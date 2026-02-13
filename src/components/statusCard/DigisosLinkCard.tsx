@@ -62,7 +62,7 @@ const DigisosLinkCard = ({
     }
 
     return (
-        <LinkCard arrow={!cardIcon} size={size} data-color={dataColor}>
+        <LinkCard arrow={!cardIcon} size={size}>
             {icon && <Icon icon={icon} />}
             <LinkCardTitle className="flex items-center justify-between">
                 <LinkCardAnchor asChild>
