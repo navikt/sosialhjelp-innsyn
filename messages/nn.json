@@ -186,6 +186,14 @@
     },
     "History": {
         "suffx": "steg",
+        "UtbetalingerOppdatertEvent": {
+            "tittel": "Dine utbetalingar har blitt oppdaterte",
+            "beskrivelse": "Sjå dine utbetalingar"
+        },
+        "DokumentasjonskravEvent": {
+            "tittel": "Du har fått eitt krav om dokumentasjon",
+            "seBrevet": "Last ned brevet her"
+        },
         "SendtEvent": {
             "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
             "visSoknaden": "Vis søknaden (blir opna i ny fane)"

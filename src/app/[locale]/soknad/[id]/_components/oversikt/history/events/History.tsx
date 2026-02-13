@@ -19,7 +19,7 @@ interface Props {
 
 const History = ({ labelledById }: Props) => {
     const t = useTranslations("History");
-    const ref = useRef<HTMLLIElement | null>(null);
+    const ref = useRef<HTMLLIElement>(null);
     const { steps } = useHistory(ref, LIMIT);
 
     const showMore = useShowMore(steps, LIMIT);

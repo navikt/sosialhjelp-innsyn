@@ -186,6 +186,14 @@
     },
     "History": {
         "suffix": "steps",
+        "UtbetalingerOppdatertEvent": {
+            "tittel": "Your payments have been updated",
+            "beskrivelse": "See your payments"
+        },
+        "DokumentasjonskravEvent": {
+            "tittel": "You have received a documentation requirement",
+            "seBrevet": "Download the letter here"
+        },
         "SendtEvent": {
             "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
             "visSoknaden": "View application (opens in a new tab)"

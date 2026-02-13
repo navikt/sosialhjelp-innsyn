@@ -41,9 +41,9 @@ const ShowMoreButton = <R extends HTMLElement>({
                 setTimeout(() => {
                     if (focusOnExpandRef.current) {
                         focusOnExpandRef.current.focus({ preventScroll: false });
-                        focusOnExpandRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                        focusOnExpandRef.current.scrollIntoView({ behavior: "auto", block: "nearest" });
                     }
-                }, 500);
+                }, 0);
             });
         }
     };
