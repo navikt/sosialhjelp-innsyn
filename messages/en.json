@@ -254,7 +254,8 @@
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Application for financial assistance",
-        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sent: {dato, date, ::ddMMyyyy}",
+        "visFlereDokumenter": "documents"
     },
     "SoknadenDin": {
         "tittel": "Your application",

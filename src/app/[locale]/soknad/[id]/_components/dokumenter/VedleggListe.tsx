@@ -4,28 +4,35 @@ import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { filesize } from "filesize";
 import React from "react";
+import * as R from "remeda";
 import { VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
+import ExpandableList from "@components/showmore/ExpandableList";
 
 import IkonBilde from "./IkonBilde";
 
 interface Props {
     vedlegg: VedleggResponse[];
+    labelledById?: string;
 }
 
-const VedleggListe = ({ vedlegg }: Props) => {
+const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) => {
     const t = useTranslations("VedleggListe");
     const isMobile = useIsMobile();
 
-    const sortedVedlegg = vedlegg.toSorted(
-        (a, b) => new Date(b.datoLagtTil).getTime() - new Date(a.datoLagtTil).getTime()
-    );
+    const sortedVedlegg = R.sortBy(vedlegg, [(v) => new Date(v.datoLagtTil).getTime(), "desc"]);
 
     return (
-        <VStack as="ul" gap="2">
-            {sortedVedlegg.map((fil, index) => (
-                <li key={fil.filnavn + index}>
+        <ExpandableList
+            items={sortedVedlegg}
+            id="vedlegg-liste"
+            showMoreSuffix={t("visFlereDokumenter")}
+            labelledById={labelledById}
+            itemsLimit={3}
+        >
+            {(fil, index, firstExpandedItemRef, itemsLimit) => (
+                <li key={fil.filnavn + index} ref={index === itemsLimit ? firstExpandedItemRef : null} tabIndex={-1}>
                     <DigisosLinkCard
                         href={fil.url}
                         icon={isMobile ? undefined : <IkonBilde filename={fil.filnavn} />}
@@ -53,8 +60,8 @@ const VedleggListe = ({ vedlegg }: Props) => {
                         {fil.filnavn}
                     </DigisosLinkCard>
                 </li>
-            ))}
-        </VStack>
+            )}
+        </ExpandableList>
     );
 };
 

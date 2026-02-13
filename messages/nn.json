@@ -254,7 +254,8 @@
     "VedleggListe": {
         "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
-        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sendt: {dato, date, ::ddMMyyyy}",
+        "visFlereDokumenter": "dokument"
     },
     "SoknadenDin": {
         "tittel": "Søknaden din",

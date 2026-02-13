@@ -1,6 +1,5 @@
 "use client";
 
-import { ITEMS_LIMIT } from "@components/showmore/useShowMore";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { ManedUtbetaling, ManedUtbetalingStatus } from "@generated/model";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
@@ -11,9 +10,10 @@ interface Props {
     utbetaling: ManedUtbetaling;
     index: number;
     firstExpandedItemRef: React.RefObject<HTMLLIElement | null> | null;
+    itemsLimit: number;
 }
 
-const KommendeUtbetalingCard = ({ utbetaling, index, firstExpandedItemRef }: Props) => {
+const KommendeUtbetalingCard = ({ utbetaling, index, firstExpandedItemRef, itemsLimit }: Props) => {
     const format = useFormatter();
     const t = useTranslations("KommendeUtbetalingerListe");
 
@@ -27,7 +27,7 @@ const KommendeUtbetalingCard = ({ utbetaling, index, firstExpandedItemRef }: Pro
     return (
         <li
             key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}
-            ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null}
+            ref={index === itemsLimit ? firstExpandedItemRef : null}
             tabIndex={-1}
         >
             <DigisosLinkCard

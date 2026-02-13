@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/model";
-import { ITEMS_LIMIT } from "@components/showmore/useShowMore";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 import ExpandableList from "@components/showmore/ExpandableList";
 
@@ -51,8 +50,8 @@ const SoknaderList = ({ soknader, labelledById }: Props) => {
 
     return (
         <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")} labelledById={labelledById}>
-            {(item, index, firstExpandedItemRef) => (
-                <li key={sakKey(item)} ref={index === ITEMS_LIMIT ? firstExpandedItemRef : null} tabIndex={-1}>
+            {(item, index, firstExpandedItemRef, itemsLimit) => (
+                <li key={sakKey(item)} ref={index === itemsLimit ? firstExpandedItemRef : null} tabIndex={-1}>
                     {"fiksDigisosId" in item && <SoknadCard soknad={item} />}
                     {"soknadId" in item && (
                         <PaabegyntCard soknadId={item.soknadId} keptUntil={addDays(new Date(item.sistOppdatert), 21)} />
