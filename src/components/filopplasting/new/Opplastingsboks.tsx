@@ -64,7 +64,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     if (completed) {
         return (
             <VStack gap="space-8">
-                <Box.New>
+                <Box>
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
                             {label ?? t("Opplastingsboks.tittel")}
@@ -72,7 +72,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         {tag}
                     </HStack>
                     <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
-                </Box.New>
+                </Box>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 <div ref={feedbackRef} tabIndex={-1}>
                     {isUploadSuccess && (

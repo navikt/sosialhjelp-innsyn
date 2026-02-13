@@ -21,7 +21,7 @@ export const PdfPreviewDisplay = ({
     const pageWidth = width ?? 500;
     return (
         <>
-            <Box.New maxWidth="800px" minHeight="70vh" maxHeight="70vh" padding="4" position="relative">
+            <Box maxWidth="800px" minHeight="70vh" maxHeight="70vh" padding="4" position="relative">
                 <Document
                     file={memoedFile}
                     onLoadSuccess={({ numPages }) => setNumPages(numPages)}
@@ -44,7 +44,7 @@ export const PdfPreviewDisplay = ({
                         renderAnnotationLayer={false}
                     />
                 </Document>
-            </Box.New>
+            </Box>
         </>
     );
 };

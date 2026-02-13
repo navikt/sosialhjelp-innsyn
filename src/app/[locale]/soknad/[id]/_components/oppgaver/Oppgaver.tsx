@@ -73,7 +73,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                 hendelsetype: oppgave.hendelsetype,
                             };
                             return (
-                                <Box.New
+                                <Box
                                     key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                     background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                     padding="space-24"
@@ -89,7 +89,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                                 oppgave.erLastetOpp ? (
                                                     t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
                                                 ) : (
-                                                    <Box.New lang="no">{tilleggsinfoTekst}</Box.New>
+                                                    <Box lang="no">{tilleggsinfoTekst}</Box>
                                                 )
                                             }
                                             tag={
@@ -109,7 +109,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                                 oppgave.erLastetOpp ? (
                                                     t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
                                                 ) : (
-                                                    <Box.New lang="no">{tilleggsinfoTekst}</Box.New>
+                                                    <Box lang="no">{tilleggsinfoTekst}</Box>
                                                 )
                                             }
                                             tag={
@@ -120,7 +120,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                             }
                                         />
                                     )}
-                                </Box.New>
+                                </Box>
                             );
                         })}
                 </NavigationGuardProvider>

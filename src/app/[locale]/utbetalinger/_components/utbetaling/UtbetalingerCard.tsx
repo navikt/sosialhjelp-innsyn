@@ -1,4 +1,4 @@
-import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, Box, Heading, HStack, VStack } from "@navikt/ds-react";
 import { useFormatter } from "next-intl";
 
 import { ManedMedUtbetalinger } from "../../_types/types";
@@ -25,7 +25,7 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
 
     return (
         <VStack gap="space-2">
-            <BoxNew
+            <Box
                 borderRadius="xlarge xlarge 0 0"
                 paddingInline="4"
                 paddingBlock="space-12"
@@ -42,7 +42,7 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
                         {format.number(utbetalingSum)} kr
                     </BodyShort>
                 </HStack>
-            </BoxNew>
+            </Box>
             {sorterteUtbetalinger.map((utb, index) => (
                 <UtbetalingerContentCard
                     index={index}

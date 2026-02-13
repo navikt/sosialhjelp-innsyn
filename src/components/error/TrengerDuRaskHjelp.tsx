@@ -9,8 +9,8 @@ const TrengerDuRaskHjelp = (): React.JSX.Element => {
     const locale = useLocale() as SupportedLocale;
     return (
         <Bleed marginInline="full" className="pt-12 pb-12" marginBlock="space-0 space-64" asChild>
-            <Box.New background="neutral-soft" padding="space-12" className="flex-1">
-                <Box.New className="max-w-3xl ax-lg:max-w-2xl mx-auto">
+            <Box background="neutral-soft" padding="space-12" className="flex-1">
+                <Box className="max-w-3xl ax-lg:max-w-2xl mx-auto">
                     <VStack gap="space-24">
                         <Heading level="2" size="medium">
                             {t("tittel")}
@@ -58,8 +58,8 @@ const TrengerDuRaskHjelp = (): React.JSX.Element => {
                             </Link>
                         </BodyShort>
                     </VStack>
-                </Box.New>
-            </Box.New>
+                </Box>
+            </Box>
         </Bleed>
     );
 };

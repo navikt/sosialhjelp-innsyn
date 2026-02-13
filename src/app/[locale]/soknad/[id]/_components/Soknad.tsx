@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Bleed, BoxNew, Heading, VStack } from "@navikt/ds-react";
+import { Bleed, Box, Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
@@ -109,7 +109,7 @@ export const Soknad = async ({ id }: Props) => {
                 </Suspense>
             )}
             <Bleed marginInline="full" className="pt-20 pb-20" asChild>
-                <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
+                <Box background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
                         <VStack gap="space-80">
                             <Oversikt id={id} />
@@ -120,7 +120,7 @@ export const Soknad = async ({ id }: Props) => {
                             </Suspense>
                         </VStack>
                     </div>
-                </BoxNew>
+                </Box>
             </Bleed>
             <Snarveier hideSokButton={true}>
                 <SoknadSnarveier />

@@ -10,7 +10,7 @@ const ErrorPage = (): ReactNode => {
     const t = useTranslations("ErrorPage");
     return (
         <>
-            <Box.New className="my-20">
+            <Box className="my-20">
                 <Heading size="xlarge" level="1" className="mb-4">
                     {t("tittel")}
                 </Heading>
@@ -29,7 +29,7 @@ const ErrorPage = (): ReactNode => {
                 >
                     {t("back")}
                 </Button>
-            </Box.New>
+            </Box>
             <TrengerDuRaskHjelp />
         </>
     );

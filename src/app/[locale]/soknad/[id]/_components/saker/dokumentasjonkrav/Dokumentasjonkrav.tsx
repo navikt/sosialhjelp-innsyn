@@ -24,7 +24,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
             </Box>
             <NavigationGuardProvider>
                 {dokumentasjonkrav.map((it) => (
-                    <Box.New
+                    <Box
                         key={it.dokumentasjonkravId}
                         background="neutral-soft"
                         padding="space-24"
@@ -74,7 +74,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                                 }
                             />
                         )}
-                    </Box.New>
+                    </Box>
                 ))}
             </NavigationGuardProvider>
         </VStack>
