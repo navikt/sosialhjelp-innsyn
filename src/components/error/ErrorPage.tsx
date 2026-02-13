@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { BodyShort, Box, Button, Heading, List } from "@navikt/ds-react";
+import { BodyShort, VStack, Button, Heading, List } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
 import { ArrowLeftIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
@@ -9,13 +9,13 @@ import TrengerDuRaskHjelp from "@components/error/TrengerDuRaskHjelp";
 const ErrorPage = (): ReactNode => {
     const t = useTranslations("ErrorPage");
     return (
-        <>
-            <Box className="my-20">
-                <Heading size="xlarge" level="1" className="mb-4">
+        <VStack gap="space-64" paddingBlock="space-64 space-0">
+            <VStack gap="space-24">
+                <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>
-                <BodyShort className="mb-8">{t("description")}</BodyShort>
-                <List className="mb-8">
+                <BodyShort>{t("description")}</BodyShort>
+                <List>
                     <ListItem>{t("oppdatere")}</ListItem>
                     <ListItem>{t("relogge")}</ListItem>
                     <ListItem>{t("vente")}</ListItem>
@@ -29,9 +29,9 @@ const ErrorPage = (): ReactNode => {
                 >
                     {t("back")}
                 </Button>
-            </Box>
+            </VStack>
             <TrengerDuRaskHjelp />
-        </>
+        </VStack>
     );
 };
 
