@@ -53,6 +53,9 @@ jobs:
           pnpm orval
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create auth directory
+        shell: bash
+        run: mkdir -p e2e/.auth
       - uses: navikt/sosialhjelp-ci/actions/playwright/run@v15
         with:
           shardIndex: ${{ matrix.shardIndex }}
