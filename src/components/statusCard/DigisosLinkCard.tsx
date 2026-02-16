@@ -49,7 +49,7 @@ const DigisosLinkCard = ({
     analyticsData,
     footer,
     openInNewTab,
-    dataColor,
+    dataColor = "neutral",
 }: PropsWithChildren<Props>) => {
     const isMobile = useIsMobile();
     const size = isMobile ? "small" : "medium";
