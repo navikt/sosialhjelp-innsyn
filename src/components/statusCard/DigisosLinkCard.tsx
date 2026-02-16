@@ -70,6 +70,12 @@ const DigisosLinkCard = ({
                 <LinkCardAnchor asChild>
                     <Link
                         href={href}
+                        className="min-w-0 flex-1"
+                        style={{
+                            wordBreak: "break-word",
+                            overflowWrap: "break-word",
+                            whiteSpace: "normal",
+                        }}
                         {...dataAttrs}
                         {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
                     >
