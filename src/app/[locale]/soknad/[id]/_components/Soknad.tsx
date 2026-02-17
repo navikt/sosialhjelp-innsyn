@@ -31,6 +31,9 @@ import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknadSnarveier from "./snarveier/SoknadSnarveier";
+import TagsBridge from "./tags/TagsBridge";
+import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
+import { TagsSkeleton } from "@components/tags/Tags";
 
 interface Props {
     id: string;
@@ -42,6 +45,7 @@ export const Soknad = async ({ id }: Props) => {
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
     const klageQueryClient = getQueryClient();
+    const saksdetaljerQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
@@ -52,15 +56,24 @@ export const Soknad = async ({ id }: Props) => {
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
+    prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
+
     return (
         <VStack gap="space-80" className="mt-20">
-            <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
-                {tittel ?? t("defaultTittel")}
-            </Heading>
+            <BoxNew>
+                <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
+                    {tittel ?? t("defaultTittel")}
+                </Heading>
+                <Suspense fallback={<TagsSkeleton size="medium" />}>
+                    <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
+                        <TagsBridge />
+                    </HydrationBoundary>
+                </Suspense>
+            </BoxNew>
             <VStack gap="space-8">
                 {forelopigSvarPromise && (
                     <Suspense fallback={null}>
