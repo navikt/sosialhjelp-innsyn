@@ -2,6 +2,7 @@ import { Alert, BodyShort, Button, FileObject, FileUpload, HStack, VStack } from
 import { ReactNode } from "react";
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
+import useIsMobile from "@utils/useIsMobile";
 
 interface ResponsiveFileUploadSimpleProps {
     label: ReactNode;
@@ -22,9 +23,11 @@ export const FileSelectUpload = ({
     onSelect,
     disabled = false,
 }: ResponsiveFileUploadSimpleProps) => {
+    const isMobile = useIsMobile();
+
     return (
         <>
-            <div className="hidden sm:block">
+            {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
@@ -37,27 +40,32 @@ export const FileSelectUpload = ({
                     disabled={disabled}
                     error={error}
                 />
-            </div>
-
-            <VStack gap="2" className="block sm:hidden">
-                <HStack justify="space-between">{tag}</HStack>
-                {description && <BodyShort>{description}</BodyShort>}
-                <FileUpload.Trigger
-                    accept={allowedFileTypes}
-                    maxSizeInBytes={10 * 1024 * 1024}
-                    multiple
-                    onSelect={onSelect}
-                >
-                    <Button className="mt-4" variant="secondary" icon={<UploadIcon aria-hidden />} disabled={disabled}>
-                        {buttonText}
-                    </Button>
-                </FileUpload.Trigger>
-                {error && (
-                    <Alert variant="error" size="small">
-                        {error}
-                    </Alert>
-                )}
-            </VStack>
+            ) : (
+                <VStack gap="2">
+                    <HStack justify="space-between">{tag}</HStack>
+                    {description && <BodyShort>{description}</BodyShort>}
+                    <FileUpload.Trigger
+                        accept={allowedFileTypes}
+                        maxSizeInBytes={10 * 1024 * 1024}
+                        multiple
+                        onSelect={onSelect}
+                    >
+                        <Button
+                            className="mt-4"
+                            variant="secondary"
+                            icon={<UploadIcon aria-hidden />}
+                            disabled={disabled}
+                        >
+                            {buttonText}
+                        </Button>
+                    </FileUpload.Trigger>
+                    {error && (
+                        <Alert variant="error" size="small">
+                            {error}
+                        </Alert>
+                    )}
+                </VStack>
+            )}
         </>
     );
 };
