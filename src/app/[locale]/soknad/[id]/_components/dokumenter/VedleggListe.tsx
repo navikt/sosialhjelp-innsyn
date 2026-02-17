@@ -10,8 +10,6 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
 
-import IkonBilde from "./IkonBilde";
-
 interface Props {
     vedlegg: VedleggResponse[];
     labelledById?: string;
@@ -39,7 +37,6 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
                 <li key={fil.filnavn + index} ref={index === itemsLimit ? firstExpandedItemRef : null} tabIndex={-1}>
                     <DigisosLinkCard
                         href={fil.url}
-                        icon={isMobile ? undefined : <IkonBilde filename={fil.filnavn} />}
                         cardIcon="external-link"
                         dataColor="accent"
                         description={

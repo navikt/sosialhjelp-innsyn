@@ -234,7 +234,7 @@
         "button": "Choose files",
         "uploading": "Uploading...",
         "delete": "Remove file",
-        "sendInn": "Send in",
+        "sendInn": "Submit",
         "lastOppFiler": "Upload documentation",
         "valgteFiler": "Selected files ({antall_filer})",
       "filerTilOpplasting": "Files for upload",
