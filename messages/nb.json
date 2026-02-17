@@ -310,15 +310,6 @@
         "utbetalinger": "Mine utbetalinger",
         "klager": "Klager"
     },
-    "IkonBilde": {
-        "image": "Bildefil",
-        "pdf": "PDF-fil",
-        "txt": "Tekstfil",
-        "csv": "CSV-fil",
-        "excel": "Excel-fil",
-        "word": "Word-fil",
-        "fil": "Fil"
-    },
     "HoyreIkon": {
         "download": "Last ned",
         "externalLink": "Ekstern lenke"

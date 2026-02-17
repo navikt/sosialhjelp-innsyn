@@ -339,15 +339,6 @@
         "utbetalinger": "My payments",
         "klager": "Complaints"
     },
-    "IkonBilde": {
-        "image": "Image file",
-        "pdf": "PDF file",
-        "txt": "Text file",
-        "csv": "CSV file",
-        "excel": "Excel file",
-        "word": "Word file",
-        "fil": "File"
-    },
     "HoyreIkon": {
         "download": "Download",
         "externalLink": "External link"
