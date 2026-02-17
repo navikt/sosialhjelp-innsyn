@@ -51,7 +51,7 @@ export const FileSelectUpload = ({
                         onSelect={onSelect}
                     >
                         <Button
-                            className="mt-4"
+                            className="mt-4 self-start"
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
