@@ -1,11 +1,10 @@
-import { BankNoteIcon, FilePdfIcon } from "@navikt/aksel-icons";
+import { BankNoteIcon, EnvelopeClosedIcon } from "@navikt/aksel-icons";
 import { BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { VedtakDto } from "@generated/model";
 
 import React from "react";
-import useIsMobile from "@utils/useIsMobile";
 
 interface Props {
     sortedVedtak: VedtakDto[];
@@ -14,14 +13,12 @@ interface Props {
 
 const Vedtak = ({ sortedVedtak, latestVedtak }: Props) => {
     const t = useTranslations("Vedtak");
-    const isMobile = useIsMobile();
-    const size = isMobile ? "small" : "medium";
     const isAnyInnvilget = sortedVedtak.some(
         (vedtak) => vedtak.utfall && ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtak.utfall)
     );
     return (
         <>
-            <BodyShort size={size}>{t(`beskrivelse.${latestVedtak.utfall}`)}</BodyShort>
+            <BodyShort>{t(`beskrivelse.${latestVedtak.utfall}`)}</BodyShort>
             <VStack gap="space-8">
                 <VStack gap="space-8" as="ol" aria-label={t("vedtaksbrev")}>
                     {sortedVedtak.map((vedtak, index) => {
@@ -32,7 +29,7 @@ const Vedtak = ({ sortedVedtak, latestVedtak }: Props) => {
                                     cardIcon="external-link"
                                     openInNewTab
                                     href={vedtak.vedtaksFilUrl ?? ""}
-                                    icon={<FilePdfIcon title={t("pdf")} />}
+                                    icon={<EnvelopeClosedIcon aria-hidden />}
                                     description={
                                         <BodyShort aria-hidden>
                                             {t("mottattDato", { dato: new Date(vedtak.dato!) })}

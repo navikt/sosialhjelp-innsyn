@@ -31,18 +31,20 @@ const KlageInfo = ({ vedtakId, innsendtKlage }: Props) => {
 
     return (
         <VStack gap="space-16" align="start">
-            <Heading size="small" level="3">
-                {t("tittel")}
-            </Heading>
-            <BodyLong>
-                {t.rich("beskrivelse", {
-                    lenke: (chunks) => (
-                        <AkselLink href="https://www.nav.no/klagerettigheter" inlineText>
-                            {chunks}
-                        </AkselLink>
-                    ),
-                })}
-            </BodyLong>
+            <VStack gap="space-8">
+                <Heading size="small" level="3">
+                    {t("tittel")}
+                </Heading>
+                <BodyLong>
+                    {t.rich("beskrivelse", {
+                        lenke: (chunks) => (
+                            <AkselLink href="https://www.nav.no/klagerettigheter" inlineText>
+                                {chunks}
+                            </AkselLink>
+                        ),
+                    })}
+                </BodyLong>
+            </VStack>
             {klageToggle.enabled && innsendtKlage && (
                 <DigisosLinkCard
                     href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}

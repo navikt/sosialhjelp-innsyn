@@ -23,7 +23,13 @@ const StatusTag = ({ vedtakUtfall, className }: StatusTagProps) => {
     if (vedtakUtfall) {
         return (
             <Tag variant={utfallVariant[vedtakUtfall]} className={className} size={size}>
-                {t.rich(vedtakUtfall, { b: (chunks) => <BodyShort weight="semibold">{chunks}</BodyShort> })}
+                {t.rich(vedtakUtfall, {
+                    b: (chunks) => (
+                        <BodyShort size={size} weight="semibold">
+                            {chunks}
+                        </BodyShort>
+                    ),
+                })}
             </Tag>
         );
     }
