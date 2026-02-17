@@ -41,7 +41,7 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
                         href={fil.url}
                         icon={isMobile ? undefined : <IkonBilde filename={fil.filnavn} />}
                         cardIcon="external-link"
-                        dataColor={isMobile ? "accent" : "neutral"}
+                        dataColor="accent"
                         description={
                             isMobile ? (
                                 <BodyShort>

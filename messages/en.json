@@ -235,7 +235,7 @@
         "uploading": "Uploading...",
         "delete": "Remove file",
         "sendInn": "Send in",
-        "lastOppFiler": "Upload files",
+        "lastOppFiler": "Upload documentation",
         "valgteFiler": "Selected files ({antall_filer})",
       "filerTilOpplasting": "Files for upload",
       "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",

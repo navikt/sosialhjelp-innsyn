@@ -206,7 +206,7 @@
         "uploading": "Laster opp...",
         "delete": "Fjern fil",
         "sendInn": "Send inn",
-        "lastOppFiler": "Last opp filer",
+        "lastOppFiler": "Last opp dokumentasjon",
         "valgteFiler": "Valgte filer ({antall_filer})",
       "filerTilOpplasting": "Filer til opplasting",
       "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",

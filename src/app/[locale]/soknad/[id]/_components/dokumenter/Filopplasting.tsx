@@ -45,7 +45,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                     )}
                 </NavigationGuardProvider>
                 {ettersendelseDokumenter.length > 0 && (
-                    <VStack gap="2" className="mt-4">
+                    <VStack gap="2">
                         <Heading size="small" level="3">
                             {t("opplastedeVedlegg")}
                         </Heading>
