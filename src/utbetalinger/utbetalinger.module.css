@@ -5,11 +5,7 @@
     flex-direction: column;
     background-color: #d4e6d8;
 }
-/*Finner ingen grei måte å legge beløp ved siden av chevron, jukser frem noe*/
-.headerFill :global(.aksel-expansioncard__header-content) {
-    flex: 1 1 auto;
-    min-width: 0;
-}
+
 /*Finner ingen grei  måte å midtstille beløp og chevron mellom dato/status og tittel når de  er i samme kolonne, jukser frem noe*/
 .chevronTight :global(.aksel-expansioncard__header-button) {
     align-self: stretch;

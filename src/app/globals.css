@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@navikt/ds-css";
+@import "@navikt/ds-css" layer(components);
 
 @config '../../tailwind.config.ts';
 

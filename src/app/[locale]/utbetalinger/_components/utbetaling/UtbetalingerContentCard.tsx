@@ -1,6 +1,5 @@
 import { BodyShort, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import { Link } from "@navikt/ds-react/Link";
-import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
@@ -38,7 +37,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
         >
             <ExpansionCard.Header
                 className={cx(
-                    "gap-2 data-[open=true]:after:content-none",
+                    "gap-2 data-[open=true]:after:content-none *:first:w-full *:first:min-w-0",
                     cardBorder(index, count),
                     styles.headerFill,
                     styles.chevronTight

@@ -25,13 +25,8 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
 
     return (
         <VStack gap="space-2">
-            <Box
-                borderRadius="12 12 0 0"
-                paddingInline="4"
-                paddingBlock="space-12"
-                className="bg-[var(--ax-bg-accent-softA)]"
-            >
-                <HStack className="pr-2" align="center">
+            <Box borderRadius="12 12 0 0" padding="space-12" background="accent-soft">
+                <HStack className="pr-2" justify="space-between">
                     <Heading size="small" level="3" className="capitalize">
                         {format.dateTime(new Date(manedMedUtbetalinger.ar, manedMedUtbetalinger.maned - 1, 10), {
                             month: "long",
