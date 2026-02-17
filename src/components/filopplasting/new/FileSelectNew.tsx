@@ -64,6 +64,8 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         </HStack>
                     }
                     description={description ?? t("beskrivelse")}
+                    tag={tag}
+                    buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
                     disabled={(docState.uploads?.length ?? 0) >= 30}
                 />

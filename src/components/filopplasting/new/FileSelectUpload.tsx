@@ -1,12 +1,13 @@
-import { Alert, Button, FileObject, FileUpload, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Button, FileObject, FileUpload, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
-import { useTranslations } from "next-intl";
 
 interface ResponsiveFileUploadSimpleProps {
     label: ReactNode;
     description?: ReactNode;
+    tag?: ReactNode;
+    buttonText?: string;
     error?: ReactNode;
     onSelect: (files: FileObject[]) => void;
     disabled?: boolean;
@@ -15,12 +16,12 @@ interface ResponsiveFileUploadSimpleProps {
 export const FileSelectUpload = ({
     label,
     description,
+    tag,
+    buttonText,
     error,
     onSelect,
     disabled = false,
 }: ResponsiveFileUploadSimpleProps) => {
-    const t = useTranslations("Opplastingsboks");
-
     return (
         <>
             <div className="hidden sm:block">
@@ -39,18 +40,17 @@ export const FileSelectUpload = ({
             </div>
 
             <VStack gap="2" className="block sm:hidden">
+                <HStack justify="space-between">{tag}</HStack>
+                {description && <BodyShort>{description}</BodyShort>}
                 <FileUpload.Trigger
                     accept={allowedFileTypes}
                     maxSizeInBytes={10 * 1024 * 1024}
                     multiple
                     onSelect={onSelect}
                 >
-                    <Button
-                        variant="secondary"
-                        icon={<UploadIcon aria-hidden />}
-                        disabled={disabled}
-                        aria-label={t("lastOppFiler")}
-                    />
+                    <Button className="mt-4" variant="secondary" icon={<UploadIcon aria-hidden />} disabled={disabled}>
+                        {buttonText}
+                    </Button>
                 </FileUpload.Trigger>
                 {error && (
                     <Alert variant="error" size="small">
