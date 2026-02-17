@@ -256,14 +256,14 @@
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Application for financial assistance",
-        "sendt": "Sent: {dato, date, ::ddMMyyyy}",
+        "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "visFlereDokumenter": "documents"
     },
     "SoknadenDin": {
         "tittel": "Your application",
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Appliation for financial assistance.pdf",
-        "sendt": "Sent: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sent {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",
