@@ -227,7 +227,7 @@
         }
     },
     "Opplastingsboks": {
-        "tittel": "Do you want to submit more documents?",
+        "tittel": "Upload more documentation",
         "beskrivelse": "If you have any additional information that may be relevant to your application, you can upload it here.",
         "dragAndDrop": "Drag and drop files here",
         "eller": "or",
@@ -235,7 +235,7 @@
         "uploading": "Uploading...",
         "delete": "Remove file",
         "sendInn": "Submit",
-        "lastOppFiler": "Upload documentation",
+        "lastOppFiler": "Upload files",
         "valgteFiler": "Selected files ({antall_filer})",
       "filerTilOpplasting": "Files for upload",
       "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",

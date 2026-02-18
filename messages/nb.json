@@ -198,7 +198,7 @@
         }
     },
     "Opplastingsboks": {
-        "tittel": "Vil du sende inn flere dokumenter?",
+        "tittel": "Last opp dokumentasjon",
         "beskrivelse": "Hvis du har andre opplysninger som kan ha betydning for søknaden din, kan du laste de opp her.",
         "dragAndDrop": "Dra og slipp filer her",
         "eller": "eller",
@@ -206,7 +206,7 @@
         "uploading": "Laster opp...",
         "delete": "Fjern fil",
         "sendInn": "Send inn",
-        "lastOppFiler": "Last opp dokumentasjon",
+        "lastOppFiler": "Last opp filer",
         "valgteFiler": "Valgte filer ({antall_filer})",
       "filerTilOpplasting": "Filer til opplasting",
       "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
