@@ -8,7 +8,7 @@ import { HStack } from "@navikt/ds-react";
 import TagsContextProvider from "@components/tags/TagsContextProvider";
 import useIsMobile from "@utils/useIsMobile";
 
-const TagsBridge = () => {
+const TagsAdapter = () => {
     const { id } = useParams<{ id: string }>();
     const { data } = useGetSaksDetaljerSuspense(id);
     const isMobile = useIsMobile();
@@ -22,4 +22,4 @@ const TagsBridge = () => {
     );
 };
 
-export default TagsBridge;
+export default TagsAdapter;

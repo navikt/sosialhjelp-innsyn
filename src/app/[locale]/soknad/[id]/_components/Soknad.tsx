@@ -22,18 +22,14 @@ import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
 import Filopplasting from "./dokumenter/Filopplasting";
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
 import Saker from "./saker/Saker";
-import InfoAlert from "./alert/InfoAlert";
-import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
-import DeltSoknadAlert from "./saker/DeltSoknadAlert";
-import OppgaveAlert from "./alert/OppgaveAlert";
-import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknadSnarveier from "./snarveier/SoknadSnarveier";
-import TagsBridge from "./tags/TagsBridge";
+import TagsAdapter from "./tags/TagsAdapter";
 import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
 import { TagsSkeleton } from "@components/tags/Tags";
+import SoknadInfoCardAdapter from "./info/SoknadInfoCardAdapter";
 
 interface Props {
     id: string;
@@ -64,38 +60,23 @@ export const Soknad = async ({ id }: Props) => {
 
     return (
         <VStack gap="space-80" className="mt-20">
-            <BoxNew>
+            <VStack gap="space-16">
                 <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
                     {tittel ?? t("defaultTittel")}
                 </Heading>
                 <Suspense fallback={<TagsSkeleton size="medium" />}>
                     <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
-                        <TagsBridge />
+                        <TagsAdapter />
                     </HydrationBoundary>
                 </Suspense>
-            </BoxNew>
-            <VStack gap="space-8">
-                {forelopigSvarPromise && (
-                    <Suspense fallback={null}>
-                        <ForelopigSvarAlert
-                            forelopigSvarPromise={forelopigSvarPromise}
-                            navKontor={navKontor ?? "Ditt Nav-kontor"}
-                        />
-                    </Suspense>
-                )}
-                <Suspense fallback={null}>
-                    <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                        <OppgaveAlert navKontor={navKontor} />
-                    </HydrationBoundary>
-                </Suspense>
-                <InfoAlert navKontor={navKontor} soknadstatus={status} sakerPromise={sakerPromise} />
-                {vilkarPromise && <VilkarAlert vilkarPromise={vilkarPromise} />}
-                {sakerPromise && (
-                    <Suspense fallback={null}>
-                        <DeltSoknadAlert sakerPromise={sakerPromise} />
-                    </Suspense>
-                )}
             </VStack>
+            <Suspense fallback={null}>
+                <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
+                    <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
+                        <SoknadInfoCardAdapter navKontor={navKontor} />
+                    </HydrationBoundary>
+                </HydrationBoundary>
+            </Suspense>
             {sakerPromise && klagerPromise && (
                 <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(klageQueryClient)}>
