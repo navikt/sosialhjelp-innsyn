@@ -17,7 +17,7 @@ import { umamiTrack } from "../../../app/umami";
 interface Props {
     metadata: Metadata;
     label?: string;
-    description?: string;
+    description?: ReactNode;
     tag?: ReactNode;
     completed?: boolean;
 }
@@ -103,7 +103,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            <div>{label ?? t("Opplastingsboks.tittel")}</div>
+                            <span lang="no">{label ?? t("Opplastingsboks.tittel")}</span>
                             {tag}
                         </HStack>
                     }
