@@ -68,6 +68,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
                     disabled={(docState.uploads?.length ?? 0) >= 30}
+                    showDescriptionInside={false}
                 />
 
                 {!!docState.uploads?.length && (

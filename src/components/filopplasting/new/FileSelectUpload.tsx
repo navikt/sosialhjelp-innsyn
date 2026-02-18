@@ -12,6 +12,7 @@ interface ResponsiveFileUploadSimpleProps {
     error?: ReactNode;
     onSelect: (files: FileObject[]) => void;
     disabled?: boolean;
+    showDescriptionInside?: boolean; // If false, description should be shown by parent component
 }
 
 export const FileSelectUpload = ({
@@ -22,6 +23,7 @@ export const FileSelectUpload = ({
     error,
     onSelect,
     disabled = false,
+    showDescriptionInside = true,
 }: ResponsiveFileUploadSimpleProps) => {
     const isMobile = useIsMobile();
 
@@ -32,7 +34,7 @@ export const FileSelectUpload = ({
                     className="flex flex-col"
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
                     label={label}
-                    description={description}
+                    description={showDescriptionInside ? description : undefined}
                     onSelect={onSelect}
                     accept={allowedFileTypes}
                     maxSizeInBytes={10 * 1024 * 1024}
@@ -43,7 +45,7 @@ export const FileSelectUpload = ({
             ) : (
                 <VStack gap="2">
                     <HStack justify="space-between">{tag}</HStack>
-                    {description && <BodyShort>{description}</BodyShort>}
+                    {showDescriptionInside && description && <BodyShort>{description}</BodyShort>}
                     <FileUpload.Trigger
                         accept={allowedFileTypes}
                         maxSizeInBytes={10 * 1024 * 1024}

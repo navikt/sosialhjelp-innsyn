@@ -99,7 +99,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 },
             }}
         >
-            <VStack gap="6">
+            <VStack gap="space-32">
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
@@ -111,6 +111,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     tag={tag}
                     buttonText={t("Opplastingsboks.lastOppFiler")}
                     onSelect={onFilesSelect}
+                    showDescriptionInside={false}
                     error={
                         outerErrors.length > 0 ? (
                             <ul>

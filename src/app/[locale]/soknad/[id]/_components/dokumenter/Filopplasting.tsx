@@ -1,12 +1,13 @@
 "use client";
 
-import { Heading, VStack, Box } from "@navikt/ds-react";
+import { Heading, VStack, Box, BodyShort } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
+import useIsMobile from "@utils/useIsMobile";
 
 import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
 
@@ -19,6 +20,8 @@ interface Props {
 
 const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const t = useTranslations("Filopplasting");
+    const tOpplastingsboks = useTranslations("Opplastingsboks");
+    const isMobile = useIsMobile();
 
     const { data } = useHentVedleggSuspense(id);
     const ettersendelseDokumenter = data.filter(
@@ -30,6 +33,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
+            {!isMobile && <BodyShort>{tOpplastingsboks("beskrivelse")}</BodyShort>}
             <Box.New
                 background="info-soft"
                 padding="space-24"
@@ -37,6 +41,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderWidth="1"
                 borderColor="info-subtle"
             >
+                {isMobile && <BodyShort className="mb-4">{tOpplastingsboks("beskrivelse")}</BodyShort>}
                 <NavigationGuardProvider>
                     {newUploadEnabled ? (
                         <OpplastingsboksTus metadata={metadata} id={id} />
