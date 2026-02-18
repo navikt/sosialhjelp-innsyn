@@ -8,12 +8,9 @@ import UtbetalingStatusTag from "./UtbetalingStatusTag";
 
 interface Props {
     utbetaling: ManedUtbetaling;
-    index: number;
-    firstExpandedItemRef: React.RefObject<HTMLLIElement | null> | null;
-    itemsLimit: number;
 }
 
-const KommendeUtbetalingCard = ({ utbetaling, index, firstExpandedItemRef, itemsLimit }: Props) => {
+const KommendeUtbetalingCard = ({ utbetaling }: Props) => {
     const format = useFormatter();
     const t = useTranslations("KommendeUtbetalingerListe");
 
@@ -25,26 +22,20 @@ const KommendeUtbetalingCard = ({ utbetaling, index, firstExpandedItemRef, items
     const srOnlyText = !stopped ? t("titleSrOnly", { date }) : null;
 
     return (
-        <li
-            key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}
-            ref={index === itemsLimit ? firstExpandedItemRef : null}
-            tabIndex={-1}
+        <DigisosLinkCard
+            href="/utbetalinger"
+            description={utbetaling.tittel}
+            footer={
+                utbetaling.forfallsdato && (
+                    <LinkCardFooter>
+                        <UtbetalingStatusTag stopped={stopped} date={date} />
+                    </LinkCardFooter>
+                )
+            }
         >
-            <DigisosLinkCard
-                href="/utbetalinger"
-                description={utbetaling.tittel}
-                footer={
-                    utbetaling.forfallsdato && (
-                        <LinkCardFooter>
-                            <UtbetalingStatusTag stopped={stopped} date={date} />
-                        </LinkCardFooter>
-                    )
-                }
-            >
-                {title}
-                {srOnlyText && <span className="sr-only">{srOnlyText}</span>}
-            </DigisosLinkCard>
-        </li>
+            {title}
+            {srOnlyText && <span className="sr-only">{srOnlyText}</span>}
+        </DigisosLinkCard>
     );
 };
 

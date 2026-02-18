@@ -20,13 +20,14 @@ const KommendeUtbetalingerListe = ({ alleKommende, labelledById }: Props) => {
             showMoreSuffix={t("utbetalinger")}
             labelledById={labelledById}
         >
-            {(utbetaling, index, firstExpandedItemRef, itemsLimit) => (
-                <KommendeUtbetalingCard
-                    utbetaling={utbetaling}
-                    index={index}
-                    firstExpandedItemRef={firstExpandedItemRef}
-                    itemsLimit={itemsLimit}
-                />
+            {(utbetaling, ref) => (
+                <li
+                    key={`${utbetaling.fiksDigisosId}-${utbetaling.utbetalingsdato}-${utbetaling.belop}`}
+                    ref={ref}
+                    tabIndex={-1}
+                >
+                    <KommendeUtbetalingCard utbetaling={utbetaling} />
+                </li>
             )}
         </ExpandableList>
     );

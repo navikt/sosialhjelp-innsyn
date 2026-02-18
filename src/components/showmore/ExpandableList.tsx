@@ -6,12 +6,7 @@ import ShowMoreButton from "@components/showmore/ShowMoreButton";
 
 interface Props<T> {
     items: T[];
-    children: (
-        item: T,
-        index: number,
-        firstExpandedItemRef: RefObject<HTMLLIElement | null>,
-        itemsLimit: number
-    ) => React.JSX.Element;
+    children: (item: T, ref: RefObject<HTMLLIElement> | null) => React.JSX.Element;
     id: string;
     showMoreSuffix: string;
     labelledById: string;
@@ -30,11 +25,14 @@ const ExpandableList = <T,>({
     const { hasMore, showAll } = showMore;
     const firstExpandedItemRef = useRef<HTMLLIElement>(null);
     const visibleItems = showAll ? items : items.slice(0, itemsLimit);
+
     return (
         <>
             <VStack as="ul" gap="2" id={id} aria-labelledby={labelledById}>
-                {/* eslint-disable-next-line react-hooks/refs */}
-                {visibleItems.map((item, index) => children(item, index, firstExpandedItemRef, itemsLimit))}
+                {/* eslint-disable-next-line react-hooks/refs -- Using ref for focus management on expand */}
+                {visibleItems.map((item, index) =>
+                    children(item, index === itemsLimit ? (firstExpandedItemRef as RefObject<HTMLLIElement>) : null)
+                )}
             </VStack>
             {hasMore && (
                 <ShowMoreButton

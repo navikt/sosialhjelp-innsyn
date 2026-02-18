@@ -33,8 +33,8 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
             labelledById={labelledById}
             itemsLimit={3}
         >
-            {(fil, index, firstExpandedItemRef, itemsLimit) => (
-                <li key={fil.filnavn + index} ref={index === itemsLimit ? firstExpandedItemRef : null} tabIndex={-1}>
+            {(fil, ref) => (
+                <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
                     <DigisosLinkCard
                         href={fil.url}
                         cardIcon="external-link"

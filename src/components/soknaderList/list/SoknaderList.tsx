@@ -50,8 +50,8 @@ const SoknaderList = ({ soknader, labelledById }: Props) => {
 
     return (
         <ExpandableList id="soknader-list" items={soknader} showMoreSuffix={t("soknader")} labelledById={labelledById}>
-            {(item, index, firstExpandedItemRef, itemsLimit) => (
-                <li key={sakKey(item)} ref={index === itemsLimit ? firstExpandedItemRef : null} tabIndex={-1}>
+            {(item, ref) => (
+                <li key={sakKey(item)} ref={ref} tabIndex={-1}>
                     {"fiksDigisosId" in item && <SoknadCard soknad={item} />}
                     {"soknadId" in item && (
                         <PaabegyntCard soknadId={item.soknadId} keptUntil={addDays(new Date(item.sistOppdatert), 21)} />
