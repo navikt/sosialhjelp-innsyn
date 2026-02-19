@@ -1,4 +1,4 @@
-import React, { RefObject, useRef } from "react";
+import React, { useRef } from "react";
 import { VStack } from "@navikt/ds-react";
 
 import useShowMore, { ITEMS_LIMIT } from "@components/showmore/useShowMore";
@@ -6,7 +6,7 @@ import ShowMoreButton from "@components/showmore/ShowMoreButton";
 
 interface Props<T> {
     items: T[];
-    children: (item: T, ref: RefObject<HTMLLIElement> | null) => React.JSX.Element;
+    children: (item: T, ref: React.Ref<HTMLLIElement> | null) => React.JSX.Element;
     id: string;
     showMoreSuffix: string;
     labelledById: string;
@@ -30,9 +30,7 @@ const ExpandableList = <T,>({
         <>
             <VStack as="ul" gap="2" id={id} aria-labelledby={labelledById}>
                 {/* eslint-disable-next-line react-hooks/refs -- Using ref for focus management on expand */}
-                {visibleItems.map((item, index) =>
-                    children(item, index === itemsLimit ? (firstExpandedItemRef as RefObject<HTMLLIElement>) : null)
-                )}
+                {visibleItems.map((item, index) => children(item, index === itemsLimit ? firstExpandedItemRef : null))}
             </VStack>
             {hasMore && (
                 <ShowMoreButton
