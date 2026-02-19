@@ -29,7 +29,7 @@ const AddFileButton = ({ onChange, id, resetStatus, hasError, disabled, title }:
             <Button variant="secondary" size="small" onClick={onClick} disabled={disabled}>
                 <span aria-hidden>{`+ `}</span> {t("vedlegg.velg_fil")}
             </Button>
-            <label className="navds-sr-only" htmlFor={"file_" + id}>
+            <label className="sr-only" htmlFor={"file_" + id}>
                 {`${t("vedlegg.velg_fil")} ${title}`}
             </label>
             <input
@@ -38,7 +38,7 @@ const AddFileButton = ({ onChange, id, resetStatus, hasError, disabled, title }:
                 multiple={true}
                 onChange={onChange}
                 onClick={resetInputValue}
-                className="navds-sr-only"
+                className="sr-only"
                 tabIndex={-1}
                 accept="image/jpeg,image/png,application/pdf,impage/jpg"
                 aria-invalid={hasError}

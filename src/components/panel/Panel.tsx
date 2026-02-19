@@ -28,7 +28,7 @@ interface Props {
 const Panel = ({ hasError, header, children }: Props): React.JSX.Element => (
     <StyledPanel $error={hasError}>
         {header && typeof header === "string" ? (
-            <StyledHeading level="2" size="medium">
+            <StyledHeading level="2" size="medium" spacing>
                 {header}
             </StyledHeading>
         ) : (

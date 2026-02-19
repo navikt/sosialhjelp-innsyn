@@ -29,6 +29,7 @@ const CenteredButton = styled(Button)`
 const FlexContainer = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 1rem;
 `;
 
 function sorterHendelserKronologisk(hendelser: HendelseResponse[]): HendelseResponse[] {
@@ -136,7 +137,11 @@ const HistorikkListe = ({ hendelser, className, leserData }: HistorikkListeProps
 };
 
 const KortHistorikk = ({ hendelser, leserData }: { hendelser: HendelseResponse[]; leserData: boolean }) => {
-    return <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />;
+    return (
+        <FlexContainer>
+            <HistorikkListe hendelser={hendelser} className="historikk" leserData={leserData} />
+        </FlexContainer>
+    );
 };
 
 const LangHistorikk = ({ hendelser }: { hendelser: HendelseResponse[] }) => {
