@@ -21,7 +21,7 @@ export const PdfPreviewDisplay = ({
     const pageWidth = width ?? 500;
     return (
         <>
-            <Box maxWidth="800px" minHeight="70vh" maxHeight="70vh" padding="4" position="relative">
+            <Box maxWidth="800px" minHeight="70vh" maxHeight="70vh" padding="space-4" position="relative">
                 <Document
                     file={memoedFile}
                     onLoadSuccess={({ numPages }) => setNumPages(numPages)}

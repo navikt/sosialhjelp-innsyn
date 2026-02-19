@@ -4,7 +4,7 @@ import UtbetalingerContentCardSkeleton from "./UtbetalingerContentCardSkeleton";
 
 const UtbetalingerCardSkeleton = () => (
     <VStack gap="space-2">
-        <Box borderRadius="12 12 0 0" paddingInline="4" paddingBlock="space-12" background="accent-soft">
+        <Box borderRadius="12 12 0 0" paddingInline="space-4" paddingBlock="space-12" background="accent-soft">
             <HStack className="pr-2" align="center">
                 <Heading size="small" level="3" className="capitalize">
                     <Skeleton as="span" width="120px" variant="rectangle" />
