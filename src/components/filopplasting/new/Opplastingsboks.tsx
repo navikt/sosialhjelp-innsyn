@@ -123,7 +123,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="2">
+                    <VStack gap="4">
                         <Heading size="small" level="3">
                             {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
