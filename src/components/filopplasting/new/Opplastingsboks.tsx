@@ -113,11 +113,9 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                             {tag}
                         </HStack>
                     }
-                    description={description ?? t("Opplastingsboks.beskrivelse")}
                     tag={tag}
                     buttonText={t("Opplastingsboks.lastOppFiler")}
                     onSelect={onFilesSelect}
-                    showDescriptionInside={false}
                     error={
                         outerErrors.length > 0 ? (
                             <ul>

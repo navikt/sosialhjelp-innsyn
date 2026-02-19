@@ -63,7 +63,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     return (
         <>
-            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+            <FileSelectNew label={label} tag={tag} docState={docState} uploadId={id} />
             {!!docState.uploads?.length && (
                 <Button
                     onClick={() => upload(docState.documentId!)}

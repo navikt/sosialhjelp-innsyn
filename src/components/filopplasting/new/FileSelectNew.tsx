@@ -13,7 +13,6 @@ import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload
 interface Props {
     id?: string;
     label?: string;
-    description?: ReactNode;
     filesLabel?: string;
     tag?: ReactNode;
     isPending?: boolean;
@@ -21,7 +20,7 @@ interface Props {
     uploadId: string;
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
+const FileSelectNew = ({ label, tag, docState, id, filesLabel, uploadId }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
     // Starter opplasting umiddelbart ved filvalg
@@ -63,12 +62,10 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                             {tag}
                         </HStack>
                     }
-                    description={description ?? t("beskrivelse")}
                     tag={tag}
                     buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
                     disabled={(docState.uploads?.length ?? 0) >= 30}
-                    showDescriptionInside={false}
                 />
 
                 {!!docState.uploads?.length && (
