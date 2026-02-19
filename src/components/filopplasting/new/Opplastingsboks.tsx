@@ -66,9 +66,15 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             <VStack gap="2">
                 <Box.New>
                     <HStack align="center" justify="space-between">
-                        <Heading size="small" level="3" lang="no">
-                            {label ?? t("Opplastingsboks.tittel")}
-                        </Heading>
+                        {label ? (
+                            <Heading size="small" level="3" lang="no">
+                                {label}
+                            </Heading>
+                        ) : (
+                            <Heading size="small" level="3">
+                                {t("Opplastingsboks.tittel")}
+                            </Heading>
+                        )}
                         {tag}
                     </HStack>
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
@@ -103,7 +109,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            <span lang="no">{label ?? t("Opplastingsboks.tittel")}</span>
+                            {label ? <span lang="no">{label}</span> : t("Opplastingsboks.tittel")}
                             {tag}
                         </HStack>
                     }

@@ -53,7 +53,7 @@ const FileSelect = ({
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            <span lang="no">{label ?? t("Opplastingsboks.tittel")}</span>
+                            {label ? <span lang="no">{label}</span> : t("Opplastingsboks.tittel")}
                             {tag}
                         </HStack>
                     }
