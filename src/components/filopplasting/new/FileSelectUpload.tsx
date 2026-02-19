@@ -8,11 +8,11 @@ interface ResponsiveFileUploadSimpleProps {
     label: ReactNode;
     description?: ReactNode;
     tag?: ReactNode;
-    buttonText?: string;
+    buttonText: string;
     error?: ReactNode;
     onSelect: (files: FileObject[]) => void;
     disabled?: boolean;
-    showDescriptionInside?: boolean; // If false, description should be shown by parent component
+    showDescriptionInside?: boolean;
 }
 
 export const FileSelectUpload = ({
@@ -57,6 +57,7 @@ export const FileSelectUpload = ({
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
+                            aria-label={buttonText}
                         >
                             {buttonText}
                         </Button>

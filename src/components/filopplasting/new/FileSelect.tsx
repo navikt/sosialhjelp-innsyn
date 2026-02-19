@@ -58,6 +58,7 @@ const FileSelect = ({
                         </HStack>
                     }
                     description={description ?? t("Opplastingsboks.beskrivelse")}
+                    buttonText={t("Opplastingsboks.lastOppFiler")}
                     error={
                         outerErrors.length > 0 ? (
                             <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
