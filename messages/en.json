@@ -42,21 +42,21 @@
         "frist": "Due: {frist, date, ::ddMMyyyy}",
         "løst": "Submitted"
     },
-    "SoknadInfoCard": {
-        "Behandlingstid": {
-            "vilBehandle": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
-            "melde": {
-                "tittel": "Remember to report changes",
-                "beskrivelse": "Some situations may affect the payments you receive from Nav. This includes changes in your marital status, family situation or income. <lenke>Read more about which situations may affect your payment.</lenke>",
-                "beskrivelse2": "To report changes, you can submit a text document in the \"Submit additional documentation\" field below, or contact your caseworker or your Nav office. <tel>You can also call our advisors at 55 55 33 33.</tel>"
-            },
-            "saksbehandlingstid": {
-                "tittel": "Processing time",
-                "beskrivelse1": "Processing times vary at different Nav offices, and we can therefore not provide an exact estimate. If more than 31 days have passed since you applied, you should receive a letter stating that the processing time has been extended.",
-                "beskrivelse2": "What can I do to get an answer faster?",
-                "beskrivelse3": "Submit the documentation requested by your Nav office. If you submit a screenshot or image file, make sure the text in the image is legible."
-            }
+    "Behandlingstid": {
+        "vilBehandle": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
+        "melde": {
+            "tittel": "Remember to report changes",
+            "beskrivelse": "Some situations may affect the payments you receive from Nav. This includes changes in your marital status, family situation or income. <lenke>Read more about which situations may affect your payment.</lenke>",
+            "beskrivelse2": "To report changes, you can submit a text document in the \"Submit additional documentation\" field below, or contact your caseworker or your Nav office. <tel>You can also call our advisors at 55 55 33 33.</tel>"
         },
+        "saksbehandlingstid": {
+            "tittel": "Processing time",
+            "beskrivelse1": "Processing times vary at different Nav offices, and we can therefore not provide an exact estimate. If more than 31 days have passed since you applied, you should receive a letter stating that the processing time has been extended.",
+            "beskrivelse2": "What can I do to get an answer faster?",
+            "beskrivelse3": "Submit the documentation requested by your Nav office. If you submit a screenshot or image file, make sure the text in the image is legible."
+        }
+    },
+    "SoknadInfoCard": {
         "defaultNavKontor": "Your NAV office",
         "sendt": {
             "title": "Your application has been sent"
