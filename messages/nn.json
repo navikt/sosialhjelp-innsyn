@@ -2,20 +2,6 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
-    "VilkarAlert": {
-        "tittel": "Du har fått vilkår med frist",
-        "beskrivelse": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav."
-    },
-    "SoknadStatusAlert": {
-        "tittel": {
-            "UNDER_BEHANDLING": "Søknaden din er under behandling",
-            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandla"
-        },
-        "beskrivelse": {
-            "UNDER_BEHANDLING": "Forventa saksbehandling er 4 veker.",
-            "FERDIGBEHANDLET": "Hugs å les vedtaksbrevet."
-        }
-    },
     "SingleSak": {
         "vedtak": "Vedtak"
     },
@@ -38,22 +24,9 @@
         "tittel": "Søknadene mine om økonomisk sosialhjelp",
         "htmlTitle": "Søknadene mine om økonomisk sosialhjelp"
     },
-    "ForelopigSvarAlert": {
-        "tittel": "Du har fått eit brev om forlengd saksbehandlingstid",
-        "beskrivelse": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Opne brevet for å sjå når du kan vente svar på søknaden din. <lenke>Trykk for å skrolle ned til brevet</lenke>."
-    },
     "ForelopigSvar": {
         "tittel": "Brev frå Nav",
         "lastNed": "Last ned brev om saksbehandlingstid"
-    },
-    "OppgaveAlert": {
-        "tittel": "Du har fått oppgåver med frist {frist, date, ::dMMMM}",
-        "beskrivelse": "<norsk>{navKontor}</norsk> treng fleire dokument for å kunne behandle saka di.",
-        "beskrivelseUtenNavkontor": "Nav-kontoret ditt treng fleire dokument for å kunne behandle saka di.",
-        "readMore": {
-            "tittel": "Kva skjer om du ikkje sender inn innan fristen?",
-            "innhold": "Om du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden blir avslått, og at du må søkje på nytt."
-        }
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -70,39 +43,46 @@
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
         "løst": "Sendt inn"
     },
-    "StatusSendtPage": {
-        "tittel": "Søknaden din er send"
-    },
-    "StatusMottattPage": {
-        "tittel": "Søknaden din er motteken",
-        "alert": {
-            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
-            "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+    "Behandlingstid": {
+        "Description": {
+            "normal": "<norsk>{navKontor}</norsk> vil behandle saka di så fort dei kan.",
+            "forlenget": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. <lenke>Opne brevet om saksbehandlingstid</lenke> for å sjå når du kan vente svar på søknaden din.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Les brevet om saksbehandlingstid for å sjå når du kan vente svar på søknaden din."
+        },
+        "ReadMore": {
+            "melde": {
+                "tittel": "Hugs å melde frå om endringar",
+                "beskrivelse": "Nokre situasjonar kan påverke utbetalingane du får i Nav. Dette inkluderer mellom anna endringar i sivilstatusen din, familiesituasjon eller inntekt. <lenke>Les meir om kva situasjonar som kan påverke utbetalinga di.</lenke>",
+                "beskrivelse2": "For å melde frå om endringar kan du sende inn eit tekstdokument i feltet \"Ettersend dokumentasjon\" nedanfor, eller kontakte saksbehandlaren eller Nav-kontoret ditt. <tel>Du kan også ringje rettleiarane våre på 55 55 33 33.</tel>"
+            },
+            "saksbehandlingstid": {
+                "tittel": "Saksbehandlingstida",
+                "beskrivelse1": "Behandlingstida varierer på dei ulike Nav-kontora, og vi kan derfor ikkje gi eit nøyaktig estimat. Dersom det har gått meir enn 31 dagar frå du søkte, skal du få eit brev om at saksbehandlingstida er forlengd.",
+                "beskrivelse2": "Kva kan eg gjere for å få svar fortare?",
+                "beskrivelse3": "Send inn dokumentasjonen som blir etterspurd av Nav-kontoret ditt. Om du sender inn eit skjermbilete eller ei biletfil, pass på at teksten på biletet er leseleg."
+            }
         }
     },
-    "DeltSoknadAlert": {
-        "tittel": "Søknaden din er delt opp i fleire saker",
-        "beskrivelse": "Dette kan vere fordi du har søkt om støtte til fleire utgifter, eller fordi det er behov for å behandle delar av søknaden separat."
-    },
-    "StatusUnderBehandlingPage": {
-        "tittel": "Søknaden din er under behandling",
-        "underBehandlingAlert": "Under behandling",
-        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
-    },
-    "StatusFerdigbehandletPage": {
-        "tittel": "Søknaden din er ferdigbehandla",
-        "underBehandlingAlert": "Under behandling",
-        "vedtakStatus": "Søknad om <norsk>{sakstittel}</norsk>"
-    },
-    "InfoAlert": {
-        "SENDT": {
-            "tittel": "Søknaden din er send til <norsk>{navKontor}</norsk>",
-            "beskrivelse": "Når Nav byrjar å behandle søknaden, kan det hende du blir beden om å sende fleire opplysningar eller meir dokumentasjon."
+    "SoknadInfoCard": {
+        "defaultNavKontor": "Nav-kontoret ditt",
+        "sendt": {
+            "title": "Søknaden din er send"
         },
-        "MOTTATT": {
-            "tittel": "Hugs å meld frå om endringar",
-            "beskrivelse": "Dersom det skjer endringar i situasjonen din, kan det påverke oppfølginga eller utbetalinga du får frå Nav. <lenke>Les meir om kva situasjonar som kan påverke.</lenke>",
-            "beskrivelse2": "For å melde frå om endringar kan du ringe oss på <tel>55 55 33 33</tel> eller laste opp dokument som vedlegg nedanfor."
+        "forelopigSvar": {
+            "title": "Forlenga saksbehandlingstid"
+        },
+        "mottatt": {
+            "title": "Saksbehandlingstid"
+        },
+        "oppgaver": {
+            "title": "Du har fått oppgåver",
+            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
+            "oppgave": "<bold>{name}</bold>, frist {frist, date, ::ddMMyyyy}",
+            "warning": "Dersom du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden blir avslått, og at du må søkje på nytt."
+        },
+        "nyttVedtak": {
+            "title": "Du har fått eit nytt vedtak",
+            "description": "Les det nyaste vedtaksbrevet for meir informasjon"
         }
     },
     "StatusPage": {
@@ -140,31 +120,6 @@
         "tittel": "Usamd i vedtaket",
         "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
         "klageKnapp": "Klag på vedtaket"
-    },
-    "SakSkeleton": {
-        "tittel": "Søknad om økonomisk sosialhjelp"
-    },
-    "StatusVedtak": {
-        "tittel": "Søknad om <norsk>{sakstittel}</norsk>",
-        "status": "<b>Vedtak:</b> <norsk>{status}</norsk>",
-        "vedtaksBrev": "Last ned vedtaksbrevet",
-        "kommendeUtbetaling": "Se komande utbetaling"
-    },
-    "StatusVedtakInnvilget": {
-        "tittel": "Innvilga",
-        "beskrivelse": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga."
-    },
-    "StatusVedtakDelvisInnvilget": {
-        "tittel": "Delvis innvilga",
-        "beskrivelse": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga."
-    },
-    "StatusVedtakAvslag": {
-        "tittel": "Avslag",
-        "beskrivelse": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
-    },
-    "StatusVedtakAvvist": {
-        "tittel": "Avvist",
-        "beskrivelse": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"

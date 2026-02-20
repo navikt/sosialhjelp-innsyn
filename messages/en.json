@@ -2,20 +2,6 @@
     "Landingsside": {
         "tittel": "Financial assistance"
     },
-    "VilkarAlert": {
-        "tittel": "You have a condition",
-        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
-    },
-    "SoknadStatusAlert": {
-        "tittel": {
-            "UNDER_BEHANDLING": "Your application is being processed",
-            "FERDIGBEHANDLET": "Your application has been processed"
-        },
-        "beskrivelse": {
-            "UNDER_BEHANDLING": "Expected processing time is 4 weeks.",
-            "FERDIGBEHANDLET": "Remember to read the notice of decision."
-        }
-    },
     "SingleSak": {
         "vedtak": "Decision"
     },
@@ -38,22 +24,9 @@
         "tittel": "My applications for financial assistance",
         "htmlTitle": "My applications for financial assistance"
     },
-    "ForelopigSvarAlert": {
-        "tittel": "You have received a letter regarding an extended processing time.",
-        "beskrivelse": "<norsk>{navKontor}</norsk> sees that they are unable to process your application by the deadline and has sent you a letter. Open the letter to see when you can expect a response to your application. <lenke>Click to scroll to the letter</lenke>."
-    },
     "ForelopigSvar": {
         "tittel": "Letter from Nav",
         "lastNed": "Download letter regarding processing time"
-    },
-    "OppgaveAlert": {
-        "tittel": "You have been given tasks with deadline {frist, date, ::dMMMM}",
-        "beskrivelse": "<norsk>{navKontor}</norsk> needs more documents to process your case.",
-        "beskrivelseUtenNavkontor": "Your Nav office needs more documents to process your case.",
-        "readMore": {
-            "tittel": "What happens if you don't submit by the deadline?",
-            "innhold": "If you do not submit the necessary documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again."
-        }
     },
     "VilkarListe": {
         "tittel": "Conditions",
@@ -70,39 +43,45 @@
         "frist": "Due: {frist, date, ::ddMMyyyy}",
         "løst": "Submitted"
     },
-    "StatusSendtPage": {
-        "tittel": "Your application has been sent"
-    },
-    "StatusMottattPage": {
-        "tittel": "You application has been received",
-        "alert": {
-            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
-            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+    "Behandlingstid": {
+        "Description": {
+            "normal": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
+            "forlenget": "<norsk>{navKontor}</norsk> has found that they cannot process your application within the deadline and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
+        },
+        "ReadMore": {
+            "melde": {
+                "tittel": "Remember to report changes",
+                "beskrivelse": "Some situations may affect the payments you receive from Nav. This includes changes in your marital status, family situation or income. <lenke>Read more about which situations may affect your payment.</lenke>",
+                "beskrivelse2": "To report changes, you can submit a text document in the \"Submit additional documentation\" field below, or contact your caseworker or your Nav office. <tel>You can also call our advisors at 55 55 33 33.</tel>"
+            },
+            "saksbehandlingstid": {
+                "tittel": "Processing time",
+                "beskrivelse1": "Processing times vary at different Nav offices, and we can therefore not provide an exact estimate. If more than 31 days have passed since you applied, you should receive a letter stating that the processing time has been extended.",
+                "beskrivelse2": "What can I do to get an answer faster?",
+                "beskrivelse3": "Submit the documentation requested by your Nav office. If you submit a screenshot or image file, make sure the text in the image is legible."
+            }
         }
     },
-    "DeltSoknadAlert": {
-        "tittel": "Your application has been divided into several cases",
-        "beskrivelse": "This may be because you have applied for support for multiple expenses, or because there is a need to process parts of the application separately."
-    },
-    "StatusUnderBehandlingPage": {
-        "tittel": "Your application is being processed",
-        "underBehandlingAlert": "Being processed",
-        "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
-    },
-    "StatusFerdigbehandletPage": {
-        "tittel": "Your application has been processed",
-        "underBehandlingAlert": "Being processed",
-        "vedtakStatus": "Application for <norsk>{sakstittel}</norsk>"
-    },
-    "InfoAlert": {
-        "SENDT": {
-            "tittel": "Your application has been sent to <norsk>{navKontor}</norsk>",
-            "beskrivelse": "When Nav begins processing your application, you may be asked to send additional information or documentation."
+    "SoknadInfoCard": {
+        "defaultNavKontor": "Your NAV office",
+        "sendt": {
+            "title": "Your application has been sent"
         },
-        "MOTTATT": {
-            "tittel": "Remember to report any changes.",
-            "beskrivelse": "If there are changes in your situation, it may affect the follow-up or payment you receive from Nav. <lenke>Read more about which situations may affect.</lenke>",
-            "beskrivelse2": "To report changes, you can call us at <tel>55 55 33 33</tel> or upload documents as attachments below."
+        "forelopigSvar": {
+            "title": "Extended processing time"
+        },
+        "mottatt": {
+            "title": "Processing time"
+        },
+        "oppgaver": {
+            "title": "You have received tasks",
+            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your case:",
+            "oppgave": "<bold>{name}</bold>, deadline {frist, date, ::ddMMyyyy}",
+            "warning": "If you do not submit the necessary documentation by the deadline, the NAV office cannot process your application. This may result in your application being rejected, and you may need to apply again."
+        },
+        "nyttVedtak": {
+            "title": "You have received a new decision",
+            "description": "Read the latest decision letter for more information"
         }
     },
     "StatusPage": {
@@ -140,31 +119,6 @@
         "tittel": "Disagree with the decision?",
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <lenke>Read more about your appeal rights</lenke>. The deadline for appealing is three weeks after the date of the decision.",
         "klageKnapp": "Appeal the decision"
-    },
-    "SakSkeleton": {
-        "tittel": "Application for financial assistance"
-    },
-    "StatusVedtak": {
-        "tittel": "Application for <norsk>{sakstittel}</norsk>",
-        "status": "<b>Notice of decision:</b> <norsk>{status}</norsk>",
-        "vedtaksBrev": "Download decision letter",
-        "kommendeUtbetaling": "Check upcoming payout"
-    },
-    "StatusVedtakInnvilget": {
-        "tittel": "Granted",
-        "beskrivelse": "You have been granted benefits. Read the decision to see the reasons."
-    },
-    "StatusVedtakDelvisInnvilget": {
-        "tittel": "Partially granted",
-        "beskrivelse": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons."
-    },
-    "StatusVedtakAvslag": {
-        "tittel": "Refused",
-        "beskrivelse": "Your application has been declined. Read the decision to see the reasons."
-    },
-    "StatusVedtakAvvist": {
-        "tittel": "Rejected",
-        "beskrivelse": "Your application has been rejected. Read the decision to see the reasons."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"

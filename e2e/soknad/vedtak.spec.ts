@@ -102,7 +102,7 @@ test.describe("Vedtak functionality", () => {
         await page.getByRole("main").waitFor({ state: "visible" });
 
         // Find the "Vedtak" section heading
-        const vedtakSection = page.getByRole("heading", { name: "Vedtak", level: 2 });
+        const vedtakSection = page.getByRole("heading", { name: "Vedtak", exact: true, level: 2 });
         await expect(vedtakSection).toBeVisible();
 
         // The title should be in the same section, and the status tag should show the latest decision

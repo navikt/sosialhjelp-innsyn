@@ -1,6 +1,7 @@
 import { ExclamationmarkTriangleIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 import { Tag } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { useTagSize } from "@components/tags/TagsContextProvider";
 
 export type AlertType = "oppgave" | "forlenget_behandlingstid";
 
@@ -21,11 +22,11 @@ const AlertTagText = ({ alertType, deadline }: Props) => {
 
 const AlertTag = ({ alertType, deadline }: Props) => {
     const t = useTranslations("AlertTexts");
-
+    const size = useTagSize();
     return (
         <Tag
             variant="warning-moderate"
-            size="small"
+            size={size}
             icon={
                 alertType === "forlenget_behandlingstid" ? (
                     <InformationSquareIcon aria-hidden="true" />
