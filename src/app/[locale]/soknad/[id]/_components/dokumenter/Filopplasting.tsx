@@ -1,6 +1,6 @@
 "use client";
 
-import { Heading, VStack, Box, BodyShort } from "@navikt/ds-react";
+import { Heading, VStack, Box, BodyLong } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
@@ -33,7 +33,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            {!isMobile && <BodyShort>{tOpplastingsboks("beskrivelse")}</BodyShort>}
+            {!isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
             <Box.New
                 background="info-soft"
                 padding="space-24"
@@ -41,7 +41,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderWidth="1"
                 borderColor="info-subtle"
             >
-                {isMobile && <BodyShort className="mb-4">{tOpplastingsboks("beskrivelse")}</BodyShort>}
+                {isMobile && <BodyLong className="mb-4">{tOpplastingsboks("beskrivelse")}</BodyLong>}
                 <NavigationGuardProvider>
                     {newUploadEnabled ? (
                         <OpplastingsboksTus metadata={metadata} id={id} />
@@ -50,7 +50,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                     )}
                 </NavigationGuardProvider>
                 {ettersendelseDokumenter.length > 0 && (
-                    <VStack gap="space-8">
+                    <VStack gap="space-8" className={isMobile ? "mt-10" : "mt-10"}>
                         <Heading size="small" level="3">
                             {t("opplastedeVedlegg")}
                         </Heading>
