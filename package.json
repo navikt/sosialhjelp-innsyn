@@ -75,7 +75,6 @@
     "devDependencies": {
         "@axe-core/playwright": "^4.10.2",
         "@faker-js/faker": "^10.1.0",
-        "@navikt/aksel": "^8.2.2",
         "@playwright/test": "^1.57.0",
         "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "^6.9.1",
