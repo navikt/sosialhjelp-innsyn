@@ -281,7 +281,7 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
                     </Table.Body>
                 </StyledTable>
                 <VStack align="center" justify="center">
-                    <Box padding="space-4">
+                    <Box padding="space-16">
                         {isMobile && currentPage < pageCount && (
                             <Button variant="tertiary" onClick={() => setCurrentPage((prev) => prev + 1)}>
                                 Last inn flere

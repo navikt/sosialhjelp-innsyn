@@ -1,9 +1,3 @@
-/*
-TODO: Aksel Box migration:
-Could not migrate the following:
-  - background=warning-moderateA
-*/
-
 import { BodyShort, Box, Heading } from "@navikt/ds-react";
 import { VilkarResponse } from "@generated/model";
 
