@@ -41,7 +41,7 @@ export const FileSelectUpload = ({
                     error={error}
                 />
             ) : (
-                <VStack gap="2">
+                <VStack gap="space-8">
                     <HStack justify="space-between">{tag}</HStack>
                     {description && <BodyShort as="div">{description}</BodyShort>}
                     <FileUpload.Trigger

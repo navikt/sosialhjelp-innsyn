@@ -70,16 +70,16 @@ export const VedleggListeSkeleton = () => {
     const isMobile = useIsMobile();
 
     return (
-        <VStack as="ul" gap="2" className="navds-file-item__inner">
+        <VStack as="ul" gap="space-8" className="navds-file-item__inner">
             {isMobile ? (
-                <VStack as="li" justify="center" gap="2">
+                <VStack as="li" justify="center" gap="space-8">
                     <Skeleton variant="rectangle" width="200px" />
                     <Skeleton variant="rectangle" width="100px" />
                 </VStack>
             ) : (
-                <HStack as="li" align="center" gap="2">
+                <HStack as="li" align="center" gap="space-8">
                     <Skeleton variant="circle" height="48px" width="48px" />
-                    <VStack justify="center" gap="2">
+                    <VStack justify="center" gap="space-8">
                         <Skeleton variant="rectangle" width="200px" />
                         <Skeleton variant="rectangle" width="50px" />
                     </VStack>

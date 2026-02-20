@@ -37,7 +37,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             <Box.New
                 background="info-soft"
                 padding="space-24"
-                borderRadius="xlarge"
+                borderRadius="12"
                 borderWidth="1"
                 borderColor="info-subtle"
             >
@@ -50,7 +50,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                     )}
                 </NavigationGuardProvider>
                 {ettersendelseDokumenter.length > 0 && (
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Heading size="small" level="3">
                             {t("opplastedeVedlegg")}
                         </Heading>
@@ -64,7 +64,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
 export const FilopplastingSkeleton = () => {
     const t = useTranslations("Filopplasting");
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size="small" level="3" spacing>
                 {t("tittel")}
             </Heading>
