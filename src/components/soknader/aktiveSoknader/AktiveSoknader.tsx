@@ -18,11 +18,11 @@ const AktiveSoknader = async ({ soknader }: Props) => {
 
     const headingId = "aktive-soknader-heading";
     return (
-        <VStack gap="space-8" as="section" aria-labelledby={headingId}>
+        <VStack gap="space-8">
             <Heading size="medium" level="2" id={headingId}>
                 {t("tittel")}
             </Heading>
-            <SoknaderList soknader={sorted} />
+            <SoknaderList soknader={sorted} labelledById={headingId} />
         </VStack>
     );
 };
