@@ -1558,9 +1558,7 @@
                     "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } },
                     "forsteOppgaveFrist": { "type": "string", "format": "date" },
                     "mottattTidspunkt": { "type": "string", "format": "date-time" },
-                    "sisteDokumentasjonKravFrist": { "type": "string", "format": "date" },
-                    "soknadOpprettet": { "type": "string", "format": "date-time" },
-                    "sistOppdatert": { "type": "string", "format": "date-time" }
+                    "sisteDokumentasjonKravFrist": { "type": "string", "format": "date" }
                 },
                 "required": [
                     "dokumentasjonEtterspurt",
@@ -1568,7 +1566,6 @@
                     "fiksDigisosId",
                     "forelopigSvar",
                     "saker",
-                    "sistOppdatert",
                     "soknadTittel",
                     "status",
                     "vilkar"
