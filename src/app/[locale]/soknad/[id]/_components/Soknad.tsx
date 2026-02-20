@@ -29,7 +29,7 @@ import SoknadSnarveier from "./snarveier/SoknadSnarveier";
 import TagsAdapter from "./tags/TagsAdapter";
 import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
 import { TagsSkeleton } from "@components/tags/Tags";
-import SoknadInfoCardAdapter from "./info/SoknadInfoCardAdapter";
+import SoknadInfoCards from "./info/SoknadInfoCards";
 
 interface Props {
     id: string;
@@ -73,7 +73,7 @@ export const Soknad = async ({ id }: Props) => {
             <Suspense fallback={null}>
                 <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
                     <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                        <SoknadInfoCardAdapter navKontor={navKontor} />
+                        <SoknadInfoCards navKontor={navKontor} />
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>

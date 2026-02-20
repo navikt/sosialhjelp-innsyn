@@ -4,24 +4,27 @@ import SoknadInfoCard from "./SoknadInfoCard";
 import { useGetSaksDetaljerSuspense } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 import { useParams } from "next/navigation";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { JSX } from "react";
+import { VStack } from "@navikt/ds-react";
 
 interface Props {
     navKontor?: string;
 }
 
-const SoknadInfoCardAdapter = ({ navKontor }: Props) => {
+const SoknadInfoCards = ({ navKontor }: Props) => {
     const { id } = useParams<{ id: string }>();
     const { data: saksdetaljer } = useGetSaksDetaljerSuspense(id);
     const { data: oppgaver } = useGetOppgaverBetaSuspense(id);
 
     const relevanteOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && oppgave.erFraInnsyn);
     const harSakMedFlereVedtak = saksdetaljer.saker?.some((s) => s.antallVedtak > 1) ?? false;
+    const cards: JSX.Element[] = [];
 
     if (saksdetaljer.status === "SENDT") {
-        return <SoknadInfoCard state={{ type: "sendt" }} />;
+        cards.push(<SoknadInfoCard state={{ type: "sendt" }} />);
     }
     if (relevanteOppgaver.length > 0) {
-        return (
+        cards.push(
             <SoknadInfoCard
                 state={{
                     type: "oppgaver",
@@ -34,14 +37,27 @@ const SoknadInfoCardAdapter = ({ navKontor }: Props) => {
             />
         );
     }
-    if (saksdetaljer.status === "MOTTATT" || saksdetaljer.status === "UNDER_BEHANDLING") {
-        return <SoknadInfoCard state={{ type: "saksbehandlingstid" }} />;
-    }
+
     if (harSakMedFlereVedtak) {
-        return <SoknadInfoCard state={{ type: "nyttVedtak" }} />;
+        cards.push(<SoknadInfoCard state={{ type: "nyttVedtak" }} />);
+    }
+    if (saksdetaljer.status === "MOTTATT" || saksdetaljer.status === "UNDER_BEHANDLING") {
+        if (saksdetaljer.forelopigSvar?.harMottattForelopigSvar) {
+            cards.push(
+                <SoknadInfoCard state={{ type: "forelopigSvar", forelopigSvarUrl: saksdetaljer.forelopigSvar.link }} />
+            );
+        } else if (cards.length === 0) {
+            cards.push(<SoknadInfoCard state={{ type: "saksbehandlingstid" }} />);
+        }
     }
 
-    return null;
+    if (cards.length === 0) {
+        return null;
+    }
+    if (cards.length === 1) {
+        return cards[0];
+    }
+    return <VStack gap="space-8">{cards}</VStack>;
 };
 
-export default SoknadInfoCardAdapter;
+export default SoknadInfoCards;

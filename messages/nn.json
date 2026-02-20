@@ -43,23 +43,32 @@
         "løst": "Sendt inn"
     },
     "Behandlingstid": {
-        "vilBehandle": "<norsk>{navKontor}</norsk> vil behandle saka di så fort dei kan.",
-        "melde": {
-            "tittel": "Hugs å melde frå om endringar",
-            "beskrivelse": "Nokre situasjonar kan påverke utbetalingane du får i Nav. Dette inkluderer mellom anna endringar i sivilstatusen din, familiesituasjon eller inntekt. <lenke>Les meir om kva situasjonar som kan påverke utbetalinga di.</lenke>",
-            "beskrivelse2": "For å melde frå om endringar kan du sende inn eit tekstdokument i feltet \"Ettersend dokumentasjon\" nedanfor, eller kontakte saksbehandlaren eller Nav-kontoret ditt. <tel>Du kan også ringje rettleiarane våre på 55 55 33 33.</tel>"
+        "Description": {
+            "normal": "<norsk>{navKontor}</norsk> vil behandle saka di så fort dei kan.",
+            "forlenget": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. <lenke>Opne brevet om saksbehandlingstid</lenke> for å sjå når du kan vente svar på søknaden din.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Les brevet om saksbehandlingstid for å sjå når du kan vente svar på søknaden din."
         },
-        "saksbehandlingstid": {
-            "tittel": "Saksbehandlingstida",
-            "beskrivelse1": "Behandlingstida varierer på dei ulike Nav-kontora, og vi kan derfor ikkje gi eit nøyaktig estimat. Dersom det har gått meir enn 31 dagar frå du søkte, skal du få eit brev om at saksbehandlingstida er forlengd.",
-            "beskrivelse2": "Kva kan eg gjere for å få svar fortare?",
-            "beskrivelse3": "Send inn dokumentasjonen som blir etterspurd av Nav-kontoret ditt. Om du sender inn eit skjermbilete eller ei biletfil, pass på at teksten på biletet er leseleg."
+        "ReadMore": {
+            "melde": {
+                "tittel": "Hugs å melde frå om endringar",
+                "beskrivelse": "Nokre situasjonar kan påverke utbetalingane du får i Nav. Dette inkluderer mellom anna endringar i sivilstatusen din, familiesituasjon eller inntekt. <lenke>Les meir om kva situasjonar som kan påverke utbetalinga di.</lenke>",
+                "beskrivelse2": "For å melde frå om endringar kan du sende inn eit tekstdokument i feltet \"Ettersend dokumentasjon\" nedanfor, eller kontakte saksbehandlaren eller Nav-kontoret ditt. <tel>Du kan også ringje rettleiarane våre på 55 55 33 33.</tel>"
+            },
+            "saksbehandlingstid": {
+                "tittel": "Saksbehandlingstida",
+                "beskrivelse1": "Behandlingstida varierer på dei ulike Nav-kontora, og vi kan derfor ikkje gi eit nøyaktig estimat. Dersom det har gått meir enn 31 dagar frå du søkte, skal du få eit brev om at saksbehandlingstida er forlengd.",
+                "beskrivelse2": "Kva kan eg gjere for å få svar fortare?",
+                "beskrivelse3": "Send inn dokumentasjonen som blir etterspurd av Nav-kontoret ditt. Om du sender inn eit skjermbilete eller ei biletfil, pass på at teksten på biletet er leseleg."
+            }
         }
     },
     "SoknadInfoCard": {
         "defaultNavKontor": "Nav-kontoret ditt",
         "sendt": {
             "title": "Søknaden din er send"
+        },
+        "forelopigSvar": {
+            "title": "Forlenga saksbehandlingstid"
         },
         "mottatt": {
             "title": "Saksbehandlingstid"

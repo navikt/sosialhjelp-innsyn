@@ -11,7 +11,8 @@ type AlertState =
     | { type: "sendt"; navKontor?: string }
     | { type: "saksbehandlingstid"; navKontor?: string }
     | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
-    | { type: "nyttVedtak" };
+    | { type: "nyttVedtak" }
+    | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string };
 
 interface Props {
     state: AlertState;
@@ -23,13 +24,28 @@ const SoknadInfoCard = ({ state }: Props) => {
         case "sendt":
             return (
                 <Info variant="success" title={t("sendt.title")}>
-                    <Behandlingstid navKontor={state.navKontor ?? t("defaultNavKontor")} />
+                    <Behandlingstid>
+                        <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
+                    </Behandlingstid>
+                </Info>
+            );
+        case "forelopigSvar":
+            return (
+                <Info variant="warning" title={t("forelopigSvar.title")}>
+                    <Behandlingstid>
+                        <Behandlingstid.ForlengetDescription
+                            navKontor={state.navKontor ?? t("defaultNavKontor")}
+                            forelopigSvarUrl={state.forelopigSvarUrl}
+                        />
+                    </Behandlingstid>
                 </Info>
             );
         case "saksbehandlingstid":
             return (
                 <Info variant="info" title={t("mottatt.title")}>
-                    <Behandlingstid navKontor={state.navKontor ?? t("defaultNavKontor")} />
+                    <Behandlingstid>
+                        <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
+                    </Behandlingstid>
                 </Info>
             );
         case "oppgaver":
