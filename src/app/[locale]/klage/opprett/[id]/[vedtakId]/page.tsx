@@ -20,9 +20,9 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
 
     const sak = await hentSakForVedtak(fiksDigisosId, vedtakId);
     return (
-        <VStack gap="16" className="mt-20">
+        <VStack gap="space-64" className="mt-20">
             <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
-            <VStack gap="4" className="mb-8">
+            <VStack gap="space-16" className="mb-8">
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>

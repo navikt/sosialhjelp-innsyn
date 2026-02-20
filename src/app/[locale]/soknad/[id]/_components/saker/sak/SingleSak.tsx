@@ -16,7 +16,7 @@ const SingleSak = ({ sak }: Props): React.JSX.Element | null => {
     }
     return (
         <>
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <Heading size="medium" level="2">
                     {t("vedtak")}
                 </Heading>

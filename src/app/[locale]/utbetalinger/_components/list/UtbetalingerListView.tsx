@@ -6,7 +6,7 @@ type Props = {
 };
 
 const UtbetalingerListView = ({ tittel, children }: PropsWithChildren<Props>) => (
-    <VStack gap="4">
+    <VStack gap="space-16">
         <Heading size="medium" level="2">
             {tittel}
         </Heading>

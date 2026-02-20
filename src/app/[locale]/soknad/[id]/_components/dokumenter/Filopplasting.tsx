@@ -29,7 +29,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     );
 
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>

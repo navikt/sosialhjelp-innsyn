@@ -6,12 +6,12 @@ interface Props {
 }
 
 const Vilkar = ({ vilkar }: Props) => (
-    <Box.New background="warning-moderateA" padding="space-24" borderRadius="xlarge">
+    <Box background="warning-moderateA" padding="space-24" borderRadius="12">
         <Heading level="4" size="small" lang="no">
             {vilkar.tittel}
         </Heading>
         <BodyShort lang="no">{vilkar.beskrivelse}</BodyShort>
-    </Box.New>
+    </Box>
 );
 
 export default Vilkar;

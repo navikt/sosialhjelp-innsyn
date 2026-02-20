@@ -10,7 +10,7 @@ const DriftsmeldingVedlegg = ({ className }: { className?: string }) => {
     const t = useTranslations("common");
 
     return !fileUploadError ? null : (
-        <Alert variant="error" size="medium" inline className={cx("font-bold", className)}>
+        <Alert variant="error" size="medium" inline className={cx("font-ax-bold", className)}>
             {t(fileUploadError)}
         </Alert>
     );

@@ -54,7 +54,7 @@ const FileSelectNew = ({ label, tag, docState, id, filesLabel, uploadId }: Props
                 },
             }}
         >
-            <VStack gap="6">
+            <VStack gap="space-24">
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
@@ -75,13 +75,13 @@ const FileSelectNew = ({ label, tag, docState, id, filesLabel, uploadId }: Props
                 />
 
                 {!!docState.uploads?.length && (
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
                             {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
                             <Alert variant="warning">
-                                <HStack gap="2">
+                                <HStack gap="space-8">
                                     <Heading size="small" level="4">
                                         {t("konvertert.tittel")}
                                     </Heading>
@@ -89,7 +89,7 @@ const FileSelectNew = ({ label, tag, docState, id, filesLabel, uploadId }: Props
                                 </HStack>
                             </Alert>
                         )}
-                        <VStack as="ul" gap="2">
+                        <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
                                     key={upload.originalFilename}

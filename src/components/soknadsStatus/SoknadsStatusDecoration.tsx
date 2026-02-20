@@ -13,7 +13,7 @@ const Circle = styled.div`
     transform: translate(-50%, -50%);
     top: 0;
     left: 50%;
-    background: var(--a-surface-success-subtle);
+    background: var(--ax-bg-success-soft);
     border-radius: 50%;
     height: 4rem;
     width: 4rem;

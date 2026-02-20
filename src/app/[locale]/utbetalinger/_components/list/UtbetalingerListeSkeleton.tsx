@@ -10,7 +10,7 @@ const UtbetalingerListeSkeleton = async () => {
     const t = await getTranslations("UtbetalingerListe");
     const tittel = t(`tittel.kommende`);
     return (
-        <VStack gap="16">
+        <VStack gap="space-64">
             <UtbetalingerListView tittel={tittel}>
                 <UtbetalingerCardSkeleton />
                 <UtbetalingerCardSkeleton />

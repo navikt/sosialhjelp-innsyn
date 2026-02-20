@@ -14,7 +14,7 @@ const ChildrenFrame = styled.div<{ $hasError?: boolean }>`
     ${({ $hasError }) =>
         $hasError &&
         css`
-            border: 1px solid var(--a-red-500);
+            border: 1px solid var(--ax-danger-600);
         `};
 `;
 

@@ -74,8 +74,8 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack gap="2">
-                <Box.New>
+            <VStack gap="space-8">
+                <Box>
                     <HStack align="center" justify="space-between">
                         {label ? (
                             <Heading size="small" level="3" lang="no">
@@ -89,7 +89,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         {tag}
                     </HStack>
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
-                </Box.New>
+                </Box>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 <div ref={feedbackRef} tabIndex={-1}>
                     {isUploadSuccess && (
@@ -116,7 +116,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 },
             }}
         >
-            <VStack gap="space-32">
+            <VStack gap="space-24">
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
@@ -144,14 +144,14 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="4">
+                    <VStack gap="space-8">
                         <Heading size="small" level="3">
                             {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <div role="status" aria-live="polite" className="sr-only">
                             {t("Opplastingsboks.antallFiler", { count: files.length })}
                         </div>
-                        <VStack as="ul" gap="2" aria-live="polite" aria-relevant="additions removals">
+                        <VStack as="ul" gap="space-8" aria-live="polite" aria-relevant="additions removals">
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"

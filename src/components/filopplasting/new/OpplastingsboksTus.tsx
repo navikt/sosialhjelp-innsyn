@@ -41,8 +41,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     if (completed) {
         return (
-            <VStack gap="2">
-                <Box.New>
+            <VStack gap="space-8">
+                <Box>
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
                             {label ?? t("tittel")}
@@ -50,7 +50,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                         {tag}
                     </HStack>
                     <BodyShort>{description ?? t("beskrivelse")}</BodyShort>
-                </Box.New>
+                </Box>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 {isUploadSuccess && (
                     <Alert role="alert" closeButton onClose={resetMutation} variant="success">

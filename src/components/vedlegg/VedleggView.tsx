@@ -32,7 +32,7 @@ const SorteringListeboks = styled.div`
 `;
 
 const StyledTable = styled(Table)`
-    .navds-table__sort-button {
+    .aksel-table__sort-button {
         white-space: nowrap;
     }
     @media screen and (max-width: 640px) {
@@ -281,7 +281,7 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
                     </Table.Body>
                 </StyledTable>
                 <VStack align="center" justify="center">
-                    <Box padding="4">
+                    <Box padding="space-16">
                         {isMobile && currentPage < pageCount && (
                             <Button variant="tertiary" onClick={() => setCurrentPage((prev) => prev + 1)}>
                                 Last inn flere

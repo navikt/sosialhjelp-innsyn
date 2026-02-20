@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Bleed, BoxNew, Heading, VStack } from "@navikt/ds-react";
+import { Bleed, Box, Heading, VStack } from "@navikt/ds-react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
@@ -62,11 +62,11 @@ export const Soknad = async ({ id }: Props) => {
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
     return (
-        <VStack gap="20" className="mt-20">
+        <VStack gap="space-80" className="mt-20">
             <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
                 {tittel ?? t("defaultTittel")}
             </Heading>
-            <VStack gap="2">
+            <VStack gap="space-8">
                 {forelopigSvarPromise && (
                     <Suspense fallback={null}>
                         <ForelopigSvarAlert
@@ -113,9 +113,9 @@ export const Soknad = async ({ id }: Props) => {
                 </Suspense>
             )}
             <Bleed marginInline="full" className="pt-20 pb-20" asChild>
-                <BoxNew background="neutral-soft" padding="space-24" className="flex-1">
+                <Box background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
-                        <VStack gap="20">
+                        <VStack gap="space-80">
                             <Oversikt id={id} />
                             <Suspense fallback={<SoknadenDinSkeleton />}>
                                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
@@ -124,7 +124,7 @@ export const Soknad = async ({ id }: Props) => {
                             </Suspense>
                         </VStack>
                     </div>
-                </BoxNew>
+                </Box>
             </Bleed>
             <Snarveier hideSokButton={true}>
                 <SoknadSnarveier />

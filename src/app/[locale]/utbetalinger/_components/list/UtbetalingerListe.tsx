@@ -27,7 +27,7 @@ const UtbetalingerListe = ({ selectedState }: Props) => {
     const sorterteData = erKommende ? data : data.toReversed();
 
     return (
-        <VStack gap="16">
+        <VStack gap="space-64">
             <UtbetalingerListView tittel={tittel}>
                 {data.length === 0 ? (
                     <IngenUtbetalinger selectedChip={selectedState.chip} />

@@ -42,7 +42,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
 
     return (
         <>
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <HStack justify="space-between" align="center">
                     <Heading size="medium" level="2">
                         {t("tittel")}
@@ -73,11 +73,11 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                 hendelsetype: oppgave.hendelsetype,
                             };
                             return (
-                                <Box.New
+                                <Box
                                     key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                     background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                     padding="space-24"
-                                    borderRadius="xlarge"
+                                    borderRadius="12"
                                     borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
                                 >
                                     {newUploadEnabled ? (
@@ -124,7 +124,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                             }
                                         />
                                     )}
-                                </Box.New>
+                                </Box>
                             );
                         })}
                 </NavigationGuardProvider>
@@ -148,7 +148,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
 export const OppgaverSkeleton = () => {
     const t = useTranslations("Oppgaver");
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <Heading size="medium" level="2" spacing>
                 {t("tittel")}
             </Heading>

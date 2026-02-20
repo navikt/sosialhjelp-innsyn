@@ -47,7 +47,7 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
                                     })}
                                 </BodyShort>
                             ) : (
-                                <HStack gap="1">
+                                <HStack gap="space-4">
                                     <BodyShort>{filesize(fil.storrelse)},</BodyShort>
                                     <BodyShort>
                                         {t.rich("lastetOpp", {

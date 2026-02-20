@@ -49,7 +49,7 @@ const FileSelect = ({
                 },
             }}
         >
-            <VStack gap="6">
+            <VStack gap="space-24">
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
@@ -74,11 +74,11 @@ const FileSelect = ({
                 />
 
                 {files.length > 0 && (
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
                             {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
-                        <VStack as="ul" gap="2">
+                        <VStack as="ul" gap="space-8">
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"

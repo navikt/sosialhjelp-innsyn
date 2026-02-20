@@ -15,7 +15,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <Box>
                 <Heading level="3" size="medium" spacing>
                     {t("tittel")}
@@ -24,12 +24,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
             </Box>
             <NavigationGuardProvider>
                 {dokumentasjonkrav.map((it) => (
-                    <Box.New
-                        key={it.dokumentasjonkravId}
-                        background="neutral-soft"
-                        padding="space-24"
-                        borderRadius="xlarge"
-                    >
+                    <Box key={it.dokumentasjonkravId} background="neutral-soft" padding="space-24" borderRadius="12">
                         {newUploadEnabled ? (
                             <OpplastingsboksTus
                                 id={it.dokumentasjonkravId}
@@ -74,7 +69,7 @@ const Dokumentasjonkrav = ({ dokumentasjonkrav }: Props) => {
                                 }
                             />
                         )}
-                    </Box.New>
+                    </Box>
                 ))}
             </NavigationGuardProvider>
         </VStack>

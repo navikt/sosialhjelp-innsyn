@@ -1,4 +1,4 @@
-import { BodyShort, BoxNew, Heading, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, Box, Heading, HStack, VStack } from "@navikt/ds-react";
 import { useFormatter } from "next-intl";
 
 import { ManedMedUtbetalinger } from "../../_types/types";
@@ -24,14 +24,9 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
     const sorterteUtbetalinger = erKommende ? utbetalingerForManed : utbetalingerForManed.toReversed();
 
     return (
-        <VStack gap="05">
-            <BoxNew
-                borderRadius="xlarge xlarge 0 0"
-                paddingInline="4"
-                paddingBlock="space-12"
-                className="bg-[var(--ax-bg-accent-softA)]"
-            >
-                <HStack className="pr-2" align="center">
+        <VStack gap="space-2">
+            <Box borderRadius="12 12 0 0" padding="space-12" background="accent-soft">
+                <HStack className="pr-2" justify="space-between">
                     <Heading size="small" level="3" className="capitalize">
                         {format.dateTime(new Date(manedMedUtbetalinger.ar, manedMedUtbetalinger.maned - 1, 10), {
                             month: "long",
@@ -42,7 +37,7 @@ export const UtbetalingerCard = ({ manedMedUtbetalinger, erKommende = false }: P
                         {format.number(utbetalingSum)} kr
                     </BodyShort>
                 </HStack>
-            </BoxNew>
+            </Box>
             {sorterteUtbetalinger.map((utb, index) => (
                 <UtbetalingerContentCard
                     index={index}

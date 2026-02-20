@@ -6,10 +6,10 @@
     "dependencies": {
         "@grafana/faro-web-sdk": "^2.1.0",
         "@hookform/resolvers": "^5.2.2",
-        "@navikt/aksel-icons": "^7.36.0",
-        "@navikt/ds-css": "^7.36.0",
-        "@navikt/ds-react": "^7.36.0",
-        "@navikt/ds-tailwind": "^7.36.0",
+        "@navikt/aksel-icons": "^8.2.2",
+        "@navikt/ds-css": "^8.2.2",
+        "@navikt/ds-react": "^8.2.2",
+        "@navikt/ds-tailwind": "^8.2.2",
         "@navikt/nav-dekoratoren-moduler": "^3.6.1",
         "@navikt/next-api-proxy": "^5.0.2",
         "@navikt/next-logger": "^4.4.4",
@@ -42,7 +42,7 @@
         "zod": "^4.2.1"
     },
     "scripts": {
-        "dev": "next dev -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
+        "dev": "next dev --webpack -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
         "build": "next build --webpack",
         "build:e2e": "NEXT_PUBLIC_ASSET_PREFIX= NEXT_PUBLIC_RUNTIME_ENVIRONMENT=e2e pnpm build && cp -R .next/static .next/standalone/.next",
         "start": "next start",

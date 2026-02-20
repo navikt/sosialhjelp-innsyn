@@ -1,6 +1,6 @@
 import React from "react";
 import Vedtak from "./Vedtak";
-import { BoxNew, VStack } from "@navikt/ds-react";
+import { Box, VStack } from "@navikt/ds-react";
 import KlageInfo from "./KlageInfo";
 import { SaksStatusResponse } from "@generated/model";
 import Sakstittel from "../Sakstittel";
@@ -23,22 +23,22 @@ const SakPanel = ({ sak }: Props): React.JSX.Element => {
     const allVedtakIds = sak.vedtak.map((vedtak) => vedtak.id);
     const innsendtKlage = klager.find((klage) => allVedtakIds.includes(klage.vedtakId));
     return (
-        <BoxNew borderWidth="1" borderColor="neutral-subtle" borderRadius="xlarge" overflow="hidden">
+        <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
                 <Sakstittel tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} />
                 {latestVedtak && <Vedtak sortedVedtak={sak.vedtak} latestVedtak={latestVedtak} />}
             </VStack>
             {latestVedtak && (
-                <BoxNew
+                <Box
                     padding={{ xs: "space-20", md: "space-24" }}
                     borderWidth="1 0 0 0"
                     borderColor="neutral-subtle"
                     background="neutral-soft"
                 >
                     <KlageInfo innsendtKlage={innsendtKlage} vedtakId={latestVedtak.id} />
-                </BoxNew>
+                </Box>
             )}
-        </BoxNew>
+        </Box>
     );
 };
 
