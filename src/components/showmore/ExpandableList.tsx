@@ -1,4 +1,4 @@
-import React, { RefObject, useRef } from "react";
+import React, { useRef } from "react";
 import { VStack } from "@navikt/ds-react";
 
 import useShowMore, { ITEMS_LIMIT } from "@components/showmore/useShowMore";
@@ -6,7 +6,7 @@ import ShowMoreButton from "@components/showmore/ShowMoreButton";
 
 interface Props<T> {
     items: T[];
-    children: (item: T, index: number, firstExpandedItemRef: RefObject<HTMLLIElement | null>) => React.JSX.Element;
+    children: (item: T, ref: React.Ref<HTMLLIElement> | null) => React.JSX.Element;
     id: string;
     showMoreSuffix: string;
     labelledById: string;
@@ -14,7 +14,7 @@ interface Props<T> {
 }
 
 const ExpandableList = <T,>({
-    itemsLimit,
+    itemsLimit = ITEMS_LIMIT,
     children,
     items,
     id,
@@ -24,12 +24,13 @@ const ExpandableList = <T,>({
     const showMore = useShowMore(items, itemsLimit);
     const { hasMore, showAll } = showMore;
     const firstExpandedItemRef = useRef<HTMLLIElement>(null);
-    const visibleItems = showAll ? items : items.slice(0, ITEMS_LIMIT);
+    const visibleItems = showAll ? items : items.slice(0, itemsLimit);
+
     return (
         <>
             <VStack as="ul" gap="space-8" id={id} aria-labelledby={labelledById}>
-                {/* eslint-disable-next-line react-hooks/refs */}
-                {visibleItems.map((item, index) => children(item, index, firstExpandedItemRef))}
+                {/* eslint-disable-next-line react-hooks/refs -- Using ref for focus management on expand */}
+                {visibleItems.map((item, index) => children(item, index === itemsLimit ? firstExpandedItemRef : null))}
             </VStack>
             {hasMore && (
                 <ShowMoreButton
@@ -37,6 +38,7 @@ const ExpandableList = <T,>({
                     ref={firstExpandedItemRef}
                     id={id}
                     suffix={showMoreSuffix}
+                    itemsLimit={itemsLimit}
                     {...showMore}
                 />
             )}

@@ -4,16 +4,15 @@ import { useTranslations } from "next-intl";
 import { Alert, BodyShort, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { logger } from "@navikt/next-logger";
-import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { getTusUploader } from "@components/filopplasting/new/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/new/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
+import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
 
 interface Props {
     id?: string;
     label?: string;
-    description?: ReactNode;
     filesLabel?: string;
     tag?: ReactNode;
     isPending?: boolean;
@@ -21,7 +20,7 @@ interface Props {
     uploadId: string;
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
+const FileSelectNew = ({ label, tag, docState, id, filesLabel, uploadId }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
     // Starter opplasting umiddelbart ved filvalg
@@ -56,26 +55,29 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
             }}
         >
             <VStack gap="space-24">
-                <FileUpload.Dropzone
-                    className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
+                <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            <div>{label ?? t("tittel")}</div>
+                            {label ? (
+                                <BodyShort as="span" lang="no">
+                                    {label}
+                                </BodyShort>
+                            ) : (
+                                t("tittel")
+                            )}
                             {tag}
                         </HStack>
                     }
-                    description={description ?? t("beskrivelse")}
+                    tag={tag}
+                    buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
-                    accept={allowedFileTypes}
-                    maxSizeInBytes={10 * 1024 * 1024}
-                    multiple
                     disabled={(docState.uploads?.length ?? 0) >= 30}
                 />
+
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("filerTilOpplasting")}
+                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
                             <Alert variant="warning">

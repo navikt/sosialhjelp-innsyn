@@ -1,16 +1,27 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import {
+    Alert,
+    BodyLong,
+    BodyShort,
+    Box,
+    Button,
+    FileObject,
+    FileUpload,
+    Heading,
+    HStack,
+    VStack,
+} from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
-import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
+import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
 
 import { umamiTrack } from "../../../app/umami";
 
@@ -66,12 +77,18 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             <VStack gap="space-8">
                 <Box>
                     <HStack align="center" justify="space-between">
-                        <Heading size="small" level="3" lang="no">
-                            {label ?? t("Opplastingsboks.tittel")}
-                        </Heading>
+                        {label ? (
+                            <Heading size="small" level="3" lang="no">
+                                {label}
+                            </Heading>
+                        ) : (
+                            <Heading size="small" level="3">
+                                {t("Opplastingsboks.tittel")}
+                            </Heading>
+                        )}
                         {tag}
                     </HStack>
-                    <BodyShort>{description ?? t("Opplastingsboks.beskrivelse")}</BodyShort>
+                    <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
                 </Box>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
                 <div ref={feedbackRef} tabIndex={-1}>
@@ -100,18 +117,22 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
             }}
         >
             <VStack gap="space-24">
-                <FileUpload.Dropzone
-                    className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
+                <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            <div>{label ?? t("Opplastingsboks.tittel")}</div>
+                            {label ? (
+                                <BodyShort as="span" lang="no">
+                                    {label}
+                                </BodyShort>
+                            ) : (
+                                t("Opplastingsboks.tittel")
+                            )}
                             {tag}
                         </HStack>
                     }
-                    description={description ?? t("Opplastingsboks.beskrivelse")}
+                    tag={tag}
+                    buttonText={t("Opplastingsboks.lastOppFiler")}
                     onSelect={onFilesSelect}
-                    accept={allowedFileTypes}
                     error={
                         outerErrors.length > 0 ? (
                             <ul>
@@ -125,7 +146,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 {files.length > 0 && (
                     <VStack gap="space-8">
                         <Heading size="small" level="3">
-                            {t("Opplastingsboks.filerTilOpplasting")}
+                            {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <div role="status" aria-live="polite" className="sr-only">
                             {t("Opplastingsboks.antallFiler", { count: files.length })}

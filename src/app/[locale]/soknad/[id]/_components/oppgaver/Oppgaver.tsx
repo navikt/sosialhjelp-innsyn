@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Box, Button, Heading, HStack, Loader, Skeleton, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Button, Heading, HStack, Loader, Skeleton, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -89,7 +89,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                                 oppgave.erLastetOpp ? (
                                                     t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
                                                 ) : (
-                                                    <Box lang="no">{tilleggsinfoTekst}</Box>
+                                                    <BodyShort as="span" lang="no">
+                                                        {tilleggsinfoTekst}
+                                                    </BodyShort>
                                                 )
                                             }
                                             tag={
@@ -109,7 +111,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                                 oppgave.erLastetOpp ? (
                                                     t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
                                                 ) : (
-                                                    <Box lang="no">{tilleggsinfoTekst}</Box>
+                                                    <BodyShort as="span" lang="no">
+                                                        {tilleggsinfoTekst}
+                                                    </BodyShort>
                                                 )
                                             }
                                             tag={

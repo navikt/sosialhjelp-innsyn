@@ -17,6 +17,7 @@ export interface Props {
     analyticsData?: Record<string, unknown>;
     footer?: ReactNode;
     openInNewTab?: boolean;
+    dataColor?: "neutral" | "accent";
 }
 
 interface IconProps {
@@ -48,6 +49,7 @@ const DigisosLinkCard = ({
     analyticsData,
     footer,
     openInNewTab,
+    dataColor = "neutral",
 }: PropsWithChildren<Props>) => {
     const isMobile = useIsMobile();
     const size = isMobile ? "small" : "medium";
@@ -62,12 +64,13 @@ const DigisosLinkCard = ({
     }
 
     return (
-        <LinkCard arrow={!cardIcon} size={size}>
+        <LinkCard arrow={!cardIcon} size={size} data-color={dataColor}>
             {icon && <Icon icon={icon} />}
             <LinkCardTitle className="flex items-center justify-between">
                 <LinkCardAnchor asChild>
                     <Link
                         href={href}
+                        className="min-w-0 flex-1 break-all whitespace-normal"
                         {...dataAttrs}
                         {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
                     >
