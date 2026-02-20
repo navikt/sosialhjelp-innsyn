@@ -2,20 +2,6 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
-    "VilkarAlert": {
-        "tittel": "Du har fått vilkår",
-        "beskrivelse": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav."
-    },
-    "SoknadStatusAlert": {
-        "tittel": {
-            "UNDER_BEHANDLING": "Søknaden din er under behandling",
-            "FERDIGBEHANDLET": "Søknaden din er ferdigbehandlet"
-        },
-        "beskrivelse": {
-            "UNDER_BEHANDLING": "Forventet saksbehandling er 4 uker.",
-            "FERDIGBEHANDLET": "Husk å lese vedtaksbrevet."
-        }
-    },
     "SingleSak": {
         "vedtak": "Vedtak"
     },
@@ -50,22 +36,9 @@
         "tittel": "Mine søknader om økonomisk sosialhjelp",
         "htmlTitle": "Mine søknader om økonomisk sosialhjelp"
     },
-    "ForelopigSvarAlert": {
-        "tittel": "Du har fått et brev om forlenget saksbehandlingstid",
-        "beskrivelse": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen fristen, og har sendt deg et brev. Åpne brevet for å se når du kan forvente svar på søknaden din. <lenke>Trykk for å skrolle ned til brevet</lenke>."
-    },
     "ForelopigSvar": {
         "tittel": "Brev fra Nav",
         "lastNed": "Last ned brev om saksbehandlingstid"
-    },
-    "OppgaveAlert": {
-        "tittel": "Du har fått oppgaver med frist {frist, date, ::dMMMM}",
-        "beskrivelse": "<norsk>{navKontor}</norsk> trenger flere dokumenter for å kunne behandle saken din.",
-        "beskrivelseUtenNavkontor": "Ditt Nav-kontor trenger flere dokumenter for å kunne behandle saken din.",
-        "readMore": {
-            "tittel": "Hva skjer om du ikke sender inn innen fristen?",
-            "innhold": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås, og at du må søke på nytt."
-        }
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -82,19 +55,46 @@
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
         "løst": "Sendt inn"
     },
-    "DeltSoknadAlert": {
-        "tittel": "Søknaden din er delt opp i flere saker",
-        "beskrivelse": "Dette kan være fordi du har søkt om støtte til flere utgifter, eller fordi det er behov for å behandle deler av søknaden separat."
-    },
-    "InfoAlert": {
-        "SENDT": {
-            "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",
-            "beskrivelse": "Når Nav begynner å behandle søknaden, kan det hende du blir bedt om å sende flere opplysninger eller mer dokumentasjon."
+    "Behandlingstid": {
+        "Description": {
+            "normal": "<norsk>{navKontor}</norsk> vil behandle saken din så fort de kan.",
+            "forlenget": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen fristen, og har sendt deg et brev. <lenke>Åpne brevet om saksbehandlingstid</lenke> for å se når du kan forvente svar på søknaden din.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen fristen, og har sendt deg et brev. Les brevet for å se når du kan forvente svar på søknaden din."
         },
-        "MOTTATT": {
-            "tittel": "Husk å meld fra om endringer",
-            "beskrivelse": "Hvis det skjer endringer i situasjonen din, kan det påvirke oppfølgingen eller utbetalingen du får fra Nav. <lenke>Les mer om hvilke situasjoner som kan påvirke.</lenke>",
-            "beskrivelse2": "For å melde fra om endringer kan du ringe oss på <tel>55 55 33 33</tel> eller laste opp dokumenter som vedlegg nedenfor."
+        "ReadMore": {
+            "melde": {
+                "tittel": "Husk å meld fra om endringer",
+                "beskrivelse": "Noen situasjoner kan påvirke utbetalingene du får i Nav. Dette inkluderer blant annet endringer i din sivilstatus, familiesituasjon eller inntekt. <lenke>Les mer om hvilke situasjoner som kan påvirke utbetalingen din.</lenke>",
+                "beskrivelse2": "For å melde fra om endringer kan du sende inn et tekstdokument i feltet \"Ettersend dokumentasjon\" nedenfor, eller kontakte saksbehandleren eller Nav-kontoret ditt. <tel>Du kan også ringe veilederne våre på 55 55 33 33.</tel>"
+            },
+            "saksbehandlingstid": {
+                "tittel": "Saksbehandlingstiden",
+                "beskrivelse1": "Behandlingstiden varierer på de ulike Nav-kontorene, og vi kan derfor ikke gi et nøyaktig estimat. Hvis det har gått mer enn 31 dager fra du søkte, skal du få et brev om at saksbehandlingstiden er forlenget.",
+                "beskrivelse2": "Hva kan jeg gjøre for å få svar fortere?",
+                "beskrivelse3": "Send inn dokumentasjonen som etterspørres av Nav-kontoret ditt. Hvis du sender inn et skjermbilde eller en bildefil, pass på at teksten på bildet er leselig."
+            }
+        }
+    },
+    "SoknadInfoCard": {
+        "defaultNavKontor": "Nav-kontoret ditt",
+        "sendt": {
+            "title": "Søknaden din er sendt"
+        },
+        "forelopigSvar": {
+            "title": "Forlenget saksbehandlingstid"
+        },
+        "mottatt": {
+            "title": "Saksbehandlingstid"
+        },
+        "oppgaver": {
+            "title": "Du har fått oppgaver",
+            "description": "<norsk>{navKontor}</norsk> trenger mer dokumentasjon for å kunne behandle saken din:",
+            "oppgave": "<bold>{name}</bold>, frist {frist, date, ::ddMMyyyy}",
+            "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås, og at du må søke på nytt."
+        },
+        "nyttVedtak": {
+            "title": "Du har fått et nytt vedtak",
+            "description": "Les det nyeste vedtaksbrevet for mer informasjon"
         }
     },
     "StatusPage": {
@@ -132,9 +132,6 @@
         "tittel": "Uenig i vedtaket?",
         "beskrivelse": "Dersom du er uenig i vedtaket, har du rett til å klage. <lenke>Les mer om dine klagerettigheter</lenke>. Fristen for å klage er tre uker etter vedtaksdato.",
         "klageKnapp": "Klag på vedtaket"
-    },
-    "SakSkeleton": {
-        "tittel": "Søknad om økonomisk sosialhjelp"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"

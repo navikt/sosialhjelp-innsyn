@@ -3,23 +3,21 @@
 import { addDays } from "date-fns";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { SaksListeResponse } from "@generated/model";
-import { SaksDetaljerResponse } from "@generated/model";
 import { ITEMS_LIMIT } from "@components/showmore/useShowMore";
-import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 import ExpandableList from "@components/showmore/ExpandableList";
 
 import { umamiTrack } from "../../../app/umami";
 
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
+import { Soknad } from "@components/soknaderList/list/soknaderUtils";
 
 interface Props {
-    soknader: (PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse))[];
+    soknader: Soknad[];
     labelledById: string;
 }
 
-const sakKey = (sak: PaabegyntSoknad | (Partial<SaksDetaljerResponse> & SaksListeResponse)): string => {
+const sakKey = (sak: Soknad): string => {
     if ("fiksDigisosId" in sak) {
         return sak.fiksDigisosId;
     }
@@ -37,8 +35,7 @@ const SoknaderList = ({ soknader, labelledById }: Props) => {
     // med dokumentasjonetterspurt, så lenge tilfellene er oppfylt.
     useEffect(() => {
         const antallMedDokumentasjonEtterspurt = soknader.filter(
-            (soknad) =>
-                "status" in soknad && soknad.status === "UNDER_BEHANDLING" && soknad.dokumentasjonEtterspurt === true
+            (soknad) => "status" in soknad && soknad.status === "UNDER_BEHANDLING" && soknad.dokumentasjonEtterspurt
         ).length;
 
         if (antallMedDokumentasjonEtterspurt > 0) {

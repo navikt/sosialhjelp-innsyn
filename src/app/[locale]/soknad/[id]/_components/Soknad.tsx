@@ -22,15 +22,14 @@ import Dokumenter, { DokumenterSkeleton } from "./dokumenter/Dokumenter";
 import Filopplasting from "./dokumenter/Filopplasting";
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
 import Saker from "./saker/Saker";
-import InfoAlert from "./alert/InfoAlert";
-import ForelopigSvarAlert from "./alert/ForelopigSvarAlert";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
-import DeltSoknadAlert from "./saker/DeltSoknadAlert";
-import OppgaveAlert from "./alert/OppgaveAlert";
-import VilkarAlert from "./alert/VilkarAlert";
 import SoknadenDin, { SoknadenDinSkeleton } from "./dokumenter/SoknadenDin";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknadSnarveier from "./snarveier/SoknadSnarveier";
+import TagsAdapter from "./tags/TagsAdapter";
+import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
+import { TagsSkeleton } from "@components/tags/Tags";
+import SoknadInfoCards from "./info/SoknadInfoCards";
 
 interface Props {
     id: string;
@@ -42,6 +41,7 @@ export const Soknad = async ({ id }: Props) => {
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
     const klageQueryClient = getQueryClient();
+    const saksdetaljerQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
@@ -52,37 +52,31 @@ export const Soknad = async ({ id }: Props) => {
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
+    prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
+
     return (
         <VStack gap="space-80" className="mt-20">
-            <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
-                {tittel ?? t("defaultTittel")}
-            </Heading>
-            <VStack gap="space-8">
-                {forelopigSvarPromise && (
-                    <Suspense fallback={null}>
-                        <ForelopigSvarAlert
-                            forelopigSvarPromise={forelopigSvarPromise}
-                            navKontor={navKontor ?? "Ditt Nav-kontor"}
-                        />
-                    </Suspense>
-                )}
-                <Suspense fallback={null}>
-                    <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                        <OppgaveAlert navKontor={navKontor} />
+            <VStack gap="space-16">
+                <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
+                    {tittel ?? t("defaultTittel")}
+                </Heading>
+                <Suspense fallback={<TagsSkeleton size="medium" />}>
+                    <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
+                        <TagsAdapter />
                     </HydrationBoundary>
                 </Suspense>
-                <InfoAlert navKontor={navKontor} soknadstatus={status} sakerPromise={sakerPromise} />
-                {vilkarPromise && <VilkarAlert vilkarPromise={vilkarPromise} />}
-                {sakerPromise && (
-                    <Suspense fallback={null}>
-                        <DeltSoknadAlert sakerPromise={sakerPromise} />
-                    </Suspense>
-                )}
             </VStack>
+            <Suspense fallback={null}>
+                <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
+                    <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
+                        <SoknadInfoCards navKontor={navKontor} />
+                    </HydrationBoundary>
+                </HydrationBoundary>
+            </Suspense>
             {sakerPromise && klagerPromise && (
                 <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(klageQueryClient)}>
