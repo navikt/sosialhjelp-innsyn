@@ -177,6 +177,10 @@
             "tittel": "Søknaden din er videresendt til <norsk>{navKontor}</norsk>",
             "beskrivelse": "Dette vil ikke påvirke behandlingstiden av søknaden."
         },
+        "DeltSoknadEvent": {
+            "tittel": "Søknaden din er delt opp i flere saker",
+            "beskrivelse": "Søknaden din har blitt delt opp i flere saker siden det er behov for å behandle deler av søknaden separat."
+        },
         "FerdigBehandletEvent": {
             "tittel": "Søknaden din er ferdig behandlet"
         },

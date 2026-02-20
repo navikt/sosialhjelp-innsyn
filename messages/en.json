@@ -163,6 +163,10 @@
             "tittel": "Your application has been forwarded to <norsk>{navKontor}</norsk>",
             "beskrivelse": "This will not affect the processing time of the application."
         },
+        "DeltSoknadEvent": {
+            "tittel": "Your application is divided into multiple cases",
+            "beskrivelse": "Your application has been split into several cases as parts of the application need to be processed separately."
+        },
         "FerdigBehandletEvent": {
             "tittel": "Your application has been processed.",
             "visVedtaket": "View the decision (opens in new tab)"

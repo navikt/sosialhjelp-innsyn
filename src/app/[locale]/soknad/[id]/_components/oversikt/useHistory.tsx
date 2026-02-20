@@ -14,15 +14,39 @@ import { RefObject } from "react";
 import DokumentasjonskravEvent from "./history/events/DokumentasjonskravEvent";
 import UtbetalingerOppdatertEvent from "./history/events/UtbetalingerOppdatertEvent";
 import VideresendtEvent from "./history/events/VideresendtEvent";
+import DeltSoknadEvent from "./history/events/DeltSoknadEvent";
+import { HentHendelserBeta200Item } from "@generated/model";
+
+type Hendelse =
+    | HentHendelserBeta200Item
+    | {
+          type: "DeltSøknad";
+          tidspunkt: string;
+      };
+
+const mapReduce = (hendelser: HentHendelserBeta200Item[]): Hendelse[] => {
+    const sakerUnderBehandling = R.pipe(
+        hendelser,
+        R.sortBy([R.prop("tidspunkt"), "desc"]),
+        R.filter((hendelse) => hendelse.type === "SakUnderBehandling")
+    );
+
+    // Tar bort denne hendelsetypen. Erstattes med "DeltSøknad" dersom det er flere "SakUnderBehandling" på samme tid.
+    const withoutSaker: Hendelse[] = hendelser.filter((hendelse) => hendelse.type !== "SakUnderBehandling");
+    if (sakerUnderBehandling.length > 1) {
+        return withoutSaker.concat([{ type: "DeltSøknad", tidspunkt: sakerUnderBehandling[0].tidspunkt }]);
+    }
+
+    return withoutSaker;
+};
 
 const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
     const { id } = useParams<{ id: string }>();
     const { data } = useHentHendelserBetaSuspense(id);
     const steps = R.pipe(
         data,
+        mapReduce,
         R.sortBy([R.prop("tidspunkt"), "desc"]),
-        // TODO: Skal denne vises i lista?
-        R.filter((it) => it.type !== "SakUnderBehandling"),
         R.map((hendelse, index) => {
             const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
             switch (hendelse.type) {
@@ -35,6 +59,8 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                             navKontor={hendelse.navKontor!}
                         />
                     );
+                case "DeltSøknad":
+                    return <DeltSoknadEvent key={key} timestamp={new Date(hendelse.tidspunkt)} />;
                 case "DokumentasjonKrav":
                     return (
                         <DokumentasjonskravEvent
