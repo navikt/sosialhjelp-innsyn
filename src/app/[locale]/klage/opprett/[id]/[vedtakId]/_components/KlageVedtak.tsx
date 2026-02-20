@@ -18,8 +18,8 @@ const KlageVedtak = ({ sak }: Props) => {
     if (!sak) return null;
 
     return (
-        <VStack gap="4">
-            <HStack gap="2">
+        <VStack gap="space-16">
+            <HStack gap="space-8">
                 <Heading size="medium" level="2">
                     {sak.tittel}
                 </Heading>

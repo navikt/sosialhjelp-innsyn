@@ -16,7 +16,7 @@ const SoknadenDin = () => {
         return null;
     }
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <>
                 <Heading size="medium" level="2" spacing>
                     {t("tittel")}
@@ -27,7 +27,7 @@ const SoknadenDin = () => {
                     cardIcon="expand"
                     description={
                         <>
-                            <HStack gap="1">
+                            <HStack gap="space-4">
                                 <BodyShort>{originalSoknad.size},</BodyShort>
                                 <BodyShort>
                                     {originalSoknad.date
@@ -48,10 +48,10 @@ const SoknadenDin = () => {
 };
 
 export const SoknadenDinSkeleton = () => (
-    <VStack gap="2" className="navds-file-item__inner">
-        <HStack align="center" gap="2">
+    <VStack gap="space-8" className="navds-file-item__inner">
+        <HStack align="center" gap="space-8">
             <Skeleton variant="circle" height="48px" width="48px" />
-            <VStack justify="center" gap="2">
+            <VStack justify="center" gap="space-8">
                 <Skeleton variant="rectangle" width="200px" />
                 <Skeleton variant="rectangle" width="50px" />
             </VStack>

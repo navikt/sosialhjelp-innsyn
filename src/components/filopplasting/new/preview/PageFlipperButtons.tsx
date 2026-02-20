@@ -22,7 +22,7 @@ const PageFlipperButtons = ({ numPages, pageNumber, setPageNumber }: Props) => {
     };
 
     return (
-        <HStack justify="end" gap="4">
+        <HStack justify="end" gap="space-16">
             <Button
                 icon={<ChevronLeftIcon aria-hidden />}
                 onClick={() => navigate("prev")}

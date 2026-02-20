@@ -55,7 +55,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 },
             }}
         >
-            <VStack gap="6">
+            <VStack gap="space-24">
                 <FileUpload.Dropzone
                     className="flex flex-col"
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
@@ -73,13 +73,13 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     disabled={(docState.uploads?.length ?? 0) >= 30}
                 />
                 {!!docState.uploads?.length && (
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
                             {filesLabel ?? t("filerTilOpplasting")}
                         </Heading>
                         {converted && (
                             <Alert variant="warning">
-                                <HStack gap="2">
+                                <HStack gap="space-8">
                                     <Heading size="small" level="4">
                                         {t("konvertert.tittel")}
                                     </Heading>
@@ -87,7 +87,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                 </HStack>
                             </Alert>
                         )}
-                        <VStack as="ul" gap="2">
+                        <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
                                     key={upload.originalFilename}

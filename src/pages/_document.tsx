@@ -80,7 +80,7 @@ class MyDocument extends Document<Props> {
                 </Head>
                 <body>
                     <Decorator.Header />
-                    <Page footer={<Decorator.Footer />} className="bg-(--a-bg-subtle)">
+                    <Page footer={<Decorator.Footer />} className="bg-(--ax-bg-neutral-soft)">
                         <Main />
                     </Page>
                     <Decorator.Scripts />

@@ -11,7 +11,7 @@ interface Props {
 const VilkarListe = ({ vilkar }: Props) => {
     const t = useTranslations("VilkarListe");
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <Box>
                 <Heading level="3" size="medium" spacing>
                     {t("tittel")}

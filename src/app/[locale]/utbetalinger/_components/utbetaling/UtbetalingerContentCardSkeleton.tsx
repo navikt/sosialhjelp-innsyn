@@ -29,7 +29,7 @@ const UtbetalingerContentCardSkeleton = ({ index, count }: Props) => {
             >
                 <ExpansionCard.Title as="h4">
                     <HStack align="center" wrap={false} className="w-full" justify="space-between">
-                        <HStack gap="2" align="center" className="min-w-0" wrap={false}>
+                        <HStack gap="space-8" align="center" className="min-w-0" wrap={false}>
                             <BodyShort
                                 lang="no"
                                 size="medium"
@@ -38,7 +38,7 @@ const UtbetalingerContentCardSkeleton = ({ index, count }: Props) => {
                             >
                                 <Skeleton as="span" width="50px" variant="text" />
                             </BodyShort>
-                            <HStack gap="1">
+                            <HStack gap="space-4">
                                 <BodyShort size="small" className={cx("truncate", alignmentWithChevron)}>
                                     <Skeleton as="span" width="50px" variant="text" />
                                 </BodyShort>
@@ -54,7 +54,7 @@ const UtbetalingerContentCardSkeleton = ({ index, count }: Props) => {
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap="4">
+                <VStack gap="space-16">
                     <VStack>
                         <BodyShort size="medium" weight="semibold">
                             <Skeleton as="span" width="50px" variant="text" />

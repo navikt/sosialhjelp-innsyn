@@ -34,7 +34,7 @@ const StatusMessage = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    .navds-tag {
+    .aksel-tag {
         white-space: nowrap;
     }
 `;

@@ -25,11 +25,11 @@ const Saker = ({ sakerPromise }: Props) => {
     }
 
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size="medium" level="2">
                 {t("dineSaker")}
             </Heading>
-            <VStack gap="16">
+            <VStack gap="space-64">
                 {saker.map((sak) => (
                     <SakPanel key={sak.referanse} sak={sak} />
                 ))}

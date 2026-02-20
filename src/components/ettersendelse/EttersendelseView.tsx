@@ -36,7 +36,7 @@ const OuterErrorBorder = styled.div<{ $hasError?: boolean }>`
         $hasError &&
         css`
             border-radius: 4px;
-            border: 1px solid var(--a-red-500);
+            border: 1px solid var(--ax-danger-600);
         `};
 `;
 
@@ -83,7 +83,7 @@ const EttersendelseView = (props: Props) => {
     const showLoadingState = props.isLoading || uploadIsLoading;
 
     return !!fileUploadError && !showLoadingState ? (
-        <Alert variant="error" size="medium" inline className={cx("font-bold", styles.driftsmelding)}>
+        <Alert variant="error" size="medium" inline className={cx("font-ax-bold", styles.driftsmelding)}>
             {t(fileUploadError)}
         </Alert>
     ) : (

@@ -8,7 +8,7 @@ interface Props {
 
 const DriftsmeldingerPages = ({ driftsmeldinger }: Props) => {
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             {driftsmeldinger?.map(({ severity, text, id }) => (
                 <Alert variant={severity} fullWidth key={id} data-testid={`driftsmelding-${id}`}>
                     <Markdown>{text}</Markdown>

@@ -16,7 +16,7 @@ interface Props {
 const VedleggListe = ({ vedlegg }: Props) => {
     const t = useTranslations("VedleggListe");
     return (
-        <VStack as="ul" gap="2">
+        <VStack as="ul" gap="space-8">
             {vedlegg.map((fil, index) => (
                 <li key={fil.filnavn + index}>
                     <DigisosLinkCard
@@ -24,7 +24,7 @@ const VedleggListe = ({ vedlegg }: Props) => {
                         icon={<IkonBilde filename={fil.filnavn} />}
                         cardIcon="expand"
                         description={
-                            <HStack gap="1">
+                            <HStack gap="space-4">
                                 <BodyShort>{filesize(fil.storrelse)},</BodyShort>
                                 <BodyShort>
                                     {t.rich("lastetOpp", {
@@ -43,10 +43,10 @@ const VedleggListe = ({ vedlegg }: Props) => {
 };
 
 export const VedleggListeSkeleton = () => (
-    <VStack as="ul" gap="2" className="navds-file-item__inner">
-        <HStack as="li" align="center" gap="2">
+    <VStack as="ul" gap="space-8" className="navds-file-item__inner">
+        <HStack as="li" align="center" gap="space-8">
             <Skeleton variant="circle" height="48px" width="48px" />
-            <VStack justify="center" gap="2">
+            <VStack justify="center" gap="space-8">
                 <Skeleton variant="rectangle" width="200px" />
                 <Skeleton variant="rectangle" width="50px" />
             </VStack>

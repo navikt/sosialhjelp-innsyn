@@ -42,8 +42,8 @@ const Utbetalinger = () => {
     const tilProps = { ...tilPicker, fromDate: fra ?? earliest };
 
     return (
-        <VStack gap="16">
-            <VStack gap="4">
+        <VStack gap="space-64">
+            <VStack gap="space-16">
                 <Heading size="medium" level="2">
                     {t("periode")}
                 </Heading>
@@ -70,8 +70,8 @@ const Utbetalinger = () => {
                 </Chips>
             </VStack>
             {state.selectedChip === "egendefinert" && (
-                <HStack gap="4" align="end">
-                    <HStack gap="4">
+                <HStack gap="space-16" align="end">
+                    <HStack gap="space-16">
                         <DatePicker {...fraProps}>
                             <DatePicker.Input {...fraInput} label={t("fra")} />
                         </DatePicker>
