@@ -158,13 +158,11 @@
             "tittel": "Søknaden er motteken <norsk>{navKontor}</norsk>"
         },
         "UnderBehandlingEvent": {
-            "completed": {
-                "tittel": "<norsk>{navKontor}</norsk> har byrja å behandle søknaden din"
-            },
-            "uncompleted": {
-                "tittel": "Nav-kontoret behandlar søknaden",
-                "beskrivelse": "Søknaden din blir behandla så fort som mogleg. Nav-kontoret vil ta kontakt med deg dersom dei treng fleire opplysningar eller meir dokumentasjon."
-            }
+            "tittel": "<norsk>{navKontor}</norsk> har byrja å behandle søknaden din"
+        },
+        "VideresendtEvent": {
+            "tittel": "Søknaden din er vidaresend til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Dette vil ikkje påverke behandlingstida av søknaden."
         },
         "FerdigBehandletEvent": {
             "tittel": "Søknaden din er ferdig behandla",

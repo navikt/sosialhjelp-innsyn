@@ -157,13 +157,11 @@
             "tittel": "The application has been received at <norsk>{navKontor}</norsk>"
         },
         "UnderBehandlingEvent": {
-            "completed": {
-                "tittel": "<norsk>{navKontor}</norsk> has started processing your application"
-            },
-            "uncompleted": {
-                "tittel": "The Nav office will process the application",
-                "beskrivelse": "Your application will be processed as soon as possible. The Nav office will contact you if they need more information or more documentation."
-            }
+            "tittel": "<norsk>{navKontor}</norsk> has started processing your application"
+        },
+        "VideresendtEvent": {
+            "tittel": "Your application has been forwarded to <norsk>{navKontor}</norsk>",
+            "beskrivelse": "This will not affect the processing time of the application."
         },
         "FerdigBehandletEvent": {
             "tittel": "Your application has been processed.",

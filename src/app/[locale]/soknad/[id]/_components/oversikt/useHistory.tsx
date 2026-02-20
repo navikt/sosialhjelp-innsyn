@@ -13,35 +13,28 @@ import VedtakFattetEvent from "./history/events/VedtakFattetEvent";
 import { RefObject } from "react";
 import DokumentasjonskravEvent from "./history/events/DokumentasjonskravEvent";
 import UtbetalingerOppdatertEvent from "./history/events/UtbetalingerOppdatertEvent";
-
-type KommendeHendelse = {
-    type: "UnderBehandling-kommer";
-};
+import VideresendtEvent from "./history/events/VideresendtEvent";
 
 const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
     const { id } = useParams<{ id: string }>();
     const { data } = useHentHendelserBetaSuspense(id);
-    const isProcessing = data.some((hendelse) => hendelse.type === "SoknadUnderBehandling");
-    const isFinished = data.some((hendelse) => hendelse.type === "SoknadFerdigBehandlet");
     const steps = R.pipe(
         data,
-        R.sortBy(R.prop("tidspunkt")),
-        R.concat(isProcessing || isFinished ? [] : [{ type: "UnderBehandling-kommer" } satisfies KommendeHendelse]),
-        R.reverse(),
+        R.sortBy([R.prop("tidspunkt"), "desc"]),
         // TODO: Skal denne vises i lista?
         R.filter((it) => it.type !== "SakUnderBehandling"),
         R.map((hendelse, index) => {
-            if (hendelse.type === "UnderBehandling-kommer") {
-                return (
-                    <UnderBehandlingEvent
-                        ref={index === refIndex ? ref : undefined}
-                        key="UnderBehandling-kommer"
-                        completed={false}
-                    />
-                );
-            }
             const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
             switch (hendelse.type) {
+                case "Videresendt":
+                    return (
+                        <VideresendtEvent
+                            key={key}
+                            ref={index === refIndex ? ref : undefined}
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                            navKontor={hendelse.navKontor!}
+                        />
+                    );
                 case "DokumentasjonKrav":
                     return (
                         <DokumentasjonskravEvent
@@ -75,7 +68,6 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                         <UnderBehandlingEvent
                             key={key}
                             ref={index === refIndex ? ref : undefined}
-                            completed
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor}
                         />
