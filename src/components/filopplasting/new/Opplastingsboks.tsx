@@ -1,7 +1,18 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyLong, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import {
+    Alert,
+    BodyLong,
+    BodyShort,
+    Box,
+    Button,
+    FileObject,
+    FileUpload,
+    Heading,
+    HStack,
+    VStack,
+} from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
@@ -109,7 +120,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            {label ? <span lang="no">{label}</span> : t("Opplastingsboks.tittel")}
+                            {label ? (
+                                <BodyShort as="span" lang="no">
+                                    {label}
+                                </BodyShort>
+                            ) : (
+                                t("Opplastingsboks.tittel")
+                            )}
                             {tag}
                         </HStack>
                     }

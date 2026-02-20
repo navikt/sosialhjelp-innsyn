@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { FancyFile, Error } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
@@ -53,7 +53,13 @@ const FileSelect = ({
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            {label ? <span lang="no">{label}</span> : t("Opplastingsboks.tittel")}
+                            {label ? (
+                                <BodyShort as="span" lang="no">
+                                    {label}
+                                </BodyShort>
+                            ) : (
+                                t("Opplastingsboks.tittel")
+                            )}
                             {tag}
                         </HStack>
                     }

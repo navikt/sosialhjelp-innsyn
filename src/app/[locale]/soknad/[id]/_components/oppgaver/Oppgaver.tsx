@@ -89,7 +89,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                                 oppgave.erLastetOpp ? (
                                                     t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
                                                 ) : (
-                                                    <span lang="no">{tilleggsinfoTekst}</span>
+                                                    <BodyShort as="span" lang="no">
+                                                        {tilleggsinfoTekst}
+                                                    </BodyShort>
                                                 )
                                             }
                                             tag={
