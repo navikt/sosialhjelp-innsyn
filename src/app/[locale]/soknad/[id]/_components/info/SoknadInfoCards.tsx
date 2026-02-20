@@ -21,11 +21,12 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const cards: JSX.Element[] = [];
 
     if (saksdetaljer.status === "SENDT") {
-        cards.push(<SoknadInfoCard state={{ type: "sendt" }} />);
+        cards.push(<SoknadInfoCard key="sendt" state={{ type: "sendt" }} />);
     }
     if (relevanteOppgaver.length > 0) {
         cards.push(
             <SoknadInfoCard
+                key="oppgaver"
                 state={{
                     type: "oppgaver",
                     oppgaver: oppgaver.map((oppgave) => ({
@@ -39,15 +40,18 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     }
 
     if (harSakMedFlereVedtak) {
-        cards.push(<SoknadInfoCard state={{ type: "nyttVedtak" }} />);
+        cards.push(<SoknadInfoCard key="nyttVedtak" state={{ type: "nyttVedtak" }} />);
     }
     if (saksdetaljer.status === "MOTTATT" || saksdetaljer.status === "UNDER_BEHANDLING") {
         if (saksdetaljer.forelopigSvar?.harMottattForelopigSvar) {
             cards.push(
-                <SoknadInfoCard state={{ type: "forelopigSvar", forelopigSvarUrl: saksdetaljer.forelopigSvar.link }} />
+                <SoknadInfoCard
+                    key="forelopigSvar"
+                    state={{ type: "forelopigSvar", forelopigSvarUrl: saksdetaljer.forelopigSvar.link }}
+                />
             );
         } else if (cards.length === 0) {
-            cards.push(<SoknadInfoCard state={{ type: "saksbehandlingstid" }} />);
+            cards.push(<SoknadInfoCard key="saksbehandlingstid" state={{ type: "saksbehandlingstid" }} />);
         }
     }
 
