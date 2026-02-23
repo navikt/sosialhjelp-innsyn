@@ -8,19 +8,38 @@ interface Props {
     tidspunkt: Date;
     url?: string;
     isNew: boolean;
+    sakstittel?: string;
 }
 
-const VedtakFattetEvent = (props: Props, ref: Ref<HTMLLIElement>) => {
+const VedtakFattetEvent = ({ tidspunkt, isNew, url, sakstittel }: Props, ref: Ref<HTMLLIElement>) => {
     const t = useTranslations("History.VedtakFattetEvent");
+
+    if (sakstittel && !isNew) {
+        return (
+            <Event
+                ref={ref}
+                title={t.rich("withSakstittel.tittel", {
+                    norsk: (chunks) => <span lang="no">{chunks}</span>,
+                    sakstittel,
+                })}
+                status="completed"
+                timestamp={tidspunkt}
+            >
+                <Link href={url} className="text-ax-text-accent-subtle">
+                    {t("visVedtaket")}
+                </Link>
+            </Event>
+        );
+    }
 
     return (
         <Event
             ref={ref}
-            title={t("tittel", { nytt: props.isNew ? "true" : "false" })}
+            title={t("tittel", { nytt: isNew ? "true" : "false" })}
             status="completed"
-            timestamp={props.tidspunkt}
+            timestamp={tidspunkt}
         >
-            <Link href={props.url} className="text-ax-text-accent-subtle">
+            <Link href={url} className="text-ax-text-accent-subtle">
                 {t("visVedtaket")}
             </Link>
         </Event>

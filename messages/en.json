@@ -190,7 +190,10 @@
         },
         "VedtakFattetEvent": {
             "tittel": "You have received a{nytt, select, true { new} other {}} decision",
-            "visVedtaket": "View the decision (opens in new tab)"
+            "visVedtaket": "View the decision (opens in new tab)",
+            "withSakstittel": {
+                "tittel": "<norsk>{sakstittel}</norsk> is processed"
+            }
         }
     },
     "Opplastingsboks": {

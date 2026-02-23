@@ -203,7 +203,10 @@
         },
         "VedtakFattetEvent": {
             "tittel": "Du har fått et{nytt, select, true { nytt} other {}} vedtak",
-            "visVedtaket": "Vis vedtaket (åpnes i ny fane)"
+            "visVedtaket": "Vis vedtaket (åpnes i ny fane)",
+            "withSakstittel": {
+                "tittel": "<norsk>{sakstittel}</norsk> er ferdig behandlet"
+            }
         }
     },
     "Opplastingsboks": {

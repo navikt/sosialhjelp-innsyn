@@ -45,6 +45,12 @@ const mapReduce = (hendelser: HentHendelserBeta200Item[]): Hendelse[] => {
 const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
     const { id } = useParams<{ id: string }>();
     const { data } = useHentHendelserBetaSuspense(id);
+    const hasMultipleCases =
+        new Set(
+            data
+                .filter((otherHendelse) => otherHendelse.type === "SakUnderBehandling")
+                .map((hendelse) => hendelse.sakstittel)
+        ).size > 1;
     const steps = R.pipe(
         data,
         mapReduce,
@@ -143,6 +149,7 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                             url={hendelse.url}
                             tidspunkt={tidspunkt}
                             isNew={isNew}
+                            sakstittel={hasMultipleCases ? hendelse.sakstittel : undefined}
                         />
                     );
                 case "ForelopigSvar":

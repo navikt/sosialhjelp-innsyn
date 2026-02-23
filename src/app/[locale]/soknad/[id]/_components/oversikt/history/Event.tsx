@@ -37,7 +37,7 @@ export const EventSkeleton = ({ status, children, timestamp, title }: PropsWithC
             title={title}
             status={status}
             bullet={status === "completed" ? <CheckmarkHeavyIcon aria-hidden /> : <div className="bg-transparent" />}
-            // @ts-expect-error Title er typa som string, men brukes som ReactNode inni komponenten.
+            // @ts-expect-error timestamp er typa som string, men brukes som ReactNode inni komponenten.
             timestamp={timestamp ? <Skeleton width="150px" /> : undefined}
         >
             {children}
