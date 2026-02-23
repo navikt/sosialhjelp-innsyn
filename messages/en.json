@@ -124,7 +124,7 @@
         "sokOmSosialhjelp": "Apply for financial assistance"
     },
     "Oversikt": {
-        "tittel": "Status on your case"
+        "tittel": "Status on your application"
     },
     "OppgaveTag": {
         "frist": "Due: {frist, date, ::ddMMyyyy}",
@@ -183,7 +183,8 @@
             "tittel": "<norsk>{navKontor}</norsk> has sent you a letter about the processing time for your application"
         },
         "EtterspurtDokumentasjonEvent": {
-            "tittel": "<norsk>{navKontor}</norsk> needs more information on your case"
+            "tittel": "<norsk>{navKontor}</norsk> needs more information on your case",
+            "visBrevet": "View the letter (opens in new tab)"
         },
         "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "You provided requested documents"
@@ -207,8 +208,8 @@
         "sendInn": "Submit",
         "lastOppFiler": "Upload files",
         "valgteFiler": "Selected files ({antall_filer})",
-      "filerTilOpplasting": "Files for upload",
-      "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
+        "filerTilOpplasting": "Files for upload",
+        "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
         "konvertert": {
             "tittel": "Some files may have been changed",
             "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."

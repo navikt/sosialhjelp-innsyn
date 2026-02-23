@@ -21,7 +21,7 @@ const EtterspurtDokumentasjonEvent = ({ tidspunkt, navKontor, url }: Props, ref:
         >
             {url && (
                 <Link href={url} className="text-ax-text-accent-subtle">
-                    Les brevet
+                    {t("visBrevet")}
                 </Link>
             )}
         </Event>

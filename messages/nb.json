@@ -138,7 +138,7 @@
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Oversikt": {
-        "tittel": "Status i saken din"
+        "tittel": "Status i søknaden din"
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
@@ -196,7 +196,8 @@
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg et brev om saksbehandlingstiden for søknaden din"
         },
         "EtterspurtDokumentasjonEvent": {
-            "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din"
+            "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din",
+            "visBrevet": "Vis brevet (åpnes i ny fane)"
         },
         "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du leverte etterspurte dokumenter"

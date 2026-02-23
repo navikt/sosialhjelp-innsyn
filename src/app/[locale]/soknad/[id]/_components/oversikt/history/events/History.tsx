@@ -11,7 +11,7 @@ import { EventSkeleton } from "../Event";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
-const LIMIT = 3;
+const LIMIT = 5;
 
 interface Props {
     labelledById: string;

@@ -125,7 +125,7 @@
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
     "Oversikt": {
-        "tittel": "Status i saken din"
+        "tittel": "Status i søknaden din"
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
@@ -184,7 +184,8 @@
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg eit brev om saksbehandlingstida for søknaden din"
         },
         "EtterspurtDokumentasjonEvent": {
-            "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di"
+            "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di",
+            "visBrevet": "Vis brevet (blir opna i ei ny fane)"
         },
         "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du leverte etterspurde dokument"
@@ -208,8 +209,8 @@
         "sendInn": "Send inn",
         "lastOppFiler": "Lasta opp dokumentasjon",
         "valgteFiler": "Valde filer ({antall_filer})",
-      "filerTilOpplasting": "Filer til opplasting",
-      "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
+        "filerTilOpplasting": "Filer til opplasting",
+        "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": {
             "tittel": "Nokre filer kan ha blitt endra",
             "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
