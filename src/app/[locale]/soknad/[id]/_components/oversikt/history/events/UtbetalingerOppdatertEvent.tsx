@@ -1,5 +1,5 @@
 import React, { forwardRef, Ref } from "react";
-import Event from "../Event";
+import Event from "./Event";
 import { useTranslations } from "next-intl";
 import { Link } from "@i18n/navigation";
 import { Link as AkselLink } from "@navikt/ds-react";

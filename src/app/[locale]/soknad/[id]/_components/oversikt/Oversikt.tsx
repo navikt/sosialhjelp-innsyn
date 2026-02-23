@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { prefetchHentHendelserBetaQuery } from "@generated/ssr/hendelse-controller/hendelse-controller";
 import { getQueryClient } from "@api/queryClient";
 
-import History, { HistorySkeleton } from "./history/events/History";
+import History, { HistorySkeleton } from "./history/History";
 
 interface Props {
     id: string;

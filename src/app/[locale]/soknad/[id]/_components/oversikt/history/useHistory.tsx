@@ -2,22 +2,22 @@ import { useParams } from "next/navigation";
 import * as R from "remeda";
 import { useHentHendelserBetaSuspense } from "@generated/hendelse-controller/hendelse-controller";
 
-import SendtEvent from "./history/events/SendtEvent";
-import MottattEvent from "./history/events/MottattEvent";
-import UnderBehandlingEvent from "./history/events/UnderBehandlingEvent";
-import FerdigBehandletEvent from "./history/events/FerdigBehandletEvent";
-import ForelopigSvarEvent from "./history/events/ForelopigSvarEvent";
-import EtterspurtDokumentasjonEvent from "./history/events/EtterspurtDokumentasjonEvent";
-import EtterspurtDokumentasjonLevertEvent from "./history/events/EtterspurtDokumentasjonLevertEvent";
-import VedtakFattetEvent from "./history/events/VedtakFattetEvent";
+import SendtEvent from "./events/SendtEvent";
+import MottattEvent from "./events/MottattEvent";
+import UnderBehandlingEvent from "./events/UnderBehandlingEvent";
+import FerdigBehandletEvent from "./events/FerdigBehandletEvent";
+import ForelopigSvarEvent from "./events/ForelopigSvarEvent";
+import EtterspurtDokumentasjonEvent from "./events/EtterspurtDokumentasjonEvent";
+import EtterspurtDokumentasjonLevertEvent from "./events/EtterspurtDokumentasjonLevertEvent";
+import VedtakFattetEvent from "./events/VedtakFattetEvent";
 import { RefObject } from "react";
-import DokumentasjonskravEvent from "./history/events/DokumentasjonskravEvent";
-import UtbetalingerOppdatertEvent from "./history/events/UtbetalingerOppdatertEvent";
-import VideresendtEvent from "./history/events/VideresendtEvent";
-import DeltSoknadEvent from "./history/events/DeltSoknadEvent";
+import DokumentasjonskravEvent from "./events/DokumentasjonskravEvent";
+import UtbetalingerOppdatertEvent from "./events/UtbetalingerOppdatertEvent";
+import VideresendtEvent from "./events/VideresendtEvent";
+import DeltSoknadEvent from "./events/DeltSoknadEvent";
 import { HentHendelserBeta200Item } from "@generated/model";
-import BehandlesIkkeEvent from "./history/events/BehandlesIkkeEvent";
-import KanIkkeViseStatusEvent from "./history/events/KanIkkeViseStatusEvent";
+import BehandlesIkkeEvent from "./events/BehandlesIkkeEvent";
+import KanIkkeViseStatusEvent from "./events/KanIkkeViseStatusEvent";
 
 type Hendelse =
     | HentHendelserBeta200Item

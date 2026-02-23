@@ -1,5 +1,5 @@
 import { forwardRef, Ref } from "react";
-import Event from "../Event";
+import Event from "./Event";
 import { useTranslations } from "next-intl";
 
 interface Props {

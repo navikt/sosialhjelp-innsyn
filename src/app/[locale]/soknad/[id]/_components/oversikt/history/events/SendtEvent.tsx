@@ -1,7 +1,7 @@
 import { Link } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
-import Event from "../Event";
+import Event from "./Event";
 import { forwardRef, Ref } from "react";
 
 interface Props {

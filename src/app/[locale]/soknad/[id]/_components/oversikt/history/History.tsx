@@ -2,12 +2,12 @@
 
 import { Skeleton } from "@navikt/ds-react";
 
-import useHistory from "../../useHistory";
+import useHistory from "./useHistory";
 
 import { Process } from "@navikt/ds-react/Process";
 import ShowMoreButton from "@components/showmore/ShowMoreButton";
 import useShowMore from "@components/showmore/useShowMore";
-import { EventSkeleton } from "../Event";
+import { EventSkeleton } from "./events/Event";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
