@@ -5,7 +5,7 @@ import { Button } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 
-import useShowMore, { ITEMS_LIMIT } from "@components/showmore/useShowMore";
+import useShowMore from "@components/showmore/useShowMore";
 
 interface Props<R extends HTMLElement> extends ReturnType<typeof useShowMore> {
     items: unknown[];
@@ -23,7 +23,7 @@ const ShowMoreButton = <R extends HTMLElement>({
     hasMore,
     setShowAll,
     suffix,
-    itemsLimit = ITEMS_LIMIT,
+    itemsLimit,
 }: Props<R>): React.JSX.Element | null => {
     const t = useTranslations("ShowMoreButton");
     if (!hasMore) {
