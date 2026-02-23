@@ -16,6 +16,8 @@ import UtbetalingerOppdatertEvent from "./history/events/UtbetalingerOppdatertEv
 import VideresendtEvent from "./history/events/VideresendtEvent";
 import DeltSoknadEvent from "./history/events/DeltSoknadEvent";
 import { HentHendelserBeta200Item } from "@generated/model";
+import BehandlesIkkeEvent from "./history/events/BehandlesIkkeEvent";
+import KanIkkeViseStatusEvent from "./history/events/KanIkkeViseStatusEvent";
 
 type Hendelse =
     | HentHendelserBeta200Item
@@ -50,6 +52,24 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
         R.map((hendelse, index) => {
             const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
             switch (hendelse.type) {
+                case "BehandlesIkke":
+                    return (
+                        <BehandlesIkkeEvent
+                            key={key}
+                            ref={index === refIndex ? ref : undefined}
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                        />
+                    );
+                // Fallthrough med vilje. Disse to hendelsetypene har samme visning.
+                case "SakKanIkkeViseStatus":
+                case "SoknadKanIkkeViseStatus":
+                    return (
+                        <KanIkkeViseStatusEvent
+                            key={key}
+                            ref={index === refIndex ? ref : undefined}
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                        />
+                    );
                 case "Videresendt":
                     return (
                         <VideresendtEvent

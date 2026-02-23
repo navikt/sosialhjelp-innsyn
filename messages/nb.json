@@ -181,6 +181,14 @@
             "tittel": "Søknaden din er delt opp i flere saker",
             "beskrivelse": "Søknaden din har blitt delt opp i flere saker siden det er behov for å behandle deler av søknaden separat."
         },
+        "BehandlesIkkeEvent": {
+            "tittel": "Vi kan ikke vise status for søknaden din på nav.no",
+            "beskrivelse": "Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt inn, eller fordi du har trukket tilbake søknaden.  Har du spørsmål kan du ta kontakt med Nav-kontoret ditt."
+        },
+        "KanIkkeViseStatusEvent": {
+            "tittel": "Vi kan ikke vise status for søknaden din på nav.no",
+            "beskrivelse": "Søknaden din behandles, men vi kan ikke vise status på søknaden på nav.no."
+        },
         "FerdigBehandletEvent": {
             "tittel": "Søknaden din er ferdig behandlet"
         },

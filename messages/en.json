@@ -167,6 +167,14 @@
             "tittel": "Your application is divided into multiple cases",
             "beskrivelse": "Your application has been split into several cases as parts of the application need to be processed separately."
         },
+        "BehandlesIkkeEvent": {
+            "tittel": "We cannot show the status of your application on nav.no",
+            "beskrivelse": "This may be because your application is being processed together with another application you have submitted, or because you have withdrawn your application. If you have any questions, please contact your local Nav office."
+        },
+        "KanIkkeViseStatusEvent": {
+            "tittel": "We cannot show the status of your application on nav.no",
+            "beskrivelse": "Your application is being processed, but we cannot show the status of the application on nav.no."
+        },
         "FerdigBehandletEvent": {
             "tittel": "Your application has been processed.",
             "visVedtaket": "View the decision (opens in new tab)"
