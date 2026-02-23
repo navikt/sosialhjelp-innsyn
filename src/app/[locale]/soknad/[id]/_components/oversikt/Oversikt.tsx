@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { prefetchHentHendelserBetaQuery } from "@generated/ssr/hendelse-controller/hendelse-controller";
 import { getQueryClient } from "@api/queryClient";
 
-import History, { StepsSkeleton } from "./history/events/History";
+import History, { HistorySkeleton } from "./history/events/History";
 
 interface Props {
     id: string;
@@ -20,7 +20,7 @@ const Oversikt = async ({ id }: Props) => {
             <Heading size="medium" level="2" id="Saksprosessen">
                 {t("tittel")}
             </Heading>
-            <Suspense fallback={<StepsSkeleton />}>
+            <Suspense fallback={<HistorySkeleton />}>
                 <HydrationBoundary state={dehydrate(queryClient)}>
                     <History labelledById="Saksprosessen" />
                 </HydrationBoundary>

@@ -45,7 +45,7 @@ const History = ({ labelledById }: Props) => {
     );
 };
 
-export const StepsSkeleton = () => (
+export const HistorySkeleton = () => (
     <Process>
         <EventSkeleton title={<Skeleton width="400px" />}>
             <Skeleton width="200px" />
