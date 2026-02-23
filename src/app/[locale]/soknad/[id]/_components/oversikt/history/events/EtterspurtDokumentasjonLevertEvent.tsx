@@ -9,7 +9,7 @@ interface Props {
 
 const EtterspurtDokumentasjonLevertEvent = ({ tidspunkt }: Props, ref: Ref<HTMLLIElement>) => {
     const t = useTranslations("History.EtterspurtDokumentasjonLevertEvent");
-    return <Event ref={ref} title={t("tittel")} status="completed" timestamp={tidspunkt} />;
+    return <Event ref={ref} title={t("tittel")} timestamp={tidspunkt} />;
 };
 
 export default forwardRef(EtterspurtDokumentasjonLevertEvent);

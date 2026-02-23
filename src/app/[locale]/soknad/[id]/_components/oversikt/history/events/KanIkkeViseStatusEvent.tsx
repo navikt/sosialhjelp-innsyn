@@ -9,7 +9,7 @@ interface Props {
 const KanIkkeViseStatusEvent = ({ tidspunkt }: Props, ref: Ref<HTMLLIElement>) => {
     const t = useTranslations("History.KanIkkeViseStatusEvent");
     return (
-        <Event ref={ref} status="completed" title={t("tittel")} timestamp={tidspunkt}>
+        <Event ref={ref} title={t("tittel")} timestamp={tidspunkt}>
             {t("beskrivelse")}
         </Event>
     );

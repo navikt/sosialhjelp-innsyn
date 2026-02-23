@@ -8,7 +8,7 @@ interface Props {
 const DeltSoknadEvent = ({ timestamp }: Props) => {
     const t = useTranslations("History.DeltSoknadEvent");
     return (
-        <Event status="completed" title={t("tittel")} timestamp={timestamp}>
+        <Event title={t("tittel")} timestamp={timestamp}>
             {t("beskrivelse")}
         </Event>
     );

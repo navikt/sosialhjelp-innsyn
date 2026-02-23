@@ -50,7 +50,7 @@ export const HistorySkeleton = () => (
         <EventSkeleton title={<Skeleton width="400px" />}>
             <Skeleton width="200px" />
         </EventSkeleton>
-        <EventSkeleton status="completed" title={<Skeleton width="400px" />} timestamp={new Date()}>
+        <EventSkeleton title={<Skeleton width="400px" />} timestamp={new Date()}>
             <Skeleton width="200px" />
         </EventSkeleton>
     </Process>

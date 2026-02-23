@@ -22,7 +22,6 @@ const VedtakFattetEvent = ({ tidspunkt, isNew, url, sakstittel }: Props, ref: Re
                     norsk: (chunks) => <span lang="no">{chunks}</span>,
                     sakstittel,
                 })}
-                status="completed"
                 timestamp={tidspunkt}
             >
                 <Link href={url} className="text-ax-text-accent-subtle">
@@ -33,12 +32,7 @@ const VedtakFattetEvent = ({ tidspunkt, isNew, url, sakstittel }: Props, ref: Re
     }
 
     return (
-        <Event
-            ref={ref}
-            title={t("tittel", { nytt: isNew ? "true" : "false" })}
-            status="completed"
-            timestamp={tidspunkt}
-        >
+        <Event ref={ref} title={t("tittel", { nytt: isNew ? "true" : "false" })} timestamp={tidspunkt}>
             <Link href={url} className="text-ax-text-accent-subtle">
                 {t("visVedtaket")}
             </Link>

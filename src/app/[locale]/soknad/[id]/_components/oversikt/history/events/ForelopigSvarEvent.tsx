@@ -14,7 +14,6 @@ const ForelopigSvarEvent = ({ tidspunkt, navKontor }: Props, ref: Ref<HTMLLIElem
         <Event
             ref={ref}
             title={t.rich("tittel", { norsk: (chunks) => <span lang="no">{chunks}</span>, navKontor })}
-            status="completed"
             timestamp={tidspunkt}
         />
     );

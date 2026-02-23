@@ -11,7 +11,7 @@ interface Props {
 const UtbetalingerOppdatertEvent = ({ tidspunkt }: Props, ref: Ref<HTMLLIElement>): React.JSX.Element => {
     const t = useTranslations("History.UtbetalingerOppdatertEvent");
     return (
-        <Event ref={ref} title={t("tittel")} status="completed" timestamp={tidspunkt}>
+        <Event ref={ref} title={t("tittel")} timestamp={tidspunkt}>
             <AkselLink as={Link} href="/utbetaling">
                 {t("beskrivelse")}
             </AkselLink>

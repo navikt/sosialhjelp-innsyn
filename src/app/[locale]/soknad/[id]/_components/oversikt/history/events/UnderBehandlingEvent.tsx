@@ -15,7 +15,6 @@ const UnderBehandlingEvent = (props: Props, ref: Ref<HTMLLIElement>) => {
         <Event
             ref={ref}
             timestamp={props.tidspunkt}
-            status="completed"
             title={t.rich("tittel", {
                 norsk: (chunks) => <span lang="no">{chunks}</span>,
                 // TODO: Fiks oversettelse på default-verdien

@@ -11,7 +11,6 @@ const VideresendtEvent = ({ tidspunkt, navKontor }: Props, ref: Ref<HTMLLIElemen
     const t = useTranslations("History.VideresendtEvent");
     return (
         <Event
-            status="completed"
             timestamp={tidspunkt}
             ref={ref}
             title={t.rich("tittel", { norsk: (chunks) => <span lang="no">{chunks}</span>, navKontor })}

@@ -11,7 +11,7 @@ interface Props {
 const DokumentasjonskravEvent = ({ tidspunkt, url }: Props, ref: Ref<HTMLLIElement>): React.JSX.Element => {
     const t = useTranslations("History.DokumentasjonskravEvent");
     return (
-        <Event ref={ref} title={t("tittel")} status="completed" timestamp={tidspunkt}>
+        <Event ref={ref} title={t("tittel")} timestamp={tidspunkt}>
             <Link href={url} className="text-ax-text-accent-subtle">
                 {t("seBrevet")}
             </Link>

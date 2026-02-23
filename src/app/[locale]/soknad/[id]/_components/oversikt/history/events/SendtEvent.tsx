@@ -16,7 +16,6 @@ const SendtEvent = ({ tidspunkt, navKontor, url }: Props, ref: Ref<HTMLLIElement
         <Event
             ref={ref}
             timestamp={tidspunkt}
-            status="completed"
             title={t.rich("tittel", { norsk: (chunks) => <span lang="no">{chunks}</span>, navKontor })}
         >
             <Link href={url} className="text-ax-text-accent-subtle">

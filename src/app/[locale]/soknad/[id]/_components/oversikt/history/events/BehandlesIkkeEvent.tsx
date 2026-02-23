@@ -9,7 +9,7 @@ interface Props {
 const BehandlesIkkeEvent = ({ tidspunkt }: Props, ref: Ref<HTMLLIElement>) => {
     const t = useTranslations("History.BehandlesIkkeEvent");
     return (
-        <Event ref={ref} status="completed" title={t("tittel")} timestamp={tidspunkt}>
+        <Event ref={ref} title={t("tittel")} timestamp={tidspunkt}>
             {t("beskrivelse")}
         </Event>
     );
