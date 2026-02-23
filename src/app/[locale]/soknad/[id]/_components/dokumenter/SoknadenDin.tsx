@@ -28,7 +28,6 @@ const SoknadenDin = () => {
                     description={
                         <>
                             <HStack gap="space-4">
-                                <BodyShort>{originalSoknad.size},</BodyShort>
                                 <BodyShort>
                                     {originalSoknad.date
                                         ? `${t("sendt", {

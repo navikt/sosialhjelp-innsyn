@@ -74,7 +74,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack gap="space-8">
+            <VStack>
                 <Box>
                     <HStack align="center" justify="space-between">
                         {label ? (
@@ -116,7 +116,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 },
             }}
         >
-            <VStack gap="space-24">
+            <VStack gap="space-40">
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
@@ -144,14 +144,20 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="space-8">
+                    <VStack gap="space-4">
                         <Heading size="small" level="3">
                             {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <div role="status" aria-live="polite" className="sr-only">
                             {t("Opplastingsboks.antallFiler", { count: files.length })}
                         </div>
-                        <VStack as="ul" gap="space-8" aria-live="polite" aria-relevant="additions removals">
+                        <VStack
+                            className="mb-2"
+                            gap="space-4"
+                            as="ul"
+                            aria-live="polite"
+                            aria-relevant="additions removals"
+                        >
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"

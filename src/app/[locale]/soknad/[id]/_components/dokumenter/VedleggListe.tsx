@@ -2,7 +2,6 @@
 
 import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { filesize } from "filesize";
 import React from "react";
 import * as R from "remeda";
 import { VedleggResponse } from "@generated/model";
@@ -17,7 +16,6 @@ interface Props {
 
 const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) => {
     const t = useTranslations("VedleggListe");
-    const isMobile = useIsMobile();
 
     const sortedVedlegg = R.pipe(
         vedlegg,
@@ -40,22 +38,11 @@ const VedleggListe = ({ vedlegg, labelledById = "opplastede-vedlegg" }: Props) =
                         cardIcon="external-link"
                         dataColor="accent"
                         description={
-                            isMobile ? (
-                                <BodyShort>
-                                    {t.rich("sendt", {
-                                        dato: new Date(fil.datoLagtTil),
-                                    })}
-                                </BodyShort>
-                            ) : (
-                                <HStack gap="space-4">
-                                    <BodyShort>{filesize(fil.storrelse)},</BodyShort>
-                                    <BodyShort>
-                                        {t.rich("lastetOpp", {
-                                            dato: new Date(fil.datoLagtTil),
-                                        })}
-                                    </BodyShort>
-                                </HStack>
-                            )
+                            <BodyShort>
+                                {t.rich("sendt", {
+                                    dato: new Date(fil.datoLagtTil),
+                                })}
+                            </BodyShort>
                         }
                     >
                         {fil.filnavn}

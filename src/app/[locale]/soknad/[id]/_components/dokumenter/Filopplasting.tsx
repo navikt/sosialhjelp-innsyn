@@ -29,7 +29,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     );
 
     return (
-        <VStack gap="space-8">
+        <VStack>
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
@@ -41,7 +41,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderWidth="1"
                 borderColor="info-subtle"
             >
-                {isMobile && <BodyLong className="mb-4">{tOpplastingsboks("beskrivelse")}</BodyLong>}
+                {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
                 <NavigationGuardProvider>
                     {newUploadEnabled ? (
                         <OpplastingsboksTus metadata={metadata} id={id} />
@@ -50,7 +50,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                     )}
                 </NavigationGuardProvider>
                 {ettersendelseDokumenter.length > 0 && (
-                    <VStack gap="space-8" className={isMobile ? "mt-10" : "mt-10"}>
+                    <VStack gap="space-8">
                         <Heading size="small" level="3">
                             {t("opplastedeVedlegg")}
                         </Heading>
@@ -64,7 +64,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
 export const FilopplastingSkeleton = () => {
     const t = useTranslations("Filopplasting");
     return (
-        <VStack gap="space-8">
+        <VStack>
             <Heading size="small" level="3" spacing>
                 {t("tittel")}
             </Heading>
