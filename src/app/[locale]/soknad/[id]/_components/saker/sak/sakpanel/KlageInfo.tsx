@@ -37,23 +37,20 @@ const KlageInfo = ({ vedtakId, innsendtKlage }: Props) => {
                 </Heading>
                 <BodyLong>
                     {t.rich("beskrivelse", {
-                        lenke: (chunks) => (
-                            <AkselLink href="https://www.nav.no/klagerettigheter" inlineText>
+                        klageinfo: (chunks) => (
+                            <AkselLink href="https://www.nav.no/okonomisk-sosialhjelp#klage" inlineText>
+                                {chunks}
+                            </AkselLink>
+                        ),
+                        klageskjema: (chunks) => (
+                            <AkselLink href="/sosialhjelp/innsyn/papirskjema_klage.pdf" inlineText>
                                 {chunks}
                             </AkselLink>
                         ),
                     })}
                 </BodyLong>
             </VStack>
-            {klageToggle.enabled && innsendtKlage && (
-                <DigisosLinkCard
-                    href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
-                    icon={<GavelIcon aria-hidden />}
-                >
-                    {t("seKlage")}
-                </DigisosLinkCard>
-            )}
-            {klageToggle.enabled && !innsendtKlage && (
+            {klageToggle.enabled && (
                 <Button
                     icon={<GavelIcon aria-hidden />}
                     variant="secondary"
