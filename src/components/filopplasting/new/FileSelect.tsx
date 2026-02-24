@@ -1,10 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
-import { allowedFileTypes } from "@components/filopplasting/new/consts";
+import { BodyShort, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { FancyFile, Error } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
+import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
 
 interface Props {
     id?: string;
@@ -50,28 +50,33 @@ const FileSelect = ({
             }}
         >
             <VStack gap="space-24">
-                <FileUpload.Dropzone
-                    className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
+                <FileSelectUpload
                     label={
                         <HStack justify="space-between">
-                            <div>{label ?? t("Opplastingsboks.tittel")}</div>
+                            {label ? (
+                                <BodyShort as="span" lang="no">
+                                    {label}
+                                </BodyShort>
+                            ) : (
+                                t("Opplastingsboks.tittel")
+                            )}
                             {tag}
                         </HStack>
                     }
                     description={description ?? t("Opplastingsboks.beskrivelse")}
-                    onSelect={(_files) => addFiler(_files.map((it) => it.file))}
-                    accept={allowedFileTypes}
+                    buttonText={t("Opplastingsboks.lastOppFiler")}
                     error={
                         outerErrors.length > 0 ? (
                             <ul>{outerErrors.map((it) => t(`common.${errorStatusToMessage[it.feil]}`))}</ul>
                         ) : null
                     }
+                    onSelect={(_files) => addFiler(_files.map((it) => it.file))}
                 />
+
                 {files.length > 0 && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("Opplastingsboks.filerTilOpplasting")}
+                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <VStack as="ul" gap="space-8">
                             {files.map((file) => (

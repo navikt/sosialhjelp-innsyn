@@ -17,7 +17,8 @@
             "INVALID_PDF": "PDFen er ikke gyldig",
             "POSSIBLY_INFECTED": "Filen kan være virusinfisert"
         },
-        "seOver": "Vennligst se over at innholdet i filen er leselig."
+        "seOver": "Vennligst se over at innholdet i filen er leselig.",
+        "slett": "Slett fil"
     },
     "FilePreviewModal": {
         "error": "Noe gikk galt ved visning av filen.",
@@ -136,9 +137,8 @@
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
     },
-    "Saksprosessen": {
-        "tittel": "Saksprosessen",
-        "beskrivelse": "Hendelser og videre prosess for søknaden din."
+    "Oversikt": {
+        "tittel": "Status i søknaden din"
     },
     "OppgaveTag": {
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
@@ -153,57 +153,76 @@
         },
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
-    "OversiktSteps": {
-        "SendtStep": {
+    "History": {
+        "suffix": "steg",
+        "UtbetalingerOppdatertEvent": {
+            "tittel": "Dine utbetalinger har blitt oppdatert",
+            "beskrivelse": "Se dine utbetalinger"
+        },
+        "DokumentasjonskravEvent": {
+            "tittel": "Du har fått et dokumentasjonskrav",
+            "seBrevet": "Last ned brevet her"
+        },
+        "SendtEvent": {
             "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",
             "visSoknaden": "Vis søknaden (åpnes i ny fane)"
         },
-        "MottattStep": {
+        "MottattEvent": {
             "tittel": "Søknaden din er mottatt hos <norsk>{navKontor}</norsk>"
         },
-        "UnderBehandlingStep": {
-            "completed": {
-                "tittel": "<norsk>{navKontor}</norsk> har begynt å behandle søknaden din"
-            },
-            "uncompleted": {
-                "tittel": "Nav-kontoret behandler søknaden",
-                "beskrivelse": "Din søknad behandles så fort som mulig. Nav-kontoret vil ta kontakt med deg dersom de trenger flere opplysninger eller mer dokumentasjon."
-            }
+        "UnderBehandlingEvent": {
+            "tittel": "<norsk>{navKontor}</norsk> har begynt å behandle søknaden din"
         },
-        "FerdigBehandletStep": {
-            "tittel": "Søknaden din er ferdig behandlet",
-            "completed": {
-                "visVedtaket": "Vis vedtaket (åpnes i ny fane)"
-            },
-            "uncompleted": {
-                "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått innvilget, delvis innvilget eller avslag på økonomisk støtte."
-            }
+        "VideresendtEvent": {
+            "tittel": "Søknaden din er videresendt til <norsk>{navKontor}</norsk>",
+            "beskrivelse": "Dette vil ikke påvirke behandlingstiden av søknaden."
         },
-        "ForelopigSvarStep": {
+        "DeltSoknadEvent": {
+            "tittel": "Søknaden din er delt opp i flere saker",
+            "beskrivelse": "Søknaden din har blitt delt opp i flere saker siden det er behov for å behandle deler av søknaden separat."
+        },
+        "BehandlesIkkeEvent": {
+            "tittel": "Vi kan ikke vise status for søknaden din på nav.no",
+            "beskrivelse": "Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt inn, eller fordi du har trukket tilbake søknaden.  Har du spørsmål kan du ta kontakt med Nav-kontoret ditt."
+        },
+        "KanIkkeViseStatusEvent": {
+            "tittel": "Vi kan ikke vise status for søknaden din på nav.no",
+            "beskrivelse": "Søknaden din behandles, men vi kan ikke vise status på søknaden på nav.no."
+        },
+        "FerdigBehandletEvent": {
+            "tittel": "Søknaden din er ferdig behandlet"
+        },
+        "ForelopigSvarEvent": {
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg et brev om saksbehandlingstiden for søknaden din"
         },
-        "EtterspurtDokumentasjonStep": {
-            "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din"
+        "EtterspurtDokumentasjonEvent": {
+            "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din",
+            "visBrevet": "Vis brevet (åpnes i ny fane)"
         },
-        "EtterspurtDokumentasjonLevertStep": {
+        "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du leverte etterspurte dokumenter"
         },
-        "VedtakFattet": {
+        "VedtakFattetEvent": {
             "tittel": "Du har fått et{nytt, select, true { nytt} other {}} vedtak",
-            "visVedtaket": "Vis vedtaket (åpnes i ny fane)"
+            "visVedtaket": "Vis vedtaket (åpnes i ny fane)",
+            "withSakstittel": {
+                "tittel": "<norsk>{sakstittel}</norsk> er ferdig behandlet"
+            }
         }
     },
     "Opplastingsboks": {
-        "tittel": "Vil du sende inn flere dokumenter?",
-        "beskrivelse": "Her kan du laste opp dokumenter og skjermbilder som kan være viktige for søknaden din.",
+        "tittel": "Last opp dokumentasjon",
+        "beskrivelse": "Hvis du har andre opplysninger som kan ha betydning for søknaden din, kan du laste de opp her.",
         "dragAndDrop": "Dra og slipp filer her",
         "eller": "eller",
         "button": "Velg filer",
         "uploading": "Laster opp...",
         "delete": "Fjern fil",
-        "sendInn": "Send dokumentasjon",
-        "filerTilOpplasting": "Filer til opplasting",
-        "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
+        "sendInn": "Send inn",
+        "lastOppFiler": "Last opp filer",
+        "valgteFiler": "Valgte filer ({antall_filer})",
+      "filerTilOpplasting": "Filer til opplasting",
+      "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": {
             "tittel": "Noen filer kan ha blitt forandret",
             "beskrivelse": "Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke støttes. Du må se gjennom og godkjenne filene før du kan fortsette."
@@ -215,18 +234,20 @@
         "tittel": "Dine dokumenter"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon"
+        "tittel": "Ettersend dokumentasjon",
+        "opplastedeVedlegg": "Dokumenter"
     },
     "VedleggListe": {
-        "lastetOpp": "lastet opp: {dato, date, ::ddMMyyyy}",
+        "lastetOpp": "lastet opp {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
-        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sendt {dato, date, ::ddMMyyyy}",
+        "visFlereDokumenter": "dokumenter"
     },
     "SoknadenDin": {
         "tittel": "Søknaden din",
-        "lastetOpp": "lasta opp: {dato, date, ::ddMMyyyy}",
+        "lastetOpp": "lasta opp {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
-        "sendt": "Sendt: {dato, date, ::ddMMyyyy}"
+        "sendt": "Sendt {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
@@ -302,18 +323,9 @@
         "utbetalinger": "Mine utbetalinger",
         "klager": "Klager"
     },
-    "IkonBilde": {
-        "image": "Bildefil",
-        "pdf": "PDF-fil",
-        "txt": "Tekstfil",
-        "csv": "CSV-fil",
-        "excel": "Excel-fil",
-        "word": "Word-fil",
-        "fil": "Fil"
-    },
     "HoyreIkon": {
         "download": "Last ned",
-        "expand": "Utvid"
+        "externalLink": "Ekstern lenke"
     },
     "Footer": {
         "trengerDuHjelp": "Trenger du hjelp?",
