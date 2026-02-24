@@ -26,7 +26,7 @@ export const FileSelectUpload = ({
     const isMobile = useIsMobile();
 
     return (
-        <VStack>
+        <>
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
@@ -67,6 +67,6 @@ export const FileSelectUpload = ({
                     )}
                 </VStack>
             )}
-        </VStack>
+        </>
     );
 };
