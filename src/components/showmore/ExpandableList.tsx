@@ -35,8 +35,8 @@ const ExpandableList = <T,>({
             {hasMore && (
                 <ShowMoreButton
                     items={items}
-                    ref={firstExpandedItemRef}
-                    id={id}
+                    focusOnExpandRef={firstExpandedItemRef}
+                    controlsId={id}
                     suffix={showMoreSuffix}
                     itemsLimit={itemsLimit}
                     {...showMore}

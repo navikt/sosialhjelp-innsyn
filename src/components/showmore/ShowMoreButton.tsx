@@ -9,16 +9,16 @@ import useShowMore from "@components/showmore/useShowMore";
 
 interface Props<R extends HTMLElement> extends ReturnType<typeof useShowMore> {
     items: unknown[];
-    id: string;
-    ref: RefObject<R | null>;
+    controlsId: string;
+    focusOnExpandRef?: RefObject<R | null>;
     suffix: string;
     itemsLimit: number;
 }
 
 const ShowMoreButton = <R extends HTMLElement>({
     items,
-    ref,
-    id,
+    focusOnExpandRef,
+    controlsId,
     showAll,
     hasMore,
     setShowAll,
@@ -34,11 +34,17 @@ const ShowMoreButton = <R extends HTMLElement>({
         const wasShowingAll = showAll;
         setShowAll((prev) => !prev);
 
-        if (!wasShowingAll) {
+        if (!wasShowingAll && focusOnExpandRef) {
             // When expanding, move focus to first newly revealed item
-            setTimeout(() => {
-                ref.current?.focus();
-            }, 0);
+            // Use requestAnimationFrame to ensure DOM has updated
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    if (focusOnExpandRef.current) {
+                        focusOnExpandRef.current.focus({ preventScroll: false });
+                        focusOnExpandRef.current.scrollIntoView({ behavior: "auto", block: "nearest" });
+                    }
+                }, 0);
+            });
         }
     };
 
@@ -49,7 +55,7 @@ const ShowMoreButton = <R extends HTMLElement>({
             onClick={handleToggle}
             icon={!showAll ? <ChevronDownIcon aria-hidden /> : <ChevronUpIcon aria-hidden />}
             aria-expanded={showAll}
-            aria-controls={id}
+            aria-controls={controlsId}
         >
             {!showAll && (
                 <>
