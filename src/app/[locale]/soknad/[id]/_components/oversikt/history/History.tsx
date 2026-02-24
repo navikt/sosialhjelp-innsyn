@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@navikt/ds-react";
+import { Box, Skeleton, VStack } from "@navikt/ds-react";
 
 import useHistory from "./useHistory";
 
@@ -29,19 +29,25 @@ const History = ({ labelledById }: Props) => {
     const truncated = showAll ? steps : steps.slice(0, LIMIT);
 
     return (
-        <>
-            <Process id="process" isTruncated={hasMore && !showAll ? "end" : undefined} aria-labelledby={labelledById}>
-                {truncated}
-            </Process>
-            <ShowMoreButton
-                items={steps}
-                controlsId="process"
-                suffix={t("suffix")}
-                {...showMore}
-                itemsLimit={LIMIT}
-                focusOnExpandRef={ref}
-            />
-        </>
+        <Box asChild background="info-soft" padding={{ xs: "space-16", md: "space-24" }} borderRadius="12">
+            <VStack gap={{ xs: "space-16", md: "space-24" }}>
+                <Process
+                    id="process"
+                    isTruncated={hasMore && !showAll ? "end" : undefined}
+                    aria-labelledby={labelledById}
+                >
+                    {truncated}
+                </Process>
+                <ShowMoreButton
+                    items={steps}
+                    controlsId="process"
+                    suffix={t("suffix")}
+                    {...showMore}
+                    itemsLimit={LIMIT}
+                    focusOnExpandRef={ref}
+                />
+            </VStack>
+        </Box>
     );
 };
 

@@ -106,11 +106,11 @@ export const Soknad = async ({ id }: Props) => {
                     <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
                 </Suspense>
             )}
+            <Oversikt id={id} />
             <Bleed marginInline="full" className="pt-20 pb-20" asChild>
                 <Box background="neutral-soft" padding="space-24" className="flex-1">
                     <div className="max-w-2xl mx-auto">
                         <VStack gap="space-80">
-                            <Oversikt id={id} />
                             <Suspense fallback={<SoknadenDinSkeleton />}>
                                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
                                     <SoknadenDin />
