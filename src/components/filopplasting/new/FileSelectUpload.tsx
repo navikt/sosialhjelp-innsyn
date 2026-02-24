@@ -26,7 +26,7 @@ export const FileSelectUpload = ({
     const isMobile = useIsMobile();
 
     return (
-        <>
+        <VStack>
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
@@ -41,7 +41,7 @@ export const FileSelectUpload = ({
                     error={error}
                 />
             ) : (
-                <VStack>
+                <VStack gap="space-16">
                     <HStack justify="space-between">{tag}</HStack>
                     {description && <BodyShort as="div">{description}</BodyShort>}
                     <FileUpload.Trigger
@@ -51,7 +51,7 @@ export const FileSelectUpload = ({
                         onSelect={onSelect}
                     >
                         <Button
-                            className="mt-4 self-start"
+                            className="self-start"
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
@@ -67,6 +67,6 @@ export const FileSelectUpload = ({
                     )}
                 </VStack>
             )}
-        </>
+        </VStack>
     );
 };

@@ -74,7 +74,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack>
+            <VStack gap="space-40">
                 <Box>
                     <HStack align="center" justify="space-between">
                         {label ? (
@@ -144,20 +144,14 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="space-4">
+                    <VStack gap="space-8">
                         <Heading size="small" level="3">
                             {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
                         </Heading>
                         <div role="status" aria-live="polite" className="sr-only">
                             {t("Opplastingsboks.antallFiler", { count: files.length })}
                         </div>
-                        <VStack
-                            className="mb-2"
-                            gap="space-4"
-                            as="ul"
-                            aria-live="polite"
-                            aria-relevant="additions removals"
-                        >
+                        <VStack gap="space-4" as="ul" aria-live="polite" aria-relevant="additions removals">
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"
@@ -188,7 +182,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     </VStack>
                 )}
                 {(isUploadSuccess || mutationErrors.length > 0) && (
-                    <div className="mb-10" ref={feedbackRef} tabIndex={-1}>
+                    <div ref={feedbackRef} tabIndex={-1}>
                         {isUploadSuccess && (
                             <Alert
                                 closeButton

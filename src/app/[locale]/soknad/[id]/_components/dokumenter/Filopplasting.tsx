@@ -42,21 +42,23 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderColor="info-subtle"
             >
                 {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
-                <NavigationGuardProvider>
-                    {newUploadEnabled ? (
-                        <OpplastingsboksTus metadata={metadata} id={id} />
-                    ) : (
-                        <Opplastingsboks metadata={metadata} />
+                <VStack gap="space-40">
+                    <NavigationGuardProvider>
+                        {newUploadEnabled ? (
+                            <OpplastingsboksTus metadata={metadata} id={id} />
+                        ) : (
+                            <Opplastingsboks metadata={metadata} />
+                        )}
+                    </NavigationGuardProvider>
+                    {ettersendelseDokumenter.length > 0 && (
+                        <VStack gap="space-8">
+                            <Heading size="small" level="3">
+                                {t("opplastedeVedlegg")}
+                            </Heading>
+                            <VedleggListe vedlegg={ettersendelseDokumenter} />
+                        </VStack>
                     )}
-                </NavigationGuardProvider>
-                {ettersendelseDokumenter.length > 0 && (
-                    <VStack gap="space-8">
-                        <Heading size="small" level="3">
-                            {t("opplastedeVedlegg")}
-                        </Heading>
-                        <VedleggListe vedlegg={ettersendelseDokumenter} />
-                    </VStack>
-                )}
+                </VStack>
             </Box.New>
         </VStack>
     );
