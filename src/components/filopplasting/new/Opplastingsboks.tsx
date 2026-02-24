@@ -91,13 +91,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
                 </Box>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
-                <div ref={feedbackRef} tabIndex={-1}>
-                    {isUploadSuccess && (
+                {isUploadSuccess && (
+                    <div ref={feedbackRef} tabIndex={-1}>
                         <Alert role="alert" aria-live="assertive" closeButton onClose={resetMutation} variant="success">
                             {t("common.vedlegg.suksess")}
                         </Alert>
-                    )}
-                </div>
+                    </div>
+                )}
             </VStack>
         );
     }
@@ -187,18 +187,26 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         </Button>
                     </VStack>
                 )}
-                <div ref={feedbackRef} tabIndex={-1}>
-                    {isUploadSuccess && (
-                        <Alert role="alert" aria-live="assertive" variant="success">
-                            {t("common.vedlegg.suksess")}
-                        </Alert>
-                    )}
-                    {mutationErrors.length > 0 && (
-                        <Alert role="alert" aria-live="assertive" variant="error">
-                            {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
-                        </Alert>
-                    )}
-                </div>
+                {(isUploadSuccess || mutationErrors.length > 0) && (
+                    <div ref={feedbackRef} tabIndex={-1}>
+                        {isUploadSuccess && (
+                            <Alert
+                                closeButton
+                                onClose={resetMutation}
+                                role="alert"
+                                aria-live="assertive"
+                                variant="success"
+                            >
+                                {t("common.vedlegg.suksess")}
+                            </Alert>
+                        )}
+                        {mutationErrors.length > 0 && (
+                            <Alert role="alert" aria-live="assertive" variant="error">
+                                {t(`common.${errorStatusToMessage[mutationErrors[0].feil]}`)}
+                            </Alert>
+                        )}
+                    </div>
+                )}
             </VStack>
         </FileUpload>
     );
