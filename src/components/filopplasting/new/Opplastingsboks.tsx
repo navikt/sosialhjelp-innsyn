@@ -188,7 +188,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     </VStack>
                 )}
                 {(isUploadSuccess || mutationErrors.length > 0) && (
-                    <div ref={feedbackRef} tabIndex={-1}>
+                    <div className="mb-10" ref={feedbackRef} tabIndex={-1}>
                         {isUploadSuccess && (
                             <Alert
                                 closeButton
