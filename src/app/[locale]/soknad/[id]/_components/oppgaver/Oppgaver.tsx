@@ -40,6 +40,10 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
 
+    if (oppgaver.length === 0) {
+        return null;
+    }
+
     return (
         <>
             <VStack gap="space-16">
