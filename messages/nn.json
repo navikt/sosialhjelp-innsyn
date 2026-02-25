@@ -118,7 +118,7 @@
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
         "tittel": "Usamd i vedtaket",
-        "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <lenke>Les meir om klagerettane dine</lenke>. Fristen for å klage er tre veker etter vedtaksdato.",
+        "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <klageinfo>Les meir om klagerettane dine</klageinfo>. Fristen for å klage er tre uker etter vedtaksdato. For å klage kan du <klageskjema>skrive ut eit klageskjema (pdf)</klageskjema> som du kan sende som dokumentasjon til søknaden din.",
         "klageKnapp": "Klag på vedtaket"
     },
     "SokButton": {
@@ -230,12 +230,6 @@
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "visFlereDokumenter": "dokument"
-    },
-    "SoknadenDin": {
-        "tittel": "Søknaden din",
-        "lastetOpp": "lasta opp {dato, date, ::ddMMyyyy}",
-        "soknadFilename": "Søknad om økonomisk sosialhjelp.pdf",
-        "sendt": "Sendt {dato, date, ::ddMMyyyy}"
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
