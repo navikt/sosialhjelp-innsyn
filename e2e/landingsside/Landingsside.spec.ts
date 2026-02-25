@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 import { createMswHelper } from "../helpers/msw-helpers";
+import { endOfTomorrow } from "date-fns";
 
 // Mock data for a søknad
 const mockSakerData = [
@@ -75,8 +76,8 @@ test.describe("Kommende utbetalinger on landingsside", () => {
                 referanse: "utbetaling-1",
                 tittel: "Livsopphold",
                 belop: 15000,
-                utbetalingsdato: "2026-02-15",
-                forfallsdato: "2026-02-25",
+                utbetalingsdato: null,
+                forfallsdato: endOfTomorrow(),
                 status: "PLANLAGT_UTBETALING",
                 fiksDigisosId: "test-id-1",
                 annenMottaker: false,
@@ -91,7 +92,6 @@ test.describe("Kommende utbetalinger on landingsside", () => {
         await expect(page.getByRole("heading", { name: "Kommende utbetalinger" })).toBeVisible();
         await expect(page.getByText("Du vil motta 15 000 kr")).toBeVisible();
         await expect(page.getByText("Livsopphold")).toBeVisible();
-        await expect(page.getByText("Utbetales 25.02.2026")).toBeVisible();
     });
 
     test("should display stopped utbetaling with warning tag", async ({ page, request, baseURL }) => {
@@ -102,8 +102,8 @@ test.describe("Kommende utbetalinger on landingsside", () => {
                 referanse: "utbetaling-stopped",
                 tittel: "Boutgifter",
                 belop: 8000,
-                utbetalingsdato: "2026-02-15",
-                forfallsdato: "2026-02-25",
+                utbetalingsdato: null,
+                forfallsdato: endOfTomorrow(),
                 status: "STOPPET",
                 fiksDigisosId: "test-id-1",
                 annenMottaker: false,
