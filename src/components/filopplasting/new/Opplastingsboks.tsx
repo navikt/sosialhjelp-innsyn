@@ -151,7 +151,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         <div role="status" aria-live="polite" className="sr-only">
                             {t("Opplastingsboks.antallFiler", { count: files.length })}
                         </div>
-                        <VStack gap="space-4" as="ul" aria-live="polite" aria-relevant="additions removals">
+                        <VStack as="ul" gap="space-8" aria-live="polite" aria-relevant="additions removals">
                             {files.map((file) => (
                                 <FileUpload.Item
                                     as="li"
