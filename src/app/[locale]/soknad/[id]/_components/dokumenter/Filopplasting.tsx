@@ -47,10 +47,14 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 </NavigationGuardProvider>
                 {(ettersendelseDokumenter.length > 0 || originalSoknad) && (
                     <VStack gap="space-8" className={isMobile ? "mt-10" : "mt-10"}>
-                        <Heading size="small" level="3">
+                        <Heading size="small" level="3" id="dokumenter">
                             {t("opplastedeVedlegg")}
                         </Heading>
-                        <VedleggListe vedlegg={ettersendelseDokumenter} originalSoknad={originalSoknad} />
+                        <VedleggListe
+                            vedlegg={ettersendelseDokumenter}
+                            originalSoknad={originalSoknad}
+                            labelledById="dokumenter"
+                        />
                     </VStack>
                 )}
             </Box>

@@ -14,10 +14,10 @@ import ExpandableList from "@components/showmore/ExpandableList";
 interface Props {
     vedlegg: VedleggResponse[];
     originalSoknad?: OriginalSoknadDto;
-    labelledById?: string;
+    labelledById: string;
 }
 
-const VedleggListe = ({ vedlegg, originalSoknad, labelledById = "opplastede-vedlegg" }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
     const t = useTranslations("VedleggListe");
     const isMobile = useIsMobile();
 
