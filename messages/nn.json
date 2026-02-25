@@ -141,7 +141,7 @@
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
     },
     "History": {
-        "suffx": "steg",
+        "suffix": "steg",
         "UtbetalingerOppdatertEvent": {
             "tittel": "Dine utbetalingar har blitt oppdaterte",
             "beskrivelse": "Sjå dine utbetalingar"
@@ -890,5 +890,16 @@
     "PageFlipperButtons": {
         "forrige": "Førre side",
         "neste": "Neste side"
+    },
+    "OppgaverReadMore": {
+        "header": "Treng du hjelp til å sende dokumentasjon?",
+        "feilFormatHeading": "Godtek vi ikkje dokumentet du prøver å sende inn?",
+        "feilFormatBody": "Du kan gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "papirHeading": "Dokumentasjon du har på papir",
+        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten betre, slik at dei er lettare å lese.",
+        "nettsidesHeading": "Dokumentasjon frå andre nettsider",
+        "nettsidesBody": "Viss du skal sende dokumentasjon frå ei anna nettside, kan du laste ned dokumentet først viss det er mogleg. For eksempel er skattemeldinga og vedtak frå Lånekassen tilgjengeleg for nedlasting som PDF. Du bør unngå å ta bilete av PC-skjermen med eit kamera.",
+        "lesbarHeading": "Sørgj for at dokumentasjonen du sender kan lesast",
+        "lesbarBody": "Det er viktig at du sjekkar at dokumentasjonen du lastar opp er fullstendige og kan lesast. Viss det er vanskeleg å lese dokumentet, kan du bli beden om å sende dei på nytt."
     }
 }

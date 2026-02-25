@@ -876,5 +876,16 @@
             "postgiro": "Postgiro",
             "garanti": "Garanti"
         }
+    },
+    "OppgaverReadMore": {
+        "header": "Trenger du hjelp til å sende dokumentasjon?",
+        "feilFormatHeading": "Godtar vi ikke dokumentet du prøver å sende inn?",
+        "feilFormatBody": "Da kan du gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "papirHeading": "Dokumentasjon du har på papir",
+        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, slik at de er lettere å lese.",
+        "nettsidesHeading": "Dokumentasjon fra andre nettsider",
+        "nettsidesBody": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
+        "lesbarHeading": "Sørg for at dokumentasjonen du sender kan leses",
+        "lesbarBody": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
     }
 }

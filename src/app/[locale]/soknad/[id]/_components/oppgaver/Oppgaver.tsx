@@ -23,6 +23,7 @@ import VilkarListe from "../saker/vilkar/VilkarListe";
 import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
 
 import OppgaveTag from "./OppgaveTag";
+import OppgaverReadMore from "./readmore/OppgaverReadMore";
 
 interface Props {
     vilkarPromise?: Promise<VilkarResponse[]>;
@@ -39,6 +40,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
     const [showCompletedOppgaver, setShowCompletedOppgaver] = React.useState(false);
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
+    const hasUncompletedOppgaver = oppgaver.some((oppgave) => !oppgave.erLastetOpp);
 
     if (oppgaver.length === 0) {
         return null;
@@ -53,7 +55,8 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                     </Heading>
                     {isFetching && <Loader />}
                 </HStack>
-                {!showCompletedOppgaver && oppgaver.every((oppgave) => oppgave.erLastetOpp) && (
+                {hasUncompletedOppgaver && <OppgaverReadMore />}
+                {!showCompletedOppgaver && !hasUncompletedOppgaver && (
                     <LinkCard arrow={false} className="pointer-events-none">
                         <Icon icon={<FaceSmileIcon aria-hidden />} />
                         <LinkCard.Title as="h3">{t("ingenOppgaver.tittel")}</LinkCard.Title>
