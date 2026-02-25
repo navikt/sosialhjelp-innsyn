@@ -2,7 +2,6 @@
 
 import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { filesize } from "filesize";
 import React from "react";
 import * as R from "remeda";
 import { FileIcon } from "@navikt/aksel-icons";
@@ -19,7 +18,6 @@ interface Props {
 
 const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
     const t = useTranslations("VedleggListe");
-    const isMobile = useIsMobile();
 
     const sortedVedlegg = R.pipe(
         vedlegg,
@@ -45,23 +43,12 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
                                 icon={<FileIcon aria-hidden />}
                                 cardIcon="external-link"
                                 description={
-                                    isMobile && fil.date ? (
+                                    fil.date && (
                                         <BodyShort>
                                             {t.rich("sendt", {
                                                 dato: new Date(fil.date),
                                             })}
                                         </BodyShort>
-                                    ) : (
-                                        <HStack gap="space-4" align="center">
-                                            {fil.size ? <BodyShort>{filesize(fil.size)},</BodyShort> : undefined}
-                                            {fil.date && (
-                                                <BodyShort>
-                                                    {t.rich("lastetOpp", {
-                                                        dato: new Date(fil.date),
-                                                    })}
-                                                </BodyShort>
-                                            )}
-                                        </HStack>
                                     )
                                 }
                             >
@@ -77,22 +64,11 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
                             cardIcon="external-link"
                             dataColor="accent"
                             description={
-                                isMobile ? (
-                                    <BodyShort>
-                                        {t.rich("sendt", {
-                                            dato: new Date(fil.datoLagtTil),
-                                        })}
-                                    </BodyShort>
-                                ) : (
-                                    <HStack gap="space-4">
-                                        <BodyShort>{filesize(fil.storrelse)},</BodyShort>
-                                        <BodyShort>
-                                            {t.rich("lastetOpp", {
-                                                dato: new Date(fil.datoLagtTil),
-                                            })}
-                                        </BodyShort>
-                                    </HStack>
-                                )
+                                <BodyShort>
+                                    {t.rich("sendt", {
+                                        dato: new Date(fil.datoLagtTil),
+                                    })}
+                                </BodyShort>
                             }
                         >
                             {fil.filnavn}

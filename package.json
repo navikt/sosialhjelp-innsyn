@@ -20,7 +20,6 @@
         "@unleash/nextjs": "^1.6.2",
         "classnames": "^2.5.1",
         "date-fns": "^4.1.0",
-        "filesize": "^11.0.13",
         "js-cookie": "^3.0.1",
         "markdown-to-jsx": "^9.5.0",
         "next": "16.1.1",

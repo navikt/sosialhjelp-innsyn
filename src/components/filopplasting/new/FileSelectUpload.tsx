@@ -41,7 +41,7 @@ export const FileSelectUpload = ({
                     error={error}
                 />
             ) : (
-                <VStack gap="space-8">
+                <VStack gap="space-16">
                     <HStack justify="space-between">{tag}</HStack>
                     {description && <BodyShort as="div">{description}</BodyShort>}
                     <FileUpload.Trigger
@@ -51,7 +51,7 @@ export const FileSelectUpload = ({
                         onSelect={onSelect}
                     >
                         <Button
-                            className="mt-4 self-start"
+                            className="self-start"
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
