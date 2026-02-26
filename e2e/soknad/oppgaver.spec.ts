@@ -73,8 +73,7 @@ test.describe("Oppgaver", () => {
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        // Check that both vedtak are displayed
-        const oppgaverHeading = page.getByRole("heading", { name: /oppgaver/i });
+        const oppgaverHeading = page.getByRole("heading", { name: "Oppgaver", level: 2, exact: true });
 
         await expect(oppgaverHeading).toBeVisible();
     });

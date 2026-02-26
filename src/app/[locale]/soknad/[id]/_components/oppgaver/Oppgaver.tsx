@@ -56,7 +56,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                 <Heading size="medium" level="2" id="oppgaver-tittel">
                     {t("tittel")}
                 </Heading>
-                <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon />}>
+                <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon aria-hidden />}>
                     {hasUncompletedOppgaver
                         ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
                         : t("alleFullfort")}
