@@ -9,6 +9,7 @@ import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
+import { logger } from "@navikt/next-logger";
 
 interface Props {
     vedlegg: VedleggResponse[];
@@ -25,6 +26,20 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
         R.sortBy([(v) => new Date(v.datoLagtTil).getTime(), "desc"], [(v) => v.originalIndex, "desc"]),
         (vedlegg) => (originalSoknad ? [{ soknad: true, ...originalSoknad }, ...vedlegg] : vedlegg)
     );
+
+    // 🔍 DEBUG: Logger vedlegg data for dev miljø
+    logger.info({
+        message: "VedleggListe - Debug info",
+        antallEttersendelseVedlegg: vedlegg.length,
+        ettersendelseVedlegg: vedlegg.map((v) => ({
+            filnavn: v.filnavn,
+            type: v.type,
+            tilleggsinfo: v.tilleggsinfo,
+            datoLagtTil: v.datoLagtTil,
+        })),
+        originalSoknad: originalSoknad ? { filename: originalSoknad.filename, date: originalSoknad.date } : null,
+        totaltISortertListe: sortedVedlegg.length,
+    });
 
     return (
         <ExpandableList
