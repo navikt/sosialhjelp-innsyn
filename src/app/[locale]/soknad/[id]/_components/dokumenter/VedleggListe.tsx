@@ -9,7 +9,6 @@ import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
-import { logger } from "@navikt/next-logger";
 
 interface Props {
     vedlegg: VedleggResponse[];
@@ -27,19 +26,26 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
         (vedlegg) => (originalSoknad ? [{ soknad: true, ...originalSoknad }, ...vedlegg] : vedlegg)
     );
 
-    // 🔍 DEBUG: Logger vedlegg data for dev miljø
-    logger.info({
-        message: "VedleggListe - Debug info",
-        antallEttersendelseVedlegg: vedlegg.length,
-        ettersendelseVedlegg: vedlegg.map((v) => ({
+    // 🔍 DEBUG: Logger vedlegg data for dev miljø (synlig i browser console)
+    /* eslint-disable no-console */
+    console.log("=== VedleggListe Debug ===");
+    console.log("Antall ettersendelse vedlegg:", vedlegg.length);
+    console.log(
+        "Ettersendelse vedlegg:",
+        vedlegg.map((v) => ({
             filnavn: v.filnavn,
             type: v.type,
             tilleggsinfo: v.tilleggsinfo,
             datoLagtTil: v.datoLagtTil,
-        })),
-        originalSoknad: originalSoknad ? { filename: originalSoknad.filename, date: originalSoknad.date } : null,
-        totaltISortertListe: sortedVedlegg.length,
-    });
+        }))
+    );
+    console.log(
+        "OriginalSoknad:",
+        originalSoknad ? { filename: originalSoknad.filename, date: originalSoknad.date } : null
+    );
+    console.log("Totalt i sortert liste (inkl. søknad):", sortedVedlegg.length);
+    console.log("==========================");
+    /* eslint-enable no-console */
 
     return (
         <ExpandableList
