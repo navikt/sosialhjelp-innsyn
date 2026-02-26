@@ -132,6 +132,7 @@
     },
     "Oppgaver": {
         "tittel": "Your tasks",
+        "suffix": "tasks",
         "visFullforte": "Show completed tasks",
         "ingenOppgaver": {
             "tittel": "You have no tasks",

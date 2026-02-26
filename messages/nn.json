@@ -134,6 +134,7 @@
     "Oppgaver": {
         "tittel": "Oppgåvene dine",
         "visFullforte": "Vis fullførte oppgåver",
+        "suffix": "oppgåver",
         "ingenOppgaver": {
             "tittel": "Du har ingen oppgåver",
             "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
