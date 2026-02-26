@@ -8,6 +8,7 @@ import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, InformationSquareIcon
 interface Props {
     title: string;
     variant: "info" | "warning" | "success";
+    titleId: string;
 }
 
 const Icon = ({ variant }: Pick<Props, "variant">) => {
@@ -21,10 +22,12 @@ const Icon = ({ variant }: Pick<Props, "variant">) => {
     }
 };
 
-const Info = ({ title, children, variant }: PropsWithChildren<Props>) => (
-    <InfoCard as="section" data-color={variant}>
+const Info = ({ title, children, variant, titleId }: PropsWithChildren<Props>) => (
+    <InfoCard as="section" data-color={variant} aria-labelledby={titleId}>
         <InfoCardHeader icon={<Icon variant={variant} />}>
-            <InfoCardTitle>{title}</InfoCardTitle>
+            <InfoCardTitle id={titleId} as="h2">
+                {title}
+            </InfoCardTitle>
         </InfoCardHeader>
         {children && <InfoCardContent>{children}</InfoCardContent>}
     </InfoCard>

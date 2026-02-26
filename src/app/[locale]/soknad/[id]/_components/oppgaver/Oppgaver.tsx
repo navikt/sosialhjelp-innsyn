@@ -51,7 +51,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
     });
 
     return (
-        <VStack gap="space-8">
+        <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
             <HStack align="center" gap="space-8">
                 <Heading size="medium" level="2" id="oppgaver-tittel">
                     {t("tittel")}
