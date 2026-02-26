@@ -135,11 +135,9 @@
         "tittel": "Oppgåver",
         "visFullforte": "Vis fullførte oppgåver",
         "suffix": "oppgåver",
-        "ingenOppgaver": {
-            "tittel": "Du har ingen oppgåver",
-            "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
-        },
-        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}",
+        "xAvYFullfort": "{fullfort, number}/{total, number} fullført",
+        "alleFullfort": "Fullført"
     },
     "History": {
         "suffix": "steg",

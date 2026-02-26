@@ -134,11 +134,9 @@
         "tittel": "Tasks",
         "suffix": "tasks",
         "visFullforte": "Show completed tasks",
-        "ingenOppgaver": {
-            "tittel": "You have no tasks",
-            "beskrivelse": "If you are asked to submit documentation, it will appear here."
-        },
-        "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}",
+        "xAvYFullfort": "{fullfort, number}/{total, number} completed",
+        "alleFullfort": "Completed"
     },
     "History": {
         "suffix": "steps",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -22,6 +22,7 @@ import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
 import OppgaveTag from "./OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
+import { TasklistIcon } from "@navikt/aksel-icons";
 
 interface Props {
     vilkarPromise?: Promise<VilkarResponse[]>;
@@ -40,7 +41,8 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
         return null;
     }
 
-    const hasUncompletedOppgaver = oppgaver.some((oppgave) => !oppgave.erLastetOpp);
+    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
+    const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
     const sortedOppgaver = oppgaver.toSorted((a, b) => {
         if (a.erLastetOpp === b.erLastetOpp) {
             return 0;
@@ -50,10 +52,15 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
 
     return (
         <VStack gap="space-8">
-            <HStack justify="space-between" align="center">
+            <HStack align="center" gap="space-8">
                 <Heading size="medium" level="2" id="oppgaver-tittel">
                     {t("tittel")}
                 </Heading>
+                <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon />}>
+                    {hasUncompletedOppgaver
+                        ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
+                        : t("alleFullfort")}
+                </Tag>
                 {isFetching && <Loader />}
             </HStack>
             {hasUncompletedOppgaver && <OppgaverReadMore />}
