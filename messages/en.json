@@ -131,7 +131,7 @@
         "completed": "Submitted"
     },
     "Oppgaver": {
-        "tittel": "Your tasks",
+        "tittel": "Tasks",
         "suffix": "tasks",
         "visFullforte": "Show completed tasks",
         "ingenOppgaver": {
