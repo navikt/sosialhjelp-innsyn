@@ -90,8 +90,8 @@
         "oppgaver": {
             "title": "Du har fått oppgaver",
             "description": "<norsk>{navKontor}</norsk> trenger mer dokumentasjon for å kunne behandle saken din:",
-            "oppgave": "<bold>{name}</bold>, frist {frist, date, ::ddMMyyyy}",
-            "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås, og at du må søke på nytt."
+            "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
+            "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås og at du må søke på nytt. Har du levert noe av dokumentasjonen direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
         },
         "nyttVedtak": {
             "title": "Du har fått et nytt vedtak",
@@ -220,8 +220,8 @@
         "sendInn": "Send inn",
         "lastOppFiler": "Last opp filer",
         "valgteFiler": "Valgte filer ({antall_filer})",
-      "filerTilOpplasting": "Filer til opplasting",
-      "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
+        "filerTilOpplasting": "Filer til opplasting",
+        "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": {
             "tittel": "Noen filer kan ha blitt forandret",
             "beskrivelse": "Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke støttes. Du må se gjennom og godkjenne filene før du kan fortsette."

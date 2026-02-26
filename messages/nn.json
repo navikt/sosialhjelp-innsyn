@@ -77,8 +77,8 @@
         "oppgaver": {
             "title": "Du har fått oppgåver",
             "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
-            "oppgave": "<bold>{name}</bold>, frist {frist, date, ::ddMMyyyy}",
-            "warning": "Dersom du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden blir avslått, og at du må søkje på nytt."
+            "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
+            "warning": "Viss du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden vert avslått og at du må søkje på nytt. Har du levert noko av dokumentasjonen direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
         "nyttVedtak": {
             "title": "Du har fått eit nytt vedtak",
