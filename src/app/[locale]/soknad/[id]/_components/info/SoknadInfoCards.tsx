@@ -29,7 +29,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 key="oppgaver"
                 state={{
                     type: "oppgaver",
-                    oppgaver: oppgaver.map((oppgave) => ({
+                    oppgaver: relevanteOppgaver.map((oppgave) => ({
                         frist: oppgave.innsendelsesfrist ? new Date(oppgave.innsendelsesfrist) : undefined,
                         name: oppgave.dokumenttype,
                     })),
