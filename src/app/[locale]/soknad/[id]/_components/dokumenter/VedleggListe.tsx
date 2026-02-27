@@ -26,27 +26,6 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
         (vedlegg) => (originalSoknad ? [{ soknad: true, ...originalSoknad }, ...vedlegg] : vedlegg)
     );
 
-    // 🔍 DEBUG: Logger vedlegg data for dev miljø (synlig i browser console)
-    /* eslint-disable no-console */
-    console.log("=== VedleggListe Debug ===");
-    console.log("Antall ettersendelse vedlegg:", vedlegg.length);
-    console.log(
-        "Ettersendelse vedlegg:",
-        vedlegg.map((v) => ({
-            filnavn: v.filnavn,
-            type: v.type,
-            tilleggsinfo: v.tilleggsinfo,
-            datoLagtTil: v.datoLagtTil,
-        }))
-    );
-    console.log(
-        "OriginalSoknad:",
-        originalSoknad ? { filename: originalSoknad.filename, date: originalSoknad.date } : null
-    );
-    console.log("Totalt i sortert liste (inkl. søknad):", sortedVedlegg.length);
-    console.log("==========================");
-    /* eslint-enable no-console */
-
     return (
         <ExpandableList
             items={sortedVedlegg}

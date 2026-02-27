@@ -24,10 +24,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const tOpplastingsboks = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
 
-    const { data } = useHentVedleggSuspense(id);
-    const ettersendelseDokumenter = data.filter(
-        (vedlegg) => vedlegg.type === "annet" && vedlegg.tilleggsinfo === "annet"
-    );
+    const { data: vedlegg } = useHentVedleggSuspense(id);
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
 
     return (
@@ -46,16 +43,12 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                             <Opplastingsboks metadata={metadata} />
                         )}
                     </NavigationGuardProvider>
-                    {(ettersendelseDokumenter.length > 0 || originalSoknad) && (
+                    {(vedlegg.length > 0 || originalSoknad) && (
                         <VStack gap="space-8">
                             <Heading size="small" level="3" id="dokumenter">
                                 {t("opplastedeVedlegg")}
                             </Heading>
-                            <VedleggListe
-                                vedlegg={ettersendelseDokumenter}
-                                originalSoknad={originalSoknad}
-                                labelledById="dokumenter"
-                            />
+                            <VedleggListe vedlegg={vedlegg} originalSoknad={originalSoknad} labelledById="dokumenter" />
                         </VStack>
                     )}
                 </VStack>
