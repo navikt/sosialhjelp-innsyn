@@ -197,7 +197,6 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
     const sorterteVedlegg = sortState
         ? sorterVedlegg(vedlegg ?? [], sortState.orderBy, sortState.direction === "descending")
         : sorterVedlegg(vedlegg ?? [], defaultSortState.orderBy, defaultSortState.direction === "descending");
-
     /* Paginering */
     const pageCount = Math.ceil(sorterteVedlegg.length / itemsPerPage);
     const paginerteVedlegg = isMobile
