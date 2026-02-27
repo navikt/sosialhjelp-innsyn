@@ -197,11 +197,33 @@ const VedleggView = ({ fiksDigisosId }: Props) => {
     const sorterteVedlegg = sortState
         ? sorterVedlegg(vedlegg ?? [], sortState.orderBy, sortState.direction === "descending")
         : sorterVedlegg(vedlegg ?? [], defaultSortState.orderBy, defaultSortState.direction === "descending");
+
     /* Paginering */
     const pageCount = Math.ceil(sorterteVedlegg.length / itemsPerPage);
     const paginerteVedlegg = isMobile
         ? take(sorterteVedlegg, itemsPerPage * currentPage)
         : (chunk(sorterteVedlegg, itemsPerPage)[currentPage - 1] ?? []);
+
+    // 🔍 DEBUG: Logger vedlegg data for dev miljø (synlig i browser console)
+    /* eslint-disable no-console */
+    console.log("=== VedleggView Debug ===");
+    console.log("Totalt antall vedlegg:", vedlegg?.length ?? 0);
+    console.log(
+        "Alle vedlegg:",
+        vedlegg?.map((v) => ({
+            filnavn: v.filnavn,
+            type: v.type,
+            tilleggsinfo: v.tilleggsinfo,
+            datoLagtTil: v.datoLagtTil,
+            storrelse: v.storrelse,
+        })) ?? []
+    );
+    console.log("Antall vedlegg etter sortering:", sorterteVedlegg.length);
+    console.log("Nåværende side:", currentPage);
+    console.log("Antall sider totalt:", pageCount);
+    console.log("Vedlegg på denne siden:", paginerteVedlegg.length);
+    console.log("========================");
+    /* eslint-enable no-console */
 
     function harFeilPaVedleggFraServer(vedlegg: VedleggResponse) {
         return vedlegg.storrelse === -1 && vedlegg.url.indexOf("/Error?") > -1;
