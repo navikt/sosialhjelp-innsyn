@@ -146,7 +146,8 @@
     },
     "Oppgaver": {
         "tittel": "Dine opppgaver",
-        "visFullforte": "Vis fullførte oppgaver",
+        "missingInformationTitle": "Vi mangler noen opplysninger til søknaden din",
+        "missingInformationDescription": "Her ser du hvilke opplysninger du ikke sendte inn sammen med søknaden. Vi anbefaler at du sender inn opplysningene så snart som mulig. Har du levert opplysningene direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen.",
         "ingenOppgaver": {
             "tittel": "Du har ingen oppgaver",
             "beskrivelse": "Dersom du blir bedt om å ettersende dokumentasjon, vil det dukke opp her."

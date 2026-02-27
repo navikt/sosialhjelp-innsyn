@@ -17,7 +17,7 @@ import {
     useGetOppgaverBetaSuspense,
     useGetDokumentasjonkravBetaSuspense,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { VilkarResponse } from "@generated/ssr/model";
+import { OppgaveResponseBetaHendelsetype, VilkarResponse } from "@generated/ssr/model";
 
 import VilkarListe from "../saker/vilkar/VilkarListe";
 import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
@@ -40,14 +40,19 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
 
+    const isAllOppgaverFromSoknad = oppgaver.every(
+        (oppgave) => oppgave.hendelsetype === OppgaveResponseBetaHendelsetype.soknad
+    );
+
     return (
         <>
             <VStack gap="space-16">
                 <HStack justify="space-between" align="center">
                     <Heading size="medium" level="2">
-                        {t("tittel")}
+                        {isAllOppgaverFromSoknad ? t("missingInformationTitle") : t("tittel")}
                     </Heading>
                     {isFetching && <Loader />}
+                    {isAllOppgaverFromSoknad && <BodyShort>{t("missingInformationDescription")}</BodyShort>}
                 </HStack>
                 {!showCompletedOppgaver && oppgaver.every((oppgave) => oppgave.erLastetOpp) && (
                     <LinkCard arrow={false} className="pointer-events-none">
@@ -75,7 +80,12 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                             return (
                                 <Box
                                     key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
-                                    background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
+                                    background={
+                                        oppgave.erLastetOpp ||
+                                        oppgave.hendelsetype === OppgaveResponseBetaHendelsetype.soknad
+                                            ? "neutral-soft"
+                                            : "warning-soft"
+                                    }
                                     padding="space-24"
                                     borderRadius="12"
                                     borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
