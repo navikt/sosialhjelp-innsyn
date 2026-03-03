@@ -9,7 +9,7 @@ import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedle
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
-import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
+import VedleggListe from "../../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
 
 import { umamiTrack } from "../../../app/umami";
@@ -79,7 +79,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     </HStack>
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
                 </Box>
-                <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
+                {metadata.hendelsereferanse && (
+                    <VedleggListe
+                        vedlegg={[]}
+                        oppgaveId={metadata.hendelsereferanse}
+                        labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
+                    />
+                )}
                 <div ref={feedbackRef} tabIndex={-1} className={isUploadSuccess ? "" : "-mb-10"}>
                     {isUploadSuccess && (
                         <Alert role="alert" aria-live="assertive" closeButton onClose={resetMutation} variant="success">

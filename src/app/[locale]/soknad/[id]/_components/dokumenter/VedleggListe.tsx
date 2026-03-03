@@ -9,15 +9,23 @@ import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
+import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { useParams } from "next/navigation";
 
 interface Props {
     vedlegg: VedleggResponse[];
     originalSoknad?: OriginalSoknadDto;
     labelledById: string;
+    oppgaveId?: string;
 }
 
-const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId }: Props) => {
     const t = useTranslations("VedleggListe");
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
+
+    const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, oppgaveId!, {
+        query: { enabled: !!oppgaveId },
+    });
 
     const sortedVedlegg = R.pipe(
         vedlegg,
@@ -27,56 +35,74 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById }: Props) => {
     );
 
     return (
-        <ExpandableList
-            items={sortedVedlegg}
-            id="vedlegg-liste"
-            showMoreSuffix={t("visFlereDokumenter")}
-            labelledById={labelledById}
-            itemsLimit={3}
-        >
-            {(fil, ref) => {
-                if ("soknad" in fil) {
+        <>
+            <ExpandableList
+                items={sortedVedlegg}
+                id="vedlegg-liste"
+                showMoreSuffix={t("visFlereDokumenter")}
+                labelledById={labelledById}
+                itemsLimit={3}
+            >
+                {(fil, ref) => {
+                    if ("soknad" in fil) {
+                        return (
+                            <li key="soknad" ref={ref} tabIndex={-1}>
+                                <DigisosLinkCard
+                                    href={fil.url}
+                                    icon={<FileIcon aria-hidden />}
+                                    cardIcon="external-link"
+                                    description={
+                                        fil.date && (
+                                            <BodyShort>{t.rich("sendt", { dato: new Date(fil.date) })}</BodyShort>
+                                        )
+                                    }
+                                >
+                                    {fil.filename?.length ? fil.filename : t("soknadFilename")}
+                                </DigisosLinkCard>
+                            </li>
+                        );
+                    }
                     return (
-                        <li key="soknad" ref={ref} tabIndex={-1}>
+                        <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
                             <DigisosLinkCard
                                 href={fil.url}
-                                icon={<FileIcon aria-hidden />}
                                 cardIcon="external-link"
+                                dataColor="accent"
                                 description={
-                                    fil.date && (
-                                        <BodyShort>
-                                            {t.rich("sendt", {
-                                                dato: new Date(fil.date),
-                                            })}
-                                        </BodyShort>
-                                    )
+                                    <BodyShort>{t.rich("sendt", { dato: new Date(fil.datoLagtTil) })}</BodyShort>
                                 }
                             >
-                                {fil.filename?.length ? fil.filename : t("soknadFilename")}
+                                {fil.filnavn}
                             </DigisosLinkCard>
                         </li>
                     );
-                }
-                return (
-                    <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
-                        <DigisosLinkCard
-                            href={fil.url}
-                            cardIcon="external-link"
-                            dataColor="accent"
-                            description={
-                                <BodyShort>
-                                    {t.rich("sendt", {
-                                        dato: new Date(fil.datoLagtTil),
-                                    })}
-                                </BodyShort>
-                            }
-                        >
-                            {fil.filnavn}
-                        </DigisosLinkCard>
-                    </li>
-                );
-            }}
-        </ExpandableList>
+                }}
+            </ExpandableList>
+            {oppgaveVedlegg && oppgaveVedlegg.length > 0 && (
+                <ExpandableList
+                    items={oppgaveVedlegg}
+                    id={`vedlegg-liste-oppgave-${oppgaveId}`}
+                    showMoreSuffix={t("visFlereDokumenter")}
+                    labelledById={labelledById}
+                    itemsLimit={3}
+                >
+                    {(fil, ref) => (
+                        <li key={fil.url} ref={ref} tabIndex={-1}>
+                            <DigisosLinkCard
+                                href={fil.url}
+                                cardIcon="external-link"
+                                dataColor="accent"
+                                description={
+                                    <BodyShort>{t.rich("sendt", { dato: new Date(fil.tidspunktLastetOpp) })}</BodyShort>
+                                }
+                            >
+                                {fil.filnavn}
+                            </DigisosLinkCard>
+                        </li>
+                    )}
+                </ExpandableList>
+            )}
+        </>
     );
 };
 

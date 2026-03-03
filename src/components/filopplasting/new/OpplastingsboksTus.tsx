@@ -3,12 +3,11 @@
 import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
-import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/new/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/new/FileSelectNew";
-import UploadedFileList from "@components/filopplasting/new/UploadedFileList";
+import VedleggListe from "../../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
 
 interface Props {
     metadata: Metadata;
@@ -22,7 +21,6 @@ interface Props {
 const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const docState = useDocumentState(id);
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
     const {
         upload,
         resetMutation,
@@ -51,7 +49,13 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     </HStack>
                     <BodyShort>{description ?? t("beskrivelse")}</BodyShort>
                 </Box>
-                <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
+                {metadata.hendelsereferanse && (
+                    <VedleggListe
+                        vedlegg={[]}
+                        oppgaveId={metadata.hendelsereferanse}
+                        labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
+                    />
+                )}
                 {isUploadSuccess && (
                     <Alert role="alert" closeButton onClose={resetMutation} variant="success">
                         {t("suksess")}
